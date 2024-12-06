@@ -1,0 +1,56 @@
+li.section data-node-id=node.id
+  .title
+    h3
+      = section.title
+      - if section.optional?
+        = t(:'sections.optional_section')
+    .btn-group.pull-right
+      a.btn.btn-primary.btn-sm.dropdown-toggle data-toggle="dropdown" href="#"
+        => t(:'sections.admin.action')
+        span.caret
+      ul.dropdown-menu
+        li.scroll_marker: a href='javascript:void(0)' data-show-on-click="#edit_section_form_#{section.id}"
+          = t(:'sections.admin.edit')
+        li = link_to t(:'sections.admin.move_up'), move_course_section_path(position: :up, id: section.id), method: :post
+        li = link_to t(:'sections.admin.move_down'), move_course_section_path(position: :down, id: section.id), method: :post
+        li = link_to t(:'sections.admin.move_to_top'), move_course_section_path(position: :top, id: section.id), method: :post
+        li = link_to t(:'sections.admin.move_to_bottom'), move_course_section_path(position: :bottom, id: section.id), method: :post
+        - if node.children.none?
+          li = link_to t(:'sections.admin.delete'), course_section_path(id: section.id), method: :delete,
+            data: {confirm: t(:'sections.admin.delete_confirm')}
+        - else
+          li = link_to t(:'sections.admin.delete'), '#', data: {behavior: 'section-delete-forbidden-link'}
+  .labels
+    - if section.unlocked?
+      span.label.label-success
+        - if section.start_date&.past?
+          = t(:'sections.unlocked_since', date: section.start_date.to_formatted_s(:short))
+        - else
+          = t(:'sections.unlocked')
+    - else
+      span.label.label-warning
+        - if section.start_date&.future?
+          = t(:'sections.locked_until', date: section.start_date.to_formatted_s(:short))
+        - if section.end_date&.past?
+          = t(:'sections.locked_since', date: section.end_date.to_formatted_s(:short))
+    - if section.published?
+      span.label.label-success
+        = t(:'sections.published')
+    - else
+      span.label.label-warning
+        = t(:'sections.unpublished')
+    span.label.label-info.uuid.mr10 hidden='true'
+      = section.id
+
+  .form_wrapper.mb10 id="edit_section_form_#{section.id}" hidden='true'
+    = render partial: 'admin/courses/form_section', locals: {section:, parent_section: nil}
+
+  p.description = section.description
+
+  ul.items data-behavior='sortable-items'
+    - node.children.each do |child|
+      = render partial: child.type, object: child.send(child.type), locals: {section:, node: child}
+
+  = link_to t(:'sections.item.create'), new_course_section_item_path(section_id: section.id),
+    class: 'btn btn-primary btn-sm mt10 mr10 new_item_button',
+    data: {id: 'new-item-button'}

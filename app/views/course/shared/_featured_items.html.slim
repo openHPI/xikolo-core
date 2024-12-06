@@ -1,0 +1,13 @@
+h3.course-details--section-title = t :'course.courses.show.featured_items.title'
+
+#featured-items-carousel.carousel.slide data-ride='carousel'
+  - if items.count > 1
+    ol.carousel-indicators
+      - items.each_with_index do |item, index|
+        li class="#{'active' if index == 0}" data-slide-to="#{index}" data-target='#featured-items-carousel'
+  .carousel-inner
+    - items.each_with_index do |item, index|
+      .item class="#{'active' if index == 0}"
+        = link_to course_item_path(course_id: item.course_code, id: item.id) do
+          p = item.title
+          = image_tag item.featured_image, class: 'img-responsive', alt: item.title

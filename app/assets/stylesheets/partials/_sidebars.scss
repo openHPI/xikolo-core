@@ -1,0 +1,147 @@
+/*------------------------------------*\
+    $CONTENTS
+
+    Styles for sidebars and sidebar
+    elements.
+\*------------------------------------*/
+/**
+ * Variables...............Variable declarations
+ * Base....................Basic wireframe and general classes
+ * Next-Dates..............Styles for the next date component
+ * Toggle-Navigation.......Navigation with toggle capabilities, e.g. for course area
+ * Quiz-Sidebar............Sidebar used in the quiz section
+ */
+
+/*------------------------------------*\
+    $Variables
+\*------------------------------------*/
+$message-line-height: 30px;
+$next-date-line-height: 120%;
+
+$xi-sidebar-toggle-bg: $gray-250 !default;
+$xi-sidebar-toggle-button-bg: $gray !default;
+
+.sidebar {
+  // magic number for alignment with dashboard course cards
+  padding-top: 18px;
+
+  &__component {
+    padding-top: 20px;
+
+    h3,
+    h4,
+    h5 {
+      font-weight: 400;
+    }
+  }
+}
+
+/*------------------------------------*\
+    $Next-Date
+\*------------------------------------*/
+.next-date-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.next-date {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+
+  a {
+    flex-grow: 1;
+  }
+}
+
+/*------------------------------------*\
+    $Toggle-Navigation
+\*------------------------------------*/
+.sidebar-toggle {
+  // Toggle Button
+  .toggle {
+    overflow: hidden;
+    height: 40px;
+    margin-bottom: 5px;
+    background-color: $xi-sidebar-toggle-bg;
+    cursor: pointer;
+    line-height: 40px;
+
+    .toggle-button {
+      //font-size: 2em;
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      background-color: $xi-sidebar-toggle-button-bg;
+      text-align: center;
+    }
+
+    .toggle-text {
+      display: inline-block;
+      height: 100%;
+      padding-left: 10px;
+      vertical-align: top;
+    }
+  }
+}
+
+/*------------------------------------*\
+    $Quiz-Sidebar
+\*------------------------------------*/
+.quiz-sidebar {
+  @include heavy-bar();
+
+  .bar-title {
+    position: relative;
+    height: 40px;
+    margin: 0px;
+    margin-bottom: 5px;
+    text-align: bottom;
+
+    h3 {
+      position: absolute;
+      bottom: 0px;
+      margin: 0px;
+    }
+  }
+
+  .bar-content {
+    @include light-bar($color: $gray-250);
+
+    padding: 10px 5px;
+
+    strong {
+      font-family: $corporatefont;
+      font-weight: normal;
+    }
+
+    .progress {
+      background: $gray;
+      .progress-bar {
+        position: relative;
+        height: 30px;
+        line-height: 30px;
+      }
+      .progressbar-back-text,
+      .progressbar-front-text {
+        padding-top: 5px;
+        color: $white;
+        font-size: 130%;
+      }
+    }
+    .answer-state-indicator {
+      display: inline-block;
+      width: 22px;
+      height: 22px;
+      margin-right: 2px;
+      margin-bottom: 2px;
+
+      background-color: $gray;
+      cursor: pointer;
+      text-align: middle;
+    }
+    .smowl_in_quiz_iframe {
+      text-align: center;
+    }
+  }
+}

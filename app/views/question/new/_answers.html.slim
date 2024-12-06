@@ -1,0 +1,5 @@
+- question.answers.each do | answer |
+  = render 'question/new/post', post: answer
+
+  div style="padding-left: 60px;"
+    = render 'question/new/comments', commentable: answer

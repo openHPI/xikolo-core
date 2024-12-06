@@ -1,0 +1,23 @@
+# vim: ft=ignore
+#
+# Specify commits to be ignored by git blame, such as bulk formatting fixes when
+# applying linters or autoformatters.
+#
+# Set `git config blame.ignoreRevsFile .git-blame-ignore-revs` to use this file
+# by default.
+#
+# See more: https://www.moxio.com/blog/43/ignoring-bulk-change-commits-with-git-blame
+
+
+# Bulk editorconfig linting fixes
+f5591a1e78d4545ce89249ae65b6cf11b28a3b91
+
+# Fix formatting for existing prettier config
+f141b1f8787311d2d411338647f4f2ecd335960b
+
+# Fix formatting for YAML files (prettier)
+e475a275831b0e6d5f52f054b780d720ca74f34c
+
+# Auto-format all files possible by prettier
+15ab769ee4da1323507926d6e0999a8b70f0add7
+

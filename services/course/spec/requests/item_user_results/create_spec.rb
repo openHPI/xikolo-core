@@ -1,0 +1,61 @@
+# frozen_string_literal: true
+
+require 'spec_helper'
+
+describe 'Item User Results: Create', type: :request do
+  subject(:creation) do
+    api.rel(:item_user_results).post(
+      params,
+      item_id: item.id, user_id:
+    ).value!
+  end
+
+  let(:api) { Restify.new(:test).get.value! }
+  let!(:item) { create(:item) }
+
+  let(:params) { {points: 2.3} }
+  let(:user_id) { generate(:user_id) }
+
+  it { is_expected.to respond_with :created }
+
+  it 'creates a new result object' do
+    expect { creation }.to change(Result, :count).from(0).to(1)
+  end
+
+  it 'stores dpoints' do
+    creation
+    result = Result.where(item_id: item.id, user_id:).take!
+    expect(result.dpoints).to eq 23
+  end
+
+  context 'when given 0 points' do
+    let(:params) { {points: 0} }
+
+    it { is_expected.to respond_with :created }
+
+    it 'creates the result object with dpoints' do
+      creation
+      result = Result.where(item_id: item.id, user_id:).take!
+      expect(result.dpoints).to eq 0
+    end
+  end
+
+  context 'with previous result for same item and user' do
+    before { create(:result, item:, user_id:) }
+
+    it 'creates another result object' do
+      expect { creation }.to change(Result, :count).from(1).to(2)
+    end
+  end
+
+  context 'with more than one decimal after the comma' do
+    let(:params) { {points: 2.13} }
+
+    it 'errors' do
+      expect { creation }.to raise_error(Restify::ClientError) do |err|
+        expect(err.status).to eq :unprocessable_entity
+        expect(err.errors).to eq 'points' => %w[invalid_format]
+      end
+    end
+  end
+end

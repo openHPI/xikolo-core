@@ -1,0 +1,13 @@
+template data-behavior='popover-template' type='text/html' data-content=@text data-target=@target_id
+  .popover role='tooltip'
+    .arrow
+    .popover-title-wrapper
+      h3.popover-title
+      button.close data-popover='close' type='button' aria-label=t(:'components.popover.close')
+        span aria-hidden='true'
+          '&times;
+    .popover-content-wrapper
+      .popover-content
+      - if @cookie_name
+        button.btn.btn-xs.btn-default data-popover='dismiss' data-cookie=@cookie_name type='button'
+          = t(:'components.popover.hide_hint_btn')

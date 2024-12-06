@@ -1,0 +1,19 @@
+[
+  {
+    "alignmentType": "educationalSubject",
+    "educationalFramework": "ISCED-F",
+    "educationalFrameworkVersion": "2013",
+    "url": "http://uis.unesco.org/sites/default/files/documents/international-standard-classification-of-education-fields-of-education-and-training-2013-detailed-field-descriptions-2015-en.pdf",
+    "name": [
+      {
+        "inLanguage": "en",
+        "name": "Computer use"
+      }
+    ],
+    "alternateName": ["use of computers", "working with computers"],
+    "shortCode": "0611",
+    "targetUrl": "http://data.europa.eu/esco/isced-f/0611",
+    "type": "EducationalAlignment",
+    "description": "Computer use is the study of using computers and computer software and applications for different purposes. These programmes are generally of short duration. Programmes and qualifications with the following main content are classified here: Computer use Use of software for calculating (spread sheets) Use of software for data processing Use of software for desk top publishing Use of software for word processing Use of Internet"
+  }
+]

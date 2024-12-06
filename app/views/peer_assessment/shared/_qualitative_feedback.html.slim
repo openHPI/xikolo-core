@@ -1,0 +1,24 @@
+- if presenter.enable_qualitative_feedback
+  - if presenter.as_collapsible
+    .panel-group.mt20#review-text-collapse
+      .panel.panel-default
+        .panel-heading.nobg
+          h4.panel-title
+            a data-parent="#review-text-collapse" data-toggle="collapse" href="#aqc"
+              = t :'peer_assessment.review.written_feedback'
+              span.caret
+
+        .panel-collapse.collapse class="in" id="aqc"
+          .panel-body
+            = render 'peer_assessment/shared/qualitative_feedback_input', form: form, presenter: presenter
+
+  - else
+    = render 'peer_assessment/shared/qualitative_feedback_input', form: form, presenter: presenter
+
+  - if presenter.enable_awards
+    = form.input_field :award, as: :boolean, label: false, boolean_style: :inline, disabled: @submission.gallery_opt_out
+    - if @submission.gallery_opt_out
+      span.ml5.gray = t(:'peer_assessment.review.award_disabled')
+    span.ml5 class="#{'gray' if @submission.gallery_opt_out}" = t(:'peer_assessment.review.award')
+    span.ml5.em1-5.xi-icon.fa-regular.fa-comment-question.cpointer class="#{'gray' if @submission.gallery_opt_out}" aria-label=t(:'peer_assessment.review.award_description') data-tooltip=t(:'peer_assessment.review.award_description')
+    .mb20

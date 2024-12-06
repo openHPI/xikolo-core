@@ -1,0 +1,40 @@
+groups:
+  - name: xikolo.helpdesk
+    description: First level user support
+  - name: xikolo.reviewers
+    description: Preview course content and announcements for quality assurance
+  - name: xikolo.stakeholders
+    description: Access course admin dashboards and statistics in all courses
+
+roles:
+  account.admin:
+    - account.user.index
+    - account.user.find
+    - account.user.create
+    - account.user.delete
+    - account.user.masquerade
+    - account.user.change_password
+    - account.user.confirm_manually
+  account.permissions.admin:
+    - account.user.find
+    - account.permissions.view
+    - account.permissions.manage
+  account.support:
+    - account.user.index
+    - account.user.find
+    - account.user.masquerade
+    - account.user.change_password
+    - account.user.confirm_manually
+  account.tracer:
+    - account.user.find
+
+grants:
+  - role: account.admin
+    group: xikolo.gdpr_admins
+    context: root
+  - role: account.permissions.admin
+    group: xikolo.gdpr_admins
+    context: root
+  - role: account.support
+    group: xikolo.helpdesk
+    context: root

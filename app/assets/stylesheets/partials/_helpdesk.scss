@@ -1,0 +1,160 @@
+/*------------------------------------*\
+    $CONTENTS
+
+    Helpdesk component CSS.
+\*------------------------------------*/
+/**
+ * Variables...............Variable declarations
+ * Helpdesk-Styles.........Helpdesk styles
+ */
+
+/*------------------------------------*\
+    $Variables
+\*------------------------------------*/
+// Any variable declarations go here
+
+/*------------------------------------*\
+    $Helpdesk-Styles
+\*------------------------------------*/
+
+// Some interactive elements should only be shown in the widget version, not on dedicated page
+.helpdesk-widget-only {
+  display: none;
+
+  .helpdesk-container & {
+    display: inline-block;
+  }
+}
+
+.helpdesk-success-message,
+.helpdesk-fail-message {
+  min-height: 400px;
+  padding: 70px;
+  text-align: center;
+}
+
+#chatbot-conversation {
+  width: 100%;
+  height: 40vh;
+  padding: 8px 16px;
+  border: 1px solid $gray-250;
+  border-bottom: none;
+  margin-top: 16px;
+  background-color: $white;
+  overflow-y: auto;
+}
+
+.chatbot-message-box {
+  position: relative;
+  width: 60%;
+  padding: 8px;
+  border-radius: 4px;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+.chatbot-question {
+  margin-left: 40%;
+  background-color: $primary-color;
+  color: $white;
+
+  &::after {
+    position: absolute;
+    z-index: 1;
+    top: 0px;
+    right: -10px;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-top: 16px solid $primary-color;
+    border-right: 10px solid transparent;
+    border-left: 10px solid transparent;
+    content: " ";
+  }
+}
+
+.chatbot-answer {
+  background-color: $gray-100;
+  color: $black;
+
+  &::before {
+    position: absolute;
+    z-index: 1;
+    top: 0px;
+    left: -10px;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-top: 16px solid $gray-100;
+    border-right: 10px solid transparent;
+    border-left: 10px solid transparent;
+    content: " ";
+  }
+}
+
+.chatbot-button-answer {
+  position: inherit;
+}
+
+#chatbot-typing-area {
+  width: 100%;
+}
+
+#chatbot-control-window {
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+#helpdesk-contact-tabs {
+  position: relative;
+  display: block;
+  padding: 0;
+  margin: 20px 0;
+  list-style: none;
+
+  & > li {
+    margin: 0;
+    float: left;
+  }
+
+  & > li > a {
+    display: block;
+    padding: 10px;
+    border: none;
+    color: $black;
+    text-align: center;
+    text-decoration: none;
+  }
+}
+
+#chatbot-enter-btn {
+  height: 40px;
+  border-radius: 0;
+}
+
+.chatbot-message-box > a {
+  &:hover {
+    color: $primary-color;
+    text-decoration: none;
+  }
+}
+
+#utterance--placeholder {
+  display: none;
+}
+
+[data-loading="true"] #utterance--placeholder {
+  display: block;
+}
+
+.helpdesk-closing-button {
+  border: none;
+  margin: 7px 9px;
+  background: none;
+  float: right;
+  font-size: x-large;
+
+  &:focus {
+    outline: none;
+  }
+}

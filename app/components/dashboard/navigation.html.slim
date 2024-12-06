@@ -1,0 +1,6 @@
+= render Navigation::Tabs.new(collapsible: true) do |c|
+  - navigation.each do |component|
+    - c.with_tab(active: component[:active])
+      = link_to(component[:href], title: component[:text])
+        = render Global::FaIcon.new(component[:icon], css_classes: 'mr5')
+        = component[:text]

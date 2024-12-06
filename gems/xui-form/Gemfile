@@ -1,0 +1,15 @@
+# frozen_string_literal: true
+
+source 'https://rubygems.org'
+
+gem 'xui-form', path: '.'
+
+gem 'xikolo-config', path: '../xikolo-config'
+
+group :development, :test do
+  gem 'actionpack'
+  gem 'rake'
+  gem 'restify', '~> 1.15'
+  gem 'rspec', '~> 3.10'
+  gem 'simplecov'
+end

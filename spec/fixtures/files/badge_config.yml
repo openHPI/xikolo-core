@@ -1,0 +1,15 @@
+certificate:
+  forbidden_verification_words:
+    [penis, cunts, pussy, spast, nazis, arsch, fotze]
+
+# WARNING: this RSA-1024 key pair is NOT meant to be
+# used in production under any circumstance!
+open_badges:
+  enabled: true
+  public_key: |
+    -----BEGIN PUBLIC KEY-----
+    MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQD8GtAOf4CGDohWnhMCzhk4D4kx
+    H53uldNXc/7VMGEY0Px13WEuSrxDrcuEYNSwOXEovjP6h/0npY6iNMuHjOTScX7Z
+    pcY1Zl33YBYCaU/1CF9h/ECwIio8Q5jveeZN+rr05ukPBkJkRXKjVM/An32Cqlzm
+    YlTpNX0/sZJK67ihiwIDAQAB
+    -----END PUBLIC KEY-----

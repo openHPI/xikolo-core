@@ -1,0 +1,12 @@
+- content_for :head_assets
+  = javascript_include_tag 'admin-legacy'
+
+- content_for :page_header_slim
+  = render Global::PageHeader.new(t(:'admin.statistics.referrer.title'), subtitle: t(:'admin.page_header'), type: :slim) do
+    = render partial: 'admin/dashboard/platform_dashboard_nav', locals: {nav: @nav}
+  end
+
+.container.white-bg.statistics-page
+  .row
+    .col-md-12
+      = render partial: 'shared/statistics_table', locals: {id: 'referrer-table'}

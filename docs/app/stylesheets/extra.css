@@ -1,0 +1,63 @@
+/* custom css */
+
+:root > * {
+  --md-primary-fg-color: #de6212;
+  --md-accent-fg-color: #99460f;
+}
+
+/* The default bold headline in the header look too heavy */
+.md-header__topic:first-child {
+  font-weight: normal;
+}
+
+/* Set a fancy semi-transparent header background */
+.md-header {
+  background-color: #181818f6;
+}
+
+/* Disable the extra background for the tabs in the header. That would
+interfere with the semi-transparent background above. */
+.md-header .md-tabs {
+  background-color: transparent;
+}
+
+.md-typeset ol li,
+.md-typeset ul li {
+  margin-bottom: 0;
+}
+
+/* native system font stack */
+body,
+input {
+  font-family:
+    system-ui,
+    -apple-system,
+    'Noto Sans',
+    'Segoe UI',
+    Roboto,
+    'Helvetica Neue',
+    Arial,
+    'Liberation Sans',
+    sans-serif,
+    Blobmoji,
+    'Apple Color Emoji',
+    'Segoe UI Emoji',
+    'Segoe UI Symbol',
+    'Noto Color Emoji';
+}
+
+pre,
+code,
+kbd {
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+    'Courier New', monospace;
+}
+
+/* ensure tables are 100% */
+.md-typeset__table {
+  min-width: 100%;
+}
+
+.md-typeset table:not([class]) {
+  display: table;
+}

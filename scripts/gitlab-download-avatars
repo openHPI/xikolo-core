@@ -1,0 +1,53 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Downloads all Gitlab user avatars from user profiles those name appear at
+# least once as a Git author. Make sure the Git author name and Gitlab user name
+# match, e.g. using `.mailmap`.
+#
+# Avatar images are stored in `.git/avatars` e.g. to be used by gource when
+# rendering a history video.
+
+require 'fileutils'
+require 'restify'
+
+DOWNLOAD_DIR = '.git/avatars'
+ACCESS_TOKEN = ENV.fetch('ACCESS_TOKEN')
+
+FileUtils.mkdir_p(DOWNLOAD_DIR)
+
+authors = `git log --pretty=format:"%aN|%aE" | sort | uniq`
+authors = authors.lines.to_h do |line|
+  line.strip.split('|', 2)
+end
+
+page = Restify.new(
+  'https://lab.xikolo.de/api/v4/users',
+  headers: {
+    'Private-Token' => ACCESS_TOKEN,
+    'Accept' => 'application/json',
+  }
+)
+
+loop do
+  users = page.get.value!
+
+  users.filter_map do |user|
+    name = user.fetch('name')
+    next unless authors.key?(name)
+
+    [user, user.rel(:avatar).to_s, user.rel(:avatar).get]
+  end.each do |user, url, avatar|
+    name = user.fetch('name')
+    fext = File.extname(url)
+    fext = '.png' if fext.empty?
+    path = File.join(DOWNLOAD_DIR, "#{name}#{fext}")
+
+    File.open(path, 'wb') do |f|
+      puts "#{name} (#{url})..."
+      f.write(avatar.value!.data)
+    end
+  end
+
+  break unless (page = users.rel?(:next) && users.rel(:next))
+end

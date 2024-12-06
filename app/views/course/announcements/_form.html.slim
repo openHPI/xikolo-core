@@ -1,0 +1,29 @@
+= simple_form_for announcement, url: {controller: 'course/announcements'} do |f|
+  = f.error_notification
+  = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
+
+  = f.input :title
+  = f.input :publish_at
+  .content-form#richtext-form
+    = f.input :text
+
+  div
+    button.btn.btn-primary.vtop type='submit'
+      = t(:'announcements.form.save')
+    - if current_user.allowed?('news.announcement.send')
+      .ml10.vtop.inline-block
+        button.btn.btn-default.disabled type='submit' name='notification' id='save-send-button' value='send' disabled='true'
+          = t(:'announcements.form.save_and_send')
+        .mt5
+          input.mr5 type='checkbox' id='enable-save-send' class='toggle-switch'
+          label for='enable-save-send'
+    - if current_user.allowed?('news.announcement.send_test')
+      button.btn.btn-default.ml10.vtop type='submit' name='notification' value='test'
+        = t(:'announcements.form.save_and_test')
+
+javascript:
+  ready(function() {
+    $('#enable-save-send').on('change', function() {
+      return $('#save-send-button').toggleClass('disabled').prop('disabled', !$(this).is(':checked'));
+    });
+  });

@@ -1,0 +1,11 @@
+---
+s3:
+  buckets:
+    pinboard: bucket-pinboard
+    uploads: bucket-uploads
+
+  # connect_info:
+  #   endpoint: https://s3.openhpicloud.de
+  #   region: default
+  #   access_key_id: ...
+  #   secret_access_key: ...

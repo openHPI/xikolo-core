@@ -1,0 +1,29 @@
+.consent {
+  @include custom-button-inputs();
+
+  label {
+    font-weight: normal;
+  }
+
+  span.label-default {
+    position: relative;
+    top: -2px;
+    margin-left: 10px;
+    background-color: $gray-600;
+  }
+
+  ul {
+    padding-left: 25px;
+
+    li {
+      margin-top: 5px;
+      list-style: square;
+    }
+  }
+
+  br {
+    display: block;
+    margin-bottom: 10px;
+    content: "";
+  }
+}

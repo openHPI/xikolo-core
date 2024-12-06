@@ -1,0 +1,14 @@
+= simple_form_for :login, url: sessions_url, wrapper: :compact, data: {'disable-on-submit': 'input[type="submit"]', 'show-on-submit': '#login-form__loading'} do |f|
+  = f.input :email, label: t(:'header.login.identity.label.email'), placeholder: t(:'header.login.identity.placeholder.email')
+  = f.input :password, label: t(:'header.login.identity.label.password'), placeholder: t(:'header.login.identity.placeholder.password'), wrapper_html: {style: 'margin-bottom: 0;'}
+  - unless redirect_param.nil?
+    = f.hidden_field :redirect_url, value: redirect_param
+  - unless connect_auth_id.nil?
+    = f.hidden_field :connect_auth_id, value: connect_auth_id
+  - if current_user.feature?('account.login')
+    = link_to t(:'header.login.forgot_password'), new_account_reset_path, class: 'small'
+  .buttons
+    = f.button :submit, t(:'header.login.identity.label.submit'), id: 'login', class: 'full-width', data: { disable_with: false }
+
+    #login-form__loading[hidden]
+      = render State::Loading.new()

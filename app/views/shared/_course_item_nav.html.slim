@@ -1,0 +1,12 @@
+/ Trying to get the course id for various templates that use this nav
+- if @item_presenter.present?
+  .col-md-12.hidden-print data-lanalytics-context={course_id: @item_presenter.course_id}.to_json
+    - if position
+      = render Course::ItemNavigation.new(items: position.each_item, user: current_user)
+- else
+  / `tool_launch.html.slim` (lti) doesn't have the item presenter
+  / But it's only a temporary quick view before the tool is launched, so we don't expect
+  / interactions from there (a missing data-lanalytics-context is fine here)
+  .col-md-12.hidden-print
+    - if position
+      = render Course::ItemNavigation.new(items: position.each_item, user: current_user)

@@ -1,0 +1,22 @@
+.container
+  .row
+    .col-md-12
+      h3
+        = t '.title'
+      table.table.table-striped.table-condensed.table-hover
+        thead
+          tr
+            th = t '.id'
+            th = t '.name'
+            th = t '.resource'
+            th = t '.type'
+            th
+
+        tbody
+          - @tags.each do |tag|
+            tr
+              td = tag.id
+              td = tag.name
+              td = tag.referenced_resource if @view_type == 'implicit'
+              td = tag.type if @view_type == 'implicit'
+              td = link_to 'Delete', tag_delete_path(tag.id), method: :delete, class: 'btn btn-primary btn-xs'

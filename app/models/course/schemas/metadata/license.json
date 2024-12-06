@@ -1,0 +1,24 @@
+{
+  "title": "License",
+  "type": "object",
+  "description": "This schema describes the attributes of a license.",
+  "properties": {
+    "identifier": {
+      "type": "string",
+      "description": "A license shortcode according to https://spdx.org/licenses/ or \"proprietary\".",
+      "example": "CC-BY-SA-4.0"
+    },
+    "url": {
+      "type": ["string", "null"],
+      "format": "iri",
+      "description": "A license according to https://spdx.org/licenses/ or \"null\" if proprietary.",
+      "example": "https://spdx.org/licenses/CC-BY-SA-4.0.html"
+    },
+    "contentUrl": {
+      "type": ["string", "null"],
+      "format": "iri",
+      "description": "A link to the specific license document (if any, otherwise set to \"null\" - the identifier pointing at the general license is to be considered the license document then). Has to be \"null\" if identifier is \"proprietary\"."
+    }
+  },
+  "required": ["identifier", "url"]
+}

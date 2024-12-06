@@ -1,0 +1,37 @@
+.row
+  / Item navigation above the main content
+  = render 'shared/course_item_nav', position: @inner_course_position
+
+/ Main content with video and stuff
+.row
+  .col-md-12
+    / ^ Realigns main content with the general vanishing line
+    .course-area-main
+      - if @course_progress.available?
+        - if @course_progress.open_mode?
+          = render Global::Callout.new(t(:'course.progress.overview.open_mode.message', title: @course_progress.title)) do
+            = link_to t(:'course.progress.overview.open_mode.enroll'), enrollments_path(course_id: @course_progress.course_code), class: 'btn btn-outline btn-default btn-xs'
+        - else
+          = link_to course_resume_path(@course_progress.id), class: 'btn btn-primary course-overview__btn'
+            = t(:'course.progress.overview.continue')
+
+        - @course_progress.sections.each do |section_progress|
+          div class="#{'disabled' unless section_progress.available?}"
+            h2.course-area-main__title
+              = section_progress.title
+            .section_desc.mb20
+              = section_progress.description
+
+            - if section_progress.available?
+              .items.mb20
+                - section_progress.items.each do |item|
+                  = render Global::ItemStatus.new({text: item.label,
+                    icon_name: item.icon,
+                    path: item.path,
+                    title: item.title,
+                    tooltip: item.locked_hint},
+                    color_scheme: 'link',
+                    connected_type: item.status_type)
+
+      - else
+        = render State::Empty.new(t(:'course.progress.overview.empty_msg'))

@@ -1,0 +1,12 @@
+= simple_form_for offer, url: offer.persisted? ? course_offer_path(course.course_code, offer) : course_offers_path(course.course_code, offer) do |f|
+  = f.error_notification
+
+  .form-section--large
+    = f.input :price, hint: t(:'simple_form.hints.course_offer.price'), input_html: {value: offer.formatted_price, step: 0.01}, as: :float
+    = f.input :price_currency, as: :select, collection: Course::Offer::CURRENCIES
+    = f.input :payment_frequency, as: :select, collection: Course::Offer::PAYMENT_FREQUENCIES.map(&:to_sym)
+    = f.input :category, as: :select, collection: Course::Offer::CATEGORIES.map(&:to_sym)
+
+  .btn-group
+    = f.button :submit, class: 'mr10 mb10'
+    = link_to t(:'global.cancel'), course_offers_path, class: 'btn btn-default mb10'

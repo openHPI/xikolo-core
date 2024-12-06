@@ -1,0 +1,3 @@
+timeeffort:
+  # Enable/disable time effort calculations
+  enabled: false

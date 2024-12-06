@@ -1,0 +1,37 @@
+doctype 5
+html lang="#{I18n.locale}"
+  head
+    meta charset="utf-8"
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
+
+    /
+    / Deprecated: Include GON for passing information to JavaScript
+    / Needed for the helpdesk button component
+    /
+    = include_gon(init: true)
+
+    = stylesheet_link_tag 'bootstrap', media: 'all', crossorigin: 'anonymous', integrity: true
+    = stylesheet_link_tag 'fontawesome', media: 'all', crossorigin: 'anonymous', integrity: true
+    = stylesheet_link_tag 'styles', media: 'all', crossorigin: 'anonymous', integrity: true
+
+    = javascript_include_tag 'runtime', integrity: !Rails.env.development?
+    = javascript_include_tag 'main', integrity: !Rails.env.development?
+    = javascript_include_tag 'application', integrity: !Rails.env.development?
+    = javascript_include_tag 'lanalytics-framework', crossorigin: 'anonymous', integrity: true
+    = javascript_include_tag 'home', crossorigin: 'anonymous', integrity: true, async: true, debug: false
+    = javascript_include_tag 'course', crossorigin: 'anonymous', integrity: true, async: true, debug: false
+    = javascript_include_tag 'admin', crossorigin: 'anonymous', integrity: true, async: true, debug: false
+
+    = javascript_include_tag "xikolo-locale-#{I18n.locale}", crossorigin: 'anonymous', integrity: !Rails.env.development?
+
+  - style = []
+  - style << "margin: 0 auto; max-width: #{params[:lookbook][:display][:max_width]}" if params[:lookbook][:display][:max_width]
+  - style << "background-color: #{params[:lookbook][:display][:bg_color]};" if params[:lookbook][:display][:bg_color]
+  - style << "padding-bottom: #{params[:lookbook][:display][:padding_bottom]};" if params[:lookbook][:display][:padding_bottom]
+
+  body.layout-preview
+    .layout-preview__container style=style.join(' ')
+      = yield
+
+    / Tooltip container
+    .custom-tooltip hidden=true data-id="tooltip"

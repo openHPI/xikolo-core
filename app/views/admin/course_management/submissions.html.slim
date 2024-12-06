@@ -1,0 +1,157 @@
+- content_for :course_area_header
+  = render Global::PageHeader.new("#{t(:'admin.course_management.submissions.submissions')} - #{course_layout.title}",
+    subtitle: t(:'course.admin.page_header'),
+    type: :slim) do |c|
+    - c.with_pill(t(:"items.show.coursestate.#{course_layout.fullstate}"), size: :small, color: :note)
+    = render(partial: 'course/shared/course_admin_action', locals: {course: course_layout, in_teacher_context: true})
+
+.col-md-12
+  form action=course_submissions_path method="GET"
+    label.mr10 for='user_id'
+      = t :'.search_user'
+    = select_tag :user_id, nil, style: 'width: 200px',
+      data: {behavior: 'custom-select', 'auto-completion-url': admin_find_users_path, placeholder: t(:'global.email_or_name')}
+
+    - if params[:user_id]
+      =< link_to t(:'.search_reset'), course_submissions_path
+
+  - if @homework_submissions
+    h2
+      = t :'.user_submissions'
+      span.black = @user.name
+      =< link_to t(:'admin.course_management.submissions.profile'), user_path(@user.id), class: 'btn btn-default btn-sm'
+
+    hr.divider.light
+      table#submissions_table.table.table-striped.mb30.full-width
+        thead
+          tr style="border-top:2px solid grey"
+            th = t :'.quiz'
+            th = t :'.attempts.allowed'
+            th = t :'.submissions'
+            th = t :'.attempts.additional'
+
+        - @homework_submissions.each do |submission|
+          tr
+            td
+              => submission[:title]
+              button.btn.btn-xs data-behavior='copy-to-clipboard' data-text=submission[:quiz_id]
+                = t(:'.copy_id')
+            td
+              - if submission[:unlimited_attempts]
+                = t(:'.attempts.unlimited')
+              - else
+                = submission[:allowed_attempts]
+            td
+              - if submission[:unlimited_attempts]
+                = submission[:attempts]
+              - else
+                = "#{submission[:attempts]} / #{submission[:allowed_attempts] + submission[:additional_attempts]}"
+            td
+              - if submission[:unlimited_attempts]
+                | -
+              - else
+                => submission[:additional_attempts]
+                - if current_user.allowed? 'quiz.submission.grant_attempt'
+                  = link_to t(:'admin.course_management.submissions.add_attempt'), add_attempt_path(course_id: @course.id, quiz_id: submission[:quiz_id], user_id: params[:user_id]), method: :post, class: 'btn btn-default btn-xs'
+
+  h2 = t :'.submissions'
+
+  - if @submissions.any?
+    table.submissions-table.table.table-striped.mb30.full-width
+      thead
+        tr style="border-top:2px solid grey"
+          th = t :'.quiz'
+          th = t :'.user'
+          th = t :'.timestamps.label'
+          th = t :'.grading'
+          th
+
+      - @submissions.each do |submission|
+        tr
+          td
+            => submission['quiz_title'] || submission['quiz_id']
+
+            = render Global::LabeledCopyButton.new \
+                label: 'Quiz',
+                value: submission['quiz_id'],
+                button: t(:'.copy_id')
+
+            = render Global::LabeledCopyButton.new \
+                label: 'Submission',
+                value: submission['id'],
+                button: t(:'.copy_id')
+
+            - if submission['snapshot_id']
+              = render Global::LabeledCopyButton.new \
+                  label: 'Snapshot',
+                  value: submission['snapshot_id'],
+                  button: t(:'.copy_id')
+          td
+            = link_to @submission_users[submission['user_id']].name, course_submissions_path(user_id: submission['user_id'])
+            br
+            = link_to t(:'admin.course_management.submissions.profile'), user_path(submission['user_id']), class: 'btn btn-default btn-xs'
+          td
+            p = t(:'.timestamps.access', time: l(submission['quiz_access_time'].to_datetime, format: :quiz_submission))
+            p
+              - if submission['quiz_submission_time']
+                = t(:'.timestamps.submit', time: l(submission['quiz_submission_time'].to_datetime, format: :quiz_submission))
+              - else
+                = t(:'.timestamps.not_submitted')
+          td(id="points-#{submission.id}")
+            .points
+              span = submission['points']
+              - if current_user.allowed? 'course.course.teaching'
+                = render partial: 'fudge_points', locals: {submission:, course: @course}
+
+            - if (proctoring = submission['proctoring'])
+              - if proctoring.results.empty?
+                span.label.label-warning = t(:'admin.course_management.submissions.proctoring.processing')
+              - elsif proctoring.results.perfect?
+                span.label.label-success = t(:'admin.course_management.submissions.proctoring.passed')
+              - elsif proctoring.results.valid?
+                span.label.label-success = t(:'admin.course_management.submissions.proctoring.passed_with_issues')
+              - else
+                span.label.label-danger = t(:'admin.course_management.submissions.proctoring.failed')
+          td
+            = render Global::ActionsDropdown.new(menu_side: 'right') do |c|
+              - if current_user.allowed?('quiz.submission.manage.proctoring') && submission['proctoring']
+                - c.with_destructive_action
+                  = link_to t(:'admin.course_management.submissions.proctoring.exclude'),
+                    exclude_from_proctoring_path(course_id: @course.id, id: submission['id']),
+                    method: :post
+              - if current_user.allowed?('course.course.teaching')
+                - c.with_action
+                  = link_to t(:'quiz_submission.add_fudge_points'), '#', class: 'js-show-fudge', data: {submission: submission.id}
+              - if current_user.allowed?('quiz.submission.manage') && submission['snapshot_id'] && submission['question_count'] == 0
+                - c.with_action
+                  = link_to t(:'admin.course_management.submissions.convert_manually'), convert_submission_path(submission_id: submission['id'], snapshot_id: submission['snapshot_id']), method: :post
+
+    = will_paginate RestifyPaginationCollection.new(@submissions), renderer: PaginationRenderer
+
+  - else
+    = render State::Empty.new(params[:user_id] ? t(:'.empty.filtered') : t(:'.empty.course'))
+
+javascript:
+  ready(function() {
+    $('#user_id').on('change', function () {
+      showLoading();
+      $(this).closest('form').submit();
+    });
+
+    document.querySelectorAll('.js-cancel-fudge').forEach(function (elem) {
+      elem.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.target.closest('.fudge').style.visibility = 'hidden';
+      });
+    });
+
+    document.querySelectorAll('.js-show-fudge').forEach(function (elem) {
+      elem.addEventListener('click', function (e) {
+        e.preventDefault();
+        document
+          .getElementById('points-' + e.target.dataset.submission)
+          .querySelector('.fudge')
+          .style.visibility = 'visible';
+      });
+    });
+  });

@@ -1,0 +1,48 @@
+---
+include:
+  - path: compose.background.yml
+  - path: compose.init.yml
+
+x-web: &web
+  image: xikolo-web:latest
+  build:
+    context: ..
+    dockerfile: docker/files/web.Dockerfile
+  env_file:
+    - .env
+  networks:
+    - xikolo
+  volumes:
+    - ./config/xikolo.yml:/etc/xikolo.yml:ro
+    - ./config/xikolo/web.yml:/app/config/xikolo.yml:ro
+  restart: always
+  depends_on:
+    init-database:
+      condition: service_completed_successfully
+    postgres:
+      condition: service_healthy
+    rabbitmq:
+      condition: service_healthy
+    redis-cache:
+      condition: service_healthy
+    redis-sidekiq:
+      condition: service_healthy
+
+services:
+  web-delayed:
+    <<: *web
+    command: delayed
+
+  web-msgr:
+    <<: *web
+    command: msgr
+
+  web-server:
+    <<: *web
+    command: server
+    ports:
+      - 3000:80
+
+  web-sidekiq:
+    <<: *web
+    command: sidekiq

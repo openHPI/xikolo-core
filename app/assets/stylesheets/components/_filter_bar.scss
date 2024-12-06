@@ -1,0 +1,382 @@
+.filter-bar {
+  padding: vertical-spacing-m() 0 vertical-spacing-xs() 0;
+
+  &__search {
+    display: flex;
+    border-bottom: 1px solid $gray-250;
+
+    font-size: 1.8rem;
+    line-height: 2.5rem;
+
+    &--active {
+      border-bottom: 2px solid $primary-color;
+    }
+
+    input {
+      width: 100%;
+      padding-top: 0;
+      padding-bottom: 0;
+      border: none;
+      background: none;
+      color: $text-color;
+    }
+
+    button {
+      padding-top: 0;
+      padding-bottom: 0;
+      border: none;
+      background: inherit;
+      color: $gray-250;
+
+      &:focus,
+      &:hover {
+        color: $primary-600;
+        text-shadow:
+          0px 8px 18px rgba(0, 0, 0, 0.07),
+          0px 3px 6px rgba(0, 0, 0, 0.1);
+      }
+      &:active {
+        text-shadow: none;
+      }
+    }
+
+    &:focus-within,
+    &:hover {
+      // Increase visibility of search button for call to action
+      .filter-bar__search-button {
+        color: $primary-color;
+        text-shadow:
+          0px 8px 18px rgba(0, 0, 0, 0.07),
+          0px 3px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .filter-bar__clear-button {
+        color: $gray-500;
+        visibility: visible;
+
+        &:hover {
+          color: $gray-600;
+        }
+      }
+    }
+  }
+
+  &__floating-label-search {
+    position: relative;
+    display: flex;
+    max-width: 550px;
+    padding-bottom: 5px;
+    border: none;
+    border-bottom: 1px solid $gray-250;
+    margin-bottom: 2.5rem;
+    @include font-m;
+    @include small {
+      @include font-l;
+    }
+
+    &:focus-within,
+    &:hover {
+      // Increase visibility of search button for call to action
+      .filter-bar__search-button {
+        color: $primary-500;
+        text-shadow:
+          0px 8px 18px rgba(0, 0, 0, 0.07),
+          0px 3px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .filter-bar__clear-button {
+        color: $gray-500;
+        font-size: $font-size-sm;
+        visibility: visible;
+
+        &:hover {
+          color: $gray-600;
+        }
+      }
+    }
+
+    input {
+      width: 100%;
+
+      // input heights differ across browsers
+      // to ensure correct floating label position,
+      // it is set explicitly
+      height: 40px;
+      border: none;
+      // webkit displays a gray background on type="search"
+      background: none;
+      @include font-m;
+
+      @include small {
+        height: 45px;
+        font-size: $font-size-l;
+      }
+    }
+
+    // Floating label
+    label {
+      // Per default, the label sits on top of the input
+      position: absolute;
+      top: -80%;
+      color: $gray-600;
+      font-weight: normal;
+      transform-origin: left top;
+      transition:
+        transform 150ms cubic-bezier(0.4, 0, 0.2, 1),
+        color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+        top 500ms;
+
+      user-select: none;
+      @include font-sm;
+
+      @include small {
+        @include font-sm;
+      }
+    }
+
+    // A placeholder is shown on empty input
+    // transform pulls the label down and increases font-size
+    // For clients not supporting this, the label will remain on top
+    input:placeholder-shown + label {
+      transform: translateY(160%);
+      @include small {
+        transform: translateY(130%) scale(1.8);
+      }
+    }
+
+    // On focus, the label moves back into default position on top
+    // This is the case when there is no value in the input
+    input:focus + label {
+      transform: translateY(0%);
+      @include small {
+        transform: translateY(0%);
+      }
+    }
+
+    button {
+      border: none;
+      background: inherit;
+      color: $gray-250;
+
+      &:focus,
+      &:hover {
+        color: $primary-600;
+        text-shadow:
+          0px 8px 18px rgba(0, 0, 0, 0.07),
+          0px 3px 6px rgba(0, 0, 0, 0.1);
+      }
+      &:active {
+        text-shadow: none;
+      }
+    }
+
+    &--active {
+      border-bottom: 2px solid $primary-500;
+    }
+  }
+
+  &__clear-button {
+    font-size: $font-size-s;
+    visibility: hidden;
+  }
+
+  &__wrapper {
+    padding: 0 $page-padding;
+    @include horizontal-page-padding;
+    @include outer-container($main-content-width);
+  }
+
+  &__container {
+    width: 100%;
+    margin-bottom: 10px;
+    background: $gray-100;
+  }
+
+  &__container-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+    @include horizontal-page-padding(0px);
+    @include outer-container($main-content-width);
+
+    @include small {
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+  }
+
+  &__filters {
+    display: inline-flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-wrap: wrap;
+
+    @include small {
+      flex-direction: row;
+    }
+
+    & > * {
+      padding: vertical-spacing-xs();
+    }
+
+    label {
+      display: flex;
+      flex-direction: column;
+      color: $gray-600;
+      font-weight: normal;
+      @include font-s;
+    }
+
+    .select {
+      border: none;
+      border-bottom: 1px solid $gray-250;
+      background-color: inherit;
+      color: $text-color;
+
+      @include font-sm;
+
+      @include small {
+        min-width: 20rem;
+        max-width: 30rem;
+      }
+      &--active {
+        border-bottom: 2px solid $primary-500;
+      }
+
+      &--disabled {
+        color: $gray;
+        cursor: not-allowed;
+      }
+    }
+
+    // For multiple selects we ensure all items are shown
+    select:not(.tomselected) {
+      @include truncate-text(1);
+    }
+
+    &--legacy-style > * {
+      &:first-child {
+        padding-left: 0;
+      }
+
+      &:last-child {
+        padding-right: 0;
+      }
+    }
+  }
+
+  // For multiple selects we use the tom-select library
+  // Here we modify the tom-select styles to best fit our filter bar.
+  .ts-control {
+    height: 25px;
+    padding: 0;
+    border: none;
+    background: transparent;
+
+    input {
+      @include font-sm;
+    }
+  }
+
+  .ts-wrapper.select {
+    max-width: none;
+  }
+
+  .ts-wrapper.multi.has-items .ts-control {
+    padding: 0;
+
+    .item {
+      background: $gray-50;
+
+      & + input[placeholder] {
+        // Hide the placeholder if items are selected, but take up space to enable clicking the select
+        visibility: hidden;
+      }
+    }
+  }
+
+  &__controls {
+    width: 100%;
+  }
+
+  &__controls-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 15px;
+    @include outer-container($main-content-width);
+  }
+
+  &__overview {
+    display: none;
+  }
+
+  &__results {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  &__overview-text {
+    margin: 0 10px 0 0;
+    color: $gray-600;
+  }
+
+  &__results-count {
+    margin: 0 10px 0 0;
+  }
+
+  &__overview-title {
+    margin-right: 5px;
+    font-weight: bold;
+  }
+
+  // Modify and style overview message bar
+  &__controls.js-fixed {
+    padding: 10px 0;
+    background-color: $white;
+    box-shadow: $box-shadow-xl;
+
+    .filter-bar__overview {
+      display: inline-flex;
+      flex-direction: column;
+      flex-grow: 1;
+      flex-wrap: wrap;
+      @include small {
+        flex-direction: row;
+        align-items: center;
+      }
+    }
+
+    .filter-bar__overview,
+    .filter-bar__results {
+      justify-content: space-between;
+      @include small {
+        justify-content: flex-start;
+      }
+    }
+
+    .filter-bar__results-count,
+    .filter-bar__overview-text {
+      margin: 0 0 5px 0;
+      @include small {
+        margin: 0 10px 0 0;
+      }
+    }
+
+    .filter-bar__results {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: end;
+      align-self: auto;
+
+      @include small {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-top: 0;
+      }
+    }
+  }
+}

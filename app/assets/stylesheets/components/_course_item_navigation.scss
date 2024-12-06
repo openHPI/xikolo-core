@@ -1,0 +1,123 @@
+$item-dimension: 40px;
+
+.course-item-navigation {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: $item-dimension;
+  margin-bottom: 5px;
+
+  background-color: $gray-250;
+
+  button {
+    position: absolute;
+    z-index: $z-index-xs;
+    min-width: $item-dimension;
+    height: 100%;
+    border: none;
+    background-color: $gray-500;
+
+    &:active,
+    &:hover,
+    &:focus {
+      background-color: $gray-800;
+      color: $white;
+    }
+
+    &[data-slider-target$="right"] {
+      right: 0;
+    }
+  }
+
+  a {
+    &:hover,
+    &:focus {
+      text-decoration: none;
+    }
+  }
+
+  &__items {
+    display: flex;
+    height: $item-dimension;
+    flex-wrap: nowrap;
+
+    padding: 0px;
+
+    background-color: $white;
+
+    list-style: none;
+    overflow-x: auto;
+
+    // Hide scrollbar for Firefox
+    scrollbar-width: none;
+
+    // Hide scrollbar for Chrome, Safari
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    // To make the button visibility logic work we need to ensure that the last item
+    // will be totally visible. We do this by adding some padding.
+    // Right padding on scrollable containers is being ignored on Safari. We're adding
+    // it to a pseudo-element instead, which will work on all browsers.
+    &::after {
+      padding-right: 1px;
+      content: "";
+    }
+
+    li.course-nav-item {
+      position: relative;
+      width: $item-dimension;
+      height: $item-dimension;
+      margin-right: 2px;
+      background-color: $gray-250;
+
+      // Included icons in item fill dimensions
+      .xi-icon {
+        display: block;
+        width: $item-dimension;
+        height: $item-dimension;
+        color: $black;
+
+        font-size: 20px;
+
+        line-height: $item-dimension;
+        pointer-events: none;
+        text-align: center;
+      }
+
+      // Remove last item's margin (without counting the intersector
+      // element) to ensure right page alignment
+      &:nth-last-of-type(2) {
+        margin-right: 0;
+      }
+
+      &.visited {
+        background-color: $gray-100;
+      }
+
+      &.active {
+        background-color: $white;
+
+        // Indicator bar on the bottom of the item
+        &::before {
+          position: absolute;
+          top: 38px;
+          width: $item-dimension;
+          box-shadow: 0 0 0 2px $primary-500;
+          content: "";
+        }
+      }
+
+      &.locked {
+        cursor: not-allowed;
+        opacity: 0.5;
+      }
+
+      &:hover,
+      &:focus {
+        background-color: $primary-50;
+      }
+    }
+  }
+}

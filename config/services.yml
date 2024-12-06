@@ -1,0 +1,23 @@
+common: &common
+  services:
+    account: <%= ENV['XIKOLO_SERVICE_ACCOUNT'] || 'http://localhost:3100' %>
+    collabspace: <%= ENV['XIKOLO_SERVICE_LEARNING_ROOM'] || 'http://localhost:4800' %>
+    course: <%= ENV['XIKOLO_SERVICE_COURSE'] || 'http://localhost:3300' %>
+    grouping: <%= ENV['XIKOLO_SERVICE_GROUPING'] || 'http://localhost:5600' %>
+    learnanalytics: <%= ENV['XIKOLO_SERVICE_LANALYTICS'] || 'http://localhost:5900' %>
+    news: <%= ENV['XIKOLO_SERVICE_NEWS'] || 'http://localhost:4300' %>
+    notification: <%= ENV['XIKOLO_SERVICE_NOTIFICATION'] || 'http://localhost:3200' %>
+    peerassessment: <%= ENV['XIKOLO_SERVICE_PEERASSESSMENT'] || 'http://localhost:5400' %>
+    pinboard: <%= ENV['XIKOLO_SERVICE_PINBOARD'] || 'http://localhost:3500' %>
+    quiz: <%= ENV['XIKOLO_SERVICE_QUIZ'] || 'http://localhost:3800' %>
+    quizimporter: http://quiz-import-service.example.org
+    timeeffort: <%= ENV['XIKOLO_SERVICE_TIMEEFFORT'] || 'http://localhost:6300' %>
+
+production:
+  <<: *common
+
+development:
+  <<: *common
+
+test:
+  <<: *common

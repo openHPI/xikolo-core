@@ -1,0 +1,8 @@
+- presenter.basic_quiz_properties.each do |prop|
+  li
+    = render Global::FaIcon.new("#{prop[:icon_class]}", css_classes: 'mr5 em1-2 vmiddle')
+    span
+      - if prop.key? :opts
+        = t(:"quiz_submission.properties.#{prop[:name]}", **prop[:opts])
+      - else
+        = t(:"quiz_submission.properties.#{prop[:name]}")

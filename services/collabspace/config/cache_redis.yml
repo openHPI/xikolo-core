@@ -1,0 +1,18 @@
+common: &common
+  url: <%= ENV.fetch("CACHE_REDIS_URL", nil) %>
+
+development:
+  <<: *common
+  db: 1001
+
+test:
+  <<: *common
+  db: 1002
+
+integration:
+  <<: *common
+  db: 1003
+
+production:
+  <<: *common
+  db: 1001

@@ -1,0 +1,14 @@
+- content_for :page_header
+  = render Global::PageHeader.new(t(:'pages.edit.headline'))
+
+.container
+  .row.mt20
+    .col-md-12
+      = simple_form_for @page, method: :patch, url: page_path(locale: params[:locale]) do |f|
+        = f.input :title
+        = f.input :name, readonly: true
+        = f.input :locale, readonly: true
+        = f.input :text
+        .form-group
+          .col-lg-offset-2.col-lg-10.mb10
+            = f.submit_button

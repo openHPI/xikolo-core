@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml>
+    <result>
+        <objectType>KalturaSessionInfo</objectType>
+        <partnerId>1234567</partnerId>
+        <ks>djJ8NDU0OTM5M3yzha9MF2eOAOcR5fcyDslZrgHA7eMLWlL0UanuMYAHPi-LC3BCvdoDqz4pariQ6K3loqBvPn6PN6vb7rRXrwNxr5xQkqpV6TYlFMDWIbU4vFy9t5hszsOgzNEPiP_9ay-9P6uzCQO5BiwZJO4-w9xrI04-7RVSsV3q4CQ6h6kdom9yXhUvlLwJJkVksZbyJCY=</ks>
+        <sessionType>0</sessionType>
+        <userId>foo@example.de</userId>
+        <expiry>1648850825</expiry>
+        <privileges>sessionid:1_bmok424l,apptoken:1_bmok424l,disableentitlement</privileges>
+    </result>
+    <executionTime>0.010256052017212</executionTime>
+</xml>

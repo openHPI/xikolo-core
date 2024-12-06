@@ -1,0 +1,3 @@
+- unless rich_text.nil?
+  = simple_fields_for(rich_text, wrapper: :larger_labels) do |r|
+    = r.input :text, required: true, label: t(:'.markup'), placeholder: t('.placeholder_text')

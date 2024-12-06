@@ -1,0 +1,30 @@
+- content_for :page_header_slim
+  = render Global::PageHeader.new(t(:'admin.polls.headline'), subtitle: t(:'admin.page_header'), type: :slim)
+
+.container
+  - if @polls.any?
+    table.table.table-striped.mb15.mt15.full-width
+      thead
+        tr
+          th = t(:'admin.polls.question')
+          th = t(:'admin.polls.start_at')
+          th = t(:'admin.polls.end_at')
+          th = t(:'admin.polls.actions')
+      tbody
+        - @polls.each do |poll|
+          tr
+            td = poll.question
+            td = l(poll.start_at.to_date, format: :short)
+            td = l(poll.end_at.to_date, format: :short)
+            td.nowrap
+              = link_to t(:'admin.polls.edit'), edit_admin_poll_path(poll),
+                class: 'btn btn-primary btn-xs mr5'
+              = link_to t(:'admin.polls.delete'), admin_poll_path(poll),
+                method: :delete,
+                class: 'btn btn-primary btn-xs',
+                data: {confirm: t(:'admin.polls.confirm_delete')}
+    = link_to t(:'admin.polls.add'), new_admin_poll_path, class: 'btn btn-primary'
+  - else
+    = render Global::Callout.new(t(:'admin.polls.empty_msg')) do
+      - if current_user.allowed? 'course.channel.create'
+        = link_to t(:'admin.polls.add'), new_admin_poll_path, class: 'btn btn-outline btn-default btn-xs'

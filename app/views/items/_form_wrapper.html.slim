@@ -1,0 +1,27 @@
+- if @quiz.nil? || @quiz.new?
+  = render 'form'
+- else
+  = render Navigation::Tabs.new do |c|
+    - c.with_tab(controls: 'quiz_properties', active: true)
+        = render Global::FaIcon.new('gear', css_classes: 'mr5')
+        = t(:'items.quiz.nav.properties')
+    - c.with_tab(controls: 'quiz_questions')
+        = render Global::FaIcon.new('lightbulb', css_classes: 'mr5')
+        = t(:'items.quiz.nav.questions')
+    - c.with_panel(id: 'quiz_properties', active: true)
+      = render 'form'
+    - c.with_panel(id: 'quiz_questions')
+      #quiz_questions
+
+#form-extensions
+  - if item.new_record?
+    template#video-form
+      = render 'items/video/form', video: @video, item:, course: @course
+    template#rich_text-form
+      = render 'items/rich_text/form', rich_text: @rich_text
+    template#quiz-form
+      = render 'items/quiz/form', quiz: @quiz, item:
+    template#lti_exercise-form
+      = render 'items/lti_exercise/form', lti_exercise: @lti_exercise
+    template#peer_assessment-form
+      = render 'items/peer_assessment/form', peer_assessment: @peer_assessment, item:

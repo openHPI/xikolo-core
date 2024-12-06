@@ -1,0 +1,16 @@
+Topic: <%= @ticket.topic %> <% if @ticket.course_id %>(<%= @ticket.course_id %>)<% end %>
+
+
+<%= @ticket.report %>
+
+
+<% if @ticket.user_id %>
+User ID: <%= @ticket.user_id %>
+Profile: <%= user_url(@ticket.user_id) %>
+<% end %>
+From: <%= @ticket.mail %>
+<% if @ticket.url %>On page: <%= @ticket.url %><% end %>
+Language: <%= @ticket.language %>
+
+
+<% if @ticket.data %>Additional data: <%= @ticket.data %><% end %>

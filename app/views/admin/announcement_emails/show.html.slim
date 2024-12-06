@@ -1,0 +1,54 @@
+- content_for :head_assets do
+  = stylesheet_link_tag 'admin', media: 'all', crossorigin: 'anonymous', integrity: true
+- content_for :page_header_slim
+  = render Global::PageHeader.new(t(:'admin.announcements.show.headline'), subtitle: t(:'admin.page_header'), type: :slim)
+
+.container
+  h2 = @email.subject
+
+  ul
+    li = t(:'admin.announcements.show.num_deliveries', num: @email.total_deliveries)
+    li
+      => t(:'admin.announcements.show.authored_by')
+      span.announcement-email__person__avatar
+        = render Global::UserAvatar.new(@email.author_id, size: 'tiny', type: 'rounded')
+      span.announcement-email__person__name
+        = @email.author_name
+      span.announcement-email__person__date
+        =< t(:'admin.announcements.show.authored_at', date: @email.authored_at)
+    li
+      => t(:'admin.announcements.show.sent_by')
+      span.announcement-email__person__avatar
+        = render Global::UserAvatar.new(@email.sender_id, size: 'tiny', type: 'rounded')
+      span.announcement-email__person__name
+        = @email.sender_name
+      span.announcement-email__person__date
+        =< t(:'admin.announcements.show.sent_at', date: @email.sent_at)
+
+  .announcement-email__recipients
+    h3 = t(:'admin.announcements.show.recipients')
+    p = @email.recipients
+
+  .announcement-email__sending-status
+    h3 = t(:'admin.announcements.show.status')
+    .badge.badge-info = @email.status
+    .announcement-email__status-bar
+      progress.announcement-email__status-bar__bar max=100 value=@email.deliveries_percentage
+      span.announcement-email__status-bar__percentage = "#{@email.deliveries_percentage}%"
+    p.announcement-email__status-legend
+      = t(:'admin.announcements.show.sending_status',
+        success: @email.successful_deliveries,
+        error: @email.error_deliveries,
+        disabled: @email.disabled_deliveries)
+
+  .email-read-status
+    h3 = t(:'admin.announcements.show.open_rate')
+    .announcement-email__status-bar
+      progress.announcement-email__status-bar__bar max=100 value=@email.opens_percentage
+      span.announcement-email__status-bar__percentage = "#{@email.opens_percentage}%"
+    p.announcement-email__status-legend
+      = t(:'admin.announcements.show.num_opened',
+        num_opens: @email.num_opens,
+        num_total: @email.successful_deliveries)
+    p
+      = t(:'admin.announcements.show.note_estimation')

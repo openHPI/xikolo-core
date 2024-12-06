@@ -1,0 +1,35 @@
+- content_for :page_header_slim
+  = render Global::PageHeader.new(t(:'admin.teachers.index.title'), subtitle: t(:'admin.page_header'), type: :slim)
+
+.container
+  .row
+    .col-md-12.pt10
+      .filter.mb20
+        = form_tag(teachers_path, method: :get)
+        => label(:teacher_filter, :q, t(:'.filter'))
+        => search_field_tag('q', params[:q], id: 'teacher_filter_query')
+        = submit_tag t(:'.search')
+        - if current_user.allowed? 'course.teacher.manage'
+          = link_to t(:'.new'), new_teacher_path, class: 'btn btn-primary mt20 pull-right'
+      table.table.table-striped.table-condensed.table-hover
+        thead
+          tr
+            th
+              '
+            th = t(:'.name')
+            th = t(:'.description')
+            th
+
+        tbody
+          - @teachers.each do |teacher|
+            tr
+              td
+                - if teacher.picture?
+                  img src=teacher.picture_url style="max-width:150px"
+              td = teacher.name
+              td
+                .RenderedMarkdown
+                  == HtmlTruncator.new.truncate(render_markdown(teacher.description))
+              td = link_to t(:'.details'), teacher_path(teacher.id), class: 'btn btn-primary btn-xs', 'aria-label': teacher.name
+
+      =  will_paginate @teachers.pagination, renderer: PaginationRenderer

@@ -1,0 +1,20 @@
+/*---------------------------------------*\
+    $CONTENTS
+
+    SASS Mixins which represent common
+    design components of the page.
+\*---------------------------------------*/
+
+@import "colors";
+
+// Please note: Bar functions differ in their defaults and are thus convenience functions for the CSS border
+
+// Fat gray bottom border for separation
+@mixin heavy-bar($property: border-bottom, $height: 5px, $color: $gray-800) {
+  #{$property}: $height solid $color;
+}
+
+// Light gray bar used for example for captions and subtle separation of content
+@mixin light-bar($property: border-top, $height: 2px, $color: $gray) {
+  #{$property}: $height solid $color;
+}

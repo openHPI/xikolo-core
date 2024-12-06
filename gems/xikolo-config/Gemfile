@@ -1,0 +1,15 @@
+# frozen_string_literal: true
+
+source 'https://rubygems.org'
+
+gem 'xikolo-config', path: '.'
+
+group :development, :test do
+  gem 'activesupport'
+  gem 'rake'
+  gem 'rspec', '~> 3.13'
+end
+
+group :test do
+  gem 'simplecov', require: false
+end

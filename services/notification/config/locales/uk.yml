@@ -1,0 +1,244 @@
+uk:
+  date:
+    formats:
+      long: "%B %d, %Y %H:%M"
+      default: "%Y-%m-%d"
+      short: "%b %d, %Y"
+      informal: "%B %-d"
+    timezone: "(UTC)"
+  notifications:
+    mail_was_sent_to: "Цей лист надіслано на адресу:"
+    course_announcement:
+      cta: "Перейдіть на курс і продовжуйте вчитися"
+    course_cloning_finished:
+      title: "Ваш новий клон курсу %{course_code} готовий."
+    course_statistic_calculated:
+      title: "Статистика курсу %{course_title} підрахована."
+      text: ""
+    reporting_finished:
+      title: "Скаргу %{type} %{annotation} завершено зі станом: %{state}."
+      text: ""
+    learning_room:
+      new_file:
+        title: "Новий файл завантажено"
+        text: "%{uploader_name} завантажив %{filename}"
+      new_membership:
+        title: "Приєднався новий учасник"
+        text: "%{new_member_name} приєднаввся до вашого Collab Space"
+      quit_membership:
+        title: "Учасник пішов"
+        text: "%{ex_member_name} покинув ваш Collab Space"
+    type:
+      news:
+        announcement:
+          one: оголошення
+          few: оголошення
+          many: оголошення
+          other: оголошення
+      course:
+        announcement:
+          one: оголошення курсу
+          few: оголошення курсу
+          many: оголошення курсу
+          other: оголошення курсу
+      pinboard:
+        blocked_item:
+          one: сповіщення дискусійного форуму
+          few: сповіщення дискусійного форуму
+          many: сповіщення дискусійного форуму
+          other: сповіщення дискусійного форуму
+        new_post:
+          one: сповіщення дискусійного форуму
+          few: сповіщення дискусійного форуму
+          many: сповіщення дискусійного форуму
+          other: сповіщення дискусійного форуму
+        new_thread:
+          one: сповіщення дискусійного форуму
+          few: сповіщення дискусійного форуму
+          many: сповіщення дискусійного форуму
+          other: сповіщення дискусійного форуму
+      peer_assessments:
+        conflict:
+          new:
+            staff: email
+            reporter: email
+            accused_student: email
+            regrading: email
+          resolved:
+            reporter: email
+            accused_student: email
+            regrading: email
+            no_reviews: email
+
+    disable_link:
+      explanation:
+        html: "Ви отримуєте це %{type}, тому що ви зареєструвалися на %{site_name} зі своєю адресою %{email}."
+        text: "Ви отримуєте це %{type}, тому що ви зареєструвалися на %{site_name} зі своєю адресою %{email}."
+      local:
+        html: "Якщо ви більше не хочете отримувати %{types}, будь ласка, натисніть <a href=%{link}>тут</a>."
+        text: "Якщо ви більше не хочете отримувати %{types} такого роду, будь ласка, відвідайте наступний сайт: %{link}."
+      global:
+        html: "Якщо ви більше не хочете отримувати жодних електронних листів, будь ласка, натисніть <a href=%{link}>тут</a>."
+        text: "Якщо ви більше не хочете отримувати жодних електронних листів, будь ласка, відвідайте наступний сайт: %{link}."
+      notification_settings_link:
+        html: "Будь ласка, перейдіть у <a href=%{link}>налаштування профілю</a>, щоб змінити налаштування сповіщень."
+        text: "Будь ласка, перейдіть за посиланням %{link}, щоб змінити налаштування сповіщень."
+    pinboard:
+      discussion:
+        new:
+          title: "%{username} розпочав нову тему: %{thread_title}"
+          text: "%{text}"
+        comment:
+          new:
+            title: "%{username} опублікував у темі %{thread_title}"
+            text: "%{text}"
+      question:
+        new:
+          title: "%{username} розпочав нову тему: %{thread_title}"
+          text: "%{text}"
+        answer:
+          new:
+            title: "%{username} опублікував у темі %{thread_title}"
+            text: "%{text}"
+          comment:
+            new:
+              title: "%{username} опублікував у темі %{thread_title}"
+              text: "%{text}"
+        comment:
+          new:
+            title: "%{username} опублікував у темі %{thread_title}"
+            text: "%{text}"
+      new_post:
+        subject: "Нова публікація в темі, за якою ви стежите: %{course_name}"
+        mailheader_type: "Діяльність дискусійного форуму"
+        mailheader_info: "%{course_name}"
+        meta: "%{date} %{user} опублікував у темі, за якою ви стежите."
+        title: "%{title}"
+        action_button: "Переглянути або відповісти"
+        hint: "Підказка: якщо ця публікація була для вас корисною, позначте її як найкращу відповідь."
+      new_thread:
+        subject: "На форумі з'явилася нова тема."
+        mailheader_type: "Діяльність дискусійного форуму"
+        mailheader_info: "%{course_name}"
+        meta: "%{date} %{user} опублікував на форумі."
+        title: "%{title}"
+        action_button: "Переглянути або відповісти"
+
+    news:
+      announcement:
+        subject: "Для вас доступне нове повідомлення %{site_name}."
+        mailheader_type: "Глобальні новини"
+        test_notice: "Це тестове повідомлення, його отримали лише ви!"
+        title: "Доступне нове повідомлення: %{title}"
+        text: "%{text}"
+    course:
+      announcement:
+        subject: "Доступне нове оголошення курсу"
+        mailheader_type: "Оголошення курсу"
+        mailheader_info: "%{course_title}"
+        test_notice: "Це тестове повідомлення, його отримали лише ви!"
+        title: "У курсі %{course_title} доступне нове оголошення: %{title}"
+        text: "%{text}"
+    shared:
+      questions:
+        no_questions: За останній час не було жодних активних обговорень.
+        no_unanswered: Питань без відповідей немає.
+
+    peer_assessments:
+      conflict:
+        referral: "Ідентифікатор переходу для цього конфлікту: %{refid}. Вказуйте цей ідентифікатор у будь-якому листуванні щодо цієї скарги."
+
+        reasons:
+          plagiarism: Плагіат
+          offensive_content: Образливий контент
+          unrelated: Зміст, не пов'язаний із завданням
+          other: Інша причина
+          grading_conflict: Конфлікт оцінювання
+          no_reviews: Відгуків немає
+
+        subjects:
+          review: огляд
+          submission: подання
+
+        new:
+          staff:
+            subject: "%{assessment_name}: Скарга зареєстрована"
+            title: "%{assessment_name}: Скарга зареєстрована"
+            body: "Студент поскаржився на подання на підставі: '%{reason}'."
+
+          reporter:
+            subject: "%{assessment_name}: Скаргу отримано"
+            title: "%{assessment_name}: Ми отримали вашу скаргу щодо '%{reason}'"
+            body: "Ми отримали скаруг, яку ви заповнили. Ми повідомимо вас, коли розглянемо претензію та приймемо рішення."
+
+          accused_student:
+            subject: "%{assessment_name}: На %{conflict_subject} поскаржились через '%{reason}'"
+            title: "%{assessment_name}: На %{conflict_subject} поскаржились через '%{reason}'"
+            body: "Рецензент поскаржився на %{conflict_subject} на підставі '%{reason}'. Ми розглянемо цю претензію та повідомимо вас, як тільки приймемо рішення."
+
+          regrading:
+            subject: "%{assessment_name}: Запит на переоцінку отримано."
+            title: "%{assessment_name}: Ми отримали ваш запит на переоцінку на підставі '%{reason}'"
+            body: "Ми отримали ваш запит на переоцінку. Як тільки ми розглянемо його та приймемо рішення, ми повідомимо вас. До того часу просимо вас проявити терпіння."
+
+        resolved:
+          reporter:
+            subject: "%{assessment_name}: Скаргу вирішено"
+            title: "%{assessment_name}: Скаргу вирішено"
+            body: "Скаргу, яку ви заповнили на підставі '%{reason}', було закрито. Як наслідок, ви можете побачити зміни оцінок (якщо такі є) на сторінці результатів оцінювання."
+
+          accused_student:
+            subject: "%{assessment_name}: Скаргу вирішено"
+            title: "%{assessment_name}: Скаргу вирішено"
+            body: "Скаргу на %{conflict_subject} на підставі '%{reason}' було закрито. Як наслідок, ви можете побачити зміни оцінок (якщо такі є) на сторінці результатів оцінювання."
+
+          regrading:
+            subject: "%{assessment_name}: Повторне оцінювання оброблено"
+            title: "%{assessment_name}: Повторне оцінювання оброблено"
+            body: "Ваш запит на переоцінку через '%{reason}' оброблено та закрито.. Як наслідок, ви можете побачити зміни оцінок (якщо такі є) на сторінці результатів оцінювання."
+
+          no_reviews:
+            subject: "%{assessment_name}: Ваша оцінка тепер доступна"
+            title: "%{assessment_name}: Ваша оцінка тепер доступна"
+            body: "Команда викладача перевірила вашу роботу. Подивіться, як ви впоралися із завданням, на сторінці оцінювання!"
+
+  account_mailer:
+    password_reset:
+      subject: "Скидання пароля для вашого облікового запису %{site_name}"
+      text: Для вашого облікового запису надійшов запит на скидання пароля. Натисніть кнопку нижче, щоб скинути його. Посилання буде дійсним протягом 24 годин.
+      link: Скинути пароль
+    confirm_email:
+      subject: Будь ласка, підтвердіть Вашу електронну адресу
+      mailheader_type: Підтвердьте свою електронну пошту
+      text: "Ви отримали цей електронний лист, оскільки додали нову адресу електронної пошти до свого облікового запису на %{site_name}. Будь ласка, підтвердьте це, натиснувши кнопку нижче."
+      link: Підтвердити електронну пошту
+      copy_instructions: Якщо посилання вище не натискається або не працює, спробуйте скопіювати та вставити його в адресний рядок свого веб-браузера.
+    welcome_email:
+      subject: Ласкаво просимо до %{site_name}
+      mailheader_type: Ласкаво просимо до %{site_name}
+      welcome: Ви отримали це повідомлення, оскільки зареєстрували новий обліковий запис на %{site_name}.
+      next_steps: "Щоб підготувати свій профіль і почати використовувати платформу, виконайте наступні кроки після входу:"
+      step_1: Дотримуйтесь інструкцій на екрані, щоб заповнити свій профіль. Для використання платформи необхідна певна інформація.
+      step_2: Запишіться на курс, який вас цікавить.
+      step_3: Заходьте на курс і починайте вчитися. Більшість наших курсів призначені для самостійного вивчення, і ви можете почати одразу.
+      step_4: Якщо під час роботи над курсом виникнуть запитання, подивіться обговорення на форумі.
+      confirmation: Щоб розпочати, підтвердьте свою адресу електронної пошти, натиснувши наведену нижче кнопку.
+      link: Підтвердити електронну пошту
+      copy_instructions: Якщо посилання вище не натискається або не працює, спробуйте скопіювати та вставити його в адресний рядок свого веб-браузера.
+
+  course_welcome_mailer:
+    welcome_mail:
+      subject: "Дякуємо за реєстрацію: %{course_title}"
+      mailheader_type: "Дякуємо за реєстрацію"
+
+  questions:
+    votes: голосів
+    responses: відповіді
+    views: переглядів
+    ago: тому
+    last_activity: остання активність
+    answered: З відповіддю
+    discussion: Обговорення
+    unanswered: Без відповіді
+    closed: Закрито
+    tags: Мітки

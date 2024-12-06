@@ -1,0 +1,31 @@
+[
+  {
+    "name": [{}],
+    "alternateName": ["Personal Privacy", "Privacy Policy"],
+    "shortCode": "4.2",
+    "description": "To protect personal data and privacy in digital environments. To understand how to use and share personally identifiable information while being able to protect oneself and others from damages. To understand that digital services use a “Privacy policy” to inform how personal data is used.",
+    "educationalFramework": "DigComp",
+    "educationalFrameworkVersion": "2.2",
+    "url": "https://publications.jrc.ec.europa.eu/repository/bitstream/JRC128415/JRC128415_01.pdf",
+    "targetUrl": null,
+    "educationalLevel": {
+      "description": "Independently, according to my own needs, and solving well-defined and non-routine problems, I can: • discuss ways to protect my personal data and privacy in digital environments, and • discuss ways to use and share personally identifiable information while protecting myself and others from damages. • indicate privacy policy statements of how personal data is used in digital services.",
+      "name": [
+        {
+          "inLanguage": "en",
+          "name": "INTERMEDIATE"
+        }
+      ],
+      "alternateName": [
+        "independent use of concept",
+        "using concept for oneself"
+      ],
+      "shortCode": "4",
+      "educationalFramework": "DigComp",
+      "educationalFrameworkVersion": "2.2",
+      "url": "https://publications.jrc.ec.europa.eu/repository/bitstream/JRC128415/JRC128415_01.pdf",
+      "targetUrl": null,
+      "type": "EducationalLevel"
+    }
+  }
+]

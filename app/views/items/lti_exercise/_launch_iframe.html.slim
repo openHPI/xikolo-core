@@ -1,0 +1,11 @@
+.col-md-12
+  .course-area-main data-lanalytics-context={course_id: item.course_id}.to_json
+    = render 'items/header', item: item
+
+    - if item.instructions? && item.exercise_without_points?
+      / Inlined LTI exercises with points already show the intructions on the intro page.
+      .mb20.RenderedMarkdown == item.instructions_html
+
+    iframe.lti-frame src=item.tool_launch_path allow="fullscreen" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"
+
+    = render 'seq_navigation', position:

@@ -1,0 +1,33 @@
+roles:
+  news.announcement.editor:
+    - news.announcement.create
+    - news.announcement.update
+    - news.announcement.delete
+    - news.announcement.show
+    - news.announcement.send_test
+  news.announcement.admin:
+    - news.announcement.create
+    - news.announcement.update
+    - news.announcement.delete
+    - news.announcement.show
+    - news.announcement.send_test
+    - news.announcement.send
+  news.announcement.previewer:
+    - news.announcement.show
+  news.page.admin:
+    - news.page.create
+    - news.page.edit
+
+grants:
+  - role: news.announcement.admin
+    group: xikolo.admins
+    context: root
+  - role: news.page.admin
+    group: xikolo.admins
+    context: root
+  - role: news.announcement.admin
+    group: xikolo.helpdesk
+    context: root
+  - role: news.announcement.previewer
+    group: xikolo.reviewers
+    context: root

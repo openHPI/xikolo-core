@@ -1,0 +1,109 @@
+- if @record.purpose == :verify
+  - content_for :page_header
+    = render Global::PageHeader.new(t(:'verify.headline'))
+
+- if @record.user_deleted?
+  .container
+    .row
+      .col-md-10
+        = render Global::Callout.new(t(:'verify.user_deleted'), type: :error)
+- else
+  - if @open_badge
+    - content_for :custom_meta_tags
+      = tag.meta name: 'image', property: 'og:image', content: @open_badge.file_url
+
+  .container itemscope='' itemtype='http://schema.org/StructuredData'
+    .row
+      - if @record.purpose == :verify
+        .col-md-10
+          = render Global::Callout.new(t(:'verify.valid', code: @record.verification_code), type: :success)
+
+    .row
+      .col-md-7.mt20
+        - if @record.purpose == :verify
+          p itemprop='description'
+            = t(:'verify.narrative', title: @record.course_title, link: course_url(@record.course_code))
+        p == @record.certificate_requirements
+        p = t :'course.courses.show.guidelines_link'
+
+        .col-md-6
+          .row
+            h3 = t(:'verify.user_data')
+            p
+              => "#{t(:'verify.issued_for')}:"
+              b = @record.user_name
+            - if @record.date_of_birth?
+              p
+                => "#{t(:'verify.date_of_birth')}:"
+                = @record.date_of_birth
+
+          .row
+            h3 = t(:'verify.certificate_data')
+            p
+              => "#{t(:'verify.certificate_type')}:"
+              = @record.certificate_type_i18n
+            p
+              => "#{t(:'verify.issued_at')}:"
+              = @record.issued_at
+            - if @record.score?
+              p
+                => "#{t(:'verify.result')}:"
+                = @record.score
+            - if @record.top?
+              p == @record.top
+            - if @record.purpose == :show
+              = link_to certificate_render_path(course_id: @record.course_id, type: @record.certificate_type) do
+                .btn.btn-primary.btn-sm
+                  = render Global::FaIcon.new('download', style: :solid, css_classes: 'mr10')
+                  = t(:'global.download')
+
+          - if @record.additional_records
+            .row
+              h3 = t(:'verify.additional_records.headline')
+              p == @record.additional_records
+
+        - if @open_badge
+          .col-md-6
+            h3 = t(:'verify.open_badge.headline')
+            .mt5
+              = image_tag @open_badge.file_url, class: 'open-badge',
+                alt: t(:'verify.open_badge.headline'), itemprop: 'image'
+
+            - if @record.purpose == :show
+              .mt10
+                = link_to @open_badge.file_url, download: true do
+                  #open-badge-download-button.btn.btn-primary.btn-sm
+                    = render Global::FaIcon.new('download', style: :solid, css_classes: 'mr10')
+                    = t(:'global.download')
+
+      .col-md-3
+        h3 = t(:'verify.course_data')
+        = link_to course_url(@record.course_code) do
+          = render @record.course_visual
+          h3.mt5 itemprop='name'
+            = @record.course_title
+        p
+          => "#{t(:'verify.course_teachers')}:"
+          = @record.course_teachers
+        - if @record.course_dates?
+          p
+            => "#{t(:'verify.course_runtime')}:"
+            = @record.course_dates
+        - if @record.learning_goals?
+          p
+            b = t(:'verify.course_learning_goals')
+          ul
+            - @record.learning_goals.each do |goal|
+              li = goal
+
+    - if @record.purpose == :show && @open_badge
+      .row
+        .col-md-7
+          h3
+            = t(:'verify.open_badge.share_open_badge')
+          .certificate-sharing
+            .buttons
+              = render 'shared/social_sharing', social_sharing: @social_sharing, services: %w[facebook twitter mail linkedin_add]
+            .info
+              = link_to t(:'verify.open_badge.linkedin_info_url'), target: '_blank', rel: 'noopener' do
+                = render Global::FaIcon.new('circle-info', style: :solid, css_classes: 'fa-2x')

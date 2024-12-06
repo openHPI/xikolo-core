@@ -1,0 +1,497 @@
+en:
+  simple_form:
+    "yes": "Yes"
+    "no": "No"
+    required:
+      text: "required"
+      mark: "*"
+      # You can uncomment the line below if you need to overwrite the whole required html.
+      # When using html, text and mark won't be used.
+      # html: '<abbr title="required">*</abbr>'
+    error_notification:
+      default_message: We found some errors. Please review your form input.
+    upload_file: Drop files here or click to browse
+    upload_single_file: Drop file here or click to browse
+    upload_image: Drop image here or click to browse
+    upload_remove_hint: The image will be removed on save.
+    in_language: "%{field} (in %{lang})"
+
+    options:
+      certificate_template:
+        certificate_type:
+          Certificate: Certificate
+          ConfirmationOfParticipation: Confirmation of Participation
+          RecordOfAchievement: Record of Achievement
+          TranscriptOfRecords: Transcript of Records
+      course_offer:
+        payment_frequency:
+          one_time: One-time
+          weekly: Weekly
+          monthly: Monthly
+          quarterly: Quarterly
+          half_yearly: Half-yearly
+          by_semester: By semester
+          yearly: Yearly
+          other: Other
+        category:
+          course: Course
+          certificate: Certificate
+          complete: Complete
+      lti_provider:
+        presentation_mode:
+          frame: frame - Embed in the course area
+          pop-up: pop-up - Open in a pop-up window
+          window: window - Open in a new browser tab
+        privacy:
+          anonymized: anonymized - Provide no personal data to the LTI provider
+          pseudonymized: pseudonymized - Expose no personal data, but allow recognizing a user across exercises using the same provider
+          unprotected: unprotected - The LTI provider will receive personal data
+
+    labels:
+      announcement_email:
+        subject: Subject
+        content: Content
+        recipients: Recipients
+        test: Send as test email?
+      announcement:
+        title: Title
+        visual_upload_id: Visual
+        show_on_homepage: Show on homepage
+        publish_at: Publish at
+        audience: Target group
+        text: Text
+        # New admin announcement form
+        subject: Subject
+        content: Content
+      calendar_event:
+        title: Title
+        description: Description
+        start_time: Start date (Local)
+        end_time: End date (Local)
+        color: Category
+        all_day: All day event
+      certificate_template:
+        certificate_type: Certificate type
+        file: Template file
+        dynamic_content: Dynamic content
+        qrcode_x: QR code x
+        qrcode_y: QR code y
+      channel:
+        code: Code
+        name: Name
+        logo_upload_id: Logo
+        description: Description
+        video_stream: Stage video
+        stage_visual_upload_id: Stage visual
+        stage_statement: Stage statement
+        mobile_visual_upload_id: Mobile visual
+        public: Public
+        info_link_url: Info link URL
+        info_link_label: Info link label
+      classifier:
+        title: ID
+        translations: Title
+        descriptions: Description
+        courses: Courses
+      cluster:
+        id: Code
+        visible: Public
+      course:
+        title: "Title"
+        course_code: "Course code"
+        abstract: "Abstract"
+        auto_archive: "Auto archive after course end"
+        show_syllabus: "Overview"
+        description: "Description"
+        rating_stars: Rating (average stars)
+        rating_votes: Rating (number of votes)
+        teacher_ids: "Teachers"
+        alternative_teacher_text: "Alternative teacher text"
+        lang: "Content language"
+        enrollment_delta: "Enrollment delta"
+        start_date: "Start date (UTC)"
+        display_start_date: "Displayed start date (UTC)"
+        end_date: "End date (UTC)"
+        middle_of_course_is_auto: "Auto-calculate course middle"
+        middle_of_course: "Course middle for stats (UTC)"
+        roa_enabled: "Record of Achievement"
+        cop_enabled: "Confirmation of Participation"
+        roa_threshold_percentage: "Record of achievement threshold"
+        cop_threshold_percentage: "Confirmation of Participation threshold"
+        has_collab_space: "Collab spaces"
+        pinboard_enabled: Discussion forum
+        records_released: "Release records"
+        forum_is_locked: "Lock forum"
+        external_course_url: "External course URL"
+        video_course_codes: "Video Course Codes"
+        groups: Restricted to groups
+        hidden: "Course is hidden"
+        show_on_list: Show on course list
+        proctored: Certificate (Proctoring)
+        on_demand: "Reactivation"
+        welcome_mail: Welcome mail
+        invite_only: Require invitation
+        stage_visual_upload_id: Stage visual
+        stage_statement: Stage statement
+        policy_url: Policy URL
+        enable_video_download: Video / audio download
+        external_registration_url: External registration URL
+      course_offer:
+        category: Category
+        price: Price
+        payment_frequency: Payment frequency
+        price_currency: Currency
+      course_visual:
+        image: Image
+        video_stream_id: Teaser video
+        subtitles: Subtitles
+      login:
+        email: E-Mail
+        password: Password
+      lti_provider:
+        name: Name
+        description: Description
+        domain: Launch URL
+        consumer_key: OAuth consumer key
+        shared_secret: OAuth secret
+        presentation_mode: Presentation mode
+        custom_fields: Custom fields
+      objective:
+        position: Position
+        title: Title
+        description: Description
+        completion_type: Completion type
+        final: Material complete?
+      open_badge_template:
+        file: Image file
+        name: Name
+        description: Description
+      page:
+        name: Name
+        locale: Language
+        title: Title
+        text: Contents
+      teacher:
+        name: Name
+        picture: Picture
+      topic:
+        title: Title
+        text: Text
+      translation:
+        title: Title
+        text: Text
+      user:
+        full_name: Name
+        email: E-mail address
+        password: Password
+        password_confirmation: Repeat password
+      video_provider:
+        name: Name
+      video_provider_credentials_kaltura:
+        partner_id: Partner ID
+        token: Secret token
+        token_id: Token ID
+      video_provider_credentials_vimeo:
+        token: Token
+      voucher_redemption:
+        code: Enter your voucher code
+      xikolo_pinboard_answer:
+        attachment: Attachment
+      xikolo_pinboard_question:
+        title: Title
+        text: Text
+        attachment: Attachment
+        tag_names: Tags
+        move_to: Move to
+
+    hints:
+      announcement_email:
+        consents: "Only recipients who have given the selected consents will receive the announcement. If none are selected, all recipients will receive the announcement. To stay legally compliant, consult your data protection expert in case of doubt."
+      channel:
+        code: "The channel code should only contain lowercase letters and the minus sign ('-')."
+        logo_upload_id: "The channel logo will be displayed with a maximum height of 60 px and should have a transparent background. Please style and resize your logo accordingly."
+        stage_visual_upload_id: "The visual must meet a minimum size of %{width}x%{height} px. Larger images will be resized and cropped to center."
+        mobile_visual_upload_id: "The visual must meet a minimum size of %{width}x%{height} px. Larger images will be resized and cropped to center."
+        public: "Display this channel in the navigation bar and on public channel listings, such as the homepage or in filters on the course list. Note: The channel itself will still be accessible when visited directly, so you can distribute links to the public page or place them elsewhere."
+      classifier:
+        title: "The tag ID is only used when assigning tags in the course settings or for reports. The ID is not displayed for learners. Allowed characters: a-z, A-Z, 0-9, -, whitespace."
+        descriptions: The description will be displayed when listing the courses for this tag (e.g., on the start page).
+      cluster:
+        id: The code of a category cannot be modified after it has been created.
+        visible: Only tags of public categories are used for course filters and as course information.
+      course:
+        course_code: "Enter short URL safe name. Please use letters, digits and hyphens only. This cannot be changed after course creation."
+        external_course_url: Provide an URL here to link to a course that is offered on another platform. It will appear on course lists and have its own landing page, but most features such as enrollments and course content will be disabled.
+        teacher_ids: "Search for teachers to add here, and sort them in the list above. This is only for promotional/display purposes; permissions must be set on the course permissions page."
+        classifiers_keywords: Keywords are exposed via the <a href='https://moochub.org/about/' target='_blank'>MOOChub API</a> and used for the internal course search.
+        alternative_teacher_text: "Alternative text if you have a lot of teachers."
+        learning_goals: Enter the intended competencies, knowledge, skills, and abilities the learners will gain by successfully attending the course. They will be displayed on the course info page under 'What you'll learn'.
+        learning_goals_only_certificate_page: Enter the intended competencies, knowledge, skills, and abilities the learners will gain by successfully attending the course. They will be displayed on the certificate verification page.
+        target_groups: Enter the learner groups whom the course is targeted at. They will be displayed on the course info page under 'Who this course is for'.
+        show_on_list: When disabled, the course will not show up on the global course list. It will, however, still be listed on its channel's landing page.
+        roa_threshold_percentage: "Threshold as percentage for gaining a certificate, between 1 and 100. The global default is %{global_default}."
+        cop_threshold_percentage: "Threshold as percentage for gaining a certificate, between 1 and 100. The global default is %{global_default}."
+        video: "Add course codes here to be considered for the smart video mode filtering."
+        show_on_stage: "If you choose to highlight this course on the channel stage, you <i>must provide stage visual and statement</i>."
+        stage_statement: "You can use a h1 headline ('# headline') to apply a statement title and a h3 headline ('### author') to indicate the statement's author. Do not use other markdown."
+        stage_visual_upload_id: "The visual must meet a minimum size of %{width}x%{height} px. Larger images will be resized and cropped to center."
+        welcome_mail: This message will be sent to newly enrolled participants via email. Leave empty if no mail should be sent.
+        invite_only: This disables enrollment self-service. To participate in such a course, learners have to be explicitly enrolled by course staff.
+        cop_enabled: Participants can earn a CoP by viewing / participating in course material.
+        roa_enabled: Signals successful course participation. Given to those who achieve a certain number of points.
+        proctored: Like a RoA, but with webcam-based Proctoring via SMOWL. A picture of the participant will be printed on the certificate PDF. These have to be booked by redeeming a voucher.
+        on_demand: Allows achieving a RoA after regular course runtime (when graded assignments are locked). Learners have to book this feature by redeeming a voucher.
+        records_released: Enable this when the course has ended, to let participants download their certificates.
+        show_syllabus: Show an overview of all published course content in the learning area.
+        enable_video_download: Let participants download video or audio versions of video items for offline consumption.
+        has_collab_space: Participants can create public or private Collab Spaces (learning rooms) to learn together, collaborate and share files.
+        pinboard_enabled: Completely disables the discussions feature for this course. Users won't be able to access any discussions. Discussion forums in Collab Spaces are not affected, if those are enabled.
+        forum_is_locked: Set the discussions to read-only. This is usually done after the course has ended.
+        visual_creation: After creating the course, you may add visuals in the course properties.
+      course_offer:
+        price: Enter the price in euros (comma-separated, i.e. ten euros and fifty cents as '10,50').
+      course_metadata:
+        skills:
+          'Upload a JSON file with skills metadata (array of skill objects) <a href="https://github.com/MOOChub/schema" target="_blank">compliant to the specification</a>.
+          Please note that the upload only allows a single file. A new upload will overwrite the existing skills metadata.'
+        educational_alignment:
+          'Upload a JSON file with educational alignments metadata (array of educational alignment objects) <a href="https://github.com/MOOChub/schema" target="_blank">compliant to the specification</a>.
+          Please note that the upload only allows a single file. A new upload will overwrite the existing educational alignments metadata.'
+        license:
+          'Upload a JSON file with license metadata (array of license objects) <a href="https://github.com/MOOChub/schema" target="_blank">compliant to the specification</a>.
+          Please note that the upload only allows a single file. A new upload will overwrite the existing license metadata.
+          A full list of licenses and exceptions you can find here: <a href="https://spdx.org/licenses/" target="_blank">SPDX License List</a>'
+      course_visual:
+        image: This image will be shown on all course lists. If you don't upload a teaser video, it will also appear on the course details page. For accessibility reasons, the image should not show any text.
+        video_stream_id: If you select a teaser video, it will be used on the course details page instead of the course image.
+        subtitles: "Either a WebVTT file containing subtitles or a ZIP archive with multiple WebVTT files. All WebVTT file names must end with a delimiter (either '_' or '-') followed by their two or three-letter language code (e.g., 'en' for English). Example: 'subtitles_en.vtt'."
+      lti_provider:
+        presentation_mode: "Note: Embedding (frame) will not work with all tools in all browsers. Please make sure that it works with the tool you've selected or use the 'window' option instead."
+        custom_fields: "Specific parameters used in accordance with the LTI standard. Refer to the tool's documentation for more details about the parameters available for use."
+        privacy_course_specific: Privacy cannot be changed at this level. Please contact your platform admin.
+      open_badge_template:
+        name: Overwrites global name
+        description: Overwrites global description
+      poll:
+        start_at: "Hint: You can only add answer options to a poll if it has not yet started."
+      xikolo_course_item:
+        end_date: Defining an end date will lock this item for all course participants when the date is reached.
+        start_date: Defining a start date will lock this item for all course participants until the date is reached.
+      xikolo_course_section:
+        end_date: Defining an end date will lock this section for all course participants when the date is reached.
+        start_date: Defining a start date will lock this section for all course participants until the date is reached.
+      video:
+        subtitles: "Either a WebVTT file containing subtitles or a ZIP archive with multiple WebVTT files. All WebVTT file names must end with a delimiter (either '_' or '-') followed by their two or three-letter language code (e.g., 'en' for English). Example: 'subtitles_en.vtt'."
+
+    placeholders:
+      announcement_email:
+        recipients: "Search by user name, user email, course title, or course code"
+        consents: "Select the required consents"
+      certificate_template:
+        dynamic_content: SVG to insert dynamic data into the certificate
+      classifier:
+        courses: Add courses
+      course:
+        abstract: "Enter short description"
+        description: "Enter full description"
+        teacher_ids: "Enter a teacher name"
+      course_visual:
+        video_stream_id: Choose a stream
+        subtitles: Drop file here or click to browse.
+      login:
+        email: E-Mail
+        password: Password
+      page:
+        text: "Enter contents here..."
+      voucher_redemption:
+        code: "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
+
+    prompts:
+      announcement:
+        audience: "All users"
+      lti_provider:
+        title: Warning
+        text: "If the provider is 'unprotected', personal data might be passed to third parties. If the LTI provider is operated by a third party, a separate data processing agreement might be required. Please, discuss this with your data protection officer before enabling."
+        confirm: Confirm
+        cancel: "Reset to 'anonymized'"
+
+  helpers:
+    submit:
+      create: Save
+      update: Save
+      announcement_email:
+        update: Send announcement email
+      announcement:
+        create: Create announcement
+        update: Update announcement
+      certificate_template:
+        create: Create template
+        update: Update template
+      channel:
+        create: Add channel
+        update: Update channel
+      classifier:
+        create: Create tag
+        update: Update tag
+        submit: Save course order
+      cluster:
+        update: Update category
+        submit: Save tag order
+      course:
+        create: Create course
+        update: Update course
+      course_metadata:
+        create: Update metadata
+      course_offer:
+        create: Create offer
+        update: Update offer
+      course_visual:
+        preview: Save and show course
+        update: Save
+      login:
+        submit: Connect account
+      objective:
+        create: Create Objective
+        update: Update Objective
+      open_badge_template:
+        create: Create template
+        update: Update template
+      poll:
+        create: Create new poll
+        update: Update poll
+      teacher:
+        create: Save information
+        update: Save information
+      video_provider:
+        create: Create Provider
+        update: Update Provider
+      voucher_redemption:
+        create: Redeem
+        update: Redeem # Re-rendering the form after create resolves the update key.
+      xikolo_course_item:
+        create: Create Item
+        update: Save item
+        preview: Save and show item
+      xikolo_course_section:
+        create: Create Section
+        update: Update Section
+      xikolo_collabspace_membership:
+        create: Create Membership
+      xikolo_lti_lti_provider:
+        create: Create Provider
+        update: Update Provider
+      xikolo_pinboard_answer:
+        create: Post reply #TODO: Find way to specify model name
+        update: Save changes
+      xikolo_pinboard_question:
+        update: Update Question
+      xikolo_quiz_answer:
+        create: Create Answer
+        update: Update Answer
+      xikolo_quiz_question:
+        create: Create Question
+        update: Update Question
+
+  errors:
+    attributes:
+      category:
+        not_supported: This is not a valid offer category.
+      certificate_type:
+        not_allowed: You cannot add a certificate template of this type.
+      description:
+        rtfile_unknown_ref: Referencing unknown files is not allowed.
+        rtfile_rejected: Your file upload has been rejected due to policy violations.
+        rtfile_exists: Your file upload could not be stored.
+        rtfile_unconfigured: Your file upload could not be stored.
+        rtfile_error: Your file upload could not be stored.
+      dynamic_content:
+        invalid_xml: The XML for the dynamic content is invalid.
+      email:
+        already_taken: The e-mail address you entered has already been registered.
+      end_at:
+        before_start_date: The end date must be after the start date.
+      hd_url:
+        one_required: At least one URL is required.
+      id:
+        invalid_format: Invalid format for the provided ID.
+        not_unique: The ID must be unique.
+      lecturer_stream_id:
+        one_required: At least one of these streams is required. Please add a pip, a lecturer or a slides stream.
+      password:
+        below_minimum_length: The password must have a minimum length of 8 characters.
+        maximum_length_reached: The password length must not exceed 72 characters.
+        password_contains_email: Your e-mail address must not be part of the password.
+      payment_frequency:
+        not_supported: This is not a valid payment frequency.
+      pip_stream_id:
+        one_required: At least one of these streams is required. Please add a pip, a lecturer or a slides stream.
+      price_currency:
+        not_supported: This currency is not supported.
+      reading_material_uri:
+        upload_error: Your file upload could not be stored.
+      sd_url:
+        one_required: At least one URL is required.
+      slides_uri:
+        upload_error: Your file upload could not be stored.
+      slides_stream_id:
+        one_required: At least one of these streams is required. Please add a pip, a lecturer or a slides stream.
+      subtitles:
+        language_missing: Missing language code in the WebVTT file name.
+      text:
+        blank: The text can't be blank.
+      transcript_uri:
+        upload_error: Your file upload could not be stored.
+      title:
+        invalid_format: Invalid format for the provided ID.
+        not_unique: The ID must be unique.
+
+    messages:
+      # xikolo-s3 errors for references in markup:
+      rtfile_unknown_ref: Referencing unknown files is not allowed.
+      rtfile_rejected: Your file upload has been rejected due to policy violations.
+      rtfile_exists: Your file upload could not be stored.
+      rtfile_unconfigured: Your file upload could not be stored.
+      rtfile_error: Your file upload could not be stored.
+
+      # xikolo-s3 errors around file uploads:
+      upload_error: Your file upload could not be stored.
+      upload_rejected: Your file upload has been rejected due to policy violations.
+
+      # type violations:
+      no_uri: No valid URI
+      no_url: No valid URL
+      no_uuid: No valid UUID string
+      single_line_string: Multiline strings are now allowed.
+
+      announcement_email:
+        recipients:
+          invalid: At least one of the provided recipients is invalid. Please adhere to the described schema.
+      announcement:
+        base:
+          translation_title_text: Both the title and text are required for translations.
+      certificate_templates:
+        missing_fonts: "Font/s not supported: %{missing_fonts}. Supported fonts are %{configured_fonts}."
+      channel:
+        info_link_label:
+          required: Please provide a label for the corresponding info link URL.
+      course:
+        classifiers:
+          invalid_format: "One of the course tags (IDs) does not fulfill the format requirements. Allowed characters for tag IDs: a-z, A-Z, 0-9, -, whitespace."
+          not_unique: One of the course tags (IDs) already exists. Please note that tag IDs are not case sensitive.
+        status:
+          invalid: "%{value} is not a valid course state."
+      item:
+        base:
+          section_required: The item must be created for a section.
+          could_not_be_created: The item could not be created for some reason. Please try again.
+        exercise_type:
+          required_when_quiz: You must choose an exercise type for quiz items.
+        max_points:
+          invalid_format: Points must be positive.
+        submission_deadline:
+          required_when_proctored: You must provide a submission deadline for proctored items.
+        title:
+          "can't be blank": The item title must not be blank.
+      topic:
+        base:
+          not_created: The topic could not be created. Please try again.

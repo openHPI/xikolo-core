@@ -1,0 +1,328 @@
+/*------------------------------------*\
+    $CONTENTS
+
+    Course quiz component styles.
+\*------------------------------------*/
+/**
+ * Variables.............Variable declarations and overrides
+ * Quiz-Base.............Basic styles for quizzes
+ * Quiz-Sidebar..........Sidebar element for quizzes
+ * Quiz-Questions........Styles for quiz question types
+ * Quiz-Properties.......Properties of quizzes on intro page
+ */
+
+/*------------------------------------*\
+    $Variables
+\*------------------------------------*/
+$xi-quiz-main-background-color: $white !default;
+
+/*------------------------------------*\
+    $Quiz-Base
+\*------------------------------------*/
+.quiz-content {
+  padding: 10px 15px;
+  // Quiz main container
+  background-color: $xi-quiz-main-background-color;
+  @include heavy-bar($color: $gray-250);
+
+  @media (max-width: $screen-md) {
+    padding-top: 5px;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid $gray-50;
+    vertical-align: unset;
+  }
+}
+
+/*------------------------------------*\
+    $Quiz-Questions
+\*------------------------------------*/
+.quiz-question {
+  padding: 10px 0 10px 0;
+  border-top: 1px solid $gray-100;
+
+  .question-info {
+    margin-bottom: 15px;
+    font-size: 0.9em;
+  }
+
+  .question {
+    padding: 5px;
+    background-color: $xi-quiz-main-background-color !important;
+    color: $black !important;
+  }
+
+  .question-content {
+    padding: 10px 5px;
+    background-color: $xi-quiz-main-background-color;
+  }
+
+  .question-content,
+  .quiz-answer {
+    td,
+    th {
+      padding: 2px;
+      margin: 2px;
+    }
+
+    th {
+      font-weight: bold;
+    }
+
+    tr {
+      border-bottom: 1px solid black;
+    }
+
+    thead tr {
+      border-bottom: 2px solid black !important;
+    }
+
+    tr:last-child {
+      border: none;
+    }
+
+    tbody tr:last-child {
+      border: none !important;
+    }
+  }
+
+  .quiz-answer {
+    position: relative;
+
+    // -----------> IMPORTANT: Additional elements used in the richtext must also have special treatment here!
+    p,
+    span,
+    ol,
+    ul {
+      position: relative;
+      z-index: 500;
+      display: inline-block;
+      padding-right: 10px;
+      margin-bottom: 0px;
+      background-color: $xi-quiz-main-background-color;
+    }
+
+    p {
+      width: 100%;
+    }
+
+    ol,
+    ul {
+      padding-left: 20px;
+    }
+
+    pre {
+      position: relative;
+      z-index: 500;
+    }
+
+    // <---------
+
+    &.show-solution {
+      padding-right: 100px;
+      margin-right: -15px; // Negate right offset
+    }
+
+    .ribbon-horizontal-right {
+      right: -18px;
+    }
+  }
+}
+
+.quiz-question-correct {
+  @extend .quiz-question;
+  border-color: $quiz-color-correct;
+  border-left-color: $quiz-color-correct;
+}
+
+.quiz-question-incorrect {
+  @extend .quiz-question;
+  border-color: $quiz-color-incorrect;
+  border-left-color: $quiz-color-incorrect;
+}
+
+.quiz-question-partial {
+  @extend .quiz-question;
+  border-color: $quiz-color-partial;
+  border-left-color: $quiz-color-partial;
+}
+
+.quiz-indicator-line {
+  position: absolute;
+  z-index: 400;
+  top: 50%;
+  right: 0px;
+  left: 40px;
+  border-top: 2px solid;
+  margin-top: -1px;
+
+  &.wrong {
+    border-color: $error-500;
+  }
+
+  &.correct {
+    border-color: $success-500;
+  }
+
+  &.unselected {
+    border-color: $gray;
+  }
+}
+
+#quiz-state-indicators a {
+  padding-top: 2px;
+  border-radius: 2px;
+  background-color: $gray-600;
+  color: white;
+  line-height: 130%;
+  text-align: center;
+  text-decoration: none;
+
+  &.edited {
+    background-color: $gray-100;
+  }
+}
+
+/*------------------------------------*\
+    $Quiz-Properties
+\*------------------------------------*/
+
+.quiz-properties {
+  padding: 0px;
+  list-style-type: none;
+
+  li {
+    display: inline-block;
+    margin-right: 15px;
+  }
+}
+
+ul#submission-list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+
+  li {
+    padding: 0;
+  }
+
+  li.active a {
+    color: grey;
+  }
+}
+
+.quiz-sidebar {
+  background-color: $xi-quiz-main-background-color;
+}
+
+.quiz-sidebar-content {
+  padding: 15px;
+  padding-top: 5px;
+}
+
+.quiz-sidebar-meter {
+  display: flex;
+  justify-content: center;
+}
+
+.quiz-sidebar.affix {
+  /* position: fixed; already applied in .affix */
+  top: 80px;
+  /* might also need e.g. width: 300px; as position: fixed; removes the element from its parent. */
+}
+
+.quiz-sidebar.affix-bottom {
+  /* Start scrolling again. */
+  position: absolute;
+  /* Override the top position above. */
+  top: auto;
+  /* It should stop near the bottom of its parent. */
+  bottom: 20px;
+}
+
+.warning-autosave {
+  padding: 10px;
+  margin: 10px 0px;
+  background-color: $error-600;
+  color: $white;
+}
+
+.proctoring-intro {
+  &__callout {
+    margin-top: 40px;
+  }
+
+  &__btn {
+    margin: 15px 0;
+  }
+
+  &__info .xi-icon {
+    margin-right: 5px;
+  }
+}
+
+/*------------------------------------*\
+    Reset font width
+\*------------------------------------*/
+.checkbox,
+.radio {
+  label {
+    font-weight: normal;
+  }
+}
+
+#quiz_questions {
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/*------------------------------------*\
+   $Confirm Preview Container
+\*------------------------------------*/
+
+#preview_container {
+  .updated_record {
+    padding-right: 3px;
+    padding-left: 3px;
+    background-color: #fd8;
+  }
+
+  #quizzes_preview_table {
+    width: 980px;
+    table-layout: fixed;
+
+    th,
+    td {
+      overflow: hidden;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    th.fixed_width_100 {
+      width: 100px;
+    }
+  }
+
+  .legend {
+    font-size: 80%;
+  }
+}
+
+/*------------------------------------*\
+   $Confirm Sweet Alert customization
+\*------------------------------------*/
+
+.sweet-alert {
+  .error_list {
+    font-size: 15px;
+
+    li {
+      text-align: left;
+    }
+  }
+}

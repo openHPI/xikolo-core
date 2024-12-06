@@ -1,0 +1,12 @@
+# Ignore generate assets and bundles
+public/assets/
+
+# Ignore legacy assets
+app/assets/javascripts
+app/assets/stylesheets
+
+# Ignore third-party code
+node_modules/
+vendor/
+
+!.eslintrc.js

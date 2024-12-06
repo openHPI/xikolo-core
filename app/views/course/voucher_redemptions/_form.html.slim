@@ -1,0 +1,4 @@
+= simple_form_for(form, url: course_redeem_voucher_path, method: :post, wrapper: :compact, html: {class: 'voucher-redemptions__form'}) do |f|
+  = f.error_notification
+  = f.input :code
+  = f.submit class: 'btn btn-primary'

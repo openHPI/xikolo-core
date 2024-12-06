@@ -1,0 +1,21 @@
+- content_for :main
+  .container
+    .row
+      / Dashboard sub-navigation
+      .col-md-12.dashboard_nav_wrapper
+        = render Dashboard::Navigation.new(user: current_user)
+
+    .row
+      - if content_for? :sidebar
+        / Content
+        .col-md-9
+          = yield
+
+        / Sidebar
+        .col-md-3
+          = yield :sidebar
+      - else
+        .col-md-12
+          = yield
+
+= render template: 'layouts/application'

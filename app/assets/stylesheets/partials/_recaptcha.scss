@@ -1,0 +1,22 @@
+.recaptcha-hint {
+  margin-bottom: 10px;
+  color: $primary-color;
+}
+
+.g-recaptcha {
+  margin-bottom: 20px;
+}
+
+// Force the reCAPCHA badge to appear to the bottom-left corner to avoid
+// overlapping with the helpdesk button.
+// Ref: https://github.com/ambethia/recaptcha/issues/359
+.grecaptcha-badge {
+  left: 4px !important;
+  overflow: hidden !important;
+  width: 70px !important;
+  transition: all 0.3s ease !important;
+}
+
+.grecaptcha-badge:hover {
+  width: 256px !important;
+}

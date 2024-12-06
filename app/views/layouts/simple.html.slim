@@ -1,0 +1,69 @@
+doctype 5
+html lang="#{I18n.locale}"
+  head
+    meta charset="utf-8"
+    meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+
+    = csrf_meta_tags
+    = display_meta_tags
+
+    /
+    / Deprecated: Include GON for passing information to JavaScript
+    / - Needed for the lanalytics plugin
+    /
+    = include_gon(init: true)
+
+    /
+    / Tools, Applications and Icons
+    /
+
+    link href=image_path('favicon.ico') rel="shortcut icon" type="image/x-icon"
+
+    /
+    / Primary web assets
+    /
+
+    = stylesheet_link_tag 'bootstrap', media: 'all', crossorigin: 'anonymous', integrity: true
+    = stylesheet_link_tag 'fontawesome', media: 'all', crossorigin: 'anonymous', integrity: true
+    = stylesheet_link_tag 'styles', media: 'all', crossorigin: 'anonymous', integrity: true
+
+    = javascript_include_tag 'runtime', crossorigin: 'anonymous', integrity: true, async: true, debug: false
+    = javascript_include_tag 'main', crossorigin: 'anonymous', integrity: true, async: true, debug: false
+
+    = javascript_include_tag 'application', crossorigin: 'anonymous', integrity: !Rails.env.development?
+    = javascript_include_tag 'lanalytics-framework', crossorigin: 'anonymous', integrity: true
+    = javascript_include_tag "xikolo-locale-#{I18n.locale}", crossorigin: 'anonymous', integrity: !Rails.env.development?
+
+    - if content_for? :head_assets
+      = yield :head_assets
+
+    /
+    / Deprecated: Inline JavaScript adjustments
+    /
+
+    javascript:
+      I18n.defaultLocale = "#{I18n.default_locale}";
+      I18n.locale = "#{I18n.locale}";
+      I18n.brand = "#{Xikolo.config.brand}";
+
+  body class="#{Xikolo.config.brand} layout-simple"
+
+    / Flash messages
+    = render Global::FlashBlock.new(flash.tap(&:discard))
+
+    = render Navigation::Bar.new(user: current_user)
+
+    .wrapper
+      .layout-simple__container
+        = yield
+      .push.clearfix
+
+    = render Footer::Main.new
+
+    - if content_for? :helpdesk_widget
+      = yield :helpdesk_widget
+    - else
+      = render Global::HelpdeskButton.new(user: current_user)
+
+    = render 'shared/piwik'
+    = render Global::CookieConsentBanner.new

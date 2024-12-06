@@ -1,0 +1,177 @@
+/*-------------------------------------*\
+    $CONTENTS
+
+    Custom form controls
+\*-------------------------------------*/
+/**
+ * Toggle-Switch..................iOS 8-style slider switch
+ * Custom-Radio-Checkbox..........custom form input for radio button and checkbox
+ */
+
+/*------------------------------------*\
+    $Toggle-Switch
+    Inspired by https://codepen.io/aorcsik/pen/OPMyQp
+\*------------------------------------*/
+@mixin toggle-switch($x: 8) {
+  position: absolute;
+  visibility: hidden;
+  + label {
+    position: relative;
+    height: $x * 3 + px;
+    &:before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: block;
+      width: $x * 5 + px;
+      height: $x * 3 + px;
+      border: 1px solid $gray-250;
+      border-radius: $x * 2 + px;
+      background: $gray;
+      content: "";
+      -webkit-transition: all 0.3s;
+      transition: all 0.3s;
+    }
+  }
+  + label {
+    &:after {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      display: block;
+      width: $x * 3 + px;
+      height: $x * 3 + px;
+      border: 1px solid $gray-250;
+      border-radius: $x * 2 + px;
+      background: #fff;
+      content: "";
+      -webkit-transition: all 0.3s;
+      transition: all 0.3s;
+    }
+    &:hover:after {
+      box-shadow: $box-shadow-xs;
+    }
+  }
+  &:checked + label {
+    &:after {
+      margin-left: $x * 2 + px;
+    }
+    &:before {
+      background: $primary-color;
+    }
+  }
+  &:disabled + label:before {
+    background-color: $white;
+  }
+}
+
+input[type="checkbox"] {
+  &.toggle-switch {
+    margin: 8px 0 0 16px;
+    @include toggle-switch;
+    + label {
+      padding: 5px 0 0 50px;
+      line-height: 2em;
+    }
+  }
+
+  &.toggle-switch-sm {
+    margin: 5px 0 0 10px;
+    @include toggle-switch(5);
+    + label {
+      padding: 0 0 0 32px;
+      line-height: 1.3em;
+      &:hover:after {
+        box-shadow: $box-shadow-xs;
+      }
+    }
+  }
+
+  &.toggle-switch-lg {
+    margin: 10px 0 0 20px;
+    @include toggle-switch(10);
+    + label {
+      padding: 7px 0 0 60px;
+      line-height: 2.3em;
+      &:hover:after {
+        box-shadow: $box-shadow-xs;
+      }
+    }
+  }
+}
+
+/*------------------------------------*\
+    Custom-Radio-Checkbox
+    Inspired by https://codepen.io/manabox/pen/raQmpL
+\*------------------------------------*/
+@mixin custom-button-inputs() {
+  [type="radio"],
+  [type="checkbox"] {
+    position: absolute;
+    left: -9999px;
+
+    & + label {
+      position: relative;
+      display: inline-block;
+      padding-left: 28px;
+      color: #666;
+      cursor: pointer;
+      line-height: 20px;
+    }
+
+    & + label:before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 18px;
+      height: 18px;
+      border: 1px solid $gray-600;
+      background: #fff;
+      content: "";
+    }
+
+    &:focus + label:before {
+      border-color: $primary-color;
+    }
+
+    & + label:after {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 12px;
+      height: 12px;
+      background: $tertiary-color;
+      content: "";
+      transition: all 0.2s ease;
+    }
+
+    &:checked + label:after {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    &:not(:checked) + label:after {
+      opacity: 0;
+      transform: scale(0);
+    }
+
+    &:disabled + label {
+      color: $gray;
+      cursor: default;
+
+      &:before {
+        border-color: $gray;
+      }
+    }
+  }
+
+  [type="radio"] {
+    & + label:before {
+      border-radius: 100%;
+    }
+
+    & + label:after {
+      border-radius: 100%;
+    }
+  }
+}

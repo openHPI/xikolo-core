@@ -1,0 +1,121 @@
+#quiz-sidebar-wrapper.full-width
+  .quiz-sidebar#quiz-sidebar
+    .quiz-sidebar-content
+      - if submission.enable_proctoring_iframes?
+        .bar-title
+          h3 = t(:'quiz_submission.proctoring.sidebar_title')
+        .bar-content
+          - if current_user.instrumented?
+            = render Global::Callout.new(t(:'quiz_submission.proctoring.instrumented_info'), type: :warning)
+          - else
+            .smowl_in_quiz_iframe
+              iframe src=submission.proctoring_cam_iframe allow="microphone; camera" sandbox="allow-top-navigation allow-scripts allow-modals allow-same-origin" width="200" height="260" frameborder="0" allowfullscreen=true scrolling="no"
+
+      .bar-title
+        h3 = t(:'quiz_submission.quiz_sidebar_title')
+
+      .bar-content
+        em = t(:'quiz_submission.question_count', count: @quiz.questions.size)
+        .mt5
+          strong = t(:'quiz_submission.max_quiz_points', max_points: @quiz.max_points.round(2))
+
+        hr.divider.light
+
+        #quiz-state-indicators
+          - @quiz.questions.each_with_index do |question, i|
+            a.answer-state-indicator id="#{question.id}_indicator" href="#anchor_#{question.id}"
+              = i + 1
+          hr.divider.light
+
+        - if @quiz.current_unlimited_time
+          p = t(:'quiz_submission.unlimited_time')
+        - else
+          = render Course::Countdown.new(@counter_end_timediff, total_secs: @quiz.current_time_limit_seconds, form: '#quiz_form')
+
+        hr.divider.light
+          .mb5
+            em => t(:'quiz_submission.last_saved')
+            em id='quiz-auto-save'
+              - if @submission_snapshot.nil?
+                abbr.last_saved
+              - else
+                abbr.last_saved title=@submission_snapshot.updated_at data-ts=@submission_snapshot.updated_at
+                  = render Util::RelativeTimeTag.new(DateTime.iso8601(@submission_snapshot.updated_at))
+            .warning-autosave.hide
+              = t(:'quiz_submission.autosave_warning')
+          .mb5
+            em = t(:'quiz_submission.times_taken', count: @item_presenter.attempts)
+
+javascript:
+  var safariFix;
+
+  $(function() {
+    $('#quiz_form input , #quiz_form select , #quiz_form textarea').change(function(evt) {
+      var indicator_selector, quiz_question, target;
+      target = window.event ? event.srcElement : evt.currentTarget;
+      quiz_question = $(target).closest('.quiz-question');
+      indicator_selector = '#' + quiz_question.attr('id') + '_indicator';
+      if (quiz_question.find('input[type=text], textarea').size() > 0) {
+        return;
+      }
+      if (quiz_question.find('input:checked').size() > 0) {
+        return $(indicator_selector, '#quiz-state-indicators').addClass('edited');
+      } else {
+        return $(indicator_selector, '#quiz-state-indicators').removeClass('edited');
+      }
+    });
+    $('#quiz_form input , #quiz_form textarea').on('input', function(evt) {
+      var indicator_selector, quiz_question, target;
+      target = window.event ? event.srcElement : evt.currentTarget;
+      quiz_question = $(target).closest('.quiz-question');
+      indicator_selector = '#' + quiz_question.attr('id') + '_indicator';
+      if (quiz_question.find('input, textarea').val().length > 0) {
+        return $(indicator_selector, '#quiz-state-indicators').addClass('edited');
+      } else {
+        return $(indicator_selector, '#quiz-state-indicators').removeClass('edited');
+      }
+    });
+    $(".quiz-sidebar").width($(".quiz-sidebar").parent().width());
+    $(window).resize(function() {
+      return $(".quiz-sidebar").width($(".quiz-sidebar").parent().width());
+    });
+    $(".quiz-sidebar").affix({
+      offset: {
+        top: function() {
+          return $("#quiz-sidebar-wrapper").offset().top - 80;
+        },
+        bottom: function() {
+          return $(".wrapper").offset().bottom;
+        }
+      }
+    });
+  });
+
+  safariFix = function(elemId) {
+    var explicitlySetAffixPosition, stickywidget;
+    if (navigator.userAgent.indexOf('Safari') === -1) {
+      return;
+    }
+    if (navigator.userAgent.indexOf('Chrome') !== -1) {
+      return;
+    }
+    stickywidget = $(elemId);
+    explicitlySetAffixPosition = function() {
+      return stickywidget.css('left', stickywidget.offset().left + 'px');
+    };
+    stickywidget.on('affix.bs.affix', function() {
+      return explicitlySetAffixPosition();
+    });
+    return $(window).resize(function() {
+      if (!stickywidget.hasClass('affix')) {
+        return;
+      }
+      stickywidget.removeClass('affix');
+      explicitlySetAffixPosition();
+      return stickywidget.addClass('affix');
+    });
+  };
+
+  $(window).on('load', function() {
+    return safariFix("#quiz-sidebar");
+  });

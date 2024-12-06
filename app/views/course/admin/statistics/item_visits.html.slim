@@ -1,0 +1,24 @@
+- content_for :head_assets
+  = javascript_include_tag 'course-admin'
+  = javascript_include_tag 'teacher', crossorigin: 'anonymous', integrity: true, async: true, debug: false
+
+- content_for :course_area_header
+  = render Global::PageHeader.new("#{t(:'admin.statistics.item_visits.title')} - #{course_layout.title}",
+    subtitle: t(:'course.admin.page_header'),
+    type: :slim) do |c|
+      - c.with_pill(t(:"items.show.coursestate.#{course_layout.fullstate}"), size: :small, color: :note)
+      = render(partial: 'course/shared/course_admin_action', locals: {course: course_layout, in_teacher_context: true})
+
+.container.white-bg.statistics-page[
+  data-lanalytics-visit='course_statistics'
+  data-lanalytics-resource="#{ {type: 'course', uuid: @course['id']}.to_json }"
+  data-lanalytics-context="#{ {component: 'item_visits'}.to_json }"
+]
+  .row
+    .col-md-12
+      = render Global::HeadlineTooltip.new(t(:'admin.statistics.item_visits.per_item_title'), t(:'admin.statistics.tooltip.position_column'), level: 3)
+      = render partial: 'shared/statistics_table', locals: {id: 'top-items-table', attr: {'data-course-id': @course['id'], 'data-course-code': @course['course_code']}}
+
+    .col-md-12
+      h3 = t(:'admin.statistics.item_visits.per_type_title')
+      = render partial: 'shared/statistics_table', locals: {id: 'top-types-table', attr: {'data-course-id': @course['id']}}

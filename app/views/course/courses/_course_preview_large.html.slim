@@ -1,0 +1,93 @@
+.col-md-12.course-item-large
+  .col-md-6.course-video
+    - if course.video && course.video.player.present?
+      = render course.video.player
+      - if course.visual?
+        link href=Imagecrop.transform(course.visual_url, width: 550)
+    - else
+      = render Course::CourseVisual.new(course.visual_url, width: 550, alt_text: course.title, css_classes: 'full-width')
+  .col-md-6.course-info
+    - if course.show_social_media_buttons?
+      = render 'shared/social_sharing', social_sharing:, services: %w[facebook twitter mail]
+
+    .row
+      .col-md-12.course-description.mt20 lang=course.lang
+        == course.abstract_html
+
+    .row
+      .col-md-12.course-shortinfo
+        - if course.date_label.present?
+          span.shortinfo
+            = render Global::FaIcon.new('calendar-range', css_classes: 'vmiddle em1-5 fa-fw')
+            span.ml5.vmiddle
+              = course.date_label
+          br
+        span.shortinfo
+          = render Global::FaIcon.new('globe', css_classes: 'vmiddle em1-5 fa-fw')
+          span.ml5.vmiddle
+            = t(:'course.courses.show.language')
+            ':
+            = t(:"languages.name.#{course.lang}")
+
+        - if course.subtitles_info.present?
+          br
+          span.shortinfo
+            = render Global::FaIcon.new('closed-captioning', css_classes: 'vmiddle em1-5 fa-fw')
+            span.ml5.vmiddle
+              = course.subtitles_info
+
+        - if course.public_classifiers_string.present?
+          br
+          span.shortinfo
+            = render Global::FaIcon.new('hashtag', css_classes: 'vmiddle em1-5 fa-fw')
+            span.ml5.vmiddle = course.public_classifiers_string
+        - if course.proctoring_enabled?
+          br
+          span.shortinfo.on-proctoring-track
+            = render Global::FaIcon.new('medal', css_classes: 'vmiddle em1-5 fa-fw')
+            span.ml5.vmiddle
+              = t(:'courses.preview.proctoring.booked')
+              - if course.show_smowl_registration_notice?
+                =< link_to t(:'courses.preview.proctoring.register_with_smowl'), proctoring_registration_details_path(course_id: course.course_code)
+        - elsif course.show_proctoring_impossible_message?
+          br
+          span.shortinfo
+            = render Global::FaIcon.new('medal', css_classes: 'vmiddle em1-5 fa-fw')
+            span.ml5.vmiddle
+              = t(:'courses.preview.proctoring.upgrade_not_possible')
+    .row
+      .col-md-12.course-actions.hidden_in_app
+        - if course.external?
+          = link_to course.external_course_url, class: 'course-action-button course-action-external btn-external-course mr10', target: '_blank', rel: 'noopener' do
+            = t(:'courses.preview.button_goto_external')
+        - elsif course.enrolled?
+          - if (!course.access_allowed? || course.external?) && !course.fullstate.nil?
+            = link_to course_resume_path(course), class: 'course-action-button course-action-resume disabled mr10'
+              = t(:"items.show.coursestate.#{course.fullstate}")
+          - else
+            = link_to course_resume_path(course), class: 'course-action-button course-action-resume mr10' do
+              = t(:'courses.preview.button_enter')
+          - if course.unenrollment_enabled?
+            = link_to enrollment_path(course.enrollment_id), method: 'delete', class: 'course-action-button course-action-quit mr10' do
+              = t(:'courses.preview.button_quit')
+        - elsif course.external_registration_url?
+          = link_to t(:'course.courses.show.button_register'), course.external_registration_url, class: 'course-action-button course-action-enroll mr10', target: '_blank', rel: 'noopener'
+        - elsif !course.invite_only?
+          - if course.enrollment_policy?
+            = link_to '#', data: {toggle: 'modal', target: '#enrollmentPolicyModal', 'course-code' => course.course_code, 'course-title' => course.title, 'policy-url' => course.enrollment_policy_url}, class: 'course-action-button course-action-enroll mr10' do
+              = t(:'courses.preview.button_enroll')
+          - else
+            = link_to enrollments_path(course_id: course.course_code), method: :get, data: {behavior: 'disable-after-click'}, class: 'course-action-button course-action-enroll mr10' do
+              = t(:'courses.preview.button_enroll')
+        - if course.reactivate?
+          = link_to course_redeem_voucher_path(course_id: course.course_code, product: 'course_reactivation'), class: 'course-action-button course-action-reactivate mr10' do
+            = t(:'courses.preview.button_reactivate_course')
+        - if course.upgrade_proctoring?
+          - if course.proctoring_upgrade_possible?
+            = link_to course_redeem_voucher_path(course_id: course.course_code, product: 'proctoring_smowl'), class: 'course-action-button course-action-proctoring' do
+              = t(:'proctoring.book_certificate')
+          - else
+            a class='course-action-button course-action-proctoring inactive'
+              = t(:'proctoring.book_certificate')
+        - if course.enrolled? && !course.unenrollment_enabled?
+          p.mt10 = t(:'courses.preview.unenrollment_disabled')

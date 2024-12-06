@@ -1,0 +1,25 @@
+- disabled_class = ((defined? is_disabled) && is_disabled) ? 'disabled' : ''
+.mt30
+table.table.table-striped.table-condensed.table-hover class="#{'hidden' if (files.empty? && disabled_class =='')}"
+  thead
+    tr
+      th = t(:'peer_assessment.files.filename')
+      th
+      th = t(:'peer_assessment.files.size')
+      th
+  tbody
+    - files.each do |file|
+      tr
+        td = file['name']
+        td = I18n.l Time.parse(file['created_at']), format: :long
+        td
+          - if file['size']
+            = number_to_human_size(file['size'])
+        td
+          => link_to(t(:'peer_assessment.files.download_button'), file['download_url'], class: 'btn btn-primary btn-xs', target: :blank)
+          - if deletable
+            - delete_path ||= remove_file_peer_assessment_step_submission_path(@assessment.id, @current_step.id)
+            = form_tag(delete_path, method: 'delete', multipart: true, class: 'inline-block js-delete-file', data: { confirm_title: t(:'peer_assessment.submission.delete_file_message'), confirm_text: t(:'peer_assessment.files.delete_subtitle') }) do
+              = hidden_field_tag 'file_id', file['id']
+              = hidden_field_tag 'peer_assessment_id', @assessment.id
+              = button_tag(t(:'peer_assessment.submission.delete_file'), class: "btn btn-xs btn-danger #{disabled_class}", disabled: disabled_class == 'disabled' ? true : nil)

@@ -1,0 +1,33 @@
+# Ignore auto-generated files and directories:
+/.vscode/
+**/public/assets/
+*.lock
+
+# These can appear in services too, so ignore them in all places:
+coverage/
+doc/
+
+# Ignore vendored assets:
+/node_modules/
+/public/js/
+/vendor/
+
+# Ignore temp directories:
+tmp/
+
+# The entries file contains a specific formatting with quotation marks in
+# strings to ease reading:
+config/assets/entries.js
+
+# Bridge API Docs are auto-generated using Stoplight Studio.
+/docs/bridges/**/*
+
+# Frontend files in our custom gems are likely only needed for tests.
+gems/
+
+# Ignore markdown: Prettier isn't able to understand all advanced markdown
+# extensions, such as abbreviations, nested lists, etc.
+*.md
+
+# FontAwesome sources
+app/assets/fontawesome-pro

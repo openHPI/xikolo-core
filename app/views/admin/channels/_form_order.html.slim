@@ -1,0 +1,7 @@
+- content_for :head_assets
+  = javascript_include_tag 'admin', crossorigin: 'anonymous', integrity: true, async: true, debug: false
+
+= simple_form_for(:channels) do |f|
+  = render Form::DynamicSortableList.new(channels.channels_order_select, name: 'positions[]')
+  = f.submit t(:'admin.channels.form.label.submit'), class: 'btn btn-primary'
+  = link_to t(:'global.cancel'), :back, class: 'btn btn-default ml10'

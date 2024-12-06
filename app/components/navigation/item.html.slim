@@ -1,0 +1,39 @@
+li class=css_classes data-test=item_type aria-label=tooltip data-tooltip=tooltip
+  - if menu?
+    button class=action_css_classes data-behaviour='dropdown' aria-haspopup='true' type='button' aria-expanded='false' aria-controls=aria_controls title=aria_label aria-label=aria_label aria-description=aria_description lang=@lang
+      - if icon?
+        span.navigation-item__icon
+          = render Global::FaIcon.new(@icon[:code])
+      - if @text.present?
+        span.navigation-item__text
+          = @text
+      - if controls?
+        span.navigation-item__control.navigation-item__control--on-expanded
+          = render Global::FaIcon.new('chevron-down')
+        span.navigation-item__control.navigation-item__control--on-collapsed
+          = render Global::FaIcon.new('chevron-up')
+
+    ul.navigation-item__menu id=aria_controls data-behaviour='menu-dropdown'
+      - items.each do |item|
+        = item
+
+  - else
+    - if @link.present?
+      = link_to @link[:href], target: @link[:target], rel: rel, class: action_css_classes,
+        'aria-current': aria_current, title: aria_label, 'aria-label': aria_label, 'aria-description': aria_description,
+        lang: @lang
+        - if icon?
+          .navigation-item__icon
+            = render Global::FaIcon.new(icon_code)
+        - if @text.present?
+          .navigation-item__text
+            = @text
+    - else
+      div class=action_css_classes lang=@lang
+        - if icon?
+          .navigation-item__icon
+            = render Global::FaIcon.new(icon_code)
+        - if @text.present?
+          .navigation-item__text
+            = @text
+  = content

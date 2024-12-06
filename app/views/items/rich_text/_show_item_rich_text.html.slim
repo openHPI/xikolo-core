@@ -1,0 +1,9 @@
+.col-md-12
+  .course-area-main data-lanalytics-context={course_id: item.course_id}.to_json
+    = render 'items/header', item: item
+
+    .RichTextItem-Content.RenderedMarkdown lang=item.lang
+      == item.text_html
+
+    div data-lanalytics-resource={type: 'rich_text', uuid: item.id}.to_json
+      = render 'seq_navigation', position:

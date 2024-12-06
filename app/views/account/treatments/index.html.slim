@@ -1,0 +1,27 @@
+.col-md-6.col-md-offset-3
+  = form_for :treatments, url: consent_treatments_path, method: :post do |f|
+    - if @required_consents.any?
+      h2
+        = t(:'account.treatments.index.mandatory.headline')
+      .login-box.mb30
+        .row
+          .col-sm-2.large-icon
+            = render Global::FaIcon.new('file-lines')
+          .col-sm-10
+            p
+              = t(:'account.treatments.index.mandatory.instructions')
+              = render 'account/shared/required_consent', consents: @required_consents
+    - if @consents.any?
+      h2
+        = t(:'account.treatments.index.optional.headline')
+      .login-box.mb30
+        .row
+          .col-sm-2.large-icon
+            = render Global::FaIcon.new('file-contract')
+          .col-sm-10
+            p
+              = t(:'account.treatments.index.optional.instructions')
+              = render 'account/shared/consent', consents: @consents
+    div
+      = hidden_field_tag 'treatments', @consents.concat(@required_consents).map(&:name).join(',')
+      = f.submit t(:'account.treatments.index.label.submit'), id: 'submit', class: 'btn btn-primary'

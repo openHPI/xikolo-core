@@ -1,0 +1,18 @@
+- content_for :head_assets
+  = javascript_include_tag 'admin', crossorigin: 'anonymous', integrity: true, async: true, debug: false
+
+= simple_form_for(teacher, url: {action: teacher.persisted? ? :update : :create}) do |f|
+
+  = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
+  = f.hidden_field :user_id, value: params[:user_id] if params[:user_id].present?
+  = f.input :name
+  .hidden data-behavior='remove-on-save-hint'
+    = render Global::Callout.new(t(:'simple_form.upload_remove_hint'))
+  = f.input :picture, as: :image_upload
+
+  = render Global::Callout.new(t(:'admin.teachers.form.description_explanation'))
+
+  - Xikolo.config.locales['available'].each do |locale|
+    = f.input :"description_#{locale}", label: t(:'admin.teachers.form.description_label', language: t(:"languages.title.#{locale}"))
+
+  = f.button :submit

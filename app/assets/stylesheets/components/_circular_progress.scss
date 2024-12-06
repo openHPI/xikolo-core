@@ -1,0 +1,27 @@
+.circular-progress {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+
+  background: radial-gradient(closest-side, white 79%, transparent 80% 100%),
+    conic-gradient($success-500 var(--circular-progress-value), $gray-50 0);
+
+  &__label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-weight: bold;
+    transform: translate(-50%, -50%);
+    @include font-m;
+  }
+
+  &--small {
+    width: 100px;
+    height: 100px;
+
+    .circular-progress__label {
+      @include font-sm;
+    }
+  }
+}

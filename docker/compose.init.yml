@@ -1,0 +1,50 @@
+---
+include:
+  - path: compose.background.yml
+
+services:
+  init-database:
+    image: xikolo-web:latest
+    command: migrate
+    build:
+      context: ..
+      dockerfile: docker/files/web.Dockerfile
+    env_file:
+      - .env
+    networks:
+      - xikolo
+    volumes:
+      - ./config/xikolo.yml:/app/config/xikolo.yml:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      redis-cache:
+        condition: service_healthy
+      redis-sidekiq:
+        condition: service_healthy
+
+  init-permissions:
+    image: xikolo-account:latest
+    command: rake permissions:load
+    build:
+      context: ..
+      dockerfile: docker/files/account.Dockerfile
+    env_file:
+      - .env
+    networks:
+      - xikolo
+    volumes:
+      - ./config/xikolo.yml:/app/config/xikolo.yml:ro
+    depends_on:
+      init-database:
+        condition: service_completed_successfully
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      redis-cache:
+        condition: service_healthy
+      redis-sidekiq:
+        condition: service_healthy

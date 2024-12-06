@@ -1,0 +1,51 @@
+.featured-course {
+  display: none;
+
+  @include screen-size-sm-and-up {
+    display: grid;
+
+    height: 350px;
+    padding-bottom: 0;
+    margin: 20px 0;
+    gap: 30px;
+    grid-template-columns: 0.5fr 0.5fr;
+
+    &__image {
+      width: 100%;
+      height: 350px;
+      margin: 0;
+      object-fit: cover;
+    }
+
+    &__heading {
+      display: inline-block;
+
+      margin: 30px 0 10px;
+      color: $gray-800;
+      @include font-m;
+
+      &:hover,
+      &:focus {
+        color: $gray-800;
+        text-decoration: underline;
+      }
+    }
+
+    &__text {
+      @include font-s;
+
+      margin: 0 0 10px;
+      color: $gray-800;
+
+      @include truncate-text(6);
+    }
+
+    &__actions {
+      margin-top: 30px;
+    }
+  }
+
+  @include screen-size-m-and-up {
+    grid-template-columns: 0.5fr 0.4fr;
+  }
+}

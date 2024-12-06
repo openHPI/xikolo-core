@@ -1,0 +1,16 @@
+.answer.mb5.clearfix data-id="#{quiz_answer.id}" data-url="#{move_course_section_item_quiz_question_quiz_answer_path id: quiz_answer.id, quiz_question_id: quiz_question.id, item_id: item.id}"
+  span.label.label-info.uuid hidden='true'
+    = quiz_answer.id
+  .actions.pull-left
+    button.btn.btn-link.p0 id=quiz_answer.id type='button' data-behavior='edit-quiz-answer' data-url=edit_course_section_item_quiz_question_quiz_answer_path(id: quiz_answer.id, quiz_question_id: quiz_question.id, item_id: item.id) aria-label=t('global.edit')
+      = render Global::FaIcon.new('pen-to-square', style: :solid, css_classes: 'mr5')
+  - if quiz_answer.correct
+    span.pull-left.mr5
+      '&#x2713
+  - else
+    span.pull-left.mr5
+      '&#x2717
+  span.answer-text
+    == render_markdown quiz_answer.text, allow_tables: true
+
+  .edit_form_quiz_question_wrapper

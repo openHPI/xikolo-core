@@ -1,0 +1,16 @@
+# GAMIFICATION: USER LEVELS
+#
+# This file lists all levels that can be achieved by gathering experience
+# points (XP). Each level has a minimum amount of experience points required to
+# reach it, a title and the name of an image that symbolizes the level.
+#
+# Images for the levels are stored in app/assets/images/gamification/userstates.
+#
+yellow: { min_xp: 2000, title: "Yellow Belt", image: "kyu02yellow.png" }
+orange: { min_xp: 5000, title: "Orange Belt", image: "kyu03orange.png" }
+green: { min_xp: 9000, title: "Green Belt", image: "kyu04green.png" }
+blue: { min_xp: 14000, title: "Blue Belt", image: "kyu05blue.png" }
+brown: { min_xp: 20000, title: "Brown Belt", image: "kyu06brown.png" }
+black: { min_xp: 27000, title: "Black Belt", image: "dan07black.png" }
+red: { min_xp: 35000, title: "Red Belt", image: "dan08red.png" }
+purple: { min_xp: 50000, title: "Purple Belt", image: "dan09purple.png" }

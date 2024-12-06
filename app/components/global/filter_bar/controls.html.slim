@@ -1,0 +1,18 @@
+.filter-bar__controls data-behavior=data_behavior
+  .filter-bar__controls-wrapper
+    - if @show_overview
+      .filter-bar__overview
+        p.filter-bar__overview-text
+          span.filter-bar__overview-title = "#{t(:'components.filter_bar.filter.results')}"
+          = applied_filters
+        = link_to "#adjust-anchor", class: 'filter-bar__adjust' do
+          = render Global::FaIcon.new('filter',  css_classes: 'mr5')
+          = t(:'components.filter_bar.filter.adjust')
+
+    .filter-bar__results
+      - if @results_count
+        .filter-bar__results-count
+          = render Global::Pill.new(results_count)
+      = link_to @path, data: {'hide-on-click': @content_id, 'show-on-click': @loading_indicator_id} do
+        = render Global::FaIcon.new('undo', css_classes: 'mr5')
+        = t(:'components.filter_bar.filter.reset')

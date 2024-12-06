@@ -1,0 +1,13 @@
+- if @my_promoted&.any?
+  .sidebar__component
+    h3 = t(:'dashboard.sidebar.recommendations')
+    hr.divider
+    #upcoming-carousel.carousel.slide data-ride="carousel"
+      - if @my_promoted.count > 1
+        ol.carousel-indicators
+          - @my_promoted.each_with_index do |course, index|
+            li class="#{'active' if index == 0}" data-slide-to="#{index}" data-target="#upcoming-carousel"
+      .carousel-inner
+        - @my_promoted.each_with_index do |course, index|
+          .item class="#{'active' if index == 0}"
+            = render 'course/courses/course_preview_tiny', course: course, force_visibility: true

@@ -1,0 +1,34 @@
+nl:
+  achievements:
+    certificates:
+      confirmation:
+        name: Bevestiging van deelname
+        state:
+          unavailable: De bevestiging wordt niet aangeboden voor deze cursus.
+          no_longer_achievable: De reguliere cursusperiode is al afgelopen. U kunt de bevestiging voor deze cursus alleen krijgen terwijl deze loopt. Let op voor een mogelijke herhaling.
+          reactivatable: De reguliere cursusperiode is al afgelopen. Als je toch een bevestiging voor deze cursus wilt krijgen, kun je deze nu opnieuw activeren.
+          not_achieved: Je hebt %{user_percentage}% van alle beschikbare leereenheden in deze cursus voltooid. U moet ten minste %{difference}% meer leereenheden voltooien om uw bevestiging te krijgen.
+          not_released: Gefeliciteerd! Je hebt een bevestiging voor deze cursus gekregen door %{user_percentage}% van alle leereenheden te voltooien. Zodra de bevestiging is vrijgegeven door het docententeam, kunt u deze hier downloaden. Dit kan tot 2 weken na het einde van de cursus duren.
+          released: Gefeliciteerd! Je hebt een bevestiging voor deze cursus gekregen door %{user_percentage}% van alle leereenheden te voltooien.
+          achieved_via_roa: Gefeliciteerd! Je hebt een Bevestiging van deelname voor deze cursus gekregen door het behalen van de Record van Prestatie.
+        requirements:
+          progress: Voltooi ten minste %{course_percentage}% van de leereenheden.
+        download:
+          not_released: Zodra het certificaat is vrijgegeven, kunt u het hier downloaden.
+      achievement:
+        name: Record van Prestatie
+        state:
+          unavailable: Het certificaat wordt voor deze cursus niet aangeboden.
+          no_longer_achievable: De reguliere cursusperiode is al afgelopen. Je kon het certificaat voor deze cursus alleen behalen terwijl deze liep. Let op voor een mogelijke herhaling.
+          reactivatable: De reguliere cursusperiode is al afgelopen. Als je toch een certificaat voor deze cursus wilt behalen, kun je deze nu opnieuw activeren.
+          not_achieved: Je hebt inmiddels %{user_percentage}% gescoord in beoordeelde examens. %{difference}
+          not_released: Gefeliciteerd! Je hebt een certificaat behaald voor deze cursus door %{user_percentage}% te scoren in de beoordeelde opdrachten. Zodra het certificaat is vrijgegeven door het docententeam, kunt u het hier downloaden. Dit kan tot 2 weken na het einde van de cursus duren.
+          released: Gefeliciteerd! Je hebt een certificaat behaald voor deze cursus door %{user_percentage}% te scoren in de beoordeelde opdrachten.
+        requirements:
+          completion: Behaal %{course_percentage}% van de algehele score in beoordeelde opdrachten.
+        download:
+          not_released: Zodra het certificaat is vrijgegeven, kunt u het hier downloaden.
+    points_difference:
+      zero: ~
+      one: Je hebt nog één punt nodig om je certificaat te behalen.
+      other: "Je hebt nog %{count} punten nodig om je certificaat te behalen."

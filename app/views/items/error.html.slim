@@ -1,0 +1,13 @@
+/ Item navigation above the main content
+.row
+  = render 'shared/course_item_nav', position: @inner_course_position
+
+.row
+  .col-md-12
+    .course-area-main
+      = render 'items/header', item: @item_presenter
+
+      .info-box
+        .indicator.error
+          = render Global::FaIcon.new('warning', style: :solid, css_classes: 'fa-lg')
+        .text = @item_presenter.error

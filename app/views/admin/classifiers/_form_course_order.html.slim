@@ -1,0 +1,9 @@
+- content_for :head_assets
+  = javascript_include_tag 'admin', crossorigin: 'anonymous', integrity: true, async: true, debug: false
+
+= simple_form_for(:classifier) do |f|
+  = f.input :courses, required: false, collection: []
+    = render Form::DynamicSortableList.new(classifier.courses_order_select, name: 'courses[]', select_config: {url: admin_find_courses_path, placeholder: t(:'simple_form.placeholders.classifier.courses')})
+
+  = f.submit class: 'btn btn-primary'
+  = link_to t(:'global.cancel'), admin_cluster_path(classifier.cluster), class: 'btn btn-default ml10'

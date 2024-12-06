@@ -1,0 +1,24 @@
+.container
+  .document-list
+    = render Course::Documents::FilterBar.new(@course_documents)
+
+      - unless @document_list.empty?
+        .document
+          table.table.table-striped
+            thead
+              tr
+                th = t(:'knowledge_documents.title')
+                th = t(:'knowledge_documents.description')
+                th = t(:'knowledge_documents.tags')
+                th = t(:'knowledge_documents.download')
+            tbody
+              - @document_list.each do |document|
+                tr
+                  td = document.title
+                  td = document.description
+                  td
+                    - document.tags.each do |tag|
+                      div = tag
+                  td
+                    - document.localizations.each do |loc|
+                      = link_to I18n.t("languages.title.#{loc.language}"), loc.file_url, class: 'btn btn-default btn-outline btn-xs mr10 mb10'

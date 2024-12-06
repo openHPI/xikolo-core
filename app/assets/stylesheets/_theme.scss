@@ -1,0 +1,20 @@
+/*------------------------------------*\
+    $CONTENTS
+
+    Module imports for Xikolo.
+    (Xikolo base style)
+\*------------------------------------*/
+
+// Color schema definition
+@import "theme/color_schema";
+
+// Variables, mixin and function declarations
+@import "theme/common/variables";
+@import "theme/common/helpers";
+
+// Extracted common design parts for easier reusability and change
+@import "theme/design";
+
+// Font
+$basefont: $font-family-sans-serif;
+$corporatefont: "Open Sans";

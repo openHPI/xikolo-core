@@ -1,0 +1,26 @@
+production:
+  services:
+    account: <%= ENV['XIKOLO_SERVICE_ACCOUNT'] || 'http://localhost:3100' %>
+    course: <%= ENV['XIKOLO_SERVICE_COURSE'] || 'http://localhost:3300' %>
+    notification: <%= ENV['XIKOLO_SERVICE_NOTIFICATION'] || 'http://localhost:3200' %>
+    pinboard: <%= ENV['XIKOLO_SERVICE_PINBOARD'] || 'http://localhost:3500' %>
+    quiz: <%= ENV['XIKOLO_SERVICE_QUIZ'] || 'http://localhost:3800' %>
+    submission: <%= ENV['XIKOLO_SERVICE_SUBMISSION'] || 'http://localhost:3900' %>
+
+development:
+  services:
+    account: <%= ENV['XIKOLO_SERVICE_ACCOUNT'] || 'http://localhost:3100' %>
+    course: <%= ENV['XIKOLO_SERVICE_COURSE'] || 'http://localhost:3300' %>
+    notification: <%= ENV['XIKOLO_SERVICE_NOTIFICATION'] || 'http://localhost:3200' %>
+    pinboard: <%= ENV['XIKOLO_SERVICE_PINBOARD'] || 'http://localhost:3500' %>
+    quiz: <%= ENV['XIKOLO_SERVICE_QUIZ'] || 'http://localhost:3800' %>
+    submission: <%= ENV['XIKOLO_SERVICE_SUBMISSION'] || 'http://localhost:3900' %>
+
+test:
+  services:
+    account: http://account.xikolo.tld
+    course: http://course.xikolo.tld
+    notification: http://notification.xikolo.tld
+    pinboard: http://pinboard.xikolo.tld
+    quiz: http://quiz.xikolo.tld
+    submission: http://submission.xikolo.tld

@@ -1,0 +1,171 @@
+doctype 5
+html lang="#{I18n.locale}"
+  head prefix=('og: http://ogp.me/ns#' if meta_tags[:og].present?)
+    /
+    / Start with meta tags (includes title tag)
+    /
+
+    meta charset="utf-8"
+
+    - if @in_app
+      meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"
+    - else
+      meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+
+    - if Xikolo.config.google_site_verification.present?
+      meta name="google-site-verification" content="#{Xikolo.config.google_site_verification}"
+
+    = csrf_meta_tags
+    = display_meta_tags
+
+    / Custom meta tags
+    - if content_for? :custom_meta_tags
+      = yield :custom_meta_tags
+
+    /
+    / Deprecated: Include GON for passing information to JavaScript
+    / - Needed for the lanalytics plugin
+    /
+    = include_gon(init: true)
+
+    / Passing lanalytics data to the frontend
+    meta name="lanalytics-data" content=lanalytics_data
+
+    /
+    / Optimizations
+    /
+
+    / preconnect tags allow the browser to open a connection to a domain that will be needed
+    / dns-prefetch as fallback for IE, Edge, Safari
+    - if Imagecrop.enabled?
+      link rel="preconnect" href=Imagecrop.origin
+      link rel="dns-prefetch" href=Imagecrop.origin
+
+    link rel="preconnect" href="https://player.vimeo.com/"
+    link rel="dns-prefetch" href="https://player.vimeo.com/"
+    / we could add the asset host here if set, however this should only be done if it needs to be called,
+
+    /
+    / Tools, Applications and Icons
+    /
+
+    link href=image_path('favicon.ico') rel="shortcut icon" type="image/x-icon"
+
+    - if WebManifest.configured?
+      link rel="manifest" href="/web_manifest.json"
+      meta name="apple-mobile-web-app-title" content="#{Xikolo.config.site_name}"
+
+      - WebManifest.opaque_icons.each do |icon|
+        link rel="apple-touch-icon" sizes="#{icon[:sizes]}" href="#{icon[:src]}"
+
+    - if IosApp.configured?
+      = IosApp.smart_app_banner
+
+    /
+    / Primary web assets
+    /
+
+    = stylesheet_link_tag 'bootstrap', media: 'all', crossorigin: 'anonymous', integrity: true
+    = stylesheet_link_tag 'fontawesome', media: 'all', crossorigin: 'anonymous', integrity: true
+    = stylesheet_link_tag 'styles', media: 'all', crossorigin: 'anonymous', integrity: true
+
+    / webpack assets always support integrity
+    = javascript_include_tag 'runtime', crossorigin: 'anonymous', integrity: true, async: true, debug: false
+    = javascript_include_tag 'main', crossorigin: 'anonymous', integrity: true, async: true, debug: false
+
+    = javascript_include_tag 'application', crossorigin: 'anonymous', integrity: !Rails.env.development?
+    = javascript_include_tag 'lanalytics-framework', crossorigin: 'anonymous', integrity: true, async: true
+    = javascript_include_tag "xikolo-locale-#{I18n.locale}", crossorigin: 'anonymous', integrity: !Rails.env.development?
+
+    /
+    / Extras
+    /
+
+    - if content_for? :head_assets
+      = yield :head_assets
+
+    = render Global::CustomHeadSnippets.new
+
+    /
+    / Deprecated: Inline JavaScript adjustments
+    /
+
+    javascript:
+      I18n.defaultLocale = "#{I18n.default_locale}";
+      I18n.locale = "#{I18n.locale}";
+      I18n.brand = "#{Xikolo.config.brand}";
+
+  body[class="#{Xikolo.config.brand} #{params[:controller].tr('/_', '-')}-controller #{params[:action]}-action #{'in_app' if @in_app} #{'is-masqueraded' if current_user.instrumented?}"
+    data-offset="150"
+    data-target=".scrollspy-target"
+    data-spy="scroll"
+  ]
+
+    / Flash messages
+    = render Global::FlashBlock.new(flash.tap(&:discard))
+
+    - unless @in_app || @teacherview
+      = render Navigation::Bar.new(user: current_user)
+
+    / Teaser or general page header
+    - if content_for? :page_header
+      = yield :page_header
+
+    - if (content_for? :page_header_slim) && !@teacherview
+      = yield :page_header_slim
+
+    / Either render with a sublayout or render main layout alone
+    .wrapper
+      - if content_for? :pre_main
+        = yield :pre_main
+
+      .container
+        - if browser_support.unsupported? && !hide_browser_warning?
+          .alert.alert-danger data-browser-warning='alert'
+            h4.bold
+              = t(:'browser_warning.headline')
+            p
+              = t(:'browser_warning.browser_ie')
+            p
+              = t(:'browser_warning.text_ie')
+            p
+              button.btn.btn-xs.btn-default.mt5.mb10 type="button" data-browser-warning='dismiss'
+                = t(:'browser_warning.text_hide')
+        - elsif browser_support.old? && !hide_browser_warning?
+          .alert.alert-danger data-browser-warning='alert'
+            h4.bold
+              = t(:'browser_warning.headline_soft')
+            p
+              = t(:'browser_warning.text_other')
+            p
+              button.btn.btn-xs.btn-default.mt5.mb10 type="button" data-browser-warning='dismiss'
+                = t(:'browser_warning.text_hide')
+
+        noscript
+          .alert.alert-warning-border.mt10
+            = render Global::FaIcon.new('warning', style: :solid, css_classes: 'fa-lg mr10')
+            span.ml5.kill-underline-force
+              = link_to t('global.nojs.label'), t('global.nojs.link'), target: '_blank', rel: 'noopener'
+
+      - if content_for? :main
+        = yield :main
+      - else
+        = yield
+
+    - unless @in_app || @teacherview
+      = render Footer::Main.new
+      = render Global::HelpdeskButton.new(user: current_user)
+      = render 'shared/piwik'
+
+    #loading-dimmer[hidden]
+      .loading-wrapper
+        = render State::Loading.new
+
+    - unless @in_app
+      = render Global::CookieConsentBanner.new
+
+    / Tooltip container
+    .custom-tooltip hidden=true data-id="tooltip"
+
+  - if content_for? :body_footer
+    = yield :body_footer

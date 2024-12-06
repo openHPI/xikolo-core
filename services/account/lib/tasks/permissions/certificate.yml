@@ -1,0 +1,8 @@
+roles:
+  certificate.admin:
+    - certificate.template.manage
+
+grants:
+  - role: certificate.admin
+    group: xikolo.admins
+    context: root

@@ -1,0 +1,63 @@
+# A new provider for OmniAuth needs to be configured in the following locations:
+# - config/initializers/omniauth.rb
+# - lib/omniauth/strategies/
+# - services/account/{optional_brand}/lib/xikolo/provider
+
+# EXAMPLE:
+#   provider:
+#     key: 12345
+#     secret: 67890
+#     visible: true
+#
+development:
+  saml_test_id:
+    provider: saml_test_id
+    sp_entity_id: xikolosaml-dev
+    name_identifier_format: "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent"
+    idp_entity_id: "https://samltest.id/saml/idp"
+    idp_sso_service_url: "https://samltest.id/idp/profile/SAML2/Redirect/SSO"
+    idp_sso_service_binding: "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+    idp_slo_service_url: "https://samltest.id/idp/profile/SAML2/Redirect/SLO"
+    idp_slo_service_binding: "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+    idp_cert_multi:
+      signing:
+        - <%= File.read(Rails.root.join('config/certs/samltestid_idp_signing1.crt')).to_json %>
+        - <%= File.read(Rails.root.join('config/certs/samltestid_idp_signing2.crt')).to_json %>
+      encryption:
+        - <%= File.read(Rails.root.join('config/certs/samltestid_idp_encryption.crt')).to_json %>
+    valid_until: "2100-01-01T00:00:42Z"
+    certificate: <%= File.read(Rails.root.join('config/certs/samltestid_sp_certificate.pem')).to_json %>
+    private_key: <%= File.read(Rails.root.join('config/certs/samltestid_sp_key.pem')).to_json %>
+    visible: true
+  mein_bildungsraum:
+    provider: mein_bildungsraum
+    issuer: https://open.hpi.de/auth/mein_bildungsraum # TODO: Needs to be registered at Mein Bildungsraum
+    idp_entity_id: "https://aai.demo.meinbildungsraum.de/realms/nbp-aai"
+    name_identifier_format: "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent"
+    idp_sso_service_url: "https://aai.demo.meinbildungsraum.de/realms/nbp-aai/protocol/saml"
+    idp_sso_service_binding: "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+    idp_slo_service_url: "https://aai.demo.meinbildungsraum.de/realms/nbp-aai/protocol/saml"
+    idp_slo_service_binding: "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+    assertion_consumer_service_url: "https://open.hpi.de/auth/mein_bildungsraum/callback" # Route to the connector?
+    idp_cert:
+      - <%= File.read(Rails.root.join('config/certs/meinbildungsraum_idp_signing.crt')).to_json %>
+    idp_cert_fingerprint: "CA:16:64:02:9F:B2:85:60:92:36:B0:0F:07:9A:2B:24:1A:36:88:31"
+    idp_cert_multi:
+      signing:
+        - <%= File.read(Rails.root.join('config/certs/meinbildungsraum_idp_signing.crt')).to_json %>
+    visible: true
+    certificate: ~ # TODO: Add later
+    private_key: ~ # TODO: Add later
+test:
+  test_saml:
+    provider: saml
+    idp_sso_service_url: https://example.com/saml/service
+    visible: true
+
+integration:
+  saml:
+    provider: saml
+    idp_sso_service_url: https://example.com/saml/service
+    issuer: omniauth-saml
+    idp_cert_fingerprint: 7e3cc6a7ebcd9e5b528e89eb527927b0eb0ee8a6
+    visible: true

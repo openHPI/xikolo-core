@@ -1,0 +1,25 @@
+.row
+  .col-xs-8
+    h2 = t(:'admin.classifiers.headline')
+  .col-xs-4.text-align-right.mt10
+    - if current_user.allowed?('course.cluster.manage')
+      = link_to t(:'admin.classifiers.actions.create'), new_admin_cluster_classifier_path(cluster), class: 'btn btn-primary mr10'
+      = link_to t(:'admin.classifiers.actions.reorder'), admin_cluster_classifiers_order_path(cluster), class: 'btn btn-primary mr10'
+- if classifiers.any?
+  = t(:'admin.classifiers.order', sort_mode: cluster.sort_mode_i18n)
+  table.table.table-striped.mb15.mt15
+    thead
+      tr
+        th = t(:'admin.classifiers.title')
+        th
+    tbody
+      - classifiers.each do |classifier|
+        tr
+          td = classifier.title
+          td.text-align-right.nowrap
+            - if current_user.allowed? 'course.cluster.manage'
+              = link_to t(:'admin.classifiers.actions.edit'), edit_admin_cluster_classifier_path(cluster, classifier), class: 'btn btn-default btn-xs mr5'
+              = link_to t(:'admin.classifiers.actions.manage_courses'), admin_cluster_classifier_courses_order_path(cluster, classifier), class: 'btn btn-default btn-xs mr5'
+              = link_to t(:'admin.classifiers.actions.destroy'), admin_cluster_classifier_path(cluster, classifier), method: :delete, class: 'btn btn-danger btn-xs mr5'
+- else
+    = render Global::Callout.new(t(:'admin.classifiers.empty_msg'), type: :warning)

@@ -1,0 +1,6 @@
+.container
+  .layout-error
+    h1.layout-error__header = t(:'errors.csrf_error.headline')
+    .layout-error__details
+      p = t(:'errors.csrf_error.message')
+      = render partial: 'errors/info'

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml>
+    <result>
+        <objectType>KalturaStartWidgetSessionResponse</objectType>
+        <partnerId>1234567</partnerId>
+        <ks>djJ8NDU0OTM5M3yJfv9ZaoCpKOptEULvxMhsuw1cncoUFSsm587ollEMm1qRW8jzZMh9IHpNe41clgk3DdgLnozMw30A1ytukbcNq9wzDgLxa-GeToPW-etaeQ==</ks>
+        <userId>0</userId>
+        <relatedObjects></relatedObjects>
+    </result>
+    <executionTime>0.010256052017212</executionTime>
+</xml>

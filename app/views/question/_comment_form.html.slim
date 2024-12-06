@@ -1,0 +1,23 @@
+- comment_form_path = commentable.is_a?(Xikolo::Pinboard::Question) ? question_pinboard_comment_index_path(question_id: params[:id]) : answer_pinboard_comment_index_path(answer_id: params[:id])
+
+.add-comment.comment id="comment-form-placeholder-#{commentable_type}-#{commentable.id}"
+  span.avatar
+    = render Global::UserAvatar.new(current_user.id, size: 'small')
+  button.js-toggle-comment.js-focus-comment-form.add-comment-placeholder[
+    data-toggle-selector="#comment-form-placeholder-#{commentable_type}-#{commentable.id}, #comment-form-#{commentable_type}-#{commentable.id}"
+    data-focus-id="comment-form-#{commentable_type}-#{commentable.id}"
+  ]
+    = t :'.add_comment'
+
+.comment_form.hidden id="comment-form-#{commentable_type}-#{commentable.id}"
+  = simple_form_for(comment, url: comment_form_path, data: {'disable-on-submit': 'button[type="submit"]'}, wrapper: :compact) do |f|
+    = f.input :text, as: :markdown, required: true, label: false,
+        markdown_id_suffix: "text-new-comment-#{commentable_type}-#{commentable.id}",
+        uploads: text_uploads
+    = f.hidden_field :commentable_id, value: commentable.id
+    = f.hidden_field :commentable_type, value: commentable_type
+
+    = button_tag(type: 'submit', class: 'btn btn-primary mb5 mr10', id: 'question_form_submit_button') do
+      = t :'.create_comment'
+    = button_tag(type: 'button', class: 'btn btn-default mb5 js-toggle-comment', data: {toggle_selector: "#comment-form-placeholder-#{commentable_type}-#{commentable.id}, #comment-form-#{commentable_type}-#{commentable.id}"}) do
+      = t :'pinboard.cancel'

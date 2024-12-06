@@ -1,0 +1,25 @@
+roles:
+  lti.admin:
+    - lti.provider.manage
+  # Administrator role in external tool providers according to the LTI standard
+  lti.tool.administrator:
+    - lti.tool.administrate
+  # Instructor role in external tool providers according to the LTI standard
+  lti.tool.instructor:
+    - lti.tool.instruct
+  lti.data_privacy_expert:
+    - lti.provider.edit_privacy_mode
+
+grants:
+  - role: lti.admin
+    group: xikolo.admins
+    context: root
+  - role: lti.data_privacy_expert
+    group: xikolo.admins
+    context: root
+  - role: lti.tool.administrator
+    group: xikolo.admins
+    context: root
+  - role: lti.tool.instructor
+    group: xikolo.admins
+    context: root

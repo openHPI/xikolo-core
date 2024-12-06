@@ -1,0 +1,85 @@
+/*
+  Stylesheet for "old" layout
+ */
+
+.col-md-5 {
+  width: 41.6666666667%;
+  float: left;
+}
+
+.col-md-7 {
+  width: 58.3333333333%;
+  float: left;
+}
+
+.videos {
+  border-spacing: 10px;
+
+  a {
+    color: #d4652d;
+    text-decoration: none;
+  }
+
+  .video {
+    border-spacing: 5px;
+    vertical-align: top;
+    width: 19%;
+    margin-right: 10px;
+    background-color: #ededed;
+    display: table-cell;
+  }
+
+  .description {
+    padding: 5px;
+  }
+}
+
+.videos_container,
+.questions_container {
+  margin-bottom: 30px;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.text-align-right {
+  text-align: right;
+}
+
+.ml5 {
+  margin-left: 5px;
+}
+
+.mb30 {
+  margin-bottom: 30px;
+}
+
+h1 {
+  font-size: 1.7em;
+}
+
+h2 {
+  font-size: 1.5em;
+}
+
+h3 {
+  font-size: 1.17em;
+}
+
+h4 {
+  font-size: 1.12em;
+}
+
+h5 {
+  font-size: 0.83em;
+}
+
+h6 {
+  font-size: 0.75em;
+}
+
+.pull-right {
+  float: right !important;
+}

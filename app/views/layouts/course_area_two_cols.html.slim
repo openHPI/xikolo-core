@@ -1,0 +1,41 @@
+- content_for :course_area_main
+
+  / Main course content displayed in the mobile apps
+  - if @in_app
+    .col-md-12#maincontent data-expanded='false'
+      = yield
+
+  / Main course content displayed in the browser
+  - else
+    - if @teacherview
+      #maincontent
+      - if content_for? :maincol_content
+        = yield :maincol_content
+      - else
+        = yield
+    - else
+      .col-md-9.col-md-push-3#maincontent data-expanded='false'
+        button.hidden-print.hidden-xs.hidden-sd type='button' class='course-navbar-toggle collapsed'
+          span class='sr-only'
+            'Toggle navigation
+          = render Global::FaIcon.new('bars', style: :solid)
+        - if content_for? :maincol_content
+          = yield :maincol_content
+        - else
+          = yield
+      .col-md-3.col-md-pull-9.mb20.hidden-print#leftnav
+        .row.nav
+          / Toggle button for the left hand nav
+          = render 'shared/course_item_toggle_nav'
+
+          / Left hand Navigation
+          - if respond_to?(:in_learning_room_context?) && in_learning_room_context?
+            - if @collabspace_presenter.present?
+              #sectionnav.col-md-12
+                = render @collabspace_presenter.table_of_contents
+          - else
+            - if the_section_nav.table_of_contents.present?
+              .col-md-12#sectionnav
+                = render the_section_nav.table_of_contents
+
+= render template: 'layouts/course_area'

@@ -1,0 +1,32 @@
+domain: 127.0.0.1:8000
+classifiers: ["category", "topic"]
+helpdesk_email: helpdesk@example.com
+beta_features:
+  documents: true
+voucher:
+  enabled: true
+course_reactivation:
+  store_url: https://shop.xikolo.de/product/reactivation
+  period: 8 # weeks
+csp:
+  enabled: false
+s3:
+  connect_info:
+    endpoint: http://127.0.0.1:8099
+    region: default
+    access_key_id: minioadmin
+    secret_access_key: minioadmin
+    force_path_style: true
+  buckets:
+    avatars: xikolo-public
+    banners: xikolo-public
+    certificate: xikolo-certificate
+    course: xikolo-public
+    news: xikolo-public
+    peerassessment: xikolo-peerassessment
+    pinboard: xikolo-pinboard
+    quiz: xikolo-quiz
+    scientist: xikolo-scientist
+    sitemaps: xikolo-public
+    uploads: xikolo-uploads
+    video: xikolo-video

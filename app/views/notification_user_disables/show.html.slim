@@ -1,0 +1,12 @@
+- content_for :page_header
+  = render Global::PageHeader.new(t(:'notification_user_disables.show.title'))
+
+.container
+  .row.col-md-12.pt10
+    = t(:"notification_user_disables.show.deactivate_for.#{params[:key]}")
+    - # rubocop:disable Lint/EmptyBlock
+    = form_for(:notification_user_disables, url: request.original_url, html: {id: 'notification_user_disables_form'}) {}
+    - # rubocop:enable Lint/EmptyBlock
+
+javascript:
+  $('#notification_user_disables_form').submit();

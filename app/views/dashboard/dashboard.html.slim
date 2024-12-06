@@ -1,0 +1,23 @@
+#course-list__content.dashboard
+  - @categories.each_with_index do |category, index|
+    .course-group
+      h2.category-title
+        = category.title
+      - if category.courses.empty?
+        = render Global::Callout.new category.empty_msg
+      - else
+        .course-card-grid data-id = "category-#{index}"
+          - category.courses.each do |course|
+            = render Home::CourseCard.new(course, user: current_user, enrollment: @enrollments[course.id], type: 'compact') do |c|
+              - if category.completed_button && !@enrollments[course.id].completed?
+                - c.with_action do
+                  = link_to t(:'dashboard.mark_completed'),
+                    complete_enrollment_path(@enrollments[course.id]),
+                    method: :post,
+                    data: { confirm: t(:'dashboard.mark_completed_confirmation') }
+  = render Global::Callout.new(t(:'dashboard.more_courses'))
+
+- content_for :sidebar
+  = render 'dashboard/overview_sidebar'
+
+= render 'course/shared/accept_enrollment_policy'

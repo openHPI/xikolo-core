@@ -1,0 +1,793 @@
+/*------------------------------------*\
+    $CONTENTS
+
+    Pinboard related styles.
+\*------------------------------------*/
+/**
+ * Variables................Variables
+ * Filter...................Search filters like tags, sortation, categories, ...
+ * Breadcrumbs..............Breadcrumb navigation
+ * Question.................Pinboard question component (on the pinboard overview)
+ * Tags.....................Pinboard tag styles
+ * Question-Answer-Box......Question and answer box styles for questions, answers (and posts in a thread)
+ * Answer-form-Box..........Styles for answering a question
+ * Errors...................Error popups and messages
+ */
+
+/*------------------------------------*\
+    $Variables
+\*------------------------------------*/
+@use "sass:math";
+
+$shortinfo-dimension-x: 60px;
+$shortinfo-dimension-y: 55px;
+
+$votebox-dimension-x: 70px;
+$avatar-dimension: 40px; // x + y
+
+$xi-pinboard-filter-background-color: $gray-100 !default;
+$xi-topics-table-background-color: $white !default;
+$xi-topics-table-hover-background-color: $gray-100 !default;
+$xi-pinboard-content-container-background-color: $white !default;
+
+$xi-pinboard-comment-avatar-size: 30px;
+$xi-pinboard-comment-avatar-spacing: 10px;
+$xi-pinboard-comment-avatar-connector-width: 2px;
+
+/*------------------------------------*\
+    $Filter
+\*------------------------------------*/
+.pinboard {
+  &-pagination {
+    margin-top: 15px;
+  }
+
+  &__section-select {
+    @include font-sm;
+    color: $gray-600;
+    font-weight: normal;
+
+    select {
+      // Truncate text
+      overflow: hidden;
+      min-width: 15rem;
+      max-width: 30rem;
+      border: none;
+      border-bottom: 1px solid $gray-250;
+      margin-left: 5px;
+      background-color: inherit;
+      color: $text-color;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+}
+
+//------------------------------------
+// $Breadcrumbs
+//------------------------------------
+
+.pinboard-breadcrumbs {
+  padding-top: 20px;
+
+  span {
+    color: darken($text-color, 20%);
+  }
+
+  a {
+    display: inline-block;
+    padding-left: 5px;
+
+    &:before {
+      display: inline-block;
+      padding-right: 5px;
+      color: $text-color;
+      content: ">";
+      pointer-events: none;
+    }
+
+    &:first-of-type:before {
+      content: none;
+    }
+
+    &:last-of-type {
+      color: lighten($text-color, 20%);
+    }
+  }
+}
+
+/*------------------------------------*\
+    $Question
+\*------------------------------------*/
+
+.topics-table,
+.details_table {
+  width: 100%;
+  .spacer {
+    height: 3px;
+    padding: 0px;
+    line-height: 0px;
+  }
+}
+
+.topics-table {
+  border-spacing: 2px;
+
+  tr {
+    border-radius: 2px;
+    border-bottom: 3px solid $gray-50;
+    background: $xi-topics-table-background-color;
+  }
+}
+
+.details_table {
+  margin-top: 5px;
+}
+
+.topics-table tr:hover {
+  background: $xi-topics-table-hover-background-color;
+}
+
+.pinboard-question {
+  border-bottom: 0px solid $gray;
+  border-left: 5px solid $gray-100;
+  background-color: transparent;
+
+  &.sticky {
+    border-left: 5px solid lightgoldenrodyellow;
+    background-color: lightgoldenrodyellow;
+  }
+
+  // LHS and RHS containers
+  .pinboard-question-details-container {
+    width: 100%; // Full-width hack for the right (details) column
+    padding: 10px 10px 5px 10px;
+    word-break: break-all;
+  }
+
+  .shortinfo-container {
+    padding: 19px 0px 10px 0px;
+    vertical-align: top;
+    white-space: nowrap;
+  }
+
+  // LHS content
+  .question-shortinfo {
+    position: relative;
+    display: inline-block;
+    min-width: $shortinfo-dimension-x;
+    height: $shortinfo-dimension-y;
+    padding-top: ($shortinfo-dimension-y * 0.2)+3;
+    margin-right: 1px;
+    font-size: 1.2em;
+    text-align: center;
+
+    .count {
+      min-width: $shortinfo-dimension-x;
+      padding-right: 5px;
+      padding-left: 5px;
+      margin-right: 2px;
+    }
+
+    .info-type {
+      position: absolute;
+      bottom: 2px;
+      min-width: $shortinfo-dimension-x;
+      font-size: 0.65em;
+    }
+
+    &.votes {
+      border-bottom: 2px solid $gray-800;
+      margin-right: 2px;
+    }
+
+    &.answers {
+      border-bottom: 2px solid $primary-color;
+      margin-right: 2px;
+
+      &.accepted {
+        border-bottom: 2px solid $success-500;
+      }
+    }
+
+    &.comments {
+      border-bottom: 2px solid $information-500;
+      margin-right: 2px;
+    }
+
+    &.views {
+      border-bottom: 2px solid $gray-600;
+      margin-right: 5px;
+    }
+  }
+
+  // RHS content
+  .question-title {
+    display: block;
+    min-height: 32px;
+    margin-bottom: 5px;
+    color: $black;
+    font-size: 1.3em;
+    text-decoration: none;
+
+    &:hover,
+    &:focus {
+      color: $primary-color;
+    }
+
+    .xi-icon {
+      transform: rotate(45deg);
+    }
+  }
+
+  .question-teaser {
+    position: relative;
+    right: 0px;
+    left: 0px;
+    display: inline-block;
+    overflow: hidden;
+    height: 1.3em;
+    margin-top: -10px;
+    margin-bottom: 5px;
+    color: $black;
+    line-height: 1.3em;
+    text-decoration: none;
+    text-overflow: ellipsis;
+
+    &:after {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 5%;
+      height: 1.2em;
+      background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0),
+        rgba(255, 255, 255, 1) 50%
+      );
+      content: "";
+      text-align: right;
+
+      &:hover {
+        background: none;
+      }
+    }
+  }
+}
+
+.qa-answer,
+.comment,
+.pinboard-question {
+  border-left: 5px solid transparent;
+  transition: border-left-color 0.3s ease-in-out;
+  &.unread {
+    border-left-color: $primary-color;
+  }
+}
+
+.pinboard-question-info {
+  display: flex;
+  @include outer-container;
+}
+
+.pinboard-question-info-facts {
+  flex-grow: 1;
+  // All adjacent siblings of direct children (a.k.a. all children
+  // except for the first) should have left spacing.
+  & > * + * {
+    margin-left: 10px;
+  }
+}
+
+.pinboard-content-container {
+  @include heavy-bar($color: $gray-250);
+  padding: 10px 15px;
+
+  background-color: $xi-pinboard-content-container-background-color;
+}
+
+/*------------------------------------*\
+    $Tags
+\*------------------------------------*/
+.pinboard-tag-interactive {
+  display: inline-block;
+  overflow: hidden;
+  max-width: 250px;
+  margin-right: 10px;
+  background-color: darken($gray, 10%);
+  color: $white;
+  cursor: pointer;
+  text-overflow: ellipsis;
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .selected {
+    background-color: $gray-600;
+  }
+
+  .tag-text {
+    display: inline-block;
+    padding: 3px 6px;
+    border-radius: 2px;
+    margin: 0px;
+    font-size: 0.85em;
+
+    &:hover,
+    &:focus {
+      background-color: $gray-600;
+    }
+  }
+
+  .tag-remove {
+    display: inline-block;
+    padding: 3px 6px;
+    border-left: 1px solid $gray-100;
+    font-size: 0.9em;
+    text-align: center;
+
+    &:hover,
+    &:focus {
+      background-color: $gray-600;
+    }
+  }
+}
+
+.pinboard-tag-static {
+  display: inline-block;
+  overflow: hidden;
+  max-width: 250px;
+  padding: 3px 6px;
+  border-radius: 2px;
+  margin: 0px 5px 2px 0px;
+  background-color: $gray;
+  color: $white;
+  // An alternate solution to make sure that tags are not wrapped,
+  // but lines can be broken between tags.
+  float: left;
+  font-size: 0.85em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  // Topic tags are right aligned, so we need to float the tags to the right.
+  .pinboard-question-info-tags & {
+    float: right;
+  }
+
+  &.tag-button {
+    cursor: pointer;
+    a {
+      color: inherit;
+      text-decoration: none;
+
+      &:hover,
+      &:focus {
+        background-color: $gray-600;
+        color: inherit;
+      }
+    }
+    &:hover,
+    &:focus {
+      background-color: $gray-600;
+    }
+  }
+  &.no-style {
+    background-color: transparent;
+    color: inherit;
+  }
+  &.answered {
+    background-color: $success-500;
+    color: $white;
+  }
+  &.unanswered {
+    background-color: $orange;
+  }
+  &.closed {
+    background-color: gray;
+    color: $white;
+  }
+  &.discussion {
+    border: 1px solid gray;
+  }
+}
+
+/*------------------------------------*\
+    $Question-Answer-Box
+\*------------------------------------*/
+.qa-box {
+  // Question header styles
+  .question-title {
+    margin: 0px 0px 15px 10px;
+
+    .details_table {
+      margin-top: 15px;
+    }
+
+    h1 {
+      font-size: 1.5em;
+      font-weight: 600;
+    }
+  }
+
+  .tags {
+    width: 100%;
+  }
+
+  .actions {
+    display: flex;
+    vertical-align: top;
+    white-space: nowrap;
+
+    .xi-icon {
+      margin-right: 3px;
+      color: $gray;
+    }
+
+    a {
+      color: $gray-600;
+    }
+
+    .action {
+      display: flex;
+      align-items: center;
+      margin-left: 12px;
+      cursor: pointer;
+
+      &:focus,
+      &:hover {
+        a {
+          color: $gray-900;
+          text-decoration: none;
+        }
+        .xi-icon {
+          color: $gray-900;
+        }
+      }
+    }
+  }
+
+  //  Wrapper table for main part (votebox and details)
+  .qa-content {
+    width: 100%;
+    table-layout: fixed;
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: $text-color;
+    }
+
+    h1 {
+      font-size: 17px;
+    }
+
+    h2 {
+      font-size: 16px;
+    }
+
+    h3 {
+      font-size: 15px;
+    }
+
+    h4 {
+      font-size: 15px;
+    }
+
+    h5 {
+      font-size: 12px;
+    }
+
+    h6 {
+      font-size: 12px;
+    }
+
+    blockquote {
+      font-size: inherit;
+    }
+
+    tr.accepted {
+      padding-right: 10px;
+      background-color: darken($gray-100, 2%);
+    }
+
+    .vote-column {
+      width: 70px;
+    }
+
+    .vote-box {
+      position: relative;
+      min-width: $votebox-dimension-x;
+      padding-top: 20px;
+      padding-left: 10px;
+      text-align: center;
+
+      .upvote,
+      .downvote {
+        background-color: $gray-600;
+        color: $white;
+        font-size: 0.9em;
+
+        .active {
+          color: $orange;
+        }
+      }
+
+      .subscription {
+        padding-top: 10px;
+        font-size: 1.5em;
+      }
+
+      .accept {
+        padding-top: 10px;
+        font-size: 1.5em;
+      }
+
+      .votes {
+        height: $votebox-dimension-x - 10;
+        padding: 0px 5px;
+        background-color: $gray-900;
+        color: $white;
+        font-size: 1.5em;
+        line-height: $votebox-dimension-x - 10;
+      }
+    }
+
+    tr.accepted .votes {
+      background-color: $success-500;
+    }
+
+    // Right float wrapper (question/answer content)
+    .qa-details {
+      width: 100%;
+      padding-top: 20px;
+      padding-right: 10px;
+      padding-left: 20px;
+
+      .accept-hint {
+        display: block;
+        padding: 2px;
+
+        border: 1px solid $success-500;
+        margin-bottom: 10px;
+        background-color: lighten($success-500, 40%);
+        color: $gray-600;
+        font-weight: bold;
+
+        text-align: center;
+
+        &:hover,
+        &:active,
+        &:focus {
+          background-color: lighten($success-500, 30%);
+          color: darken($success-500, 20%);
+          text-decoration: none;
+        }
+      }
+
+      .qa-text {
+        margin-bottom: 25px;
+      }
+
+      .qa-attachment {
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  // Bottom part of the content with userinfos and actions
+  .qa-bottom-wrapper {
+    display: flex;
+    flex-direction: column;
+
+    @include screen-size-s-and-up {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
+    .actions {
+      margin-top: 15px;
+    }
+
+    .user-info {
+      display: flex;
+
+      &__icons {
+        position: relative;
+      }
+
+      &__text {
+        margin-left: 10px;
+      }
+
+      .username {
+        color: $primary-color;
+        font-weight: 600;
+      }
+
+      .timestamp {
+        color: darken($gray, 10%);
+        font-style: italic;
+      }
+    }
+  }
+
+  .qa-text,
+  .comment-text {
+    blockquote {
+      // Add transparency to ensure visibility with any background color
+      border-left-color: rgba($black, 0.1);
+    }
+  }
+
+  // Comments
+  .comments {
+    background-color: $gray-50;
+  }
+
+  .add-comment {
+    font-weight: 600;
+
+    & > a {
+      cursor: pointer;
+    }
+  }
+
+  .comment {
+    position: relative;
+    padding: 10px 10px 10px
+      (
+        $xi-pinboard-comment-avatar-size + 2 *
+          $xi-pinboard-comment-avatar-spacing
+      );
+
+    &:hover {
+      background-color: $gray-100;
+
+      &::before {
+        background-color: $gray-50;
+      }
+    }
+
+    &.add-comment:hover {
+      background-color: transparent;
+    }
+
+    // Draw a line that connects all comments' avatars
+    &::before {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: ($xi-pinboard-comment-avatar-size * 0.5) +
+        $xi-pinboard-comment-avatar-spacing -
+        ($xi-pinboard-comment-avatar-connector-width * 0.5);
+      display: block;
+      width: $xi-pinboard-comment-avatar-connector-width;
+      background-color: $gray-100;
+      content: "";
+    }
+
+    // Don't start the line above the first avatar
+    &:first-of-type::before {
+      top: $xi-pinboard-comment-avatar-spacing;
+    }
+
+    // Hide it again in front of the "Add comment" button
+    &.add-comment::before {
+      display: none;
+    }
+
+    .avatar {
+      position: absolute;
+      top: $xi-pinboard-comment-avatar-spacing;
+      left: $xi-pinboard-comment-avatar-spacing;
+    }
+
+    .comment-meta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+
+      > * {
+        flex: 0 0 auto;
+      }
+    }
+
+    .comment-author > * {
+      margin-right: 10px;
+    }
+
+    // Properly space out author details (e.g. gamification badge and user name)
+    .author > * {
+      margin-right: 5px;
+    }
+    .author > :last-child {
+      margin-right: 0;
+    }
+
+    .author a {
+      color: $gray-800;
+      font-weight: bold;
+
+      &:hover,
+      &:focus {
+        color: $primary-color;
+      }
+    }
+
+    .timestamp {
+      color: $gray-600;
+    }
+
+    .comment-actions {
+      a {
+        margin-left: 12px;
+        color: $gray-600;
+
+        .xi-icon {
+          margin-right: 3px;
+          color: $gray;
+        }
+
+        &:hover,
+        &:focus,
+        &:active {
+          color: $gray-900;
+          text-decoration: none;
+
+          .xi-icon {
+            color: $gray-900;
+          }
+        }
+      }
+    }
+
+    .comment-text {
+      margin: 10px 0;
+    }
+
+    .add-comment-placeholder {
+      width: 100%;
+      height: 30px;
+      padding-left: 10px;
+      border: 1px solid $gray-100;
+      border-radius: 5px;
+      background-color: $white;
+      color: $gray-600;
+
+      cursor: text;
+      font-weight: normal;
+
+      text-align: left;
+    }
+  }
+}
+
+/*------------------------------------*\
+    $Answer-form-Box
+\*------------------------------------*/
+.answer-container {
+  // Avoid the container getting covered by the navbar when scrolling via focus-target.js
+  padding-top: $navbar-height;
+}
+
+.answer-form-box {
+  padding: 20px 10px;
+}
+
+/*------------------------------------*\
+    $Errors
+\*------------------------------------*/
+.vote_error_popup {
+  position: absolute;
+  z-index: 10000;
+  top: 50%;
+  left: 10px;
+  display: none;
+  padding: 5px;
+  margin-top: -5px;
+  background-color: $error-500;
+  color: #ffffff;
+}

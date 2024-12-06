@@ -1,0 +1,14 @@
+= render Global::Callout.new(t(:'polls.widget.thanks'), type: :success)
+
+- if reveal_results?
+  .results
+    = render Dashboard::Poll::Question.results(@poll, stats: @stats, choices: @choices)
+
+p = summary
+
+.mt10
+  - if @next_poll
+    = link_to t(:'polls.widget.next_poll'), next_poll_path, method: :get, remote: true,
+        data: {'render-to': '#polls', type: 'text'},
+        class: 'btn btn-primary btn-sm mr10'
+  = link_to t(:'polls.widget.recent_results'), polls_archive_path, class: 'btn btn-default btn-sm'

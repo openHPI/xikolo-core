@@ -1,0 +1,7 @@
+# vim: ft=yaml
+
+nav:
+  - index.md
+  - components
+  - CSS
+  - ...

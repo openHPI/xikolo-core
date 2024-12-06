@@ -1,0 +1,46 @@
+= simple_form_for announcement_email, url: admin_announcement_email_path, method: :post do |f|
+  = f.error_notification
+  = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
+
+  fieldset
+    legend
+      = t("languages.name.#{announcement_email.language}")
+    = f.input :subject
+    .content-form
+      = f.input :content,
+        input_html: { \
+          rows: 7,
+          preview: true,
+          markdown_id_suffix: "announcement_translation_#{announcement_email.language}",
+        }
+  = f.input :recipients, \
+    collection: announcement_email.recipients_collection,
+    input_html: { \
+      multiple: true,
+      name: 'announcement_email[recipients][]',
+      data: { \
+        width: '100%',
+        'behavior': 'custom-select',
+        'auto-completion-url': admin_announcement_recipients_path,
+        placeholder: t(:'simple_form.placeholders.announcement_email.recipients'),
+      },
+    }
+
+  = f.input :consents, \
+    collection: announcement_email.consents_collection,
+    as: :check_boxes,
+    input_html: { \
+      multiple: true,
+    }
+
+  = f.input :test
+  = f.input :language,
+    as: :hidden
+
+  h2 = t(:'admin.announcements.form.translations')
+  .alert.alert-info
+    = t(:'admin.announcements.form.translation_hint')
+  - announcement_email.all_translations.each do |translation|
+    = render 'admin/announcements/translation', translation: translation
+
+  = f.button :submit

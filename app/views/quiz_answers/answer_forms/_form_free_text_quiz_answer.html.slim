@@ -1,0 +1,5 @@
+= simple_fields_for(answer, namespace: "qanswer_#{answer.id}") do |f|
+  = f.input :text, required: true,
+      label: t(:'items.quiz.answer'),
+      placeholder: t(:'items.quiz.enter_answer')
+  = f.input :comment, as: :string, label: t(:'items.quiz.answer_explanation'), placeholder: t(:'items.quiz.answer_explanation_text')

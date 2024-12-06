@@ -1,0 +1,53 @@
+/ Buttons on top of the page
+.pinboard-content-container
+  .pinboard-breadcrumbs
+    span = t(:'pinboard.breadcrumbs.label')
+    - @pinboard.breadcrumbs.for_thread(@question).each_level do |url, text|
+      = link_to text, url
+
+  - if @pinboard.open?
+    .mt10
+      = render 'pinboard/question_form'
+
+  .responsive-images
+    .question-wrapper
+      / Asked Question
+      = render 'question_detail', question: @question, subscription: @subscription, new_comment: @new_comment, course_id: @course_id, user_state: @pinboard_user_state
+      / All answers
+      .mt30
+        = render 'answers', question: @question, new_comment: @new_comment, comment_path: @comment_path, course_id: @course_id, user_state: @pinboard_user_state
+
+      - if !@pinboard.open?
+        = render Global::Callout.new(@pinboard.lock_reason, type: :warning, icon: Global::FaIcon.new('lock'))
+      - elsif @question.closed
+        = render Global::Callout.new(t(:'question.show.closed_msg'), type: :warning, icon: Global::FaIcon.new('lock'))
+      - elsif !@question.blocked? || current_user.allowed?('pinboard.entity.block')
+        / Answer question form
+        .row.mt30
+          .col-md-12#answer_form_box data-id='scroll-target' class='answer-container'
+            = render 'answer_form', answer: @new_answer, question: @question
+      - else
+        = render Global::Callout.new(t(:'pinboard.reporting.reply_blocked'), icon: Global::FaIcon.new('lock'))
+
+- if can_delete?
+  .row.mt20.moderator
+    .col-md-1
+      = link_to question_path,
+                method: :delete,
+                class: 'btn btn-default',
+                data: { confirm: t(:'.confirm_delete') }
+        = t :'.destroy'
+    - if @pinboard.open?
+      .col-md-1
+        - if @show_close_button
+          = link_to in_section_context? ? close_course_section_question_path : close_course_question_path,
+                    method: :post,
+                    class: 'btn btn-default',
+                    data: { confirm: t(:'.confirm_close') }
+            = t :'.close'
+        - else
+          = link_to in_section_context? ? reopen_course_section_question_path : reopen_course_question_path,
+                    method: :post,
+                    class: 'btn btn-default',
+                    data: { confirm: t(:'.confirm_reopen') }
+            = t :'.reopen'

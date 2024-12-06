@@ -1,0 +1,241 @@
+- content_for :head_assets
+  = javascript_include_tag 'm.e.i.n.e.l'
+  = javascript_include_tag 'course-admin'
+  = javascript_include_tag 'teacher', crossorigin: 'anonymous', integrity: true, async: true, debug: false
+
+- content_for :course_area_header
+  = render Global::PageHeader.new("#{t(:'admin.course_management.dashboard.title')} - #{course_layout.title}",
+    subtitle: t(:'course.admin.page_header'),
+    type: :slim) do |c|
+      - c.with_pill(t(:"items.show.coursestate.#{course_layout.fullstate}"), size: :small, color: :note)
+      = render(partial: 'course/shared/course_admin_action', locals: {course: course_layout, in_teacher_context: true})
+
+.container.white-bg.course-dashboard[
+  data-lanalytics-visit='course_dashboard'
+  data-lanalytics-resource="#{ {type: 'course', uuid: @course['id']}.to_json }"
+]
+
+  .row
+    .col-md-12.kpis-container.mt10
+      ajax-wrapper data-url="/api/v2/statistics/course_dashboard/enrollments.json?course_id=#{@course.id}" lazy-load='true'
+
+        .course-dashboard-section.kpis.col-md-4
+          .col-md-12.well
+            .row.kpis__header
+              .col-xs-12
+                = render Global::FaIcon.new('graduation-cap', style: :solid, css_classes: 'fa-2x vm')
+                span.title
+                  = t(:'admin.course_management.dashboard.kpis.enrollments.title')
+            hr.hr-dark
+            - if @course.end_date.blank? || @course.end_date > DateTime.now
+              = render partial: 'kpi_item', locals: {name: (t 'admin.course_management.dashboard.kpis.enrollments.total'), data_key: 'enrollments', sec_name: t(:'admin.course_management.dashboard.kpis.enrollments.non_deleted'), sec_data_key: 'enrollments_netto'}
+            - else
+              = render partial: 'kpi_item', locals: {name: (t 'admin.course_management.dashboard.kpis.enrollments.total'), data_key: 'enrollments'}
+            = render partial: 'kpi_item', locals: {name: (t 'admin.course_management.dashboard.kpis.enrollments.last_day'), data_key: 'enrollments_last_day', prefix: '+'}
+            - if @course.start_date && @course.start_date < DateTime.now
+              = render partial: 'kpi_item', locals: {name: (t 'admin.course_management.dashboard.kpis.enrollments.at_start'), data_key: 'enrollments_at_start', sec_name: t(:'admin.course_management.dashboard.kpis.enrollments.non_deleted'), sec_data_key: 'enrollments_at_start_netto'}
+            - if @course.middle_of_course && @course.middle_of_course < DateTime.now
+              = render partial: 'kpi_item', locals: {name: (t 'admin.course_management.dashboard.kpis.enrollments.at_middle'), data_key: 'enrollments_at_middle', sec_name: t(:'admin.course_management.dashboard.kpis.enrollments.non_deleted'), sec_data_key: 'enrollments_at_middle_netto'}
+            - if @course.end_date && @course.end_date < DateTime.now
+              = render partial: 'kpi_item', locals: {name: (t 'admin.course_management.dashboard.kpis.enrollments.at_end'), data_key: 'enrollments_at_end', sec_name: t(:'admin.course_management.dashboard.kpis.enrollments.non_deleted'), sec_data_key: 'enrollments_at_end_netto'}
+
+        .course-dashboard-section.col-md-4
+          .col-md-12.well
+            .row.kpis__header
+              .col-xs-12
+                = render Global::FaIcon.new('users', style: :solid, css_classes: 'fa-2x vm')
+                span.title
+                  = t(:'admin.course_management.dashboard.kpis.activity.title')
+            hr.hr-dark
+              = render partial: 'kpi_item', locals: {name: (t 'admin.course_management.dashboard.kpis.activity.shows'), data_key: 'shows', quota_name: (t 'admin.course_management.dashboard.kpis.activity.show_rate_explanation'), quota_key: 'show_quota'}
+              - if @course.middle_of_course && @course.middle_of_course < DateTime.now
+                = render partial: 'kpi_item', locals: {name: (t 'admin.course_management.dashboard.kpis.activity.shows_at_middle'), data_key: 'shows_at_middle', quota_name: (t 'admin.course_management.dashboard.kpis.activity.shows_at_middle_rate_explanation'), quota_key: 'show_quota_at_middle'}
+              - if @course.end_date && @course.end_date < DateTime.now
+                = render partial: 'kpi_item', locals: {name: (t 'admin.course_management.dashboard.kpis.activity.shows_at_end'), data_key: 'shows_at_end', quota_name: (t 'admin.course_management.dashboard.kpis.activity.shows_at_end_rate_explanation'), quota_key: 'show_quota_at_end'}
+
+        .course-dashboard-section.col-md-4
+          .col-md-12.well
+            .row.kpis__header
+              .col-xs-12
+                = render Global::FaIcon.new('file-contract', style: :solid, css_classes: 'fa-2x vm')
+                span.title
+                  = t(:'admin.course_management.dashboard.kpis.certificates.title')
+            hr.hr-dark
+            - if @course.records_released
+              - if @course.roa_enabled?
+                = render partial: 'kpi_item', locals: {name: (t 'admin.course_management.dashboard.kpis.certificates.roa'), data_key: 'roa_count', quota_name: (t 'admin.course_management.dashboard.kpis.certificates.completion_rate_explanation'), quota_key: 'completion_rate'}
+              - if @course.cop_enabled?
+                = render partial: 'kpi_item', locals: {name: (t 'admin.course_management.dashboard.kpis.certificates.cop'), data_key: 'cop_count', quota_name: (t 'admin.course_management.dashboard.kpis.certificates.consumption_rate_current_explanation'), quota_key: 'consumption_rate_current'}
+                - if current_user.feature?('course_dashboard.show_cops_details') && @course.end_date&.past?
+                  = render partial: 'kpi_item', locals: {name: (t 'admin.course_management.dashboard.kpis.certificates.cops_until_course_end'), data_key: 'cop_at_end_count', quota_name: (t 'admin.course_management.dashboard.kpis.certificates.consumption_rate_at_end_explanation'), quota_key: 'consumption_rate_at_end'}
+                  = render partial: 'kpi_item', locals: {name: (t 'admin.course_management.dashboard.kpis.certificates.cops_after_course_end'), data_key: 'cop_after_end_count', quota_name: (t 'admin.course_management.dashboard.kpis.certificates.consumption_rate_after_end_explanation'), quota_key: 'consumption_rate_after_end'}
+              - if @course.proctored?
+                = render partial: 'kpi_item', locals: {name: (t 'admin.course_management.dashboard.kpis.certificates.qc'), data_key: 'qc_count'}
+            - elsif !@course.roa_enabled? && !@course.cop_enabled?
+              .text-align-center
+                = t 'admin.course_management.dashboard.kpis.certificates.not_available'
+            - else
+              .text-align-center
+                = t 'admin.course_management.dashboard.kpis.certificates.not_released'
+
+  .row
+    .col-md-12
+      h2
+        = t(:'admin.course_management.dashboard.kpis.title')
+
+      h3
+        = t(:'admin.course_management.dashboard.kpis.items.title')
+      .kpi-container
+        ajax-wrapper.kpi-item data-url="/api/v2/statistics/course_dashboard/item_visits.json?course_id=#{@course.id}" lazy-load='true'
+          = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.misc.item_visits'), data_key: 'count', icon: 'far fa-eye', link: course_statistics_item_visits_path(course_id: params[:id]), link_text: (t 'admin.course_management.dashboard.more_details')}
+        ajax-wrapper.kpi-item data-url="/api/v2/statistics/course_dashboard/video_plays.json?course_id=#{@course.id}" lazy-load='true'
+          = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.misc.video_plays'), data_key: 'count', icon: 'fa fa-video', link: course_statistics_videos_path(course_id: params[:id]), link_text: (t 'admin.course_management.dashboard.more_details')}
+        ajax-wrapper.kpi-item data-url="/api/v2/statistics/course_dashboard/downloads.json?course_id=#{@course.id}" lazy-load='true'
+          = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.misc.downloads'), data_key: 'count', icon: 'fa fa-download', link: course_statistics_downloads_path(course_id: params[:id]), link_text: (t 'admin.course_management.dashboard.more_details')}
+        ajax-wrapper.kpi-item data-url="/api/v2/statistics/course_dashboard/rich_text_link_clicks.json?course_id=#{@course.id}" lazy-load='true'
+          = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.misc.rich_text_link_clicks'), data_key: 'count', icon: 'fa fa-file-alt', link: course_statistics_rich_texts_path(course_id: params[:id]), link_text: (t 'admin.course_management.dashboard.more_details')}
+        ajax-wrapper.kpi-item.quiz-performance data-url="/api/v2/statistics/course_dashboard/total_quiz_performance.json?course_id=#{@course.id}&type=graded" lazy-load='true'
+          = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.items.graded_quiz'), data_key: nil, icon: 'fa fa-user-edit', link: course_statistics_quiz_path(course_id: params[:id]), link_text: (t 'admin.course_management.dashboard.more_details')}
+        ajax-wrapper.kpi-item.quiz-performance data-url="/api/v2/statistics/course_dashboard/total_quiz_performance.json?course_id=#{@course.id}&type=selftest" lazy-load='true'
+          = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.items.ungraded_quiz'), data_key: nil, icon: 'fa fa-lightbulb', link: course_statistics_quiz_path(course_id: params[:id]), link_text: (t 'admin.course_management.dashboard.more_details')}
+
+      - if @course.pinboard_enabled
+        h3
+          = t(:'admin.course_management.dashboard.kpis.forum.title')
+        ajax-wrapper data-url="/api/v2/statistics/course_dashboard/forum.json?course_id=#{@course.id}" lazy-load='true'
+          .kpi-container
+            .kpi-item
+              data-selector key='forum_statistics'
+                = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.forum.posts'), data_key: 'posts', icon: 'fa fa-comments'}
+            .kpi-item
+              data-selector key='forum_statistics'
+                = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.forum.posts_last_day'), data_key: 'posts_last_day', prefix: '+', icon: 'fa fa-comments'}
+            .kpi-item
+              data-selector key='forum_statistics'
+                = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.forum.threads'), data_key: 'threads', icon: 'fa fa-comment-dots'}
+            .kpi-item
+              data-selector key='forum_statistics'
+                = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.forum.threads_last_day'), data_key: 'threads_last_day', prefix: '+', icon: 'fa fa-comment-dots'}
+
+            - if @course.has_collab_space
+              .kpi-item
+                data-selector key='forum_statistics'
+                  = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.forum.posts_in_collab_spaces'), data_key: 'posts_in_collab_spaces', icon: 'fa fa-users'}
+              .kpi-item
+                data-selector key='forum_statistics'
+                  = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.forum.posts_last_day_in_collab_spaces'), data_key: 'posts_last_day_in_collab_spaces', prefix: '+', icon: 'fa fa-users'}
+              .kpi-item
+                data-selector key='forum_statistics'
+                  = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.forum.threads_in_collab_spaces'), data_key: 'threads_in_collab_spaces', icon: 'fa fa-users'}
+              .kpi-item
+                data-selector key='forum_statistics'
+                  = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.forum.threads_last_day_in_collab_spaces'), data_key: 'threads_last_day_in_collab_spaces', prefix: '+', icon: 'fa fa-users'}
+
+            .kpi-item
+              data-selector key='forum_activity'
+                = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.forum.forum_activity'), data_key: 'user', icon: 'fa fa-mouse-pointer'}
+            .kpi-item
+              data-selector key='forum_write_activity'
+                = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.forum.forum_write_activity'), data_key: 'user', icon: 'fa fa-pencil-alt'}
+
+      - if Xikolo.config.open_badges['enabled']
+        h3
+          = t(:'admin.course_management.dashboard.kpis.open_badges.title')
+        ajax-wrapper data-url="/api/v2/statistics/course_dashboard/open_badges.json?course_id=#{@course.id}" lazy-load='true'
+          .kpi-container
+            .kpi-item
+              = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.open_badges.badge_issues'), data_key: 'badge_issues', icon: 'fa fa-certificate'}
+            .kpi-item
+              = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.open_badges.badge_downloads'), data_key: 'badge_downloads', icon: 'fa fa-download'}
+            .kpi-item
+              = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.open_badges.badge_shares'), data_key: 'badge_shares', icon: 'fa fa-share-alt'}
+
+      - if @course.proctored? || @course.offers_reactivation?
+        h3
+          = t(:'admin.course_management.dashboard.kpis.bookings.title')
+        ajax-wrapper data-url="/api/v2/statistics/course_dashboard/bookings.json?course_id=#{@course.id}" lazy-load='true'
+          .kpi-container
+            - if @course.proctored?
+              .kpi-item
+                = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.bookings.proctorings'), data_key: 'proctorings', icon: 'fa fa-camera'}
+            - if @course.offers_reactivation?
+              .kpi-item
+                = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.bookings.reactivations'), data_key: 'reactivations', icon: 'fa fa-unlock'}
+
+      h3
+        = t(:'admin.course_management.dashboard.kpis.misc.title')
+      .kpi-container
+        ajax-wrapper.kpi-item data-url="/api/v2/statistics/course_dashboard/social_shares.json?course_id=#{@course.id}" lazy-load='true'
+          = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.misc.course_social_shares'), data_key: 'course_social_shares', icon: 'fa fa-share-alt', link: course_statistics_social_path(course_id: params[:id]), link_text: (t 'admin.course_management.dashboard.more_details')}
+
+  .row
+    .col-md-12.chart-container.time-series
+      h2 = t(:'admin.course_management.dashboard.stats_over_time.title')
+      ajax-wrapper data-url="/api/v2/statistics/course_dashboard/historic_data.json?course_id=#{@course.id}" error-text=t(:'admin.course_management.dashboard.request_error_message') lazy-load='true'
+
+        = Course::DashboardPresenter.date_labels(@course)
+
+        .col-md-12
+          h3 = t(:'admin.course_management.dashboard.stats_over_time.enrollments.title')
+          loading-spinner
+            fallback-text empty-data-text=t(:'admin.course_management.dashboard.no_data_message')
+              schema-transformer mappings=Course::DashboardPresenter.enrollment_stats_data_transformer
+                data-filter.chart active-series='["#{t(:'admin.course_management.dashboard.stats_over_time.enrollments.total_enrollments')}"]'
+                  linechart-basic height="300" highlight-latest="true" v-lines=Course::DashboardPresenter.historic_v_lines(@course)
+
+        .col-md-12
+          h3 = t(:'admin.course_management.dashboard.stats_over_time.forum.title')
+          loading-spinner
+            fallback-text empty-data-text=t(:'admin.course_management.dashboard.no_data_message')
+              schema-transformer mappings=Course::DashboardPresenter.forum_stats_data_transformer
+                data-filter.chart active-series='["#{t(:'admin.course_management.dashboard.stats_over_time.forum.posts')}"]'
+                  linechart-basic height="300" highlight-latest="true" v-lines=Course::DashboardPresenter.historic_v_lines(@course)
+          - if Xikolo.config.beta_features['teaching_team_pinboard_activity']
+            = link_to course_statistics_pinboard_path(course_id: params[:id]), class: 'detail-link' do
+              = render Global::FaIcon.new('arrow-circle-right')
+              = t(:'admin.course_management.dashboard.more_details')
+
+  .row
+    .col-md-12.chart-container.geo
+      = render Global::HeadlineTooltip.new(t(:'admin.course_management.dashboard.geo.title'), t(:'admin.statistics.geo.location_tooltip'), level: 2)
+      ajax-wrapper data-url='/api/v2/statistics/details/geo/countries.json?course_id=#{@course.id}&start_date=#{@course.start_date || @course.created_at}&end_date=#{@course.end_date || Time.zone.today}' error-text=t(:'admin.course_management.dashboard.request_error_message') lazy-load='true'
+        loading-spinner
+          fallback-text empty-data-text=t(:'admin.course_management.dashboard.no_data_message')
+            schema-transformer mappings='[{"locations": {"type": "collect", "sourceKey": "country_code_iso3"}, "z": {"type": "collect", "sourceKey": "distinct_users"}}]'
+              worldmap-basic.chart
+      = link_to course_statistics_geo_path(course_id: params[:id]), class: 'detail-link' do
+        = render Global::FaIcon.new('arrow-circle-right')
+        = t(:'admin.course_management.dashboard.more_details')
+
+  .row
+    .col-md-4.chart-container.weekday-activity
+      h2 = t(:'admin.course_management.dashboard.weekday_activity.title')
+      ajax-wrapper data-url='/api/v2/statistics/dashboard/weekday_activity.json?course_id=#{@course.id}' error-text=t(:'admin.course_management.dashboard.request_error_message') lazy-load='true'
+        loading-spinner
+          fallback-text empty-data-text=t(:'admin.course_management.dashboard.no_data_message')
+            schema-transformer no-merge='true' mappings='[{"x": {"type": "collect", "sourceKey": "day_of_week"}, "y": {"type": "collect", "sourceKey": "hour"}, "value": {"type": "collect", "sourceKey": "avg_users"}}]'
+              activitychart-basic.chart cell-width="30" cell-height="10" cell-spacing="3" axis-labels-text-size="11" y-label-frequency="2" sort-y-values="asc" x-title=t(:'admin.course_management.dashboard.weekday_activity.axis_title_day') y-title=t(:'admin.course_management.dashboard.weekday_activity.axis_title_hour')
+        = link_to course_statistics_activity_path(course_id: params[:id]), class: 'detail-link' do
+          = render Global::FaIcon.new('arrow-circle-right')
+          = t(:'admin.course_management.dashboard.more_details')
+
+    .col-md-4.chart-container.age
+      h2 = t(:'admin.course_management.dashboard.age.title')
+      ajax-wrapper data-url='/api/v2/statistics/dashboard/age_distribution.json?course_id=#{@course.id}' error-text=t(:'admin.course_management.dashboard.request_error_message') lazy-load='true'
+        loading-spinner
+          fallback-text empty-data-text=t(:'admin.course_management.dashboard.no_data_message')
+            schema-transformer mappings='[{"name": {"type": "constant", "value": "#{t(:'admin.course_management.dashboard.age.course')}"}, "x": {"type": "collect", "sourceKey": "age_group"}, "y": {"type": "collect", "sourceKey": "course_share"}}, {"name": {"type": "constant", "value": "#{t(:'admin.course_management.dashboard.age.platform')}"}, "x": {"type": "collect", "sourceKey": "age_group"}, "y": {"type": "collect", "sourceKey": "global_share"}}]'
+              barchart-basic.chart height="350" primarycolor=Xikolo.config.ui_primary_color
+
+    .col-md-4.chart-container.client-usage
+      h2 = t(:'admin.course_management.dashboard.client_usage.title')
+      ajax-wrapper data-url='/api/v2/statistics/dashboard/client_usage.json?course_id=#{@course.id}&start_date=#{@course.start_date || @course.created_at}&end_date=#{@course.end_date || Time.zone.today}' error-text=t(:'admin.course_management.dashboard.request_error_message') lazy-load='true'
+        loading-spinner
+          fallback-text empty-data-text=t(:'admin.course_management.dashboard.no_data_message')
+            schema-transformer no-merge='true' mappings='[{"sets": {"type": "collect", "sourceKey": "client_types"}, "size": {"type": "collect", "sourceKey": "total_users"}, "label": {"type": "collect", "sourceKey": "client_types"}}]'
+              vennchart-basic.chart height="350" hide-intersection-labels='true'
+
+  .row
+    - Xikolo.config.dashboard_chart_custom_fields.each do |field|
+      .col-md-4.chart-container
+        = render Statistics::CustomFieldChart.new(field:, course_id: @course.id)

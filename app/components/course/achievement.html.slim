@@ -1,0 +1,23 @@
+.Achievement class=css_classes
+  h3.Achievement-Title
+    = @achievement['name']
+    - if pill
+      span.Achievement-State
+        = render pill[:icon]
+        = pill[:text]
+  p.Achievement-Description = @achievement['description']
+  - if requirements.any?
+    .Achievement-Requirements
+      strong = t(:'course.certificates.requirements')
+      ul
+        - requirements.each do |requirement|
+          li class=requirement.css_classes
+            = render requirement.icon
+            = requirement.description
+  - if action
+    .Achievement-Actions
+      = render action.button
+      - if action.text
+        p
+          = render Global::FaIcon.new('triangle-exclamation', style: :solid)
+          = action.text

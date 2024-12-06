@@ -1,0 +1,21 @@
+= simple_form_for form, url: url, method: action do |f|
+  .flex-wrapper
+    .modal-body.modal-body--grow
+      - unless form.can_update?(current_user)
+        .mt-20
+          = render Global::Callout.new(t(:'learning_rooms.calendar.permissions'), type: :warning)
+      = f.input :title
+      = f.input :description
+      - if current_user.feature?('collabspace_calendar.all_day_events')
+        = f.input :all_day
+      = f.input :start_time, input_html: { 'data-localdate': true }
+      = f.input :end_time, input_html: { 'data-localdate': true }
+      = f.input :category, collection: form.categories, include_blank: false
+    .modal-footer
+      - if form.persisted?
+        = f.button :submit, disabled: !form.can_update?(current_user)
+        = link_to t(:'learning_rooms.calendar.delete_event'), course_learning_room_calendar_event_path(params[:course_id], params[:learning_room_id], params[:id]), method: :delete, class: "btn btn-danger #{form.can_update?(current_user) ? nil : 'disabled'}", data: {confirm: ' '}
+      - else
+        = f.button :submit
+      button.btn.btn-default data-dismiss="modal" aria-hidden="true"
+        = t(:'learning_rooms.calendar.close')

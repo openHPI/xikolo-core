@@ -1,0 +1,99 @@
+# rspec cop settings
+
+#
+# Invalid transformation if loop contains mutations
+#
+# Example
+#     2.times { create id: SecureRandom.uuid }
+#
+FactoryBot/CreateList:
+  Enabled: false
+
+RSpec:
+  Include:
+    - "spec/**/*_spec.rb"
+    - "spec/spec_helper.rb"
+    - "spec/rails_helper.rb"
+    - "services/*/spec/**/*_spec.rb"
+    - "services/*/spec/spec_helper.rb"
+    - "services/*/spec/rails_helper.rb"
+
+#
+# False positives:
+#   * Deliberately used to setup and teardown test scenarios.
+#
+RSpec/BeforeAfterAll:
+  Exclude:
+    - "spec/spec_helper.rb"
+    - "services/*/spec/spec_helper.rb"
+    - "services/*/spec/rails_helper.rb"
+
+RSpec/ContextWording:
+  Enabled: false
+
+#
+# Too stupid. There are also views, templates, request specs etc.
+#
+RSpec/DescribeClass:
+  Enabled: false
+  Exclude:
+    # API DSL has less to no classes that can be used as spec descriptions.
+    - "spec/api/**/*"
+    - "spec/features/**/*_spec.rb"
+    - "spec/requests/**/*_spec.rb"
+
+#
+# Using the action constant often is much easier to read. One shall not rename
+# important objects too often anyway, so make it harder to "rename".
+#
+RSpec/DescribedClass:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/ExpectActual:
+  Exclude:
+    # Rubocop's default only excludes routing specs in the root directory.
+    - "**/spec/routing/**/*"
+
+RSpec/ExpectInHook:
+  Enabled: false
+
+RSpec/ExpectInLet:
+  Exclude:
+    # This spec uses `let` for branch item assertions, a refactoring is not trivial.
+    - "services/course/spec/requests/items/list_spec.rb"
+
+RSpec/SpecFilePathFormat:
+  Exclude:
+    - "spec/api/**/*"
+    - "spec/client/**/*_spec.rb"
+    - "services/course/spec/comparison/enrollment_evaluation_spec.rb"
+  CustomTransform:
+    OpenHPI: openhpi
+    OpenWHO: openwho
+
+# Nothing we can quickly change.
+#
+# let(:course1)
+# let(:course2)
+#
+RSpec/IndexedLet:
+  Enabled: false
+
+RSpec/MessageSpies:
+  Enabled: false
+
+RSpec/MissingExampleGroupArgument:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/MultipleSubjects:
+  Exclude:
+    - "**/spec/comparison/**/*_spec.rb"
+
+RSpec/NestedGroups:
+  Max: 7

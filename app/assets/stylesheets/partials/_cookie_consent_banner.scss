@@ -1,0 +1,19 @@
+.cookie-consent-banner {
+  padding: 30px;
+  background-color: $gray-900;
+  color: $white;
+
+  .btn-primary,
+  .btn-default {
+    margin: 10px 10px 0 0;
+  }
+
+  .btn--close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 10px 15px;
+    border: 0;
+    background: transparent;
+  }
+}

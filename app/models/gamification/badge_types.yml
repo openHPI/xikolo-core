@@ -1,0 +1,32 @@
+# GAMIFICATION: BADGES AND LEVELS
+#
+# This file lists all badges and what it takes to achieve them (at various levels).
+# The top-level hash keys are the badge types. Each badge must list what +rules+
+# (events) are counted towards the badge. The +levels+ hash determines how many
+# scores (the value) users need to accumulate to achieve a given level (the key)
+# of the badge.
+#
+# Images for each badge must be placed in app/assets/images/gamification/badges.
+#
+communicator:
+  rules:
+    - create_question
+    - create_answer
+    - create_comment
+  levels:
+    0: 3
+    1: 8
+    2: 13
+knowledgeable:
+  rules:
+    - accepted_answer
+  levels:
+    0: 3
+    1: 8
+    2: 13
+selftest_master:
+  scope: course
+  rules:
+    - selftest_master
+  levels:
+    2: 20

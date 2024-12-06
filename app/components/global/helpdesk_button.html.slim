@@ -1,0 +1,16 @@
+.helpdesk-container
+  button#helpdesk-button.helpdesk-button accesskey="h" aria-label=t(:'helpdesk.button') title=t(:'helpdesk.button')
+    = render icon
+
+  #helpdesk-panel.helpdesk-panel
+    button.helpdesk-closing-button aria-label=t(:'global.close')
+      = render Global::FaIcon.new('xmark', style: :solid)
+
+    #chatbot-current-feature data-feature=data_feature
+
+    .helpdesk-default-box#helpdesk-ajax-container
+      #helpdesk-panel__loading
+        = render State::Loading.new
+
+    .helpdesk-result-box
+

@@ -1,0 +1,13 @@
+# rspec rails cop settings
+
+# We do not use `config.infer_spec_type_from_file_location!` within our
+# rspec test suites.
+RSpecRails/InferredSpecType:
+  Enabled: false
+
+# Some (not all) API specs are not using requests spec matchers, but
+# custom included rack support methods with same names as Rails request
+# spec helpers but different behavior.
+RSpecRails/HaveHttpStatus:
+  Exclude:
+    - "spec/api/**/*_spec.rb"

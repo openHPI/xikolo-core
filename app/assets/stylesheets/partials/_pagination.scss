@@ -1,0 +1,72 @@
+/*-------------------------------------*\
+    $CONTENTS
+
+    Paginaton component.
+    Based on Bootstrap pagination.
+\*-------------------------------------*/
+/**
+ * Variables...................Variables and Bootstrap SASS-Var overrides
+ * Bootstrap-Import............Required import for BS component
+ * Pagination-Base.............Base styling
+ * Pinboard-Paginate...........Pinboard-specific styles
+ */
+
+/*------------------------------------*\
+    $Variables
+\*------------------------------------*/
+$pagination-bg: $gray-500;
+$pagination-hover-bg: $gray-800;
+$pagination-active-bg: $primary-color;
+$pagination-disabled-bg: $gray-250;
+
+$pagination-color: $white;
+$pagination-hover-color: $white;
+$pagination-active-color: $white;
+$pagination-disabled-color: $white;
+
+/*------------------------------------*\
+    $Bootstrap-Import
+\*------------------------------------*/
+@import "bootstrap-sass/assets/stylesheets/bootstrap/mixins/pagination";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/pagination";
+
+/*------------------------------------*\
+    $Pagination-Base
+\*------------------------------------*/
+.pagination {
+  border-radius: 0px !important;
+  margin: 0px;
+
+  .xi-icon {
+    font-size: 12px;
+    font-weight: bold;
+    vertical-align: middle;
+  }
+
+  .page-number > * {
+    min-height: 40px;
+  }
+
+  & > li {
+    display: inline-block;
+    margin-right: -1px; // Correct completely inexplicable offset from the WillPaginate Gem
+
+    & > a,
+    & > span {
+      padding: 10px 16px;
+      border: 0;
+      border-radius: 0 !important;
+    }
+  }
+}
+
+/*------------------------------------*\
+    $Pinboard-Paginate
+\*------------------------------------*/
+.pinboard-paginate {
+  @include heavy-bar();
+
+  padding-top: 20px;
+  padding-bottom: 20px;
+  text-align: center;
+}

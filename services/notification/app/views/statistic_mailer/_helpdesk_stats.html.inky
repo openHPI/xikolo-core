@@ -1,0 +1,19 @@
+<row>
+  <columns>
+    <h5>
+      <%= t('statistic_mail.ticket.ticket') %>
+      <%= Xikolo.config.site_name %>
+    </h5>
+    <hr class="colored" />
+    <%= t('statistic_mail.ticket.total') %>
+
+    <p class="lead">
+      <%= number_with_delimiter(@admin_statistic.helpdesk.ticket_count) %>
+      <br />
+      <small>
+        + <%= number_with_delimiter(@admin_statistic.helpdesk.ticket_count_last_day) %>
+        <%= t('statistic_mail.ticket.duration') %>
+      </small>
+    </p>
+  </columns>
+</row>

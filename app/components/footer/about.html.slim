@@ -1,0 +1,12 @@
+.footer__about class=css_classes
+  - if headline.present?
+    h4 = headline
+  = logo
+  p = description
+
+  - if NativeApps.enabled.present?
+    p.footer__get-app = t(:'footer.native_apps.get_app')
+    .footer__app-badges
+      - NativeApps.enabled.each do |app|
+        = link_to app.url, class: 'app-badge', target: '_blank', rel: 'noopener', 'aria-label': app.alt_text
+          = image_tag Imagecrop.transform(image_path(app.image_path)), alt: app.alt_text, height: '50', width: '168'

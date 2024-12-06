@@ -1,0 +1,31 @@
+/*------------------------------------*\
+    $CONTENTS
+
+    Stars for custom course rating
+    See:
+\*------------------------------------*/
+/**
+ * Variables............Variable declarations
+ * Rating-Base..........Base Styling for the star rating
+ */
+
+/*------------------------------------*\
+    $Variables
+\*------------------------------------*/
+$star-color: $tertiary-color;
+$outline-color: $gray;
+
+/*------------------------------------*\
+    $Rating-Base
+\*------------------------------------*/
+.rating {
+  .star {
+    position: relative;
+    color: $outline-color;
+    font-size: 2em;
+  }
+
+  .star--filled {
+    color: $star-color;
+  }
+}

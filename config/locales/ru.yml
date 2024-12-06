@@ -1,0 +1,3877 @@
+# Localization file for Russian.
+ru:
+  default_title: МООК — учитесь с удовольствием прямо сейчас
+
+  date:
+    formats:
+      long: "%d %B %Y, %H:%M"
+      default: "%Y-%m-%d"
+      short: "%d %b %Y"
+      informal: "%-d %B"
+      # EN-fallback certificate: "%B %-d, %Y"
+    timezone: "(UTC)"
+
+  # language and language names
+  languages:
+    language: Язык
+    item: "%{name}"
+    # Do not translate this list!
+    name:
+      am: አማርኛ
+      ar: العربية
+      az: Azərbaycan dili
+      bg: български
+      bmb: Ebembe
+      bn: বাংলা
+      ca: Català
+      cn: 中文
+      cs: Čeština
+      de: Deutsch
+      el: Ελληνικά
+      en: English
+      eo: Esperanto
+      es: Español
+      fa: فارسی
+      fa-AF: دری
+      ff: Fulfulde
+      fi: Suomi
+      fr: Français
+      ha: Hausa
+      hi: हिन्दी, हिंदी
+      ht: Kreyòl ayisyen
+      hu: Magyar
+      hy: Հայերեն
+      id: Bahasa Indonesia
+      ig: Asụsụ Igbo
+      it: Italiano
+      ja: 日本語
+      ka: ქართული ენა
+      kaa: Qaraqalpaq
+      kk: Казақ тілі
+      km: ភាសាខ្មែរ
+      ko: 한국의
+      kr: Kanuri
+      ksw: ကညီစှီၤကျိာ်
+      ku: Kurdî
+      ky: Кыргызча
+      ln: Lingála
+      lo: ພາສາລາວ
+      luo: Dholuo
+      lv: Latviešu valoda
+      mai: मैथिली
+      mg: Malagasy
+      mk: македонски
+      mn: Монгол
+      mr: मराठी
+      my: မြန်မာစာ
+      ne: नेपाली
+      nl: Nederlands
+      om: Afaan Oromoo
+      or: ଓଡ଼ିଆ
+      pa: ਪੰਜਾਬੀ
+      pan: شاہ مُکھی
+      pcm: Naijá
+      pl: Polski
+      ps: پښتو
+      pt: Português
+      pt-BR: Português brasileiro
+      rhg: Ruáingga
+      ro: Română
+      ru: Русский
+      run: Kirundi
+      sd: سنڌي
+      shn: ၽႃႇသႃႇတႆး
+      si: සිංහල
+      sn: chiShona
+      so: Soomaaliga
+      sq: Shqip
+      sr: српски језик
+      sw: Kiswahili
+      ta: தமிழ்
+      te: తెలుగు
+      tet: Tetun
+      tg: тоҷикӣ
+      th: ภาษาไทย
+      tk: Türkmen
+      tr: Türkçe
+      tum: Chitumbuka
+      uk: Українська
+      ur: اردو
+      uz: O'zbek
+      vi: Tiếng Việt
+      yao: chiYao
+      yo: Yorùbá
+      zh: 中文
+      zu: isiZulu
+    title:
+      am: Амхарский
+      ar: Арабский
+      az: Азербайджанский
+      bg: Болгарский
+      bmb: Бемба
+      bn: бенгальский
+      ca: каталонский
+      cn: Китайский
+      cs: чешский
+      de: Немецкий
+      el: греческий
+      en: Английский
+      eo: Эсперанто
+      es: Испанский
+      fa: Персидский
+      fa-AF: Дари
+      ff: Фула
+      fi: Финский
+      fr: Французский
+      ha: Хауса
+      hi: Хинди
+      ht: Гаитянский креольский язык
+      hu: Венгерский
+      hy: Армянский
+      id: Индонезийский
+      ig: Игбо
+      it: Итальянский
+      ja: Японский
+      ka: грузинский
+      kaa: Каракалпакский
+      kk: Казахский
+      km: Кхмерский
+      ko: Корейский
+      kr: Канури
+      ksw: С'гау Карен
+      ku: Курдский
+      ky: Киргизский язык
+      ln: Лингала
+      lo: Лаосский язык
+      luo: луо
+      lv: Латышский
+      mai: Майтхили
+      mg: Малагасиец
+      mk: Македонский
+      mn: Монгольский
+      mr: Маратхи
+      my: Бирманский
+      ne: Непальский
+      nl: Нидерландский
+      om: Oromo
+      or: Ория
+      pa: Панджаби
+      pan: Пенджаби Шахмухи
+      pcm: Нигерийский пиджин
+      pl: Польский
+      ps: Пушту
+      pt: Португальский
+      pt-BR: бразильский португальский
+      rhg: Рохинджа
+      ro: Румынский
+      ru: Русский
+      run: Рунди
+      sd: синдхи
+      shn: Шанский язык
+      si: Сингальский
+      sn: Язык Шона
+      so: Cомалийский
+      sq: Албанский
+      sr: Сербский
+      sw: Cуахили
+      ta: Тамил
+      te: Телугу
+      tet: Тетум
+      tg: тоҷикӣ
+      th: Тайский
+      tk: Туркменский
+      tr: Турецкий
+      tum: Читумбука
+      uk: Украинский язык
+      ur: Yрду
+      uz: Yзбек
+      vi: Вьетнамский
+      yao: Ю-мьен
+      yo: йоруба
+      zh: Китайский
+      zu: зулус
+
+  subtitles:
+    machine_translated: "%{language} (автогенерируемая)"
+
+  buttons:
+    show_advanced_settings: Дополнительные настройки
+    hide_advanced_settings: Скрыть дополнительные настройки
+    scroll_left: Прокрутка влево
+    scroll_right: Прокрутка вправо
+
+  # Global strings are reusable short translations
+  # that appear often and can be references in specific scopes
+  # for languages that have less contextual differences
+  # They can be referenced like `my_string: :global.email`
+  global:
+    email: Электронная почта
+    password: Пароль
+    toggle_dropdown: Переключатель выпадающего списка
+    are_you_sure: Вы уверены?
+    confirm: Да, конечно
+    cancel: Отмена
+    back: Назад
+    download: Загрузить
+    submit: Отправить
+    add: Добавить
+    edit: Редактировать
+    delete: Удалить
+    nojs:
+      label: Включите JavaScript в настройках вашего браузера!
+      link: https://turnonjs.com/
+    read_more: Подробнее
+    read_less: Читать меньше
+    close: Закрыть
+
+  errors:
+    not_found:
+      headline: "К сожалению, страница, которую вы ищете, не найдена (404)"
+      message: Проверьте URL-адрес. Если вы уверены, что это программная ошибка, обратитесь к техническим специалистам через службу поддержки.
+    server:
+      headline: Кажется, что-то пошло не так
+      message: Попробуйте повторить попытку позже. Уведомление об этой ошибке будет автоматически отправлено нашим техническим специалистам. Однако вы можете помочь нам, предоставив описание проблемы в службу поддержки.
+    trace_hint: Вы можете помочь нам, предоставив следующую информацию.
+    trace_id: "Идентификатор отслеживания"
+    error_id: "Код ошибки"
+    go_to_helpdesk: Обратиться в службу технической поддержки
+  # Flash messages
+  flash:
+    notice:
+      course_not_published: Содержимое курса пока не является общедоступным.
+      enrollment_successful_short: Вы успешно зачислены на курс.
+      enrollment_successful: "Добро пожаловать!<br />Вы успешно зачислены на курс %{course}. Приятного обучения!"
+      user_successfully_enrolled: Пользователь успешно зачислен.
+      unenrollment_successful: "Вы отчислены.<br />Данные вашего прогресса будут храниться в архиве на случай последующего повторного зачисления."
+      enrollment_already_present: Вы уже зачислены на этот курс.
+      login_to_enroll: "Войдите в систему, чтобы записаться на курс: <b>%{course}</b>"
+      tag_before_posting: Установите хотя бы один тег.
+      section_deleted: Раздел удален.
+      video_player_browser_choice: "Для наиболее эффективного просмотра наших видео используйте современный браузер, способный воспроизводить видео формата H.264, т. е. последние версии Google Chrome, Safari или Firefox (исключение: Firefox для Mac не поддерживает видео формата H.264)."
+      quiz_submission_still_active: Тест все еще активен.
+      file_deleted: Файл был удален.
+      user_deleted: Ваша учетная запись удалена по запросу.
+      user_deleted_by_admin: Учетная запись удалена.
+      confirmation_resend: "Подтверждение по электронной почте отправлено повторно."
+      confirmation_email_required: "Мы отправили электронное письмо с ссылкой для подтверждения на %{email}. Для активации нового адреса электронной почты следуйте инструкциям."
+      password_changed: "Пароль успешно изменен."
+      login_connect_auth: "Войдите в существующую учетную запись %{brand}, чтобы связать ее с вашим профилем %{provider}."
+      auth_deleted: Данные входа в систему удалены из вашей учетной записи.
+      course_deleted: Курс удален.
+      channel_deleted: Канал удален.
+      primary_email_suspended: >
+        <b>Отправка сообщений на ваш основной адрес электронной почты приостановлена из-за проблем с доставкой.</b> Возможные причины включают в себя удаление учетной записи электронной почты или переполненный почтовый ящик.
+        В <a href='/dashboard/profile' class='btn btn-xs btn-default'> профиле</a> пользователя можно указать новый адрес электронной почты или повторно активировать существующий.
+
+    success:
+      single_video_synced: Видео было синхронизировано.
+      certificate_template_created: Шаблон создан.
+      certificate_template_updated: Шаблон изменен.
+      certificate_template_deleted: Шаблон удален.
+      open_badge_template_created: Шаблон Open Badge создан.
+      open_badge_template_updated: Шаблон Open Badge изменен.
+      open_badge_template_deleted: Шаблон Open Badge удален.
+      course_created: Курс создан.
+      course_updated: Курс изменен.
+      # EN-fallback courses_order_updated: The course order has been updated.
+      channel_created: Канал создан.
+      channel_updated: Канал изменен.
+      poll_created: Опрос создан.
+      poll_updated: Опрос изменен.
+      poll_deleted: Опрос удален.
+      quiz_submitted: Ваши ответы на тест успешно отправлены.
+      section_updated: "Раздел %{section_title} изменен."
+      subscription_canceled: Успешно удалил эту тему.
+      sync_initiated: Инициирована синхронизация.
+      logged_out: Вы успешно вышли из системы.
+      teacher_information_created: Информация о преподавателе успешно сохранена!
+      announcement_saved: Объявление успешно сохранено!
+      cache_flush: Удалено %{deleted_items} записей кэша
+      confirmation_successful: Спасибо за подтверждение адреса электронной почты.
+      auth_added: "С этого момента вы можете входить на %{brand} с учетными данными %{provider}."
+      announcement_mails_disabled: "Для вашей учетной записи %{mail} отключена рассылка новостей о платформе. Вы можете возобновить рассылку в любой момент в настройках своего профиля."
+      course_announcement_mails_disabled: "Для вашей учетной записи %{mail} отключена рассылка новостей о курсе. Вы можете возобновить рассылку в любой момент в настройках своего профиля."
+      pinboard_mails_disabled: "Для вашей учетной записи %{mail} отключена рассылка новостей о доске объявлений. Вы можете возобновить рассылку в любой момент в настройках своего профиля."
+      global_mails_disabled: "Для вашей учетной записи %{mail} отключена рассылка уведомлений по электронной почте. Вы можете возобновить рассылку в любой момент в настройках своего профиля."
+      user_test_created: "Пользовательский тест создан."
+      user_test_updated: "Пользовательский тест изменен."
+      user_test_deleted: Пользовательский тест удален.
+      submission_converted: Работа успешно преобразована из существующего снимка!
+      reactivate_course: "Вы возобновили этот курс до %{date}"
+      proctoring:
+        already_registered_smowl: Вы уже откалибровали изображение у нашего партнера.
+        certificate_booked: Вы успешно заказали сертификат на этот курс.
+      primary_email_unsuspended: Ваш основной адрес электронной почты успешно активирован повторно.
+      account_confirmed_manually: Учетная запись подтверждена вручную.
+      lti_provider_created: Провайдер LTI успешно создан.
+      lti_provider_updated: Провайдер LTI успешно сохранен.
+      lti_provider_deleted: Провайдер LTI успешно удален.
+      course_archived: Курс был успешно отмечен как пройденный.
+      recalculation_triggered: Начался пересчет успеваемости учащихся по этому курсу.
+      quiz_attempt_added: Дополнительная попытка для контрольной работы была предоставлена.
+      fudge_points_added: Градация была обновлена.
+      video_stream_deleted: Видеопоток был удален.
+
+    error:
+      single_video_sync_failed: Видео не удалось синхронизировать.
+      login_connect_auth_failed: При попытке связать вашу учетную запись с профилем социальной сети/организации возникла ошибка. Обратитесь в службу поддержки.
+      auth_delete_failed: Не удалось удалить данные входа в систему из вашей учетной записи.
+      not_authorized: У вас недостаточно полномочий для выполнения этого действия.
+      blocked_by_country: Этот сайт недоступен в вашей стране.
+      login_before_enrollment: Чтобы записаться на лекции, войдите в систему.
+      missing_user_id_for_enrollment: Отсутствует идентификатор пользователя. Чтобы записаться, выберите пользователя.
+      course_restricted: У вас недостаточно полномочий для доступа к этому курсу. Если у вас возникли вопросы и требуется поддержка, обратитесь в службу поддержки.
+      session_expired: Время сеанса истекло. Необходимо войти в систему.
+      teacher_required: Для этого вам необходимы полномочия преподавателя или администратора.
+      login_to_proceed: Для продолжения войдите в систему.
+      certificate_template_not_created: Шаблон не создан.
+      certificate_template_not_updated: Шаблон не изменен.
+      certificate_template_not_uploaded: Файл шаблона не загружен.
+      certificate_template_not_deleted: Шаблон удалить не удалось.
+      certificate_template_has_records: Не удается удалить шаблон из-за уже существующих записей.
+      open_badge_template_not_created: Шаблон Open Badge не создан.
+      open_badge_template_not_updated: Шаблон Open Badge не изменен.
+      open_badge_template_not_uploaded: Файл шаблона Open Badge не загружен.
+      open_badge_template_not_deleted: Не удается удалить шаблон Open Badge из-за уже существующих значков.
+      certificate_not_updated: Изменения в сертификат об окончании курса не внесены.
+      course_not_created: Курс не был создан.
+      course_not_updated: Курс не был изменен.
+      course_not_deleted: Не удалось удалить курс.
+      # EN-fallback courses_order_failed: Something went wrong. The order of the courses may not have been updated correctly. Please check the result.
+      channel_not_created: Канал не был создан.
+      channel_not_updated: Канал не был обновлен.
+      channel_not_deleted: Канал не был удален.
+      poll_not_created: Опрос не создан.
+      poll_not_updated: Опрос не изменен.
+      poll_not_deleted: Опрос не удален.
+      confirmation_failed_no_email: "Этот адрес электронной почты не найден."
+      confirmation_failed_already_confirmed: "Этот почтовый адрес уже подтвержден."
+      not_enrolled: Вы не зачислены на этот курс.
+      quiz_submission_failed: При отправке ответов на тест возникла ошибка.
+      quiz_submission_no_answers: На тест не было отправлено ни одного ответа.
+      quiz_submissions_maximum_reached: Вы исчерпали допустимое число попыток пройти этот тест.
+      quiz_submission_time_up: Время прохождения текущего теста истекло.
+      quiz_submissions_submission_deadline_passed: Крайний срок отправки ответов на этот тест истек.
+      section_not_created: Раздел не создан.
+      section_not_updated: Раздел не изменен.
+      subscription_not_canceled: Эту тему нельзя отменить.
+      picture_not_uploaded: "Не удалось загрузить фотографию. Попробуйте еще раз."
+      slides_not_uploaded: "Не удалось загрузить слайды. Попробуйте еще раз."
+      audio_not_uploaded: "Не удалось загрузить аудиофайл. Попробуйте еще раз."
+      transcript_not_uploaded: "Не удалось загрузить файл расшифровки. Попробуйте еще раз."
+      reading_material_not_uploaded: "Не удалось загрузить файл с материалами для чтения. Попробуйте еще раз."
+      thumbnail_archive_not_uploaded: "Не удалось загрузить архив метаданных. Попробуйте еще раз."
+      attachment_not_uploaded: "Не удалось загрузить вложение. Попробуйте еще раз."
+      login_before_posting: Чтобы опубликовать вопрос, войдите в систему.
+      description_not_saved: При сохранении описания возникла ошибка.
+      invalid_credentials: Ошибка входа в систему. Проверьте свои учетные данные.
+      invalid_digest: "Вход в систему не выполнен из-за внутренней ошибки. В целях безопасности <a href='%{url}' class='btn btn-default btn-xs'>сбросьте пароль</a> и попробуйте войти снова."
+      generic: "Во время входа в систему возникла ошибка. Повторите попытку позже или обратитесь в службу поддержки."
+      unconfirmed_user: "Этот адрес электронной почты еще не подтвержден. Проверьте в свой почтовый ящик и найдите письмо, отравленное вам после регистрации. Все дальнейшие инструкции приведены в этом письме. Если вы не получили письмо, <a href='%{url}' class='btn btn-default btn-xs'>нажмите здесь</a>, чтобы отправить его повторно."
+      invalid_information: "Вход в систему с учетными данными вашего провайдера не выполнен из-за ошибки обмена информацией. Обратитесь в службу поддержки."
+      login_failed: Ошибка входа в систему.
+      need_to_be_member: Для выполнения данного действия вы должны быть членом группы.
+      need_to_be_admin: Для выполнения данного действия вы должны быть администратором этой группы.
+      email_not_updated: Не удалось сохранить адрес электронной почты. Введите действительный адрес электронной почты.
+      announcement_not_saved: Объявление не сохранено!
+      document_denied: У вас нет прав для работы с данным документом.
+      proctoring:
+        booking_failed: Заказать сертификат по данному курсу невозможно.
+        already_proctored: Вы уже заказали сертификат.
+        not_enrolled: Чтобы забронировать Сертификат, необходимо записаться на курс.
+      subtitles_not_valid: Субтитры должны находиться в ZIP-архиве или в файле VTT.
+      pinboard:
+        cannot_edit_question: Вы не можете изменить этот вопрос!
+      password_change_failed:
+        forgot_password: "Забыли пароль? <a href='/account/reset/new' class='btn btn-default btn-xs'>Сбросить пароль</a>"
+        different_passwords: Убедитесь, что поля «Новый пароль» и «Подтверждение пароля» совпадают.
+        password_save_failed: Не удалось сохранить новый пароль. Повторите попытку позже.
+      files:
+        attachment_file_size_exceeded: "Размер этого файла превышает допустимый размер {{maxFilesize}} МБ."
+        document:
+          invalid_mime_type: "{{fileext}} не является допустимым файлом документа. Разрешенные типы документов: %{allowed}."
+          valid_formats: "Разрешенные типы документов: pdf, ppt, pptx, odp, doc, docx, odt, xls, xlsx, ods, jpg, png и gif. Макс. размер: 8 МБ."
+      email_hash_invalid: Возможно, предоставлена недействительная ссылка.
+      unfulfilled_prerequisites: Вы не выполнили предварительные условия для участия в курсе.
+      user_test_not_created: Не удалось создать пользовательский тест.
+      user_test_not_updated: Не удалось изменить пользовательский тест.
+      user_test_not_deleted: Не удалось удалить пользовательский тест.
+      params_missing_learn_review: Отсутствуют параметры для quiz_id и course_id!
+      switch_question_to_mcq: В вопросах с одним вариантом выбора допускается только один правильный ответ! Пожалуйста, проверьте вопрос.
+      user_required: Не указан пользователь.
+      reactivate_course: Не удалось возобновить курс. Повторите попытку или обратитесь в службу поддержки, если проблема сохранится.
+      voucher:
+        not_found: Предоставленный вами код ваучера недействителен. Пожалуйста, проверьте код ваучера.
+        already_claimed: Предоставленный вами код ваучера уже был использован. Коды можно применить только один раз.
+        wrong_claimant: Предоставленный вами код ваучера недействителен для вашей учетной записи пользователя.
+        wrong_course: Предоставленный вами код ваучера недействителен для этого курса.
+        incorrect_product: Предоставленный вами код ваучера недействителен для этого продукта.
+        expired: Срок действия предоставленного вами кода ваучера уже истек.
+        general: Произошла общая ошибка. Пожалуйста, свяжитесь со службой поддержки, если эта проблема не устранена.
+      document:
+        title_already_taken: Данное название уже используется.
+      provider_auth_error: "Не найдены действительные данные аутентификации для %{provider_name}."
+      account_not_confirmed_manually: Не удалось подтвердить учетную запись вручную.
+      download_not_refreshed: У поставщика видео не удалось запросить действительную ссылку на скачивание. Пожалуйста, повторите попытку позже.
+      recalculation_failed: Не удалось начать пересчет успеваемости учащихся по этому курсу. Пожалуйста, повторите попытку позже.
+      quiz_attempt_failed: Дополнительная попытка для прохождения теста не может быть предоставлена.
+      fudge_points_failed: Градация не может быть обновлена.
+      video_stream_not_deleted: Удалить видеопоток не удалось, так как он по-прежнему используется в учебных блоках.
+
+  interrupts:
+    mandatory_profile_fields: Вы можете помочь нам улучшить процесс обучения для вас, заполнив все обязательные поля, прежде чем приступать к изучению курсов.
+
+  browser_warning:
+    headline: Ваш браузер не поддерживается!
+    headline_soft: Ваш браузер не полностью поддерживается!
+    browser_ie: Вы используете Internet Explorer 10, Microsoft Edge 28 или более ранние версии.
+    text_ie: "Этот браузер больше не поддерживается %{brand}, <b>вы не сможете использовать такие важные функции, как воспроизведение видео. </b>Прежде чем продолжить, обновите Internet Explorer или используйте последнюю версию альтернативного браузера (рекомендуем <a href='http://www.mozilla.org/firefox/new/'>Mozilla Firefox</a>или <a href='https://www.google.com/chrome/'>Google Chrome</a>)."
+    text_other: "Вы используете устаревшую версию браузера, которая не полностью поддерживается %{brand}. <b>Возможно, вы не сможете использовать такую важную функцию, как отправка тестов</b>. Чтобы продолжить, обновите браузер до последней версии (рекомендуемые браузеры: <a href='http://www.mozilla.org/firefox/new/'>Mozilla Firefox</a> или <a href='https://www.google.com/chrome/'>Google Chrome</a>)."
+    text_hide: "Нажмите здесь, чтобы навсегда скрыть это предупреждение."
+
+  components:
+    actions_dropdown:
+      aria_label: Дополнительные действия
+    countdown:
+      time_remaining: "Осталось времени:"
+    filter_bar:
+      search:
+        label: Искать
+        clear: Четкий поиск
+      filter:
+        reset: Сбросить фильтры
+        divider: ──────────
+        all: Все
+        results: "Результаты для:"
+        results_count:
+          zero: "Нет курсов"
+          one: "%{count} курс"
+          few: "%{count} курса"
+          many: "%{count} курсов"
+          other: "%{count} курсов"
+        adjust: Настроить
+    date_time_picker:
+      today: Установить на сегодня
+      clear: Очистить
+    popover:
+      title: Вы знали?
+      close: Закрыть
+      hide_hint_btn: Больше не показывать
+    promotion:
+      link: Читать далее
+
+  shared:
+    records:
+      roa:
+        download_roa: Сертификат об окончании курса
+        roa_not_available: "Сертификат об окончании курса"
+        contact_helpdesk: "Обратитесь в службу поддержки"
+      cop:
+        download_cop: Сертификат об участии
+        cop_not_available: "Сертификат об участии"
+        contact_helpdesk: "Обратитесь в службу поддержки"
+      cert:
+        download_cert: Сертификат
+        cert_not_available: "Сертификат"
+        contact_helpdesk: "Обратитесь в службу поддержки"
+      open_badge:
+        open_badge: Open Badge
+
+  # Header string translations
+  header:
+    # Log in drop down form
+    login:
+      headline: "Войти на %{brand}"
+      forgot_password: "Забыли пароль?"
+      identity:
+        headline: Войти с учетными данными
+        label:
+          email: :global.email
+          password: :global.password
+          submit: Войти
+        placeholder:
+          email: :global.email
+          password: :global.password
+      external:
+        headline: "Или войти с:"
+      register:
+        headline: Впервые здесь?
+        text: "Вы можете %{link}."
+        link: Создать новый аккаунт
+      omniauth:
+        saml_test_id: SAMLtest ID
+
+    # Navigation
+    navigation:
+      home: Главная
+      about: "Об %{site_name}"
+      courses: Курсы
+      discussions: Обсуждения
+      points: Баллы
+      login: Войти
+      logout: Выйти
+      register: Регистрация
+      news: Новости
+      my_things: "Мой %{brand}"
+      account_options: Свойства учетной записи
+      dashboard: Панель
+      profile: Профиль
+      achievements: Достижения
+      settings: Настройки уведомлений
+      documents: Сертификаты
+      greeting: "%{name}"
+      choose_language: Выберите язык
+      channels: Каналы
+      toggle: коммутационная навигация
+      menu: меню
+      more: Подробнее
+      profile_menu: Меню профиля
+
+      tooltip:
+        logout: Выйти
+
+      administration: Aдминистрирование
+      admin:
+        dashboard: Панель
+        courses: Курсы
+        users: Пользователи
+        teachers: Преподаватель
+        permissions: Полномочия
+        videos: Видео
+        certificates: Сертификаты
+        knowledge_documents: Документы
+        channels: Каналы
+        polls: Опросы
+        reports: Отчеты
+        user_tests: Пользовательские тесты
+        vouchers: Ваучеры
+        lti_providers: Провайдеры LTI
+
+      masquerade:
+        copy_user_id: ID пользователя в буфер обмена
+        copy_email: Эл. почта в буфер обмена
+        demasq: DEMASQ
+
+  # Footer strings
+  footer:
+    native_apps:
+      apple_store_alt: Скачать в App Store
+      google_play_alt: Получить на Google Play
+
+  helpdesk:
+    button: Служба поддержки
+    headline:
+      brand: "%{brand} "
+      remainder: "Служба поддержки"
+    notice: "вы уже искали ответ на ваш вопрос в разделе <a href='/pages/faq' target='_blank' rel='noopener'>Вопросы и ответы</a>?"
+    notice_title: Подсказка
+    text: Пожалуйста, опишите вашу техническую проблему в текстовом поле ниже. Вместе с запросом будет автоматически отправлена информация о вашем браузере, а также ваш адрес электронной почты.
+    report_title: Краткое описание проблемы
+    email: Ваш адрес электронной почты
+    submission: Проблема
+    submit: Сообщить о проблеме
+    cancel: Отмена
+    general_question: Общий вопрос
+    technical_question: Технический вопрос
+    course_specific_question: Вопрос касательно курса
+    success_message: Ваш запрос отправлен в службу поддержки. Ответ будет предоставлен в ближайшее время.
+    thanks: Спасибо!
+    error_message: Упс! Что-то пошло не так.
+    back: Назад
+    recaptcha: Помогите нам обеспечить безопасность сайта! Подтвердите, что вы человек, поставив галочку в поле ниже.
+
+  home:
+    platform: "%{brand}"
+    courses: Текущие и ближайшие курсы
+    news: Новости
+    show_article: Подробнее
+    list_all_courses: Список всех курсов »
+    claims:
+      - title: Интересуйтесь,
+        text: Изучайте наши курсы через Интернет — в любое время, в любом месте.
+      - title: общайтесь,
+        text: Станьте участником активной образовательной социальной сети
+      - title: Будьте успешными.
+        text: Получите сертификат об окончании курса.
+    tile:
+      more: Подробнее
+
+  account:
+    confirmations:
+      confirmation_failed:
+        headline: Период подтверждения вашей учетной записи уже закончился.
+        message: Ваша учетная запись и все связанные с ней данные были автоматически удалены, так как не были подтверждены в течение трех дней.
+        button: Создать новую учетную запись
+    preferences:
+      show:
+        privacy:
+          headline: Настройки конфиденциальности
+          text: Здесь вы можете ограничить информацию, которая позволяет другим пользователям найти вас.
+        notification:
+          headline: Мои настройки уведомлений
+          mail_info: Уведомления в настоящее время отправляются на <em>%{email}</em>. Вы можете изменить этот адрес в своем <a href='/dashboard/profile'>профиле</a>.
+          primary_email_suspended: >
+            Рассылка уведомлений по электронной почте отключена из-за проблем с доставкой писем на ваш основной адрес электронной почты.
+            Измените или повторно активируйте адрес электронной почты в вашем <a href='/dashboard/profile'>профиле</a>.
+          event_notifications: Уведомления о событиях
+          event: Событие
+          default_settings: Восстановить настройки по умолчанию
+          headline_email: :'global.email'
+          headline_inapp: В приложении
+          email:
+            global: "%{brand} может отправлять мне уведомления по электронной почте"
+            news:
+              announcement: "Получать новости от %{brand}, например, уведомления о новых курсах"
+            course:
+              announcement: "Получать уведомления о курсах, на которые вы зачислены"
+            pinboard:
+              new_answer: "Активность в темах обсуждений, которые вы читаете"
+            stats: "Получать ежедневную статистику по курсам, которые вы преподаете"
+
+        subscription:
+          headline: Отслеживаемые темы обсуждений
+          subscribe: Подписаться
+          unsubscribe: Отменить подписку
+          thread: Тема
+          action: Управление подпиской
+          last_activity: Последняя активность
+          thread_count:
+            zero: Вы не подписаны ни на одну тему.
+            one: Вы подписаны на одну тему.
+            few: "Вы подписаны на %{count} темы."
+            many: "Вы подписаны на %{count} тем."
+            other: "Вы подписаны на %{count} тем."
+          ago: "%{timeago} назад"
+          empty_state: Нет тем для обсуждения, за которыми вы следите.
+
+        xikolo:
+          course:
+            course:
+              enrollment_create: Новое зачисление
+          pinboard:
+            answer:
+              create: Новый ответ в теме, на которую вы подписаны
+              notify:
+                create: Новый ответ в теме, на которую вы подписаны
+          news:
+            announcement:
+              create: Новое объявление
+
+    sessions:
+      auth_connect:
+        headline: "Добро пожаловать на %{brand}"
+        native_login:
+          text: >
+            <p>Вы собираетесь войти в систему с помощью %{provider}.</p>
+            <p>Поскольку на %{brand} не существует учетной записи с этим адресом электронной почты, мы создадим для вас новую.
+            <b>Однако, возможно, у вас уже есть учетная запись (с другим адресом электронной почты) и вы хотите связать ее с вашим профилем %{provider}.</b></p>
+          btn_connect: Войти и подключиться к существующей учетной записи
+          btn_cancel: Продолжить с новой учетной записью
+        text: Это первый раз, когда вы входите в %{brand} с этим цифровым удостоверением.
+        text_create: Новичок в изучении %{brand}?
+        btn_create: создать новую учетную запись
+        title_connect: Уже учитесь на %{brand}?
+        text_connect: Подключите существующую учетную запись и сохраните историю обучения.
+        btn_connect: Подключиться к существующей учетной записи
+        provider_label:
+          saml_test_id: SAMLtest ID
+        provider_link:
+          saml_test_id: "https://samltest.id"
+      connect_account:
+        headline: Подключить существующий аккаунт %{brand}
+        text: Пожалуйста, введите учетные данные вашей существующей учетной записи %{brand}. Вы должны сделать это только один раз. В будущем вы сможете входить в %{brand} с системой единого входа %{provider}.
+        btn_cancel: Отмена
+        hint: Забыли пароль или ваш пароль не работает? Обратитесь в <a href='/helpdesk'>службу поддержки</a>.
+    policies:
+      show:
+        headline: Заявление о конфиденциальности
+        instructions: "Прежде чем продолжить, ознакомьтесь и примите наше действующее <a href='%{link}' target='_blank'>заявление о конфиденциальности</a> в отношении использования %{бренда} (заявление открывается во внешнем окне)."
+        label:
+          submit: "Далее"
+    treatments:
+      index:
+        mandatory:
+          headline: "Требуется для использования %{brand}"
+          instructions: Мы хотели бы сообщить Вам, что Вы соглашаетесь со следующими условиями обработки данных при переходе к изучению данного материала.
+        optional:
+          headline: Нам необходимо ваше разрешение
+          instructions: Просим вас предоставить дополнительное разрешение на оказание вам дополнительных услуг. Используйте эту возможность для проверки всех предоставленных вами разрешений. Вы также можете в любой момент проверить предоставленные вами разрешения в своем профиле пользователя.
+        label:
+          submit: "Далее"
+      consent:
+        flash:
+          success: Благодарим вас! Разрешения изменены.
+          error: К сожалению, при изменении разрешений возникла ошибка. Повторите попытку или обратитесь в службу поддержки.
+    password_resets:
+      new:
+        headline: Сбросить пароль
+        instructions: Укажите свой адрес электронной почты и отправьте форму. Вы получите электронное письмо со ссылкой, перейдя по которой можно задать новый пароль.
+        label:
+          email: Ваш адрес электронной почты
+          submit: Сбросить пароль
+        placeholder:
+          email: Ваш адрес электронной почты
+      show:
+        headline: Сбросить пароль
+        instructions: "Выберите новый пароль для своей учетной записи %{brand}."
+        label:
+          password: Новый пароль
+          password_confirmation: Подтвердить пароль
+          submit: Установить новый пароль
+        placeholder:
+          password: Новый пароль
+          password_confirmation: Подтвердить пароль
+      flash:
+        reset_send: "Мы отправили электронное письмо со ссылкой для восстановления пароля на %{email}. Проверьте свой почтовый ящик и следуйте инструкциям в письме."
+        pw_changed: "Пароль восстановлен. Выполните вход в систему с новым паролем."
+        email_not_found: "Убедитесь, что введен адрес электронной почты, с которым вы зарегистрировались."
+    accounts:
+      new:
+        title: "Добро пожаловать на %{brand}"
+        text: "Создайте новую учетную запись %{brand}. Просто заполните свои данные.<br /><i>Примечание:</i> указанное вами имя будет отображаться в вашем сертификате об окончании курса %{brand}."
+        privacy: "<b>Обратите внимание:</b> ваши персональные данные будут обработаны %{brand} в соответствии с нашей <a href='%{link}' target='_blank'>политикой конфиденциальности</a>. Создавая учетную запись %{brand}, вы соглашаетесь с условиями нашей <a href='%{link}' target='_blank'>политики конфиденциальности</a>."
+        submit: "Зарегистрироваться на %{brand}"
+      verify:
+        headline: Пожалуйста, подтвердите свой аккаунт
+        message: Вы получите электронное письмо для подтверждения в течение следующих нескольких минут.
+        confirmation_period: Ссылка для проверки действительна в течение трех дней.
+        notice: Пожалуйста, проверьте папку Спам, если Вы не получили письмо с подтверждением.
+    shared:
+      consent:
+        required: "Чтобы продолжить работу, вы должны принять обязательные условия."
+        user_profile:
+          label: Профиль пользователя
+          text: "Я разрешаю %{brand} хранить созданный мной профиль пользователя. Некоторые данные из этого профиля будут видны другим пользователям платформы на форумах и других площадках для совместной работы. К ним относятся мое <i>настоящее имя</i>, если мной не было указано особое <i>отображаемое имя</i>, а также необязательное для загрузки фото профиля."
+        web_tracking:
+          label: Отслеживание
+          text: "Я разрешаю %{brand} сбор и анализ данных об использовании мной платформы в целях улучшения процесса обучения и предлагаемых %{brand} услуг. Мои данные будут храниться анонимно."
+        profile:
+          headline: Разрешения
+          consented_at: "Вы предоставили это разрешение %{date}."
+          consent_declined_at: "Вы отозвали это разрешение %{date}."
+          required: обязательно
+          notice: "<p>Необязательные разрешения можно предоставить или отозвать в любой момент.</p><p>Обязательные разрешения необходимы для предоставления вам основных услуг %{brand} и могут быть отозваны только путем удаления вашей учетной записи. Это необратимое действие.</p>"
+          external: "Это согласие управляется центральным каталогом согласия (Менеджер согласия). Вы можете просмотреть или изменить свои настройки в любое время на <a href=%{url} target='_blank' rel='noopener'>этой странице</a>."
+        external_notice: Это согласие управляется центральным каталогом согласия (Менеджер согласия).
+
+  admin:
+    channels:
+      channel: Канал
+      delete_warning:
+        zero: "Вы уверены, что хотите удалить этот канал?"
+        one: "В этом канале есть один курс - вы уверены, что хотите его удалить?"
+        few: "В этом канале есть несколько курсов - вы уверены, что хотите удалить его?"
+        many: "В этом канале много курсов - вы уверены, что хотите удалить его?"
+        other: "В этом канале есть %{count} курсов - вы уверены, что хотите удалить его?"
+      headline: Каналы
+      empty_msg: В данный момент каналов нет.
+      reorder: Изменить порядок каналов
+      add: Добавить новый канал
+      actions:
+        show: Просмотр
+        edit: Редактировать
+        remove: Удалить
+      code: Код
+      name: Имя
+      logo: Логотип
+      description: Описание
+      public: "Общедоступный?"
+      show_on_stage: Показывать на главной
+      public_true: true
+      public_false: false
+      new: # new
+        title: Добавить канал
+      edit: # view
+        title: Редактировать канал
+
+    courses:
+      new: Создать курс
+      update: Изменить курс
+      delete: Удалить курс
+      help: Помощь
+      index:
+        headline: Все курсы
+        published: Опубликовано
+        preparation: В подготовке
+        search:
+          label: "Фильтр:"
+          submit: "Поиск"
+        code: Код
+        title: Название
+        status: Статус
+        actions: Действия
+        edit: Редактировать
+        copy_id: ID копии
+        create: Создать новый курс
+        filter:
+          preparation: Подготовка
+          active: Активно
+          archive: Архив
+          status: cтатус
+      classifiers:
+        status: Статус
+        course_status:
+          preparation: Подготовка
+          active: Активно
+          archive: Архив
+      formgroups:
+        meta: Метаданные
+        visuals: Изображения курса
+        teaching_team: Преподаватели курса
+        classifiers: Классификаторы курса
+        channel: Настройки канала
+        dates: Даты курса
+        certificate: Сертификаты курса
+        end: Конец курса
+      form:
+        file: "Имя файла:"
+        edit_visuals: Редактирование визуальных образов
+      info:
+        invite_only: Если вы установите значение для URL-адреса внешней регистрации на любом языке, учащиеся больше не смогут отменить свою регистрацию на курс. Учащиеся также должны перейти к внешней регистрации, чтобы правильно отменить свое бронирование.
+      generate_ranking:
+        label: "Создать рейтинг"
+        created_at: "Создано в: %{date}"
+        quantile_count: "Счетчик квантилей: %{count}"
+        success:
+          title: "Запрос на создание рейтинга отправлен"
+        error:
+          title: "Возникла ошибка"
+          msg: "Повторите попытку или обратитесь к администратору"
+      sections:
+        form:
+          placeholder:
+            title: "Введите название раздела"
+            description: "Введите описание раздела. Эта информация также будет отображаться на странице описания курса"
+          label:
+            title: "Название"
+            description: "Описание"
+            start_date: "Дата начала"
+            end_date: "Дата окончания"
+            published: Опубликовано
+            optional: Раздел не является обязательным
+            pinboard_closed: Закрыть обсуждения?
+      items:
+        form:
+          placeholder:
+            title: "Введите название"
+          label:
+            title: "Название"
+            start_date: "Дата начала"
+            end_date: "Дата окончания"
+            time_effort: Необходимое время
+            published: Опубликовано
+            show_in_nav: Показать в навигации по курсу
+            featured: Рекомендуемые
+            open_mode: Открытый режим разрешен
+            public_description: Общедоступное описание
+            public_description_hint: "Общедоступное описание содержит краткое текстовое описание содержимого видеотрансляции (необходимо для поисковых систем в открытом режиме)."
+            content_type: Тип
+            exercise_type: Тип задания
+            max_points: Максимальное число баллов
+            optional: Необязательно
+            submission_deadline: Крайний срок отправки работы
+            submission_publishing_date: Дата публикации работы
+            proctored: Включить наблюдение на экзамене?
+            icon_type: Тип значка
+          type_selector:
+            video: "Видео"
+            quiz: "Тест"
+            text: "Текст"
+            lti_exercise: "Сторонний инструмент для выполнения заданий"
+            peer_assessment: Взаимная проверка
+          exercise_type_selector:
+            selftest: Самопроверка
+            main: Основное
+            bonus: Бонус
+            survey: Опрос
+            none: нет
+          video_groupings:
+            video_data: Видеофайлы
+            additional_files: Дополнительные файлы
+          video_data:
+            pip_stream: Трансляция «картинка в картинке»
+            lecturer_stream: Трансляция лектора
+            slides_stream: Трансляция слайдов
+            subtitled_stream: Трансляция с субтитрами
+            stream_placeholder: Выберите трансляцию
+            thumbnail_archive: Архив метаданных
+            subtitles: Субтитры
+            transpipe_link: Управление субтитрами в TransPipe
+          additional_files:
+            slides: Слайды
+            transcript: Расшифровка
+            reading_material: Материалы для чтения
+            audio: Аудио
+            remove: Удалить файл
+          description: Описание
+          time_effort:
+            calculated_time_effort: Расчетное необходимое время
+            not_available: Данные отсутствуют
+            calculated_time_effort_hint: Обратите внимание на то, что автоматически рассчитанное значение может измениться в связи с выполнением расчетов.
+            not_overwritten: Не перезаписывать
+            must_be_number: Необходимое время указывается в секундах.
+            overwrite_error: Не удалось перезаписать значение необходимого времени.
+            reset_error: Не удалось сбросить значение необходимого времени до автоматически рассчитанного.
+
+    course_management:
+      enrollments:
+        user_not_enrolled: "Пользователь <strong> %{user_name} (%{user_email}) </strong> не зачислен на этот курс!"
+        # EN-fallback user_not_confirmed: The user cannot be enrolled in this course because the account has not yet been confirmed.
+        enroll_user: Зачислить пользователя
+        search_for_user: Поиск пользователя
+        enrollment_id: ID зачисления
+        user_id: ID пользователя
+        email: Эл. почта
+        enrolled: Зачислен
+        features: Забронированные функции
+        proctoring: Сертификат
+        reactivation_html: <span title="Until %{date}">Реактивация</span>
+        details: Подробная информация
+        submissions: Отправленные работы
+        email_or_name: Эл. почта или имя
+        progress: Прогресс
+        reset_filter: "Сбросить фильтр"
+        copy_id: Копия ID
+      submissions:
+        search_user: "Поиск пользователя: "
+        email_or_name: Эл. почта или имя
+        search_reset: Сбросить фильтр
+        user_submissions: "Все отправленные ответы в тестах на оценку и бонусных тестах для "
+        quiz: Тест
+        copy_id: Копия ID
+        title: Название
+        count: Количество
+        attempts:
+          allowed: Разрешенное число попыток
+          unlimited: Неограниченный
+          remaining: Осталось попыток
+          additional: Дополнительное число попыток
+        add_attempt: "+1"
+        proctoring:
+          processing: "Прокторинг: Все еще обрабатывается..."
+          passed: Протестирование пройдено
+          passed_with_issues: Протестирование пройдено с некоторыми проблемами
+          failed: Протестирование не пройдено
+          exclude: Исключить из наблюдения
+          exclude_confirm: Вы уверены, что хотите исключить отправленную работу из наблюдения?
+        actions: Действия
+        submission: Работа
+        submissions: Отправленные работы
+        empty:
+          filtered: Этот ученик еще не подал ни одной контрольной работы в этом курсе.
+          course: Похоже, что в этом курсе пока нет ни одной контрольной работы.
+        user: Пользователь
+        timestamps:
+          label: Время
+          access: "Доступно: %{time}"
+          submit: "Отправлено: %{time}"
+          not_submitted: Не подано
+        profile: Профиль
+        access_time: Время доступа
+        submitted: "Отправлено?"
+        submission_time: Время отправки
+        points: Баллы
+        snapshot: "Снимок?"
+        convert_manually: Конвертировать вручную
+        true_text: true
+        false_text: false
+      submission_statistics:
+        title: Статистика работ
+        submissions: Работа
+        total_submissions: "Всего работ: "
+        distinct: "Отправившие работу пользователи: "
+        total_points: "Всего баллов: "
+        please_select: "Выберите..."
+        correct: Правильно
+        wrong: Неправильно
+        total: всего
+        student_performance: Показатели успеваемости
+        average_time: "Среднее время: "
+        average_points: "Средний балл: "
+        percent_of: "% из "
+        seconds: " сек."
+        limit: " ограничение"
+      policy_url: URL-адрес политики
+
+    users:
+      create:
+        new: Новый пользователь
+      index:
+        title: Пользователи
+        display_name: Отображаемое имя
+        email: Эл. почта
+        confirmed: Подтверждено
+        filter: "Фильтрация по имени или эл. почте:"
+        confirmed_true: true
+        confirmed_false: false
+        details: Подробная информация
+        search: Поиск
+        search_by_auth_uid: "Поиск пользователя по SSO номеру:"
+        go: Перейти
+      form:
+        placeholder:
+          full_name: "Имя"
+          email: "Электронная почта"
+          password: "Пароль"
+        label:
+          submit: "Отправить"
+          full_name: "Имя:"
+          email: "Эл. почта:"
+          password: "Пароль:"
+        confirmed: Подтверждено
+      new:
+        create_user: Создать пользователя
+    user_tests:
+      index:
+        user_tests: Пользовательские тесты
+        details: Подробная информация
+        edit: Редактировать
+        name: Имя
+        start_date: Дата начала
+        end_date: Дата окончания
+        course: Курс
+      show:
+        back_to_list: Назад к списку
+        details: Подробная информация
+        start_date: Дата начала
+        end_date: Дата окончания
+        course: Курс
+        alternative: Альтернативный
+        control: "\xA0(Control)"
+        name: Имя
+        participants: Участники
+        required_participants: Обязательные участники
+        required_participants_hint: (для объема выборки 0,5 и мощности 0,8)
+        non-finished: Не закончено
+        waiting: Ожидание
+        mean: Среднее значение
+        effect: Расчетный эффект
+        confidence: Достоверность
+        total: Всего
+        metric: Показатель
+        filters: Фильтры
+        identifier: Идентификатор
+        max_participants: Макс. число участников
+        active: активно
+        confidence_error: Ошибка в расчете достоверности
+        edit: Редактировать
+        download: Экспорт результатов в CSV
+        delete: Удалить
+      new:
+        new_user_test: Новый пользовательский тест
+        none: нет
+      create:
+        new: Новый пользовательский тест
+      form:
+        label:
+          start_date: Дата начала
+          end_date: Дата окончания
+          max_participants: Макс. число участников
+        add_metric: Добавить показатель
+        test_groups: Группы тестов
+        test_group_name: Группа тестов %{number}
+        add_test_group: Добавить группу тестов
+        day_of_week_effects_hint: Учитывайте влияние дня недели. Тестирование лучше проводить несколько недель подряд.
+        test_groups_hint: Разделенный запятыми список названий групп
+        filter_hint: 'Примеры: "пол == женский", "зачисления < 2". Поддерживаются все поля профиля, а также зачисления, преподаватель и администратор. Поддерживаемые операторы: ==, !=, in, <, >, <=, >=, << (between), <=<=. Введите несколько фильтров через запятую. Значения могут представлять собой строку, целое число или список с запятыми в качестве разделителя, в зависимости от оператора.'
+      metric:
+        metric_wait_interval_hint: Интервал времени, в течение которого оценивается показатель.
+      edit:
+        edit_user_test: Редактировать пользовательский тест
+    teachers:
+      index:
+        title: Преподаватели
+        name: Имя
+        description: Описание
+        details: Подробная информация
+      show:
+        picture: Изображение
+        description: Описание
+        edit: Изменить данные преподавателя
+      form:
+        name: Имя
+        picture: Изображение
+        description: Описание
+        placeholder_text: Введите полное описание
+      new:
+        create_teacher: добавить информацию о преподавателе
+      edit:
+        edit_teacher: Изменить данные преподавателя
+    polls:
+      headline: Опросы
+      question: Вопрос
+      start_at: Начало в
+      end_at: Окончание в
+      actions: Действия
+      add: Создать опрос
+      show: Подробная информация
+      edit: Редактировать
+      delete: Удалить
+      confirm_delete: Вы действительно хотите удалить опрос?
+      empty_msg: В данный момент опросов нет.
+      edit_poll: Редактировать опрос
+      options: Параметры
+
+    videos:
+      index:
+        created_at: Добавлено
+        headline: Видео (все трансляции)
+        id: ID
+        provider: Провайдер
+        title: Название
+        dimensions: Размеры
+        duration: Длительность
+        quality: Качество
+        poster: Постер
+        edit: Редактировать
+        delete: Удалить
+        sync: Синхронизация
+        hd_stream: HD
+        sd_stream: SD
+        hls_stream: HLS
+        confirm: "Вы уверены?"
+        deleting: "Удаление..."
+        search: Поиск
+        filter_videos: "Найти видео, название которых начинается с:"
+        copy_id: ID копии
+      provider_type:
+        vimeo: Vimeo
+        kaltura: Kaltura
+
+    video_providers:
+      title: Поставщики видеоконтента
+      index:
+        new_provider: Создать нового поставщика видеоконтента
+        name: Имя
+        edit: Редактировать
+        delete: Удалить
+        confirm_delete: Вы уверены?
+        deleting: Удаление
+        id: ID
+        token: Токен
+
+    lti_providers:
+      index:
+        title: Провайдеры LTI
+        create: Создать нового провайдера LTI
+        empty_state: В настоящее время нет провайдеров LTI. Вы можете создать его с помощью кнопки 'Create new LTI Provider'.
+        confirm_delete: Удаление приведет к разрушению всех элементов курса, которые все еще ссылаются на этого провайдера. Вы действительно хотите удалить его?
+        domain: Запустить URL
+      new:
+        headline: Добавить провайдера LTI
+      edit:
+        headline: Редактировать провайдера LTI
+
+  announcements:
+    new:
+      headline: Новое объявление
+    edit:
+      headline: Редактировать объявление
+    operations:
+      new: Создать новое объявление
+      edit: Редактировать
+      delete: Удалить
+    form:
+      title: Название
+      visual: Изображение
+      show_on_homepage: Показывать на главной
+      course: Курс
+      author: Автор
+      publish_at: Опубликовать в
+      text: Текст
+      translations: Переводы
+      translation_hint: Здесь можно предоставить переводы для пользователей, говорящих на других языках. Для языков, перевод на которые не предоставлен, будет автоматически установлен язык по умолчанию, указанный выше.
+      save: Сохранить
+      save_and_send: Сохранить и выйти
+      confirm_send: Вы уверены, что хотите отправить это объявление по почте всем заинтересованным подписчикам?
+      publish: Опубликовать
+      send: Отправить объявление
+      save_and_test: Сохранить и отправить тестовое письмо
+    no_news: В данный момент новостей нет. Зайдите позже.
+    headline: "Новости на <span class='primary-color'>%{brand}</span>"
+    see_older: Посмотреть старые новости
+    older: Старые новости
+    title: "Новости"
+
+  teachers:
+    show: Показать информацию о преподавателе
+    promote: Повысить до преподавателя
+
+  channels:
+    view_all: Смотреть все курсы
+    show_details: Показать описание курса
+    show:
+      previous: Назад
+      next: Далее
+      about: "О серии курсов <b>%{name}</b>"
+      filter:
+        search: Поиск
+      empty_state: В этом канале пока нет доступных курсов.
+      empty: К сожалению, мы не смогли найти ни одного курса на этом канале, который бы соответствовал этому запросу.
+
+  courses:
+    ago: "%{timeago} назад"
+    preview:
+      has_started: Курс уже начался.
+      button_details: Показать описание курса
+      button_enroll: Записаться на этот курс
+      button_enter: Перейти на курс
+      button_progress: Показать мой прогресс
+      button_quit: "Отменить зачисление"
+      button_reactivate_course: Возобновить курс
+      button_goto_external: Перейти на сторонний курс
+      proctoring:
+        booked: Вы заказали квалификационный сертификат.
+        register_with_smowl: Пожалуйста, откалибруйте изображение у нашего партнера.
+        upgrade_not_possible: Заказать квалификационный сертификат больше невозможно.
+      unenrollment_disabled: Чтобы отказаться от участия в курсе, свяжитесь с поставщиком курса.
+
+    prerequisites:
+      headline: Условия
+      explain_completion: Чтобы получить сертификат, вам необходимо успешно выполнить эти условия.
+      status_text:
+        zero: все готово!
+        one: одного курса не хватает
+        few: "%{count} курсов не хватает"
+        many: "%{count} курсов не хватает"
+        other: "%{count} курсов не хватает"
+      facts:
+        fulfilled_roa: Вы получили сертификат об окончании этого курса.
+        fulfilled_cop: Вы получили сертификат об участии в этом курсе.
+        missing_roa: Вы не получили сертификат об окончании этого курса.
+        missing_cop: Вы не получили сертификат об участии в этом курсе.
+      button_trigger_reactivation: Возобновить бесплатно
+      reactivation_modal:
+        title: "Возобновление курса «%{course}»"
+        text: Вам будет предоставлена возможность <strong>один раз возобновить курс бесплатно</strong>. После возобновления у вас будет восемь недель, чтобы пройти курс и получить сертификат об окончании курса.
+        button_confirm: Возобновить
+        button_cancel: Может быть позже
+        error: Произошла ошибка. Обратитесь в службу поддержки.
+      success_modal:
+        title: Отлично!
+        text: "Курс «%{course}» возобновлен."
+
+    nav:
+      sections: Учебные материалы
+      syllabus: Общий обзор
+      progress: Прогресс
+      certificates: Сертификаты
+      info: Описание курса
+      knowledge_documents: Документы
+      discussions: Обсуждения
+      announcements: Объявления
+      learning_rooms: Площадка сотрудничества
+      teacher:
+        administration: Администрирование курса
+        # EN-fallback welcome: Welcome, teacher!
+        # EN-fallback pin: Pin menu
+        dashboard: Панель
+        # EN-fallback alerts: Alerts
+        # EN-fallback item_visits: Item visits
+        # EN-fallback videos: Videos
+        # EN-fallback downloads: Downloads
+        # EN-fallback rich_texts: Text items
+        # EN-fallback quizzes: Quizzes
+        # EN-fallback item_details: Item details
+        # EN-fallback forum_stats: Forum
+        # EN-fallback activity: Activity
+        # EN-fallback geo: Geographic
+        # EN-fallback announcements: Announcements
+        # EN-fallback social: Social shares
+        # EN-fallback referrers: Referrers
+        content: Структура и содержмое курса
+        lti: Провайдеры LTI
+        peer_assessment: Взаимная проверка
+        transpipe: Субтитры (в TransPipe)
+        settings: Свойства курса
+        permissions: Полномочия в рамках курса
+        # EN-fallback certificates: Certificates
+        enrollments: Зачисленные студенты
+        grading: Работы студентов
+        # EN-fallback forum: Forum moderation
+        visuals: Изображения курса
+      admin:
+        alerts: Просмотр проблем
+        certificate_templates: Шаблоны сертификатов
+        open_badge_templates: Шаблоны Open Badge
+
+  course:
+    redeem_voucher:
+      cancel: Вернуться к курсу
+      for_course: "Вы собираетесь обменять ваучер на следующий курс:"
+      proctoring_smowl:
+        title: Заказать сертификат
+        text: После того, как вы используете код ваучера, вы перейдете на калибровку онлайновой протекции для оцениваемых заданий. Пожалуйста, убедитесь, что вы используете <a href='https://smowl.net/en/faqs-proctoring-smowl/requirements/' target='_blank' rel='noopener'>совместимый браузер для проктованных экзаменов</a>, прежде чем использовать ваучер
+        info_title: У вас нет кода ваучера?
+        info_text: "Если вы хотите приобрести код ваучера для получения квалифицированного сертификата, посетите <a href='%{link}' target='_blank' rel='noopener'>магазин %{brand}</a>. Для получения информации о ценах и более подробной информации посетите нашу страницу о <a href='/pages/document_types' target='_blank' rel='noopener'>Квалифицированном сертификате.</a>."
+    card:
+      cop: Сертификат об участии
+      roa: Сертификат об окончании курса
+      qc_html: Сертификат / ECTS
+      language_and_subtitles: "%{language} + %{subtitle_languages} субтитры"
+      button_details: подробности
+      button_enroll: Записаться
+      button_resume: возобновить
+      button_reactivate_course: Активировать
+      button_visit: посетить
+      date: Дата проведения курса
+      classifiers: Классификаторы курсов
+      certificate: Наивысший достижимый сертификат
+      language: Язык курса и наличие субтитров
+      buttons_menu:
+        details: Смотреть описание
+      label:
+        reactivated: Реактивированный
+    courses:
+      date:
+        self_paced_since: "С %{date} в режиме самообучения"
+        beginning: "Начало %{start_date}"
+        range: "%{start_date} - %{end_date}"
+        coming_soon: Скоро
+      index:
+        filter:
+          channel: Канал
+          language: Язык
+          status: Статус
+          submit: Фильтровать
+        filter_by: Фильтровать по тексту
+        placeholder: Чему бы вы хотели научиться?
+        loading: Ищу курсы...
+        empty_state: Пока нет доступных курсов.
+        empty: К сожалению, мы не смогли найти ни одного курса, соответствующего этому запросу.
+        action: Показать все курсы
+        current: Текущие курсы
+        upcoming: Ближайшие курсы
+        archive: Курсы для самостоятельного изучения
+        load_more: Загрузить другие курсы
+        error: Произошла ошибка при загрузке дополнительных курсов. Пожалуйста, повторите попытку позже.
+
+      show:
+        header_subtitle: Предлагается %{teachers}
+        user_enrolled: Вы зачислены.
+        about_content: Информация о курсе
+        content: Содержимое курса
+        how_to_enroll: Записаться на этот курс
+        how_to_enroll_text: Курс предлагается бесплатно. Просто зарегистрируйте учетную запись на %{brand} и пройдите курс!
+        how_to_register_text: Для участия в этом курсе, вы должны зарегистрироваться непосредственно у организатора курса.
+        button_enroll: Зачислить меня
+        button_register: Зарегистрироваться сейчас
+        external_course:
+          headline: Сторонний курс
+          info: "Этот курс предлагается не на %{brand}, а на сторонней образовательной платформе. Переходя по ссылке на этот курс, вы покидаете сайт %{brand}. Чтобы записаться на этот курс, вам может потребоваться создать отдельную учетную запись пользователя на сторонней платформе."
+        dates_and_stats: Даты и статистика
+        featured_items:
+          title: Рекомендации
+        currently_enrolled: Зачисленные учащиеся
+        teacher_title: Этот курс предлагается
+        course_runtime: Начался
+        categories: Направления
+        language: Язык
+        start_end_date: "Этот курс прошел с %{start} по %{end}."
+        enrollments_on_start_date: "На первый день курса было зачислено %{enrollments} учащихся."
+        enrollments_on_end_date: "На момент окончания итогового экзамена этот показатель возрос до %{enrollments}."
+        final_exam_count: "%{count} учащихся сдали итоговый экзамен."
+        issued_roa: "Мы выдали %{count} сертификатов об окончании курса с оценками."
+        currently_enrolled_extended: "Зачислено %{count} учащихся."
+        reactivate_course:
+          headline: Возобновить курс
+          notice: "Вы получите доступ ко всем заданиям на оценку и сможете получить сертификат об окончании курса, если <a href='/pages/course_reactivation' target='_blank'>возобновите курс</a>. Узнайте подробности или "
+          upgrade: Возобновить
+          upgrade_now: возобновите курс прямо сейчас!
+        open_mode:
+          title: Вы знали?
+          close: Закрыть
+          hide_hint_btn: Больше не показывать
+        enrollment_policy:
+          overlay:
+            title: "Записаться на"
+            text: Прежде чем записаться на курс, вы должны принять условия политики защиты данных поставщика курса.
+            link: Показать политику
+            accept: Я принимаю политику защиты данных.
+        invite_only_notice: Чтобы записаться на этот курс, необходимо приглашение.
+        certificates: Требования для получения сертификата
+        qc_requirements: "Чтобы получить <b>квалификационный сертификат</b>, необходимо заказать его <b>и</b> получить документ об успешном окончании курса."
+        roa_requirements: "Чтобы получить <b>сертификат об окончании курса</b>, участникам необходимо набрать не менее <b>%{roa_threshold}%</b> от максимального количества баллов за все задания на оценку."
+        cop_requirements: "Получите <b>сертификат об участии</b>, изучив не менее <b>%{cop_threshold}%</b> учебного материала курса."
+        open_bdage_requirements: "Получите <b>Открытый значок</b>, пройдя этот курс."
+        guidelines_link: "Подробнее см. в <a href='/pages/roa_guidelines'>правилах получения сертификатов</a>."
+        qc_guidelines_link: "Подробнее см. в <a href='/pages/document_types'>правилах получения квалификационного сертификата</a>."
+        learning_goals: Что вы узнаете
+        target_groups: Для кого предназначен этот курс
+
+      announcements:
+        empty_state: Объявлений пока нет. Зайдите еще раз после начала курса.
+        edit: Редактировать
+        delete: Удалить
+        new: Добавить новое объявление о курсе
+        title: Объявления о курсе
+        ago: "%{timeago} назад"
+        unpublished: не опубликовано
+
+      create:
+        edit: Редактировать курс
+
+      rating:
+        headline: Рейтинг
+        details: "Этот курс в среднем получил <b><span itemprop='ratingValue'>%{stars}</span> звезд(-ы)</b> из <b><span itemprop='ratingCount'>%{votes}</span> голосов</b>."
+
+    progress:
+      learner_dashboard: Мой прогресс в обучении
+      graded_score: Набранные баллы
+      selftest_score: Баллы за самопроверку
+      visited_score: Посещенные предметы
+      visited_items: "Просмотрено %{visited} из %{available} объектов"
+      visited_empty: нет в наличии
+      visits: "%{visited} из %{available}"
+      section_score:
+        graded: "С оценкой: "
+        selftests: "Тесты для самопроверки: "
+        visited: "Просмотрено: "
+      section_material: Материал раздела
+      section_statistics: Статистика раздела
+      statistics:
+        main: Задания
+        bonus: Бонус
+        selftests: Тесты для самопроверки
+        items_taken: "%{taken} из %{total} принятых"
+      progress_table: # deprecated
+        assignments: Задания
+        bonus: Бонус
+        selftests: Тесты для самопроверки
+        visited: Просмотрено
+        total: Всего
+
+      show:
+        item_locked: " (заблокировано)"
+        points: Баллы
+        empty_msg: "Ничего не найдено, поэтому показать прогресс невозможно. Зайдите позже."
+        quizzes_taken: "Пройдено %{taken} из %{count}"
+        items_visited: "Просмотрено %{visited} из %{existing}"
+      records:
+        documents_headline: Мои сертификаты
+        documents_intro: Здесь вы можете скачать свои сертификаты, когда курс завершится (и преподаватели опубликуют окончательные результаты).
+        certificates_tab_info: По окончании курса (и преподаватели опубликуют окончательные результаты) вы можете <a href='./certificates'>загрузить свои сертификаты на новой странице сертификатов</a>.
+      overview:
+        open_mode:
+          message: "TПеречисленные учебные единицы относятся к курсу <b>%{title}</b>. Вы хотите получить доступ ко всему содержимому курса?"
+          enroll: Запишитесь на курс
+          item: Этот учебный блок не может быть просмотрен. Пожалуйста, зарегистрируйтесь, чтобы продолжить курс.
+        empty_msg: Для этого курса нет Общий обзор.
+        continue: Продолжить обучение
+
+    admin:
+      certificate_templates:
+        headline: Шаблоны сертификатов и Open Badge
+        index:
+          empty_msg: Для этого курса нет Общий обзор.
+          new: Добавить новый шаблон
+          record_count: Выданные сертификаты
+          type: Тип
+          actions: Действия
+          edit: Редактировать
+          preview: Предварительный просмотр
+          download: Загрузить
+          delete: Удалить
+          confirm_delete: Вы действительно хотите удалить этот шаблон?
+        new:
+          headline: Новый шаблон сертификата
+        edit:
+          headline: Редактировать шаблон сертификата
+      open_badge_templates:
+        index:
+          empty_msg: Нет доступных шаблонов Open Badge.
+          new: Добавить новый шаблон
+          name: Имя
+          description: Описание
+          badge_count: Выданные значки
+          image: Изображение
+          edit: Редактировать
+          download: Загрузить
+          delete: Удалить
+          confirm_delete: Вы действительно хотите удалить этот шаблон Open Badge?
+        new:
+          headline: Новый шаблон Open Badge
+        edit:
+          headline: Редактировать шаблон Open Badge
+      visuals:
+        edit: Редактирование визуальных образов
+        back: Вернуться к редактору курса
+
+    certificates:
+      intro_title: Что я могу здесь найти?
+      intro_text: На этой странице указаны Ваши персональные достижения в рамках изучения этого курса. Ознакомьтесь с тем, чего Вы можете достичь, чего Вы уже достигли и узнайте, когда сертификаты станут доступны для скачивания!
+      intro_guidelines_html: Больше информации Вы можете найти в <a href="/pages/roa_guidelines">руководстве по сертификатам</a>.
+      requirements: требования
+      achieved_state: Достигнуто
+      in_progress_state: В процессе выполнения
+      in_progress_button: Проверьте мой прогресс
+
+  certificate:
+    template:
+      top_v1: "Входит в %{top}% самых активных участников курса."
+      born_v1: "дата рождени¤: %{birthday}"
+      score_v1: "%{points} из %{max_points} возможных баллов (%{percent}%)"
+
+      top_v2: "Кандидат входит в %{top}% лучших участников курса."
+      born_v2: "Дата рождени¤: %{birthday}"
+      score_v2: " %{points} баллов (%{percent}%) "
+      email_v2: "Эл. почта: %{email}"
+
+      born_v3: "%{birthday}"
+      score_v3: "%{points} / %{max_points} баллов (%{percent}%)"
+
+      verify: "Проверить онлайн: %{verification_url}"
+
+  knowledge_documents:
+    documents: Документы
+    show: Показать подробности
+    title: Название
+    description: Описание
+    language: Язык
+    upload_file: Загрузить документы
+    id: Id
+    filename: Имя файла
+    size: Размер
+    path: Путь
+    download: Загрузить
+    actions: Действия
+    no_documents: Документы отсутствуют
+    filter: Отфильтровать по
+    or_course: Фильтровать по курсу
+    reset_filter: Сбросить фильтр
+    hint: Допускается загружать только файлы PDF. Размер файла не должен превышать 8 МБ.
+    corresponding_document: Соответствующий документ
+    add_language: Добавить язык
+    edit_document: Редактировать документ
+    new: Добавить новый документ
+    edit: Редактировать
+    tags: Теги
+    languages: Языки
+    select_courses: Выбор курсов
+    select_tags: Выберите теги
+    corresponding_courses: Соответствующие курсы
+    delete: Удалить
+    delete_all: Удалить документ и все переводы
+    delete_localization: Удалить перевод
+    submit: Отправить
+    update: Изменить документ
+    internal:
+      information: Внутренняя информация
+      title: Внутренний заголовок
+      title_placeholder: Введите внутренний заголовок документа. Эта информация будет видна только другим администраторам.
+      description: Внутреннее описание документа
+      description_placeholder: Введите внутреннее описание документа. Эта информация будет видна только другим администраторам.
+    localization:
+      edit: Редактировать перевод
+      create: Добавить новый перевод
+      this_translation: Этот перевод документа
+      translations: Переводы
+      language: Написано на языке
+      file: Файл (в формате PDF)
+      file_placeholder: Выберите файл для загрузки
+      old_file: Старый файл
+      new_file: Загрузить новый файл (в формате pdf)
+      show_file: Показать текущий файл
+      title: Название (на выбранном языке)
+      title_placeholder: Введите название документа на выбранном языке
+      description: Описание (на выбранном языке)
+      description_placeholder: Введите описание для этого документа. Оно должно быть написано на том же языке, что и вложенный файл.
+    courses: В курсах
+    courses_placeholder: Выберите курсы, где этот документ должен использоваться
+    public: Общедоступный?
+    create: Создать новый документ
+    platform: Использовать на платформе
+    index: Назад к обзору
+    cancel: Отмена
+    help:
+      help: Помощь
+      new: документы могут отображаться на разных языках. Используйте эту форму, чтобы создать документ с нуля. Вы должны предоставить по крайней мере один перевод для просмотра пользователями. Загруженные файлы должны быть в формате PDF, чтобы каждый пользователь мог их просматривать.
+      edit: документы могут отображаться на разных языках. Данная форма используется для редактирования внутренней информации об этом документе. Эта информация видна другим администраторам и должна содержать сведения, которые помогут четко идентифицировать содержание и назначение документа. Ниже вы можете просматривать и редактировать переводы этого документа.
+
+  sections:
+    admin:
+      action: Действие
+      edit: Редактировать
+      move_up: Вверх
+      move_down: Вниз
+      move_to_top: В начало
+      move_to_bottom: В конец
+      delete: Удалить
+      delete_confirm: Это приведет к удалению раздела.
+      delete_with_alternatives_confirm: Это приведет к удалению раздела и всех связанных с ним альтернативных разделов.
+      delete_forbidden: Удаление невозможно
+      delete_forbidden_text: Раздел все еще содержит элементы. Сначала удалите их, прежде чем удалять раздел.
+    unlocked_since: "Разблокирован %{date}"
+    unlocked: Разблокирован
+    optional_section: " (необязательно)"
+    locked_since: "Заблокирован %{date}"
+    locked_until: "Будет разблокирован %{date}"
+    locked_on: "Будет заблокирован на %{date}"
+    unpublished: Не опубликован
+    published: Опубликован
+    new: Добавить раздел
+    show_uuids: Показать UUID
+    hide_uuids: Скрыть UUID
+    item:
+      delete: Удалить объект
+      create: Добавить объект
+      create_headline: Создать новый объект в разделе
+      edit_headline: Редактировать объект
+      edit_subtitles: Редактировать субтитры
+      unpublished: Объект не опубликован
+      locked_until: "Объект будет разблокирован %{date}"
+      locked_since: "Объект был заблокирован %{date}"
+      locked_on: "Объект будет заблокирован на %{date}"
+      time_effort: "Необходимое время ок. %{time_effort}"
+      statistics: Статистика
+    index:
+      label:
+        rich_text: Текст
+        video: Видео
+        quiz: Тест
+        lti_exercise: Задание
+        peer_assessment: Взаимная проверка
+      clone_course:
+        button: Дублировать курс
+        placeholder: Код дубликата курса
+        course_code_empty: Код дубликата курса не может быть пустым.
+        new_course_not_empty: Возможно, в целевом курсе для дублирования отсутствует содержимое (разделы).
+        clone_started: "Дублирование курса началось. Дубликат курса можно найти в <a href='/admin/courses'>списке курсов</a>."
+      recalculate_learning_evaluation: Пересчитать сейчас
+
+    alternative:
+      create: Добавить альтернативный раздел
+      decision_heading: Пожалуйста, выберите тему, над которой хотите работать
+      select: Выбрать
+      continue: Продолжить
+
+  items:
+    new:
+      back_to_editor: Назад к редактору курса
+    show:
+      hide_nav: Скрыть навигацию
+      show_nav: Показать навигацию
+      toggle_nav_hint: Переключить навигацию
+      coursestate:
+        available: Курс доступен
+        was_available: Курс завершен
+        archive: Самостоятельное изучение
+        preparation: В подготовке
+        upcoming: Курс еще не начался
+        hidden: Курс скрыт
+      prev_item: Назад
+      next_item: Далее
+      unsupported_browser: Ваш браузер не поддерживается. Пожалуйста, перейдите на современный браузер.
+      video:
+        preview:
+          info: "Это видео включено в курс %{platform} <b>%{course_title}</b>. Хотите увидеть больше?"
+          enroll: Запишитесь на курс бесплатно
+        video_events: Видеособытия
+        activity: Активность
+        no_activity: Еще не здесь
+        about: Об этом видео
+        video_downloads: Скачать видео
+        additional_downloads: Скачать дополнительный материал
+        download:
+          video: Видео в формате MP4
+          hd_video: "Видео (HD) в формате MP4"
+          sd_video: "Видео (SD) в формате MP4"
+          subtitled_video: "Видео (с субтитрами) в формате MP4"
+          slides: Слайды презентации в формате PDF
+          transcript: Расшифровка
+          reading_material: Материалы для чтения
+          audio: Аудио в формате MP3
+          disabled: Загрузка этого видео/аудио невозможна из-за правил лицензирования.
+        ask_own_question: Начать новую тему
+        questions_and_discussions: Темы обсуждений
+        view_or_answer: Просмотреть или ответить
+        read_more: Читать полностью
+        num_questions:
+          zero: Темы для обсуждения пока отсутствуют
+          one: 1 тема
+          few: "%{count} темы"
+          many: "%{count} тем"
+          other: "%{count} тем"
+        num_replies:
+          zero: Нет ответов
+          one: 1 ответ
+          few: "%{count} ответа"
+          many: "%{count} ответов"
+          other: "%{count} ответов"
+        transcript:
+          select_language_settings: Чтобы включить транскрипт, выберите язык в меню настроек видеопроигрывателя.
+          current_position: Прокрутить до текущего положения
+      quiz:
+        instruction: "Инструкции"
+        start_quiz_now: "Начать тест"
+    requirements:
+      headline: Невыполненные предварительные условия
+      not_fulfilled: "Есть предварительные условия для этого блока, которые вы еще не выполнили. Пожалуйста, заполните все эти блоки:"
+      result_requirement: Завершите этот учебный блок, набрав не менее %{threshold}% от общего количества баллов.
+      visit_requirement: Посетите и пройдите этот курс.
+    quiz:
+      nav:
+        properties: Настройки теста
+        questions: Вопросы
+      time_limit: Ограничение времени
+      allowed_attempts: Разрешенное число попыток
+      graded_quiz: Это тест на оценку
+      bonus_quiz: Это бонусный тест
+      survey_quiz: Это опрос
+      quiz_is_selftest: Этот тест предназначен для самопроверки. Вы можете проходить его сколько угодно раз.
+      quiz_is_survey: "Поделитесь с нами своим мнением. Пожалуйста, уделите всего минуту вашего времени, чтобы ответить на следующий опрос. Ваше мнение поможет нам улучшить обучение на платформе %{brand}!"
+      question: Вопрос
+      question_text: Текст вопроса
+      question_explanation: Пояснение
+      question_alert: Проверьте этот вопрос!
+      show_question_explanation: Показать пояснение
+      hide_question_explanation: Скрыть пояснение
+      actions: Действия
+      edit_question: Редактировать вопрос
+      move_question_up: Переместить вопрос вверх
+      move_question_down: Переместить вопрос вниз
+      move_question_to_top: Переместить вопрос в начало
+      move_question_to_bottom: Переместить вопрос в конец
+      delete_question: Удалить вопрос
+      delete_question_confirm: Вы уверены, что хотите удалить этот вопрос?
+      add_answer: Добавить ответ
+      question_type: Тип вопроса
+      select_question_type: Для добавления вопроса в тес выберите тип вопроса.
+      enter_question: Введите вопрос здесь
+      enter_question_explanation: Введите пояснение здесь
+      points: Баллы
+      shuffle_answers: Ответы в случайном порядке
+      answer: Текст ответа
+      answer_type: Тип ответа
+      select_answer_type: Пожалуйста, выберите тип ответа
+      enter_answer: Введите свой ответ здесь
+      answer_explanation: Пояснение
+      answer_explanation_text: Добавьте пояснение о том, как отвечать на вопрос
+      answer_correct: Ответ правильный
+      unlimited_time: Время не ограничено
+      unlimited_attempts: Неограниченное число попыток
+      instruction: Инструкции
+      instruction_placeholder: Введите практические инструкции для тестов на оценку (заданий и бонусных тестов)
+      start_quiz_now: Начать тест
+      start_survey: Начать опрос
+      publish_results_at: Дата публикации результатов
+      lock_submissions_at: Блокировать отправленную работу после
+      skip_welcome_page: Пропустить стартовую страницу
+      edit: Редактировать тест
+      import:
+        title: Импортировать тесты из XML
+        download: Выберите xml-файл
+        confirmButtonText: Загрузить
+        errorTitle: При импорте тестов возникли ошибки
+        preview:
+          title: Предварительный просмотр тестов
+          name: Имя
+          extrefid: Ext-Ref-ID
+          section: Раздел
+          questions: Вопросы
+          answers: Ответы
+          legend: <span class="updated_record">Цветная строка</span> указывает, что тест уже вставлен. Этот тест не будет ни перезаписан, ни вставлен!<br/>Чтобы добавить этот тест, удалите существующий.
+          confirmButtonText: Импортировать
+          errorTitle: При проверке тестов возникли ошибки
+      import_quizzes_by_service: Импортировать тесты из таблицы
+      import_quizzes_success: Тесты успешно импортированы!
+      confirm_start_quiz: Этот тест оценивается и не может быть приостановлен. Пожалуйста, убедитесь, что у вас достаточно времени для его выполнения, прежде чем начать.
+      exclude_from_recap: Исключить из проверки знаний
+      question_types:
+        multiple_choice_question: Вопрос с множественным выбором
+        multiple_answer_question: Множественный ответ
+        free_text_question: Открытый вопрос
+        essay_question: Эссе
+      submit:
+        question: Создать вопрос
+        answer: Создать ответ
+      proctoring:
+        book_certificate: Забронировать сертификат
+        certificate_booked:
+          title: Вы успешно забронировали сертификат
+          instructions: "Пожалуйста, обязательно соблюдайте правила (<a href='https://smowl.net/en/faqs-proctoring-smowl/camera-monitoring/' target='_blank' rel='noopener'>FAQ</a> | <a href='/pages/proctoring_guidelines' target='_blank'>руководство</a>). В случае нарушения мы не сможем выдать Сертификат. Всегда помните:"
+          exclusion_criteria:
+            <ul><li>Вы должны быть единственным человеком перед камерой. Если не видно ни одного человека, нескольких людей или другого человека, кроме зарегистрированного, прокторинг будет провален.</li>
+            <li>Выберите время экзамена, когда вас не будут беспокоить и вам не придется покидать свое место во время экзамена.</li>
+            <li>Обеспечьте достаточное освещение и чтобы ваше лицо было хорошо видно. Источник света сзади может сделать ваше лицо слишком темным в камере.</li>
+            <li>Не используйте ничего, что закрывает голову или лицо (шляпа, солнцезащитные очки, ...). Разрешается использовать очки для чтения.</li>
+            </ul>
+            <p>Технические советы:</p>
+            <ul><li>Убедитесь, что ваша камера включена и полностью исправна. Снимите крышку веб-камеры.</li>
+            <li>Закройте все другие приложения, имеющие доступ к камере.</li>
+            <li>Во время экзамена убедитесь, что вкладка с заданиями - единственная открытая вкладка в вашем браузере.</li></ul>
+        deadline_passed: Период регистрации на получение сертификата истек. Вы все еще можете получить Свидетельство о достижении, выполнив контрольные работы с оценкой.
+        upgrade_not_possible: Вы уже сдали слишком много еженедельных заданий и поэтому больше не можете заказать Сертификат. Вы все еще можете получить Свидетельство о достижении, выполнив контрольные работы с оценкой.
+        upgrade_information:
+          title: Вы хотите заказать Сертификат?
+          info: Вы все еще можете зарегистрироваться на Сертификат до <strong>%{deadline}</strong>. Сертификат является платным дополнением. Вы всегда можете получить бесплатную запись о достижениях, пройдя оценочные тесты.
+          registration_periods_info: <b>Периоды регистрации:</b> Вы можете зарегистрироваться для получения Сертификата только до крайнего срока сдачи второго оцениваемого задания. Если срок сдачи второго задания истек, подача заявки на прокторированный экзамен уже невозможна.
+
+    lti:
+      allowed_attempts: Разрешенное число попыток
+      bonus_exercise: Это бонусное задание
+      bonus_points: Заработайте бонусные баллы, решив эту задачу.
+      custom_exercise_fields: Дополнительные параметры для этого задания
+      exercise_title: Название задания (не обязательно)
+      graded: Это задание на оценку.
+      instruction: Инструкции
+      launch_lti_exercise: Запустить инструмент для заданий
+      main_exercise: Это основное задание раздела.
+      results: Результаты заданий
+      ungraded: Это задание без оценки.
+      wait_message_frame: Сторонний инструмент скоро загрузится.
+      wait_message_pop-up: Сторонний инструмент откроется в новом окне.
+      wait_message_window: Сторонний инструмент скоро загрузится.
+      weight: Баллы
+      lti_provider: Провайдер LTI
+      lti_providers_global: Глобальные провайдеры
+      lti_providers_course: Провайдеры курсов
+      custom_fields_placeholder: "key1=value1&key2=value2"
+      # EN-fallback not_available: This exercise is not available anymore.
+      # EN-fallback provider_deleted: The LTI provider attached to this item has been deleted.
+    rich_text:
+      form:
+        markup: Разметка
+        placeholder_text: Введите полное описание
+    edit:
+      quiz_info: Информация о тесте
+      questions: "Вопрос(ы):"
+      quiz_total_points: "Всего баллов за тест: "
+    deleted_quiz: "Тест удален."
+    deleted_richtext: Удаление текстового элемента.
+    deleted_item: "Объект удален."
+    type_label:
+      video: Видео
+      rich_text: Текст
+      peer_assessment: Коллегиальная оценкa
+      bonus_peer_assessment: Дополнительная коллегиальная оценкa
+      self_test: Самопроверка
+      graded_test: Tест Зачет
+      bonus_test: Бонусный тест
+      survey: Исследование
+      exercise: Упражнение
+      graded_exercise: Зачетное упражнение
+      bonus_exercise: Бонусное упражнение
+
+  next_dates:
+    course_start: Курс начнется через
+    section_start: "«%{title}» начинается через"
+    item_submission_deadline: "Отправка работ для «%{title}» заканчивается через"
+    item_submission_publishing: "Отправленные работы для «%{title}» будут опубликованы через"
+    on_demand_expires: Заработайте сертификат об окончании курса до истечения срока возобновления курса через
+    deadline_widget:
+      tooltip: "Нажмите для просмотра ближайших сроков выполнения заданий на этом курсе"
+      empty_state: "На этом курсе нет ближайших сроков выполнения заданий."
+      events:
+        on_demand_expires: "Срок возобновления вашего курса истекает через %{when}"
+        item_submission_deadline: "Крайний срок через %{when}"
+
+  ical:
+    course_start: "Курс «%{title}» начинается"
+    section_start: "На курсе «%{course_title}» начинается «%{title}»"
+    item_submission_deadline: "Отправка работ для «%{title}» заканчивается"
+    item_submission_publishing: "Отправленные работы для «%{title}» будут опубликованы"
+    course_start_desc: "На %{site} начинается курс «%{title}»"
+    section_start_desc: "На %{site} начинается «%{title}» на курсе «%{course_title}»"
+    item_submission_deadline_desc: "Отправка работ для «%{title}» заканчивается на %{site}"
+    item_submission_publishing_desc: "Отправленные работы для «%{title}» будут опубликованы на %{site}"
+
+  dashboard:
+    courses:
+      current: Мои текущие курсы
+      upcoming: Мои ближайшие курсы
+      completed: Мои завершенные курсы
+    not_enrolled_upcoming: 'Вы не зачислены ни на один из ближайших курсов. Просмотрите наши <a href="/courses">курсы</a>.'
+    mark_completed: Пометить как завершенный
+    mark_completed_confirmation: Выбрав эту опцию, вы навсегда переместите курс для самостоятельного изучения из текущих курсов в завершенные. Вы по-прежнему сможете перейти к курсу из этого раздела.
+    more_courses: 'Подсказка: <a href="/courses">в архиве курсов</a> проверьте все остальные курсы, на которые вы не зачислены, и зарегистрируйтесь для их самостоятельного изучения без получения сертификата об окончании курса.'
+    sidebar:
+      dates: Ближайшие сроки курса
+      recommendations: Рекомендованные курсы
+    starting_soon: Скоро начнется
+    started: Началось
+    profile:
+      my_profile: Мой профиль
+      name: Имя
+      name_text: Так ваше имя будет отображаться в сертификате об окончании курса.
+      display_name: Отображаемое имя
+      display_name_text: Так ваше имя будет отображаться на платформе.
+      resulting_display_name: Ваше отображаемое имя
+      additional_info: Дополнительная информация
+      additional_info_text: "Эта информация используется для статистического анализа, который помогает нам улучшать наши услуги. Перед обработкой информация анонимизируется. Эти данные не являются общедоступными."
+      required_info: Обязательная информация
+      education: Полученная степень
+      age: Возраст
+      gender: Пол
+      career: Профессиональный опыт
+      background_in_IT: Опыт в ИКТ
+      about_me: Обо мне
+      about_me_text: Расскажите немного о себе другим пользователям.
+      identities: Связанные профили
+      delete_account: Удалить аккаунт
+      delete_account_buttontext: Удалить аккаунт
+      delete_account_confirm_text: "Вы уверены, что хотите это сделать? Ваша учетная запись и все учебные материалы будут удалены навсегда!"
+      delete_account_text: "Вы можете навсегда удалить свою учетную запись %{brand} здесь:"
+      affiliation: Принадлежность к организации
+      career_status: Карьера
+      highest_degree: Полученная степень
+      background_it: Опыт в ИТ
+      motivation: "Основная причина регистрации на %{brand}"
+      computer_use: Регулярное использование компьютера
+      professional_life: Профессиональная деятельность
+      position: Положение
+      country: Страна
+      city: Город
+      change_password: Изменить пароль
+      change_password_text: "Чтобы изменить пароль, вы должны ввести свой старый пароль. Если вы не помните его, выйдите из системы и перейдите по ссылке <i>Забыли пароль?</i> в окне входа в систему."
+      change_password_callout: После изменения учетных данных вам нужно будет снова войти в систему в других браузерах.
+      password: "Пароль"
+      old_password: "Старый пароль"
+      new_password: "Новый пароль"
+      password_confirmation: "Подтвердить пароль"
+      birthdate: "Дата рождения"
+      select_birthdate: "Выберите"
+      show_birthdate_on_record: "Вы можете определить в <a href='%{url}'>страница ваших сертификатов</a>, требуется ли указывать в сертификатах дату рождения."
+      combodate_format: "YYYY-MM-DD"
+      combodate_viewformat: "D MMMM YYYY"
+      combodate_template: "DD MMMM YYYY"
+      not_set: "Не указано."
+      current_email: "Ваш текущий основной адрес электронной почты: <i>%{email}</i>."
+      add_email: "Добавить новый адрес электронной почты"
+      pending_email_change: "Не подтвержден запрос на изменение адреса электронной почты!"
+      unconfirmed_mails_present: "Вы направили запрос на изменение своего адреса электронной почты. Пожалуйста, подтвердите новый адрес электронной почты, следуя инструкциям в отправленном вам письме со ссылкой для подтверждения."
+      unconfirmed_mail_resend: "Отправить еще раз"
+      unconfirmed_mail_cancel_request: "Отмена"
+      primary_email: "основной адрес электронной почты"
+      primary_email_suspended: Ваш основной адрес электронной почты в данный момент временно приостановлен. Вы решили проблемы с вашей электронной почтой?
+      reactivate: повторно активировать адрес электронной почты
+      secondary_emails:
+        title: Другие адреса электронной почты, связанные с этой учетной записью
+        show: Показать
+        hide: Скрыть
+        promote: Сделать основным
+        confirm_promote: "Вы действительно хотите изменить свой основной адрес электронной почты?"
+        delete: Удалить
+        confirm_delete: "Вы действительно хотите удалить этот адрес электронной почты?"
+      authorizations:
+        title: Социальные и корпоративные профили
+        confirm_delete: Вы действительно хотите удалить эти данные входа в систему из своей учетной записи?
+        empty_msg: У вас нет сторонней учетной записи, подключенной к вашему аккаунту. Ниже вы можете выбрать корпоративный логин для входа в систему.
+        add_other_title: Подключить другое цифровое удостоверение
+        invite_to_switch: <b>Вы хотите переключить свой Social или Enterprise Login на другую идентификацию? </b> Сначала подключите новую идентификацию. Затем вы можете удалить запись Single Sign-On, которая вам больше не нужна.
+      settings:
+        career_status:
+          none: Нет
+          student: Студент
+          professional: Специалист
+          academic_researcher: Научный исследователь
+          teacher: Преподаватель
+          other: Другое
+        highest_degree:
+          none: Нет
+          high_student: Средняя школа
+          bachelor: Бакалавр
+          master: Магистр
+          diplom: Диплом
+          magister: Магистр
+          phd: Доктор наук (PhD)
+          other: Другое
+        background_it:
+          none: Нет
+          beginner: Начальный уровень
+          advanced: Продвинутый уровень
+          expert: Эксперт
+        motivation:
+          none: Нет
+          personal: Личный интерес — занятия в свободное время
+          professional: Профессиональный интерес — дополнительное обучение
+          credits: Чтобы заработать очки для моей учебы/стажировки
+          other: Другое
+        computer_use:
+          none: Нет
+          easy: Простой уровень, например, использование компьютера для простых рутинных задач, таких как просмотр веб-страниц или отправка и получение электронной почты
+          intermediate: Средний уровень, например, обработка текста, электронных таблиц или администрирование базы данных
+          high: Продвинутый уровень, например, разработка программного обеспечения, адаптация компьютерных игр, программирование на таких языках, как Java, SQL, PHP или PYTHON, или сетевое администрирование
+        professional_life:
+          none: Нет
+          up_to_5_years: До 5 лет
+          up_to_10_years: До 10 лет
+          more_than_10_years: Более 10 лет
+        position:
+          none: Нет
+          intern: Стажер
+          technician: Техник
+          project_manager: Менеджер проектов
+          team_leader: Руководитель группы
+          department_head: Начальник отдела
+        gender:
+          not_set: Не указано
+          male: Мужской
+          female: Женский
+          other: Другое
+        subscribed_to_newsletter:
+          "true": "Да"
+          "false": "Нет"
+        country: &countries
+          not_set: "Не указано"
+          ac: "Остров Вознесения"
+          af: Афганистан
+          al: Албания
+          dz: Алжир
+          as: "Американское Самоа"
+          ad: Андорра
+          ao: Ангола
+          ai: Ангилья
+          aq: Антарктида
+          ag: "Антигуа и Барбуда"
+          ar: Аргентина
+          am: Армения
+          aw: Аруба
+          au: Австралия
+          at: Австрия
+          az: Азербайджан
+          bs: Багамские острова
+          bh: Бахрейн
+          bd: Бангладеш
+          bb: Барбадос
+          by: Беларусь
+          be: Бельгия
+          bz: Белиз
+          bj: Бенин
+          bm: Бермудские острова
+          bt: Бутан
+          bo: Боливия
+          ba: "Босния и Герцеговина"
+          bw: Ботсвана
+          bv: "Остров Буве"
+          br: Бразилия
+          io: "Британская Территория в Индийском Океане"
+          vg: "Британские Виргинские острова"
+          bn: Бруней
+          bg: Болгария
+          bf: "Буркина-Фасо"
+          bi: Бурунди
+          kh: Камбоджа
+          cm: Камерун
+          ca: Канада
+          cv: "Кабо-Верде"
+          bq: "Карибские Нидерланды"
+          ky: "Каймановы острова"
+          cf: "Центральноафриканская Республика"
+          td: Чад
+          cl: Чили
+          cn: Китай
+          cx: "Остров Рождества"
+          cc: "Кокосовые (Килинг) острова"
+          co: Колумбия
+          km: Коморские Острова
+          cg: "Конго (Браззавиль)"
+          cd: "Конго (Киншаса)"
+          ck: "Острова Кука"
+          cr: "Коста-Рика"
+          hr: Хорватия
+          cu: Куба
+          cw: Кюрасао
+          cy: Кипр
+          cz: "Чешская Республика"
+          ci: "Кот-д'Ивуар"
+          dk: Дания
+          dj: Джибути
+          dm: Доминика
+          do: "Доминиканская Республика"
+          ec: Эквадор
+          eg: Египет
+          sv: "Сальвадор"
+          gq: "Экваториальная Гвинея"
+          er: Эритрея
+          ee: Эстония
+          et: Эфиопия
+          fk: "Фолклендские острова"
+          fo: "Фарерские острова"
+          fj: Фиджи
+          fi: Финляндия
+          fr: Франция
+          gf: "Французская Гвиана"
+          pf: "Французская Полинезия"
+          tf: "Французские Южные Территории"
+          ga: Габон
+          gm: Гамбия
+          ge: Грузия
+          de: Германия
+          gh: Гана
+          gi: Гибралтар
+          gr: Греция
+          gl: Гренландия
+          gd: Гренада
+          gp: Гваделупа
+          gu: Гуам
+          gt: Гватемала
+          gg: Гернси
+          gn: Гвинея
+          gw: Гвинея-Бисау
+          gy: Гайана
+          ht: Гаити
+          hm: "О. Херд и о-ва Макдональд"
+          hn: Гондурас
+          hk: "Гонконг, Китай"
+          hu: Венгрия
+          is: Исландия
+          in: Индия
+          id: Индонезия
+          ir: Иран
+          iq: Ирак
+          ie: Ирландия
+          im: "Остров Мэн"
+          il: Израиль
+          it: Италия
+          jm: Ямайка
+          jp: Япония
+          je: Джерси
+          jo: Иордания
+          kz: Казахстан
+          ke: Кения
+          ki: Кирибати
+          kw: Кувейт
+          kg: Кыргызстан
+          la: Лаос
+          lv: Латвия
+          lb: Ливан
+          ls: Лесото
+          lr: Либерия
+          ly: Ливия
+          li: Лихтенштейн
+          lt: Литва
+          lu: Люксембург
+          mo: "Макао, Китай"
+          mk: Македония
+          mg: Мадагаскар
+          mw: Малави
+          my: Малайзия
+          mv: Мальдивы
+          ml: Мали
+          mt: Мальта
+          mh: "Маршалловы острова"
+          mq: Мартиника
+          mr: Мавритания
+          mu: Маврикий
+          yt: Майотта
+          mx: Мексика
+          fm: Микронезия
+          md: Молдова
+          mc: Монако
+          mn: Монголия
+          me: Черногория
+          ms: Монтсеррат
+          ma: Марокко
+          mz: Мозамбик
+          mm: "Мьянма [Бирма]"
+          na: Намибия
+          nr: Науру
+          np: Непал
+          nl: Нидерланды
+          an: "Нидерландские Антильские острова"
+          nc: "Новая Каледония"
+          nz: "Новая Зеландия"
+          ni: Никарагуа
+          ne: Нигер
+          ng: Нигерия
+          nu: Ниуэ
+          nf: "Остров Норфолк"
+          kp: "Северная Корея"
+          mp: "Северные Марианские острова"
+          "no": Норвегия
+          om: Оман
+          pk: Пакистан
+          pw: Палау
+          ps: "Палестинские территории"
+          pa: Панама
+          pg: "Папуа-Новая Гвинея"
+          py: Парагвай
+          pe: Перу
+          ph: Филиппины
+          pn: "Острова Питкэрн"
+          pl: Польша
+          pt: Португалия
+          pr: "Пуэрто-Рико"
+          qa: Катар
+          ro: Румыния
+          ru: Россия
+          rw: Руанда
+          re: Реюньон
+          bl: "Сен-Бартелеми"
+          sh: "о. Святой Елены"
+          kn: "Сент-Китс и Невис"
+          lc: "Сент-Люсия"
+          mf: "Сен-Мартен"
+          pm: "Сен-Пьер и Микелон"
+          vc: "Сент-Винсент и Гренадины"
+          ws: Самоа
+          sm: "Сан-Марино"
+          sa: "Саудовская Аравия"
+          sn: Сенегал
+          rs: Сербия
+          sc: Сейшельские Острова
+          sl: "Сьерра-Леоне"
+          sg: Сингапур
+          sx: "Сен-Мартен"
+          sk: Словакия
+          si: Словения
+          sb: "Соломоновы острова"
+          so: Сомали
+          za: "ЮАР"
+          gs: "Южная Джорджия и Южные Сандвичевы острова"
+          kr: "Южная Корея"
+          es: Испания
+          lk: "Шри-Ланка"
+          sd: Судан
+          ss: "Южный Судан"
+          sr: Суринам
+          sj: "Свальбард и Ян-Майен"
+          sz: Свазиленд
+          se: Швеция
+          ch: Швейцария
+          sy: Сирия
+          st: "Сан-Томе и Принсипи"
+          tw: Тайвань
+          tj: Таджикистан
+          tz: Танзания
+          th: Таиланд
+          tl: Тимор-Лешти
+          tg: Того
+          tk: Токелау
+          to: Тонга
+          tt: "Тринидад и Тобаго"
+          tn: Тунис
+          tr: Турция
+          tm: Туркменистан
+          tc: "Острова Теркс и Кайкос"
+          tv: Тувалу
+          um: "Внешние малые острова США"
+          vi: "Виргинские острова США"
+          ug: Уганда
+          ua: Украина
+          ae: "Объединенные Арабские Эмираты"
+          gb: "Великобритания"
+          us: "США"
+          zz: "Неизвестный или недопустимый регион"
+          uy: Уругвай
+          uz: Узбекистан
+          vu: Вануату
+          va: "Ватикан"
+          ve: Венесуэла
+          vn: Вьетнам
+          wf: "Уоллис и Футуна"
+          eh: "Западная Сахара"
+          ye: Йемен
+          zm: Замбия
+          zw: Зимбабве
+          ax: "Аландские острова"
+        occupation:
+          <<: *countries
+      gamification:
+        badges: Значки
+
+    documents:
+      my_documents: Мои сертификаты
+      text: "Здесь находятся все ваши сертификаты (сертификаты об окончании курсов и сертификаты об участии). Вы имеете право получить <i>сертификат об окончании курса</i> с оценками, если набрали не менее %{roa_threshold}%% от общего максимального балла за домашние задания и на итоговом экзамене курса. <i>Сертификат об участии</i> доступен для загрузки, если вы изучили более %{cop_threshold}%% учебного материала курса в пределах стандартного графика занятий. Для получения дополнительной информации см. <a href='/pages/roa_guidelines'>Правила получения сертификатов</a>."
+      show_birthdate: "Показать дату рождения в моих сертификатах"
+      no_documents: Сертификаты пока недоступны.
+      my_upcoming_courses: Мои ближайшие курсы
+      proctoring_chart: Результаты онлайн-наблюдения
+      divergent_certificate_requirements: "Различные требования для получения сертификатов приведены в <a href='/courses/%{course_code}'>описании курса</a>."
+      not_yet_published: Сертификаты по этому курсу еще не опубликованы. Как только они появятся, вы получите уведомление по электронной почте. Это обычно происходит в течение одной недели с даты экзамена.
+
+  feeds:
+    headline: "Наши новостные ленты:"
+    txt: "Мы предлагаем следующие новостные ленты. Все они предоставляются в формате JSON."
+    course_feed_name: "Предлагаемые курсы"
+
+  pinboard:
+    ask_question: Начать новую тему
+    submit_question: Начать новую тему
+    update_question: Сохранить изменения
+    locked_msg: Обсуждения касательно этого курса доступны только для чтения. Создавать новые темы или оставлять комментарии невозможно.
+    cancel: Отмена
+    search_tag_result_text:
+      one: Результаты поиска по тегу «%{tags}»
+      few: Результаты поиска по тегам «%{tags}»
+      many: Результаты поиска по тегам «%{tags}»
+      other: Результаты поиска по тегам «%{tags}»
+    breadcrumbs:
+      label: "Вы здесь:"
+      all: Все обсуждения
+      collabspace: "Площадка сотрудничества: %{name}"
+    general: Все обсуждения (общие вопросы)
+    no_results_search: Извините, по вашему запросу ничего не найдено
+    no_results: К сожалению, тут пока пусто.
+    question:
+      blocked: заблокировано
+      votes:
+        one: 1 голос
+        other: "%{count} голоса"
+      comments: комментарии
+      answers: Ответные сообщения
+      responses: ответные сообщения
+      views: просмотры
+      ago: "%{timeago} назад"
+      last_activity: последняя активность
+      answered: Отвечено
+      unanswered: Без ответов
+      closed: Закрыто
+      accept_hint: Вам помог этот ответ? Нажмите здесь, чтобы отметить его как принятый.
+    pagination:
+      next: далее
+      first: начало
+      last: конец
+      previous: назад
+    filters:
+      all_discussions: Все обсуждения
+      discussions_in: Показать темы в
+      technical_issues: Технические проблемы
+    index:
+      filter:
+        search: Поиск
+        tags:
+          label: Теги
+          placeholder: Выберите теги
+        order: Условие сортировки
+        sort:
+          activity: Последняя активность
+          age: Последние вопросы
+          votes: Лучший по числу голосов
+      loading: Ищем обсуждения...
+    reporting:
+      report: жалоба
+      block: блокировать
+      reports:
+        zero: Жалобы отсутствуют
+        one: 1 жалоба
+        few: "%{count} жалобы"
+        many: "%{count} жалоб"
+        other: "%{count} жалоб"
+      unblock: проверка
+      tooltip: Направить жалобу о неприемлемом содержании
+      blocked: "[Заблокировано]"
+      question_blocked: "[Эта публикация была заблокирована из-за неприемлемого содержания]"
+      answer_blocked: "[Этот ответ был заблокирован из-за неприемлемого содержания]"
+      comment_blocked: "[Этот комментарий был заблокирован из-за неприемлемого содержания]"
+      reply_blocked: Ответы и комментарии отключены для этой темы, так как она была заблокирована.
+      success: Ваша жалоба успешно получена
+      error: При отправке жалобы на эту публикацию возникла ошибка
+      admin:
+        headline: Жалобы на публикации на доске объявлений
+        question_title: Тема обсуждения
+        type: Тип публикации
+        reporter: "Автор жалобы:"
+        created: "Время отправки жалобы:"
+        view: Подробная информация
+        dismiss: Отклонить
+        empty_msg: Нет открытых жалоб на публикации.
+        post_types:
+          question: Вопрос
+          answer: Ответ
+          comment: Комментарий
+    sticky: Закрепить
+    admin_tags:
+      title: Теги
+      id: ID
+      name: Имя
+      resource: Ресурс
+      type: Тип
+
+  pinboard_comment:
+    update: Сохранить изменения
+
+  question:
+    answered: Отвечено
+    unanswered: Ответить сейчас
+    show:
+      back: Назад к обзору
+      subscribe: Подписаться
+      unsubscribe: Отменить подписку
+      destroy: Удалить
+      confirm_delete: Удалить эту тему?
+      close: Закрыть
+      confirm_close: Закрыть эту тему?
+      reopen: Открыть снова
+      confirm_reopen: Открыть эту тему снова?
+      closed_msg: Запись была закрыта и теперь доступна только для чтения. Добавить новые ответы или комментарии невозможно.
+      section_locked_msg: Запись относится к разделу «%{section}», который закрыт, поэтому она доступна только для чтения. Добавить новые ответы или комментарии в этой записи невозможно.
+    question_detail:
+      subscribe: Подписаться
+      unsubscribe: Отменить подписку
+      edit: редактировать
+      add_reply: добавить ответ
+    comment_form:
+      add_comment: добавить комментарий
+      create_comment: Отправить комментарий
+    comments:
+      delete: удалить
+      deleting: удаление
+      confirm_delete: Вы уверены?
+      edit: редактировать
+    answers:
+      edit: редактировать
+      delete: удалить
+      deleting: удаление
+      confirm_delete: Вы уверены?
+    answer_form:
+      answer_question: Ответить
+      submit: Отправить ответ
+    attachment:
+      download_attachment: Загрузить вложение
+
+  quiz_submission:
+    instruction: Инструкция по прохождению теста
+    questions: Вопросы
+    retake_quiz: Пройти заново
+    your_submissions: "Отправленные вами работы: %{submission_count}"
+    remaining_attempts: "Осталось попыток: %{remaining_attempts}"
+    choose_submission: "Выберите работу:"
+    total_points: "Получено %{total_points} из %{max_points} баллов"
+    submit:
+      selftest: Отправить мои ответы
+      bonus: Отправить мои ответы
+      main: Отправить мои окончательные ответы
+      survey: Отправить отзыв
+    proctoring:
+      sidebar_title: Онлайн-наблюдение
+      instrumented_info: Функция онлайн-наблюдения временно отключена, поскольку вошли в систему как пользователь.
+      no_issues: Проблем не обнаружено
+      data_currently_unavailable: Данные наблюдения все еще обрабатываются.
+      feature_tooltip: Нарушения будут учитываться за весь курс
+      not_passed: Во время наблюдения за выполнением данного задания были обнаружены проблемы. Сертификат не будет выдан. Нарушения указаны выше.
+      passed_with_issues: Во время наблюдения за выполнением этого задания были обнаружены незначительные проблемы. Нарушения показаны выше. Имейте в виду, что эти нарушения будут накапливаться на протяжении всего курса. Если вы перейдете пороговое значение по одному из требрваний, сертификат не будет выдан.
+    quiz_sidebar_title: "Информация о тесте"
+    quiz_results: "Результаты"
+    total: "Всего"
+    question_count:
+      zero: "В этом тесте нет вопросов."
+      one: "В этом тесте один вопрос."
+      few: "В этом тесте %{count} вопроса."
+      many: "В этом тесте %{count} вопросов."
+      other: "В этом тесте %{count} вопросов."
+    max_quiz_points: "максимум %{max_points} баллов"
+    question_points: "%{points} баллов"
+    quiz_question_points: "%{points} из %{max_points} баллов"
+    quiz_question_points_slashed: "%{points} / %{max_points}"
+    last_saved: "Последнее сохранение:"
+    autosave_warning: "<strong>Предупреждение:</strong> соединение с сервером %{brand} прервано. Тест не удалось сохранить автоматически. Проверьте ваше интернет-соединение."
+    time_up: "Вы исчерпали время, отведенное на прохождение этого теста. Введенные ответы будут отправлены на сервер."
+    times_taken:
+      zero: "Вы еще не проходили этот тест."
+      one: "Вы прошли этот тест %{count} раз."
+      few: "Вы прошли этот тест %{count} раза."
+      many: "Вы прошли этот тест %{count} раз."
+      other: "Вы прошли этот тест %{count} раз."
+    unlimited_time: "Время на прохождение этого теста не ограничено, наслаждайтесь!"
+    unlimited_attempts: Этот тест можно проходить неограниченное число раз!
+    please_select: Выберите
+    partials:
+      quiz_answer_solution:
+        correct: Правильно!
+        wrong: Ваш ответ
+        unselected: Правильный ответ
+        thanks: Благодарим вас!
+        # v Old v
+        correct_selected: Верно!
+        correct_unselected: Правильно, это утверждение не соответствует действительности!
+        wrong_selected: Это утверждение неверно, вам не следовало выбирать его!'
+        wrong_unselected: Это утверждение верно, вы должны были выбрать его!
+      quiz_free_text_answer_solution:
+        correct: Правильно!
+        wrong: Неправильный ответ
+        empty: Пустой ответ
+    submitted_quiz_at: "Вы отправили это задание / экзамен %{quiz_submission_time} (%{timezone})."
+    submission_points_preview: "Ваша предварительная оценка: <b>%{points} / %{max_points} баллов (%{percent}%)</b>"
+    submission_points_preview_note: "<i>Пожалуйста, обратите внимание:</i> не допускается обсуждать содержание задания / экзамена и полученную оценку на форуме до истечения срока отправки работ. Предварительная оценка может измениться."
+    submitted_survey: Благодарим за участие в опросе. Ваши отзывы помогут улучшить учебный процесс!
+    publish_results_at: "Результаты будут доступны здесь с %{publish_results_date}!"
+    submission_points: "%{points} баллов"
+    submission_deadline_passed:
+      title: "Срок отправки работы истек"
+      msg: "Вы больше не можете отправлять задания, так как крайний срок отправки работы уже истек."
+    properties:
+      questions:
+        zero: Нет вопросов
+        one: 1 вопрос
+        few: "%{count} вопроса"
+        many: "%{count} вопросов"
+        other: "%{count} вопросов"
+      due_date: "Срок сдачи: %{date} до %{time}"
+      time_limit: "Не более %{limit} минут"
+      unlimited_time: Без временных ограничений
+      points: "%{count} баллов"
+      allowed_attempts:
+        zero: Попыток нет
+        one: 1 попытка
+        few: "%{count} попытки"
+        many: "%{count} попыток"
+        other: "%{count} попыток"
+      unlimited_attempts: Неограниченное число попыток
+      homework: "Это задание / экзамен предусматривает выставление оценки"
+      bonus: Это бонусное задание
+      selftest: Это самопроверка без выставления оценки
+      show_results: "Результаты появятся с %{datetime}"
+    masq_warning: Срок отправки работы уже истек. Вы можете отправить ответы только потому, что вошли в систему как пользователь.
+    admin_area_title: Зона администратора
+    submit_fudge_points: Отправить
+    add_fudge_points: Добавить дополнительные баллы
+    fudge_points: включая %{fudge_points} дополнительных баллов
+    confirm_quiz_submission:
+      text: Вы ответили не на все вопросы. Вы действительно хотите отправить свои ответы?
+      btn_submit: Отправить ответы
+      btn_cancel: Отмена
+
+  social:
+    allow_detection_via_name: Разрешить другим пользователям найти меня по имени
+    allow_detection_via_email: Разрешить другим пользователям найти меня по адресу электронной почты
+
+  learning_rooms:
+    name: Имя
+    nav:
+      dashboard: Посмотреть последние действия
+      discussions: Обсудить с командой
+      etherpad: Совместная работа над текстами
+      video_chat: Начать видеочат
+      files: Поделиться файлами
+      tpa: "Отправить командную работу и оценить работы коллег (%{title})"
+      administration: Управлять площадкой сотрудничества
+    files:
+      hint: "Загрузить можно только файлы изображений, PDF, Word и Powerpoint. Размер файла не должен превышать %{maxFileSize} МБ."
+      empty: Пока не загружено ни одного файла.
+      upload_files: Загрузить файлы
+      upload_default_message: Перетащите файлы сюда (или нажмите)
+      headline: Файлы площадки сотрудничества
+      filename: Имя файла
+      path: Путь
+      size: Размер
+      actions: Действия
+      download: Загрузить
+      delete: Удалить
+      confirm_delete: Вы действительно хотите удалить этот файл с сервера?
+    list: Список площадок сотрудничества
+    my_rooms: Мои площадки сотрудничества
+    list_empty_state: Для этого курса пока нет учебных мест.
+    my_rooms_empty_state: Вы еще не присоединились к учебному пространству.
+    create: Создать новую площадку сотрудничества
+    create_button: Создать площадку сотрудничества
+    update_button: Изменить площадку сотрудничества
+    go: Войти на площадку сотрудничества
+    pending: Заявка на участие рассматривается
+    pending_text: В настоящее время вы ожидаете подтверждения участия.
+    join: Присоединиться
+    request: Запросить участие
+    quit_membership: Отказаться от участия
+    quit_membership_confirm: Вы действительно хотите выйти из участников этой площадки сотрудничества?
+    is_open: "Это <i>открытая</i> площадка сотрудничества. Любой пользователь может присоединиться."
+    is_closed: "Это <i>закрытая</i> площадка сотрудничества. Заявки на участие утверждаются администратором площадки сотрудничества."
+    team_name: "Команда: %{name}"
+    member_list: Список участников
+    teacher_information: "<i>Для информации:</i> преподаватели курса и их помощники могут зайти на вашу площадку сотрудничества без запроса участия.<br />Это относится как к открытым, так и к закрытым площадкам сотрудничества."
+    open: открытый
+    closed: закрыто
+    admin:
+      name: Имя
+      headline: Администрирование площадки сотрудничества
+      delete: Удалить площадку сотрудничества
+      delete_confirm: Вы действительно хотите удалить эту площадку сотрудничества?
+      delete_warning: "Нажимайте эту кнопку, только если точно знаете, что делаете!"
+      description: Описание
+      description_hint: "Приведите краткое и содержательное описание этой площадки сотрудничества. Осталось символов: "
+      details: Подробная информация
+      details_hint: Здесь вы можете добавить подробное внутреннее описание площадки сотрудничества.
+      member_management: Управление участием
+      properties: Свойства площадки сотрудничества
+      member_name: Имя участника
+      membership_type: Тип участия
+      actions: Действия
+      add_user: Добавить пользователя
+      kick_member: Исключить участника
+      kick_member_confirm: Вы действительно хотите удалить этого пользователя из площадки сотрудничества?
+      accept_member: Принять участника
+      promote_member: Повысить участника до администратора
+      promote_member_confirm: Вы действительно хотите сделать этого участника администратором площадки сотрудничества?
+      promote_member_mentor: Повысить участника до куратора
+      promote_member_mentor_confirm: Вы действительно хотите сделать этого участника куратором площадки сотрудничества?
+      demote_member: Понизить до обычного участника
+      demote_member_confirm: Вы действительно хотите отозвать полномочия администратора у этого участника площадки сотрудничества?
+      is_open: Эта площадка сотрудничества является открытой
+      mail_to_member: Написать письмо участнику
+      mail: Уважаемый(-ая) %{recipient}, С уважением, %{sender}
+
+    flash_messages:
+      success:
+        delete_room: "Площадка сотрудничества успешно удалена"
+      notice:
+        status_pending: "Вы направили запрос присоединиться к площадке сотрудничества %{learning_room}. Ваш запрос ожидает рассмотрения."
+        status_joined: "Вы только что присоединились к площадке сотрудничества %{learning_room}! Будьте вежливы!"
+      error:
+        membership_exists: Этот человек уже закреплен за этой площадкой сотрудничества.
+        membership_elsewhere: Этот учащийся уже закреплен за другой площадкой сотрудничества. Удалите учащегося из другой площадки и попробуйте снова.
+
+  users:
+    show:
+      back_to_list: Назад к списку пользователей
+      confirmed: Подтверждаете?
+      admin_options: Параметры администратора
+      change_password: Изменить пароль
+      delete: Удалить пользователя
+      confirm_delete: "Вы действительно хотите удалить этого пользователя?"
+      masquerade: Войти как пользователь
+      manual_confirm: Подтвердить вручную
+      confirm_manual_confirm: "Пожалуйста: a) внимательно проверьте, правильно ли написан адрес электронной почты этого пользователя, и b) убедитесь, что пользователь подтвердил этот адрес электронной почты, направив ответ в службу поддержки."
+      enrollments: Зачисления на курс
+      course_title: Название курса
+      course_code: Код курса
+      completed: Завершен?
+      completed_true: да
+      completed_false: нет
+      completed_: неприменимо
+      points: Баллы
+      quantile: Квантиль
+      certificates: Сертификаты
+      confirmation_of_participation: Сертификат об участии
+      record_of_achievement: Сертификат об окончании курса
+      certificate: Сертификат
+      actions: Действия
+      action_submissions: Показать отправленные работы
+      user_information: Информация о пользователе
+      password: Пароль
+      password_hint: <strong>Обратите внимание:</strong> изменение пароля не влияет на учетные данные связанной системы единого входа. Если доступ к учетной записи SSO потерян, предоставление нового пароля позволит связать существующую учетную запись с новыми учетными данными SSO.
+
+  certificates:
+    index:
+      headline: Сертификаты
+      id: id
+      info_text: "Поиск пользователя:"
+      email_name: Адрес электронной почты или имя
+      user: Пользователь
+      course: Курс
+      template: Шаблон
+      actions: Действия
+      download: Загрузить
+      delete: Удалить
+      confirm_delete: "Вы действительно хотите удалить эту запись?"
+      error: Ошибка
+      render_state:
+        rendered: предоставлено
+        requested: запрошено
+        error: ошибка
+        denied: отказано
+      show_all: Показать все сертификаты
+      show_errors: Показать только ошибки
+    form:
+      placeholder:
+        name: Введите имя
+        description: "Рекомендуется привести короткое описание"
+  certificate_templates:
+    index:
+      headline: Шаблоны сертификатов
+      edit: Редактировать
+      preview: Предварительный просмотр
+      download: Загрузить
+      new: Добавить новый шаблон
+      course_code: Код курса
+      course: Курс
+      type: Тип
+      actions: Действия
+    new:
+      headline: Новый шаблон сертификата
+    form:
+      record_of_achievement: "Сертификат об окончании курса"
+      confirmation_of_participation: "Сертификат об участии"
+      certificate: "Сертификат"
+      course_code: Код курса
+      certificate_type: Тип сертификата
+      file: Файл
+      dynamic_content: Динамический контент
+      qrcode_x: QR-код x
+      qrcode_y: QR-код y
+      dynamic_content_placeholder: "svg для извлечения динамических данных в сертификат"
+      create_template: Создать шаблон
+    edit:
+      headline: "Изменить шаблон сертификата (id: "
+      help_on: "Помощь по созданию шаблонов: "
+  time:
+    am: AM
+    pm: PM
+    formats:
+      default: ! "%a, %d %b %Y %H:%M:%S %z"
+      long: ! ‘%A, %d %B %Y, %H:%M'
+      short: ! ‘%d %B %Y, %H:%M'
+      # Datetime is not supported by I18n, instead, time is used.
+      # Proposed workaround is to define datetime formats in the time section.
+      long_datetime: "%d %B %Y, %H:%M"
+      short_datetime: "%-d %B %Y"
+      very_short_datetime: "%d %b %H:%M"
+      quiz_submission: "%A, %d %b %Y, %H:%M:%S"
+      abbreviated_month_date: "%-d. %b %Y"
+
+  polls:
+    widget:
+      headline: Опросы
+      end_at: "Открыто до %{date}"
+      vote: Голосовать
+      thanks: Спасибо за голосование!
+      poll_archive_link: "Вы можете ознакомиться с результатами в <a href='%{link}'>архиве опросов</a>, когда опрос завершится."
+      not_enough_participants: "Вы можете ознакомиться с результатами в <a href='%{link}'>архиве опросов</a>, как только в нем примет участие достаточно людей."
+      next_poll: Следующий опрос
+      recent_results: Результаты недавних опросов
+      intermediate_results: "Промежуточные результаты на момент, когда приняло участие %{participants} человек."
+    archive:
+      headline: Архив опросов
+      place_vote: "Этот опрос открыт до %{date}. Пожалуйста, <a href='%{link}'>проголосуйте</a>!"
+      intermediate_results: "Промежуточные результаты на момент, когда приняло участие %{participants} человек."
+      final_results: "Опрос закончился %{date}, приняло участие %{participants} человек."
+      not_ended: "Этот опрос заканчивается %{date}. Результаты будут показаны позднее."
+      not_enough_participants: "Промежуточные результаты будут показаны, как только наберется достаточное количество ответов."
+
+  peer_assessment:
+    inline: Взаимная проверка
+    rubrics:
+      points: Баллы
+    "Xikolo::PeerAssessment::AssignmentSubmission": Отправка работы
+    "Xikolo::PeerAssessment::Training": Обучение выставлению оценок
+    "Xikolo::PeerAssessment::PeerGrading": Оценка работ коллег
+    "Xikolo::PeerAssessment::SelfAssessment": Самостоятельная оценка
+    "Xikolo::PeerAssessment::Results": Просмотр результатов
+
+    notes:
+      text: Примечание
+      text_placeholder: "Ваш комментарий, видимый только другим преподавателям"
+      error_header: Ошибка
+      create_error: "Не удалось создать примечание."
+      update_error: "Не удалось изменить примечание."
+      destroy_error: "Не удалось удалить примечание."
+      not_allowed: "Это действие не разрешено."
+      delete_confirm_title: "Подтвердите удаление"
+      delete_confirm_text: "Удалить это примечание навсегда?"
+
+    info_texts:
+      general: "Взаимная проверка позволяет учащимся оценить работу своих коллег-сокурсников. Таким образом преподаватели получают возможность разработки заданий, которые оцениваются людьми, даже на массовых открытых онлайн-курсах. Студенты лучше понимают материал курса и имеют возможность размышлять и учиться, видя и оценивая работу других."
+      "Xikolo::PeerAssessment::AssignmentSubmission": "<strong>Отправка работы:</strong> на этом этапе вы отправляете свою работу. Не пропустите срок отправки работы, иначе ваша работа не будет оценена, и вы не заработаете ни одного балла."
+      "Xikolo::PeerAssessment::Training": "<strong>Обучение выставлению оценок:</strong> на этом этапе вы проверяете работы, которые уже получили оценку эксперта. Вы можете сравнить свою оценку с оценкой преподавателя и скорректировать / пересмотреть свою оценку."
+      "Xikolo::PeerAssessment::PeerGrading": "<strong>Оценка работ коллег:</strong> вы проверяете распределенные случайном образом работы других учащихся (обычно от 3 до 5). Оценки выставляются анонимно на основе критериев, предоставленных преподавателем. Участие в этапе проверки необходимо, если вы хотите, чтобы ваша работа была оценена и вы заработали баллы. Обязательно соблюдайте установленные сроки, иначе оценка не будет учтена."
+      "Xikolo::PeerAssessment::SelfAssessment": "<strong>Самостоятельная оценка:</strong> на этом этапе вы оцениваете свою собственную работу после проверки работ других учащихся. Если результат самостоятельной оценки находится в пределах 10% от общей коллегиальной оценки, вы получите бонусные баллы. Как всегда, необходимо соблюдать установленный срок."
+      "Xikolo::PeerAssessment::Results": "<strong>Просмотр результатов:</strong> баллы рассчитываются на основе среднего балла, выставленного коллегами. Результаты (баллы и письменные отзывы) будут отображаться в разделе «Результаты»."
+
+    advancement:
+      errors:
+        step_incomplete: Чтобы продолжить, завершите текущий этап.
+        no_next_step: Нет этапа, на который можно перейти.
+        invalid_step: Неверный этап для перехода
+        not_optional: "Этот этап невозможно пропустить."
+
+    coh_text: Я ознакомился с <a href="/pages/honor_code" id="coh_link">кодексом чести</a><span class="ml5"> и осведомлен о последствиях определенных действий, таких как </span><strong>плагиат, оскорбительное содержимое или выражения, содержимое «для взрослых» и несоблюдение установленных сроков</strong>.
+    disallowed_sample_html: Прошу <strong>не использовать</strong> мою работу в качестве примера на этапе <a class="js-swal-popup" data-popup-title="%{popup_title}" data-popup-message="%{popup_message}" href="#">Обучение выставлению оценок</a>.
+    gallery_opt_out: Прошу <strong>не</strong> использовать мою работу ни в каких других целях, кроме выставления оценки (например, не размещать в списках лучших работ).
+    saving: Сохранение...
+    last_saved: Черновой вариант сохранен
+    start_assessment: Начать
+    ack_error: Вам необходимо принять кодекс чести
+    error: На нашей стороне произошла ошибка. Если проблема сохранится, обратитесь в службу поддержки.
+    resume: Назад к проверке
+    grading_hints:
+      headline: Общие советы по выставлению оценок
+      inline: общие советы по выставлению оценок
+      learn_more: Показать
+    deadline_passed: Срок взаимной проверки истек. Поэтому, к сожалению, вы больше не можете в ней участвовать.
+    locked: Эта взаимная проверка будет разблокирована через <strong>%{unlock}</strong>.
+    locked_notification: Пока вы здесь, уделите несколько минут прочтению следующей информации, которую вы должны будете принять, когда начнется проверка
+    not_authorized: У вас нет прав доступа к этому ресурсу.
+    assessment_closed: Проверка закрыта
+    team:
+      locked: Эта взаимная проверка вам недоступна, потому что вы не назначены в команду.
+      text_disabled: Выбранный член команды отправляет работу за всю команду. Пожалуйста, загрузите вашу работу в виде файла! Ввод дополнительного текста невозможен.
+
+    under_construction:
+      header: В стадии разработки
+      info: Эта проверка в данный момент находится в стадии разработки. Зайдите позже, когда преподаватели закончат разработку.
+
+    administration:
+      item_creation_info_text: <p>Настройка взаимной проверки выполняется после создания объекта (если вы решите создать новый).<p><p><strong>Существующие проверки не будут скопированы</strong>, но в этом объекте будет содержаться ссылка на них. Эта функция предназначена для проверок, распределенных на протяжении более длительного промежутка времени.</p><p>Если вы хотите изменить проверки, вы можете сделать это <a href="%{edit_path}" target="_blank">здесь</a>.</p>
+      new_or_existing: Новая / существующая проверка
+      create_new: Создать новую проверку
+      edit_header: "Настройка взаимной проверки для «%{title}»"
+      save_changes: Сохранить изменения
+      save_success: Изменения успешно сохранены
+      save_failure: Не удалось сохранить изменения
+      overview: Перейти к обзору проверки
+      file_upload_failed: Неизвестная ошибка загрузки
+      missing_permission: У вас нет необходимых прав для выполнения этого действия.
+
+      tabs:
+        general: Общая настройка проверки
+        files: Прикрепленные файлы
+        workflow: Этапы рабочего процесса
+        rubrics: Категории для оценки
+
+      peer_assessment:
+        title: Название
+        instructions: Инструкции к выполнению задания<br/>(Задание для решения учащимися)
+        grading_hints: Советы по выставлению оценок<br/>(отображаются для рецензента в верхней части страницы, только общая информация)
+        allow_gallery_opt_out: Разрешить выход из галереи
+        allowed_attachments: Допустимое количество вложений
+        allowed_file_types: Разрешенные типы файлов<br/>(расширения файлов, разделенные запятой и с предшествующей точкой, например .pdf, .mp4, .png)
+        max_file_size: Максимальный размер вложений в МБ
+        usage_disclaimer: Отказ от ответственности при использования<br/>(текст и/или ссылки, с которыми обязательно необходимо согласиться до начала проверки — пожалуйста, используйте полные предложения.)
+        is_team_assessment: Командная проверка
+      files:
+        info_text: Эти файлы будут показаны как прикрепленные к заданию и будут доступны студентам для скачивания. Для загрузки файлов используйте поле ниже (нажмите или перетащите и отпустите). Файлы сразу же начнут загружаться — дождитесь окончания загрузки!
+
+      steps:
+        select_steps: Создать
+        creation_success: Этапы взаимной проверки успешно созданы.
+        deadline: Крайний срок (UTC)
+        unlock_date: Дата разблокировки (UTC)
+        required_trainings: "Обязательное количество учебных примеров (рекомендуется: 1–3; при определении обязательного количества рецензий учитывайте загрузку участников!)"
+        required_reviews: "Обязательное количество рецензий (рекомендуется: 3–5; при определении обязательного количества рецензий учитывайте загрузку участников!)"
+        optional: Необязательный этап
+        results_only: Только результаты (запрещает взаимодействие между учащимися в конце)
+        update: Изменить этапы
+        update_success: Рабочий процесс успешно изменен
+        results_deadline_notice: Крайний срок, указанный для этого этапа, определяет момент времени, до которого учащиеся могут направлять жалобы и оценивать полученные рецензии.
+        step_names:
+          "Xikolo::PeerAssessment::AssignmentSubmission": Отправка работы
+          "Xikolo::PeerAssessment::Training": Обучение выставлению оценок
+          "Xikolo::PeerAssessment::PeerGrading": Оценка работ коллег
+          "Xikolo::PeerAssessment::SelfAssessment": Самостоятельная оценка
+          "Xikolo::PeerAssessment::Results": Просмотр результатов
+        setup_hint: Выберите этапы, которые требуется включить в проверку.
+        title: Определите этапы, которые требуется включить во взаимную проверку
+        initial_setup: На следующем шаге необходимо определить дату начала и окончания каждого этапа.
+        setup_info_about: "О фазах рабочего процесса:"
+        setup_info:
+          - Каждая взаимная проверка обязательно включает в себя этапы «Отправка работы», «Оценка работ коллег» и «Просмотр результатов».
+          - Этапы «Обучение выставлению оценок» и «Самостоятельная оценка» не являются обязательными и могут быть пропущены. Если вы включите эти этапы, можно пометить их как «необязательные». Необязательные этапы могут быть пропущены участниками.
+          - Если вы включите этап «Обучение выставлению оценок», преподавателям необходимо будет проверить 10 работ, которые послужат в качестве учебных примеров для участников курса. Этап «Обучение выставлению оценок» может начаться только после оценки этих 10 примеров работ.
+          - Дата разблокировки каждого этапа определяет, когда участники могут к нему приступить. Если дата разблокировки не указана, участники могут приступить к следующему этапу после завершения предыдущего.
+          - Крайний срок — обязательное для заполнения поле. Он определяет, когда участники должны завершить этап.
+        setup_warning:
+          title: "Вы выбрали все дополнительные этапы, которые хотите включить?"
+          text: "Впоследствии вы не сможете добавлять или удалять этапы."
+          confirm: "Создать этапы"
+        optional_training_notice: Этап «Обучение выставлению оценок» не является обязательным. Участники имеют возможность рецензировать сколько угодно примеров работ.
+
+      rubrics:
+        hints: Советы / общие пояснения (будут отображаться над вариантами оценки в данной категории; должны быть краткими и информативными)
+        create: Создать категорию
+        title: Название категории
+        title_placeholder: Например, «Стиль письма», «Технические знания», ...
+        create_success: Категория успешно создана
+        index_info: Ниже представлен предварительный просмотр всех категорий, включенных в эту проверку. У вас есть возможность перемещать их вверх и вниз, чтобы изменить порядок их отображения для студента, <strong>что может играть важную роль</strong>, поэтому уделите особое внимание этому шагу.
+        confirm_delete_title: Вы действительно хотите удалить эту категорию?
+        confirm_delete_message: "Восстановление невозможно."
+        delete_option_title: Удалить этот раздел?
+        delete_option_message: "Восстановление невозможно."
+        destroy_success: Категория удалена
+        destroy_failure: При удалении категории возникла ошибка. Если проблема сохранится, обратитесь в службу поддержки.
+        moved_success: Категория для оценки перенесена
+        moved_failure: Не удалось переместить категорию для оценки
+        moveup: Переместить категорию вверх по списку
+        movedown: Переместить категорию вниз по списку
+        delete: Удалить эту категорию
+        edit: Изменить эту категорию
+        deadline_warning: Важно! Вы можете изменять этапы «Взаимная проверка» только в том случае, если этапы «Обучение выставлению оценок» и / или «Оценка работ коллег» еще НЕ начались. В противном случае могут возникнуть ошибки на последующем этапе!
+        new_info: Сначала выберите необходимое количество вариантов оценки для этой категории. Затем заполните все поля ниже. <strong>Крайне важно четко и однозначно определить, что именно студенту следует оценивать и каковы критерии оценки.</strong> Помните об этом при разработке категорий! <strong>Разделы будут упорядочены по числу баллов автоматически!</strong> Не указывайте одинаковое количество баллов дважды.
+        options_to_add: Количество вариантов оценки<br/> (добавить / присоединить)
+        add: Добавить
+        options: Разделы категории
+        option_description_placeholder: Краткое описание (необязательно, но настоятельно рекомендуется)
+        delete_option: Удалить
+        update: Изменить категорию
+        add_option: Добавить новый раздел
+        confirm_option_delete: Удалить этот раздел категории?
+        update_success: Категория изменена
+        update_failure: Не удалось сохранить категорию
+        back_to_overview: Назад к обзору
+        sort_info: Только что созданные разделы категории будут автоматически отсортированы по числу баллов.
+        new: Добавить новую категорию
+      team_evaluation_rubrics:
+        index_info: Ниже представлены категории для оценки членов группы. Они отображаются только на этапе самоценки в <strong>групповых взаимных проверках</strong>.
+        new: Добавить новую категорию для групповой оценки
+        new_info:
+          "Студенты оценивают членов своей группы на основании указанных ниже категорий, присваивая в каждой категории от 0 до 3 звезд.
+          Скопируйте и вставьте критерии и описание критериев:  <br>
+          <li>Участие: активно работает и вносит положительный вклад в достижение результата. </li>
+          <li>Организация: координирует команду и структурирует работу.</li>
+          <li>Навыки общения: взаимодействует с другими, открытый и лояльный; обменивается информацией и конструктивно решает споры.</li>
+          </ul>"
+        proposed_rubrics:
+          "Используйте следующие категории: <i>Участие<i/>, <i>Организация<i/>, и <i>Навыки общения<i/>.<br>
+          Термины понимаются следующим образом:
+          <ul>
+          <li>Участие: активно работает и вносит положительный вклад в достижение результата. </li>
+          <li>Организация: координирует команду и структурирует работу.</li>
+          <li>Навыки общения: взаимодействует с другими, открытый и лояльный; обменивается информацией и конструктивно решает споры.</li>
+          </ul>"
+        explanation: Оцените членов вашей группы на основании указанных ниже критериев.
+
+    assignment:
+      question: Вопрос задания
+      question_collapsible: 'Показать <a class="collapsed" data-toggle="collapse" href="#assignment-question-body">инструкции к заданию<span class="caret"></span></a>'
+
+    review:
+      open: Открыто
+      closed: Завершено
+      suspended: Закрыто (направлена жалоба)
+      submit_message_title: Отправить эту рецензию?
+      submit_message: Вы все еще можете внести в рецензию изменения, если этап взаимной оценки еще не завершен
+      no_samples: В данный момент примеров с оценкой нет.
+      no_grading_samples_available: В данный момент доступных работ для оценки нет.
+      grade_samples: Оценить следующий пример
+      assigned_grade: Выставленная оценка
+      actions: Действия
+      extend_deadline: Отложить окончание срока
+      view: Посмотреть / изменить пример
+      view_only: Просмотр
+      continue: Продолжить оценку
+      grading: Ваша оценка
+      rubrics: Категории для оценки
+      written_feedback: Письменный отзыв
+      written_feedback_hint: Предоставьте письменный отзыв о работе вашего коллеги. Что вам понравилось и что можно улучшить? Если вы не поставили максимальный балл, объясните, почему.
+      missing_text: Пожалуйста, предоставьте письменный отзыв.
+      missing_rubric: Пожалуйста, поставьте оценки во всех категориях!
+      server_error: При сохранении рецензии возникла ошибка. Если проблема сохранится, обратитесь в службу поддержки.
+      check_errors: Вы опустили некоторые аспекты рецензии (см. в конце страницы).
+      submit_success: Рецензия успешно отправлена
+      deadline_passed: Крайний срок отправки рецензии истек.
+      unload_message: Сохранить изменения?
+      extension_failure: Продлить срок отправки рецензии невозможно
+      extension_success: Срок отправки успешно продлен
+      autosave_button: Сохранить черновик
+      autosave_explanation: Черновик будет сохранен автоматически. Не забудьте отправить свою рецензию.
+      student_answer: Ответ студента
+      time_left: Оставшееся время
+      no_time_left: времени не осталось
+      status: Статус
+      not_editable: Вы уже отправили эту рецензию. Следовательно, вы больше не можете вносить в нее изменения.
+      not_revisable: В данный момент внести изменения в эту рецензию невозможно.
+      award: Это выдающаяся работа!
+      award_disabled: (запрещено студентом)
+      award_description: Установите этот флажок, если считаете, что ваш коллега представил выдающуюся работу.
+      report: Пожаловаться на эту работу
+      report_hint: Если вы направите жалобу на работу, преподаватели курса рассмотрят ее. Ваша оценка не будет учитываться в общей оценке вашего коллеги, и он не увидит ваш отзыв. Обратите внимание, что в этом случае вам необходимо будет оценить другую работу вместо той, на которую вы направили жалобу.
+      report_submit: Жалоба успешно направлена. Благодарим вас за участие в улучшении сообщества.
+      report_failure: К сожалению, произошла ошибка. Если проблема сохранится, обратитесь в службу поддержки.
+      continue_confirm_title: Завершить рецензии и продолжить?
+      continue_confirm_message: Вы не можете оценивать других коллег после того, как завершите этот этап и перейдете на следующий.
+      additional_review: Дополнительная рецензия
+      advance: На следующий этап
+      advance_wait_info: Вы сможете перейти на следующий этап, как только он будет разблокирован (через %{deadline}).
+      revision: Исправить
+      revision_error: Невозможно внести изменения в эту рецензию.
+      back_to_overview: Назад к обзору
+      submit_revise_info: Когда будете готовы, нажмите <em>Отправить</em>. В противном случае после истечения срока эта рецензия не будет учитываться. У вас еще есть возможность проверить ее и внести изменения.
+      review_deleted: Срок отправки рецензии истек, поэтому она была удалена. Во избежание подобных проблем не забывайте отправлять рецензии.
+      process: Процесс
+      grading_guideline: Руководство по выставлению оценок
+      grade_first: Проверить работу первого коллеги
+      grade_next: Проверить работу следующего коллеги
+      info_text:
+        - У вас осталось <strong>%{days}</strong>, чтобы отправить <strong>%{required_reviews} обязательных рецензий (осталось %{review_count}).</strong>
+        - На написание каждой рецензии отводится <strong>6 часов</strong>. Когда будете готовы, нажмите <em>Отправить</em>. Вы все еще можете проверить и внести изменения в рецензию.
+        - Вы должны закончить и отправить текущую рецензию, прежде чем сможете приступить к следующей. По завершении всех обязательных рецензий у вас есть возможность предоставить не более %{required_reviews} дополнительных рецензий.
+        - "После рецензирования всех работ и выставления оценок <strong>проверьте свои рецензии и внесите необходимые исправления</strong>. Обратите внимание, что вы можете заработать дополнительные баллы, если коллеги сочтут ваши письменные отзывы полезными (не более одного дополнительного балла за каждую рецензию)."
+        - "Как только вы завершите все обязательные рецензии, появится возможность перехода на следующий этап и активируется кнопка <em>На следующий этап</em>. Чтобы продолжить, нажмите кнопку <em>На следующий этап</em>. Обратите внимание, что на некоторых курсах вы сможете перейти на следующий этап до завершения этапа оценки работ коллег. Прежде чем продолжить, убедитесь, что проверили каждую рецензию (вы не сможете вносить какие-либо изменения после перехода на следующий этап)."
+
+      guideline_text:
+        - Оцените каждую работу по предварительно заданным критериям (категориям).
+        - "Предоставьте письменный отзыв с полезной информацией для ваших коллег: подчеркните сильные и слабые стороны и поясните, почему вам нравится или не нравится эта работа. По возможности предоставьте практические советы и рекомендации."
+        - Будьте уважительны, оставайтесь дружелюбными, придерживайтесь фактов и помните о <a href="/pages/honor_code">кодексе чести</a>.
+      phase: этапе «Оценка работ коллег»
+      team_evaluation: Групповая оценка
+      required_reviews: Вы должны оценить не менее %{required_reviews} работ, если хотите, чтобы ваша собственная работа была оценена и учитывалась при расчете баллов.
+      advance_to_peer_grading:
+        title: Вы действительно хотите перейти на этап «Оценка работ коллег»?
+        text: После перехода к этапу «Оценка работ коллег» вы больше не сможете просматривать и оценивать учебные примеры.
+        confirm_button: На этап «Оценка работ коллег»
+
+    conflict:
+      search_by_referral: "Поиск по идентификатору"
+      reporter: "Автор жалобы"
+      accused_student: "Обвиняемый студент"
+      delta: "Дельта"
+      absolute: Абсолютная дельта
+      comment: Пояснение/комментарий
+      comment_placeholder: Источники или пояснение в обоснование ваших требований
+      submit_message_title: Сообщить об этой проблеме?
+      submit_message: "Вы не сможете изменить свое решение, при этом необоснованная жалоба может повлечь последствия (подробнее см. кодекс чести)."
+      submit: Направить жалобу
+      reason: Причина
+      state: Формулировка
+      reasons: # Note: these are the reasons a user can choose from, for the conflict page translations look further below
+        plagiarism: Плагиат
+        offensive_content: Оскорбительное содержимое
+        unrelated: Содержание не относится к заданию
+        other: Другая причина
+      suspended: Рецензия не учитывается в общей коллегиальной оценке
+      submission_reported: Студент направил жалобу на эту работу. Требуется дополнительная рецензия.
+      review_reported: Направлена жалоба на письменный отзыв.
+      no_conflicts: В данный момент споров, которые требуют урегулирования, нет.
+      filed_at: Направлено в
+      filed_by: Автор
+      filed_against: Обвиняемый
+      submssion_updated_at: "Последнее сохранение работы:"
+      draft_created_at: "Черновой вариант работы создан:"
+      referral_id: Идентификатор
+      referral_info: Идентификатор однозначно идентифицирует данный спор. Участники спора используют его в дальнейших запросах в службу поддержки.
+      open: Открыто
+      closed: Закрыто
+      TrueClass: "Да"
+      FalseClass: "Нет"
+      conflict_subject: Предмет спора
+      conflict_reconciliation: Урегулирование споров
+      reconciliate_confirm: "Студенты получат уведомление, когда вы нажмете «ОК»!"
+      subjects:
+        review: Рецензия
+        submission: Работа
+        blank: "-"
+      reconcile: Урегулировать
+      back_to_overview: Назад к обзору
+      all_reasons:
+        plagiarism: Плагиат
+        offensive_content: Оскорбительное содержимое
+        unrelated: Содержание не относится к заданию
+        other: Другая причина
+        grading_conflict: Спор по поводу оценки
+        no_reviews: Нет рецензий
+      grading_weight: Весовой коэффициент
+      reviews_info_text: Ниже отображаются рецензии на данную работу.
+      reconciliation_success: Спор успешно разрешен и уведомления поставлены в очередь для отправки студентам.
+      reconciliation_error: При сохранении спора возникла ошибка.
+      conflicting_changes: "Процессе урегулирования спора ваши оценки изменились (возможно, по результатам рассмотрения других споров, либо данный спор уже кем-то закрыт). Проверьте оценки еще раз с учетом этих изменений. Ваши изменения (если имеются): %{changes}"
+      reconcile_button: Сохранить изменения и закрыть спор
+      filters:
+        any: "- все -"
+        submit: Применить фильтр(-ы)
+      no_reviews: Студент не получил ни одной рецензии.
+      no_review_submit_title: Отправить эту рецензию?
+      no_review_submit_message: Вы не сможете внести изменения в эту рецензию, поэтому убедитесь, что поставили правильные оценки!
+      submission: Работа студента
+      submission_info: Автор работы направил запрос на повторную оценку, рецензии представляют собой полученные автором рецензии.
+      review: Рецензия
+      teacher_notes: Примечания преподавателей (не видны студентам)
+      dependent_conflict_warning: Студент направил жалобу на эту рецензию, в результате чего она не будет учитываться в расчете оценки. Рекомендуется сначала разрешить другой спор, а затем снова рассмотреть этот спор. <a href="%{conflict_url}" target="_blank">Перейти к спору.</a>
+      reconciliation_info: Здесь вы можете скорректировать оценку автора жалобы, а также оценку обвиняемого студента (в соответствующем случае). Отметьте спор как допустимый, если направлена обоснованная жалоба. Спор будет закрыт, если вы нажмете кнопку <em>Сохранить изменения и закрыть спор</em>. Обратите внимание, что в результате этого участники спора получат уведомления о закрытии спора и в соответствующем случае увидят изменившиеся оценки. Однако вы сможете внести изменения позже. Даже если окончательные оценки еще не доступны (поскольку проверка еще не завершена), вы можете прямо сейчас применить любые дельты, которые впоследствии будут учтены при расчете оценки. <strong>Общая оценка не может быть отрицательной и приравнена к нулю баллов.</strong> Вы также можете оставлять здесь комментарии, поясняющие ваши решения, которые будут видны только другим преподавателям.
+      reporter_adjustment: "Корректировка оценки автора жалобы:"
+      accused_adjustment: "Корректировка оценки обвиняемого студента:"
+      tpa_warning: Дельта будет применена ко <b>всем членам команды</b>!
+      review_text: Текст рецензии
+      review_info: На рецензию направлена жалоба, соответствующая работа представлена автором жалобы.
+      grading_rubrics: Категории для оценки
+      given_grade: "Выставленная оценка: %{rec}/%{max}"
+      corr_submission: Соответствующая работа
+      grade:
+        overall: Общая
+        base: Базовые баллы на основании рецензий
+        relative: Текущая относительная дельта
+        absolute: Текущая абсолютная дельта
+        set_delta: "Установить дельту:"
+        delta_absolute: Абсолютная дельта
+        delta_info: При применении абсолютной дельты оценка будет приравнена к фиксированному количеству баллов, тогда как при применении относительной дельты (т. е. флажок не установлен) соответствующее число баллов будет <strong>добавлено к общей оценке</strong>. При применении абсолютной дельты игнорируется все в диапазоне от средних баллов, полученных от рецензентов, до бонусных баллов.
+      view_original_submission: Показать работу, на которую направлена жалоба
+      view_submission_to_regrade: Показать работу для повторной оценки
+      view_reported_submission: Показать работу с направленной жалобой
+    step:
+      inaccessible: Вы не можете перейти на этот этап.
+      locked: Этот этап в данный момент заблокирован и разблокируется через <strong>%{unlock} </strong>.
+      deadline_passed: К сожалению, крайний срок (%{deadline}) уже истек, однако вы не завершили этот этап. Вы не сможете продолжить взаимную проверку и не получите ни одного балла за свою работу.
+      optional_deadline_passed: К сожалению, крайний срок (%{deadline}) уже истек, однако вы не завершили этот этап. Если этот этап был обязательным, вы не сможете продолжить взаимную проверку и не получите ни одного балла за свою работу. Если этот этап был необязательным, нажмите «Просмотр результатов» на панели инструментов, чтобы отобразить результаты.
+      advancement_unavailable: Вы не можете перейти на следующий этап в данный момент.
+
+    index:
+      table:
+        week: Неделя
+        assessment: Проверка
+        section: Раздел
+        status: Статус
+        progress: Прогресс
+        grade: Ваша оценка
+        no_conflicts: Споры
+        awards: Номинации
+      headlines:
+        overall_statistics: Общая статистика взаимной проверки
+        overview: Обзор взаимной проверки
+        my_statistics: Моя статистика взаимной проверки
+      alert_assessments_not_available: Взаимные проверки в настоящее время недоступны. Зайдите позже, когда курс начнется и разделы будут доступны.
+      admin:
+        empty_msg: "На этом курсе пока нет взаимных проверок. Вы можете добавить их в разделе <em>Структура и содержание курса</em> (добавьте объект <em>Взаимная проверка</em>)."
+        edit: Редактировать
+        view: Перейти к проверке
+        manage_submissions: Управление работами студентов
+        missing_train_samples: Не хватает учебных примеров
+        grade_samples: примеры оценок
+        view_training: Обзор учебного примера
+        open_training: Можно отрыть обучение
+        conflict_overview: Описание спора
+        manage_gallery: Управление галереей
+
+    shared:
+      rubric:
+        hints: Дополнительные советы
+      explanation:
+        learn_more: Подробнее о
+
+    files:
+      download_button: Загрузить
+      confirm: Подтвердить
+      confirm_button: Удалить навсегда
+      delete_subtitle: "Восстановление невозможно."
+      filename: Имя файла
+      size: Размер
+      upload_default_message: Перетащите файлы сюда (или нажмите)
+
+    submission:
+      already_submitted: "Вы уже отправили свой черновик. Следовательно, вам больше не разрешается вносить изменения в вашу работу!"
+      save_error: "При отправке задания возникла ошибка. Обратитесь в службу поддержки или повторите попытку позже."
+      success: "Ваши ответы успешно отправлены."
+      content_missing: "Вы отправили пустую работу. Вставьте содержимое в текстовое поле или загрузите файл."
+      server_error: "На нашей стороне произошла ошибка. Повторите попытку позже и обратитесь в службу поддержки, если проблема сохранится."
+      not_found: "Не удалось найти ни одной работы."
+      your_answer: "Ваш ответ"
+      submit_button: "Отправить ответы"
+      instructions: "На этом этапе вам необходимо выполнить задание ниже. Ваша работа будет позже представлена вашим коллегам для выставления оценки."
+      autosave_notice: "Ваша работа будет периодически сохраняться, поэтому вы сможете вернуться к ней в любое время, чтобы завершить отправку, если вы не отправили черновик. По истечении указанного срока вы не сможете отправить или изменить черновик (он не будет отправлен автоматически!)."
+      add_files: Добавить файлы
+      start_all: Загрузить все
+      cancel_all: Отменить все
+      start_upload: Начать загрузку
+      delete_file: Удалить файл
+      delete_file_message: Удалить этот файл?
+      file_delete_failed: Не удалось удалить файл.
+      unauthorized: Вы не можете удалить этот файл (ошибка авторизации).
+      no_text: Студент не отправил письменную работу.
+      no_text_you: Вы не отправили письменную работу.
+      upload_limit_reached: Вы больше не можете загрузить файлы.
+      upload_extension_disallowed: Невозможно загрузить файл этого типа.
+      no_file_provided: Отсутствует файл для загрузки.
+      upload_failed: Загрузка не выполнена. Повторите попытку или обратитесь в службу поддержки, если проблема сохранится.
+      info: Предоставьте свою работу и сохраняйте ее как черновик столько раз, сколько потребуется. После нажатия кнопки <em>Отправить ответы</em> вы не сможете больше вносить изменения в свою работу. Не забудьте нажать <em>Отправить ответы</em> до истечения срока сдачи работы. В противном случае ваша работа не будет оценена, и вы не заработаете ни одного балла. <strong>Ваши персональные данные не будут переданы вашим коллегам. Если вы хотите сохранить вашу конфиденциальность, не указывайте персональные в вашей работе (в тексте и вложениях).</strong>
+      attachments: Вложения
+      attachment_text: "Вы можете отправить не более <strong>%{files} файлов</strong>. Если ваш преподаватель разрешил отправку нескольких файлов, загрузите их по отдельности. Прежде чем нажать кнопку <em>Отправить ответы</em>, убедитесь, что все файлы правильно загружены. После нажатия кнопки <em>Отправить ответы</em> вы больше не сможете загружать или изменять файлы.<br/><strong>Допустимые форматы: %{formats}; допустимый размер файла (макс.): %{file_size} МБ</strong>"
+      upload_fallback: Выберите файл и нажмите <em>Начать загрузку</em>, чтобы загрузить файл. Обновите страницу, и загруженный файл появится в правой части этой страницы. Если вы не видите загруженный файл, то загрузка не удалась.
+      submit: Вы закончили работу и готовы завершить ее? Вы не сможете вносить изменения в дальнейшем и перейдете на следующий этап.
+      submit_title: Подтвердить отправку работы
+      learn_to_grade_popup: "Во время этапа «Обучение выставлению оценок» преподаватели предварительно оценивают несколько работ студентов, чтобы предоставить справочную оценку. Студенты учатся выставлять оценки на основе нескольких анонимных и случайно выбранных работ из числа предварительно проверенных и получивших оценки."
+      learn_to_grade_popup_title: Этап «Обучение выставлению оценок»
+      no_video: Видео не было загружено.
+
+      confirmation_window:
+        title: "Предупреждение!"
+        text: Убедитесь, что ваши файлы не повреждены, загрузив и открыв их, прежде чем завершить отправку.
+        confirm_button: Завершить
+
+      additional_attempt:
+        attempt_notice: "Вы получили дополнительную попытку для редактирования и завершения работы."
+        edit_submission: Редактировать работу
+        confirmation_window:
+          title: Редактировать вашу работу?
+          text: После изменения текста и вложений вы сможете сохранить свою работу один раз.
+        info: "<strong>Обратите внимание, что внесенные изменения не сохраняются автоматически.</strong> Для сохранения изменений необходимо нажать кнопку <em>Отправить ответы</em>. У вас есть только один шанс внести изменения."
+        not_allowed: Вы использовали все попытки редактирования работы.
+        update_error: При сохранении работы возникла ошибка. Если проблема сохранится, обратитесь в службу поддержки.
+
+    autosave:
+      error: "К сожалению, нашей стороне произошла ошибка."
+
+    train_samples:
+      train_sample_overview: Обзор учебных примеров
+      notice: "Обратите внимание, что количество примеров %{count} представляет собой обязательный минимум, чтобы открыть этап обучения для студентов. Если вы хотите, чтобы студенты получили достаточную практику, рекомендуется предоставить <strong>не менее 20 примеров</strong>."
+      no_samples: В данный момент работ на оценку нет.
+      written_feedback: "Примечание для преподавателей курса: обоснуйте вашу оценку, чтобы учащиеся понимали, что необходимо учитывать при оценке работ своих коллег."
+      submit_message_title: Отправить этот пример?
+      submit_message: Вы можете пересматривать и вносить изменения в этот пример, пока не начнется обучение.
+      open_training_title: Открыть обучение?
+      open_training_message: После начала обучения вы не сможете внести изменения в уже созданные учебные рецензии, поэтому убедитесь, что поставили правильные оценки! Действительно открыть обучение?
+      opening_possible: Теперь обучение можно открыть для студентов!
+      open_missing: Открыть обучение (необходимо больше учебных примеров)
+      open_training: Открыть обучение
+      eligible_submissions: Найдено %{count} работ, подходящих в качестве учебных примеров для выставления оценок.
+      training_open_error: Невозможно выполнить действие, потому что обучение уже открыто.
+      status: Статус
+      deadline: Крайний срок
+      delete: Удалить
+      skip: Пропустить (удалить черновик)
+      back: Назад к обзору
+      open_error: При открытии этапа обучения возникла ошибка.
+      open_success: Обучение успешно открыто.
+      delete_review_title: Пропустить или удалить эту рецензию?
+      delete_review: Действительно пропустить эту рецензию? Вы (или другие помощники преподавателей) не сможете снова оценить эту работу. Пропускайте рецензии, только если считаете, что данная работа не годится для обучения исходя из уже предоставленных учебных рецензий.
+      training_opened: Обучение открыто для студентов. Это означает, что вы больше не сможете создавать, редактировать или удалять учебные примеры.
+
+    training:
+      unavailable: Преподаватели в настоящее время оценивают работы, чтобы чтобы собрать примеры выставления оценок. Как только они появятся, вы сможете попрактиковаться в рецензировании.
+      phase: этапе «Обучение выставлению оценок»
+      first_sample: Первый пример
+      next_sample: Следующий пример
+      additional_sample: Дополнительный пример
+      continue: Перейти к оценке работ коллег
+      advance_confirmation:
+        title: У вас было достаточно практики? Вы действительно хотите начать этап «Оценка работ коллег»?
+        text: На основе учебных примеров узнайте, как выставлять оценки. После перехода к этапу «Оценка работ коллег» вы больше не сможете просматривать и оценивать учебные примеры.
+        confirm_button: Начать этап «Оценка работ коллег»
+        cancel_button: Назад к учебным примерам
+      no_samples_left: Обучение закрыто либо не осталось учебных примеров для выставления оценок.
+      continue_info: Вы можете проверить другие примеры работ или перейти на этап <em>Оценка работ коллег</em>.
+      continue_info_passed: Вы можете перейти на этап «Оценка работ коллег».
+      grading_hints: (Подсказки касательно составления письменного отзыва пригодятся позже, только на этапе фактической взаимной оценки, однако помните о них при проверке работ.)
+      confirmation_title: Подтвердить отправку
+      confirmation_message: Отправить эту учебную рецензию?
+      instructor_feedback: "Письменный отзыв преподавателя"
+      grading_comparison: Сравнение оценок
+      match_type:
+        your_answer: Вы
+        ta_answer: Преподаватель
+        match: Очень хорошо
+      info_text:
+        one: "Целью этапа «Обучение выставлению оценок» является снижение вариативности оценок при взаимной проверке. Ваши преподаватели предварительно оценили несколько работ студентов, чтобы собрать примеры выставления оценок. Вы научитесь выставлять оценки на примере нескольких анонимных и случайно выбранных работ, предварительно проверенных преподавателем."
+        two: "Вы должны сделать в общей сложности <strong>%{required_reviews} учебных рецензий</strong>, которые не будут учитываться в результатах ваших коллег. По завершении учебных рецензий вы перейдете на этап «Оценка работ коллег»."
+        three: "Оцените каждую работу по предварительно заданным критериям (категориям). Поскольку это обучающий этап, предоставлять письменный отзыв не требуется. После отправки рецензии будут отображены ваши оценки и оценки преподавателей. Вы узнаете, как выставляют оценки эксперты, и сможете применить эти критерии при последующем выставлении оценок."
+
+    self_assessment:
+      phase: Этап самооценки
+      info_texts:
+        general: "Пожалуйста, проверьте и оцените собственную работу после того, как проверите работы коллег.  Самокритичное и объективное выставление оценки будет вознаграждено:  если самостоятельная оценка своей работы находится в пределах 10% от общей оценки, полученной от коллег, вы получите бонусные баллы."
+
+      already_submitted: Вы уже отправили свой черновик. Следовательно, вам больше не разрешается вносить изменения в вашу работу!
+      grading_rubrics: Категории для оценки
+
+      skip_button: "Пропустить этап и продолжить"
+      submit_button: "Отправить и продолжить"
+      confirm_title: Отправить оценку своей работы?
+      confirm_message: Вы больше не сможете вносить изменения.
+      advance_confirmation:
+        title: Вы действительно не хотите отправить результат самостоятельной оценки своей работы?
+        text: Если перейти на этап «Просмотр результатов», не выполнив предварительно самостоятельную оценку своей работы, у вас больше не будет возможности оценить свою работу впоследствии и вы не получите бонусные баллы за точную самооценку.
+        confirm_button: На этап «Просмотр результатов»
+        cancel_button: Назад к оценке своей работы
+
+    results:
+      results: Просмотр результатов Фаза
+      info_text:
+        intro: Ниже отображаются полученные и написанные вами рецензии.
+        general:
+          - <ul><li>После закрытия всех предыдущих этапов будет видна оценка, выставленная вашими коллегами.</li>
+          - <li>Вы можете <strong>заработать дополнительные баллы за написанные вами рецензии</strong>. Эти баллы появятся, как только коллеги оценят качество ваших отзывов (не более одного дополнительного балла за каждую рецензию).</li>
+          - <li>Вы можете заработать <strong>дополнительные баллы за точную оценку своей работы</strong>. Если вы получили бонусные баллы, они отобразятся ниже.</li>
+          - <li>Чтобы оценить отзыв коллеги и прочитать подробную рецензию, нажмите кнопку <em>Посмотреть</em>. После того, как вы оцените отзыв вашего коллеги, появится оценка, которую вы от него получили. Присвоение рейтинга не является обязательным и должно быть выполнено до закрытия этапа «Просмотр результатов».</li></ul>
+          - Ваша общая оценка — это сумма оценок ваших коллег и дополнительных баллов, которые вы получили. Общая оценка становится окончательной после закрытия этапа <em>Просмотр результатов</em>. Дополнительную информацию о выставлении оценок можно найти в разделе «Вопросы и ответы».
+
+      where_is_grade: Где моя оценка?
+      waiting_for_peers: В данный момент ваша оценка недоступна. Команда преподавателей усердно работает, чтобы выставить вам оценку как можно скорее. Как только ваша оценка появится, вы получите уведомление по электронной почте.
+      waiting_for_deadline: Ваша оценка появится через <strong>%{distance}</strong>, все ваши рецензенты успеют оценить вашу работу за это время.
+      your_grade: Ваша оценка
+      nomination: Поздравляем, %{times} ваших коллег отметили вашу работу как исключительную. Команда преподавателей может выбрать вашу работу для галереи лучших работ. Загляните в галерею лучших работ после того, как команда преподавателей закончит проверку.
+      reviews_written: Отправленные рецензии
+      reviews_received: Полученные рецензии
+      no_reviews: В данный момент у вас нет рецензий, зайдите позже.
+      received_grade: Полученная оценка
+      your_feedback: Ваши отзывы
+      rate_first: Пожалуйста, прочитайте и оцените эту рецензию, чтобы увидеть оценку, которую вы получили.
+      rate_first_team: Прочитайте и оцените эту рецензию от имени вашей команды. Члены вашей команды смогут увидеть оценку, которую вы получили.
+      waiting_rating: В ожидании оценки
+      received_feedback: Полученные отзывы
+      grade: Выставленная оценка
+      rating_authorization_error: Вы не можете оценить свою собственную рецензию!
+      invalid_rating: Неверное значение рейтинга.
+      rating_success: Благодарим вас! Теперь вы можете просмотреть подробную рецензию.
+      rating_failure: При присвоении рейтинга вашему коллеге возникла ошибка. Если проблема сохранится, обратитесь в службу поддержки.
+      grading_rubrics: Категории для оценки
+      proficiency: После обучения ваш коллега оценил свою квалификацию как «<strong>%{proficiency}</strong>».
+      award: Этот коллега проголосовал за то, чтобы ваша работа была добавлена в галерею лучших работ!
+      reported: Направлена жалоба
+      peer_reported: "На вашу рецензию поступила жалоба от вашего коллеги с основанием «%{reason}». Наши преподаватели рассматривают проблему. Вы получите уведомление, когда жалоба будет закрыта.<br/>Идентификатор жалобы: <strong>%{referral}</strong>. Его необходимо указывать во всех запросах в службу поддержки касательно этой жалобы."
+      you_reported: "Вы направили жалобу на вашего коллегу с основанием «%{reason}». Наши преподаватели рассматривают проблему. Вы получите уведомление, когда жалоба будет закрыта.<br/>Идентификатор жалобы: <strong>%{referral}</strong>. Его необходимо указывать во всех запросах в службу поддержки касательно этой жалобы."
+      you_reported_short: "Вы направили жалобу на вашего коллегу с основанием «%{reason}»."
+      conflict_closed: Жалоба была закрыта преподавательским составом.
+      peer_reported_short: "На вашу рецензию поступила жалоба от вашего коллеги с основанием «%{reason}»."
+      deadline_passed: Это действие выполнить невозможно, потому что крайний срок, установленный для этого этапа, истек.
+      peer_grade: "Ваш коллега выставил вам следующую оценку: %{grade}"
+      rating_passed: Крайний срок оценки истек
+      rating_received_passed: Ваш коллега не оценил вашу рецензию в срок.
+      grade_exceeded: "Поздравляем! Вы заработали дополнительные баллы и превысили максимальную оценку."
+      peer_reported_submission: "На вашу работу поступила жалоба от вашего коллеги с основанием «%{reason}». Наши преподаватели рассматривают проблему. Вы получите уведомление, когда жалоба будет закрыта.<br/>Идентификатор жалобы: <strong>%{referral}</strong>. Его необходимо указывать во всех запросах в службу поддержки касательно этой жалобы."
+      you_reported_submission: "Вы направили жалобу на работу вашего коллеги с основанием «%{reason}». Наши преподаватели рассматривают проблему. Вы получите уведомление, когда жалоба будет закрыта.<br/>Идентификатор жалобы: <strong>%{referral}</strong>. Его необходимо указывать во всех запросах в службу поддержки касательно этой жалобы."
+      peer_reported_short_submission: "На вашу работу поступила жалоба от вашего коллеги с основанием «%{reason}»."
+      written_reviews:
+        reported_peer: Вы направили жалобу на работу вашего коллеги
+        reported_by_peer: На ваш отзыв направлена жалоба
+      received_reviews:
+        reported_peer: Вы направили жалобу на полученный отзыв
+        reported_by_peer: На вашу работу поступила жалоба
+      advance_to_results_confirmation:
+        title: Вы действительно хотите перейти на этап «Просмотр результатов»?
+        text: После перехода на этап «Просмотр результатов» у вас не будет возможности оценить свою работу. Чтобы заработать бонусные баллы за точную оценку своей работы, вам необходимо отправить результат.
+        confirm_button: На этап «Просмотр результатов»
+
+      grade_composition:
+        headline: Составляющие оценки
+        base: Коллегиальная оценка
+        self_assessment: Дополнительные баллы за точную оценку своей работы
+        usefulness: Дополнительные баллы за отправленные рецензии
+        team_evaluation: Оценка членами вашей команды
+        delta: Дельта, примененная преподавателями.
+        absolute_delta: Ваша оценка была зафиксирована и составляет %{grade} баллов
+        helpers:
+          base: "Для определения коллегиальной оценки используется медиана. Коллегиальная оценка = критерий медианы 1 + критерий медианы 2 +… + критерий медианы n. "
+          self_assessment: "Вы получите бонусные баллы, если разница между оценкой от ваших коллег и вашей собственной оценкой своей работы находится в пределах 10% от максимального числа баллов. Бонусные баллы = 5% от максимально возможного числа баллов."
+          usefulness: Бонусные баллы рассчитываются исходя оценки вашего письменного отзыва.
+          delta: Корректировка оценок преподавателями (например, по результатам рассмотрения вашей жалобы, но также в случае жалобы на вас!).
+          team_evaluation: Баллы, которые вы получили от членов вашей команды за ваш вклад в ее работу.
+
+      status:
+        status: Статус
+        reported: Направлена жалоба
+        new_message: Новое сообщение
+
+      buttons:
+        view: Просмотр
+        view_discuss: Посмотреть и обсудить
+
+      rating:
+        headline: Рецензирование работ коллег
+        report: Пожаловаться на эту рецензию
+        report_hint: Если вы направите жалобу на рецензию, преподаватели курса рассмотрят ее. Если жалоба обоснована, рецензия не будет учитываться при расчете общей оценки.
+        rate_button: Отправить рейтинг
+        confirm_title: Хотите отправить присвоенный рейтинг?
+        confirm: Вы не сможете изменить его впоследствии.
+        grading_received: "Ваш коллега поставил следующую оценку вашей рецензии: <strong>%{grade}</strong>"
+        grading_given: "Вы выставили своему коллеге следующую оценку: <strong>%{grade}</strong>"
+        stars: "<strong>Этой рецензии присвоено следующее количество звезд: %{stars}</strong>"
+
+        info_text:
+          intro: Ниже приведена рецензия, написанная вашим коллегой.
+          points:
+            - Теперь вы можете присвоить рейтинг этой рецензии, чтобы ваш коллега получил вознаграждение за полезный отзыв и/или смог повысить качество своих рецензий в будущем. После выбора рейтинга вы увидите оценки, выставленные этим коллегой по каждому критерию (в каждой категории).
+            - Возможно, вы не полностью согласны с мнением вашего коллеги, однако постарайтесь оценить рецензию исходя из того, насколько полезную и конструктивную информацию она содержит.
+            - "Примечание: оценка рецензий не является обязательной.  На основании вашей оценки коллега заработает дополнительные баллы (не более дополнительного балла за рецензию). Ваша оценка не изменится."
+
+        explanation:
+          intro: <strong>Выберите рейтинг с помощью звезд, затем нажмите <em>Отправить рейтинг</em> для оценки этой рецензии.</strong>
+          stars:
+            - <strong>0 звезд</strong><br/>Отзыв не содержит полезной информации, в нем не отражены конкретные стороны моей работы.
+            - <strong>1 звезда</strong><br/>Отзыв содержит в некоторой степени полезную информацию. Отзыв относится к моей работе, однако изложен в общих и/или неоднозначных фразах; сильные и/или слабые стороны НЕ указаны однозначно.
+            - <strong>2 звезды</strong><br/>Отзыв содержит полезную информацию. Отзыв подробный; четко указаны сильные и/или слабые стороны, ОДНАКО пояснения и/или практические советы отсутствуют или не обоснованы.
+            - <strong>3 звезды</strong><br/>Отзыв содержит чрезвычайно полезную информацию. Отзыв подробный; четко указаны сильные и/или слабые стороны И приведены обоснованные пояснения и/или практические советы.
+
+      grading_conflict:
+        notifier: "Вы направили запрос на повторную оценку. Команда преподавателей в настоящее время проверяет вашу работу. На это потребуется некоторое время. Как только результаты станут известны, вы получите письмо по электронной почте.<br/>Идентификатор вашего запроса на повторную оценку: %{referral}. Вам необходимо указывать его во всей переписке по этому поводу."
+        notifier_closed: "Запрос на повторную оценку рассмотрен. Идентификатор вашего запроса на повторную оценку: %{referral}. Вам необходимо указывать его во всей переписке по этому поводу."
+        submit_button: Запросить повторную оценку
+        submit_button_hint: Повторная оценка возможна только после того, как вы присвоите рейтинг всем полученным рецензиям, и только в том случае, если выставленные коллегами оценки существенно различаются.
+        label: Пояснение
+        placeholder: Пожалуйста, объясните, почему вы считаете, что заслуживаете более высокую оценку.
+        info_text: >
+          "Пожалуйста, внимательно прочитайте рецензии ваших коллег. Возможно, вы полностью согласны с мнением вашего коллеги, однако постарайтесь объективно оценить эту рецензию, сравнив ее с другими полученными вами рецензиями.
+          <p>Если вы все еще считаете, что ваша работа была оценена несправедливо и что вы заслуживаете более высокую оценку, направьте запрос на <em>повторную оценку</em>. Пожалуйста, объясните, почему вы считаете, что заслуживаете более высокую оценку, и наши преподаватели проверят вашу работу на основании указанных причин.</p>
+          <p>Примечание: пожалуйста, используйте эту функцию только в необходимых случаях.</p>
+
+        confirmation_title: Вы действительно хотите направить запрос на повторную оценку?
+        confirmation_text: Хорошо подумайте, прежде чем направлять запрос на повторную оценку!
+        not_eligible: Вы не можете направить запрос на повторную оценку.
+        success: Запрос на повторную оценку отправлен. Повторная оценка может занять некоторое время, поэтому зайдите позже.
+        user_instrumented_hint_possible: Кнопка запроса повторной оценки активна, потому что вы вошли в систему как пользователь. Учащийся имеет право направить запрос на повторную оценку.
+        user_instrumented_hint_not_possible: Кнопка запроса повторной оценки активна, потому что вы вошли в систему как пользователь. Учащийся не имеет права запрашивать повторную оценку своей работы или уже направил такой запрос.
+        teacherview_hint_possible: Кнопка запроса повторной оценки неактивна, поскольку вы просто просматриваете результаты в том виде, как они отображаются для пользователя. Учащийся имеет право направить запрос на повторную оценку.
+        teacherview_hint_not_possible: Кнопка запроса повторной оценки неактивна, поскольку вы просто просматриваете результаты в том виде, как они отображаются для пользователя. Учащийся не имеет права запрашивать повторную оценку своей работы или уже направил такой запрос.
+
+    statistics:
+      names:
+        submission_create: Созданы уникальные черновики работ
+        submission_submit: Законченные работы
+      submission_stats: Статистика работ (%{overall} начато, %{content} черновиков с файлами или текстом, %{submitted} закончено)
+      config_headline: Общая информация и настройка
+
+    submission_management:
+      submitted: Отправлено
+      allowed_in_gallery: Разрешено для галереи
+      average: Средняя оценка от коллег
+      average_rating: Экспертная оценка
+      nominations: Номинация от коллег
+      nominated_submissions: Всего номинаций
+      refid: Идентификатор
+      gallery_entries: Отмеченные кандидаты в галерею
+      rate: Оценить
+      availalbe_submissions: Доступные работы
+      final_submissions: Законченные работы
+      votes: Голос(-а)
+      your_vote: Вы присвоили этой работе %{votes} звезд.
+      view: Просмотр
+      per_page_limit: "Максимальное количество работ на странице:"
+      final_only: Показать только законченные работы
+      apply: Применить
+      submission_headline: Работа студента
+      rating_info: Выберите соответствующее количество звезд, чтобы оценить эту работу. <strong>Установите флажок <em>Включить работу в галерею</em> только в том случае, если вы и ваши коллеги-эксперты закончили проверку представленных работ.</strong> Также обратите внимание, что вы сможете изменить рейтинг позже.
+      your_rating: Ваш рейтинг
+      include_submission: Включить работу в галерею
+      confirm_rating_title: Отправить рейтинг?
+      confirm_rating_message: Вы можете изменить свое решение позже.
+      rating_success: Рейтинг сохранен
+      rating_error: К сожалению, не удалось сохранить рейтинг. Если проблема сохранится, обратитесь в службу поддержки.
+      grant_attempt_success: Вы успешно предоставили дополнительную попытку.
+      grant_attempt_failure: Не удалось предоставить дополнительную попытку.
+      no_submissions: На данный момент нет отправленных работ.
+      order_by: "Сортировать по:"
+      then: "затем:"
+      none: Нет
+      sort_button: Сортировать
+      average_sort: Баллы (оценка)
+      gallery_include: Это работа отмечена как кандидат для галереи.
+      generate_gallery: Создать шаблон галереи
+      copy_notice: Скопируйте этот текст и вставьте его в любое удобное для вас место, где используется форматированный текст (доска объявлений, текстовый объект). Выделите область и скопируйте текст, нажав CTRL + A, затем CTRL + C; Macintosh CMD + A, затем CMD + C.
+      generated_gallery: Созданная галерея
+      close_button: Закрыть
+      generation_error: При создании галереи возникла ошибка.
+      user: Автор
+      display_student_submission:
+        title: Показывать страницы так, как их видят студенты
+        submission_page: Отправка работы
+        results_page: Просмотр результатов
+        self_assessment_page: Самостоятельная оценка
+        training_page: Обучение выставлению оценок
+        peer_grading_page: Оценка работ коллег
+        draft_hint: "  Студент начал этот этап, но (пока) ничего не отправил."
+      gallery_only: Показать только работы, включенные в галерею
+      gallery_button_disabled_info: Включите хотя бы одну работу в галерею.
+      metadata: "Посмотреть информацию и метаданные"
+      submission_date: "Создано в:"
+      received_reviews_meta: "Полученные рецензии<br/> (крайний срок | оценка)"
+      written_reviews_meta: "Написанные рецензии<br/> (крайний срок | этап | оценка)"
+      review_details: "Таблица баллов по рецензиям"
+      no_review_matrix: "Нет рецензий для оценки"
+      teams: Команды
+      additional_attempts:
+        title: "Дополнительные попытки:"
+        confirm_title: "Предоставить дополнительную попытку?"
+        confirm_message: "Учащийся получит дополнительную попытку, чтобы внести изменения и оправить свою работу."
+        button: "Предоставить еще одну попытку"
+      opted_out_from_gallery: "Участник не хочет, чтобы его/ее работа была добавлена в галерею лучших работ."
+      regrading_request:
+        title: "Запрос на повторную оценку:"
+        confirm_title: "Направить запрос на повторную оценку?"
+        confirm_message: "Студент получит по электронной почте подтверждение об отправке запроса на повторную оценку. Запрос на повторную оценку будет включен в описание спора для дальнейшего рассмотрения преподавательской группой."
+        button: "Запросить повторную оценку"
+        label: "Пояснение"
+        placeholder: "Объясните, почему вы запрашиваете повторную оценку работы студента. Ваше пояснение будет видно только команде преподавателей."
+
+      user_filter:
+        placeholder: Имя или эл. почта
+        submit: Поиск
+      team_filter:
+        placeholder: Название команды
+        submit: Поиск
+      filter_reset: Сбросить фильтры
+
+      template:
+        student_headline: "### Работа студента %{name}"
+        desc_placeholder: "*Может быть, введете подробное описание?*"
+        hline: "***"
+        link: "[%{description}](%{path})"
+        image_with_link: "[![%{description}](%{image_path}?размер=%{size}) %{additional_text}](%{link})"
+        image: "![%{description}](%{path}?размер=%{size})"
+        generic_attachment: "[%{description}](%{path})"
+        pdf_download: Скачать PDF
+        explanation: "*Понятное объяснение, почему была выбрана эта работа.*"
+
+  verify:
+    headline: Проверка сертификата
+    headline_show: Информация о сертификате
+    valid: "Сертификат по коду проверки <i>%{code}</i> является действительным."
+    user_deleted: Учетная запись этого кандидата была удалена. По этой причине мы больше не можем проверить данный сертификат.
+    narrative: "%{brand} подтверждает, что кандидат прошел курс <a href='%{link}'>%{title}</a> и сдал все задания и экзамены, необходимые для получения сертификата о прохождении курса."
+    narrative_meta: "%{brand} подтверждает, что кандидат прошел курс %{title} и сдал все задания и экзамены, необходимые для получения сертификата о прохождении курса."
+    user_data: Информация о пользователе
+    issued_for: Выдан
+    identified_by: Адрес электронной почты
+    date_of_birth: Дата рождения
+    course_data: Информация о курсе
+    course_title: Выдан по окончании курса
+    course_teachers: Предложено
+    course_runtime: Период прохождения курса
+    course_date: "с %{start_date} по %{end_date}"
+    course_date_from: "с %{start_date}"
+    course_learning_goals: цели обучения
+    certificate_data: Информация о сертификате
+    certificate_type: Тип сертификата
+    record_of_achievement: Сертификат об окончании курса
+    confirmation_of_participation: Сертификат об участии
+    certificate: Квалификационный сертификат
+    issued_at: "Дата выдачи"
+    result: Результат
+    points: "%{points} из %{max_points} баллов (%{percent}%)"
+    top: "Результат входит в <b>%{top}% лучших</b> на этом курсе."
+    additional_records:
+      headline: Дополнительные сертификаты
+      info: "По итогам прохождения этого курса пользователь также получил следующие типы сертификатов: <b>%{records}</b>. В этом случае при проверке мы всегда показываем наиболее ценный сертификат."
+    open_badge:
+      headline: Open Badge
+      share_open_badge: Поделиться Open Badge
+      linkedin_info_url: "/pages/open_badges"
+
+  open_badges:
+    badge_class:
+      name: "Успешно пройдено в %{year}: %{course_title}"
+      name_fallback: "Успешно пройдено: %{course_title}"
+      description: "Этот значок подтверждает, что кандидат прошел курс %{brand} «%{course_title}» и сдал все задания и экзамены, необходимые для получения сертификата о прохождении курса."
+
+  gamification:
+    points: XP
+    badge:
+      level:
+        default:
+          "0": Бронза
+          "1": Серебро
+          "2": Золото
+    badges:
+      headline: Значки
+    scores:
+      your_points: "Ваши %{points}"
+      empty: Вы можете получить очки опыта (XP), работая над учебным материалом и участвуя в обсуждениях на форуме.
+      course: Курс
+      selftests: Тесты для самопроверки
+      communication: Взаимодействие
+      total: Всего
+      missing_course_title: (Курс недоступен)
+    courses_scores:
+      course: Курс
+      total: Всего
+
+  proctoring:
+    register_with_smowl: Калибровка изображения
+    calibration_missing_callout: Перед сдачей экзамена необходимо откалибровать изображение.
+    calibration_missing_text: Вы не сможете сдать экзамен, пока не начнете процесс калибровки.
+    calibration_missing_action: Перейти на страницу с подробной информацией о калибровке
+    calibration_pending_title: Калибровка ожидается
+    calibration_pending_text: Ваше изображение в настоящее время проходит калибровку. Этот процесс может занять пару часов. Пожалуйста, вернитесь сюда позже, чтобы сдать экзамен.
+    service_unavailable: Служба прокторинга в настоящее время недоступна. Пожалуйста, повторите попытку позже.
+    book_certificate: Заказать сертификат
+
+    registration_details:
+      title: Калибровка для сертификата
+      headline_steps: Фотографирование для верификации
+      steps_introduction: "Если вы выбрали Сертификат, нам нужны три ваши фотографии для автоматического распознавания лица. Выполните следующие действия, чтобы активировать функцию распознавания лиц:"
+      step_1: Убедитесь, что вы используете <a href='https://smowl.net/en/faqs-proctoring-smowl/requirements/' target='_blank' rel='noopener'>совместимый браузер</a>.
+      step_2: Нажмите кнопку "Калибровка изображения" в конце этой страницы.
+      step_3: Take 3 photos of you with your webcam. The second photo will appear on your certificate.
+      step_4: Сделайте 3 фотографии с помощью веб-камеры. Вторая фотография появится на вашем сертификате.
+      callout_title: Откалибруйте изображение как можно скорее
+      callout_text: Процесс калибровки может занять <strong>до 48 часов</strong>. В течение этого времени доступ к оцененным тестам и всем соответствующим упражнениям блокируется.
+      verification_lifetime_headline: Срок действия верификации
+      verification_lifetime_text: Калибровка выполняется для каждого участника, а не для каждого курса, т.е. вам не нужно повторять весь процесс заново для каждого курса. В последующих курсах будет проверяться, не изменился ли внешний вид настолько, что требуется новая калибровка. Если да, вас попросят сделать это в ходе курса.
+
+  time_effort:
+    seconds: сек.
+    pretty_minutes:
+      one: 1 минута
+      few: "%{count} минуты"
+      many: "%{count} минут"
+      other: "%{count} минут"
+
+  learn:
+    title: "Проверка знаний"
+
+  permissions:
+    headline: Глобальные настройки полномочий
+    grant_text: "Всем членам этой группы предоставляются следующие права и полномочия:"
+    confirmed: Подтверждено
+    confirmed_true: true
+    confirmed_false: false
+    details: Подробная информация
+    remove: Удалить
+    add_user:
+      button: Добавить пользователя
+      placeholder: Эл. почта или имя
+    enrollment_list: 'Члены этой группы включены в <a href="%{url}">список зачисленных</a>.'
+    group_names:
+      admins: Администраторы курса
+      moderators: Модераторы курса
+      teachers: Преподаватели
+      students: Студенты
+      partners: Партнер
+      content_editors: Редакторы контента
+      pa_content_experts: Эксперты по содержанию взаимной проверки
+      pa_jury: Жюри взаимной проверки
+      stakeholders: Ключевые участники курса
+      global:
+        gdpr_admins: Администраторы платформы (GDPR)
+        admins: Администраторы платформы
+        helpdesk: Сотрудники службы поддержки (GDPR)
+        reviewers: Ответственные за проверку качества (рецензенты)
+    role_names:
+      account:
+        admin:
+          name: "<b>Администрирование учетной записи:</b> регистрация, создание и удаление пользователей, изменение паролей пользователей, вход в систему под видом пользователя"
+        permissions:
+          admin:
+            name: "<b>Администрирование полномочий:</b> перечисление, предоставление и отзыв глобальных полномочий (например, полномочий администратора)"
+        support:
+          name: "<b>Поддержка учетной записи:</b> регистрация пользователя, смена паролей пользователей, вход в систему под видом пользователя"
+        tracer:
+          name: "<b>Поиск пользователя:</b> поиск пользователей по фильтрации работ и т. д."
+      course:
+        admin:
+          name: "<b>Администрирование курса:</b> создание, изменение и дублирование курсов, управление преподавателями"
+        manager:
+          name: "<b>Управление курсом:</b> изменение параметров настройки курса, управление содержимым курса, управление разрешениями курса, просмотр информационной панели курса и статистики, управление зачислениями на курс"
+          global:
+            name: "<b>Общее управление курсом:</b> добавление и изменение данных преподавателей (унаследованное полномочие из прежней системы полномочий)"
+        previewer:
+          name: "<b>Предварительный просмотр курса:</b> просмотр неопубликованного содержимого курса"
+        student:
+          name: "<b>Студент:</b> базовые полномочия для зарегистрированных и зачисленных на курс пользователей (без специальных ролей)"
+        controller:
+          name: "<b>Контроль курса:</b> просмотр информационных панелей и статистики курса"
+        editor:
+          name: "<b>Редактирование курса:</b> редактирование содержимого курса, просмотр статистики курса"
+        content:
+          controller:
+            name: "<b>Контроль контента:</b> просмотр статистики объектов контента"
+        channel:
+          admin:
+            name: "<b>Администрирование каналов:</b> создание, редактирование и удаление каналов"
+        teacher:
+          name: "<b>Преподаватель:</b> унаследованная роль с прежними полномочиями преподавателя"
+        vouchers:
+          admin:
+            name: "<b>Администрирование ваучеров:</b>ваучеры самообслуживания, статистика, проверка ваучеров"
+        stakeholder:
+          name: "<b>Контроль курса:</b> просмотр информационных панелей курса"
+      certificate:
+        admin:
+          name: "<b>Администрирование сертификатов:</b> добавление, редактирование и удаление шаблонов сертификатов, предварительный просмотр сертификатов"
+      collabspace:
+        admin:
+          name: "<b>Администрирование площадки сотрудничества:</b> доступ, управление, закрытие и удаление площадок сотрудничества, управление участниками площадки сотрудничества"
+        mentor:
+          name: "<b>Курирование площадки сотрудничества:</b> доступ к командным площадкам сотрудничества"
+      file:
+        admin:
+          name: "<b>Администрирование файлов:</b> регистрация и удаление загруженных файлов"
+      grouping:
+        admin:
+          name: "<b>Администрирование пользовательских тестов:</b> создание пользовательских тестов и управление ими"
+        inspector:
+          name: "<b>Пользовательские тесты:</b> работа с результатами пользовательских тестов"
+      lanalytics:
+        alert:
+          admin:
+            name: "<b>Администрирование предупреждений проверки качества:</b> удаление предупреждений для всех пользователей"
+          inspector:
+            name: "<b>Предупреждения проверки качества:</b> регистрация и игнорирование (собственных) предупреждений"
+        report:
+          inspector:
+            name: "<b>Жалобы:</b> анонимная отправка жалоб"
+        rule:
+          admin:
+            name: "<b>Администрирование правил проверки качества:</b> управление правилами выдачи предупреждений проверки качества"
+      lti:
+        admin:
+          name: "<b>Администрирование LTI:</b> управление провайдерами LTI"
+        tool:
+          administrator:
+            name: "<b>Администрирование LTI:</b> управление провайдерами LTI"
+          instructor:
+            name: "<b>LTI:</b> использование провайдеров LTI"
+      news:
+        announcement:
+          admin:
+            name: "<b>Управление новостями:</b> создание, редактирование, удаление и отправка объявлений"
+          previewer:
+            name: "<b>Предварительный просмотр новостей:</b> просмотр неопубликованных объявлений"
+          editor:
+            name: "<b>Редактирование новостей:</b> создание, редактирование и удаление объявлений, отправка тестовых писем"
+        page:
+          admin:
+            name: "<b>Администрирование страницы:</b> создание и редактирование статических страниц"
+      peerassessment:
+        admin:
+          name: "<b>Администрирование взаимной проверки:</b> просмотр и изменение настроек взаимной проверки (критерии проверки и т. д.), управление отправленными работами (= просмотр работ / рецензий / баллов / прогресса, предоставление дополнительных попыток, создание запросов на повторную оценку), управление учебными примерами, управление спорами, оценка и выбор работ для галереи лучших работ, создание галереи лучших работ"
+        manager:
+          name: "<b>Управление взаимной проверкой:</b> просмотр настроек взаимной проверки (критерии проверки и т. д.), управление отправленными работами (= просмотр работ / рецензий / баллов / прогресса, предоставление дополнительных попыток, создание запросов на повторную оценку), управление учебными примерами, управление спорами, оценка и выбор работ для галереи лучших работ"
+        support:
+          name: "<b>Поддержка взаимной проверки:</b> разрешение споров, проверка отправленных работ"
+        expert:
+          name: "<b>Эксперт по взаимной проверке:</b> оценка отправленных работ, управление спорами, управление учебными примерами"
+        expert_support:
+          name: "<b>Поддержка эксперта по взаимной проверке:</b> просмотр отправленных работ, оценка и выбор работ для галереи лучших работ"
+        editor:
+          name: "<b>Редактирование взаимной проверки:</b> создание и редактирование взаимной проверки"
+      pinboard:
+        moderator:
+          name: "<b>Модерация доски объявлений:</b> редактирование, удаление, блокировка / разблокировка, перемещение, закрытие или закрепление публикаций на доске объявлений, просмотр жалоб на публикации на доске объявлений"
+        instructor:
+          name: "<b>Инструкция по работе с доской объявлений:</b> <i>еще не указано</i>"
+        support:
+          name: "<b>Поддержка модерации доски объявлений:</b> блокировка / разблокировка публикаций на доске объявлений, просмотр жалоб на публикации на доске объявлений, создание закрепленных записей"
+      platform:
+        operator:
+          name: "<b>Работа платформы:</b> просмотр глобальной информационной панели платформы"
+      quiz:
+        admin:
+          name: "<b>Администрирование тестов:</b> управление отправленными ответами, предоставление дополнительных попыток"
+        controller:
+          name: "<b>Статистика тестов</b>: просмотр статистики отправленных ответов"
+        inspector:
+          name: "<b>Проверка тестов</b>: просмотр отправленных студентами ответов"
+      video:
+        controller:
+          name: "<b>Контроль видео:</b> просмотр статистики видео"
+        admin:
+          name: "<b>Администрирование видеоконтента:</b> управление поставщиками видеоконтента"
+      subtitle:
+        editor:
+          name: "<b>Редактирование субтитров:</b> загрузка и удаление субтитров для видео"
+      helpdesk:
+        polls:
+          admin:
+            name: "<b>Администрирование опросов:</b> создание, редактирование, удаление и оценка опросов"
+        pages:
+          admin:
+            name: "<b>Администрирование страниц:</b> создание, редактирование и удаление страниц"
+
+  vouchers:
+    headline: Ваучер самообслуживания
+    nav:
+      create: Создание ваучеров
+      stats: Статистика
+      query: Запрос
+    create:
+      product: Продукт
+      count: Количество ваучеров
+      tag: Тег
+      tag_placeholder: "необязательно"
+      claimant: Пользователь
+      claimant_placeholder: "необязательно"
+      course: Курс
+      expiration: "Срок действия"
+      expiration_placeholder: "выберите дату (необязательно)"
+      button: Генерировать коды
+      count_error: Число должно быть не менее 1
+      codes: Сгенерированные коды ваучеров
+    no_products: Продукты не указаны.
+    stats:
+      issued: Выданные ваучеры
+      claimed: Истребованные ваучеры
+      by_product: Ваучеры по продуктам
+      by_tag: Ваучеры по тегу
+      by_course: Ваучеры по курсу
+      product: Продукт
+      tag: Тег
+      course_code: Код курса
+    query:
+      text: Найти ваучер
+      placeholder: Код ваучера
+      button: Поиск
+      code: Код ваучера
+      tag: Тег
+      created_at: Создано в
+      claimed: Истребовано?
+      claimant: Истребовано пользователем
+      restricted_claimant: Может быть истребовано
+      claimed_at: Истребовано в
+      course: Истребовано для
+      restricted_course: Может быть истребовано
+      expiration_date: Срок действия
+
+  lti_providers:
+    lti_provider:
+      actions: Действия
+      confirm_delete: Удаление приведет к разрушению всех элементов курса, которые все еще ссылаются на этого провайдера. Вы действительно хотите удалить его?
+      edit: Изменить провайдера LTI
+      delete: Удалить провайдера LTI
+    index:
+      add: "Добавить провайдера LTI"
+
+  pages:
+    show:
+      edit_translation:
+        de: Редактировать немецкий перевод «%{title}»
+        en: Редактировать английский перевод «%{title}»
+        fr: Редактировать французский перевод «%{title}»
+        cn: Редактировать китайский перевод «%{title}»
+      new_translation:
+        de: Добавить перевод на немецкий
+        en: Добавить перевод на английский
+        fr: Добавить перевод на французский
+        cn: Добавить перевод на китайский
+      last_changed: Эта страница была в последний раз изменена %{date}.
+    not_found:
+      message: Эта статическая страница не известна. Пожалуйста, проверьте URL / имя. Если содержимое отсутствует, вы можете создать новые переводы.
+    edit:
+      headline: Изменить статическую страницу
+
+  quiz_questions:
+    edit:
+      question_type:
+        multiple_choice: Одиночный выбор
+        multiple_answer: Многократный отбор
+      markup: Разметка
+      type: Тип
+      submit: Отправить вопрос
+    form:
+      question_type:
+        multiple_choice: Одиночный выбор
+        multiple_answer: Многократный отбор
+        free_text: Произвольный текст
+        essay: Эссе
+  quiz_answers:
+    form:
+      submit: Отправить ответ
+      cancel: Отмена
+
+  notification_user_disables:
+    show:
+      title: Отключить уведомления
+      deactivate_for:
+        global: Вы больше не будете получать уведомления.
+        announcement: Вы больше не будете получать новости платформы.
+        course_announcement: Вы больше не будете получать новости курсов.
+        pinboard: Вы больше не будете получать новости о доске объявлений.
+
+  social_sharing:
+    facebook:
+      button: Поделиться
+      info: Поделиться в Facebook
+      icon:
+        name: facebook
+        style: brands
+    linkedin_add:
+      button: Добавить в профиль
+      info: Добавить в профиль LinkedIn
+      icon:
+        name: linkedin
+        style: brands
+    twitter:
+      button: почта
+      info: Поделится в X, ранее Twitter
+      icon:
+        name: x-twitter
+        style: brands
+      share_course: "Я записался на курс #%{site} «%{title}»"
+      share_certificate: "Я успешно прошел курс #%{title} на %{site}!"
+    mail:
+      button: По почте
+      info: Отправить по электронной почте
+      icon:
+        name: envelope
+        style: solid
+      share_course:
+        subject: "Присоединяйтесь ко мне и учитесь на %{site}"
+        body: |
+          Здравствуйте  ,
+
+          Я записался на курс %{site} «%{title}»: %{url}.
+          Для регистрации вам понадобится только действующий адрес электронной почты — и вы сможете учиться в любой точке мира в любое время.
+
+          С уважением,
+      share_certificate:
+        subject: "Я успешно окончил курс на %{site}"
+        body: |
+          Здравствуйте ,
+
+          Я только что окончил курс %{site} «%{title}»: %{course_url}.
+          Мой значок Open Badge можно проверить здесь: %{certificate_url}
+
+          С уважением,

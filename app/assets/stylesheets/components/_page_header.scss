@@ -1,0 +1,64 @@
+// To prevent conflicts with the bootstrap class (.page-header)
+// we use the plural form for the component Global::PageHeader.
+.pages-header {
+  width: 100%;
+  background-color: $pages-header-bg;
+
+  &__container {
+    max-width: $main-content-width;
+    padding: 30px $page-padding;
+    margin: 0 auto;
+  }
+
+  &__title {
+    @include font-m;
+    margin: 0;
+    color: $pages-header-title-color;
+    font-weight: normal;
+
+    @include screen-size-s-and-up {
+      @include font-l;
+    }
+  }
+
+  &__subtitle {
+    @include font-sm;
+    margin-top: 4px;
+    color: $pages-header-subtitle-color;
+  }
+
+  &__pill {
+    margin-bottom: 10px;
+  }
+
+  &--slim {
+    .pages-header__container {
+      padding: 15px $page-padding;
+    }
+
+    .pages-header__title-wrapper {
+      @include screen-size-s-and-up {
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    .pages-header__pill {
+      margin-bottom: 5px;
+
+      @include screen-size-s-and-up {
+        order: 2;
+        margin-bottom: 0;
+        margin-left: 7px;
+      }
+    }
+
+    .pages-header__title {
+      @include font-sm;
+    }
+    .pages-header__subtitle {
+      @include font-s;
+      margin-top: 0;
+    }
+  }
+}

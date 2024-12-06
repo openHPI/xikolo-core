@@ -1,0 +1,8 @@
+- if course.rating_stars && course.rating_stars > 0
+  h3.course-details--section-title = t(:'course.courses.rating.headline')
+
+  .rating
+    - course.rating_stars_icons.each do |icon|
+      = render icon
+  - if course.rating_votes && course.rating_votes > 0
+    p = t(:'course.courses.rating.details', stars: course.rating_stars, votes: course.rating_votes)

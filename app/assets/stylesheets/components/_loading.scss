@@ -1,0 +1,123 @@
+/*------------------------------------*\
+    $Loading-Indicators
+\*------------------------------------*/
+
+.loading-placeholder {
+  padding: 10px;
+  color: $gray;
+  font-size: 1.7em;
+  font-weight: bold;
+  text-align: center;
+
+  &__text {
+    padding: $spacing-steps;
+    color: $gray;
+    font-weight: normal;
+  }
+
+  .spinner > div {
+    // Apply a lighter color to the bubbles, to better fit the text.
+    background-color: $gray;
+  }
+}
+
+.spinner {
+  display: none;
+  width: 0;
+  height: auto;
+  opacity: 0;
+}
+
+.has-spinner.loading .xi-icon {
+  animation: spin 1s infinite linear;
+  cursor: progress;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.has-spinner.loading .spinner {
+  display: inline;
+  width: 20px; /* This doesn't work, just fix for unkown width elements */
+  opacity: 1;
+}
+
+.spinner {
+  width: 70px;
+  margin: 100px auto 0;
+  text-align: center;
+}
+
+.spinner > div {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+
+  border-radius: 100%;
+  animation: bouncedelay 1.4s infinite ease-in-out;
+  /* Prevent first frame from flickering when animation starts */
+  animation-fill-mode: both;
+  background-color: #333;
+}
+
+.spinner.spinner--small > div {
+  width: 10px;
+  height: 10px;
+}
+
+.spinner .bounce1 {
+  animation-delay: -0.32s;
+}
+
+.spinner .bounce2 {
+  animation-delay: -0.16s;
+}
+
+@keyframes bouncedelay {
+  0%,
+  80%,
+  100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+#loading-dimmer {
+  position: fixed;
+  z-index: $z-index-xl;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+
+  height: 100%;
+  animation: fade-in 1s forwards;
+
+  background-color: $gray-500;
+  cursor: wait;
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 0.7;
+    }
+  }
+
+  .loading-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    .spinner > div {
+      background-color: $text-color;
+    }
+  }
+}

@@ -1,0 +1,32 @@
+nav.navigation-tabs(
+  data-controller='navigation-tabs'
+  data-content-id="#{@content_id if panels.present?}"
+  data-component-id=@component_id
+)
+  - if @collapsible
+    .navigation-tabs__header
+      button(
+        type='button'
+        class='navigation-tabs__header-button'
+        aria-label=t(:'items.show.show_nav')
+        title=t(:'items.show.hide_nav')
+        data-id='navigation-tabs-button'
+        data-show-text=t('items.show.show_nav')
+        data-hide-text=t('items.show.hide_nav')
+        )
+        = render Global::FaIcon.new('bars', css_classes: 'mr10')
+
+  div class=css_classes data-id='navigation-tabs__content' aria-expanded='true'
+    ul.navigation-tabs__items role='tablist'
+      - tabs.each do |tab|
+        = tab
+    - if additional_items.present?
+      ul.navigation-tabs__additional-items
+        - additional_items.each do |item|
+          li.navigation-tabs__item
+            = item
+
+- if panels.present?
+  div data-id=@content_id
+    - panels.each do |panel|
+      = panel

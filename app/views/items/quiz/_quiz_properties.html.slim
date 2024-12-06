@@ -1,0 +1,28 @@
+- if presenter.main_exercise? or presenter.current_time_limit_seconds or presenter.current_allowed_attempts > 0
+  - if highlight_quiz_properties
+    .infobox.infobox-info.mt15.mb15.p10 style='font-size:1.25em'
+      ul.quiz-properties.mb0
+        = render 'items/quiz/basic_quiz_properties', presenter: presenter
+ul.quiz-properties
+  - if !highlight_quiz_properties
+    = render 'items/quiz/basic_quiz_properties', presenter: presenter
+  li
+    = render Global::FaIcon.new('comment-question', style: :solid, css_classes: 'mr5 em1-2 vmiddle')
+    span
+      = t(:'quiz_submission.properties.questions', count: presenter.question_count)
+  li
+    = render Global::FaIcon.new('circle-3', style: :solid, css_classes: 'mr5 em1-2 vmiddle')
+    span
+      = t(:'quiz_submission.properties.points', count: presenter.max_points)
+  - if presenter.submission_deadline
+    li
+      = render Global::FaIcon.new('alarm-clock', style: :solid, css_classes: 'mr5 em1-2 vmiddle')
+      span
+        => t(:'quiz_submission.properties.due_date', date: l(presenter.submission_deadline.in_time_zone(), format: '%B %d, %Y'), time: l(presenter.submission_deadline.in_time_zone(), format: '%H:%M'))
+        '(#{Time.zone.name})
+  - if presenter.submission_publishing_date
+    li
+      = render Global::FaIcon.new('check', style: :solid, css_classes: 'mr5 em1-2 vmiddle')
+      span
+        => t(:'quiz_submission.properties.show_results', datetime: l(presenter.submission_publishing_date.in_time_zone(), format: :long))
+        '(#{Time.zone.name})

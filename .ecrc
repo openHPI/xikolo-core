@@ -1,0 +1,12 @@
+{
+  "exclude": [
+    "^docs/bridges/",
+    "(^|/)vendor/",
+    "\\.swf$",
+    "\\.hbs$",
+    "app/assets/fontawesome-pro"
+  ],
+  "Disable": {
+    "IndentSize": true
+  }
+}

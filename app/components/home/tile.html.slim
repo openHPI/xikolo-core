@@ -1,0 +1,13 @@
+.tile-container
+  .tile class=css_modifiers
+    - if image
+      = image_tag image[:url], class: 'tile__image', alt: image[:alt], srcset: srcset
+    div
+      p.tile__title = @title
+      - if @text
+        .tile__text == @text
+      - if link
+        .tile__link
+          = link_to link[:url]
+            span = link[:text]
+            = render Global::FaIcon.new('arrow-right')

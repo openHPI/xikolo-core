@@ -1,0 +1,26 @@
+production:
+  services:
+    account: <%= ENV['XIKOLO_SERVICE_ACCOUNT'] || 'http://localhost:3100' %>
+    collabspace: <%= ENV['XIKOLO_SERVICE_LEARNING_ROOM'] || 'http://localhost:4800' %>
+    course: <%= ENV['XIKOLO_SERVICE_COURSE'] || 'http://localhost:3300' %>
+    learning_room: <%= ENV['XIKOLO_SERVICE_LEARNING_ROOM'] || 'http://localhost:4800' %>
+    notification: <%= ENV['XIKOLO_SERVICE_NOTIFICATION'] || 'http://localhost:3200' %>
+    pinboard: <%= ENV['XIKOLO_SERVICE_PINBOARD'] || 'http://localhost:3500' %>
+
+development:
+  services:
+    account: <%= ENV['XIKOLO_SERVICE_ACCOUNT'] || 'http://localhost:3100' %>
+    collabspace: <%= ENV['XIKOLO_SERVICE_LEARNING_ROOM'] || 'http://localhost:4800' %>
+    course: <%= ENV['XIKOLO_SERVICE_COURSE'] || 'http://localhost:3300' %>
+    learning_room: <%= ENV['XIKOLO_SERVICE_LEARNING_ROOM'] || 'http://localhost:4800' %>
+    notification: <%= ENV['XIKOLO_SERVICE_NOTIFICATION'] || 'http://localhost:3200' %>
+    pinboard: <%= ENV['XIKOLO_SERVICE_PINBOARD'] || 'http://localhost:3500' %>
+
+test:
+  services:
+    account: http://account.xikolo.tld
+    collabspace: http://learning-room.xikolo.tld
+    course: http://course.xikolo.tld
+    learning_room: http://learning-room.xikolo.tld
+    notification: http://notification.xikolo.tld
+    pinboard: http://pinboard.xikolo.tld

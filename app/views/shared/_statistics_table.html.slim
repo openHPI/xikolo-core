@@ -1,0 +1,4 @@
+- attr ||= {}
+.statistics-table id=id class=(local_assigns.fetch :css_class, '') *attr
+  .spinner-container
+    = render Global::FaIcon.new('spinner', style: :solid, css_classes: 'fa-spin fa-3x')

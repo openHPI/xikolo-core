@@ -1,0 +1,61 @@
+/*------------------------------------*\
+    $CONTENTS
+
+    Dropdown component.
+    Uses Twitter Bootstrap dropdowns.
+\*------------------------------------*/
+/**
+ * Variables................Variables and Bootstrap SASS-Var overrides
+ * Bootstrap-Import.........Required import for BS component
+ * Dropdown-Base............Additional styling for dropdowns
+ */
+
+/*------------------------------------*\
+    $Variables
+\*------------------------------------*/
+$dropdown-bg: $gray-100;
+$dropdown-link-color: $black;
+$dropdown-link-hover-color: $white;
+$dropdown-link-active-bg: $gray-800;
+$dropdown-link-hover-bg: $gray-800;
+$dropdown-header-color: $black;
+
+/*------------------------------------*\
+    $Bootstrap-Import
+\*------------------------------------*/
+@import "bootstrap-sass/assets/stylesheets/bootstrap/mixins/reset-filter";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/mixins/nav-divider";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/dropdowns";
+
+/*------------------------------------*\
+    $Dropdown-Base
+\*------------------------------------*/
+
+.dropdown-menu {
+  max-height: 80vh;
+  border: 1px solid rgba($gray-600, 0.3);
+  border-radius: 0px;
+  margin: 0px;
+  overflow-y: auto;
+
+  & > li > a {
+    padding: 3px 20px 3px 10px;
+
+    // Make sure all items are aligned equally
+    .dropdown-icon,
+    .xi-icon {
+      display: inline-block;
+      width: 23px;
+      margin-right: 10px;
+      font-size: 1.25em;
+      line-height: inherit;
+    }
+  }
+
+  & > li.disabled > a,
+  & > li.disabled > a:hover,
+  & > li.disabled > a:active {
+    color: inherit;
+    opacity: 0.5;
+  }
+}

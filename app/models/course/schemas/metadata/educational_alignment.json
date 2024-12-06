@@ -1,0 +1,83 @@
+{
+  "title": "EducationalAlignment",
+  "type": "object",
+  "description": "This schema describes the attributes of an educational alignment. It represents the topic, field of study, subject, ... of a course.",
+  "properties": {
+    "alignmentType": {
+      "type": ["string", "null"],
+      "description": "The type of the alignment. Can only be \"educationalSubject\"",
+      "enum": ["educationalSubject"]
+    },
+    "educationalFramework": {
+      "type": "string",
+      "description": "The name of the educational framework that describes the educational alignment. Currently, only the standards ISCED-F and OEFOS are allowed.",
+      "enum": ["ISCED-F", "OEFOS", "BIRD Faechersystematik"]
+    },
+    "educationalFrameworkVersion": {
+      "type": "string",
+      "description": "The version of the educational framework that describes the educational alignment. Can also be the year the framework was released/published.",
+      "example": "2013"
+    },
+    "url": {
+      "type": ["string", "null"],
+      "description": "An IRI pointing at the document which describes the educational framework.",
+      "format": "iri",
+      "example": "http://uis.unesco.org/sites/default/files/documents/international-standard-classification-of-education-fields-of-education-and-training-2013-detailed-field-descriptions-2015-en.pdf"
+    },
+    "name": {
+      "type": "array",
+      "description": "List of names of the educational alignment. This array allows localized strings. A name and a language have to be given in the respective element.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "inLanguage": {
+            "type": "string",
+            "description": "The language the name is given in. Has to be a shortcode according to BCP 47.",
+            "example": "en"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the educational alignment in the given language by the \"inLanguage\" attribute.",
+            "example": "Computer use"
+          }
+        },
+        "required": ["inLanguage", "name"]
+      }
+    },
+    "alternateName": {
+      "type": ["array", "null"],
+      "description": "A list of alternative names for the educational alignment.",
+      "example": ["use of computers", "working with computers"],
+      "items": {
+        "type": "string"
+      }
+    },
+    "shortCode": {
+      "type": "string",
+      "description": "The short code for the field of study if it is provided by the framework.",
+      "example": "0611"
+    },
+    "targetUrl": {
+      "type": ["string", "null"],
+      "description": "An IRI pointing at the framework node of the educational alignment.",
+      "format": "iri",
+      "example": "http://data.europa.eu/esco/isced-f/0611"
+    },
+    "type": {
+      "type": "string",
+      "description": "The type of the object.",
+      "enum": ["EducationalAlignment"]
+    },
+    "description": {
+      "type": ["string", "null"],
+      "description": "A short description of the educational alignment. Should be based on the framework used.",
+      "example": "Computer use is the study of using computers and computer software and applications for different purposes. These programmes are generally of short duration. Programmes and qualifications with the following main content are classified here: Computer use, Use of software for calculating (spread sheets), Use of software for data processing, Use of software for desktop publishing, Use of software for word processing, Use of Internet"
+    }
+  },
+  "required": [
+    "educationalFramework",
+    "educationalFrameworkVersion",
+    "name",
+    "type"
+  ]
+}

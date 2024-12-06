@@ -1,0 +1,11 @@
+.scrollspy-target
+  ul.nav.news-nav
+    - posts.take(10).each do |post|
+      - if post.publish_at.past?
+        li
+          a href="#post_#{post.id}"
+            == post.title
+    - if posts.length > 10
+      li.news__older-link
+        a href="#see-older"
+          == t(:'announcements.see_older')

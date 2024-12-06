@@ -1,0 +1,21 @@
+# Course card
+
+A course card displays relevant and actionable information on a specific course.
+We have two types of course cards that should be used depending on the context.
+
+## Expandable
+
+<lookbook-embed app="http://localhost:3000/rails/components/" preview="Home::CourseCardPreview" scenario="expandable"></lookbook-embed>
+
+This is the default type of the card.
+Until hovered, it only shows high-level information about the course and no action buttons.
+It transitions from the collapsed state to an expanded state on hover, where more information and action buttons are shown.
+
+## Compact
+
+<lookbook-embed app="http://localhost:3000/rails/components/" preview="Home::CourseCardPreview" scenario="compact"></lookbook-embed>
+
+With a `type = 'compact'` configuration, the course card is displayed as an intermediate state between collapsed and expanded.
+It does not feature an expansion on hover.
+
+To be used in pages where users don't require details about the course because they already know it well, but action buttons are needed (e.g, on the dashboard page).

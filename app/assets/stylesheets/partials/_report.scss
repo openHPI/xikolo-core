@@ -1,0 +1,55 @@
+.report {
+  &__input {
+    margin-top: 10px;
+
+    &--large {
+      width: 400px;
+    }
+
+    &--medium {
+      width: 300px;
+    }
+
+    &--small {
+      width: 150px;
+    }
+
+    &--extra-small {
+      width: 50px;
+    }
+
+    &--radio-group {
+      .radio {
+        padding-top: 0;
+      }
+    }
+  }
+
+  &__button {
+    margin-top: 20px;
+  }
+
+  label {
+    font-weight: initial;
+  }
+}
+
+.report-jobs {
+  .progress {
+    margin-bottom: 0;
+  }
+
+  .progress-bar {
+    // The integer value --percentage is passed as an inline style
+    // and converted to a real percentage value here.
+    width: calc(1% * var(--percentage));
+    min-width: 2em;
+  }
+}
+
+.report-job-error {
+  .modal-body {
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+}

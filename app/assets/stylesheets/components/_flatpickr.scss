@@ -1,0 +1,40 @@
+/* We override the library styles and therefore cannot adhere to the BEM standards. */
+/* stylelint-disable plugin/stylelint-bem-namics */
+
+.flatpickr-calendar {
+  $component-height: 60px;
+
+  &__custom-buttons {
+    display: flex;
+    justify-content: space-around;
+    border-top: 1px solid hsl(0deg, 0%, 90%);
+
+    button {
+      width: 100%;
+      height: $component-height;
+      border: none;
+      background: none;
+      font-size: 18px;
+      &:hover,
+      :focus {
+        background: hsl(0deg, 0%, 93%);
+      }
+      &:active {
+        background: hsl(0deg, 0%, 0%, 0.2);
+      }
+    }
+  }
+
+  .flatpickr-time {
+    max-height: $component-height;
+    line-height: $component-height;
+
+    .numInputWrapper {
+      height: $component-height;
+    }
+  }
+
+  &.hasTime .flatpickr-time {
+    height: $component-height;
+  }
+}

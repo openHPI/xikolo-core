@@ -1,0 +1,10 @@
+.quiz-question.multiple-choice
+  .question
+     == render_markdown question.text
+
+  .question-content
+    .quiz-question-answers
+      - question.answers.each do |answer|
+        => radio_button_tag "submission[#{question.id}]", answer.id, false, id: "question_#{question.id}_answer_#{answer.id}_radiobutton"
+        = label_tag "question_#{question.id}_answer_#{answer.id}_radiobutton", render_markdown(answer.text)
+        br

@@ -1,0 +1,37 @@
+table.table.table-compact
+  tbody
+    tr
+      td = t :'peer_assessment.conflict.grade.overall'
+      td == "&nbsp;&nbsp;&nbsp;#{grade['overall_grade'].try(:round, 1)}"
+
+    tr
+      td = t :'peer_assessment.conflict.grade.base'
+      td == "&nbsp;&nbsp;&nbsp;#{grade['base_points']}"
+
+    - unless conflict['conflict_subject_type'] != 'Review' && assessment.is_team_assessment
+      - grade['bonus_points'].each do |bonus|
+        - if bonus.last.to_f != 0.0
+          tr
+            td = t :"peer_assessment.results.grade_composition.#{bonus.first}"
+            td == "#{bonus.last.to_f > 0 ? '+' : (bonus.last.to_f == 0 ? '&nbsp;' : '')}&nbsp;#{bonus.last.to_f}"
+
+    - unless grade['absolute']
+      tr
+        td = t :'peer_assessment.conflict.grade.relative'
+        td == "#{grade['delta'] > 0 ? '+' : (grade['delta'] == 0 ? '&nbsp;&nbsp;' : '')}&nbsp;#{grade['delta']}"
+
+    - if grade['absolute']
+      tr
+        td = t :'peer_assessment.conflict.grade.absolute'
+        td == "#{grade['delta'] > 0 ? '+' : (grade['delta'] == 0 ? '&nbsp;&nbsp;' : '')}&nbsp;#{grade['delta']}"
+
+.col-md-6
+  span.mr10 = t :'peer_assessment.conflict.grade.set_delta'
+  input.input-sm.w100 type="number" step="any" name="grade[#{grade['id']}][delta][new]" value="#{grade['delta']}"
+  input type="hidden" name="grade[#{grade['id']}][delta][initial]" value="#{grade['delta']}"
+
+.col-md-6
+  input.ml20 type="checkbox" data-initial="#{grade['absolute']}" name="grade[#{grade['id']}][absolute][new]" checked=(grade['absolute'] ? 'checked' : false)
+  input type="hidden" name="grade[#{grade['id']}][absolute][initial]" value="#{grade['absolute']}"
+  span.ml5 = t :'peer_assessment.conflict.grade.delta_absolute'
+  span.ml5.em1-2.xi-icon.fa-regular.fa-comment-question data-html="true" data-tooltip=t(:'peer_assessment.conflict.grade.delta_info') aria-label=t(:'peer_assessment.conflict.grade.delta_info')

@@ -1,0 +1,95 @@
+{
+  "paging": {
+    "next": "/me/videos?page=2"
+  },
+  "data": [
+    {
+      "uri": "/videos/124597457",
+      "name": "softwareanalytics2015-w6-5-pip",
+      "duration": 1270,
+      "width": 1280,
+      "height": 720,
+      "modified_time": "2017-10-17T16:00:00+02:00",
+      "pictures": {
+        "sizes": [
+          {
+            "width": 1280,
+            "link": "https://i.vimeocdn.com/video/514382489_1280.jpg"
+          },
+          {
+            "width": 960,
+            "link": "https://i.vimeocdn.com/video/514382489_960.jpg"
+          },
+          {
+            "width": 640,
+            "link": "https://i.vimeocdn.com/video/514382489_640.jpg"
+          },
+          {
+            "width": 295,
+            "link": "https://i.vimeocdn.com/video/514382489_295x166.jpg"
+          },
+          {
+            "width": 200,
+            "link": "https://i.vimeocdn.com/video/514382489_200x150.jpg"
+          },
+          {
+            "width": 100,
+            "link": "https://i.vimeocdn.com/video/514382489_100x75.jpg"
+          }
+        ]
+      },
+      "files": [
+        {
+          "quality": "hd",
+          "link": "https://player.vimeo.com/external/124597457.hd.mp4?s=a06a393f48378d7aaff7505dbe62d2f6&profile_id=113&oauth2_token_id=59539484",
+          "md5": "hdmd5",
+          "size": 300
+        },
+        {
+          "quality": "sd",
+          "link": "https://player.vimeo.com/external/124597457.sd.mp4?s=390874ae75806026d02cefad296c85a7&profile_id=112&oauth2_token_id=59539484",
+          "md5": "sdmd5",
+          "size": 250
+        },
+        {
+          "quality": "sd",
+          "link": "https://player.vimeo.com/external/124597457.sd.mp4?s=098f6bcd4621d373cade4e832627b4f6&profile_id=111&oauth2_token_id=59539484",
+          "md5": "sd2md5",
+          "size": 150
+        },
+        {
+          "quality": "hls",
+          "link": "https://player.vimeo.com/external/124597457.m3u8?p=mobile,standard,high&s=fc0260d30d32e23c410849d2808ae635&oauth2_token_id=59539484",
+          "md5": "hlsmd5",
+          "size": 50
+        }
+      ],
+      "download": [
+        {
+          "quality": "hd",
+          "link": "https://download.vimeo.com/smaller.hd.mp4",
+          "size": 720,
+          "expires": "2022-06-04T00:06:39Z"
+        },
+        {
+          "quality": "hd",
+          "link": "https://download.vimeo.com/larger.hd.mp4",
+          "size": 1080,
+          "expires": "2022-06-04T00:06:39Z"
+        },
+        {
+          "quality": "sd",
+          "link": "https://download.vimeo.com/larger.sd.mp4",
+          "size": 540,
+          "expires": "2022-06-04T00:06:39Z"
+        },
+        {
+          "quality": "sd",
+          "link": "https://download.vimeo.com/smaller.sd.mp4",
+          "size": 360,
+          "expires": "2022-06-04T00:06:39Z"
+        }
+      ]
+    }
+  ]
+}

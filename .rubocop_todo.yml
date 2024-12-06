@@ -1,0 +1,38 @@
+# TODOs
+
+#
+# The API seems to use huge amounts of {...} blocks for it's API design.
+#
+Style/BlockDelimiters:
+  Exclude:
+    - api/**/*.rb
+
+#
+# Collides with ACFS #update_attributes
+#
+# TODO: Remove with ACFS
+#
+Rails/ActiveRecordAliases:
+  Enabled: false
+
+#
+# This requires a larger refactoring...
+#
+Rails/HelperInstanceVariable:
+  Exclude:
+    - app/helpers/item_context_helper.rb
+    - app/helpers/peer_assessment/peer_assessment_context_helper.rb
+
+#
+# We have too many specs with too many lets
+#
+RSpec/MultipleMemoizedHelpers:
+  Max: 52
+
+#
+# We must not use OpenStruct anymore...
+#
+Style/OpenStructUse:
+  Exclude:
+    - api/xikolo/v2/endpoint/list_pinboard_sections.rb
+    - lib/restify_resource.rb

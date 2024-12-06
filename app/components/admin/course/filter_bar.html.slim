@@ -1,0 +1,9 @@
+= form_tag admin_courses_path, method: :get do
+  .filter-bar__container-wrapper
+    .filter-bar__filters.filter-bar__filters--legacy-style
+      = render Global::FilterBar::Search.new(@search_param, params[@search_param])
+
+      - filters.each do |filter|
+        = render filter
+
+    = render Global::FilterBar::Controls.new(admin_courses_path, '#content_id', '#loading_indicator_id', filters)

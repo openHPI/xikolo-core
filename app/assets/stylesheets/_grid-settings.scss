@@ -1,0 +1,108 @@
+// Change the grid settings
+$column: 90px;
+$gutter: 30px;
+$grid-columns: 12;
+$max-width: 1340px;
+
+/*-------------------------------------------*\
+  BREAKPOINTS
+
+  NOTE: If possible, develop mobile-first by
+  specifying default rules for small screens
+  that are extended for larger devices.
+\*-------------------------------------------*/
+
+// Screen size definitions
+$xs-to-sm: 768px;
+$sm-to-md: 992px;
+$md-to-lg: 1200px;
+
+$breakpoint-s: 580px;
+$breakpoint-sm: 800px;
+$breakpoint-m: 1440px;
+$breakpoint-l: 1920px;
+$breakpoint-xl: 2560px;
+
+/*----------------------------------------------------*\
+    $CSS variable export
+
+    Required to access them via javascript.
+\*----------------------------------------------------*/
+:root {
+  --breakpoint-s: #{$breakpoint-s};
+}
+
+// Breakpoint for tablet portrait and up
+@mixin small {
+  @media (min-width: $xs-to-sm) {
+    @content;
+  }
+}
+
+// Breakpoint for tablet and up
+@mixin medium {
+  @media (min-width: $sm-to-md) {
+    @content;
+  }
+}
+
+// Breakpoint for desktop and up
+@mixin large {
+  @media (min-width: $md-to-lg) {
+    @content;
+  }
+}
+
+// Breakpoints defined as in the WLDX agency design
+@mixin screen-size-s-and-up($width: $breakpoint-s) {
+  @media (min-width: $width) {
+    @content;
+  }
+}
+
+@mixin screen-size-sm-and-up($width: $breakpoint-sm) {
+  @media (min-width: $width) {
+    @content;
+  }
+}
+
+@mixin screen-size-m-and-up($width: $breakpoint-m) {
+  @media (min-width: $width) {
+    @content;
+  }
+}
+
+@mixin screen-size-l-and-up($width: $breakpoint-l) {
+  @media (min-width: $width) {
+    @content;
+  }
+}
+
+@mixin screen-size-xl-and-up($width: $breakpoint-xl) {
+  @media (min-width: $width) {
+    @content;
+  }
+}
+
+/*-------------------------------------------*\
+  @deprecated Old breakpoints
+\*-------------------------------------------*/
+
+// Breakpoint for phone only (try to avoid this by implementing mobile first)
+@mixin tiny {
+  @media (max-width: 575px) {
+    @content;
+  }
+}
+
+@mixin xs {
+  @media (max-width: 767px) {
+    @content;
+  }
+}
+
+@mixin sm {
+  @media (max-width: 991px) {
+    @content;
+  }
+}

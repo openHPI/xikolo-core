@@ -1,0 +1,136 @@
+.text
+
+- unless @teacherview
+  .panel-group.mt20
+    .panel-pa-info.panel
+      .panel-heading
+        .panel-title
+          => t :'peer_assessment.shared.explanation.learn_more'
+          a.collapsed data-toggle="collapse" href="#evaluation-info-body"
+            = t :'peer_assessment.review.phase'
+            span.caret
+
+      .panel-collapse.collapse.pa-gray id="evaluation-info-body"
+        .panel-body.pa-grays
+          = render Global::Callout.new(t(:'peer_assessment.review.process'))do
+            ul
+              - time = (@current_step.deadline.past? ? t(:'peer_assessment.review.no_time_left') : distance_of_time_in_words(DateTime.now, @current_step.deadline))
+              - I18n.t(:'peer_assessment.review.info_text').each do |k, _|
+                li == k.gsub('%{days}', time).gsub('%{review_count}', @statistic.reviews_left.to_s).gsub('%{required_reviews}', @statistic.required_reviews.to_s)
+            .mb10 = t(:'peer_assessment.review.grading_guideline')
+            ul
+              - I18n.t(:'peer_assessment.review.guideline_text').each do |k, _|
+                li == k
+
+= render Global::Callout.new(t(:'peer_assessment.review.required_reviews', required_reviews: @statistic.required_reviews.to_s))
+.mt40.mb40
+  - if @review_presenters.empty?
+    = link_to t(:'peer_assessment.review.grade_first'), new_peer_assessment_step_review_path(short_uuid(@assessment.id), short_uuid(@current_step.id)), class: 'btn btn-primary mr10'
+
+  - else
+    h1#monitored-user = "#{@monitored_user}'s Review" if @teacherview
+    table.table.table-striped.mt40
+      thead
+        tr
+          th
+          th = t :'peer_assessment.review.status'
+          th = t :'peer_assessment.review.time_left'
+          th = t :'peer_assessment.review.assigned_grade'
+          th
+      tbody
+        - @review_presenters.each_with_index do |presenter, index|
+          tr
+            td = "##{index + 1}"
+            td
+              span.label class="label-#{presenter.status_class}"
+                = presenter.status
+            td = presenter.time_left
+            td = presenter.given_grade @assessment
+            td
+              - if @teacherview
+                .review_teacherview
+                  = link_to t(:'peer_assessment.review.view_only'), peer_assessment_step_review_path(params[:peer_assessment_id], short_uuid(@current_step.id), presenter, @teacher_view_params), target: ' blank', class: 'btn btn-xs btn-default'
+
+              - elsif (@resume or @passed) and !presenter.suspended
+                = link_to t(:'peer_assessment.review.view_only'), peer_assessment_step_review_path(params[:peer_assessment_id], short_uuid(@current_step.id), presenter), class: 'btn btn-xs btn-default'
+
+              - elsif presenter.submitted and !presenter.suspended and !@passed
+                = link_to t(:'peer_assessment.review.revision'), edit_peer_assessment_step_review_path(params[:peer_assessment_id], short_uuid(@current_step.id), presenter, revision: true), class: 'btn btn-xs btn-default'
+
+              - elsif !presenter.submitted and !presenter.suspended and !@passed
+                = link_to t(:'peer_assessment.review.continue'), edit_peer_assessment_step_review_path(params[:peer_assessment_id], short_uuid(@current_step.id), presenter), class: 'btn btn-xs btn-primary'
+
+              /- if presenter.extension_possible?(@current_step)
+                = simple_form_for(presenter.review, url: extend_deadline_peer_assessment_step_review_url(params[:peer_assessment_id], short_uuid(@current_step.id), presenter), :method => :post, html: {class: 'ml5 inline-block' })
+                  input type='hidden' name='origin' value="#{request.path}"
+                  button.btn.btn-xs.ml5.btn-info type="submit" = t :'peer_assessment.review.extend_deadline'
+
+    .mt40
+    - unless @teacherview
+      .mt40
+        - if @resume
+          = link_to t(:'peer_assessment.resume'), peer_assessment_path(short_uuid(@assessment.id)), class: 'btn btn-primary mr10'
+
+        - elsif @continue
+          - if @next_step.unlock_date.try(:future?)
+            = render Global::Callout.new(t(:'peer_assessment.review.advance_wait_info', deadline: distance_of_time_in_words(DateTime.now, @next_step.unlock_date)))
+            / Next step still has to unlock - disable the advance button and show an info text
+            - if @passed
+              button.btn.btn-primary.mr10 type='button' disabled="disabled" = t :'peer_assessment.review.advance'
+            - if @continue_grading
+              button.btn.btn-default.mr10 type='button' disabled="disabled" = t :'peer_assessment.review.advance'
+            - else
+              = link_to t(:'peer_assessment.review.additional_review'), new_peer_assessment_step_review_path(short_uuid(@assessment.id), short_uuid(@current_step.id)), class: "btn btn-default mr10 #{'disabled' unless @statistic.additional_review_possible?}"
+              button.btn.btn-primary.not-allowed type='button' disabled="disabled" = t :'peer_assessment.review.advance'
+
+          - else
+            = form_tag advance_peer_assessment_step_reviews_path(@assessment.id, @current_step.id),
+                       id: 'advance_form',
+                       class: 'js-submit-confirm',
+                       method: :put,
+                       data: { confirm_title: ((!@passed) ? t(:'peer_assessment.review.continue_confirm_title') : ''), confirm_message: ((!@passed) ? t(:'peer_assessment.review.continue_confirm_message') : '')}
+
+            - if @passed
+              button.btn.btn-primary.mr10 form="advance_form" type='submit' = t :'peer_assessment.review.advance'
+            - elsif @continue_grading
+              button.btn.btn-default.mr10 form="advance_form" type='submit' = t :'peer_assessment.review.advance'
+            - else
+              = link_to t(:'peer_assessment.review.additional_review'), new_peer_assessment_step_review_path(short_uuid(@assessment.id), short_uuid(@current_step.id)), class: "btn btn-default mr10 #{'disabled' unless @statistic.additional_review_possible?}"
+              button.btn.btn-primary.mr10 form="advance_form" type='submit' = t :'peer_assessment.review.advance'
+
+        - elsif @continue_grading
+          / Don't render the next peer button. In fact, show nothing at all.
+
+        - else
+          = link_to t(:'peer_assessment.review.grade_next'), new_peer_assessment_step_review_path(short_uuid(@assessment.id), short_uuid(@current_step.id)), class: 'btn btn-primary mr10'
+
+      .clearfix
+      .mt40
+    - else
+      .mt80
+
+#review-teacherview-modal.modal.fade.bs-example-modal-lg tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+  .modal-dialog.modal-lg role="document"
+    .modal-content
+      .modal-header
+        button.close data-dismiss="modal" aria-hidden="true"
+          '&times;
+        h4.modal-title
+      .modal-body
+
+javascript:
+  ready(function() {
+    $('.review_teacherview').click(function () {
+      $('#review-teacherview-modal .modal-body').html('...');
+      $('#review-teacherview-modal').modal('show');
+      var monitored_user = $('#monitored-user').text();
+      var url = $(this).find('a[href]').attr('href');
+      $('#review-teacherview-modal .modal-title').html(monitored_user);
+      $('#review-teacherview-modal .modal-body').load(url);
+
+      $('#review-teacherview-modal .modal-dialog').css({
+          width: 'auto',
+      });
+      return false;
+    });
+  });

@@ -1,0 +1,8 @@
+.mr20.inline-block
+  - if document.certificate_download?
+    = link_to t(:'.download_cert'), certificate_render_path(course_id: course.id, type: Certificate::Record::CERT),
+      id: "download_cert_#{course.id}",
+      class: 'btn btn-primary btn-sm download-record-button'
+  - else
+    button.btn.btn-sm.btn-primary type="button" disabled=true
+      = t(:'.download_cert')

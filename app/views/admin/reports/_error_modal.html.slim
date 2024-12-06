@@ -1,0 +1,11 @@
+.modal.report-job-error id='report-job-error-modal' role='dialog' tabindex='-1' aria-labelledby='report-job-error-modal-label' aria-hidden='true'
+  .modal-dialog role='document'
+    .modal-content
+
+      .modal-header
+        button.close aria-label=I18n.t(:'reports.jobs.close') data-dismiss='modal' type='button'
+          span aria-hidden='true' &times;
+        h4.modal-title id='report-job-error-modal-label'
+          = I18n.t(:'reports.jobs.error_details')
+
+      .modal-body data-id='report-job-error-modal-body'

@@ -1,0 +1,7 @@
+.tiles-group
+  - if @title
+    p.tiles-group__title = @title
+
+  .tiles-group__tiles
+    - tiles.each do |tile|
+      = tile

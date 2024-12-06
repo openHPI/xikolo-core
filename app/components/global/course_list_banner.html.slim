@@ -1,0 +1,6 @@
+.course-list-banner
+  - if link.present?
+    = link_to link, link_target_options do
+      = image_tag image_url, alt: alt_text, class: 'img-responsive'
+  - else
+    = image_tag image_url, alt: alt_text, class: 'img-responsive'

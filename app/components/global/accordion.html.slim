@@ -1,0 +1,6 @@
+.accordion data-controller='accordion'
+  - if @headline
+    p.accordion__headline = @headline
+  .accordion__sections
+    - sections.each do |section|
+      = section

@@ -1,0 +1,8 @@
+- content_for :page_header_slim
+  = render Global::PageHeader.new(t(:'admin.users.new.create_user'), subtitle: t(:'admin.page_header'), type: :slim)
+
+.container
+  .row
+    .col-md-9
+      = render 'form', user: @user
+    .col-md-3

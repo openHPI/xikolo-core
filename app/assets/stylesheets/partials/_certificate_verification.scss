@@ -1,0 +1,14 @@
+.certificate-sharing {
+  li {
+    flex: none !important;
+    margin-right: 10px !important;
+
+    span.share_text {
+      font-family: $basefont;
+    }
+  }
+}
+
+img.open-badge {
+  width: 300px;
+}

@@ -1,0 +1,535 @@
+/*------------------------------------*\
+    $CONTENTS
+
+    Styles for all course-related
+    sub-components.
+\*------------------------------------*/
+/**
+ * Variables................Variable declarations
+ * Course-List..............Course list component used on /courses
+ * Course-Item..............Course preview component used on /courses, /dashboard, ...
+ * Course-Details...........Course details page, e.g. /courses/abap101
+ * Course-Item-Large........Largest course preview component, i.e. for the course details page
+ * Course-Item-XS...........Smallest course preview component, used everywhere
+ * Course-Area..............Course Area specific styles
+ * Course-Admin..............Course Administration specific styles
+ */
+
+/*------------------------------------*\
+    $Variables
+\*------------------------------------*/
+$course-page-padding: 15px;
+$course-item-height: 300px;
+$course-actions-height: 45px;
+$course-item-padding: 10px;
+$course-info-height: $course-item-height - $course-actions-height -
+  ($course-item-padding * 2);
+
+$xi-course-list-background-color: $white !default;
+$xi-course-area-main-background-color: $white !default;
+$xi-course-item-large-background-color: $gray-100 !default;
+$xi-course-title-color: $black !default;
+$course-font-short-info: $xi-font-data !default;
+
+/*------------------------------------*\
+    App Mode
+\*------------------------------------*/
+body.in_app .course-action {
+  display: none !important;
+}
+
+/*------------------------------------*\
+    $Course-List
+\*------------------------------------*/
+.course-list {
+  position: relative;
+  padding-top: 20px;
+  border-bottom: 5px solid $gray-600;
+  background-color: $xi-course-list-background-color;
+
+  .alert {
+    margin-bottom: 0;
+  }
+}
+
+.course-list__content {
+  padding: 0 $course-page-padding;
+  @include horizontal-page-padding;
+  @include outer-container($main-content-width);
+}
+
+.home-courses {
+  border-bottom: 5px solid $gray-600;
+}
+
+.category-title {
+  color: $gray-900;
+  @include font-sm;
+  font-weight: 400;
+
+  @include screen-size-s-and-up {
+    @include font-m;
+  }
+
+  & + .callout {
+    margin-top: 0.3rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+#course-list__loading {
+  // Make sure the footer is not visible for a short time while showing the
+  // loading indicator (after filters were changed).
+  min-height: 90vh;
+
+  padding: 5 * $spacing-steps;
+}
+
+.load-more {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  p {
+    @include font-sm;
+  }
+}
+/*------------------------------------*\
+    $Course-Item
+\*------------------------------------*/
+.course-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.course-actions {
+  margin-top: $course-item-padding;
+
+  a {
+    display: inline-block;
+
+    // This triggers the baseline of any inline-block children to be the bottom
+    // margin edge of its parent.
+    // See last paragraph of http://www.w3.org/TR/CSS2/visudet.html#leading
+    overflow: hidden;
+
+    height: 32px;
+    padding: 3px 5px;
+    border: none;
+    font-size: 1.1rem;
+
+    line-height: 26px;
+
+    white-space: nowrap;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+    }
+
+    @media (max-width: 768px) {
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.course-action-quit {
+  background-color: $gray-600;
+  color: $white;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: $gray-800;
+    color: $white;
+  }
+}
+
+.course-action-enroll,
+.course-action-resume,
+.course-action-external,
+.course-action-reactivate,
+.course-action-proctoring {
+  background-color: $primary-color;
+  color: $white;
+
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: $primary-600;
+    color: $white;
+  }
+
+  &.inactive {
+    background-color: $primary-250;
+    cursor: not-allowed;
+  }
+}
+
+/*------------------------------------*\
+    $Course-Details
+\*------------------------------------*/
+.course-details--section-title {
+  padding-bottom: 10px;
+  @include light-bar(border-bottom);
+}
+
+.course-details__section-list {
+  margin-top: 20px;
+}
+
+.course-details--prerequisites {
+  padding: 10px;
+  border-left: 5px solid $gray-600;
+  margin: 15px 0;
+  background-color: $white;
+}
+
+@media (min-width: 600px) {
+  .prerequisites-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    & > * {
+      flex: 0 1 auto;
+      margin: 0 20px 0 0;
+    }
+  }
+}
+
+.prerequisites-heading--status {
+  .xi-icon {
+    margin-right: 5px;
+  }
+  &[data-status="complete"] {
+    color: $success-500;
+  }
+  &[data-status="incomplete"] {
+    color: $error-600;
+  }
+}
+
+.prerequisites-list {
+  display: flex;
+  flex-wrap: wrap;
+
+  & > * {
+    flex: 0 1 250px;
+    margin-top: 10px;
+    margin-right: 20px;
+    margin-bottom: 10px;
+  }
+}
+
+.prerequisites-list--item {
+  align-content: stretch;
+}
+
+.prerequisite-course {
+  > * {
+    display: block;
+  }
+
+  a {
+    color: $black;
+
+    &:hover,
+    &:focus,
+    &:active {
+      text-decoration: none;
+    }
+  }
+
+  img {
+    border-bottom: 5px solid $gray-600;
+  }
+
+  a:hover img {
+    border-bottom-color: $link-color;
+  }
+}
+
+.prerequisite-course--title {
+  font-size: 1.1em;
+  font-weight: bold;
+}
+
+.prerequisite-course--fact {
+  padding-left: 20px;
+
+  .xi-icon {
+    width: 20px;
+    margin-left: -20px;
+  }
+
+  &[data-state="completed"] {
+    color: $success-500;
+  }
+  &[data-state="missing"] {
+    color: $error-600;
+  }
+}
+
+/*------------------------------------*\
+    $Course-Item-Large
+\*------------------------------------*/
+.course-item-large {
+  position: relative;
+  padding: 0;
+  //@include heavy-bar();
+  //border-bottom-color: $gray;
+  background-color: $xi-course-item-large-background-color;
+
+  .course-video {
+    padding: 0;
+    margin: 0;
+
+    video {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  .course-info {
+    @media (min-width: $screen-md + 1) {
+      padding: 25px 20px 20px 45px;
+    }
+
+    @media (max-width: $screen-md) {
+      padding: 20px;
+    }
+
+    .course-description {
+      margin-top: 10px;
+    }
+
+    .course-shortinfo {
+      padding-top: 5px;
+      margin-top: 10px;
+      font-family: $course-font-short-info;
+      line-height: 175%;
+
+      .shortinfo {
+        margin-right: 20px;
+        font-size: 0.9em;
+
+        &.on-proctoring-track {
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}
+
+/*------------------------------------*\
+    $Course-Item-XS
+\*------------------------------------*/
+.course-item-xs {
+  padding: 0;
+  padding-top: 150px;
+  margin: 20px 0;
+  background-position: center;
+
+  background-size: cover;
+
+  .content-wrapper {
+    padding: 20px;
+    background-color: rgba($white, 0.8);
+  }
+
+  .course-title a {
+    color: $xi-course-title-color;
+    cursor: pointer;
+    font-size: 1.1em;
+
+    &:hover,
+    &:focus,
+    &:active {
+      text-decoration: none;
+    }
+  }
+
+  .shortinfo {
+    margin-top: 10px;
+  }
+
+  .course-actions {
+    padding-top: 20px;
+
+    .btn-group button {
+      border-left: 1px solid $white;
+      margin-left: -1px;
+    }
+
+    & > .btn-primary {
+      margin-right: -2px;
+      // 2 px gap between buttons
+      margin-left: 2px;
+    }
+  }
+
+  .course-teacher {
+    color: $primary-color;
+  }
+}
+
+/*------------------------------------*\
+    $Course-Area
+\*------------------------------------*/
+.course-area-main {
+  padding: 10px 15px 20px;
+  background-color: $xi-course-area-main-background-color;
+  @include heavy-bar($color: $gray);
+  @media (max-width: $screen-md) {
+    padding-top: 5px;
+  }
+
+  iframe {
+    width: 100%;
+  }
+
+  &__title {
+    margin: 20px 160px 20px 0;
+  }
+}
+
+.items-controller .course-area-main img {
+  max-width: 100%;
+  height: auto;
+}
+
+.item-title {
+  font-size: 1.8em;
+}
+
+.time-effort {
+  color: $gray-600;
+  white-space: nowrap;
+}
+
+/*------------------------------------*\
+    $Course-Overview
+\*------------------------------------*/
+.course-overview__btn {
+  width: 100%;
+  margin: 15px 0 0;
+
+  @include small {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: auto;
+    margin: 30px;
+  }
+}
+
+ul.sections .item {
+  margin-bottom: 5px;
+}
+
+#course-nav {
+  padding-right: 0;
+  padding-left: 0;
+}
+#course-nav-toggle .navbar-toggle {
+  padding-right: 0;
+  margin-right: 0;
+  margin-bottom: 5px;
+  @media (min-width: $screen-md) {
+    margin-top: 25px;
+  }
+  @media (max-width: $screen-md) {
+    margin-top: 10px;
+  }
+}
+#course-nav-toggle .icon-bar {
+  border-bottom: 2px solid grey;
+}
+
+/*------------------------------------*\
+    $Course-Toggle Stuff
+\*------------------------------------*/
+#maincontent {
+  position: relative;
+}
+.course-navbar-toggle {
+  width: 30px;
+  height: 30px;
+  padding-top: 5px;
+  border: none;
+  background: none;
+  .xi-icon {
+    font-size: 175%;
+  }
+}
+#maincontent {
+  .course-navbar-toggle {
+    position: absolute;
+    top: 0;
+    left: 20px;
+    display: none;
+  }
+}
+#maincontent[data-expanded="true"] {
+  padding-left: 65px;
+  .course-navbar-toggle {
+    display: inherit;
+  }
+}
+
+/*------------------------------------*\
+    $Course-Certificates
+\*------------------------------------*/
+ul.certificate-requirements {
+  padding-left: 1.2em;
+}
+
+.sortable-list {
+  .input-group {
+    width: 50%;
+  }
+  .input-group-btn .btn {
+    // magic number: bootstrap input height
+    height: 34px;
+  }
+}
+
+.registration-details {
+  &__steps {
+    margin: 20px 0;
+  }
+
+  &__step {
+    display: flex;
+    align-items: center;
+
+    .xi-icon {
+      width: 50px;
+      height: 50px;
+      font-size: $font-size-l;
+    }
+  }
+  &__buttons {
+    margin-top: 20px;
+    * {
+      margin-right: 10px;
+    }
+  }
+}
+
+/*------------------------------------*\
+    $Course-Admin
+\*------------------------------------*/
+
+.course-admin-action {
+  display: block;
+  margin-top: 3px;
+  color: $error-600;
+
+  &:hover {
+    color: $error-700;
+  }
+}

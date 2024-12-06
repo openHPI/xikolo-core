@@ -1,0 +1,42 @@
+/*------------------------------------*\
+    $CONTENTS
+
+    Label components.
+    Uses Twitter Bootstrap labels.
+\*------------------------------------*/
+/**
+ * Variables...................Variables and Bootstrap SASS-Var overrides
+ * Bootstrap-Import............Required import for BS component
+ * Label-Styles................Base styling for labels
+ */
+
+/*------------------------------------*\
+    $Variables
+\*------------------------------------*/
+// Any variable declarations/overrides go here
+
+/*------------------------------------*\
+    $Bootstrap-Import
+\*------------------------------------*/
+@import "bootstrap-sass/assets/stylesheets/bootstrap/mixins/labels";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/labels";
+
+/*------------------------------------*\
+    $Label-Styles
+\*------------------------------------*/
+.label {
+  border: none;
+  border-radius: 1px;
+
+  // Override bootstrap's label-default bg color
+  &-default {
+    background-color: $gray-600;
+
+    &[href] {
+      &:hover,
+      &:focus {
+        background-color: $gray-800;
+      }
+    }
+  }
+}

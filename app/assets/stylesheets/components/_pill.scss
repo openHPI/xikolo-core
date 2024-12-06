@@ -1,0 +1,19 @@
+.pill {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 100px;
+  margin: 0;
+  background-color: $gray-100;
+  color: $gray-600;
+  @include font-s;
+
+  &--small {
+    padding: 2px 7px;
+    @include font-xs;
+  }
+
+  &--note {
+    background-color: $note-100;
+    color: $note-900;
+  }
+}

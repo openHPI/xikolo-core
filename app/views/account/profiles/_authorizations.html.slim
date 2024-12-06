@@ -1,0 +1,20 @@
+h4.pt20 = t(:'dashboard.profile.authorizations.title')
+hr.divider
+
+- if profile.authorizations.any?
+  .authorizations
+    .auth
+      - profile.authorizations.each do |auth|
+        = render 'authorization', auth: auth, profile: profile
+    span = t(:'dashboard.profile.authorizations.invite_to_switch')
+- else
+  = render State::Empty.new(t(:'dashboard.profile.authorizations.empty_msg'))
+
+.another-profile
+  h5 = t(:'dashboard.profile.authorizations.add_other_title')
+  ul.omniauth
+    - profile.sso_providers.each do |key|
+      li
+        = link_to auth_path(key), class: 'btn btn-default btn-outline btn-sm' do
+          = render Global::FaIcon.new('plus', style: :solid)
+          = t(:"header.login.omniauth.#{key}")

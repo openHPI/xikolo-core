@@ -1,0 +1,41 @@
+---
+include:
+  - path: compose.background.yml
+  - path: compose.init.yml
+
+x-account: &account
+  image: xikolo-account:latest
+  command: server
+  build:
+    context: ..
+    dockerfile: docker/files/account.Dockerfile
+  env_file:
+    - .env
+  networks:
+    - xikolo
+  volumes:
+    - ./config/xikolo.yml:/etc/xikolo.yml:ro
+    - ./config/xikolo/account.yml:/app/config/xikolo.yml:ro
+  restart: always
+  depends_on:
+    init-database:
+      condition: service_completed_successfully
+    postgres:
+      condition: service_healthy
+    rabbitmq:
+      condition: service_healthy
+    redis-cache:
+      condition: service_healthy
+    redis-sidekiq:
+      condition: service_healthy
+
+services:
+  account-server:
+    <<: *account
+    command: server
+    ports: # only for debugging
+      - 3100:80
+
+  account-sidekiq:
+    <<: *account
+    command: sidekiq

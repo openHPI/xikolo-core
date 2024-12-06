@@ -1,0 +1,37 @@
+/*------------------------------------*\
+    $CONTENTS
+
+    Styles for all section-related
+    sub-components.
+\*------------------------------------*/
+
+/*------------------------------------*\
+    Section-Alternatives
+\*------------------------------------*/
+
+.alternative-section-description {
+  min-height: 200px;
+}
+
+.alternative-section-btn {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding-right: 30px;
+}
+
+.sections-controller .items .actions .fa {
+  font-size: 1.25em;
+}
+
+/*------------------------------------*\
+    Section-Forks
+\*------------------------------------*/
+
+.fork {
+  border: 1px solid $gray-100;
+  border-left: 5px solid $gray-100;
+  hr:last-child {
+    display: none;
+  }
+}

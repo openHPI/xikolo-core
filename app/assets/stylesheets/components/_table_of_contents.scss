@@ -1,0 +1,126 @@
+.table_of_contents {
+  padding-left: 0;
+  background-color: $white;
+
+  .navigation-item {
+    list-style-type: none;
+
+    &__icon {
+      width: 16px;
+      color: $toc-navigation-item-icon;
+      text-align: center;
+
+      + .navigation-item__text {
+        // Adds margin to text only if it's preceded by an icon
+        margin-left: 7px;
+      }
+    }
+
+    &__control {
+      margin-top: 2px;
+      margin-left: 7px;
+      color: $toc-navigation-item-icon;
+    }
+
+    &__main {
+      position: relative;
+      display: inline-flex;
+      height: $navbar-height;
+      align-items: center;
+      padding: 0 20px;
+      background-color: $toc-navigation-item-bg;
+      color: $toc-navigation-item-color;
+      font-weight: $navigation-item-font-weight;
+
+      &--link {
+        // Set browser's default focus style (needed for
+        // <a> type navigation items)
+        @include set-browser-focus-style();
+      }
+
+      &:hover {
+        background-color: $toc-navigation-item-hover-bg;
+        color: $toc-navigation-item-hover-color;
+        text-decoration: none;
+
+        .navigation-item__icon,
+        .navigation-item__control {
+          color: inherit;
+        }
+      }
+
+      &:focus,
+      &:active,
+      &--active {
+        background-color: $toc-navigation-item-selected-bg;
+        color: $toc-navigation-item-selected-color;
+        outline-offset: -2px;
+        text-decoration: none;
+
+        .navigation-item__icon,
+        .navigation-item__control {
+          color: inherit;
+        }
+      }
+
+      &--locked {
+        color: $gray-500;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  ul {
+    padding-left: 20px;
+  }
+
+  & .navigation-item {
+    &__icon {
+      + .navigation-item__text {
+        margin-left: 12px;
+      }
+    }
+
+    &__text {
+      @include truncate-text(1);
+    }
+    // Sections
+    &__main {
+      width: 100%;
+      height: 40px;
+      border-left: 3px solid transparent;
+
+      &--active {
+        border-left: 3px solid $primary-color;
+
+        + ul {
+          border-left: 3px solid $primary-color;
+        }
+      }
+    }
+  }
+
+  // Subsections and units
+  ul .navigation-item {
+    border-left: 1px solid $gray-250;
+
+    &__main {
+      height: 30px;
+
+      &--active {
+        border-left: 3px solid transparent;
+        background-color: transparent;
+        font-weight: bold;
+      }
+
+      &:hover {
+        background-color: $toc-navigation-item-hover-bg;
+      }
+
+      &:focus,
+      &:active {
+        background-color: $toc-navigation-item-selected-bg;
+      }
+    }
+  }
+}

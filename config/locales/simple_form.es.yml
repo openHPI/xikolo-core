@@ -1,0 +1,281 @@
+es:
+  simple_form:
+    "yes": "Sí"
+    "no": "No"
+    required:
+      text: "obligatorio"
+      mark: "*"
+      # You can uncomment the line below if you need to overwrite the whole required html.
+      # When using html, text and mark won't be used.
+      # html: '<abbr title="required">*</abbr>'
+    error_notification:
+      default_message: Hemos encontrado algunos errores. Por favor, revise el contenido del formulario.
+    upload_file: Arrastre aquí los archivos o haga clic para buscar
+    upload_single_file: Arrastre aquí el archivo o haga clic para buscar
+    upload_image: Suelte la imagen aquí o haga clic para navegar
+    in_language: "%{field} (in %{lang})"
+
+    options:
+      certificate_template:
+        certificate_type:
+          Certificate: Certificado
+          ConfirmationOfParticipation: Confirmación de participación
+          RecordOfAchievement: Certificado de estudios
+          # EN-fallback TranscriptOfRecords: Transcript of Records
+
+    labels:
+      certificate_template:
+        certificate_type: Tipo de certificado
+        file: Archivo
+        dynamic_content: Contenido dinámico
+        qrcode_x: QR code x
+        qrcode_y: QR code y
+      channel:
+        code: Código
+        name: Nombre
+        logo_upload_id: Logo
+        description: Descripción
+        video_stream: Vídeo de reproducciçon
+        stage_visual_upload_id: Imagen de la reproducción
+        stage_statement: Declaración de la reproducción
+        mobile_visual_upload_id: Imagen para móvil
+        public: "Público"
+      classifier:
+        # EN-fallback title: ID
+        # EN-fallback translations: Title
+        # EN-fallback descriptions: Description
+        # EN-fallback courses: Courses
+      course:
+        title: "Título del curso"
+        course_code: "Código del curso"
+        abstract: "Resumen"
+        auto_archive: "Archivo automático tras la finalización del curso"
+        show_syllabus: "Visión general"
+        description: "Descripción"
+        rating_stars: Valoración (promedio de estrellas )
+        rating_votes: Valoración (número de votos)
+        teacher_ids: "Profesores"
+        alternative_teacher_text: "Texto alternativo sobre el profesor"
+        lang: "Idioma del curso"
+        enrollment_delta: "Variable delta de matriculación"
+        start_date: "Fecha de inicio (UTC)"
+        display_start_date: "Fecha de inicio mostrada (UTC)"
+        end_date: "Fecha de fin (UTC)"
+        middle_of_course_is_auto: "Cálculo automático de la mitad del curso"
+        middle_of_course: "Mitad del curso para las estadísticas (UTC)"
+        roa_enabled: "Ofrecer certificado de estudios"
+        cop_enabled: "Ofrecer confirmación de partipación"
+        roa_threshold_percentage: "Umbral del certificado de estudios"
+        cop_threshold_percentage: "Umbral de la confirmación de partipación"
+        collab_space: "Habilitar espacio de colaboración"
+        records_released: "Publicar certificados"
+        forum_is_locked: "El foro está bloqueado"
+        external_course_url: "URL del curso externo"
+        video_course_codes: "Códigos de los vídeos del curso"
+        groups: Restringido a los grupos
+        hidden: "El curso está oculto"
+        proctored: El examen está vigilado
+        on_demand: "Reactivación del curso"
+        welcome_mail: Correo electrónico de bienvenida
+        invite_only: Invitación obligatoria
+        stage_visual_upload_id: Imagen de la reproducción
+        stage_statement: Declaración de la reproducción
+        policy_url: URL de política
+        enable_video_download: Habilitar la descarga de video/audio
+        external_registration_url: URL de registro externo
+      course_visual:
+        image: Imagen
+        video_stream_id: Video de presentación
+      login:
+        email: Email
+        password: Contraseña
+      objective:
+        position: Posición
+        title: Título
+        description: Descripción
+        completion_type: Tipo de realización
+        final: ¿Material realizado?
+      open_badge_template:
+        file: Archivo de imagen
+        name: Nombre
+        description: Descripción
+      page:
+        name: Nombre
+        locale: Idioma
+        title: Título
+        text: Contenidos
+      user:
+        full_name: Nombre
+        email: Dirección de correo electrónico
+        password: Contraseña
+        password_confirmation: Repetir contraseña
+      voucher_redemption:
+        code: Introduzca su código promocional
+      xikolo_pinboard_question:
+        title: Título
+        text: Texto
+        attachment: Archivo adjunto
+        tag_names: Etiquetas
+        move_to: Mover a
+      xikolo_pinboard_answer:
+        attachment: Archivo adjunto
+
+    hints:
+      channel:
+        code: "El código del canal solo debe incluir letras minúsculas y el signo menos ('-')."
+        logo_upload_id: "El logo del canal se mostrará con una altura máxima de 60 px y el fondo debe ser transparente. Ajuste el diseño y el tamaño de su logo según corresponda."
+        stage_visual_upload_id: "La imagen debe tener un tamaño mínimo de %{width}x%{height} px. Las imágenes que lo superen serán redimensionadas y recortadas al centro."
+        mobile_visual_upload_id: "La imagen debe tener un tamaño mínimo de %{width}x%{height} px. Las imágenes que lo superen serán redimensionadas y recortadas al centro."
+      classifier:
+        # EN-fallback title: "The tag ID is only used when assigning tags in the course settings or for reports. The ID is not displayed for learners. Allowed characters: a-z, A-Z, 0-9, -, whitespace."
+        # EN-fallback descriptions: The tag description is displayed on the course explorer page.
+      course:
+        course_code: "Introduzca un nombre seguro para la URL corta. Solo utilice letras, dígitos y guiones."
+        alternative_teacher_text: "Texto alternativo si tiene muchos profesores."
+        learning_goals: 'Introduzca las competencias, los conocimientos, las habilidades y las destrezas que los alumnos obtendrán al asistir al curso. Se mostrarán en la página de información del curso en "Lo que aprenderán".'
+        learning_goals_only_certificate_page: "Introduzca las competencias, los conocimientos, las habilidades y las destrezas que los alumnos obtendrán al asistir al curso. Se mostrarán en la página de verificación de los certificados."
+        target_groups: 'Introduzca los grupos de alumnos a los que va dirigido el curso. Aparecerán en la página de información del curso en "A quién va dirigido este curso".'
+        roa_threshold_percentage: "Umbral expresado en porcentaje para obtener un certificado, entre 1 y 100. El global por defecto es %{global_default}."
+        cop_threshold_percentage: "Umbral expresado en porcentaje para obtener un certificado, entre 1 y 100. El global por defecto es %{global_default}."
+        video: "Añada los códigos del curso aquí para poder obtener el filtro inteligente para modo de vídeo."
+        show_on_stage: "Si elige destacar este curso en la reproducción del canal, <i>debe aportar una imagen y una declaración de reproducción</i>."
+        stage_statement: "Puede usar un encabezado en h1 ('# headline') para aplicar un título de reproducción y un encabezado en h3 ('### author') para indicar el autor de la declaración. No utilice otro marcado."
+        stage_visual_upload_id: "La imagen debe tener un tamaño mínimo de %{width}x%{height} px. Las imágenes que lo superen serán redimensionadas y recortadas al centro."
+        welcome_mail: Introduzca aquí el texto para el correo de bienvenida del curso. Déjelo en blanco si no desea que se envíe un correo
+        visual_creation: Después de crear el curso, puede añadir los elementos visuales en las propiedades del curso.
+      course_visual:
+        image: Esta imagen se mostrará en todas las listas de cursos. Si no sube un vídeo de presentación, también aparecerá en la página de detalles del curso. Por razones de accesibilidad, la imagen no debe mostrar ningún texto.
+        video_stream_id: Si selecciona un vídeo de presentación, se utilizará en la página de detalles del curso en lugar de la imagen del curso.
+      lti_provider:
+        presentation_mode: 'Determine dónde se abrirán los ejercicios: en una nueva pestaña (ventana), en una ventana emergente (pop-up) o incrustados en el área del curso (marco). La incrustación (marco) no funcionará con todas las herramientas en todos los navegadores. Asegúrese de que funciona con la herramienta que ha seleccionado o utilice la opción "ventana" en su lugar.'
+        custom_fields: "Parámetros específicos utilizados de acuerdo con la norma LTI. Consulte la documentación de la herramienta para obtener más detalles sobre los parámetros disponibles para su uso."
+      open_badge_template:
+        name: Sobrescribe el nombre general
+        description: Sobrescribe la descripción general
+      poll:
+        start_at: "Sugerencia: Sólo puedes añadir opciones de respuesta a una encuesta si aún no ha comenzado."
+      video:
+        subtitles: "Un fichero WebVTT con subtítulos o un archivo ZIP con varios ficheros WebVTT. Todos los nombres de archivos WebVTT deben terminar con un delimitador (ya sea '_' o '-') seguido de su código de idioma de dos o tres letras (por ejemplo, 'es' para el español). Ejemplo: 'subtitles_es.vtt'"
+
+    placeholders:
+      certificate_template:
+        dynamic_content: SVG para incorporar datos dinámicos en el certificado
+      classifier:
+        # EN-fallback courses: Add courses
+      course:
+        abstract: "Introduzca una descripción breve"
+        description: "Introduzca una descripción completa"
+      course_visual:
+        video_stream_id: Elija una corriente
+      login:
+        email: Email
+        password: Contraseña
+      page:
+        text: "Introduzca los contenidos aquí..."
+      voucher_redemption:
+        code: "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
+
+  helpers:
+    submit:
+      certificate_template:
+        create: Crear plantilla
+        update: Actualizar plantilla
+      channel:
+        create: Añadir canal
+        update: Editar canal
+      classifier:
+        # EN-fallback create: Create tag
+        # EN-fallback update: Update tag
+        # EN-fallback submit: Save course order
+      cluster:
+        # EN-fallback update: Update category
+        # EN-fallback submit: Save tag order
+      course:
+        create: Crear curso
+        update: Actualizar curso
+      course_visual:
+        preview: Guardar y mostrar curso
+        update: Guardar
+      login:
+        submit: Conectar cuenta de usuario
+      objective:
+        create: Crear objetivo
+        update: Actualizar objetivo
+      open_badge_template:
+        create: Crear plantilla
+        update: Actualizar plantilla
+      poll:
+        create: Crear una encuesta nueva
+        update: Actualizar encuesta
+      voucher_redemption:
+        create: Canjear
+        update: Canjear
+      xikolo_pinboard_answer:
+        create: Publicar respuesta #TODO: Encontrar manera de especificar el nombre del modelo
+        update: Guardar cambios
+      xikolo_pinboard_question:
+        update: Actualizar pregunta
+      xikolo_course_item:
+        create: Crear elemento
+        update: Guardar elemento
+        preview: Guardar y mostrar elemento
+      xikolo_lti_lti_provider:
+        create: Crear proveedor
+        update: Actualizar proveedor
+      xikolo_course_section:
+        create: Crear sección
+        update: Actualizar sección
+      xikolo_quiz_answer:
+        create: Crear respuesta
+        update: Actualizar respuesta
+      xikolo_quiz_question:
+        create: Crear pregunta
+        update: Actualizar pregunta
+
+  errors:
+    attributes:
+      email:
+        already_taken: La dirección de correo electrónico que introdujo ya ha sido registrada.
+      end_at:
+        before_start_date: La fecha de finalización debe ser posterior a la fecha de inicio.
+      id:
+        invalid_format: Formato no válido para el ID proporcionado.
+        not_unique: El ID debe ser único.
+      password:
+        below_minimum_length: La contraseña debe tener una longitud mínima de 8 caracteres.
+        maximum_length_reached: La longitud de la contraseña no puede superar los 72 caracteres.
+        password_contains_email: Su dirección de correo electrónico no puede formar parte de la contraseña.
+      title:
+        invalid_format: Formato no válido para el ID proporcionado.
+        not_unique: El ID debe ser único.
+
+    messages:
+      # xikolo-s3 errors for references in markup:
+      rtfile_unknown_ref: No se permite referenciar archivos desconocidos.
+      rtfile_rejected: El archivo cargado ha sido rechazado porque se ha infringido alguna política.
+      rtfile_exists: El archivo cargado no ha podido ser almacenado.
+      rtfile_unconfigured: El archivo cargado no ha podido ser almacenado.
+      rtfile_error: El archivo cargado no ha podido ser almacenado.
+
+      # xikolo-s3 errors around file uploads:
+      upload_error: El archivo cargado no ha podido ser almacenado.
+      upload_rejected: El archivo cargado ha sido rechazado porque se ha infringido alguna política.
+
+      # type violations:
+      no_uri: URI no válido
+      no_url: URL no válida
+      no_uuid: Cadena del UUID no válida
+      single_line_string: No se permiten cadenas multilínea.
+
+      item:
+        base:
+          # EN-fallback section_required: The item must be created for a section.
+          # EN-fallback could_not_be_created: The item could not be created for some reason. Please try again.
+        exercise_type:
+          required_when_quiz: Debe elegir un tipo de ejercicio para los elementos del cuestionario.
+        max_points:
+          invalid_format: Los puntos deben ser positivos
+        submission_deadline:
+          required_when_proctored: Debe proporcionar una fecha límite de presentación para los elementos vigilados.
+        title:
+          # EN-fallback "can't be blank": The item title must not be blank.

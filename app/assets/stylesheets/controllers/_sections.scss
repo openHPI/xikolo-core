@@ -1,0 +1,94 @@
+.sections-controller,
+.items-controller {
+  .handle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 15px;
+    height: 100%;
+    cursor: move;
+
+    line-height: 3px;
+
+    &:hover {
+      background-color: #f6f6f6;
+    }
+    &:before {
+      position: absolute;
+      top: 50%;
+      margin: -3px 0 0 3px;
+
+      align: center;
+
+      color: #ccc;
+      content: "=\a=";
+    }
+  }
+  ul.sections {
+    padding: 0;
+    margin: 0;
+  }
+  .section {
+    position: relative;
+    padding: 10px 10px 10px 30px;
+    border-radius: 2px;
+    margin: 0 0 10px 0;
+
+    background-color: #ffffff;
+    box-shadow: $box-shadow-xs;
+
+    list-style: none;
+
+    &.ui-sortable-helper {
+      box-shadow: $box-shadow-xs;
+    }
+    > .handle {
+      width: 20px;
+      border-radius: 2px 0 0 2px;
+      border-left: 5px solid #ccc;
+    }
+    &.available > .handle {
+      border-left-color: green;
+    }
+    .title {
+      @extend .clearfix;
+
+      h3 {
+        display: inline;
+        margin: 0 20px 10px 0;
+        vertical-align: middle;
+      }
+    }
+    .labels {
+      margin-bottom: 10px;
+
+      .label {
+        margin-right: 4px;
+      }
+    }
+    .items {
+      min-height: 30px;
+      padding: 0px;
+      margin: 10px 0 0 0;
+      list-style: none;
+    }
+    .item {
+      position: relative;
+      padding-left: 17px;
+      .actions a {
+        margin-left: 0.5em;
+      }
+    }
+    .item-placeholder {
+      min-height: 20px;
+      border: 1px #005580 dashed;
+      margin: 10px 0 10px 0;
+    }
+  }
+  #time_effort_edit {
+    .form-group {
+      margin-right: 0px;
+      margin-left: 0px;
+    }
+  }
+}

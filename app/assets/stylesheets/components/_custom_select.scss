@@ -1,0 +1,35 @@
+// Set and override some of the styles of the library TomSelect
+
+$select-arrow-offset: 8px;
+$select-arrow-size: 4px;
+
+@include ts-caret();
+
+.ts-wrapper {
+  display: inline-block;
+  min-width: 100%;
+
+  @media (min-width: 450px) {
+    min-width: 400px;
+  }
+
+  &.form-control {
+    height: auto;
+    padding: 0;
+    border: none;
+  }
+}
+
+.custom-select-group form {
+  display: flex;
+}
+
+.optgroup-header {
+  font-weight: 700;
+}
+
+/* stylelint-disable plugin/stylelint-bem-namics */
+.plugin-clear_button .clear-button {
+  top: 40%;
+  font-size: 18px;
+}

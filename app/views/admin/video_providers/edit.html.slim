@@ -1,0 +1,4 @@
+- content_for :page_header_slim do
+  = render Global::PageHeader.new(t(:'admin.video_providers.form.edit_provider', provider: @provider.name), subtitle: t(:'admin.page_header'), type: :slim)
+
+= render 'form', provider: @provider

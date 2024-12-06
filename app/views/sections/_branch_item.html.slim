@@ -1,0 +1,34 @@
+li
+  span.label.label-info.mr10
+    = t(:"sections.index.label.#{item.content_type}")
+  = item.title
+  span.actions
+    = link_to course_item_path(id: short_uuid(item.id))
+      = render Global::FaIcon.new('eye', style: :solid)
+    = link_to edit_course_section_item_path section_id: section.id, id: item.id
+      = render Global::FaIcon.new('pen-to-square', style: :solid)
+    = link_to course_section_item_path(section_id: section.id, id: item.id), data: {confirm: t(:'sections.item.delete')}, method: :delete
+      = render Global::FaIcon.new('trash-can', style: :solid)
+    - if current_user.allowed?('course.item_stats.show')
+      = link_to course_item_statistics_path(item_id: item.id)
+        = render Global::FaIcon.new('chart-bar', style: :solid)
+  span.labels.ml10
+    - unless item.unlocked?
+      span.label.label-warning
+        - if item.start_date&.future?
+          = t(:'sections.item.locked_until', date: item.start_date.to_formatted_s(:short))
+        - if item.end_date&.past?
+          = t(:'sections.item.locked_since', date: item.end_date.to_formatted_s(:short))
+
+    - if item.published?
+      span.label.label-success
+    - else
+      span.label.label-warning
+        = t(:'sections.item.unpublished')
+
+    span.label.label-info.uuid.mr10 hidden='true'
+      'ID:
+      = item.id
+    span.label.label-info.uuid.mr10 hidden='true'
+      'Content ID:
+      = item.content_id

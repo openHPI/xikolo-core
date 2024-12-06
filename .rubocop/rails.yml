@@ -1,0 +1,99 @@
+# rails cop settings
+
+Rails:
+  Enabled: true
+  Exclude:
+    - "scripts/**/*"
+
+#
+# False positives:
+#   * On Acfs::Resource#update_attributes!
+#
+Rails/ActiveRecordAliases:
+  Exclude:
+    - "spec/**/*_spec.rb"
+    - "services/*/spec/**/*_spec.rb"
+
+#
+# False positives:
+#   * On embedded models in migrations.
+#
+Rails/ApplicationRecord:
+  Exclude:
+    - "db/**/*"
+    - "services/*/db/**/*"
+
+#
+# To broken for other methods in non-Rails contexts
+#
+Rails/Delegate:
+  Enabled: false
+
+#
+# Often when triggered it just wants to pass joined paths as separate
+# arguments but that can hurt readability.
+#
+Rails/FilePath:
+  Enabled: false
+
+#
+# False positive on pure-rack request methods such as
+# `#get(path, params)`. Tries to replace them with rails methods
+# such as `#get(action, params: {...})` that break API specs.
+#
+Rails/HttpPositionalArguments:
+  Exclude:
+    - "spec/api/**/*"
+
+#
+# False positives on APIs, passing errors to xi-web for for
+# interpolation to show flash messages, and so on.
+#
+Rails/I18nLocaleTexts:
+  Enabled: false
+
+#
+# Not all Rakefiles are actually in an Rails application.
+#
+Rails/RakeEnvironment:
+  Exclude:
+    - "gems/*/Rakefile"
+    - "integration/Rakefile"
+
+#
+# False positives:
+#   * Custom APIs often use a proprietary Content-Type, such as
+#     application/vnd.xyz+json, which is not supported at
+#     `response.parsed_body` by default.
+#
+Rails/ResponseParsedBody:
+  Exclude:
+    - "spec/requests/bridges/**/*" # e.g., application/vnd.api+json, application/problem+json
+    - "spec/requests/portalapi/**/*" # e.g., application/vnd.openhpi.list+json
+    - "spec/requests/api/v2/**/*" # application/vnd.api+json
+    - "spec/controllers/errors_controller_spec.rb" # application/problem+json
+
+#
+# False positives:
+#   * Specs and migrations often need to update things without validations.
+#
+Rails/SkipsModelValidations:
+  Exclude:
+    - "db/**/*"
+    - "services/*/db/**/*"
+    - "services/*/spec/**/*_spec.rb"
+    - "spec/**/*_spec.rb"
+
+#
+# We cannot change existing migrations
+#
+Rails/ThreeStateBooleanColumn:
+  Exclude:
+    - db/migrate/20210616103115_init.rb
+
+Rails/UnknownEnv:
+  Environments:
+    - development
+    - integration
+    - production
+    - test

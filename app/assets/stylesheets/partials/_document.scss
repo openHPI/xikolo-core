@@ -1,0 +1,104 @@
+/*------------------------------------*\
+    $CONTENTS
+
+    Styles for all document-related
+    sub-components.
+\*------------------------------------*/
+/**
+ * Variables................Variable declarations
+ * Document-List..............Document list component used on /documents and /courses/:course_code/documents
+ * Documents dashboard....... Certificates list (/dashboard/documents)
+ */
+
+/*------------------------------------*\
+    $Variables
+\*------------------------------------*/
+$document-page-padding: 15px;
+
+/*------------------------------------*\
+    $Document-List
+\*------------------------------------*/
+
+.document-list {
+  position: relative;
+  padding-top: 20px;
+  padding-right: $document-page-padding;
+  padding-left: $document-page-padding;
+  background-color: $white;
+
+  .document-filter-bar {
+    margin-right: -$document-page-padding;
+    margin-left: -$document-page-padding;
+
+    .help {
+      padding: 10px;
+      color: $white;
+      @media (max-width: 480px) {
+        display: none;
+      }
+    }
+
+    .controls {
+      padding-right: $document-page-padding;
+      margin-top: 3px;
+      float: right;
+      vertical-align: baseline;
+      @include xs {
+        display: none;
+      }
+      a {
+        float: left;
+      }
+    }
+
+    .reset-filter {
+      margin-right: $document-page-padding;
+      background-color: $primary-color;
+      color: $white;
+
+      .xi-icon {
+        margin-right: 10px;
+        font-size: 1.3em;
+        vertical-align: middle;
+      }
+
+      &:hover {
+        background-color: $primary-600;
+      } // From the original Bootstrap button sources
+    }
+
+    .ts-control {
+      margin-top: 2px;
+    }
+  }
+
+  .filter-bar {
+    padding-top: 0;
+  }
+  .table {
+    border-bottom: 1px solid $gray-250;
+  }
+}
+
+/*------------------------------------*\
+    $Documents dashboard
+\*------------------------------------*/
+
+.documents-title {
+  margin: 40px 0 20px 0;
+  color: $gray-900;
+  font-weight: normal;
+  @include font-m;
+}
+
+.documents-preferences {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 10px;
+
+  &__text {
+    margin-top: 0;
+    font-weight: normal;
+  }
+}

@@ -1,0 +1,53 @@
+.redirect-notice {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+
+  &--info-box {
+    display: flex;
+    width: 40%;
+    min-width: 350px;
+    flex-flow: row wrap;
+    justify-content: center;
+    padding-top: 50px;
+
+    background-color: $white;
+    box-shadow: $box-shadow-m;
+    font-size: 1.25em;
+
+    text-align: center;
+
+    .info-icon {
+      display: block;
+      width: 25%;
+      padding-top: 25%;
+      margin-bottom: 50px;
+      background-image: url("images/redirect_info.png");
+      background-size: contain;
+    }
+
+    .info-text {
+      padding: 0 20px;
+      margin-bottom: 50px;
+    }
+
+    label {
+      margin-left: 10px;
+      font-weight: normal;
+    }
+
+    .manual-redirect {
+      width: 100%;
+      padding: 15px;
+      background-color: $gray-600;
+      color: $white;
+      font-size: 0.9em;
+
+      a {
+        color: $white;
+        text-decoration: underline;
+      }
+    }
+  }
+}

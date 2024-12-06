@@ -1,0 +1,69 @@
+# frozen_string_literal: true
+
+source 'https://rubygems.org'
+
+ruby '~> 3.3.0'
+
+# Rails
+gem 'rails', '~> 7.2.0'
+
+gem 'drb'
+gem 'json'
+gem 'mutex_m'
+gem 'syslog'
+
+# API
+gem 'decorate-responder', '~> 2.0'
+gem 'draper', '~> 4.0'
+gem 'paginate-responder', '~> 2.0'
+gem 'responders', '~> 3.0'
+gem 'restify', '~> 1.15'
+gem 'will_paginate'
+
+gem 'activerecord-postgres_enum', '~> 2.0'
+gem 'fx', '~> 0.8.0'
+gem 'pg'
+gem 'redis', '~> 5.0'
+gem 'scenic', '~> 1.5'
+
+gem 'puma'
+
+gem 'msgr', '~> 1.5'
+
+gem 'rails-rfc6570', '~> 3.0'
+
+gem 'xikolo-common', path: './gems/xikolo-common'
+gem 'xikolo-config', path: './gems/xikolo-config'
+gem 'xikolo-s3', path: './gems/xikolo-s3'
+gem 'xikolo-sidekiq', path: './gems/xikolo-sidekiq'
+
+gem 'concurrent-ruby', '~> 1.0'
+gem 'mnemosyne-ruby', '~> 2.0'
+gem 'sentry-rails', '~> 5.22.0'
+gem 'sentry-ruby', '~> 5.22.0'
+gem 'sentry-sidekiq', '~> 5.22.0'
+gem 'telegraf', '~> 3.0'
+
+group :development, :test do
+  gem 'listen', '~> 3.9.0'
+  gem 'pry'
+  gem 'pry-byebug'
+  gem 'rspec', '~> 3.10'
+  gem 'rspec-collection_matchers'
+  gem 'rspec-rails', '~> 6.0'
+  gem 'rspec-teamcity', require: false
+end
+
+group :test do
+  gem 'webmock'
+end
+
+group :test, :integration do
+  gem 'accept_values_for'
+  gem 'database_cleaner', '~> 2.0'
+  # https://github.com/thoughtbot/factory_bot_rails/pull/432
+  gem 'factory_bot_rails', '~> 6.0'
+  gem 'rack-remote'
+  gem 'simplecov'
+  gem 'simplecov-teamcity-summary'
+end

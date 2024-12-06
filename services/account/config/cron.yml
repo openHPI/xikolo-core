@@ -1,0 +1,6 @@
+production:
+  # Delete old, unconfirmed accounts once a day at 3 a.m
+  delete_unconfirmed_accounts:
+    cron: "0 3 * * *"
+    class: UnconfirmedAccountsDeletionWorker
+    queue: default

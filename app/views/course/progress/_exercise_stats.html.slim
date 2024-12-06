@@ -1,0 +1,11 @@
+span.points style="font-size:1.1em"
+  - if stats.available?
+    = render Global::Meter.new(value: stats.my_progress, label: "#{stats.my_progress}%")
+    = stats.submitted_points
+    span.small
+      = "/#{stats.total_points} #{t(:'course.progress.show.points')}"
+    br
+    span.small
+      = t(:'course.progress.show.quizzes_taken', taken: stats.submitted_exercises, count: stats.total_exercises)
+  - else
+    ' &mdash;

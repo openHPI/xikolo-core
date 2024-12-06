@@ -1,0 +1,280 @@
+ru:
+  simple_form:
+    "yes": "Да"
+    "no": "Нет"
+    required:
+      text: "обязательное поле"
+      mark: "*"
+      # You can uncomment the line below if you need to overwrite the whole required html.
+      # When using html, text and mark won't be used.
+      # html: '<abbr title="required">*</abbr>'
+    error_notification:
+      default_message: Мы нашли ошибки. Проверьте заполнение формы.
+    upload_file: Перетащите файлы сюда или нажмите для поиска
+    upload_single_file: Перетащите файл сюда или нажмите для поиска
+    in_language: "%{field} (на языке %{lang})"
+
+    options:
+      certificate_template:
+        certificate_type:
+          Certificate: Сертификат
+          ConfirmationOfParticipation: Сертификат об участии
+          RecordOfAchievement: Сертификат об окончании курса
+          # EN-fallback TranscriptOfRecords: Transcript of Records
+
+    labels:
+      certificate_template:
+        certificate_type: Тип сертификата
+        file: Файл
+        dynamic_content: Динамический контент
+        qrcode_x: QR-код x
+        qrcode_y: QR-код y
+      channel:
+        code: Код
+        name: Имя
+        logo_upload_id: Логотип
+        description: Описание
+        video_stream: Видео для главной страницы
+        stage_visual_upload_id: Изображение для главной страницы
+        stage_statement: Описание для главной страницы
+        mobile_visual_upload_id: Изображение для мобильных устройств
+        public: "Общедоступный"
+      classifier:
+        # EN-fallback title: ID
+        # EN-fallback translations: Title
+        # EN-fallback descriptions: Description
+        # EN-fallback courses: Courses
+      course:
+        title: "Название курса"
+        course_code: "Код курса"
+        abstract: "Аннотация"
+        auto_archive: "Автоархивировать по окончании курса"
+        show_syllabus: "Общий обзор"
+        description: "Описание"
+        rating_stars: Рейтинг (среднее число звезд)
+        rating_votes: Рейтинг (количество голосов)
+        teacher_ids: "Преподаватели"
+        alternative_teacher_text: "Альтернативный текст преподавателя"
+        lang: "Язык курса"
+        enrollment_delta: "Дельта зачисленных"
+        start_date: "Дата начала (UTC)"
+        display_start_date: "Отображаемая дата начала (UTC)"
+        end_date: "Дата окончания (UTC)"
+        middle_of_course_is_auto: "Автоматический расчет середины курса"
+        middle_of_course: "Середина курса для статистики (UTC)"
+        roa_enabled: "Предложить сертификат об окончании курса"
+        cop_enabled: "Предложить сертификат об участии"
+        roa_threshold_percentage: "Пороговое значение для сертификата об окончании курса"
+        cop_threshold_percentage: "Пороговое значение для сертификата об участии"
+        collab_space: "Включить площадку сотрудничества"
+        records_released: "Публикация сертификатов"
+        forum_is_locked: "Форум заблокирован"
+        external_course_url: "Внешний URL-адрес курса"
+        video_course_codes: "Коды видеокурсов"
+        groups: Только для групп
+        hidden: "Курс скрыт"
+        proctored: Экзамен под наблюдением
+        on_demand: "Повторная активация курса"
+        welcome_mail: Приветственное письмо
+        invite_only: Требуется приглашение
+        stage_visual_upload_id: Изображение для главной страницы
+        stage_statement: Описание для главной страницы
+        policy_url: URL-адрес политики
+        enable_video_download: Включить загрузку видео/аудио
+        external_registration_url: URL-внешней регистрации
+      course_visual:
+        image: Изображение
+        video_stream_id: Тизерное видео
+      login:
+        email: Эл. адрес
+        password: Пароль
+      objective:
+        position: Положение
+        title: Название
+        description: Описание
+        completion_type: Тип завершения
+        final: Материал готов?
+      open_badge_template:
+        file: Файл изображения
+        name: Имя
+        description: Описание
+      page:
+        name: Имя
+        locale: Язык
+        title: Название
+        text: Содержание
+      user:
+        full_name: Имя
+        email: Адрес электронной почты
+        password: Пароль
+        password_confirmation: Повторите пароль
+      voucher_redemption:
+        code: Введите код купона
+      xikolo_pinboard_answer:
+        attachment: Вложение
+      xikolo_pinboard_question:
+        title: Название
+        text: Текст
+        attachment: Вложение
+        tag_names: Теги
+        move_to: Переместить в
+
+    hints:
+      channel:
+        code: "Код канала может содержать только строчные буквы и знак минус (-)."
+        logo_upload_id: "Логотип канала будет отображаться с максимальной высотой 60 пикселей и должен иметь прозрачный фон. Измените стиль и размер вашего логотипа с учетом этого ограничения."
+        stage_visual_upload_id: "Изображение должно соответствовать минимальному размеру %{width} x %{height} пикселей. Изображения большего размера будут изменены и обрезаны по центру."
+        mobile_visual_upload_id: "Изображение должно соответствовать минимальному размеру %{width} x %{height} пикселей. Изображения большего размера будут изменены и обрезаны по центру."
+      classifier:
+        # EN-fallback title: "The tag ID is only used when assigning tags in the course settings or for reports. The ID is not displayed for learners. Allowed characters: a-z, A-Z, 0-9, -, whitespace."
+        # EN-fallback descriptions: The description will be displayed when listing the courses for this tag (e.g., on the start page).
+      course:
+        course_code: "Введите короткое имя, совместимое с URL. Допускается использовать только буквы, цифры и дефисы."
+        alternative_teacher_text: "Альтернативный текст, если у вас много преподавателей."
+        learning_goals: 'Введите предполагаемые компетенции, знания, навыки и умения, которые учащиеся получат в результате успешного посещения курса. Они будут отображаться на странице информации о курсе в разделе "Чему вы научитесь".'
+        learning_goals_only_certificate_page: "Введите предполагаемые компетенции, знания, навыки и умения, которые учащиеся получат в результате успешного посещения курса. Они будут отображаться на странице проверки сертификата."
+        target_groups: 'Укажите группы учащихся, для которых предназначен курс. Они будут отображаться на информационной странице курса в разделе "Для кого этот курс".'
+        roa_threshold_percentage: "Пороговое значение в процентах для получения сертификата, от 1 до 100. Глобальное значение по умолчанию: %{global_default}."
+        cop_threshold_percentage: "Пороговое значение в процентах для получения сертификата, от 1 до 100. Глобальное значение по умолчанию: %{global_default}."
+        video: "Добавьте сюда коды курсов, которые необходимо учитывать при фильтрации в режиме интеллектуального видео."
+        show_on_stage: "Если вы хотите выделить этот курс на главной странице канала, <i>необходимо предоставить изображение и описание для главной страницы</i>."
+        stage_statement: "Вы можете использовать заголовок h1 ('# headline'), чтобы применить заголовок описания, и заголовок h3 ('### author'), чтобы указать автора описания. Не используйте другую разметку."
+        stage_visual_upload_id: "Изображение должно соответствовать минимальному размеру %{width} x %{height} пикселей. Изображения большего размера будут изменены и обрезаны по центру."
+        welcome_mail: Введите здесь текст приветственного письма. Оставьте поле пустым, если не планируете отправлять письмо
+        visual_creation: После создания курса вы можете добавить визуальные элементы курса в свойствах курса.
+      course_visual:
+        image: Это изображение будет отображаться во всех списках курсов. Если вы не загрузите тизерное видео, оно также появится на странице подробностей курса. По соображениям доступности на изображении не должно быть никакого текста.
+        video_stream_id: Если вы выберете тизерный видеоролик, он будет использоваться на странице подробностей курса вместо изображения курса.
+      lti_provider:
+        presentation_mode: 'Определите, где будут открываться упражнения: в новой вкладке (окно), во всплывающем окне (всплывающее окно) или встроенные в область курса (рамка). Встраивание (фрейм) работает не со всеми инструментами во всех браузерах. Пожалуйста, убедитесь, что оно работает с выбранным вами инструментом, или используйте вместо него опцию "окно".'
+        custom_fields: "Специфические параметры, используемые в соответствии со стандартом LTI. Более подробную информацию о параметрах, доступных для использования, см. в документации к инструменту."
+      open_badge_template:
+        name: Перезапись глобального имени
+        description: Перезапись глобального описания
+      poll:
+        start_at: "Подсказка: Вы можете добавлять варианты ответов в опрос только в том случае, если он еще не начался."
+    video:
+      subtitles: "Либо файл WebVTT, содержащий субтитры, либо ZIP-архив с несколькими файлами WebVTT. Все имена файлов WebVTT должны заканчиваться разделителем (либо '_', либо '-'), за которым следует двух- или трехбуквенный код языка (например, 'ru' для русского). Пример: 'subtitles_ru.vtt'"
+
+    placeholders:
+      certificate_template:
+        dynamic_content: SVG для извлечения динамических данных в сертификат
+      classifier:
+        # EN-fallback courses: Add courses
+      course:
+        abstract: "Введите краткое описание"
+        description: "Введите полное описание"
+      course_visual:
+        # EN-fallback video_stream_id: Choose a stream
+      login:
+        email: Эл. адрес
+        password: Пароль
+      page:
+        text: "Введите содержание..."
+      voucher_redemption:
+        code: "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
+
+  helpers:
+    submit:
+      certificate_template:
+        create: Создать шаблон
+        update: Update template
+      channel:
+        create: Добавить канал
+        update: Изменить канал
+      classifier:
+        # EN-fallback create: Create tag
+        # EN-fallback update: Update tag
+        # EN-fallback submit: Save course order
+      cluster:
+        # EN-fallback update: Update category
+        # EN-fallback submit: Save tag order
+      course:
+        create: Создать курс
+        update: Изменить курс
+      course_visual:
+        preview: Сохранение и отображение курса
+        update: Сохранить
+      login:
+        submit: Подключить аккаунт
+      objective:
+        create: Создать цель
+        update: Сохранить цель
+      open_badge_template:
+        create: Создать шаблон
+        update: Изменить шаблон
+      poll:
+        create: Создать новый опрос
+        update: Изменить опрос
+      voucher_redemption:
+        create: Использовать
+        update: Использовать
+      xikolo_pinboard_answer:
+        create: Ответить #TODO: Find way to specify model name
+        update: Сохранить изменения
+      xikolo_pinboard_question:
+        update: Сохранить вопрос
+      xikolo_course_item:
+        create: Создать объект
+        update: Сохранить объект
+        preview: Сохранить и показать объект
+      xikolo_lti_lti_provider:
+        create: Создать провайдера
+        update: Сохранить провайдера
+      xikolo_course_section:
+        create: Создать раздел
+        update: Сохранить раздел
+      xikolo_quiz_answer:
+        create: Создать ответ
+        update: Сохранить ответ
+      xikolo_quiz_question:
+        create: Создать вопрос
+        update: Сохранить вопрос
+
+  errors:
+    attributes:
+      email:
+        already_taken: Адрес электронной почты, который вы ввели, уже зарегистрирован.
+      end_at:
+        before_start_date: Дата окончания должна быть позже даты начала.
+      id:
+        invalid_format: Неверный формат для предоставленного идентификатора.
+        not_unique: Идентификатор должен быть уникальным.
+      password:
+        below_minimum_length: Пароль должен быть длиной не менее 8 символов.
+        maximum_length_reached: Длина пароля не должна превышать 72 символа.
+        password_contains_email: Не используйте в пароле ваш адрес электронной почты.
+      title:
+        invalid_format: Неверный формат для предоставленного идентификатора.
+        not_unique: Идентификатор должен быть уникальным.
+
+    messages:
+      # xikolo-s3 errors for references in markup:
+      rtfile_unknown_ref: Ссылки на неизвестные файлы не допускаются.
+      rtfile_rejected: Загрузка файла отклонена по причине нарушения правил.
+      rtfile_exists: Не удалось сохранить файл.
+      rtfile_unconfigured: Не удалось сохранить файл.
+      rtfile_error: Не удалось сохранить файл.
+
+      # xikolo-s3 errors around file uploads:
+      upload_error: Не удалось сохранить файл.
+      upload_rejected: Загрузка файла отклонена по причине нарушения правил.
+
+      # type violations:
+      no_uri: Недействительный URI
+      no_url: Недействительный URL
+      no_uuid: Недопустимая строка UUID
+      single_line_string: Теперь допускается использовать многострочные строки.
+
+      item:
+        base:
+          # EN-fallback section_required: The item must be created for a section.
+          # EN-fallback could_not_be_created: The item could not be created for some reason. Please try again.
+        exercise_type:
+          required_when_quiz: Необходимо выбрать тип задания для объектов-тестов.
+        max_points:
+          invalid_format: Очки должны быть положительными.
+        submission_deadline:
+          required_when_proctored: Вы должны указать крайний срок для пунктов с надзором.
+        title:
+          # EN-fallback "can't be blank": The item title must not be blank.

@@ -1,0 +1,23 @@
+s3:
+  connect_info:
+    endpoint: http://127.0.0.1:9000
+    region: default
+    access_key_id: minioadmin
+    secret_access_key: minioadmin
+    force_path_style: true
+  buckets:
+    avatars: xikolo-public
+    banners: xikolo-public
+    certificate: xikolo-certificate
+    collabspace: xikolo-collabspace
+    course: xikolo-public
+    lti: xikolo-public
+    news: xikolo-public
+    pages: xikolo-public
+    peerassessment: xikolo-peerassessment
+    pinboard: xikolo-pinboard
+    quiz: xikolo-public
+    scientist: xikolo-scientist
+    sitemaps: xikolo-public
+    uploads: xikolo-uploads
+    video: xikolo-video

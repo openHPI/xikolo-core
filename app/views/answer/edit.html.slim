@@ -1,0 +1,9 @@
+= simple_form_for(@answer, url: answer_path(id: @answer.id), wrapper: :compact) do |f|
+  = f.input :text, as: :markdown, required: true, label: false, markdown_id_suffix: "text-answer-#{@answer.id}", uploads: text_uploads, value: @answer['text']
+  = f.input :attachment, as: :upload,
+      hint: I18n.t('flash.error.files.document.valid_formats'),
+      value: FileUpload.new(purpose: :pinboard_commentable_attachment)
+  = f.hidden_field :question_id, value: @answer.question_id, required: true
+  = f.button :submit, t(:'helpers.submit.xikolo_pinboard_answer.update'), class: 'btn btn-primary mr10 mb10'
+  = button_tag(type: 'button', class: 'btn btn-default cancel-post mr10 mb10') do
+    = t :'pinboard.cancel'

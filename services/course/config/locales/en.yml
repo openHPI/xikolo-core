@@ -1,0 +1,34 @@
+en:
+  achievements:
+    certificates:
+      confirmation:
+        name: Confirmation of Participation
+        state:
+          unavailable: The confirmation is not offered for this course.
+          no_longer_achievable: The regular course period has already ended. You could only achieve the confirmation for this course while it was running. Please watch out for a possible repeat.
+          reactivatable: The regular course period has already ended. If you still would like to achieve a confirmation for this course, you can reactivate it now.
+          not_achieved: You completed %{user_percentage}% of all available learning units in this course. You need to complete at least %{difference}% more learning units to achieve your confirmation.
+          not_released: Congratulations! You achieved a confirmation for this course by completing %{user_percentage}% of all learning units. Once the confirmation is released by the teaching team, you can download it here. This can take up to 2 weeks after the course ends.
+          released: Congratulations! You achieved a confirmation for this course by completing %{user_percentage}% of all learning units.
+          achieved_via_roa: Congratulations! You have achieved the Confirmation of Participation in this course by obtaining the certificate of achievement.
+        requirements:
+          progress: Complete at least %{course_percentage}% of the learning units.
+        download:
+          not_released: Once the certificate is released, you can download it here.
+      achievement:
+        name: Record of Achievement
+        state:
+          unavailable: The certificate is not offered for this course.
+          no_longer_achievable: The regular course period has already ended. You could only achieve the certificate for this course while it was running. Please watch out for a possible repeat.
+          reactivatable: The regular course period has already ended. If you still would like to achieve a certificate for this course, you can reactivate it now.
+          not_achieved: You scored %{user_percentage}% in graded exams by now. %{difference}
+          not_released: Congratulations! You achieved a certificate for this course by scoring %{user_percentage}% in the graded assignments. Once the certificate is released by the teaching team you can download it here. This can take up to 2 weeks after the course ends.
+          released: Congratulations! You achieved a certificate for this course by scoring %{user_percentage}% in the graded assignments.
+        requirements:
+          completion: Achieve %{course_percentage}% of the overall score in graded assignments.
+        download:
+          not_released: Once the certificate is released, you can download it here.
+    points_difference:
+      zero: ~
+      one: You need one more point to achieve your certificate.
+      other: "You need %{count} more points to achieve your certificate."

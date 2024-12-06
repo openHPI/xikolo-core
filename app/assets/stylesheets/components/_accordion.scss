@@ -1,0 +1,113 @@
+$accordion-bg: $gray-50 !default;
+$accordion-bg-expanded: $gray-100 !default;
+
+.accordion {
+  background-color: $accordion-bg;
+  @include font-s;
+
+  &__headline {
+    max-width: $main-content-width;
+    padding: 25px $page-padding 15px $page-padding;
+    margin: 0 auto;
+
+    color: $gray-600;
+    @include horizontal-page-padding;
+    @include font-s;
+
+    @include screen-size-s-and-up {
+      @include font-sm;
+      padding: 35px $page-padding 20px $page-padding;
+      @include horizontal-page-padding;
+    }
+  }
+
+  &__expanded {
+    display: none;
+  }
+
+  &__btn-content {
+    display: flex;
+    max-width: $main-content-width;
+    justify-content: space-between;
+    padding: $page-padding;
+    margin: 0 auto;
+    @include horizontal-page-padding;
+
+    @include screen-size-s-and-up {
+      padding: 0 $page-padding;
+      @include horizontal-page-padding;
+    }
+  }
+
+  &__btn {
+    width: 100%;
+    padding: 0;
+
+    border: none;
+    border-top: 1px solid $gray-250;
+    background-color: $accordion-bg;
+
+    @include screen-size-s-and-up {
+      @include font-m;
+      padding: 20px 0;
+    }
+
+    &[aria-expanded="false"] {
+      + .accordion__item {
+        display: none;
+      }
+
+      .accordion__collapsed {
+        display: block;
+      }
+    }
+
+    &[aria-expanded="true"] {
+      background-color: $accordion-bg-expanded;
+      .accordion__expanded {
+        display: block;
+      }
+      .accordion__collapsed {
+        display: none;
+      }
+    }
+
+    &:hover,
+    &:active,
+    &:focus {
+      background-color: $accordion-bg-expanded;
+    }
+
+    .xi-icon {
+      color: $gray-900;
+      font-size: $font-size-s;
+
+      @include screen-size-s-and-up {
+        font-size: $font-size-sm;
+      }
+    }
+  }
+
+  .accordion__expanded,
+  .accordion__collapsed {
+    color: $gray-900;
+  }
+
+  &__sections {
+    border-bottom: 1px solid $gray-250;
+    background-color: $accordion-bg-expanded;
+  }
+
+  &__item {
+    max-width: $main-content-width;
+
+    padding: 5px $page-padding;
+    margin: 0 auto;
+    @include horizontal-page-padding;
+
+    @include screen-size-s-and-up {
+      padding: 0px $page-padding;
+      @include horizontal-page-padding;
+    }
+  }
+}

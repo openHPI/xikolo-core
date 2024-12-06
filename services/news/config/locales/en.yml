@@ -1,0 +1,16 @@
+en:
+  mailheader_type: Additional Information
+  test_notice: "This is a test message, only you received this!"
+  disable_link:
+    explanation:
+      html: "You are receiving this announcement because you are signed up at %{site_name} with your address %{email}.<br/>"
+      text: "You are receiving this announcement because you are signed up at %{site_name} with your address %{email}."
+    local:
+      html: "If you do not want to receive further announcements please click <a href=%{link}>here</a>.<br/>"
+      text: "If you do not want to receive further announcements of this kind please visit the following site: %{link}."
+    global:
+      html: "If you do not want to receive any further emails at all please click <a href=%{link}>here</a>."
+      text: "If you do not want to receive any further emails at all please visit the following site: %{link}."
+    notification_settings_link:
+      html: "Please visit your <a href=%{link}>profile settings</a> to change your notification settings."
+      text: "Please visit %{link} to change your notification settings."

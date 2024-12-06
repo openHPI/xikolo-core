@@ -1,0 +1,39 @@
+tr class=css_classes
+  td.pinboard-question-details-container
+
+    - if sticky?
+      = render Global::FaIcon.new('thumbtack', style: :solid, css_classes: 'mr5')
+      span = link_to title, url, class: 'question-title'
+    - else
+      = link_to title, url, class: 'question-title'
+
+    .pinboard-question-info
+      .pinboard-question-info-facts
+        - if answered?
+          span.pinboard-tag-static.no-style.answered
+            = render Global::FaIcon.new('square-check', style: :solid)
+            span.ml5 = t(:'pinboard.question.answered')
+        - if closed?
+          span.pinboard-tag-static.no-style.closed
+            = render Global::FaIcon.new('lock', style: :solid)
+            span.ml5 = t(:'pinboard.question.closed')
+
+        span.pinboard-tag-static.no-style
+          = render Global::FaIcon.new('thumbs-up')
+          span.ml5.votes = t(:'pinboard.question.votes', count: votes)
+
+        span.pinboard-tag-static.no-style
+          = render Global::FaIcon.new('clock', css_classes: 'fa-sm')
+          span.ml5 = t(:'pinboard.question.ago', timeago: time_ago)
+
+      .pinboard-question-info-tags
+        - tags.each do |tag|
+          span.pinboard-tag-static.tag-button data-tag-id=tag[:id] = tag[:name]
+
+  td.shortinfo-container
+    .question-shortinfo.views.hidden-sm.hidden-xs
+      .count = views
+      .info-type = t(:'pinboard.question.views')
+    .question-shortinfo.answers.hidden-sm.hidden-xs
+      .count = reply_count
+      .info-type = t(:'pinboard.question.responses')

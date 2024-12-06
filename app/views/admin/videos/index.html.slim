@@ -1,0 +1,65 @@
+- content_for :page_header_slim
+  = render Global::PageHeader.new(t(:'admin.videos.index.headline'), subtitle: t(:'admin.page_header'), type: :slim)
+
+.container
+  .row
+    .col-md-12.pt10
+      .filter.mb20
+        .mb10.pull-right
+          = link_to t(:'admin.video_providers.title'), video_providers_path, class: 'mr10'
+        = form_tag videos_path, method: :get
+          => label :video_filter, :prefix, t(:'admin.videos.index.filter_videos')
+          => search_field_tag 'prefix', params[:prefix], id: 'video_filter_prefix'
+          = submit_tag t(:'admin.videos.index.search')
+      table.table.table-striped.table-condensed.table-hover#video-list
+        tr
+          th = t(:'admin.videos.index.provider')
+          th
+            = t(:'admin.videos.index.title')
+            - if params[:prefix].present?
+              =< render Global::FaIcon.new('arrow-up-wide-short', style: :solid)
+          th = t(:'admin.videos.index.dimensions')
+          th = t(:'admin.videos.index.duration')
+          th
+            = t(:'admin.videos.index.created_at')
+            - if params[:prefix].blank?
+              =< render Global::FaIcon.new('arrow-up-wide-short', style: :solid)
+          th = t(:'admin.videos.index.quality')
+          th
+        - @streams.each do |stream|
+          tr.stream
+            td.video-list__provider = stream.provider_name
+            td = stream.title
+            td = "#{stream.width} x #{stream.height}"
+            td = Duration.new(stream.duration)
+            td = stream.created_at.to_time
+            td
+              - if stream.hd_url
+                = link_to t(:'admin.videos.index.hd_stream'), stream.hd_url, target: '_blank', rel: 'noopener', class: 'label label-default mr5'
+              - else
+                .label.mr5.invisible
+                  = t(:'admin.videos.index.hd_stream')
+              - if stream.sd_url
+                = link_to t(:'admin.videos.index.sd_stream'), stream.sd_url, target: '_blank', rel: 'noopener', class: 'label label-default mr5'
+              - else
+                .label.mr5.invisible
+                  = t(:'admin.videos.index.sd_stream')
+              - if stream.hls_url
+                = link_to t(:'admin.videos.index.hls_stream'), stream.hls_url, target: '_blank', rel: 'noopener', class: 'label label-default'
+              - else
+                .label.invisible
+                  = t(:'admin.videos.index.hls_stream')
+            td
+              = render Global::ActionsDropdown.new(menu_side: 'right') do |c|
+                - c.with_action
+                  button data-behavior='copy-to-clipboard' data-text=stream.id
+                    = t(:'admin.videos.index.copy_id')
+                - c.with_action
+                  = link_to stream_sync_path(stream['id']), method: 'post', onclick: 'showLoading()'
+                    = t(:'admin.videos.index.sync')
+                    = render Global::FaIcon.new('rotate')
+                - c.with_destructive_action
+                  = link_to video_path(stream.id), method: 'delete', data: {confirm: t(:'admin.videos.index.confirm'), disable_with: t(:'admin.videos.index.deleting')}
+                    = t(:'admin.videos.index.delete')
+                    = render Global::FaIcon.new('trash-can')
+      = will_paginate @streams

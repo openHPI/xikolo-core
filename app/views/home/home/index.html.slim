@@ -1,0 +1,19 @@
+/ Head Hero
+= render Home::HeadHero.new(t(:'home.claims').first[:text], image: {url: 'startpage/head_hero/logo.svg', alt: '', dim_nav_logo: true})
+
+/ Claims
+= render Home::TilesGroup.new do |c|
+  - t(:'home.claims').each do |claim|
+    - c.with_tile claim[:title], text: claim[:text], styles: {title_decoration: true}
+
+- if @categories.present?
+  .home-courses
+    .container
+      - @categories.each do |category|
+        = render category
+
+/ News
+- if @posts.any?
+  = render Home::TilesGroup.new(title: t(:'home.news')) do |c|
+    - @posts.take(3).each do |post|
+      - c.with_tile post.title, text: post.teaser, link: news_index_path(anchor: "post_#{post.id}")

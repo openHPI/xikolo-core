@@ -1,0 +1,14 @@
+= javascript_include_tag 'moment'
+= javascript_include_tag 'bootstrap-editable'
+
+javascript:
+  jQuery(function($) {
+    // use font-awesome icons in x-editable
+    $.fn.editableform.buttons =
+      '<button type="submit" class="btn btn-primary btn-sm editable-submit">' +
+      '<i class="fa-solid fa-fw fa-check"></i>' +
+      '</button>' +
+      '<button type="button" class="btn btn-default btn-sm editable-cancel">' +
+      '<i class="fa-solid fa-fw fa-times"></i>' +
+      '</button>';
+  });

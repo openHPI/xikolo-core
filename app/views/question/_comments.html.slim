@@ -1,0 +1,62 @@
+/ TODO @NF Please fix this according to your needs
+- commentable_type = commentable.is_a?(Xikolo::Pinboard::Question) ? 'question' : 'answer'
+
+.comments id="comments-#{commentable_type}-#{commentable.id}"
+  - commentable.comments.each do | comment |
+    div class="comment comment-post #{'unread' unless comment.read}"
+      span.avatar
+        = render Global::UserAvatar.new(comment.author.id, size: 'small')
+
+      .comment-meta
+        .comment-author
+          span.author
+            - if user_state.available?(comment.author.id)
+              span.gamification-userstate.gamification-userstate-small
+                = user_state.user_state_for(comment.author.id)
+            = link_to comment.author.name, user_path(comment.author.id)
+          span.timestamp = t(:'pinboard.question.ago', timeago: time_ago_in_words(comment.created_at))
+
+        .comment-actions
+          - if can_edit? comment
+            a.edit.comment-edit href="#" data-comment-id=comment.id data-url="#{edit_comment_path(comment, commentable)}"
+              = render Global::FaIcon.new('pencil', style: :solid)
+              = t(:'.edit')
+
+          - if can_delete?
+            = link_to comment_path(comment, commentable), method: 'delete', data: { confirm: t(:'.sure'), disable_with: t(:'.deleting') } do
+              = render Global::FaIcon.new('xmark', style: :solid)
+              = t(:'.delete')
+
+          - if current_user.allowed? 'pinboard.entity.block'
+            span.nowrap
+              - unless comment.blocked?
+                = link_to block_comment_path(comment, commentable), method: 'post' do
+                  = render Global::FaIcon.new('thumbs-down', style: :solid)
+                  = t(:'pinboard.reporting.block')
+              - unless comment.reviewed?
+                = link_to unblock_comment_path(comment, commentable), method: 'post' do
+                  = render Global::FaIcon.new('thumbs-up', style: :solid)
+                  = t(:'pinboard.reporting.unblock')
+              - if comment.abuse_report_count > 0
+                b.secondary-color =< "(#{t(:'pinboard.reporting.reports', count: comment.abuse_report_count)})"
+
+          - elsif not comment.blocked?
+            = link_to abuse_report_comment_path(comment, commentable), method: 'post', data: { 'tooltip': t(:'pinboard.reporting.tooltip'), 'aria-label': t(:'pinboard.reporting.tooltip') }, class: 'comment-report' do
+              = render Global::FaIcon.new('flag', style: :solid)
+              = t(:'pinboard.reporting.report')
+
+      .comment-text
+        - if comment.blocked?
+          - if current_user.allowed? 'pinboard.entity.block'
+            b
+              => t(:'pinboard.reporting.blocked')
+            == render_markdown comment.text
+          - else
+            = t(:'pinboard.reporting.comment_blocked')
+        - else
+          == render_markdown comment.text
+
+    .edit-post.hidden id="comment-edit-#{comment.id}"
+
+- if current_user.logged_in? && @pinboard.open? && !@question.closed && commentable_type == 'answer'
+  = render 'question/comment_form', comment: new_comment, commentable_type: commentable_type, commentable: commentable

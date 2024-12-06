@@ -1,0 +1,7 @@
+.transcript data-transcript="" hidden=@initial_hidden_state
+  .hidden-scroll-indicator.blank data-transcript-indicator="" role="button"
+    span.text-container
+      i.fa.direction-icon aria-hidden='true' data-transcript-icon=""
+      = @scroll_button_text
+  ol.transcript__cues tabindex='-1' data-transcript-cues=""
+  p.transcript__empty-state data-transcript-message="" = @empty_msg

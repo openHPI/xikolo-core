@@ -1,0 +1,16 @@
+// Set default font size for alerts
+$swal2-font-size: 14px; // $font-size-base not available
+
+// Do not increase font size for HTML content or inputs
+$swal2-html-container-font-size: 1em;
+$swal2-input-font-size: 1em;
+
+.swal2-actions {
+  flex-wrap: wrap;
+  margin: 1em auto 0 !important;
+
+  button {
+    flex: 1 1 auto;
+    margin: 0.25em 5px;
+  }
+}

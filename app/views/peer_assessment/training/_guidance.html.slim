@@ -1,0 +1,12 @@
+.panel-group.mt20
+  .panel-pa-info.panel
+    .panel-heading
+      .panel-title
+        => t :'peer_assessment.shared.explanation.learn_more'
+        a.collapsed data-toggle="collapse" href="#training-info-body"
+          = t :'peer_assessment.training.phase'
+          span.caret
+
+    .panel-collapse.collapse.pa-gray#training-info-body
+      .panel-body.pa-gray
+        = render 'peer_assessment/training/guidance_text'

@@ -1,0 +1,4 @@
+#!/bin/sh
+
+rvm $(cat .ruby-version) do yarn exec lint-staged
+npx tsc --skipLibCheck --noEmit

@@ -1,0 +1,17 @@
+h3.course-details--section-title = t(:'course.courses.show.how_to_enroll')
+.mt20
+  - if course.external_registration_url?
+    = t(:'course.courses.show.how_to_register_text')
+    .mt10
+      = link_to t(:'course.courses.show.button_register'), course.external_registration_url, class: 'btn btn-default full-width mb20', target: '_blank'
+  - elsif course.invite_only?
+    = render Global::Callout.new(t(:'course.courses.show.invite_only_notice'))
+  - else
+    = t(:'course.courses.show.how_to_enroll_text')
+    .mt10
+    - if course.enrollment_policy?
+      = link_to '#', class: 'btn btn-default full-width mb20', data: {toggle: 'modal', target: '#enrollmentPolicyModal', 'course-code' => course.course_code, 'course-title' => course.title, 'policy-url' => course.enrollment_policy_url} do
+        = t(:'course.courses.show.button_enroll')
+    - else
+      = link_to enrollments_path(course_id: course.course_code), method: :get, class: 'btn btn-default full-width mb20' do
+        = t(:'course.courses.show.button_enroll')

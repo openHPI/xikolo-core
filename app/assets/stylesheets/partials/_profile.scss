@@ -1,0 +1,200 @@
+/*-------------------------------------*\
+    $CONTENTS
+
+    Custom form controls
+\*-------------------------------------*/
+/**
+ * User-Profile .......Styling and utility classes for the user profile
+ */
+
+/*------------------------------------*\
+    $User-Profile
+\*------------------------------------*/
+
+.editable-input {
+  select {
+    max-width: 200px;
+
+    @include small {
+      max-width: 400px;
+    }
+  }
+}
+
+.editable-click {
+  // Override border-bottom style from bootstrap
+  border-bottom: none !important;
+  line-height: 2em;
+
+  &.editable-updated {
+    border-bottom: dashed 1px green;
+    color: green;
+    &:not(.editable-open) + .check--editable {
+      display: inline-block;
+    }
+  }
+}
+
+.check.check--editable {
+  display: none;
+  margin-left: 0.2em;
+  color: green;
+}
+
+.editable-label {
+  line-height: 2em;
+  vertical-align: top;
+}
+
+.editableform {
+  .form-group.has-error {
+    display: block;
+    * {
+      border-color: red;
+    }
+  }
+  .editable-error-block {
+    color: red;
+  }
+}
+
+.editableform-loading {
+  min-width: 25px;
+  background: url("images/loading.gif");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 25px 25px;
+}
+
+.user-visual {
+  width: 100%;
+  max-width: 200px;
+  height: 100%;
+  border: 1px solid $gray;
+}
+
+.user-avatar {
+  display: inline-block;
+  border: 1px solid $gray;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  &--rounded {
+    border-radius: 6px;
+  }
+
+  &--tiny {
+    width: 20px;
+    height: 20px;
+  }
+
+  &--small {
+    width: 30px;
+    height: 30px;
+  }
+
+  &--medium {
+    width: 40px;
+    height: 40px;
+  }
+
+  &--large {
+    width: 60px;
+    height: 60px;
+  }
+
+  &--x-large {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+.authorizations {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 5 * $spacing-steps;
+
+  @include small {
+    flex-direction: row;
+  }
+
+  .auth {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+
+    @include small {
+      margin-right: 20px;
+    }
+  }
+}
+
+.another-profile {
+  clear: both;
+
+  .omniauth {
+    margin-top: 2 * $spacing-steps;
+  }
+
+  .omniauth li {
+    display: inline-block;
+    margin-right: 2 * $spacing-steps;
+  }
+
+  .btn .xi-icon {
+    margin-right: $spacing-steps;
+  }
+}
+
+.profile-consent,
+.consent {
+  margin-top: 15px;
+
+  .content {
+    padding-left: 32px;
+
+    ul {
+      padding-left: 25px;
+
+      li {
+        margin-top: 5px;
+        list-style: square;
+      }
+    }
+
+    br {
+      display: block;
+      margin-bottom: 10px;
+      content: "";
+    }
+  }
+
+  .check {
+    margin-top: 2px;
+    margin-left: 5px;
+  }
+
+  .label-default {
+    padding: 1px 4px;
+    margin-left: 8px;
+    background-color: $gray-600;
+    font-size: 10px;
+    font-weight: normal;
+    vertical-align: middle;
+  }
+}
+.profile-info {
+  p:last-of-type {
+    margin-bottom: 0px;
+  }
+}
+
+// Add a pen-to-square icon for profile editable status.
+// (Required for the integration with the inline editable inputs)
+a.status:after {
+  margin-left: 10px;
+  content: "\f044";
+  font-family: "Font Awesome 6 Pro";
+  font-weight: 900;
+}

@@ -1,0 +1,64 @@
+#new_collabspace_file {
+  .xui-upload-zone {
+    min-height: 360px;
+    padding: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    border-radius: 3px;
+    background: rgba(0, 0, 0, 0.03);
+  }
+
+  .help-block {
+    font-size: 85%;
+  }
+}
+
+.collabspace-file {
+  &__title {
+    &__col {
+      width: 35%;
+    }
+
+    &__icon {
+      margin: 0 5px;
+      font-size: 1.7rem;
+      vertical-align: middle;
+    }
+  }
+
+  &__last-modified__col {
+    width: 30%;
+  }
+
+  &__editor {
+    &__avatar {
+      display: inline-block;
+      margin-right: 5px;
+    }
+
+    &__name {
+      display: inline-block;
+      vertical-align: top;
+    }
+  }
+
+  &__size__col {
+    width: 10%;
+  }
+
+  &__actions__col {
+    width: 25%;
+  }
+
+  &__actions {
+    float: right;
+
+    a {
+      display: inline-block;
+      margin-right: 5px;
+    }
+
+    a:last-child {
+      margin-right: 0;
+    }
+  }
+}

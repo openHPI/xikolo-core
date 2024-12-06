@@ -1,0 +1,418 @@
+/*--------------------------------------------*\
+    $CONTENTS
+
+    Typography component. Based on Bootstrap.
+    What belongs in here partially taken from
+    the  Bootstrap docs (section CSS).
+\*--------------------------------------------*/
+/**
+ * Variables.....................Variable declarations and overrides
+ * Bootstrap-Import..............Required import for BS component
+ * Fonts.........................Font includes
+ * Font-Styles...................General heading styles
+ * HTML-Defaults.................Rules for semantic HTML elements
+ * Ribbons.......................CSS3 Ribbons
+ * Blockquotes...................Different flavours of blockquotes
+ * Icons.........................Icons
+ */
+
+/*------------------------------------*\
+    $Variables
+\*------------------------------------*/
+$claim-height: 130px;
+
+$ribbon-default-color: $white !default;
+$ribbon-default-background-color: $tertiary-color !default;
+$ribbon-highlighted-background-color: $success-500 !default;
+
+// Smaller horizontal ribbon, for example for quizzes
+$ribbon-horizontal-arrow-height: 30px;
+$ribbon-horizontal-arrow-offset: 15px; // Horizontal offset
+
+// Slim ribbon measures
+$ribbon-slim-horizontal-height: 25px;
+$ribbon-slim-shadow-width: 6px;
+
+// Fonts
+$xi-font-body: $basefont !default;
+$xi-font-headings: $corporatefont, sans-serif !default;
+$xi-font-buttons: $corporatefont, sans-serif !default;
+$xi-font-navigation: $corporatefont, sans-serif !default;
+
+$xi-font-footer: $corporatefont, sans-serif !default;
+$xi-font-footer-link: $corporatefont, sans-serif !default;
+
+$xi-font-table-title: inherit !default;
+
+$xi-font-form-inputs: inherit !default;
+$xi-font-form-labels: inherit !default;
+
+$xi-font-alerts: inherit !default;
+$xi-font-hints: inherit !default;
+$xi-font-downloads: inherit !default;
+$xi-font-sharing: inherit !default;
+$xi-font-data: inherit !default;
+$xi-font-teaser: $corporatefont, sans-serif !default;
+$xi-font-ribbon: $corporatefont, sans-serif !default;
+
+$xi-font-filter-nav: $corporatefont, sans-serif !default;
+
+$xi-font-nav-tabs: $corporatefont, sans-serif !default;
+
+/*------------------------------------*\
+    $Bootstrap-Import
+\*------------------------------------*/
+@import "bootstrap-sass/assets/stylesheets/bootstrap/mixins/text-emphasis";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/mixins/text-overflow";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/mixins/background-variant";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/type";
+
+/*------------------------------------*\
+    $Fonts
+\*------------------------------------*/
+@include declare-font-face("Open Sans", "OpenSansRegular");
+@include declare-font-face("Open Sans", "OpenSansLight", 100);
+@include declare-font-face("Open Sans", "OpenSansSemiBold", bold);
+
+/*------------------------------------*\
+    $Font-Awesome
+\*------------------------------------*/
+.fa-1-5 {
+  font-size: 1.5em !important;
+}
+
+/*------------------------------------*\
+    $Font-Styles
+\*------------------------------------*/
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+th,
+.headline {
+  font-family: $xi-font-headings;
+  font-weight: bold;
+}
+
+.btn,
+.course-action-button,
+.pagination,
+.seq-submit-btn {
+  font-family: $xi-font-buttons !important;
+}
+
+.flash,
+.system-alerts,
+.alert,
+.sweet-alert,
+.bs-callout-danger,
+.bs-callout-warning,
+.error_notification {
+  font-family: $xi-font-alerts;
+}
+
+.infobox,
+.info-box,
+.bs-callout-info,
+.bs-callout-default,
+.help-block {
+  font-family: $xi-font-hints;
+}
+
+*[download] {
+  font-family: $xi-font-downloads !important;
+}
+
+.social-sharing,
+.socialmedia-link {
+  font-family: $xi-font-sharing;
+}
+
+nav,
+.nav {
+  font-family: $xi-font-navigation;
+}
+
+.filter {
+  .nav {
+    font-family: $xi-font-filter-nav;
+  }
+}
+
+.nav-tabs {
+  font-family: $xi-font-nav-tabs;
+}
+
+// Footer elements
+.footer {
+  font-family: $xi-font-footer;
+  a {
+    font-family: $xi-font-footer-link;
+  }
+}
+
+// Form elements
+input,
+select,
+textarea {
+  font-family: $xi-font-form-inputs;
+}
+
+form {
+  label {
+    font-family: $xi-font-form-labels;
+  }
+}
+
+.teaser-box {
+  font-family: $xi-font-teaser !important;
+}
+
+.ribbon,
+.ribbon-horizontal-right,
+.ribbon-horizontal-top {
+  font-family: $xi-font-ribbon;
+}
+
+body {
+  font-family: $xi-font-body;
+}
+
+/*------------------------------------*\
+    $HTML-Defaults
+\*------------------------------------*/
+
+b,
+strong {
+  font-family: $basefont, sans-serif;
+  font-weight: bold;
+}
+
+h2 {
+  color: $primary-color;
+}
+h3 {
+  font-size: 1.3em;
+}
+
+hr.divider {
+  @include light-bar($color: $gray-250);
+
+  margin-top: 5px;
+  margin-bottom: 10px;
+
+  &.strong {
+    border: 0px; // Reset borders
+    @include heavy-bar();
+  }
+
+  &.light {
+    border-color: rgba($gray-100, 0.5);
+  }
+
+  &.slim {
+    border-width: 1px;
+  }
+
+  &.primary {
+    border-color: $primary-color;
+  }
+
+  &.alternative {
+    border-color: $gray-250;
+  }
+}
+
+// Preformatted text (e.g. code) uses whitespace and "typographic conventions"
+// to convey structure and meaning. So let's always align it to the left,
+// regardless of the context.
+pre {
+  text-align: left;
+}
+
+code {
+  color: "darkslategrey";
+}
+
+/*------------------------------------*\
+    $Ribbons
+\*------------------------------------*/
+// TODO Refactor ribbons into more general classes that are easier to use
+// Ribbon with left arrowhead and bend on the right hand side
+.ribbon-horizontal-right {
+  position: absolute;
+  z-index: 700;
+  top: 50%;
+  right: -$ribbon-horizontal-arrow-offset;
+  min-width: 120px;
+  max-width: 125px;
+  height: $ribbon-horizontal-arrow-height;
+  padding: 0 5px;
+  margin-top: -($ribbon-horizontal-arrow-height * 0.5);
+  color: $ribbon-default-color;
+  font-size: 0.9em;
+  line-height: $ribbon-horizontal-arrow-height;
+  text-align: center;
+
+  &:before {
+    @include ff-smoothing();
+    position: absolute;
+    left: -10px;
+    width: 0;
+    height: 0;
+    border-top: ($ribbon-horizontal-arrow-height * 0.5) solid transparent;
+    border-right: 10px solid $gray-800;
+    border-bottom: $ribbon-horizontal-arrow-height * 0.5 solid transparent;
+
+    content: "";
+  }
+
+  &:after {
+    @include ff-smoothing();
+    position: absolute;
+
+    top: -6px;
+    right: 0;
+    width: 0;
+    height: 0;
+
+    border-width: 3px $ribbon-horizontal-arrow-offset * 0.5;
+    border-style: solid;
+    border-color: transparent transparent $gray-600 $gray-600;
+
+    content: " ";
+  }
+
+  &.correct {
+    background-color: $success-500;
+
+    &:before {
+      border-right: 10px solid $success-500;
+    }
+
+    &:after {
+      border-color: transparent transparent $success-700 $success-700;
+    }
+  }
+
+  &.wrong {
+    background-color: $error-500;
+
+    &:before {
+      border-right: 10px solid $error-500;
+    }
+
+    &:after {
+      border-color: transparent transparent $error-700 $error-700;
+    }
+  }
+
+  &.unselected {
+    background-color: $gray;
+
+    &:before {
+      border-right: 10px solid $gray;
+    }
+
+    &:after {
+      border-color: transparent transparent $gray-600 $gray-600;
+    }
+  }
+}
+
+.ribbon-horizontal-top {
+  position: absolute;
+  z-index: 999;
+  top: -($ribbon-slim-horizontal-height * 0.5) + 1; // Smoothing removes one pixel approx., so add one pixel
+  right: 15px;
+  bottom: -($ribbon-slim-horizontal-height * 0.5);
+  height: $ribbon-slim-horizontal-height;
+  padding: 0px 20px;
+  border-bottom: 0px solid white;
+  background-color: $ribbon-default-background-color;
+
+  color: $ribbon-default-color;
+  line-height: $ribbon-slim-horizontal-height;
+  &:after {
+    @include ff-smoothing();
+    position: absolute;
+    top: 0;
+    left: -$ribbon-slim-shadow-width;
+    width: 0;
+    height: 0;
+    border-width: $ribbon-slim-shadow-width $ribbon-slim-shadow-width * 0.5;
+    border-style: solid;
+    border-color: transparent $gray-600 $gray-600 transparent;
+
+    content: " ";
+    -webkit-transform: rotate(0.01deg);
+  }
+
+  &--highlighted {
+    background-color: $ribbon-highlighted-background-color;
+    color: $ribbon-default-color;
+  }
+}
+
+/*------------------------------------*\
+    $Blockquotes
+\*------------------------------------*/
+blockquote {
+  &.info {
+    border-color: $blue;
+    color: $blue;
+  }
+
+  &.success {
+    border-color: $success-500;
+    color: $success-500;
+  }
+}
+
+/*------------------------------------*\
+    $Editable Forms
+\*------------------------------------*/
+
+.editable-empty,
+.editable-empty:hover,
+.editable-empty:focus {
+  color: $link-color;
+  font-style: normal;
+}
+
+.editable-required,
+.editable-required:hover,
+.editable-required:focus {
+  color: $error-500;
+}
+
+/*------------------------------------*\
+    $Icons
+\*------------------------------------*/
+
+.xi-icon {
+  &__stacked {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 70%;
+    transform: translate(0%, -100%);
+  }
+
+  &__masked {
+    -webkit-clip-path: url(#faIconClipPath);
+    clip-path: url(#faIconClipPath);
+  }
+
+  &--stack {
+    position: relative;
+  }
+
+  &__clip-svg {
+    position: absolute;
+    width: 0;
+    height: 0;
+  }
+}

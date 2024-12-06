@@ -1,0 +1,21 @@
+.topic
+  - if @timestamp[:raw] && @timestamp[:formatted]
+    button.topic__timestamp.btn-link data-seek-timestamp=@timestamp[:raw] type='button'
+      = t(:'items.show.video.timestamp', time: @timestamp[:formatted])
+  .topic__title
+    h5 = @title
+
+  .topic__info
+    div
+      - if topic_tags.present?
+        - topic_tags.each do |t|
+          span.topic__tags
+            = t
+    .topic__replies
+      = t(:'items.show.video.num_replies', count: @replies_count)
+
+  .small.wmd-output.topic__abstract
+    == @text
+  - if @url[:link] && @url[:text]
+    .small.topic__url
+      = link_to @url[:text], @url[:link]

@@ -1,0 +1,9 @@
+h4.pt20
+  = t(:'dashboard.profile.delete_account')
+hr.divider
+=> t(:'dashboard.profile.delete_account_text')
+= link_to t(:'dashboard.profile.delete_account_buttontext'),
+          user_path(id: user_id),
+          :method => 'delete',
+          class: 'btn btn-default btn-xs',
+          data: { confirm: t(:'dashboard.profile.delete_account_confirm_text') }

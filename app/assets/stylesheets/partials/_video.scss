@@ -1,0 +1,39 @@
+/*------------------------------------------------*\
+    $CONTENTS
+
+    Video player component.
+\*------------------------------------------------*/
+/**
+ * Variables..............Variables declarations
+ * Video-Styles...........Video player styles
+ */
+
+/*--------------------------------------------*\
+    $Variables
+\*--------------------------------------------*/
+
+$xi-transcript-highlighted-background-color: scale-color(
+  $primary-color,
+  $lightness: 80%
+) !default;
+
+/*--------------------------------------------*\
+    $Video-Styles
+\*--------------------------------------------*/
+
+#player-container {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+// Hide custom control buttons until element is defined
+xm-toggle-control:not(:defined) {
+  visibility: hidden;
+}
+
+// Video list page
+.video-list {
+  &__provider {
+    color: $gray-600;
+  }
+}

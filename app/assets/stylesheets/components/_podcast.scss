@@ -1,0 +1,83 @@
+.podcast {
+  background-color: $black;
+  color: $white;
+
+  &__title {
+    @include font-sm;
+    color: $white;
+
+    @include screen-size-s-and-up {
+      @include font-m;
+    }
+  }
+
+  &__content {
+    display: flex;
+    width: 100%;
+    max-width: $main-content-width;
+    align-items: center;
+    justify-content: space-between;
+    padding: 50px 15px;
+    margin: 0 auto;
+
+    a {
+      text-decoration: none;
+    }
+  }
+
+  &__call_to_action {
+    display: flex;
+    flex-direction: column;
+
+    @include screen-size-s-and-up {
+      flex-direction: row;
+    }
+  }
+
+  .xi-icon {
+    font-size: $font-size-l;
+
+    @include screen-size-s-and-up {
+      font-size: $font-size-xl;
+    }
+  }
+
+  .arrow-icon {
+    transition: transform 0.25s ease;
+    a {
+      color: $white;
+    }
+  }
+
+  .arrow-icon:hover {
+    transform: translateX(-10px);
+    transition-delay: 0.25s;
+
+    @include screen-size-s-and-up {
+      .arrow-icon {
+        transform: translateX(-25px);
+      }
+    }
+  }
+
+  &__btn {
+    display: flex;
+    max-width: 120px;
+    max-height: 50px;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 20px;
+    margin: 10px;
+    text-decoration: none;
+    @include btn-variant($black, $white, $btn-default-border);
+
+    > span {
+      margin-right: 10px;
+    }
+
+    @include screen-size-s-and-up {
+      padding: 30px 20px;
+    }
+  }
+}

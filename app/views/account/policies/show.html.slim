@@ -1,0 +1,14 @@
+.col-md-6.col-md-offset-3
+  h2
+    = t(:'.headline')
+  .login-box
+    .row
+      .col-sm-2.large-icon
+        = render Global::FaIcon.new('file-contract')
+      .col-sm-10
+        p
+          = t(:'.instructions', link: @policy.url)
+
+        = form_for :p, url: policies_account_url, method: :put do |f|
+          = f.hidden_field :version, value: @policy.version
+          = f.submit t(:'.label.submit'), id: 'submit', class: 'btn btn-primary'

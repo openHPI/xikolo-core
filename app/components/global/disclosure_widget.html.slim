@@ -1,0 +1,12 @@
+details.disclosure-widget
+  - if @summary.present?
+    summary
+      .disclosure-widget__summary--closed
+        = render Global::FaIcon.new('chevron-right', style: :solid, css_classes: 'mr10')
+        = @summary
+      .disclosure-widget__summary--opened
+        = render Global::FaIcon.new('chevron-down', style: :solid, css_classes: 'mr5')
+        = expanded_summary
+
+  div lang=@content_lang
+    = content

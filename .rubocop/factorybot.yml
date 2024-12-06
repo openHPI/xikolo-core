@@ -1,0 +1,6 @@
+# vim: ft=yaml
+
+# Both styles seem to kick in edge case with our custom generators,
+# specified fields or overridden factories to build hash objects.
+FactoryBot/AssociationStyle:
+  Enabled: false

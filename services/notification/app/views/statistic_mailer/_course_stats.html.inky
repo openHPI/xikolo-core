@@ -1,0 +1,22 @@
+<%
+  current_courses = @course_stats
+      .select { |stat| stat.start_date && stat.start_date < DateTime.now && stat.course_status == 'active' }
+      .sort_by(&:start_date)
+      .reverse!
+%>
+<%= render partial: 'course_stats_category', locals: { course_stats: current_courses, category_title: t('statistic_mail.current_courses') } %>
+
+<%
+  recent_courses = @course_stats
+      .select { |stat| stat.end_date && stat.end_date > 14.days.ago && stat.course_status == 'archive'}
+      .sort_by(&:start_date)
+      .reverse!
+%>
+<%= render partial: 'course_stats_category', locals: { course_stats: recent_courses, category_title: t('statistic_mail.archive_courses') } %>
+
+<%
+  upcoming_courses = @course_stats
+      .select { |stat| stat.start_date && stat.start_date > DateTime.now }
+      .sort_by(&:start_date)
+%>
+<%= render partial: 'course_stats_category', locals: { course_stats: upcoming_courses, category_title: t('statistic_mail.upcoming_courses') } %>

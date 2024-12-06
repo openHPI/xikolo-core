@@ -1,0 +1,77 @@
+/*------------------------------------*\
+    $Variables
+\*------------------------------------*/
+
+$xi-infobox-info-background-color: $white !default;
+$xi-infobox-info-border-color: $information-500 !default;
+
+/*------------------------------------*\
+    $Callouts
+\*------------------------------------*/
+
+.bs-callout {
+  padding: 15px 30px 15px 15px;
+  border-left: 5px solid #eee;
+  margin: 20px 0;
+  h4 {
+    margin-top: 0;
+  }
+  p:last-child {
+    margin-bottom: 0;
+  }
+  code,
+  .highlight {
+    background-color: #fff;
+  }
+}
+
+/* Themes for different contexts */
+
+.bs-callout-danger {
+  border-color: #dfb5b4;
+  background-color: #fcf2f2;
+}
+
+.bs-callout-warning {
+  border-color: #f1e7bc;
+  background-color: #fefbed;
+}
+
+.bs-callout-info {
+  border-color: #d0e3f0;
+  background-color: #f0f7fd;
+}
+
+.bs-callout-default {
+  border-color: $gray;
+  background-color: $gray-100;
+}
+
+.infobox {
+  padding: 15px;
+  border: none;
+  border-radius: 0px;
+  a,
+  a:hover,
+  a:active {
+    color: $white;
+    text-decoration: underline;
+  }
+
+  &.infobox-gray {
+    background-color: $gray-100 !important;
+  }
+
+  &.infobox-info {
+    border-left: 5px solid $xi-infobox-info-border-color;
+    background-color: $xi-infobox-info-background-color;
+    color: $text-color;
+    font-size: 1em;
+    a,
+    a:hover,
+    a:active {
+      color: $text-color;
+      text-decoration: underline;
+    }
+  }
+}

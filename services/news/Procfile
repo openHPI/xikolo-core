@@ -1,0 +1,2 @@
+news: bundle exec rails server -p $PORT
+msgr: bundle exec msgr

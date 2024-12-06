@@ -1,0 +1,46 @@
+nav.navigation-bar
+  // Mobile view
+  .navigation-bar__content.navigation-bar__content--mobile data-test="mobile"
+    div.navigation-bar__left-container
+      - if mobile_left_navigation.present?
+        ul.navigation-bar__left
+          = render Navigation::Item.new(text: t(:'header.navigation.menu'), active: false) do |dropdown|
+            - mobile_left_navigation.each do |navigation_item|
+              - dropdown.with_item(navigation_item)
+
+      = render Navigation::SystemAlerts.new(cookies: helpers.cookies)
+
+    - if render_logo?
+      .navigation-bar__logo
+        = render brand_logo
+
+    ul.navigation-bar__right
+      - mobile_right_navigation.each do |navigation_item|
+        = render navigation_item
+
+  // Desktop view
+  .navigation-bar__content.navigation-bar__content--desktop data-test="desktop"
+    - if render_logo?
+      .navigation-bar__logo data-id='desktop-navigation-logo'
+        = render brand_logo
+
+    = render Navigation::SystemAlerts.new(cookies: helpers.cookies)
+
+    ul.navigation-bar__left.navigation-bar__left--desktop
+      - if left_navigation.present?
+        - left_navigation.each do |navigation_item|
+          = render navigation_item
+
+        - responsive_dropdowns.each do |dropdown|
+          = render dropdown
+
+    ul.navigation-bar__right
+      - if right_navigation.present?
+        - right_navigation.each do |navigation_item|
+          = render navigation_item
+
+        - responsive_dropdowns.each do |dropdown|
+          = render dropdown
+
+      - platform_navigation.each do |navigation_item|
+        = render navigation_item

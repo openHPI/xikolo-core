@@ -1,0 +1,10 @@
+.panel.panel-default
+  .panel-heading
+    h4.panel-title
+      a data-parent="#evaluation" data-toggle="collapse" href="#sample_#{index}"
+        = "#{t :'peer_assessment.review.student_answer'}: #{index} #{'/' unless @optional} #{@current_step.step.required_reviews}"
+  .panel-collapse.collapse id="sample_#{index}" class="#{'in' if last_sample}"
+    .panel-body
+      = render 'peer_assessment/shared/rendered_submission', submission: review[1], nomargin: true, tpa: assessment.is_team_assessment
+      = render 'peer_assessment/training/rendered_review', review: review[2]
+      = render 'grading_comparison', review: review[0], ta_review: review[2]

@@ -1,0 +1,4 @@
+= render Global::Slider.new(variant: variant) do |c|
+  - courses.each do |course|
+    - c.with_item do
+      = render Home::CourseCard.new(course)

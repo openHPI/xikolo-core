@@ -1,0 +1,46 @@
+// A table column with a bunch of secondary links
+.action-links {
+  display: flex;
+
+  > * {
+    margin: 0 5px;
+    text-align: center;
+  }
+}
+
+// A dropdown with multiple options for use in a (tabular) list of items
+.action-dropdown {
+  border: none;
+  border-radius: 3px;
+  background: none;
+
+  .xi-icon {
+    padding: 5px;
+  }
+
+  &:hover,
+  &:focus {
+    background-color: $gray-250;
+    color: $primary-color;
+  }
+}
+
+.submissions-table {
+  .points {
+    display: flex;
+    align-items: center;
+
+    .fudge {
+      margin-left: 5px;
+      visibility: hidden;
+
+      input {
+        margin-right: 5px;
+
+        &[type="number"] {
+          width: 60px;
+        }
+      }
+    }
+  }
+}

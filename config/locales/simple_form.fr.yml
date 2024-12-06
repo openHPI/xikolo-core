@@ -1,0 +1,190 @@
+fr:
+  simple_form:
+    "yes": Oiu
+    "no": Non
+    required:
+      text: Champs obligatoires
+      mark: "*"
+      # You can uncomment the line below if you need to overwrite the whole required html.
+      # When using html, text and mark won't be used.
+      # html: '<abbr title="required">*</abbr>'
+    error_notification:
+      default_message: Nous avons trouvé des erreurs. Veuillez vérifier votre saisie de formulaire.
+    upload_file: Faites glisser les fichiers ici ou cliquez pour les parcourir
+    upload_single_file: Faites glisser le fichier ici ou cliquez pour le parcourir
+
+    options:
+      certificate_template:
+        certificate_type:
+          # EN-fallback Certificate: Certificate
+          # EN-fallback ConfirmationOfParticipation: Confirmation of Participation
+          # EN-fallback RecordOfAchievement: Record of Achievement
+          # EN-fallback TranscriptOfRecords: Transcript of Records
+      lti_provider:
+        presentation_mode:
+          # EN-fallback frame: frame - Embed in the course area
+          # EN-fallback pop-up: pop-up - Open in a pop-up window
+          # EN-fallback window: window - Open in a new browser tab
+        privacy:
+          # EN-fallback anonymized: anonymized - Provide no personal data to the LTI provider
+          # EN-fallback pseudonymized: pseudonymized - Expose no personal data, but allow recognizing a user across exercises using the same provider
+          # EN-fallback unprotected: unprotected - The LTI provider will receive personal data
+
+    labels:
+      certificate_template:
+        # EN-fallback certificate_type: Certificate type
+        # EN-fallback file: Template file
+        # EN-fallback dynamic_content: Dynamic content
+        # EN-fallback qrcode_x: QR code x
+        # EN-fallback qrcode_y: QR code y
+      classifier:
+        # EN-fallback title: ID
+        # EN-fallback translations: Title
+        # EN-fallback descriptions: Description
+        # EN-fallback courses: Courses
+      course_visual:
+        # EN-fallback image: Image
+        # EN-fallback video_stream_id: Teaser video
+      login:
+        email: E-Mail
+        password: Mot de passe
+      lti_provider:
+        # EN-fallback name: Name
+        # EN-fallback description: Description
+        # EN-fallback domain: Launch URL
+        # EN-fallback consumer_key: OAuth consumer key
+        # EN-fallback shared_secret: OAuth secret
+        # EN-fallback presentation_mode: Presentation mode
+        # EN-fallback custom_fields: Custom fields
+      open_badge_template:
+        # EN-fallback file: Image file
+        # EN-fallback name: Name
+        # EN-fallback description: Description
+      user:
+        full_name: Nom
+        email: Adresse e-mail
+        password: Mot de passe
+        password_confirmation: Répéter mot de passe
+      voucher_redemption:
+        code: Entrez votre code de promotion
+      xikolo_pinboard_answer:
+        attachment: Pièce jointe
+      xikolo_pinboard_question:
+        title: Titre
+        text: Texte
+        attachment: Attachement
+        tag_names: Tags
+        move_to: Avancez à
+
+    hints:
+      classifier:
+        # EN-fallback title: "The tag ID is only used when assigning tags in the course settings or for reports. The ID is not displayed for learners. Allowed characters: a-z, A-Z, 0-9, -, whitespace."
+        # EN-fallback descriptions: The tag description is displayed on the course explorer page.
+      course:
+        # EN-fallback visual_creation: After creating the course, you may add visuals in the course properties.
+      course_visual:
+        # EN-fallback image: This image will be shown on all course lists. If you don't upload a teaser video, it will also appear on the course details page. For accessibility reasons, the image should not show any text.
+        # EN-fallback video_stream_id:  If you select a teaser video, it will be used on the course details page instead of the course image.
+      open_badge_template:
+        # EN-fallback name: Overwrites global name
+        # EN-fallback description: Overwrites global description
+      video:
+        subtitles: "Soit un fichier WebVTT contenant des sous-titres ou une archive ZIP contenant plusieurs fichiers WebVTT. Tous les noms de fichiers WebVTT doivent se terminer par un délimiteur (soit '_' ou '-') suivi de leur code de langue à deux ou trois lettres (par exemple, 'fr' pour le français).  Exemple: 'subtitles_fr.vtt'"
+
+    placeholders:
+      certificate_template:
+        # EN-fallback dynamic_content: SVG to insert dynamic data into the certificate
+      classifier:
+        # EN-fallback courses: Add courses
+      course_visual:
+        video_stream_id: Choisissez un flux vidéo
+      login:
+        email: E-Mail
+        password: Mot de passe
+      voucher_redemption:
+        code: "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
+
+  helpers:
+    submit:
+      certificate_template:
+        # EN-fallback create: Create template
+        # EN-fallback update: Update template
+      classifier:
+        # EN-fallback create: Create tag
+        # EN-fallback update: Update tag
+        # EN-fallback submit: Save course order
+      cluster:
+        # EN-fallback update: Update category
+        # EN-fallback submit: Save tag order
+      course_visual:
+        # EN-fallback preview: Save and show course
+        # EN-fallback update: Save
+      login:
+        submit: Connecter le compte utilisateur
+      open_badge_template:
+        # EN-fallback create: Create template
+        # EN-fallback update: Update template
+      poll:
+        # EN-fallback create: Create new poll
+        # EN-fallback update: Update poll
+      teacher:
+        create: Sauvegarder les informations
+        update: Sauvegarder les informations
+      voucher_redemption:
+        create: Rédiger
+        update: Rédiger
+      xikolo_course_item:
+        # EN-fallback create: Create Item
+        # EN-fallback update: Save item
+        # EN-fallback preview: Save and show item
+      xikolo_course_section:
+        # EN-fallback create: Create Section
+        # EN-fallback update: Update Section
+      xikolo_pinboard_answer:
+        create: "Publier la réponse" #TODO: Chercher moyen de spécifier le nom du modèle
+        update: Sauvegarder les modifications
+      xikolo_pinboard_question:
+        update: Sauvegarder les modifications
+      xikolo_lti_lti_provider:
+        # EN-fallback create: Create Provider
+        # EN-fallback update: Update Provider
+      xikolo_quiz_answer:
+        # EN-fallback create: Create Answer
+        # EN-fallback update: Update Answer
+      xikolo_quiz_question:
+        # EN-fallback create: Create Question
+        # EN-fallback update: Update Question
+
+  errors:
+    attributes:
+      email:
+        already_taken: L'adresse électronique que vous avez saisie a déjà été enregistrée.
+      end_at:
+        before_start_date: La date de fin doit être postérieure à la date de début.
+      id:
+        invalid_format: Format non valide pour l'ID fourni.
+        not_unique: L'ID doit être unique.
+      password:
+        # EN-fallback below_minimum_length: The password must have a minimum length of 8 characters.
+        # EN-fallback maximum_length_reached: The password length must not exceed 72 characters.
+        # EN-fallback password_contains_email: Your e-mail address must not be part of the password.
+      title:
+        invalid_format: Format non valide pour l'ID fourni.
+        not_unique: L'ID doit être unique.
+
+    messages:
+      announcement:
+        base:
+          # EN-fallback translation_title_text: Both the title and text are required for translations.
+      item:
+        base:
+          # EN-fallback section_required: The item must be created for a section.
+          # EN-fallback could_not_be_created: The item could not be created for some reason. Please try again.
+        exercise_type:
+          # EN-fallback required_when_quiz: You must choose an exercise type for quiz items.
+        max_points:
+          invalid_format: Les points doivent être positifs
+        submission_deadline:
+          # EN-fallback required_when_proctored: You must provide a submission deadline for proctored items.
+        title:
+          # EN-fallback "can't be blank": The item title must not be blank.

@@ -1,0 +1,27 @@
+= render Global::ItemStatus.new({text: 'Item one',
+  icon_name: 'computer',
+  path:'#',
+  title: 'First'},
+  color_scheme: 'link',
+  connected_type: 'default')
+
+= render Global::ItemStatus.new({text: 'The next item',
+  icon_name: 'computer',
+  path:'#',
+  title: 'Second'},
+  color_scheme: 'link',
+  connected_type: 'filled')
+
+= render Global::ItemStatus.new({text: 'Look, there is another one!',
+  icon_name: 'computer',
+  path:'#',
+  title: 'Third'},
+  color_scheme: 'link',
+  connected_type: 'dashed')
+
+= render Global::ItemStatus.new({text: 'The last is the winner only the other way around',
+  icon_name: 'computer',
+  path:'#',
+  title: 'Last'},
+  color_scheme: 'link',
+  connected_type: 'disabled')

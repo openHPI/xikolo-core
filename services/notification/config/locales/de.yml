@@ -1,0 +1,324 @@
+de:
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: etwa eine Stunde
+        other: etwa %{count} Stunden
+      about_x_months:
+        one: etwa ein Monat
+        other: etwa %{count} Monate
+      about_x_years:
+        one: etwa ein Jahr
+        other: etwa %{count} Jahre
+      almost_x_years:
+        one: fast ein Jahr
+        other: fast %{count} Jahre
+      half_a_minute: eine halbe Minute
+      less_than_x_minutes:
+        one: weniger als eine Minute
+        other: weniger als %{count} Minuten
+      less_than_x_seconds:
+        one: weniger als eine Sekunde
+        other: weniger als %{count} Sekunden
+      over_x_years:
+        one: mehr als ein Jahr
+        other: mehr als %{count} Jahre
+      x_days:
+        one: ein Tag
+        other: "%{count} Tage"
+      x_minutes:
+        one: eine Minute
+        other: "%{count} Minuten"
+      x_months:
+        one: ein Monat
+        other: "%{count} Monate"
+      x_seconds:
+        one: eine Sekunde
+        other: "%{count} Sekunden"
+  date:
+    formats:
+      long: "%d. %B %Y, %H:%M"
+      default: "%d. %B %Y"
+      short: "%d. %B %Y"
+      informal: "%-d. %B"
+    timezone: "(UTC)"
+  time:
+    formats:
+      default: ! "%A, %d. %B %Y, %H:%M Uhr"
+
+  notifications:
+    mail_was_sent_to: "Diese Mail wurde versendet an:"
+    course_cloning_finished:
+      title: "Ihr geklonter Kurs %{course_code} ist fertig."
+      text: ""
+    course_statistic_calculated:
+      title: "Die Kursstatistik für %{course_title} wurde berechnet."
+      text: ""
+    reporting_finished:
+      title: "The %{type} %{annotation} report is finished with state: %{state}."
+      text: ""
+    learning_room:
+      new_file:
+        title: "Neue Datei hochgeladen"
+        text: "%{uploader_name} hat %{filename} hochgeladen"
+      new_membership:
+        title: "Neuer Teilnehmer im Lernraum"
+        text: "%{new_member_name} ist dem Lernraum beigetreten"
+      quit_membership:
+        title: "Mitgliedschaft beendet"
+        text: "%{ex_member_name} hat die Teilnahme am Lernraum beendet"
+    type:
+      news:
+        announcement:
+          one: Mitteilung
+          other: Mitteilungen
+      course:
+        announcement:
+          one: Kursmitteilung
+          other: Kursmitteilungen
+      pinboard:
+        new_post:
+          one: Forenbenachrichtigung
+          other: Forenbenachrichtigungen
+        new_thread:
+          one: Forenbenachrichtigung
+          other: Forenbenachrichtigungen
+      peer_assessments:
+        conflict:
+          new:
+            staff: E-Mail
+            reporter: E-Mail
+            accused_student: E-Mail
+            regrading: E-Mail
+
+          resolved:
+            reporter: E-Mail
+            accused_student: E-Mail
+            regrading: E-Mail
+            no_reviews: E-Mail
+
+    disable_link:
+      explanation:
+        html: "Sie erhalten diese %{type}, weil Sie mit Ihrer E-Mail-Adresse %{email} bei %{site_name} angemeldet sind."
+        text: "Sie erhalten diese %{type}, weil Sie mit Ihrer E-Mail-Adresse %{email} bei %{site_name} angemeldet sind."
+      local:
+        html: "Wenn Sie keine %{types} mehr erhalten möchten, klicken Sie bitte <a href=%{link}>hier</a>."
+        text: "Wenn Sie keine %{types} mehr erhalten möchten, besuchen Sie bitte folgende Seite: %{link}."
+      global:
+        html: "Wenn Sie überhaupt keine Benachrichtigungen per E-Mail mehr erhalten möchten, klicken Sie bitte <a href=%{link}>hier</a>."
+        text: "Wenn Sie überhaupt keine Benachrichtigungen per E-Mail mehr erhalten möchten, besuchen Sie bitte folgende Seite: %{link}."
+      notification_settings_link:
+        html: "Sie können Ihre Benachrichtigungseinstellungen in Ihrem <a href=%{link}>Profil</a> ändern."
+        text: "Sie können Ihre Benachrichtigungseinstellungen in Ihrem Profil ändern: %{link}."
+    pinboard:
+      discussion:
+        new:
+          title: "%{username} hat ein neues Thema eröffnet: %{thread_title}"
+          text: "%{text}"
+        comment:
+          new:
+            title: "%{username} hat auf %{thread_title} geantwortet"
+            text: "%{text}"
+      question:
+        new:
+          title: "%{username} hat ein neues Thema eröffnet: %{thread_title}"
+          text: "%{text}"
+        answer:
+          new:
+            title: "%{username} hat auf %{thread_title} geantwortet"
+            text: "%{text}"
+          comment:
+            new:
+              title: "%{username} hat auf %{thread_title} geantwortet"
+              text: "%{text}"
+        comment:
+          new:
+            title: "%{username} hat auf %{thread_title} geantwortet"
+            text: "%{text}"
+      new_post:
+        subject: "Zu einem Thema, dem Sie folgen, gibt es eine neue Antwort: %{course_name}"
+        mailheader_type: "Forumsaktivität"
+        mailheader_info: "%{course_name}"
+        meta: "Am %{date} hat %{user} einen Beitrag in einem Thema, dem Sie folgen, verfasst."
+        title: "%{title}"
+        action_button: "Ansehen oder antworten"
+        hint: "Tipp: Wenn diese Antwort Ihnen geholfen hat, markieren Sie sie als korrekt."
+      new_thread:
+        subject: "Es gibt ein neues Thema im Forum."
+        mailheader_type: "Forumsaktivität"
+        mailheader_info: "%{course_name}"
+        meta: "Am %{date} hat %{user} ein neues Thema im Forum eröffnet."
+        title: "%{title}"
+        action_button: "Ansehen oder antworten"
+      blocked_item:
+        subject: Bitte überprüfen Sie einen gemeldeten Beitrag
+        greeting: Lieber Admin,
+        text: ein Beitrag wurde automatisch geblockt. Bitte überprüfen Sie es!
+        link_text: Hier zum Überprüfen klicken!
+    news:
+      announcement:
+        subject: "Für Sie steht eine neue %{site_name}-Nachricht bereit"
+        mailheader_type: "Neuigkeiten"
+        test_notice: "Dies ist eine Testnachricht, nur Sie können sie sehen!"
+        title: "Neue Nachricht: %{title}"
+        text: "%{text}"
+    course:
+      announcement:
+        subject: "Eine neue Kursmitteilung ist verfügbar"
+        mailheader_type: "Kursmitteilung"
+        mailheader_info: "%{course_title}"
+        test_notice: "Dies ist eine Testnachricht, nur Sie können sie sehen!"
+        title: "Neue Kursmitteilung im Kurs %{course_title}: %{title}"
+        text: "%{text}"
+    shared:
+      questions:
+        no_questions: In den letzten Tagen hat sich im Forum nichts getan. Starten Sie heute eine neue Diskussion!
+        no_unanswered: Es gibt keine unbeantworteten Fragen.
+
+    peer_assessments:
+      conflict:
+        referral: "Die ID für diesen Konflikt ist: %{refid}. Bitte geben Sie diese ID in jeglicher Korrespondenz zu diesem Konflikt an, damit wir die Anfrage zuordnen können."
+
+        reasons:
+          plagiarism: Plagiat
+          offensive_content: Unangebrachter Inhalt
+          unrelated: Inhalt hat keinen Bezug zur Aufgabe
+          other: Andere Gründe
+          grading_conflict: Bewertungskonflikt
+          no_reviews: Keine Bewertung
+
+        subjects:
+          review: Bewertung
+          submission: Abgabe
+
+        new:
+          staff:
+            subject: "%{assessment_name}: Es wurde ein Report erstellt"
+            title: "%{assessment_name}: Es wurde ein Report erstellt"
+            body: "Ein Student hat eine Abgabe aus folgendem Grund gemeldet: '%{reason}'."
+
+          reporter:
+            subject: "%{assessment_name}: Report erhalten"
+            title: "%{assessment_name}: Wir haben Ihren Report erhalten. Grund des Reports: '%{reason}'"
+            body: "Wir haben Ihren Report erhalten. Sobald wir eine Entscheidung getroffen haben, werden wir uns bei Ihnen melden."
+
+          accused_student:
+            subject: "%{assessment_name}: Ihre %{conflict_subject} wurde uns aus folgendem Grund gemeldet: '%{reason}'"
+            title: "%{assessment_name}: Ihre %{conflict_subject} wurde uns aus folgendem Grund gemeldet: '%{reason}'"
+            body: "Ein Bewerter hat uns Ihre  %{conflict_subject} gemeldet. Grund: '%{reason}'. Sobald wir eine Entscheidung getroffen haben, werden wir uns bei Ihnen melden."
+
+          regrading:
+            subject: "%{assessment_name}: Neubewertungsanfrage erhalten."
+            title: "%{assessment_name}: Wir haben Ihre Anfrage zur Neubewertung der Aufgabe erhalten. Grund der Neubewertungsanfrage: '%{reason}'"
+            body: "Wir haben Ihre Anfrage zur Neubewertung einer Aufgabe erhalten. Sobald wir eine Entscheidung getroffen haben, werden wir uns bei Ihnen melden. Bis dahin bitten wir um etwas Geduld."
+
+        resolved:
+          reporter:
+            subject: "%{assessment_name}: Report bearbeitet"
+            title: "%{assessment_name}: Report bearbeitet"
+            body: "Ihre Meldung mit dem Grund: '%{reason}' wurde geschlossen. Ihre Gesamtnote könnte sich dadurch geändert haben."
+
+          accused_student:
+            subject: "%{assessment_name}: Report bearbeitet"
+            title: "%{assessment_name}: Report bearbeitet"
+            body: "Eine Meldung über Ihre %{conflict_subject} mit dem Grund '%{reason}' wurde geschlossen. Ihre Gesamtnote könnte sich dadurch geändert haben."
+
+          regrading:
+            subject: "%{assessment_name}: Neubewertung bearbeitet"
+            title: "%{assessment_name}: Neubewertung bearbeitet"
+            body: "Ihre Anfrage zur Neubewertung einer Aufgabe mit dem Grund '%{reason}' wurde bearbeitet und geschlossen. Sollte sich die Note geändert haben, finden Sie diese Änderungen auf der Ergebnisübersicht des Peer Assessments."
+
+          no_reviews:
+            subject: "%{assessment_name}: Ihre Note steht nun zur Verfügung."
+            title: "%{assessment_name}: Ihre Note steht nun zur Verfügung."
+            body: "Das Teaching Team hat Ihre Abgabe bewertet. Die Ergebnisse finden Sie auf der Seite des Peer Assessments."
+
+  account_mailer:
+    password_reset:
+      subject: "Passwort zurücksetzen für Ihr %{site_name} Benutzerkonto"
+      text: Für Ihr Benutzerkonto wurde ein Zurücksetzen des Passwortes beantragt. Klicken Sie den untenstehenden Button, um das Passwort nun zurückzusetzen. Der Link ist nur für 24 Stunden gültig.
+      link: Passwort zurücksetzen
+    confirm_email:
+      subject: Bitte Bestätigen Sie Ihre E-Mail
+      mailheader_type: Bestätigen Sie Ihre E-Mail
+      text: "Sie bekommen diese E-Mail, da Sie eine neue E-Mail-Adresse zu Ihrem Konto bei %{site_name} hinzugefügt haben. Bitte bestätigen Sie die E-Mail-Adresse, indem Sie auf den folgenden Button klicken."
+      link: E-Mail bestätigen
+      copy_instructions: Sollte der oben stehende Link nicht anklickbar sein oder nicht funktionieren, versuchen Sie ihn komplett zu kopieren und in die Adresszeile Ihres Webbrowsers einzufügen.
+    welcome_email:
+      subject: Willkommen bei %{site_name}
+      mailheader_type: Willkommen bei %{site_name}
+      welcome: Sie erhalten diese E-Mail, weil Sie ein neues Konto bei %{site_name} registriert haben.
+      next_steps: "Führen Sie nach dem Anmelden die folgenden Schritte aus, um Ihr Profil vorzubereiten und die Plattform zu verwenden:"
+      step_1: Befolgen Sie die Anweisungen auf dem Bildschirm, um Ihr Profil zu vervollständigen. Für die Nutzung der Plattform sind einige Informationen erforderlich.
+      step_2: Melden Sie sich für einen Kurs an, der Sie interessiert.
+      step_3: Betreten Sie den Kurs und beginnen Sie zu lernen. Die meisten unserer Kurse finden im eigenen Tempo statt und Sie können sofort beginnen.
+      step_4: Wenn Sie während der Arbeit an dem Kurs Fragen haben, schauen Sie sich bitte die Forumsdiskussionen an.
+      confirmation: Um zu beginnen, bestätigen Sie bitte Ihre E-Mail-Adresse, indem Sie auf die folgende Button klicken.
+      link: E-Mail bestätigen
+      copy_instructions: Sollte der oben stehende Link nicht anklickbar sein oder nicht funktionieren, versuchen Sie ihn komplett zu kopieren und in die Adresszeile Ihres Webbrowsers einzufügen.
+
+  course_welcome_mailer:
+    welcome_mail:
+      subject: "Danke für die Anmeldung: %{course_title}"
+      mailheader_type: "Willkommen im Kurs"
+
+  questions:
+    votes: Votes
+    responses: Antworten
+    views: Abrufe
+    ago: her
+    last_activity: letzte Aktivität
+    answered: Beantwortet
+    discussion: Diskussion
+    unanswered: Unbeantwortet
+    closed: Geschlossen
+    tags: Tags
+
+  statistic_mail:
+    admin:
+      subject: "Daily admin statistics for %{site} (%{date})"
+      mailheader_type: "Your daily course statistics for %{site}"
+    course_admin:
+      subject: "Your daily course statistics for %{site} (%{date})"
+      mailheader_type: "Your daily course statistics for %{site}"
+    statistics: "statistics"
+    global:
+      user:
+        user: "Users on"
+        users: "Total Unique Learner Registration"
+        duration: "in last 24h"
+      enrollment:
+        enrollment: "Enrollments on"
+        total_enrollment: "Total Course Enrollments"
+        duration: "in last 24h"
+        unique: "in last 24h from unique learners"
+      certificate: "Issued Certificates on "
+      certificate_roa: "Records of Achievement"
+    ticket:
+      ticket: "Tickets on"
+      total: "Total Tickets"
+      duration: "in last 24h"
+    chart: "New Course Enrollments"
+    current_courses: "Current courses"
+    course_info:
+      hidden: "hidden"
+      more: "more"
+      learners: "Enrolled learners"
+      duration: "in last 24h"
+      new: "new users"
+      completion_rate: "Completion Rate"
+      cert_issued: "certificates issued"
+      enroll_at_middle: "enrollments at course middle"
+      no_show: "No Shows"
+      soon: "Coming soon"
+      since: "Running since"
+      start_date: "Starts in"
+      col_attr_left: "Content"
+      col_attr_mid: "Total"
+      col_attr_right: "last 24 h"
+      posts: "Posts"
+      threads: "Topics"
+      posts_collab_spaces: "Collab Space Posts"
+      threads_collab_spaces: "Collab Space Topics"
+    archive_courses: "Courses recently ended"
+    upcoming_courses: "Upcoming courses"

@@ -1,0 +1,42 @@
+- if current_user.logged_in?
+  #question_form[hidden]
+    h3#question_form_title
+      = t :'pinboard.ask_question'
+    hr.divider
+
+    = simple_form_for(@new_question, url: question_index_path, html: {class: 'form-horizontal mb20', multipart: true, data: {'disable-on-submit': 'button[type="submit"]'}}) do |f|
+      = f.input :title, required: true, input_html: {data: {id: 'focus-target'}}
+      = f.input :text, as: :markdown, required: true,
+        uploads: text_uploads,
+        markdown_id_suffix: 'text-new-question',
+        label_html: {for: 'wmd-input-text-new-question'}
+      = f.input :attachment, as: :upload,
+          hint: I18n.t('flash.error.files.document.valid_formats'),
+          value: attachment_upload
+      = f.input :tag_names,
+          id: 'question_edit_tag_names',
+          collection: [],
+          selected: [],
+          input_html: {multiple: true,
+            class: 'full-width',
+            data: {behavior: 'custom-select',
+              auto_completion_url: pinboard_tags_path(course_id: params[:course_id], learning_room_id: params[:learning_room_id]),
+              preload: true,
+              create: true,
+            },
+          }
+      = f.input :sticky, label: t(:'pinboard.sticky'), as: :toggle_switch if current_user.allowed? 'pinboard.question.sticky'
+      = f.hidden_field :course_id, value: params[:course_id]
+      = f.hidden_field :learning_room_id, value: params[:learning_room_id]
+      = f.hidden_field :implicit_tags, value: @implicit_tags
+
+      .row
+        .col-lg-2.col-md-2
+        .col-md-4.col-sm-5
+          = button_tag(type: 'submit', class: 'btn btn-primary mr10', id: 'question_form_submit_button') do
+            = render Global::FaIcon.new('comments', css_classes: 'fa-lg mr5')
+            = t :'pinboard.submit_question'
+          = button_tag(type: 'button', class: 'btn btn-default', data: {'hide-on-click': '#question_form', 'show-on-click': '#new-topic-button', track: 'form-toggle'}) do
+            = t :'pinboard.cancel'
+
+    hr.divider.strong

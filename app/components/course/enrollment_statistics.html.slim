@@ -1,0 +1,25 @@
+- if enrollment_statistics.present?
+  .enrollment-statistics
+    h3.uppercase = t(:'course.courses.enrollment_statistics.heading')
+    .enrollment-statistics__row
+      .enrollment-statistics__column-left
+      .enrollment-statistics__line
+      .enrollment-statistics__column-right
+    - enrollment_statistics.each do |s|
+      .enrollment-statistics__row data-type="#{s[:type]}"
+        .enrollment-statistics__column-left
+          .enrollment-statistics__date-title.uppercase
+            = t(:"course.courses.enrollment_statistics.#{s[:type]}.title")
+          .enrollment-statistics__date-value
+            = s[:date]
+        .enrollment-statistics__line
+          span.enrollment-statistics__dot
+        .enrollment-statistics__column-right
+          .enrollment-statistics__count = s[:count]
+- elsif display_enrollment_count?
+  .course-enrollment-count
+    = t(:'course.courses.enrollment_statistics.currently_enrolled')
+    ':
+    span.pull-right
+      span.badge.badge-large.text-large.course-enrollment-count__badge
+        = enrollment_count

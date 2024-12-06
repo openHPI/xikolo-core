@@ -1,0 +1,31 @@
+.voucher-redemptions {
+  &__cancel {
+    padding-left: $spacing-steps;
+  }
+
+  &__course {
+    padding: 3 * $spacing-steps 0 3 * $spacing-steps 7 * $spacing-steps;
+  }
+
+  &__course-title {
+    margin-top: 0;
+    color: $text-color;
+    font-size: $font-size-sm;
+  }
+
+  &__form {
+    display: flex;
+    align-items: flex-end;
+    margin: 3 * $spacing-steps 0 7 * $spacing-steps;
+
+    .voucher_redemption_code {
+      flex-grow: 1;
+      margin-bottom: 0;
+    }
+
+    input {
+      height: 40px;
+      padding-top: 10px;
+    }
+  }
+}

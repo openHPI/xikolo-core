@@ -1,0 +1,31 @@
+= simple_form_for(@question, url: question_path, html: {class: "form-horizontal mb20", multipart: true}) do |f|
+  = f.input :title, required: true
+  = f.input :text, as: :markdown,
+      required: true,
+      markdown_id_suffix: 'text-edit-question',
+      uploads: text_uploads,
+      value: @question['text']
+  = f.input :attachment, as: :upload,
+      hint: I18n.t('flash.error.files.document.valid_formats'),
+      value: attachment_upload
+  = f.input :tag_names, \
+      id: 'question_edit_tag_names',
+      collection: @question.explicit_tags.map(&:name),
+      selected: @question.explicit_tags.map(&:name),
+      input_html: { \
+        multiple: true,
+        class: 'full-width',
+        data: { \
+          behavior: 'custom-select',
+          auto_completion_url: pinboard_tags_path(course_id: params[:course_id], learning_room_id: params[:learning_room_id]),
+          preload: true,
+          create: true,
+        },
+      }
+  = f.input :sticky, as: :toggle_switch, input_html: { id: 'edit_sticky' } if current_user.allowed? 'pinboard.question.sticky'
+  - if current_user.allowed? 'pinboard.question.move'
+    = f.input :implicit_tags, input_html: { style: 'display: inline-block;' }, collection: @implicit_tags.insert(1, [t(:'pinboard.general'), 'general']), include_blank: true, \
+      label: t(:'simple_form.labels.xikolo_pinboard_question.move_to')
+  = f.button :submit, t(:'pinboard.update_question'), class: 'btn btn-primary mr10'
+  = button_tag(type: 'button', class: "btn btn-default cancel-post") do
+    = t :'pinboard.cancel'

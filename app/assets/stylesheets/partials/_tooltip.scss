@@ -1,0 +1,89 @@
+/*------------------------------------------------*\
+    $CONTENTS
+\*------------------------------------------------*/
+/**
+ * Variables................Variables declarations and overrides
+ * Bootstrap-Import.........Required import for BS component
+ * Tooltip-Styles...........Tooltip styles
+ */
+
+/*--------------------------------------------*\
+    $Variables
+\*--------------------------------------------*/
+$tooltip-color: $black;
+$tooltip-bg: $information-500;
+$tooltip-arrow-color: $tooltip-bg;
+$tooltip-arrow-dimension: 5px;
+
+// CSS variable to modify it at tooltip.js
+:root {
+  --tooltip-arrow-position: 50%;
+}
+
+/*------------------------------------*\
+    $Bootstrap-Import
+\*------------------------------------*/
+@import "bootstrap-sass/assets/stylesheets/bootstrap/mixins/reset-text";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/tooltip";
+
+/*------------------------------------*\
+    $Bootstrap Tooltip Styles (used in progress-item.hbs)
+\*------------------------------------*/
+
+.tooltip {
+  min-width: 150px;
+  max-width: 200px;
+  text-align: justify;
+  text-indent: 0;
+
+  &.in {
+    filter: alpha(opacity=100);
+    opacity: 1;
+  }
+}
+
+.tooltip-inner {
+  border-radius: 0px;
+}
+
+/*------------------------------------*\
+    $Custom Tooltip Styles (tooltip.js)
+\*------------------------------------*/
+
+.custom-tooltip {
+  position: absolute;
+  z-index: $z-index-xl;
+  min-width: 150px;
+  max-width: 200px;
+  padding: 5px;
+  background-color: $tooltip-bg;
+  color: $tooltip-color;
+  font-size: 1.2rem;
+  text-align: center;
+
+  &::after {
+    position: absolute;
+    bottom: -$tooltip-arrow-dimension;
+    left: var(--tooltip-arrow-position);
+    width: 0;
+    height: 0;
+    border-top: $tooltip-arrow-dimension solid $tooltip-bg;
+    border-right: $tooltip-arrow-dimension solid transparent;
+    border-left: $tooltip-arrow-dimension solid transparent;
+    content: "";
+    transform: translateX(-50%);
+  }
+
+  > * {
+    margin-right: 5px;
+  }
+
+  [data-class="item-info"] {
+    display: block;
+  }
+
+  [data-class="item-objective"] {
+    display: block;
+    font-style: italic;
+  }
+}

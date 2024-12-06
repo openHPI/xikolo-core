@@ -1,0 +1,9 @@
+# vim: ft=yaml
+
+nav:
+  - "Organizing courses":
+    - classifiers.md
+    - relations.md
+  - deadlines.md
+  - regrading.md
+  - ...

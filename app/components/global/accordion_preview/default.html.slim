@@ -1,0 +1,7 @@
+= render Global::Accordion.new(headline: 'Headline') do |accordion|
+  - accordion.with_section('Item 1', 'ID1') do
+    p = 'Some text content'
+  - accordion.with_section('Item 2', 'ID2') do
+    = render Home::Tile.new('Yar Pirate Ipsum', text: "Prow scuttle parrel provost Sail ho shrouds spirits boom mizzenmast yardarm. Belay yo-ho-ho keelhaul squiffy black spot yardarm spyglass sheet transom heave to.", link: '/', image: {url: 'https://picsum.photos/600/350', alt: 'Image description'})
+  - accordion.with_section('Item 3', 'ID3') do
+    = render Global::Callout.new('You can put any component in here')

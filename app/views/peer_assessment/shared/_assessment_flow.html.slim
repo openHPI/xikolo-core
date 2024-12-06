@@ -1,0 +1,61 @@
+.pa-flow
+  - @step_presenters.each_with_index do |presenter, index|
+    .pa-step class=presenter.display_classes(@current_step)
+      - if presenter.unlock_date?
+        .unlock-date
+          = presenter.formatted_unlock_date
+      .pointer
+        .title
+          - if @teacherview
+            = render Global::FaIcon.new(presenter.display_icon, css_classes: 'vmiddle') unless presenter.open?
+            span.vmiddle<
+              = index + 1
+              '.
+              span< = t :"peer_assessment.#{presenter.name}"
+          - else
+            - if presenter.open_peer_grading?
+              - if @inside_submission
+                - confirm_title = t(:'peer_assessment.review.advance_to_peer_grading.title')
+                - confirm_message = t(:'peer_assessment.review.advance_to_peer_grading.text')
+                - confirm_button = t(:'peer_assessment.review.advance_to_peer_grading.confirm_button')
+                - cancel_button = t(:'global.cancel')
+              - elsif @inside_training
+                - confirm_title = t(:'peer_assessment.training.advance_confirmation.title')
+                - confirm_message = t(:'peer_assessment.training.advance_confirmation.text')
+                - confirm_button = t(:'peer_assessment.training.advance_confirmation.confirm_button')
+                - cancel_button = t(:'peer_assessment.training.advance_confirmation.cancel_button')
+              - path = advance_peer_assessment_step_training_index_path(@assessment.id, @current_step.id)
+            - elsif presenter.open_result?
+              - if @inside_self_assessment
+                - confirm_title = t(:'peer_assessment.self_assessment.advance_confirmation.title')
+                - confirm_message = t(:'peer_assessment.self_assessment.advance_confirmation.text')
+                - confirm_button = t(:'peer_assessment.self_assessment.advance_confirmation.confirm_button')
+                - cancel_button = t(:'peer_assessment.self_assessment.advance_confirmation.cancel_button')
+              - else
+                - confirm_title = t(:'peer_assessment.results.advance_to_results_confirmation.title')
+                - confirm_message = t(:'peer_assessment.results.advance_to_results_confirmation.text')
+                - confirm_button = t(:'peer_assessment.results.advance_to_results_confirmation.confirm_button')
+                - cancel_button = t(:'global.cancel')
+              - path = advance_peer_assessment_step_self_assessments_path(@assessment.id, @current_step.id)
+            - if defined?(confirm_title) && confirm_title.present?
+              = form_tag path,
+                      class: 'js-submit-confirm',
+                      method: 'put',
+                      data: {confirm_title:, confirm_message:, confirm_button:, cancel_button:}
+                button.btn-as-text class="#{'locked' unless presenter.available?}" type="submit"
+                  = render Global::FaIcon.new(presenter.display_icon, css_classes: 'vmiddle') unless presenter.open?
+                  span.vmiddle<
+                    = index + 1
+                    '.
+                    span< = t :"peer_assessment.#{presenter.name}"
+            - else
+              = link_to presenter.link(@assessment, @current_step), class: presenter.locked_class
+                = render Global::FaIcon.new(presenter.display_icon, css_classes: 'vmiddle') unless presenter.open?
+                span.vmiddle<
+                  = index + 1
+                  '.
+                  span< = t :"peer_assessment.#{presenter.name}"
+
+      - if presenter.deadline?
+        .deadline
+          = presenter.formatted_deadline_date

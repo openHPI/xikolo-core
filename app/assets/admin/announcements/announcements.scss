@@ -1,0 +1,83 @@
+.announcement {
+  &__title {
+    width: 30%;
+  }
+
+  &__creator {
+    &__avatar {
+      display: inline-block;
+      margin-right: 5px;
+    }
+
+    &__name {
+      display: inline-block;
+      vertical-align: top;
+    }
+  }
+
+  /* stylelint-disable-next-line plugin/stylelint-bem-namics */
+  &__created_on {
+    display: inline-block;
+    margin-left: 5px;
+    vertical-align: top;
+  }
+
+  &__status {
+    &__text {
+      margin-right: 5px;
+    }
+  }
+
+  &__actions {
+    float: right;
+
+    a {
+      display: inline-block;
+      margin-right: 5px;
+    }
+
+    a:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.announcement-email {
+  &__person {
+    &__avatar {
+      display: inline-block;
+      margin-right: 5px;
+
+      .user-avatar {
+        vertical-align: middle;
+      }
+    }
+
+    &__name,
+    &__date {
+      vertical-align: middle;
+    }
+  }
+
+  &__status-bar {
+    display: flex;
+    align-items: center;
+
+    &__bar {
+      height: 40px;
+      flex: 0 1 100%;
+    }
+
+    &__percentage {
+      flex: 1 0 0;
+      margin-left: 20px;
+      font-size: 2em;
+      font-weight: bold;
+    }
+  }
+
+  &__status-legend {
+    margin-top: 1em;
+    text-align: right;
+  }
+}

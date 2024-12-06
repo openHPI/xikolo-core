@@ -1,0 +1,36 @@
+.progress-headline
+  h3 = t(:'course.progress.records.documents_headline')
+
+.progress-card
+    - if current_user.feature?('course.certificates_tab')
+      .progress-card__callout-download
+        = render Global::Callout.new(t(:'course.progress.records.certificates_tab_info'))
+
+    - else
+      .card-container
+        = t(:'course.progress.records.documents_intro')
+        ul.certificate-requirements
+          - documents.certificate_requirements.each do |text|
+            li ==> text
+        p = t(:'course.courses.show.guidelines_link')
+
+        .certificate-buttons
+          - if documents.tor?
+            .pull-left
+              = render partial: 'shared/records/tor', locals: {tor: documents, course:}
+          - else
+            - if documents.cert_enabled?
+              .pull-left
+                = render partial: 'shared/records/cert', locals: {document: documents, course:}
+            - if course.roa_enabled?
+              .pull-left
+                = render partial: 'shared/records/roa', locals: {roa: documents.roa?, course:}
+            - if course.cop_enabled?
+              .pull-left
+                = render partial: 'shared/records/cop', locals: {cop: documents.cop?, course:}
+            - if documents.open_badge_enabled?
+              div
+                = render partial: 'shared/records/open_badge', locals: {open_badge: documents.open_badge?, course:}
+          .clearfix
+        - unless course.certificates_published?
+          = render Global::Callout.new(t(:'dashboard.documents.not_yet_published'), type: :warning)

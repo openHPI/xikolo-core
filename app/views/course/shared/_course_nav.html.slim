@@ -1,0 +1,34 @@
+#course_id_container.hidden
+  = course.id
+
+- if @in_app || course.external?
+  / Nothing for mobile apps
+  - unless @in_app
+    .mt30
+- elsif nav.any?
+  .col-md-12
+    = render Navigation::Tabs.new(collapsible: true) do |c|
+      - nav.each do |item|
+        - c.with_tab(active: item.active?(request))
+          = link_to item.link, data: {behavior: item.popover}
+            = render Global::FaIcon.new(item.icon_class, css_classes: 'mr5')
+            = item.text
+      - if deadlines.show?
+        - c.with_additional_item
+          .dropdown.pull-right.course-deadlines
+            button.dropdown-toggle class="state-#{deadlines.state}" type="button" title=t(:'next_dates.deadline_widget.tooltip') data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
+              = render Global::FaIcon.new('alarm-clock')
+              - if deadlines.any?
+                span.course-deadlines__bubble = deadlines.count
+            ul.dropdown-menu
+              - if deadlines.any?
+                - deadlines.each do |deadline|
+                  li.course-deadline
+                    a href=deadline.url title=I18n.l(deadline.time)
+                      span.course-deadline__item = deadline.title
+                      span.course-deadline__due = deadline.due
+              - else
+                li.course-deadlines__placeholder
+                  = t(:'next_dates.deadline_widget.empty_state')
+- else
+  .mt30.hidden-print

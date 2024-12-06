@@ -1,0 +1,83 @@
+$navigation-system-alert-color: $primary-500 !default;
+$navigation-system-alert-hover-color: $primary-600 !default;
+
+.navigation-system-alerts {
+  position: relative;
+  display: inline-flex;
+  height: $navigation-bar-height;
+  align-items: center;
+  padding: 10px;
+
+  &__toggle {
+    width: 36px;
+    height: 36px;
+    border-radius: 18px;
+    background-color: $navigation-system-alert-color;
+    color: $navigation-bar-bg;
+    font-size: $font-size-sm;
+
+    &:hover {
+      background-color: $navigation-system-alert-hover-color;
+    }
+
+    &[aria-expanded="false"] {
+      + .navigation-system-alerts__menu {
+        display: none;
+      }
+    }
+  }
+
+  &__menu {
+    position: fixed;
+    z-index: 1;
+    top: $navigation-bar-height;
+    left: 0;
+    display: block;
+    width: 100vw;
+    padding: 10px;
+    background-color: $white;
+    box-shadow: $box-shadow-m;
+    list-style-type: none;
+
+    @include small {
+      position: absolute;
+      width: 300px;
+    }
+  }
+
+  &__close-btn {
+    float: right;
+    font-size: large;
+  }
+}
+
+.navigation-system-alert {
+  padding: 3px 20px 3px 30px;
+
+  &__title {
+    position: relative;
+    display: block;
+    margin-bottom: 5px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    line-height: 1.6rem;
+
+    // Display gray dot next to the title
+    // when alert has been seen, red when hasn't.
+    &::before {
+      position: absolute;
+      top: 0.3rem;
+      left: -20px;
+      display: block;
+      width: 1rem;
+      height: 1rem;
+      border-radius: 5px;
+      background-color: $gray;
+      content: "";
+
+      [role="status"] & {
+        background-color: $error-500;
+      }
+    }
+  }
+}

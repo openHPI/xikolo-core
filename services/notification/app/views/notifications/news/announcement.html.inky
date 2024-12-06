@@ -1,0 +1,19 @@
+<row>
+  <columns>
+    <% if @payload.test? %>
+      <callout class="warning">
+        <row>
+          <columns>
+            <%= t '.test_notice' %>
+          </columns>
+        </row>
+      </callout>
+    <% end %>
+
+    <div dir="auto">
+      <h3><%= locale_string_from @payload.title %></h3>
+
+      <%= raw MarkdownService.render_html locale_string_from @payload.text %>
+    </div>
+  </columns>
+</row>

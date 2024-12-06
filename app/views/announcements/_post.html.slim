@@ -1,0 +1,38 @@
+a.news__anchor id="post_#{post.id}"
+.news_item
+  h3 dir='auto'
+    = post.title
+  - if post.publish_at < DateTime.now
+    p.small
+      = render Util::RelativeTimeTag.new(post.publish_at, limit: 10.days.ago)
+  - else
+    p
+      span.label.label-warning.mr10
+        = t(:'course.courses.announcements.unpublished')
+      span.small
+        ' in #{distance_of_time_in_words(post.publish_at, DateTime.now)}
+  hr.divider
+  .postcontent
+    .RenderedMarkdown dir='auto'
+      == render_markdown(post.text, allow_tables: true)
+
+    - if current_user.allowed?('news.announcement.update')
+      - if course.present?
+        = link_to t(:'announcements.operations.edit'),
+          edit_course_announcement_path(course_id: course.course_code, id: post.id),
+          class: 'btn btn-xs btn-default mr5'
+      - else
+        = link_to t(:'announcements.operations.edit'),
+          edit_announcement_path(id: post.id),
+          class: 'btn btn-xs btn-default mr5'
+    - if current_user.allowed?('news.announcement.delete')
+      - if course.present?
+        = link_to t(:'announcements.operations.delete'),
+          course_announcement_path(course_id: course.course_code, id: post.id),
+          method: :delete,
+          class: 'btn btn-xs btn-default'
+      - else
+        = link_to t(:'announcements.operations.delete'),
+          announcement_path(id: post.id),
+          method: :delete,
+          class: 'btn btn-xs btn-default'

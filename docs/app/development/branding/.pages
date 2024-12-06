@@ -1,0 +1,11 @@
+# vim: ft=yaml
+
+nav:
+  - index.md
+  - stylesheets.md
+  - images.md
+  - fonts.md
+  - homepage.md
+  - initializers.md
+  - email.md
+  - ...

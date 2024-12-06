@@ -1,0 +1,10 @@
+= javascript_include_tag 'lanalytics-pa-item'
+
+= render 'show_header'
+
+.mt30
+= render Global::Callout.new(t(:'peer_assessment.deadline_passed'), type: :warning)
+
+.mt30
+div data-lanalytics-resource={type: 'peer_assessment', uuid: @assessment.id}.to_json data-lanalytics-context={course_id: @item_presenter.course_id}.to_json
+  = render 'items/seq_navigation', position: @inner_course_position

@@ -1,0 +1,18 @@
+.row
+  .col-md-8.col-lg-8
+    = simple_form_for(poll,
+        url: poll.persisted? ? admin_poll_path(id: poll.id) : admin_polls_path,
+        wrapper: :larger_labels) do |f|
+      = f.error_notification
+      = f.input :question
+      = f.input :start_at
+      = f.input :end_at
+      = f.input :allow_multiple_choices
+      = f.input :show_intermediate_results, input_html: { checked: true }
+      = f.button :submit, class: 'btn btn-primary'
+      = link_to t(:'global.cancel'), admin_polls_path, class: 'btn btn-default ml10'
+
+  - if poll.persisted?
+    .col-md-4.col-lg-4
+      h4.mt0 = t(:'admin.polls.options')
+      = render partial: 'options_form', locals: {poll: poll, options: poll.options}

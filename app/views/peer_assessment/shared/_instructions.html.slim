@@ -1,0 +1,19 @@
+- if defined? as_collapsible and as_collapsible
+  .panel-group.mt20
+    .panel-pa-info.panel
+      .panel-heading
+        .panel-title
+          = t :'peer_assessment.assignment.question_collapsible'
+
+      .panel-collapse.collapse.pa-gray class="#{'in' unless defined?(hide_question) and hide_question}" id="assignment-question-body"
+        .panel-body
+          .responsive-images
+            == render_markdown assessment.instructions
+            = render 'peer_assessment/shared/files', files: assessment.attachments, deletable: false
+
+- else
+  h4.mt30 = t :'peer_assessment.assignment.question'
+  hr.divider.slim
+  .pa-rt-generic.mb30.responsive-images
+    == render_markdown assessment.instructions
+    = render 'peer_assessment/shared/files', files: assessment.attachments, deletable: false

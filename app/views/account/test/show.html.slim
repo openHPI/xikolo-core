@@ -1,0 +1,10 @@
+doctype 5
+html lang='en'
+  head
+    title Change Session ID
+
+  body
+    h1 Change Session ID
+    = form_with do |f|
+      p = f.text_field :session_id
+      p = f.submit 'Save'

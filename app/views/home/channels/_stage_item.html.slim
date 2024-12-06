@@ -1,0 +1,12 @@
+- if stage_item.visual_url.present?
+  = image_tag stage_item.visual_url, alt: ''
+- if stage_item.statement?
+  .invisible-to-xs.channel-statement
+    .statement-inner
+      == stage_item.render_statement
+      .statement-footer
+        - unless stage_item.course_path.nil?
+          = link_to t(:'channels.show_details'), stage_item.course_path
+        - unless stage_item.quote_by.nil?
+          span.quote-by
+            = stage_item.quote_by

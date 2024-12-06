@@ -1,0 +1,5 @@
+# 
+# robots.txt
+# 
+User-Agent: *
+Disallow: /verify/*

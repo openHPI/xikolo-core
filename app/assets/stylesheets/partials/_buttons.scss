@@ -1,0 +1,513 @@
+/*------------------------------------*\
+    Xikolo Button Styles
+
+    Based on Bootstrap 3.4.1 CSS
+
+    Rules for .btn, .btn-* are a fusion of inlined Bootstrap code and our
+    existing adjustments for xikolo.
+
+    Source: https://github.com/twbs/bootstrap-sass/
+\*------------------------------------*/
+
+/*------------------------------------*\
+    Button variant mixin
+
+    This is an reimplementation of the bootstrap 3.4.1 mixin
+    "Easily pump out default styles, as well as :hover, :focus, :active,
+    and disabled options for all buttons"
+
+    The arguments for the highlight properties are optional
+    If not set, the mixin will use the settings that Bootstrap makes
+    If they are set, we can easily brand a special status for buttons
+
+    There are no default values for highlight arguments,
+    because Bootstrap adjusts them differently for each special state
+\*------------------------------------*/
+
+@mixin btn-variant(
+  $color,
+  $background,
+  $border,
+  $highlight-color: null,
+  $highlight-background: null,
+  $highlight-border: null
+) {
+  border-color: $border;
+  background-color: $background;
+  color: $color;
+
+  &:focus,
+  &.focus {
+    border-color: if(
+      $highlight-border,
+      $highlight-border,
+      darken($border, 25%)
+    );
+    background-color: if(
+      $highlight-background,
+      $highlight-background,
+      darken($background, 10%)
+    );
+    color: if($highlight-color, $highlight-color, $color);
+  }
+  &:hover {
+    border-color: if(
+      $highlight-border,
+      $highlight-border,
+      darken($border, 12%)
+    );
+    background-color: if(
+      $highlight-background,
+      $highlight-background,
+      darken($background, 10%)
+    );
+    color: if($highlight-color, $highlight-color, $color);
+  }
+  &:active,
+  &.active,
+  .open > &.dropdown-toggle {
+    border-color: if(
+      $highlight-border,
+      $highlight-border,
+      darken($border, 12%)
+    );
+    background-color: if(
+      $highlight-background,
+      $highlight-background,
+      darken($background, 10%)
+    );
+    background-image: none;
+    color: if($highlight-color, $highlight-color, $color);
+    &:hover,
+    &:focus,
+    &.focus {
+      border-color: if(
+        $highlight-border,
+        $highlight-border,
+        darken($border, 12%)
+      );
+      background-color: if(
+        $highlight-background,
+        $highlight-background,
+        darken($background, 17%)
+      );
+      color: if($highlight-color, $highlight-color, $color);
+    }
+  }
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    &:hover,
+    &:focus,
+    &.focus {
+      border-color: if($highlight-border, $highlight-border, $border);
+      background-color: if(
+        $highlight-background,
+        $highlight-background,
+        $background
+      );
+    }
+  }
+
+  .badge {
+    background-color: $color;
+    color: $background;
+  }
+}
+
+/*------------------------------------*\
+    $Local Variables
+\*------------------------------------*/
+$next-prev-height: 40px;
+
+/*------------------------------------*\
+    $Button Variants
+\*------------------------------------*/
+
+.btn {
+  display: inline-block;
+
+  padding: 10px 15px;
+  border: 0px none;
+  border-radius: 0px;
+  margin-bottom: 0; // For input.btn
+  background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.428571429;
+  text-align: center;
+  touch-action: manipulation;
+
+  user-select: none;
+  vertical-align: middle;
+  white-space: nowrap;
+
+  &,
+  &:active,
+  &.active {
+    &:focus,
+    &.focus {
+      outline: 5px auto -webkit-focus-ring-color;
+      outline-offset: -2px;
+    }
+  }
+
+  &:hover,
+  &:focus,
+  &.focus {
+    color: $btn-default-color;
+    text-decoration: none;
+  }
+
+  &:active,
+  &.active {
+    background-image: none;
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    outline: 0;
+  }
+
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    box-shadow: none;
+    cursor: not-allowed;
+    opacity: 0.65;
+  }
+}
+
+a.btn {
+  &.disabled,
+  fieldset[disabled] & {
+    pointer-events: none; // Future-proof disabling of clicks on `<a>` elements
+  }
+}
+
+.btn-default {
+  @include btn-variant(
+    $btn-default-color,
+    $btn-default-bg,
+    $btn-default-border,
+    $btn-default-highlight-color,
+    $btn-default-highlight-bg,
+    $btn-default-highlight-border-color
+  );
+}
+
+.btn-primary {
+  @include btn-variant(
+    $btn-primary-color,
+    $btn-primary-bg,
+    $btn-primary-border,
+    $btn-primary-highlight-color,
+    $btn-primary-highlight-bg,
+    $btn-primary-highlight-border-color
+  );
+}
+
+.btn-success {
+  @include btn-variant(
+    $btn-success-color,
+    $btn-success-bg,
+    $btn-success-border
+  );
+}
+
+.btn-info {
+  @include btn-variant($btn-info-color, $btn-info-bg, $btn-info-border);
+}
+
+.btn-warning {
+  @include btn-variant(
+    $btn-warning-color,
+    $btn-warning-bg,
+    $btn-warning-border
+  );
+}
+
+.btn-danger {
+  @include btn-variant($btn-danger-color, $btn-danger-bg, $btn-danger-border);
+}
+
+.btn-link {
+  border-radius: 0;
+  color: $link-color;
+  font-weight: 400;
+
+  &,
+  &:active,
+  &.active,
+  &[disabled],
+  fieldset[disabled] & {
+    background-color: transparent;
+    box-shadow: none;
+  }
+  &,
+  &:hover,
+  &:focus,
+  &:active {
+    border-color: transparent;
+  }
+  &:hover,
+  &:focus {
+    background-color: transparent;
+    color: $link-color-hover;
+    text-decoration: underline;
+  }
+  &[disabled],
+  fieldset[disabled] & {
+    &:hover,
+    &:focus {
+      color: $gray-100;
+      text-decoration: none;
+    }
+  }
+}
+
+/*------------------------------------*\
+    Button Sizes
+\*------------------------------------*/
+
+.btn-lg {
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.3333333;
+}
+
+.btn-sm {
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.btn-xs {
+  padding: 1px 5px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.btn-force-white {
+  color: $white !important;
+}
+.btn-group > .btn + .dropdown-toggle {
+  margin-left: 1px;
+}
+
+.btn-gray-darker {
+  @include btn-variant($white, $gray-800, $white);
+}
+.btn-lighter-default {
+  @include btn-variant($white, lighten($gray-800, 20%), $white);
+}
+.btn-as-text {
+  padding: 0;
+  border: none;
+  margin: 0;
+  background: none;
+  color: $black;
+}
+
+.btn-outline {
+  border: 2px solid;
+
+  &.btn-default {
+    @include btn-variant(
+      $btn-outline-default,
+      transparent,
+      $btn-outline-default,
+      $white,
+      $btn-outline-default,
+      $btn-outline-default
+    );
+  }
+
+  &.btn-danger {
+    border-color: $btn-danger-bg;
+    background: transparent;
+    color: $btn-danger-bg;
+
+    &:hover,
+    &:active,
+    &:focus {
+      background: $btn-danger-bg;
+      color: $white;
+    }
+  }
+}
+
+/*------------------------------------*\
+    $Social-Media
+\*------------------------------------*/
+.btn-facebook {
+  @include btn-variant($white, $facebook-color, $white);
+}
+
+.btn-twitter {
+  @include btn-variant($white, $twitter-color, $white);
+}
+
+.btn-mail {
+  @include btn-variant($white, $black, $white);
+}
+
+/* ------------------------------------*\
+    $Next-Previous-Bar
+\*------------------------------------ */
+.next-previous-button-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 40px;
+
+  & > * {
+    flex: 0 0 auto;
+  }
+
+  .filler-area,
+  .split-seq-nav-container {
+    width: 100%;
+  }
+
+  .next-button {
+    text-align: right;
+  }
+
+  .previous-button {
+    text-align: left;
+  }
+
+  .next-prev-text {
+    color: $gray-600;
+
+    .next-prev {
+      margin: 0;
+      color: $link-color;
+      font-weight: bold;
+    }
+
+    .next-prev-title {
+      display: none;
+
+      @include small {
+        display: inline;
+      }
+    }
+  }
+
+  .next-button,
+  .previous-button {
+    display: flex;
+    max-width: 45%;
+    align-items: center;
+    margin: 20px 0;
+
+    & > * {
+      margin-right: 10px;
+    }
+
+    .xi-icon {
+      font-size: 1.5em;
+    }
+
+    &:hover,
+    &:active,
+    &:focus {
+      text-decoration: none;
+
+      .next-prev-text > * {
+        color: $link-color-hover;
+        text-decoration: underline;
+      }
+    }
+
+    .arrow {
+      font-size: 3rem;
+    }
+
+    &:before {
+      color: $gray-600;
+      font-size: 20px;
+    }
+  }
+}
+
+// The filler area lies (full-width) between both buttons and may be used
+// for action buttons and the like (i.e. take self-test)
+.filler-area,
+.split-filler-area {
+  height: $next-prev-height;
+  border: 0;
+  background: $primary-color;
+  color: $white;
+  cursor: pointer;
+  line-height: $next-prev-height;
+  outline: none;
+  text-align: center;
+
+  &:active,
+  &:hover,
+  &:focus {
+    color: $white;
+    text-decoration: none;
+  }
+
+  // Disabled is taken by bootstrap, use "inactive" instead
+  &:not(.inactive) {
+    &:hover {
+      background-color: $primary-600;
+      color: $white;
+      text-decoration: none;
+    }
+  }
+
+  & > span {
+    vertical-align: middle;
+  }
+
+  &.inactive {
+    background-color: lighten($primary-color, 20%);
+    cursor: not-allowed;
+  }
+}
+
+.split-filler-area {
+  display: inline-block !important;
+  width: 50%;
+}
+
+.split-seq-nav-container {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+//------------------------------------
+// $Pinboard-Buttons
+//------------------------------------
+.pinboard-button {
+  position: relative;
+  //padding: 15px 15px; Only for now, aligns the buttons with the toggle
+  width: 100%;
+
+  &:before {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    font: var(--fa-font-regular);
+    font-size: 18px;
+    transform: translateY(-50%);
+  }
+}
+
+.add-reply-button {
+  padding: 10px 0;
+
+  button {
+    @extend .btn;
+    @extend .btn-primary;
+    width: 100%;
+  }
+
+  .xi-icon {
+    margin-right: 5px;
+  }
+}

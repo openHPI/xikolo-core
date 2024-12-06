@@ -1,0 +1,25 @@
+.mt30
+h4
+  = "#{index + 1}. #{presenter.title}"
+  span.ml20
+    =  button_presenter.pa_button current_user, :edit_rubric, presenter_id: short_uuid(presenter.id)
+
+    = simple_form_for(presenter.rubric, url: peer_assessment_rubric_path(@assessment.id, presenter.id), :method => :delete, html: { class: 'inline-block js-submit-confirm', data: { :confirm_title => t(:'peer_assessment.administration.rubrics.confirm_delete_title'), :confirm_message => t(:'peer_assessment.administration.rubrics.confirm_delete_message') } }) do
+      = button_presenter.pa_button current_user, :delete_rubric
+
+    = simple_form_for(presenter.rubric, url: moveup_peer_assessment_rubric_path(@assessment.id, presenter.id), :method => :post, html: { class: 'inline-block' }) do
+      = button_presenter.pa_button current_user, :move_rubric_up
+
+    = simple_form_for(presenter.rubric, url: movedown_peer_assessment_rubric_path(@assessment.id, presenter.id), :method => :post, html: { class: 'inline-block' }) do
+      = button_presenter.pa_button current_user, :move_rubric_down
+
+hr.divider.slim
+
+.mt10.mb10.pa-rt-generic
+  == render_markdown(presenter.hints)
+
+/ Options
+- presenter.options.each do |option|
+  .mb10
+    input type="radio" name="group_#{presenter.id}" value="#{option.id}" disabled="disabled"
+    span.ml10 = "#{option.points} #{t :'peer_assessment.rubrics.points'}: #{option.description}"

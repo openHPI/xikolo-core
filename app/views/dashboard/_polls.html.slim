@@ -1,0 +1,9 @@
+#polls.sidebar__component
+
+javascript:
+  ready(function () {
+    // load initial poll
+    $.get("#{next_poll_path}", function (data) {
+      $('#polls').html(data);
+    });
+  });

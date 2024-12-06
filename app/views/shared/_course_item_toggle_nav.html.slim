@@ -1,0 +1,13 @@
+.col-md-12.invisible-to-md.sidebar-toggle#togglenav_horizontal title="#{t(:'items.show.toggle_nav_hint')}"
+  .toggle
+    .toggle-button
+      = render Global::FaIcon.new('chevrons-left', style: :solid)
+    .toggle-text
+      = t(:'items.show.hide_nav')
+
+.col-md-12.visible-to-md.sidebar-toggle#togglenav_vertical title="#{t(:'items.show.toggle_nav_hint')}"
+  .toggle
+    .toggle-button
+      = render Global::FaIcon.new('chevron-up', style: :solid)
+    .toggle-text data-hide-text="#{t(:'items.show.hide_nav')}" data-show-text="#{t(:'items.show.show_nav')}"
+      = t(:'items.show.hide_nav')

@@ -1,0 +1,5 @@
+<% if ENV['BRAND'] %>
+--pattern "<%= "spec/brand/#{ENV['BRAND']}/**/*_spec.rb" %>"
+<% else %>
+--exclude-pattern "spec/brand/**/*"
+<% end %>

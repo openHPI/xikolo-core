@@ -1,0 +1,12 @@
+- content_for :page_header_slim
+  = render Global::PageHeader.new(t(:'knowledge_documents.localization.create'), subtitle: t(:'admin.page_header'), type: :slim)
+
+.container
+  .row
+    .col-md-9.mt20
+      = render 'form', is_new: true
+
+    .col-md-3
+      .mt60
+      h4 = t(:'knowledge_documents.help.help')
+      p = t(:'knowledge_documents.help.new')

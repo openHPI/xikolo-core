@@ -1,0 +1,17 @@
+- item.video.video_download_dropdowns.each do |dropdown|
+  - if dropdown[:buttons].any?
+    = render Global::ActionsDropdown.new(text: dropdown[:text], menu_side: 'right', css_classes: 'ml10 mb5 btn btn-primary btn-sm') do |c|
+      - dropdown[:buttons].each do |button|
+        - c.with_action
+          / This tag contains additional data tags needed by the LAnalytics Plugin StaticHtmlEventTracker
+          - if button[:enabled]
+            = link_to button[:path],
+                class: 'btn-sm',
+                data: {'lanalytics-event' => {'verb' => button[:verb]}},
+                download: ''
+              = render Global::FaIcon.new('download', style: :solid, css_classes: 'em1-2 mr20')
+              = button[:caption]
+          - else
+            button.btn.btn-sm.disabled title=t(:'items.show.video.download.disabled') disabled='disabled'
+              = render Global::FaIcon.new('download', style: :solid, css_classes: 'em1-2 mr20')
+              = button[:caption]

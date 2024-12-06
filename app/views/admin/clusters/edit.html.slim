@@ -1,0 +1,8 @@
+- content_for :page_header_slim
+  = render Global::PageHeader.new(t(:'admin.clusters.edit_headline'), subtitle: t(:'admin.page_header'), type: :slim)
+
+.container
+  .row
+    .col-md-12
+      .mt20
+        = render partial: 'admin/clusters/form', locals: {cluster: @cluster}

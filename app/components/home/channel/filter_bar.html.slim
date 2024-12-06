@@ -1,0 +1,11 @@
+.filter-bar id="adjust-anchor"
+  = form_tag channel_path(params[:id], anchor: 'channel-courses'), method: :get do
+    .filter-bar__container
+      .filter-bar__container-wrapper
+        .filter-bar__filters
+          = render Global::FilterBar::Search.new(:q, params[:q])
+
+          - filters.each do |filter|
+            = render filter
+
+    = render Global::FilterBar::Controls.new(channel_path(params[:id], anchor: 'channel-courses'), '#course-list__content', '#course-list__loading', filters, results_count: @results_count, show_overview: true)

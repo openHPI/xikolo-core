@@ -1,0 +1,17 @@
+- if peer_assessment
+  .form-group.select.required
+    label.select.required.col-lg-3.col-md-3 for="existing_assessment"
+      abbr title="required"  *
+      = t(:'peer_assessment.administration.new_or_existing')
+    .col-lg-9.col-md-9
+      div
+        select#existing_assessment.select.required.form-control aria-required="true" name="existing_assessment" required="required"
+          option value="new" = t :'peer_assessment.administration.create_new'
+          - @peer_assessments.each do |assessment|
+            - if item.content_id == assessment.id
+              option value="#{assessment.id}" checked="checked" = assessment.title
+            - else
+              option value="#{assessment.id}" checked="checked" = assessment.title
+
+  = render Global::Callout.new(t(:'peer_assessment.administration.item_creation_info_text', edit_path: course_peer_assessments_path))
+  .mt40

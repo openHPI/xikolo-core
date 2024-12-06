@@ -1,0 +1,10 @@
+= simple_form_for(@report.type, url: reports_path, method: :post) do |form|
+  = form.hidden_field :task_type, value: @report.type
+  .report__label
+    = @report.description
+  - if scope.present?
+    => render scope.with_form(form)
+  = form.simple_fields_for :options do |options_form|
+    - options.each do |option|
+      = render option.with_form(options_form)
+  = form.submit t(:'reports.create_report'), class: 'report__button'

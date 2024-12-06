@@ -1,0 +1,6 @@
+= render Global::DisclosureWidget.new(t(:'items.quiz.show_question_explanation'),
+  expanded_summary: t(:'items.quiz.hide_question_explanation'),
+  content_lang: lang,
+  visible: answer.comment.present? && show_solution)
+
+  = answer.comment

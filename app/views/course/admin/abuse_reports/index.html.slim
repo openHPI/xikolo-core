@@ -1,0 +1,28 @@
+- content_for :course_area_header
+  = render Global::PageHeader.new("#{t(:'pinboard.reporting.admin.headline')} - #{course_layout.title}",
+    subtitle: t(:'course.admin.page_header'),
+    type: :slim) do |c|
+      - c.with_pill(t(:"items.show.coursestate.#{course_layout.fullstate}"), size: :small, color: :note)
+      = render(partial: 'course/shared/course_admin_action', locals: {course: course_layout, in_teacher_context: true})
+
+.container
+  .col-md-12.mb20.white-bg
+    - if @abuse_reports.any?
+      table.table.table-striped.mb30.full-width
+        thead
+          tr
+            th = t(:'pinboard.reporting.admin.question_title')
+            th = t(:'pinboard.reporting.admin.type')
+            th = t(:'pinboard.reporting.admin.reporter')
+            th = t(:'pinboard.reporting.admin.created')
+            th
+        tbody
+          - @abuse_reports.each do |report|
+            tr
+              td = report.question_title
+              td = report.post_type
+              td = link_to report.reporter, user_path(report.user_id)
+              td = render Util::RelativeTimeTag.new(Time.zone.parse(report.created_at), limit: 10.days.ago)
+              td = link_to t(:'pinboard.reporting.admin.view'), report.url, class: 'btn btn-primary btn-xs mr10'
+    - else
+      = render Global::Callout.new(t(:'pinboard.reporting.admin.empty_msg'))

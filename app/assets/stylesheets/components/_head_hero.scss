@@ -1,0 +1,113 @@
+$head-hero-claim-width: (
+  "mobile": 70%,
+  "desktop": 45%,
+) !default;
+$head-hero-claim-top: 60% !default;
+$head-hero-max-height: 650px !default;
+
+// PNG path without extension. Provide PNG with same name and ".2x" suffix for retina devices support (e.g. desktop.2x.png).
+$head-hero-background-image-mobile: "images/startpage/head_hero/mobile";
+$head-hero-background-image-desktop: "images/startpage/head_hero/desktop";
+
+// Set background properties for each breakpoint (background color / position / size / repeat)
+$head-hero-background: hsl(0, 0%, 96%) top center / 100% auto no-repeat !default;
+$head-hero-background-small: hsl(0, 0%, 96%) right -200px top / auto 100%
+  no-repeat !default;
+$head-hero-background-large: hsl(0, 0%, 96%) right top / auto 100% no-repeat !default;
+
+@mixin set-background-with-retina-support(
+  $background-properties,
+  $background-image
+) {
+  background: $background-properties;
+  // Fallback image
+  background-image: url("#{$background-image}.png");
+  background-image: -webkit-image-set(
+    url("#{$background-image}.png") 1x,
+    url("#{$background-image}.2x.png") 2x
+  );
+  background-image: image-set(
+    url("#{$background-image}.png") 1x,
+    url("#{$background-image}.2x.png") 2x
+  );
+}
+
+.head-hero {
+  display: inline-block;
+  width: 100%;
+  height: 80vw;
+  min-height: 450px;
+  max-height: $head-hero-max-height;
+
+  @include set-background-with-retina-support(
+    $head-hero-background,
+    $head-hero-background-image-mobile
+  );
+
+  @include small {
+    @include set-background-with-retina-support(
+      $head-hero-background-small,
+      $head-hero-background-image-desktop
+    );
+  }
+
+  @include large {
+    @include set-background-with-retina-support(
+      $head-hero-background-large,
+      $head-hero-background-image-desktop
+    );
+  }
+
+  &__image {
+    display: none;
+
+    @include small {
+      display: block;
+      max-width: 270px;
+      max-height: 65px;
+    }
+
+    @include medium {
+      max-width: 365px;
+      max-height: 90px;
+    }
+
+    @include large {
+      max-width: 480px;
+      max-height: 95px;
+    }
+  }
+
+  &__claim {
+    position: relative;
+
+    top: $head-hero-claim-top;
+    // Contain content in main platform's container
+    max-width: $main-content-width;
+    padding: 0 $page-padding;
+    margin: 0 auto;
+    transform: translateY(-50%);
+    @include horizontal-page-padding;
+  }
+
+  &__heading {
+    @include font-m;
+    width: map-get($head-hero-claim-width, "mobile");
+    margin-bottom: 45px;
+    font-weight: normal;
+
+    @include small {
+      @include font-xl;
+      width: map-get($head-hero-claim-width, "desktop");
+    }
+  }
+
+  &--l {
+    .head-hero__heading {
+      @include font-sm;
+      @include small {
+        @include font-l;
+      }
+    }
+  }
+}

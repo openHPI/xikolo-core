@@ -1,0 +1,156 @@
+/*------------------------------------*\
+    $CONTENTS
+
+    General layouting elements.
+\*------------------------------------*/
+/**
+ * Variables...............Variable declarations and overrides
+ * Application.............Styles that affect platform layout
+ * Alternative Layouts.....Styling for non-default page layouts
+ * Startpage...............Startpage specific layouts
+ * Dashboard...............Dashboard specific layouts
+ * Table...................Styles that affect table
+ * Responsive Images.......Styles that affect images
+ * IFrames.................Styles that affect iframe
+ * Print...................Print media query specific styles
+ */
+
+/*------------------------------------*\
+    $Variables
+\*------------------------------------*/
+
+/*------------------------------------*\
+    $Application
+\*------------------------------------*/
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.wrapper > .container {
+  @include horizontal-page-padding;
+}
+
+/*------------------------------------*\
+    $Alternative Layouts
+\*------------------------------------*/
+
+// "Simple" layout: header, footer, and a centered content box
+.layout-simple {
+  &__container {
+    max-width: 600px;
+    padding: 20px;
+    margin: 20px auto;
+    @include horizontal-page-padding(20px);
+
+    @include small {
+      margin: 100px auto;
+    }
+  }
+}
+
+.layout-error {
+  max-width: 600px;
+  padding: 2 * $spacing-steps;
+  margin: 20px auto;
+
+  @include small {
+    margin: 100px auto;
+  }
+
+  &__header {
+    @include font-m;
+    margin-bottom: 4 * $spacing-steps;
+    font-weight: bold;
+  }
+
+  &__details {
+    @include font-sm;
+
+    > * {
+      margin-bottom: 2 * $spacing-steps;
+    }
+  }
+}
+
+// "Preview" layout for ViewComponent previews
+.layout-preview {
+  background-color: $gray-100;
+
+  &__container {
+    padding: 50px;
+    background-color: $white;
+  }
+}
+
+/*------------------------------------*\
+    $Startpage
+\*------------------------------------*/
+.course-category {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding-top: 20px;
+
+  &__headline {
+    flex: 1 0 50%;
+
+    h2 {
+      margin: 0;
+    }
+  }
+
+  &__more {
+    flex: 1 0 50%;
+    text-align: right;
+  }
+
+  &__teaser {
+    margin-top: 2 * $spacing-steps;
+  }
+
+  &__list {
+    flex: 0 0 100%;
+  }
+}
+
+.home-controller.index-action {
+  h2 {
+    margin-bottom: 20px;
+    font-size: 2.25em;
+  }
+}
+
+/*------------------------------------*\
+    $Table
+\*------------------------------------*/
+
+table.table {
+  tr.disabled {
+    opacity: 0.65;
+  }
+}
+/*------------------------------------*\
+    $Responsive Images
+\*------------------------------------*/
+
+.responsive-images img {
+  max-width: 100%;
+  height: auto;
+}
+/*------------------------------------*\
+    $IFrames
+\*------------------------------------*/
+iframe {
+  border: none;
+}
+
+/*------------------------------------*\
+    $Print Specific
+\*------------------------------------*/
+@media print {
+  a[href]:after {
+    content: none;
+  }
+}

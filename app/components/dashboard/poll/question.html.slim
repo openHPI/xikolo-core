@@ -1,0 +1,17 @@
+= form_tag vote_poll_path(@poll.id), method: :post, remote: true, data: {'render-to': '#polls', type: 'text'} do
+  - @poll.options.each do |option|
+    .option class=(results? ? 'option--with-results' : nil)
+      .answer
+        - if @poll.allow_multiple_choices?
+          = check_box_tag('poll[]', option.id, chosen?(option), id: "poll_#{option.id}", disabled: results?)
+        - else
+          = radio_button_tag(:poll, option.id, chosen?(option), disabled: results?)
+
+        = label_tag(:"poll_#{option.id}", option.text)
+
+      - if results?
+        .result
+          = render Global::Meter.new(value: percentage(option), label: "#{percentage(option)}%")
+
+  - if voting?
+    = submit_tag t(:'polls.widget.vote'), class: 'btn btn-primary btn-poll btn-sm mt10'

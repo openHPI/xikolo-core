@@ -1,0 +1,31 @@
+.section-progress__item
+  button.section-progress__titlebar data-behaviour='toggle-menu' aria-expanded='false'
+    .section-progress__trigger
+      span.section-progress__icon
+      span = @section_progress['title']
+
+    .section-progress__score-bar
+      = render Course::LearnerDashboard::SectionProgress::Score.new(label: t(:'course.progress.section_score.graded'), value: graded_percentage)
+      = render Course::LearnerDashboard::SectionProgress::Score.new(label: t(:'course.progress.section_score.selftests'), value: selftest_percentage)
+      = render Course::LearnerDashboard::SectionProgress::Score.new(label: t(:'course.progress.section_score.visits'), value: visits_percentage)
+
+    .section-progress__visited-items
+      - if items_available.positive?
+        = render Global::Pill.new(t(:'course.progress.visited_items', visited: items_visited, available: items_available))
+      - else
+        = render Global::Pill.new(t(:'course.progress.visited_empty'))
+
+  .section-progress__content
+    .section-material
+      h5 = t(:'course.progress.section_material')
+
+      .section-material__items
+        - items.each do |item|
+          = render Course::LearnerDashboard::SectionProgress::Item.new(item, @course)
+
+    .section-statistics
+      h5 = t(:'course.progress.section_statistics')
+
+      = render Course::LearnerDashboard::SectionProgress::Statistic.new(label: t(:'course.progress.statistics.main'), values: main_statistic, icon: 'money-check-pen')
+      = render Course::LearnerDashboard::SectionProgress::Statistic.new(label: t(:'course.progress.statistics.bonus'), values: bonus_statistic, icon: 'lightbulb-on+circle-star')
+      = render Course::LearnerDashboard::SectionProgress::Statistic.new(label: t(:'course.progress.statistics.selftests'), values: selftest_statistic, icon: 'lightbulb-on')

@@ -1,0 +1,239 @@
+/*----------------------------------------------------*\
+    $CONTENTS
+
+    Common variables
+\*----------------------------------------------------*/
+/**
+ * Variables..............Variable declarations and overrides
+ *  - Font
+ *  - Page sizing
+ *  - CSS variable export
+ **/
+
+/*----------------------------------------------------*\
+    $Font
+
+    Native font stack
+\*----------------------------------------------------*/
+$font-family-sans-serif:
+  // Safari for OS X and iOS (San Francisco)
+  -apple-system,
+  // Chrome < 56 for OS X (San Francisco)
+  BlinkMacSystemFont,
+  // Windows
+  "Segoe UI",
+  // Android
+  "Roboto",
+  // Basic web fallback
+  "Helvetica Neue",
+  Helvetica,
+  Arial,
+  sans-serif,
+  // Emoji fonts
+  "Apple Color Emoji",
+  "Segoe UI Emoji",
+  "Segoe UI Symbol" !default;
+
+// Font-size
+$xi-font-size-text: 1rem !default;
+$xi-font-size-small: 0.9rem !default;
+$xi-font-size-title: 1.1rem !default;
+
+/*----------------------------------------------------*\
+    $Page-sizing
+\*----------------------------------------------------*/
+$header-height: 40px;
+$navbar-height: 50px !default;
+$lightbox-height: 400px;
+
+$main-content-width: 1370px;
+
+$footer-top-margin: 60px;
+
+/* -------------------------------------------- *\
+    $BRAND-FONT-DEFINITIONS
+
+    Variables
+    The px comment is only for easier human reading
+    and comparing the variables with Figma values.
+    Calculated with 10px bootstrap base font-size.
+\* -------------------------------------------- */
+
+$font-size-xs: 1.1rem; // 11px
+$font-size-s: 1.4rem; // 14px
+$font-size-sm: 1.8rem; // 18px
+$font-size-m: 2.6rem; // 26px
+$font-size-l: 3.3rem; // 33px
+$font-size-xl: 4.2rem; // 42px
+
+$line-height-xs: 1.6rem; // 16px
+$line-height-s: 2rem; // 20px
+$line-height-sm: 2.5rem; // 25px
+$line-height-m: 3.3rem; // 33px
+$line-height-l: 3.8rem; // 38px
+$line-height-xl: 4.6rem; // 46px
+
+/*----------------------------------------------------*\
+    $Vertical spacing
+\*----------------------------------------------------*/
+
+$spacing-steps: 0.625rem; // 10px
+
+/*----------------------------------------------------*\
+    $Page padding
+\*----------------------------------------------------*/
+
+$page-padding: 15px;
+
+/*----------------------------------------------------*\
+    z-index
+
+    z-index values determine an item’s position
+    in the stacking order.
+\*----------------------------------------------------*/
+
+$z-index-xs: 1; // bottom
+$z-index-s: 2;
+$z-index-sm: 1000;
+$z-index-m: 1020;
+$z-index-l: 1030;
+$z-index-xl: 1040; // top
+
+/*----------------------------------------------------*\
+    $Box Shadow
+\*----------------------------------------------------*/
+
+$box-shadow-xs:
+  0 1px 3px rgba(0, 0, 0, 0.12),
+  0 1px 2px rgba(0, 0, 0, 0.24);
+$box-shadow-s:
+  0 3px 6px rgba(0, 0, 0, 0.15),
+  0 2px 4px rgba(0, 0, 0, 0.12);
+$box-shadow-m:
+  0 10px 20px rgba(0, 0, 0, 0.15),
+  0 3px 6px rgba(0, 0, 0, 0.1);
+$box-shadow-l:
+  0 15px 25px rgba(0, 0, 0, 0.15),
+  0 5px 10px rgba(0, 0, 0, 0.05);
+$box-shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.2);
+
+/*----------------------------------------------------*\
+    $CSS variable export
+
+    Required to access them via javascript.
+\*----------------------------------------------------*/
+:root {
+  --green: #{$success-500};
+  --gray-100: #{$gray-100};
+  --primary-color: #{$primary-color};
+
+  --navbar-height: #{$navbar-height};
+}
+
+/* ----------------------------------------------------*\
+    Bootstrap variables
+
+    Required to tell Bootstrap to use our branded colors.
+    Otherwise, it would fall back to their own declaration.
+
+    @Deprecated
+    Use variable from _colors.scss instead.
+\*---------------------------------------------------- */
+
+$gray-darker: $gray-800;
+$gray-dark: $gray-600;
+$gray: $gray-500;
+$gray-light: $gray-100;
+$gray-lighter: $gray-50;
+
+/*----------------------------------------------------*\
+    $Button
+
+    For better overview which we use in xikolo
+    this is a list of Bootstrap overrides
+\*----------------------------------------------------*/
+
+$btn-primary-bg: $primary-500 !default;
+$btn-primary-color: $white !default;
+$btn-primary-border: $primary-600 !default;
+
+$btn-default-color: $white !default;
+$btn-default-bg: $gray-600 !default;
+$btn-default-border: $gray-250 !default;
+
+$btn-outline-default: $btn-default-bg !default;
+
+$btn-info-bg: $blue !default;
+
+$btn-warning-bg: $information-500 !default;
+
+$btn-danger-bg: $error-500 !default;
+
+/*----------------------------------------------------*\
+    $Button special states
+
+    These variables are optional
+    Set them in _color_scheme to brand buttons
+\*----------------------------------------------------*/
+
+$btn-primary-highlight-color: null !default;
+$btn-primary-highlight-bg: null !default;
+$btn-primary-highlight-border-color: null !default;
+
+$btn-default-highlight-color: null !default;
+$btn-default-highlight-bg: null !default;
+$btn-default-highlight-border-color: null !default;
+
+/*----------------------------------------------------*\
+    Navigation
+\*----------------------------------------------------*/
+
+$navigation-item-bg: $white !default;
+$navigation-item-color: $text-color !default;
+$navigation-item-selected-bg: $primary-100 !default;
+$navigation-item-selected-color: $primary-900 !default;
+$navigation-item-hover-bg: $primary-50 !default;
+$navigation-item-hover-color: $primary-900 !default;
+$navigation-item-icon: $gray-600 !default;
+$navigation-item-font-weight: normal !default;
+
+$toc-navigation-item-bg: $navigation-item-bg;
+$toc-navigation-item-color: $navigation-item-color;
+$toc-navigation-item-selected-bg: $navigation-item-selected-bg;
+$toc-navigation-item-selected-color: $navigation-item-selected-color;
+$toc-navigation-item-hover-bg: $navigation-item-hover-bg;
+$toc-navigation-item-hover-color: $navigation-item-hover-color;
+$toc-navigation-item-icon: $navigation-item-icon;
+
+$menu-navigation-item-bg: $white !default;
+$menu-navigation-item-color: $text-color !default;
+$menu-navigation-item-selected-bg: $primary-100 !default;
+$menu-navigation-item-selected-color: $primary-900 !default;
+$menu-navigation-item-selected-border: $primary-color !default;
+$menu-navigation-item-hover-bg: $primary-50 !default;
+$menu-navigation-item-hover-color: $primary-900 !default;
+$menu-navigation-item-hover-decoration: none !default;
+$menu-navigation-item-separator-color: $gray-100 !default;
+
+/*----------------------------------------------------*\
+    Page header
+\*----------------------------------------------------*/
+
+$pages-header-bg: $gray-100 !default;
+$pages-header-title-color: $gray-900 !default;
+$pages-header-subtitle-color: $gray-600 !default;
+
+/*----------------------------------------------------*\
+    Slider
+\*----------------------------------------------------*/
+
+$slider-scrollbutton-background-color: $primary-500 !default;
+$slider-scrollbutton-icon-color: $primary-800 !default;
+$slider-scrollbutton-color: $gray-250 !default;
+$slider-scrollbutton-color-hover: $gray-500 !default;
+
+/*----------------------------------------------------*\
+    Courses slider
+\*----------------------------------------------------*/
+
+$courses-slider-background-color: $gray-800 !default;

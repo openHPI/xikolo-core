@@ -1,0 +1,6 @@
+.container
+  .layout-error
+    h1.layout-error__header = t(:'errors.not_found.headline')
+    .layout-error__details
+      p = t(:'errors.not_found.message')
+      = render partial: 'errors/info'

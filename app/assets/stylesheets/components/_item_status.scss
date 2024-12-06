@@ -1,0 +1,205 @@
+@mixin apply-color-schema($color, $hover-color, $type: null) {
+  .item-status__icon {
+    color: $color;
+    @if ($type == "connected") {
+      border: 2px $color solid;
+    } @else if ($type == "dashed") {
+      border: 2px $color dashed;
+    } @else if ($type == "filled") {
+      border: 2px $color solid;
+      color: $white;
+      background-color: $color;
+    } @else if ($type == "disabled") {
+      border-color: $gray-600;
+      color: $gray-600;
+      background-color: $white;
+    }
+
+    @if ($type != null) {
+      &:not(a:last-of-type) {
+        &::after {
+          background: $color;
+        }
+      }
+    }
+  }
+
+  &:active,
+  &:focus,
+  &:hover {
+    .item-status__icon {
+      color: $hover-color;
+      @if ($type != null) {
+        color: $hover-color;
+        border-color: $hover-color;
+        @if ($type == "filled") {
+          color: $white;
+          background-color: $hover-color;
+        }
+      }
+    }
+  }
+}
+
+.item-status {
+  display: flex;
+  overflow: hidden;
+  width: max-content;
+  height: 50px;
+  align-items: center;
+  padding-bottom: 15px;
+  color: $text-color;
+
+  .item-status__icon {
+    font-size: $font-size-m;
+  }
+
+  &:active,
+  &:focus,
+  &:hover {
+    text-decoration: none;
+
+    .item-status__content {
+      color: $text-color;
+    }
+
+    .item-status__title {
+      color: $link-color-hover;
+      text-decoration: underline;
+    }
+
+    .course-overview-item__title {
+      color: $link-color-hover;
+      text-decoration: underline;
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 15px;
+  }
+
+  &__title {
+    margin-bottom: 0;
+    &:hover {
+      color: $link-color-hover;
+      text-decoration: underline;
+    }
+  }
+
+  &__text {
+    margin-bottom: 0;
+    font-size: 14px;
+  }
+
+  &--link {
+    @include apply-color-schema($link-color, $link-color-hover);
+  }
+
+  &--success {
+    @include apply-color-schema($success-500, $success-700);
+  }
+
+  &--error {
+    @include apply-color-schema($error-500, $error-700);
+  }
+
+  &--connected {
+    .item-status__icon {
+      position: relative;
+      top: 0;
+      display: inline-flex;
+      width: 35px;
+      height: 35px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-size: $font-size-s;
+    }
+
+    &:not(a:last-of-type) {
+      .item-status__icon::after {
+        position: absolute;
+        top: 33px;
+        left: 50%;
+        width: 2px;
+        height: 100%;
+        content: "";
+        transform: translateX(-50%);
+      }
+    }
+    @include apply-color-schema($text-color, $gray-600, "connected");
+
+    &.item-status {
+      &--link {
+        @include apply-color-schema(
+          $link-color,
+          $link-color-hover,
+          "connected"
+        );
+      }
+      &--error {
+        @include apply-color-schema($error-500, $error-700, "connected");
+      }
+      &--success {
+        @include apply-color-schema($success-500, $success-700, "connected");
+      }
+    }
+  }
+
+  &--dashed {
+    @include apply-color-schema($text-color, $gray-800, "dashed");
+    &.item-status {
+      &--link {
+        @include apply-color-schema($link-color, $link-color-hover, "dashed");
+      }
+      &--error {
+        @include apply-color-schema($error-500, $error-700, "dashed");
+      }
+      &--success {
+        @include apply-color-schema($success-500, $success-700, "dashed");
+      }
+    }
+  }
+
+  &--filled {
+    @include apply-color-schema($text-color, $gray-800, "filled");
+    &.item-status {
+      &--link {
+        @include apply-color-schema($link-color, $link-color-hover, "filled");
+      }
+      &--success {
+        @include apply-color-schema($success-500, $success-700, "filled");
+      }
+      &--error {
+        @include apply-color-schema($error-500, $error-700, "filled");
+      }
+    }
+  }
+
+  &--disabled {
+    color: $gray-600;
+    cursor: not-allowed;
+
+    &:active,
+    &:focus,
+    &:hover {
+      .item-status__title,
+      .item-status__text {
+        color: $gray-600;
+        text-decoration: none;
+      }
+    }
+    @include apply-color-schema($gray-600, $gray-600, "disabled");
+
+    &.item-status {
+      &--link,
+      &--success,
+      &--error {
+        @include apply-color-schema($gray-600, $gray-600, "disabled");
+      }
+    }
+  }
+}

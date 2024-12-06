@@ -1,0 +1,8 @@
+.quiz-answer.radio class="#{'show-solution' if show_solution}"
+  label id="question_#{question.id}_answer_#{answer.id}_radiobutton" lang=lang
+    = radio_button_tag "submission[#{question.id}]", answer.id, show_solution || !@submission_snapshot.nil? ? answer_selected_by_user : false, id: "question_#{question.id}_answer_#{answer.id}_radiobutton", disabled: show_solution
+    == render_markdown answer.text, allow_tables: true
+  - if show_solution
+    = render 'quiz_submission/partials/quiz_answer_solution', answer_selected_by_user: answer_selected_by_user, correct_answer: answer.correct
+.ml15
+  = render 'quiz_submission/question/answer_comment', answer: answer, show_solution: show_solution, lang: lang

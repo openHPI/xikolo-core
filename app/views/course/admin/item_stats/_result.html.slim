@@ -1,0 +1,22 @@
+= javascript_include_tag 'm.e.i.n.e.l'
+
+.result.white-bg.mt5.mb15
+  - if item_stats.submissions?
+    - if item_stats.submission_limit_exceeded?
+      .no-submission
+        p.statement
+          = t(:'course.admin.item_stats.result.submission_limit_exceeded')
+
+    - else
+      h3 = t(:'course.admin.item_stats.result.submissions_over_time')
+      ajax-wrapper data-url="/api/v2/statistics/item_details/result_submissions_over_time.json?id=#{item_stats.item_id}" lazy-load='true'
+        loading-spinner
+          data-selector key='submissions_over_time'
+            fallback-text empty-data-text=t(:'admin.dashboard.show.no_data_message')
+              schema-transformer mappings='[{"x": {"type": "keys"}, "y": {"type": "values"}}]'
+                linechart-basic height='250'
+
+  - else
+    .no-submission
+      p.statement
+        = t(:'course.admin.item_stats.result.no_submission')

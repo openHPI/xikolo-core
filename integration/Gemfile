@@ -1,0 +1,41 @@
+# frozen_string_literal: true
+
+source 'https://rubygems.org'
+
+ruby '~> 3.3.0'
+
+# Libraries
+gem 'activesupport', '< 7'
+gem 'restify', '~> 1.15'
+gem 'uuid4'
+
+gem 'bigdecimal'
+gem 'mutex_m'
+gem 'syslog'
+
+gem 'xikolo-config', path: './gems/xikolo-config'
+gem 'xikolo-s3', path: './gems/xikolo-s3'
+
+# Test frameworks
+gem 'gurke', '~> 3.4'
+gem 'rspec', '~> 3.10'
+
+gem 'capybara', '~> 3.36'
+gem 'selenium-webdriver', '~> 4.11'
+
+gem 'simplecov'
+gem 'simplecov-teamcity-summary'
+
+# Test utilities
+gem 'childprocess', '~> 5.1.0'
+gem 'mail', '~> 2.6'
+gem 'midi-smtp-server', '~> 3.1', '>= 3.1.2'
+gem 'multi_process', '~> 1.2'
+gem 'rack-remote'
+gem 'webmock'
+gem 'webrick'
+
+# Development
+gem 'pry'
+gem 'pry-byebug'
+gem 'rake'

@@ -1,0 +1,129 @@
+.promotion {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+
+  a {
+    text-decoration: none;
+  }
+
+  &:hover {
+    .xi-icon {
+      transform: translateX(-10px);
+      transition-delay: 0.25s;
+
+      @include screen-size-s-and-up {
+        .xi-icon {
+          transform: translateX(-25px);
+        }
+      }
+    }
+  }
+
+  .xi-icon {
+    align-self: center;
+    font-size: $font-size-l;
+    transition: transform 0.25s ease;
+
+    @include screen-size-s-and-up {
+      font-size: $font-size-xl;
+    }
+  }
+
+  &--with-image {
+    position: relative;
+    background-position: center right;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  &__content {
+    z-index: 1;
+    display: flex;
+    width: 100%;
+    max-width: $main-content-width;
+    align-items: center;
+    justify-content: space-between;
+    padding: 50px $page-padding;
+    @include horizontal-page-padding;
+
+    & > :first-child {
+      max-width: 70%;
+
+      @include screen-size-s-and-up {
+        width: 60%;
+      }
+      @include screen-size-m-and-up {
+        width: 50%;
+      }
+    }
+  }
+
+  &__title {
+    @include font-sm;
+
+    @include screen-size-s-and-up {
+      font-size: $font-size-m;
+      font-weight: $line-height-m;
+    }
+  }
+
+  &__text {
+    @include font-s;
+
+    @include screen-size-m-and-up {
+      @include font-sm;
+    }
+  }
+
+  &__overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: $black;
+
+    &--primary {
+      background-color: $primary-500;
+    }
+
+    &--secondary {
+      background-color: $secondary-500;
+    }
+
+    &--tertiary {
+      background-color: $tertiary-500;
+    }
+  }
+
+  &--black {
+    background-color: $gray-800;
+    color: $white;
+    a {
+      color: $white;
+    }
+  }
+
+  &--primary {
+    background-color: $primary-500;
+    color: $white;
+    a {
+      color: $white;
+    }
+  }
+
+  &--secondary {
+    background-color: $secondary-500;
+    color: $white;
+    a {
+      color: $white;
+    }
+  }
+
+  &--tertiary {
+    background-color: $tertiary-500;
+    color: $tertiary-900;
+    a {
+      color: $tertiary-900;
+    }
+  }
+}

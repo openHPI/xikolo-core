@@ -1,0 +1,11 @@
+.slider class=css_modifiers data-controller='slider'
+  button.slider__scroll-button hidden=true type="button" aria-label=t(:'buttons.scroll_left') data-slider-target='scroll-button-left'
+    = render Global::FaIcon.new('arrow-left');
+  .slider__content data-slider-target="content"
+    div data-slider-target='intersector-left'
+    - items.each do |item|
+      .slider__item data-slider-target='item'
+        = item
+    div data-slider-target='intersector-right'
+  button.slider__scroll-button.slider__scroll-button--right hidden=true type="button" aria-label=t(:'buttons.scroll_right') data-slider-target='scroll-button-right'
+    = render Global::FaIcon.new('arrow-right');

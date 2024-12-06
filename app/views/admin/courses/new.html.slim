@@ -1,0 +1,13 @@
+- content_for :page_header_slim
+  = render Global::PageHeader.new(t(:'admin.courses.new'), subtitle: t(:'admin.page_header'), type: :slim)
+
+.container.sticky-container
+  .row.mt15
+    .col-md-9
+      = render 'form', course: @course
+
+    .col-md-3.hidden-xs.hidden-sm.sticky-container__element
+      .scrollspy-target
+        ul.nav.news-nav
+          - I18n.t(:'admin.courses.formgroups').each do |key, text|
+            li: a href="#formgroup-#{key}" = text

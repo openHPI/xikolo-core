@@ -1,0 +1,44 @@
+---
+include:
+  - path: compose.background.yml
+  - path: compose.init.yml
+
+x-timeeffort: &timeeffort
+  image: xikolo-timeeffort:latest
+  build:
+    context: ..
+    dockerfile: docker/files/timeeffort.Dockerfile
+  env_file:
+    - .env
+  networks:
+    - xikolo
+  volumes:
+    - ./config/xikolo.yml:/etc/xikolo.yml:ro
+    - ./config/xikolo/timeeffort.yml:/app/config/xikolo.yml:ro
+  restart: always
+  depends_on:
+    init-database:
+      condition: service_completed_successfully
+    postgres:
+      condition: service_healthy
+    rabbitmq:
+      condition: service_healthy
+    redis-cache:
+      condition: service_healthy
+    redis-sidekiq:
+      condition: service_healthy
+
+services:
+  timeeffort-msgr:
+    <<: *timeeffort
+    command: msgr
+
+  timeeffort-server:
+    <<: *timeeffort
+    command: server
+    ports: # only for debugging
+      - 6300:80
+
+  timeeffort-sidekiq:
+    <<: *timeeffort
+    command: sidekiq

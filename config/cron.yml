@@ -1,0 +1,19 @@
+production:
+  # Refresh sitemap at 5:24 a.m.
+  refresh_sitemap:
+    cron: "24 5 * * *"
+    class: RefreshSitemapJob
+    queue: default
+    active_job: true
+  # Delete voucher claimant IPs at 4:15 a.m.
+  delete_voucher_claimant_ip:
+    cron: "15 4 * * *"
+    class: Voucher::DeleteClaimantIPJob
+    queue: default
+    active_job: true
+  # Synchronize newly added videos every 2 hours.
+  sync_videos:
+    cron: "0 */2 * * *"
+    class: Video::SyncVideosJob
+    queue: long_running
+    active_job: true

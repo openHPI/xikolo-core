@@ -1,0 +1,401 @@
+$side-padding: 25px;
+$vertical-space: 20px;
+$vertical-space-xs: 5px;
+$border-radius: 2px;
+
+$description-max-lines: 3;
+$title-max-lines: 2;
+$teachers-max-lines: 3;
+
+$transition-delay: 150ms;
+$transition-duration: 200ms;
+
+// Course card buttons
+$course-card-btn-radius: 0px !default;
+
+$course-card-primary-btn-bg: $primary-color !default;
+$course-card-primary-btn-color: $white !default;
+$course-card-primary-btn-bg-hover: $primary-600 !default;
+
+$course-card-secondary-btn-bg: $primary-900 !default;
+$course-card-secondary-btn-color: $white !default;
+$course-card-secondary-btn-bg-hover: $primary-800 !default;
+
+$course-card-tertiary-btn-bg: $primary-100 !default;
+$course-card-tertiary-btn-color: $primary-900 !default;
+$course-card-tertiary-btn-bg-hover: $primary-50 !default;
+
+$xi-course-card-font: $basefont !default;
+
+.course-card {
+  position: relative;
+
+  // With the temporary grid layout (see below) the card in mobile view
+  // (breakpoint "tiny": 575px) needs to take the whole width
+  max-width: 575px;
+  border-radius: $border-radius;
+  background-color: $gray-50;
+
+  &__label {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 3px 10px;
+    border-radius: 1px;
+    background-color: $white;
+    font-family: $xi-course-card-font;
+    letter-spacing: 0.75px;
+    text-transform: uppercase;
+    @include font-xs;
+  }
+
+  &__title {
+    overflow: hidden;
+    min-height: $title-max-lines * (20 + $vertical-space);
+    padding: $vertical-space $side-padding;
+
+    a {
+      @include font-s;
+      max-height: $title-max-lines * 20px;
+      color: $gray-900;
+      font-weight: bold;
+      @include truncate-text($title-max-lines);
+    }
+  }
+
+  &__teacher {
+    padding: 0 $side-padding;
+    margin-bottom: $vertical-space-xs;
+    font-family: $xi-course-card-font;
+    letter-spacing: 0.75px;
+    text-transform: uppercase;
+    @include font-xs;
+    @include truncate-text($teachers-max-lines);
+  }
+
+  &__description {
+    @include font-s;
+    @include truncate-text($description-max-lines);
+    padding: 0 $side-padding;
+    margin-bottom: $vertical-space;
+
+    * {
+      display: contents;
+      // Makes truncation work in Safari
+      margin: 0;
+    }
+  }
+
+  &__extended-info {
+    overflow: hidden;
+    max-height: 0;
+  }
+
+  &__datapoints {
+    padding: 0 $side-padding $vertical-space;
+    margin-bottom: 0;
+    background-color: $gray-50;
+    font-family: $xi-course-card-font;
+    letter-spacing: 0.75px;
+    text-transform: uppercase;
+    @include font-xs;
+
+    > * {
+      display: flex;
+      align-items: flex-start;
+      padding-bottom: $vertical-space-xs;
+    }
+
+    span {
+      @include truncate-text(1);
+      max-height: $line-height-xs;
+    }
+
+    .xi-icon {
+      width: 16px;
+      flex-shrink: 0;
+      margin-right: 5px;
+      font-size: $font-size-s;
+      line-height: 16px;
+      text-align: center;
+    }
+
+    a {
+      color: $text-color;
+      text-decoration: underline;
+
+      &:hover,
+      &:focus {
+        color: $link-color;
+      }
+    }
+  }
+
+  &__empty-datapoint-text {
+    color: $gray-250;
+    &:before {
+      content: "-";
+    }
+  }
+
+  &__image-wrapper {
+    overflow: hidden;
+    text-align: center;
+  }
+
+  &__image {
+    display: block;
+    width: 100%;
+    padding: 0;
+
+    &--hidden-course {
+      opacity: 0.25;
+    }
+  }
+
+  &__image picture {
+    display: block;
+    overflow: hidden;
+    width: 100%;
+    height: 160px;
+  }
+
+  &__image img {
+    width: 100%;
+    height: 100%;
+    border-radius: $border-radius $border-radius 0 0;
+    object-fit: cover;
+    vertical-align: middle;
+  }
+
+  &__actions {
+    overflow: hidden;
+    max-height: 0;
+    padding: 0 $side-padding;
+  }
+
+  &__action-btn {
+    padding: 3px 10px;
+    border-radius: $course-card-btn-radius;
+    margin: 0 0 5px 5px;
+    background-color: $course-card-primary-btn-bg;
+    color: $course-card-primary-btn-color;
+    font-family: $xi-course-card-font;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    @include font-xs;
+
+    .xi-icon {
+      margin-left: 5px;
+    }
+
+    &:hover,
+    &:focus {
+      background-color: $course-card-primary-btn-bg-hover;
+      color: $course-card-primary-btn-color;
+      text-decoration: none;
+    }
+
+    &.disabled {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    &--secondary {
+      background-color: $course-card-secondary-btn-bg;
+      color: $course-card-secondary-btn-color;
+
+      &:hover,
+      &:focus {
+        background-color: $course-card-secondary-btn-bg-hover;
+        color: $course-card-secondary-btn-color;
+      }
+    }
+
+    &--tertiary {
+      background-color: $course-card-tertiary-btn-bg;
+      color: $course-card-tertiary-btn-color;
+
+      &:hover,
+      &:focus {
+        background-color: $course-card-tertiary-btn-bg-hover;
+        color: $course-card-tertiary-btn-color;
+      }
+    }
+
+    &--large {
+      padding: 10px 20px;
+      margin: 0 10px 0 0;
+      font-family: $xi-font-body;
+      text-transform: none;
+      @include font-s;
+    }
+  }
+
+  &__action-btn {
+    &:focus {
+      // Sets browser's default focus style
+      outline: 3px auto Highlight;
+      outline: 3px auto -webkit-focus-ring-color;
+    }
+  }
+
+  &--expandable {
+    transition:
+      box-shadow $transition-duration $transition-delay ease-in-out,
+      transform $transition-duration $transition-delay ease-in-out;
+
+    .course-card__content-wrapper {
+      background-color: inherit;
+    }
+
+    .course-card__actions {
+      opacity: 0;
+    }
+  }
+
+  &--expanded {
+    position: absolute;
+    z-index: 10;
+    // Slightly move the card upwards on hover
+    margin-top: -5px;
+    transition: margin-top $transition-duration $transition-delay ease-in-out;
+
+    .course-card__content-wrapper {
+      background-color: $white;
+      box-shadow: $box-shadow-m;
+      transition:
+        box-shadow $transition-duration $transition-delay ease-in-out,
+        background-color $transition-duration $transition-delay ease-in-out;
+    }
+
+    .course-card__image-wrapper {
+      box-shadow: $box-shadow-m;
+      transition: box-shadow $transition-duration $transition-delay ease-in-out;
+    }
+
+    .course-card__extended-info {
+      max-height: 20 * ($title-max-lines + $description-max-lines) + 16 *
+        $teachers-max-lines + 3 * $vertical-space + $vertical-space-xs;
+    }
+
+    .course-card__teacher {
+      min-height: auto;
+    }
+
+    .course-card__title {
+      a {
+        // Reset text truncation
+        display: block;
+        // 5 lines
+        max-height: 100px;
+      }
+    }
+
+    .course-card__datapoints {
+      padding: 13px $side-padding 8px;
+      transition: padding $transition-duration $transition-delay ease-in-out;
+      span {
+        // Reset text truncation
+        display: block;
+        max-height: 100px;
+      }
+    }
+
+    .course-card__actions {
+      display: flex;
+      // Three lines of buttons
+      max-height: 120px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      padding: $vertical-space $side-padding 15px;
+      opacity: 1;
+      transition:
+        padding $transition-duration $transition-delay ease-in-out,
+        max-height $transition-duration $transition-delay ease-in-out,
+        opacity $transition-duration $transition-delay ease-in-out;
+    }
+
+    .course-card__datapoints span,
+    .course-card__title a,
+    .course-card__extended-info {
+      transition: max-height $transition-duration $transition-delay ease-in-out;
+    }
+  }
+
+  &--compact {
+    background-color: $white;
+    box-shadow: $box-shadow-m;
+
+    .course-card__actions {
+      display: flex;
+      overflow: visible;
+      max-height: fit-content;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      padding: $vertical-space $side-padding 15px;
+    }
+
+    // Align actions dropdown button to the left
+    .actions-dropdown {
+      margin-right: auto;
+    }
+
+    .course-card__datapoints {
+      padding: 13px $side-padding 8px;
+    }
+  }
+}
+
+// TEMPORARY: Use same old grid layout as legacy XUI component.
+// This can be drop once the horizontal scrolling is implemented.
+
+// NOTE: Here we MUST use max-width for media queries; otherwise
+// some of the media queries may interact and would cause more
+// line breaks than desired.
+
+// Responsive styling for home page, channel and course list page
+
+.course-card-grid {
+  display: grid;
+  margin: 5px 0 25px 0;
+  gap: 15px;
+}
+
+.home-courses,
+.channel-courses,
+.course-list {
+  .course-card-grid {
+    @media (min-width: 576px) and (max-width: $xs-to-sm - 1) {
+      grid-template-columns: repeat(2, minmax(10px, 1fr));
+    }
+
+    @media (min-width: $xs-to-sm) and (max-width: $sm-to-md - 1) {
+      gap: 28px;
+      grid-template-columns: repeat(3, minmax(10px, 1fr));
+    }
+
+    @media (min-width: $sm-to-md) {
+      gap: 28px;
+      grid-template-columns: repeat(4, minmax(10px, 1fr));
+    }
+  }
+}
+
+// Less room on the dashboard page
+.dashboard {
+  .course-card-grid {
+    @media (min-width: 576px) and (max-width: $xs-to-sm - 1) {
+      grid-template-columns: repeat(1, minmax(10px, 1fr));
+    }
+
+    @media (min-width: $xs-to-sm) and (max-width: $sm-to-md - 1) {
+      gap: 20px;
+      grid-template-columns: repeat(2, minmax(10px, 1fr));
+    }
+
+    @media (min-width: $sm-to-md) {
+      gap: 20px;
+      grid-template-columns: repeat(3, minmax(10px, 1fr));
+    }
+  }
+}

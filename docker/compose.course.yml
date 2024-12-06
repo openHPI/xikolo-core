@@ -1,0 +1,39 @@
+---
+include:
+  - path: compose.background.yml
+  - path: compose.init.yml
+
+x-course: &course
+  image: xikolo-course:latest
+  build:
+    context: ..
+    dockerfile: docker/files/course.Dockerfile
+  env_file:
+    - .env
+  networks:
+    - xikolo
+  volumes:
+    - ./config/xikolo.yml:/etc/xikolo.yml:ro
+    - ./config/xikolo/course.yml:/app/config/xikolo.yml:ro
+  restart: always
+  depends_on:
+    - init-database
+    - postgres
+    - rabbitmq
+    - redis-cache
+    - redis-sidekiq
+
+services:
+  course-msgr:
+    <<: *course
+    command: msgr
+
+  course-server:
+    <<: *course
+    command: server
+    ports: # only for debugging
+      - 3300:80
+
+  course-sidekiq:
+    <<: *course
+    command: sidekiq

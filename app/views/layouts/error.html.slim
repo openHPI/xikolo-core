@@ -1,0 +1,35 @@
+doctype 5
+html lang="#{I18n.locale}"
+  head
+    meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    meta charset="utf-8"
+
+    = display_meta_tags
+
+    /
+    / Deprecated: Include GON for passing information to JavaScript
+    / - Needed for the lanalytics plugin
+    /
+    = include_gon(init: true)
+
+    link href=image_path('favicon.ico') rel="shortcut icon" type="image/x-icon"
+
+    = stylesheet_link_tag 'bootstrap', media: 'all', crossorigin: 'anonymous', integrity: true
+    = stylesheet_link_tag 'fontawesome', media: 'all', crossorigin: 'anonymous', integrity: true
+    = stylesheet_link_tag 'styles', media: 'all', crossorigin: 'anonymous', integrity: true
+
+    = javascript_include_tag 'runtime', integrity: true, async: true
+    = javascript_include_tag 'main', integrity: true, async: true
+    = javascript_include_tag 'application', integrity: true, async: true
+    = javascript_include_tag 'lanalytics-framework', crossorigin: 'anonymous', integrity: true
+    = javascript_include_tag "xikolo-locale-#{I18n.locale}"
+
+  body class="#{'is-masqueraded' if current_user.instrumented?}"
+    = render Navigation::Bar.new(user: current_user, allowed: %w[about announcements courses home].freeze)
+
+    .wrapper
+      = yield
+
+      .push.clearfix
+
+    = render Footer::Main.new

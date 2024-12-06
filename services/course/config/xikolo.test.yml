@@ -1,0 +1,13 @@
+s3:
+  connect_info:
+    endpoint: https://s3.xikolo.de
+    region: default
+    access_key_id: access_key
+    secret_access_key: secret_access_key
+    force_path_style: true
+  buckets:
+    course: xikolo-public
+    lti: xikolo-public
+    scientist: xikolo-scientist
+    uploads: xikolo-uploads
+    video: xikolo-video

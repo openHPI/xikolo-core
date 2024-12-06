@@ -1,0 +1,32 @@
+= simple_form_for(section,
+    as: :xikolo_course_section,
+    namespace: section.id,
+    url: {controller: 'sections', action: section.new_record? ? :create : :update, id: section.id},
+    method: section.new_record? ? :post : :put) do |f|
+  = f.error_notification
+  = f.input :title, label: t(:'admin.courses.sections.form.label.title'), required: true, placeholder: t(:'admin.courses.sections.form.placeholder.title')
+  = f.input :description, label: t(:'admin.courses.sections.form.label.description'), placeholder: t(:'admin.courses.sections.form.placeholder.description'), as: :text
+  - if parent_section
+    = f.input :published, input_html: {value: parent_section.published}, as: :hidden
+    = f.input :start_date, input_html: {value: parent_section.start_date}, as: :hidden
+    = f.input :end_date, input_html: {value: parent_section.end_date}, as: :hidden
+    = f.input :position, input_html: {value: parent_section.position}, as: :hidden
+    = f.input :alternative_state, input_html: {value: 'child'}, as: :hidden
+    = f.input :parent_id, input_html: {value: parent_section.id}, as: :hidden
+  - else
+    = f.input :published, label: t(:'admin.courses.sections.form.label.published'), as: :toggle_switch
+    = f.input :start_date, label: t(:'admin.courses.sections.form.label.start_date'), as: :datetime
+    = advanced_settings do
+      = f.input :end_date, label: t(:'admin.courses.sections.form.label.end_date'), as: :datetime
+      = f.input :optional_section, label: t(:'admin.courses.sections.form.label.optional'), as: :toggle_switch
+      = f.input :pinboard_closed, label: t(:'admin.courses.sections.form.label.pinboard_closed'), as: :toggle_switch
+      = f.input :required_section_ids, label: t(:'admin.courses.sections.form.label.required_sections'),
+        input_html: {multiple: true, data: {behavior: 'custom-select', width: '100%'}},
+        collection: @course_presenter.section_collection
+
+  .mt15
+    = f.button :submit, class: 'js-section-submit'
+    - if parent_section
+      button.btn.btn-default.ml10 style='cursor:pointer;' type='button' data-hide-on-click="#add_alternative_section_form_#{parent_section.id}" = t(:'global.cancel')
+    - else
+      button.btn.btn-default.ml10 style='cursor:pointer;' type='button' data-hide-on-click='#{section.id ? "#edit_section_form_#{section.id}" : '#add_section_form'}' = t(:'global.cancel')

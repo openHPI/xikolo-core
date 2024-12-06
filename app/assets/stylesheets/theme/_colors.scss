@@ -1,0 +1,65 @@
+/*------------------------------------*\
+  $CONTENTS
+
+  Color schema to use throughout
+  the site.
+\*------------------------------------*/
+
+$primary-900: hsl(21deg, 75%, 14%);
+$primary-800: hsl(21deg, 75%, 20%);
+$primary-600: hsl(21deg, 75%, 43%);
+$primary-500: hsl(21deg, 75%, 49%);
+$primary-250: hsl(21deg, 75%, 69%);
+$primary-100: hsl(21deg, 74%, 94%);
+$primary-50: hsl(22deg, 80%, 98%);
+
+$secondary-900: hsl(342deg, 86%, 17%);
+$secondary-500: hsl(343deg, 86%, 37%);
+$secondary-100: hsl(340deg, 84%, 95%);
+$secondary-50: hsl(345deg, 80%, 98%);
+
+$tertiary-900: hsl(38deg, 91%, 18%);
+$tertiary-500: hsl(37deg, 90%, 56%);
+$tertiary-100: hsl(37deg, 92%, 95%);
+$tertiary-50: hsl(36deg, 100%, 98%);
+
+$gray-900: hsl(0deg, 0%, 9%);
+$gray-800: hsl(0deg, 0%, 15%);
+$gray-600: hsl(0deg, 0%, 32%);
+$gray-500: hsl(0deg, 0%, 45%);
+$gray-250: hsl(0deg, 0%, 83%);
+$gray-100: hsl(0deg, 0%, 96%);
+$gray-50: hsl(0deg, 0%, 98%);
+
+$error-900: hsl(2deg, 97%, 12%);
+$error-800: hsl(3deg, 85%, 21%);
+$error-700: hsl(4deg, 82%, 30%);
+$error-600: hsl(4deg, 79%, 39%);
+$error-500: hsl(4deg, 78%, 48%);
+$error-250: hsl(4deg, 74%, 75%);
+$error-100: hsl(5deg, 76%, 90%);
+$error-50: hsl(4deg, 80%, 96%);
+
+$information-900: hsl(47deg, 90%, 13%);
+$information-500: hsl(47deg, 90%, 60%);
+$information-100: hsl(46deg, 95%, 89%);
+$information-50: hsl(46deg, 100%, 93%);
+
+$success-900: hsl(144deg, 84%, 10%);
+$success-700: hsl(145deg, 86%, 23%);
+$success-500: hsl(145deg, 53%, 48%);
+$success-100: hsl(145deg, 53%, 90%);
+$success-50: hsl(148deg, 81%, 96%);
+
+$note-900: hsl(208deg, 56%, 13%);
+$note-500: hsl(208deg, 56%, 53%);
+$note-100: hsl(208deg, 56%, 90%);
+
+$white: #ffffff;
+$black: #000000;
+$orange: #de6212;
+$blue: #428bca; // Bootstrap blue
+
+// Social media colors
+$facebook-color: #4c66a4;
+$twitter-color: #00acee;

@@ -1,0 +1,217 @@
+.navigation-profile-item {
+  list-style-type: none;
+
+  &__icon,
+  &__controls {
+    color: $navigation-item-icon;
+  }
+
+  &__controls {
+    margin-left: 7px;
+  }
+
+  &__main {
+    position: relative;
+    display: inline-flex;
+    height: $navigation-bar-height;
+    align-items: center;
+    padding: 0 20px;
+    background-color: $navigation-item-bg;
+    color: $navigation-item-color;
+    font-weight: $navigation-item-font-weight;
+
+    &:hover {
+      background-color: $navigation-item-hover-bg;
+      color: $navigation-item-hover-color;
+      text-decoration: none;
+
+      .navigation-profile-item__icon,
+      .navigation-profile-item__controls {
+        color: inherit;
+      }
+    }
+
+    &:focus,
+    &:active,
+    &--active {
+      background-color: $navigation-item-selected-bg;
+      color: $navigation-item-selected-color;
+      outline-offset: -2px;
+      text-decoration: none;
+
+      .navigation-profile-item__icon,
+      .navigation-profile-item__controls {
+        color: inherit;
+      }
+    }
+
+    &[aria-expanded="false"] {
+      + .navigation-profile-item__menu {
+        display: none;
+      }
+
+      .navigation-profile-item__control--on-collapsed {
+        display: none;
+      }
+    }
+
+    &[aria-expanded="true"] {
+      .navigation-profile-item__control--on-expanded {
+        display: none;
+      }
+    }
+  }
+
+  &__text {
+    display: none;
+    margin-left: 7px;
+
+    @include screen-size-s-and-up($navbar-breakpoint-s) {
+      display: block;
+    }
+  }
+
+  &__menu {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    padding-left: 0;
+    box-shadow: $box-shadow-m;
+
+    @include screen-size-s-and-up($navbar-breakpoint-s) {
+      left: auto;
+      width: auto;
+      min-width: 200px;
+    }
+
+    .navigation-item__main {
+      width: 100%;
+      height: 50px;
+      border-top: 1px solid $menu-navigation-item-separator-color;
+      background-color: $menu-navigation-item-bg;
+      color: $menu-navigation-item-color;
+
+      &:hover {
+        background-color: $menu-navigation-item-hover-bg;
+        color: $menu-navigation-item-hover-color;
+      }
+
+      &:focus,
+      &:active {
+        background-color: $menu-navigation-item-selected-bg;
+        color: $menu-navigation-item-selected-color;
+      }
+
+      &:hover,
+      &:focus,
+      &:active {
+        .navigation-item__icon,
+        .navigation-item__control {
+          color: inherit;
+        }
+
+        .navigation-item__text {
+          text-decoration: $menu-navigation-item-hover-decoration;
+        }
+      }
+
+      &--active {
+        padding: 0 17px;
+        border-left: 3px solid $menu-navigation-item-selected-border;
+        background-color: $menu-navigation-item-hover-bg;
+      }
+    }
+
+    .navigation-profile-item__masq-li {
+      border-top: 1px solid $gray-100;
+    }
+  }
+
+  &__avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-right: 7px;
+
+    .user-avatar {
+      width: 30px;
+      height: 30px;
+      border: none;
+      border-radius: 50%;
+    }
+  }
+
+  &__points {
+    padding: 3px 6px;
+    border-radius: 100px;
+    margin: 10px;
+    background-color: $gray-100;
+    list-style-type: none;
+
+    &--desktop {
+      display: none;
+
+      @include screen-size-s-and-up($navbar-breakpoint-s) {
+        display: block;
+      }
+    }
+
+    &--mobile {
+      position: absolute;
+      z-index: 2;
+      right: 0;
+      margin-top: $navigation-bar-height * 0.5;
+      transform: translateY(-50%);
+      @include screen-size-s-and-up($navbar-breakpoint-s) {
+        display: none;
+      }
+    }
+  }
+
+  &--masquerated,
+  &__demasq-li {
+    animation: masq-pulse-warning 3s infinite;
+    animation-timing-function: cubic-bezier(0.4, 0, 1, 1);
+
+    @keyframes masq-pulse-warning {
+      from {
+        background-color: $error-700;
+      }
+      50% {
+        background-color: $error-500;
+      }
+      to {
+        background-color: $error-700;
+      }
+    }
+
+    .navigation-profile-item__main {
+      background-color: transparent;
+      color: $gray-100;
+    }
+
+    .navigation-profile-item__main,
+    .navigation-profile-item__demasq-btn {
+      &:hover,
+      &:focus,
+      &:active {
+        background-color: $error-100;
+        color: $error-700;
+      }
+    }
+  }
+
+  &__masq-li,
+  &__demasq-li {
+    display: flex;
+    height: $navigation-bar-height;
+    align-items: center;
+    padding: 0 20px;
+    background-color: $navigation-item-bg;
+  }
+
+  &__demasq-btn {
+    color: $gray-100;
+  }
+}

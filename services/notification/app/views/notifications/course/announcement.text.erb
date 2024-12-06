@@ -1,0 +1,7 @@
+<%= @payload.course_title %>
+<% if @payload.test? %>
+------
+<%=t '.test_notice' %>
+------
+<%- end %>
+<%= block_format(locale_string_from @payload.text) %>

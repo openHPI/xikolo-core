@@ -1,0 +1,57 @@
+@import "bootstrap-sass/assets/stylesheets/bootstrap/popovers";
+
+$popover-title-color: $tertiary-900 !default;
+
+.popover {
+  min-width: 200px;
+  padding: 0;
+}
+
+.popover-title {
+  background-color: $tertiary-color;
+  color: $popover-title-color;
+  font-weight: bold;
+}
+
+// When the arrow points up, give it the same color as the title area
+.popover.bottom .arrow::after {
+  border-bottom-color: $tertiary-color;
+}
+
+.popover-title-wrapper {
+  padding: 8px 14px;
+  border-radius: ($border-radius-large - 1) ($border-radius-large - 1) 0 0;
+  border-bottom: 1px solid darken($gray-100, 5%);
+  margin: 0; // reset heading margin
+  background-color: $tertiary-color;
+
+  .popover-title {
+    display: inline-block;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: none;
+  }
+
+  a {
+    color: $black;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
+.popover-content-wrapper {
+  padding: 9px 14px;
+
+  .popover-content {
+    padding: 0;
+  }
+
+  button {
+    margin: 10px 0;
+    float: right;
+  }
+}

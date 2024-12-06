@@ -1,0 +1,6 @@
+# vim: ft=yaml
+
+# We do not publish any embedded gems here. They are only shared code
+# between the included applications in the repository.
+Gemspec/RequireMFA:
+  Enabled: false

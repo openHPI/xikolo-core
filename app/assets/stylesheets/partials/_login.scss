@@ -1,0 +1,119 @@
+/**
+ *  Login
+ */
+
+.login-box {
+  @include light-bar();
+  @include heavy-bar();
+  padding: 15px;
+
+  border-bottom-width: 3px;
+  margin: 5px 0px 20px 0px;
+  background-color: $gray-100;
+
+  .large-icon {
+    margin-bottom: 2rem;
+    color: $gray-250;
+    font-size: 90px;
+    line-height: 1;
+    text-align: center;
+  }
+}
+
+.login-dropdown {
+  width: 40em;
+  padding: 0 0.5em;
+
+  .buttons input {
+    @extend .full-width;
+  }
+}
+
+.omniauth {
+  padding: 0;
+  margin-top: 2em;
+  list-style: none;
+
+  %btn {
+    @extend .btn;
+    @extend .full-width;
+    height: 45px;
+    margin-bottom: 4px;
+
+    & > span {
+      display: block;
+      font-family: $corporatefont, sans-serif !important;
+      font-size: 18px !important;
+      font-weight: bold;
+    }
+
+    &:before {
+      float: left;
+      font-size: 18px !important;
+    }
+  }
+
+  [data-provider="saml_test_id"] {
+    @extend %btn;
+
+    padding-left: 50px;
+    margin-bottom: 0 !important;
+    background-image: url("images/omniauth/saml_test_id.png");
+    background-position: 17px;
+    background-repeat: no-repeat;
+    background-size: auto 29px;
+    vertical-align: middle;
+    @include btn-variant(#04518b, #fbfbfb, $gray-250);
+  }
+}
+
+%label-auth {
+  @extend .full-width;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 5px;
+  color: $white;
+  font-size: 14px !important;
+
+  & > span.label {
+    font-family: $basefont;
+    font-size: 10pt;
+  }
+
+  & > a {
+    color: $white;
+    font-size: 10px;
+  }
+
+  & > a:hover {
+    color: $gray-250;
+    text-decoration: none;
+  }
+
+  &:before {
+    padding-left: 4px;
+    float: left;
+  }
+}
+
+.authorizations {
+  [data-provider] {
+    @extend %label-auth;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 10px;
+    padding-left: 30px;
+    background-color: #04518b;
+    background-image: url("images/omniauth/saml_test_id.png");
+    background-position: 6px;
+    background-repeat: no-repeat;
+    background-size: auto 18px;
+
+    .xi-icon {
+      margin-left: 5px;
+      font-size: 1.5rem;
+    }
+  }
+}

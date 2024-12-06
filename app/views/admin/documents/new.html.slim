@@ -1,0 +1,29 @@
+- content_for :head_assets
+  = javascript_include_tag 'admin', crossorigin: 'anonymous', integrity: true, async: true, debug: false
+
+- content_for :page_header_slim
+  = render Global::PageHeader.new(t(:'knowledge_documents.create'), subtitle: t(:'admin.page_header'), type: :slim)
+
+.container
+  .row
+    .col-md-9.mt20
+      = simple_form_for(:document, url: {controller: 'documents', action: :create}, method: :post) do |f|
+        fieldset
+          legend
+            = t(:'knowledge_documents.internal.information')
+          = render 'form_internal'
+          = render 'form_platform_use', selected_courses: [], all_tags: @all_tags
+          legend
+            = t(:'knowledge_documents.localization.this_translation')
+          = render 'form_localization'
+
+        .btn-group
+          = f.button :submit, class: 'mr20', value: t(:'knowledge_documents.submit')
+          = link_to t(:'knowledge_documents.cancel'), documents_path, class: 'btn btn-default mr20'
+
+    .col-md-3
+      .mt60
+      h4
+        = t(:'knowledge_documents.help.help')
+      p
+        = t(:'knowledge_documents.help.new')

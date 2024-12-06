@@ -1,0 +1,11 @@
+$navigation-logo-height: 24px !default;
+
+.navigation-logo {
+  display: flex;
+  height: $navigation-bar-height;
+  align-items: center;
+
+  img {
+    height: $navigation-logo-height;
+  }
+}

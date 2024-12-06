@@ -1,0 +1,19 @@
+roles:
+  collabspace.admin:
+    - collabspace.space.access
+    - collabspace.space.manage
+    - collabspace.space.close
+    - collabspace.space.delete
+    - collabspace.member.manage
+    - collabspace.member.email
+    - collabspace.file.manage
+  collabspace.mentor:
+    - collabspace.team.access
+
+grants:
+  - role: collabspace.admin
+    group: xikolo.admins
+    context: root
+  - role: collabspace.mentor
+    group: xikolo.admins
+    context: root

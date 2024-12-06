@@ -1,0 +1,15 @@
+# vim: ft=yaml
+
+nav:
+  - index.md
+  - Platform:
+    - permissions.md
+    - course_list_banner.md
+  - courses
+  - User profile: profile
+  - Vouchers:
+    - vouchers.md
+    - Products:
+      - proctoring.md
+      - reactivation.md
+  - ...

@@ -1,0 +1,18 @@
+linters:
+  ConsecutiveControlStatements:
+    enabled: true
+    max_consecutive: 4 # This is not good, but at least we don't want to be worse.
+  EmbeddedEngines:
+    enabled: true
+    forbidden_engines:
+      - css
+      - sass
+      - scss
+      - less
+      - coffee
+  InstanceVariables:
+    enabled: false # TODO: Take care of this!
+    include:
+      - app/views/**/_*.html.slim
+  LineLength:
+    enabled: false

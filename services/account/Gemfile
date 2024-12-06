@@ -1,0 +1,75 @@
+# frozen_string_literal: true
+
+source 'https://rubygems.org'
+
+ruby '~> 3.3.0'
+
+gem 'rails', '~> 7.2.0'
+gem 'sprockets', '~> 3.2'
+gem 'sprockets-rails', '~> 3.2'
+
+gem 'base64'
+gem 'drb'
+gem 'json'
+gem 'mutex_m'
+gem 'syslog'
+
+gem 'bcrypt', '~> 3.1'
+gem 'msgpack'
+gem 'uuid4'
+
+gem 'activerecord-postgres_enum', '~> 2.0'
+gem 'fx', '~> 0.8.0'
+gem 'pg', '~> 1.0', '> 1.1.2'
+gem 'redis', '~> 5.0'
+gem 'scenic', '~> 1.5'
+
+gem 'decorate-responder', '~> 2.0'
+gem 'draper', '~> 4.0'
+gem 'has_scope', '~> 0.8.0'
+gem 'idn-ruby', '~> 0.1.0'
+gem 'paginate-responder', '~> 2.0'
+gem 'rails-rfc6570', '~> 3.0'
+gem 'responders', '~> 3.0'
+gem 'sidekiq-cron', '~> 2.0'
+gem 'will_paginate'
+
+gem 'puma'
+
+gem 'bunny', '~> 2.7'
+gem 'msgr', '~> 1.5'
+
+gem 'xikolo-common', path: './gems/xikolo-common'
+gem 'xikolo-config', path: './gems/xikolo-config'
+gem 'xikolo-s3', path: './gems/xikolo-s3'
+gem 'xikolo-sidekiq', path: './gems/xikolo-sidekiq'
+
+gem 'restify', '~> 1.15'
+
+gem 'concurrent-ruby', '~> 1.0'
+gem 'mnemosyne-ruby', '~> 2.0'
+gem 'sentry-rails', '~> 5.22.0'
+gem 'sentry-ruby', '~> 5.22.0'
+gem 'sentry-sidekiq', '~> 5.22.0'
+gem 'telegraf', '~> 3.0'
+
+group :development, :test do
+  gem 'brakeman'
+  gem 'listen', '~> 3.9.0'
+  gem 'pry'
+  gem 'pry-byebug'
+  gem 'rspec', '~> 3.10'
+  gem 'rspec-rails', '~> 6.0'
+end
+
+group :test, :integration do
+  gem 'database_cleaner', '~> 2.0'
+  # https://github.com/thoughtbot/factory_bot_rails/pull/432
+  gem 'factory_bot_rails', '~> 6.0'
+  gem 'rack-remote'
+  gem 'rspec-teamcity', require: false
+  gem 'simplecov', require: false
+  gem 'simplecov-teamcity-summary', require: false
+  gem 'timecop'
+  gem 'webmock', require: false
+end

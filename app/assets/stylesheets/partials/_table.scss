@@ -1,0 +1,35 @@
+/*------------------------------------*\
+    $CONTENTS
+
+    Table styles.
+\*------------------------------------*/
+/**
+ * Variables............Variable declarations
+ * Footer-Layout........Footer layouting and positioning
+ * Footer-Content.......Styling for the footer content
+ */
+
+/*------------------------------------*\
+    $Variables
+\*------------------------------------*/
+
+$xi-table-border-color: #dddddd !default;
+$xi-table-bg-color: #f9f9f9 !default;
+
+/*------------------------------------*\
+    $Table-Layout
+\*------------------------------------*/
+.table > tfoot > tr > td {
+  border-top: 2px solid $xi-table-border-color;
+  vertical-align: bottom;
+}
+
+.table {
+  th {
+    font-family: $xi-font-table-title;
+  }
+
+  &.table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: $xi-table-bg-color;
+  }
+}

@@ -1,0 +1,149 @@
+{
+  "title": "Skill",
+  "type": "object",
+  "description": "This schema describes the attributes of a skill.",
+  "properties": {
+    "name": {
+      "type": "array",
+      "description": "List of names of the skill. This array allows localized strings. A name and a language have to be given in the respective element.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "inLanguage": {
+            "type": "string",
+            "description": "The language the name is given in. Has to be a shortcode according to BCP 47.",
+            "example": "en"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the skill in the given language by the \"inLanguage\" attribute.",
+            "example": "PROTECTING PERSONAL DATA AND PRIVACY"
+          }
+        },
+        "required": ["inLanguage", "name"]
+      }
+    },
+    "alternateName": {
+      "type": ["array", "null"],
+      "description": "A list of alternative names for the skill.",
+      "example": ["Understand Personal Privacy", "Use Privacy Policy"],
+      "items": {
+        "type": "string"
+      }
+    },
+    "shortCode": {
+      "type": "string",
+      "description": "The short code of the skill if the used framework provides one.",
+      "example": "4.2"
+    },
+    "description": {
+      "type": ["string", "null"],
+      "description": "A short description of the skill. Should be based on the framework used.",
+      "example": "To protect personal data and privacy in digital environments. To understand how to use and share personally identifiable information while being able to protect oneself and others from damages. To understand that digital services use a \"Privacy policy\" to inform how personal data is used."
+    },
+    "educationalFramework": {
+      "type": "string",
+      "description": "The name of the educational framework that describes the skill.",
+      "enum": ["ESCO", "DigComp", "GRETA"]
+    },
+    "educationalFrameworkVersion": {
+      "type": "string",
+      "description": "The version of the educational framework that describes the skill. Can also be the year the framework was released/published.",
+      "example": "2.2"
+    },
+    "url": {
+      "type": ["string", "null"],
+      "description": "An IRI pointing at the document which describes the educational framework.",
+      "format": "iri",
+      "example": "https://publications.jrc.ec.europa.eu/repository/bitstream/JRC128415/JRC128415_01.pdf"
+    },
+    "targetUrl": {
+      "type": ["string", "null"],
+      "format": "iri",
+      "description": "An IRI pointing at the framework node of the skill.",
+      "example": null
+    },
+    "educationalLevel": {
+      "title": "EducationalLevel",
+      "type": "object",
+      "description": "This schema describes the attributes of an educational level.",
+      "properties": {
+        "description": {
+          "type": ["string", "null"],
+          "description": "A short description of the educational level. Should be based on the framework used.",
+          "example": "Independently, according to my own needs, and solving well-defined and non-routine problems, I can: - discuss ways to protect my personal data and privacy in digital environments, and - discuss ways to use and share personally identifiable information while protecting myself and others from damages. - indicate privacy policy statements of how personal data is used in digital services."
+        },
+        "name": {
+          "type": "array",
+          "description": "List of names of the educational level. This array allows localized strings. A name and a language have to be given in the respective field.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "inLanguage": {
+                "type": "string",
+                "description": "The language the name is given in. Has to be a shortcode according to BCP 47.",
+                "example": "en"
+              },
+              "name": {
+                "type": "string",
+                "description": "The name of the educational level in the given language by the \"inLanguage\" attribute.",
+                "example": "INTERMEDIATE"
+              }
+            },
+            "required": ["inLanguage", "name"]
+          }
+        },
+        "alternateName": {
+          "type": ["array", "null"],
+          "description": "A list of alternative names for the educational level.",
+          "example": [
+            "independent use of concept",
+            "use of concept for oneself"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "shortCode": {
+          "type": "string",
+          "example": "4",
+          "description": "A short code for the educational level if it is provided by the used framework."
+        },
+        "educationalFramework": {
+          "type": "string",
+          "description": "The name of the educational framework that describes the educational level.",
+          "enum": ["ESCO", "DigComp", "GRETA"]
+        },
+        "educationalFrameworkVersion": {
+          "type": "string",
+          "description": "The version of the educational framework that describes the skill. Can also be the year the framework was released/published.",
+          "example": "2.2"
+        },
+        "url": {
+          "type": ["string", "null"],
+          "format": "iri",
+          "description": "An IRI pointing at the document which describes the educational framework.",
+          "example": "https://publications.jrc.ec.europa.eu/repository/bitstream/JRC128415/JRC128415_01.pdf"
+        },
+        "targetUrl": {
+          "type": ["string", "null"],
+          "format": "iri",
+          "description": "An IRI pointing at the framework node of the educational level.",
+          "example": null
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of the object.",
+          "enum": ["EducationalLevel"]
+        }
+      },
+      "required": [
+        "name",
+        "educationalFramework",
+        "educationalFrameworkVersion",
+        "type"
+      ]
+    }
+  },
+  "required": ["name", "educationalFramework", "educationalFrameworkVersion"]
+}

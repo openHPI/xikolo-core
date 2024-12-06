@@ -1,0 +1,45 @@
+- content_for :course_area_header
+  = render Global::PageHeader.new("#{t(:'course.admin.certificate_templates.headline')} - #{course_layout.title}",
+    subtitle: t(:'course.admin.page_header'),
+    type: :slim) do |c|
+      - c.with_pill(t(:"items.show.coursestate.#{course_layout.fullstate}"), size: :small, color: :note)
+      = render(partial: 'course/shared/course_admin_action', locals: {course: course_layout, in_teacher_context: true})
+
+.container
+  .row
+    .col-md-12
+      = render 'course/shared/certificate_admin_nav'
+
+      - if @templates.any?
+        table.table.table-striped.table-condensed.table-hover
+          tr
+            th = t(:'course.admin.certificate_templates.index.type')
+            th = t(:'course.admin.certificate_templates.index.record_count')
+            th = t(:'course.admin.certificate_templates.index.actions')
+
+          - @templates.each do |template|
+            tr
+              td = t(:"simple_form.options.certificate_template.certificate_type.#{template.certificate_type}")
+              td = template.record_count
+              td
+                = link_to t(:'course.admin.certificate_templates.index.edit'),
+                  edit_course_certificate_template_path(id: template.id),
+                  class: 'btn btn-xs btn-primary'
+                = link_to t(:'course.admin.certificate_templates.index.download'),
+                  template.file_url,
+                  class: 'btn btn-xs btn-primary ml10'
+                = link_to t(:'course.admin.certificate_templates.index.preview'),
+                  preview_course_certificate_template_path(id: template.id),
+                  class: 'btn btn-xs btn-primary ml10'
+                - if template.deletable?
+                  = link_to t(:'course.admin.certificate_templates.index.delete'),
+                    course_certificate_template_path(id: template.id),
+                    method: :delete,
+                    class: 'btn btn-xs btn-primary ml10',
+                    data: {confirm: t(:'course.admin.certificate_templates.index.confirm_delete')}
+      - else
+        = render Global::Callout.new(t(:'course.admin.certificate_templates.index.empty_msg'))
+
+      = link_to t(:'course.admin.certificate_templates.index.new'),
+        new_course_certificate_template_path,
+        class: 'btn btn-sm btn-primary mt10'

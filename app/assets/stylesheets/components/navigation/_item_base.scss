@@ -1,0 +1,67 @@
+.navigation-item {
+  list-style-type: none;
+
+  &__icon {
+    width: 16px;
+    color: $navigation-item-icon;
+    text-align: center;
+
+    + .navigation-item__text {
+      // Adds margin to text only if it's preceded by an icon
+      margin-left: 7px;
+    }
+  }
+
+  &__control {
+    margin-top: 2px;
+    margin-left: 7px;
+    color: $navigation-item-icon;
+  }
+
+  &__main {
+    position: relative;
+    display: inline-flex;
+    height: $navbar-height;
+    align-items: center;
+    padding: 0 20px;
+    background-color: $navigation-item-bg;
+    color: $navigation-item-color;
+    font-weight: $navigation-item-font-weight;
+
+    &--link {
+      // Set browser's default focus style (needed for
+      // <a> type navigation items)
+      @include set-browser-focus-style();
+    }
+
+    &:hover {
+      background-color: $navigation-item-hover-bg;
+      color: $navigation-item-hover-color;
+      text-decoration: none;
+
+      .navigation-item__icon,
+      .navigation-item__control {
+        color: inherit;
+      }
+    }
+
+    &:focus,
+    &:active,
+    &--active {
+      background-color: $navigation-item-selected-bg;
+      color: $navigation-item-selected-color;
+      outline-offset: -2px;
+      text-decoration: none;
+
+      .navigation-item__icon,
+      .navigation-item__control {
+        color: inherit;
+      }
+    }
+
+    &--locked {
+      color: $gray-500;
+      cursor: not-allowed;
+    }
+  }
+}

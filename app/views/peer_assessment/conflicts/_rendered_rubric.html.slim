@@ -1,0 +1,12 @@
+.mt30
+h5 = "#{index + 1}. #{presenter.title}"
+hr.divider.slim
+
+.mt10.mb10.white-bg.pa-rt-generic
+  == render_markdown presenter.hints
+
+/ Options
+- presenter.options.each do |option|
+  .mb10
+    input type="radio" name="group_#{review.id}_#{presenter.id}" value="#{option.id}" disabled="disabled" checked=(review.optionIDs.include?(option.id) ? 'checked' : false)
+    span.ml10 = "#{option.points} #{t :'peer_assessment.rubrics.points'}: #{option.description}"

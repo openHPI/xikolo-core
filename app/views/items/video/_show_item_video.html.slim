@@ -1,0 +1,34 @@
+.col-md-12
+  .course-area-main data-lanalytics-context={course_id: item.course_id}.to_json
+    - if item.previewing?
+      = render Global::Callout.new(t(:'items.show.video.preview.info', platform: Xikolo.config.site_name, course_title: item.course_title)) do
+        = link_to t(:'items.show.video.preview.enroll'),
+          course_path(id: item.course_code),
+          class: 'btn btn-outline btn-default btn-xs'
+    = render 'items/header', item:
+
+    - if item.video.player.present?
+      #player-container
+        = render item.video.player
+
+    / This tag contains additional data tags needed by the LAnalytics Plugin StaticHtmlEventTracker
+    div data-lanalytics-resource={type: 'video', uuid: item.id}.to_json
+
+      .row
+        / TODO refactor to permission
+        - if current_user.authenticated?
+          .col-md-12.text-right
+            = render 'items/video/video_downloads', item:
+        - if item.video.description.present?
+          .col-md-12.mb15
+            h4 = t(:'items.show.video.about')
+            hr.divider.slim
+            .RenderedMarkdown lang=item.lang
+              == render_markdown(item.video.description, allow_tables: true)
+
+        / TODO refactor to permission
+        - if current_user.authenticated? && item.course_pinboard?
+          .col-md-12.mb15
+            = render Video::TopicList.new(item:, user: current_user)
+
+      = render 'seq_navigation', position:

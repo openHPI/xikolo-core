@@ -1,0 +1,31 @@
+= simple_form_for(channel) do |f|
+  = f.error_notification
+  = f.input :code
+  = f.input :name
+  - Xikolo.config.locales['available'].each do |locale|
+    = f.input :"description_#{locale}"
+
+  = advanced_settings do
+    - Xikolo.config.locales['available'].each do |locale|
+      = f.input :"info_link_url_#{locale}"
+    - Xikolo.config.locales['available'].each do |locale|
+      = f.input :"info_link_label_#{locale}"
+
+  = f.input :logo_upload_id
+  - if channel.logo_url
+    .col-lg-offset-2.channel-form-image-preview
+      = image_tag channel.logo_url
+  = f.input :mobile_visual_upload_id,
+      i18n_variables: {width: mobile_min_width, height: mobile_min_height}
+  - if channel.mobile_visual_url
+    .col-lg-offset-2.channel-form-image-preview
+      = image_tag channel.mobile_visual_url
+  = f.input :stage_visual_upload_id,
+      i18n_variables: {width: stage_min_width, height: stage_min_height}
+  - if channel.stage_visual_url
+    .col-lg-offset-2.channel-form-image-preview
+      = image_tag channel.stage_visual_url
+  = f.input :stage_statement
+  = f.input :public
+
+  = f.submit class: 'btn btn-primary'

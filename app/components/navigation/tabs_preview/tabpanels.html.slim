@@ -1,0 +1,9 @@
+= render Navigation::Tabs.new do |c|
+  - c.with_tab(controls: 'tabpanel-1', active: true)
+      = 'Tab 1'
+  - c.with_tab(controls: 'tabpanel-2')
+      = 'Tab 2'
+  - c.with_panel(id: 'tabpanel-1', active: true)
+    p = 'Content 1'
+  - c.with_panel(id: 'tabpanel-2')
+    p = 'Content 2'

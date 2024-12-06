@@ -1,0 +1,53 @@
+h1 = "Custom select"
+p
+  span = "To further transform regular select elements into customized and enhanced select boxes add the "
+  code = "data-behavior=custom-select"
+  span = " attribute to the select element (in simple forms these are usually 'f.input')"
+
+h2 = "Remote search"
+p
+  span = "Specify the URL from which to fetch the data with the "
+  code = "data-auto-completion-url"
+  span = " attribute. The data returned should be an array containing all options. The "
+  code = "text"
+  span = "property will be used to display the option, while the "
+  code = "id"
+  span = "property will serve as the selected item's value."
+  pre = "[\
+    {text: 'Kevin Cool', \
+    id: '001-310-444'}, \
+    {text: 'Tom Teacher', \
+    id: '001-310-445'}]"
+
+p = "Options will be loaded after the user has typed at least 3 characters"
+
+select placeholder= t(:'global.email_or_name') data = { behavior: 'custom-select', 'auto-completion-url': 'http://localhost:3000/admin/find_users'}
+
+h3 = "with group options"
+p
+  span = "To group options, each item should contain the "
+  code = "group"
+  span = " property."
+  pre = "[\
+    {text: 'A. Admin', \
+    id: '001-310-444'}, \
+    group: 'Users'}]"
+
+select placeholder= t(:'simple_form.placeholders.announcement_email.recipients') data = { behavior: 'custom-select', 'auto-completion-url': 'http://localhost:3000/admin/announcement/recipients'} multiple=true
+
+h3 = "Preload options"
+p
+  span = "If the remote search should load immediatelly instead of waiting for the 3rd user input characters, add the "
+  code = "data-preload"
+  span = " attribute."
+
+select placeholder= t(:'global.email_or_name') data = { behavior: 'custom-select', 'auto-completion-url': 'http://localhost:3000/admin/find_users', 'preload': 'true'}
+
+h2 = "Create new options"
+
+p
+  span = "You can allow the user to create new items that aren't in the initial list of options by adding the "
+  code = "data-create"
+  span = " attribute."
+
+select placeholder= t(:'global.email_or_name') data = { behavior: 'custom-select', 'auto-completion-url': 'http://localhost:3000/admin/find_users', 'create': 'true'}

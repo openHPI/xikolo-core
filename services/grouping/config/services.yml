@@ -1,0 +1,13 @@
+development: &dev
+  services: &devserv
+    account: <%= ENV['XIKOLO_SERVICE_ACCOUNT'] || 'http://localhost:3100' %>
+    course: <%= ENV['XIKOLO_SERVICE_COURSE'] || 'http://localhost:3300' %>
+    learnanalytics: <%= ENV['XIKOLO_SERVICE_LANALYTICS'] || 'http://localhost:5900/api' %>
+
+test:
+  services:
+    <<: *devserv
+    grouping: http://grouping.xikolo.tld
+    account: http://account.xikolo.tld
+    course: http://course.xikolo.tld
+    learnanalytics: http://learnanalytics.xikolo.tld/api

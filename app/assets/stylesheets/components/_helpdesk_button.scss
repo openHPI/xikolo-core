@@ -1,0 +1,105 @@
+.helpdesk-button {
+  position: fixed;
+  z-index: $z-index-m;
+  right: calc(env(safe-area-inset-right) + 10px);
+  bottom: 10px;
+
+  display: flex;
+  width: 50px;
+  height: 50px;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 50%;
+  background-color: $primary-color;
+
+  box-shadow: $box-shadow-s;
+
+  color: $white;
+  font-size: 2rem;
+
+  transition: bottom 0.1s;
+
+  @include small {
+    right: calc(env(safe-area-inset-right) + 20px);
+    bottom: 20px;
+    font-size: $font-size-sm;
+  }
+
+  &--bottom-reached {
+    bottom: 50px;
+
+    & + .helpdesk-panel {
+      bottom: 130px;
+    }
+  }
+}
+
+.helpdesk-panel {
+  position: fixed;
+  z-index: $z-index-l;
+
+  // Align to top under navigation bar
+  top: $navbar-height;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+
+  display: none;
+
+  width: 100%;
+
+  background-color: $gray-100;
+  box-shadow: $box-shadow-m;
+
+  overflow-x: hidden;
+
+  @include small {
+    // Align to bottom of page
+    top: auto;
+    right: 20px;
+    bottom: 90px;
+    left: auto;
+
+    width: 500px;
+    height: auto;
+    max-height: 80vh;
+    overflow-x: auto;
+  }
+
+  label {
+    margin-bottom: 5px;
+    font-size: 0.9em;
+    font-weight: normal;
+  }
+
+  input,
+  textarea,
+  select {
+    border-radius: 0px;
+  }
+
+  input {
+    height: 40px;
+  }
+
+  & .helpdesk-default-box {
+    display: none;
+    margin: 15px 25px;
+
+    & p {
+      font-size: $font-size-s;
+    }
+
+    & textarea {
+      resize: none;
+    }
+  }
+
+  & .helpdesk-result-box {
+    display: none;
+    margin: 15px 25px;
+    overflow-x: hidden;
+  }
+}

@@ -1,0 +1,6 @@
+.scrollspy-target
+  ul.nav.news-nav
+    - polls.each do |poll|
+      li
+        = link_to "#poll_#{poll.id}"
+          = poll.question

@@ -1,0 +1,3 @@
+= simple_fields_for(question, namespace: question.id) do |f|
+  = f.input :points, required: true, as: :integer, label: t(:'items.quiz.points')
+  = f.input :exclude_from_recap, label: t(:'items.quiz.exclude_from_recap'), as: :toggle_switch

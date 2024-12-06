@@ -1,0 +1,56 @@
+---
+label: Tab Navigation
+---
+
+# Tab Navigation
+
+The `Navigation::Tabs` component provides a way to organize and navigate between different sections or views within a user interface.
+It allows users to switch between content areas by clicking on corresponding tabs.
+
+## Overview
+
+It supports both links and buttons as tab items,
+offering a flexible way to build a responsive navigation UI.
+If you insert other elements, this might need further custom CSS.
+
+<lookbook-embed app="http://localhost:3030/rails/components/" preview="Navigation::TabsPreview" scenario="default"></lookbook-embed>
+
+## Indicate active tab
+
+Indicating the active tab is essential for users to recognize their current selection within the interface.
+
+<lookbook-embed app="http://localhost:3030/rails/components/" preview="Navigation::TabsPreview" scenario="active"></lookbook-embed>
+
+## Collapsible
+
+For interfaces with numerous tabs,
+a collapsible layout offers a more responsive navigation experience.
+When configuring the TabNavigation component with `collapsible: true`,
+the tabs adjust automatically based on the screen size,
+making the component more versatile.
+
+This configuration is optional,
+because interfaces with only two or three tabs collapsing may not be necessary.
+
+### Layout
+
+On larger screens, the tabs are aligned horizontally,
+while on smaller screens, the component switches to a vertical layout.
+A button for expanding or collapsing the tab content is also provided.
+
+<lookbook-embed app="http://localhost:3030/rails/components/" preview="Navigation::TabsPreview" scenario="collapsible"></lookbook-embed>
+
+**Hint:** To preview this behavior, use LookBook's resize handle to test responsiveness.
+
+## Panels
+
+When configured with panels,
+the component shows or hides content upon clicking a tab.
+This setup allows users to view content related to each tab without navigating away from the current page.
+
+**Important!**
+
+- Each tab must include a `controls` attribute that references the `id` of its corresponding panel.
+- Ensure that the `active` state of both the tab and the panel matches.
+
+<lookbook-embed app="http://localhost:3030/rails/components/" preview="Navigation::TabsPreview" scenario="tabpanels"></lookbook-embed>

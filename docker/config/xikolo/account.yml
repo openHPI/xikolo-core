@@ -1,0 +1,12 @@
+---
+s3:
+  buckets:
+    avatars: bucket-public
+    uploads: bucket-uploads
+
+  # connect_info:
+  #   endpoint: https://s3.openhpicloud.de
+  #   region: default
+  #   access_key_id: ...
+  #   secret_access_key: ...
+  #   # http_continue_timeout: 0

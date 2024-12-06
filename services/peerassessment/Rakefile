@@ -1,0 +1,16 @@
+# frozen_string_literal: true
+
+require File.expand_path('config/application', __dir__)
+Xikolo::PeerAssessment::Application.load_tasks
+
+namespace :ci do
+  desc 'Setup service for CI'
+  task setup: %w[ci:env db:drop:all db:create:all db:schema:load]
+
+  desc 'Run specs for CI'
+  task spec: %w[^spec]
+
+  task env: :environment do
+    ENV['DISABLE_DATABASE_ENVIRONMENT_CHECK'] = '1'
+  end
+end

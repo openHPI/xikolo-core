@@ -1,0 +1,31 @@
+li.lti_provider data-id=lti_provider.id
+  .title
+    h3 = lti_provider.name
+    .btn-group.pull-right
+      a.btn.dropdown-toggle data-toggle='dropdown' href='#'
+        = t(:'lti_providers.lti_provider.actions')
+        span.caret
+      ul.dropdown-menu
+        li: a.js-lti-provider-edit-form-add href='#' data-provider-id=lti_provider.id
+          = t(:'lti_providers.lti_provider.edit')
+        li
+          = link_to t(:'lti_providers.lti_provider.delete'),
+            course_lti_provider_path(id: lti_provider.id),
+            data: {confirm: t(:'lti_providers.lti_provider.confirm_delete')},
+            method: :delete
+  .labels
+    span.row
+      span.col-sm-2
+        ul.list-group
+          li.list-group-item = t(:'simple_form.labels.lti_provider.description')
+          li.list-group-item = t(:'simple_form.labels.lti_provider.domain')
+          li.list-group-item = t(:'simple_form.labels.lti_provider.presentation_mode')
+          li.list-group-item = t(:'simple_form.labels.lti_provider.consumer_key')
+      span.col-sm-8
+        ul.list-group
+          li.list-group-item = lti_provider.description
+          li.list-group-item = lti_provider.domain
+          li.list-group-item = lti_provider.presentation_mode
+          li.list-group-item = lti_provider.consumer_key
+  .form_wrapper.mb10 id="js-form-edit-lti-provider-#{lti_provider.id}" hidden='true'
+    = render partial: 'form_lti_provider', locals: {lti_provider:}

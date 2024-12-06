@@ -1,0 +1,384 @@
+/*----------------------------------------*\
+    $CONTENTS
+
+    Styles related to the peer assessment
+    workflow and components.
+\*----------------------------------------*/
+/**
+ * Variables...................Variable declarations
+ * Forms.......................Form styles
+ * Richtext....................Collection of RT styles for PA instructions, submissions and the like
+ * Rubric......................Rubric related styles
+ * Flow-Component..............PA flow presenter component
+ * Dropzone....................Submission file upload styles
+ */
+
+/*------------------------------------*\
+    $Variables
+\*------------------------------------*/
+$rubric-indicator-height: 30px;
+$rubric-indicator-arrow: 5px;
+
+/*------------------------------------*\
+    $Forms
+\*------------------------------------*/
+label input[type="file"] {
+  position: fixed;
+  top: -1000px;
+}
+
+/*------------------------------------*\
+    $Richtext
+\*------------------------------------*/
+.pa-rt-generic {
+  padding: 5px;
+  background-color: lighten($gray-100, 5%);
+}
+
+#wmd-preview-text-new-review,
+.pa-gray {
+  background-color: lighten($gray-100, 5%);
+}
+
+/*------------------------------------*\
+    $Rubric
+\*------------------------------------*/
+.comparison-rubric {
+  margin-left: 100px;
+
+  .comparison-indicator {
+    position: absolute;
+    z-index: 700;
+
+    top: -5px; // Half the arrow width
+    left: -100px;
+    width: 80px;
+    height: $rubric-indicator-height;
+    padding: 0px 10px;
+    background-color: $gray-800;
+    color: $white;
+    font-size: 0.9em;
+    line-height: $rubric-indicator-height;
+    text-align: center;
+
+    &:after {
+      @include ff-smoothing();
+      position: absolute;
+      right: -10px;
+      width: 0px;
+      height: 0px;
+      border-top: ($rubric-indicator-height * 0.5) solid transparent;
+      border-bottom: $rubric-indicator-height * 0.5 solid transparent;
+      border-left: 10px solid $gray-800;
+
+      content: "";
+    }
+
+    &.match {
+      background-color: $success-500;
+      &:after {
+        border-left: 10px solid $success-500;
+      }
+    }
+
+    &.your_answer {
+      background-color: $gray-600;
+      &:after {
+        border-left: 10px solid $gray-600;
+      }
+    }
+
+    &.ta_answer {
+      background-color: $blue;
+      &:after {
+        border-left: 10px solid $blue;
+      }
+    }
+  }
+}
+
+/*------------------------------------*\
+    $Flow-Component
+\*------------------------------------*/
+.pa-flow {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: 20px;
+
+  .pa-step {
+    position: relative;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    margin: 20px 0;
+
+    @include screen-size-s-and-up {
+      width: auto;
+      min-width: 150px;
+    }
+
+    .unlock-date {
+      position: absolute;
+      bottom: 30px;
+      height: 16px;
+      padding-left: 2px;
+      border-left: 2px solid $gray-250;
+      @include font-xs;
+    }
+
+    .deadline {
+      position: absolute;
+
+      top: 30px;
+      right: 0;
+      height: 16px;
+      padding-right: 2px;
+      border-right: 2px solid $gray-250;
+      text-align: end;
+
+      @include font-xs;
+    }
+
+    .pointer {
+      position: relative;
+      display: flex;
+      height: 30px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      // triangles
+      &::after,
+      &::before {
+        position: absolute;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        border-top: 15px solid transparent;
+        border-bottom: 15px solid transparent;
+        content: "";
+      }
+
+      // right triangle
+      &::after {
+        z-index: $z-index-sm;
+        right: -10px;
+        border-left: 10px solid $gray-250;
+      }
+
+      &:first-child {
+        .title {
+          padding-left: 10px;
+        }
+      }
+
+      .title {
+        padding-right: 5px;
+        padding-left: 10px;
+
+        a,
+        a:active,
+        a:focus,
+        a:hover {
+          color: $white;
+          text-decoration: none;
+
+          &.locked {
+            cursor: not-allowed;
+          }
+        }
+      }
+    }
+
+    // first step does not have a left triangle
+    &:not(:first-child) {
+      margin-left: 3px;
+
+      .pointer {
+        padding-left: 10px;
+
+        &::before {
+          left: 0;
+          border-left: 10px solid white;
+        }
+      }
+    }
+
+    &.open {
+      .unlock-date,
+      .deadline {
+        border-color: $gray-250;
+      }
+
+      .pointer {
+        background-color: $gray-250;
+
+        a,
+        a:active,
+        a:focus,
+        a:hover {
+          color: $black;
+        }
+
+        &::after {
+          border-left-color: $gray-250;
+        }
+      }
+    }
+
+    &.locked {
+      .unlock-date,
+      .deadline {
+        border-color: $gray-600;
+      }
+
+      .pointer {
+        border-left-color: $gray-600;
+        background-color: $gray-600;
+        color: $white;
+
+        &::after {
+          border-left-color: $gray-600;
+        }
+      }
+    }
+
+    &.finished {
+      .unlock-date,
+      .deadline {
+        border-color: $success-500;
+      }
+
+      .pointer {
+        background-color: $success-500;
+        color: $white;
+
+        &::after {
+          border-left-color: $success-500;
+        }
+      }
+    }
+
+    &.current {
+      .unlock-date,
+      .deadline {
+        border-color: $primary-color;
+      }
+
+      .pointer {
+        background-color: $primary-color;
+
+        a,
+        a:active,
+        a:focus,
+        a:hover {
+          color: $white !important;
+        }
+
+        &::after {
+          border-left-color: $primary-color;
+        }
+      }
+    }
+  }
+}
+
+/*------------------------------------*\
+    $Upload
+\*------------------------------------*/
+.peer-assessment-upload {
+  min-height: 200px;
+}
+
+/*------------------------------------*\
+    $Rating-Form
+\*------------------------------------*/
+.peer-rating {
+  position: relative;
+  padding: 0px;
+
+  .rating-bar {
+    position: absolute;
+    z-index: 500;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    width: 0%;
+    height: 30px;
+  }
+
+  .rating-boxes {
+    position: absolute;
+    z-index: 600;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+
+    .star-box {
+      position: relative;
+      display: inline-block;
+      width: 33%; // There are four boxes overall
+      height: 30px;
+      border-right: 1px solid $black;
+      border-bottom: 1px solid $black;
+
+      &:nth-child(1) {
+        border-left: 1px solid $black;
+      }
+
+      .indicator {
+        position: absolute;
+        top: -30px;
+        color: $information-500;
+        cursor: pointer;
+
+        &.left {
+          left: -11px;
+        }
+
+        &.right {
+          right: -11px;
+        }
+      }
+    }
+  }
+
+  &.rendered .indicator {
+    cursor: default !important;
+  }
+}
+
+.narrowish {
+  width: 7em;
+}
+
+.result-circle {
+  display: flex;
+  justify-content: center;
+}
+
+/*------------------------------------*\
+    $Submission-Management
+\*------------------------------------*/
+
+.submission-management {
+  &__forms {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+
+    form {
+      display: flex;
+      margin: 0 10px 10px;
+    }
+
+    .ts-wrapper {
+      width: 160px;
+      // Reset default "min-width: 400px" to be
+      // able to apply lower value.
+      min-width: 160px;
+    }
+  }
+}

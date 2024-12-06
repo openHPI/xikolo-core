@@ -1,0 +1,16 @@
+common: &common
+  uri: <%= ENV['XIKOLO_RABBITMQ_URL'] || 'amqp://localhost/' %>
+
+test:
+  <<: *common
+  prefix: collabspace-test
+  pool_class: Msgr::TestPool
+
+development:
+  <<: *common
+
+production:
+  <<: *common
+
+integration:
+  <<: *common

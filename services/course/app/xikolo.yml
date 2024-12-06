@@ -1,0 +1,127 @@
+#######################
+### Course Behavior
+#######################
+
+# Required percentage of visits to gain Confirmation of Participation in a course
+cop_threshold_percentage: 50
+
+# Required percentage of points to gain Record of Achievement in a course
+roa_threshold_percentage: 50
+
+# Open Mode lets un-registered / un-enrolled users access course videos that are marked as such.
+# Can be activated for the entire platform, and the default behavior for new videos can be configured.
+open_mode:
+  enabled: false
+  default_value: false
+
+#######################
+### Roles & Permissions
+#######################
+
+# The user groups (and their roles) to create for each new course
+course_groups:
+  students:
+    description: "Students of course %s"
+    grants:
+      - role: course.student
+        context: course
+  admins:
+    description: "Course Admins of course %s"
+    grants:
+      - role: account.tracer
+        context: root
+      - role: certificate.admin
+        context: course
+      - role: collabspace.admin
+        context: course
+      - role: collabspace.mentor
+        context: course
+      - role: course.manager
+        context: course
+      - role: course.manager.global
+        context: root
+      - role: course.previewer
+        context: course
+      - role: lti.admin
+        context: course
+      - role: lti.tool.instructor
+        context: course
+      - role: news.announcement.admin
+        context: course
+      - role: peerassessment.manager
+        context: course
+      - role: pinboard.moderator
+        context: course
+      - role: quiz.admin
+        context: course
+      - role: quiz.controller
+        context: course
+      - role: quiz.inspector
+        context: course
+      - role: video.controller
+        context: course
+      - role: subtitle.editor
+        context: course
+      - role: peerassessment.admin
+        context: course
+      - role: video.editor
+        context: root
+  moderators:
+    description: "Moderators of course %s"
+    grants:
+      - role: account.tracer
+        context: root
+      - role: collabspace.mentor
+        context: course
+      - role: course.previewer
+        context: course
+      - role: news.announcement.previewer
+        context: course
+      - role: pinboard.moderator
+        context: course
+      - role: quiz.inspector
+        context: course
+  teachers:
+    description: "Teachers of course %s"
+    grants:
+      - role: account.tracer
+        context: root
+      - role: course.previewer
+        context: course
+      - role: course.teacher
+        context: course
+      - role: news.announcement.previewer
+        context: course
+      - role: pinboard.moderator
+        context: course
+      - role: quiz.controller
+        context: course
+      - role: quiz.inspector
+        context: course
+      - role: video.controller
+        context: course
+      - role: peerassessment.expert
+        context: course
+
+#######################
+### Experiments
+#######################
+
+# Persisted learning evaluation (PLE)
+# This is currently an experimental feature, meant to replace calculations for
+# progress, achievements and "learning evaluations". Disabled by default.
+#
+# - "write": a boolean that determines whether PLE will be calculated
+# - "read": A boolean or integer.
+#           When boolean, it determines whether PLE is actually *used* by the application.
+#           When integer, this determines the percentage of requests that will be used for
+#           comparing the old (dynamic) implementation to the new one, without actually
+#           using the new one yet.
+# - "legacy_courses": A list of course IDs where "fixed learning evaluations" remain
+#                     (imported from an older course platform).
+#
+# (For backwards compatibility, it can also be set to "true" or "false" instead of a hash.)
+persisted_learning_evaluation:
+  write: false
+  read: false
+  legacy_courses: []

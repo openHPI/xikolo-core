@@ -1,0 +1,22 @@
+- content_for :page_header_slim
+  = render Global::PageHeader.new(t(:'admin.clusters.show_headline'), subtitle: t(:'admin.page_header'), type: :slim) do |c|
+    - c.with_pill @cluster.title, color: :note, size: :small
+
+.container
+  .mt20
+    h2 = t(:'admin.clusters.name')
+    table.mb15.mt15
+      tbody
+        - Xikolo.config.locales['available'].each_slice(2) do |loc1, loc2|
+          tr
+            td
+              b => "#{t(:"languages.title.#{loc1}")}:"
+              span = @cluster.translations[loc1].presence || '-'
+            td.pl50
+              - if loc2.nil?
+                p /
+              - else
+                b => "#{t(:"languages.title.#{loc2}")}:"
+                span = @cluster.translations[loc2].presence || '-'
+  .mt20
+    = render partial: 'admin/clusters/classifiers', locals: {classifiers: @cluster.classifiers, cluster: @cluster}

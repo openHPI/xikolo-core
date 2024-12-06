@@ -1,0 +1,13 @@
+section.courses-slider__container
+  .courses-slider__content
+    .courses-slider__header
+      - if @title
+        h2.courses-slider__title
+          = @title
+      - if @href
+        = link_to t(:'home.list_all_courses'), @href, class: 'btn btn-primary'
+    .courses-slider__slider
+      = render Global::Slider.new(variant: @slider_variant) do |c|
+        - @courses.each do |course|
+          - c.with_item do
+            = render Home::CourseCard.new(course)

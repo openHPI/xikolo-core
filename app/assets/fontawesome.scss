@@ -1,0 +1,22 @@
+// For a complete description about the content of the following files,
+// please check the official documentation at
+// https://fontawesome.com/how-to-use/on-the-web/using-with/sass
+
+// This variable sets the path for the font files location. It is necessary for
+// the icon styles files to find the correct path for those files.
+$fa-font-path: "./fontawesome-pro/webfonts";
+
+// This file imports the main Font Awesome compile.
+// It works as the entry point for the import of all the other project files
+@import "./fontawesome-pro/scss/fontawesome";
+
+// Those files are responsible for the icon styles.
+// They define the @font-face properties, and are not imported by the main
+// fontawesome entrypoint file.
+@import "./fontawesome-pro/scss/brands";
+@import "./fontawesome-pro/scss/regular";
+@import "./fontawesome-pro/scss/solid";
+
+// This assures backwards compatibility with FontAwesome v4, as described on
+// https://fontawesome.com/how-to-use/on-the-web/setup/upgrading-from-version-4#manually
+@import "./fontawesome-pro/scss/v4-shims";

@@ -1,0 +1,142 @@
+- content_for :head_assets
+  = javascript_include_tag 'teacher', crossorigin: 'anonymous', integrity: true, async: true, debug: false
+
+- if params[:stat_id]
+  div[
+    data-lanalytics-visit='item_statistics'
+    data-lanalytics-resource="#{ {type: 'item', uuid: params[:stat_id]}.to_json }"
+    data-lanalytics-context="#{ {course_id: @course['id'], content_type: 'quiz'}.to_json }"
+  ]
+
+.container.white-bg.statistics-page
+  .row
+
+    .col-md-12
+      h2
+        = t(:'.title')
+
+    .col-md-12
+      hr.dashboard-hr-top
+
+    .col-md-12
+      form method="get"
+        = select_tag 'stat_id', options_for_select(@items.collect{ |u| ["#{@sections[u.section_id]['title']} - #{u.title}", u.id] }, params[:stat_id]), \
+          :onchange => 'this.form.submit();', :include_blank => t(:'.please_select')
+
+    .col-md-12
+      hr.hr
+
+      = javascript_include_tag 'd3.v3.js'
+      = javascript_include_tag 'dimple.js'
+      javascript:
+       var chartHolder = [];
+       $(window).resize(function () {
+         $.each(chartHolder, function (index, value) {
+           value.draw(0, true);
+         });
+       });
+      - @stats_titles.each do |stat|
+        h4 = t(:'.submissions')
+        p
+          = t(:'.total_submissions')
+          => @stats[stat[0]]['total_submissions']
+          br
+          = t(:'.distinct')
+          =< @stats[stat[0]]['total_submissions_distinct']
+          - average = []
+          .white-bg#chart_time style="height:250px"
+            javascript:
+              chart_data = #{raw @stats[stat[0]]['submissions_over_time'].map{|k,v| {Date: k[0..9] , Count: v.to_i}}.to_json};
+              var svg = dimple.newSvg("#chart_time", '100%', '100%');
+              var myChart = new dimple.chart(svg, chart_data);
+              var x = myChart.addTimeAxis("x", "Date", "%Y-%m-%d", "%Y-%m-%d");
+              myChart.addMeasureAxis("y", "Count");
+              s = myChart.addSeries(null, dimple.plot.line);
+              myChart.setMargins("25px", "25px", "25px", "75px");
+              myChart.addLegend(60, 10, 500, 20, "right");
+              myChart.draw();
+              chartHolder.push(myChart);
+          - @stats_quizzes[stat[0]].questions.each do |question|
+            h4
+              = question.text[0..80]
+            - i = @stats[stat[0]]['questions'].select {|k,v| k.first.first == question.id }.first
+            - correct_answers = {}; false_answers = {};
+            /- correct_answers[question.id] = question.answers.select { |a| a.correct }
+            - question.answers.each do |answer|
+              - if i && i[question.id].present? && i[question.id][:answers][answer.id].present?
+                - if answer.correct
+                  - correct_answers[answer.id] = {}
+                  - correct_answers[answer.id][:count] = i[question.id][:answers][answer.id][:count]
+                  - correct_answers[answer.id][:text] = answer.text
+                  - correct_answers[answer.id][:position] = answer.position
+                - else
+                  - false_answers[answer.id] = {}
+                  - false_answers[answer.id][:count] = i[question.id][:answers][answer.id][:count]
+                  - false_answers[answer.id][:text] = answer.text
+                  - false_answers[answer.id][:position] = answer.position
+
+                - if i[question.id][:answers][answer.id][:list].size > 0
+                  - i[question.id][:answers][answer.id][:list].each do |item|
+                    br
+                      .badge
+                        = item[:count]
+                      =< item[:text]
+            - if !question.answers.empty?
+              p
+                = t(:'.total_points')
+                => question.points
+                br
+                = t(:'.average_points')
+                - number_correct = correct_answers.values.map{|answer| answer[:count]}.reduce(:+)|| 0 # sum up the count attributes of the values
+                - number_false = false_answers.values.map{|answer| answer[:count]}.reduce(:+)|| 0 # same here
+                - share_correct = (number_correct.to_f / (number_correct + number_false))
+                - average << (share_correct * question.points).round(2)
+                = average.last.to_s
+
+                .chart.white-bg id="chart_question_#{question.id}" style="height:250px"
+                - data = []
+                - false_answers.each{|e| data << {Id: e[0], Answer: e[1][:text], Count: e[1][:count], Color: 1, Position: e[1][:position]}}
+                - correct_answers.each{|e| data << {Id: e[0], Answer: e[1][:text], Count: e[1][:count], Color: 0, Position: e[1][:position]}}
+
+                - is_survey = @items.find { |item| item.content_id == stat[0]}.exercise_type == 'survey'
+
+                javascript:
+                  var chart_data = #{raw data.to_json};
+                  var svg = dimple.newSvg("##{"chart_question_#{question.id}"}", '100%', '100%');
+                  var myChart = new dimple.chart(svg, chart_data);
+                  var x = myChart.addCategoryAxis("x", "Answer");
+                  var isSurvey = #{is_survey}
+                  c = myChart.addColorAxis("Color", [ "#8cb30d", "#ff0000"]);
+                  myChart.addMeasureAxis("y", "Count");
+                  s = myChart.addSeries(null, dimple.plot.bar);
+                  s.getTooltipText = function (e) {
+                    return [
+                      e.cy + " : "+ e.cx
+                    ];
+                  };
+                  x.addOrderRule("Color", false);
+                  if (isSurvey) {
+                    x.addOrderRule("Position", false);
+                  }
+                  myChart.setMargins("25px", "25px", "25px", "25px");
+                  myChart.addLegend(60, 10, 500, 20, "right");
+                  myChart.draw();
+                  chartHolder.push(myChart);
+
+                p
+                  => t(:'.correct') + ' (' + share_correct.round(2).to_s + ', ' + number_correct.to_s + ' ' + t(:'.total') + ')'
+                  => t(:'.wrong') + ' (' + (1 - share_correct).round(2).to_s + ', ' + number_false.to_s + ' ' + t(:'.total') + ')'
+
+        h4 = t(:'.student_performance')
+        p
+          = t(:'.average_time')
+          - begin
+            =< "#{@stats[stat[0]]['avg_submit_duration']}#{t(:'.seconds')}(#{@stats_quizzes[stat[0]].time_limit_seconds}#{t(:'.limit')})"
+          - rescue
+
+          br
+          = t(:'.average_points')
+          - total_avg = average.inject(0) { |result, avg| result + avg }
+          = total_avg.to_s + ' (' + (total_avg / @stats_quizzes[stat[0]].max_points * 100).to_s.to_f.round.to_s + t(:'.percent_of')
+          = @stats_quizzes[stat[0]].max_points.to_s + ' ' + t(:'.total') +  ')'
+        hr

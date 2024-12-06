@@ -1,0 +1,52 @@
+# layout cop settings
+
+Layout/ArgumentAlignment:
+  EnforcedStyle: with_fixed_indentation
+
+Layout/CaseIndentation:
+  EnforcedStyle: end
+  SupportedStyles:
+    - case
+    - end
+  IndentOneStep: true
+
+#
+# This is currently broken:
+#   https://github.com/rubocop-hq/rubocop/issues/7212
+#
+Layout/EmptyLinesAroundAccessModifier:
+  Enabled: false
+
+Layout/FirstArrayElementIndentation:
+  EnforcedStyle: consistent
+
+Layout/FirstHashElementIndentation:
+  EnforcedStyle: consistent
+
+#
+# There are good reasons for key as well as table style.
+#
+Layout/HashAlignment:
+  Enabled: false
+
+Layout/LineLength:
+  Exclude:
+    - "api/**/*"
+    - "config/**/*"
+    - "db/**/*"
+    - "services/*/config/**/*"
+    - "services/*/db/**/*"
+    - "services/*/spec/**/*"
+    - "spec/**/*"
+  Max: 120
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+Layout/SpaceInsideBlockBraces:
+  EnforcedStyle: space
+  EnforcedStyleForEmptyBraces: no_space
+  SpaceBeforeBlockParameters: false
+
+Layout/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: no_space

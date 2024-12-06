@@ -1,0 +1,19 @@
+= render 'show_header'
+
+= javascript_include_tag 'lanalytics-pa-item'
+
+form action="#{start_assessment_peer_assessment_path @assessment.id}" method="post"
+  .pa-gray.p10.mt20
+    input name="authenticity_token" type="hidden" value="#{form_authenticity_token}"
+    .checkbox
+      label
+        input name="coh_ack" type="checkbox"
+        span> = t :'peer_assessment.coh_text'
+        - if @assessment.usage_disclaimer.present?
+          .inline-block == render_markdown @assessment.usage_disclaimer
+
+  div data-lanalytics-resource={type: 'peer_assessment', uuid: @assessment.id}.to_json data-lanalytics-context={course_id: @item_presenter.course_id}.to_json
+    .mt30
+    = render 'items/seq_navigation',
+      position: @inner_course_position,
+      action: {as_button: true, icon: 'play', text: t(:'peer_assessment.start_assessment')}

@@ -1,0 +1,8 @@
+.mr20.inline-block
+  - if roa
+    = link_to t(:'.download_roa'), certificate_render_path(course_id: course.id, type: Certificate::Record::ROA),
+      id: "download_roa_#{course.id}",
+      class: 'btn btn-primary btn-sm download-record-button'
+  - else
+    button.btn.btn-sm.btn-primary type="button" disabled=true
+      = t(:'.download_roa')

@@ -1,0 +1,17 @@
+.xui-mdupload-input {
+  display: flex;
+
+  .xui-mdupload-editor {
+    width: 80%;
+  }
+
+  .dropzone {
+    width: 20%;
+    margin-left: 1rem;
+  }
+
+  .xui-mdupload-zone {
+    height: 100%;
+    cursor: pointer;
+  }
+}

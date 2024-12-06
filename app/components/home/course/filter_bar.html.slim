@@ -1,0 +1,21 @@
+.filter-bar id="adjust-anchor"
+  = form_tag courses_path, method: :get do
+    .filter-bar__wrapper
+      .filter-bar__floating-label-search class="#{'filter-bar__floating-label-search--active' if params[:q].present?}"
+        / empty placeholder needed for floating label
+        = text_field_tag :q, params[:q], placeholder: " ", type: 'search'
+        = label_tag :q, t(:'course.courses.index.placeholder')
+        - if params[:q].present?
+          = button_tag t(:'components.filter_bar.search.clear'), type: 'button', class: 'filter-bar__clear-button', \
+            data: { 'id': 'clear-button', 'clear-target': '#q' }, 'aria-label': t(:'components.filter_bar.search.clear') do
+            = render Global::FaIcon.new('xmark')
+        = button_tag t(:'components.filter_bar.search.label'), type: 'submit', class: 'filter-bar__search-button', 'aria-label': t(:'components.filter_bar.search.label') do
+          = render Global::FaIcon.new('magnifying-glass')
+
+    .filter-bar__container
+      .filter-bar__container-wrapper
+        .filter-bar__filters
+          - filters.each do |filter|
+            = render filter
+
+    = render Global::FilterBar::Controls.new(courses_path, '#course-list__content', '#course-list__loading', filters, results_count: @results_count, show_overview: true)

@@ -1,0 +1,7 @@
+.report__input.report__input--radio-group
+  .report__label = @label
+  - values.each do |(value_name, value_label, value_options)|
+    .radio
+      label
+        = @form.radio_button @name, value_name, value_options
+        = value_label

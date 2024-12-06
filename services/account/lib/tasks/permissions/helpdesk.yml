@@ -1,0 +1,13 @@
+roles:
+  helpdesk.pages.admin:
+    - helpdesk.page.store
+  helpdesk.polls.admin:
+    - helpdesk.polls.manage
+
+grants:
+  - role: helpdesk.pages.admin
+    group: xikolo.admins
+    context: root
+  - role: helpdesk.polls.admin
+    group: xikolo.admins
+    context: root

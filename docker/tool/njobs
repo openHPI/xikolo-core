@@ -1,0 +1,40 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'etc'
+
+MEMINFO_REGEX = /^(\w+):\s*(\d+)\s*(kB)?\s*$/
+
+# ONLY WORKS ON LINUX
+MEMINFO = File.readlines('/proc/meminfo').each_with_object({}) do |line, hsh|
+  if (m = MEMINFO_REGEX.match(line))
+    if m[3] == 'kB'
+      hsh[m[1].downcase.to_sym] = m[2].to_i * 1024
+    else
+      hsh[m[1].downcase.to_sym] = m[2].to_i
+    end
+  end
+end
+
+# Estimated memory requirement for concurrently running
+# webpack/sprockets processes
+REQUIRE_MEM = 3.0 * 1024 * 1024 * 1024
+
+JOBS = (MEMINFO[:memavailable] / REQUIRE_MEM.to_f).round.clamp(1, Etc.nprocessors)
+
+UNITS = %w[bytes kiB MiB GiB].freeze
+
+def cunit(val, step = 0)
+  if val > 1400 && UNITS[step + 1]
+    cunit(val / 1024.0, step + 1)
+  else
+    "#{val.round(2)} #{UNITS[step]}"
+  end
+end
+
+warn "++ MemAvailable: #{cunit(MEMINFO[:memavailable])}"
+warn "++ MemRequired:  #{cunit(REQUIRE_MEM)}"
+warn "++ NProcessors:  #{Etc.nprocessors}"
+warn "++ Jobs:         #{JOBS}"
+
+puts JOBS

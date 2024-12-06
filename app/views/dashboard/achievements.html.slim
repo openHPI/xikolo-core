@@ -1,0 +1,35 @@
+.row
+  .col-md-8.col-md-offset-2
+
+    .dashboard-achievements
+
+      h3.pt20 = t(:'gamification.badges.headline')
+      hr.divider
+
+      ul.gamification-badges-list.text-align-center
+        - @gamification.badges.each do |badge|
+          li.gamification-badge
+            = render Dashboard::GamificationBadge.new(badge)
+
+      h3.pt20 = t(:'gamification.scores.your_points', points: t(:'gamification.points'))
+      hr.divider
+
+      - if @gamification.scores.any?
+        table.table.table-striped.table-condensed.table-hover
+          thead
+            tr
+              th = t(:'gamification.scores.course')
+              - @gamification.scores.columns.each do |column|
+                th = t(:"gamification.scores.#{column}")
+          tbody
+            - @gamification.scores.by_course.each do |course, row|
+              tr
+                td
+                  - if course.respond_to?(:title)
+                    = link_to course.title, course
+                  - else
+                    = course
+                - @gamification.scores.columns.each do |column|
+                  td = row[column]
+      - else
+        = render State::Empty.new(t(:'gamification.scores.empty'))

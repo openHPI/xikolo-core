@@ -1,0 +1,8 @@
+pkg
+Gemfile.lock
+.rakeTasks
+*.iml
+.bundle
+
+# IntellJ / RubyMine
+/.idea

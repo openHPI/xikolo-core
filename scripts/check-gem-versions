@@ -1,0 +1,150 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# -*- vim: ft=rb -*-
+
+# This script parses all Gemfile.lock files to extract the current version used
+# in each service. It will compare all gems across all lockfiles are print a
+# report highlighting gems with non-uniform versions across the services.
+#
+# With --report a full CSV report of all gem versions can be generated.
+
+require 'bundler'
+require 'csv'
+require 'optparse'
+
+class Bundle
+  def initialize
+    @map = {}
+  end
+
+  def add(name, file)
+    @map[name.to_s] = Bundler::LockfileParser.new(Bundler.read_file(file))
+  end
+
+  def keys
+    @map.keys
+  end
+
+  def gems
+    @map.values.map {|l| l.specs.map(&:name) }.flatten.uniq
+  end
+
+  def specs
+    # We ignore versions for specific platforms
+    @map.values.map(&:specs).flatten.uniq.select {|spec| spec.platform == 'ruby' }
+  end
+
+  def find_max_version(gem, ignore: [])
+    ignore = Array(ignore)
+
+    @map.each_pair.filter_map do |name, lock|
+      next if ignore.include?(name)
+
+      lock.specs.find {|spec| spec.name == gem }&.version
+    end.max
+  end
+
+  def to_csv(header: true)
+    CSV.generate do |csv|
+      csv << ['gem', *keys] if header
+
+      to_hash.each_pair do |gem, versions|
+        csv << [gem, *versions]
+      end
+    end
+  end
+
+  def to_hash
+    gems.sort.each_with_object({}) do |gem, hash|
+      hash[gem] = @map.values.map do |lock|
+        lock.specs.find {|s| s.name == gem }&.version
+      end
+    end
+  end
+end
+
+Config = Struct.new(:exclude, :exitcode, :ignore, :report, :all)
+config = Config.new
+config.exclude = []
+config.ignore = []
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: #{ARGV[0]} [options]"
+
+  opts.on('--report', 'Print CSV report') do
+    config.report = true
+  end
+
+  opts.on('-x', '--exclude a,b,c', 'Exclude some services from report') do |str|
+    config.exclude = [*config.exclude, *str.split(',').map(&:strip)].compact.uniq
+  end
+
+  opts.on('-i', '--ignore a,b,c', 'Ignore some service in version comparison') do |str|
+    config.ignore = [*config.ignore, *str.split(',').map(&:strip)].compact.uniq
+  end
+
+  opts.on('-e', '--exit-code', 'Exit with non-success error code if not all versions match') do
+    config.exitcode = true
+  end
+
+  opts.on('-a', '--all', 'Print all gems even if all services have same version') do
+    config.all = true
+  end
+end.parse!
+
+bundle = Bundle.new
+bundle.add('web', 'Gemfile.lock')
+
+Dir['services/*/Gemfile.lock'].each do |file|
+  name = file.split('/')[1]
+  next if config.exclude.include?(name)
+
+  bundle.add(name, file)
+end
+
+if config.report
+  puts bundle.to_csv
+else
+  state = {}
+  bundle.to_hash.each_pair do |gem, versions|
+    if !config.all && (versions.compact.uniq.count <= 1)
+      next # all version are equal
+    end
+
+    max = bundle.find_max_version(gem, ignore: config.ignore)
+    strings = versions.map do |v|
+      str = format('%8.8s', v.to_s)
+      next str if !v || !max
+
+      if v == max
+        "\e[32m#{str}\e[0m" # green
+      elsif v < max
+        "\e[31m#{str}\e[0m" # red
+      else
+        str
+      end
+    end
+
+    state[gem] = strings.join(' ')
+  end
+
+  puts <<~OUT
+    Found #{bundle.gems.count} gems with #{bundle.specs.count} unique versions.
+
+  OUT
+
+  max = state.keys.map(&:length).max
+  fmt = "%-#{max}.#{max}s %s"
+
+  headers = bundle.keys.map {|s| format('%8.8s', s) }
+  puts format(fmt, '', *headers.join(' '))
+
+  state.each_pair do |gem, str|
+    puts format(fmt, gem, str)
+  end
+end
+
+if config.exitcode && bundle.gems.count != bundle.specs.count
+  exit 1
+end

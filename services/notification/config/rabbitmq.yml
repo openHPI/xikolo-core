@@ -1,0 +1,18 @@
+common: &common
+  uri: <%= ENV['XIKOLO_RABBITMQ_URL'] || 'amqp://localhost/' %>
+  checkcredentials: false
+
+test:
+  <<: *common
+  prefix: notification-test
+  pool_class: Msgr::TestPool
+  raise_exceptions: true
+
+development:
+  <<: *common
+
+production:
+  <<: *common
+
+integration:
+  <<: *common

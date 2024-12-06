@@ -1,0 +1,18 @@
+= javascript_include_tag 'lanalytics-pa-item'
+
+= render 'show_header'
+
+= render Global::Callout.new(t(:'peer_assessment.locked', unlock: distance_of_time_in_words(DateTime.now, @step_presenters.first.unlock_date)))
+
+.mt20
+  strong = t :'peer_assessment.locked_notification'
+
+.pa-gray.p10#coh_form
+  input name="coh_ack" type="checkbox" disabled="disabled"
+  span.ml5 = t :'peer_assessment.coh_text'
+  - if @assessment.usage_disclaimer.present?
+    span.ml5.inline-block == render_markdown @assessment.usage_disclaimer
+
+.mt30
+div data-lanalytics-resource={type: 'peer_assessment', uuid: @assessment.id}.to_json data-lanalytics-context={course_id: @item_presenter.course_id}.to_json
+  = render 'items/seq_navigation', position: @inner_course_position

@@ -1,0 +1,7 @@
+- unless review.text.blank?
+  - unless defined? nomargin and nomargin
+    .mt40
+
+  h4 = t :'peer_assessment.review.written_feedback'
+  hr.divider.slim
+  .pa-rt-generic == render_markdown review.text

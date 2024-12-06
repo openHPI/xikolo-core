@@ -1,0 +1,2 @@
+- courses.each do |course|
+  = render Home::CourseCard.new(course, user: current_user, enrollment: enrollments[course.id])

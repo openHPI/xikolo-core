@@ -1,0 +1,39 @@
+- content_for :page_header_slim
+  = render Global::PageHeader.new(t(:'admin.channels.headline'), subtitle: t(:'admin.page_header'), type: :slim)
+
+.container
+  - if @channels.any?
+    .mt10.mb10.pull-right
+      - if current_user.allowed?('course.channel.edit') && @channels.size > 1
+        = link_to t(:'admin.channels.reorder'), admin_channels_order_path, class: 'btn btn-default'
+      - if current_user.allowed? 'course.channel.create'
+        = link_to t(:'admin.channels.add'), new_channel_path, class: 'btn btn-primary ml10'
+
+    table.table.table-striped.mb15.mt15.full-width
+      thead
+        tr
+          th = t(:'admin.channels.code')
+          th = t(:'admin.channels.name')
+          th = t(:'admin.channels.logo')
+          th = t(:'admin.channels.public')
+          th
+      tbody
+        - @channels.each do |channel|
+          tr
+            td = channel.code
+            td.nowrap
+              = channel.name
+            td.channel-admin-logo
+              - if channel.logo_url
+                = image_tag Imagecrop.transform(channel.logo_url, width: 200)
+            td = t(:"admin.channels.public_#{channel.public}")
+            td.nowrap
+              = link_to t(:'admin.channels.actions.show'), channel_path(channel.code), class: 'btn btn-primary btn-xs mr5'
+              - if current_user.allowed? 'course.channel.edit'
+                = link_to t(:'admin.channels.actions.edit'), edit_channel_path(id: channel.id), class: 'btn btn-primary btn-xs mr5'
+              - if current_user.allowed? 'course.channel.delete'
+                = link_to t(:'admin.channels.actions.remove'), channel_path(id: channel.id), method: 'delete', data: {confirm: t(:'admin.channels.delete_warning', count: channel.courses.count)}, class: 'btn btn-primary btn-xs'
+  - else
+    = render Global::Callout.new(t(:'admin.channels.empty_msg')) do
+      - if current_user.allowed? 'course.channel.create'
+        = link_to t(:'admin.channels.add'), new_channel_path, class: 'btn btn-outline btn-default btn-xs'

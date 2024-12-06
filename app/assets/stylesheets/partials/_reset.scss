@@ -1,0 +1,33 @@
+/*--------------------------------------------*\
+    $CONTENTS
+
+    Xikolo reset stylesheet
+\*--------------------------------------------*/
+/**
+ * Reset.............General CSS reset styles
+ */
+
+/*--------------------------------------------*\
+    $Reset
+\*--------------------------------------------*/
+html,
+body {
+  min-height: 100vh;
+  background-color: $background-color;
+  color: $text-color;
+}
+
+/*------------------------------------*\
+    App Mode
+\*------------------------------------*/
+body.in_app {
+  margin-top: 0 !important;
+}
+
+// Remove Dotted outlines for all links
+a,
+a:hover,
+a:active,
+a:focus {
+  @include suppress-dotted-border();
+}

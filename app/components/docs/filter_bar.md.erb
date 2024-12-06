@@ -1,0 +1,57 @@
+# Filter bar
+
+We have several filter bar components that are used for specific forms in different platform pages, e.g. `Admin::Course::FilterBar`, `Home::Course::FilterBar`, or `Home::Channels::FilterBar`.
+
+<lookbook-embed app="http://localhost:3000/rails/components/" preview="Global::FilterBar::FilterBarPreview" scenario="default"></lookbook-embed>
+
+Each component class defines the filters the bar displays.
+
+At the same time, each of these filter bars is built using a set of components.
+This helps us unify the look and feel of all filters in the platform.
+
+These components are:
+
+- `Global::FilterBar::Filter`
+- `Global::FilterBar::Search`
+- `Global::FilterBar::Controls`
+
+## FilterBar::Filter
+
+A select element.
+Will automatically submit the data on change.
+
+Requires a `title` for its label, a unique `key` and a set of `options` to select from.
+The optional `selected` parameter indicates the selected option.
+
+## FilterBar::Search
+
+A search box element.
+It uses the `clear-button.js` util to reset the input element when clicking to a close button.
+
+`Home::Course::FilterBar` does not use this search component.
+For this specific filter bar, we use a particular input element that has a floating placeholder and is inlined in the `FilterBar` template component.
+
+## FilterBar::Controls
+
+<lookbook-embed app="http://localhost:3000/rails/components/" preview="Global::FilterBar::ControlsPreview" scenario="default"></lookbook-embed>
+
+A "Reset" button to restore the filter bar to its initial state.
+It only renders if we are filtering.
+
+If configured, it can also display the results count and a message bar showing an overview of the applied filters.
+
+Requires:
+
+- A `path` where the "Reset" button links to.
+- A `content_id` referencing the container where the filtered results are displayed.
+It will be hidden when "Reset" is clicked until all new content is loaded.
+For this, it uses the `hide-on-click.js` util.
+- A `loading_indicator_id` referencing the HTML element that will show while the above is hidden.
+It uses the `show-on-click.js` util.
+- The available `filters`.
+
+Optional parameters:
+
+- The `result_count`.
+- When `show_overview` is set to true, a message bar showing an overview of the filters applied will be displayed sticked to the top of the page when scrolling down the filter bar.
+For this, it uses the `fixed-bar.js` util.

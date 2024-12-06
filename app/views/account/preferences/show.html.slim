@@ -1,0 +1,51 @@
+- content_for :head_assets
+  = javascript_include_tag('user', crossorigin: 'anonymous', integrity: true, async: true)
+
+.account-notifications
+  h1 = t :'account.preferences.show.notification.headline'
+  - if current_user.feature?('primary_email_suspended')
+    = render Global::Callout.new(t(:'account.preferences.show.notification.primary_email_suspended'), type: :warning)
+  - else
+    = render Global::Callout.new(t(:'account.preferences.show.notification.mail_info', email: current_user.email))
+
+  table.account-notifications__table
+    tr
+      td
+        b = @preferences.get('notification.email.global').render_label
+      td = @preferences.get('notification.email.global').render_switch(data: {behavior: 'preferences-switch', 'toggle-notification-preferences' => true})
+
+  .account-notifications__preferences#notification-preferences hidden=@preferences.hide_notification_preferences?
+    table.account-notifications__table
+      thead
+        tr
+          th = t :'account.preferences.show.notification.event_notifications'
+          th = t :'account.preferences.show.notification.headline_email'
+      tbody
+        - @preferences.notifications.each do |preference|
+          tr
+            td = preference.render_label
+            td = preference.render_switch(:email, data: {behavior: 'preferences-switch'})
+
+        - if @is_teacher
+          - @preferences.teacher_notifications.each do |preference|
+            tr
+              td = preference.render_label
+              td = preference.render_switch(:email, data: {behavior: 'preferences-switch'})
+
+  .account-notifications__subscriptions
+    h2 = t :'account.preferences.show.subscription.headline'
+    - if @pinboard_subscriptions.any?
+      table.account-notifications__table
+        thead
+          th = t :'account.preferences.show.subscription.thread'
+          th = t :'account.preferences.show.subscription.last_activity'
+          th
+        tbody
+          - @pinboard_subscriptions.each do |sub|
+            tr
+              td = link_to sub.question_title, question_path(course_id: sub.course_id, id: sub.question_id)
+              td = t :'account.preferences.show.subscription.ago', timeago: time_ago_in_words(sub.question_updated_at)
+              td = link_to t(:'account.preferences.show.subscription.unsubscribe'), unsubscribe_path(question_id: sub.question_id), method: 'post', class: 'btn btn-primary btn-xs'
+      = will_paginate @subscription_list.pagination, renderer: PaginationRenderer
+    - else
+      = render State::Empty.new(t(:'account.preferences.show.subscription.empty_state'), size: :small)

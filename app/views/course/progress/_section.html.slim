@@ -1,0 +1,21 @@
+tr class="#{'disabled' if !section_progress.available? || section_progress.discarded_alternative? }"
+  td lang=section_progress.course_lang
+    = section_progress.title
+    - if section_progress.optional?
+      = t(:'sections.optional_section')
+  td = render 'exercise_stats', stats: section_progress.self_test_stats
+  td = render 'list_items', items: section_progress.self_test_stats.items
+  td = render 'exercise_stats', stats: section_progress.main_exercise_stats
+  td = render 'list_items', items: section_progress.main_exercise_stats.items
+  - if course_progress.with_bonus_exercises?
+    td = render 'exercise_stats', stats: section_progress.bonus_exercise_stats
+    td = render 'list_items', items: section_progress.bonus_exercise_stats.items
+  td
+    span.points style="font-size:1.1em"
+      - if section_progress.available?
+        = render 'item_stats', stats: section_progress.visits_stats
+      - else
+        ' &mdash;
+  td
+    - if section_progress.available?
+      = render 'list_items', items: section_progress.items

@@ -1,0 +1,29 @@
+.course-progress {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h4 {
+    @include font-s;
+  }
+
+  &__items {
+    display: flex;
+    margin-bottom: 20px;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 20px;
+  }
+
+  &__overall-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    font-weight: bold;
+  }
+}

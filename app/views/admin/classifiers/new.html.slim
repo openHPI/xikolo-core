@@ -1,0 +1,9 @@
+- content_for :page_header_slim
+  = render Global::PageHeader.new(t(:'admin.classifiers.new_headline'), subtitle: t(:'admin.page_header'), type: :slim) do |c|
+    - c.with_pill @cluster.title, color: :note, size: :small
+
+.container
+  .row
+    .col-md-12
+      .mt20
+        = render partial: 'admin/classifiers/form', locals: {classifier: @classifier, cluster: @cluster}

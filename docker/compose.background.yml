@@ -1,0 +1,74 @@
+---
+services:
+  minio:
+    image: minio/minio@sha256:ac591851803a79aee64bc37f66d77c56b0a4b6e12d9e5356380f4105510f2332
+    command: server /data
+    volumes:
+      - minio:/data
+    environment:
+      MINIO_ACCESS_KEY: s3accesskey
+      MINIO_SECRET_KEY: s3secretkey
+    networks:
+      - xikolo
+
+  postgres:
+    image: postgres:16.0-bookworm@sha256:a80d0c1b119cf3d6bab27f72782f16e47ab8534ced937fa813ec2ab26e1fd81e
+    restart: always
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: xikolo
+      PGUSER: xikolo
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_INITDB_ARGS: --locale=C.UTF-8 --encoding=UTF8
+    healthcheck:
+      test: pg_isready
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - xikolo
+
+  # RabbitMQ and Redis are explicitly started without persistent storage.
+  # Restarting the stack purges all still pending background jobs or queued
+  # messages.
+  rabbitmq:
+    image: rabbitmq:3.13-management@sha256:5c3ead81d8a4134e33f45751b5b9dda6a6a6546a58adfe2a3575063935ebf9c5
+    restart: always
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 10s
+      timeout: 8s
+      retries: 12
+    networks:
+      - xikolo
+
+  redis-cache:
+    image: redis:7@sha256:af0be38eb8e43191bae9b03fe5c928803930b6f93e2dde3a7ad1165c04b1ce22
+    command: redis-server --databases 8196
+    healthcheck:
+      test: redis-cli ping
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - xikolo
+
+  redis-sidekiq:
+    image: redis:7@sha256:af0be38eb8e43191bae9b03fe5c928803930b6f93e2dde3a7ad1165c04b1ce22
+    command: redis-server --databases 8196
+    healthcheck:
+      test: redis-cli ping
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - xikolo
+
+volumes:
+  postgres:
+  minio:
+
+networks:
+  xikolo:
+    name: xikolo

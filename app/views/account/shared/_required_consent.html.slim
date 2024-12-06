@@ -1,0 +1,6 @@
+- consents.each do |consent|
+  .consent
+    p
+      b = consent.label
+    p = consent.text
+  = hidden_field_tag 'consent[]', consent.name, id: "consent_#{consent.name}"

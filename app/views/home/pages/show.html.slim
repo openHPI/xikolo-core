@@ -1,0 +1,23 @@
+.static_page__header
+  .container
+    .row
+      .col-md-8.col-md-offset-2
+        h1 = @page.title
+
+.container
+  .row
+    .col-md-8.col-md-offset-2.RenderedMarkdown.responsive-images.static_page
+      == @page.html
+      .conclusion-hack
+      p.last_changed
+        = t(:'pages.show.last_changed', date: l(@page.last_changed), format: :short)
+    .col-md-2
+      - if current_user.allowed? 'helpdesk.page.store'
+        - @page.existing_translations do |locale, title|
+          = link_to t(:"pages.show.edit_translation.#{locale}", title:),
+            edit_page_path(@page.name, locale:),
+            class: 'btn btn-primary text-truncate full-width mt20'
+        - @page.new_translations do |locale|
+          = link_to t(:"pages.show.new_translation.#{locale}"),
+            edit_page_path(@page.name, locale:),
+            class: 'btn btn-primary text-truncate full-width mt20'

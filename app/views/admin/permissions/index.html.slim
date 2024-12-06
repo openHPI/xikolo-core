@@ -1,0 +1,39 @@
+- content_for :page_header_slim
+  = render Global::PageHeader.new(t(:'permissions.headline'), subtitle: t(:'admin.page_header'), type: :slim)
+
+.container.mt20
+  - @permissions.each_group do |group|
+    .col-md-12.mb20.white-bg id="group-#{group.name}"
+      h3
+        = t(:"permissions.group_names.global.#{group.name}")
+      = t(:'permissions.grant_text')
+      .pl20.mb15
+        ul
+        - group.each_grant do |grant|
+          li = t(:"permissions.role_names.#{grant['role_name']}.name")
+
+      - if group.members?
+        table.table.table-striped.mb30.full-width
+          thead
+            tr
+              th = t(:'users.list.full_name')
+              th = t(:'dashboard.profile.display_name')
+              th = t(:'global.email')
+              th = t(:'permissions.confirmed')
+              th
+          tbody
+            - group.each_member do |member|
+              tr
+                td = member.full_name
+                td = member.display_name
+                td = member.email
+                td = t(:"permissions.confirmed_#{member.confirmed?}")
+                td
+                  = link_to t(:'permissions.details'), user_path(id: member.id), class: 'btn btn-primary btn-xs mr10'
+                  = link_to t(:'permissions.remove'), group_member_path(group_id: group.name, id: member.id), method: 'delete', class: 'btn btn-primary btn-xs'
+      .custom-select-group.pb20
+        = form_tag action: :create, group_id: group.name do
+          = select_tag :id, :id,
+            id: "newgroupmember-#{group.name}",
+            data: {behavior: 'custom-select', 'auto-completion-url': admin_find_users_path, placeholder: t(:'global.email_or_name')}
+          = submit_tag t(:'permissions.add_user.button'), {class: 'btn btn-primary btn-sm ml10'}

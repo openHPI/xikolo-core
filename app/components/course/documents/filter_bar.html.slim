@@ -1,0 +1,18 @@
+.filter-bar data-hide-on-submit='#document__content' data-show-on-submit='#document-list__loading'
+  = form_tag action, method: :get do
+    .filter-bar__container
+      .filter-bar__container-wrapper
+        .filter-bar__filters
+          - filters.each do |filter|
+            = render filter
+
+  = render Global::FilterBar::Controls.new(@path, '#document__content', '#document-list__loading', @filters)
+
+  #document-list__loading[hidden]
+    = render State::Loading.new
+
+  - if content.present?
+    #document__content
+      = content
+  - else
+    = render State::Empty.new(t(:'knowledge_documents.no_documents'), size: :small)

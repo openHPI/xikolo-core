@@ -1,0 +1,19 @@
+.footer__copyright data-id="footer-copyright"
+  div
+    span.mr5 == copyright
+    - if owner.present?
+      ul.horizontal.footer__owner
+        = render owner
+    - if legal_links.present?
+      '&nbsp;&ndash;
+      ul.horizontal.dash
+        - legal_links.each do |link|
+          = render link
+  div
+    - if powered_by_links.present?
+      => powered_by_label
+      ul.horizontal.slash
+        - powered_by_links.each do |link|
+          = render link
+    - if release_number.present?
+      span.footer__release =< "r#{release_number}"

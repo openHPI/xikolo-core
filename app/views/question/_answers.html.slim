@@ -1,0 +1,102 @@
+- if question.answers.present?
+  h3 = t(:'pinboard.question.answers')
+  hr.divider
+
+  - accepted_answer = question.answers.find {|answer| answer.id == question.accepted_answer_id }
+  - answers = question.answers.reject {|answer| answer.id == question.accepted_answer_id }
+  - answers.unshift accepted_answer if accepted_answer
+
+  - answers.each do |answer|
+    .qa-box.answer data-lanalytics-resource={type: 'answer', uuid: answer.id}.to_json data-lanalytics-context={course_id:}.to_json
+      table.qa-content
+        tbody
+          tr class="qa-answer #{'unread' unless answer.read} #{'accepted' if question.accepted_answer_id == answer.id}"
+            td.vote-column.nowrap.vtop
+              .vote-box id="#votebox-answer-#{answer.id}"
+                .upvote.cpointer data-votable-type='answer' data-votable-id="#{answer.id}"
+                  = render Global::FaIcon.new('chevron-up', style: :solid, css_classes: 'em1-2 mb5 mt5')
+                .votes id="answer-#{answer.id}-votes"
+                  = answer.votes
+                .downvote.cpointer data-votable-type='answer' data-votable-id="#{answer.id}"
+                  = render Global::FaIcon.new('chevron-down', style: :solid, css_classes: 'em1-2 mb5 mt5')
+                - if accepted_answer && question.accepted_answer_id != answer.id && can_edit?(question)
+                  .accept data-answer-id="#{answer.id}" data-question-id="#{question.id}" data-course-id="#{params[:course_id]}" data-learning-room-id="#{params[:learning_room_id]}"
+                    = render Global::FaIcon.new('check', style: :solid, css_classes: 'em1-5')
+
+            td.qa-details
+              - if !accepted_answer && question.accepted_answer_id != answer.id && can_edit?(question) && !answer.blocked?
+                a.accept-hint.accept data-answer-id="#{answer.id}" data-question-id="#{question.id}" data-course-id="#{params[:course_id]}" data-learning-room-id="#{params[:learning_room_id]}" href="#"
+                  = render Global::FaIcon.new('check', style: :solid, css_classes: 'em1-2 vmiddle mr5')
+                  = t :'pinboard.question.accept_hint'
+
+              .qa-text
+                - if answer.blocked?
+                  - if current_user.allowed? 'pinboard.entity.block'
+                    b
+                      = t(:'pinboard.reporting.blocked')
+                    == render_markdown answer.text
+                  - else
+                    = t(:'pinboard.reporting.answer_blocked')
+                - else
+                  == render_markdown answer.text
+
+              = render 'attachment', resource: answer
+
+              .qa-bottom-wrapper.mb10
+                .user-info
+                  .user-info__icons
+                    = render Global::UserAvatar.new(answer.author.id, size: 'medium')
+                    - if user_state.available?(answer.author.id)
+                      .gamification-userstate.gamification-userstate-large
+                        = user_state.user_state_for(answer.author.id)
+                  div class="user-info__text #{'pl10' if user_state.available?(question.author.id)}"
+                    .username
+                      span.author = link_to answer.author.name, user_path(answer.author.id)
+                    .timestamp
+                      = t(:'pinboard.question.ago', timeago: time_ago_in_words(answer.created_at))
+
+                .actions
+                  - if can_edit? answer
+                    span.answer-edit.action data-answer-id="#{answer.id}" data-url="#{edit_answer_path(id: answer.id)}"
+                      = render Global::FaIcon.new('pencil', style: :solid)
+                      = t(:'.edit')
+
+                  - if can_delete?
+                    span.action
+                      = render Global::FaIcon.new('xmark', style: :solid)
+                      = link_to t(:'.delete'), answer_path(id: answer.id), method: 'delete', data: {confirm: t(:'.sure'), disable_with: t(:'.deleting')}
+
+                  - if current_user.allowed? 'pinboard.entity.block'
+                    - unless answer.blocked?
+                      span.action
+                        = render Global::FaIcon.new('thumbs-down', style: :solid)
+                        = link_to t(:'pinboard.reporting.block'),
+                              block_answer_path(id: answer.id),
+                              method: 'post'
+                    - unless answer.reviewed?
+                      span.action
+                        = render Global::FaIcon.new('thumbs-up', style: :solid)
+                        = link_to t(:'pinboard.reporting.unblock'),
+                            unblock_answer_path(id: answer.id),
+                            method: 'post'
+                    - if answer.abuse_report_count > 0
+                      span.action
+                        b.secondary-color =< "(#{t(:'pinboard.reporting.reports', count: answer.abuse_report_count)})"
+
+                  - elsif !answer.blocked?
+                    span.action
+                      = render Global::FaIcon.new('flag', style: :solid)
+                      = link_to t(:'pinboard.reporting.report'),
+                          abuse_report_answer_path(id: answer.id),
+                          method: 'post',
+                          data: {tooltip: t(:'pinboard.reporting.tooltip'), 'aria-label': t(:'pinboard.reporting.tooltip')},
+                          class: 'answer-report'
+
+              .edit-post.hidden id="answer-edit-#{answer.id}"
+
+              .answer-comments
+                - if !question.blocked? || current_user.allowed?('pinboard.entity.block')
+                  = render 'question/comments', commentable: answer, new_comment:, user_state:
+
+      hr.divider
+      .mt30

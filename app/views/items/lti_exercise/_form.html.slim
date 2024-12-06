@@ -1,0 +1,17 @@
+- if lti_exercise
+  = simple_fields_for(lti_exercise, wrapper: :larger_labels) do |f|
+    = f.input :instructions, label: t(:'items.lti.instruction'), as: :markdown
+    = f.input :lti_provider_id, label: t(:'items.lti.lti_provider'),
+      required: true,
+      as: :grouped_select,
+      collection: [[t(:'items.lti.lti_providers_global'), @lti_providers_global],
+        [t(:'items.lti.lti_providers_course'), @lti_providers_course]].reject {|_, list| list.empty? },
+      group_label_method: :first,
+      group_method: :last,
+      label_method: :name,
+      value_method: :id,
+      hint: lti_exercise.deleted_provider? ? render('items/lti_exercise/deleted_provider_hint') : false
+    = f.input :title, as: :string, label: t(:'items.lti.exercise_title')
+    = f.input :custom_fields, as: :string,
+      label: t(:'items.lti.custom_exercise_fields'),
+      placeholder: t(:'items.lti.custom_fields_placeholder')

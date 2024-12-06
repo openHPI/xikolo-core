@@ -1,0 +1,138 @@
+---
+s3:
+  buckets:
+    avatars: bucket-public
+    banners: bucket-public
+    certificate: bucket-certificate
+    collabspace: bucket-collabspace
+    course: bucket-public
+    lti: bucket-public
+    news: bucket-public
+    pages: bucket-public
+    peerassessment: bucket-peerassessment
+    pinboard: bucket-pinboard
+    quiz: bucket-public
+    scientist: bucket-scientist
+    sitemaps: bucket-public
+    uploads: bucket-uploads
+    video: bucket-video
+
+  # connect_info:
+  #   endpoint: https://s3.openhpicloud.de
+  #   region: default
+  #   access_key_id: ...
+  #   secret_access_key: ...
+
+layout:
+  ref:
+    about:
+      href: https://hpi.de
+      text:
+        en: About us
+        de: Über uns
+      target: _blank
+    page1:
+      href: /pages/page1
+      text:
+        de: Seite 1
+    page2:
+      href: /pages/page2
+      text:
+        de: Seite 2
+    page3:
+      href: /pages/page3
+      text:
+        de: Seite 3
+
+header:
+  visible: true
+  logo:
+    href: /
+    alt:
+      de: Logo
+  primary:
+    - announcements
+    - courses_megamenu
+    - channels
+    - text:
+        de: Netzwerk
+      items:
+        - ref:page1 # see above
+        - ref:page2
+        - ref:page3
+    - ref:about
+  secondary:
+    - administration
+    - profile
+    - login
+  merge_components: true
+
+footer:
+  visible: true
+  columns:
+    - headline:
+        de: Mehr Informationen
+      links:
+        - ref:about
+    - headline:
+        de: Hilfe
+      links:
+        - href: /pages/faq
+          title:
+            de: FAQ
+          text:
+            de: FAQ
+        - href: /helpdesk
+          title:
+            de: Kontakt
+          text:
+            de: Kontakt
+  social_media:
+    headline:
+      de: Folgen Sie uns
+    links:
+      - href: https://twitter.com/openHPI
+        text:
+          de: X (ehemals Twitter)
+        type: twitter
+      - href: https://de.linkedin.com/school/hasso-plattner-institute/
+        text:
+          de: LinkedIn
+        type: linkedin
+  about:
+    headline:
+      de: Über Xikolo
+    description:
+      de: Xikolo is a scalable and powerful MOOC platform
+  copyright:
+    start_year: 2010
+    owner:
+      href: https://open.hpi.de
+      title:
+        de: openHPI.de
+      text:
+        de: openHPI.de
+    legal:
+      - href: https://open.hpi.de/pages/imprint
+        title:
+          en: Imprint
+          de: Impressum
+        text:
+          en: Imprint
+          de: Impressum
+      - href: https://open.hpi.de/pages/data-protection
+        title:
+          en: Data Protection
+          de: Datenschutz
+        text:
+          en: Data Protection
+          de: Datenschutz
+    powered_by:
+      label:
+        de: Powered by
+      links:
+        - href: https://hpi.de
+          title:
+            de: HPI
+          text:
+            de: HPI

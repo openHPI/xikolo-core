@@ -1,0 +1,54 @@
+// --------------------------------
+// Indicators on scrollable list
+// --------------------------------
+
+.hidden-scroll-indicator {
+  position: absolute;
+  z-index: 100;
+  display: flex;
+  width: 100%;
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 234, 191, 0.9);
+  cursor: pointer;
+  text-align: center;
+  -webkit-transition: opacity 0.2s linear;
+  transition: opacity 0.2s linear;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  &.top {
+    top: 0;
+    border-bottom: 2px solid #ffbb00;
+    box-shadow: 0 6px 6px -6px rgba(0, 0, 0, 0.4);
+  }
+
+  &.bottom {
+    bottom: 0;
+    border-top: 2px solid #ffbb00;
+    box-shadow: 0 -6px 6px -6px rgba(0, 0, 0, 0.4);
+  }
+
+  &.blank {
+    opacity: 0;
+    -webkit-transition:
+      visibility 0s linear 0.2s,
+      opacity 0.2s linear;
+    transition:
+      visibility 0s linear 0.2s,
+      opacity 0.2s linear;
+    visibility: hidden;
+  }
+
+  .text-container {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .direction-icon {
+    margin-right: 10px;
+  }
+}

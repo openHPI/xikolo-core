@@ -1,0 +1,9 @@
+- if answer_selected_by_user && correct_answer
+  .ribbon.ribbon-horizontal-right.correct = t :'.correct'
+  .quiz-indicator-line.correct
+- elsif answer_selected_by_user && !correct_answer
+  .ribbon.ribbon-horizontal-right.wrong = t :'.wrong'
+  .quiz-indicator-line.wrong
+- elsif !answer_selected_by_user && correct_answer
+  .ribbon.ribbon-horizontal-right.unselected = t :'.unselected'
+  .quiz-indicator-line.unselected

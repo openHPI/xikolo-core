@@ -1,0 +1,12 @@
+.col-md-9
+  = render 'basic_description', collabspace_presenter: @collabspace_presenter
+  = render 'member_list', members: @members, memberships: @memberships
+  - if @collabspace_presenter.membership_pending?
+    p
+      = render Global::FaIcon.new('circle-info', style: :solid, css_classes: 'em1-5 vmiddle mr5')
+      = t(:'learning_rooms.pending_text')
+  - elsif @collabspace_presenter.can_join?
+    = button_to t(:'learning_rooms.join'),
+      @collabspace_presenter.join_url,
+      method: :post,
+      class: 'btn btn-primary'

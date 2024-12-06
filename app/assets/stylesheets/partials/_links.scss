@@ -1,0 +1,42 @@
+/*------------------------------------*\
+    $CONTENTS
+
+    Anchor styles
+\*------------------------------------*/
+/**
+ * Variables..............Variable declarations and overrides
+ * Anchor-Variations......Different flavours of anchors
+ */
+
+/*------------------------------------*\
+    $Variables
+\*------------------------------------*/
+//Variables and overrides here
+
+$link-color-hover: darken($link-color, 8%);
+
+/*------------------------------------*\
+    Anchor-Variations
+\*------------------------------------*/
+
+a {
+  color: $link-color;
+  word-wrap: break-word;
+  &:hover,
+  &:focus,
+  &:active {
+    color: $link-color-hover;
+  }
+}
+
+.white-link {
+  font-weight: bold;
+
+  &:hover,
+  &:active,
+  &:focus,
+  &:visited {
+    color: white;
+    text-decoration: underline;
+  }
+}

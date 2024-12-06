@@ -1,0 +1,17 @@
+.col-md-6.col-md-offset-3
+  h2
+    = t(:'.headline')
+  .login-box
+    p
+      = t(:'.instructions')
+    = simple_form_for @reset, as: :reset, url: account_reset_path(@reset.id), method: :patch, wrapper: :compact do |f|
+      = f.error_notification
+      = f.input :password, class: 'js-password', \
+        label: t(:'.label.password'), \
+        placeholder: t(:'.placeholder.password')
+      = f.input :password_confirmation, class: 'js-password-confirmation', \
+        label: t(:'.label.password_confirmation'), \
+        placeholder: t(:'.placeholder.password_confirmation')
+      .buttons
+        = f.button :submit, t(:'.label.submit'), \
+          class: 'js-submit btn btn-primary full-width'

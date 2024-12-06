@@ -1,0 +1,12 @@
+.podcast
+  .podcast__content
+    = link_to @call_to_action[:link]
+      .podcast__title = @title
+      .podcast__call_to_action
+        - @podcasts&.each do |podcast|
+          = link_to podcast[:link], class: 'btn-default podcast__btn'
+            span = render Global::FaIcon.new(podcast[:icon])
+            = podcast[:title]
+      .arrow-icon
+        = link_to @call_to_action[:link]
+          = render Global::FaIcon.new('arrow-right')

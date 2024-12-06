@@ -1,0 +1,15 @@
+= link_to course_path(course['course_code']) do
+  = render Global::FaIcon.new('arrow-left', style: :solid)
+  span.voucher-redemptions__cancel = t(:'course.redeem_voucher.cancel')
+
+h1 = t(:"course.redeem_voucher.#{product.type}.title")
+p = t(:'course.redeem_voucher.for_course')
+
+.voucher-redemptions__course
+  h2.voucher-redemptions__course-title = course.title
+
+p == product.text
+= render 'form', form: form
+
+- if product.info_text.present?
+  = render Global::Callout.new(product.info_text, title: t(:"course.redeem_voucher.#{product.type}.info_title"))

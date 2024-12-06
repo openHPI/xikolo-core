@@ -1,0 +1,9 @@
+- if @stack_icon
+  span.xi-icon.xi-icon--stack
+    span class=css_classes title=@title
+    span class=stack_icon_classes
+      svg.xi-icon__clip-svg xmlns="http://www.w3.org/2000/svg"
+        clipPath#faIconClipPath[clipPathUnits="objectBoundingBox"]
+          path d='M0.809,0.48 c-0.173,0,-0.311,-0.155,-0.311,-0.35 c0,-0.045,0.009,-0.09,0.022,-0.13 H0 v1 h1 V0.41 C0.947,0.455,0.884,0.48,0.809,0.48'
+- else
+  span class=css_classes title=@title

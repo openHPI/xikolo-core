@@ -1,0 +1,16 @@
+row.settings
+  columns
+    hr
+    - if @payload && (@payload.disable_link_global || @payload.disable_link_local)
+      p
+        = t :'.explanation.html', email: @receiver.email, site_name: Xikolo.config.site_name, type: t(type, count: 1)
+        br
+      p
+        span#local
+          - if @payload.disable_link_local
+            = t :'.local.html', link: @payload.disable_link_local, types: t(type, count: 2)
+            br
+        span#global
+          = t :'.global.html', link: @payload.disable_link_global if @payload.disable_link_global
+    - else
+      p = t :'.notification_settings_link.html', link: Xikolo.base_url.join('preferences').to_s

@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width" />
+
+  <style type="text/css">
+    <%= render partial: 'layouts/css/foundation', formats: [:css] %>
+    <%= render partial: 'layouts/css/custom', formats: [:css] %>
+  </style>
+</head>
+
+<body>
+  <table class="body">
+    <tr>
+      <td class="center" align="center" valign="top">
+        <center>
+          <table class="container">
+            <tr>
+              <td>
+                <table class="row">
+                  <tr>
+                    <th class="first large-6 small-6 columns no_bottom_padding">
+                      <a class="logo" href="<%= Xikolo.base_url.join('dashboard') %>" title="" alt="">
+                        <img src="<%= Xikolo.base_url.join('files/logo.png') %>" width="auto" height="50">
+                      </a>
+                    </th>
+                    <th class="last large-6 small-6 columns meta-info no_bottom_padding">
+                      <p class="template-label text-right">
+                        <strong><%= @payload.mailheader_type if @payload and @payload.respond_to?(:mailheader_type) %></strong>
+                        <br />
+                        <%= @payload.mailheader_info if @payload and @payload.respond_to?(:mailheader_info) %>
+                      </p>
+                    </th>
+                    <th class="expander"></th>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+
+          <table class="container">
+            <tr>
+              <td>
+                <table class="row">
+                  <tr>
+                    <th class="first last large-12 small-12 columns receiver-info">
+                      <% if  @receiver %>
+                          <hr class="condensed" /> <%= I18n.t('notifications.mail_was_sent_to')%>
+                          <%= @receiver.full_name %> (<%= @receiver.email %>)
+                          <hr class="condensed" />
+                      <% end %>
+                    </th>
+                    <th class="expander"></th>
+                  </tr>
+                </table>
+
+              </td>
+            </tr>
+          </table>
+
+          <table class="container">
+            <tr>
+              <td>
+                <table class="row">
+                  <tr>
+                    <th class="first last large-12 small-12 columns">
+                       <%= yield %>
+                    </th>
+                    <th class="expander"></th>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+
+          <table class="container small">
+            <tr>
+              <td>
+                <table class="row">
+                  <tr>
+                    <th class="first last large-12 small-12 columns">
+                      <hr />
+                      <%= render partial: 'notifications/disable_link', locals: {type: "notifications.type.#{@key}"} %>
+                      <br />
+                      <%= render partial: 'layouts/footer_v2' %>
+                    </th>
+                    <th class="expander"></th>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </center>
+      </td>
+    </tr>
+  </table>
+</body>
+
+</html>

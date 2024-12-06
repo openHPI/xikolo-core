@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Xikolo API Documentation</title>
+  <!-- Bootstrap CSS (compiled and minified) version 3.3.7, from CDN -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <style type="text/css">
+
+    /* scrollspy */
+    body { position: relative; }
+
+    /* Sticky sidenav */
+    #jump-navbar { position: sticky; top: 10px; }
+
+    .btn-schema { margin-top: 8px; }
+    .schema-body { padding-top: 6px; }
+  </style>
+</head>
+
+<body data-spy="scroll" data-target="#jump-navbar">
+
+  <nav class="navbar navbar-default">
+    <div class="container">
+      <span class="navbar-brand">Xikolo API Documentation</span>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3" id="jump-navbar">
+        <ul class="nav nav-pills nav-stacked" role="nav">
+          <% for (path, _) in endpoints %>
+            <li>
+              <a href="#endpoint-<%= path %>"><%= path %></a>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+
+      <div class="col-md-9" role="main">
+        <div class="panel-group" id="endpoint-list" role="tablist">
+          <% for (path, endpoint) in endpoints %>
+            <div class="panel panel-default endpoint" id="endpoint-<%= path %>">
+              <div class="panel-heading" id="endpoint-<%= path %>-heading" role="tab">
+                <h2 class="panel-title"><%= path %></h2>
+              </div>
+              <div id="endpoint-<%= path %>-body" role="tabpanel" aria-labelledby="endpoint-<%= path %>-heading">
+                <div class="panel-body">
+                  <h3 class="h4">Attributes</h3>
+                  <div class="list-group">
+                    <% endpoint.entity_definition.attributes.each do |attribute| %>
+                      <div class="list-group-item">
+                        <% if attribute.can_write? %>
+                          <span class="badge">writable</span>
+                        <% end %>
+                        <% if attribute.member_only %>
+                          <span class="badge" title="This attribute is only returned for single entity requests.">member-only</span>
+                        <% end %>
+                        <small class="text-muted"><%= attribute.type_name %></small>
+                        <h4 class="list-group-item-heading"><%= attribute.name %></h4>
+                        <p class="list-group-item-text"><%= attribute.desc %></p>
+
+                        <% if attribute.type_schema %>
+                          <button class="btn btn-default btn-xs btn-schema" type="button" data-toggle="collapse"
+                                  data-target=<%= "#schema-#{path}-#{attribute.name}" %> aria-expanded="false"
+                                  aria-controls=<%= "schema-#{path}-#{attribute.name}" %>>
+                            Show schema
+                          </button>
+                          <div class="collapse schema-body" id=<%= "schema-#{path}-#{attribute.name}" %>>
+                            <pre><%= attribute.type_schema %></pre>
+                          </div>
+                        <% end %>
+                      </div>
+                    <% end %>
+                  </div>
+
+                  <% unless endpoint.entity_definition.relationships.empty? %>
+                    <h3 class="h4">Relationships</h3>
+                    <div class="list-group">
+                      <% for relationship in endpoint.entity_definition.relationships %>
+                        <div class="list-group-item">
+                          <% if relationship.includable? %>
+                            <span class="badge">includable</span>
+                          <% end %>
+                          <h4 class="list-group-item-heading"><%= relationship.name %></h4>
+                        </div>
+                      <% end %>
+                    </div>
+                  <%end %>
+
+                  <h3 class="h4">Routes</h3>
+                  <div class="list-group">
+                    <% for (http_method, route) in endpoint.collection_routes %>
+                      <div class="list-group-item">
+                        <h4 class="list-group-item-heading">
+                          <%= "#{http_method.to_s.upcase} /api/v2/#{path}" %>
+                        </h4>
+                        <p class="list-group-item-text"><%= route.description %></p>
+                      </div>
+                    <% end %>
+
+                    <% for (http_method, route) in endpoint.member_routes %>
+                      <div class="list-group-item">
+                        <h4 class="list-group-item-heading">
+                          <%= "#{http_method.to_s.upcase} /api/v2/#{path}/:id" %>
+                        </h4>
+                        <p class="list-group-item-text"><%= route.description %></p>
+                      </div>
+                    <% end %>
+                  </div>
+
+                  <% unless endpoint.collection_routes.empty? or endpoint.filter_definition.filters.empty? %>
+                    <h3 class="h4">Filters</h3>
+                    <div class="list-group">
+                      <% for (name, filter) in endpoint.filter_definition.filters %>
+                        <div class="list-group-item">
+                          <% if filter.required? %>
+                            <span class="badge">required</span>
+                          <% end %>
+                          <h4 class="list-group-item-heading"><%= name %></h4>
+                          <p class="list-group-item-text"><%= filter.description %></p>
+                        </div>
+                      <% end %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- jQuery JS (compiled and minified) version 3.1.1, from CDN -->
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+
+  <!-- Bootstrap JS (compiled and minified) version 3.3.7, from CDN -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+</body>
+
+</html>

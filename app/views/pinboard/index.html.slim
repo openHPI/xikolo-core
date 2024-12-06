@@ -1,0 +1,36 @@
+.row data-lanalytics-context="#{ {course_id: @course.id}.to_json }"
+  .col-md-12
+    .row.mb20
+      .col-sm-8
+        .pinboard-breadcrumbs
+          span = t(:'pinboard.breadcrumbs.label')
+          - @pinboard.breadcrumbs.for_list.each_level do |url, text|
+            = link_to text, url
+      / Thread buttons
+      - if @pinboard.open?
+        .col-sm-4.pt10
+          button.btn.btn-primary.full-width id='new-topic-button' type='button' data-show-on-click='#question_form' data-hide-on-click='#new-topic-button' data-track='form-toggle'
+            = render Global::FaIcon.new('comments', css_classes: 'fa-lg mr5')
+            = t(:'pinboard.ask_question')
+      - else
+        .col-sm-12
+          = render Global::Callout.new(@pinboard.lock_reason, type: :warning, icon: Global::FaIcon.new('lock'))
+
+  / Question and discussion form
+  .col-md-12
+    = render partial: 'question_form'
+
+  .col-md-12
+    - if @pinboard.section_filter
+      label.pinboard__section-select
+        = t(:'pinboard.filters.discussions_in')
+        = select_tag 'pinboard_section',
+          options_for_select(@pinboard.section_filter, selected: @pinboard.current_section),
+          data: { change: 'redirect' }
+    div data-hide-on-submit='#pinboard__content' data-show-on-submit='#pinboard__loading'
+      = render Course::Pinboard::FilterBar.new(tags: @pinboard.tags_filter, within_collabspace: @pinboard.collabspace_pinboard?)
+
+      #pinboard__loading[hidden]
+        = render State::Loading.new(t(:'pinboard.index.loading'))
+      #pinboard__content
+        = render partial: 'topics', locals: {topics: @topics, course_code: @course_code}

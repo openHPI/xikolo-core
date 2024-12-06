@@ -1,0 +1,55 @@
+.topic {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  box-shadow: $box-shadow-xs;
+
+  &__timestamp {
+    width: fit-content;
+    padding: 0;
+    border: 0;
+    margin-bottom: 5px;
+    font-size: 9px;
+  }
+
+  &__title {
+    overflow: hidden;
+    min-height: 40px;
+    h5 {
+      @include truncate-text(2);
+      margin: 0;
+      line-height: 18px;
+    }
+  }
+
+  &__info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 5px 0 10px 0;
+    font-size: 11px;
+  }
+
+  &__tags {
+    padding: 3px 5px;
+    border-radius: 100px;
+    margin-right: 2px;
+    background-color: $gray-100;
+    white-space: nowrap;
+  }
+
+  &__replies {
+    margin-left: 10px;
+    white-space: nowrap;
+  }
+
+  &__abstract {
+    overflow: hidden;
+    height: 55px;
+    margin-bottom: 5px;
+    p {
+      margin: 0;
+      @include truncate-text(3);
+    }
+  }
+}

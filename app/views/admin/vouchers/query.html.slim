@@ -1,0 +1,43 @@
+- content_for :page_header_slim
+  = render Global::PageHeader.new(t(:'vouchers.headline'), subtitle: t(:'admin.page_header'), type: :slim)
+
+.container
+  .col-md-12
+    = render 'shared/voucher_admin_nav'
+  .col-md-12.mb20
+    p
+      = form_tag({action: :query}, method: :get) do
+        .form-group
+          = label_tag :code, t(:'vouchers.query.text'), class: 'mr10'
+          = text_field_tag :code, nil, placeholder: t(:'vouchers.query.placeholder'), class: 'form-control inline-block mr10', style: 'width: 400px'
+          = submit_tag t(:'vouchers.query.button'), {class: 'btn btn-primary btn-sm'}
+    - if @voucher.present?
+      table.table.table-nonfluid.table-striped
+        tr
+          th scope="row" = t(:'vouchers.query.code')
+          td = @voucher.code
+        tr
+          th scope="row" = t(:'vouchers.query.tag')
+          td = @voucher.tag
+        tr
+          th scope="row" = t(:'vouchers.query.created_at')
+          td = @voucher.created_at
+        tr
+          th scope="row" = t(:'vouchers.query.claimed')
+          td = render Global::FaIcon.new(@voucher.claimed? ? 'circle-check' : 'circle-xmark', style: :solid)
+        - if @voucher.claimant
+          tr
+            th scope="row" = @voucher.claimed? ? t(:'vouchers.query.claimant') : t(:'vouchers.query.restricted_claimant')
+            td = link_to @voucher.claimant['name'], user_path(@voucher.claimant['id'])
+        - if @voucher.claimed?
+          tr
+            th scope="row" = t(:'vouchers.query.claimed_at')
+            td = @voucher.claimed_at
+        - if @voucher.course
+          tr
+            th scope="row" = @voucher.claimed? ? t(:'vouchers.query.course') : t(:'vouchers.query.restricted_course')
+            td = link_to "#{@voucher.course['course_code']} (#{@voucher.course['title']})", course_path(@voucher.course['course_code'])
+        - if @voucher.expires_at
+          tr
+            th scope="row" = t(:'vouchers.query.expiration_date')
+            td = @voucher.expires_at

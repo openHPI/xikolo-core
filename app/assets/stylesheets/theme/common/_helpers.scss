@@ -1,0 +1,247 @@
+/*---------------------------------------*\
+    $CONTENTS
+
+    SASS Mixins and function declarations
+    for usage throughout the site.
+    This should NOT rely on the current
+    color schema!
+\*---------------------------------------*/
+/*
+ * Font...............................Mixins for fonts
+ * Vendor-Specific-Prefix-Mixins......Mixins for specific vendor prefixes (-moz, ...)
+ * Utilities..........................General helpers
+ */
+
+/*------------------------------------*\
+    $Font
+\*------------------------------------*/
+// Mixin for font declaration syntax
+@mixin declare-font-face(
+  $font-family,
+  $font-filename,
+  $font-weight: normal,
+  $font-style: normal,
+  $font-stretch: normal
+) {
+  @font-face {
+    font-family: "#{$font-family}";
+    font-stretch: $font-stretch;
+    font-style: $font-style;
+    font-weight: $font-weight;
+    src: url("fonts/#{$font-filename}.woff") format("woff");
+  }
+}
+
+@mixin font-xs {
+  font-size: $font-size-xs;
+  line-height: $line-height-xs;
+}
+
+@mixin font-s {
+  font-size: $font-size-s;
+  line-height: $line-height-s;
+}
+
+@mixin font-sm {
+  font-size: $font-size-sm;
+  line-height: $line-height-sm;
+}
+
+@mixin font-m {
+  font-size: $font-size-m;
+  line-height: $line-height-m;
+}
+
+@mixin font-l {
+  font-size: $font-size-l;
+  line-height: $line-height-l;
+}
+
+@mixin font-xl {
+  font-size: $font-size-xl;
+  line-height: $line-height-xl;
+}
+
+/*------------------------------------*\
+    $Vendor-Specific-Prefix-Mixins
+\*------------------------------------*/
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  -o-border-radius: $radius;
+  border-radius: $radius;
+}
+
+// General purpose 3-color radial gradient helper
+@mixin radial-gradient($color-start, $color-middle, $color-end) {
+  background: $color-start; /* Old browsers */
+  background: -moz-radial-gradient(
+    center,
+    ellipse cover,
+    $color-start 0%,
+    $color-middle 50%,
+    $color-end 100%
+  ); /* FF3.6+ */
+  background: -webkit-gradient(
+    radial,
+    center center,
+    0px,
+    center center,
+    100%,
+    color-stop(0%, $color-start),
+    color-stop(50%, $color-middle),
+    color-stop(100%, $color-end)
+  ); /* Chrome,Safari4+ */
+  background: -webkit-radial-gradient(
+    center,
+    ellipse cover,
+    $color-start 0%,
+    $color-middle 50%,
+    $color-end 100%
+  ); /* Chrome10+,Safari5.1+ */
+  background: -o-radial-gradient(
+    center,
+    ellipse cover,
+    $color-start 0%,
+    $color-middle 50%,
+    $color-end 100%
+  ); /* Opera 12+ */
+  background: -ms-radial-gradient(
+    center,
+    ellipse cover,
+    $color-start 0%,
+    $color-middle 50%,
+    $color-end 100%
+  ); /* IE10+ */
+  background: radial-gradient(
+    ellipse at center,
+    $color-start 0%,
+    $color-middle 50%,
+    $color-end 100%
+  ); /* W3C */
+}
+
+// General purpose 2-color horizontal (top -> bottom) gradient helper
+@mixin horizontal-2-gradient($color-start, $color-end) {
+  background: $color-start; /* Old browsers */
+  background: -moz-linear-gradient(
+    top,
+    $color-start 0%,
+    $color-end 100%
+  ); /* FF3.6+ */
+  background: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    color-stop(0%, $color-start),
+    color-stop(100%, $color-end)
+  ); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(
+    top,
+    $color-start 0%,
+    $color-end 100%
+  ); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(
+    top,
+    $color-start 0%,
+    $color-end 100%
+  ); /* Opera 11.10+ */
+  background: -ms-linear-gradient(
+    top,
+    $color-start 0%,
+    $color-end 100%
+  ); /* IE10+ */
+  background: linear-gradient(
+    to bottom,
+    $color-start 0%,
+    $color-end 100%
+  ); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#{$color-start}', endColorstr='#{$color-end}', GradientType=0 ); /* IE6-9 */
+}
+
+// Anitialiases diagonal edges with a FF hack
+@mixin ff-smoothing() {
+  -moz-transform: scale(0.9999);
+}
+
+/*------------------------------------*\
+    $Utilities
+\*------------------------------------*/
+// Supress dotted borders onclick, focus, etc. (at least sometimes)
+@mixin suppress-dotted-border() {
+  outline: 0;
+  outline-style: none;
+  outline-width: 0;
+}
+
+// Truncates a text at the given line
+@mixin truncate-text($max-lines) {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $max-lines;
+  text-overflow: ellipsis;
+}
+
+// Sets back the browser's focus style (we reset this for
+// all links at app/assets/stylesheets/partials/_reset.scss */
+@mixin set-browser-focus-style() {
+  &:focus {
+    outline: 3px auto Highlight;
+    outline: 3px auto -webkit-focus-ring-color;
+  }
+}
+
+/*----------------------------------------------------*\
+    $Vertical spacing
+
+    These are stepping steps of 10px
+    used to space between elements
+    Consider using them first before making exceptions.
+\*----------------------------------------------------*/
+
+@function vertical-spacing-xs($tablet-and-up: false) {
+  @return if($tablet-and-up, $spacing-steps * 3, $spacing-steps * 2);
+}
+
+@function vertical-spacing-m($tablet-and-up: false) {
+  @return if($tablet-and-up, $spacing-steps * 10, $spacing-steps * 8);
+}
+
+@function vertical-spacing-l($tablet-and-up: false) {
+  @return if($tablet-and-up, $spacing-steps * 15, $spacing-steps * 10);
+}
+
+/*----------------------------------------------------*\
+    $Safe area insets
+
+    The values for safe-area-inset-* can be greater
+    than zero on non rectangular screens (e.g. caused by
+    cutouts iPhone X and other modern mobile phones).
+
+    The following mixin adds the respective inset the
+    our specified padding.
+
+    This works in combination with viewport configuration
+    'viewport-fit=cover'.
+
+\*----------------------------------------------------*/
+
+@mixin horizontal-page-padding($extra-padding: $page-padding) {
+  padding-right: calc(env(safe-area-inset-left) + $extra-padding);
+  padding-left: calc(env(safe-area-inset-right) + $extra-padding);
+}
+
+@mixin outer-container($local-max-width: $max-width) {
+  max-width: $local-max-width;
+  margin: {
+    right: auto;
+    left: auto;
+  }
+  &::after {
+    display: block;
+    clear: both;
+    content: "";
+  }
+}

@@ -1,0 +1,31 @@
+- content_for :page_header_slim
+  = render Global::PageHeader.new(t(:'admin.lti_providers.index.title'), subtitle: t(:'admin.page_header'), type: :slim)
+
+.container
+  .row
+    = link_to t(:'admin.lti_providers.index.create'), new_admin_lti_provider_path, class: 'btn btn-primary mt20 pull-right'
+  .row
+    .col-md-10
+      - if @providers.present?
+        ul.lti_providers
+          - @providers.each do |provider|
+            li.lti_provider
+              .row
+                .col-sm-9
+                  h3 = provider['name']
+                .col-sm-3.mt20.mb10
+                  .btn-group.pull-right
+                    = link_to t(:'global.edit'), edit_admin_lti_provider_path(id: provider['id']), class: 'btn btn-default btn-outline btn-sm mr10'
+                    = link_to t(:'global.delete'), admin_lti_provider_path(id: provider['id']), data: {confirm: t(:'admin.lti_providers.index.confirm_delete')}, method: 'delete', class: 'btn btn-danger btn-outline btn-sm mr10'
+              - if provider['description']
+                .row.mb10
+                  .col-sm-9 = provider['description']
+              .row
+                .col-sm-3
+                  strong = t(:'admin.lti_providers.index.domain')
+                .col-sm-6 = provider['domain']
+
+            hr.divider.slim.alternative
+        = will_paginate @providers, renderer: PaginationRenderer
+      - else
+        .alert.alert-info-border = t(:'admin.lti_providers.index.empty_state')

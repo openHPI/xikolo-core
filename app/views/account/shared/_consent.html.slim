@@ -1,0 +1,14 @@
+- consents.each do |consent|
+  .consent
+    = check_box_tag 'consent[]', consent.name, consent.consented?, id: "consent_#{consent.name}", required: consent.required?
+    = label_tag "consent_#{consent.name}" do
+      p
+        b = consent.label
+      p = consent.text
+      - if consent.consented_at
+        p
+          = render Global::FaIcon.new('calendar-day', css_classes: 'mr5')
+          = consent.consented_at_msg
+    - if consent.external_url.present?
+      .content
+        = render Global::Callout.new(I18n.t(:'account.shared.consent.external_notice'))

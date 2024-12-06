@@ -1,0 +1,42 @@
+- content_for :head_assets
+  = javascript_include_tag 'admin', crossorigin: 'anonymous', integrity: true, async: true, debug: false
+
+= simple_form_for metadata, url: course_metadata_path, method: :patch do |f|
+  = f.error_notification
+  = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
+
+  .form-section--large
+    = f.input :skills,
+      as: :upload,
+      value: FileUpload.new(purpose: :course_metadata, content_type: 'application/json')
+
+    - if metadata.skills.present?
+      .col-md-offset-2.mb15
+        span.mr10
+          = link_to t(:'course.admin.metadata.form.view_skills'), course_metadata_path(id: metadata.skills.id), target: '_blank', class: 'btn btn-default btn-sm mr10'
+          = link_to t(:'course.admin.metadata.form.remove_skills'), course_metadata_path(id: metadata.skills.id), method: :delete, class: 'btn btn-danger btn-sm'
+
+  .form-section--large
+    = f.input :educational_alignment,
+      as: :upload,
+      value: FileUpload.new(purpose: :course_metadata, content_type: 'application/json')
+
+    - if metadata.educational_alignment.present?
+      .col-md-offset-2.mb15
+        span.mr10
+          = link_to t(:'course.admin.metadata.form.view_educational_alignment'), course_metadata_path(id: metadata.educational_alignment.id), target: '_blank', class: 'btn btn-default btn-sm mr10'
+          = link_to t(:'course.admin.metadata.form.remove_educational_alignment'), course_metadata_path(id: metadata.educational_alignment.id), method: :delete, class: 'btn btn-danger btn-sm'
+
+  .form-section--large
+    = f.input :license,
+      as: :upload,
+      value: FileUpload.new(purpose: :course_metadata)
+
+    - if metadata.license.present?
+      .col-md-offset-2.mb15
+        span.mr10
+          = link_to t(:'course.admin.metadata.form.view_license'), course_metadata_path(id: metadata.license.id), target: '_blank', class: 'btn btn-default btn-sm mr10'
+          = link_to t(:'course.admin.metadata.form.remove_license'), course_metadata_path(id: metadata.license.id), method: :delete, class: 'btn btn-danger btn-sm'
+
+  .btn-group
+    = f.button :submit, class: 'mr10 mb10'

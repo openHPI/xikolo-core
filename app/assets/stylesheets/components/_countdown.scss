@@ -1,0 +1,39 @@
+.countdown {
+  &__info {
+    display: flex;
+    justify-content: space-between;
+    span {
+      // font stack with monospace digits
+      font-family:
+        "Helvetica Neue",
+        -apple-system,
+        BlinkMacSystemFont,
+        "Courier New",
+        monospace;
+    }
+  }
+
+  &__bar {
+    position: relative;
+    height: 22px;
+    border-radius: 2px;
+    background-color: $gray-100;
+  }
+
+  &__time {
+    position: absolute;
+    height: 22px;
+    border-radius: 2px;
+    transition: all 1s linear;
+  }
+
+  &__time--green {
+    background-color: $success-500;
+  }
+  &__time--yellow {
+    background-color: $information-500;
+  }
+  &__time--red {
+    background-color: $error-500;
+  }
+}

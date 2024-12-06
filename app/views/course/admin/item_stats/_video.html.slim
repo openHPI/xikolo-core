@@ -1,0 +1,10 @@
+= javascript_include_tag 'm.e.i.n.e.l'
+
+= render Global::HeadlineTooltip.new(t(:'course.admin.item_stats.video.user_interactions'), t(:'admin.statistics.tooltip.seek_column'), level: 3)
+
+.mt15.mb15
+  ajax-wrapper data-url="/api/v2/statistics/item_details/video_events.json?item_id=#{item_stats.item_id}"
+    loading-spinner
+      fallback-text empty-data-text=t(:'admin.dashboard.show.no_data_message')
+        schema-transformer mappings=item_stats.event_mapping
+          barchart-basic.chart stackedbar='true' x-title=t(:'course.admin.item_stats.video.time_in_s') y-title=t(:'course.admin.item_stats.video.count')

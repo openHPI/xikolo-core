@@ -1,0 +1,31 @@
+- unless quiz.nil?
+  = simple_fields_for(quiz, wrapper: :larger_labels) do |q|
+    = q.input :instructions, required: true, as: :markdown,
+      wrapper_html: {id: 'quiz_instructions_container'},
+      uploads: {purpose: :quiz_quiz_instructions, content_type: 'image/*'},
+      value: quiz['instructions']
+    / we need the uncasted instructions value: Acfs calls `to_s` on the Hash
+      and returns a wrong value. quiz['instructions'] returns the value as it
+      was retrieved from the service.
+      This value option can probably be removed once quiz is no long an Acfs
+      resource.
+
+    = q.input :unlimited_time, label: t(:'items.quiz.unlimited_time'), as: :toggle_switch, input_html: {id: 'unlimited-time-switch'}
+    #time_limit style=('display: none;' if quiz.unlimited_time)
+    = q.input :time_limit_seconds, required: true, as: :integer, input_html: {type: 'number', min: '1', value: quiz.time_limit_seconds || '3600'}, label: t(:'items.quiz.time_limit')
+    = q.input :unlimited_attempts, label: t(:'items.quiz.unlimited_attempts'), as: :toggle_switch, input_html: {id: 'unlimited-attempts-switch'}
+    #attempts style=('display: none;' if quiz.unlimited_attempts)
+    = q.input :allowed_attempts, required: true, as: :integer, input_html: {type: 'number', min: '1', value: quiz.allowed_attempts || '1'}, label: t(:'items.quiz.allowed_attempts')
+
+- unless item.new_record?
+  template#quiz_questions_wrapper.container
+    - unless quiz.questions.nil?
+      button#toggle_quiz_uuids.btn.btn-default.btn-sm.mb10
+        span#show
+          = t(:'sections.show_uuids')
+        span#hide hidden='true'
+          = t(:'sections.hide_uuids')
+      ul.sections
+        - quiz.questions.each_with_index do |quiz_question, index|
+          = render partial: 'items/quiz/quiz_question_editor_item', locals: {item: item, index: index, quiz_question: quiz_question}
+    = render 'quiz_questions/form'

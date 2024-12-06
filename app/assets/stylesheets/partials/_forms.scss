@@ -1,0 +1,154 @@
+$input-border-focus: $primary-color;
+$input-border-radius: 0px;
+
+@import "bootstrap-sass/assets/stylesheets/bootstrap/mixins/forms";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/mixins/tab-focus";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/mixins/vendor-prefixes";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/forms";
+
+//fix for our toggle switches
+div.boolean label.radio,
+div.boolean label.checkbox {
+  display: inline;
+}
+
+textarea:focus,
+input:focus,
+input[type]:focus,
+.uneditable-input:focus,
+.ts-control:focus-within,
+.toastui-editor-md-mode:focus-within {
+  border-color: rgba($primary-color, 0.8);
+  box-shadow:
+    0 1px 1px rgba($primary-color, 0.075) inset,
+    0 0 8px rgba($primary-color, 0.6);
+  outline: 0 none;
+}
+
+.advanced-settings {
+  display: block;
+  margin-bottom: 20px;
+}
+
+form .buttons {
+  margin-top: 30px;
+  text-align: center;
+}
+.block {
+  label.radio,
+  label.checkbox {
+    display: block;
+  }
+}
+
+input.form-control[type="checkbox"] {
+  width: 20px;
+}
+
+textarea.form-control {
+  resize: vertical;
+}
+
+label {
+  margin-top: 5px;
+  margin-bottom: 0;
+}
+
+//all checkboxes are switches, they dont need padding
+label.checkbox {
+  padding-left: 0;
+}
+
+.form-control::-webkit-input-placeholder {
+  /* WebKit browsers */
+  color: #888;
+}
+
+.form-control::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+  color: #888;
+  opacity: 1;
+}
+.form-control.autoheight {
+  height: auto;
+}
+.date.form-control,
+.datetime.form-control {
+  display: inline;
+  width: auto;
+}
+
+// Extra spacing for fieldsets for very large form.
+// Better: Build shorter forms!
+.form-section--large:not(:first-of-type) {
+  margin-top: 8 * $spacing-steps;
+  margin-bottom: 8 * $spacing-steps;
+}
+
+// When a form section serves as a linkable anchor, let's make sure jumping
+// to it leaves space for the global navigation bar.
+.form-section--large[id] {
+  scroll-margin-top: $navbar-height + 20px;
+}
+
+.form-section--small {
+  margin-top: 4 * $spacing-steps;
+  margin-bottom: 4 * $spacing-steps;
+
+  legend {
+    margin-bottom: 0;
+    font-size: $font-size-sm;
+  }
+}
+
+.error_notification {
+  padding: 8px;
+  border: $primary-color solid 2px;
+  background-color: #fff;
+}
+
+.has-error {
+  & .form-control {
+    border: $primary-color solid 2px;
+  }
+  & .help-block {
+    color: $primary-color;
+    white-space: pre-line;
+  }
+}
+
+.sortable-list {
+  ol {
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+    li {
+      padding: 5px;
+      cursor: grab;
+      &:hover {
+        background-color: $gray-100;
+      }
+      &:first-child {
+        margin-top: 10px;
+      }
+      &:last-child {
+        margin-bottom: 20px;
+      }
+      .xi-icon {
+        margin-right: 10px;
+        color: $gray;
+      }
+      .btn {
+        margin-left: 10px;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+// Course admin form
+.course-visuals {
+  &__img {
+    max-height: 250px;
+  }
+}

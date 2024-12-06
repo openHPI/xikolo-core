@@ -1,0 +1,10 @@
+- content_for :head_assets
+  = javascript_include_tag 'quiz-recap'
+
+#quiz-recap__loading-indicator
+  = render State::Loading.new
+
+#quiz-recap__empty-state[hidden]
+  = render State::Empty.new(t(:'learn.empty_state'))
+
+#quiz-recap

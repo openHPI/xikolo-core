@@ -1,0 +1,11 @@
+= render Global::Callout.new(t(:'peer_assessment.administration.rubrics.deadline_warning'), type: :warning)
+= render Global::Callout.new(t(:'peer_assessment.administration.rubrics.index_info'))
+
+.row.mt40
+  .col-md-12
+    = @assessment_presenter.pa_button(current_user, :add_rubric)
+
+.row
+  .col-md-12
+    - @rubric_presenters.each_with_index do |presenter, index|
+      = render 'rendered_rubric', presenter: presenter, index: index, button_presenter: @assessment_presenter

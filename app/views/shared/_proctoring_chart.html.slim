@@ -1,0 +1,45 @@
+#proctoring_chart
+
+javascript:
+  proctoring_chart_data = #{raw proctoring_data.to_json};
+  var max = #{proctoring_data.max}
+  stat_data = new Array;
+  $.each(proctoring_chart_data, function (key, value) {
+    stat_data.push({Type: value[0], Value: value[1]});
+  });
+  var svg = dimple.newSvg("#proctoring_chart", '100%', '100%');
+  var myProctoringChart = new dimple.chart(svg, stat_data);
+  myProctoringChart.setMargins("25px", "25px", "25px", "25px");
+  var x = myProctoringChart.addCategoryAxis("x", "Type");
+  var y = myProctoringChart.addMeasureAxis("y", "Value");
+  y.overrideMax = max;
+  y.overrideMin = 0;
+  myProctoringChart.defaultColors = [new dimple.color("#E06200")];
+  var bars = myProctoringChart.addSeries(null, dimple.plot.bar);
+  myProctoringChart.draw();
+  var chartHolder2 = [];
+  chartHolder2.push(myProctoringChart);
+  rotateLabels(x)
+
+  $(window).resize(function () {
+    $.each(chartHolder2, function (index, value) {
+      value.draw(0, true);
+    });
+    rotateLabels(x)
+  });
+
+  bars.getTooltipText = function () {
+    return [
+       "#{t :'quiz_submission.proctoring.feature_tooltip'}"
+    ];
+  };
+
+  function rotateLabels(axis) {
+    axis.shapes.selectAll("text")
+            .style("text-anchor", "end")
+            .each(function () {
+              var rec = this.getBBox();
+              d3.select(this)
+                      .attr("transform", "rotate(90," + (rec.x + rec.width) + "," + (rec.y + (rec.height / 2)) + ") translate(-20, -2)");
+            });
+  }

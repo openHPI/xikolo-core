@@ -1,0 +1,572 @@
+/*-------------------------------------*\
+    $CONTENTS
+
+    Global utility classes. May use
+    Bootstrap utility classes and vars.
+    Mainly avoids style="" or too
+    specific CSS rules in the partials.
+\*-------------------------------------*/
+/**
+ * Bootstrap-Import........Required import for BS components
+ * General-Layout..........General helpers like centering, full-width, etc.
+ * Alignment...............Alignment utilities (text, vertical, ...)
+ * Sizing..................Classes like margin, padding, height, etc.
+ * Colors..................Color utility classes to quickly change colors (color: xyz !) for an element
+ * Background-Colors.......Color utility classes to quickly change background colors for an element
+ * Font....................Font sizing and the like
+ * Loading-Indicators......Spinners, bouncers, and placeholder text
+ * Empty state.............Empty state component style
+ * Animation...............Delayed fade-in animation
+ */
+
+/*------------------------------------*\
+    $General-Layout
+\*------------------------------------*/
+// General
+.center {
+  margin: 0 auto;
+}
+.full-width {
+  width: 100%;
+}
+.full-height {
+  height: 100vh !important;
+}
+.text-right {
+  text-align: right;
+}
+.bold {
+  font-weight: bold;
+}
+.text-large {
+  font-size: 1.3em;
+}
+.nowrap {
+  white-space: nowrap;
+}
+.underline {
+  text-decoration: underline;
+}
+.kill-underline {
+  text-decoration: none;
+}
+.noborder {
+  border: none !important;
+}
+.error-border {
+  border: 2px solid $error-500;
+}
+.killradius {
+  border-radius: 0;
+}
+
+.badge-large {
+  padding: 3px 15px;
+  border-radius: 20px;
+  margin-top: -3px;
+}
+
+.glyphicon-inverse {
+  color: $white;
+}
+.kill-outline {
+  @include suppress-dotted-border();
+}
+.kill-bg {
+  background-color: none !important;
+}
+.cpointer {
+  cursor: pointer;
+}
+.not-allowed {
+  cursor: not-allowed;
+}
+.inline-block {
+  display: inline-block;
+}
+.block {
+  display: block;
+}
+
+.pos-rel,
+.relative {
+  position: relative;
+}
+
+.clearfix:before,
+.clearfix:after {
+  display: block;
+  overflow: hidden;
+  height: 0;
+  content: ".";
+}
+
+.clearfix:after {
+  clear: both;
+}
+.clearfix {
+  zoom: 1;
+} /* IE < 8 */
+
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sticky-container {
+  position: relative;
+
+  &__element {
+    position: sticky;
+    top: $navbar-height;
+    padding-top: 20px;
+  }
+}
+
+/*------------------------------------*\
+    $Alignment
+\*------------------------------------*/
+.vtop {
+  vertical-align: top;
+}
+.vmiddle {
+  vertical-align: middle;
+}
+.vsuper {
+  vertical-align: super;
+}
+.vbottom {
+  vertical-align: bottom;
+}
+.vbase {
+  vertical-align: baseline;
+}
+
+.text-align-right {
+  text-align: right;
+}
+.text-align-left {
+  text-align: left;
+}
+.text-align-top {
+  text-align: top;
+}
+.text-align-center {
+  text-align: center;
+}
+.center-text {
+  text-align: center;
+} // TODO replace occurrences of this class
+
+/*------------------------------------*\
+    $Sizing
+\*------------------------------------*/
+// Height
+.h0 {
+  height: 0px;
+}
+.h10 {
+  height: 10px;
+}
+.h20 {
+  height: 20px;
+}
+.h30 {
+  height: 30px;
+}
+.h40 {
+  height: 40px;
+}
+.h100 {
+  height: 100px;
+}
+
+// Width
+.w10 {
+  width: 10px;
+}
+.w20 {
+  width: 20px;
+}
+.w30 {
+  width: 30px;
+}
+.w40 {
+  width: 40px;
+}
+.w50 {
+  width: 50px;
+}
+.w100 {
+  width: 100px;
+}
+
+.w20p {
+  width: 20%;
+}
+.w25p {
+  width: 25%;
+}
+.w50p {
+  width: 50%;
+}
+.w80p {
+  width: 80%;
+}
+.w100p {
+  width: 100%;
+}
+
+// Paddings
+.p0 {
+  padding: 0px;
+}
+.p10 {
+  padding: 10px;
+}
+.p20 {
+  padding: 20px;
+}
+
+.pt0 {
+  padding-top: 0px;
+}
+.pt5 {
+  padding-top: 5px;
+}
+.pt10 {
+  padding-top: 10px;
+}
+.pt20 {
+  padding-top: 20px;
+}
+.pt30 {
+  padding-top: 30px;
+}
+
+.pb10 {
+  padding-bottom: 10px;
+}
+.pb20 {
+  padding-bottom: 20px;
+}
+
+.pr0 {
+  padding-right: 0px;
+}
+.pr15 {
+  padding-right: 15px;
+}
+.pr20 {
+  padding-right: 20px;
+}
+
+.pl0 {
+  padding-left: 0px;
+}
+.pl10 {
+  padding-left: 10px;
+}
+.pl20 {
+  padding-left: 20px;
+}
+.pl50 {
+  padding-left: 50px !important;
+}
+
+// Margins
+.m0 {
+  margin: 0px;
+}
+
+.mt0 {
+  margin-top: 0px;
+}
+.mt5 {
+  margin-top: 5px;
+}
+.mt10 {
+  margin-top: 10px;
+}
+.mt15 {
+  margin-top: 15px;
+}
+.mt20 {
+  margin-top: 20px;
+}
+.mt30 {
+  margin-top: 30px;
+}
+.mt40 {
+  margin-top: 40px;
+}
+.mt50 {
+  margin-top: 50px;
+}
+.mt60 {
+  margin-top: 60px;
+}
+.mt80 {
+  margin-top: 80px;
+}
+
+.mt-5 {
+  margin-top: -5px;
+}
+.mt-10 {
+  margin-top: -10px;
+}
+.mt-15 {
+  margin-top: -15px;
+}
+.mt-20 {
+  margin-top: -20px;
+}
+.mt-30 {
+  margin-top: -30px;
+}
+.mt-40 {
+  margin-top: -40px;
+}
+.mt-50 {
+  margin-top: -50px;
+}
+.mt-60 {
+  margin-top: -60px;
+}
+.mt-80 {
+  margin-top: -80px;
+}
+
+.mr5 {
+  margin-right: 5px;
+}
+.mr10 {
+  margin-right: 10px;
+}
+.mr15 {
+  margin-right: 15px;
+}
+.mr20 {
+  margin-right: 20px;
+}
+.mr45 {
+  margin-right: 45px;
+}
+.mr80 {
+  margin-right: 80px;
+}
+
+.mb0 {
+  margin-bottom: 0px;
+}
+.mb5 {
+  margin-bottom: 5px;
+}
+.mb10 {
+  margin-bottom: 10px;
+}
+.mb15 {
+  margin-bottom: 15px;
+}
+.mb20 {
+  margin-bottom: 20px;
+}
+.mb30 {
+  margin-bottom: 30px;
+}
+.mb40 {
+  margin-bottom: 40px;
+}
+.mb50 {
+  margin-bottom: 50px;
+}
+.mb60 {
+  margin-bottom: 60px;
+}
+
+.ml5 {
+  margin-left: 5px;
+}
+.ml10 {
+  margin-left: 10px;
+}
+.ml15 {
+  margin-left: 15px;
+}
+.ml20 {
+  margin-left: 20px;
+}
+.ml-25 {
+  margin-left: -25px;
+}
+
+// vertically centered table cells
+.table tbody > tr > td.vert-align {
+  vertical-align: middle;
+}
+
+.no-bottom-border {
+  border-bottom: none !important;
+}
+
+.table-nonfluid {
+  width: auto !important;
+}
+
+/*------------------------------------*\
+    Responsive stuff
+\*------------------------------------*/
+@media (max-width: $screen-md) {
+  .full-width-sm {
+    width: 100%;
+  }
+}
+
+.wordbreak {
+  hyphens: auto;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+
+/*------------------------------------*\
+    $Colors
+\*------------------------------------*/
+.primary-color {
+  color: $primary-color;
+}
+.secondary-color {
+  color: $secondary-color;
+}
+.tertiary-color {
+  color: $tertiary-color;
+}
+
+.black {
+  color: $black;
+}
+.white {
+  color: $white;
+}
+.gray {
+  color: $gray;
+}
+.yellow {
+  color: $information-500;
+}
+.orange {
+  color: $orange;
+}
+.red {
+  color: $error-600;
+}
+.blue {
+  color: $blue;
+}
+.green {
+  color: $success-500;
+}
+
+.gray-dark {
+  color: $gray-600;
+}
+.gray-darker {
+  color: $gray-800;
+}
+.gray-light {
+  color: $gray-100;
+}
+.gray-lighter {
+  color: $gray-50;
+}
+
+.text-color {
+  color: $text-color;
+}
+
+[data-state="unobtrusive"] {
+  filter: grayscale(1);
+  opacity: 0.5;
+}
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/*------------------------------------*\
+    $Background-Colors
+\*------------------------------------*/
+
+.video-wrapper {
+  position: relative;
+  height: 0;
+  padding-top: 2.2%;
+  padding-bottom: 54.1%;
+}
+.video-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.nobg {
+  background-color: rgba($white, 0) !important;
+}
+.white-bg {
+  background-color: $white !important;
+}
+
+/*------------------------------------*\
+    $Font
+\*------------------------------------*/
+.fp9 {
+  font-size: 9pt;
+}
+
+.em1 {
+  font-size: 1em;
+}
+.em1-2 {
+  font-size: 1.2em;
+}
+.em1-5 {
+  font-size: 1.5em;
+}
+.em2 {
+  font-size: 2em;
+}
+
+div[data-click-target],
+span[data-click-target],
+td[data-click-target] {
+  cursor: pointer;
+}
+
+/*------------------------------------*\
+    $Fixed-bar JS util
+\*------------------------------------*/
+
+.js-fixed {
+  position: fixed;
+  z-index: 100;
+  top: $navbar-height;
+}
+
+/*------------------------------------*\
+    $Animation
+\*------------------------------------*/
+
+.delayed-fade-in {
+  animation: 0s linear 3s forwards delayedShow;
+  visibility: hidden;
+}
+
+@keyframes delayedShow {
+  to {
+    visibility: visible;
+  }
+}

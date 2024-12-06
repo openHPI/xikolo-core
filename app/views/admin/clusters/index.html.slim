@@ -1,0 +1,27 @@
+- content_for :page_header_slim
+  = render Global::PageHeader.new(t(:'admin.clusters.headline'), subtitle: t(:'admin.page_header'), type: :slim)
+
+.container
+  - if @clusters.any?
+    table.table.table-striped.mb15.mt15
+      thead
+        tr
+          th = t(:'admin.clusters.id')
+          th = t(:'admin.clusters.visible')
+          th = t(:'admin.clusters.name')
+          th = t(:'admin.clusters.classifiers')
+          th
+      tbody
+        - @clusters.each do |cluster|
+          tr
+            td = cluster.id
+            td = t(:"admin.clusters.visible_#{cluster['visible']}")
+            td.nowrap
+              = cluster.title
+            td = cluster.classifiers_preview
+            td.text-align-right.nowrap
+              - if current_user.allowed? 'course.cluster.manage'
+                = link_to t(:'admin.clusters.actions.edit'), edit_admin_cluster_path(cluster), class: 'btn btn-default btn-xs mr5'
+                = link_to t(:'admin.clusters.actions.show'), admin_cluster_path(cluster), class: 'btn btn-default btn-xs mr5'
+  - else
+    = render Global::Callout.new(t(:'admin.clusters.empty_msg'), type: :warning)

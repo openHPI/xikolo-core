@@ -1,0 +1,281 @@
+/*------------------------------------*\
+    $Variables
+\*------------------------------------*/
+$kpi-font: $xi-font-data !default;
+
+/*------------------------------------*\
+    $Dashboard
+\*------------------------------------*/
+
+.dashboard {
+  padding: 20px 20px 0 0;
+}
+
+.dashboard_chart {
+  padding-bottom: 20px;
+}
+.dashboard_nav_wrapper {
+  margin-top: 20px;
+}
+
+.dashboard-hr-top {
+  border: 0;
+  border-top: 1px solid #eeeeee;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.dashboard-nav {
+  margin-top: 10px;
+}
+
+.kpi-container {
+  display: grid;
+  font-family: $kpi-font;
+  gap: 20px 10px;
+  grid-template-columns: repeat(4, minmax(10px, 1fr));
+  @include outer-container();
+
+  @include sm {
+    grid-template-columns: repeat(3, minmax(10px, 1fr));
+  }
+
+  @include xs {
+    grid-template-columns: repeat(1, minmax(10px, 1fr));
+  }
+
+  .info-box {
+    width: 100%;
+    min-height: 90px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+    margin-bottom: 15px;
+    background: #fff;
+    // Responsive styling
+  }
+  .info-box small {
+    font-size: 14px;
+  }
+  .info-box .progress {
+    height: 2px;
+    margin: 5px -10px 5px -10px;
+    background: rgba(0, 0, 0, 0.2);
+  }
+  .info-box .progress,
+  .info-box .progress .progress-bar {
+    border-radius: 0;
+  }
+  .info-box .progress .progress-bar {
+    background: #fff;
+  }
+  .info-box-icon {
+    display: block;
+    width: 90px;
+    height: 90px;
+    background: rgba(0, 0, 0, 0.2);
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 0;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 0;
+    float: left;
+    font-size: 45px;
+    line-height: 90px;
+    text-align: center;
+  }
+  .info-box-icon > img {
+    max-width: 100%;
+  }
+  .info-box-content {
+    padding: 5px 10px;
+    margin-left: 90px;
+  }
+  .info-box-number {
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .progress-description,
+  .info-box-text {
+    display: block;
+    overflow: hidden;
+    font-size: 14px;
+    text-overflow: ellipsis;
+  }
+  .info-box-text {
+  }
+  .info-box-more {
+    display: block;
+  }
+  .progress-description {
+    margin: 0;
+  }
+
+  score-card {
+    --score-card-icon-background-border-radius: 4px;
+    --score-card-icon-background-color: #{$dashboard-score-card-bg};
+    --score-card-link-color: #{$link-color};
+    --score-card-link-color-hover: #{$link-color-hover};
+    --score-card-link-text-decoration: none;
+  }
+}
+
+.course-dashboard-section {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  .xi-2x {
+    font-size: 2em;
+  }
+  .vm {
+    vertical-align: middle;
+  }
+}
+
+a.detail-link {
+  display: block;
+  margin-top: 5px;
+
+  .xi-icon {
+    margin-right: 5px;
+  }
+}
+
+.platform-dashboard {
+  padding-right: 30px;
+  padding-left: 30px;
+
+  .chart-container {
+    padding-bottom: 20px;
+    @include outer-container();
+
+    &.time-series .chart {
+      margin: 10px 0;
+    }
+
+    &.geo .chart {
+      height: 500px;
+      margin-bottom: 10px;
+    }
+
+    &.daytime-activity,
+    &.age,
+    &.client-usage,
+    &.referrers {
+      .chart {
+        margin-top: 20px;
+      }
+    }
+
+    &.client-usage .chart svg text {
+      font-size: 14px;
+      font-weight: normal;
+    }
+  }
+}
+
+.course-dashboard {
+  padding-right: 30px;
+  padding-left: 30px;
+
+  .hr-dark {
+    border-top: 1px solid #aaaaaa;
+  }
+
+  .title {
+    margin-left: 20px;
+    font-size: 40px;
+  }
+
+  .kpis-container {
+    @include outer-container();
+
+    .title {
+      margin-left: 20px;
+      font-size: 40px;
+    }
+
+    .hr-dark {
+      border-top: 1px solid #aaaaaa;
+    }
+
+    .kpis {
+      &__header {
+        text-align: center;
+        i,
+        .title {
+          line-height: 40px;
+          vertical-align: middle;
+        }
+      }
+
+      &__row {
+        div {
+          font-size: 32px;
+          line-height: 50px;
+          text-align: right;
+
+          &:last-child {
+            font-size: 16px;
+            text-align: left;
+            white-space: nowrap;
+          }
+        }
+
+        .absolute {
+          display: block;
+        }
+
+        .quota {
+          display: block;
+          margin-top: -24px;
+          font-size: 16px;
+        }
+
+        .quota-text {
+          font-size: 12px !important;
+          line-height: 4px;
+        }
+      }
+      &__element {
+        div {
+          padding-top: 60px;
+          font-size: 40px;
+          text-align: center;
+        }
+      }
+    }
+  }
+
+  .chart-container {
+    padding-bottom: 20px;
+    @include outer-container();
+
+    &.time-series .chart {
+      margin: 10px 0;
+    }
+
+    &.geo .chart {
+      height: 500px;
+      margin-bottom: 10px;
+    }
+
+    &.daytime-activity,
+    &.age,
+    &.client-usage,
+    &.referrers {
+      .chart {
+        margin-top: 20px;
+      }
+    }
+
+    &.client-usage .chart svg text {
+      font-size: 14px;
+      font-weight: normal;
+    }
+  }
+}
+
+.statistics-page {
+  padding-right: 30px;
+  padding-left: 30px;
+}

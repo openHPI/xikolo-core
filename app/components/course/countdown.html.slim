@@ -1,0 +1,6 @@
+.countdown data-remaining-secs=@remaining_secs data-total-secs=@total_secs role='timer' data-submit-form=@form
+  .countdown__info
+    p = t(:'components.countdown.time_remaining')
+    span data-time-label='true' = format_time
+  .countdown__bar
+    .countdown__time data-time-bar='true'

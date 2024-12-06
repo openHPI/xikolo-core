@@ -1,0 +1,20 @@
+= simple_form_for classifier, url: classifier.persisted? ? admin_cluster_classifier_path(cluster, classifier) : admin_cluster_classifiers_path(cluster) do |f|
+  p = f.error_notification
+  = f.input :title, disabled: classifier.persisted?
+  - Xikolo.config.locales['available'].each do |locale|
+    fieldset.form-section--medium
+      legend = t(:"languages.title.#{locale}")
+      = f.simple_fields_for :translations do |t|
+        = t.input locale,
+          label: t(:'simple_form.labels.classifier.translations'),
+          input_html: {value: classifier.translations[locale]},
+          required: Xikolo.config.locales['default'] == locale
+      = f.simple_fields_for :descriptions do |d|
+        = d.input locale,
+          label: t(:'simple_form.labels.classifier.descriptions'),
+          hint: t(:'simple_form.hints.classifier.descriptions'),
+          input_html: {value: classifier.descriptions[locale]},
+          required: false
+
+  = f.button :submit, class: 'btn btn-primary'
+  = link_to t(:'global.cancel'), admin_cluster_path(cluster), class: 'btn btn-default ml10'

@@ -1,0 +1,33 @@
+roles:
+  quiz.admin:
+    - quiz.submission.grant_attempt
+    - quiz.submission.manage
+  quiz.controller:
+    - quiz.statistics.show
+  quiz.inspector:
+    - quiz.submission.index
+  quiz.proctoring.admin:
+    - quiz.submission.manage.proctoring
+
+grants:
+  - role: quiz.admin
+    group: xikolo.gdpr_admins
+    context: root
+  - role: quiz.proctoring.admin
+    group: xikolo.gdpr_admins
+    context: root
+  - role: quiz.inspector
+    group: xikolo.gdpr_admins
+    context: root
+  - role: quiz.controller
+    group: xikolo.admins
+    context: root
+  - role: quiz.admin
+    group: xikolo.helpdesk
+    context: root
+  - role: quiz.controller
+    group: xikolo.helpdesk
+    context: root
+  - role: quiz.inspector
+    group: xikolo.helpdesk
+    context: root

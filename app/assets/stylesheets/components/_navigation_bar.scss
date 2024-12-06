@@ -1,0 +1,99 @@
+$navigation-bar-bg: $white !default;
+$navigation-bar-height: $navbar-height;
+$navigation-bar-border: $gray-100 !default;
+$navigation-content-width: $main-content-width;
+
+$navbar-breakpoint-s: $breakpoint-s !default;
+$navbar-breakpoint-sm: $breakpoint-sm !default;
+$navbar-breakpoint-m: $breakpoint-m !default;
+
+.navigation-bar {
+  position: sticky;
+
+  z-index: $z-index-xl;
+  top: 0;
+  min-height: $navigation-bar-height;
+  background-color: $navigation-bar-bg;
+  box-shadow: 0 1px 0 $navigation-bar-border;
+
+  &__content {
+    display: flex;
+    max-width: $navigation-content-width;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 0 auto;
+    background-color: $navigation-bar-bg;
+  }
+
+  &__left,
+  &__right {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    // reset browser styles
+    padding: 0;
+    // reset bootstrap style
+    margin-bottom: 0;
+    list-style-type: none;
+  }
+
+  &__right {
+    .navigation-item__menu,
+    .navigation-profile-item__menu {
+      @include screen-size-s-and-up($navbar-breakpoint-s) {
+        right: 0;
+        white-space: nowrap;
+
+        // Open submenus from right navbar to the left
+        // to prevent long items colliding with right page boundaries.
+        .navigation-item__menu {
+          right: 100%;
+          left: auto;
+        }
+      }
+    }
+
+    .courses-menu-item__menu {
+      right: 0;
+    }
+
+    .navigation-item,
+    .navigation-profile-item {
+      @include screen-size-s-and-up($navbar-breakpoint-s) {
+        position: relative;
+      }
+    }
+  }
+
+  &__left--desktop {
+    flex-grow: 1;
+    flex-wrap: wrap;
+  }
+
+  &__content--mobile {
+    justify-content: space-between;
+    @include screen-size-s-and-up($navbar-breakpoint-s) {
+      display: none;
+    }
+  }
+
+  &__content--desktop {
+    display: none;
+    justify-content: flex-end;
+    padding: 0 $page-padding;
+    @include horizontal-page-padding;
+    @include screen-size-s-and-up($navbar-breakpoint-s) {
+      display: flex;
+    }
+  }
+
+  &__left-container {
+    display: inline-flex;
+  }
+
+  &__logo {
+    @include screen-size-s-and-up($navbar-breakpoint-s) {
+      padding-right: 20px;
+    }
+  }
+}

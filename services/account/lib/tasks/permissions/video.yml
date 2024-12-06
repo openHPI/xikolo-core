@@ -1,0 +1,23 @@
+roles:
+  video.editor:
+    - video.video.index
+  video.admin:
+    - video.video.index
+    - video.provider.manage
+    - video.video.manage
+    - video.subtitle.manage
+  video.controller:
+    - video.statistics.show
+  subtitle.editor:
+    - video.subtitle.manage
+
+grants:
+  - role: video.admin
+    group: xikolo.admins
+    context: root
+  - role: video.controller
+    group: xikolo.admins
+    context: root
+  - role: subtitle.editor
+    group: xikolo.admins
+    context: root

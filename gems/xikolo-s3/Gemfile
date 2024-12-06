@@ -1,0 +1,14 @@
+# frozen_string_literal: true
+
+source 'https://rubygems.org'
+
+gem 'xikolo-s3', path: '.'
+
+gem 'rexml'
+gem 'xikolo-config', path: '../xikolo-config'
+
+group :development do
+  gem 'activemodel'
+  gem 'rake'
+  gem 'rspec', '~> 3.10'
+end

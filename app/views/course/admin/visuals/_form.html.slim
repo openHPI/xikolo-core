@@ -1,0 +1,34 @@
+- content_for :head_assets
+  = javascript_include_tag 'admin', crossorigin: 'anonymous', integrity: true, async: true, debug: false
+
+= simple_form_for visual_presenter.visual, as: :course_visual, url: course_visual_path, method: :patch do |f|
+  = f.error_notification
+
+  .form-section--large
+    .hidden data-behavior='remove-on-save-hint'
+      = render Global::Callout.new(t(:'simple_form.upload_remove_hint'))
+    = f.input :image,
+      as: :image_upload,
+      value: FileUpload.new(purpose: :course_course_image, content_type: 'image/*')
+    = f.input :video_stream_id,
+        placeholder: t(:'simple_form.placeholders.course_visual.video_stream_id'),
+        input_html: { data: {behavior: 'custom-select', 'auto-completion-url': admin_streams_path, 'preload': true, 'prefix': visual_presenter.stream_prefix}},
+        collection: visual_presenter.stream_collection
+    = f.input :subtitles,
+      as: :upload,
+      value: FileUpload.new(purpose: :video_subtitles, content_type: %w[application/zip text/vtt])
+
+    - if visual_presenter.teaser_subtitles.any?
+      .col-md-offset-2.mb15
+        - visual_presenter.teaser_subtitles.each do |subtitle|
+          span.mr10
+            = subtitle.lang
+            = link_to subtitle_path(subtitle.id), method: :delete
+              = render Global::FaIcon.new('xmark', style: :solid, css_classes: 'ml5 mr5')
+  .btn-group
+    = f.button :submit, class: 'mr10 mb10'
+    = f.button :submit, t(:'helpers.submit.course_visual.preview'), name:'show', class: 'mr10 mb10'
+
+    = link_to t(:'course.admin.visuals.back'),
+      edit_course_path(visual_presenter.course_code, anchor: 'formgroup-visuals'),
+      class: 'btn btn-default mb10'

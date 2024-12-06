@@ -1,0 +1,9 @@
+.col-md-4.col-md-offset-4
+  h2 = t(:'account.confirmations.new.headline')
+
+  .login-box
+    p = t(:'account.confirmations.new.message')
+
+    = form_with url: account_confirmations_path, local: true, data: {autosubmit: true} do |f|
+      = f.hidden_field :request, value: @request
+      = f.submit t(:'account.confirmations.new.submit'), class: 'btn btn-primary full-width'

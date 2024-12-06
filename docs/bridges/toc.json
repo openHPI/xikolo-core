@@ -1,0 +1,43 @@
+{
+  "items": [
+    {
+      "type": "divider",
+      "title": "APIs"
+    },
+    {
+      "type": "group",
+      "title": "Chatbot API",
+      "slug": "chatbot",
+      "items": [
+        {
+          "type": "item",
+          "title": "Authentication flow",
+          "uri": "/chatbot/docs/authentication-flow.md"
+        },
+        {
+          "type": "item",
+          "title": "API reference",
+          "uri": "/chatbot/reference/chatbot-api.v1.yaml"
+        }
+      ]
+    },
+    {
+      "type": "item",
+      "title": "MOOChub API",
+      "slug": "moochub",
+      "uri": "/docs/moochub-api.md"
+    },
+    {
+      "type": "item",
+      "title": "Shop API",
+      "slug": "shop",
+      "uri": "/shop/reference/shop-api.v1.yaml"
+    },
+    {
+      "type": "item",
+      "title": "TransPipe API",
+      "slug": "transpipe",
+      "uri": "/transpipe/reference/transpipe-api.v1.yaml"
+    }
+  ]
+}

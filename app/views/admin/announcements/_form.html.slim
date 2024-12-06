@@ -1,0 +1,23 @@
+= simple_form_for announcement, url: announcement.new_record? ? admin_announcements_path : admin_announcement_path(id: announcement.id) do |f|
+  = f.error_notification
+  = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
+
+  fieldset
+    legend
+      = t("languages.name.#{announcement.language}")
+    = f.input :subject
+    .content-form
+      = f.input :content,
+        input_html: {rows: 7,
+          preview: true,
+          markdown_id_suffix: "announcement_translation_#{announcement.language}"}
+  = f.input :language,
+    as: :hidden
+
+  h2 = t(:'admin.announcements.form.translations')
+  .alert.alert-info
+    = t(:'admin.announcements.form.translation_hint')
+  - announcement.all_translations.each do |translation|
+    = render 'admin/announcements/translation', translation: translation
+
+  = f.button :submit

@@ -1,0 +1,18 @@
+.empty-state {
+  padding: vertical-spacing-l();
+  @include font-m;
+  text-align: center;
+
+  @include small {
+    padding: vertical-spacing-l(true);
+  }
+
+  &--small {
+    padding: vertical-spacing-m();
+    @include font-sm;
+
+    @include small {
+      padding: vertical-spacing-m(true);
+    }
+  }
+}

@@ -1,0 +1,14 @@
+footer.footer
+  = render Footer::LogoBar.new
+  .container
+    .footer__content-top
+      .footer__links
+        = render Footer::Links.new
+        = render Footer::Newsletter.new
+
+      .footer__contact
+        = render Footer::About.new
+        = render Footer::SocialMedia.new
+
+    .footer__content-bottom
+      = render Footer::Copyright.new

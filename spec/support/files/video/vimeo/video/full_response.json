@@ -1,0 +1,88 @@
+{
+  "uri": "/videos/207611533",
+  "name": "nanou-webtech2017-w1-1-pip-p1",
+  "duration": 203,
+  "width": 1280,
+  "height": 720,
+  "modified_time": "2018-08-10T01:35:09+00:00",
+  "pictures": {
+    "sizes": [
+      {
+        "width": 100,
+        "link": "https://i.vimeocdn.com/video/622733127_100x75.jpg?r=pad"
+      },
+      {
+        "width": 200,
+        "link": "https://i.vimeocdn.com/video/622733127_200x150.jpg?r=pad"
+      },
+      {
+        "width": 295,
+        "link": "https://i.vimeocdn.com/video/622733127_295x166.jpg?r=pad"
+      },
+      {
+        "width": 640,
+        "link": "https://i.vimeocdn.com/video/622733127_640x360.jpg?r=pad"
+      },
+      {
+        "width": 960,
+        "link": "https://i.vimeocdn.com/video/622733127_960x540.jpg?r=pad"
+      },
+      {
+        "width": 1280,
+        "link": "https://i.vimeocdn.com/video/622733127_1280x720.jpg?r=pad"
+      },
+      {
+        "width": 1920,
+        "link": "https://i.vimeocdn.com/video/622733127_1920x1080.jpg?r=pad"
+      },
+      {
+        "width": 1280,
+        "link": "https://i.vimeocdn.com/video/622733127_1280x720.jpg?r=pad"
+      }
+    ]
+  },
+  "files": [
+    {
+      "quality": "sd",
+      "size": 7578224,
+      "md5": "2999b2d84de6c97c8041a92cba70dc41",
+      "link": "https://player.vimeo.com/external/207611533.sd.mp4?s=be2735d9b5d7591004dc0fd25bea3da687bb9995&profile_id=164&oauth2_token_id=1120858693"
+    },
+    {
+      "quality": "sd",
+      "size": 14409825,
+      "md5": "e6131c05d0e91a7c6d9483e133ad58e8",
+      "link": "https://player.vimeo.com/external/207611533.sd.mp4?s=be2735d9b5d7591004dc0fd25bea3da687bb9995&profile_id=165&oauth2_token_id=1120858693"
+    },
+    {
+      "quality": "hd",
+      "size": 17204105,
+      "md5": "b194eadbfd620f44cd804a4fcace5405",
+      "link": "https://player.vimeo.com/external/207611533.hd.mp4?s=95a2af75056a8d59ed4792eb6a4e98ada0f6b1ce&profile_id=174&oauth2_token_id=1120858693"
+    },
+    {
+      "quality": "hls",
+      "size": 7578224,
+      "md5": "2999b2d84de6c97c8041a92cba70dc41",
+      "link": "https://player.vimeo.com/external/207611533.m3u8?s=ec9c517399d7082aa1c6ac446c26f02f84553bf4&oauth2_token_id=1120858693"
+    }
+  ],
+  "download": [
+    {
+      "quality": "sd",
+      "size": 7578224,
+      "link": "https://player.vimeo.com/external/207611533.sd.mp4?s=be2735d9b5d7591004dc0fd25bea3da687bb9995&profile_id=164&oauth2_token_id=1120858693"
+    },
+    {
+      "quality": "sd",
+      "size": 14409825,
+      "link": "https://player.vimeo.com/external/207611533.sd.mp4?s=be2735d9b5d7591004dc0fd25bea3da687bb9995&profile_id=165&oauth2_token_id=1120858693"
+    },
+    {
+      "quality": "hd",
+      "size": 17204105,
+      "link": "https://player.vimeo.com/external/207611533.hd.mp4?s=95a2af75056a8d59ed4792eb6a4e98ada0f6b1ce&profile_id=174&oauth2_token_id=1120858693"
+    }
+  ],
+  "status": "available"
+}

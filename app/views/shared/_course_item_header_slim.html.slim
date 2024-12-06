@@ -1,0 +1,8 @@
+- content_for :page_header_slim
+  = render Global::PageHeader.new(course.title,
+    lang: course.lang,
+    subtitle: (t(:'course.courses.show.header_subtitle', teachers: course.teachers) if course.teachers.present?),
+    type: :slim) do |c|
+    - c.with_pill(t(:"items.show.coursestate.#{course.fullstate}"), size: :small, color: :note)
+    / Needs admin action Button
+    = render(partial: 'course/shared/course_admin_action', locals: {course:, in_teacher_context: false})

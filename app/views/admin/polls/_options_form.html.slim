@@ -1,0 +1,24 @@
+#poll_options
+  - options.each do |option|
+    .option
+      = text_field_tag "text_#{option.id}", option.text, class: 'form-control', disabled: true
+      - if poll.editing_allowed?
+        = link_to admin_poll_option_path(poll_id: poll.id, id: option.id), method: :delete, remote: true, class: 'delete_option' do
+          = render Global::FaIcon.new('circle-minus', style: :solid, css_classes: 'fa-2x')
+  - if poll.editing_allowed?
+    = form_tag admin_poll_options_path(poll_id: poll.id), method: :post, remote: true, class: 'option' do
+      = text_field_tag :text, '', id: 'new_option', class: 'form-control'
+      = submit_tag '', id: 'submit_new_option', class: 'hide new_option', disabled: true
+      = label_tag 'submit_new_option', '', class: 'new_option' do
+        = render Global::FaIcon.new('circle-check', style: :solid, css_classes: 'fa-2x')
+
+javascript:
+  ready(function () {
+    $('#new_option').on('input', function (e) {
+      $('#submit_new_option').prop('disabled', $(this).val().length < 1)
+    });
+
+    $(document).on('ajax:success', '#poll_options', function (e, data) {
+      $('#poll_options').html(data);
+    });
+  });

@@ -1,0 +1,35 @@
+- content_for :head_assets
+  = javascript_include_tag 'course', crossorigin: 'anonymous', integrity: true, async: true, debug: false
+
+/ Header bar, default is slim (since it's used the most), overwrite via :course_area_header (renders into larger :page_header)
+- if content_for? :course_area_header
+  - content_for :page_header
+    = yield :course_area_header
+- else
+  = render 'shared/course_item_header_slim', course: course_layout unless @in_app
+
+- content_for :pre_main
+  / TEACHER MENU
+  / For teachers, we show a menu with all teacher pages on the left side of the
+  / screen (if there is enough room).
+  = render 'course/shared/teacher_nav', teacher_nav: course_layout.teacher_nav
+
+- content_for :main
+  .container.course-content
+    / Top nav with chapters, ...
+    .row
+      - if @teacherview || hide_course_nav?
+        .mt15
+      - elsif content_for? :course_area_nav
+        = yield :course_area_nav
+      - else
+        = render 'course/shared/course_nav', course: course_layout, nav: course_layout.nav, deadlines: course_layout.deadlines
+
+    / Main content
+    .row id=promises[:course].course_code
+      - if content_for? :course_area_main
+        = yield :course_area_main
+      - else
+        = yield
+
+= render template: 'layouts/application'

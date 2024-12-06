@@ -1,0 +1,81 @@
+- content_for :head_assets
+  = javascript_include_tag 'd3.v3.js'
+  = javascript_include_tag 'dimple.js'
+
+#quiz-sidebar-wrapper
+  .quiz-sidebar
+    .quiz-sidebar-content
+      .quiz-sidebar-meter
+        = render Course::CircularProgress.new(my_result.percentage, "#{my_result.percentage}%")
+
+      .mt15#total-points
+        em.mr5 #{t :'quiz_submission.total'}:
+        strong.primary-color #{t(:'quiz_submission.total_points', total_points: @submission.points.round(2), max_points: @quiz.max_points.round(2))}
+        - unless @submission.fudge_points.zero?
+          .primary-color #{t(:'quiz_submission.fudge_points', fudge_points: @submission.fudge_points)}
+
+      - if my_proctoring
+        hr.divider
+        = t(:'dashboard.documents.proctoring_chart')
+
+        - if my_proctoring.result.issues?
+          = render 'shared/proctoring_chart', {proctoring_data: my_proctoring.result}
+
+        .mb20 = render my_proctoring.status_callout
+
+      hr.divider
+      .mt5
+        - if @quiz.current_unlimited_attempts
+          em #{t :'quiz_submission.unlimited_attempts'}
+        - else
+          em #{t :'quiz_submission.remaining_attempts', remaining_attempts: @attempts.remaining_attempts_for_quiz(@quiz)}
+
+        - if @attempts.attempts > 1
+          .mt5
+            em #{t(:'quiz_submission.your_submissions', submission_count: @attempts.attempts)}
+            #submission_chart style='height:200px'
+          .mt5
+            label for='user_attempts'
+              = t(:'quiz_submission.choose_submission')
+            = select_tag 'user_attempts', options_for_select(my_result.submission_labels, params[:id]),
+                                          class: 'input-sm form-control', data: {behavior: 'navigate-to-submission'}
+
+- # rubocop:disable Rails/OutputSafety
+javascript:
+  ready(function () {
+    if (document.getElementById('submission_chart')) {
+      submissions_chart_data = #{raw my_result.history_graph_data.to_a.to_json.html_safe};
+      stat_data = new Array;
+      $.each(submissions_chart_data, function (key, value) {
+        stat_data.push({Date: new Date(value[0]), Value: value[1]});
+      });
+      var svg = dimple.newSvg("#submission_chart", '100%', '100%');
+      var myQuizChart = new dimple.chart(svg, stat_data);
+      myQuizChart.setMargins("25px", "25px", "25px", "25px");
+      var x = myQuizChart.addCategoryAxis("x", "Date");
+      x.addOrderRule("Date");
+      var y = myQuizChart.addMeasureAxis("y", "Value");
+      y.overrideMax = #{@quiz.max_points.round(2)};
+      y.overrideMin = 0;
+      x.hidden = true;
+      myQuizChart.addColorAxis("Value", ["#ff0000", "#fcb913", "#8cb30d"]);
+      var lines = myQuizChart.addSeries(null, dimple.plot.line);
+      lines.getTooltipText = function (e) {
+        return [
+          e.cy + " points / " + getRelativeTime(new Date(e.cx))
+        ];
+      };
+      lines.lineWeight = 4;
+      lines.lineMarkers = true;
+      myQuizChart.draw();
+      var chartHolder = []
+      chartHolder.push(myQuizChart);
+
+      $(window).resize(function () {
+        $.each(chartHolder, function (index, value) {
+          value.draw(0, true);
+        });
+      });
+    }
+  });
+- # rubocop:enable Rails/OutputSafety

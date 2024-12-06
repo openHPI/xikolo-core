@@ -1,0 +1,29 @@
+# WARNING: this RSA-1024 key pair is NOT meant to be
+# used in production under any circumstance!
+open_badges:
+  enabled: true
+  public_key: |
+    -----BEGIN PUBLIC KEY-----
+    MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQD8GtAOf4CGDohWnhMCzhk4D4kx
+    H53uldNXc/7VMGEY0Px13WEuSrxDrcuEYNSwOXEovjP6h/0npY6iNMuHjOTScX7Z
+    pcY1Zl33YBYCaU/1CF9h/ECwIio8Q5jveeZN+rr05ukPBkJkRXKjVM/An32Cqlzm
+    YlTpNX0/sZJK67ihiwIDAQAB
+    -----END PUBLIC KEY-----
+certificate:
+  open_badges:
+    private_key: |
+      -----BEGIN RSA PRIVATE KEY-----
+      MIICXAIBAAKBgQD8GtAOf4CGDohWnhMCzhk4D4kxH53uldNXc/7VMGEY0Px13WEu
+      SrxDrcuEYNSwOXEovjP6h/0npY6iNMuHjOTScX7ZpcY1Zl33YBYCaU/1CF9h/ECw
+      Iio8Q5jveeZN+rr05ukPBkJkRXKjVM/An32CqlzmYlTpNX0/sZJK67ihiwIDAQAB
+      AoGABEz4y6aFLMRGsyOTM3MMnxY0wu/FI/LOXimOaVif72pxRBl4tO91croeRK3a
+      Mv9n3MgR3u4+9VQvsLix2CghJyU5ik/S6oT1pkQMWW7QraUEYmnogS3vsYlNyGrt
+      l1WYE/4OLliV2J3DHAJk2RfsnC/KgVqS/wsXjqnQDxO+LkECQQD/tEr9RvVdh7l7
+      z6EtQzkceZWwq1ZNWeCrcyU/pownUYEoSIbkNhZCfKCZ/gG5uhrUAfcPISPjjKN7
+      1fX8GCYxAkEA/GV0PfgSuZIu2SScC3r/T7n20Y47gUPidt9T6TAgWi/YAehW9Kp7
+      5bbdSmwyIHM8snnQZPuHeaUaSxgtmMjIewJAXCBdFDvIk1YfIdiAvYoGvZegsvJI
+      Ob40EBGAThp3TIM1AYp/7yD9jB7SziiR/pRqrg+3L6BFCerVy/wekCEzQQJAYZfl
+      K7UJoIG65bG3OOU1ZaGVo4/oyGH0ZlySeJ9oUxce4hXx0ac+QyPDS2yssUl91dEu
+      WG2+A7ZohVLzBpnUkwJBAPiLFETyrqoRV4GZ8D9ILfih9uyvp+JWIKyiG6xVNVdm
+      XoadXSzYl8RNrPAw/2utCeJmJ1n7ZNSykle3wZiqYWQ=
+      -----END RSA PRIVATE KEY-----

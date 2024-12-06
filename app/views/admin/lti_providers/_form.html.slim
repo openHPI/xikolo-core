@@ -1,0 +1,19 @@
+- content_for :head_assets
+  = javascript_include_tag 'admin', crossorigin: 'anonymous', integrity: true, async: true, debug: false
+
+= simple_form_for(provider, url: provider.new_record? ? admin_lti_providers_path : admin_lti_provider_path) do |f|
+  = f.error_notification
+  = f.input :name
+  = f.input :description
+  = f.input :domain
+  = f.input :consumer_key
+  = f.input :shared_secret
+  = f.input :presentation_mode,
+    collection: Lti::Provider::PRESENTATION_MODES,
+    as: :radio_buttons
+  = f.input :privacy,
+    collection: Lti::Provider::PRIVACY_MODES,
+    as: :radio_buttons
+  = f.input :custom_fields,
+    placeholder: 'key1=value1&key2=value2'
+  = f.button :submit

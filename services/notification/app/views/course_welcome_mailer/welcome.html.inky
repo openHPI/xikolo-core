@@ -1,0 +1,5 @@
+<row>
+  <columns>
+    <%= raw MarkdownService.render_html locale_string_from @payload.text %>
+  </columns>
+</row>

@@ -1,0 +1,15 @@
+- answers.each do |answer|
+  - if answer.edited?
+    javascript:
+      ready(function () {
+        $("##{@question.id}_indicator", '#quiz-state-indicators').addClass('edited');
+      });
+
+  .quiz-answer.checkbox class=answer.css_classes
+    label id="question_#{@question.id}_answer_#{answer.id}_checkbox"
+      = check_box_tag "submission[#{@question.id}][]", answer.id, answer.selected?, id: "question_#{@question.id}_answer_#{answer.id}_checkbox", disabled: answer.disabled?
+      == helpers.render_markdown answer.text, allow_tables: true
+    - if @show_solution
+      = render 'quiz_submission/partials/quiz_answer_solution', answer_selected_by_user: answer.selected?, correct_answer: answer.correct?
+  .ml20
+    = render 'quiz_submission/question/answer_comment', answer: answer, show_solution: @show_solution, lang: @lang

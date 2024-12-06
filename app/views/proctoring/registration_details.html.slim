@@ -1,0 +1,29 @@
+.registration-details
+  h1 = t(:'proctoring.registration_details.title')
+  h2 = t(:'proctoring.registration_details.headline_steps')
+  p = t(:'proctoring.registration_details.steps_introduction')
+
+  .registration-details__steps
+    .registration-details__step
+      div = render Global::FaIcon.new('globe', style: :solid)
+      p = t(:'proctoring.registration_details.step_1')
+    .registration-details__step
+      div = render Global::FaIcon.new('user-gear', style: :solid)
+      p = t(:'proctoring.registration_details.step_2')
+    .registration-details__step
+      div = render Global::FaIcon.new('camera', style: :solid)
+      p = t(:'proctoring.registration_details.step_3')
+    .registration-details__step
+      div = render Global::FaIcon.new('check', style: :solid)
+      p = t(:'proctoring.registration_details.step_4')
+
+  = render Global::Callout.new(t(:'proctoring.registration_details.callout_text'), title: t(:'proctoring.registration_details.callout_title'))
+
+  h2 = t(:'proctoring.registration_details.verification_lifetime_headline')
+  p = t(:'proctoring.registration_details.verification_lifetime_text')
+
+  .registration-details__buttons
+    = link_to proctoring_register_at_smowl_path, class: 'btn btn-primary', rel: 'noopener', target: '_blank' do
+      = render Global::FaIcon.new('arrow-up-right-from-square', style: :solid, css_classes: 'mr5')
+      = t(:'proctoring.register_with_smowl')
+    = link_to t(:'global.cancel'), course_path(params[:course_id]), class: 'btn btn-default'

@@ -1,0 +1,124 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:simpleType name="question_type">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="MultipleChoice" />
+      <xs:enumeration value="MultipleAnswer" />
+      <xs:enumeration value="FreeText" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="answer_type">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="TextAnswer" />
+      <xs:enumeration value="FreeTextAnswer" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="quizzes">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="quiz" minOccurs="1" maxOccurs="unbounded">
+          <xs:complexType mixed="true">
+            <xs:all>
+              <xs:element name="name">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute name="lang" type="xs:string" use="optional"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="instructions" minOccurs="0" maxOccurs="1">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute name="lang" type="xs:string" use="optional"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="attempts" type="xs:nonNegativeInteger"/>
+              <xs:element name="time_limit" type="xs:nonNegativeInteger"/>
+              <xs:element name="due_date" type="xs:dateTime" minOccurs="0" maxOccurs="1"/>
+              <xs:element name="publish_results_date" type="xs:dateTime" minOccurs="0" maxOccurs="1"/>
+              <xs:element name="questions" minOccurs="1" maxOccurs="1">
+                <xs:complexType mixed="true">
+                  <xs:sequence>
+                    <xs:element name="question" minOccurs="1" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="text">
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                  <xs:attribute name="lang" type="xs:string" use="optional"/>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="explanation" minOccurs="0" maxOccurs="1">
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                  <xs:attribute name="lang" type="xs:string" use="optional"/>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="answers">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="answer" minOccurs="1" maxOccurs="unbounded">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="text">
+                                        <xs:complexType>
+                                          <xs:simpleContent>
+                                            <xs:extension base="xs:string">
+                                              <xs:attribute name="lang" type="xs:string" use="optional"/>
+                                            </xs:extension>
+                                          </xs:simpleContent>
+                                        </xs:complexType>
+                                      </xs:element>
+                                      <xs:element name="explanation" minOccurs="0" maxOccurs="1">
+                                        <xs:complexType>
+                                          <xs:simpleContent>
+                                            <xs:extension base="xs:string">
+                                              <xs:attribute name="lang" type="xs:string" use="optional"/>
+                                            </xs:extension>
+                                          </xs:simpleContent>
+                                        </xs:complexType>
+                                      </xs:element>
+                                    </xs:sequence>
+                                    <xs:attribute name="correct" type="xs:string" use="optional"/>
+                                    <xs:attribute name="type" type="answer_type"/>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                        <xs:attribute type="xs:nonNegativeInteger" name="points"/>
+                        <xs:attribute type="xs:string" name="shuffle_answers" use="optional"/>
+                        <xs:attribute type="question_type" name="type" use="optional"/>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:all>
+            <xs:attribute name="bonus" type="xs:string" use="optional"/>
+            <xs:attribute name="course_code" type="xs:string"/>
+            <xs:attribute name="graded" type="xs:string" use="optional"/>
+            <xs:attribute name="published" type="xs:string" use="optional"/>
+            <xs:attribute name="section" type="xs:nonNegativeInteger"/>
+            <xs:attribute name="subsection" type="xs:nonNegativeInteger" use="optional"/>
+            <xs:attribute name="show_in_nav" type="xs:string" use="optional"/>
+            <xs:attribute name="skip_intro" type="xs:string" use="optional"/>
+            <xs:attribute name="survey" type="xs:string" use="optional"/>
+            <xs:attribute name="external_ref" type="xs:string" use="optional"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

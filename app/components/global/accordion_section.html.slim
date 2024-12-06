@@ -1,0 +1,9 @@
+button.accordion__btn type='button' data-accordion-target='toggle-button' aria-expanded=expanded aria-controls=@id
+  span.accordion__btn-content
+    = @label
+    span.accordion__collapsed
+      = render Global::FaIcon.new('plus')
+    span.accordion__expanded
+      = render Global::FaIcon.new('minus')
+.accordion__item id=@id
+  = content

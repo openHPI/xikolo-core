@@ -1,0 +1,48 @@
+li class=css_classes
+  button class="navigation-profile-item__main btn-as-text #{active_class}" data-behaviour='dropdown' aria-haspopup='true' type='button' aria-expanded='false' aria-controls="profile-#{object_id}" aria-label=t(:'header.navigation.profile_menu')
+    span.navigation-profile-item__avatar title=@user.name
+      = render Global::UserAvatar.new(user_id, size: 'small')
+
+    span.navigation-profile-item__controls
+      .navigation-profile-item__control.navigation-profile-item__control--on-expanded
+        = render Global::FaIcon.new('chevron-down')
+      .navigation-profile-item__control.navigation-profile-item__control--on-collapsed
+        = render Global::FaIcon.new('chevron-up')
+
+  ul.navigation-profile-item__menu id="profile-#{object_id}"
+    - submenu.each do |component|
+      - if component[:href] == '/dashboard/achievements' && gamification_score.present?
+        // Add gamification points next to the achievements menu item on mobile view
+        li.navigation-profile-item__points.navigation-profile-item__points--mobile
+          = [gamification_score, t(:'gamification.points')].join(' ')
+
+      = render Navigation::Item.new(text: component[:text], link: {href: component[:href]}, icon: {code: component[:icon]}, active: current_page?(component[:href]))
+
+    li.navigation-item
+      = link_to logout_path,
+        method: :delete,
+        class: 'navigation-item__main navigation-item__main--link',
+        title: t(:'header.navigation.tooltip.logout')
+        .navigation-item__icon
+          = render Global::FaIcon.new('arrow-right')
+        .navigation-item__text
+          = t(:'header.navigation.logout')
+
+    - if user_instrumented
+      li.navigation-profile-item__masq-li
+        button.btn.btn-xs.btn-default.btn-outline data-behavior='copy-to-clipboard' data-text=user_id
+          = t(:'header.navigation.masquerade.copy_user_id')
+      li.navigation-profile-item__masq-li
+        button.btn.btn-xs.btn-default.btn-outline data-behavior='copy-to-clipboard' data-text=@user.email
+          = t(:'header.navigation.masquerade.copy_email')
+
+  - if user_instrumented
+    li.navigation-profile-item__demasq-li
+      = link_to t(:'header.navigation.masquerade.demasq'),
+        user_masquerade_path(@user.id),
+        method: :delete,
+        class: 'btn btn-xs btn-outline navigation-profile-item__demasq-btn'
+
+- if gamification_score.present?
+  li.navigation-profile-item__points.navigation-profile-item__points--desktop
+    = [gamification_score, t(:'gamification.points')].join(' ')

@@ -1,0 +1,14 @@
+- content_for :maincol_content
+  .row
+    / Item navigation above the main content
+    = render 'shared/course_item_nav', position: @inner_course_position
+
+    / Main Content of the assessment
+    .col-md-12
+      .col-md-12.course-area-main.white-bg
+
+        h2 = t(:'peer_assessment.under_construction.header')
+        hr.divider.slim
+        .mt40
+        = render Global::Callout.new(t(:'peer_assessment.under_construction.info'))
+        .mt40

@@ -1,0 +1,56 @@
+table#progress_table.table.table-striped.mb30.full-width
+  thead
+    tr
+      th = t(:'learning_rooms.admin.member_name')
+      th = t(:'learning_rooms.admin.membership_type')
+      th = t(:'learning_rooms.admin.actions')
+  - members.each do |member|
+    tr
+      td
+        = link_to member.name, user_path(member.id)
+      td
+        = member.status.capitalize
+      td
+        - unless team
+          - if member.pending?
+            = status_change_button member, 'regular',
+                                    t(:'learning_rooms.admin.accept_member')
+          - if member.regular?
+            = status_change_button member, 'admin',
+                            t(:'learning_rooms.admin.promote_member'),
+                            t(:'learning_rooms.admin.promote_member_confirm')
+
+            = status_change_button member, 'mentor',
+                    t(:'learning_rooms.admin.promote_member_mentor'),
+                    t(:'learning_rooms.admin.promote_member_mentor_confirm')
+
+          - if member.privileged?
+            = status_change_button member, 'regular',
+                            t(:'learning_rooms.admin.demote_member'),
+                            t(:'learning_rooms.admin.demote_member_confirm')
+        - if current_user.allowed?('collabspace.member.email')
+          = mail_to member.email,
+            t(:'learning_rooms.admin.mail_to_member'),
+            subject: title,
+            body: t(:'learning_rooms.admin.mail', recipient: member.name, sender: current_user.name),
+            class: 'btn btn-xs btn-primary'
+        = button_to t(:'learning_rooms.admin.kick_member'),
+                    course_learning_room_membership_path(params[:course_id],
+                      params[:id],
+                      member.id),
+                    class: 'btn btn-xs btn-danger',
+                    method: :delete,
+                    data: { confirm: t(:'learning_rooms.admin.kick_member_confirm') }
+
+= will_paginate RestifyPaginationCollection.new(memberships), renderer: PaginationRenderer
+
+- if team && current_user.allowed?('course.course.teaching')
+  h3 = t(:'learning_rooms.admin.add_user')
+  hr.divider
+  = simple_form_for(@new_membership, url: course_learning_room_memberships_path(learning_room_id: params[:id]), wrapper: :compact) do |f|
+    = f.input :user_id, collection: [],
+      input_html: {data: {'behavior': 'custom-select', 'auto-completion-url': admin_find_users_path, placeholder: t(:'global.email_or_name')}}
+    = f.input :status, \
+      required: true, \
+      collection: %w[admin mentor]
+    = f.button :submit, class: 'btn-sm'

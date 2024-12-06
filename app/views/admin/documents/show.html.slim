@@ -1,0 +1,48 @@
+- content_for :page_header_slim
+  = render Global::PageHeader.new(@document.title, subtitle: t(:'admin.page_header'), type: :slim)
+
+.container
+  .row
+    .col-md-9
+      h3 = t(:'knowledge_documents.internal.information')
+
+      table.table
+        tr
+          td.noborder
+            strong = t(:'knowledge_documents.internal.title')
+          td.noborder = @document.title
+        tr
+          td
+            strong = t(:'knowledge_documents.internal.description')
+          td = @document.description
+        tr
+          td
+            strong = t(:'knowledge_documents.tags')
+          td = @document.tags.join(', ')
+        tr
+          td
+            strong = t(:'knowledge_documents.courses')
+          td = @course_titles.join(', ')
+
+      h3 = t(:'knowledge_documents.localization.translations')
+      table.table.table-striped
+        tr
+          th = t(:'knowledge_documents.localization.title')
+          th = t(:'knowledge_documents.localization.description')
+          th = t(:'knowledge_documents.localization.language')
+          th = t(:'knowledge_documents.actions')
+          th = t(:'knowledge_documents.download')
+        - @document.localizations.each do |localization|
+          tr
+            td = localization.title
+            td = localization.description
+            td = I18nData.languages(I18n.locale)[localization.language.upcase]
+            td
+              = link_to t(:'knowledge_documents.edit'), edit_document_localization_path(@document.id, localization.id), class: 'btn btn-primary btn-xs mr10'
+              = link_to t(:'knowledge_documents.delete'), document_localization_path(@document.id, localization.id), class: 'btn btn-danger btn-xs', data: {method: 'delete'}
+            td
+              = link_to t(:'knowledge_documents.download'), localization.file_url, class: 'btn btn-primary btn-xs'
+
+      .btn-group
+        = link_to t(:'knowledge_documents.edit_document'), edit_document_path(@document.id), class: 'btn btn-primary mr10'
+        = link_to t(:'knowledge_documents.index'), documents_path, class: 'btn btn-default'

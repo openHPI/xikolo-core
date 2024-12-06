@@ -1,0 +1,12 @@
+.callout class=css_modifiers
+  .callout__indicator
+    = render icon
+    - if @title
+      .callout__title
+        = @title
+
+  .callout__content
+    p == @text
+    - if content
+      .callout__slot
+        = content

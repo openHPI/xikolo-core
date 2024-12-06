@@ -1,0 +1,27 @@
+/*------------------------------------*\
+    $CONTENTS
+
+    Xikolo color schema.
+\*------------------------------------*/
+
+@import "colors";
+
+$primary-color: $primary-500;
+$secondary-color: $secondary-500;
+$tertiary-color: $tertiary-500;
+
+$gray: $gray-500;
+
+$link-color: $primary-color;
+$text-color: $gray-900;
+$inverse-text-color: $white;
+$input-color: $text-color;
+$background-color: $gray-50;
+
+$quiz-color-correct: $success-500;
+$quiz-color-incorrect: $error-500;
+$quiz-color-partial: $information-500;
+
+$header-bg: $gray-900;
+
+$dashboard-score-card-bg: $primary-250;

@@ -1,0 +1,121 @@
+/* ------------------------------------ *\
+    $CONTENTS
+
+    Styles for the EnrollmentStatistics
+    component.
+\* ------------------------------------ */
+
+/**
+ * Variables
+ * Enrollment-Statistics
+ */
+
+/*------------------------------------*\
+    $Variables
+\*------------------------------------*/
+$xi-enrollment-statistics-background-color: $gray-100 !default;
+
+/*------------------------------------*\
+    $Enrollment-Statistics
+\*------------------------------------*/
+
+.enrollment-statistics {
+  padding: 15px;
+  background-color: $xi-enrollment-statistics-background-color;
+  text-align: center;
+
+  h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+
+  &__date-title {
+    font-weight: bold;
+  }
+
+  &__date-value {
+    color: $gray-600;
+    font-style: italic;
+  }
+
+  &__count {
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 40px;
+  }
+
+  .uppercase {
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+  }
+
+  &__line {
+    position: relative;
+    width: 4px;
+    padding-bottom: 80px;
+    background: linear-gradient(
+      to bottom,
+      $gray-100,
+      $gray-100 50%,
+      $primary-color 50%,
+      $primary-color
+    );
+    background-size: 100% 15px;
+  }
+
+  &__row {
+    display: flex;
+    flex: 1 1 100%;
+
+    &:first-of-type,
+    &:last-of-type {
+      .enrollment-statistics__line {
+        padding-bottom: 15px;
+        background-size: 100% 5px;
+      }
+    }
+
+    &:not(:last-of-type) {
+      &[data-type^="course"],
+      &[data-type="current"]:not(:nth-last-of-type(3)) {
+        .enrollment-statistics__line {
+          background: $primary-color;
+        }
+      }
+    }
+  }
+
+  &__column-left {
+    flex-basis: calc(50% - 2px);
+    padding-right: 20px;
+    margin-top: -10px;
+    text-align: right;
+  }
+
+  &__column-right {
+    flex-basis: calc(50% - 2px);
+    padding-left: 20px;
+    margin-top: -11px;
+    text-align: left;
+  }
+
+  &__dot {
+    position: absolute;
+    z-index: 1;
+    left: -6px;
+    border: 8px solid $primary-color;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+  }
+}
+
+.course-enrollment-count {
+  height: 100%;
+  font-weight: bold;
+  line-height: 100%;
+
+  &__badge {
+    background-color: $primary-color;
+  }
+}

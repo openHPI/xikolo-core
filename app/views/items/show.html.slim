@@ -1,0 +1,7 @@
+/ Item navigation above the main content
+.row
+  = render 'shared/course_item_nav', position: @inner_course_position
+
+/ Main content with video and stuff
+.row
+  = render @item_presenter.partial_name, item: @item_presenter, position: @inner_course_position

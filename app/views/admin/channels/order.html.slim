@@ -1,0 +1,20 @@
+- content_for :page_header_slim
+  = render Global::PageHeader.new(t(:'admin.channels.sort.title'), subtitle: t(:'admin.page_header'), type: :slim)
+
+.container
+  - if @channels.present?
+    .mt20.mb10
+      .info-box
+        .indicator = render Global::FaIcon.new('circle-info')
+        .text = t(:'admin.channels.sort.info')
+
+    = render partial: 'admin/channels/form_order', locals: {channels: @channels}
+
+  - else
+    .mt20.mb10
+      .info-box
+        .indicator = render Global::FaIcon.new('circle-info')
+        .text = t(:'admin.channels.sort.empty_msg')
+
+    .mt15
+      = link_to t(:'admin.channels.sort.back_to_list'), admin_channels_path, class: 'btn btn-default btn-sm'

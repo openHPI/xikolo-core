@@ -1,0 +1,100 @@
+/*------------------------------------*\
+    $Polls
+\*------------------------------------*/
+
+.poll {
+  margin-top: 20px;
+
+  .headline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+
+    p,
+    h3 {
+      margin: 0 !important;
+    }
+
+    p {
+      color: $gray;
+    }
+  }
+
+  .option {
+    padding: 0 5px;
+    @include custom-button-inputs();
+  }
+
+  .results {
+    p {
+      margin: 5px 0;
+      color: $gray-600;
+      font-size: 12px;
+    }
+
+    .option {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 5px;
+
+      &--with-results .answer {
+        float: left;
+      }
+      &--with-results .result {
+        float: left;
+      }
+
+      .answer {
+        width: 65%;
+      }
+
+      .result {
+        display: flex;
+        width: 30%;
+        align-content: center;
+        margin-top: 2px;
+      }
+    }
+  }
+
+  .infobox {
+    padding: 5px 10px;
+  }
+}
+
+/*------------------------------------*\
+    $Polls - Admin Area
+\*------------------------------------*/
+
+#poll_options {
+  .option {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+
+    a {
+      margin-top: 0;
+      margin-left: 10px;
+      color: $primary-color;
+      cursor: pointer;
+    }
+
+    input[type="submit"] {
+      & + label {
+        margin-top: 0;
+        margin-left: 10px;
+        color: $primary-color;
+        cursor: pointer;
+      }
+
+      &:disabled {
+        & + label {
+          color: lighten($primary-color, 20%);
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+}

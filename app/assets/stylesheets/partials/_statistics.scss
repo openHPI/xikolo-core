@@ -1,0 +1,36 @@
+.statistics-table {
+  .spinner-container {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .no-data-message {
+    margin-bottom: 20px;
+    font-style: italic;
+  }
+}
+
+.geo-table {
+  .relative-value {
+    margin-left: 3px;
+    color: $gray-600;
+    font-size: 13px;
+  }
+}
+
+.chart-container {
+  padding-bottom: 20px;
+  @include outer-container();
+
+  &.daily-activity {
+    .chart {
+      margin-top: 20px;
+    }
+  }
+}
+
+.table-statistics {
+  th {
+    cursor: pointer;
+  }
+}

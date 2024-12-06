@@ -1,0 +1,17 @@
+<% if @chromecast_styles[:background] %>
+.background {
+  background: center no-repeat url(<%= @chromecast_styles[:background] %>);
+}
+<% end %>
+
+<% if @chromecast_styles[:logo] %>
+.logo {
+  background-image: url(<%= @chromecast_styles[:logo] %>);
+}
+<% end %>
+
+<% if @chromecast_styles[:progress_color] %>
+.progressBar {
+  background-color: <%= @chromecast_styles[:progress_color] %>;
+}
+<% end %>

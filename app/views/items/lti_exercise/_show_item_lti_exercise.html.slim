@@ -1,0 +1,36 @@
+.col-md-8
+  .course-area-main data-lanalytics-context={course_id: item.course_id}.to_json
+    = render 'items/header', item: item
+
+    - if item.instructions?
+      h3 = "#{t(:'items.lti.instruction')}:"
+      hr.divider.slim.alternative
+
+      .RenderedMarkdown == item.instructions_html
+
+      hr.divider.slim.alternative
+    = render 'items/lti_exercise/lti_exercise_properties', item: item
+
+    div data-lanalytics-resource={type: 'lti_exercise', uuid: item.id}.to_json
+      = render 'seq_navigation', action: {action: item.open_path,
+        text: t('items.lti.launch_lti_exercise'),
+        icon: 'play'},
+        position:
+
+    - if item.presentation_as_window?
+      javascript:
+        $(function() {
+          $('#nextprevnav .filler-area').attr('target', '_blank');
+        });
+
+- if item.grades?
+  .col-md-4
+    #quiz-sidebar-wrapper
+      .quiz-sidebar
+        .quiz-sidebar-content
+          .bar-title
+            h3 = t(:'items.lti.results')
+          .bar-content
+            em.mr5 = "#{t(:'quiz_submission.total')}:"
+            strong.primary-color = t(:'quiz_submission.total_points', max_points: item.max_points, total_points: item.score)
+            = render Global::Meter.new(value: item.percentage)

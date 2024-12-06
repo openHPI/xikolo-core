@@ -1,0 +1,11 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+mkdocs-awesome-pages-plugin = "==2.9.3"
+mkdocs-git-revision-date-plugin = "==0.3.2"
+mkdocs-material = "==9.5.47"
+
+[dev-packages]

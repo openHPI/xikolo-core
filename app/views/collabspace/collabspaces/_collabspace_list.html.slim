@@ -1,0 +1,24 @@
+/ expects collabspaces as an input and @course_id to be set
+
+hr.divider
+  table.table.table-striped.mb30.full-width.learning_room
+    - collabspaces.each do |collabspace|
+      tr
+        td.is_open
+          - if collabspace.open?
+            = render Global::FaIcon.new('unlock', style: :solid, title: t(:'learning_rooms.open'))
+          - else
+            = render Global::FaIcon.new('lock', style: :solid, title: t(:'learning_rooms.closed'))
+        td.learning-room-name
+          = link_to collabspace.name, course_learning_room_path(@course.course_code, collabspace.collabspace_id)
+          div
+            = collabspace.description
+        td.actions
+          - if collabspace.index_action_button_type == :collab_space
+            = link_to collabspace.index_action_button[:label],
+                      course_learning_room_path(collabspace.index_action_button[:url_params][:course_id], collabspace.index_action_button[:url_params][:learning_room_id]),
+                      collabspace.index_action_button[:button_params]
+          - elsif collabspace.index_action_button_type == :collab_space_memberships
+            = button_to collabspace.index_action_button[:label],
+                        course_learning_room_memberships_path(collabspace.index_action_button[:url_params][:course_id], collabspace.index_action_button[:url_params][:learning_room_id]),
+                        collabspace.index_action_button[:button_params]

@@ -1,0 +1,8 @@
+= render Navigation::Tabs.new do |c|
+  - c.with_tab(active: controller_name == 'certificate_templates')
+    = link_to course_certificate_templates_path
+      = t(:'courses.nav.admin.certificate_templates')
+
+  - c.with_tab(active: controller_name == 'open_badge_templates')
+    = link_to course_open_badge_templates_path
+      = t(:'courses.nav.admin.open_badge_templates')

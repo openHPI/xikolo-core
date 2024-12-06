@@ -1,0 +1,30 @@
+- if teacher_nav.any? && !@in_app
+  button.teacher-nav__control.btn.btn-default.btn-xs aria-haspopup='menu' type='button' aria-expanded=cookies[:pin_teacher_nav].present?.to_s data-behaviour='toggle-menu' data-follow-menu='left' aria-controls='teacher-nav'
+    p = t(:'courses.nav.teacher.administration')
+    span.teacher-nav__open-btn
+      = render Global::FaIcon.new('chevron-down')
+    span.teacher-nav__close-btn
+      = render Global::FaIcon.new('chevron-up')
+  nav.teacher-nav#teacher-nav data-pinned=(cookies[:pin_teacher_nav].present? ? true : nil)
+    p.teacher-nav__greeting
+      = t(:'courses.nav.teacher.welcome')
+      button.teacher-nav__pin-btn.btn-as-text data-pin-teacher-nav="#teacher-nav" title=t(:'courses.nav.teacher.pin')
+        = render Global::FaIcon.new('thumbtack', style: :solid)
+    ul.teacher-nav__menu
+      - teacher_nav.each do |item|
+        li.teacher-nav__menu-item-container class=(item.active?(request) ? 'active' : '')
+          = link_to item.link, class: "teacher-nav__menu-item"
+            = render Global::FaIcon.new(item.icon_class, css_classes: 'fa-fw')
+            = item.text
+
+          - if item.submenu?
+            button.teacher-nav__submenu-control.btn-link aria-haspopup='menu' type='button' aria-expanded=(item.active?(request) ? 'true' : 'false') data-behaviour='toggle-menu' aria-controls=item.id
+              span.teacher-nav__open-submenu
+                = render Global::FaIcon.new('chevron-right')
+              span.teacher-nav__close-submenu
+                = render Global::FaIcon.new('chevron-down')
+            ul.teacher-nav__submenu id=item.id
+              - item.submenu.each do |subitem|
+                li.teacher-nav__menu-item-container class=(subitem.active?(request) ? 'active' : '')
+                  = link_to subitem.link, class: 'teacher-nav__menu-item teacher-nav__menu-item--nested'
+                    = subitem.text

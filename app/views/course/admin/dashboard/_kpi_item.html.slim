@@ -1,0 +1,18 @@
+.row.kpis__row
+  .col-xs-4
+    data-selector key=data_key
+      counter-basic.absolute decimals=local_assigns[:decimals] prefix=local_assigns[:prefix] suffix=local_assigns[:suffix]
+    - unless local_assigns[:quota_key].nil?
+      data-selector key=quota_key
+        counter-basic.quota suffix=('%' unless local_assigns[:quota_hide_suffix]) hide-spinner="true"
+  .col-xs-8.text-right
+    -if local_assigns[:sec_data_key].present? && local_assigns[:sec_name].present?
+      = "#{name} ("
+      data-selector key=local_assigns[:sec_data_key]
+        counter-basic
+      = " #{local_assigns[:sec_name]})"
+    - else
+      = name
+    - unless local_assigns[:quota_name].nil?
+      .quota-text
+        = quota_name

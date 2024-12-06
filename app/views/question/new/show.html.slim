@@ -1,0 +1,52 @@
+/ Buttons on top of the page
+.row
+  .col-sm-12
+    .pinboard-breadcrumbs
+      span = t(:'pinboard.breadcrumbs.label')
+      - @pinboard.breadcrumbs.for_thread(@question).each_level do |url, text|
+        = link_to text, url
+  / Thread form
+  - if @pinboard.open?
+    .col-sm-8
+    .col-sm-12.mt10
+      = render 'pinboard/question_form'
+.row
+  .col-md-12.responsive-images
+    .pinboard2-container
+      / Asked Question
+
+      = render 'question/new/topic_detail', question: @question, subscription: @subscription, new_comment: @new_comment, course_id: @course_id
+      = render 'question/new/post', post: @question
+
+      div style="padding-left: 60px;"
+        = render 'question/new/comments', commentable: @question
+
+      = render 'question/new/answers', question: @question, new_comment: @new_comment, comment_path: @comment_path, course_id: @course_id
+
+      - if !@pinboard.open?
+        = render Global::Callout.new(@pinboard.lock_reason, type: :warning, icon: Global::FaIcon.new('lock'))
+      - elsif @question.closed
+        = render 'closed_msg'
+      - else
+        / Answer question form
+
+        .row.mt30
+          .col-md-12#answer_form_box
+            = render 'answer_form', answer: @new_answer, question: @question
+
+- if can_delete?
+  .row.mt20.moderator
+    .col-md-1
+      = link_to question_path,
+                method: :delete, class: 'btn btn-default', data: { confirm: t(:'question.show.confirm_delete') }
+        = t :'question.show.destroy'
+    - if @pinboard.open?
+      .col-md-1
+        - if @show_close_button
+          = link_to in_section_context? ? close_course_section_question_path : close_course_question_path,
+                    method: :post, class: 'btn btn-default', data: { confirm: t(:'question.show.confirm_close') }
+            = t :'question.show.close'
+        - else
+          = link_to in_section_context? ? reopen_course_section_question_path : reopen_course_question_path,
+                    method: :post, class: 'btn btn-default', data: { confirm: t(:'question.show.confirm_reopen') }
+            = t :'question.show.reopen'

@@ -1,0 +1,233 @@
+/*------------------------------------*\
+    $Variables
+\*------------------------------------*/
+$xi-channel-background-color: $white !default;
+
+/* General */
+
+@mixin vertical-align {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+/* Channel Admin Styling */
+
+.channel-admin-logo {
+  img {
+    max-width: 200px;
+  }
+}
+
+/* Channel Styling */
+
+.channel-container {
+  background-color: $xi-channel-background-color;
+}
+
+.channel-logo {
+  position: absolute;
+  z-index: 11;
+  top: 25px;
+  left: 15px;
+  overflow: visible;
+  height: 0;
+
+  img {
+    width: auto;
+    max-height: 60px;
+  }
+}
+
+.channel-title {
+  padding: 15px $page-padding;
+  font-size: 36px;
+  font-weight: normal;
+  text-align: center;
+}
+
+.channel-info {
+  padding: 0 $page-padding;
+  @include horizontal-page-padding;
+  @include outer-container($main-content-width);
+
+  .channel-explanation {
+    position: relative;
+    padding-bottom: 10px;
+
+    p {
+      text-align: left;
+    }
+  }
+}
+
+.channel-courses {
+  padding-top: $navbar-height;
+  margin-top: -$navbar-height;
+  background-color: $xi-channel-background-color;
+}
+
+// Mobile visual styles
+.channel-xs {
+  img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+// FAQ hint
+.show-more-link {
+  text-align: center;
+
+  a {
+    display: block !important;
+    padding: 10px;
+    margin-top: 0 !important;
+    background: none;
+    color: $gray-600;
+    font-family: $corporatefont;
+    font-size: 14px !important;
+    font-weight: bold;
+
+    &:hover,
+    &:active {
+      text-decoration: none;
+    }
+
+    &:hover {
+      color: $tertiary-color;
+    }
+
+    .xi-icon {
+      display: inline-block !important;
+      margin-left: 5px;
+      color: inherit;
+      font-size: 27px;
+      vertical-align: sub;
+    }
+  }
+}
+
+// Channel Admin Form
+.channel-form-image-preview {
+  padding-left: 5px;
+  margin-top: -15px;
+  margin-bottom: 15px;
+
+  img {
+    max-width: 100%;
+  }
+}
+
+/* Carousel-Styles */
+
+.channel-carousel {
+  max-width: 1910px;
+  margin: 0 auto;
+  overflow-y: hidden;
+
+  .item {
+    max-height: 500px;
+    overflow-y: hidden;
+  }
+}
+
+.channel-carousel > .carousel {
+  min-height: 0;
+}
+
+.channel-carousel > .carousel > .carousel-inner {
+  height: auto;
+  min-height: 0;
+  background-color: $gray-100;
+}
+
+.channel-carousel > .carousel > .carousel-indicators {
+  bottom: 10px !important;
+
+  li {
+    width: 12px;
+    height: 12px;
+    border: 1px solid $primary-color;
+    margin: 1px 5px 1px 5px;
+    background-color: #ffffff;
+  }
+
+  .active {
+    margin: 1px 5px 1px 5px;
+    background-color: $primary-color;
+  }
+}
+
+.channel-carousel > .carousel > .carousel-control {
+  .icon-prev,
+  .icon-next {
+    top: 35%;
+    font-size: 5em;
+  }
+
+  .icon-prev:before {
+    content: "\2329";
+  }
+
+  .icon-next:before {
+    content: "\232A";
+  }
+}
+
+.channel-statement {
+  position: absolute;
+  z-index: 10;
+  top: 100px;
+  left: 15%;
+  width: 30%;
+  height: auto;
+  padding: 15px;
+  background-color: rgba(255, 255, 255, 0.8);
+  font-size: 12px;
+  overflow-y: hidden;
+  .statement-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding-bottom: 35px;
+
+    h1 {
+      display: block;
+      padding-top: 0;
+      padding-bottom: 5px;
+      margin-top: 0;
+      font-size: 20px;
+    }
+
+    p {
+      display: block;
+    }
+
+    .statement-footer {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 25px;
+      line-height: 25px;
+      vertical-align: middle;
+
+      .quote-by {
+        float: right;
+        font-size: 18px;
+      }
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  .channel-statement > .statement-inner > .statement-title {
+    font-size: 16px;
+  }
+
+  .channel-statement > .statement-inner > .statement-footer > .quote-by {
+    font-size: 14px;
+  }
+}

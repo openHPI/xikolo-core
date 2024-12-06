@@ -1,0 +1,46 @@
+- content_for :head_assets
+  = javascript_include_tag 'admin', crossorigin: 'anonymous', integrity: true, async: true, debug: false
+
+- content_for :page_header_slim
+  = render Global::PageHeader.new(t(:'knowledge_documents.documents'), subtitle: t(:'admin.page_header'), type: :slim)
+
+.container
+  = link_to t(:'knowledge_documents.new'), new_document_path, class: 'btn btn-primary mt20 full-width'
+  = render 'filters', list: @document_list
+
+  - if @document_list.empty?
+    .mb40 = t(:'knowledge_documents.no_documents')
+  - else
+    table.table.table-striped.mt20
+      thead
+        tr
+          th = t(:'knowledge_documents.title')
+          th = t(:'knowledge_documents.description')
+          th = t(:'knowledge_documents.tags')
+          th = t(:'knowledge_documents.courses')
+          th = t(:'knowledge_documents.actions')
+          th = t(:'knowledge_documents.download')
+      tbody
+        - @document_list.each do |document|
+          tr
+            td = document.title
+            td = document.description
+            td
+              - document.tags.each do |tag|
+                = tag
+                br
+            td
+              - document.courses.each do |course|
+                = course
+                br
+            td
+              = link_to t(:'knowledge_documents.show'), document_path(document.id), class: 'btn btn-primary btn-xs mt10 mr10'
+              = link_to t(:'knowledge_documents.edit'), edit_document_path(document.id), class: 'btn btn-primary btn-xs mt10 mr10'
+              = link_to t(:'knowledge_documents.delete'), document_path(document.id), class: 'btn btn-danger btn-xs mt10 mr10', data: {confirm: t(:'knowledge_documents.delete_all'), method: 'delete'}
+              = link_to t(:'knowledge_documents.add_language'), new_document_localization_path(document.id), class: 'btn btn-primary btn-xs mt10 mr10'
+            td
+              - document.localizations.each do |loc|
+                = link_to I18nData.languages(I18n.locale)[loc.language.upcase], loc.file_url, class: 'btn btn-primary btn-xs mt10 mr10'
+
+    = will_paginate @document_list, renderer: PaginationRenderer
+    = link_to t(:'knowledge_documents.new'), new_document_path, class: 'btn btn-primary mt20 full-width'

@@ -1,0 +1,19 @@
+nav.course-item-navigation data-controller='slider course-item-nav'
+  button type="button" data-slider-target='scroll-button-left' data-track='clicked_item_nav_prev' aria-label=t(:'buttons.scroll_left') hidden=true
+    = render Global::FaIcon.new('arrow-left', style: :solid)
+
+  ul.course-item-navigation__items data-slider-target="content"
+    li data-slider-target='intersector-left' aria-hidden="true"
+
+    - @items.each do |item|
+      - if accessible?(item)
+        li class="course-nav-item #{item.css_classes}" data-id="#{item.id}" data-slider-target='item'
+          = link_to(item.path, data: {'tooltip': "#{item.item_tooltip}"}, 'aria-label': item.aria_label)
+            = render Global::FaIcon.new(item.icon_class)
+      - else
+        li class="course-nav-item locked #{item.css_classes}" data-id="#{item.id}" data-slider-target='item' data-tooltip=item.item_tooltip aria-label=item.aria_label
+          = render Global::FaIcon.new(item.icon_class)
+
+    li data-slider-target='intersector-right' aria-hidden="true"
+  button type="button" data-slider-target='scroll-button-right' data-track='clicked_item_nav_next' aria-label=t(:'buttons.scroll_right') hidden=true
+    = render Global::FaIcon.new('arrow-right', style: :solid)

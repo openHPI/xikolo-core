@@ -1,0 +1,85 @@
+.courses-menu-item {
+  &__menu {
+    position: absolute;
+    z-index: 2;
+    top: 100%;
+    display: none;
+    overflow: auto;
+    width: 300px;
+    max-height: 90vh;
+    background-color: $menu-navigation-item-bg;
+    box-shadow: $box-shadow-m;
+
+    @include medium {
+      width: 800px;
+    }
+  }
+
+  // Set browser's default focus style
+  &__main {
+    @include set-browser-focus-style();
+  }
+
+  &__main:hover + .courses-menu-item__menu,
+  &__menu:hover {
+    @include small {
+      display: flex;
+      flex-direction: column;
+    }
+
+    @include medium {
+      flex-direction: row;
+    }
+  }
+
+  &__category {
+    // Makes all columns have the same width
+    flex: 1;
+    margin: 10px 20px;
+  }
+
+  &__category-title {
+    padding: 10px;
+    border-bottom: 2px solid $text-color;
+    font-size: 1.6rem;
+    font-weight: bold;
+  }
+
+  &__courses {
+    padding-left: 0;
+    list-style-type: none;
+  }
+
+  &__menu-item {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    border-top: 1px solid $menu-navigation-item-separator-color;
+
+    &:first-child {
+      border-top: none;
+    }
+
+    a {
+      width: 100%;
+      padding: 10px;
+      color: $menu-navigation-item-color;
+      text-decoration: none;
+    }
+
+    &--more a,
+    .xi-icon {
+      margin-right: 10px;
+      color: $link-color;
+    }
+
+    &:hover {
+      background-color: $menu-navigation-item-hover-bg;
+      color: $menu-navigation-item-hover-color;
+
+      a {
+        text-decoration: $menu-navigation-item-hover-decoration;
+      }
+    }
+  }
+}

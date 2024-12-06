@@ -1,0 +1,26 @@
+.clearfix
+.center-text
+  .center-text.em2.mt30.mb10.rendered#rating-stars
+    - @review.feedback_grade.times do |i|
+      span.xi-icon.fa-solid.fa-star class="#{'ml10' if i > 0}" data-value=i+1
+    - (3 - @review.feedback_grade).times do |i|
+      span.xi-icon.fa-regular.fa-star class="#{'ml10' if @review.feedback_grade > 0 or i > 0}"
+
+.center-text
+  strong#rating.mr5 = t :'peer_assessment.results.rating.stars', stars: @review.feedback_grade
+
+/ Additional information after the rating
+- unless @own_review
+  /- if !@reviewer_user_addition.nil? and (@reviewer_user_addition.expertise != nil or @review.award)
+  - if @review.award
+    .mt20
+    .info-box
+      .indicator class="#{'warning' if defined? as_warning and as_warning}"
+        = render Global::FaIcon.new('circle-info', style: :solid, css_classes: 'em1-5')
+      .text
+        /- if @reviewer_user_addition.expertise != nil
+        /  = t(:'peer_assessment.results.proficiency', proficiency: Array(t :'peer_assessment.linkert')[@reviewer_user_addition.expertise][1])
+        /  br
+        - if @review.award
+          = t(:'peer_assessment.results.award')
+.mt40

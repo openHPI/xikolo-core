@@ -1,0 +1,103 @@
+/*------------------------------------*\
+    $CONTENTS
+
+    Alert components.
+    Uses Twitter Bootstrap alerts.
+\*------------------------------------*/
+/**
+ * Variables...................Variables and Bootstrap SASS-Var overrides
+ * Bootstrap-Import............Required import for BS component
+ * Alert-Styles................Styling for the alerts
+ */
+
+/*------------------------------------*\
+    $Variables
+\*------------------------------------*/
+// Any variable declarations/overrides go here
+
+/*------------------------------------*\
+    $Bootstrap-Import
+\*------------------------------------*/
+@import "bootstrap-sass/assets/stylesheets/bootstrap/mixins/alerts";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/alerts";
+
+.sweet-alert button.confirm {
+  background-color: $primary-color !important;
+  box-shadow: none !important;
+}
+.sweet-alert code {
+  background-color: inherit;
+  color: inherit;
+}
+
+/*------------------------------------*\
+    $Alert-Styles
+\*------------------------------------*/
+.alert {
+  border: none;
+  border-radius: 0px;
+
+  a,
+  a:hover,
+  a:active {
+    color: $white;
+    text-decoration: underline;
+  }
+  .close {
+    color: #fff;
+    filter: alpha(opacity=100);
+    opacity: 1;
+    text-shadow: none;
+  }
+  &.alert-info {
+    background-color: $blue;
+    color: $white;
+  }
+
+  &.alert-danger {
+    background-color: $error-500;
+    color: $white;
+  }
+
+  &.alert-warning {
+    background-color: $information-500;
+    color: $white;
+  }
+  &.alert-warning-border {
+    border-left: 5px solid $information-500;
+    background-color: $white;
+    color: $text-color;
+    a,
+    a:hover,
+    a:active {
+      color: $text-color;
+      text-decoration: underline;
+    }
+  }
+  &.alert-warning-border-no-underline {
+    border-left: 5px solid $information-500;
+    background-color: $white;
+    color: $text-color;
+    a,
+    a:hover,
+    a:active {
+      color: $text-color;
+      text-decoration: none;
+    }
+  }
+  &.alert-info-border {
+    border-left: 5px solid $blue;
+    background-color: $gray-100;
+    color: $text-color;
+    a,
+    a:hover,
+    a:active {
+      color: $text-color;
+      text-decoration: underline;
+    }
+  }
+  &.alert-success {
+    background-color: $success-500;
+    color: $white;
+  }
+}

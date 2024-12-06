@@ -1,0 +1,34 @@
+pt-BR:
+  achievements:
+    certificates:
+      confirmation:
+        name: Confirmação de Participação
+        state:
+          unavailable: A confirmação de participação não é oferecida para este curso.
+          no_longer_achievable: O período regular do curso já terminou. O certificado para este curso apenas poderia ser obtido enquanto este estava disponível. Por favor, fique atento para uma possível repetição.
+          reactivatable: O período regular do curso já terminou. Caso ainda pretenda obter a confirmação de participação para este curso, você pode reativá-lo agora.
+          not_achieved: Você completou %{user_percentage}% do total de unidades de aprendizagem disponíveis neste curso. Você deve completar pelo menos mais %{difference}% das unidades de aprendizagem para obter o seu certificado.
+          not_released: Parabéns! Você conseguiu obter a confirmação de participação para este curso ao completar %{user_percentage}% de todas as unidades de aprendizagem. Assim que a equipe docente emitir a confirmação de participação, você poderá fazer o download aqui. Isto pode demorar até 2 semanas após o fim do curso.
+          released: Parabéns! Você conseguiu obter uma confirmação de participação para este curso ao completar %{user_percentage}% do total de unidades de aprendizagem.
+          achieved_via_roa: Parabéns! Você obteve a Confirmação de Participação neste curso ao obter o Certificado de Aprovação.
+        requirements:
+          progress: Complete pelo menos %{course_percentage}% do total de unidades de aprendizagem.
+        download:
+          not_released: Assim que o certificado estiver disponível, você poderá fazer o download aqui.
+      achievement:
+        name: Certificado de Aprovação
+        state:
+          unavailable: O certificado não é oferecido para este curso.
+          no_longer_achievable: O período regular do curso já terminou. O certificado de aprovação para este curso apenas poderia ser obtido enquanto este estava disponível. Por favor, fique atento para uma possível repetição.
+          reactivatable: O período regular do curso já terminou. Caso ainda pretenda obter o certificado para este curso, você pode reativá-lo agora.
+          not_achieved: Você obteve %{user_percentage}% nos testes de avaliação até agora. %{difference}
+          not_released: Parabéns! Você conseguiu obter o certificado para este curso ao somar %{user_percentage}% nas tarefas de avaliação. Assim que a equipe docente emitir o certificado, você poderá realizar o download aqui. Isto pode demorar até 2 semanas após o fim do curso.
+          released: Parabéns! Você conseguiu obter o certificado para este curso ao somar %{user_percentage}% nos testes de avaliação.
+        requirements:
+          completion: Obtenha %{course_percentage}% do total de pontos nas tarefas de avaliação.
+        download:
+          not_released: Assim que o certificado estiver disponível, você poderá fazer o download aqui.
+    points_difference:
+      zero: ~
+      one: Você precisa de mais um ponto para obter seu certificado.
+      other: "Você precisa de %{count} mais pontos para obter seu certificado."

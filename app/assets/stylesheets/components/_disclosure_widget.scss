@@ -1,0 +1,36 @@
+.disclosure-widget {
+  padding: 10px;
+  background-color: $gray-50;
+
+  // Remove the disclosure triangle for WebKit browsers
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  &__summary--opened {
+    display: none;
+  }
+
+  &[open] {
+    .disclosure-widget__summary--closed {
+      display: none;
+    }
+    .disclosure-widget__summary--opened {
+      display: block;
+    }
+  }
+
+  &__summary {
+    cursor: pointer;
+  }
+
+  &__summary > * {
+    display: inline;
+  }
+
+  & > div {
+    // Align content with chevron tip
+    padding: 10px 0px 0 6px;
+    margin-top: 0;
+  }
+}

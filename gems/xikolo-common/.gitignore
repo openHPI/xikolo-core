@@ -1,0 +1,7 @@
+coverage
+pkg
+Gemfile.lock
+.rakeTasks
+*.iml
+.bundle
+spec/examples.txt

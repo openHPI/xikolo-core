@@ -1,0 +1,35 @@
+.labeled-copy-button {
+  margin: 2px 0;
+
+  > * {
+    display: inline-block;
+    padding: 1px 3px;
+    border: 1px solid $gray-500;
+    @include font-xs;
+  }
+
+  &__label {
+    background-color: $primary-100;
+  }
+
+  &__value {
+    overflow: hidden;
+    max-width: 5em;
+    text-overflow: ellipsis;
+    vertical-align: bottom;
+    white-space: nowrap;
+  }
+
+  &__button {
+    background-color: $gray-100;
+
+    &:hover {
+      background-color: $gray-250;
+    }
+  }
+
+  &__label,
+  &__value {
+    border-right: 0;
+  }
+}

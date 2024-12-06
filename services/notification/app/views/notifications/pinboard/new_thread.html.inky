@@ -1,0 +1,20 @@
+<row>
+  <columns>
+    <p class="meta">
+      <small><%= t(:'.meta', date: l(DateTime.parse @payload.timestamp), user: @payload.user_name) %></small>
+    </p>
+    <callout class="secondary">
+      <% if @payload.link %>
+        <h3><%= link_to t(:'.title', title: @payload.thread_title), @payload.link %></h3>
+      <% end %>
+      <p class="html">
+        <%= raw @payload.html %>
+      </p>
+    </callout>
+
+    <spacer size="30"></spacer>
+    <% if @payload.link %>
+      <button class="primary" href="<%= @payload.link %>"><%= t(:'.action_button') %></button>
+    <% end %>
+  </columns>
+</row>

@@ -1,0 +1,49 @@
+.modal.fade#enrollmentPolicyModal aria-labelledby='enrollmentPolicyLabel' role='dialog' tabindex='-1'
+  .modal-dialog role='document'
+    .modal-content
+      .modal-header
+        button.close aria-label='Close' data-dismiss='modal' type='button'
+          span aria-hidden='true' &times;
+        h4.modal-title#enrollmentPolicyModalLabel
+          = t(:'course.courses.show.enrollment_policy.overlay.title')
+          span.ml5.primary-color#courseTitle
+      .modal-body
+        .row
+          .col-md-12
+            p = t(:'course.courses.show.enrollment_policy.overlay.text')
+            p = link_to t(:'course.courses.show.enrollment_policy.overlay.link'), '#', id: 'policyUrl', target: '_blank', rel: 'noopener'
+        = form_tag('/enrollments', method: 'GET', id: 'enrollmentPolicyForm', class: 'simple_form form-horizontal')
+          input#courseId type='hidden' name='course_id'
+          .row
+            .col-md-8
+              label
+                input#policyAccepted type='checkbox'
+                  span.ml10 = t(:'course.courses.show.enrollment_policy.overlay.accept')
+            .col-md-4
+              input.btn.btn-primary.btn-sm.pull-right.disabled#acceptPolicyBtn type='submit' value=t(:'courses.preview.button_enroll')
+
+javascript:
+  $('#enrollmentPolicyModal').on('show.bs.modal', function(event) {
+    var button, courseCode, courseTitle, modal, policyUrl;
+    button = $(event.relatedTarget);
+    courseTitle = button.data('course-title');
+    policyUrl = button.data('policy-url');
+    courseCode = button.data('course-code');
+    modal = $(this);
+    modal.find('#courseTitle').text(courseTitle);
+    modal.find('#courseId').val(courseCode);
+    return modal.find('#policyUrl').prop('href', policyUrl);
+  });
+
+  $("#policyAccepted").on("click", function(event) {
+    return $("#acceptPolicyBtn").toggleClass('disabled');
+  });
+
+  $("#acceptPolicyBtn").on("click", function(event) {
+    if ($('#policyAccepted').prop('checked') === true) {
+      $('#enrollmentPolicyForm').submit;
+      return true;
+    } else {
+      return false;
+    }
+  });

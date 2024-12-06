@@ -1,0 +1,40 @@
+- content_for :page_header_slim
+  = render Global::PageHeader.new(t(:'admin.courses.index.headline'), subtitle: t(:'admin.page_header'), type: :slim)
+
+.container
+  .row
+    .col-md-10
+      div data-hide-on-submit='#admin-courses__content' data-show-on-submit='#admin-courses__loading'
+        = render Admin::Course::FilterBar.new(form_action: admin_courses_path, search_param: :autocomplete, content_id: '#admin-courses__content', loading_indicator_id: '#admin-courses__loading')
+
+      #admin-courses__loading[hidden]
+        = render State::Loading.new
+
+      table.table.table-striped.mt20#admin-courses__content
+        thead
+          tr
+            th = t(:'admin.courses.index.code')
+            th = t(:'admin.courses.index.title')
+            th = t(:'admin.courses.index.status')
+            th = t(:'admin.courses.index.actions')
+
+        tbody
+          - @courses.each do |course|
+            tr
+              td = course['course_code']
+              td = link_to_if current_user.allowed?('course.course.edit'),
+                      course['title'], course_path(course['course_code'])
+              td = course['status']
+              td
+                - if current_user.allowed? 'course.course.edit'
+                  => link_to t(:'admin.courses.index.edit'),
+                    edit_course_path(course['course_code']),
+                    class: 'btn btn-default btn-xs mr5'
+                button.btn.btn-xs.btn-default.mr5 data-behavior='copy-to-clipboard' data-text=course['id']
+                  = t(:'admin.courses.index.copy_id')
+
+      = will_paginate @courses.pagination, renderer: PaginationRenderer
+
+    .col-md-2
+      - if current_user.allowed? 'course.course.create'
+        = link_to t(:'admin.courses.index.create'), new_course_path, class: 'btn btn-primary mt20 full-width'

@@ -1,0 +1,28 @@
+.filter-bar data-hide-on-submit='#example__content' data-show-on-submit='#filter-bar__loading'
+  = form_tag path, method: :get do
+    .filter-bar__container
+      .filter-bar__container-wrapper
+        .filter-bar__filters
+          = render Global::FilterBar::Search.new(name, search_param)
+
+          - filters.each do |filter|
+            = render filter
+
+    = render Global::FilterBar::Controls.new(path, '#example__content', '#filter-bar__loading', filters)
+
+    #filter-bar__loading[hidden]
+      = render State::Loading.new
+
+#example__content
+  table.table.table-striped.table-hover
+    thead
+      tr
+        th Name
+        th Favorite Number
+    tbody
+      tr
+        td John Doe
+        td Three
+      tr
+        td Jane Doe
+        td One

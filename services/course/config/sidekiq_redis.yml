@@ -1,0 +1,22 @@
+#
+
+common: &common
+  url: <%= ENV.fetch("SIDEKIQ_REDIS_URL", nil) %>
+  pool_timeout: 5
+  network_timeout: 5
+
+development:
+  <<: *common
+  db: 3301
+
+test:
+  <<: *common
+  db: 3302
+
+integration:
+  <<: *common
+  db: 3303
+
+production:
+  <<: *common
+  db: 3301

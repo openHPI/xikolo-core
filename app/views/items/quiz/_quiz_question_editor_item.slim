@@ -1,0 +1,49 @@
+li.section.jquery-search-wrapper.question data-id="#{quiz_question.id}" data-url="#{move_course_section_item_quiz_question_path id: quiz_question.id, item_id: item.id}" data-behavior='quiz-question'
+  span
+  .title
+    .btn-group.pull-right
+
+      a.btn.btn-primary.btn-sm.dropdown-toggle data-toggle="dropdown" href="#"
+        = t(:'items.quiz.actions')
+        = render Global::FaIcon.new('chevron-down', css_classes: 'ml5')
+      ul.dropdown-menu
+        li = link_to t(:'items.quiz.edit_question'), '#', data: {behavior: 'edit-quiz-question', question_id: quiz_question.id}
+        li = link_to t(:'items.quiz.move_question_up'), move_course_section_item_quiz_question_path(position: :up, id: quiz_question.id, item_id: item.id), method: :post
+        li = link_to t(:'items.quiz.move_question_down'), move_course_section_item_quiz_question_path(position: :down, id: quiz_question.id, item_id: item.id), method: :post
+        li = link_to t(:'items.quiz.move_question_to_top'), move_course_section_item_quiz_question_path(position: :top, id: quiz_question.id, item_id: item.id), method: :post
+        li = link_to t(:'items.quiz.move_question_to_bottom'), move_course_section_item_quiz_question_path(position: :bottom, id: quiz_question.id, item_id: item.id), method: :post
+        li = link_to t(:'items.quiz.delete_question'), course_section_item_quiz_question_path(id: quiz_question.id, item_id: item.id), method: :delete, data: {confirm: t(:'items.quiz.delete_question_confirm')}
+
+    h5
+      = t(:'items.quiz.question')
+      =< index + 1
+      ' : (
+      => t(:"items.quiz.question_types.#{quiz_question.class.to_s.split('::').last.underscore}")
+      ')
+      span.label.label-info.uuid.mr10 hidden='true'
+        = quiz_question.id
+      - if params[:review_id] == quiz_question.id
+        span.label.flash.flash--error.mr10
+          = t(:'items.quiz.question_alert')
+    == render_markdown quiz_question.text, allow_tables: true
+    = render Global::DisclosureWidget.new(t(:'items.quiz.show_question_explanation'),
+      expanded_summary: t(:'items.quiz.hide_question_explanation'),
+      visible: quiz_question.explanation.present?)
+
+      .RenderedMarkdown
+        == render_markdown(quiz_question.explanation, allow_tables: true)
+
+    br
+    => quiz_question.points
+    => t(:'items.quiz.points')
+
+  .edit_form_quiz_wrapper id="edit_quiz_question_form_#{quiz_question.id}" style="display:none" data-ajax-url="#{edit_course_section_item_quiz_question_path(id: quiz_question.id, item_id: item.id)}"
+
+  - unless quiz_question.is_a? Xikolo::Quiz::EssayQuestion
+    .items
+      - quiz_question.answers.each do |quiz_answer|
+        = render partial: 'items/quiz/quiz_answer_editor_item', locals: {item:, quiz_answer:, quiz_question:}
+    button.btn.btn-default.btn-outline.btn-sm type='button' id=quiz_question.id data-behavior='add-quiz-answer'
+      = render Global::FaIcon.new('plus', css_classes: 'mr5')
+      = t(:'items.quiz.add_answer')
+    .add_form_quiz_question_wrapper id="add_quiz_question_form_#{quiz_question.id}" style="display:none"  data-ajax-url="#{new_course_section_item_quiz_question_quiz_answer_path(item_id: item.id, quiz_question_id: quiz_question.id)}"

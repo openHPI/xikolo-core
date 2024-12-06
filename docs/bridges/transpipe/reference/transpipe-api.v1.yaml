@@ -1,0 +1,690 @@
+openapi: 3.0.0
+info:
+  title: TransPipe API
+  version: "1.0"
+  description: API for the translation pipeline project to access the relevant video information.
+  contact:
+    name: openHPI
+    url: "https://open.hpi.de"
+    email: info@openhpi.de
+servers:
+  - url: "http://localhost:3000/bridges/transpipe"
+    description: localhost
+paths:
+  /courses:
+    get:
+      summary: Retrieve the list of courses
+      tags:
+        - courses
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Course"
+              examples:
+                Course List:
+                  value:
+                    - id: 00000001-3300-4444-9999-000000000007
+                      title: Hidden Course
+                      abstract: This course is hidden.
+                      language: en
+                      start-date: "2022-02-24T00:00:00Z"
+                      end-date: "2022-04-27T00:00:00Z"
+                      status: active
+                    - id: 00000001-3300-4444-9999-000000000006
+                      title: Software Profiling Future
+                      abstract: This course addresses all people intered in Software Profiling.
+                      language: en
+                      start-date: "2022-02-24T00:00:00Z"
+                      end-date: "2022-04-27T00:00:00Z"
+                      status: active
+          headers:
+            Link:
+              schema:
+                type: string
+                example: '<http://localhost:3000/bridges/transpipe/courses?page=3>; rel="next", <http://localhost:3000/bridges/transpipe/courses?page=1>; rel="prev"'
+              description: "A HTTP Link header containing relations to next and previous pages, if applicable."
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                Unauthorized:
+                  value:
+                    title: You must provide an Authorization header to access this resource.
+                    status: 401
+      operationId: get-courses
+      description: This endpoint lists all courses.
+      parameters:
+        - schema:
+            type: number
+            default: 1
+            example: 2
+          in: query
+          name: page
+          description: The page requested
+    parameters: []
+  "/courses/{id}":
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+          example: 00000001-3300-4444-9999-000000000002
+        name: id
+        in: path
+        required: true
+        description: The ID of the specific course to get information for.
+    get:
+      summary: Retrieve details about a single course
+      tags:
+        - courses
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CourseWithSectionsAndTeachers"
+              examples:
+                Course Structure:
+                  value:
+                    id: 00000001-3300-4444-9999-000000000002
+                    title: Geovisualisierung
+                    abstract: Die Vorlesung vermittelt Konzepte und Techniken der Visualisierung raumbezogener Daten.
+                    language: de
+                    start-date: "2020-05-03T00:00:00Z"
+                    end-date: "2020-07-04T00:00:00Z"
+                    status: archive
+                    sections:
+                      - id: 00000002-3100-4444-9999-000000000007
+                        title: Introduction
+                        accessible: false
+                        start-date: "2020-07-01T08:55:58.165Z"
+                        videos:
+                          - id: 00000001-3600-4444-9999-000000000003
+                            item-id: 00000003-3100-4444-9999-000000000009
+                            title: Introduction Speech for Geo
+                            accessible: false
+                            start-date: "2020-07-01T08:55:58.459Z"
+                          - id: 00000001-3600-4444-9999-000000000004
+                            item-id: 00000003-3100-4444-9999-000000000010
+                            title: Welcome to Geo
+                            accessible: false
+                            start-date: "2020-07-01T08:55:58.471Z"
+                      - id: 00000002-3100-4444-9999-000000000008
+                        title: Definitions
+                        accessible: false
+                        start-date: "2020-07-05T08:55:58.173Z"
+                        videos: []
+                      - id: 00000002-3100-4444-9999-000000000012
+                        title: Specializations
+                        accessible: false
+                        start-date: "2020-07-01T08:55:58.198Z"
+                        videos: []
+                    teachers:
+                      - id: 2c62317c-553d-4bda-92c0-bca7e54be535
+                        name: Test
+                    alternative_teacher_text: Alternative Teacher
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                Unauthorized:
+                  value:
+                    title: You must provide an Authorization header to access this resource.
+                    status: 401
+        "404":
+          description: Not Found
+      operationId: get-course
+      description: "In addition to the elements from the course list, this includes teacher information and the structure of sections and videos."
+  "/videos/{id}":
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+          example: 00000001-3600-4444-9999-000000000005
+        name: id
+        in: path
+        required: true
+        description: The ID of the specific video to get information for.
+    get:
+      summary: Retrieve a single video
+      tags:
+        - videos
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Video"
+              examples:
+                Vimeo Video:
+                  value:
+                    id: 00000001-3600-4444-9999-000000000005
+                    course-id: 00000001-3300-4444-9999-000000000001
+                    summary: Lorem Ipsum...
+                    subtitles:
+                      - language: de
+                        automatic: false
+                      - language: en
+                        automatic: true
+                    streams:
+                      lecturer:
+                        hd: "https://player.vimeo.com/external/1235.hd.mp4?s=c0cac0la&profile_id=174&oauth2_token_id=1337"
+                        sd: "https://player.vimeo.com/external/1235.sd.mp4?s=c0cac0la&profile_id=164&oauth2_token_id=1337"
+                        hls: "https://player.vimeo.com/external/1235.m3u8?s=c0cac0la&oauth2_token_id=1337"
+                      pip:
+                        hd: "https://player.vimeo.com/external/1234.hd.mp4?s=c0cac0la&profile_id=174&oauth2_token_id=1337"
+                        sd: "https://player.vimeo.com/external/1234.sd.mp4?s=c0cac0la&profile_id=164&oauth2_token_id=1337"
+                        hls: "https://player.vimeo.com/external/1234.m3u8?s=c0cac0la&oauth2_token_id=1337"
+                      slides:
+                        hd: "https://player.vimeo.com/external/1236.hd.mp4?s=c0cac0la&profile_id=174&oauth2_token_id=1337"
+                        sd: "https://player.vimeo.com/external/1236.sd.mp4?s=c0cac0la&profile_id=164&oauth2_token_id=1337"
+                        hls: "https://player.vimeo.com/external/1236.m3u8?s=c0cac0la&oauth2_token_id=1337"
+                Azure Video:
+                  value:
+                    id: 00000001-3600-4444-9999-000000000005
+                    course-id: 00000001-3300-4444-9999-000000000001
+                    summary: Lorem ipsum...
+                    subtitles:
+                      - language: de
+                        automatic: false
+                      - language: en
+                        automatic: true
+                    streams:
+                      lecturer:
+                        hd: "https://openhpivideo.blob.core.windows.net/video/test2020-2-00-lecturer-hd.mp4"
+                        sd: "https://openhpivideo.blob.core.windows.net/video/test2020-2-00-lecturer-sd.mp4"
+                        hls: "https://player.vimeo.com/external/5679.m3u8?s=badeaffe123&oauth2_token_id=9876"
+                      pip:
+                        hd: "https://openhpivideo.blob.core.windows.net/video/test2020-2-00-pip-hd.mp4"
+                        sd: "https://openhpivideo.blob.core.windows.net/video/test2020-2-00-pip-sd.mp4"
+                        hls: "https://player.vimeo.com/external/5678.m3u8?s=badeaffe123&oauth2_token_id=9876"
+                      slides:
+                        hd: "https://openhpivideo.blob.core.windows.net/video/test2020-2-00-slides-hd.mp4"
+                        sd: "https://openhpivideo.blob.core.windows.net/video/test2020-2-00-slides-sd.mp4"
+                        hls: "https://player.vimeo.com/external/5680.m3u8?s=badeaffe123&oauth2_token_id=9876"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                Unauthorized:
+                  value:
+                    title: You must provide an Authorization header to access this resource.
+                    status: 401
+        "404":
+          description: Not Found
+      operationId: get-video
+      description: "Returns a video object with an array of stream urls, and an array containing the current subtitle languages."
+  "/videos/{id}/subtitles/{lang}":
+    parameters:
+      - schema:
+          type: string
+          example: 00000001-3600-4444-9999-000000000001
+        name: id
+        in: path
+        required: true
+        description: The ID of the specific video to get information for.
+      - schema:
+          type: string
+          example: de
+        name: lang
+        in: path
+        required: true
+        description: The language code of the specific subtitle to get / patch information for.
+    get:
+      summary: Retrieves the video subtitle for a specific language
+      tags:
+        - videos
+      responses:
+        "200":
+          description: OK
+          content:
+            text/vtt:
+              schema:
+                type: string
+                description: "The VTT file content, rendered as UTF-8 body"
+              examples:
+                German:
+                  value: |
+                    WEBVTT
+
+                    1
+                    00:00:00.000 --> 00:00:05.348
+                    Ich begrüße Sie ganz herzlich zur Woche 2
+                    in unserem Kurs.
+
+                    2
+                    00:00:05.348 --> 00:00:10.381
+                    In dieser Woche geht es um "Übersetzungen mit TransPipe".
+                English:
+                  value: |
+                    WEBVTT
+
+                    1
+                    00:00:00.000 --> 00:00:05.348
+                    I would like to welcome you to week 2
+                    in our course.
+
+                    2
+                    00:00:05.348 --> 00:00:10.381
+                    This week is overwritten with
+                    "Translating courses with TransPipe".
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                Unauthroized:
+                  value:
+                    title: You must provide an Authorization header to access this resource.
+                    status: 401
+        "404":
+          description: Not Found
+      operationId: get-video-subtitle-by-video-id-and-language
+      description: Returns the WEBVTT of video subtitle for a specific language
+    patch:
+      summary: Updates the video subtitle for a specific language
+      operationId: patch-video-subtitle-by-video-id-and-language
+      responses:
+        "200":
+          description: "OK, no body"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                Empty WebVTT File:
+                  value:
+                    title: The request body cannot be blank.
+                    status: 400
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                Unauthorized:
+                  value:
+                    title: You must provide an Authorization header to access this resource.
+                    status: 401
+        "404":
+          description: Not Found
+        "422":
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                Unprocessable Entity:
+                  value:
+                    title: "Validation failed: Invalid subtitle cue on the WebVTT file at cue 1."
+                    status: 422
+      requestBody:
+        content:
+          text/plain:
+            schema:
+              type: string
+              description: "The VTT file content, send as UTF-8 body"
+            examples:
+              German:
+                value: |
+                  WEBVTT
+
+                  1
+                  00:00:00.000 --> 00:00:05.348
+                  Ich begrüße Sie ganz herzlich zur Woche 2
+                  in unserem Kurs.
+
+                  2
+                  00:00:05.348 --> 00:00:10.381
+                  In dieser Woche geht es um "Übersetzungen mit TransPipe".
+              English:
+                value: |
+                  WEBVTT
+
+                  1
+                  00:00:00.000 --> 00:00:05.348
+                  I would like to welcome you to week 2
+                  in our course.
+
+                  2
+                  00:00:05.348 --> 00:00:10.381
+                  This week is overwritten with
+                  "Translating courses with TransPipe".
+        description: WEBVTT content send as text/plain
+      description: Create/Update the WEBVTT of video subtitle for a specific language
+      tags:
+        - videos
+      parameters:
+        - schema:
+            type: boolean
+            default: "false"
+          in: query
+          name: automatic
+          description: Specifies whether the uploaded subtitle file should be considered as automatically generated
+components:
+  schemas:
+    Course:
+      title: Course
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        language:
+          type: string
+        start-date:
+          type: string
+          format: date-time
+        end-date:
+          type: string
+          format: date-time
+        abstract:
+          type: string
+        status:
+          type: string
+          enum:
+            - preparation
+            - active
+            - archive
+          description: The status field shall specify whether a course is already available (and then whether it passed completely or not) or if it will be available in the future.
+      x-examples:
+        Course:
+          id: 00000001-3300-4444-9999-000000000006
+          title: Software Profiling Future
+          abstract: This course addresses all people intered in Software Profiling.
+          language: en
+          start-date: "2022-02-24T00:00:00Z"
+          end-date: "2022-04-27T00:00:00Z"
+          status: active
+    CourseWithSectionsAndTeachers:
+      title: CourseWithSectionsAndTeachers
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        language:
+          type: string
+        start-date:
+          type: string
+          format: date-time
+        end-date:
+          type: string
+          format: date-time
+        abstract:
+          type: string
+        status:
+          type: string
+          description: The status field shall specify whether a course is already available (and then whether it passed completely or not) or if it will be available in the future.
+          enum:
+            - preparation
+            - active
+            - archive
+        sections:
+          type: array
+          items:
+            $ref: "#/components/schemas/CourseSection"
+        teachers:
+          type: array
+          items:
+            $ref: "#/components/schemas/CourseTeachers"
+        alternative_teacher_text:
+          type: string
+      x-examples:
+        Course with Sections and Teachers:
+          id: 00000001-3300-4444-9999-000000000002
+          title: Geovisualisierung
+          abstract: Die Vorlesung vermittelt Konzepte und Techniken der Visualisierung raumbezogener Daten.
+          language: de
+          start-date: "2020-05-03T00:00:00Z"
+          end-date: "2020-07-04T00:00:00Z"
+          status: archive
+          sections:
+            - id: 00000002-3100-4444-9999-000000000007
+              title: Introduction
+              accessible: false
+              start-date: "2020-07-01T08:55:58.165Z"
+              videos:
+                - id: 00000001-3600-4444-9999-000000000003
+                  item-id: 00000003-3100-4444-9999-000000000009
+                  title: Introduction Speech for Geo
+                  accessible: false
+                  start-date: "2020-07-01T08:55:58.459Z"
+                - id: 00000001-3600-4444-9999-000000000004
+                  item-id: 00000003-3100-4444-9999-000000000010
+                  title: Welcome to Geo
+                  accessible: false
+                  start-date: "2020-07-01T08:55:58.471Z"
+            - id: 00000002-3100-4444-9999-000000000008
+              title: Definitions
+              accessible: false
+              start-date: "2020-07-05T08:55:58.173Z"
+              videos: []
+            - id: 00000002-3100-4444-9999-000000000012
+              title: Specializations
+              accessible: false
+              start-date: "2020-07-01T08:55:58.198Z"
+              videos: []
+          teachers:
+            - id: 2c62317c-553d-4bda-92c0-bca7e54be535
+              name: Test
+          alternative_teacher_text: Alternative Teacher
+    VideoItem:
+      title: VideoItem
+      type: object
+      x-examples:
+        Video Item:
+          id: 00000001-3600-4444-9999-000000000004
+          video-id: 00000003-3100-4444-9999-000000000009
+          title: Welcome to Geo
+          accessible: false
+          start-date: "2020-07-01T08:55:58.471Z"
+      properties:
+        id:
+          type: string
+        item-id:
+          type: string
+        title:
+          type: string
+        accessible:
+          type: boolean
+          description: The accessible field shall state whether the associated video is available to end-users (learners) at the time of requesting information from the API including outer sections.
+        start-date:
+          type: string
+          format: date-time
+    CourseSection:
+      title: CourseSection
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        videos:
+          type: array
+          items:
+            $ref: "#/components/schemas/VideoItem"
+        accessible:
+          type: boolean
+          description: The accessible field shall state whether the associated section is available to end-users (learners) at the time of requesting information from the API.
+        start-date:
+          type: string
+          format: date-time
+      x-examples:
+        Course Section:
+          id: 00000002-3100-4444-9999-000000000007
+          title: Introduction
+          accessible: false
+          start-date: "2020-07-01T08:55:58.165Z"
+          videos:
+            - id: 00000001-3600-4444-9999-000000000003
+              item-id: 00000003-3100-4444-9999-000000000009
+              title: Introduction Speech for Geo
+              accessible: false
+              start-date: "2020-07-01T08:55:58.459Z"
+            - id: 00000001-3600-4444-9999-000000000004
+              item-id: 00000003-3100-4444-9999-000000000010
+              title: Welcome to Geo
+              accessible: false
+              start-date: "2020-07-01T08:55:58.471Z"
+    CourseTeachers:
+      title: CourseTeachers
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      x-examples:
+        Course Teachers:
+          id: 2c62317c-553d-4bda-92c0-bca7e54be535
+          name: Test
+    Video:
+      title: Video
+      type: object
+      x-examples:
+        Vimeo Video:
+          id: 00000001-3600-4444-9999-000000000005
+          course-id: 00000001-3300-4444-9999-000000000001
+          summary: Lorem Ipsum...
+          subtitles:
+            - language: de
+              automatic: false
+            - language: en
+              automatic: true
+          streams:
+            lecturer:
+              hd: "https://player.vimeo.com/external/1235.hd.mp4?s=c0cac0la&profile_id=174&oauth2_token_id=1337"
+              sd: "https://player.vimeo.com/external/1235.sd.mp4?s=c0cac0la&profile_id=164&oauth2_token_id=1337"
+              hls: "https://player.vimeo.com/external/1235.m3u8?s=c0cac0la&oauth2_token_id=1337"
+            pip:
+              hd: "https://player.vimeo.com/external/1234.hd.mp4?s=c0cac0la&profile_id=174&oauth2_token_id=1337"
+              sd: "https://player.vimeo.com/external/1234.sd.mp4?s=c0cac0la&profile_id=164&oauth2_token_id=1337"
+              hls: "https://player.vimeo.com/external/1234.m3u8?s=c0cac0la&oauth2_token_id=1337"
+            slides:
+              hd: "https://player.vimeo.com/external/1236.hd.mp4?s=c0cac0la&profile_id=174&oauth2_token_id=1337"
+              sd: "https://player.vimeo.com/external/1236.sd.mp4?s=c0cac0la&profile_id=164&oauth2_token_id=1337"
+              hls: "https://player.vimeo.com/external/1236.m3u8?s=c0cac0la&oauth2_token_id=1337"
+        Azure Video:
+          id: 00000001-3600-4444-9999-000000000005
+          course-id: 00000001-3300-4444-9999-000000000001
+          summary: Lorem ipsum...
+          subtitles:
+            - language: de
+              automatic: false
+            - language: en
+              automatic: true
+          streams:
+            lecturer:
+              hd: "https://openhpivideo.blob.core.windows.net/video/test2020-2-00-lecturer-hd.mp4"
+              sd: "https://openhpivideo.blob.core.windows.net/video/test2020-2-00-lecturer-sd.mp4"
+              hls: "https://player.vimeo.com/external/5679.m3u8?s=badeaffe123&oauth2_token_id=9876"
+            pip:
+              hd: "https://openhpivideo.blob.core.windows.net/video/test2020-2-00-pip-hd.mp4"
+              sd: "https://openhpivideo.blob.core.windows.net/video/test2020-2-00-pip-sd.mp4"
+              hls: "https://player.vimeo.com/external/5678.m3u8?s=badeaffe123&oauth2_token_id=9876"
+            slides:
+              hd: "https://openhpivideo.blob.core.windows.net/video/test2020-2-00-slides-hd.mp4"
+              sd: "https://openhpivideo.blob.core.windows.net/video/test2020-2-00-slides-sd.mp4"
+              hls: "https://player.vimeo.com/external/5680.m3u8?s=badeaffe123&oauth2_token_id=9876"
+      properties:
+        id:
+          type: string
+        course-id:
+          type: string
+        streams:
+          type: object
+          description: Returns the various streams associated with this video.
+          properties:
+            lecturer:
+              type: object
+              description: "Returns, if exists, the urls with the lecturer stream"
+              properties:
+                hd:
+                  type: string
+                sd:
+                  type: string
+                hls:
+                  type: string
+            pip:
+              type: object
+              description: "Returns, if exists, the urls with the single stream (picture-in-picture)"
+              properties:
+                hd:
+                  type: string
+                sd:
+                  type: string
+                hls:
+                  type: string
+            slides:
+              type: object
+              description: "Returns, if exists, the urls with the slides stream"
+              properties:
+                hd:
+                  type: string
+                sd:
+                  type: string
+                hls:
+                  type: string
+        summary:
+          type: string
+        subtitles:
+          type: array
+          items:
+            type: object
+            properties:
+              language:
+                type: string
+              automatic:
+                type: boolean
+    Error:
+      title: Error
+      type: object
+      properties:
+        title:
+          type: string
+        status:
+          type: number
+      x-examples:
+        Unauthorized:
+          title: You must provide an Authorization header to access this resource.
+          status: 401
+        Empty VTT body:
+          title: The request body cannot be blank.
+          status: 400
+        Unprocessable Entity:
+          title: "Validation failed: Invalid subtitle cue on the WebVTT file at cue 1."
+          status: 422
+  securitySchemes:
+    Authorization:
+      type: http
+      scheme: bearer
+      description: The Bearer token to access the API
+tags:
+  - name: courses
+  - name: videos
+security:
+  - Authorization: []

@@ -1,0 +1,9 @@
+= simple_fields_for(:document) do |f|
+  = f.input :title,
+    label: t(:'knowledge_documents.internal.title'),
+    required: true,
+    placeholder: t(:'knowledge_documents.internal.title_placeholder')
+  = f.input :description, as: :markdown,
+    label: t(:'knowledge_documents.internal.description'),
+    placeholder: t(:'knowledge_documents.internal.description_placeholder'),
+    markdown_id_suffix: 'document-admin-description'

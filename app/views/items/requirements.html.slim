@@ -1,0 +1,21 @@
+/ Item navigation above the main content
+.row
+  = render 'shared/course_item_nav', position: @inner_course_position
+
+/ Main content with video and stuff
+.row
+  col-md-12
+    .course-area-main data-lanalytics-context={course_id: @item_presenter.course_id}.to_json
+      = render 'items/header', item: @item_presenter
+
+      = render Global::Callout.new(t(:'items.requirements.not_fulfilled'), title: t(:'items.requirements.headline')) do
+        .ml15
+          - @item_presenter.required_items.each do |req_item|
+            = render Global::ItemStatus.new({title: req_item.title,
+              text: req_item.hint,
+              icon_name: req_item.icon,
+              path: course_item_path(req_item.course_code, req_item.id)},
+              color_scheme: req_item.icon_color_scheme)
+
+      div data-lanalytics-resource={type: @item_presenter.content_type, uuid: @item_presenter.id}.to_json
+        = render 'seq_navigation', position: @inner_course_position

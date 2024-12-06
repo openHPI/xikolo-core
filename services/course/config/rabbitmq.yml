@@ -1,0 +1,17 @@
+common: &common
+  uri: <%= ENV['XIKOLO_RABBITMQ_URL'] || 'amqp://localhost/' %>
+
+test:
+  <<: *common
+  prefix: course-test
+  pool_class: Msgr::TestPool
+  raise_exceptions: true
+
+development:
+  <<: *common
+
+production:
+  <<: *common
+
+integration:
+  <<: *common

@@ -1,0 +1,17 @@
+.actions-dropdown
+  button class="actions-dropdown__button #{button_css_modifiers} #{@css_classes}" data-behaviour='dropdown' aria-haspopup='true' type='button' aria-expanded='false' aria-controls=object_id title=aria_label aria-label=aria_label
+    - if @text
+      span = @text
+      span.actions-dropdown__control.actions-dropdown__control--on-expanded
+        = render Global::FaIcon.new('chevron-down')
+      span.actions-dropdown__control.actions-dropdown__control--on-collapsed
+        = render Global::FaIcon.new('chevron-up')
+
+    - else
+      = render Global::FaIcon.new('ellipsis-vertical')
+
+  ul class="actions-dropdown__menu #{menu_css_modifiers}" id=object_id data-behaviour='menu-dropdown'
+    - actions.each do |action|
+      li.actions-dropdown__action = action
+    - destructive_actions.each do |destructive_action|
+      li.actions-dropdown__action.actions-dropdown__action--destructive = destructive_action

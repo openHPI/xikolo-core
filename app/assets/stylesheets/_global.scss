@@ -1,0 +1,20 @@
+// Global import list
+//
+// Ensure that a proper theme is loaded first.
+
+// Core variables and mixins
+@import "bs-variables";
+@import "libs";
+
+// TODO: we don't want controller specific stuff
+@import "controllers/sections";
+@import "controllers/account";
+
+@import "partials";
+@import "components";
+@import "util/swal";
+
+// Always hide an element with the `hidden` HTML attribute
+[hidden] {
+  display: none !important;
+}

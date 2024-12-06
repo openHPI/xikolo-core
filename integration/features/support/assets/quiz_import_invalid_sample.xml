@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quizzes>
+    <quiz bonus="false" course_code="wrong_course_code" graded="false" published="false"
+          section="3" show_in_nav="true" skip_intro="false" survey="false">
+        <name lang="en">Selftest 3.1</name>
+        <instructions></instructions>
+        <attempts>0</attempts>
+        <time_limit>0</time_limit>
+        <due_date>2014-09-10T20:00:00</due_date>
+        <publish_results_date>2014-09-10T20:00:00</publish_results_date>
+        <questions>
+            <question points="3" shuffle_answers="true" type="MultipleAnswer">
+                <text lang="en">Which of the following statements about Company X’s user interface technology are true?
+                    Note: There are 2 correct answers to this question.</text>
+                <answers>
+                    <answer correct="true" type="TextAnswer">
+                        <text lang="en">Increasingly, Company X is decoupling the UI from back-end systems.</text>
+                        <explanation></explanation>
+                    </answer>
+                    <answer correct="false" type="TextAnswer">
+                        <text lang="en">It offers UI and business logic in one stack.</text>
+                        <explanation></explanation>
+                    </answer>
+                    <answer correct="true" type="TextAnswer">
+                        <text lang="en">Company X provides tools to enable customers to create their own user interfaces.</text>
+                        <explanation></explanation>
+                    </answer>
+                    <answer correct="false" type="TextAnswer">
+                        <text lang="en">The right UI technology is most important to reach a great user experience.</text>
+                        <explanation></explanation>
+                    </answer>
+                </answers>
+            </question>
+            <question points="3" shuffle_answers="true" type="MultipleAnswer">
+                <text lang="en">Which 3 terms describe Company X’s UX strategy?</text>
+                <answers>
+                    <answer correct="true" type="TextAnswer">
+                        <text lang="en">New, renew, enable</text>
+                        <explanation></explanation>
+                    </answer>
+                    <answer correct="false" type="TextAnswer">
+                        <text lang="en">Delightful, consumer grade, integration</text>
+                        <explanation></explanation>
+                    </answer>
+                    <answer correct="false" type="TextAnswer">
+                        <text lang="en">Delight, surprise, fulfill</text>
+                        <explanation></explanation>
+                    </answer>
+                    <answer correct="false" type="TextAnswer">
+                        <text lang="en">Decoupled, Company Y, Company X Gateway</text>
+                        <explanation></explanation>
+                    </answer>
+                </answers>
+            </question>
+        </questions>
+    </quiz>
+    <quiz bonus="false" graded="false" published="false"
+          section="3" skip_intro="false" survey="false">
+        <name lang="en">Weekly Assignment 1.1</name>
+        <instructions></instructions>
+        <attempts>1</attempts>
+        <time_limit>3600</time_limit>
+        <due_date>2014-09-10T20:00:00</due_date>
+        <publish_results_date>2014-09-10T20:00:00</publish_results_date>
+        <questions>
+            <question points="5" shuffle_answers="true" type="MultipleAnswer">
+                <text lang="en">Which of the following statements about Company XY are true?
+                    Note: There are 3 correct answers to this question.</text>
+                <answers>
+                    <answer correct="true" type="TextAnswer">
+                        <text lang="en">Company XY interfaces are designed so that no training is required by the user.</text>
+                        <explanation></explanation>
+                    </answer>
+                    <answer correct="false" type="TextAnswer">
+                        <text lang="en">Product Z is the new Mobile strategy at Company X.</text>
+                        <explanation></explanation>
+                    </answer>
+                    <answer correct="true" type="TextAnswer">
+                        <text lang="en">Offering Z is an offering of apps, each typically with a maximum number of three screens.</text>
+                        <explanation></explanation>
+                    </answer>
+                    <answer correct="false" type="TextAnswer">
+                        <text lang="en">Company XY always requires Company XZ.</text>
+                        <explanation></explanation>
+                    </answer>
+                    <answer correct="true" type="TextAnswer">
+                        <text lang="en">Company XY apps are built with XY.</text>
+                        <explanation></explanation>
+                    </answer>
+                </answers>
+            </question>
+        </questions>
+    </quiz>
+    <quiz bonus="false" course_code="the_course" graded="true" published="false"
+          section="3" skip_intro="false" survey="false">
+        <name lang="en">Final Exam</name>
+        <instructions></instructions>
+        <attempts>1</attempts>
+        <time_limit>7200</time_limit>
+        <due_date>2014-09-10T20:00:00</due_date>
+        <publish_results_date>2014-09-10T20:00:00</publish_results_date>
+        <questions>
+            <question points="5" shuffle_answers="true" type="MultipleAnswer">
+                <text lang="en">Which areas need to be considered together to reach a good user experience and innovative design?</text>
+                <answers>
+                    <answer correct="true" type="TextAnswer">
+                        <text lang="en">Technology, Business, Human Values</text>
+                        <explanation></explanation>
+                    </answer>
+                    <answer correct="false" type="TextAnswer">
+                        <text lang="en">Technology, Business</text>
+                        <explanation></explanation>
+                    </answer>
+                    <answer correct="false" type="TextAnswer">
+                        <text lang="en">Technology, User Research, Mobile Access</text>
+                        <explanation></explanation>
+                    </answer>
+                    <answer correct="false" type="TextAnswer">
+                        <text lang="en">Business Value, End User Involvement, Performance</text>
+                        <explanation></explanation>
+                    </answer>
+                </answers>
+            </question>
+        </questions>
+    </quiz>
+</quizzes>

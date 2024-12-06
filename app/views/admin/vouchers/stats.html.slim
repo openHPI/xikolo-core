@@ -1,0 +1,65 @@
+- content_for :page_header_slim
+  = render Global::PageHeader.new(t(:'vouchers.headline'), subtitle: t(:'admin.page_header'), type: :slim)
+
+.container
+  .col-md-12
+    = render 'shared/voucher_admin_nav'
+  .col-md-12.pt20
+    .kpi-container
+      .kpi-item
+        .info-box
+          span.info-box-icon.bg-aqua
+            = render Global::FaIcon.new('credit-card', style: :solid)
+          .info-box-content
+            .info-box-text
+              = t(:'vouchers.stats.issued')
+            .info-box-number
+              = @voucher_stats.global.issued
+      .kpi-item
+        .info-box
+          span.info-box-icon.bg-aqua
+            = render Global::FaIcon.new('square-check', style: :solid)
+          .info-box-content
+            .info-box-text
+              = t(:'vouchers.stats.claimed')
+            .info-box-number
+              = @voucher_stats.global.claimed
+
+  .col-md-12
+    h3 = t(:'vouchers.stats.by_product')
+    table.table.table-condensed.table-striped
+      tr
+        th = t(:'vouchers.stats.product')
+        th = t(:'vouchers.stats.issued')
+        th = t(:'vouchers.stats.claimed')
+      - @voucher_stats.by_product.each do |product, stats|
+        tr
+          td = product
+          td = stats.issued
+          td
+            | #{stats.claimed} (#{stats.percentage}%)
+
+  .col-md-12
+    h3 = t(:'vouchers.stats.by_tag')
+    table.table.table-condensed.table-striped
+      tr
+        th = t(:'vouchers.stats.tag')
+        th = t(:'vouchers.stats.issued')
+        th = t(:'vouchers.stats.claimed')
+      - @voucher_stats.by_tag.each do |tag, stats|
+        tr
+          td = tag
+          td = stats.issued
+          td
+            | #{stats.claimed} (#{stats.percentage}%)
+
+  .col-md-12
+    h3 = t(:'vouchers.stats.by_course')
+    table.table.table-condensed.table-striped
+      tr
+        th = t(:'vouchers.stats.course_code')
+        th = t(:'vouchers.stats.claimed')
+      - @voucher_stats.by_course.each do |course, stats|
+        tr
+          td = link_to course, course_path(course)
+          td = stats.claimed

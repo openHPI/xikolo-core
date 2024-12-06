@@ -1,0 +1,8 @@
+.mr20.inline-block
+  - if open_badge
+    = link_to course_certificate_path(course_id: course.course_code), id: "open_badge_#{course.id}" do
+      .btn.btn-primary.btn-sm.download-record-button
+        = t(:'.open_badge')
+  - else
+    .btn.btn-sm.btn-primary.disabled
+      = t(:'.open_badge')

@@ -1,0 +1,38 @@
+p.mt15
+  = t(:'helpdesk.text')
+
+= render Global::Callout.new(t(:'helpdesk.notice'), title: t(:'helpdesk.notice_title'))
+
+= form_tag({controller: 'helpdesk', action: 'send_helpdesk'}, method: :post, class: 'autoValidate',
+  id: recaptcha.show_checkbox_recaptcha? ? 'helpdesk-form-with-checkbox-recaptcha' : 'helpdesk-form')
+  - if ticket.data
+    = hidden_field_tag(:data, ticket.data)
+
+  .form-group
+    label.control-label for="issuetitle"
+      = t(:'helpdesk.report_title')
+    = text_field_tag(:title, params[:title], id: 'issuetitle', size: 30, maxlength: 60, placeholder: t(:'helpdesk.report_title'), required: true, class: 'form-control')
+
+  - unless current_user.logged_in?
+    .form-group
+      label.control-label for="issueemail"
+        = t(:'helpdesk.email')
+      = email_field_tag(:mail, params[:mail], id: 'issueemail', size: 30, maxlength: 60, placeholder: t(:'helpdesk.email'), required: true, class: 'form-control')
+
+  .form-group
+    label.control-label for="category"
+      = t(:'helpdesk.topic')
+    = select_tag(:category, grouped_options_for_select(ticket.categories_for(current_user), params[:category] || 0), class: 'form-control')
+
+  .form-group
+    label.control-label for="issuereport"
+      = t(:'helpdesk.submission')
+    textarea.form-control#issuereport name="report" cols="50" rows="6" required=true
+      = params[:report]
+
+  .clearfix
+  .mb30.mt20
+    = recaptcha.render
+    = submit_tag t(:'helpdesk.submit'), id: 'issue-submit-button', class: 'btn btn-primary mr20 helpdesk-brand'
+    button.btn.btn-default.helpdesk-widget-only data-behavior="close-helpdesk"
+      = t(:'helpdesk.cancel')

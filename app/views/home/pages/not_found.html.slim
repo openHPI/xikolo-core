@@ -1,0 +1,13 @@
+.container
+  .layout-error
+    h1.layout-error__header = t(:'errors.not_found.headline')
+    .layout-error__details
+      p = t(:'errors.not_found.message')
+      = render partial: 'errors/info'
+
+      - if current_user.allowed? 'helpdesk.page.store'
+        .mt40
+        - Xikolo.config.locales['available'].each do |locale|
+          = link_to t(:"pages.show.new_translation.#{locale}"), \
+            edit_page_path(params[:id], locale: locale),
+            class: 'btn btn-primary full-width'

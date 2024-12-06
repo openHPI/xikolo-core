@@ -1,0 +1,18 @@
+- content_for :title
+  = @launch.page_title
+
+h2 = @launch.headline
+p.info = @launch.info
+form#launch-form action=@launch.url method='POST' target=@launch.form_target
+  - @launch.data.each_pair do |key, value|
+    input type='hidden' name=key value=value
+
+css:
+  body {
+    text-align: center;
+    font-family: sans-serif;
+    color: darkgrey;
+  }
+
+javascript:
+  document.getElementById('launch-form').submit();

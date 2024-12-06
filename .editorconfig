@@ -1,0 +1,26 @@
+# editorconfig
+root = true
+
+# Unix-style newlines with a newline ending every file
+[*]
+charset = utf-8
+end_of_line = lf
+indent_size = 2
+indent_style = space
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.vtt]
+trim_trailing_whitespace = false
+
+[*.txt]
+trim_trailing_whitespace = false
+
+[{Makefile,**.mk,rules}]
+indent_size = 4
+indent_style = tab
+
+[*.md]
+# Should be four but this would have prettier format
+# lists with three (3) spaces (`-   Item`), which is stupid.
+indent_size = 2

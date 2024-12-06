@@ -1,0 +1,82 @@
+/*------------------------------------*\
+    $Variables
+\*------------------------------------*/
+$xi-news-background-color: $white !default;
+
+/*------------------------------------*\
+    $NEWS
+\*------------------------------------*/
+
+.announcements-controller .postcontent img {
+  max-width: 100%;
+  height: auto;
+}
+
+.news {
+  &__anchor {
+    position: relative;
+    top: -100px;
+    display: block;
+    visibility: hidden;
+  }
+
+  &__older-title {
+    @include font-m;
+    overflow: hidden;
+    padding: 1rem;
+    margin: 4rem 0 2rem 0;
+    color: $gray-600;
+    text-align: center;
+
+    span {
+      position: relative;
+      display: inline-block;
+    }
+
+    span:before,
+    span:after {
+      position: absolute;
+      top: 50%;
+      width: 100vw;
+      border-bottom: 1px solid $gray-250;
+      margin: 0 20px;
+      content: "";
+    }
+
+    span:after {
+      left: 100%;
+    }
+    span:before {
+      right: 100%;
+    }
+  }
+
+  &___older-link a {
+    color: $gray-500;
+  }
+
+  .news_item {
+    padding: 1px 15px 15px 15px;
+    margin-top: 15px;
+    background-color: $xi-news-background-color;
+    h2:first-of-type {
+      margin-top: 0px;
+    }
+    h3 {
+      font-size: 1.7em;
+    }
+    & hr.divider {
+      border-top: 2px solid $gray-100;
+    }
+
+    td,
+    th {
+      padding: 2px;
+      border-bottom: 1px solid $black;
+    }
+
+    th {
+      border-bottom: 2px solid $black;
+    }
+  }
+}

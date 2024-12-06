@@ -1,0 +1,11 @@
+- if resource.attachment_url
+  .qa-attachment
+    - attachment_uri = Addressable::URI.parse(resource.attachment_url)
+    - if %w(.jpg .png .gif).include? File.extname(attachment_uri.path).downcase
+      = link_to resource.attachment_url
+        = image_tag Imagecrop.transform(resource.attachment_url, width: 250)
+    - else
+      = render Global::FaIcon.new('paperclip', style: :solid, css_classes: 'mr5')
+      = File.basename attachment_uri.path
+      = link_to resource.attachment_url, class: 'btn btn-primary btn-xs ml10'
+        span = t(:'.download_attachment')

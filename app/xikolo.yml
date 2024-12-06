@@ -1,0 +1,665 @@
+#######################
+### Global options
+#######################
+
+# Overridden until XI-4438 is fixed
+locales:
+  available: [cn, de, en, es, fr, nl, pt-BR, ru, uk]
+  default: en
+
+# The SMTP server where outgoing emails should be delivered
+email:
+  smtp:
+    address: ~
+
+# Configuration of Matomo web analytics app
+# piwik:
+#   site_id: 21
+#   host_uri: "example.com"
+piwik: ~
+
+#######################
+### Platform-wide features
+#######################
+
+# Turn some experimental features on/off.
+beta_features:
+  # File management with versions and tags
+  documents: false
+  # A/B tests and experiments
+  show_user_tests: false
+  # Statistics about teaching team pinboard usage in the course dashboard
+  teaching_team_pinboard_activity: false
+
+# Configurable Cookie Consents.
+# The application will display a banner requesting for user permission to setup a cookie for each of the
+# consents present on this list. It expects the consent name as the key and the respective localized
+# banner texts as values for that key. E.g.:
+# consent_name:
+#   en: Consent explanation text in English
+#   de: Consent explanation text in German
+cookie_consents: {}
+
+# Settings for gamification and score calculations
+gamification:
+  # Enable/disable collection of experience points
+  enabled: false
+
+gamification_rules:
+  xp:
+    selftest_master:
+      value: 2
+    take_selftest:
+      value: 0
+      params:
+        # The min amount of points that have to be achieved in a selftest so that this submission
+        # is taken into account (for e.g. attended_section, etc.).
+        min_result: 1
+    take_exam:
+      value: 0
+    visited_item:
+      value: 0
+    attended_section:
+      value: 0
+    continuous_attendance:
+      value: 10
+      params:
+        # Min amount of continuously attended weeks (1 => 2 weeks have been attended continuously)
+        min: 1
+    upvote_answer:
+      value: 10
+    upvote_question:
+      value: 5
+    create_comment:
+      value: 0
+    create_question:
+      value: 0
+    accepted_answer:
+      value: 30
+    answered_question:
+      value: 1
+
+voucher:
+  # Enable/disable voucher generation / redemption for paid features
+  enabled: false
+
+api:
+  # List of course ids that can not be accessed from the mobile apps
+  blocked_course_ids: []
+  mobile_app_sunset_date: ~
+
+#######################
+### Course options
+#######################
+
+# List of groups that are used for course access restrictions (nested, separated by `.`).
+# This option is UI-only, i.e. as used in the Admin::CourseEditPresenter.
+# Add values as hashes (group_name => readable_name), e.g.
+# access_groups:
+#   xikolo.partner: 'Partners'
+#   xikolo.affiliated: 'Affiliated users'
+access_groups: {}
+
+# Required percentage of visits to gain Confirmation of Participation in a course
+cop_threshold_percentage: 50
+
+course_card:
+  # The list of classifier clusters in order of appearance in the course card.
+  # If empty or not provided the course card will not display the datapoint.
+  classifier_clusters:
+    - topic
+
+course_details:
+  # Show classifiers (tags) in the large course preview on the course details page
+  list_classifiers: true
+  # Show course dates in the large course preview on the course details page
+  show_date_label: true
+
+# Which languages can be selected for course content? These will also be
+# available for filtering in the course list.
+# NOTE: Platform locales are not automatically part of this list.
+course_languages: [cn, de, en, es, fr, pt-BR, ru, uk]
+
+# List of custom fields for which the statistics should be shown on
+# the course dashboard. The values must be the names of the
+# custom field, e.g. 'gender'.
+dashboard_chart_custom_fields: []
+
+# RFC 6570 template for generating URLs to an Etherpad instance, for use in collab spaces
+etherpad_host_template: "https://etherpad.xikolo.de/p/{id}"
+
+# When should single-select questions in surveys be rendered as dropdown?
+# If the number of answers to the question is larger than or equal this threshold, the UI will
+# change from radio buttons to a dropdown widget.
+multiple_choice_answers_as_dropdown_threshold: 8
+
+# Open Mode lets un-registered / un-enrolled users access course videos that are marked as such.
+# Can be activated for the entire platform, and the default behavior for new videos can be configured.
+open_mode:
+  enabled: false
+  default_value: false
+
+# The maximum number of submissions to show the quiz item statistics on-demand.
+quiz_item_statistics_submission_limit: 50_000
+
+# List of additional icons available for richtext items (edit course item)
+richtext_icon_types: {}
+
+# Fulfillment threshold for required assessment items (quizzes, LTI, peer assessments)
+# Can have values from 0 to 100, the default value of 50 means that users need 50%
+# of the maximum points for the requirement to be met
+required_assessment_threshold: 50
+
+# Required percentage of points to gain Record of Achievement in a course
+roa_threshold_percentage: 50
+
+# Pre-selected prefix for searching videos in a course.
+# The placeholder "COURSE_CODE" will be replaced with the course's course code.
+# Leave empty to disable.
+video_prefix: "COURSE_CODE"
+
+#######################
+### Certificate options
+#######################
+
+certificate:
+  # Configurable, brand-specific fonts for certificate rendering.
+  # Fonts configured here (with name: file name), are available in the dynamic_content of
+  # certificate templates and can be referenced there with the font-family styling.
+  # The font files MUST be added to the brand-directory (in [BRAND]/assets/fonts), e.g.
+  # brand/xikolo/assets/fonts/ComicSans-regular.ttf
+  # The first font in the list is used as the default. If none is specified,
+  # OpenSansRegular will be used.
+  #
+  # fonts:
+  #   ComicSans: ComicSans-regular.ttf
+  #   ComicSansBold: ComicSans-bold.ttf
+  fonts: ~
+  forbidden_verification_words:
+    [penis, cunts, pussy, spast, nazis, arsch, fotze]
+  # For a Transcript of Records certificate type, values for positioning and sizing must be provided.
+  # The sum of table_x, course_col_width, and score_col_width must not exceed 595 (width of A4 PDF).
+  transcript_of_records:
+    ~
+    # table_x: 200
+    # table_y: 500
+    # course_col_width: 300
+    # score_col_width: 70
+    # font_size: 10
+
+#######################
+### Helpdesk options
+#######################
+
+# The email address where incoming tickets should be sent.
+# Ideally, a helpdesk software would be listening to that mailbox. ;)
+helpdesk_email: ~
+
+# Configurable helpdesk options:
+# The configured option will be added as a general question option to the
+# helpdesk category dropdown.
+#
+# Provide a key to reference each option and its corresponding locales.
+# It also accepts a string pointing to the respective locales.
+#
+#  options:
+#    microlearning:
+#      en: Microlearning
+#      de: Mikrolernen
+#    podcasts: 'helpdesk.podcasts'
+helpdesk:
+  options: ~
+
+#######################
+### Video options
+#######################
+
+# Toggle automatic mp3 extraction from videos
+video:
+  audio_extraction: false
+
+#######################
+### Auth
+#######################
+
+# Automatic authentication with TLS certificates
+auto_login:
+  enabled: false
+  # Domain of the issuer of SSL client certificates to consider
+  issuer_domain: "example.com"
+  # Name of the corresponding authentication provider
+  auth_provider: "example"
+
+# List of global groups that users can be added to
+global_permission_groups: ["gdpr_admins", "admins", "helpdesk"]
+
+#######################
+### Products
+#######################
+
+course_reactivation:
+  period: 8
+  store_url:
+    de: "https://shop.example.org/gutscheine/kurs-reaktivierung"
+    en: "https://shop.example.org/voucher/course-reactivation"
+
+proctoring:
+  store_url: "https://shop.example.org/voucher/qualified-certificate"
+
+proctoring_smowl_endpoints:
+  # The URL of SMOWL's camera check widget
+  camera_check: "https://swl.smowltech.net/monitor/check/checkBBLink.php{?entity_Name,lang}"
+  # The URL of SMOWL's proctoring widget
+  proctoring: "https://swl.smowltech.net/monitor/controller.php{?query*}"
+  # The URL of SMOWL's registration (or as we call it: calibration) page
+  register: "https://swl.smowltech.net/monitor/controllerReg.php{?query*}"
+  # The URL of SMOWL's REST web service
+  api_base: "https://results-api.smowltech.net/index.php/Restv1/{function}"
+
+proctoring_smowl_options:
+  # Thresholds for proctoring passed/failed features.
+  # Nobody in front of the screen.
+  nobodyinthepicture: 5
+  # Wrong user detected.
+  wronguser: 0
+  # More than one user detected.
+  severalpeople: 1
+  # The user has covered the camera.
+  webcamcovered: 0
+  # Bad lighting or incorrect position.
+  invalidconditions: 5
+  # The webcam was rejected.
+  webcamdiscarted: 5
+  # Cheating attempt detected (e.g. the user tried showing a photograph
+  # to the camera).
+  notallowedelement: 0
+  # The user had another tab open during the quiz. When another tab has the
+  # focus, the camera does not send images, which is not allowed.
+  othertab: 5
+  # SMOWL received black images (usually a technical issue, e.g. the webcam is
+  # not working properly or the laptop is closed). We allow five black images
+  # as this can happen due to technical reasons.
+  emptyimage: 5
+  # A not supported browser is used.
+  notsupportedbrowser: 5
+  # The user does not have a webcam (connected).
+  nocam: 5
+  # Another application is blocking the webcam.
+  otherapp: 5
+  # Minimum number of correct images.
+  correctimages: 1
+
+  # DEPRECATED
+  # Keep these feature thresholds for backward-compatibility.
+  nobody: 5
+  morepeople: 1
+  covered: 0
+  wrongimage: 5
+  discarted: 5
+  cheat: 0
+  black: 5
+
+#######################
+### Statistics
+#######################
+
+# Correct the number of reported enrollments
+global_enrollment_delta: 0
+
+# Correct the number of reported users
+global_users_delta: 0
+
+#######################
+### Assets / CDN
+#######################
+
+# Configure the hostname for assets.
+# All URLs to assets (static files such as JS, CSS and images) generated via
+# Rails' helper methods will be prepended with this. This is often done because
+# these static assets can easily be duplicated across the world in Content
+# Delivery Networks (CDNs). Even without a CDN, using a separate host for
+# assets can reduce the workload for the application server and allows browsers
+# to retrieve more of them in parallel.
+asset_host: ~
+
+# Additional values for Content-Security-Policy header options
+csp:
+  # Whether any CSP headers should be sent at all
+  enabled: true
+  # Clients only report CSP violations, but do not block the requested resources
+  report_only: true
+  # Endpoint URI for reporting CSP violations
+  report_uri: "/csp-violation-report"
+  # Additional values for connect-src
+  connect: []
+  # Additional values for font-src
+  font: []
+  # Additional values for frame-src
+  frame: []
+  # Additional values for media-src
+  media: []
+  # Additional values for script-src
+  script: []
+  # Additional values for style-src
+  style: []
+
+# Configure the URL for the Imgproxy image processor (https://imgproxy.net/) to be used on the imagecrop service.
+# The application will send a signed request to this service (https://docs.imgproxy.net/#/signing_the_url),
+# and it expects that the `imgproxy_key` and `imgproxy_salt` values are configured in the Rails secrets file
+# locally (`config/secrets.yml`), so they can be used to sign the url. It creates a url following the basic
+# imgproxy simple approach (https://docs.imgproxy.net/#/generating_the_url_basic)
+imgproxy_url: ~
+
+#######################
+### Layout / HTML
+#######################
+
+layout:
+  ref:
+    # Add new layout components here
+
+# Configuration for the header component, i.e. the main navigation.
+header:
+  visible: true
+  logo:
+    href: "/"
+  # secondary_logo:
+  # href: '/'
+  # Provide a basename if a different logo file is used (suffix: .png).
+  # basename: 'secondary_logo'
+  # alt: {en: 'alt en', de: 'alt de'}
+  # Configuration of elements for the primary main navigation.
+  # Use predefined components or reference layout components from above.
+  primary:
+    - about
+    - channels
+    - courses
+    - announcements
+  # Configuration of elements for the secondary navigation.
+  # Add here basic items for the functioning of the platform that should never be moved
+  # to a dropdown menu when resizing the viewport.
+  secondary:
+    - administration
+    - language_chooser
+    - profile
+    - login
+  # By default, components for the primary navigation will appear on the left side
+  # of the navigation bar and secondary components on the right.
+  # If all components should be placed to the right, set merge_components
+  # to true.
+  merge_components: false
+
+# Configuration for the profile menu items
+# Used for the profile submenu in the main navigation bar and the top dashboard menu
+# Reference layout components from above
+# profile
+#   - ref:dashboard
+profile: ~
+
+# Configuration for the footer component.
+footer:
+  visible: true
+  columns:
+    - headline: { en: "More information", de: "Mehr Informationen" }
+      links:
+        - href: "/pages/about"
+          text: { en: "About Us", de: "Über uns" }
+    - headline: { en: "Help", de: "Hilfe" }
+      links:
+        - href: "/pages/faq"
+          text: { en: "FAQ", de: "FAQ" }
+    - headline: { en: "Legal", de: "Rechtliches" }
+      links:
+        - href: "/pages/imprint"
+          title: { en: "Imprint", de: "Impressum" }
+          text: { en: "Imprint", de: "Impressum" }
+        - href: "/pages/data-protection"
+          title: { en: "Data Protection", de: "Hinweise zum Datenschutz" }
+          text: { en: "Data Protection", de: "Hinweise zum Datenschutz" }
+  social_media:
+    headline: { en: "Follow us", de: "Folgen Sie uns" }
+    links:
+      - href: "https://twitter.com"
+        text: { en: "X", de: "X" }
+        type: "square-x-twitter"
+      - href: "https://www.facebook.com"
+        text: { en: "Facebook", de: "Facebook" }
+        type: "facebook"
+  about:
+    logo: "logo_monochrome.svg"
+    description:
+      en: "Xikolo is the educational online platform of the Hasso Plattner Institute, Potsdam."
+      de: "Xikolo ist die pädagogische Online-Plattform des Hasso-Plattner-Instituts, Potsdam."
+      es: "Xikolo es la plataforma educativa en línea del Instituto Hasso Plattner, Potsdam."
+      zh: "Xikolo 是波茨坦哈索普拉特纳研究所的在线教育平台。"
+  copyright:
+    start_year: 2012
+    owner:
+      href: { en: "https://hpi.de/en", de: "https://hpi.de" }
+      text: { en: "Hasso Plattner Institute", de: "Hasso-Plattner-Institut" }
+
+#######################
+### SEO & Meta Tags
+#######################
+
+# A collection of custom HTML snippets that will be injected into the <head> of each page.
+# Each element must be a hash with an "html" key (mapping to a string).
+custom_html: []
+
+# Prove site ownership for the Google Search Console.
+# When set, the corresponding meta tag in <head> will be rendered.
+google_site_verification: ""
+
+#######################
+### Mobile apps
+#######################
+
+# Configure the Digital Asset Links (https://developer.android.com/training/app-links/) file for
+# Android App Links verification and Association
+# (https://developer.apple.com/library/prerelease/content/documentation/General/Conceptual/AppSearch/UniversalLinks.html)
+# file for iOS Universal Links verification.
+# app_links_verification:
+#   android:
+#     package_name: 'de.xikolo.my_brand'
+#     sha256_cert_fingerprints:
+#       - '14:6D:E9:83:C5:73:06:50:D8:EE:B9:95:2F:34:FC:64:16:A0:83:42:E6:1D:BE:A8:8A:04:96:B2:3F:CF:44:E5'
+#   ios:
+#     app_id_prefix: '9JA89QQLNQ'
+#     bundle_id: 'de.xikolo.my_brand'
+app_links_verification: {}
+
+# Configure styling for our Chromecast Styled Media Receiver (https://developers.google.com/cast/docs/styled_receiver).
+# This customizes the display when using the Android app on a TV via Chromecast.
+# chromecast:
+#   background_url: https://open.hpi.de/assets/openHPI/chromecast/bg.png
+#   logo_url: https://open.hpi.de/assets/openHPI/chromecast/logo.png
+#   progress_color: "rgb(180, 41, 70)"
+chromecast: ~
+
+# Configure the corresponding iOS app to display the badge and Smart App Banner
+# (https://developer.apple.com/library/content/documentation/AppleApplications/Reference/SafariWebContent/PromotingAppswithAppBanners/PromotingAppswithAppBanners.html).
+# ios_app:
+#   name: 'openhpi'
+#   id: '363590051'
+ios_app: ~
+
+# Configure the site as a web app, using a web application manifest
+# (https://developer.mozilla.org/en-US/docs/Web/Manifest).
+# No manifest will be generated, if this option does not exist.
+# webapp:
+#    icons_dir: icons
+#    bg_color: #ffffff
+#    native_apps:
+#      play: 'de.xikolo.my_brand'
+# icons_dir should be a directory relative to the `app/assets/images` directory of the webapp.
+# For images to be listed as icons, they need to be PNG files named with their dimensions as a prefix,
+# e.g. "logo-128x128.png".
+webapp: ~
+
+#######################
+### Social Media & Achievements
+#######################
+
+# E-mail address for general contact to the platform provider
+# (Used for Open Badges)
+contact_email: ""
+
+# The Facebook App ID
+# Will be rendered as a meta tag on course details pages.
+# Allows using Facebook Insights on connected Facebook properties.
+facebook_app_id: ~
+
+# Open Badges - Digitally signed, sharable learning achievements
+open_badges:
+  # Activate generation of Open Badges
+  enabled: false
+  # Public key for badge verification in PEM format
+  public_key: ~
+  # Image of the badge issuer (i.e. logo) as Data URI
+  issuer_image: ~
+
+# Linkedin organization ID
+# This is a string of numbers unique to every company in LinkedIn
+# We use this number to prefill the certificate/badge form from LinkedIn
+# The linkedin_add sharing button redirects the user to this form
+linkedin_organization_id: ~
+
+#######################
+### Integrations
+#######################
+
+# Configuration for bridge APIs that help us integrate with other portals / tools
+bridges: {}
+
+# A collection of different chatbot backends depending on the plattform, version and language.
+#
+# The public key is used to decrypt / verify auth tokens in the bridge API.
+# To support key rotation, multiple public keys can be listed.
+#
+# Version 1 represents the suggestions provided in the contact form of the helpdesk.
+# Version 2 represents the actual chatbot inside the helpdesk.
+chatbot:
+  bridge_public_keys:
+    - "fe3BIEgJRIsZz4dWT29wGF85knpAwJg0-NQB1f4PJu0"
+  # version2:
+  #   href:
+  #     en:
+  #     de:
+
+# Kaltura settings
+kaltura:
+  # The endpoint URL of a Kaltura API can be different, depending on if the Kaltura instance is
+  # self-hosted or using the Kaltura cloud. For the latter, the URL is different for the region
+  # the cloud tenant is bound to.
+  # The same applies for the asset URL, that serves the actual videos, poster images or captions
+  api_url: ~
+  asset_url: ~
+  # Asset flavors in Kaltura are variants of a video resource that differ in dimensions, bitrate
+  # size, encoding. These flavors have different identifiers per cloud tenant, possibly also per
+  # customer account and thus need to be configured.
+  # The quality can be a single flavor option id, or an array of ids. For arrays, the Kaltura
+  # integration will pick the first matching option per video.
+  flavors:
+    source: 0
+    sd: ~
+    hd: ~
+
+# The public URL for our LimeSurvey instance.
+limesurvey_url: "https://survey.openhpi.de/survey/index.php"
+
+# The MOOChub API exposes course information according to
+# the specification in `docs/bridges/moochub`.
+moochub_api:
+  enabled: false
+  # The default URL for the course license will be used for all but paid courses.
+  # If a course is not "free of charge", the proprietary license URL is used.
+  # course_license:
+  #   default:
+  #     id: 'CC-BY-NC-SA-4.0'
+  #     url: 'https://creativecommons.org/licenses/by-nc-sa/4.0'
+  #     contentUrl: ~
+  course_metadata:
+    organization: ~
+    # organization:
+    #   name: "Company Name" # required
+    #   identifier: "https://www.example.com"
+    #   type: "Organization" # required
+    #   description: "Some company is a digital educational platform situated at the other company."
+    #   image:
+    #     description: "test"
+    #     type: "ImageObject"
+    #     contentUrl: "https://www.example.com" # required
+    #     license: [{ identifier: "proprietary", url: ~ }] # required
+    creator:
+      license:
+        - identifier: "proprietary"
+          url: ~
+
+# Platforms may customize their public landing pages by building a custom "portal".
+# In order to access data for e.g. listing courses, they must use our Portal API.
+# The realm for bearer token authentication can be configured.
+portal_api:
+  enabled: false
+  realm: default-realm
+
+# Platforms may handle user registration and accounts on their side. In this case,
+# the "native" login with email and password is not needed. The external login
+# (via SSO) should be used instead.
+portal_mode:
+  external_login:
+    enabled: false
+    # If `enabled` is set to `true`, an external login URL must be provided.
+    # url: 'https://example.com/signin'
+
+# For platforms with external portals, this option allows to restrict access
+# and to configure the redirect URL template for the course page.
+# The URL template is also used for external APIs, e.g. the MOOChub API.
+public_course_page:
+  # Enable a public course page, i.e. whether the course info
+  # page is visible for anonymous users.
+  enabled: true
+  # If the course page is non-public, i.e. enabled is set to false, a URL
+  # template must be provided. It can contain placeholders according to the
+  # logic implemented in `app/lib/public_course_page.rb`.
+  # url_template: 'https://example.com/courses{/course_code}'
+
+# Enable the TransPipe tool for the platform.
+# When enabled, the URL templates must be provided.
+transpipe:
+  enabled: false
+  # Configuration of realm for bearer token authentication.
+  realm: default-realm
+  # This URL is used for linking to TransPipe in the course administration menu.
+  # course_url_template: 'https://transpipe.example.com/link/my_site/courses/{course_id}'
+  # This URL is used for linking from a specific (video) item to the respective
+  # resource in the TransPipe system.
+  # course_video_url_template: 'https://transpipe.example.com/link/my_site/courses/{course_id}/videos/{video_id}'
+
+# Enable the reCAPTCHA tool for the helpdesk.
+recaptcha:
+  enabled: false
+  score: 0.5
+  # These keys are required for the recaptcha to work. Use these for development purposes only.
+  # site_key_v2: 6Ld08WIqAAAAAMzWokw1WbhB2oY0LJRABkYC0Wrz
+  # site_key_v3: 6Lfz8GIqAAAAADuPSE0XXDa9XawEf0upsswLgsBA
+
+#######################
+### Experiments
+#######################
+
+# Persisted learning evaluation (PLE)
+# This is currently an experimental feature, meant to replace calculations for
+# progress, achievements and "learning evaluations". Disabled by default.
+#
+# - "write": a boolean that determines whether PLE will be calculated
+# - "read": A boolean or integer.
+#           When boolean, it determines whether PLE is actually *used* by the application.
+#           When integer, this determines the percentage of requests that will be used for
+#           comparing the old (dynamic) implementation to the new one, without actually
+#           using the new one yet.
+# - "legacy_courses": A list of course IDs where "fixed learning evaluations" remain
+#                     (imported from an older course platform).
+#
+# For the use case in xi-web, a boolean value is sufficient.
+# This is valid due to backwards compatibility.
+persisted_learning_evaluation: false

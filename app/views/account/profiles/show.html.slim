@@ -1,0 +1,356 @@
+.row
+  .col-md-12
+    #description-edit hidden='' = t(:'global.edit')
+    h3.pt10
+      = t :'dashboard.profile.my_profile'
+    hr.divider
+
+.row
+  .col-md-2
+    = form_tag(dashboard_profile_visual_path, method: 'POST', multipart: true)
+      input.user-visual.img-rounded#user_visual type='image' src=avatar_path(@profile.user_id, width: 200, height: 200)
+      input.hide#user_visual_upload type='file' name='visual' accept='image/gif, image/jpeg, image/png' style='width:100px;'
+      input.btn.btn-xs.btn-primary.mt5.hide#user_visual_submit type='submit' value='Upload'
+  .col-md-10
+    h4
+      = t(:'dashboard.profile.name')
+    p
+      a#full_name.status href='#' data-url=dashboard_profile_path data-name='full_name' pk='full_name' data-value=@profile.full_name aria-describedby='description-edit'
+      = render Global::FaIcon.new('check', style: :solid, css_classes: 'check check--editable')
+      br
+      small
+        = t(:'dashboard.profile.name_text')
+    h4.pt5
+      = t(:'dashboard.profile.display_name')
+    p
+      a#display_name.status href='#' data-url='dashboard_profile_path' data-name='display_name' pk='display_name' data-value=@profile.display_name aria-describedby='description-edit'
+      = render Global::FaIcon.new('check', style: :solid, css_classes: 'check check--editable')
+      br
+      small
+        = t(:'dashboard.profile.display_name_text')
+      p
+        = t(:'dashboard.profile.resulting_display_name')
+        ':
+        span.has-spinner
+          span.spinner.mr5.ml5
+            = render Global::FaIcon.new('arrows-rotate', style: :solid)
+        i#username_preview
+          = @profile.name
+    h4.pt5
+      = t(:'global.email')
+    - if @profile.unconfirmed_emails?
+      p
+        = t(:'dashboard.profile.current_email', email: @profile.email)
+      p
+        = t(:'dashboard.profile.unconfirmed_mails_present')
+      ul
+      - @profile.unconfirmed_emails.each do |mail|
+        li.mb5
+          => mail.address
+          span.ml5 = link_to t(:'dashboard.profile.unconfirmed_mail_resend'),
+                              account_confirmations_path(request: Account::ConfirmationsController.verifier.generate(mail.id)),
+                              method: :post, class: 'btn btn-xs btn-default'
+          span.ml5 = link_to t(:'dashboard.profile.unconfirmed_mail_cancel_request'),
+                              delete_email_path(id: mail.id),
+                              method: :delete, class: 'btn btn-xs btn-default'
+    - else
+      p
+        = @profile.email
+        span.small.ml5
+          em = t(:'dashboard.profile.primary_email')
+        br
+          a#email href='#' data-url=dashboard_profile_path data-name='email' pk='email' data-value=''
+            span.mr5 = render Global::FaIcon.new('plus')
+            = t(:'dashboard.profile.add_email')
+        = render Global::FaIcon.new('check', style: :solid, css_classes: 'check check--editable')
+      - if current_user.feature?('primary_email_suspended')
+        = render Global::Callout.new(t(:'dashboard.profile.primary_email_suspended'), type: :warning) do
+          = link_to(t(:'dashboard.profile.reactivate'), unsuspend_primary_email_path, class: 'btn btn-outline btn-default btn-xs')
+
+    - if @profile.secondary_emails?
+      - if @profile.unconfirmed_emails?
+        .mt10
+      p
+        strong
+          = t(:'dashboard.profile.secondary_emails.title')
+        button.ml5.btn.btn-xs.btn-default.secondary-emails-button#secondary-emails-show-button
+          = t(:'dashboard.profile.secondary_emails.show')
+        button.ml5.btn.btn-xs.btn-default.secondary-emails-button#secondary-emails-hide-button
+          = t(:'dashboard.profile.secondary_emails.hide')
+      #secondary-emails-list
+        ul
+        - @profile.secondary_emails.each do |mail|
+          li.mb5
+            => mail.address
+            span.ml5 = link_to t(:'dashboard.profile.secondary_emails.promote'),
+                                change_primary_email_path(id: mail.id),
+                                method: :patch,
+                                class: 'btn btn-xs btn-default',
+                                data: {confirm: t(:'dashboard.profile.secondary_emails.confirm_promote')}
+            span.ml5 = link_to t(:'dashboard.profile.secondary_emails.delete'),
+                                delete_email_path(id: mail.id),
+                                method: :delete,
+                                class: 'btn btn-xs btn-default',
+                                data: {confirm: t(:'dashboard.profile.secondary_emails.confirm_delete')}
+    h4.pt5
+      = t(:'dashboard.profile.birthdate')
+    p
+      a#born_at.status href='#' data-type='combodate' data-url=dashboard_profile_path data-name='born_at' pk='born_at' data-value=@profile.born_at data-title=t(:'dashboard.profile.select_birthdate') aria-describedby='description-edit'
+      = render Global::FaIcon.new('check', style: :solid, css_classes: 'check check--editable')
+      - unless current_user.feature? 'records.exclude_birthdate'
+        br
+        small
+          = t(:'dashboard.profile.show_birthdate_on_record', url: dashboard_documents_path)
+
+    - if @profile.required_fields.any?
+      h4.pt5
+        = t(:'dashboard.profile.required_info')
+      p
+        - @profile.required_fields.each do |field|
+          /TODO refactor this
+          p.pt5 class=field.css_classes
+            span.editable-label
+              => t(:"dashboard.profile.#{field.name}")
+            - if field.select?
+              a.editable.status.editable-required href='#' data-url=dashboard_profile_path data-value=field.value data-name=field.name data-type='select' data-source=field.available_values_json data-pk='1' data-emptytext=t(:'dashboard.profile.not_set') aria-describedby='description-edit'
+            - if field.text?
+              a.editable.status.editable-required href='#' data-url=dashboard_profile_path data-value=field.value data-name=field.name data-type='text' data-pk='1' data-emptytext=t(:'dashboard.profile.not_set') aria-describedby='description-edit'
+            - if field.checklist?
+              a.editable.status.editable-required href='#' data-url=dashboard_profile_path data-value=field.values data-name=field.name data-type='checklist' data-source=field.available_values_json data-pk='1' data-emptytext=t(:'dashboard.profile.not_set') aria-describedby='description-edit'
+            = render Global::FaIcon.new('check', style: :solid, css_classes: 'check check--editable')
+
+- if @profile.sso_providers.any?
+  .row
+    .col-md-12
+      = render 'authorizations', profile: @profile
+
+.row
+  .col-md-12
+    - if @profile.optional_fields.any?
+      h4.pt20
+        = t(:'dashboard.profile.additional_info')
+      hr.divider
+      span.small
+        = t(:'dashboard.profile.additional_info_text')
+
+      - @profile.optional_fields.each do |field|
+        /TODO refactor this
+        p.pt5 class=field.css_classes
+          span.editable-label
+            => t(:"dashboard.profile.#{field.name}")
+          - if field.select?
+            a.editable.status href='#' data-url=dashboard_profile_path data-value=field.value data-name=field.name data-type='select' data-source=field.available_values_json data-pk='7' data-emptytext=t(:'dashboard.profile.not_set') aria-describedby='description-edit'
+          - if field.text?
+            a.editable.status href='#' data-url=dashboard_profile_path data-value=field.value data-name=field.name data-type='text' data-pk='1' data-emptytext=t(:'dashboard.profile.not_set') aria-describedby='description-edit'
+          - if field.checklist?
+            a.editable.status href='#' data-url=dashboard_profile_path data-value=field.values data-name=field.name data-type='checklist' data-source=field.available_values_json data-pk='1' data-emptytext=t(:'dashboard.profile.not_set') aria-describedby='description-edit'
+          = render Global::FaIcon.new('check', style: :solid, css_classes: 'check check--editable')
+
+- content_for :sidebar
+  - if current_user.feature?('account.login')
+    = render 'account/profiles/change_password', user: @profile.user
+  - if @profile.consents.any?
+    = render 'account/profiles/consents', consents: @profile.consents
+  = render 'account/profiles/delete_account', user_id: @profile.user.id
+
+== render 'shared/bootstrap_editable_assets'
+
+javascript:
+  ajaxurl = "#{dashboard_profile_path}";
+  service_unavailable = "#{t(:'dashboard.profile.service_unavailable')}";
+  error_message = "#{t(:'dashboard.profile.error_message')}";
+  email_already_taken = "#{t(:'dashboard.profile.email_already_taken')}";
+
+  // Settings for birthdate inline editor
+  combodate_format = "#{t(:'dashboard.profile.combodate_format')}"
+  combodate_viewformat = "#{t(:'dashboard.profile.combodate_viewformat')}"
+  combodate_template = "#{t(:'dashboard.profile.combodate_template')}"
+  combodate_emptytext = "#{t(:'dashboard.profile.not_set')}";
+  moment.locale('#{current_user.language}');
+
+javascript:
+  var isIE;
+
+  isIE = function() {
+    return navigator.userAgent.toLowerCase().indexOf("msie") !== -1;
+  };
+
+  $(function() {
+
+    //Hint: x-editable can not deal with async requests within a success function...
+    function doAjaxRequest($element, data, success, error) {
+      var result = null;
+      try{
+        $.ajax(ajaxurl, {
+          type: 'POST',
+          async: false,
+          data: data,
+          success: function(msg, newValue) {
+            result = success(msg, newValue);
+            if(!$element.hasClass("editable-updated")) $element.addClass("editable-updated");
+          },
+          error: function(response) {
+            $element.removeClass("editable-updated");
+            if(typeof error === 'function') result = error(response);
+            if(result) return;
+            if(response.status === 500) result = service_unavailable;
+            else result = error_message;
+          }
+        });
+      } catch(response) {
+        if(typeof error === 'function') error(response);
+        result = service_unavailable;
+      }
+      return result;
+    }
+
+    $("#form-changepassword").hide();
+    $.fn.editable.defaults.mode = "inline";
+    $(".editable").not(".editable-required").editable({
+      success: function() {
+        if(!$(this).hasClass("editable-updated")) $(this).addClass("editable-updated");
+      },
+      error: function(response, newValue) {
+        $(this).removeClass("editable-updated");
+        if(response.status === 500) return service_unavailable;
+        return error_message;
+      }
+    });
+    $(".editable-required").editable({
+      onblur: 'submit',
+      success: function() {
+        if(!$(this).hasClass("editable-updated")) $(this).addClass("editable-updated");
+      },
+      error: function(response, newValue) {
+        $(this).removeClass("editable-updated");
+        if(response.status === 500) return service_unavailable;
+        return error_message;
+      }
+    });
+    $("#display_name").editable({
+      success: function(msg, newValue) {
+        $('#nav-username').closest('.has-spinner').addClass('loading');
+        $('#username_preview').prev('.has-spinner').addClass('loading');
+        return doAjaxRequest(
+          $("#display_name"),
+          {
+            display_name: newValue
+          },
+          function(msg) {
+            $('#nav-username').closest('.has-spinner').removeClass('loading');
+            $('#username_preview').prev('.has-spinner').removeClass('loading');
+            $('#nav-username').html(msg.user.name);
+            $('#username_preview').html(msg.user.name);
+            if (msg.user.display_name.length > 0) {
+              return $('#display_name').html(msg.user.display_name);
+            } else {
+              return location.reload();
+            }
+          },
+          function(error){
+            $('#nav-username').closest('.has-spinner').removeClass('loading');
+            $('#username_preview').prev('.has-spinner').removeClass('loading');
+          }
+        );
+      }
+    });
+    $("#full_name").editable({
+      success: function(msg, newValue) {
+        $('#nav-username').closest('.has-spinner').addClass('loading');
+        $('#username_preview').prev('.has-spinner').addClass('loading');
+        return doAjaxRequest(
+          $("#full_name"),
+          {
+            full_name: newValue
+          },
+          function(msg) {
+            $('#nav-username').closest('.has-spinner').removeClass('loading');
+            $('#username_preview').prev('.has-spinner').removeClass('loading');
+            $('#nav-username').html(msg.user.name);
+            return $('#username_preview').html(msg.user.name);
+          },
+          function(error){
+            $('#nav-username').closest('.has-spinner').removeClass('loading');
+            $('#username_preview').prev('.has-spinner').removeClass('loading');
+          }
+        );
+      }
+    });
+    $("#changepassword-button").on("click", function(evt) {
+      evt.preventDefault();
+      $("#form-changepassword").show();
+      $("#changepassword").hide();
+    });
+    $("#changepassword-cancel").on("click", function(evt) {
+      evt.preventDefault();
+      $("#form-changepassword").hide();
+      $("#changepassword").show();
+    });
+    $("#user_visual").on("click", function(evt) {
+      evt.preventDefault();
+      if (!isIE()) {
+        return $("#user_visual_upload").click();
+      } else {
+        $("#user_visual_upload").toggleClass("hide");
+        return $("#user_visual_submit").toggleClass("hide");
+      }
+    });
+    $("#user_visual_upload").change(function() {
+      if (!isIE()) {
+        this.form.submit();
+      }
+    });
+    $("#email").editable({
+      success: function(msg, newValue) {
+        showLoading();
+        return doAjaxRequest(
+          $("#email"),
+          {
+            email: newValue
+          },
+          function(msg) {
+            $('#email').html(msg.email);
+            return document.location.reload();
+          },
+          function(response) {
+            hideLoading();
+            if(response.responseText.split(", ").includes('has already been taken')) return email_already_taken;
+          }
+        );
+      }
+    });
+    $("#born_at").editable({
+      format: combodate_format,
+      emptytext: combodate_emptytext,
+      viewformat: combodate_viewformat,
+      template: combodate_template,
+      combodate: {
+        language: $('html').attr('lang'),
+        minYear: 1910,
+        maxYear: #{Time.current.year}
+      },
+      success: function(msg, newValue) {
+        if (newValue) {
+          newValue = newValue.add('m', -newValue.zone()).toISOString();
+        }
+        return doAjaxRequest(
+          $("#born_at"),
+          {
+            born_at: newValue
+          },
+          function(msg) {
+            return $('#born_at').data("value", msg);
+          }
+        );
+      }
+    });
+
+    $("#secondary-emails-list").hide();
+    $("#secondary-emails-hide-button").hide();
+    return $(".secondary-emails-button").on("click", function(evt) {
+      evt.preventDefault();
+      $("#secondary-emails-list").toggle();
+      $("#secondary-emails-show-button").toggle();
+      $("#secondary-emails-hide-button").toggle();
+    });
+  });

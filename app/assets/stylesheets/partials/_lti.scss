@@ -1,0 +1,90 @@
+/*------------------------------------*\
+    $CONTENTS
+
+    Styles for LtiExercise component.
+\*------------------------------------*/
+/**
+ * Variables....................Variable declarations and overrides
+ * Lti-Base.............Basic styles
+ * Lti-Sidebar..........Sidebar element
+ * Lti-Properties.......Properties shown before tool launch
+ */
+
+/*------------------------------------*\
+    $Variables
+\*------------------------------------*/
+//...
+
+/*------------------------------------*\
+    $Lti-Base
+\*------------------------------------*/
+
+// The iframe opening external LTI exercises embedded inside the course area
+.lti-frame {
+  min-height: 1000px;
+}
+
+ul.lti_providers {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.lti-exercise-content {
+  // main container
+  @include heavy-bar($color: $gray-250); // separation bars
+  @include light-bar($color: $gray-250);
+
+  background-color: $gray-100;
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/*------------------------------------*\
+    $Lti-Properties
+\*------------------------------------*/
+
+.lti-exercise-properties {
+  padding: 0px;
+  list-style-type: none;
+
+  li {
+    display: inline-block;
+    margin-right: 15px;
+  }
+}
+
+/*
+ul#submission-list{
+  list-style: none;
+  margin:0;
+  padding:0;
+  li{
+    padding:0;
+  }
+  li.active a{
+    color: grey;
+  }
+}
+.lti-exercise-sidebar.affix {
+  */
+/* position: fixed; already applied in .affix */ /*
+
+  top: 80px;
+  */
+/* might also need e.g. width: 300px; as position: fixed; removes the element from its parent. */ /*
+
+}
+.lti-exercise-sidebar.affix-bottom {
+  position: absolute; */
+/* Start scrolling again. */ /*
+
+  top: auto; */
+/* Override the top position above. */ /*
+
+  bottom: 20px; */
+/* It should stop near the bottom of its parent. */ /*
+
+}*/

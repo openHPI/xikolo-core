@@ -1,0 +1,12 @@
+article.featured-course
+  = link_to course_path(@course.course_code), 'aria-hidden': 'true', tabindex: '-1' do
+    = render course_visual
+
+  div
+    = link_to @course.title, course_path(@course.course_code), class: 'featured-course__heading'
+    p.featured-course__text = @course.abstract
+
+    .featured-course__actions
+      = render Home::Course::DetailsButton.new(@course, type: :large)
+      = render Home::Course::EnrollButton.new(@course, enrollment: @enrollment, type: :large)
+      = render Home::Course::ResumeButton.new(@course, enrollment: @enrollment, type: :large)

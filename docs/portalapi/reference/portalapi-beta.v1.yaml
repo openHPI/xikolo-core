@@ -1,0 +1,697 @@
+openapi: 3.0.0
+info:
+  title: portalapi-beta
+  version: "1.0"
+  description: An API to access course catalog data from openHPI instances, retrieve and create enrollments.
+  contact:
+    name: openHPI
+    url: "https://open.hpi.de"
+    email: info@openhpi.de
+tags:
+  - name: catalog
+  - name: enrollments
+  - name: users
+servers:
+  - url: "http://localhost:3000/portalapi-beta"
+    description: Development
+  - url: "https://learn.ki-campus.org/portalapi-beta"
+    description: KI-Campus
+  - url: "https://open.hpi.de/portalapi-beta"
+    description: openHPI
+paths:
+  /courses:
+    get:
+      summary: Retrieve all courses
+      responses:
+        "200":
+          description: OK
+          content:
+            application/vnd.openhpi.list+json;v=1.1:
+              schema:
+                $ref: "#/components/schemas/List"
+          headers:
+            Link:
+              schema:
+                type: string
+              description: "A HTTP Link header containing relations to next and previous pages, if applicable."
+      operationId: get-courses
+      description: Retrieve a list of links to all courses that are currently publicly visible on this page.
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - application/vnd.openhpi.list+json;v=1.0
+              - application/vnd.openhpi.list+json;v=1.1
+          in: header
+          name: Accept
+          description: ""
+          required: true
+      tags:
+        - catalog
+      security:
+        - BearerToken: []
+  "/courses/{id}":
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ""
+    get:
+      summary: Retrieve a single course
+      tags:
+        - catalog
+      responses:
+        "200":
+          description: OK
+          content:
+            application/vnd.openhpi.course+json;v=1.1:
+              schema:
+                $ref: "#/components/schemas/Course"
+      operationId: get-courses-id
+      description: Retrieve a single course by ID.
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - application/vnd.openhpi.course+json;v=1.0
+              - application/vnd.openhpi.course+json;v=1.1
+          in: header
+          name: Accept
+          required: true
+      security:
+        - BearerToken: []
+  "/users/{id}":
+    parameters:
+      - schema:
+          type: string
+          format: uid
+          example: c9073f32a57d7006f2d6ef6193ba7449ca4bdcb7
+        name: id
+        in: path
+        required: true
+        description: The identifier used on the SAML 2.0 protocol to identify the user.
+    patch:
+      summary: Update user attributes
+      description: Update a user's attributes sent in the request body
+      operationId: patch-users-id
+      tags:
+        - users
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - application/vnd.openhpi.user+json;v=1.0
+          in: header
+          name: Accept
+          description: ""
+          required: true
+      security:
+        - BearerToken: []
+      requestBody:
+        content:
+          application/vnd.openhpi.user+json;v=1.0:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  format: uid
+                email:
+                  type: string
+                full_name:
+                  type: string
+                display_name:
+                  type: string
+                born_at:
+                  type: string
+                  format: date
+                language:
+                  type: string
+                avatar:
+                  type: string
+            examples:
+              User Structure:
+                value:
+                  id: c9073f32a57d7006f2d6ef6193ba7449ca4bdcb7
+                  email: example@example.com
+                  full_name: John Doe
+                  display_name: Johnny D.
+                  born_at: "2000-01-01"
+                  language: en
+                  avatar: https://example.com/avatar.png
+      responses:
+        "200":
+          description: >
+            OK - Note: this endpoint also returns 200, if the user resource was not (fully) updated,
+            e.g. due to malformed values or internal errors. In this case, the unmodified resource is
+            returned. The client needs to check, if the changes have been applied.
+            The avatar of a user resource can be removed by setting it to null.
+          content:
+            application/vnd.openhpi.user+json;v=1.0:
+              schema:
+                $ref: "#/components/schemas/User"
+              examples:
+                User Structure:
+                  value:
+                    id: c9073f32a57d7006f2d6ef6193ba7449ca4bdcb7
+                    email: example@example.com
+        "400":
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                Empty Request Body:
+                  value:
+                    type: "https://openhpi.stoplight.io/docs/portal-api/068d6638d8e0b-errors#empty_request_body"
+                    title: The request body cannot be blank.
+                    status: 400
+        "401":
+          description: Unauthorized
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                Unauthorized:
+                  value:
+                    type: "https://openhpi.stoplight.io/docs/portal-api/068d6638d8e0b-errors#unauthenticated"
+                    title: You must provide an Authorization header to access this resource.
+                    status: 401
+        "404":
+          description: Not Found
+        "422":
+          description: Unprocessable Entity
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                Unprocessable Entity:
+                  value:
+                    type: "https://openhpi.stoplight.io/docs/portal-api/068d6638d8e0b-errors#parameter_missing"
+                    title: The user email address could not be updated.
+                    status: 422
+    delete:
+      summary: Delete a user
+      description: Delete a user identified by the uid passed in the query
+      operationId: delete-users-id
+      tags:
+        - users
+      security:
+        - BearerToken: []
+      responses:
+        "204":
+          description: No content - the user has been deleted successfully
+        "401":
+          description: Unauthorized
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                Unauthorized:
+                  value:
+                    type: "https://openhpi.stoplight.io/docs/portal-api/068d6638d8e0b-errors#unauthenticated"
+                    title: You must provide an Authorization header to access this resource.
+                    status: 401
+        "404":
+          description: Not Found
+        "422":
+          description: Unprocessable Entity
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                Unprocessable Entity:
+                  value:
+                    type: "https://openhpi.stoplight.io/docs/portal-api/068d6638d8e0b-errors#parameter_missing"
+                    title: The user account could not be deleted.
+                    status: 422
+  "/enrollments":
+    get:
+      summary: Retrieve user enrollments
+      tags:
+        - enrollments
+      responses:
+        "200":
+          description: OK
+          content:
+            application/vnd.openhpi.enrollments+json;v=1.0:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    course_id:
+                      type: string
+                    created_at:
+                      type: string
+                    completed:
+                      type: boolean
+                    deleted:
+                      type: boolean
+                    achievements:
+                      type: object
+                      properties:
+                        confirmation_of_participation:
+                          type: boolean
+                        record_of_achievement:
+                          type: boolean
+                        certificate:
+                          type: boolean
+                        transcript_of_records:
+                          type: boolean
+                x-examples:
+                  Example 1:
+                    - id: 3d95367f-e782-4a99-a522-047acf74e218
+                      course_id: 00000001-3300-4444-9999-000000000004
+                      created_at: "2023-06-30T06:46:18.312Z"
+                      completed: false
+                      deleted: false
+                      achievements:
+                        confirmation_of_participation: false
+                        record_of_achievement: false
+                        certificate: false
+                        transcript_of_records: false
+              examples: {}
+        "400":
+          description: Invalid Request
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    type: "https://openhpi.stoplight.io/docs/portal-api/068d6638d8e0b-errors#invalid_request"
+                    title: "Your request seems to contain some syntax errors. Please review it and try again."
+                    status: 400
+                properties:
+                  type:
+                    type: string
+                  title:
+                    type: string
+                    description: "Your request seems to contain some syntax errors. Please review it and try again."
+                  status:
+                    type: integer
+              examples: {}
+        "401":
+          description: Unauthorized
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    type: "https://openhpi.stoplight.io/docs/portal-api/068d6638d8e0b-errors#unauthenticated"
+                    title: You must provide an Authorization header to access this resource.
+                    status: 401
+                properties:
+                  type:
+                    type: string
+                  title:
+                    type: string
+                    description: You must provide an Authorization header to access this resource.
+                  status:
+                    type: integer
+              examples: {}
+        "404":
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    type: "https://openhpi.stoplight.io/docs/portal-api/068d6638d8e0b-errors#course_or_user_not_found"
+                    title: Course or user not found.
+                    status: 404
+                properties:
+                  type:
+                    type: string
+                  title:
+                    type: string
+                    description: There is no matching record for the provided parameters.
+                  status:
+                    type: integer
+              examples: {}
+        "422":
+          description: Unprocessable Entity (WebDAV)
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    type: "https://openhpi.stoplight.io/docs/portal-api/068d6638d8e0b-errors#parameter_missing"
+                    title: The user_id cannot be blank.
+                    status: 422
+                properties:
+                  type:
+                    type: string
+                  title:
+                    type: string
+                    description: The user_id cannot be blank.
+                  status:
+                    type: integer
+              examples: {}
+      operationId: get-enrollments
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - application/vnd.openhpi.enrollments+json;v=1.0
+          in: header
+          name: Accept
+          description: ""
+          required: true
+        - schema:
+            type: string
+            format: uid
+          name: user_id
+          in: query
+          required: true
+          description: The identifier used on the SAML 2.0 protocol to identify the user.
+        - schema:
+            type: string
+          name: course_id
+          in: query
+          description: Optional, it scopes enrollments to a specific course.
+      description: Retrieve all the enrollments of a user. If a course ID is specified, retrieve the enrollment of a specific course.
+    post:
+      summary: Create an enrollment for a user
+      tags:
+        - enrollments
+      responses:
+        "201":
+          description: The enrollment was successfully created
+          content:
+            application/vnd.openhpi.enrollment+json;v=1.0:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    - notice: You have been enrolled successfully.
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                    example: baf6e175-3c73-4e65-b696-053efd749cd9
+                  user_id:
+                    type: string
+                    format: uid
+                    example: c9073f32a57d7006f2d6ef6193ba7449ca4bdcb7
+                  course_id:
+                    type: string
+                    format: uuid
+                    example: 1a11606f-20a6-482f-b3bb-24eec28bead1
+              examples: {}
+        "400":
+          description: Invalid Request
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    type: "https://openhpi.stoplight.io/docs/portal-api/068d6638d8e0b-errors#invalid_request"
+                    title: "Your request seems to contain some syntax errors. Please review it and try again."
+                    status: 400
+                properties:
+                  type:
+                    type: string
+                  title:
+                    type: string
+                    description: "Your request seems to contain some syntax errors. Please review it and try again."
+                  status:
+                    type: integer
+              examples: {}
+        "401":
+          description: Unauthorized
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    type: "https://openhpi.stoplight.io/docs/portal-api/068d6638d8e0b-errors#unauthenticated"
+                    title: You must provide an Authorization header to access this resource.
+                    status: 401
+                properties:
+                  type:
+                    type: string
+                  title:
+                    type: string
+                    description: You must provide an Authorization header to access this resource.
+                  status:
+                    type: integer
+              examples: {}
+        "404":
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    type: "https://openhpi.stoplight.io/docs/portal-api/068d6638d8e0b-errors#course_or_user_not_found"
+                    title: Course or user not found.
+                    status: 404
+                properties:
+                  type:
+                    type: string
+                  title:
+                    type: string
+                    description: There is no matching record for the provided parameters.
+                  status:
+                    type: integer
+              examples: {}
+        "409":
+          description: 'Conflict - this response is returned, when there is already an enrollment for the given user\_id and course\_id.'
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  title:
+                    type: string
+                    description: An enrollment for this user and course already exists.
+                  status:
+                    type: string
+        "422":
+          description: 'Parameter missing - (at least) one of the required parameters, user\_id and course\_id, was not part of the request body.'
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    type: "https://openhpi.stoplight.io/docs/portal-api/068d6638d8e0b-errors#parameter-missing"
+                    title: The user_id and course_id cannot be blank
+                    status: 422
+                properties:
+                  type:
+                    type: string
+                  title:
+                    type: string
+                    description: A required parameter is missing.
+                  status:
+                    type: integer
+              examples: {}
+      operationId: post-enrollment
+      requestBody:
+        content:
+          application/problem+json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                  example: c9073f32a57d7006f2d6ef6193ba7449ca4bdcb7
+                  format: uid
+                  description: The identifier used on the SAML 2.0 protocol to identify the user.
+                course_id:
+                  type: string
+                  format: uuid
+                  example: baf6e175-3c73-4e65-b696-053efd749cd9
+              required:
+                - user_id
+                - course_id
+        description: user_id and course_id are required attributes.
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - application/vnd.openhpi.enrollment+json;v=1.0
+          in: header
+          name: Accept
+          required: true
+      description: Create an enrollment for a specific user and course.
+      security:
+        - BearerToken: []
+
+components:
+  schemas:
+    List:
+      title: List
+      type: array
+      items:
+        $ref: "#/components/schemas/ListItem"
+    ListItem:
+      title: ListItem
+      type: object
+      properties:
+        url:
+          type: string
+      x-examples: {}
+    Course:
+      title: Course
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        abstract:
+          type: string
+        description:
+          type: string
+        start_date:
+          type: string
+          format: date-time
+        end_date:
+          type: string
+          format: date-time
+        language:
+          type: string
+          example: de
+          minLength: 2
+      x-examples:
+        ruby2018:
+          id: 265610f1-efc4-4cbd-b3cd-bdcdae9c9dec
+          title: Programmieren mit Ruby
+          abstract: "In diesem Kurs wollen wir mit euch Ruby von Grund auf kennenlernen - mit seiner Eleganz und seiner Ausdrucksstärke, aber auch mit seinen Tücken."
+          description: |-
+            Ruby zeichnet sich durch eine elegante Syntax und einen Fokus auf intuitive Bedienung auf.
+            Die Sprache verzichtet auf strikte Typisierung und setzt stattdessen auf dynamische Typisierung und das sogenannte *Duck Typing*.
+            Ruby-Code wird von einem Interpreter direkt ausgeführt, muss also nicht kompiliert werden.
+            Dadurch ist Ruby gut geeignet für kleine Skripte, die leicht geschrieben, getestet und ausgeführt werden können.
+            Zugleich wurde aber auch die Software hinter einigen der größten Webseiten der Welt (z.B. GitHub, früher Twitter) mit Ruby programmiert.
+          start_date: "2018-10-01T08:00:00Z"
+          end_date: "2018-10-29T21:00:00Z"
+          language: de
+      description: ""
+    User:
+      title: User
+      type: object
+      properties:
+        id:
+          type: string
+          format: uid
+          description: The identifier used on the SAML 2.0 protocol to identify the user.
+        email:
+          type: string
+        full_name:
+          type: string
+        display_name:
+          type: string
+        born_at:
+          type: string
+          format: date
+        language:
+          type: string
+        avatar:
+          type: string
+      x-examples:
+        User:
+          id: c9073f32a57d7006f2d6ef6193ba7449ca4bdcb7
+          email: example@example.com
+          full_name: John Doe
+          display_name: Johnny D.
+          born_at: "2000-01-01"
+          language: en
+          avatar: https://example.com/avatar.png
+    Enrollment:
+      title: Enrollment
+      type: object
+      properties:
+        id:
+          type: string
+        course_id:
+          type: string
+        created_at:
+          type: string
+          format: date
+        completed:
+          type: boolean
+        deleted:
+          type: boolean
+        achievements:
+          type: object
+          properties:
+            confirmation_of_participation:
+              type: boolean
+            record_of_achievement:
+              type: boolean
+            certificate:
+              type: boolean
+            transcript_of_records:
+              type: boolean
+      x-examples:
+        Enrollment:
+          id: 3d95367f-e782-4a99-a522-047acf74e218
+          course_id: 00000001-3300-4444-9999-000000000004
+          created_at: "2023-06-30T06:46:18.312Z"
+          completed: false
+          deleted: false
+          achievements:
+            confirmation_of_participation: false
+            record_of_achievement: false
+            certificate: false
+            transcript_of_records: false
+    Error:
+      title: Error
+      type: object
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        status:
+          type: number
+      x-examples:
+        Empty Request Body:
+          type: "https://openhpi.stoplight.io/docs/portal-api/068d6638d8e0b-errors#empty_request_body"
+          title: The request body cannot be blank.
+          status: 400
+        Invalid Request:
+          type: "https://openhpi.stoplight.io/docs/portal-api/068d6638d8e0b-errors#invalid_request"
+          title: Your request seems to contain some syntax errors. Please review it and try again.
+          status: 400
+        Not Found:
+          type: "https://openhpi.stoplight.io/docs/portal-api/068d6638d8e0b-errors#course_or_user_not_found"
+          title: Course or user not found.
+          status: 404
+        Unauthorized:
+          type: "https://openhpi.stoplight.io/docs/portal-api/068d6638d8e0b-errors#unauthenticated"
+          title: You must provide an Authorization header to access this resource.
+          status: 401
+        Unprocessable Entity:
+          type: "https://openhpi.stoplight.io/docs/portal-api/068d6638d8e0b-errors#email_update"
+          title: The user email address could not be updated.
+          status: 422
+  securitySchemes:
+    BearerToken:
+      type: http
+      scheme: bearer
+      bearerFormat: Shared Secret
+security:
+  - BearerToken: []

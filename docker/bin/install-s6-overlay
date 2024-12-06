@@ -1,0 +1,37 @@
+#!/bin/sh
+
+set -e
+
+S6_OVERLAY_VERSION="${S6_OVERLAY_VERSION:-"3.1.6.2"}"
+
+if [ "$TARGETARCH" = "arm64" ]; then
+  S6_OVERLAY_ARCHIVE="s6-overlay-aarch64.tar.xz"
+elif [ "$TARGETARCH" = "amd64" ]; then
+  S6_OVERLAY_ARCHIVE="s6-overlay-x86_64.tar.xz"
+else
+  echo "Unsupported TARGETARCH: '${TARGETARCH}'"
+  exit 1
+fi
+
+cd /tmp || exit 1
+
+set -x
+
+curl \
+  --fail \
+  --show-error \
+  --silent \
+  --location \
+  --output "s6-overlay-noarch.tar.xz" \
+  "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz"
+
+curl \
+  --fail \
+  --show-error \
+  --silent \
+  --location \
+  --output "s6-overlay-arch.tar.xz" \
+  "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/${S6_OVERLAY_ARCHIVE}"
+
+tar --directory / -Jxpf s6-overlay-noarch.tar.xz
+tar --directory / -Jxpf s6-overlay-arch.tar.xz

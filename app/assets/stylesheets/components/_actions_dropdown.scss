@@ -1,0 +1,118 @@
+.actions-dropdown {
+  position: relative;
+  display: inline-block;
+
+  &__button {
+    padding: 2px 12px;
+    border: none;
+    background: none;
+    &[aria-expanded="false"] {
+      + .actions-dropdown__menu {
+        display: none;
+      }
+    }
+
+    &:hover,
+    &:active,
+    &:focus {
+      background-color: $primary-100;
+      color: $primary-color;
+    }
+
+    &--with-text {
+      display: flex;
+      padding: 5px 10px;
+      background-color: $primary-color;
+      color: $white;
+
+      &:hover,
+      &:active,
+      &:focus {
+        background-color: $primary-600;
+        color: $white;
+      }
+    }
+
+    &[aria-expanded="false"] {
+      .actions-dropdown__control--on-collapsed {
+        display: none;
+      }
+    }
+
+    &[aria-expanded="true"] {
+      .actions-dropdown__control--on-expanded {
+        display: none;
+      }
+    }
+  }
+
+  &__control {
+    margin-left: 10px;
+  }
+
+  &__menu {
+    position: absolute;
+    z-index: 10;
+    top: 100%;
+    min-width: 120px;
+    padding: 0;
+    background-color: $white;
+    box-shadow: $box-shadow-s;
+    list-style-type: none;
+    &--right {
+      right: 0;
+    }
+    &--left {
+      left: 0;
+    }
+  }
+
+  &__action {
+    border-top: 1px solid $gray-100;
+    white-space: nowrap;
+
+    a,
+    button {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      // Align icon to the right if added
+      justify-content: space-between;
+      padding: 5px 10px;
+      border: none;
+      background-color: inherit;
+      color: $text-color;
+      text-decoration: none;
+      .xi-icon {
+        margin-left: 5px;
+      }
+
+      &:hover,
+      &:active,
+      &:focus {
+        background-color: $primary-100;
+        color: $primary-900;
+      }
+
+      &:focus {
+        // Sets browser's default focus style for links
+        outline: 3px auto Highlight;
+        outline: 3px auto -webkit-focus-ring-color;
+      }
+    }
+
+    &--destructive {
+      background-color: $error-100;
+      a,
+      button {
+        color: $error-500;
+        &:hover,
+        &:active,
+        &:focus {
+          background-color: $error-500;
+          color: $white;
+        }
+      }
+    }
+  }
+}

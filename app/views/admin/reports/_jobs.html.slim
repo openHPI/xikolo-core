@@ -1,0 +1,30 @@
+table.table.table-striped.mt20
+  thead
+    tr
+      th = I18n.t(:'reports.jobs.type')
+      th = I18n.t(:'reports.jobs.entity')
+      th = I18n.t(:'reports.jobs.status')
+      th = I18n.t(:'reports.jobs.expiry')
+      th
+  tbody
+    - report_jobs.each do |job|
+      tr
+        td = job.task_type
+        td = job.annotation
+        td = job.status
+        td
+          - if job.expiry_date?
+            = job.expires_at
+        td
+          - if job.downloadable?
+            a.btn.btn-default.btn-sm href=job.download_url
+              = I18n.t(:'reports.jobs.download')
+          - if job.progress?
+            = render Global::Meter.new(value: job.progress, label: "#{job.progress}%")
+          - if job.error?
+            button.btn.btn-danger.btn-sm type='button' data-toggle='modal' data-target='#report-job-error-modal' data-id='show-report-job-error-modal' data-error=job.error_html
+              = I18n.t(:'reports.jobs.error')
+          - if job.deletable?
+            = link_to I18n.t(:'reports.jobs.delete'), report_path(job.id), method: :delete, class: 'btn btn-link btn-sm'
+          - if job.restartable?
+            = link_to I18n.t(:'reports.jobs.restart'), reports_path(restart_id: job.id), method: :post, class: 'btn btn-link btn-sm'

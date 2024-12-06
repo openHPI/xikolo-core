@@ -1,0 +1,4 @@
+locales:
+  # Limit locales in test environment
+  available: [en, de]
+  default: en

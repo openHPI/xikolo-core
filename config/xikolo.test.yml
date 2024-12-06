@@ -1,0 +1,27 @@
+csp:
+  enabled: false
+locales:
+  available: [cn, de, en, es, fr, nl, pt-BR, ru, uk]
+  default: en
+s3:
+  buckets:
+    banners: xikolo-public
+    certificate: xikolo-certificate
+    course: xikolo-public
+    lti: xikolo-public
+    pages: xikolo-public
+    sitemaps: xikolo-public
+    uploads: xikolo-uploads
+    video: xikolo-video
+  client:
+    endpoint: https://s3.xikolo.de
+    region: default
+    access_key_id: access_key
+    secret_access_key: secret_access_key
+    force_path_style: true
+portal_api:
+  enabled: true
+  realm: test-realm
+transpipe:
+  enabled: false
+  realm: test-realm

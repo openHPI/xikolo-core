@@ -1,0 +1,5 @@
+= render Navigation::Item.new(**@params) do
+  - if segments?
+    ul
+      - segments.each do |segment|
+        = segment

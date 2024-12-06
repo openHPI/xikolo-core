@@ -1,0 +1,20 @@
+.container
+  .row
+    .col-md-6.col-md-offset-3
+      h2.pt20 = t(:'account.sessions.connect_account.headline')
+      .login-box
+        p = t(:'account.sessions.connect_account.text',
+            brand: Xikolo.config.site_name,
+            provider: t(:"account.sessions.auth_connect.provider_label.#{@authorization.provider}"),
+            provider_link: t(:"account.sessions.auth_connect.provider_link.#{@authorization.provider}"))
+
+        = simple_form_for :login, url: sessions_url, wrapper: :compact do |f|
+          = f.input :email
+          = f.input :password
+          = f.hidden_field :connect_auth_id, value: @authorization.id
+          .row.buttons
+            .col-md-6.mb10
+              = f.submit class: 'btn btn-primary full-width'
+            .col-md-6.mb10
+              = link_to t(:'account.sessions.connect_account.btn_cancel'), auth_path(@authorization.provider), class: 'btn btn-default full-width'
+        p.mt10 = t(:'account.sessions.connect_account.hint')

@@ -1,0 +1,13 @@
+{
+  "include": ["app/assets/", "config/assets/", "./.eslintrc.js"],
+  "exclude": ["app/assets/javascripts/"],
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "strict": true,
+    "module": "es6",
+    "target": "es5",
+    "allowJs": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true
+  }
+}

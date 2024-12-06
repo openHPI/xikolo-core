@@ -1,0 +1,13 @@
+.col-md-12
+  - if answer.new_record?
+    h3 = t(:'.answer_question')
+    hr.divider
+  .answer-form-box
+    - if current_user.logged_in?
+      = simple_form_for(answer, url: answer.new_record? ? answer_index_path : answer_path(id: answer.id), wrapper: :compact) do |f|
+        = f.input :text, as: :markdown, required: true, label: false, markdown_id_suffix: "text-answer-#{answer.id}", uploads: text_uploads, value: answer['text'], input_html: {'data-id': 'focus-target', 'aria-label': t(:'.answer_question')}
+        = f.input :attachment, as: :upload,
+            hint: I18n.t('flash.error.files.document.valid_formats'),
+            value: attachment_upload
+        = f.hidden_field :question_id, value: question.id, required: true
+        = f.button :submit, answer.new_record? ? t(:'helpers.submit.xikolo_pinboard_answer.create') : t(:'helpers.submit.xikolo_pinboard_answer.update'), class: 'btn btn-primary'

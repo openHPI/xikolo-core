@@ -1,0 +1,62 @@
+# metric cop settings
+
+#
+# Method calls add to this metric, but they are everywhere in Ruby, so this
+# metric caused lots of what we would consider false positives.
+#
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    # Common files with e.g. block based DSLs
+    - "**/*.rake"
+    - "**/*/Rakefile"
+    - "api/**/*"
+    - "config/**/*"
+    - "db/**/*"
+    - "gems/*/spec/**/*"
+    - "Guardfile"
+    - "Rakefile"
+    - "services/*/db/seeds/*"
+    - "services/*/spec/**/*"
+    - "spec/**/*"
+
+  # We have long Acfs-based callback chains anyway
+  Max: 50
+
+#
+# We do not care for class length
+#
+Metrics/ClassLength:
+  Enabled: false
+
+#
+# Often used as a proxy for complexity in a method, but causes many false
+# positives, e.g. when generating large, but simple, hashes.
+# We want to rely on CyclomaticComplexity instead.
+#
+Metrics/MethodLength:
+  Enabled: false
+
+#
+# We tried to keep complexity under control, but it was just disabled
+# everywhere.
+#
+Metrics/CyclomaticComplexity:
+  Enabled: false
+  Max: 100
+
+Metrics/PerceivedComplexity:
+  Enabled: false
+  Max: 100
+
+Metrics/ModuleLength:
+  Enabled: false
+
+#
+# We often have longer parameter lists in our components and do not consider it a problem
+#
+Metrics/ParameterLists:
+  Exclude:
+    - "app/components/**/*"

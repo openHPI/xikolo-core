@@ -1,0 +1,25 @@
+---
+include:
+  - path: compose.background.yml
+  - path: compose.account.yml
+  - path: compose.collabspace.yml
+  - path: compose.course.yml
+  - path: compose.grouping.yml
+  - path: compose.news.yml
+  - path: compose.notification.yml
+  - path: compose.peerassessment.yml
+  - path: compose.pinboard.yml
+  - path: compose.quiz.yml
+  - path: compose.timeeffort.yml
+  - path: compose.web.yml
+
+services:
+  nginx:
+    image: xikolo-nginx:latest
+    volumes:
+      - ./config/support/nginx.conf:/etc/nginx/nginx.conf:ro
+    networks:
+      - xikolo
+    ports:
+      - 8000:80
+      - 8443:443

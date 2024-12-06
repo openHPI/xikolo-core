@@ -1,0 +1,19 @@
+$large-icon-dimension: 30px;
+$small-icon-dimension: 20px;
+
+.gamification-userstate {
+  display: inline-block;
+}
+
+.gamification-userstate-large {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: $large-icon-dimension;
+  height: $large-icon-dimension;
+}
+
+.gamification-userstate-small {
+  width: $small-icon-dimension;
+  height: $small-icon-dimension;
+}

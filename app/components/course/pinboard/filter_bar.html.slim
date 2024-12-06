@@ -1,0 +1,11 @@
+.filter-bar
+  = form_tag action, method: :get do
+    .filter-bar__container
+      .filter-bar__container-wrapper
+        .filter-bar__filters
+          = render Global::FilterBar::Search.new(:q, params[:q])
+
+          - filters.each do |filter|
+            = render filter
+
+    = render Global::FilterBar::Controls.new(action, '#pinboard__content', '#pinboard__loading', filters)

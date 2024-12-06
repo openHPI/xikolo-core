@@ -1,0 +1,8 @@
+- link_columns.each do |column|
+  .footer__column-links
+    - if column.headline?
+      h4 = column.headline
+    .footer-nav class=column.css_classes
+      ul
+        - column.links.each do |link|
+          = render link

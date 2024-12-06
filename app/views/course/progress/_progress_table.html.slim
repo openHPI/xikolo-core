@@ -1,0 +1,36 @@
+.progress-card
+  .card-container
+    table#progress_table.table.table-striped.mb30.full-width.progress-table
+      thead
+        tr
+          th
+          th colspan=2
+            = t(:'.selftests')
+          th colspan=2
+            = t(:'.assignments')
+
+          - if course_progress.with_bonus_exercises?
+            th colspan=2
+              = t(:'.bonus')
+          th
+            = t(:'.visited')
+          th
+
+          - course_progress.sections.each do |section_progress|
+            - unless section_progress.parent?
+              = render 'section', section_progress: section_progress, course_progress: course_progress
+
+          tr style="border-top:2px solid grey"
+            td
+              = t(:'.total')
+            td = render 'exercise_stats', stats: course_progress.self_test_stats
+            td
+            td = render 'exercise_stats', stats: course_progress.main_exercise_stats
+            td
+            - if course_progress.with_bonus_exercises?
+              td = render 'exercise_stats', stats: course_progress.bonus_exercise_stats
+              td
+            td
+              span.points style="font-size:1.1em"
+                = render 'item_stats', stats: course_progress.visits_stats
+            td

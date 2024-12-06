@@ -1,0 +1,10 @@
+.pinboard-topics
+  - if topics.any?
+    table.topics-table
+      - topics.each do |topic|
+        = render Pinboard::Topic.new(topic, course_code)
+
+    .pinboard-pagination
+      = will_paginate RestifyPaginationCollection.new(topics), renderer: PaginationRenderer
+  - else
+    = render State::Empty.new(t(:'pinboard.no_results'))

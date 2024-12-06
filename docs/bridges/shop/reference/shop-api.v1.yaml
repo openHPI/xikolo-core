@@ -1,0 +1,251 @@
+openapi: 3.1.0
+info:
+  title: Shop API
+  version: '1.0'
+  contact:
+    name: openHPI
+    url: "https://open.hpi.de"
+    email: info@openhpi.de
+  description: An API for shops selling vouchers for a Xikolo platform
+servers:
+  - url: 'http://localhost:3000/bridges/shop'
+    description: Local development
+  - url: 'https://open.hpi.de/bridges/shop'
+    description: openHPI Production
+  - url: 'https://open.sap.com/bridges/shop'
+    description: openSAP Production
+paths:
+  /vouchers:
+    post:
+      summary: Bulk-create vouchers
+      operationId: post-voucher
+      responses:
+        '200':
+          description: Two vouchers created
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    product:
+                      type: string
+                    country:
+                      type: string
+                    tag:
+                      type: string
+              examples:
+                All created vouchers with their voucher codes (IDs):
+                  value:
+                    - id: 39ded329-e249-4206-9dd4-6e68588885db
+                      product: course_reactivation
+                      country: DE
+                      tag: shop
+                    - id: ab16baca-40b6-4d33-9c87-1af89931e1ce
+                      product: course_reactivation
+                      country: DE
+                      tag: shop
+        '401':
+          $ref: '#/components/responses/invalid-auth'
+        '422':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  errors:
+                    type: object
+                required:
+                  - errors
+              examples:
+                missing-country:
+                  value:
+                    errors:
+                      country:
+                        - required
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                qty:
+                  type: integer
+                  minimum: 1
+                  maximum: 500
+                product:
+                  type: string
+                  enum:
+                    - course_reactivation
+                    - proctoring_smowl
+                country:
+                  type: string
+                tag:
+                  type: string
+              required:
+                - qty
+                - product
+                - country
+            examples:
+              example-1:
+                value:
+                  qty: 1
+                  product: course_reactivation
+                  country: DE
+                  tag: shop
+          application/xml:
+            schema:
+              type: object
+          multipart/form-data:
+            schema:
+              type: object
+              properties: {}
+          text/html:
+            schema:
+              type: object
+              properties: {}
+        description: ''
+      description: 'Create multiple vouchers at once, all with the same attributes.'
+      parameters: []
+      tags:
+        - vouchers
+    parameters: []
+    get:
+      summary: List existing vouchers
+      operationId: get-vouchers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                x-examples:
+                  example-1:
+                    - id: cdc942b5-6b9c-4be9-963b-8fc5c63f358b
+                      country: DE
+                      product: course_reactivation
+                      tag: shop
+                      created_at: '2022-07-04T10:48:57.509Z'
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    country:
+                      type: string
+                    product:
+                      type: string
+                      enum:
+                        - course_reactivation
+                        - proctoring_smowl
+                    tag:
+                      type: string
+                    created_at:
+                      type: string
+                    claimed_at:
+                      type: string
+                    claimant_ip:
+                      type: string
+                    claimant_country:
+                      type: string
+                  required:
+                    - id
+                    - country
+                    - tag
+                    - created_at
+              examples:
+                Unclaimed voucher:
+                  value:
+                    - id: 625f1b78-8def-4241-a9dc-f0bff8ad6b3b
+                      country: DE
+                      product: course_reactivation
+                      tag: shop
+                      created_at: '2022-07-04T10:48:57.509Z'
+                Claimed voucher:
+                  value:
+                    - id: 8b57be8a-d8b7-405a-b204-4a16d8bb2d13
+                      country: FR
+                      product: course_reactivation
+                      tag: shop
+                      created_at: '2022-07-02T10:48:57.509Z'
+                      claimed_at: '2022-07-03T11:32:03.244Z'
+                      claimant_ip: 127.0.0.1
+                      claimant_country: DEU
+        '401':
+          $ref: '#/components/responses/invalid-auth'
+      description: 'List vouchers that have been created, and whether they have been claimed.'
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: tag
+          description: Filter by voucher tag name
+        - schema: {}
+          in: query
+          name: claimed
+          description: Return only claimed vouchers
+        - schema:
+            type: string
+          in: query
+          name: start_date
+          description: 'If filtering by claimed vouchers, restrict to vouchers that have been claimed after this date/time'
+        - schema:
+            type: string
+          in: query
+          name: end_date
+          description: 'If filtering by claimed vouchers, restrict to vouchers that have been claimed before this date/time'
+      tags:
+        - vouchers
+components:
+  schemas: {}
+  requestBodies: {}
+  securitySchemes:
+    shared-secret:
+      type: http
+      scheme: bearer
+      description: ''
+  responses:
+    invalid-auth:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            x-examples:
+              example-1:
+                type: 'https://tools.ietf.org/html/rfc6750#section-3.1'
+                title: 'The bearer token you provided was invalid, has expired or has been revoked.'
+                status: 401
+            properties:
+              type:
+                type: string
+              title:
+                type: string
+                description: A human-readable error message
+              status:
+                type: integer
+          examples:
+            Invalid authorization token:
+              value:
+                type: 'https://tools.ietf.org/html/rfc6750#section-3.1'
+                title: 'The bearer token you provided was invalid, has expired or has been revoked.'
+                status: 401
+            Missing authorization:
+              value:
+                type: 'https://tools.ietf.org/html/rfc6750#section-3'
+                title: You must provide an Authorization header to access this resource.
+                status: 401
+        application/xml:
+          schema:
+            type: object
+            properties: {}
+tags:
+  - name: vouchers
+security:
+  - shared-secret: []

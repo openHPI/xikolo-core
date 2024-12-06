@@ -1,0 +1,5 @@
+.labeled-copy-button
+  span.labeled-copy-button__label = @label
+  span.labeled-copy-button__value = @value
+  button.labeled-copy-button__button data-behavior='copy-to-clipboard' data-text=@value
+    = @button

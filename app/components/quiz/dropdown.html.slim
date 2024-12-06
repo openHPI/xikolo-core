@@ -1,0 +1,2 @@
+select name="submission[#{@question.id}]" id="submission_#{@question.id}"
+  = options_for_select(answer_options, {selected: selected_answers, disabled: disabled_answers})

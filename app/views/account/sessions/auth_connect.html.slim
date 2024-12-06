@@ -1,0 +1,52 @@
+- if current_user.feature?('account.login')
+  .col-md-6.col-md-offset-3
+    h2.pt20
+      = t(:'account.sessions.auth_connect.headline', brand: Xikolo.config.site_name)
+    .login-box
+      = t(:'account.sessions.auth_connect.native_login.text',
+        brand: Xikolo.config.site_name,
+        provider: t(:"account.sessions.auth_connect.provider_label.#{@authorization.provider}"),
+        provider_link: t(:"account.sessions.auth_connect.provider_link.#{@authorization.provider}"))
+
+      = simple_form_for :login, url: sessions_url, wrapper: :compact, html: {style: 'display: inline'} do |f|
+        = f.hidden_field :authorization, value: @authorization.id
+        = f.hidden_field :autocreate, value: true
+
+        = f.button :submit,
+          value: t(:'account.sessions.auth_connect.native_login.btn_cancel'),
+          class: 'btn btn-primary mr10 mt10',
+          disabled: @authorization.provider == 'mein_bildungsraum'
+
+      = form_tag login_url, method: :post, style: 'display: inline' do
+        = hidden_field_tag :connect_auth_id, @authorization.id
+        = hidden_field_tag :provider, @authorization.provider
+
+        = submit_tag t(:'account.sessions.auth_connect.native_login.btn_connect'), class: 'btn btn-default mt10'
+
+      - if @authorization.provider == 'mein_bildungsraum'
+        p.mt15
+          = t(:'account.sessions.auth_connect.native_login.mbr_hint',
+            url: new_account_path,
+            provider: t(:"account.sessions.auth_connect.provider_label.#{@authorization.provider}"))
+
+- else
+  .col-md-6.col-md-offset-3
+    h2.pt20
+      = t(:'account.sessions.auth_connect.headline', brand: Xikolo.config.site_name)
+    .login-box
+      p
+        = t(:'account.sessions.auth_connect.text',
+          brand: Xikolo.config.site_name,
+          provider: t(:"account.sessions.auth_connect.provider_label.#{@authorization.provider}"),
+          provider_link: t(:"account.sessions.auth_connect.provider_link.#{@authorization.provider}"))
+
+      h3 = t(:'account.sessions.auth_connect.text_create')
+      = simple_form_for :login, url: sessions_url, wrapper: :compact, html: {style: 'display: inline'} do |f|
+        = f.hidden_field :authorization, value: @authorization.id
+        = f.hidden_field :autocreate, value: true
+
+        = f.button :submit, value: t(:'account.sessions.auth_connect.btn_create'), class: 'btn btn-primary mr10 mt10'
+
+      h3.mt30 = t(:'account.sessions.auth_connect.title_connect', brand: Xikolo.config.site_name)
+      p = t(:'account.sessions.auth_connect.text_connect')
+      = link_to t(:'account.sessions.auth_connect.btn_connect'), connect_accounts_path(authorization: @authorization.id), class: 'btn btn-primary mr10 mt10'

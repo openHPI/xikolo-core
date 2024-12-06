@@ -1,0 +1,21 @@
+.row
+  .col-md-12
+
+    / Guidance section
+    = render 'guidance'
+
+    / Grading Hints
+    = render 'peer_assessment/shared/grading_hints', as_collapsible: true
+
+    / Instructions (if needed)
+    = render 'peer_assessment/shared/instructions', assessment: @assessment, as_collapsible: true, hide_question: true
+
+    / Submission
+    = render 'peer_assessment/shared/rendered_submission', submission: @submission, headline_addition: @statistic.sample_number
+
+    / Create review form
+    = render 'peer_assessment/shared/create_review'
+
+    .mb40
+
+  = javascript_include_tag 'peer_assessment/train_samples'

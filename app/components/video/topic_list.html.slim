@@ -1,0 +1,61 @@
+.topic-section
+  .topic-section__header
+    h4 = t(:'items.show.video.questions_and_discussions')
+    - if topics.present?
+      .topic-section__count(data-topic-count)
+        = render Global::Pill.new(t(:'items.show.video.num_questions', count: topics.size))
+  hr.divider.slim
+
+  .topic-list
+    = render Global::Slider.new(variant: :custom) do |c|
+      - topics.each do |topic|
+        - c.with_item do
+          = render Video::Topic.new(\
+            topic.abstract,\
+            topic.title, \
+            timestamp: {raw: topic.timestamp, formatted: topic.formatted_timestamp},\
+            tags: topic.tags.to_a.map(&:name), \
+            replies_count: topic.reply_count,\
+            url: topic_url(topic)\
+          )
+
+  template id='new-topic'
+    .slider__item(data-slider-target="item")
+      .topic
+        button.topic__timestamp.btn-link type='button'
+        .topic__title
+          h5
+        .topic__info
+          div
+          .topic__replies = t(:'items.show.video.num_replies', count: 0)
+        .small.wmd-output.topic__abstract
+        .small.topic__url
+          a = t(:'items.show.video.view_or_answer')
+
+  - if allow_topic_creation
+    = button_tag t(:'items.show.video.ask_own_question'),
+      class: 'btn btn-primary btn-sm',
+      id: 'show-topic-form'
+
+    .mt20#topic-form hidden='true'
+      h4 = t(:'items.show.video.ask_own_question')
+      = simple_form_for new_topic,
+        url: course_item_topics_path(@item.course_code, @item.id),
+        method: :post,
+        wrapper: :compact do |f|
+        = f.error_notification
+        = f.input :title
+        = f.input :text, as: :markdown
+        = f.hidden_field :video_timestamp, value: 0
+
+        = button_tag t(:'global.submit'), type: 'submit',
+          class: 'btn btn-primary btn-sm mb15'
+        = button_tag t(:'global.cancel'), type: 'reset',
+          class: 'js-cancel-topic btn btn-default btn-sm ml5 mb15'
+        hr.divider.slim
+  - else
+    = render Global::Callout.new(t(:'pinboard.locked_msg'), type: 'warning', icon: Global::FaIcon.new('lock'))
+
+  - if empty_state
+    div(data-topic-empty-state)
+      = render State::Empty.new(t(:'items.show.video.num_questions', count: topics.size), size: :small)

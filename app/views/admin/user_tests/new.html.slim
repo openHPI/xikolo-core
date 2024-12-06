@@ -1,0 +1,7 @@
+- content_for :page_header_slim
+  = render Global::PageHeader.new(t(:'admin.user_tests.new.new_user_test'), subtitle: t(:'admin.page_header'), type: :slim)
+
+.container
+  .row.mt30
+    .col-md-8
+      = render 'form', user_test: @form

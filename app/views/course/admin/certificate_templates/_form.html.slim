@@ -1,0 +1,14 @@
+= simple_form_for(template, url: template.persisted? ? course_certificate_template_path : course_certificate_templates_path) do |f|
+  = f.error_notification
+  = f.input :certificate_type,
+    collection: template.allowed_types,
+    required: true
+  = f.input :file, as: :upload,
+    required: !template.persisted?,
+    value: upload
+  = f.input :dynamic_content, as: :text, input_html: {rows: 10}
+  = f.input :qrcode_x, as: :integer
+  = f.input :qrcode_y, as: :integer
+
+  = f.button :submit, class: 'btn btn-primary'
+  = link_to t(:'global.cancel'), :back, class: 'btn btn-default ml10'

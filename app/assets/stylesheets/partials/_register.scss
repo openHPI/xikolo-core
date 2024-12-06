@@ -1,0 +1,30 @@
+/*------------------------------------*\
+    $CONTENTS
+
+    Registration styles.
+\*------------------------------------*/
+/**
+ * Variables...................Variable declarations and overridess
+ * Registration-Styles.........Registration CSS
+ */
+
+/*------------------------------------*\
+    $Variables
+\*------------------------------------*/
+// Any variable declarations go here
+
+/*------------------------------------*\
+    $Registration-Styles
+\*------------------------------------*/
+.register {
+  margin: 0px auto;
+  text-align: left;
+}
+
+.field_with_errors > input {
+  border: 1px solid red;
+}
+
+.error_text {
+  color: red;
+}

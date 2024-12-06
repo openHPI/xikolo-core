@@ -1,0 +1,127 @@
+- unless @course_presenter.is_enrolled
+  - content_for :course_area_header
+    = render Global::PageHeader.new(@course_presenter.title,
+      lang: @course_presenter.lang,
+      subtitle: (t(:'course.courses.show.header_subtitle', teachers: @course_presenter.teachers) if @course_presenter.teachers.present?)) do |c|
+      - c.with_pill(t(:"items.show.coursestate.#{@course_presenter.fullstate}"), color: :note)
+      / Needs admin action Button
+      = render 'course/shared/course_admin_action', course: course_layout, in_teacher_context: false
+
+/ Main Container
+.container
+  = render 'course_preview_large', course: @large_preview, social_sharing: @social_sharing
+
+  - if @course_presenter.prerequisites?
+    .row
+      .col-md-12
+        = render 'prerequisites', prerequisites: @course_presenter.prerequisites
+
+  .row
+    .col-md-8.mt20
+      h3.course-details--section-title = t(:'.about_content')
+
+      .course-information.mt20.responsive-images lang=@course_presenter.lang
+        .RenderedMarkdown
+          == @course_presenter.description_html
+
+      - if @course_presenter.learning_goals?
+        h3.course-details--section-title.mt20 = t(:'course.courses.show.learning_goals')
+        ul.course-details__section-list lang=@course_presenter.lang
+          - @course_presenter.learning_goals.each do |goal|
+            li = goal
+
+      - if @course_presenter.target_groups?
+        h3.course-details--section-title.mt20 = t(:'course.courses.show.target_groups')
+        ul.course-details__section-list lang=@course_presenter.lang
+          - @course_presenter.target_groups.each do |target|
+            li = target
+
+      - if @show_section_info
+        h3.course-details--section-title.mt50 = t(:'.content')
+
+        .mt20.mb10
+        ul.list-unstyled lang=@course_presenter.lang
+          - @sections.each do |section|
+            - if section.published?
+              li
+                h4
+                  = section.title
+                  - unless section.description.empty?
+                    ' :
+                = section.description
+
+      - if @large_preview.external?
+        = link_to t(:'courses.preview.button_goto_external'), @large_preview.external_course_url, class: 'btn btn-primary btn-external-course', target: '_blank', rel: 'noopener'
+      - elsif @large_preview.enrolled? && !@in_app
+        - if @course_presenter.was_available?
+          .btn-group
+            = link_to t(:'courses.preview.button_enter'), course_progress_path(@large_preview), class: 'btn btn-primary'
+            button data-toggle='dropdown' class='btn btn-primary dropdown-toggle'
+              span.caret
+              span.sr-only
+                = t(:'global.toggle_dropdown')
+            ul.dropdown-menu role='menu'
+              li
+                = link_to t(:'courses.preview.button_enter'), course_resume_path(@large_preview)
+              - if @large_preview.access_allowed?
+                li
+                  = link_to t(:'courses.preview.button_progress'), course_progress_path(@large_preview)
+
+    / Right Part with stats, teacher, ...
+    .col-md-4.mt20
+      - if @course_presenter.reactivate?
+        h3.course-details--section-title = t(:'course.courses.show.reactivate_course.headline')
+        = render partial: 'shared/reactivate_course_notice', locals: {course: @course_presenter}
+      - if @course_presenter.external?
+        = render partial: 'course/shared/external_info', locals: {course: @course_presenter}
+      - elsif !(@large_preview.enrolled? || @in_app)
+        = render partial: 'course/shared/enrollment_info', locals: {course: @course_presenter}
+      - if @featured_items.present?
+        = render partial: 'course/shared/featured_items', locals: {items: @featured_items}
+      - unless @course_presenter.external?
+        - if @course_presenter.next_dates?
+          = render partial: 'course/shared/next_dates', locals: {course: @course_presenter}
+
+        .row.pt10.pb10
+          .col-md-12.col-xs-12
+            = render Course::EnrollmentStatistics.new(@course_presenter, user: current_user)
+
+      - if @course_presenter.rating_widget_enabled?
+        = render partial: 'course/shared/rating_widget', locals: {course: @course_presenter}
+
+      - if @course_presenter.show_certificate_requirements?
+        h3.course-details--section-title = t(:'.certificates')
+        ul.certificate-requirements
+          - @course_presenter.certificate_requirements.each do |text|
+            li ==> text
+        p = t(:'course.courses.show.guidelines_link')
+
+      - if @teacher_list_presenter.display?
+        / Teachers
+        h3.mt50.course-details--section-title = t(:'.teacher_title')
+
+        .panel-group.mt20.teacher-accordion#teachers role="tablist" aria-multiselectable="true"
+          - @teacher_list_presenter.each do |teacher|
+            .panel.panel-default
+              .panel-heading role="tab" id="heading-#{teacher.id}"
+                h4.panel-title
+                  a data-parent="#teachers" data-toggle="collapse" href="##{teacher.id}" aria-expanded="true" aria-controls=teacher.id
+                    = teacher.name
+                    span.caret
+
+              .panel-collapse.collapse class="#{teacher.active? ? 'in' : ''}" id="#{teacher.id}" role="tabpanel" aria-labelledby="heading-#{teacher.id}"
+                .panel-body
+
+                  - if teacher.picture?
+                    = image_tag Imagecrop.transform(teacher.picture_url, width: 550), alt: teacher.name
+
+                  - if teacher.description?
+                    .teacher-text
+                      .RenderedMarkdown
+                        == render_markdown teacher.description
+
+- if @course_presenter.enrollment_policy?
+  = render 'course/shared/accept_enrollment_policy'
+
+- if @course_presenter.open_mode?
+  = render Course::Popover.new(t(:'course.courses.show.open_mode.text'), 'popover-openmode', cookie_name: 'hide_openmode_hint')

@@ -1,0 +1,25 @@
+.mb15.hidden_in_app
+  h2.mb5.item-title.mr10 lang=item.lang
+    = item.title
+  - if item.with_time_effort?
+    span.time-effort
+      small = t(:'sections.item.time_effort', time_effort: item.formatted_time_effort)
+
+  div
+    - if current_user.allowed? 'course.content.edit'
+      .item-mgmt-btn.edit-item-btn
+        = link_to t(:'sections.item.edit'),
+          edit_course_section_item_path(section_id: short_uuid(item.section_id), id: short_uuid(item.id)),
+          class: 'btn btn-default btn-xs'
+
+      - if item.transpipe?
+        .item-mgmt-btn.edit-item-btn
+          = link_to t(:'sections.item.edit_subtitles'),
+            item.transpipe_url,
+            class: 'btn btn-default btn-xs'
+
+    - if current_user.allowed? 'course.item_stats.show'
+      .item-mgmt-btn
+        = link_to t(:'sections.item.statistics'),
+          course_item_statistics_path(item_id: short_uuid(item.id)),
+          class: 'btn btn-default btn-xs'

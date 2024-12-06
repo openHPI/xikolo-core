@@ -1,0 +1,33 @@
+/*------------------------------------*\
+    $CONTENTS
+
+    Banners (for announcements or advertisements).
+\*------------------------------------*/
+/**
+ * Variables................Variables and Bootstrap SASS-Var overrides
+ * Banners..................Basic CSS
+ */
+
+/*------------------------------------*\
+    $Variables
+\*------------------------------------*/
+// ...
+
+/*------------------------------------*\
+    Banners
+\*------------------------------------*/
+
+.course-list-banner {
+  width: 100%;
+  padding-top: 20px;
+  background-color: $white;
+
+  & > * {
+    @include outer-container();
+  }
+
+  img {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+}

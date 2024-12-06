@@ -1,0 +1,15 @@
+article.promotion class=css_modifiers style=image
+  - if image?
+    .promotion__overlay class=overlay_modifier style=overlay_opacity
+  - if link?
+    .promotion__content
+      = link_to @link_url, link_target_options do
+        p.promotion__title = @title
+        p.promotion__text = @text
+      = link_to @link_url, link_icon_target_options do
+        = render Global::FaIcon.new('arrow-right')
+  - else
+    .promotion__content
+      div
+        p.promotion__title = @title
+        p.promotion__text = @text

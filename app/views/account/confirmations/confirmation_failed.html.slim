@@ -1,0 +1,5 @@
+.col-md-4.col-md-offset-4
+  h2 = t(:'account.confirmations.confirmation_failed.headline')
+  .login-box
+    p = t(:'account.confirmations.confirmation_failed.message')
+    = link_to t(:'account.confirmations.confirmation_failed.button'), new_account_path, class: 'full-width btn btn-primary'

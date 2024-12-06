@@ -1,0 +1,6 @@
+- if !user_answer_text || (user_answer_text.empty? && !correct_answer)
+  .ribbon.ribbon-horizontal-right.unselected = t :'.empty'
+- elsif correct_answer
+  .ribbon.ribbon-horizontal-right.correct = t :'.correct'
+- elsif !user_answer_text.empty? && !correct_answer
+  .ribbon.ribbon-horizontal-right.wrong = t :'.wrong'

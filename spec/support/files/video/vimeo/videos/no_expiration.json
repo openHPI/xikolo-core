@@ -1,0 +1,35 @@
+{
+  "data": [
+    {
+      "uri": "/videos/124597457",
+      "name": "softwareanalytics2015-w6-5-pip",
+      "duration": 1270,
+      "width": 1280,
+      "height": 720,
+      "modified_time": "2017-10-17T16:00:00+02:00",
+      "pictures": {
+        "sizes": [
+          {
+            "width": 1280,
+            "link": "https://i.vimeocdn.com/video/514382489_1280.jpg"
+          }
+        ]
+      },
+      "files": [
+        {
+          "quality": "hd",
+          "link": "https://player.vimeo.com/external/124597457.hd.mp4?s=a06a393f48378d7aaff7505dbe62d2f6&profile_id=113&oauth2_token_id=59539484",
+          "md5": "hdmd5",
+          "size": 300
+        }
+      ],
+      "download": [
+        {
+          "quality": "hd",
+          "link": "https://download.vimeo.com/smaller.hd.mp4",
+          "size": 720
+        }
+      ]
+    }
+  ]
+}

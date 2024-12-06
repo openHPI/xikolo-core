@@ -1,0 +1,15 @@
+.modal.fade.confirm-quiz-submission tabindex='-1' role='dialog'
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close type='button' data-dismiss='modal'
+          span
+            '&times;
+      .modal-body
+        p
+          = render Global::FaIcon.new('triangle-exclamation', css_classes: 'mr5')
+          = t(:'quiz_submission.confirm_quiz_submission.text')
+      .modal-footer
+        = link_to t(:'quiz_submission.confirm_quiz_submission.btn_submit'), "javascript:$('#quiz_form').submit();" , { class: 'btn btn-warning', type: 'button' }
+        button.btn.btn-default type='button' data-dismiss='modal'
+          = t(:'quiz_submission.confirm_quiz_submission.btn_cancel')

@@ -1,0 +1,31 @@
+.col-md-12
+  .row.mb20
+    .col-md-12
+      button.col-md-3.col-xs-12.col-sm-6.btn.btn-sm.btn-gray-darker.js-back-button data-alternative-url="#{peer_assessment_conflicts_path}" = t :'peer_assessment.conflict.back_to_overview'
+
+  .row.mb20
+    .col-md-8
+      = render 'conflict', conflict: @conflict, submission: @submission
+
+  h3 = t :'peer_assessment.conflict.conflict_subject'
+  hr.divider.slim
+  = render @template
+
+  / Special treatment for the no review conflicts, since they require a different UI
+  - unless @conflict.reason == 'no_reviews'
+    h3 = t :'peer_assessment.conflict.conflict_reconciliation'
+    hr.divider.slim
+
+    = render Global::Callout.new(t(:'peer_assessment.conflict.reconciliation_info'))
+
+    = render 'peer_assessment/shared/notes', notes: @notes, subject: @conflict
+
+    form.js-submit-confirm#reconciliation-form action="#{reconcile_peer_assessment_conflict_path}" method="post" data-confirm-title="#{t :'global.are_you_sure'}" data-confirm-message="#{t :'peer_assessment.conflict.reconciliate_confirm'}"
+      input name="authenticity_token" type="hidden" value="#{form_authenticity_token}"
+      .row
+        .col-md-12
+          = render 'conflict_reconciliation', assessment: @assessment, conflict: @conflict, path_to_submission: @path_to_submission, reporter_grade: @reporter_grade, accused_grade: @accused_grade, is_team_grade: @is_team_grade
+
+      .row.mt60
+        button.col-md-4.col-sm-6.col-md-offset-2.col-sm-offset-0.btn.btn-sm.btn-gray-darker.js-back-button type="button" data-alternative-url="#{peer_assessment_conflicts_path}" = t :'peer_assessment.conflict.back_to_overview'
+        button.btn.col-md-4.col-sm-6.btn-primary.btn-sm type="submit" = t :'peer_assessment.conflict.reconcile_button'

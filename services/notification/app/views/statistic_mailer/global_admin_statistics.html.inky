@@ -1,0 +1,18 @@
+<row>
+  <columns>
+    <h2><%= "#{Xikolo.config.site_name} #{t('statistic_mail.statistics')}" %></h2>
+    <hr />
+  </columns>
+</row>
+
+<%= render 'global_stats' %>
+
+<% if @admin_statistic.helpdesk.present? %>
+  <%= render 'helpdesk_stats' %>
+<% end %>
+
+<% unless @enrollments.empty? %>
+  <%= render 'enrollments_chart' %>
+<% end %>
+
+<%= render 'course_stats' %>

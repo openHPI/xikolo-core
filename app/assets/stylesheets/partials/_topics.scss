@@ -1,0 +1,38 @@
+/*------------------------------------*\
+    $Variables
+\*------------------------------------*/
+$xi-topic-container-background-color: $white !default;
+
+// --------------------------------
+// Topic list on video item pages
+// --------------------------------
+
+.topic-section {
+  background-color: $xi-topic-container-background-color;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__count {
+    margin-left: 10px;
+  }
+}
+
+.topic-list {
+  // The negative margin ensures the slider takes the full width in
+  // mobile view, by counteracting the padding of the bootstrap grid system.
+  margin: 10px -15px;
+
+  @include screen-size-sm-and-up {
+    margin: 10px 0;
+  }
+
+  .topic {
+    // Leave some space so topic's shadow is visible
+    margin: 1px;
+    box-shadow: $box-shadow-xs;
+  }
+}

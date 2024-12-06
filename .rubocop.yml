@@ -1,0 +1,41 @@
+require:
+  - rubocop-capybara
+  - rubocop-factory_bot
+  - rubocop-performance
+  - rubocop-rails
+  - rubocop-rspec
+  - rubocop-rspec_rails
+
+inherit_from:
+  - .rubocop/capybara.yml
+  - .rubocop/factorybot.yml
+  - .rubocop/gemspec.yml
+  - .rubocop/layout.yml
+  - .rubocop/lint.yml
+  - .rubocop/metrics.yml
+  - .rubocop/naming.yml
+  - .rubocop/rails.yml
+  - .rubocop/rspec.yml
+  - .rubocop/rspec_rails.yml
+  - .rubocop/style.yml
+  - .rubocop_todo.yml
+
+AllCops:
+  TargetRubyVersion: 3.3
+  TargetRailsVersion: 6.1
+  UseCache: True
+  NewCops: enable
+  Exclude:
+    - ".cache/**/*"
+    - "bin/*"
+    - "config/initializers/integration*"
+    - "db/schema.rb"
+    - "integration/gems/**/*"
+    - "node_modules/**/*"
+    - "services/*/bin/**"
+    - "services/*/config/initializers/integration*"
+    - "services/*/db/schema.rb"
+    - "services/*/gems/**/*"
+    - "services/*/vendor/**/*"
+    - "tmp/**/*"
+    - "vendor/**/*"

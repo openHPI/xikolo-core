@@ -1,0 +1,13 @@
+.container.mt20
+  = simple_form_for(provider) do |f|
+    = f.input :provider_type, as: :hidden
+    = f.input :name
+    fieldset
+      legend = t(:"admin.videos.provider_type.#{provider.provider_type}")
+      = render Global::Callout.new(t(:"admin.video_providers.form.credentials_info.#{provider.provider_type}"))
+
+      = simple_fields_for("video_provider_credentials_#{provider.provider_type}") do |creds|
+        - provider.type.credential_attributes.each do |key|
+          = creds.input key, input_html: {value: provider.credentials[key]}
+
+    = f.button :submit, class: 'btn btn-primary'

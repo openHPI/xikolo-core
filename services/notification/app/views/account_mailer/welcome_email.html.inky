@@ -1,0 +1,20 @@
+<row>
+  <columns>
+    <p><%= t('account_mailer.welcome_email.welcome', site_name: Xikolo.config.site_name) %></p>
+    <% if @url.present? %>
+      <p><%= t('account_mailer.welcome_email.confirmation') %></p>
+      <center><button class="primary" href="<%= @url %>"><%= t('account_mailer.welcome_email.link') %></button></center>
+    <% end %>
+    <p>
+      <%= t('account_mailer.welcome_email.next_steps') %>
+      <ul>
+        <% unless @mandatory_fields %>
+          <li><%= t('account_mailer.welcome_email.step_1') %></li>
+        <% end %>
+        <li><%= t('account_mailer.welcome_email.step_2') %></li>
+        <li><%= t('account_mailer.welcome_email.step_3') %></li>
+        <li><%= t('account_mailer.welcome_email.step_4') %></li>
+      </ul>
+    </p>
+  </columns>
+</row>

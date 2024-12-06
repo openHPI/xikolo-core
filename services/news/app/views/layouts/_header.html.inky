@@ -1,0 +1,14 @@
+<row class="header">
+  <columns small="6">
+    <a class="logo" href="<%= Xikolo.base_url.join('dashboard') %>" title="" alt="">
+      <img src="<%= Xikolo.base_url.join('files/logo.png?email=1') %>" width="auto" height="50">
+    </a>
+  </columns>
+  <columns small="6">
+    <p class="template-label text-right" dir="auto">
+      <strong><%= @payload.mailheader_type if @payload and @payload.respond_to?(:mailheader_type) %></strong>
+      <br/>
+      <%= @payload.mailheader_info if @payload and @payload.respond_to?(:mailheader_info) %>
+    </p>
+  </columns>
+</row>

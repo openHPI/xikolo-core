@@ -1,0 +1,380 @@
+uk:
+  simple_form:
+    "yes": "Так"
+    "no": "Ні"
+    required:
+      text: "обов’язково"
+      mark: "*"
+      # You can uncomment the line below if you need to overwrite the whole required html.
+      # When using html, text and mark won't be used.
+      # html: '<abbr title="required">*</abbr>'
+    error_notification:
+      default_message: Ми знайшли деякі помилки. Перегляньте введені в форму дані.
+    upload_file: Перетягніть файли сюди або натисніть, щоб переглянути
+    upload_single_file: Перетягніть файл сюди або натисніть, щоб переглянути
+    upload_image: Перетягніть зображення сюди або натисніть, щоб переглянути
+    in_language: "%{field} (у %{lang})"
+
+    options:
+      certificate_template:
+        certificate_type:
+          Certificate: Сертифікат
+          ConfirmationOfParticipation: Підтвердження участі
+          RecordOfAchievement: Відомість досягнень
+          # EN-fallback TranscriptOfRecords: Transcript of Records
+      lti_provider:
+        presentation_mode:
+          frame: фрейм — вставити в область курсу
+          pop-up: спливаюче вікно — відкрити у спливаючому вікні
+          window: вікно — відкрити в новій вкладці браузера
+        privacy:
+          anonymized: анонімно — не надавати персональні дані постачальнику послуг LTI
+          pseudonymized: псевдонімізовано — не розкривати персональні дані, але дозволити розпізнавання користувача в різних вправах одного й того самого постачальника
+          unprotected: не захищено — постачальник послуг LTI отримає персональні дані
+
+    labels:
+      announcement_email:
+        subject: Тема
+        content: Вміст
+        recipients: Одержувачі
+        test: Надіслати як тестовий електронний лист?
+      announcement:
+        title: Заголовок
+        visual_upload_id: Візуальний
+        show_on_homepage: Показати на домашній сторінці
+        publish_at: Опублікувати за адресою
+        audience: Цільова аудиторія
+        text: Текст
+        # New admin announcement form
+        subject: Тема
+        content: Вміст
+      calendar_event:
+        title: Заголовок
+        description: Опис
+        start_time: Дата початку (локальна)
+        end_time: Дата завершення (локальна)
+        color: Категорія
+        all_day: Подія на весь день
+      certificate_template:
+        certificate_type: Тип сертифіката
+        file: Файл
+        dynamic_content: Динамічний зміст
+        qrcode_x: QR-код х
+        qrcode_y: QR-код y
+      channel:
+        code: Код
+        name: Ім’я
+        logo_upload_id: Логотип
+        description: Опис
+        video_stream: Відеоролик сцени
+        stage_visual_upload_id: Візуальне оформлення сцени
+        stage_statement: Заява сцени
+        mobile_visual_upload_id: Візуальне мобільне оформлення
+        public: Загальнодоступний
+        info_link_url: URL-адреса інформаційного посилання
+        info_link_label: Підпис інформаційного посилання
+      classifier:
+        # EN-fallback title: ID
+        # EN-fallback translations: Title
+        # EN-fallback descriptions: Description
+        # EN-fallback courses: Courses
+      course:
+        title: "Назва курсу"
+        course_code: "Код курсу"
+        abstract: "Анотація"
+        auto_archive: "Автоматичне архівування після закінчення курсу"
+        show_syllabus: "загальне уявлення"
+        description: "Опис"
+        rating_stars: Рейтинг (середня кількість зірочок)
+        rating_votes: Рейтинг (кількість голосів)
+        teacher_ids: "Вчителі"
+        alternative_teacher_text: "Альтернативний текст вчителя"
+        lang: "Мова курсу"
+        enrollment_delta: "Дельта зарахування"
+        start_date: "Дата початку (UTC)"
+        display_start_date: "Відображувана дата початку (UTC)"
+        end_date: "Дата закінчення (UTC)"
+        middle_of_course_is_auto: "Автоматичне обчислення середини курсу"
+        middle_of_course: "Середина курсу для статистики (UTC)"
+        roa_enabled: "Пропозиція фіксації досягнення"
+        cop_enabled: "Пропозиція підтвердження участі"
+        roa_threshold_percentage: "Запис порогу досягнення"
+        cop_threshold_percentage: "Підтвердження порогового значення участі"
+        collab_space: "Активувати Collab Space"
+        records_released: "Випустити записи"
+        forum_is_locked: "Форум заблоковано"
+        external_course_url: "Зовнішня URL-адреса курсу"
+        video_course_codes: "Коди відеокурсів"
+        groups: Обмежено окремими групами
+        hidden: "Курс приховано"
+        proctored: Іспит відстежується
+        on_demand: "Повторна активація курсу"
+        welcome_mail: Лист із привітанням
+        invite_only: Необхідно отримати запрошення
+        stage_visual_upload_id: Візуальне оформлення сцени
+        stage_statement: Заява сцени
+        policy_url: URL-адреса політики
+        enable_video_download: Увімкнути завантаження відео/аудіо
+        external_registration_url: URL-адреса для зовнішньої реєстрації
+      course_visual:
+        image: Зображення
+        video_stream_id: Тизерне відео
+      login:
+        email: Електронна пошта
+        password: Password
+      lti_provider:
+        name: Ім’я
+        description: Опис
+        domain: URL-адреса запуску
+        consumer_key: Ключ споживача OAuth
+        shared_secret: Секрет OAuth
+        presentation_mode: Режим презентації
+        custom_fields: Користувацькі поля
+      objective:
+        position: Позиція
+        title: Заголовок
+        description: Опис
+        completion_type: Тип завершення
+        final: Матеріал готовий?
+      open_badge_template:
+        file: Файл зображення
+        name: Ім’я
+        description: Опис
+      page:
+        name: Ім’я
+        locale: Мова
+        title: Заголовок
+        text: Зміст
+      teacher:
+        name: Ім’я
+        picture: Зображення
+      topic:
+        title: Заголовок
+        text: Текст
+      translation:
+        title: Заголовок
+        text: Текст
+      user:
+        full_name: Ім’я
+        email: Адреса електронної пошти
+        password: Пароль
+        password_confirmation: Повторіть пароль
+      voucher_redemption:
+        code: Введіть код ваучера
+      xikolo_pinboard_answer:
+        attachment: Вкладення
+      xikolo_pinboard_question:
+        title: Заголовок
+        text: Текст
+        attachment: Вкладення
+        tag_names: Теги
+        move_to: Перемістити до
+
+    hints:
+      announcement_email:
+        consents: "Сповіщення отримають лише одержувачі, які надали згоду на отримання сповіщення. Якщо жодного варіанту не вибрано, усі одержувачі отримають сповіщення. Щоб дотримуватися вимог закону, у разі сумнівів зверніться до свого уповноваженого з захисту даних."
+      channel:
+        code: "Код каналу повинен містити лише малі літери та знак мінус ('-')."
+        logo_upload_id: "Логотип каналу відображатиметься з максимальною висотою 60 пікселів і повинен мати прозорий фон. Змініть стиль і розмір свого логотипу відповідним чином."
+        stage_visual_upload_id: "Мінімальний розмір зображення має складати %{width}x%{height} пікселів. Зображення більшого розміру буде зменшено й обрізано по краях."
+        mobile_visual_upload_id: "Мінімальний розмір зображення має складати %{width}x%{height} пікселів. Зображення більшого розміру буде зменшено й обрізано по краях."
+      classifier:
+        # EN-fallback title: "The tag ID is only used when assigning tags in the course settings or for reports. The ID is not displayed for learners. Allowed characters: a-z, A-Z, 0-9, -, whitespace."
+        # EN-fallback descriptions: The description will be displayed when listing the courses for this tag (e.g., on the start page).
+      course:
+        course_code: "Введіть коротку безпечну назву URL-адреси. Використовуйте лише літери, цифри та дефіси."
+        teacher_ids: "Знайдіть вчителів, яких необхідно додати, і відсортуйте їх у списку вище."
+        alternative_teacher_text: "Альтернативний текст, якщо у вас багато вчителів."
+        learning_goals: Введіть цільові компетенції, знання, навички та вміння, які учні отримають після успішного проходження курсу. Вони відображатимуться на інформаційній сторінці курсу в розділі 'Чого ви навчитеся'.
+        learning_goals_only_certificate_page: Введіть цільові компетенції, знання, навички та вміння, які учні отримають після успішного проходження курсу. Вони відображатимуться на сторінці підтвердження сертифіката.
+        target_groups: Введіть групи учнів, для яких призначений цей курс. Вони відображатимуться на інформаційній сторінці курсу в розділі 'Для кого цей курс'.
+        roa_threshold_percentage: "Порогове значення у відсотках від 1 до 100 для отримання сертифіката. Глобальне значення за замовчуванням — %{global_default}."
+        cop_threshold_percentage: "Порогове значення у відсотках від 1 до 100 для отримання сертифіката. Глобальне значення за замовчуванням — %{global_default}."
+        video: "Додайте сюди коди курсів, які будуть враховуватися для інтелектуального режиму фільтрації відео."
+        show_on_stage: "Якщо ви вирішите виділити цей курс на платформі каналу, <i>необхідно надати візуальне оформлення сцени та заяву</i>."
+        stage_statement: "Щоб виділити заголовок заяви, можна використовувати заголовок h1 ('# headline'), і заголовок h3 ('### author'), щоб вказати автора заяви. Не використовуйте іншу розмітку."
+        stage_visual_upload_id: "Мінімальний розмір зображення має складати %{width}x%{height} пікселів. Зображення більшого розміру буде зменшено й обрізано по краях."
+        welcome_mail: Введіть тут текст привітального листа для курсу. Якщо ці листи не мають надсилатися, залиште це поле порожнім
+        visual_creation: Після створення курсу ви можете додати візуальні елементи курсу у властивостях курсу.
+      course_visual:
+        # EN-fallback image: This image will be shown on all course lists. If you don't upload a teaser video, it will also appear on the course details page. For accessibility reasons, the image should not show any text.
+        # EN-fallback video_stream_id: If you select a teaser video, it will be used on the course details page instead of the course image.
+      lti_provider:
+        presentation_mode: "Примітка. Вбудовування (фрейм) не працюватиме з усіма інструментами в усіх браузерах. Переконайтеся в тому, що він працює з вибраним інструментом, або замість цього скористайтеся опцією 'вікно'."
+        custom_fields: "Конкретні параметри, що використовуються відповідно до стандарту LTI. Щоб дізнатися більше про доступні для використання параметри, перегляньте документацію інструмента."
+        privacy_course_specific: На цьому рівні не можна змінити параметри конфіденційності. Зверніться до адміністратора платформи.
+      open_badge_template:
+        name: Перезаписує глобальне ім'я
+        description: Перезаписує глобальний опис
+      poll:
+        start_at: "Порада. Ви можете додати варіанти відповідей до опитування лише тоді, якщо воно ще не розпочалося."
+      xikolo_course_section:
+        end_date: Визначення дати завершення заблокує цей розділ для всіх учасників курсу після цієї дати.
+        start_date: Визначення дати початку заблокує цей розділ для всіх учасників курсу до цієї дати.
+      xikolo_course_item:
+        end_date: Визначення дати завершення заблокує цей пункт для всіх учасників курсу після цієї дати.
+        start_date: Визначення дати початку заблокує цей пункт для всіх учасників курсу до цієї дати.
+      video:
+        subtitles: "Файл WebVTT, що містить субтитри, або ZIP-архів із кількома файлами WebVTT. Усі назви файлів WebVTT мають закінчуватися роздільником ('_' або '-'), за яким слідує дво- або трибуквенний код мови (наприклад, 'en' для англійської мови). Приклад: 'subtitles_en.vtt'"
+
+    placeholders:
+      announcement_email:
+        recipients: "Пошук за іменем користувача, електронною адресою користувача, назвою курсу або кодом курсу"
+        consents: "Виберіть необхідні згоди"
+      certificate_template:
+        dynamic_content: SVG для отримання динамічних даних у сертифікаті
+      classifier:
+        # EN-fallback courses: Add courses
+      course:
+        abstract: "Введіть короткий опис"
+        description: "Введіть повний опис"
+        teacher_ids: "Введіть ім’я вчителя"
+      course_visual:
+        video_stream_id: Виберіть трансляцію
+      login:
+        email: Електронна пошта
+        password: Password
+      page:
+        text: "Введіть тут зміст..."
+      voucher_redemption:
+        code: "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
+
+    prompts:
+      announcement:
+        audience: "Усі користувачі"
+      lti_provider:
+        title: Увага
+        text: "Якщо для постачальника вибрано параметр 'не захищено', персональні дані може бути передано третім особам. Якщо постачальником послуг LTI виступає третя сторона, може знадобитися окрема угода про обробку даних. Обговоріть це з вашим уповноваженим із захисту даних, перш ніж увімкнути цей параметр."
+        confirm: Підтвердити
+        cancel: "Скинути на 'анонімно'"
+
+  helpers:
+    submit:
+      create: Зберегти
+      update: Зберегти
+      announcement_email:
+        update: Надіслати сповіщення електронною поштою
+      announcement:
+        create: Створити сповіщення
+        update: Оновити сповіщення
+      certificate_template:
+        create: Створити шаблон
+        update: Оновити шаблон
+      channel:
+        create: Додати канал
+        update: Оновити канал
+      classifier:
+        # EN-fallback create: Create tag
+        # EN-fallback update: Update tag
+        # EN-fallback submit: Save course order
+      cluster:
+        # EN-fallback update: Update category
+        # EN-fallback submit: Save tag order
+      course:
+        create: Створити курс
+        update: Оновити курс
+      course_visual:
+        # EN-fallback preview: Save and show course
+        # EN-fallback update: Save
+      login:
+        submit: Підключити обліковий запис
+      objective:
+        create: Створити мету
+        update: Оновити мету
+      open_badge_template:
+        create: Створити шаблон
+        update: Оновити шаблон
+      poll:
+        create: Створити нове опитування
+        update: Оновити опитування
+      teacher:
+        create: Зберегти інформацію
+        update: Зберегти інформацію
+      video_stream:
+        create: Створити трансляцію
+      voucher_redemption:
+        create: Погасити
+        update: Погасити
+      xikolo_course_item:
+        create: Створити пункт
+        update: Зберегти пункт
+        preview: Зберегти та показати пункт
+      xikolo_course_section:
+        create: Створити розділ
+        update: Оновити розділ
+      xikolo_collabspace_membership:
+        create: Створити членство
+      xikolo_lti_lti_provider:
+        create: Створити постачальника послуг
+        update: Оновити постачальника послуг
+      xikolo_pinboard_answer:
+        create: Опублікувати відповідь #TODO: Find way to specify model name
+        update: Зберегти зміни
+      xikolo_pinboard_question:
+        update: Оновити запитання
+      xikolo_quiz_answer:
+        create: Створити відповідь
+        update: Оновити відповідь
+      xikolo_quiz_question:
+        create: Створити запитання
+        update: Оновити запитання
+
+  errors:
+    attributes:
+      email:
+        already_taken: Введену адресу електронної пошти вже зареєстровано.
+      end_at:
+        before_start_date: Кінцева дата має бути після дати початку.
+      id:
+        invalid_format: Невірний формат наданого ідентифікатора.
+        not_unique: Ідентифікатор повинен бути унікальним.
+      password:
+        below_minimum_length: Пароль має містити не менше 8 символів.
+        maximum_length_reached: Довжина пароля не повинна перевищувати 72 символи.
+        password_contains_email: Ваша адреса електронної пошти не повинна бути частиною пароля.
+      title:
+        invalid_format: Невірний формат наданого ідентифікатора.
+        not_unique: Ідентифікатор повинен бути унікальним.
+
+    messages:
+      # xikolo-s3 errors for references in markup:
+      rtfile_unknown_ref: Посилання на невідомі файли заборонено.
+      rtfile_rejected: Завантаження файлу відхилено через порушення політики.
+      rtfile_exists: Не вдалося зберегти завантажений файл.
+      rtfile_unconfigured: Не вдалося зберегти завантажений файл.
+      rtfile_error: Не вдалося зберегти завантажений файл.
+
+      # xikolo-s3 errors around file uploads:
+      upload_error: Не вдалося зберегти завантажений файл.
+      upload_rejected: Завантаження файлу відхилено через порушення політики.
+
+      # type violations:
+      no_uri: Дійсний URI-ідентифікатор відсутній
+      no_url: Дійсна URL-адреса відсутня
+      no_uuid: Дійсний рядок UUID відсутній
+      single_line_string: Багаторядкові рядки тепер дозволено.
+
+      announcement_email:
+        recipients:
+          invalid: Щонайменше один із зазначених одержувачів є недійсним. Дотримуйтеся описаної схеми.
+      announcement:
+        base:
+          translation_title_text: Для перекладу потрібні як заголовок, так і текст.
+      channel:
+        info_link_label:
+          required: Укажіть підпис для відповідної URL-адреси інформаційного посилання.
+      item:
+        base:
+          section_required: Необхідно створити пункт для розділу.
+          could_not_be_created: З якоїсь причини не вдалося створити пункт. Спробуйте ще раз.
+        exercise_type:
+          required_when_quiz: Необхідно вибрати тип для питань тесту.
+        max_points:
+          invalid_format: Бали повинні бути позитивним числом.
+        submission_deadline:
+          required_when_proctored: Необхідно вказати кінцевий термін здачі для питань, які контролюються.
+        title:
+          # EN-fallback "can't be blank": The item title must not be blank.
+      topic:
+        base:
+          not_created: Не вдалося створити тему. Спробуйте ще раз.

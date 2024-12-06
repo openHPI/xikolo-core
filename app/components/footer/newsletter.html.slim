@@ -1,0 +1,7 @@
+.footer-newsletter.hidden-print
+  - if headline.present?
+    h4 = headline
+  - if description.present?
+    p = description
+  .mt20
+    = link_to link_text, link_href, class: "btn btn-outline"

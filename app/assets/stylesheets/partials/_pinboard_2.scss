@@ -1,0 +1,366 @@
+/*------------------------------------*\
+    $CONTENTS
+
+    Styles for the new pinboard.
+\*------------------------------------*/
+/**
+ * Variables................Variables
+ * Topic Page...............Styles for viewing a single topic with all its posts
+ * Old Mockup...............Remaining rules from the first mockup for pinboard 2.0
+ */
+
+/*------------------------------------*\
+    $Variables
+\*------------------------------------*/
+
+/*------------------------------------*\
+    $Topic Page
+\*------------------------------------*/
+
+.pinboard2-container {
+  padding: 10px 15px;
+  background-color: white;
+}
+
+.pinboard2-topic {
+  &--details {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    & > * {
+      flex: 0 0 auto;
+    }
+  }
+}
+
+.pinboard2-post {
+  position: relative;
+  margin: 40px 0 60px;
+
+  &.is-highlighted {
+    padding: 15px 5px 40px;
+    border-radius: 3px;
+    background-color: lightgreen;
+  }
+
+  &--avatar {
+    margin-right: 10px;
+    float: left;
+  }
+
+  &--meta {
+    line-height: 20px;
+
+    & > * {
+      display: inline-block;
+      margin-right: 10px;
+      vertical-align: top;
+    }
+
+    .author {
+      font-size: 1.1em;
+      font-weight: bold;
+    }
+
+    .votes {
+      border: 1px solid darkgray;
+      border-radius: 3px;
+      cursor: pointer;
+
+      & > * {
+        display: inline;
+      }
+
+      &,
+      & > * {
+        padding-right: 3px;
+        padding-left: 3px;
+        color: darkgray;
+      }
+
+      &.is-downvoted .action-downvote,
+      &.is-downvoted .vote-count {
+        color: #555555;
+      }
+
+      &.is-upvoted .action-upvote,
+      &.is-upvoted .vote-count {
+        color: #555555;
+      }
+
+      &.downvotes {
+        .not-downvoted-icon {
+          display: inline;
+        }
+        .downvoted-icon {
+          display: none;
+        }
+
+        &.is-downvoted {
+          .not-downvoted-icon {
+            display: none;
+          }
+          .downvoted-icon {
+            display: inline;
+          }
+        }
+      }
+
+      &.upvotes {
+        .not-upvoted-icon {
+          display: inline;
+        }
+        .upvoted-icon {
+          display: none;
+        }
+
+        &.is-upvoted {
+          .not-upvoted-icon {
+            display: none;
+          }
+          .upvoted-icon {
+            display: inline;
+          }
+        }
+      }
+
+      &.is-upvoted,
+      &.is-downvoted {
+        border-color: black;
+      }
+
+      &:hover .action {
+        color: black;
+      }
+
+      &.is-upvoted:hover .action-upvote {
+        color: darkgray;
+      }
+
+      &.is-downvoted:hover .action-downvote {
+        color: darkgray;
+      }
+    }
+  }
+
+  &--content {
+    position: relative;
+    padding: 7px;
+    border-radius: 3px;
+    margin: 10px 0 0 60px;
+    background-color: #ededed;
+
+    &:before {
+      position: absolute;
+      top: -20px;
+      left: 10px;
+      display: block;
+      width: 20px;
+      height: 20px;
+      border: 10px solid transparent;
+      border-bottom-color: #ededed;
+      content: "";
+    }
+
+    p:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+
+  &--actions {
+    display: inline-block;
+    border: 2px solid #ededed;
+    border-top-width: 0;
+    margin-right: 10px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    float: right;
+
+    a {
+      padding-right: 7px;
+      padding-left: 7px;
+      font-size: 0.9em;
+    }
+  }
+}
+
+/*------------------------------------*\
+    $Old Mockup
+\*------------------------------------*/
+
+.pinboard2--old {
+  .pinboard-thread-header {
+    padding: 10px 0;
+    border-bottom: 3px solid #ededed;
+    background-color: white;
+  }
+
+  .pinboard-breadcrumbs a {
+    display: inline-block;
+    padding-left: 10px;
+    line-height: 30px;
+  }
+
+  .pinboard-breadcrumbs a:before {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border: 5px solid transparent;
+    border-left-width: 8px;
+    border-left-color: #b8510f;
+    content: "";
+  }
+
+  .pinboard-thread-action {
+    float: right;
+    line-height: 30px;
+  }
+
+  .pinboard-thread-sorter {
+    position: relative;
+    margin-top: 20px;
+    float: right;
+  }
+
+  .pinboard-thread-sorter select {
+    font-weight: normal;
+  }
+
+  .pinboard-thread-sorter .pinboard-thread-sorter-msg {
+    position: absolute;
+    bottom: 20px;
+
+    display: block;
+    padding: 3px;
+    border: 1px solid salmon;
+    background-color: lightsalmon;
+  }
+
+  .pinboard-post-highlight {
+    position: absolute;
+    top: 60px;
+    left: 10px;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border: 1px solid darkgray;
+    border-radius: 15px;
+    color: darkgray;
+    cursor: pointer;
+    font-size: 18px;
+    text-align: center;
+  }
+
+  .pinboard-post.is-highlighted .pinboard-post-highlight {
+    top: 75px;
+    left: 15px;
+  }
+
+  .pinboard-post-highlight:hover {
+    text-shadow: 1px 1px 2px #b8510f;
+  }
+
+  .pinboard-post-highlight:hover,
+  .is-highlighted .pinboard-post-highlight {
+    border-color: #b8510f;
+    color: #555555;
+  }
+
+  .is-highlighted .pinboard-post-highlight:hover {
+    color: darkgray;
+    text-shadow: none;
+  }
+
+  .pinboard-post-highlight-explanation {
+    font-weight: bold;
+  }
+
+  .pinboard-post-meta .pinboard-post-reply-link {
+    display: inline-block;
+    padding-right: 5px;
+    padding-left: 5px;
+    border: 1px solid #ededed;
+    border-radius: 3px;
+    background-color: #ededed;
+  }
+
+  .pinboard-post-reply-link:hover {
+    text-decoration: none;
+  }
+
+  .pinboard-post-reply-link::before {
+    display: inline-block;
+    margin-right: 5px;
+    content: "\f112"; /* fa-reply */
+    font: normal normal normal 14px/1 FontAwesome;
+  }
+
+  .pinboard-post-reply {
+    display: inline-block;
+    padding-top: 10px;
+    margin-left: 60px;
+    float: left;
+  }
+
+  .pinboard-post-reply a.action {
+    padding: 3px 5px;
+    border: 1px solid darkgray;
+    border-radius: 3px;
+  }
+
+  .pinboard-post-reply a.action:hover,
+  .pinboard-post-reply a.action:focus {
+    border-color: #b8510f;
+    text-decoration: none;
+  }
+
+  .pinboard-post-reply {
+    font-size: 0.9em;
+  }
+
+  .pinboard-highlight-post-notice {
+    padding: 10px 60px;
+    margin-top: 40px;
+    background-color: lightgreen;
+    clear: both;
+    text-align: center;
+  }
+
+  .pinboard-post-replies {
+    padding: 5px 60px;
+    clear: both;
+  }
+
+  .pinboard-post-replies-placeholder {
+    display: block;
+    padding: 5px;
+    margin-top: 50px;
+    margin-left: 60px;
+    background: lightgoldenrodyellow;
+    clear: both;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .pinboard-post-replies-placeholder::before {
+    display: inline-block;
+    margin-right: 5px;
+    content: "\f141"; /* fa-ellipsis-h */
+    font: normal normal normal 14px/1 FontAwesome;
+  }
+
+  .sweet-alert .radio {
+    text-align: left;
+  }
+
+  .sweet-alert label {
+    font-weight: bold;
+  }
+
+  .sweet-alert #copy-permalink-input {
+    width: 100%;
+    padding: 5px;
+    margin-top: 15px;
+  }
+}

@@ -1,0 +1,12 @@
+.navbar-fixed-bottom.cookie-consent-banner aria-live='polite'
+  .container
+    = form_tag(cookie_consent_path, method: 'POST')
+      p = text.html_safe
+      div
+        input type='hidden' name='consent_name' value="#{consent[:name]}"
+        button.btn.btn-primary type='submit' name='accept' value='true'
+          = t(:'footer.cookie_consents.accept')
+        button.btn.btn-default type='submit' name='decline' value='true'
+          = t(:'footer.cookie_consents.decline')
+    button.btn--close title="#{t(:'footer.cookie_consents.close')}" data-behavior='hide'
+      = render Global::FaIcon.new('xmark', css_classes: 'em1-5')

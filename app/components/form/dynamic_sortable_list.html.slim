@@ -1,0 +1,25 @@
+.sortable-list data-behavior="sortable-list"
+  ol
+    - @list_items.each do |item_name, item_id|
+      li
+        = render Global::FaIcon.new('bars', style: :solid)
+        span = item_name
+        input type="hidden" name=@name value=item_id
+        - if add_items?
+          button.btn.btn-danger.btn-xs data-behavior="delete" = t(:'global.delete')
+
+  - if add_items?
+    template
+      = render Global::FaIcon.new('bars', style: :solid)
+      span data-target="label"
+      input type="hidden" name=@name
+      button.btn.btn-danger.btn-xs data-behavior="delete" = t(:'global.delete')
+
+    .input-group
+      - if @select_config.present?
+        select placeholder=select_placeholder data={behavior: 'sortable-list__select', 'auto-completion-url': select_url, preload: select_preload}
+      - elsif @input_id.present?
+        input.form-control id=@input_id data-behavior="sortable-list__input"
+        span.input-group-btn
+          button.btn.btn-sm.btn-default type="button" data-behavior="sortable-list__btn-add"
+            = t(:'global.add')

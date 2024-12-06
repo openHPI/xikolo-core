@@ -1,0 +1,110 @@
+.tile-container {
+  container-type: inline-size;
+}
+
+.tile {
+  @include font-s;
+
+  &__title {
+    @include font-sm;
+  }
+
+  &--m {
+    @include font-sm;
+
+    .tile__title {
+      @include font-m;
+    }
+  }
+
+  &__text {
+    color: $gray-800;
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    padding-bottom: 5px;
+    margin-top: 15px;
+    color: $primary-color;
+
+    &:hover {
+      color: $primary-600;
+      a {
+        text-decoration: none;
+      }
+    }
+
+    .xi-icon {
+      margin-left: 5px;
+    }
+  }
+
+  &__image {
+    display: block;
+    width: 100%;
+    height: 200px;
+    margin: 0 0 15px 0;
+    object-fit: cover;
+  }
+
+  &--with-decoration {
+    .tile__title {
+      padding: 5px 15px;
+      border-left: 4px solid $primary-500;
+    }
+
+    .tile__text,
+    .tile__link {
+      padding-left: 20px;
+    }
+  }
+
+  @include small {
+    @include font-sm;
+
+    &__title {
+      margin-bottom: 2 * $spacing-steps;
+      @include font-m;
+    }
+
+    &--m {
+      @include font-m;
+
+      .tile__title {
+        @include font-l;
+      }
+    }
+
+    &--with-decoration {
+      .tile__title {
+        padding: 5px 25px;
+      }
+
+      .tile__text,
+      .tile__link {
+        padding-left: 30px;
+      }
+    }
+  }
+
+  // Change layout depending on component's own width
+  @container (min-width: #{$xs-to-sm}) {
+    &--with-image {
+      display: grid;
+
+      padding-bottom: 20px;
+      gap: 30px;
+      grid-template-columns: 0.33fr 0.66fr;
+
+      .tile__title {
+        margin-top: 30px;
+      }
+    }
+
+    &__image {
+      height: 350px;
+      margin: 0;
+    }
+  }
+}

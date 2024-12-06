@@ -1,0 +1,30 @@
+- content_for :page_header_slim
+  = render Global::PageHeader.new(t(:'admin.user_tests.index.user_tests'), subtitle: t(:'admin.page_header'), type: :slim)
+
+.container.mt20
+  table.table.table-striped.table-condensed.table-hover
+    thead
+      tr
+        th = t(:'admin.user_tests.index.name')
+        th = t(:'admin.user_tests.index.start_date')
+        th = t(:'admin.user_tests.index.end_date')
+        th = t(:'admin.user_tests.index.course')
+        th
+
+    tbody
+      - @user_tests.each do |user_test|
+        tr.cpointer data-link=user_test_path(user_test.id)
+          td = user_test.name
+          td = l Time.zone.parse(user_test.start_date)
+          td = l Time.zone.parse(user_test.end_date)
+          td = user_test.course&.title
+          td
+            = link_to user_test_path(user_test.id)
+              = render Global::FaIcon.new('eye', style: :solid, css_classes: 'mr10')
+            = link_to edit_user_test_path(user_test.id)
+              = render Global::FaIcon.new('pen-to-square', style: :solid, css_classes: 'mr10')
+            = link_to user_test_path(user_test.id), method: :delete, data: {confirm: 'Are you sure?'}
+              = render Global::FaIcon.new('trash-can', style: :solid)
+
+  div
+    = link_to t(:'admin.user_tests.create.new'), new_user_test_path, class: 'btn btn-lg btn-primary mt20'

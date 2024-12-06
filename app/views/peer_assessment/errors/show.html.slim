@@ -1,0 +1,11 @@
+- content_for :maincol_content
+  .row
+    / Item navigation above the main content
+    = render 'shared/course_item_nav', position: @inner_course_position
+
+    .col-md-12
+      .col-md-12.course-area-main
+        h3 = "#{@item_presenter.title}"
+        hr.divider.slim
+
+        = render Global::Callout.new(t(:'peer_assessment.error'))

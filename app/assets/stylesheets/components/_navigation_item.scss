@@ -1,0 +1,184 @@
+@import "navigation/item_base";
+
+.navigation-item {
+  &__menu {
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    overflow: auto;
+    width: 100%;
+    max-height: 90vh;
+    padding-left: 0;
+    box-shadow: $box-shadow-m;
+
+    @include screen-size-s-and-up($navbar-breakpoint-s) {
+      left: auto;
+      width: auto;
+      min-width: 200px;
+    }
+
+    // Adjust style when items are inside a menu
+    .navigation-item {
+      // Needed to for positioning of sub-menus
+      position: relative;
+      white-space: nowrap;
+    }
+    .navigation-item__main {
+      width: 100%;
+      height: 50px;
+      border-top: 1px solid $menu-navigation-item-separator-color;
+      background-color: $menu-navigation-item-bg;
+      color: $menu-navigation-item-color;
+
+      &:hover {
+        background-color: $menu-navigation-item-hover-bg;
+        color: $menu-navigation-item-hover-color;
+      }
+
+      &:focus,
+      &:active {
+        background-color: $menu-navigation-item-selected-bg;
+        color: $menu-navigation-item-selected-color;
+      }
+
+      &:hover,
+      &:focus,
+      &:active {
+        .navigation-item__icon,
+        .navigation-item__control {
+          color: inherit;
+        }
+
+        .navigation-item__text {
+          text-decoration: $menu-navigation-item-hover-decoration;
+        }
+      }
+
+      &--active {
+        padding: 0 17px;
+        background-color: $menu-navigation-item-hover-bg;
+
+        &:not([data-behaviour="dropdown"]) {
+          border-left: 3px solid $menu-navigation-item-selected-border;
+        }
+      }
+
+      .navigation-item__control {
+        flex-grow: 1;
+        text-align: right;
+
+        // Hide the FaIcon components when the navigation item is
+        // inside a menu. We will display different icons instead (see below)
+        .xi-icon {
+          display: none;
+        }
+      }
+
+      &[aria-expanded="false"] {
+        .navigation-item__control--on-expanded {
+          &::before {
+            // Plus icon
+            content: "\f067";
+            font: var(--fa-font-regular);
+            @include screen-size-s-and-up($navbar-breakpoint-s) {
+              // Chevron right
+              content: "\f054";
+            }
+          }
+        }
+      }
+
+      &[aria-expanded="true"] {
+        .navigation-item__control--on-collapsed {
+          &::before {
+            // Minus icon
+            content: "\f068";
+            font: var(--fa-font-regular);
+            // Chevron left
+            @include screen-size-s-and-up($navbar-breakpoint-s) {
+              content: "\f053";
+            }
+          }
+        }
+      }
+    }
+
+    // Adjust menus nested inside other menus
+    .navigation-item__menu {
+      position: relative;
+      overflow: auto;
+      max-height: 70vh;
+      box-shadow: none;
+
+      @include screen-size-s-and-up($navbar-breakpoint-s) {
+        position: absolute;
+        top: 0;
+        right: auto;
+        left: 100%;
+        box-shadow: $box-shadow-m;
+      }
+    }
+  }
+
+  &__main {
+    &[aria-expanded="false"] {
+      + .navigation-item__menu {
+        display: none;
+      }
+
+      .navigation-item__control--on-collapsed {
+        display: none;
+      }
+    }
+
+    &[aria-expanded="true"] {
+      background-color: $navigation-item-selected-bg;
+      color: $navigation-item-selected-color;
+
+      .navigation-item__control--on-expanded {
+        display: none;
+      }
+    }
+  }
+
+  // Manage visibility of "More" dropdown items
+  &--menu-hide-last {
+    display: block;
+    @include screen-size-sm-and-up($navbar-breakpoint-sm) {
+      display: none;
+    }
+  }
+
+  &--menu-hide-first {
+    display: none;
+    @include screen-size-sm-and-up($navbar-breakpoint-sm) {
+      display: block;
+    }
+    @include screen-size-m-and-up($navbar-breakpoint-m) {
+      display: none;
+    }
+  }
+}
+
+.navigation-bar__right,
+.navigation-bar__left {
+  // Manage visibility of top navigation items
+  > .navigation-item--hide-first {
+    display: none;
+    @include screen-size-m-and-up($navbar-breakpoint-m) {
+      display: block;
+    }
+  }
+
+  > .navigation-item--hide-last {
+    display: none;
+    @include screen-size-sm-and-up($navbar-breakpoint-sm) {
+      display: block;
+    }
+  }
+
+  > .navigation-item--menu-hide-first > .navigation-item__menu,
+  > .navigation-item--menu-hide-last > .navigation-item__menu {
+    overflow: visible;
+  }
+}

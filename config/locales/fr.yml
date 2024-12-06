@@ -1,0 +1,3252 @@
+# Localization file for French.
+fr:
+  default_title: MOOCs - start to enjoy learning now
+
+  date:
+    formats:
+      long: "%-d %B %Y %H:%M"
+      default: "%d/%m/%y"
+      short: "%-d %b %Y"
+      informal: "%-d %B"
+      # EN-fallback certificate: "%B %-d, %Y"
+    timezone: "(UTC)"
+
+  # language and language names
+  languages:
+    language: langue
+    item: "%{name}"
+    # Do not translate this list!
+    name:
+      am: አማርኛ
+      ar: العربية
+      az: Azərbaycan dili
+      bg: български
+      bmb: Ebembe
+      bn: বাংলা
+      ca: Català
+      cn: 中文
+      cs: Čeština
+      de: Deutsch
+      el: Ελληνικά
+      en: English
+      eo: Esperanto
+      es: Español
+      fa: فارسی
+      fa-AF: دری
+      ff: Fulfulde
+      fi: Suomi
+      fr: Français
+      ha: Hausa
+      hi: हिन्दी, हिंदी
+      ht: Kreyòl ayisyen
+      hu: Magyar
+      hy: Հայերեն
+      id: Bahasa Indonesia
+      ig: Asụsụ Igbo
+      it: Italiano
+      ja: 日本語
+      ka: ქართული ენა
+      kaa: Qaraqalpaq
+      kk: Казақ тілі
+      km: ភាសាខ្មែរ
+      ko: 한국의
+      kr: Kanuri
+      ksw: ကညီစှီၤကျိာ်
+      ku: Kurdî
+      ky: Кыргызча
+      ln: Lingála
+      lo: ພາສາລາວ
+      luo: Dholuo
+      lv: Latviešu valoda
+      mai: मैथिली
+      mg: Malagasy
+      mk: македонски
+      mn: Монгол
+      mr: मराठी
+      my: မြန်မာစာ
+      ne: नेपाली
+      nl: Nederlands
+      om: Afaan Oromoo
+      or: ଓଡ଼ିଆ
+      pa: ਪੰਜਾਬੀ
+      pan: شاہ مُکھی
+      pcm: Naijá
+      pl: Polski
+      ps: پښتو
+      pt: Português
+      pt-BR: Português brasileiro
+      rhg: Ruáingga
+      ro: Română
+      ru: Русский
+      run: Kirundi
+      sd: سنڌي
+      shn: ၽႃႇသႃႇတႆး
+      si: සිංහල
+      sn: chiShona
+      so: Soomaaliga
+      sq: Shqip
+      sr: српски језик
+      sw: Kiswahili
+      ta: தமிழ்
+      te: తెలుగు
+      tet: Tetun
+      tg: тоҷикӣ
+      th: ภาษาไทย
+      tk: Türkmen
+      tr: Türkçe
+      tum: Chitumbuka
+      uk: Українська
+      ur: اردو
+      uz: O'zbek
+      vi: Tiếng Việt
+      yao: chiYao
+      yo: Yorùbá
+      zh: 中文
+      zu: isiZulu
+    title:
+      am: Amharique
+      ar: Arabe
+      az: Azerbaïdjanaise
+      bg: Bulgare
+      bmb: Bembe
+      bn: Bengali
+      ca: Catalan
+      cn: Chinois
+      cs: Tchèque
+      de: Allemand
+      el: Grec
+      en: Anglais
+      eo: Espéranto
+      es: Espanol
+      fa: Farsi
+      fa-AF: Dari
+      ff: Fula
+      fi: Finnois
+      fr: Français
+      ha: Haoussa
+      hi: Hindi
+      ht: Créole haïtien
+      hu: Hongrois
+      hy: Arménien
+      id: Indonésien
+      ig: Igbo
+      it: Italien
+      ja: Japonais
+      ka: Géorgien
+      kaa: Karakalpak
+      kk: Kazakhe
+      km: Khmer
+      ko: Coréen
+      kr: Kanouri
+      ksw: Karen s'gaw
+      ku: Kurde
+      ky: Kirghize
+      ln: Lingala
+      lo: Lao
+      luo: Luo
+      lv: Lettone
+      mai: Maïthili
+      mg: Malagache
+      mk: Macédonien
+      mn: Mongol
+      mr: Marathi
+      my: Birman
+      ne: Népalais
+      nl: Néerlandais
+      om: Oromo
+      or: Oriya
+      pa: Pendjabi
+      pan: Punjabi Shahmukhi
+      pcm: Pidgin nigérian
+      pl: Polonais
+      ps: Pachto
+      pt: Portugais
+      pt-BR: Portugais brésilien
+      rhg: Rohingya
+      ro: Roumain
+      ru: Russe
+      run: Kirundi
+      sd: Sindhi
+      shn: Shan
+      si: Cingalais
+      sn: Shona
+      so: Somali
+      sq: Albanais
+      sr: Serbe
+      sw: Swahili
+      ta: Tamoul
+      te: Telugu
+      tet: Tétoum
+      tg: Tadjik
+      th: Thaï
+      tk: Turkmène
+      tr: Turque
+      tum: Tumbuka
+      uk: Ukrainien
+      ur: Ourdou
+      uz: Ouzbek
+      vi: Vietnamien
+      yao: Yao
+      yo: Yoruba
+      zh: Chinois
+      zu: Zoulou
+
+  subtitles:
+    machine_translated: "%{language} (genere automatiquement)"
+
+  buttons:
+    scroll_left: Défilement à gauche
+    scroll_right: Défilement à droite
+
+  # Global strings are reusable short translations
+  # that appear often and can be references in specific scopes
+  # for languages that have less contextual differences
+  # They can be referenced like `my_string: :global.email`
+  global:
+    email: e-mail
+    # EN-fallback email_or_name: E-mail or name
+    password: Mot de passe
+    toggle_dropdown: déroulante basculer
+    are_you_sure: Êtes-vous sûr?
+    confirm: Oui bien sûr
+    cancel: Annuler
+    download: Télécharger
+    submit: Envoyer
+    add: Ajouter
+    edit: Modifier
+    delete: Supprimer
+    nojs:
+      label: S'il vous plaît activez JavaScript dans votre navigateur!!
+      link: https://turnonjs.com/
+    read_more: Lire la suite
+    read_less: Lire moins
+    close: Fermer
+
+  errors:
+    not_found:
+      headline: "Nous sommes désolés, mais la page que vous cherchez est introuvable (404)"
+      message: S'il vous plaît vérifiez l'URL. Si vous pensez vraiment que c'est un bogue, n'hésitez pas de contacter notre équipe d'assistance par le helpdesk.
+    server:
+      headline: Nous sommes désolés que quelque chose ait mal tourné.
+      message: Vous pourriez vouloir réessayer plus tard. Cette erreur sera signalée à notre équipe technique automatiquement. Cependant, vous voudrez peut-être nous aider en soumettant quelques détails sur ce qui a mal par le helpdesk.
+    go_to_helpdesk: Aller au service d'assistance
+  # Flash messages
+  flash:
+    notice:
+      course_not_published: Il n'y a pas de contenu des cours publics.
+      enrollment_successful_short: Vous avez été inscrit avec succès.
+      enrollment_successful: "Bienvenue.<br />Vous avez été inscrit avec succès %{course}. Jouissez de ce cours."
+      user_successfully_enrolled: L'utilisateur a été inscrit avec succès.
+      unenrollment_successful: "Vous avez été désinscrit.<br />Vos données de progression sont archivées et seront enregistrées pour une réinscription plus tard."
+      enrollment_already_present: Vous êtes déjà inscrit à ce cours.
+      tag_before_posting: S'il vous plaît mettez au moins une étiquette.
+      section_deleted: La section a été supprimée.
+      video_player_browser_choice: "Pour l'expérience utilisateur complète lorsque vous regardez nos vidéos, s'il vous plaît utilisez un navigateur moderne, capable de lire les vidéos H.264, p. ex. dernières versions de Google Chrome, Safari ou Firefox (exception: Firefox pour Mac ne supporte pas les vidéos H.264)."
+      quiz_submission_still_active: Il y a encore un quiz en fonctionnement actif.
+      file_deleted: Le fichier a été supprimé.
+      user_deleted: Votre compte a été supprimé sur votre demande.
+      user_deleted_by_admin: Compte a été supprimé.
+      confirmation_resend: "Nous vous re-envoyons une confirmation par e-mail."
+      confirmation_email_required: "Nous vous avons envoyé une confirmation par e-mail à %{email}. S'il vous plaît suivez les instructions pour activer votre nouvelle adresse e-mail."
+      password_changed: "Votre mot de passe a été changé avec succès."
+      login_connect_auth: "S'il vous plaît connectez-vous avec votre %{brand} compte existant pour le connecter avec votre %{provider} login."
+      auth_deleted: La connexion a été déconnectée de votre compte.
+      course_deleted: Le cours a été supprimé.
+
+    success:
+      course_created: Le cours a été créé.
+      course_updated: Le cours a été mis à jour.
+      # EN-fallback courses_order_updated: The course order has been updated.
+      quiz_submitted: Votre solution quiz a été soumis avec succès.
+      section_updated: "La section %{section_title} a été mise à jour."
+      sync_initiated: La synchronisation a été lancée.
+      logged_out: Vous vous êtes deconnecté avec succès.
+      teacher_information_created: Informations enseignant ont été bien enregistré!
+      announcement_saved: Annonciation a été sauvegardé avec succès!
+      cache_flush: "Supprimé %{deleted_items} entrées de cache"
+      confirmation_successful: Merci de confirmer votre adresse électronique.
+      auth_added: "Vous pouvez vous connecter à %{brand} pour utiliser votre %{provider}-compte à partir de maintenant."
+      announcement_mails_disabled: "Votre compte %{mail} ne recevra plus les nouvelles de la plateforme. Vous pouvez réactiver cela à tout moment dans vos paramètres de profil."
+      course_announcement_mails_disabled: "Votre compte %{mail} ne recevra plus les nouvelles d'un cours. Vous pouvez réactiver cela à tout moment dans vos paramètres de profil."
+      pinboard_mails_disabled: "Votre compte %{mail} ne recevra plus les nouvelles de votre mur. Vous pouvez réactiver cela à tout moment dans vos paramètres de profil."
+      global_mails_disabled: "Votre compte %{mail} ne recevoir plus des notifications par e-mail. Vous pouvez réactiver cela à tout moment dans vos paramètres de profil."
+      user_test_created: Le test de l'utilisateur a été créé.
+      user_test_updated: Le test de l'utilisateur a été mis à jour.
+      user_test_deleted: Le test de l'utilisateur a été supprimé.
+      submission_converted: Soumission a été convertie avec succès à partir de maintenant!
+      subscription_canceled: J'ai réussi à supprimer le sujet.
+      proctoring:
+        already_registered_smowl: Vous avez déjà calibré votre image avec notre partenaire.
+        certificate_booked: Vous avez réservé avec succès le certificat pour ce cours.
+      lti_provider_created: Le fournisseur LTI a été créé avec succès.
+      lti_provider_updated: Le fournisseur LTI a été sauvegardé avec succès.
+      lti_provider_deleted: Le fournisseur LTI a été supprimé avec succès.
+      course_archived: Le cours a été marqué comme terminé avec succès.
+      recalculation_triggered: Le recalcul de la progression des apprenants pour ce cours a été lancé.
+      quiz_attempt_added: La tentative supplémentaire pour un quiz a été accordée.
+      fudge_points_added: Le classement a été mis à jour.
+
+    error:
+      login_connect_auth_failed: Une erreur est survenue lors de la connexion de votre compte avec votre entreprise/social Login /. S'il vous plaît contactez notre service d'assistance.
+      auth_delete_failed: Impossible de déconnecter la connexion de votre compte.
+      not_authorized: pas autorisé
+      blocked_by_country: Ce site web n'est pas disponible dans votre pays.
+      login_before_enrollment: S'il vous plaît connectez-vous avant de vous inscrire à des conférences.
+      missing_user_id_for_enrollment: Il n'a pas d' ID de l'utilisateur. S'il vous plaît sélectionnez un utilisateur avant de vous inscrire.
+      session_expired: Votre session a expiré. S'il vous plaît vous connectez-vous à nouveau.
+      teacher_required: Vous avez besoin de privilèges d'enseignants ou administrateur pour ce faire.
+      login_to_proceed: S'il vous plaît vous connectez-vous pour continuer.
+      course_not_created: Le cours n'a pas été créé.
+      course_not_updated: Le cours n'a pas été mis à jour.
+      # EN-fallback courses_order_failed: Something went wrong. The order of the courses may not have been updated correctly. Please check the result.
+      confirmation_failed_no_email: Cette adresse e-mail n'a pas été trouvée.
+      confirmation_failed_already_confirmed: "Cette adresse e-mail est déjà confirmée."
+      not_enrolled: Vous n'êtes pas inscrit à ce cours.
+      quiz_submission_failed: Votre solution quiz n'a pas été soumis correctement.
+      quiz_submission_no_answers: Aucune réponse n'a été soumise pour votre solution de quiz.
+      quiz_submissions_maximum_reached: Le maximum de tentatives autorisées pour ce quiz est déjà atteint.
+      quiz_submission_time_up: Le temps pour votre quiz active est passé.
+      quiz_submissions_submission_deadline_passed: La date limite pour ce quiz est passée.
+      section_not_created: La section n'a pas été créée.
+      section_not_updated: La section n'a pas été mis à jour.
+      subscription_not_canceled: Le sujet n'a pas pu être déplacé.
+      picture_not_uploaded: "Votre image ne peut pas être téléchargé, s'il vous plaît essayez à nouveau."
+      slides_not_uploaded: "Vos documents ne pouvaient pas être téléchargés, s'il vous plaît essayez de nouveau."
+      audio_not_uploaded: "Votre fichier audio n'a pas pu être téléchargé, s'il vous plaît essayez de nouveau."
+      thumbnail_archive_not_uploaded: "Vos archives des vignettes n'ont pas pu être transférés, s'il vous plaît essayez de nouveau."
+      attachment_not_uploaded: "Votre attachement n'a pas pu être téléchargé, s'il vous plaît essayez de nouveau."
+      login_before_posting: S'il vous plaît vous connectez-vous avant de poser une question.
+      description_not_saved: Votre description n'a pas été enregistrée avec succès.
+      invalid_credentials: La connexion a échoué. S'il vous plaît vérifiez vos informations d'identification.
+      invalid_digest: "Votre connexion a échoué en raison d'une erreur interne. S'il vous plaît <a href='%{url}' class='btn btn-default btn-xs'>réinitialisez votre mot de passe</a> pour des raisons de sécurité et essayez de vous connecter de nouveau."
+      generic: Quelque chose a cassé pendant que nous avons essayé de vous connecter. S'il vous plaît réessayez plus tard ou contactez notre service d'assistance.
+      unconfirmed_user: "Cette adresse e-mail n'a pas encore été confirmée. S'il vous plaît vérifiez votre boîte de réception d'un e-mail reçu après le processus d'enregistrement. Toutes les autres étapes peuvent être trouvées ici. Si vous n'avez pas reçu l'e-mail, clic <a href='%{url}' class='btn btn-default btn-xs'>here</a> pour l'envoyer de nouveau."
+      invalid_information: "La connexion avec votre fournisseur d'identité a échoué en raison d'une erreur d'échange d'informations. S'il vous plaît référez-vous à notre service d'assistance."
+      login_failed: La connexion a échoué.
+      need_to_be_member: Vous devez être un membre du groupe pour ce faire.
+      need_to_be_admin: Vous devez être un administrateur de ce groupe pour ce faire.
+      email_not_updated: L'adresse e-mail n'a pas pu être sauvée. S'il vous plaît mettez une adresse e-mail valide.
+      document_denied: Vous n'êtes pas qualifié pour ce document.
+      proctoring:
+        booking_failed: Vous ne pouvez pas réserver un certificat pour ce cours.
+        already_proctored: Vous avez déjà réservé un certificat.
+        not_enrolled: Vous devez vous inscrire au cours pour réserver un certificat.
+      subtitles_not_uploaded: The subtitles have not been uploaded.
+      pinboard:
+        cannot_edit_question: Vous ne pouvez pas éditer cette question!
+      password_change_failed:
+        forgot_password: "Avez-vous oublié votre mot de passe ? <a href='/account/reset/new' class='btn btn-default btn-xs'>Demandez une réinitialisation de mot de passe</a>"
+        different_passwords: S'il vous plaît faites en sorte que "Nouveau mot de passe" et la "confirmation de mot de passe" sont identiques.
+        password_save_failed: L'enregistrement de votre nouveau mot de passe a échoué. Veuillez réessayer plus tard.
+      files:
+        attachment_file_size_exceeded: "Ce fichier dépasse la taille de fichier autorisé de {{maxFilesize}} MB."
+        document:
+          invalid_mime_type: "{{fileext}} n'est pas un fichier de document valide. Les types de documents admis sont %{allowed}."
+          valid_formats: "Les types de documents admis sont pdf, xml, txt, jpg, png and gif. Max. taille: 8 MB."
+      email_hash_invalid: Le lien fourni semble être invalide.
+      unfulfilled_prerequisites: Vous n'avez pas achevé les conditions requises pour participer au cours.
+      user_test_not_updated: Le test de l'utilisateur ne pouvait pas être mis à jour.
+      user_test_not_deleted: Le test de l'utilisateur ne peut pas être supprimé.
+      params_missing_learn_review: Params for quiz_id and course_id are missing!
+      switch_question_to_mcq: Les questions à choix unique ne doivent avoir qu'une seule réponse correcte ! Veuillez revoir la question.
+      document:
+        title_already_taken: The given title is already in use.
+      users:
+        not_found: L'utilisateur n'a pas pu être trouvé.
+      download_not_refreshed: Aucun lien de téléchargement valide n'a pu être demandé au fournisseur de la vidéo. Veuillez réessayer plus tard.
+      recalculation_failed: Le recalcul de la progression des apprenants pour ce cours n'a pas pu être lancé. Veuillez réessayer plus tard.
+      quiz_attempt_failed: Une tentative supplémentaire d'interrogation n'a pas pu être accordée.
+      fudge_points_failed: Le classement n'a pas pu être mis à jour.
+
+  interrupts:
+    mandatory_profile_fields: Pour nous aider à améliorer votre expérience d'apprentissage, merci de remplir les champs requis avant d'accéder à vos cours.
+
+  browser_warning:
+    headline: Votre navigateur sera pas supporté!
+    headline_soft: Votre navigateur sera pas supporté entièrement!
+    browser_ie: Vous utilisez Internet Explorer 10 ou Microsoft Edge 28 ou inférieur.
+    text_ie: "Ce navigateur est étayée par %{brand} aucun plus, <b> vous ne serez pas en mesure d'utiliser des fonctionnalités cruciales telles que la présentation de video.</b> S'il vous plaît mettez à jour votre Internet Explorer ou utilisez une version actuelle d'un navigateur alternatif avant de continuer (nous recommandons <a href='http://www.mozilla.org/firefox/new/'>Mozilla Firefox</a> ou <a href='https://www.google.com/chrome/'>Google Chrome</a>)."
+    text_other: "Vous exécutez une version de navigateur obsolet, qui n'est pas entièrement pris en charge par %{brand}. <b>Vous pourriez ne pas être en mesure d'utiliser des fonctionnalités cruciales telles que la présentation de quiz</b>. S'il vous plaît mettez à jour votre navigateur à la dernière version avant de continuer (nous conseillons <a href='http://www.mozilla.org/firefox/new/'>Mozilla Firefox</a> ou <a href='https://www.google.com/chrome/'>Google Chrome</a>)."
+    text_hide: "Cliquez ici pour cacher cet avertissement permanent."
+
+  components:
+    actions_dropdown:
+      aria_label: Plus d'actions
+    countdown:
+      time_remaining: "Temps qui reste :"
+    filter_bar:
+      search:
+        label: Chercher
+        clear: Effacer la recherche
+      filter:
+        reset: Réinitialiser les filtres
+        divider: ──────────
+        all: Tous
+        results: "Résultats pour :"
+        results_count:
+          one: "%{count} cours"
+          other: "%{count} cours"
+        adjust: Ajuster
+      date_time_picker:
+        today: Régler sur aujourd'hui
+        clear: Effacer
+      promotion:
+        link: Lire plus
+
+  shared:
+    records:
+      roa:
+        download_roa: Attestation de réussite
+        contact_helpdesk: S'il vous plaît contactez notre service d'assistance
+      cop:
+        download_cop: Confirmation de participation
+        contact_helpdesk: S'il vous plaît contactez notre service d'assistance
+
+  # Header string translations
+  header:
+    # Log in drop down form
+    login:
+      headline: "Connecter à %{brand}"
+      forgot_password: "Mot de passe oublié ?"
+      identity:
+        headline: Connectez-vous avec des informations d'identification?
+        label:
+          email: :global.email
+          password: :global.password
+          submit: Login
+        placeholder:
+          email: :global.email
+          password: :global.password
+      external:
+        headline: "Ou connectez-vous avec:"
+      register:
+        headline: Nouveau ici?
+        text: "Vous pouvez %{link}."
+        link: Créez un nouveau compte
+      omniauth:
+        saml_test_id: SAMLtest ID
+
+    # Navigation
+    navigation:
+      home: Accueil
+      about: "À propos de %{site_name}"
+      courses: Cours
+      discussions: Discussions
+      points: Points
+      login: Login
+      logout: Logout
+      news: Nouvelles
+      my_things: "My %{brand}"
+      dashboard: Tableau de bord
+      profile: Profil
+      achievements: Réalisations
+      settings: Paramètres des notifications
+      documents: Documents
+      greeting: "%{name}"
+      choose_language: Choisissez la langue
+      channels: Chaînes
+      toggle: Basculer la navigation
+      menu: Menu
+      more: Plus
+      profile_menu: Menu Profil
+
+      tooltip:
+        logout: Logout
+
+      administration: Administration
+      admin:
+        dashboard: Dashboard
+        courses: Cours
+        users: Utilisateurs
+        teachers: Professeurs
+        videos: Vidéos
+        certificates: Enregistrements
+        knowledge_documents: Documents
+        reports: Reports
+        user_tests: User Tests
+        lti_providers: Prestataires LTI
+
+      masquerade:
+        copy_user_id: User ID to Clipboard
+        copy_email: E-Mail to Clipboard
+        demasq: "DEMASQ"
+    # Notification Dropdown
+    notifications:
+      none_available: Aucune notification disponible
+      load_more: Charger plus de notifications
+      mark_notification: sélectionner
+      unmark_notification: désélectionner
+      time_ago: "%{time_in_words} il y a"
+
+  # Footer strings
+  footer:
+    native_apps:
+      apple_store_alt: Download on the App Store
+      google_play_alt: Disponsible sur Google Play
+
+  helpdesk:
+    button: Helpdesk
+    headline:
+      brand: "%{brand} "
+      remainder: "Helpdesk"
+    notice: "Avez-vous déjà <a href='/pages/faq' target='_blank' rel='noopener'>vérifié notre FAQ</a> pour une réponse à votre question?"
+    notice_title: Allusion
+    text: S'il vous plaît décrivez votre problème technique en utilisant la zone du texte ci-dessous. Les informations sur votre navigateur et votre adresse e-mail seront soumies automatiquement avec votre rapport de problème.
+    report_title: Titre de votre problème
+    email: Votre adresse e-mail
+    submission: Votre problème
+    submit: Rapportez ce problème
+    cancel: Annuler
+    topic: Catégorie
+    general_question: Question générale
+    technical_question: Question technique
+    course_specific_question: Question spécifique concernant le cours
+    success_message: Votre demande a bien été envoyé à notre service d'assistance, et sera répondu dès que possible.
+    thanks: Merci!
+    error_message: Oops quelque chose allait mal.
+    back: Arrière
+    recaptcha: Aidez-nous à sécuriser le site ! Confirmez que vous êtes humain en cochant la case ci-dessous.
+
+  home:
+    platform: "%{brand}"
+    courses: Les cours actuels et prochains
+    news: Nouvelles
+    show_article: Montrer l'article
+    list_all_courses: Lister tous les cours »
+    claims:
+      - title: Être curieux,
+        text: Accéder à nos apprentissages en ligne — à tout moment et n'importe où.
+      - title: être social,
+        text: Faire partie d'une communauté dynamique de l'apprentissage social
+      - title: avoir du succès.
+        text: Recevez une attestation de réussite apres la fin du cours.
+    tile:
+      more: Plus
+
+  account:
+    confirmations:
+      confirmation_failed:
+        headline: La période de confirmation de votre compte est déjà terminée.
+        message: Votre compte et toutes les données connexes ont été automatiquement supprimés parce qu'ils n'ont pas été confirmés dans les trois jours.
+        button: Créer un nouveau compte
+    preferences:
+      show:
+        privacy:
+          headline: Paramètres de confidentialité
+          text: Ici vous pouvez limiter les informations nécessaires pour les autres utilisateurs de vous trouver.
+        notification:
+          headline: Mes paramètres de notification
+          mail_info: Les notifications par e-mail sont actuellement envoyées à <em>%{email}</em>. Vous pouvez modifier cette adresse dans votre profil.
+          event_notifications: Notifications de l'événement
+          event: événement
+          default_settings: Réinitialiser les paramètres par défaut
+          headline_email: :'global.email'
+          headline_inapp: In-App
+          email:
+            global: "%{brand} peut m'envoyer des notifications par e-mail"
+            news:
+              announcement: "Recevoir des annonces de cours inscrits et les annonces globales"
+            course:
+              announcement: "Recevez les annonciations pour les cours auxquels vous êtes inscrit"
+            pinboard:
+              new_answer: "Activité dans les sujets de discussion que vous suivez"
+            stats: "Recevez statistiques journalières pour les cours que vous enseignez"
+
+        subscription:
+          headline: Sujets de discussion que vous suivez
+          subscribe: Suivre
+          unsubscribe: Ne plus suivre
+          thread: Sujet de discussion
+          action: Gérer les abonnements
+          last_activity: Dernière activité
+          thread_count:
+            zero: Vous n'êtes pas abonné à aucun sujet de discussion.
+            one: Vous êtes abonné à un sujet de discussion.
+            other: "Vous êtes abonné à %{count} sujets de discussion."
+          ago: "Il y a %{timeago}"
+          empty_state: Vous ne suivez aucun sujet de discussion.
+
+        xikolo:
+          course:
+            course:
+              enrollment_create: Nouvelle inscription
+          pinboard:
+            answer:
+              create: Nouvelle réponse à la discussion souscrite
+              notify:
+                create: Nouvelle réponse à la discussion souscrite
+          news:
+            announcement:
+              create: Nouvelle annonce
+
+    sessions:
+      auth_connect:
+        headline: "Bienvenue à %{brand}"
+        native_login:
+          text: >
+            <p>Vous êtes sur le point de vous connecter en utilisant %{provider}.</p>
+            <p>Puisqu'il n'y a pas de compte existant sur %{brand} avec votre adresse e-mail, nous allons en créer un nouveau pour vous,
+            <b>sauf si vous avez déjà un compte (avec une adresse e-mail différente) et que vous souhaitez le connecter avec votre identifiant %{provider}.</b></p>
+          btn_connect: Continuer avec un nouveau compte
+          btn_cancel: Continuer avec un nouveau compte
+        text: C'est la première fois que vous vous connectez à %{brand} avec cette identité numérique.
+        text_create: Nouveau dans l'apprentissage sur %{brand} ?
+        btn_create: Créer un nouveau compte
+        title_connect: Déjà apprenant %{brand}?
+        text_connect: Connectez votre compte existant et conservez votre historique d'apprentissage.
+        btn_connect: Connectez-vous à un compte existant
+        provider_label:
+          saml_test_id: SAMLtest ID
+        provider_link:
+          saml_test_id: "https://samltest.id"
+      connect_account:
+        headline: Connectez un compte %{brand} existant
+        text: Veuillez saisir les identifiants de votre compte %{brand} existant. Vous ne devez le faire qu'une seule fois. À l'avenir, vous pourrez vous connecter à %{brand} avec %{provider} Single Sign-On.
+        btn_cancel: Annuler
+        hint: Mot de passe oublié ou votre mot de passe ne fonctionne pas ? Veuillez contacter le <a href='/helpdesk'>helpdesk</a>.
+    policies:
+      show:
+        headline: Déclaration de confidentialité
+        instructions: "Avant de poursuivre, veuillez lire et accepter notre <a href='%{link}' target='_blank'>déclaration de confidentialité</a> relative à l'utilisation de %{marque} (la déclaration s'ouvre dans une fenêtre externe)."
+        label:
+          submit: "Procéder"
+    password_resets:
+      new:
+        headline: Réinitialiser le mot de passe
+        instructions: S'il vous plaît entrez votre adresse e-mail et soumettez le formulaire. Vous recevrez un e-mail avec un lien qui vous permet de choisir un nouveau mot de passe.
+        label:
+          email: Votre adresse e-mail
+          submit: Demandez la réinitialisation du mot de passe
+        placeholder:
+          email: Votre adresse e-mail
+      show:
+        headline: Réinitialiser le mot de passe
+        instructions: "Choisissez un nouveau mot de passe de votre compte sur %{brand}."
+        label:
+          password: Nouveau mot de passe
+          password_confirmation: Confirmez le mot de passe
+          submit: Définissez nouveau mot de passe
+        placeholder:
+          password: Nouveau mot de passe
+          password_confirmation: Confirmez le mot de passe
+      #      not_found:
+      #        headline: Password reset link not correct
+      #        message: >
+      #          <p>
+      #            Your password reset link does not work. This might be due to several reasons:
+      #          </p>
+      #          <ul>
+      #            <li>
+      #              The link may have expired. Password reset links are <em>only valid for 24 hours</em>.
+      #            </li>
+      #            <li>
+      #              <em>Please note that password reset links can only be used once.</em> You can
+      #              <a href="%{url}">request a new password reset link</a> or contact the helpdesk
+      #              if the problem persists or you suspect someone else had access to your
+      #              account or the reset link.
+      #            </li>
+      #            <li>
+      #              <em>The entered link might be incomplete.</em> Please ensure you have copied the
+      #              entire URL - your email client may have wrapped it across multiple lines.
+      #            </li>
+      #          </ul>
+      flash:
+        reset_send: "Nous avons envoyé la réinitialisation du mot de passe par e-mail à %{email}. S'il vous plaît vérifier votre boîte de réception et suivez les instructions dans l'e-mail."
+        pw_changed: "Votre mot de passe a été réinitialisé. S'il vous plaît vous connecter à nouveau avec votre nouveau mot de passe."
+        email_not_found: "Vérifiez si vous avez entré l'e-mail que vous avez enregistré avec."
+    accounts:
+      new:
+        title: "Bienvenue à %{brand}"
+        text: "Créer un nouveau compte sur %{brand}. Il suffit de remplir vos détails.<br /><i>Notice:</i> Votre nom sera affiché sur votre %{brand} attestation de réussite."
+        submit: "Inscrivez-vous à %{brand}"
+      verify:
+        headline: Vérifiez votre compte
+        message: Vous recevrez un courriel de vérification dans les prochaines minutes.
+        confirmation_period: Le lien de vérification sera valable pendant trois jours.
+        notice: Veuillez vérifier votre dossier spam si vous n'avez pas reçu l'email de confirmation.
+
+  announcements:
+    new:
+      headline: Nouvelle annociation
+    edit:
+      headline: Modifier une annociation
+    operations:
+      new: Créer nouvelle annociation
+      edit: Éditer
+      delete: Supprimer
+    form:
+      translations: Traductions
+      save: Sauvegarder
+      save_and_send: Sauvegarder et envoyer
+      confirm_send: Êtes-vous sûr que vous voulez envoyer cette annonce par e-mail à tous les abonnés concernés?
+      publish: Publier
+      send: Envoyer l'annociation
+      save_and_test: Sauvegarder et envoyer e-mail de test
+    no_news: Il n'y a pas de nouvelles à vous annoncer. S'il vous plaît revenez plus tard.
+    headline: "Nouvelles de <span class='primary-color'>%{brand}</span>"
+    see_older: Voir les anciennes nouvelles
+    older: Nouvelles anciennes
+    title: Nouvelles
+  admin:
+    channels:
+      channel: Channel
+      delete_warning:
+        zero: "Êtes-vous sûr de vouloir supprimer ce canal ?"
+        one: "Il y a un cours dans ce canal - êtes-vous sûr de vouloir le supprimer ?"
+        other: "Il y a %{count} cours dans ce canal - êtes-vous sûr de vouloir le supprimer?"
+      headline: Channels
+      empty_msg: There are currently no channels.
+      reorder: Changer l'ordre des canaux
+      add: Ajout d'un nouveau canal
+      actions:
+        show: View
+        edit: Edit
+        remove: Remove
+      code: Code
+      name: Name
+      logo: Logo
+      description: Description
+      public: "Public?"
+      show_on_stage: Show on stage
+      public_true: true
+      public_false: false
+    users:
+      create:
+        new: New User
+      index:
+        title: Users
+        display_name: Display Name
+        email: Email
+        confirmed: Confirmed
+        filter: "Filter by name or email:"
+        confirmed_true: true
+        confirmed_false: false
+        details: Details
+        search: Search
+        search_by_auth_uid: "Recherche d'utilisateur par SSO ID:"
+        go: Aller sur
+      form:
+        placeholder:
+          full_name: "Nom"
+          email: "E-mail"
+          password: "Password"
+        label:
+          submit: "Submit"
+          full_name: "Nom:"
+          email: "E-mail:"
+          password: "Password:"
+        confirmed: Confirmed
+      new:
+        create_user: Create a user
+
+    courses:
+      index:
+        filter:
+          preparation: En préparation
+          archive: Archive
+          active: Active
+          status: Statut
+      new: Create course
+      update: Update course
+      delete: Delete course
+      form:
+        # EN-fallback file: "File name:"
+        # EN-fallbackedit_visuals: Edit visuals
+      info:
+        invite_only: Si vous définissez une valeur pour une URL d'inscription externe dans une langue quelconque, les apprenants ne seront plus en mesure de se désinscrire du cours. Les apprenants doivent également se rendre à l'inscription externe pour annuler correctement leur inscription.
+      generate_ranking:
+        label: "Generate Ranking"
+        created_at: "Created at: %{date}"
+        quantile_count: "Quantile count: %{count}"
+        success:
+          title: "The generate ranking request has been sent"
+        error:
+          title: "An error occurred"
+          msg: "Please try again or contact the administration team"
+      sections:
+        form:
+          placeholder:
+            title: "Enter a section title"
+            description: "Enter a description of the section. This will also be shown on the course details page"
+          label:
+            title: "Title"
+            description: "Description"
+            start_date: "Start date"
+            end_date: "End date"
+            published: Published
+            optional: Section is optional
+            pinboard_closed: Close discussions?
+      items:
+        form:
+          placeholder:
+            title: "Enter a title"
+          label:
+            title: "Title"
+            start_date: "Start date"
+            end_date: "End date"
+            published: Published
+            show_in_nav: Show in course navigation
+            content_type: Type
+            exercise_type: Exercise type
+            max_points: Maximum points
+            optional: Optional
+            submission_deadline: Submission deadline
+            submission_publishing_date: Submission publishing date
+            proctored: Enable proctoring?
+          type_selector:
+            video: "Video"
+            quiz: "Quiz"
+            text: "Text"
+            lti_exercise: "External exercise tool"
+            peer_assessment: Evaluation par les pairs
+          exercise_type_selector:
+            selftest: Self test
+            main: Main
+            bonus: Bonus
+            survey: Survey
+            none: Aucun
+          video_groupings:
+            video_data: Video Data
+            additional_files: Additional Files
+          video_data:
+            pip_stream: Pip stream
+            lecturer_stream: Lecturer stream
+            slides_stream: Slides stream
+            subtitled_stream: Subtitled stream
+            stream_placeholder: Choisissez un flux vidéo
+            thumbnail_archive: Metadata archive
+            subtitles: Subtitles
+            # EN-fallback transpipe_link: Manage subtitles in TransPipe
+          additional_files:
+            slides: Slides
+            transcript: Transcript
+            reading_material: Reading material
+            audio: Audio
+            remove: Remove file
+          description: Description
+      welcome_mail:
+        group: Welcomemail
+        label: Welcomemail
+        placeholder: Enter the text for the course welcome mail here. Leave empty if no mail should be sent
+
+    course_management:
+      enrollments:
+        user_not_enrolled: "L'utilisateur <strong>%{user_name} (%{user_email})</strong> n'est pas enregistré au cours!"
+        user_not_confirmed: L'utilisateur ne peut pas être enregistré au cours, car son compte n'a pas encore été confirmé.
+        enroll_user: Enregistrer l'utilisateur
+        search_for_user: Rechercher un utilisateur
+        enrollment_id: Id d'enregistrement
+        # EN-fallback user_name: Name
+        # EN-fallback email: Email
+        # EN-fallback enrolled: Enrolled
+        features: Caractéristiques réservées
+        proctoring: Certificat
+        reactivation_html: <span title="Until %{date}">Réactivation</span>
+        # EN-fallback details: Details
+        # EN-fallback submissions: Submissions
+        # EN-fallback progress: Progress
+        # EN-fallback reset_filter: Reset filter
+        copy_id: Copie de l'ID
+      submissions:
+        search_user: "Search for user: "
+        search_reset: Reset filter
+        user_submissions: "All submissions in graded and bonus quizzes for "
+        quiz: Quiz
+        copy_id: Copie de l'ID
+        title: Title
+        count: Count
+        attempts:
+          allowed: Allowed attempts
+          unlimited: Illimité
+          remaining: Remaining attempts
+          additional: Additional attemps
+        add_attempt: "+1"
+        proctoring:
+          processing: "Proctoring : Toujours en cours..."
+          passed: Proctoring réussi
+          passed_with_issues: Proctoring réussi avec quelques problèmes
+          failed: Proctoring échoué
+          exclude: Exclude from proctoring
+          exclude_confirm: Are you sure you want to exclude the submission from proctoring?
+        actions: Actions
+        submission: Submission
+        submissions: Submissions
+        empty:
+          filtered: Cet apprenant n'a pas encore soumis de quiz dans ce cours.
+          course: Il semble qu'il n'y ait pas encore de soumissions de quiz dans ce cours.
+        user: User
+        timestamps:
+          label: Temps
+          access: "Accédé à: %{time}"
+          submit: "Soumis: %{time}"
+          not_submitted: Non soumis
+        profile: Profile
+        access_time: Access time
+        submitted: "Submitted?"
+        submission_time: Submission time
+        points: Points
+        snapshot: "Snapshot?"
+        convert_manually: Convert manually
+        true_text: true
+        false_text: false
+      submission_statistics:
+        title: Submission Statistics
+        submissions: Submission
+        total_submissions: "Total Submissions: "
+        distinct: "Distinct: "
+        total_points: "Total points: "
+        correct: Correct
+        wrong: Wrong
+        total: total
+        student_performance: Student performance
+        average_time: "Average time: "
+        average_points: "Average points: "
+        percent_of: "% of "
+        seconds: " seconds"
+        limit: " limit"
+      policy_url: Policy URL
+
+    teachers:
+      show:
+        edit: Modifier les informations de l'enseignant
+      new:
+        create_teacher: Créer des informations des enseignants
+      edit:
+        edit_teacher: Modifier les informations de l'enseignant
+
+  teachers:
+    show: Afficher les informations sur l'enseignant
+    promote: Promouvoir à l'enseignant
+
+  channels:
+    view_all: Voyez tous les cours
+    show_details: Montrez les détails du cours
+    show:
+      previous: Previous
+      next: Suivant
+      about: "à propos des cours sur <b>%{name}</b>"
+      filter:
+        search: Recherche
+      empty_state: Il n'y a pas encore de cours disponibles dans cette chaîne.
+      empty: Malheureusement, nous n'avons pas pu trouver de cours dans cette chaîne correspondant à cette recherche.
+
+  courses:
+    ago: " il y a %{timeago}"
+    preview:
+      has_started: Le cours a déjà commencé.
+      button_details: Montrez les détails du cours
+      button_enroll: Inscrivez-moi pour ce cours
+      button_enter: Rejoindre le cours
+      button_progress: Montrez mes progrès
+      button_quit: "Se désinscrire"
+      button_goto_external: Accédez au cours externe
+      unenrollment_disabled: Pour vous désinscrire du cours, contactez le fournisseur du cours.
+
+    nav:
+      sections: Apprentissages
+      syllabus: Aperçu
+      progress: Progrès
+      certificates: Certificats
+      info: Détails du cours
+      discussions: Discussions
+      knowledge_documents: Documents
+      announcements: Annonces
+      learning_rooms: Espace de collaboration
+      teacher:
+        administration: Administration de cours
+        # EN-fallback welcome: Welcome, teacher!
+        # EN-fallback pin: Pin menu
+        dashboard: Tableau de bord
+        # EN-fallback alerts: Alerts
+        # EN-fallback item_visits: Item visits
+        # EN-fallback videos: Videos
+        # EN-fallback downloads: Downloads
+        # EN-fallback rich_texts: Text items
+        # EN-fallback quizzes: Quizzes
+        # EN-fallback item_details: Item details
+        # EN-fallback forum_stats: Forum
+        # EN-fallback activity: Activity
+        # EN-fallback geo: Geographic
+        # EN-fallback announcements: Announcements
+        # EN-fallback social: Social shares
+        # EN-fallback referrers: Referrers
+        content: Structure du cours et contenu
+        # EN-fallback lti: LTI providers
+        peer_assessment: Evaluation par les pairs
+        transpipe: Sous-titres (en TransPipe)
+        settings: Propriétés de cours
+        # EN-fallback permissions: Course Permissions
+        # EN-fallback certificates: Certificates
+        enrollments: Inscriptions d'étudiants
+        grading: Soumissions d'étudiants
+        # EN-fallback forum: Forum moderation
+        # EN-fallback visuals: Course Visuals
+      admin:
+        alerts: Afficher les problèmes
+        certificate_templates: Modèles de disques
+        # EN-fallback open_badge_templates: Open Badge Templates
+  course:
+    redeem_voucher:
+      cancel: Retour au cours
+      for_course: "Vous allez échanger un bon pour le cours suivant :"
+      proctoring_smowl:
+        title: Réserver un certificat
+        text: Une fois que vous aurez utilisé le code de bon, vous serez dirigé vers l'étalonnage de la surveillance en ligne pour les devoirs notés. Veuillez vous assurer que vous utilisez un <a href='https://smowl.net/en/faqs-proctoring-smowl/requirements/' target='_blank' rel='noopener'>compatible browser for proctored examins</a> avant d'échanger le bon.
+        info_title: Vous n'avez pas de code de réduction ?
+        info_text: "Si vous souhaitez acheter un code de bon pour le certificat, veuillez visiter la <a href='%{link}' target='_blank' rel='noopener'>boutique %{brand}</a>. Pour les détails des prix et plus d'informations, consultez notre page sur le <a href='/pages/document_types' target='_blank' rel='noopener'>Certificat</a>."
+    card:
+      cop: Confirmation de participation
+      roa: Attestation de réussite
+      qc_html: Certificat / ECTS
+      language_and_subtitles: "%{language} + %{subtitle_languages} sous-titres"
+      button_details: Détails
+      button_enroll: Inscrivez-moi
+      button_resume: Reprendre
+      button_reactivate_course: Réactiver
+      button_visit: Visiter
+      date: Dates du cours
+      classifiers: Classificateurs du cours
+      certificate: Le plus haut niveau de certification possible
+      language: Langue du cours et sous-titres disponibles
+      buttons_menu:
+        details: Montrez les détails
+      label:
+        reactivated: Réactivé
+    courses:
+      date:
+        self_paced_since: "Depuis %{date} en mode autodidacte"
+        beginning: "Commence %{start_date}"
+        range: "%{start_date} - %{end_date}"
+        coming_soon: Bientôt disponible
+      index:
+        filter:
+          channel: Canaux
+          language: Langue
+          status: Statut
+          submit: Filtrer
+        filter_by: Filtrer par texte
+        placeholder: Que souhaitez-vous apprendre?
+        loading: Recherche de cours...
+        empty_state: Il n'y a pas encore de cours disponibles.
+        empty: Malheureusement, nous n'avons pas pu trouver de cours correspondant à cette recherche.
+        action: Afficher tous les cours
+        current: Les cours actuels
+        upcoming: Prochains cours
+        archive: Apprentissage indépendant
+        load_more: Charger plus de cours
+        error: Une erreur s'est produite lors du chargement des cours supplémentaires. Veuillez réessayer plus tard.
+
+      show:
+        header_subtitle: Offert par %{teachers}
+        user_enrolled: Vous êtes inscrit.
+        about_content: Informations sur le cours
+        content: Contenu du cours
+        how_to_enroll: Inscrivez-moi à ce cours
+        how_to_enroll_text: Le cours est en accès libre. Créez votre compte et suivez le cours sur %{brand}.
+        how_to_register_text: Pour ce cours, vous devez vous inscrire directement auprès du fournisseur de cours.
+        button_enroll: Inscrivez-moi maintenant
+        button_register: S'inscrire maintenant
+        dates_and_stats: Dates et Statistiques
+        teacher_title: Ce cours est offert par
+        course_runtime: Commence à
+        categories: Catégories
+        language: Langue
+        roa_requirements: "Obtenez un <b>certificat de réussite</b> en gagnant plus de <b>%{roa_threshold}%</b> du nombre maximal de points pour la somme de toutes les tâches hebdomadaires."
+        cop_requirements: "Obtenez une <b>attestation de participation</b> en complétant au moins <b>%{cop_threshold}%</b> du matériel du cours."
+        open_badge_requirements: "Obtenez un <b>Open Badge</b> en complétant le cours."
+        guidelines_link: "En savoir plus lisez les <a href='/pages/roa_guidelines'>lignes directrices pour le certificat</a>."
+        learning_goals: Ce que vous apprendrez
+        target_groups: À qui s'adresse ce cours
+
+      enrollment_statistics:
+        currently_enrolled: Apprenants actuellement inscrits
+
+      announcements:
+        empty_state: Il n'y a pas encore d'annonciations. Vérifiez de nouveau après que le cours a commencé.
+        edit: Éditez
+        delete: Effacez
+        new: Ajouter nouvelle annonce de cours
+        title: Annonciation de cours
+        ago: "depuis %{timeago}"
+        unpublished: non publié
+
+      create:
+        edit: Editez le cours
+
+    progress:
+      learner_dashboard: Mes progrès d'apprentissage
+      graded_score: Points obtenus
+      selftest_score: Points d'auto-évaluation
+      visited_score: Éléments visités
+      visited_items: "%{visited} de %{available} éléments visités"
+      visited_empty: pas d'articles disponibles
+      visits: "%{visited} of %{available}"
+      section_score:
+        graded: "Noté: "
+        selftests: "Quiz: "
+        visits: "Visité: "
+      section_material: Matériau de la section
+      section_statistics: Statistiques de la section
+      statistics:
+        main: Quiz gradué
+        bonus: Bonus
+        selftests: Quiz
+        items_taken: "%{taken} de %{total} pris"
+      progress_table: # deprecated
+        assignments: Quiz gradué
+        bonus: Bonus
+        selftests: Quiz
+        visited: Visité
+        total: Total
+
+      show:
+        item_locked: " (locked)"
+        points: Points
+        empty_msg: "Il n'y a pas d'objets encore, donc nous ne pouvons pas vous montrer tout progrès maintenant. Revenez plus tard."
+        quizzes_taken: "%{taken} de %{count} sont terminés"
+        items_visited: "%{visited} de %{existing} ont visité"
+      records:
+        documents_headline: Mes documents de cours
+        documents_intro: Dès que le cours est terminé (et le personnel de l'enseignement publie les résultats de l'examination), vous pouvez télécharger vos documents ici.
+        certificates_tab_info: Dès que le cours est terminé (et le personnel de l'enseignement publie les résultats de l'examination), vous pouvez <a href='./certificates'>télécharger vos documents sur la nouvelle page des certificats</a>.
+      overview:
+        open_mode:
+          message: "Les unités d'apprentissage listées appartiennent au cours <b>%{title}</b>. Voulez-vous accéder à l'ensemble du contenu du cours ?"
+          enroll: Inscrivez-vous
+          item: Cette unité d'apprentissage ne peut pas être visualisée. Veuillez vous inscrire pour que le cours puisse se poursuivre.
+        empty_msg: Il n'y a pas d'aperçu disponible pour ce cours.
+        continue: Continuer à apprendre
+
+    admin:
+      visuals:
+        # EN-fallback edit: Edit visuals
+        # EN-fallback back: Back to course editor
+
+    certificates:
+      intro_title: Que puis-je trouver ici?
+      intro_text: Cette page répertorie vos résultats personnels de ce cours. Vous y trouverez ce que vous pouvez accomplir, ce que vous avez accompli et à quel moment vos points pourront être téléchargés!
+      intro_guidelines_html: Pour plus d'informations, consultez <a href="/pages/roa_guidelines">les directives en matière de certificat</a>.
+      requirements: Critères
+      achieved_state: Atteint
+      in_progress_state: En Cours
+      in_progress_button: Vérifier mes progrès
+
+  certificate:
+    template:
+      top_v1: "Fait partie du %{top}% des participants les plus actifs."
+      born_v1: "né : %{birthday}"
+      score_v1: "%{points} de %{max_points} points possibles (%{percent}%)"
+
+      top_v2: "Le candidat fait partie des meilleurs %{top}% des participants du cours."
+      born_v2: "Date de naissance : %{birthday}"
+      score_v2: " %{points} points (%{percent}%) "
+      email_v2: "E-mail : %{email}"
+
+      born_v3: "%{birthday}"
+      score_v3: "%{points} / %{max_points} points (%{percent}%)"
+
+      verify: "Vérifiez en ligne : %{verification_url}"
+
+  knowledge_documents:
+    documents: Documents
+    show: Show Details
+    title: Title
+    description: Description
+    language: Language
+    upload_file: Upload documents
+    id: Id
+    filename: Nom de fichier
+    size: Taille
+    path: Path
+    download: Télécharger
+    actions: Actions
+    no_documents: No documents available
+    filter: Filter by
+    or_course: Or find by
+    reset_filter: Reset Filter
+    hint: Upload is limited to PDF. The filesize must not exceed 8MB.
+    corresponding_document: Corresponding document
+    add_language: Add Language
+    edit_document: Edit Document
+    new: Add new Document
+    edit: Edit
+    tags: Tags
+    languages: Languages
+    filter_courses: Courses
+    corresponding_courses: Corresponding Courses
+    delete: Delete
+    delete_all: Delete Document and all translations
+    delete_localization: Delete translation
+    submit: Submit
+    update: Update Document
+    internal:
+      information: Internal Information
+      title: Internal title
+      title_placeholder: Enter an internal title for the document. This will be only visible for other administrators.
+      description: Internal document description
+      description_placeholder: Enter an internal description for the document.This will be only visible for other administrators.
+    localization:
+      edit: Edit translation
+      create: Add new translation
+      this_translation: This translation of the document
+      translations: Translations
+      language: Language written in
+      file: File (as pdf)
+      file_placeholder: Choose a file to upload
+      old_file: Old file
+      new_file: Upload new file (as pdf)
+      show_file: Show current file
+      title: Title (in chosen language)
+      title_placeholder: Enter document title in chosen language
+      description: Description (in chosen language)
+      description_placeholder: Enter a description for this document.This should be written in the same language as the attached file.
+    courses: In courses
+    courses_placeholder: Choose courses, where this document should be used
+    public: Public?
+    create: Create a document
+    platform: Use on platform
+    index: Retour à la vue d’ensemble
+    cancel: Annuler
+    help:
+      help: Help
+      new: Documents can be displayed in different languages. Use this form to create a whole new document. You have to provide at least one translation for the users to see. The uploaded files have to be a PDF to ensure every user can display them.
+      edit: Documents can be displayed in different languages. Use this form to edit the internal information about this document. These are visible to other administrators and should hold information to clearly recognize the content and goal of the document. Below you can see and edit the translations of this document.
+
+  sections:
+    admin:
+      action: Action
+      edit: Éditer
+      move_up: Déplacer vers le haut
+      move_down: Déplacer vers le bas
+      move_to_top: Déplacer vers le haut
+      move_to_bottom: Déplacer vers le bas
+      delete: Effacez
+      delete_confirm: Cela effacera la section.
+      delete_with_alternatives_confirm: Cela effacera la section et toutes les sections alternatives correspondantes.
+      delete_forbidden: Il n'est pas possible d'effacer
+      delete_forbidden_text: La section contient encore des éléments. Il faut d'abord les effacer avant de pouvoir supprimer la section.
+    unlocked_since: "A été verrouillé depuis %{date}"
+    unlocked: Est déverrouillé
+    optional_section: " (optional)"
+    locked_since: "A été verrouillé au %{date}"
+    locked_until: "Sera débloqué au %{date}"
+    locked_on: "Sera verrouillé le %{date}"
+    unpublished: N'est pas publié
+    published: Est publié
+    new: Ajoutez section
+    show_uuids: Afficher les UUID
+    hide_uuids: Masquer les UUID
+    item:
+      delete: Supprimez l'objet
+      create: Ajoutez un objet
+      create_headline: Créez un nouveau object dans la section
+      edit_headline: Modifiez l'objet
+      edit_subtitles: Modifiez les sous-titres
+      unpublished: L'objet n'est pas publié
+      locked_until: "L'objet sera déverrouillé en %{date}"
+      locked_since: "L'objet a été verrouillé %{date}"
+      locked_on: "L'objet sera verrouillé le %{date}"
+      time_effort: "Temps requis : env. %{time_effort}"
+    index:
+      label:
+        rich_text: Texte
+        video: Vidéo
+        quiz: Quiz
+        lti_exercise: Exercice
+        peer_assessment: Evaluation par les pairs
+      clone_course:
+        button: Clonez course
+        placeholder: Code de cours du clone
+        course_code_empty: Le code de cours pour le clone ne peut être vide.
+        new_course_not_empty: Le cours cible pour le clone ne peut pas avoir un contenu (sections).
+        clone_started: "Le clonage de cours a commencé. Vous pouvez trouver le cours cloné dans <a href='/admin/courses'>la liste des cours</a>."
+      recalculate_learning_evaluation: Recalculer maintenant
+
+    alternative:
+      create: Ajoutez une autre section
+      decision_heading: "S'il vous plaît sélectionnez le sujet que vous voulez continuer de travailler"
+      select: Sélectionnez
+      continue: Continuez
+
+  items:
+    new:
+      back_to_editor: Retour à l'éditeur de cours
+    show:
+      hide_nav: Cacher la navigation
+      show_nav: Afficher la navigation
+      toggle_nav_hint: Commutez la navigation
+      coursestate:
+        available: Cours est disponible
+        was_available: Cours est terminé
+        archive: Cours en autoformation
+        preparation: En préparation
+        upcoming: Cours n'a pas encore commencé
+        hidden: Cours est caché
+      prev_item: Précédent
+      next_item: Suivant
+      unsupported_browser: Votre navigateur ne soit pas pris en charge. S'il vous plaît utilisez un navigateur moderne.
+      video:
+        preview:
+          info: "Cette vidéo appartient au cours %{platform} <b>%{course_title}</b>. Voulez-vous en voir plus ?"
+          enroll: Inscrivez-vous gratuitement
+        about: Concernant cette vidéo
+        video_downloads: Télécharger la vidéo
+        additional_downloads: Télécharger du matériel supplémentaire
+        download:
+          video: Vidéo en MP4
+          hd_video: "Vidéo (HD) en MP4"
+          sd_video: "Vidéo (SD) en MP4"
+          subtitled_video: "Vidéo (Subtitled) as MP4"
+          slides: Documents de présentation en format PDF
+          transcript: Transcription
+          reading_material: Le matériel de lecture
+          audio: Audio en MP3
+          disabled: Le téléchargement de cette vidéo/audio n'est pas possible en raison de la réglementation relative aux licences.
+        ask_own_question: Lancer un nouveau sujet
+        questions_and_discussions: Sujets de discussion
+        view_or_answer: Vue ou réponse
+        read_more: Lire la suite
+        num_questions:
+          zero: Il n'y a pas encore de sujets de discussion
+          one: 1 sujet de discussion
+          other: "%{count} sujets de discussion"
+        num_replies:
+          zero: Pas de réponses
+          one: 1 réponse
+          other: "%{count} réponses"
+        transcript:
+          select_language_settings: Pour activer la transcription, sélectionnez une langue dans les paramètres du lecteur vidéo.
+          current_position: Aller à la position actuelle
+      quiz:
+        instruction: "Instructions"
+        start_quiz_now: "Commencez le quiz maintenant"
+    requirements:
+      headline: Les exigences ne sont pas remplies
+      not_fulfilled: "Cette unité d'apprentissage a des exigences que vous n'avez pas satisfaites. Veuillez compléter toutes ces unités :"
+      result_requirement: Terminez cette unité d'apprentissage avec un score d'au moins %{threshold}% des points maximum.
+      visit_requirement: Visitez et travaillez sur cette unité d'apprentissage.
+    quiz:
+      nav:
+        properties: Paramètres de Quiz
+        questions: Questions
+      time_limit: Limite de temps
+      allowed_attempts: tentatives permises
+      graded_quiz: Ceci est un quiz gradué
+      bonus_quiz: Ceci est un quiz de bonus
+      survey_quiz: Ceci est une enquête
+      quiz_is_selftest: "Ce quiz est un test d’auto-évaluation. Vous pouvez passer ce test aussi souvent que vous le souhaitez"
+      quiz_is_survey: "Share your feedback with us. Please take 1 minute of your time to answer the following survey questions. Your feedback is valuable to improve the learning experience at %{brand}!"
+      question: Question
+      question_text: Texte de la question
+      question_explanation: Explication
+      question_alert: Donnez votre avis sur cette question!
+      show_question_explanation: Affichez l' explication
+      hide_question_explanation: Cachez l' explication
+      actions: Actions
+      edit_question: Modifiez la question
+      move_question_up: Déplacez la question en haut
+      move_question_down: Déplacez la question vers le bas
+      move_question_to_top: Déplacez la question vers le haut
+      move_question_to_bottom: Déplacez la question vers le bas
+      delete_question: Éliminez la question
+      delete_question_confirm: Êtes-vous sûr de vouloir supprimer cette question ?
+      add_answer: Ajoutez réponse
+      question_type: Type de question
+      select_question_type: Sélectionnez un type de question pour ajouter une question à ce quiz
+      enter_question: Entrez votre question ici
+      enter_question_explanation: Entrez votre explication ici
+      points: Points
+      shuffle_answers: Mélangez les réponses
+      answer: Réponse texte
+      answer_type: Type de réponse
+      select_answer_type: S'il vous plaît sélectionnez un type de réponse
+      enter_answer: Entrez votre réponse ici
+      answer_explanation: Explication
+      answer_explanation_text: Ajoutez une explication comment répondre à cette
+      answer_correct: La réponse est correcte
+      unlimited_time: Temps illimité
+      unlimited_attempts: Tentatives illimitées
+      instruction: Instructions
+      instruction_placeholder: Entrez les instructions utiles
+      start_quiz_now: Commencez le quiz maintenant
+      publish_results_at: Publiez la date des résultats
+      lock_submissions_at: Bloquez soumissions après
+      skip_welcome_page: Passez la page de bienvenue
+      edit: Modifier quizzes
+      import: Importer quizzes du XML
+      confirm_start_quiz: Ce quiz est noté et ne peut être interrompu. Assurez-vous d'avoir suffisamment de temps pour le terminer avant de commencer.
+      exclude_from_recap: Exclude from recap
+      question_types:
+        multiple_choice_question: Single Select Question
+        multiple_answer_question: Multi Select Question
+        free_text_question: Free Text Question
+        essay_question: Essay
+      proctoring:
+        book_certificate: Réserver le certificat
+        certificate_booked:
+          title: Vous avez réservé avec succès votre certificat
+          instructions: "Veuillez vous assurer de respecter les règles (<a href='https://smowl.net/en/faqs-proctoring-smowl/camera-monitoring/' target='_blank' rel='noopener'>FAQ</a> | <a href='/pages/proctoring_guidelines' target='_blank'>guide</a>). En cas d'infraction, nous ne pourrons pas délivrer de certificat. N'oubliez jamais :"
+          exclusion_criteria:
+            <ul><li>Vous devez être <strong>la seule personne</strong> devant la caméra. Si aucune personne, plusieurs personnes ou une autre personne que celle qui est enregistrée n'est visible, la surveillance échouera.</li>
+            <li>Choisissez une période d'examen où vous <strong>ne serez pas dérangé(e)</strong> et où vous ne devrez pas quitter votre place pendant l'examen.</li>
+            <li>Assurez-vous que <strong>les conditions d'éclairage sont adéquates</strong> et que votre visage est clairement visible. Une source de lumière à l'arrière peut faire apparaître votre visage trop sombre dans la caméra.</li>
+            <li>N'utilisez rien qui couvre votre tête ou votre visage (chapeau, lunettes de soleil, ...). Les lunettes de lecture sont autorisées.</li>
+            </ul>
+            <p>Conseils techniques :</p>
+            <ul><li>Assurez-vous que votre caméra est allumée et entièrement fonctionnelle. Retirez le couvercle de votre webcam.</li>
+            <li>Fermez toutes les autres applications qui accèdent à la caméra.</li>
+            <li>Pendant l'examen, assurez-vous que l'onglet  des tâches est le seul onglet ouvert dans votre navigateur.</li></ul>
+        deadline_passed: La période d'inscription pour le certificat est terminée. Vous pouvez encore obtenir une attestation de réussite en complétant les quiz notés.
+        upgrade_not_possible: Vous avez déjà soumis trop de devoirs hebdomadaires et ne pouvez donc plus réserver le Certificat. Vous pouvez encore obtenir une attestation de réussite en remplissant les quiz notés.
+        upgrade_information:
+          title: Voulez-vous réserver un certificat ?
+          info: Vous pouvez encore vous inscrire pour le certificat jusqu'au <strong>%{deadline}</strong>. Le certificat est un complément payant. Vous pouvez toujours gagner une attestation de réussite gratuit en remplissant les quiz notés.
+          registration_periods_info: <b>Périodes d'inscription :</b> Vous pouvez vous inscrire au certificat uniquement avant la date limite de soumission du deuxième devoir noté. Si la date limite de soumission du deuxième devoir est dépassée, il n'est plus possible de s'inscrire à l'examen surveillé.
+
+    lti:
+      allowed_attempts: Allowed attempts
+      bonus_exercise: This is a bonus exercise
+      bonus_points: Earn bonus points by solving this task.
+      custom_exercise_fields: Additional parameters for this exercise
+      exercise_title: Optional exercise title
+      graded: This is a graded exercise.
+      instruction: Instructions
+      launch_lti_exercise: Launch exercise tool
+      main_exercise: This is the section's main exercise.
+      results: Exercise Results
+      ungraded: This is an ungraded exercise.
+      wait_message_new_window: The external tool will open in a new window.
+      wait_message_same_window: The external tool will load right away.
+      weight: Points
+      # EN-fallback lti_provider: LTI provider
+      # EN-fallback lti_providers_global: Global Providers
+      # EN-fallback lti_providers_course: Course Providers
+      custom_fields_placeholder: "key1=value1&key2=value2"
+      not_available: Cet exercice n'est plus disponible.
+      provider_deleted: Le prestataire LTI joint à cet élément a été supprimé.
+    rich_text:
+      form:
+        markup: Markup
+        placeholder_text: Enter full description
+    edit:
+      quiz_info: Quiz info
+      questions: "Question(s):"
+      quiz_total_points: "Quiz Total Points: "
+    deleted_quiz: "Quiz deleted."
+    deleted_richtext: Élément de texte supprimé.
+    deleted_item: "Item deleted."
+    type_label:
+      video: Vidéo
+      rich_text: Texte
+      peer_assessment: Évaluation par les pairs
+      bonus_peer_assessment: Évaluation par les pairs (bonus)
+      self_test: Test d'auto-évaluation
+      graded_test: Test gradué
+      bonus_test: Test (bonus)
+      survey: Enquête
+      exercise: Exercice
+      graded_exercise: Exercise gradué
+      bonus_exercise: Exercise (bonus)
+
+  next_dates:
+    course_start: Le cours commence dans
+    section_start: "%{title} commence dans"
+    item_submission_deadline: "soumissions pour %{title} se terminent au"
+    item_submission_publishing: "soumissions pour %{title} seront publiées  dans"
+
+  ical:
+    course_start: "Début de cours %{title}"
+    section_start: "%{title} commence dans le cours %{course_title}"
+    item_submission_deadline: "Date limite de remises pour %{title}"
+    item_submission_publishing: "Remises de %{title} seront publiés"
+    course_start_desc: "Début de cours %{title} sur %{site}"
+    section_start_desc: "%{title} commence dans le cours %{course_title} sur %{site}"
+    item_submission_deadline_desc: "Date limite de remises pour %{title} sur  %{site}"
+    item_submission_publishing_desc: "Remises de %{title} seront publiés sur le site web %{site}"
+
+  dashboard:
+    courses:
+      current: Mes cours actuels
+      upcoming: Mes cours prochains
+      completed: Mes cours finis
+    # EN-fallback not_enrolled_upcoming: 'You are not enrolled in any upcoming courses. Explore our <a href="/courses">courses</a>.'
+    mark_completed: Marquer comme fini
+    mark_completed_confirmation: En choisissant cette option vous déplacez définitivement le cours de vos cours actuels à vos cours déjà terminés. De là, vous pouvez toujours accéder au cours.
+    sidebar:
+      dates: Prochaines dates par cours
+      recommendations: Cours recommendés
+    starting_soon: Commence bientôt
+    started: Commencé
+    profile:
+      my_profile: Mon profil
+      service_unavailable: Le service est indisponible pour le moment. Veuillez essayer plus tard.
+      error_message: Malheureusement, les données n'ont pas pu être sauvegardées. Veuillez vérifier votre saisie et essayer plus tard.
+      name: Nom
+      name_text: Ceci est la façon dont votre nom sera affiché sur l'attestation de réussite.
+      display_name: Nom affiché
+      display_name_text: Ceci est la façon dont votre nom sera affiché sur la plateforme.
+      resulting_display_name: Votre nom comme il est visible
+      additional_info: Information supplémentaire
+      additional_info_text: "Cette information est utilisée pour l'analyse statistique qui nous aide à améliorer nos services. Avant l'utilisation, les informations sont pseudonymisées. Il n'y a pas d'accès du public à ces données."
+      required_info: Les informations requises
+      education: Le plus haut degré
+      age: Âge
+      gender: Sexe
+      career: Expérience professionnelle
+      background_in_IT: Contexte dans les TIC
+      about_me: Sur moi
+      about_me_text: Parlez aux autres un peu de vous-même.
+      identities: Identités connectées
+      delete_account: Supprimer le compte
+      delete_account_buttontext: Supprimer le compte
+      delete_account_confirm_text: "Êtes-vous sûr de continuer? Après cela, vous ne serez plus capable d'accéder à votre compte et à votre contenu d'apprentissage. C'est irrévocablement!"
+      delete_account_text: "Ici, vous pouvez supprimer votre compte %{brand} irrévocablement:"
+      affiliation: Société
+      career_status: Le statut de carrière
+      highest_degree: Le plus haut degré
+      background_it: Contexte dans les TIC
+      professional_life: Expérience professionnelle
+      position: Position
+      country: Pays
+      city: Ville
+      change_password: Changer le mot de passe
+      change_password_text: "Pour changer votre mot de passe, vous devez insérer votre ancien mot de passe. Si vous ne vous le souvenez plus vous vous connectez s'il vous plaît par utiliser le <i>Forgot password</i> bouton dans le formulaire de connexion."
+      change_password_callout: Après avoir modifié vos informations d'identification, vous devrez vous reconnecter dans d'autres navigateurs.
+      password: "mot de passe"
+      old_password: "Ancien mot de passe"
+      new_password: "Nouveau mot de passe"
+      password_confirmation: "Confirmez le mot de passe"
+      birthdate: Date de naissance
+      select_birthdate: "Veuillez choisir"
+      show_birthdate_on_record: "Si vous voulez que votre date de naissance soit imprimée sur vos documents, vous pouvez choisir cette option dans dans votre <a href='%{url}'>page de certificats</a>."
+      combodate_format: "YYYY-MM-DD"
+      combodate_viewformat: "D. MMMM YYYY"
+      combodate_template: "DD. MMMM YYYY"
+      not_set: "Pas encore défini."
+      current_email: "Votre adresse e-mail principale actuelle est <i>%{email}</i>."
+      add_email: "Ajouter une nouvelle adresse e-mail"
+      pending_email_change: "Il y a une demande de changement e-mail en attendant!"
+      unconfirmed_mails_present: "Vous avez demandé de changer votre e-mail. S'il vous plaît confirmez l’e-mail et suivez les instructions dans l'e-mail de confirmation que vous avez reçu."
+      unconfirmed_mail_resend: "Renvoyer e-mail de confirmation"
+      unconfirmed_mail_cancel_request: "Annuler"
+      primary_email: "Votre adresse e-mail principale"
+      secondary_emails:
+        title: Autres e-mails associés à ce compte
+        show: Montrez
+        hide: Cachez
+        promote: Mettez le primaire
+        confirm_promote: "Êtes-vous sûr de vouloir changer votre adresse e-mail principale?"
+        delete: Effacer
+        confirm_delete: "Êtes-vous sûr de vouloir supprimer cette adresse e-mail?"
+      authorizations:
+        title: Social and Enterprise Logins
+        confirm_delete: Voulez-vous vraiment déconnecter cette connexion de votre compte?
+        invite_to_switch: <b>Vous souhaitez changer votre connexion sociale ou d'entreprise pour une autre identité ?</b> Connectez d'abord la nouvelle identité. Vous pouvez ensuite supprimer l'entrée de l'authentification unique dont vous n'avez plus besoin.
+      settings:
+        career_status:
+          none: Aucun
+          student: Étudiant
+          professional: Professionnel
+          academic_researcher: Chercheur universitaire
+          teacher: Professeur
+          other: Autre
+        highest_degree:
+          none: Aucun
+          high_student: Lycéen
+          bachelor: Bachelier
+          master: Master
+          diplom: Diplôme
+          magister: Maître des arts
+          phd: Doctorat
+          other: Autre
+        background_it:
+          none: Aucun
+          beginner: Débutant
+          advanced: Avancé
+          expert: Expert
+        professional_life:
+          none: Aucun
+          up_to_5_years: Jusqu'à 5 ans
+          up_to_10_years: Jusqu'à 10 ans
+          more_than_10_years: Plus de 10 ans
+        position:
+          none: Aucun
+          intern: Stagiaire
+          technician: Technicien
+          project_manager: Chef de projet
+          team_leader: Chef d'équipe
+          department_head: Chef de département
+        gender:
+          not_set: Pas encore défini
+          male: Mâle
+          female: Femelle
+          other: Autre
+        subscribed_to_newsletter:
+          "true": "Oui"
+          "false": "Non"
+        country:
+          not_set: Pas encore défini
+          ac: "Île de l'Ascension"
+          af: Afghanistan
+          al: Albania
+          dz: Algeria
+          as: "American Samoa"
+          ad: Andorra
+          ao: Angola
+          ai: Anguilla
+          aq: Antarctica
+          ag: "Antigua and Barbuda"
+          ar: Argentina
+          am: Armenia
+          aw: Aruba
+          au: Australia
+          at: Austria
+          az: Azerbaïdjan
+          bs: Bahamas
+          bh: Bahrain
+          bd: Bangladesh
+          bb: Barbados
+          by: Belarus
+          be: Belgium
+          bz: Belize
+          bj: Benin
+          bm: Bermuda
+          bt: Bhutan
+          bo: Bolivia
+          ba: "Bosnia and Herzegovina"
+          bw: Botswana
+          bv: "Bouvet Island"
+          br: Brazil
+          io: "British Indian Ocean Territory"
+          vg: "British Virgin Islands"
+          bn: Brunei
+          bg: Bulgaria
+          bf: "Burkina Faso"
+          bi: Burundi
+          kh: Cambodia
+          cm: Cameroon
+          ca: Canada
+          cv: "Cape Verde"
+          ky: "Cayman Islands"
+          cf: "Central African Republic"
+          td: Chad
+          cl: Chile
+          cn: China
+          cx: "Christmas Island"
+          cc: "Cocos [Keeling] Islands"
+          co: Colombia
+          km: Comoros
+          cg: "Congo - Brazzaville"
+          cd: "Congo - Kinshasa"
+          ck: "Cook Islands"
+          cr: "Costa Rica"
+          hr: Croatia
+          cu: Cuba
+          cw: Curaçao
+          cy: Cyprus
+          cz: "Czech Republic"
+          ci: "Côte d’Ivoire"
+          dk: Denmark
+          dj: Djibouti
+          dm: Dominica
+          do: "Dominican Republic"
+          ec: Ecuador
+          eg: Egypt
+          sv: "El Salvador"
+          gq: "Equatorial Guinea"
+          er: Eritrea
+          ee: Estonia
+          et: Ethiopia
+          fk: "Falkland Islands"
+          fo: "Faroe Islands"
+          fj: Fiji
+          fi: Finland
+          fr: France
+          gf: "French Guiana"
+          pf: "French Polynesia"
+          tf: "French Southern Territories"
+          ga: Gabon
+          gm: Gambia
+          ge: Georgia
+          de: Germany
+          gh: Ghana
+          gi: Gibraltar
+          gr: Greece
+          gl: Greenland
+          gd: Grenada
+          gp: Guadeloupe
+          gu: Guam
+          gt: Guatemala
+          gg: Guernsey
+          gn: Guinea
+          gw: Guinea-Bissau
+          gy: Guyana
+          ht: Haiti
+          hm: "Heard Island and McDonald Islands"
+          hn: Honduras
+          hk: "Hong Kong SAR China"
+          hu: Hungary
+          is: Iceland
+          in: India
+          id: Indonesia
+          ir: Iran
+          iq: Iraq
+          ie: Ireland
+          im: "Isle of Man"
+          il: Israel
+          it: Italy
+          jm: Jamaica
+          jp: Japan
+          je: Jersey
+          jo: Jordan
+          kz: Kazakhstan
+          ke: Kenya
+          ki: Kiribati
+          kw: Kuwait
+          kg: Kyrgyzstan
+          la: Laos
+          lv: Latvia
+          lb: Lebanon
+          ls: Lesotho
+          lr: Liberia
+          ly: Libya
+          li: Liechtenstein
+          lt: Lithuania
+          lu: Luxembourg
+          mo: "Macau SAR China"
+          mk: Macedonia
+          mg: Madagascar
+          mw: Malawi
+          my: Malaysia
+          mv: Maldives
+          ml: Mali
+          mt: Malta
+          mh: "Marshall Islands"
+          mq: Martinique
+          mr: Mauritania
+          mu: Mauritius
+          yt: Mayotte
+          mx: Mexico
+          fm: Micronesia
+          md: Moldova
+          mc: Monaco
+          mn: Mongolia
+          me: Montenegro
+          ms: Montserrat
+          ma: Morocco
+          mz: Mozambique
+          mm: "Myanmar [Burma]"
+          na: Namibia
+          nr: Nauru
+          np: Nepal
+          nl: Netherlands
+          nc: "New Caledonia"
+          nz: "New Zealand"
+          ni: Nicaragua
+          ne: Niger
+          ng: Nigeria
+          nu: Niue
+          nf: "Norfolk Island"
+          kp: "North Korea"
+          mp: "Northern Mariana Islands"
+          "no": Norway
+          om: Oman
+          pk: Pakistan
+          pw: Palau
+          ps: "Palestinian Territories"
+          pa: Panama
+          pg: "Papua New Guinea"
+          py: Paraguay
+          bq: "Pays-Bas Caribéens"
+          pe: Peru
+          ph: Philippines
+          pn: "Pitcairn Islands"
+          pl: Poland
+          pt: Portugal
+          pr: "Puerto Rico"
+          qa: Qatar
+          ro: Romania
+          ru: Russia
+          rw: Rwanda
+          re: Réunion
+          bl: "Saint Barthélemy"
+          sh: "Saint Helena"
+          kn: "Saint Kitts and Nevis"
+          lc: "Saint Lucia"
+          mf: "Saint Martin"
+          sx: "Saint-Martin (Royaume des Pays-Bas)"
+          pm: "Saint Pierre and Miquelon"
+          vc: "Saint Vincent and the Grenadines"
+          ws: Samoa
+          sm: "San Marino"
+          sa: "Saudi Arabia"
+          sn: Senegal
+          rs: Serbia
+          sc: Seychelles
+          sl: "Sierra Leone"
+          sg: Singapore
+          sk: Slovakia
+          si: Slovenia
+          sb: "Solomon Islands"
+          so: Somalia
+          za: "South Africa"
+          gs: "South Georgia and the South Sandwich Islands"
+          kr: "South Korea"
+          es: Spain
+          lk: "Sri Lanka"
+          sd: Sudan
+          ss: Soudan du Sud
+          sr: Suriname
+          sj: "Svalbard and Jan Mayen"
+          sz: Swaziland
+          se: Sweden
+          ch: Switzerland
+          sy: Syria
+          st: "São Tomé and Príncipe"
+          tw: Taiwan
+          tj: Tajikistan
+          tz: Tanzania
+          th: Thailand
+          tl: Timor-Leste
+          tg: Togo
+          tk: Tokelau
+          to: Tonga
+          tt: "Trinidad and Tobago"
+          tn: Tunisia
+          tr: Türkiye
+          tm: Turkmenistan
+          tc: "Turks and Caicos Islands"
+          tv: Tuvalu
+          vi: "U.S. Virgin Islands"
+          ug: Uganda
+          ua: Ukraine
+          ae: "United Arab Emirates"
+          gb: "United Kingdom"
+          us: "United States"
+          zz: "Unknown or Invalid Region"
+          uy: Uruguay
+          uz: Uzbekistan
+          vu: Vanuatu
+          va: "Vatican City"
+          ve: Venezuela
+          vn: Vietnam
+          wf: "Wallis and Futuna"
+          eh: "Western Sahara"
+          ye: Yemen
+          zm: Zambia
+          zw: Zimbabwe
+          ax: "Åland Islands"
+      relation: Relation
+    documents:
+      my_documents: Mes documents
+      text: "Ici vous pouvez trouver tous vos documents de cours (attestations de réussite et les confirmations de participation) en un seul endroit. Vous êtes qualifié pour une <i>attestation de réussite</i> si vous recevez au moins %{roa_threshold}%% des points maximale de devoirs et examen final d'un cours. Vous pouvez télécharger votre <i>confirmation de participation</i>, si vous travaillez à travers plus de %{cop_threshold}%% de la matière de l'apprentissage d'un cours et pendant l'horaire des cours réguliers. Voyez les <a href='/pages/roa_guidelines'> directives de l'attestation de réussite</a> pour plus d'informations."
+      show_birthdate: "Montrer le date de naissance sur mes documents"
+      no_documents: Il n'y a pas de documents disponibles.
+      my_upcoming_courses: Mes cours prochains
+      proctoring_chart: Online proctoring results
+      divergent_certificate_requirements: "Divergent certificate requirements, see <a href='/courses/%{course_code}'>course details</a>."
+
+  feeds:
+    headline: "Nos nouvelles:"
+    txt: "Ce sont nos nouvelles disponibles. Elles sont fournies en JSON."
+    course_feed_name: "Cours disponibles"
+
+  pinboard:
+    ask_question: Lancer un nouveau sujet
+    submit_question: Publier un nouveau sujet
+    update_question: Sauvegarder les modifications
+    locked_msg: Les discussions de ce cours sont protégées en écriture. Aucun nouveau sujet ou aucune nouvelle réponse ne peut être créées.
+    cancel: Annuler
+    search_tag_result_text:
+      one: "Votre résultat de recherche pour %{tags}"
+      other: "Votre résultat de recherche pour %{tags}"
+    breadcrumbs:
+      label: "Vous êtes ici :"
+      all: Toutes les discussions
+      collabspace: "Espace de collaboration : %{name}"
+    general: Toutes les discussions (Général)
+    no_results_search: Désolé, aucun article trouvé pour votre recherche
+    no_results: Désolé, rien ici encore..
+    question:
+      votes:
+        one: 1 vote
+        other: "%{count} votes"
+      comments: Commentaires
+      answers: answers
+      responses: Réponses
+      views: Vues
+      ago: "Il y a %{timeago}"
+      last_activity: Dernière activité
+      answered: Répondu
+      discussion: Discussion
+      unanswered: Sans réponse
+      closed: fermé
+      accept_hint: Cette réponse vou a été utile? Cliquez ici pour le cocher comme acceptée.
+    pagination:
+      next: suivant
+      first: premier
+      last: last
+      previous: previous
+    filters:
+      all_discussions: Toutes les discussions
+      discussions_in: "Afficher les sujets dans :"
+      technical_issues: Problèmes techniques
+    index:
+      filter:
+        search: Recherche
+        tags:
+          label: Mots clés
+          placeholder: Sélectionnez des mots clés
+        order: Trier en ordre
+        sort:
+          activity: Dernière activité
+          age: Questions récentes
+          votes: Meilleur voté que premier
+      loading: Recherche de discussions..
+    reporting:
+      report: report
+      block: block
+      reports:
+        zero: No reports
+        one: 1 report
+        other: "%{count} reports"
+      unblock: review
+      tooltip: Report inappropriate content
+      blocked: "[Blocked]"
+      question_blocked: "[This post was blocked due to inappropriate content]"
+      answer_blocked: "[This answer was blocked due to inappropriate content]"
+      comment_blocked: "[This comment was blocked due to inappropriate content]"
+      reply_blocked: Les réponses et les commentaires sont désactivés pour ce sujet car il a été bloqué.
+      success: Your report was received successfully
+      error: There was an error reporting this post
+      admin:
+        headline: Pinboard Abuse Reports
+        question_title: Discussion Topic
+        type: Post Type
+        reporter: Reported by
+        created: Reported at
+        view: Details
+        dismiss: Dismiss
+        empty_msg: No open abuse reports.
+        post_types:
+          question: Question
+          answer: Answer
+          comment: Comment
+    sticky: Sticky
+
+  pinboard_comment:
+    update: Sauvegarder les modifications
+
+  question:
+    answered: Répondu
+    discussion: Discussion
+    unanswered: Répondez maintenant
+    show:
+      back: Retour au sommaire
+      subscribe: Suivre
+      unsubscribe: Ne plus suivre
+      destroy: Effacer
+      confirm_delete: Supprimer ce discussion?
+      close: Fermer
+      confirm_close: Fermez ce discussion?
+      reopen: Réouvrir
+      confirm_reopen: Réouvrir ce discussion?
+      closed_msg: L'entrée a été fermée et est protégé en écriture. Pas de nouvelles réponses ou des commentaires peuvent être crées.
+      section_locked_msg: "Les discussions pour la section %{section} dont protégées en écriture. Aucun nouveau sujet ou aucune nouvelle réponse ne peut être créées."
+    question_detail:
+      subscribe: Suivre
+      unsubscribe: Ne plus suivre
+      edit: Éditer
+      add_reply: Ajouter réponse
+    comment_form:
+      add_comment: Ajouter un commentaire
+      create_comment: Envoyez des commentaires
+    answers:
+      edit: Éditer
+    answer_form:
+      answer_question: Répondre
+      submit: Envoyer réponse
+    attachment:
+      download_attachment: Télécharger appendice
+
+  quiz_submission:
+    instruction: Quiz Instruction
+    questions: Questions
+    retake_quiz: Reprenez le quiz
+    your_submissions: "Vos soumissions: %{submission_count}"
+    remaining_attempts: "Tentatives qui restent: %{remaining_attempts}"
+    choose_submission: "Choisir la soumission:"
+    total_points: "%{total_points} de %{max_points} points atteint"
+    submit:
+      selftest: Envoyez mes réponses
+      bonus: Envoyez mes réponses
+      main: Envoyez mes réponses finales
+      survey: Envoyez des commentaires
+    proctoring:
+      sidebar_title: la surveillance d'examens
+      instrumented_info: The online proctoring functionality is temporary disabled because you are masqueraded as the user.
+      no_issues: No issues detected
+      data_currently_unavailable: The proctoring data is still being processed.
+      feature_tooltip: Violations will be accumulated
+      not_passed: There have been issues during the proctoring for this assignment. A certificate will not be issued. The violations are indicated above.
+      passed_with_issues: There have been some minor issues during the proctoring for this assignment. The violations are shown above. Please, be aware that these violations will be accumulated throughout the course. In case you cross the threshold for one of the features a certificate will not be issued.
+    quiz_sidebar_title: "Détails du quizz"
+    quiz_results: "Résultats"
+    total: "Total"
+    question_count:
+      zero: Ce quiz n'a pas de questions.
+      one: "Ce quiz a une question."
+      other: "Ce quiz a %{count} questions."
+    max_quiz_points: "max %{max_points} points"
+    question_points: "%{points} points"
+    quiz_question_points: "%{points} de %{max_points} points"
+    quiz_question_points_slashed: "%{points} / %{max_points}"
+    last_saved: "Dernier enregistrement:"
+    autosave_warning: "<strong>Warning:</strong> la connexion de le %{brand} serveur est interrompue. Votre questionnaire ne peut être sauvegardé automatiquement. S'il vous plaît vérifiez votre connexion Internet."
+    time_up: "Vous avez atteint la limite de temps pour ce quiz. Vos solutions actuellement saisies seront soumises au serveur."
+    times_taken:
+      zero: "Vous n'avez pas encore fais ce quizz."
+      one: "Vous avez pris ce quiz %{count} fois."
+      other: "Vous avez pris ce quiz %{count} fois."
+    unlimited_time: "Aucune limite de temps pour ce quiz, profitez-en!"
+    unlimited_attempts: Ce questionnaire peut être répété indéfiniment!
+    please_select: Veuillez choisir
+    partials:
+      quiz_answer_solution:
+        correct: Correct!
+        wrong: Votre réponse
+        unselected: Bonne réponse
+        thanks: Merci!
+        # v Old v
+        correct_selected: Correct!
+        correct_unselected: Exactement, cette réponse ne serait pas correcte!
+        wrong_selected: Cette réponse a été malheureusement mal choisi!'
+        wrong_unselected: Cette réponse aurait été correcte!
+      quiz_free_text_answer_solution:
+        correct: Correct!
+        wrong: Mauvaise réponse
+        empty: Réponse vide
+    submitted_quiz_at: "Vous avez soumis ce travail/cet examen le %{quiz_submission_time} (%{timezone})."
+    submission_points_preview: "Votre note préliminaire est de <b>%{points} / %{max_points} points (%{percent}%)</b>"
+    submission_points_preview_note: "<i>Remarque:</i> Ne discutez pas du contenu du travail/examen ou de la note sur ce forum avant la date de soumission. Votre note préliminaire peut changer."
+    submitted_survey: Merci de votre participation à cette enquête. Votre avis nous est précieux pour améliorer l'expérience d'apprentissage!
+    publish_results_at: "Les résultats seront disponibles ici à partir de %{publish_results_date}!"
+    submission_points: "%{points} points"
+    submission_deadline_passed:
+      title: "la limite de soumission est déjà passé"
+      msg: "Vous ne pouvez pas ajouter de nouvelles soumissions parce que la date limite de soumission est déjà passée."
+    properties:
+      questions:
+        zero: Pas de questions
+        one: 1 question
+        other: "%{count} questions"
+      due_date: "Jusqu' à %{date} au %{time} heure"
+      time_limit: "Max. %{limit} minutes"
+      unlimited_time: Aucune restriction de temps
+      points: "%{count} points"
+      allowed_attempts:
+        zero: Aucune tentative
+        one: 1 tentative
+        other: "%{count} tentatives"
+      unlimited_attempts: tentatives illimités
+      homework: Ceci est un quiz de devoirs gradué
+      bonus: Ceci est un exercice de surplus
+      selftest: Ceci est un test de compréhension non gradué
+      show_results: "Résultats disponibles à partir de %{datetime}"
+    masq_warning: La date limitée de soumission est déjà passée. Vous ne pouvez soumettre que sous forme masquer de l'utilisateur.
+    admin_area_title: Section d'administrateur
+    submit_fudge_points: Soumettre
+    add_fudge_points: Ajouter des points supplémentaires
+    fudge_points: Y compris %{fudge_points} des points supplémentaires
+    confirm_quiz_submission:
+      text: "Vous n’avez pas répondu à toutes les questions. Etes-vous sûr que vous voulez envoyer vos réponses ?"
+      btn_submit: Envoyer réponses
+      btn_cancel: Annuler
+
+  social:
+    allow_detection_via_name: Autoriser d'autres utilisateurs de me trouver par nom
+    allow_detection_via_email: Autoriser d'autres utilisateurs de me trouver par e-mail
+
+  learning_rooms:
+    nav:
+      dashboard: Afficher l'activité récente
+      discussions: Discuter avec votre équipe
+      etherpad: Collaborer sur les contenus texte
+      video_chat: Lancer une conversation vidéo
+      files: Partager des fichiers
+      tpa: "Soumettre des tâches à votre équipe et évaluer les autres apprenants (%{title})"
+      administration: Gérer votre espace de collaboration
+    files:
+      headline: Partager des fichiers
+      empty: Pas de fichiers ont été téléchargés jusqu'à présent.
+      dropzone:
+        upload_files: Télécharger des fichiers
+        hint: "Les types de documents autorisés sont les suivants : pdf, txt, xml, jpg, png, gif, docx, pptx, xlsx, odt, odp, ods, csv. Taille maximale: %{maxFileSize} MB."
+      file:
+        title: Nom de fichier
+        # EN-fallback last_modified: Last Modified
+        size: Taille
+      details: Détails
+      download: Télécharger
+      delete: Delete
+      confirm_delete: Do you really want to delete this file from the server?
+    list: Liste d'espaces de collaboration
+    my_rooms: Mes espaces de collaboration
+    list_empty_state: Il n'y a pas encore de salle d'étude pour ce cours.
+    my_rooms_empty_state: Vous n'avez pas encore rejoint un espace d'apprentissage.
+    create: Créer un nouvel espace de collaboration
+    create_button: Créer un espace de collaboration
+    update_button: Soumettre
+    go: Entrez dans un espace de collaboration
+    pending: Participation en attendant
+    pending_text: Vous êtes actuellement en attente de votre affiliation à être approuvé.
+    join: Rejoignez l'espace de collaboration
+    request: Demandez l'affiliation
+    quit_membership: Quittez ma participation
+    quit_membership_confirm: Voulez-vous vraiment quitter votre affiliation à cet espace de collaboration?
+    is_open: "Ceci est un espace de collaboration <i>ouvert</i>. Tout le monde peut partager."
+    is_closed: "Ceci est un espace de collaboration <i>fermé</i>. Demande d'affiliation doit être approuvée par un administrateur de l'espace de collaboration."
+    team_name: "Equipe: %{name}"
+    member_list: Liste des membres
+    teacher_information: "<i>Pour votre information:</i> les enseignants de cours et assistants pédagogiques peuvent accéder à votre espace de collaboration sans la nécessité d'être un membre.<br /> Cela vaut pour les espaces de collaboration ouverts ainsi que pour les espaces fermés."
+    open: ouvert
+    closed: fermé
+    admin:
+      headline: Administration d'espace de collaboration
+      delete: Effacer l'espace de collaboration
+      delete_confirm: "Voulez-vous vraiment supprimer cet espace de collaboration?"
+      delete_warning: "Utilisez seulement ce bouton, si vous savez ce que vous faites!"
+      member_management: Gestion d'affiliation
+      properties: Propriétés d'espace de collaboration
+      member_name: Nom de membre
+      membership_type: Type d'affiliation
+      actions: Actions
+      add_user: Ajouter un utilisateur
+      kick_member: Supprimer l'utilisateur
+      kick_member_confirm: Voulez-vous vraiment supprimer cet utilisateur de l'espace de collaboration?
+      accept_member: Acceptez affiliation
+      promote_member: Avancez ce membre comme administrateur
+      promote_member_confirm: Voulez-vous vraiment faire ce membre un administrateur de cet espace de collaboration?
+      promote_member_mentor: Avancez ce membre comme mentor
+      promote_member_mentor_confirm: Voulez-vous vraiment avancer ce membre comme mentor de cet espace de collaboration?
+      demote_member: Rétrogradez membre comme membre régulier
+      demote_member_confirm: Etes-vous sûr de retirer ses privilèges administratifs? Voulez-vous vraiment retirer les privilèges administratifs de ce membre de l'espace de collab?
+      is_open: Cet espace de collaboration est ouvert
+      mail_to_member: Write a mail to member
+      mail: Dear Sir/Madam %{recipient}, Best regards %{sender}
+    flash_messages:
+      success:
+        # EN-fallback delete_room: The Collab Space has been successfully deleted.
+      notice:
+        status_pending: "You have requested to join the Collab Space %{learning_room}. Your request is awaiting approval."
+        status_joined: "You just joined the Collab Space %{learning_room}! Be nice!"
+      error:
+        # EN-fallback delete_space: The Collab Space cannot be deleted.
+  time:
+    am: AM
+    pm: PM
+    formats:
+      default: ! "%a, %-d %b %Y %H:%M:%S %z"
+      long: ! "%A, %-d %B %Y %H:%M"
+      short: ! "%-d %B %Y %H:%M"
+      # Datetime is not supported by I18n, instead, time is used.
+      # Proposed workaround is to define datetime formats in the time section.
+      long_datetime: "%-d %B %Y %H:%M"
+      short_datetime: "%-d %B %Y"
+      very_short_datetime: " %-d %b %H:%M"
+      quiz_submission: "%A, %d.%b.%Y, %H:%M:%S"
+      abbreviated_month_date: "%-d. %b %Y"
+
+  peer_assessment:
+    inline: l'évaluation par les pairs
+    rubrics:
+      points: Points
+    "Xikolo::PeerAssessment::AssignmentSubmission": Soumettre vos tâches
+    "Xikolo::PeerAssessment::Training": Apprendre à noter
+    "Xikolo::PeerAssessment::PeerGrading": Évaluer les autres apprenants
+    "Xikolo::PeerAssessment::SelfAssessment": Auto-évaluation
+    "Xikolo::PeerAssessment::Results": Afficher vos résultats
+
+    notes:
+      text: Notez
+      text_placeholder: "Votre commentaire, uniquement visible pour les autres membres du personnel de l'enseignement."
+      error_header: Erreur
+      create_error: "Échoué de créer la note."
+      update_error: "Échoué de mettre à jour la note."
+      destroy_error: "Échoué de supprimer la note."
+      not_allowed: "Action non autorisée."
+      delete_confirm_title: "Confirmer la suppression"
+      delete_confirm_text: "Supprimer définitivement cette note ?"
+
+    info_texts:
+      general: "L'évaluation par les pairs permet aux apprenants d'évaluer le travail de leurs pairs. Ceci permet aux instructeurs de concevoir des travaux qui doivent évaluation humaine, même dans des cours en ligne ouverts massives. Les étudiants d'améliorer leur compréhension de la matière du cours et avoir la possibilité de réfléchir et d'apprendre en voyant et en notant le travail des autres."
+      "Xikolo::PeerAssessment::AssignmentSubmission": "<strong>Soumettre vos tâches:</strong> durant cette phase, vous soumettez votre travail. Assurez-vous que vous respectiez le délai de soumission, sinon votre travail ne peut pas être classé et vous ne gagnerez pas de points."
+      "Xikolo::PeerAssessment::Training": "<strong>Apprendre à noter:</strong> durant cette phase, vous évaluez certaines présentations noté par experts. Vous pouvez comparer votre notation avec la notation de l'instructeur et êtes en mesure d'ajuster / revoir votre notation."
+      "Xikolo::PeerAssessment::PeerGrading": "<strong>Évaluer les autres apprenants:</strong> vous évaluez assignés au hasard soumissions de vos pairs (généralement 3 à 5). La notation est fait de façon anonyme et est basée sur des critères fournis par l'instructeur. Participation à l'étape de l'évaluation est nécessaire si vous voulez votre propre soumission à être évalué et considéré pour les points. Assurez-vous de respecter la date limite, sinon votre appréciation ne sera pas considéré."
+      "Xikolo::PeerAssessment::SelfAssessment": "<strong>Auto-évaluation:</strong> durant cette phase, vous évaluez votre propre travail après avoir vu la présentation de vos pairs. Si votre score d'auto-évaluation est à moins de 10% de la note globale par les pairs, vous recevrez des points bonus. Comme toujours, assurez-vous que vous adhérez à la date limite."
+      "Xikolo::PeerAssessment::Results": "<strong>Afficher vos résultats:</strong> les points sont calculés en fonction du score agrégé de vos pairs. Les résultats (points et commentaires écrite) seront visibles dans la section Afficher vos résultats."
+
+    advancement:
+      errors:
+        step_incomplete: S'il vous plaît complétez l'étape actuelle avant d'avancer.
+        no_next_step: Il n'y a pas d' étape prochaine pour avancer.
+        invalid_step: Étape valide pour avancer
+        not_optional: "Vous ne pouvez pas sauter par-dessus cette étape."
+
+    coh_text: Je ai lu le <a href="/pages/honor_code" id="coh_link">code de l'honneur</a><span class="ml5">et je suis conscient des conséquences de certaines actions comme </span><strong>plagiat, / maturité contenu / langue offensive et échéances manquées.</strong>.
+    disallowed_sample_html: 'Merci de <strong>ne pas</strong> utiliser ma soumission comme exemple pour la phase <a class="js-swal-popup" data-popup-title="%{popup_title}" data-popup-message="%{popup_message}" href="#">Apprendre à noter</a>.'
+    gallery_opt_out: Merci de <strong>ne pas</strong> partagez ma soumission en dehors du processus de notation (par exemple dans les listes des meilleurs soumissions).
+    saving: En enregistrant...
+    last_saved: Brouillon enregistré
+    start_assessment: Lancement
+    ack_error: S'il vous plaît reconnaissez le code d'honneur
+    error: Une erreur est survenue sur notre côté. Si le problème persiste, s'il vous plaît contactez notre service d'assistance.
+    resume: Retour à l'évaluation
+    grading_hints:
+      headline: Conseils Généraux sur la Notation
+      inline: conseils généraux sur la notation
+      learn_more: donnez-moi quelques
+    deadline_passed: "La date limite pour cette évaluation par les pairs a passé. Par conséquent, vous n'avez malheureusement plus le droit de participer."
+    locked: Cette évaluation par les pairs débloquer en <strong>%{unlock}</strong>.
+    locked_notification: "Pendant que vous êtes ici, prenez quelques minutes et lisez ce qui suit, que vous devez reconnaître plus tard lorsque l'évaluation commence"
+    not_authorized: Vous n'êtes pas autorisé à accéder à cette ressource.
+    assessment_closed: Évaluation fermé
+    team:
+      locked: Vous n’avez pas accès à cette évaluation par les pairs car vous n’êtes affecté à aucune équipe.
+      text_disabled: Le membre de l’équipe désigné soumet les tâches pour toute l’équipe. Veuillez télécharger votre travail sous forme de fichier ! La saisie de texte supplémentaire n’est pas permise.
+
+    under_construction:
+      header: En construction
+      info: Cette évaluation est actuellement en construction. Revenez plus tard lorsque le personnel enseignant a terminé la conception de l'évaluation.
+
+    administration:
+      item_creation_info_text: '<p>Configuration d''évaluation par les pairs aura lieu après l''article a été créé (si vous choisissez de créer un nouveau).<p><p><strong>Les évaluations existantes ne seront pas copiés</strong>, mais l''objet sera un lien vers elle. Cette fonctionnalité est destinée à des évaluations qui sont répartis sur un plus long laps de temps.</p><p>Si vous souhaitez modifier les évaluations, vous pouvez le faire <a href="%{edit_path}" target="_blank">ici</a>.</p>'
+      new_or_existing: Évaluation nouvelle / existante
+      create_new: Créer nouvelle évaluation
+      edit_header: "Peer configuration évaluation pour '%{title}'"
+      save_changes: Sauvegarder les changements
+      save_success: Vos changements ont été sauvés avec succès
+      save_failure: Votre changements n'a pas pu être sauvé
+      overview: Aller au sommaire d'évaluation
+      file_upload_failed: Erreur inconnue de téléchargement
+      missing_permission: Vous ne disposez pas des droits nécessaires pour déclencher cette action.
+
+      tabs:
+        general: Configuration évaluation générale
+        files: Fichiers joints
+        workflow: Étapes du processus
+        rubrics: Notations rubriques
+
+      peer_assessment:
+        title: Title
+        instructions: Assignment instructions<br/>(Assignment to solve for the students)
+        grading_hints: Grading hints<br/>(shown for the reviewer at the top of the page - keep it general here)
+        allow_gallery_opt_out: "Merci de <strong>ne pas</strong> partagez ma soumission en dehors du processus de notation (par exemple dans les listes des meilleurs soumissions)."
+        allowed_attachments: Allowed number of attachments
+        allowed_file_types: Allowed file types<br/>(file extensions separated by comma and with preceding dot, e.g. '.pdf, .mp4, .png')
+        max_file_size: Maximum size of attachments in MB
+        usage_disclaimer: Usage disclaimer<br/>(text and/or links, which must be acknowledged at the start of the assessment - please full sentence(s).)
+        is_team_assessment: As team assessment
+
+      files:
+        info_text: These files will shown as assignment attachments and will be downloadable by the students. Use the dropzone below (click or drag and drop) to upload files. The files will start uploading immediately - wait for them to finish!
+
+      steps:
+        select_steps: Create
+        creation_success: The peer assessment phases were created successfully.
+        deadline: Deadline (UTC)
+        unlock_date: Unlock Date (UTC)
+        required_trainings: "Required number of trainings (recommended: 1-3. Consider the workload for participants when defining the number of required reviews!)"
+        required_reviews: "Required number of reviews (recommended: 3-5. Consider the workload for participants when defining the number of required reviews!)"
+        optional: Optional Step
+        results_only: Results Only (Disables interaction between peers at the end)
+        update: Update Steps
+        update_success: Successfully updated the workflow
+        results_deadline_notice: The deadline for this step sets the point in time until which students are able to report problems and rate their received reviews.
+        step_names:
+          "Xikolo::PeerAssessment::AssignmentSubmission": Submit your work
+          "Xikolo::PeerAssessment::Training": Learn to grade
+          "Xikolo::PeerAssessment::PeerGrading": Evaluate your peers
+          "Xikolo::PeerAssessment::SelfAssessment": Evaluate yourself
+          "Xikolo::PeerAssessment::Results": View your results
+        setup_hint: Please select the steps you wish to include into the assessment below.
+        title: Please determine which phases you want to include in the peer assessment
+        initial_setup: In the next step, you'll define the start and end date for each phase.
+        setup_info_about: "About the workflow phases:"
+        setup_info:
+          - Each peer assessment always includes the phases “Submit your work”, “Evaluate your peers”, and “View your results”.
+          - The phases “Learn to grade” and “Evaluate yourself” are not essential and can be left out. If you include these phases, you can mark them as “optional”. Optional phases can be skipped by the participants.
+          - If you include a “Learn to grade” phase, the course team must evaluate 10 submissions that serve participants as training examples. The “Learn to grade” phase can only start after these 10 training submissions have been evaluated.
+          - The unlock date of each phase determines when participants can start the phase. If no unlock date has been specified, participants can start the phase as soon as they have completed the previous phase.
+          - The deadline is a mandatory field. It specifies by when participants have to complete the phase.
+        setup_warning:
+          title: "Have you selected all the optional phases that you want to include?"
+          text: "You will not be able to add or remove phases later on!"
+          confirm: "Create phases"
+          cancel: "Annuler"
+        optional_training_notice: The Learn to grade phase is optional. The participants can review as many samples as possible.
+
+      rubrics:
+        hints: Hints/General explanation (will be displayed right above all grading options for this rubric, keep it brief and informative here)
+        create: Create Rubric
+        title: Rubric title
+        title_placeholder: E.g. Writing Style, Technical Knowledege, ...
+        create_success: Successfully created rubric
+        index_info: Below you find all rubrics of this assessment as a preview. You can edit and delete rubrics and you can move them up and down to change the order they are presented to the student <strong>which can be quite important</strong>, so please consider this as well.
+        confirm_delete_title: Really delete this rubric?
+        confirm_delete_message: "You won't be able to recover it."
+        delete_option_title: Delete this option?
+        delete_option_message: "You won't be able to recover it."
+        destroy_success: Rubric deleted
+        destroy_failure: Something went wrong while deleting the rubric. Contact Helpdesk if the problem persists.
+        moved_success: Grading rubic moved
+        moved_failure: Failed to move grading rubric
+        moveup: Move rubric up the list
+        movedown: Move rubric down the list
+        delete: Delete this rubric
+        edit: Edit this rubric
+        deadline_warning: Important! You should only edit the peer assessment phases if the “Learn to grade” and/or “Evaluate your peers” phases have NOT yet begun. Otherwise, this can lead to problems at a later stage!
+        new_info: First, select how many grading options you want for this rubric. Then fill out everything below. <strong>It is critical to state as clearly and explicitly as possible what the student should grade and what the criteria are.</strong> Keep that in mind when formulating the rubrics! <strong>The options will be ordered by points automatically!</strong> Do not give the same amount of points twice.
+        options_to_add: Number of grading options<br/> (to add/append)
+        add: Add
+        options: Rubric Options
+        option_description_placeholder: Brief description here (optional, but strongly encouraged)
+        delete_option: Delete
+        update: Update Rubric
+        add_option: Add new option
+        confirm_option_delete: Delete this rubric option?
+        update_success: Rubric updated
+        update_failure: Failed to save rubric
+        back_to_overview: Retour à la vue d’ensemble
+        sort_info: Newly created rubric options will automatically be sorted into their position based on their points.
+        new: Add new rubric
+      team_evaluation_rubrics:
+        index_info: Below you will find the rubrics for the evaluation of team members. They are only displayed in the self assessment phase of <strong>Team Peer Assessments</strong>.
+        new: Add a new team evaluation rubric
+        new_info:
+          "Students assess their team members based on the rubrics listed below, using a star rating of 0 to 3 stars.
+          Copy and paste the criteria and criteria description :  <br>
+          <li>Contribution : travaille de façon proactive et apporte une contribution positive au contenu des livrables.</li>
+          <li>Organisation : coordonne l’équipe et structure les tâches.</li>
+          <li>Compétences sociales : personne apte à coopérer, ouverte et tolérante, qui communique et gère les conflits de façon constructive.</li>
+          </ul>"
+        proposed_rubrics:
+          "Please use the following rubrics <i>Contribution<i/>, <i>Organization<i/>, and <i>Social Skills<i/>.<br>
+          The terms are understood as follows:
+          <ul>
+          <li>Contribution : travaille de façon proactive et apporte une contribution positive au contenu des livrables.</li>
+          <li>Organisation : coordonne l’équipe et structure les tâches.</li>
+          <li>Compétences sociales : personne apte à coopérer, ouverte et tolérante, qui communique et gère les conflits de façon constructive.</li>
+          </ul>"
+        explanation: Veuillez évaluer les membres de votre équipe selon les critères suivants.
+
+    assignment:
+      question: Question relative au travail
+      question_collapsible: 'Consulter les <a class="collapsed" data-toggle="collapse" href="#assignment-question-body">instructions relatives au travail<span class="caret"></span></a>'
+
+    review:
+      open: Ouvert
+      closed: Terminé
+      suspended: Clôturé (problème signalé)
+      submit_message_title: Soumettre cette évaluation ?
+      submit_message: Vous pourrez toujours réviser cette évaluation tant que la phase d’évaluation mutuelle n'est pas clôturée.
+      no_samples: Aucun exemple noté n’est actuellement disponible.
+      no_grading_samples_available: Aucune soumission n’est actuellement disponible à la notation
+      grade_samples: Noter l’exemple suivant
+      assigned_grade: Note attribuée
+      actions: Actions
+      extend_deadline: Reporter l’expiration
+      view: Afficher/Modifier l’exemple
+      view_only: Afficher
+      continue: Poursuivre la notation
+      grading: Votre notation
+      rubrics: Grille d’évaluation
+      written_feedback: Commentaire écrit
+      written_feedback_hint: Rédigez un commentaire pour l’autre apprenant ! Quels sont les parties que vous avez-appréciées et celles qui pourraient être améliorées ? Si vous n’avez pas donné tous les points, expliquez pourquoi.
+      missing_text: Veuillez rédiger des commentaires.
+      missing_rubric: Veuillez noter toutes les grilles !
+      server_error: Une erreur est survenue lors de l’enregistrement de votre évaluation. Si le problème persiste, contactez le centre d’assistance.
+      check_errors: Certains aspects de l’évaluation vous ont échappé (voir en fin de page).
+      submit_success: Votre évaluation a été soumise
+      deadline_passed: Le délai de soumission de l’évaluation est passé.
+      unload_message: Enregistrer les modifications ?
+      extension_failure: Vous ne pouvez pas prolonger le délai de cette évaluation
+      extension_success: Le délai a été prolongé
+      autosave_button: Enregistrer en tant que version préliminaire
+      autosave_explanation: Votre ébauche sera automatiquement enregistrée. N’oubliez pas de soumettre votre évaluation.
+      student_answer: Réponse de l’apprenant
+      time_left: Temps restant
+      no_time_left: manque de temps
+      status: Statut
+      not_editable: Vous avez déjà soumis cette évaluation. Aussi, vous ne pouvez plus apporter de modifications.
+      not_revisable: Vous ne pouvez pas revoir cette évaluation pour le moment.
+      award: Soumission remarquable!
+      award_disabled: (Désactivé par l’apprenant)
+      award_description: Cochez la case si vous pensez que l'autre apprenant a soumis une tâche exceptionnelle.
+      report: Signaler un problème sur cette soumission
+      report_hint: Si vous signalez un problème sur une soumission, l’équipe pédagogique vérifiera votre signalement. Votre notation ne sera pas prise en compte dans la note globale de l'apprenant et votre commentaire ne sera pas visible de celui-ci. Veuillez noter que vous devrez alors évaluer une autre soumission.
+      report_submit: Votre signalement a été déposé. Merci d’avoir contribué à améliorer la communauté.
+      report_failure: Nous sommes désolés, un problème est survenu. Si le problème persiste, contactez le centre d’assistance.
+      continue_confirm_title: Voulez-vous finaliser vos évaluations et poursuivre ?
+      continue_confirm_message: Vous ne pouvez plus évaluer d'autres apprenants une fois que vous avez finalisé la soumission pour poursuivre.
+      additional_review: Évaluation supplémentaire
+      advance: Passer à l’étape suivante
+      advance_wait_info: Vous pourrez passer à l’étape suivante dès qu’elle sera accessible (in %{deadline}).
+      revision: Réviser
+      revision_error: Vous ne pouvez pas revoir cette évaluation.
+      back_to_overview: Retour à la vue d’ensemble
+      submit_revise_info: Cliquez sur <em>Soumettre </em> lorsque vous êtes prêt(e). Sinon, cette évaluation ne sera pas prise en compte une fois le délai passé. Vous aurez la possibilité de la réviser et d'y apporter des modifications.
+      review_deleted: L’évaluation demandée a expiré et n’est plus disponible. À l’avenir, veillez à soumettre vos évaluations à temps de façon à éviter ce problème.
+      process: Processus
+      grading_guideline: Instructions pour la notation
+      grade_first: Évaluer un premier apprenant
+      grade_next: Évaluer l'apprenant suivant
+      info_text:
+        - Il vous reste environ <strong>%{days}</strong> pour terminer les <strong>%{required_reviews} évaluations requises (%{review_count} restantes).</strong>
+        - Vous avez <strong>6 heures </strong> pour terminer chaque évaluation. Cliquez sur <em>Soumettre</em> lorsque vous êtes prêt(e). Vous pouvez toujours réviser et apporter des modifications.
+        - Vous devez terminer et soumettre chaque évaluation avant de passer à la suivante. Une fois toutes les évaluations requises terminées, vous aurez la possibilité d’en réaliser %{required_reviews} supplémentaires.
+        - "Lorsque vous avez évalué et noté toutes les soumissions, <strong>revoyez vos évaluations</strong>. Veuillez noter que vous pouvez gagner des points supplémentaires si les autres apprenants estiment que votre commentaire leur a été utile (jusqu’à un point supplémentaire par évaluation)."
+        - "Une fois que toutes les évaluations requises seront terminées et que la phase suivante sera disponible, le bouton <em>Passer à l’étape suivante</em> sera activé. Pour poursuivre, cliquez sur <em>Passer à l’étape suivante</em>. Remarque : pour certains cours, vous serez en mesure d'avancer à l’étape suivante avant la clôture de la phase d’évaluation des autres apprenants. Vérifiez que vous êtes satisfait(e) de chaque évaluation avant de poursuivre (vous ne pourrez plus apporter de modifications une fois votre passage à l’étape suivante)."
+
+      guideline_text:
+        - Évaluez chaque soumission en vous basant sur les critères prédéfinis (grilles).
+        - "Rédigez des commentaires utiles pour les apprenants : soulignez les points forts/faiblesses et expliquez pourquoi vous appréciez ou n’appréciez pas la tâche. Donnez des conseils pratiques et des suggestions si possible."
+        - Restez respectueux/se et amical(e), basez vos paroles sur des faits et gardez à l’esprit le <a href="/pages/honor_code">code de déontologie</a>.
+      phase: phase Évaluer les autres apprenants
+      team_evaluation: Évaluation d’équipe
+      required_reviews: Vous devez évaluer au moins %{required_reviews} soumissions si vous souhaitez que la vôtre soit évaluée et prise en considération pour l'attribution de points.
+      advance_to_peer_grading:
+        title: Voulez-vous vraiment continuer et passer à la phase Évaluer les autres apprenants maintenant ?
+        text: Une fois la phase Évaluer les autres apprenants commencée, vous ne pourrez plus consulter et noter les exemples d’entraînement.
+        confirm_button: Poursuivre avec l’évaluation des autres apprenants
+
+    conflict:
+      search_by_referral: "Search by referral ID"
+      reporter: "Reporter"
+      accused_student: "Accused student"
+      delta: "Delta"
+      absolute: Absolute delta
+      comment_placeholder: Sources ou explication de la réclamation
+      submit_message_title: Voulez-vous signaler ce problème ?
+      submit_message: "Vous ne pourrez pas revenir sur votre décision et si vous signalez un problème injustifié, vous pourriez en subir les conséquences (reportez-vous au code de déontologie pour plus de détails)."
+      submit: Signaler un problème
+      reason: Motif
+      state: State
+      reasons: # Note: these are the reasons a user can choose from, for the conflict page translations look further below
+        plagiarism: Plagiat
+        offensive_content: Contenu offensif
+        unrelated: Contenu sans rapport avec le travail
+        other: Autre motif
+      suspended: Review not included in overall peer grade
+      submission_reported: The learner reported this submission. An additional review is required.
+      review_reported: Written feedback reported.
+      no_conflicts: There are currently no conflicts to reconciliate.
+      filed_at: Filed at
+      filed_by: Filed by
+      filed_against: Filed against
+      submssion_updated_at: Submission last updated at
+      draft_created_at: Submission draft created at
+      referral_id: Referral ID
+      referral_info: This ID uniquely identifies this conflict. Involved students have this ID for further helpdesk requests.
+      comment: Explication/commentaire
+      open: Open
+      closed: Closed
+      TrueClass: "Yes"
+      FalseClass: "No"
+      conflict_subject: Conflict subject
+      conflict_reconciliation: Conflict Reconciliation
+      reconciliate_confirm: "The students will be notified after you click okay!"
+      subjects:
+        review: Review
+        submission: Submission
+        blank: "-"
+      reconcile: Reconcile
+      back_to_overview: Retour à la vue d’ensemble
+      all_reasons:
+        plagiarism: Plagiat
+        offensive_content: Contenu offensif
+        unrelated: Contenu sans rapport avec le travail
+        other: Autres motifs
+        grading_conflict: Grading conflict
+        no_reviews: No Reviews
+      grading_weight: Weight
+      reviews_info_text: Below you can find the reviews for the submission above.
+      reconciliation_success: Conflict successfully closed and student notifications queued.
+      reconciliation_error: An error occurred while saving the conflict.
+      conflicting_changes: "Somebody made changes to the grades during your reconciliation (possibly through other conflicts, or this conflict has already been closed by somebody). Please review the grades again in context to these changes. Your changes were (if any): %{changes}"
+      reconcile_button: Save changes and close conflict
+      filters:
+        any: "- any -"
+        submit: Apply Filter(s)
+      no_reviews: The student did not receive any reviews.
+      no_review_submit_title: Submit this review?
+      no_review_submit_message: You cannot revise this review, so make sure everything is correctly graded!
+      submission: Student Submission
+      submission_info: The author of the submission requested a regrading, the reviews are the reviews s/he received.
+      review: Review
+      teacher_notes: Teaching staff notes (not visible for student(s))
+      dependent_conflict_warning: The student reported this review, which takes it out of the grade computation. It is recommended to resolve the other conflict first and then review this conflict again. <a href="%{conflict_url}" target="_blank">Go to conflict.</a>
+      reconciliation_info: Here you can adjust the grade of the reporter as well as the grade of the accused student (if involved). Mark the conflict as legitimate if the report was justified. The conflict will be closed if you click the <em>Save changes and close conflict</em> button. Note that by doing so, the involved students will be notified that this conflict closed, and see changes to their grade, if any. However, changes are still possible later on. Even if the final grades are not yet available (since the assessment is in progress), you may choose to apply any grade deltas right now, which will then affect the grade computation later on. <strong>The overall grade can not be negative, and will be capped at zero points.</strong> You can also comment here and explain your decisions, visible only for other teaching staff members.
+      reporter_adjustment: "Reporter Grade Adjustment:"
+      accused_adjustment: "Accused Student Grade Adjustment:"
+      tpa_warning: The delta will be applied to <b>all team members</b>!
+      review_text: Review Text
+      review_info: The review has been reported, the corresponding submission is from the reporter.
+      grading_rubrics: Grille d’évaluation
+      given_grade: "Note donnée: %{rec}/%{max}"
+      corr_submission: Corresponding Submission
+      grade:
+        overall: Overall
+        base: Base points from reviews
+        relative: Current relative delta
+        absolute: Current absolute delta
+        set_delta: "Set delta to:"
+        delta_absolute: Delta is absolute
+        delta_info: Absolute deltas will set the grade to a fixed amount of points, whereas relative deltas (i.e. not checking this box) will apply their points <strong>on top of the overall grade</strong>. Everything ranging from the reviewer median points to bonus points will be ignored when an absolute delta is applied.
+      view_original_submission: Show submission relating to this report
+      view_submission_to_regrade: Show the submission to be regraded
+      view_reported_submission: Show the reported submission
+    step:
+      inaccessible: Vous ne pouvez pas accéder à cette étape.
+      locked: Cette étape est actuellement verrouillée et sera accessible dans environ <strong>%{unlock}</strong>.
+      deadline_passed: Malheureusement, le délai (%{deadline}) est dépassé et vous n'avez pas terminé cette phase. Vous ne pourrez pas poursuivre avec le processus d’évaluation mutuelle et vos tâches ne pourront pas remporter des points.
+      optional_deadline_passed: Malheureusement, le délai (%{deadline}) est dépassé et vous n'avez pas terminé cette phase. Si cette phase était obligatoire, vous ne pourrez pas poursuivre avec le processus d’évaluation mutuelle et vos tâches ne pourront pas remporter de points. Si cette phase était facultative, cliquez sur "Afficher vos résultats" dans la barre de processus pour afficher vos résultats.
+      advancement_unavailable: You can not advance to the next step at the moment.
+
+    index:
+      table:
+        week: Week
+        assessment: Assessment
+        section: Section
+        status: Status
+        progress: Progress
+        grade: Votre note
+        no_conflicts: Conflicts
+        awards: Award Nominations
+      headlines:
+        overall_statistics: Overall Peer Assessment Statistics
+        overview: Peer Assessment Overview
+        my_statistics: My Peer Assessment Statistics
+      alert_assessments_not_available: Peer assessments are currently not available. Please check again later when the course started and sectios become available.
+      admin:
+        empty_msg: "This course has no peer assessments yet. You can add some via <em>Course Structure &amp; Content</em> (add a <em>Peer Assessment</em> item)."
+        edit: Edit
+        view: Go to assessment
+        manage_submissions: Manage Submissions
+        missing_train_samples: Missing training samples
+        grade_samples: grade samples
+        view_training: Training sample overview
+        open_training: Training can be opened
+        conflict_overview: Conflict overview
+        manage_gallery: Manage Gallery
+
+    shared:
+      rubric:
+        hints: Additional hints
+      explanation:
+        learn_more: En savoir plus sur
+
+    files:
+      download_button: Télécharger
+      confirm: Confirmer
+      confirm_button: Permanently delete
+      delete_subtitle: "You won't be able to recover it."
+      filename: Nom de fichier
+      size: Taille
+      upload_default_message: Déposer des fichiers ici (ou cliquer)
+
+    submission:
+      already_submitted: "Vous avez déjà soumis votre ébauche. Aussi, vous ne pouvez plus revoir votre soumission !"
+      save_error: "Une erreur est survenue lors de la soumission de votre travail. Contactez le centre d’assistance ou réessayez plus tard."
+      success: "Votre solution a été soumise."
+      content_missing: "Votre soumission est vide. Renseignez la zone de texte ou téléchargez un fichier."
+      server_error: "Une erreur est survenue de notre côté. Réessayez plus tard et si le problème persiste, contactez le centre d’assistance."
+      not_found: "Aucune soumission n’a été trouvée."
+      your_answer: "Votre réponse"
+      submit_button: "Soumettre la solution"
+      instructions: "Dans le cadre de cette étape, vous devez effectuer le travail ci-dessous. Votre soumission sera présentée aux autres apprenants ultérieurement en vue de sa notation."
+      autosave_notice: "Votre soumission sera enregistrée régulièrement, vous permettant ainsi de la compléter à tout moment sous réserve de ne pas avoir envoyé votre ébauche. Une fois le délai passé, vous ne pourrez plus soumettre ni modifier votre ébauche (celle-ci ne sera pas soumise automatiquement !)."
+      add_files: Ajouter des fichiers
+      start_all: Tout télécharger
+      cancel_all: Tout annuler
+      start_upload: Démarrer le téléchargement
+      delete_file: Supprimer le fichier
+      delete_file_message: Supprimer ce fichier ?
+      file_delete_failed: La suppression a échoué.
+      unauthorized: Vous ne pouvez pas supprimer ce fichier (erreur d’autorisation).
+      no_text: L'apprenant n’a pas fourni de soumission écrite.
+      no_text_you: Vous n’avez soumis aucune soumission écrite.
+      upload_limit_reached: Vous ne pouvez télécharger aucun autre fichier
+      upload_extension_disallowed: Vous ne pouvez pas télécharger ce type de fichier.
+      no_file_provided: Aucun fichier à télécharger.
+      upload_failed: Le téléchargement a échoué. Réessayez et si le problème persiste, contactez le centre d’assistance.
+      info: Veuillez indiquer vos tâches et les enregistrer en tant que version préliminaire, autant de fois que vous le souhaitez. À partir du moment où vous cliquez sur <em>Soumettre la solution</em> vous ne pouvez plus modifier vos tâches. Veillez à cliquer sur <em>Soumettre la solution</em> avant l‘échéance du délai de soumission, sinon vos tâches ne seront pas évaluées et vous n’obtiendrez aucun point. <strong>Votre identité ne sera pas communiquée aux autres apprenants. Évitez d'indiquer toute donnée personnelle dans votre soumission (texte et pièces jointes) pour préserver votre vie privée.</strong>
+      attachments: Pièce jointes
+      attachment_text: "Vous pouvez soumettre <strong>%{files} fichiers maximum</strong>. Si votre formateur a activé la soumission de plusieurs fichiers, veuillez les télécharger un par un. Vérifiez que tous les fichiers ont bien été téléchargés avant de cliquer sur <em>Soumettre la solution</em>. À partir du moment où vous cliquez sur <em>Soumettre la solution</em>, vous ne pouvez plus télécharger ni modifier les fichiers.<br/><strong>Formats autorisés : %{formats};  taille de fichier maximale autorisée : %{file_size} MB</strong>"
+      upload_fallback: Sélectionnez le fichier et cliquez sur <em>Démarrer le téléchargement</em> pour procéder au téléchargement. Actualisez la page de manière à afficher le téléchargement à droite. S’il ne s’affiche pas, le téléchargement a échoué.
+      submit: Votre soumission est-elle terminée et êtes-vous prêt(e) à la finaliser ? Vous ne serez pas autorisé(e) à apporter d'autres modifications et passerez à la phase suivante.
+      submit_title: Confirmer la soumission
+      learn_to_grade_popup: "Lors de la phase 'Apprendre à noter', les formateurs pré-évaluent plusieurs soumissions d'apprenants afin de fournir une référence pour la notation. Les apprenants apprennent à noter en se basant sur quelques exemples de ce groupe de soumissions pré-évaluées, qui leur sont été affectés de façon anonyme et aléatoire."
+      learn_to_grade_popup_title: Phase Apprendre à noter
+      no_video: Aucune vidéo n’a été téléchargée.
+
+      confirmation_window:
+        title: "Attention !"
+        text: Vérifiez que vos fichiers fonctionnent correctement en les téléchargeant et en les ouvrant avant de finaliser votre soumission.
+        confirm_button: Finaliser
+
+      additional_attempt:
+        attempt_notice: "Vous disposez d’une tentative supplémentaire pour modifier et finaliser votre soumission."
+        edit_submission: Modifier la soumission
+        confirmation_window:
+          title: Modifier votre soumission ?
+          text: Vous pourrez enregistrer votre soumission modifiée (pièce(s) jointe(s) et texte mis à jour) une fois uniquement.
+        info: "<strong>Veuillez noter que vos modifications ne seront pas automatiquement enregistrées.</strong> Vous devez cliquer sur le bouton de <em>soumission de la solution</em> pour enregistrer vos modifications. Vous ne pouvez apporter de modifications qu’une seule fois."
+        not_allowed: Vous avez utilisé toutes vos tentatives de modification.
+        update_error: Une erreur est survenue lors de la mise à jour de votre soumission. Si le problème persiste, contactez le centre d’assistance.
+
+    autosave:
+      error: "Nous sommes désolés, une erreur est survenue de notre côté."
+
+    train_samples:
+      train_sample_overview: Training Samples Overview
+      notice: "Please note: %{count} sample reviews is only the mandatory minimum to open the training phase for students. <strong>20 samples or more</strong> are recommended to ensure an optimal training experience for students."
+      no_samples: There are currently no submissions to grade.
+      written_feedback: "Note for the course team: Please explain the reasons behind your evaluation so that learners understand what they need to consider when evaluating the work of their peers."
+      submit_message_title: Submit this sample?
+      submit_message: You can revise this sample later as long as the training has not been opened.
+      open_training_title: Open up the training?
+      open_training_message: After opening up the training, you cannot revise the created training reviews, so make sure everything is correctly graded! Continue opening up the training?
+      opening_possible: Training can now be opened up for the students!
+      open_missing: Open up training (more submitted training reviews required)
+      open_training: Open up training
+      eligible_submissions: There are %{count} submissions eligible as training samples for grading.
+      training_open_error: You can not do that, because the training is already open.
+      status: Status
+      deadline: Deadline
+      delete: Delete
+      skip: Skip (delete draft)
+      back: Retour à la vue d’ensemble
+      open_error: An error occurred while opening up the training phase.
+      open_success: Successfully opened up the training.
+      delete_review_title: Skip or delete this review?
+      delete_review: Really skip this review? You (or other teaching assistants) will not be able to grade this submission again. Skip reviews only if you think that the given submission does not fit into the training with regard to already graded training reviews.
+      training_opened: Training is open for students. Hence, you can no longer create, edit or delete training samples.
+
+    training:
+      unavailable: Les formateurs sont actuellement en train de noter des soumissions pour fournir des références de notation. Une fois disponibles, vous pourrez terminer les évaluations d’entraînement.
+      phase: phase Apprendre à noter
+      first_sample: Premier exemple
+      next_sample: Exemple suivant
+      additional_sample: Exemple supplémentaire
+      continue: Poursuivre avec l’évaluation des autres apprenants
+      advance_confirmation:
+        title: Vous êtes-vous assez entraîné(e) ? Souhaitez-vous vraiment commencer la phase Évaluer les autres apprenants maintenant ?
+        text: Utilisez les exemples d’entraînement pour apprendre à noter. Une fois la phase Évaluer les autres apprenants commencée, vous ne pourrez plus consulter et noter les exemples d’entraînement.
+        confirm_button: Commencer la phase Évaluer les autres apprenants
+        cancel_button: Revenir aux exemples d’entraînement
+      no_samples_left: L’entraînement est fermé, ou il n’existe plus aucun autre exemple d’entraînement à noter.
+      continue_info: Vous pouvez évaluer d'autres soumissions en guise d’entraînement ou poursuivre avec la phase <em>Évaluer les autres apprenants</em>.
+      continue_info_passed: Vous pouvez poursuivre et passer à la phase Évaluer les autres apprenants.
+      grading_hints: (Les conseils concernant la rédaction de commentaires ne s’appliquent que dans le cadre de la notation effective des autres apprenants. Toutefois, pensez-y tandis que vous lirez les soumissions.)
+      confirmation_title: Confirmer la soumission
+      confirmation_message: Voulez-vous soumettre cet examen d’entraînement ?
+      instructor_feedback: "Commentaire écrit du formateur"
+      grading_comparison: Comparaison des notations
+      match_type:
+        your_answer: Vous
+        ta_answer: Formateur
+        match: Très bien
+      info_text:
+        one:
+          "La phase Apprendre à noter a pour objectif de réduire l’écart entre les notes attribuées par les différents évaluateurs. Vos formateurs ont pré-évalué plusieurs soumissions d'apprenants et fourni une référence de notation. Vous apprendrez à noter en vous basant sur quelques exemples de ce groupe de soumissions évaluées par un formateur, qui vous sont affectés de façon anonyme et aléatoire.
+          Évaluez chaque soumission en vous basant sur les critères prédéfinis (grilles). Ceci n’étant qu’une étape d’entraînement, vous ne devrez pas rédiger de commentaires. Après avoir soumis votre évaluation, votre note et celle du formateur s’affichent. Cela vous permet de comprendre ce qu'attendent les experts et d’en tenir compte dans vos futures notations."
+        two: "Au total, vous devez effectuer <strong>%{required_reviews} évaluations d’entraînement</strong>, qui ne seront pas prises en compte dans les résultats des autres apprenants. Une fois les évaluations d’entraînement terminées, vous passerez à la phase Évaluer les autres apprenants."
+        three: "Évaluez chaque soumission en vous basant sur les critères prédéfinis (grilles). Ceci n’étant qu’une étape d’entraînement, vous ne devrez pas rédiger de commentaires. Après avoir soumis votre évaluation, votre note et celle du formateur s’affichent. Cela vous permet de comprendre ce qu'attendent les experts et d’en tenir compte dans vos futures notations."
+
+    self_assessment:
+      phase: phase d'auto-évaluation
+      info_texts:
+        general: "Veuillez revoir et évaluer vos propres tâches après avoir évalué les soumissions d’autres apprenants.  Une évaluation autocritique objective sera récompensée : si le résultat de votre auto-évaluation se situe dans les 10 % de la note globale que vous auront attribuée les autres apprenants, vous obtiendrez des points de bonus."
+
+      already_submitted: Vous avez déjà soumis votre ébauche. Aussi, vous ne pouvez plus revoir votre soumission !
+      grading_rubrics: Grille d’évaluation
+
+      skip_button: "Passer cette étape et continuer"
+      submit_button: "Soumettre et continuer"
+      confirm_title: Soumettre votre auto-évaluation ?
+      confirm_message: Vous ne pourrez plus apporter de modifications.
+      advance_confirmation:
+        title: Êtes-vous sûr(e) de ne pas vouloir soumettre une auto-évaluation ?
+        text: Si vous procédez à la phase de résultats sans soumettre d’auto-évaluation au préalable, vous ne pourrez plus évaluer vos propres tâches et n’aurez plus la possibilité de gagner des points de bonus pour la justesse de votre auto-évaluation.
+        confirm_button: Passer à la phase de résultats
+        cancel_button: Retourner à l’auto-évaluation
+
+    results:
+      phase: phase de résultats
+      info_text:
+        intro: Vous trouverez ci-dessous les évaluations que vous avez reçues et que vous avez rédigées.
+        general:
+          - <ul><li>Une fois toutes les phases précédentes clôturées, la note des autres apprenants sera visible.</li>
+          - <li>Vous pouvez <strong>gagner des points supplémentaires pour les évaluations que vous avez rédigées</strong>. Ces points s'afficheront dès que les autres apprenants évalueront la qualité de vos commentaires (jusqu’à un point supplémentaire par évaluation).</li>
+          - <li>Vous pouvez <strong>gagner des points supplémentaires pour la justesse de votre auto-évaluation</strong>. Si vous avez reçu des points de bonus, ils s’affichent ci-dessous.
+          - <li>Pour évaluer les commentaires des autres apprenants et voir le détail de leur évaluation, cliquez sur <em>Afficher</em>. La note que vous ont attribuée les apprenants s’affichera une fois que vous aurez évalué le commentaire de chacun d’entre eux. L’évaluation est facultative et doit être effectuée avant la clôture de la phase de résultat.</li></ul>
+          - Votre note globale correspond au total des notes attribuées par les autres apprenants et des points supplémentaires que vous avez acquis. La note globale est définitive après la clôture de la phase <em>phase de résultats</em>. Pour de plus amples informations sur la notation, consultez la FAQ.
+
+      where_is_grade: Où se trouve ma note ?
+      waiting_for_peers: Votre note n’est pas disponible pour le moment. L’équipe enseignante met tous les efforts en œuvre pour vous communiquer votre note le plus rapidement possible. Vous serez informé par e-mail lorsque votre note sera disponible.
+      waiting_for_deadline: Votre note sera disponible dans environ <strong>%{distance}</strong>, si tous vos évaluateurs ont fini de noter vos tâches d’ici là.
+      your_grade: Votre note
+      nomination: Bravo,  %{times} des apprenants a indiqué que votre soumission était remarquable. L’équipe enseignante pourrait décider d'afficher votre travail dans la galerie des meilleurs travaux. Consultez la galerie des meilleurs travaux une fois que l’équipe enseignante aura fini son évaluation.
+      reviews_written: Évaluations que vous avez rédigées
+      reviews_received: Évaluations reçues
+      no_reviews: Vous n’avez aucune évaluation pour l’instant, revenez plus tard !
+      received_grade: Note obtenue
+      your_feedback: Vos commentaires
+      rate_first: Passez en revue et notez cette évaluation pour voir la note que vous avez reçue.
+      rate_first_team: Passez en revue et notez cette évaluation au nom de votre équipe. Les membres de votre équipe pourront alors voir la note que vous avez reçue.
+      waiting_rating: En attente de notation
+      received_feedback: Commentaires reçus
+      grade: Note donnée
+      rating_authorization_error: Vous ne pouvez pas noter votre propre évaluation !
+      invalid_rating: Valeur de notation non valide.
+      rating_success: Merci ! À présent, vous pouvez voir le détail de l’évaluation.
+      rating_failure: Un problème est survenu lors de la notation d’un autre apprenant. Si le problème persiste, n’hésitez pas à contacter le centre d’assistance.
+      grading_rubrics: Grille d’évaluation
+      proficiency: Un autre apprenant a évalué ses compétences comme étant de l’ordre de <strong>%{proficiency}</strong> suite à l’entraînement.
+      award: Cet autre apprenant a voté pour que votre soumission soit affichée dans la galerie des meilleurs travaux !
+      reported: Signalé
+      peer_reported: Un autre apprenant a signalé que votre soumission présente un %{reason}. Le personnel enseignant examine le problème ; vous serez informé(e) dès que le signalement sera clôturé. La référence du signalement est <strong>%{referral}</strong>. Veuillez indiquer cette référence dans toute demande d'assistance concernant ce signalement.
+      you_reported: Vous avez signalé un problème concernant un autre apprenant suite à %{reason}. Le personnel enseignant étudie le problème ; vous serez informé dès que le dossier de signalement sera clos.<br/>La référence de ce dossier est <strong>%{referral}</strong>. Veuillez ajouter cette référence à chacune des demandes que vous adressez au centre d’assistance en lien avec ce signalement.
+      you_reported_short: Vous avez signalé un problème concernant un autre apprenant suite à %{reason}.
+      conflict_closed: Le personnel enseignant a clos le dossier de signalement.
+      peer_reported_short: Un autre apprenant a signalé un problème concernant votre évaluation suite à %{reason}.
+      deadline_passed: Cette opération n’est plus possible, car le délai pour cette étape est passé.
+      peer_grade: "Un autre apprenant vous a donné la note de %{grade}"
+      rating_passed: Délai de notation expiré
+      rating_received_passed: L'autre apprenant n’a pas noté votre évaluation à temps.
+      grade_exceeded: "Bravo ! Vous avez acquis des points supplémentaires et dépassé la note maximale."
+      peer_reported_submission: Un autre apprenant a signalé que votre soumission est un %{reason}. Le personnel enseignant examine le problème ; vous serez informé(e) dès que le signalement sera clôturé.<br/>La référence du signalement est <strong>%{referral}</strong>. Veuillez indiquer cette référence dans toute demande d'assistance concernant ce signalement.
+      you_reported_submission: Vous avez signalé que la soumission d'un autre apprenant présente un %{reason}. Le personnel enseignant examine le problème ; vous serez informé(e) dès que le signalement sera clôturé. La référence du signalement est <strong>%{referral}</strong>. Veuillez indiquer cette référence dans toute demande d'assistance concernant ce signalement.
+      peer_reported_short_submission: Un autre apprenant a signalé un problème concernant votre soumission suite à %{reason}.
+      written_reviews:
+        reported_peer: Vous avez signalé un problème sur la soumission d'un autre apprenant
+        reported_by_peer: Un problème a été signalé sur vos commentaires
+      received_reviews:
+        reported_peer: Vous avez signalé les commentaires reçus
+        reported_by_peer: Un problème a été signalé sur votre soumission
+      advance_to_results_confirmation:
+        title: Voulez-vous vraiment continuer et passer à la phase de résultats maintenant ?
+        text: Une fois dans la phase de résultats, vous ne pourrez plus évaluer votre travail. Afin d’obtenir des points de bonus pour la justesse de votre auto-évaluation, vous devez soumettre celle-ci.
+        confirm_button: Poursuivre et accéder à la phase de résultats
+
+      grade_composition:
+        headline: Composition de la note
+        base: Note donnée par les autres apprenants
+        self_assessment: Points supplémentaires pour la justesse de l’auto-évaluation
+        usefulness: Points supplémentaires pour les évaluations que vous avez rédigées
+        team_evaluation: Évaluation par les membres de votre équipe
+        delta: Delta appliqué par le personnel enseignant.
+        absolute_delta: Votre note a été fixée à un total de %{grade} points
+        helpers:
+          base: "La médiane est utilisée pour déterminer la note de l’apprenant. Note de l’apprenant = critère de médiane 1 + critère de médiane 2 + critère de médiane n."
+          self_assessment: "Vous avez acquis des points de bonus si la différence entre la note des autres apprenants et votre auto-évaluation est inférieure ou égale à 10 % du nombre maximal de points disponibles. Points de bonus = 5 % du nombre maximal de points disponibles."
+          usefulness: Les points de bonus sont basés sur l’évaluation de vos commentaires écrits.
+          delta: Corrections apportées aux notes par le personnel enseignant (par exemple, après une plainte de votre part, ou si vous avez fait l'objet d'un signalement).
+          team_evaluation: Points attribués les membres de votre équipe pour votre contribution au travail d'équipe.
+
+      status:
+        status: Status
+        reported: Signalé
+        new_message: Nouveau message
+
+      buttons:
+        view: Afficher
+        view_discuss: Afficher et discuter
+
+      rating:
+        headline: Évaluation d'un autre apprenant
+        report: Signaler un problème avec cette évaluation
+        report_hint: Si vous signalez un problème avec une évaluation, l’équipe pédagogique vérifiera votre signalement. Si le signalement est justifié, l’évaluation ne sera pas prise en compte dans votre note globale.
+        rate_button: Soumettre votre notation
+        confirm_title: Voulez-vous soumettre votre notation ?
+        confirm: Vous ne pourrez plus apporter de modifications.
+        grading_received: "Un autre apprenant a noté votre évaluation comme suit : <strong>%{grade}</strong>"
+        grading_given: "Vous avez noté un autre apprenant comme suit : <strong>%{grade}</strong>"
+        stars: "<strong>Cette évaluation a obtenu %{stars} étoile(s)</strong>"
+
+        info_text:
+          intro: Vous trouverez ci-dessous l’évaluation écrite de l’autre apprenant.
+          points:
+            - Vous pouvez dès à présent noter cette évaluation afin de récompenser l’autre apprenant pour ses commentaires pertinents et/ou l’aider à s’améliorer en vue des futures évaluations. Une fois la notation terminée, vous pourrez afficher le détail des notes que l’autre apprenant vous a attribuées pour chaque critère (grille).
+            - Quand bien même vous ne seriez pas d’accord avec certains des points soulevés par l’autre apprenant dans son évaluation, nous vous demandons de noter celle-ci en fonction de son utilité et de sa constructivité.
+            - "Remarque : La notation des évaluations est facultative.  En fonction de votre notation, l’autre apprenant obtiendra des points supplémentaires (jusqu’à un point supplémentaire par évaluation). Votre note ne sera pas affectée."
+
+        explanation:
+          intro: <strong>Cliquez sur les étoiles pour procéder à la notation, puis sur <em>Soumettre votre notation</em> pour noter cette évaluation.</strong>
+          stars:
+            - <strong>0 étoile</strong><br/>Les commentaires ne sont pas du tout utiles ; ils ne se rapportent pas vraiment à mon travail.
+            - <strong>1 étoile</strong><br/>Les commentaires sont utiles dans une certaine mesure. Ils se rapportent à mon travail, mais ils sont d'ordre plutôt général et/ou ils sont plutôt ambigus ; les points positifs et/ou négatifs ne sont PAS clairement identifiés.
+            - <strong>2 étoiles</strong><br/>Les commentaires sont utiles. Ils sont ciblés ; ils identifient clairement les points positifs et/ou négatifs, MAIS les explications et/ou les conseils pratiques sont inadaptés ou tout simplement absents.
+            - <strong>3 étoiles</strong><br/>Les commentaires sont très utiles. Ils sont ciblés ; ils identifient clairement les points positifs et/ou négatifs ET les explications et/ou les conseils pratiques sont bons et fournis en nombre.
+
+      grading_conflict:
+        notifier: "Vous avez demandé une révision de votre note. L’équipe enseignante est en train d’évaluer votre soumission. Cela peut prendre un certain temps. Vous recevez un e-mail dès que les résultats seront disponibles.<br/>La référence de votre demande de révision de note est %{referral}. Veuillez l'indiquer dans toutes vos correspondances."
+        notifier_closed: "Votre demande de révision de note a été prise en compte. La référence de votre demande de révision de note est %{referral}. Veuillez l’ajouter à toutes vos correspondances en lien avec ce sujet."
+        submit_button: Demander une révision de la note
+        submit_button_hint: Il est possible de réviser la note uniquement lorsque vous avez noté toutes les évaluations que vous avez reçues et seulement s’il existe une grande différence entre les notes des autres apprenants.
+        label: Explanation
+        placeholder: Veuillez expliquer pourquoi vous pensez mériter une note plus élevée.
+        info_text: >
+          Veuillez lire attentivement les évaluations des autres apprenants. Vous n’êtes peut-être pas entièrement d'accord avec l’évaluation des autres apprenants, mais nous vous demandons de la considérer d'un point de vue objectif et de la comparer aux autres évaluations que vous avez reçues.
+          <p>Si vous estimez malgré tout que votre soumission n’a pas été notée de façon juste et pensez mériter une note plus élevée, vous pouvez <em>Demander une révision de la note</em>. Veuillez expliquer pourquoi vous pensez mériter une note plus élevée et notre équipe enseignante évaluera votre soumission en se basant sur les motifs que vous invoquez.</p>
+          <p>Remarque : veuillez utiliser cette fonctionnalité avec précaution.</p>
+
+        confirmation_title: Voulez-vous vraiment demander une révision de note ?
+        confirmation_text: Ne demandez une révision de note qu’après mûre réflexion !
+        not_eligible: Vous n’êtes pas autorisé à demander une révision de note.
+        success: Votre demande de révision de note a été envoyée. La révision de note peut prendre un certain temps, veuillez vérifier ultérieurement
+        user_instrumented_hint_possible: The regrading button is active because you are masqueraded. The learner is entitled to request a regrading.
+        user_instrumented_hint_not_possible: The regrading button is active because you are masqueraded. The learner is not entitled to request a regrading of their work or has already requested a regrading.
+        teacherview_hint_possible: The regrading button is inactive because you are only displaying the results as seen by the user. The learner is entitled to request a regrading.
+        teacherview_hint_not_possible: The regrading button is inactive because you are only displaying the results as seen by the user. The learner is not entitled to request a regrading of their work or has already requested a regrading.
+
+    statistics:
+      names:
+        submission_create: Unique submission drafts created
+        submission_submit: Final submissions
+      submission_stats: Submission Statistics (%{overall} started, %{content} drafts with files or text, %{submitted} final)
+      config_headline: General Information and Configuration
+
+    submission_management:
+      submitted: Submitted
+      allowed_in_gallery: Allowed in gallery
+      average: Median points from peers
+      average_rating: Experts’ rating
+      nominations: Nomination by peers
+      nominated_submissions: Total nominations
+      refid: Referral ID
+      gallery_entries: Gallery candidates flagged
+      rate: Rate
+      availalbe_submissions: Available submissions
+      final_submissions: Final Submissions
+      votes: Vote(s)
+      your_vote: You rated %{votes} stars for this submission.
+      view: View
+      per_page_limit: "Limit submissions per page to:"
+      final_only: Show only final submissions
+      apply: Apply
+      submission_headline: Student Submission
+      rating_info: Click on the stars to rate this submission. <strong>Only click the <em>Include submission in the gallery</em> checkbox if you and your fellow experts finished reviewing submissions.</strong> Also note that you can revise your rating later.
+      your_rating: Your Rating
+      include_submission: Include submission in the gallery
+      confirm_rating_title: Submit your rating?
+      confirm_rating_message: You can revise your decision later on.
+      rating_success: Rating saved
+      rating_error: Your rating could not be saved. Please contact the helpdesk if the problem persists.
+      grant_attempt_success: You successfully granted an additional attempt.
+      grant_attempt_failure: Granting an additional attempt failed.
+      no_submissions: There are no submissions available at this moment.
+      order_by: "Order by:"
+      then: "then:"
+      none: None
+      sort_button: Sort
+      average_sort: Points (grade)
+      gallery_include: This submission has been flagged as a gallery candidate.
+      generate_gallery: Generate Gallery Template
+      copy_notice: Copy this text and paste it anywhere you want where we employ rich text (Pinboard, Text Item, ...). Select the text area and copy the text with CTRL + A then CTRL + C; Macintosh CMD + A then CMD + C.
+      generated_gallery: Generated Gallery
+      close_button: Close
+      generation_error: An error occurred while generating the gallery.
+      user: Author
+      display_student_submission:
+        title: Display pages as seen by the students
+        submission_page: Submit your work
+        results_page: View your results
+        self_assessment_page: Evaluate yourself
+        training_page: Learn to grade
+        peer_grading_page: Evaluate your peers
+        draft_hint: "  The student has started this phase but did not submit anything (yet)."
+      gallery_only: Show only submissions included in gallery
+      gallery_button_disabled_info: Please, include at least one submission into the gallery.
+      metadata: "Review Details and Metadata"
+      submission_date: "Created at:"
+      received_reviews_meta: "Reviews received  <br/> (deadline | grade)"
+      written_reviews_meta: "Reviews written <br/> (deadline | step | grade)"
+      review_details: "Points breakdown of reviews"
+      no_review_matrix: "No reviews available that apply for grading"
+      teams: Teams
+      additional_attempts:
+        title: "Additional attempts:"
+        confirm_title: "Grant additional attempt?"
+        confirm_message: "The learner will get an additional attempt to edit and submit his/her work."
+        button: "Grant another attempt"
+      opted_out_from_gallery: "The participant would not like to have his/her work showcased in the (best-of) gallery."
+      regrading_request:
+        title: "Demander une révision de la note:"
+        confirm_title: "Demander une révision de la note ?"
+        confirm_message: "The student will be informed by email that regrading has been requested. The regrading request will be listed in the conflict overview for further review by the teaching staff."
+        button: "Demander une révision de la note"
+        label: "Explication"
+        placeholder: "Expliquez la raison de votre demande de révision de note pour l’étudiant. Seul le personnel enseignant pourra voir votre explication."
+
+      user_filter:
+        placeholder: Name or e-mail
+        submit: Search
+      team_filter:
+        placeholder: Teamname
+        submit: Search
+      filter_reset: Reset filters
+
+      template:
+        student_headline: "### Student submission from %{name}"
+        desc_placeholder: "*A nice description here, maybe?*"
+        hline: "***"
+        link: "[%{description}](%{path})"
+        image_with_link: "[![%{description}](%{image_path}?size=%{size}) %{additional_text}](%{link})"
+        image: "![%{description}](%{path}?size=%{size})"
+        generic_attachment: "[%{description}](%{path})"
+        pdf_download: Télécharger le PDF
+        explanation: "*A nice explanation why this submission has been selected.*"
+
+  verify:
+    headline: Le contrôle de certificat
+    headline_show: Certificate Details
+    valid: "Le certificat pour le code de vérification <i>%{code}</i> est valide."
+    user_deleted: Le compte de ce candidat a été supprimé. Pour cette raison, nous ne pouvons plus vérifier ce certificat.
+    narrative: "%{brand} vérifie que le candidat a suivi le cours <a href='%{link}'>%{title}</a> et a réussi les exercices et les examens nécessaires pour obtenir un certificat de cours."
+    narrative_meta: "%{brand} vérifie que le candidat a suivi le cours %{title} et a réussi les exercices et les examens nécessaires pour obtenir un certificat de cours."
+    user_data: Informations sur l'utilisateur
+    issued_for: Publié par
+    date_of_birth: Date de naissance
+    course_data: Informations sur le cours
+    course_title: Publié en cours
+    course_teachers: Offert par
+    course_runtime: Dates du cours
+    course_date: "%{start_date} à %{end_date}"
+    course_date_from: "depuis %{start_date}"
+    course_learning_goals: Objectifs d'apprentissage
+    certificate_data: Informations sur le certificat
+    certificate_type: Type de certificat
+    record_of_achievement: Attestation de réussite
+    issued_at: Délivré le
+    result: Résultat
+    points: "%{points} sur %{max_points} points (%{percent}%)"
+    open_badge:
+      share_open_badge: Partager votre Open Badge
+
+  users:
+    list:
+      full_name: Nom et prénom
+
+    show:
+      back_to_list: Back to userlist
+      admin_options: Administrator options
+      change_password: Change password
+      delete: Delete user
+      confirm_delete: "Are you sure to delete this user?"
+      masquerade: Masquerade as user
+      enrollments: Course enrollments
+      course_title: Course title
+      course_code: Course code
+      completed: Completed?
+      points: Points
+      quantile: Quantile
+      certificates: Certificates
+      confirmation_of_participation: Confirmation of Participation
+      record_of_achievement: Record of Achievement
+      certificate: Certificate
+      actions: Actions
+      action_submissions: Show submissions
+      user_information: User information
+      password: Password
+      password_hint: <strong>Veuillez noter :</strong> la modification du mot de passe n'affecte pas les informations d'identification SSO liées. Si l'accès au compte SSO est perdu, fournir un nouveau mot de passe permettra à un compte existant d'être lié aux nouvelles informations d'identification SSO.
+
+  lti_providers:
+    lti_provider:
+      # EN-fallback actions: Actions
+      # EN-fallback edit: Edit LTI provider
+      # EN-fallback delete: Delete LTI provider
+      # EN-fallback confirm_delete: Deleting will remove all items that use this provider! Do you really want to delete it?
+    index:
+      # EN-fallback add: Add LTI Provider
+
+  gamification:
+    scores:
+      your_points: "Votre %{points}"
+      empty: Vous pouvez gagner des points d'expérience (XP) en travaillant sur le contenu d'apprentissage et en participant aux discussions du forum.
+      course: Cours
+      selftests: Quiz
+      communication: Communication
+      total: Total
+    courses_scores:
+      course: Cours
+      total: Total
+
+  proctoring:
+    register_with_smowl: Calibrer votre image
+    calibration_missing_callout: Vous devez calibrer votre image avant de passer l'examen.
+    calibration_missing_text: Vous ne pourrez pas passer l'examen tant que vous n'aurez pas commencé le processus d'étalonnage.
+    calibration_missing_action: Aller à la page des détails de l'étalonnage
+    calibration_pending_title: Calibrage en cours
+    calibration_pending_text: Votre image est en cours d'étalonnage. Ce processus peut prendre quelques heures. Veuillez revenir ici plus tard pour passer l'examen.
+    service_unavailable: Le service de surveillance est actuellement indisponible. Veuillez réessayer plus tard.
+    book_certificate: Réserver un certificat
+
+    registration_details:
+      title: Étalonnage pour le certificat
+      headline_steps: Prendre une photo pour la vérification
+      steps_introduction: "Si vous avez opté pour le Certificat, nous avons besoin de trois photos de vous pour la reconnaissance automatique du visage. Procédez comme suit pour activer la fonction de reconnaissance faciale :"
+      step_1: Assurez-vous que vous utilisez un <a href='https://smowl.net/en/faqs-proctoring-smowl/requirements/' target='_blank' rel='noopener'> navigateur compatible</a>.
+      step_2: Cliquez sur "Calibrer votre image" à la fin de cette page.
+      step_3: Prenez 3 photos de vous avec votre webcam. La deuxième photo apparaîtra sur votre certificat.
+      step_4: Confirmez les photos ou prenez-en une nouvelle série après les avoir rejetées.
+      callout_title: Calibrez votre image dès que possible
+      callout_text: Le processus d'étalonnage peut prendre <strong>jusqu'à 48 heures</strong>. Pendant cette période, l'accès aux quiz corrigés et à tous les exercices pertinents est bloqué.
+      verification_lifetime_headline: Durée de vie de la vérification
+      verification_lifetime_text: Le calibrage est effectué par participant, et non par cours, c'est-à-dire qu'il n'est pas nécessaire de répéter l'ensemble du processus pour chaque cours. Dans les cours suivants, il sera vérifié si l'apparence a tellement changé qu'un nouvel étalonnage est nécessaire. Si tel est le cas, il vous sera demandé de le faire dans le cours.
+
+  time_effort:
+    seconds: secondes
+    minutes:
+      one: 1 minute
+      other: "%{count} minutes"
+    hours:
+      one: 1 heure
+      other: "%{count} heures"
+
+  permissions:
+    headline: Global permission settings
+    grant_text: "All members of this group are granted the following roles and permissions:"
+    confirmed: Confirmed
+    confirmed_true: true
+    confirmed_false: false
+    details: Details
+    remove: Remove
+    add_user:
+      button: Add user
+    enrollment_list: 'See the members of this group in the <a href="%{url}">enrollment list</a>.'
+    group_names:
+      admins: Course administrators
+      moderators: Course moderators
+      teachers: Teachers
+      students: Students
+      partners: Partner
+      content_editors: Content editors
+      pa_content_experts: Peer assessment content experts
+      pa_jury: Peer assessment jury
+      stakeholders: Course stakeholders
+      global:
+        gdpr_admins: Administrateurs de plateforme (GDPR)
+        admins: Administrateurs de plateforme
+        helpdesk: Personnel du helpdesk (GDPR)
+        reviewers: Quality assurance staff (reviewers)
+    role_names:
+      account:
+        admin:
+          name: "<b>Account administration:</b> list, create and delete users, change user passwords, masquerade as user"
+        permissions:
+          admin:
+            name: "<b>Permission administration:</b> list, grant and revoke global permissions (e.g. admin)"
+        support:
+          name: "<b>Account support:</b> list user, change user passwords, masquerade as user"
+        tracer:
+          name: "<b>User search:</b> find users when filtering submissions, etc."
+      course:
+        admin:
+          name: "<b>Course administration:</b> create, edit and clone courses, manage teachers"
+        manager:
+          name: "<b>Course management:</b> edit course settings, manage course content, manage course permissions, view course dashboard and statistics, manage enrollments"
+          global:
+            name: "<b>Global course management:</b> add and edit teachers (legacy permission from former permission system)"
+        previewer:
+          name: "<b>Course preview:</b> view unpublished course content"
+        student:
+          name: "<b>Student:</b> basic permissions for registered and enrolled users (without special roles)"
+        controller:
+          name: "<b>Course controlling:</b> access course dashboards and statistics"
+        editor:
+          name: "<b>Course editing:</b> edit course content, view course statistics"
+        content:
+          controller:
+            name: "<b>Content controlling:</b> view content item statistics"
+        channel:
+          admin:
+            name: "<b>Channel administration:</b> create, edit and delete channels"
+        teacher:
+          name: "<b>Teacher:</b> legacy role for old teacher permissions"
+        vouchers:
+          admin:
+            name: "<b>Voucher administration:</b> voucher self-service, statistics, inspection of vouchers"
+        stakeholder:
+          name: "<b>Course controlling:</b> view course dashboards"
+      certificate:
+        admin:
+          name: "<b>Certificate administration:</b> add, edit and delete certificate templates, preview certificates"
+      collabspace:
+        admin:
+          name: "<b>Collab space administration:</b> access, manage, close and delete collab spaces, manage collab space members"
+        mentor:
+          name: "<b>Collab space mentoring:</b> access team collab spaces"
+      file:
+        admin:
+          name: "<b>File administration:</b> list and delete uploaded files"
+      grouping:
+        admin:
+          name: "<b>User tests administration:</b> create and manage user tests"
+        inspector:
+          name: "<b>User tests:</b> work with user test results"
+      lanalytics:
+        alert:
+          admin:
+            name: "<b>QC Alert administration:</b> delete alerts for all users"
+          inspector:
+            name: "<b>QC Alerting:</b> list and ignore (own) alerts"
+        report:
+          inspector:
+            name: "<b>Reports:</b> create anonymized reportings"
+        rule:
+          admin:
+            name: "<b>QC Rule administration:</b> manage rules for QC alerts"
+      lti:
+        admin:
+          name: "<b>LTI administration:</b> manage LTI providers"
+        tool:
+          administrator:
+            name: "<b>LTI administration:</b> manage LTI providers"
+          instructor:
+            name: "<b>LTI:</b> use LTI providers"
+      news:
+        announcement:
+          admin:
+            name: "<b>News management:</b> create, edit, delete and send announcements"
+          previewer:
+            name: "<b>News preview:</b> view unpublished announcements"
+          editor:
+            name: "<b>News editing:</b> create, edit, delete announcements, send test mails"
+        page:
+          admin:
+            name: "<b>Page administration:</b> create and edit static pages"
+      peerassessment:
+        admin:
+          name: "<b>Peer assessment administration:</b> view and edit PA settings (evaluation criteria etc.), manage submissions (= view submissions/ reviews/ points/ progress, grant additional attempts, create regrading requests), manage training samples, manage conflicts, rate and mark submissions for best-of gallery, create best of gallery"
+        manager:
+          name: "<b>Peer assessment management:</b> view PA settings (evaluation criteria etc.), manage submissions (= view submissions/ reviews/ points/ progress, grant additional attempts, create regrading requests), manage training samples, manage conflicts, rate and mark submissions for best-of gallery"
+        support:
+          name: "<b>Peer assessment support:</b> resolve conflicts, inspect submissions"
+        expert:
+          name: "<b>Peer assessment expert:</b> rate submissions, manage conflicts, manage training samples"
+        expert_support:
+          name: "<b>Peer assessment expert support:</b> view submissions, rate and mark submissions for best-of gallery"
+        editor:
+          name: "<b>Peer assessment editing:</b> create and edit peer assessments"
+      pinboard:
+        moderator:
+          name: "<b>Pinboard moderation:</b> edit, delete, block/ unblock, move, close pinboard contributions, or mark them sticky, access pinboard abuse report"
+        instructor:
+          name: "<b>Pinboard instruction:</b> <i>not yet specified</i>"
+        support:
+          name: "<b>Pinboard moderation support:</b> block/unblock pinboard contributions, access pinboard abuse report, create sticky posts"
+      platform:
+        operator:
+          name: "<b>Platform operation:</b> access global platform dashboard"
+      quiz:
+        admin:
+          name: "<b>Quiz administration:</b> manage submissions, grant extra attempts"
+        controller:
+          name: "<b>Quiz statistics</b>: view submission statistics"
+        inspector:
+          name: "<b>Quiz inspection</b>: view student submissions"
+      video:
+        controller:
+          name: "<b>Video controlling:</b> view video statistics"
+        admin:
+          name: "<b>Video administration:</b> manage video providers"
+      subtitle:
+        editor:
+          name: "<b>Subtitle editing:</b> upload and delete subtitles for videos"
+      helpdesk:
+        polls:
+          admin:
+            name: "<b>Polls administration:</b> creation, editing, deletion, and evaluation of polls"
+        pages:
+          admin:
+            name: "<b>Pages administration:</b> creation, editing, and deletion of pages"
+
+  pages:
+    show:
+      last_changed: "Cette page a été modifiée pour la dernière fois à %{date}"
+
+  quiz_questions:
+    edit:
+      question_type:
+        multiple_choice: Sélection unique
+        multiple_answer: Sélection multiple
+      markup: Markup
+      type: type
+      submit: Submit Question
+    form:
+      question_type:
+        multiple_choice: Sélection unique
+        multiple_answer: Sélection multiple
+        free_text: Free Text
+        essay: Essay
+  quiz_answers:
+    form:
+      submit: Submit Answer
+      cancel: Cancel
+
+  notification_user_disables:
+    show:
+      title: Désactiver la notification
+      deactivate_for:
+        global:
+        announcement:
+        course_announcement:
+        pinboard:
+
+  social_sharing:
+    facebook:
+      button: Partager
+      info: Partager sur Facebook
+      icon:
+        name: facebook
+        style: brands
+    linkedin_add:
+      button: Ajouter au profil
+      info: Ajouter au profil LinkedIn
+      icon:
+        name: linkedin
+        style: brands
+    twitter:
+      button: Partager
+      info: Partager sur X, anciennement Twitter
+      icon:
+        name: x-twitter
+        style: brands
+      share_course: "Je me suis inscrit au cours %{title} sur #%{site}"
+      share_certificate: "J'ai complété avec succès le cours %{title} sur #%{site}!"
+    mail:
+      button: Mail
+      info: Envoyer par courriel
+      icon:
+        name: envelope
+        style: solid
+      share_course:
+        subject: "Rejoignez-moi et apprenez sur %{site}"
+        body: |
+          Bonjour  ,
+
+          Je me suis inscrit au cours% {site} %{title}: %{url}.
+          Tout ce dont vous avez besoin pour vous inscrire est une adresse email valide et vous pouvez apprendre de n'importe où dans le monde, à tout moment.
+
+          Meilleures salutations,
+      share_certificate:
+        subject: "J'ai terminé avec succès un cours sur %{site}"
+        body: |
+          Bonjour ,
+
+          Je viens de terminer le %{site} cours %{title}: %{course_url}.
+          Vous pouvez consulter mon badge ouvert ici: %{certificate_url}
+
+          Meilleures salutations,

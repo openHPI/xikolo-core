@@ -1,0 +1,54 @@
+= simple_form_for announcement, url: announcement.new_record? ? announcements_path : announcement_path do |f|
+  = f.error_notification
+  = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
+  - if announcement.visual_url?
+    = image_tag announcement.visual_url.to_s
+
+  h3 = t("languages.name.#{announcement.language}")
+  = f.input :title
+  = f.input :visual_upload_id
+  = f.input :show_on_homepage
+  = f.input :publish_at
+  - if announcement.audience?
+    = f.input :audience,
+      collection: announcement.audience_collection,
+      prompt: :translate,
+      disabled: announcement.persisted?
+    - if announcement.persisted?
+      = f.input :audience,
+        as: :hidden,
+        input_html: {value: announcement.audience}
+  .content-form#richtext-form
+    = f.input :text,
+      input_html: {rows: 7,
+        preview: true,
+        markdown_id_suffix: "news_translation_#{announcement.language}"}
+  = f.input :language,
+    as: :hidden
+
+  h2 = t(:'announcements.form.translations')
+  .alert.alert-info
+    = t(:'announcements.form.translation_hint')
+  - announcement.all_translations.each do |translation|
+    = render 'announcements/translation', translation: translation
+
+  div
+    button.btn.btn-primary.vtop type='submit'
+      = t(:'announcements.form.save')
+    - if current_user.allowed?('news.announcement.send')
+      .ml10.vtop.inline-block
+        button.btn.btn-default.disabled type='submit' name='notification' id='save-send-button' value='send' disabled='true'
+          = t(:'announcements.form.save_and_send')
+        .mt5
+          input.mr5 type='checkbox' id='enable-save-send' class='toggle-switch'
+          label for='enable-save-send'
+    - if current_user.allowed?('news.announcement.send_test')
+      button.btn.btn-default.ml10.vtop type='submit' name='notification' value='test'
+        = t(:'announcements.form.save_and_test')
+
+javascript:
+  ready(function() {
+    $('#enable-save-send').on('change', function() {
+      return $('#save-send-button').toggleClass('disabled').prop('disabled', !$(this).is(':checked'));
+    });
+  });

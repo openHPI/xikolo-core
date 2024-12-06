@@ -1,0 +1,23 @@
+- if presenter.enable_summative_feedback
+  - if presenter.as_collapsible
+    .mt40
+    .panel-group.mt20#rubric-collapse
+      .panel.panel-default
+        .panel-heading.nobg
+          h4.panel-title
+            a data-parent="#rubric-collapse" data-toggle="collapse" href="#rubrics"
+              = t :'peer_assessment.review.rubrics'
+              span.caret
+
+        .panel-collapse.collapse class="in" id="rubrics"
+          .panel-body
+            .row
+              - rubrics.each_with_index do |rubric_presenter, index|
+                .col-md-12
+                  = render 'peer_assessment/shared/rubric', rubric_presenter: rubric_presenter, index: index, small_headlines: presenter.small_headlines
+
+  - else
+    .row
+      - rubrics.each_with_index do |rubric_presenter, index|
+        .col-md-12
+          = render 'peer_assessment/shared/rubric', rubric_presenter: rubric_presenter, index: index, small_headlines: presenter.small_headlines

@@ -1,0 +1,10 @@
+- if @attributes[:disabled]
+  button (class=css_classes disabled=true)
+    - if icon
+      span.mr10 = render Global::FaIcon.new(icon, style: :solid)
+    = @text
+- else
+  a (class=css_classes download=@attributes[:download] href=@url)
+    - if icon
+      span.mr10 = render Global::FaIcon.new(icon, style: :solid)
+    = @text

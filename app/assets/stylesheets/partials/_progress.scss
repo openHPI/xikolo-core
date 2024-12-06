@@ -1,0 +1,195 @@
+/*------------------------------------*\
+    $CONTENTS
+
+    Progress bars based on Bootstrap
+    progress bar component.
+\*------------------------------------*/
+/**
+ * Variables..............Variable declarations and overrides
+ * Bootstrap-Import.......Bootstrap import
+ * Progress-Bar-Base......Base styling for progress bars
+ */
+
+/*------------------------------------*\
+    $Variables
+\*------------------------------------*/
+$non-visited-color: $gray-250;
+
+$progress-card-spacing: 10px;
+
+$xi-progress-card-background-color: $white !default;
+
+/*------------------------------------*\
+    $Bootstrap-Import
+\*------------------------------------*/
+@import "bootstrap-sass/assets/stylesheets/bootstrap/mixins/progress-bar";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/progress-bars";
+
+/*------------------------------------*\
+    $Progress-Bar-Base
+\*------------------------------------*/
+.progress {
+  height: 30px;
+  border-radius: 0;
+
+  .progress-bar {
+    position: relative;
+    line-height: 30px;
+  }
+
+  .progressbar-front-text,
+  .progressbar-back-text {
+    line-height: 24px;
+  }
+}
+
+.progress_item {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  margin-right: 5px;
+  margin-bottom: 2px;
+  background-color: $non-visited-color;
+  cursor: pointer;
+  float: left;
+  text-align: center;
+  @include border-radius(2px);
+
+  & > a,
+  & > span {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+
+    &:hover {
+      text-decoration: none;
+    }
+
+    .xi-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      color: $black;
+      font-size: 14px;
+      transform: translate(-50%, -50%);
+    }
+  }
+}
+
+.progress_item_visited {
+  background-color: $success-500;
+}
+
+.progress_item_locked {
+  background-color: $gray;
+  cursor: default;
+}
+
+.progress_item_optional {
+  border: 2px solid $non-visited-color;
+  background-color: white;
+}
+
+.progress_item_optional.progress_item_visited {
+  border: 2px solid $success-500;
+}
+
+.progress-table {
+  .progress {
+    height: 24px;
+    margin-bottom: 3px;
+    background-color: $gray-100;
+
+    .progress-bar-success {
+      background-color: $success-500;
+    }
+  }
+
+  .border-top {
+    border-top: 2px solid grey;
+  }
+}
+
+.circle {
+  position: relative;
+  display: block;
+  width: 100%;
+  margin: 6px 6px auto;
+  line-height: 100%;
+  text-align: center;
+}
+
+.circle canvas {
+  vertical-align: top;
+}
+
+.circle strong {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  width: 100%;
+  font-size: 24px;
+  line-height: 40px;
+  text-align: center;
+}
+
+.circle strong i {
+  font-size: 0.6em;
+  font-style: normal;
+  font-weight: normal;
+}
+
+.circle span {
+  display: block;
+  margin-top: 12px;
+  color: #aaa;
+}
+
+#progress-page {
+  .xi-icon {
+    font-size: 14px;
+  }
+
+  .progress-headline {
+    margin: 0 $progress-card-spacing;
+
+    h3 {
+      margin-bottom: 0;
+    }
+  }
+
+  .progress-card {
+    display: flex;
+    box-sizing: border-box;
+    flex: 1 1;
+    margin: $progress-card-spacing;
+    background: $xi-progress-card-background-color;
+    box-shadow: $box-shadow-xs;
+
+    .card-container {
+      display: flex;
+      width: 100%;
+      flex-direction: column;
+      padding: 10px 16px;
+
+      h5 {
+        margin-top: 0;
+        font-weight: bold;
+      }
+    }
+
+    &__callout-download {
+      width: 100%;
+
+      .callout {
+        margin: 0;
+      }
+    }
+  }
+
+  .certificate-buttons {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}

@@ -1,0 +1,14 @@
+li.navigation-item.navigation-item--hide-last.courses-menu-item
+  = link_to t(:'header.navigation.courses'), courses_path, class: "navigation-item__main courses-menu-item__main #{active_class}", 'aria-current': aria_current
+  - if courses.present?
+    .courses-menu-item__menu
+      - courses.each do |category, courses|
+        .courses-menu-item__category
+          .courses-menu-item__category-title = t(:"course.courses.index.#{category}")
+          ul.courses-menu-item__courses
+            - courses.each do |course|
+              li.courses-menu-item__menu-item
+                = link_to course['title'], course_path(course['course_code'])
+            li.courses-menu-item__menu-item.courses-menu-item__menu-item--more
+              = link_to t(:'channels.view_all'), courses_path
+              = render Global::FaIcon.new('chevron-right')

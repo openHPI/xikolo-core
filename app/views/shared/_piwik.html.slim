@@ -1,0 +1,26 @@
+- if Xikolo.config.piwik
+  javascript:
+    try {
+      var _paq = _paq || [];
+      (function () {
+        var protocol = (("https:" == document.location.protocol) ? "https://" : "http://")
+        var host = "#{Xikolo.config.piwik['host_uri']}"
+        var path = "/piwik/"
+        var u = protocol + host + path
+        _paq.push(['setSiteId', #{Xikolo.config.piwik['site_id']}]);
+        _paq.push(['setTrackerUrl', u + 'piwik.php']);
+        _paq.push(['setAPIUrl', u]);
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+        g.type = 'text/javascript';
+        g.defer = true;
+        g.async = true;
+        g.src = u + 'js/';
+        s.parentNode.insertBefore(g, s);
+      })();
+    } catch (err) {}
+
+  noscript
+    p
+      img src="https://#{Xikolo.config.piwik['host_uri']}/piwik/piwik.php?idsite=#{Xikolo.config.piwik['site_id']}" style="border:0" alt=""

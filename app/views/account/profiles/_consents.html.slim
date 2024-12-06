@@ -1,0 +1,45 @@
+- content_for :head_assets
+  = javascript_include_tag('user', crossorigin: 'anonymous', integrity: true, async: true)
+
+h4.pt20
+  = t(:'account.shared.consent.profile.headline')
+hr.divider
+
+- consents.each do |consent|
+  .profile-consent
+    - if consent.required?
+      = render Global::FaIcon.new('check', style: :solid, css_classes: 'pull-left check')
+      .content
+        p.mb0
+          b = consent.label
+          span.label.label-default = t(:'account.shared.consent.profile.required')
+        p = consent.text
+        - if consent.consented?
+          p
+            = render Global::FaIcon.new('calendar-day', css_classes: 'mr5')
+            span
+              = consent.consented_at_msg
+    - else
+      = form_tag consents_account_path, data: {url: consents_account_path, 'profile-consent': consent.name}
+        = hidden_field_tag consent.name, false
+        = check_box_tag consent.name, true, consent.consented?, id: "consent_#{consent.name}",
+                        disabled: consent.required? || consent.external_url.present?, class: 'toggle-switch-sm'
+        = label_tag "consent_#{consent.name}" do
+          b = consent.label
+        .content data-behavior='consent-info'
+          = consent.text
+          - if consent.consented_at
+            p.mt10
+              = render Global::FaIcon.new('calendar-day', css_classes: 'mr5')
+              span
+                = consent.consented_at_msg
+    - if consent.external_url.present?
+      .content
+        = render Global::Callout.new(I18n.t(:'account.shared.consent.profile.external', url: consent.external_url))
+
+= render Global::Callout.new(t(:'account.shared.consent.profile.notice'))
+
+template data-behavior='consent-info-template'
+  p.mt10
+    = render Global::FaIcon.new('calendar-day', css_classes: 'mr5')
+    span data-behavior='consent-msg'

@@ -1,0 +1,41 @@
+- content_for :page_header_slim
+  = render Global::PageHeader.new(t(:'vouchers.headline'), subtitle: t(:'admin.page_header'), type: :slim)
+
+.container
+  .col-md-12
+    = render 'shared/voucher_admin_nav'
+  .col-md-12.mb20
+    - if Voucher::ProductTypes.enabled.any?
+      p
+        = form_tag action: :create do
+          - if @errors
+            .error_notification
+              ul
+                - @errors.full_messages.each do |message|
+                  li
+                    = message
+          .form-group style='width: 400px'
+            = label_tag :product_type, t(:'vouchers.create.product'), class: 'control-label'
+            = select_tag :product_type, options_for_select(Voucher::ProductTypes.enabled.keys), class: 'full-width form-control'
+            = label_tag :count, t(:'vouchers.create.count'), class: 'control-label'
+            = number_field_tag :count, 10, in: 1...500, step: 1, style: 'width: 70px', class: 'form-control'
+            = label_tag :tag, t(:'vouchers.create.tag'), class: 'control-label'
+            = text_field_tag :tag, nil, placeholder: t(:'vouchers.create.tag_placeholder'), class: 'full-width form-control'
+            = label_tag :claimant_id, t(:'vouchers.create.claimant'), class: 'control-label'
+            = select_tag :claimant_id, nil, class: 'full-width form-control',
+              data: {behavior: 'custom-select', 'auto-completion-url': admin_find_users_path, placeholder: t(:'vouchers.create.claimant_placeholder')}
+            = label_tag :course_id, t(:'vouchers.create.course'), class: 'control-label'
+            = select_tag :course_id, options_from_collection_for_select(@courses, :id, :select_title), class: 'full-width form-control', include_blank: '---'
+            = label_tag :expires_at, t(:'vouchers.create.expiration'), class: 'control-label'
+            = text_field_tag :expires_at, nil, placeholder: t(:'vouchers.create.expiration_placeholder'), class: 'form-control', data: {behaviour: 'datepicker'}
+            .mt10
+              = submit_tag t(:'vouchers.create.button'), {class: 'btn btn-primary'}
+      - if @vouchers.present?
+        h3 = t :'vouchers.create.codes'
+        pre
+          - @vouchers.each do |voucher|
+            = voucher.id
+            br
+    - else
+      p
+        = t(:'vouchers.no_products')

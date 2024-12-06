@@ -1,0 +1,10 @@
+- content_for :page_header
+  = render Global::PageHeader.new(t(:'feeds.headline'))
+
+.container
+  .row
+    .col-md-12.pt30
+      = t(:'feeds.txt')
+      ul.mt20
+        li
+          = link_to t(:'feeds.course_feed_name'), courses_feed_path

@@ -1,0 +1,15 @@
+common: &common
+  uri: <%= ENV['XIKOLO_RABBITMQ_URL'] || 'amqp://localhost/' %>
+
+test:
+  <<: *common
+  prefix: news-test
+
+development:
+  <<: *common
+
+production:
+  <<: *common
+
+integration:
+  <<: *common

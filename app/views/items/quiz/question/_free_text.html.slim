@@ -1,0 +1,10 @@
+.quiz-question.simple-free-text
+  .question
+    == render_markdown question.text
+
+  .question-content
+    .quiz-question-answers
+      - question.answers.each do |answer|
+        => text_area_tag "submission[#{question.id}]", answer.id, id: "question_#{question.id}_answer_#{answer.id}_text_area", disabled: true
+        = label_tag "question_#{question.id}_answer_#{answer.id}_text_area", raw(answer.text)
+        br

@@ -1,0 +1,34 @@
+.container-fluid
+  .col-md-12.learning-rooms-container
+    .row
+      .col-md-8.learning-rooms-container
+        h3
+          a class="list-toggle" data-toggle="collapse" href="#my-learning-rooms"
+            = render Global::FaIcon.new('caret-down', style: :solid, css_classes: 'collapsed-icon')
+            = render Global::FaIcon.new('caret-right', style: :solid, css_classes: 'uncollapsed-icon')
+            = t(:'learning_rooms.my_rooms')
+        div class="collapse in" id="my-learning-rooms"
+          - if @my_collabspace_presenters.any?
+            = render partial: 'collabspace_list', locals: {collabspaces: @my_collabspace_presenters}
+          - else
+            = render State::Empty.new(t(:'learning_rooms.my_rooms_empty_state'), size: :small)
+
+        h3
+          a class="list-toggle" data-toggle="collapse" href="#unjoined-learning-rooms"
+            = render Global::FaIcon.new('caret-down', style: :solid, css_classes: 'collapsed-icon')
+            = render Global::FaIcon.new('caret-right', style: :solid, css_classes: 'uncollapsed-icon')
+            = t(:'learning_rooms.list')
+        div class="collapse in" id="unjoined-learning-rooms"
+          - if @unjoined_collabspaces.any?
+            #pagination-items
+              = render 'collabspace_list', collabspaces: @collabspace_presenters
+            #pagination-menu
+              = will_paginate RestifyPaginationCollection.new(@unjoined_collabspaces), renderer: AjaxPaginationRenderer
+          - else
+            = render State::Empty.new(t(:'learning_rooms.list_empty_state'), size: :small)
+
+      .col-md-4
+        h3
+          = t(:'learning_rooms.admin.actions')
+        hr.divider
+        = link_to t(:'learning_rooms.create'), new_course_learning_room_path(@course.course_code), class: 'btn btn-primary full-width mb20'

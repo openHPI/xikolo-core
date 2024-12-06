@@ -1,0 +1,8 @@
+roles:
+  platform.operator:
+    - global.dashboard.show
+
+grants:
+  - role: platform.operator
+    group: xikolo.admins
+    context: root

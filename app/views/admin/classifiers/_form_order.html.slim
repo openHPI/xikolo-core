@@ -1,0 +1,10 @@
+- content_for :head_assets
+  = javascript_include_tag 'admin', crossorigin: 'anonymous', integrity: true, async: true, debug: false
+
+= t(:'admin.classifiers.current_order', sort_mode:)
+
+= simple_form_for(:cluster) do |f|
+  = render Form::DynamicSortableList.new(classifiers, name: 'classifiers[]')
+
+  = f.submit class: 'btn btn-primary'
+  = link_to t(:'global.cancel'), admin_cluster_path(cluster_id), class: 'btn btn-default ml10'

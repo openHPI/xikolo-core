@@ -1,0 +1,69 @@
+- unless @teacherview
+  = link_to t(:'peer_assessment.review.back_to_overview'), peer_assessment_step_results_path, class: 'btn btn-sm btn-default col-xs-12 col-md-2'
+  .clearfix
+  .mt40
+
+/ Info Text
+- unless @rated or @current_step.deadline.past?
+  = render Global::Callout.new(t(:'peer_assessment.results.rating.info_text.intro'))do
+    - I18n.t(:'peer_assessment.results.rating.info_text.points').each do |k, _|
+        p == k
+  .mt30
+
+/ Main part
+h4 = t :'peer_assessment.results.rating.headline'
+hr.divider.slim
+.pa-rt-generic.mb20.p10 == render_markdown @review.text
+
+/ Peer rating and grading stuff
+- if @review.accused?
+  = render Global::Callout.new(t(:'peer_assessment.results.you_reported', reason: t(:"peer_assessment.conflict.reasons.#{@review.accusal!.reason}").downcase, referral: short_uuid(@review.accusal!.id)), type: :error)
+
+- elsif @review.conflict_filed?
+  = render Global::Callout.new(t(:'peer_assessment.results.peer_reported_submission', reason: t(:"peer_assessment.conflict.reasons.#{@review.filed_conflict!.reason}").downcase, referral: short_uuid(@review.filed_conflict!.id)), type: :error)
+
+- elsif @rated
+  = render 'rendered_rating'
+
+  .mt30
+  h4 = t :'peer_assessment.results.grading_rubrics'
+  hr.divider.slim
+
+  / Overall grade
+  strong = t :'peer_assessment.results.peer_grade', grade: @review.given_grade(@assessment)
+
+  / Grading rubrics
+  - @rubric_presenters.each_with_index do |presenter, index|
+    = render 'rendered_rubric', presenter: presenter, index: index
+
+  / Back button
+  - unless @teacherview
+    .mt40
+    = link_to t(:'peer_assessment.review.back_to_overview'), peer_assessment_step_results_path, class: 'btn btn-sm btn-default col-xs-12 col-md-4 col-md-offset-4'
+    .clearfix
+    .mt40
+
+/ Report button
+- elsif !@current_step.deadline.past?
+  = render Global::Callout.new(t(:'peer_assessment.results.rating.report_hint'), type: :warning)
+
+  #report_button.btn-group.pull-right.mt10
+    - if @teacherview
+      button.btn.btn-danger.btn-sm.disabled disabled="disabled" type="button"
+        span.mr5 = t :'peer_assessment.results.rating.report'
+        span.caret
+    - else
+      button.btn.btn-danger.btn-sm.dropdown-toggle data-toggle="dropdown" type="button"
+        span.mr5 = t :'peer_assessment.results.rating.report'
+        span.caret
+      ul.dropdown-menu role="menu"
+        - I18n.t(:'peer_assessment.conflict.reasons').keys.each do |key|
+          li
+            a href="#" data-reason="#{key}" = t :"peer_assessment.conflict.reasons.#{key}"
+
+  .clearfix.mb20
+
+  = render 'peer_assessment/shared/report_conflict', subject: @review, url: report_peer_assessment_step_results_path
+  = render 'rating_form'
+
+.mt40

@@ -1,0 +1,44 @@
+---
+include:
+  - path: compose.background.yml
+  - path: compose.init.yml
+
+x-news: &news
+  image: xikolo-news:latest
+  build:
+    context: ..
+    dockerfile: docker/files/news.Dockerfile
+  env_file:
+    - .env
+  networks:
+    - xikolo
+  volumes:
+    - ./config/xikolo.yml:/etc/xikolo.yml:ro
+    - ./config/xikolo/news.yml:/app/config/xikolo.yml:ro
+  restart: always
+  depends_on:
+    init-database:
+      condition: service_completed_successfully
+    postgres:
+      condition: service_healthy
+    rabbitmq:
+      condition: service_healthy
+    redis-cache:
+      condition: service_healthy
+    redis-sidekiq:
+      condition: service_healthy
+
+services:
+  news-msgr:
+    <<: *news
+    command: msgr
+
+  news-server:
+    <<: *news
+    command: server
+    ports: # only for debugging
+      - 4300:80
+
+  news-sidekiq:
+    <<: *news
+    command: sidekiq

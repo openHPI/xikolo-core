@@ -1,0 +1,3 @@
+.basic-tooltip-container
+  == "<h#{@level} class=\"basic-tooltip-headline\">#{@headline}</h#{@level}>"
+  = render Global::BasicTooltip.new(@tooltip)

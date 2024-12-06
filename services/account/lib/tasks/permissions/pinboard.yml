@@ -1,0 +1,21 @@
+roles:
+  pinboard.moderator:
+    - pinboard.entity.edit
+    - pinboard.entity.delete
+    - pinboard.entity.block
+    - pinboard.question.sticky
+    - pinboard.question.move
+    - pinboard.question.close
+  pinboard.support:
+    - pinboard.entity.block
+    - pinboard.question.sticky
+    - pinboard.question.move
+  pinboard.instructor: []
+
+grants:
+  - role: pinboard.moderator
+    group: xikolo.admins
+    context: root
+  - role: pinboard.moderator
+    group: xikolo.helpdesk
+    context: root

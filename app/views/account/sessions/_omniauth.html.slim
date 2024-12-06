@@ -1,0 +1,9 @@
+ul.omniauth
+  - OMNIAUTH_PROVIDERS.each do |key|
+    li
+      = link_to auth_path(key), data: {provider: key} do
+        span
+          = t(:"header.login.omniauth.#{key}")
+    - if I18n.exists?("header.login.omniauth.#{key}_notice")
+      li.mt10
+        = t(:"header.login.omniauth.#{key}_notice")

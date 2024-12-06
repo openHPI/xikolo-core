@@ -1,0 +1,78 @@
+- content_for :course_area_header
+  = render Global::PageHeader.new("#{t(:'admin.course_management.enrollments.headline')} - #{course_layout.title}",
+    subtitle: t(:'course.admin.page_header'),
+    type: :slim) do |c|
+      - c.with_pill(t(:"items.show.coursestate.#{course_layout.fullstate}"), size: :small, color: :note)
+      = render(partial: 'course/shared/course_admin_action', locals: {course: course_layout, in_teacher_context: true})
+
+.col-md-12
+  = form_tag(course_enrollments_path, method: :get, class: 'mb20')
+    => label(:user, :id, t(:'admin.course_management.enrollments.search_for_user'), class: 'mr10')
+    => select_tag :user_id, nil, data: {behavior: 'custom-select', change: 'submit', 'auto-completion-url': admin_find_users_path, placeholder: t(:'global.email_or_name')}
+    - if params[:user_id]
+      =< link_to t(:'admin.course_management.enrollments.reset_filter'), course_enrollments_path
+
+  - if @enrollments.present?
+    table.table.table-striped.table-condensed.table-hover
+      thead
+        tr
+          th = t(:'admin.course_management.enrollments.student')
+          th = t(:'admin.course_management.enrollments.enrolled')
+          th = t(:'admin.course_management.enrollments.features')
+          th colspan=2
+
+      - @enrollments.each do |enrollment|
+        tr
+          td
+            .user-full-name = enrollment[:user].full_name
+            .user-email = enrollment[:user].email
+          td = render Util::RelativeTimeTag.new(enrollment[:data].created_at, limit: 10.days.ago)
+          td = enrollment[:features].any? ? safe_join(enrollment[:features], ', ') : '-'
+          td
+            .action-links
+              .details
+                = link_to t(:'admin.course_management.enrollments.details'), user_path(enrollment[:user].id)
+              .submissions
+                = link_to t(:'admin.course_management.enrollments.submissions'), course_submissions_path(user_id: enrollment[:user].id, id: params[:course_id])
+              div data-modal-inline="true" data-modal-title="#{enrollment[:user].full_name} (#{enrollment[:user].email})"
+                = link_to t(:'admin.course_management.enrollments.progress'), course_progress_path(user_id: enrollment[:user].id)
+          td
+            = render Global::ActionsDropdown.new(menu_side: 'right') do |c|
+              - c.with_action
+                button data-behavior='copy-to-clipboard' data-text=enrollment[:data].id
+                  = t(:'admin.course_management.enrollments.copy_id')
+              - c.with_destructive_action
+                = link_to t(:'admin.course_management.enrollments.unenroll_user'), teacher_destroy_enrollment_path(user_id: enrollment[:user].id), method: :delete, data: {confirm: t(:'admin.course_management.enrollments.unenroll_confirm')}
+
+    = will_paginate @enrollments_pager, renderer: PaginationRenderer
+
+  - elsif @user.present?
+    p
+      = t(:'admin.course_management.enrollments.user_not_enrolled', user_name: @user.full_name, user_email: @user.email)
+    - if @user.confirmed?
+      = link_to t(:'admin.course_management.enrollments.enroll_user'), teacher_create_enrollment_path(user_id: params[:user_id]), method: :post, class: 'btn btn-primary'
+    - else
+      p.red = t(:'admin.course_management.enrollments.user_not_confirmed')
+      button.btn.btn-primary disabled=true type='button'
+        = t(:'admin.course_management.enrollments.enroll_user')
+
+#progress-modal.modal.fade.bs-example-modal-lg tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+  .modal-dialog.modal-lg role="document"
+    .modal-content
+      .modal-header
+        h4.modal-title
+      .modal-body
+
+javascript:
+  ready(function() {
+    $('[data-modal-inline] a').click(function (event) {
+      event.preventDefault();
+
+      $('#progress-modal .modal-body').html('...');
+      $('#progress-modal').modal('show');
+      var url = $(this).attr('href');
+      var title = $(this).closest('[data-modal-inline]').data('modal-title');
+      $('#progress-modal .modal-title').html(title);
+      $('#progress-modal .modal-body').load(url);
+    });
+  });

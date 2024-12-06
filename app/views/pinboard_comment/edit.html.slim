@@ -1,0 +1,12 @@
+- comment_form_path = @comment.commentable_type == 'Question' ? question_pinboard_comment_path : answer_pinboard_comment_path
+= simple_form_for(@comment, url: comment_form_path, wrapper: :compact, data: {'disable-on-submit': 'button[type="submit"]'}) do |f|
+  = f.input :text, as: :markdown, required: true, label: false,
+      markdown_id_suffix: "text-edit-comment-#{@comment.commentable_type}-#{@comment.commentable_id}",
+      uploads: text_uploads,
+      value: @comment['text']
+  = f.hidden_field :commentable_id, value: @comment.commentable_id
+  = f.hidden_field :commentable_type, value: @comment.commentable_type
+  = f.button :submit, class: 'btn btn-primary mr10', value: t(:'pinboard_comment.update')
+
+  = button_tag(type: 'button', class: 'btn btn-default cancel-post') do
+    = t(:'pinboard.cancel')

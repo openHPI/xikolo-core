@@ -1,0 +1,8 @@
+// Main entry point for styles
+
+// Make sure to load the theme first, then the global styles
+// Webpack will prefer files in the brand folder over app/assets/stylesheets
+// Extensions are optional
+
+@import "stylesheets/theme";
+@import "stylesheets/global";

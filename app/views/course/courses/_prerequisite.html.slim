@@ -1,0 +1,20 @@
+.prerequisite-item--course.prerequisite-course
+  - image_url = course['visual_url'] || asset_url('defaults/course.png')
+
+  a href=course_url
+    = image_tag image_url, width: '100%'
+    h5.prerequisite-course--title = course['title']
+
+  .prerequisite-course--status
+    - prerequisite.facts.each do |fact|
+      p.prerequisite-course--fact data-state=fact[:state]
+        = render Global::FaIcon.new(fact[:icon_name], style: :solid)
+        == fact[:html]
+
+    - if prerequisite.free_reactivation?
+      button.btn.btn-default.btn-sm[
+        data-behavior="reactivate-prerequisite"
+        data-url=free_reactivation_url
+        data-course-id=course['id']
+        data-course-title=course['title']
+      ] = t(:'courses.prerequisites.button_trigger_reactivation')

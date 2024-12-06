@@ -1,0 +1,10 @@
+= simple_form_for(@quiz_answer, url: {controller: 'quiz_answers', action: @quiz_answer.new_record? ? :create : :update}) do |f|
+  - if @text_quiz_answer.is_a? Xikolo::Quiz::FreeTextAnswer
+    = render 'quiz_answers/answer_forms/form_free_text_quiz_answer', answer: @text_quiz_answer
+  - else
+    = render 'quiz_answers/answer_forms/form_text_quiz_answer', answer: @text_quiz_answer
+  // TODO: Add further types
+
+  = f.submit @quiz_answer.new_record? ? t(:'helpers.submit.xikolo_quiz_answer.create') : t(:'helpers.submit.xikolo_quiz_answer.update'), class: 'btn btn-primary'
+  .btn.btn-default.ml10 onclick="$(this).closest('#{@quiz_answer.new_record? ? '.add_form_quiz_question_wrapper' : '.edit_form_quiz_question_wrapper'}').hide();"
+    = t(:'global.cancel')

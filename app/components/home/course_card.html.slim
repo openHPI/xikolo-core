@@ -1,0 +1,62 @@
+div class="course-card #{"course-card--#{css_modifiers}" if css_modifiers}" data=data_attributes
+  - if label
+    .course-card__label
+      span = label
+  .course-card__image-wrapper
+    a.course-card__image class=("course-card__image--hidden-course" if @course.hidden) href=course_path(@course.course_code) aria-hidden='true' tabindex='-1'
+      picture
+        - visuals.each do |source|
+          source media=source.media srcset=source.srcset
+        img src=Imagecrop.transform(fallback_visual, width: 314, height: 195) alt='' loading='lazy'
+
+  .course-card__content-wrapper
+    .course-card__info
+      .course-card__title
+        a href=course_path(@course.course_code) title=@course.title
+          = @course.title
+
+      - if show_extended_information?
+        .course-card__extended-info
+          - if @course.teacher_text.present?
+            .course-card__teacher = @course.teacher_text
+          - if @course.abstract.present?
+            .course-card__description
+              == HtmlTruncator.new(strip_lists: true).truncate(helpers.render_markdown(@course.abstract), tags: %w[p br])
+
+    ul.course-card__datapoints
+      - if date_label.present?
+        li.course-card__date aria-label=t(:'course.card.date')
+          = render Global::FaIcon.new('calendar-range')
+          span = date_label
+      - if classifier_clusters.present?
+        li.course-card__classifiers aria-label=t(:'course.card.classifiers')
+          = render Global::FaIcon.new('hashtag')
+          span class="#{"course-card__empty-datapoint-text" if classifiers.empty?}" = classifiers
+      li.course-card__certificates aria-label=t(:'course.card.certificate')
+        = render Global::FaIcon.new('medal')
+        span class="#{"course-card__empty-datapoint-text" if highest_achievable_certificate.blank?}" = highest_achievable_certificate
+      li.course-card__language aria-label=t(:'course.card.language')
+        = render Global::FaIcon.new('globe')
+        span = languages_preview
+
+    .course-card__actions
+      - if actions_dropdown?
+        = render Global::ActionsDropdown.new do |c|
+          - c.with_action
+            = link_to t(:'course.card.buttons_menu.details'), course_path(@course.course_code)
+          - if compact_card? && show_reactivation_button?
+            - c.with_action
+              = render Home::Course::ReactivationButton.new(@course, enrollment: @enrollment, user: @user, style: 'link')
+          - actions.each do |action|
+            - c.with_action
+              = action
+
+      - else
+        = render Home::Course::DetailsButton.new(@course)
+
+      - if show_additional_buttons?
+        = render Home::Course::EnrollButton.new(@course, enrollment: @enrollment)
+        = render Home::Course::ResumeButton.new(@course, enrollment: @enrollment)
+        = render Home::Course::ExternalButton.new(@course)
+        - if !compact_card? && show_reactivation_button?
+          = render Home::Course::ReactivationButton.new(@course, enrollment: @enrollment, user: @user)

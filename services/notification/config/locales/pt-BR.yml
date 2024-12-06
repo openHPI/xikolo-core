@@ -1,0 +1,284 @@
+pt-BR:
+  date:
+    formats:
+      long: "%B %d, %Y %H:%M"
+      default: "%Y-%m-%d"
+      short: "%b %d, %Y"
+      informal: "%B %-d"
+    timezone: "(GMT)"
+  notifications:
+    mail_was_sent_to: "Este e-mail foi enviado para:"
+    course_announcement:
+      cta: "Vá para o curso e continue aprendendo"
+    course_cloning_finished:
+      title: "O seu novo clone do curso% {course_code} foi concluído."
+    course_statistic_calculated:
+      title: "As estatísticas do curso %{course_title} foram calculadas."
+      text: ""
+    reporting_finished:
+      title: "A denúncia de %{type} %{annotation} terminou com o estado: %{state}."
+      text: ""
+    learning_room:
+      new_file:
+        title: "Novo arquivo carregado"
+        text: "%{uploader_name} carregou %{filename}"
+      new_membership:
+        title: "Um membro novo entrou"
+        text: "%{new_member_name} entrou no seu Espaço Colaborativo"
+      quit_membership:
+        title: "Um membro saiu"
+        text: "%{ex_member_name} saiu do seu Espaço Colaborativo"
+    type:
+      news:
+        announcement:
+          one: anúncio
+          other: anúncios
+      course:
+        announcement:
+          one: anúncio de curso
+          other: anúncios de cursos
+      pinboard:
+        new_post:
+          one: notificação do fórum de discussão
+          other: notificações do fórum de discussão
+        new_thread:
+          one: notificação do fórum de discussão
+          other: notificações do fórum de discussão
+      peer_assessments:
+        conflict:
+          new:
+            staff: e-mail
+            reporter: e-mail
+            accused_student: e-mail
+            regrading: e-mail
+          resolved:
+            reporter: e-mail
+            accused_student: e-mail
+            regrading: e-mail
+            no_reviews: e-mail
+
+    disable_link:
+      explanation:
+        html: "Você está recebendo este %{type} porque se inscreveu no %{site_name} com o e-mail %{email}."
+        text: "Você está recebendo este %{type} porque se inscreveu em %{site_name} com o e-mail %{email}."
+      local:
+        html: "Se você não deseja mais receber %{types}, clique <a href=%{link}>aqui</a>."
+        text: "Se você não deseja receber mais %{types} desse tipo, visite o seguinte site: %{link}."
+      global:
+        html: "Se você não deseja mais receber nenhum e-mail, clique em <a href=%{link}>aqui</a>."
+        text: "Se você não deseja mais receber nenhum e-mail, visite o site: %{link}."
+      notification_settings_link:
+        html: "Por favor, acesse suas <a href=%{link}>configurações de perfil</a> para alterar suas configurações de notificação."
+        text: "Acesse %{link} para alterar suas configurações de notificação."
+    pinboard:
+      discussion:
+        new:
+          title: "%{username} iniciou um novo tópico: %{thread_title}"
+          text: "%{text}"
+        comment:
+          new:
+            title: "%{username} publicou no tópico %{thread_title}"
+            text: "%{text}"
+      question:
+        new:
+          title: "%{username} iniciou um novo tópico: %{thread_title}"
+          text: "%{text}"
+        answer:
+          new:
+            title: "%{username} publicou no tópico %{thread_title}"
+            text: "%{text}"
+          comment:
+            new:
+              title: "%{username} publicou no tópico %{thread_title}"
+              text: "%{text}"
+        comment:
+          new:
+            title: "%{username} publicou no tópico %{thread_title}"
+            text: "%{text}"
+      new_post:
+        subject: "Nova publicação em um tópico que você está seguindo: %{course_name}"
+        mailheader_type: "Atividade do Fórum de Discussão"
+        mailheader_info: "%{course_name}"
+        meta: "Em %{date} o %{user} publicou em um tópico que você está seguindo."
+        title: "%{title}"
+        action_button: "Ver ou responder"
+        hint: "Dica: Se esta postagem foi útil para você, marque-a como melhor resposta."
+      new_thread:
+        subject: "Há um novo tópico no fórum."
+        mailheader_type: "Atividade do Fórum de Discussão"
+        mailheader_info: "%{course_name}"
+        meta: "Em %{date} o %{user} publicou no fórum."
+        title: "%{title}"
+        action_button: "Ver ou responder"
+      blocked_item:
+        subject: Revise o item bloqueado do quadro de anúncios
+        greeting: Prezado Admin,
+        text: um item foi bloqueado automaticamente. Avalie por favor!
+        link_text: Clique aqui para avaliar!
+    news:
+      announcement:
+        subject: "Uma nova mensagem do %{site_name} está disponível para você."
+        mailheader_type: "Notícias globais"
+        test_notice: "Esta é uma mensagem de teste, somente você a recebeu!"
+        title: "Uma nova mensagem está disponível em: %{title}"
+        text: "%{text}"
+    course:
+      announcement:
+        subject: "Um novo anúncio de curso está disponível"
+        mailheader_type: "Anúncio de Curso"
+        mailheader_info: "%{course_title}"
+        test_notice: "Esta é uma mensagem de teste, somente você a recebeu!"
+        title: "Um novo comunicado está disponível no curso %{course_title}: %{title}"
+        text: "%{text}"
+    shared:
+      questions:
+        no_questions: Não há atividades recentes de discussões.
+        no_unanswered: Não há perguntas não respondidas.
+
+    peer_assessments:
+      conflict:
+        referral: "O ID de referência para esse conflito é: %{refid}. Inclua esse ID em qualquer correspondência referente a esta denúncia."
+
+        reasons:
+          plagiarism: Plágio
+          offensive_content: Conteúdo ofensivo
+          unrelated: Nenhum conteúdo relacionado à tarefa
+          other: Outro motivo
+          grading_conflict: Divergência na nota
+          no_reviews: Nenhuma avaliação
+
+        subjects:
+          review: avaliação
+          submission: envio
+
+        new:
+          staff:
+            subject: "%{assessment_name}: Uma denúncia foi registrada"
+            title: "%{assessment_name}: Uma denúncia foi registrada"
+            body: "Um aluno denunciou um envio com base em '% {reason}'."
+
+          reporter:
+            subject: "%{assessment_name}: denúncia recebida"
+            title: "%{assessment_name}: recebemos sua denúncia referente a '%{reason}'"
+            body: "Recebemos a denúncia que você preencheu. Nós o avisaremos assim que analisarmos e tomarmos uma decisão sobre a solicitação."
+
+          accused_student:
+            subject: "%{assessment_name}: Seu %{conflict_subject} foi denunciado por '%{reason}'"
+            title: "%{assessment_name}: Seu %{conflict_subject} foi denunciado por '%{reason}'"
+            body: "Um avaliador denunciou o seu %{conflict_subject} alegando '%{reason}'. Analisaremos sua solicitação e o avisaremos assim que tomarmos uma decisão."
+
+          regrading:
+            subject: "%{assessment_name}: Solicitação de revisão de nota recebida."
+            title: "%{assessment_name}: Recebemos sua solicitação de revisão de nota referente '%{reason}'"
+            body: "Recebemos sua solicitação de revisão de nota. Depois de analisá-la e tomarmos uma decisão, você será informado. Pedimos que aguarde até então."
+
+        resolved:
+          reporter:
+            subject: "%{assessment_name}: denúncia resolvida"
+            title: "%{assessment_name}: denúncia resolvida"
+            body: "A denúncia que você preencheu alegando '%{reason}' foi encerrada. Como resultado, você pode ver as alterações de nota (se houver) exibidas na página de resultados da avaliação pelos pares."
+
+          accused_student:
+            subject: "%{assessment_name}: denúncia resolvida"
+            title: "%{assessment_name}: denúncia resolvida"
+            body: "Uma denúncia sobre o seu %{conflict_subject} solicitando '%{reason}' foi encerrada. Como resultado, você pode ver as alterações de nota (se houver) exibidas na página de resultados da avaliação pelos pares."
+
+          regrading:
+            subject: "%{assessment_name}: A revisão de nota foi rejeitada"
+            title: "%{assessment_name}: A revisão de nota foi rejeitada"
+            body: "Sua solicitação de revisão de nota referente a '%{reason}' foi rejeitada e agora está encerrada."
+
+          no_reviews:
+            subject: "%{assessment_name}: Sua nota está disponível"
+            title: "%{assessment_name}: Sua nota está disponível"
+            body: "A equipe de professores analisou seu envio. Veja como você se saiu, acessando a página de avaliação!"
+
+  account_mailer:
+    password_reset:
+      subject: "Redefinição de senha para sua conta %{site_name}"
+      text: Uma redefinição de senha foi solicitada para sua conta. Clique no botão abaixo para redefini-la. O link será válido por 24 horas.
+      link: Redefinição de senha
+    confirm_email:
+      subject: Por favor confirme seu e-mail
+      mailheader_type: Confirme seu e-mail
+      text: "Você está recebendo este e-mail porque adicionou um novo endereço de e-mail à sua conta em %{site_name}. Confirme clicando no botão abaixo."
+      link: Confirme o e-mail
+      copy_instructions: Se o link acima não estiver disponível ou não funcionar, tente copiá-lo e colá-lo na barra de endereços do seu navegador.
+    welcome_email:
+      subject: Bem-vindo ao/a %{site_name}
+      mailheader_type: Bem-vindo ao/a %{site_name}
+      welcome: Você está recebendo este e-mail porque você registrou uma conta no/na %{site_name}.
+      next_steps: "Para preparar o seu perfil e começar a utilizar a plataforma, por favor siga os próximos passos após o login:"
+      step_1: Siga as instruções na tela para completar o seu perfil. Algumas informações são necessárias para utilizar a plataforma.
+      step_2: Inscreva-se em um curso do seu interesse.
+      step_3: Entre no curso e comece a aprender. A maioria dos nossos cursos ocorre no seu próprio ritmo e pode começar imediatamente.
+      step_4: Se você tiver alguma dúvida durante o curso, consulte as discussões do fórum.
+      confirmation: Para começar, por favor confirme seu endereço de e-mail clicando no seguinte botão.
+      link: Confirmar e-mail
+      copy_instructions: Se não conseguir clicar no link acima, ou o mesmo não funionar, tente copiá-lo e colá-lo na barra de endereço do seu navegador.
+
+  course_welcome_mailer:
+    welcome_mail:
+      subject: "Obrigado por se inscrever: %{course_title}"
+      mailheader_type: "Obrigado por se inscrever"
+
+  questions:
+    votes: votos
+    responses: respostas
+    views: visualizações
+    ago: atrás
+    last_activity: última atividade
+    answered: Respondidas
+    discussion: Discussão
+    unanswered: Não respondidas
+    closed: Fechadas
+    tags: Tags
+
+  statistic_mail:
+    admin:
+      subject: "Estatísticas diárias de administrador para %{site} (%{date})"
+      mailheader_type: "Suas estatísticas diárias do curso para %{site}"
+    course_admin:
+      subject: "Suas estatísticas diárias do curso para %{site} (%{date})"
+      mailheader_type: "Suas estatísticas diárias do curso para %{site}"
+    statistics: "estatísticas"
+    global:
+      user:
+        user: "Usuários em"
+        users: "Total de matrículas de identificação única"
+        duration: "nas últimas 24h"
+      enrollment:
+        enrollment: "Inscrições em"
+        total_enrollment: "Total de inscrições no curso"
+        duration: "nas últimas 24h"
+        unique: "nas últimas 24 horas de alunos exclusivos"
+      certificate: "Certificados emitidos em "
+      certificate_roa: "Históricos de realização"
+    ticket:
+      ticket: "Tickets de"
+      total: "Total de tickets"
+      duration: "nas últimas 24h"
+    chart: "Novas Inscrições nos Cursos"
+    current_courses: "Cursos atuais"
+    course_info:
+      hidden: "oculto"
+      more: "mais"
+      learners: "Alunos matriculados"
+      duration: "nas últimas 24h"
+      new: "novos usuários"
+      completion_rate: "Taxa de conclusão"
+      cert_issued: "certificados emitidos"
+      enroll_at_middle: "matrículas no meio do curso"
+      no_show: "Nenhum comparecimento"
+      soon: "Em breve"
+      since: "Em andamento desde"
+      start_date: "Começa em"
+      col_attr_left: "Conteúdo"
+      col_attr_mid: "Total"
+      col_attr_right: "últimas 24h"
+      posts: "Publicações"
+      threads: "Tópicos"
+      posts_collab_spaces: "Publicações do Espaço Colaborativo"
+      threads_collab_spaces: "Tópicos do Espaço Colaborativo"
+    archive_courses: "Cursos terminados recentemente"
+    upcoming_courses: "Próximos cursos"

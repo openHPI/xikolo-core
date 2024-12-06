@@ -1,0 +1,30 @@
+.col-md-12.course-area-main
+  h2
+    = t(:'learning_rooms.admin.headline')
+  h3
+    = t(:'learning_rooms.admin.properties')
+  hr.divider
+  = render 'form', url: course_learning_room_path(params[:course_id], params[:id])
+
+  - if @collabspace.team?
+    - if current_user.allowed? 'course.course.teaching'
+      h3
+        = t(:'learning_rooms.admin.member_management')
+      hr.divider
+      = render 'member_management', members: @members, memberships: @memberships, team: true
+  - else
+    h3
+      = t(:'learning_rooms.admin.member_management')
+    hr.divider
+    = render 'member_management', members: @members, memberships: @memberships, team: false
+
+    h3
+      = t(:'learning_rooms.admin.delete')
+    hr.divider
+    = render Global::Callout.new(t(:'learning_rooms.admin.delete_warning'), type: :error) do
+      = button_to t(:'learning_rooms.admin.delete'),
+        course_learning_room_path(params[:course_id], params[:id]),
+        class: 'btn btn-xs btn-danger',
+        method: :delete,
+        data: { confirm: t(:'learning_rooms.admin.delete_confirm') }
+    end

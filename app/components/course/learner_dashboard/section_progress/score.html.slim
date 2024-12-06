@@ -1,0 +1,9 @@
+.section-progress__score
+  label = @label
+
+  - if disabled?
+    .section-progress__score-empty
+      p = '-'
+  - else
+    .section-progress__score-progress
+      = render Global::Meter.new(value: @value, label: "#{@value}%")

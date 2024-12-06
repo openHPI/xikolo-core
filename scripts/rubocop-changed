@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# rubocop-changed
+#
+# Run rubocop only for changed files between your current git HEAD. Untracked
+# files are not detected, they must be added to the git index first. Additional
+# arguments are passed through to rubocop.
+#
+
+git diff --name-only --diff-filter=d "$(git merge-base origin/master HEAD)" |
+  exec xargs -r bundle exec rubocop --force-exclusion "$@"

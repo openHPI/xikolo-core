@@ -1,0 +1,51 @@
+- content_for :head_assets
+  = javascript_include_tag 'admin', crossorigin: 'anonymous', integrity: true, async: true, debug: false
+
+- content_for :page_header_slim
+  = render Global::PageHeader.new(t(:'knowledge_documents.edit_document'), subtitle: t(:'admin.page_header'), type: :slim)
+
+.container
+  .row
+    .col-md-9.mt20
+      = simple_form_for(:document,
+          url: {controller: 'documents', action: :update},
+          method: :patch) do |f|
+        fieldset
+          legend
+            = t(:'knowledge_documents.internal.information')
+          = render 'form_internal'
+          = render 'form_platform_use', selected_courses: @selected_courses, all_tags: @all_tags
+          legend
+            = t(:'knowledge_documents.localization.translations')
+          table.table.table-striped.mt20
+            thead
+              th = t(:'knowledge_documents.localization.title')
+              th = t(:'knowledge_documents.localization.description')
+              th = t(:'knowledge_documents.localization.language')
+              th = t(:'knowledge_documents.actions')
+              th = t(:'knowledge_documents.download')
+            tbody
+              - @document.localizations.each do |localization|
+                tr
+                  td = localization.title
+                  td = localization.description
+                  td = I18nData.languages(I18n.locale)[localization.language.upcase]
+                  td
+                    = link_to t(:'knowledge_documents.edit'), edit_document_localization_path(@document.id, localization.id), class: 'btn btn-primary btn-xs mt10 mr10'
+                    = link_to t(:'knowledge_documents.delete'), document_localization_path(@document.id, localization.id), class: 'btn btn-danger btn-xs mt10 mr10', data: {method: 'delete'}
+                  td = link_to t(:'knowledge_documents.download'), localization.file_url, class: 'btn btn-primary btn-xs mt10 mr10'
+            = link_to t(:'knowledge_documents.add_language'), new_document_localization_path(@document.id), class: 'btn btn-primary mr20'
+        fieldset
+          legend
+            = t(:'knowledge_documents.actions')
+          .btn-group
+            = f.button :submit, class: 'mr20', value: t(:'knowledge_documents.update')
+            = link_to t(:'knowledge_documents.cancel'), document_path, class: 'btn btn-default mr20'
+            = link_to t(:'knowledge_documents.delete_all'), document_path(@document.id), data: {confirm: t(:'knowledge_documents.delete_all')}, method: :delete, class: 'btn btn-danger mr20'
+
+    .col-md-3
+      .mt60
+      h4
+        = t(:'knowledge_documents.help.help')
+      p
+        = t(:'knowledge_documents.help.edit')

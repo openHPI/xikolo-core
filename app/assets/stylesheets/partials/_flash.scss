@@ -1,0 +1,49 @@
+.flash {
+  // Overlay stacking contexts in page content
+  position: relative;
+  z-index: 10;
+
+  &__content {
+    display: flex;
+    max-width: $main-content-width;
+    flex-grow: 1;
+    align-items: center;
+    padding: 15px 15px;
+    margin: 0 auto;
+  }
+
+  &__icon {
+    margin-right: 10px;
+    font-size: $font-size-sm;
+  }
+
+  &--alert {
+    background-color: $information-500;
+    color: $information-900;
+  }
+
+  &--notice {
+    background-color: $note-500;
+    color: $white;
+  }
+
+  &--error {
+    background-color: $error-500;
+    color: $white;
+  }
+
+  &--success {
+    background-color: $success-500;
+    color: $success-900;
+  }
+
+  &__text {
+    flex-grow: 1;
+  }
+
+  &__close {
+    padding: 0 20px;
+    border: none;
+    background-color: transparent;
+  }
+}

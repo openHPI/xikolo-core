@@ -1,0 +1,66 @@
+@mixin callout-modifier($bg-color, $color) {
+  border-left: 5px solid $color;
+  .callout__indicator {
+    background-color: $bg-color;
+    .xi-icon {
+      color: $color;
+    }
+  }
+}
+
+.callout {
+  display: flex;
+  width: 100%;
+  align-items: stretch;
+  border-left: 5px solid $note-500;
+  margin: 3 * $spacing-steps 0;
+  background-color: $white;
+  box-shadow: $box-shadow-xs;
+
+  &--with-title {
+    flex-direction: column;
+  }
+
+  &__title {
+    margin-left: $spacing-steps;
+  }
+
+  &__indicator {
+    display: flex;
+    align-items: center;
+    padding: $spacing-steps 2 * $spacing-steps;
+    background-color: $note-100;
+    font-weight: bold;
+
+    .xi-icon {
+      width: 24px;
+      color: $note-500;
+      font-size: 2rem;
+      text-align: center;
+    }
+  }
+
+  &--warning {
+    @include callout-modifier($information-100, $information-500);
+  }
+
+  &--error {
+    @include callout-modifier($error-100, $error-500);
+  }
+
+  &--success {
+    @include callout-modifier($success-100, $success-500);
+  }
+
+  &__content {
+    padding: 2 * $spacing-steps;
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__slot {
+    margin-top: 2 * $spacing-steps;
+  }
+}

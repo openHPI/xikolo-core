@@ -1,0 +1,231 @@
+/*------------------------------------*\
+    $CONTENTS
+
+    Footer styles.
+\*------------------------------------*/
+/**
+ * Variables............Variable declarations
+ * Footer-Layout........Footer layouting and positioning
+ * Footer-Content.......Styling for the footer content
+ * Logo-Bar.............Styling for the (optional) logo bar
+ */
+
+/*------------------------------------*\
+    $Variables
+\*------------------------------------*/
+$footer-height: auto;
+$xi-footer-background: $black url("images/stripes.png") !default;
+$xi-footer-color: $white !default;
+$xi-footer-box-shadow: 0 3px 2px rgba(0, 0, 0, 0.2) inset !default;
+$xi-footer-link-hover-color: $link-color !default;
+
+/*------------------------------------*\
+    $Footer-Layout
+\*------------------------------------*/
+.wrapper {
+  position: relative;
+  flex: 1 0 auto;
+}
+
+footer {
+  height: $footer-height;
+  margin-top: $footer-top-margin;
+}
+
+/*------------------------------------*\
+    $Footer-Content
+\*------------------------------------*/
+.footer {
+  background: $xi-footer-background;
+  box-shadow: $xi-footer-box-shadow;
+  color: $xi-footer-color;
+  @include font-s;
+
+  .container {
+    @include horizontal-page-padding;
+  }
+
+  &__links {
+    display: flex;
+    flex-direction: column;
+
+    @include screen-size-s-and-up {
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+  }
+
+  &__column-links,
+  &-newsletter {
+    flex: 1;
+    padding: 0 20px 20px 0;
+    @include screen-size-s-and-up {
+      min-width: 50%;
+    }
+    @include screen-size-sm-and-up {
+      min-width: auto;
+    }
+  }
+
+  h4 {
+    @include font-s;
+    font-weight: bold;
+  }
+
+  a {
+    color: $xi-footer-color;
+  }
+
+  .btn {
+    font-size: inherit;
+  }
+
+  .footer-nav ul {
+    padding: 0;
+    list-style: none;
+
+    li {
+      margin-bottom: 10px;
+    }
+
+    li:last-child {
+      margin-bottom: 0px;
+    }
+  }
+
+  ul.horizontal {
+    display: inline;
+    padding: 0;
+    list-style: none;
+
+    li {
+      display: inline;
+    }
+
+    &.dash {
+      li:after {
+        // \00a0 is for &nbsp;, \2013 for &ndash;
+        content: "\00a0\2013\00a0";
+      }
+    }
+
+    &.slash {
+      li:after {
+        // \00a0 is for &nbsp;
+        content: "\00a0/\00a0";
+      }
+    }
+
+    li:last-child:after {
+      content: "";
+    }
+  }
+
+  a:hover,
+  a:active,
+  a:focus {
+    color: $xi-footer-link-hover-color;
+  }
+
+  .app-badge {
+    margin-right: 10px;
+
+    img {
+      height: 50px;
+    }
+
+    &:hover {
+      background-color: inherit !important;
+      text-decoration: none !important;
+    }
+  }
+
+  .app-badge:last-child {
+    margin-right: 0;
+  }
+
+  &__content-top {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding-top: 30px;
+
+    @include screen-size-m-and-up {
+      flex-direction: row;
+    }
+
+    > * {
+      flex: 1;
+    }
+  }
+
+  &__about {
+    @include screen-size-sm-and-up {
+      max-width: 600px;
+      padding-right: 0;
+    }
+  }
+
+  &__get-app {
+    margin-top: 30px;
+    font-weight: bold;
+  }
+
+  &__app-badges {
+    display: flex;
+  }
+
+  &__logo {
+    margin-bottom: 20px;
+  }
+
+  &__content-bottom {
+    padding: vertical-spacing-xs() 0;
+  }
+
+  &__contact {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &-socialmedia__icons {
+    display: flex;
+    flex-direction: row;
+
+    li {
+      margin-right: 15px;
+      @include font-l;
+    }
+  }
+
+  &__copyright {
+    display: flex;
+    flex-direction: column;
+    @include screen-size-sm-and-up {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+}
+
+/*------------------------------------*\
+    $Logo-Bar
+\*------------------------------------*/
+.footer-logo-bar {
+  padding: 20px 0;
+  background-color: $white;
+
+  .logos-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+  }
+}
+
+.footer-logo-wrapper {
+  max-width: 200px;
+  max-height: 150px;
+  padding: 15px;
+}

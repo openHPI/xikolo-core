@@ -1,0 +1,40 @@
+- content_for :page_header_slim
+  = render Global::PageHeader.new(t(:'admin.users.index.title'), subtitle: t(:'admin.page_header'), type: :slim)
+
+.container
+  .row
+    .col-md-10.pt10
+      .filter.mb10.white-bg.p10
+        = form_tag(users_path, method: :get)
+          => label(:user_filter, :query, t(:'admin.users.index.filter'))
+          => search_field_tag('q', params[:q], id: 'user_filter_query')
+          = submit_tag t(:'admin.users.index.search')
+      - if current_user.feature? 'users.search_by_auth_uid'
+        .filter.mb10.white-bg.p10
+          = form_tag(users_path, method: :get)
+            => label(:auth_uid, :query, t(:'admin.users.index.search_by_auth_uid'))
+            => search_field_tag('uid_query', params[:uid_query], id: 'auth_uid')
+            = submit_tag t(:'admin.users.index.go')
+    .col-md-2
+      - if current_user.allowed? 'account.user.create'
+        = link_to t(:'admin.users.create.new'), new_user_path, class: 'btn btn-primary mt10 pull-right'
+  .row
+    .col-md-12
+      table.table.table-striped.table-condensed.table-hover
+        thead
+          tr
+            th = t(:'users.list.full_name')
+            th = t(:'.display_name')
+            th = t(:'.email')
+            th = t(:'.confirmed')
+            th
+
+        tbody
+          - @users.each do |user|
+            tr
+              td = user.full_name
+              td = user.display_name
+              td = user.email
+              td = t(:".confirmed_#{user.confirmed?}")
+              td = link_to t(:'.details'), user_path(user.id), class: 'btn btn-primary btn-xs'
+      =  will_paginate @users.pagination, renderer: PaginationRenderer

@@ -1,0 +1,50 @@
+---
+# ### DEVELOPMENT ###
+#
+# Runs all needed external services via docker on localhost bound ports
+#
+version: "3.6"
+services:
+  postgres:
+    image: postgres:16.0-bullseye@sha256:66b2cc6059e867809a339b24fbab8ae502bb6efec1e5194869cd977561655e5e
+    restart: always
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - 127.0.0.1:5432:5432
+    environment:
+      POSTGRES_USER: $USER
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_INITDB_ARGS: --locale=C.UTF-8 --encoding=UTF8
+
+  minio:
+    image: minio/minio@sha256:ac591851803a79aee64bc37f66d77c56b0a4b6e12d9e5356380f4105510f2332
+    command: server /data
+    volumes:
+      - minio:/data
+    ports:
+      - 127.0.0.1:9000:9000
+    environment:
+      MINIO_ACCESS_KEY: xikolo
+      MINIO_SECRET_KEY: password
+
+  # RabbitMQ and Redis are explicitly started without persistent storage.
+  # Restarting the stack purges all still pending background jobs or queued
+  # messages.
+
+  rabbitmq:
+    image: rabbitmq:3.9-management-alpine@sha256:3741071c772246271f07fb312993819c32b0f0f0fa746e741cc3c1a41310eb93
+    restart: always
+    ports:
+      - 127.0.0.1:5672:5672
+      - 127.0.0.1:15672:15672
+
+  redis:
+    image: redis:7-alpine@sha256:c1e88455c85225310bbea54816e9c3f4b5295815e6dbf80c34d40afc6df28275
+    command: redis-server --databases 8196
+    ports:
+      - 127.0.0.1:6379:6379
+
+volumes:
+  postgres:
+  minio:

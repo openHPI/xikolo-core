@@ -1,0 +1,118 @@
+.container
+  .row.mt10
+    .col-md-8
+      - if current_user.allowed?('account.user.index')
+        .pull-right
+          = link_to users_path do
+            = render Global::FaIcon.new('arrow-left', style: :solid, css_classes: 'mr5')
+            = t(:'.back_to_list')
+        .clearfix
+      = render Global::UserAvatar.new(@profile.user_id, type: 'rounded', size: 'x-large')
+      h2
+        = @profile.name
+        - if @teacher.present? && current_user.allowed?('course.teacher.view')
+          br
+          = link_to t(:'teachers.show'), teacher_path(@teacher.id), class: 'btn btn-default btn-xs'
+        - elsif current_user.allowed?('course.teacher.manage')
+          br
+          = link_to t(:'teachers.promote'), new_teacher_path(user_id: @profile.user_id), class: 'btn btn-default btn-xs'
+
+      .clearfix
+
+      - if current_user.allowed? 'course.course.teaching_anywhere'
+        h3.mt15
+          = t(:'.user_information')
+        table.table.table-striped.table-condensed.table-hover
+          tbody
+            tr
+              td = t(:'global.email')
+              td
+                ul.list-unstyled
+                  - @profile.all_emails.each do |email|
+                    li
+                      = mail_to(email.address)
+                      - if email.primary? && (@profile.all_emails.size > 1)
+                        =< t(:'users.show.primary_email')
+            tr
+              td = t(:'.confirmed')
+              td = @profile.confirmed?
+
+      - if current_user.allowed_any?('account.user.change_password', 'account.user.delete', 'account.user.masquerade')
+        h2.text-color
+          = t(:'.admin_options')
+
+        - if current_user.allowed? 'account.user.change_password'
+          h3 = t(:'users.show.change_password')
+          hr.divider.slim
+          = simple_form_for(@profile.form, url: {controller: 'users', action: 'change_user_password'}, method: :post) do |f|
+            fieldset.form-section--small
+              = f.error_notification
+              = f.input :password, label: t(:'.password'), required: true, placeholder: t(:'dashboard.profile.new_password'), hint: current_user.feature?('account.login') ? '' : t(:'users.show.password_hint')
+              button.btn.btn-default.btn-sm type='submit'
+                = t(:'users.show.change_password')
+              = f.hidden_field :user_id, value: @profile.user_id
+        - if @profile.manually_confirmable?
+          h3 = t(:'users.show.manual_confirm')
+          hr.divider.slim
+          p = t(:'users.show.manual_confirm_hint')
+          = link_to user_manual_confirmations_path(@profile.user_id), method: :post, data: {confirm: t(:'.confirm_manual_confirm')}, class: 'btn btn-default btn-sm'
+            = render Global::FaIcon.new('circle-check', css_classes: 'mr5')
+            = t(:'.manual_confirm')
+        - if current_user.allowed? 'account.user.masquerade'
+          h3 = t(:'users.show.masquerade')
+          hr.divider.slim
+          p = t(:'users.show.masquerade_hint')
+          = link_to user_masquerade_path(@profile.user_id), method: :post, class: 'btn btn-default btn-sm'
+            = render Global::FaIcon.new('masks-theater', css_classes: 'mr5')
+            = t(:'users.show.masquerade')
+        - if current_user.allowed? 'account.user.delete'
+          h3 = t(:'users.show.ban')
+          hr.divider.slim
+          p = t(:'users.show.ban_hint')
+          - if @profile.archived?
+            p.mt10
+              = t(:'users.show.ban_info')
+          - else
+            = link_to user_bans_path(@profile.user_id), method: :post, data: {confirm: t(:'users.show.ban_confirm')}, class: 'btn btn-danger btn-sm'
+              = render Global::FaIcon.new('user-xmark', css_classes: 'mr5')
+              = t(:'users.show.ban')
+
+          h3 = t(:'users.show.delete')
+          hr.divider.slim
+          p = t(:'users.show.delete_hint')
+          = link_to user_path(id: @profile.user_id), method: :delete, data: {confirm: t(:'.confirm_delete')}, class: 'btn btn-danger btn-sm'
+            = render Global::FaIcon.new('trash-can', css_classes: 'mr5')
+            = t(:'users.show.delete')
+
+  - if current_user.allowed?('course.enrollment.index')
+    .row.mt10
+      .col-md-8
+        - enrolled_courses = @profile.enrolled_courses
+        - if enrolled_courses.present?
+          h2.text-color
+            = t(:'.enrollments')
+          hr.divider.alternative
+          table.table.table-striped.table-condensed.table-hover
+            thead
+              tr
+                th.nowrap = t(:'.course_code')
+                th = t(:'.course_title')
+                - if current_user.allowed_any?('course.course.teaching_anywhere', 'quiz.submission.index')
+                  th = t(:'.completed')
+                  th = t(:'.points')
+                  th = t(:'.quantile')
+                  th = t(:'.certificates')
+                  th = t(:'.actions')
+            tbody
+              - enrolled_courses.each do |item|
+                tr
+                  td = item.course.course_code
+                  td = link_to item.course.title, course_path(id: item.course.course_code)
+                  - if current_user.allowed_any?('course.course.teaching_anywhere', 'quiz.submission.index')
+                    / todo: check whether the current user is teacher specifically in this course and only show the link if this is the case.
+                    td = t(:".completed_#{item.enrollment.completed}")
+                    td.nowrap
+                      ' #{item.enrollment.points['achieved']} / #{item.enrollment.points['maximal']} (#{item.enrollment.points['percentage']}%)
+                    td = item.enrollment.quantile
+                    td = item.enrollment.certificates.select {|_k, v| !v.nil? && v }.keys.map {|k| t(:".#{k}") }.join(', ')
+                    td = link_to t(:'.action_submissions'), course_submissions_path(id: item.course.course_code, user_id: @profile.user_id), class: 'btn btn-default btn-outline btn-xs'

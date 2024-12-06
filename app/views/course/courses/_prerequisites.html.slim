@@ -1,0 +1,14 @@
+.course-details--prerequisites
+  .prerequisites
+    .prerequisites-heading
+      h4 = t(:'courses.prerequisites.headline')
+      p.prerequisites-heading--status data-status=prerequisites.status
+        = render Global::FaIcon.new(prerequisites.status_icon_name, style: :solid)
+        = prerequisites.status_text
+      p
+        = t(:'courses.prerequisites.explain_completion')
+
+    .prerequisites-list
+      - prerequisites.each do |prerequisite|
+        .prerequisites-list--item
+          = prerequisite.render(self)

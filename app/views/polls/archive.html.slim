@@ -1,0 +1,24 @@
+- content_for :page_header
+  = render Global::PageHeader.new(t(:'polls.archive.headline'))
+
+.container.sticky-container
+  .row
+    .col-md-8
+      - @polls.each do |poll|
+        a.anchor id="poll_#{poll.id}"
+        .poll
+          p
+            b = poll.question
+
+          - if poll.show_results?
+            p = poll.results_info
+
+            .results
+              = render poll.results
+
+          - else
+            = render poll.no_results_info
+
+    .col-md-4.sticky-container__element
+      - if @polls.any? && !@in_app
+        == render 'polls/toc', polls: @polls

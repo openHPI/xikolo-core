@@ -1,0 +1,11 @@
+# naming cop settings
+
+# The API needs to emit camelCased fields that always
+# trigger this rule.
+#
+Naming/MethodName:
+  Exclude:
+    - api/**/*
+
+Naming/VariableNumber:
+  Enabled: false

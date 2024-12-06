@@ -1,0 +1,30 @@
+/ Guidance section
+= render 'guidance'
+.mb40
+
+#evaluation.panel-group
+  - @reviews.each_with_index do |review, index|
+    = render 'review_evaluation', review: review, index: index + 1, last_sample: @reviews.last == review, assessment: @assessment
+
+- if @continue and !@resume
+  - if @next_step.unlock_date.try(:future?)
+    = render Global::Callout.new(t(:'peer_assessment.review.advance_wait_info', deadline: distance_of_time_in_words(DateTime.now, @next_step.unlock_date)))
+
+  - else
+    - if @passed
+      = render Global::Callout.new(t(:'peer_assessment.training.continue_info_passed'))
+    - else
+      = render Global::Callout.new(t(:'peer_assessment.training.continue_info'))
+
+.mt40
+  .row
+    .col-md-7
+      - if @resume
+        = link_to t(:'peer_assessment.resume'), peer_assessment_path(short_uuid(@assessment.id)), class: "btn btn-primary mr10 #{'disabled' if @teacherview}"
+      - else
+        = create_new_or_resume_button(@first_entering, @next_sample, @additional_sample, @assessment.id, @current_step.id, @teacherview)
+        - if @continue_button_enabled
+          = create_advance_form(@passed, @skip_form)
+          button.btn.btn-default.mr10 type='submit' = t :'peer_assessment.training.continue'
+        - else
+          button.btn.btn-default.mr10 disabled="disabled" type='submit' = t :'peer_assessment.training.continue'

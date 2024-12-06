@@ -1,0 +1,129 @@
+- content_for :page_header_slim
+  = render Global::PageHeader.new(@user_test.name, subtitle: t(:'admin.page_header'), type: :slim) do |c|
+    - if @user_test.active?
+      - c.with_pill t(:'admin.user_tests.show.active'), color: :note, size: :small
+
+= javascript_include_tag '/js/highcharts.js'
+= javascript_include_tag '/js/highcharts-more.js'
+
+.container
+  .row.mt10
+    .col-md-8
+      p = @user_test.description
+    .col-md-4
+      .pull-right
+        = link_to user_tests_path, title: t(:'.back_to_list')
+          = render Global::FaIcon.new('chevron-left', style: :solid, css_classes: 'fa-lg mr5')
+        = link_to user_test_path(@user_test.id, format: :csv), title: t(:'.download')
+          = render Global::FaIcon.new('download', style: :solid, css_classes: 'fa-lg mr5')
+        = link_to edit_user_test_path(@user_test.id), title: t(:'.edit')
+          = render Global::FaIcon.new('pen-to-square', style: :solid, css_classes: 'fa-lg mr5')
+        = link_to user_test_path(@user_test.id), method: :delete, data: {confirm: 'Are you sure?'}, title: t(:'.delete')
+          = render Global::FaIcon.new('trash-can', style: :solid, css_classes: 'fa-lg')
+      .clearfix
+  .row.mt10
+    .col-md-12
+      h4 = t(:'.details')
+      hr.divider
+      dl.dl-horizontal
+        dt = t(:'.identifier')
+        dd = @user_test.identifier
+        dt = t(:'.start_date')
+        dd = l Time.zone.parse(@user_test.start_date)
+        dt = t(:'.end_date')
+        dd = l Time.zone.parse(@user_test.end_date)
+        - if @user_test.max_participants.present?
+          dt = t(:'.max_participants')
+          dd = @user_test.max_participants
+        - unless @user_test.course.nil?
+          dt = t(:'.course')
+          dd
+            = link_to @user_test.course.title, course_path(@user_test.course.course_code)
+        dt = t(:'.required_participants')
+        dd
+          = @user_test.required_participants
+          small
+            =< t(:'.required_participants_hint')
+        dt = t(:'.filters')
+        - @user_test.filters.each do |filter|
+          dd = [filter.field_name, filter.operator, filter.field_value].join ' '
+
+  .row.mt10
+    .col-md-12
+      - @user_test.metrics.each do |metric|
+        h5 = "#{metric.name} #{"(#{wait_interval_to_string(metric.wait_interval)})" if metric.wait_interval.positive?}"
+        table.table.table-striped.table-condensed.table-hover
+          thead
+            tr
+              th = t(:'.alternative')
+              th = t(:'.name')
+              th = t(:'.participants')
+              th = t(:'.non-finished')
+              - unless @user_test.waiting_count.nil?
+                th = t(:'.waiting')
+              th = t(:'.mean')
+              - if @user_test.finished
+                th = t(:'.confidence')
+              th = t(:'.effect')
+              th = t(:'.required_participants')
+
+          tfoot
+            tr.total
+              td = t(:'.total')
+              td
+              td = @user_test.total_count
+              td = @user_test.total_count - @user_test.finished_count
+              - unless @user_test.waiting_count.nil?
+                td = @user_test.waiting_count[metric.id]
+              td
+                = format('%.2f', @user_test.mean[metric.id]) if @user_test.mean
+              - if @user_test.finished
+                td
+              td
+              td
+
+          tbody
+            - @user_test.test_groups.each do |test_group|
+              tr
+                td
+                  = test_group[:index]
+                  - if test_group.control
+                    = t(:'.control')
+                td = test_group.name
+                td = test_group.total_count
+                td = test_group.total_count - test_group.finished_count
+                - unless @user_test.waiting_count.nil?
+                  td = test_group.waiting_count[metric.id]
+                td
+                  - if test_group.change.empty? && test_group.mean[metric.id]
+                    = format('%.2f', test_group.mean[metric.id])
+                  - elsif test_group.mean[metric.id]
+                    = format('%.2f (%s)', test_group.mean[metric.id], number_to_percentage(test_group.change[metric.id].to_f * 100, precision: 2))
+
+                - if @user_test.finished
+                  td
+                    - unless test_group.confidence.empty?
+                      - if test_group.confidence[metric.id]
+                        span class=(test_group.confidence[metric.id] > 0.95 ? 'text-success' : 'text-danger')
+                          = format('%.2f%%', (test_group.confidence[metric.id] * 100))
+                      - else
+                        span class='text-danger'
+                          = t(:'.confidence_error')
+                td
+                  - if test_group.effect_size && test_group.effect_size[metric.id]
+                    - if test_group.effect_size[metric.id] > 0.35
+                      span class=(test_group.effect_size[metric.id] <= 0.75 ? 'text-warning' : 'text-success')
+                        = format('%.2f', test_group.effect_size[metric.id])
+                    - else
+                      span class='text-danger'
+                        = format('%.2f', test_group.effect_size[metric.id])
+
+                td
+                  - if test_group.required_participants && test_group.required_participants[metric.id]
+                    span class=(test_group.required_participants[metric.id] <= test_group.total_count ? 'text-success' : 'text-danger')
+                      = test_group.required_participants[metric.id]
+
+        - unless metric.distribution == 'binomial'
+          .row.mt10
+            .col-md-12
+              .box-plot data-chart-data="#{@user_test.box_plot_data(metric.id)}" style="height: 400px; margin: auto; min-width: 310px; max-width: 600px"

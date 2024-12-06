@@ -1,0 +1,14 @@
+.col-md-12
+  .course-area-main data-lanalytics-context={course_id: item.course_id}.to_json
+    = render 'items/header', item: item
+
+    h3 #{t :'quiz_submission.submission_deadline_passed.title'}:
+    hr.divider.slim.alternative
+    p.wmd-output
+      == t(:'quiz_submission.submission_deadline_passed.msg')
+    - if @inner_course_position.course.reactivate?
+      = render partial: 'shared/reactivate_course_notice', locals: {course: @inner_course_position.course}
+    hr.divider.slim.alternative
+
+    div data-lanalytics-resource={type: 'quiz', uuid: item.id}.to_json
+      = render 'seq_navigation', position: @inner_course_position

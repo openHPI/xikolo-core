@@ -1,0 +1,234 @@
+nl:
+  date:
+    formats:
+      long: "%B %d, %Y %H:%M"
+      default: "%Y-%m-%d"
+      short: "%b %d, %Y"
+      informal: "%B %-d"
+    timezone: "(UTC)"
+  notifications:
+    mail_was_sent_to: "Deze e-mail is verzonden naar:"
+    course_announcement:
+      cta: "Ga naar cursus en leer verder"
+    course_cloning_finished:
+      title: "Je nieuwe cursuskloon %{course_code} is klaar."
+    course_statistic_calculated:
+      title: "De statistieken voor cursus %{course_title} zijn berekend."
+      text: ""
+    reporting_finished:
+      title: "Het %{type} %{annotation} rapport is klaar met status: %{state}."
+      text: ""
+    learning_room:
+      new_file:
+        title: "Nieuw bestand geüpload"
+        text: "%{uploader_name} heeft %{filename} geüpload"
+      new_membership:
+        title: "Nieuw lid lid geworden"
+        text: "%{new_member_name} is lid geworden van uw Samenwerkingsruimte"
+      quit_membership:
+        title: "Lid is vertrokken"
+        text: "%{ex_member_name} heeft je Samenwerkingsruimte verlaten"
+    type:
+      news:
+        announcement:
+          one: aankondiging
+          other: aankondigingen
+      course:
+        announcement:
+          one: cursus aankondiging
+          other: cursus aankondigingen
+      pinboard:
+        blocked_item:
+          one: melding van discussieforum
+          other: discussieforum meldingen
+        new_post:
+          one: melding van discussieforum
+          other: discussieforum meldingen
+        new_thread:
+          one: melding van discussieforum
+          other: discussieforum meldingen
+      peer_assessments:
+        conflict:
+          new:
+            staff: email
+            reporter: email
+            accused_student: email
+            regrading: email
+          resolved:
+            reporter: email
+            accused_student: email
+            regrading: email
+            no_reviews: email
+
+    disable_link:
+      explanation:
+        html: "Je ontvangt deze %{type} omdat je bent aangemeld bij %{site_name} met je adres %{email}."
+        text: "Je ontvangt deze %{type} omdat je bent aangemeld bij %{site_name} met je adres %{email}."
+      local:
+        html: "Als je geen %{types} meer wilt ontvangen, klik dan <a href=%{link}>hier</a>."
+        text: "Als je geen %{types} meer wilt ontvangen, klik dan <a href=%{link}>hier</a>."
+      global:
+        html: "Als je helemaal geen e-mails meer wilt ontvangen, klik dan <a href=%{link}>hier</a>."
+        text: "Als je helemaal geen e-mails meer wilt ontvangen, bezoek dan de volgende site: %{link}."
+      notification_settings_link:
+        html: "Ga naar uw <a href=%{link}>profielinstellingen</a> om uw meldingsinstellingen te wijzigen."
+        text: "Ga naar %{link} om je meldingsinstellingen te wijzigen."
+    pinboard:
+      discussion:
+        new:
+          title: "%{username} heeft een nieuw onderwerp gestart: %{thread_title}"
+          text: "%{text}"
+        comment:
+          new:
+            title: "%{username} gepost in het onderwerp %{thread_title}"
+            text: "%{text}"
+      question:
+        new:
+          title: "%{username} heeft een nieuw onderwerp gestart: %{thread_title}"
+          text: "%{text}"
+        answer:
+          new:
+            title: "%{username} gepost in het onderwerp %{thread_title}"
+            text: "%{text}"
+          comment:
+            new:
+              title: "%{username} gepost in het onderwerp %{thread_title}"
+              text: "%{text}"
+        comment:
+          new:
+            title: "%{username} gepost in het onderwerp %{thread_title}"
+            text: "%{text}"
+      new_post:
+        subject: "Nieuw bericht in een onderwerp dat je volgt: %{course_name}"
+        mailheader_type: "Discussieforumactiviteit"
+        mailheader_info: "%{course_name}"
+        meta: "Op %{date} heeft %{user} gepost in een onderwerp dat u volgt."
+        title: "%{title}"
+        action_button: "Bekijken of beantwoorden"
+        hint: "Hint: als dit bericht nuttig voor je was, markeer het dan als beste antwoord."
+      new_thread:
+        subject: "Er is een nieuw onderwerp op het forum."
+        mailheader_type: "Discussieforumactiviteit"
+        mailheader_info: "%{course_name}"
+        meta: "Op %{date} %{user} gepost op het forum."
+        title: "%{title}"
+        action_button: "Bekijken of beantwoorden"
+
+    news:
+      announcement:
+        subject: "Er is een nieuw %{site_name} bericht voor u beschikbaar."
+        mailheader_type: "Globaal Nieuws"
+        test_notice: "Dit is een testbericht, alleen jij hebt dit ontvangen!"
+        title: "Er is een nieuw bericht beschikbaar: %{title}"
+        text: "%{text}"
+    course:
+      announcement:
+        subject: "Er is een nieuwe cursusaankondiging beschikbaar"
+        mailheader_type: "Cursusaankondiging"
+        mailheader_info: "%{course_title}"
+        test_notice: "Dit is een testbericht, alleen jij hebt dit ontvangen!"
+        title: "Er is een nieuwe aankondiging beschikbaar in cursus %{course_title}: %{title}"
+        text: "%{text}"
+    shared:
+      questions:
+        no_questions: Er was geen recente discussieactiviteit.
+        no_unanswered: Er zijn geen onbeantwoorde vragen.
+
+    peer_assessments:
+      conflict:
+        referral: "De verwijzings-ID voor dit conflict is: %{refid}. Vermeld deze ID in alle correspondentie over dit rapport."
+
+        reasons:
+          plagiarism: Plagiaat
+          offensive_content: Aanstootgevende inhoud
+          unrelated: Geen opdrachtgerelateerde inhoud
+          other: Andere reden
+          grading_conflict: Beoordelingsconflict
+          no_reviews: Geen beoordelingen
+
+        subjects:
+          review: beoordeling
+          submission: inzending
+
+        new:
+          staff:
+            subject: "%{assessment_name}: Er is een rapport ingediend"
+            title: "%{assessment_name}: Er is een rapport ingediend"
+            body: "Een student heeft een inzending gerapporteerd op grond van '%{reason}'."
+
+          reporter:
+            subject: "%{assessment_name}: rapport ontvangen"
+            title: "%{assessment_name}: we hebben uw melding over '%{reason}' ontvangen"
+            body: "We hebben het rapport ontvangen dat u hebt ingevuld. We zullen u op de hoogte stellen zodra we de claim hebben beoordeeld en een beslissing hebben genomen."
+
+          accused_student:
+            subject: "%{assessment_name}: Uw %{conflict_subject} is gerapporteerd voor '%{reason}'"
+            title: "%{assessment_name}: Uw %{conflict_subject} is gerapporteerd voor '%{reason}'"
+            body: "Een recensent heeft gerapporteerd dat uw %{conflict_subject} '%{reason}' claimt. We zullen deze claim beoordelen en u op de hoogte stellen zodra we een beslissing hebben genomen."
+
+          regrading:
+            subject: "%{assessment_name}: Herbeoordelingsverzoek ontvangen."
+            title: "%{assessment_name}: we hebben uw verzoek tot herbeoordeling ontvangen met betrekking tot '%{reason}'"
+            body: "We hebben uw verzoek tot herbeoordeling ontvangen. Zodra we het hebben bekeken en een beslissing hebben genomen, wordt u hiervan op de hoogte gebracht. We vragen u vriendelijk om tot die tijd uw geduld te hebben."
+
+        resolved:
+          reporter:
+            subject: "%{assessment_name}: Rapport opgelost"
+            title: "%{assessment_name}: Rapport opgelost"
+            body: "Een rapport dat je hebt voltooid met het claimen van '%{reason}' is gesloten. Als gevolg hiervan kun je (eventuele) cijferwijzigingen aantreffen op de resultatenpagina van de peer-assessment."
+
+          accused_student:
+            subject: "%{assessment_name}: Rapport opgelost"
+            title: "%{assessment_name}: Rapport opgelost"
+            body: "Een rapport tegen uw %{conflict_subject} dat '%{reason}' claimt, is gesloten. Als gevolg hiervan kunt u (eventuele) cijferwijzigingen aantreffen op de resultatenpagina van de peer-assessment."
+
+          regrading:
+            subject: "%{assessment_name}: Herbeoordeling verwerkt"
+            title: "%{assessment_name}: Herbeoordeling verwerkt"
+            body: "Je verzoek tot herbeoordeling vanwege '%{reason}' is verwerkt en is nu gesloten. Als gevolg hiervan kun je (eventuele) cijferwijzigingen aantreffen op de resultatenpagina van de peer-assessment."
+
+          no_reviews:
+            subject: "%{assessment_name}: Je cijfer is nu beschikbaar"
+            title: "%{assessment_name}: Je cijfer is nu beschikbaar"
+            body: "Het docententeam heeft je inzending beoordeeld. Kijk hoe je het hebt gedaan op de beoordelingspagina!"
+
+  account_mailer:
+    password_reset:
+      subject: "Wachtwoord resetten voor uw %{site_name} account"
+      text: Er is een wachtwoordreset aangevraagd voor uw account. Klik op de onderstaande knop om deze te resetten. De link is 24 uur geldig.
+      link: Wachtwoord opnieuw instellen
+    confirm_email:
+      subject: Bevestig uw e-mailadres
+      mailheader_type: Bevestig je email
+      text: "Je ontvangt deze e-mail omdat je een nieuw e-mailadres hebt toegevoegd aan je account op %{site_name}. Bevestig dit door op de onderstaande knop te klikken."
+      link: Bevestig Email
+      copy_instructions: Als de bovenstaande link niet klikbaar is of niet werkt, probeer deze dan te kopiëren en in de adresbalk van uw webbrowser te plakken.
+    welcome_email:
+      subject: Welkom bij %{site_name}
+      mailheader_type: Welkom bij %{site_name}
+      welcome: Je ontvangt deze e-mail omdat je een nieuw account hebt geregistreerd op %{site_name}.
+      next_steps: "Om je profiel klaar te maken en het platform te gaan gebruiken, volg je de volgende stappen na het inloggen:"
+      step_1: Volg de instructies op het scherm om uw profiel te voltooien. Voor het gebruik van het platform is een aantal gegevens vereist.
+      step_2: Schrijf je in voor een cursus die je interesseert.
+      step_3: Ga naar de cursus en begin met leren. De meeste van onze cursussen zijn in eigen tempo en je kunt direct beginnen.
+      step_4: Als er vragen rijzen terwijl je aan de cursus werkt, neem dan een kijkje in de forumdiscussies.
+      confirmation: Bevestig om te beginnen uw e-mailadres door op de volgende knop te klikken.
+      link: Bevestig Email
+      copy_instructions: Als de bovenstaande link niet klikbaar is of niet werkt, probeer deze dan te kopiëren en in de adresbalk van uw webbrowser te plakken.
+
+  course_welcome_mailer:
+    welcome_mail:
+      subject: "Bedankt voor het inschrijven: %{course_title}"
+      mailheader_type: "Bedankt voor het inschrijven"
+
+  questions:
+    votes: stemmen
+    responses: reacties
+    views: keer bekeken
+    ago: geleden
+    last_activity: Laatste Activiteit
+    answered: beantwoord
+    discussion: Discussie
+    unanswered: Onbeantwoord
+    closed: Gesloten
+    tags: Tags

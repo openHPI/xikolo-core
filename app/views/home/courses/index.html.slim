@@ -1,0 +1,49 @@
+- content_for :head_assets
+  = javascript_include_tag 'home', crossorigin: 'anonymous', integrity: true, async: true, debug: false
+
+= render Global::CourseListBanner.new
+
+.course-list data-hide-on-submit='#course-list__content' data-show-on-submit='#course-list__loading'
+  = render Home::Course::FilterBar.new(user: current_user, results_count: @course_list.courses_count)
+
+  #course-list__loading[hidden]
+    = render State::Loading.new(t(:'course.courses.index.loading'))
+
+  #course-list__content.course-list__content
+    - if @categories.any?
+
+      / Show featured course only on unfiltered list, if there is any
+      - if @featured_course
+        = render Course::FeaturedCourse.new(@featured_course, enrollment: @enrollments[@featured_course.id])
+
+      - @categories.each_with_index do |category, index|
+        .course-group
+          h2.category-title
+            = category.title
+          - if category.callout.present?
+            = render Global::Callout.new category.callout
+          .course-card-grid data-id = "category-#{index}"
+            = render partial: 'courses', locals: {courses: category.courses, enrollments: @enrollments}
+
+          / Only self-paced courses are paginated so far, so there is a `next_page` for them.
+          - if category.courses.respond_to?(:next_page) && category.courses.next_page.present?
+            .load-more
+              = button_tag(type: 'button', class: 'btn btn-default btn-outline mb20 mt20', \
+                data: { behavior: 'load-more', current_page: category.courses.current_page, target: "category-#{index}", dispatch_event: "load-more:course-cards"}) do
+                = t(:'course.courses.index.load_more')
+              div data-id='load-more__indicator' hidden='true'
+                = render State::Loading.new
+              p data-id='load-more__error-message' hidden='true'
+                = t(:'course.courses.index.error')
+
+    - else
+      / Show dedicated empty state message for filtered lists without courses
+      - if @filtered_list
+        = render State::Empty.new(t(:'course.courses.index.empty'))
+          = link_to t(:'course.courses.index.action'), courses_path, \
+            data: { 'hide-on-click': '#course-list__content', 'show-on-click': '#course-list__loading'}, \
+            class: 'btn btn-primary mt10'
+      - else
+        = render State::Empty.new(t(:'course.courses.index.empty_state'))
+
+= render 'course/shared/accept_enrollment_policy'

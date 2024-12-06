@@ -1,0 +1,52 @@
+- content_for :head_assets
+  = javascript_include_tag('user', crossorigin: 'anonymous', integrity: true, async: true)
+
+h1.documents-title = t(:'.my_documents')
+p
+  = t(:'.text', {roa_threshold: Xikolo.config.roa_threshold_percentage, cop_threshold: Xikolo.config.cop_threshold_percentage})
+- if Xikolo.config.certificate['transcript_of_records'].present?
+  p
+    = t(:'dashboard.documents.transcript_of_records')
+
+- unless current_user.feature? 'records.exclude_birthdate'
+  .documents-preferences
+    div
+      = check_box_tag('records.show_birthdate', @documents_preferences, @documents_preferences == 'true', id: 'preferences-records-show-birthdate', class: 'toggle-switch', data: {behavior: 'preferences-switch'})
+      = label_tag(:'preferences-records-show-birthdate', '')
+    = label_tag(:'preferences-records-show-birthdate', t(:'dashboard.documents.show_birthdate'), class: 'documents-preferences__text')
+
+- if @documents.empty?
+  = render Global::Callout.new(t(:'.no_documents'), type: :warning)
+
+- else
+  table.table.table-striped
+    - @documents.each do |document|
+      - next unless document.any_available?
+      tr
+        td.vert-align
+          = document.course.title
+          br
+          '(#{document.course.course_code})
+          - if document.divergent_certificate_requirements?
+            p
+              em
+                = t(:'.divergent_certificate_requirements', course_code: document.course.course_code)
+        td.vert-align.nowrap
+          - if document.tor?
+            = render 'shared/records/tor', {tor: document.tor?, course: document.course}
+          - else
+            - if document.cert_enabled?
+              = render 'shared/records/cert', document:, course: document.course
+            = render 'shared/records/roa', {roa: document.roa?, course: document.course}
+            = render 'shared/records/cop', {cop: document.cop?, course: document.course}
+            - if document.open_badge_enabled?
+              = render 'shared/records/open_badge', {open_badge: document.open_badge?,
+                                                     course: document.course}
+      - unless document.published?
+        tr
+          td colspan='2'
+            i = t(:'dashboard.documents.not_yet_published')
+
+- content_for :sidebar
+  span
+    / Empty sidebar

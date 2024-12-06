@@ -1,0 +1,24 @@
+= simple_form_for(@assessment,
+        url: peer_assessment_path,
+        wrapper: :larger_labels,
+        method: 'patch') do |f|
+    = f.input :title, label: t(:'peer_assessment.administration.peer_assessment.title')
+    = f.input :instructions, as: :markdown,
+        label: t(:'peer_assessment.administration.peer_assessment.instructions'),
+        required: true,
+        uploads: {purpose: :peerassessment_instructions},
+        value: @assessment['instructions']
+        / we need the uncasted instructions value: Acfs calls `to_s` on the Hash
+          and returns a wrong value. @assessment['instructions'] returns the value as it
+          was retrieved from the service.
+          This value option can probably be removed once @assessment is no long an Acfs
+          resource.
+    = f.input :grading_hints, as: :markdown, label: t(:'peer_assessment.administration.peer_assessment.grading_hints')
+    = f.input :usage_disclaimer, as: :markdown, label: t(:'peer_assessment.administration.peer_assessment.usage_disclaimer')
+    = f.input :allow_gallery_opt_out, label: t(:'peer_assessment.administration.peer_assessment.allow_gallery_opt_out'), as: :toggle_switch
+    = f.input :allowed_attachments, as: :integer, label: t(:'peer_assessment.administration.peer_assessment.allowed_attachments'), input_html: {value: f.object.allowed_attachments || '0'}
+    = f.input :max_file_size, as: :integer, label: t(:'peer_assessment.administration.peer_assessment.max_file_size'), input_html: {value: f.object.max_file_size || '0'}
+    = f.input :allowed_file_types, label: t(:'peer_assessment.administration.peer_assessment.allowed_file_types')
+    = f.input :is_team_assessment, label: t(:'peer_assessment.administration.peer_assessment.is_team_assessment'), as: :toggle_switch
+
+    = @assessment_presenter.pa_button(current_user, :save_configuration)

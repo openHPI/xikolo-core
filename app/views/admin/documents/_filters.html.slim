@@ -1,0 +1,32 @@
+.document-list
+  .document-filter-bar
+    - if list.filters?
+      .filter
+        ul.nav.nav-pills
+          li.help = t(:'knowledge_documents.filter')
+
+          - list.filters.each do |filter|
+            li.dropdown
+              a.dropdown-toggle data-toggle='dropdown' href='#'
+                = filter.label
+                span.caret
+              ul.dropdown-menu
+                - filter.each_value do |value, url, selected|
+                  li class="#{selected ? 'active' : 'inactive'}"
+                    = link_to value, url
+
+          li.help = t(:'knowledge_documents.or_course')
+
+          li
+            form#course_search
+              select{ name='course_id'
+                placeholder=t(:'knowledge_documents.select_courses')
+                data-behavior='custom-select'
+                data-auto-completion-url= admin_find_courses_path
+                data-change='submit' }
+
+          li.controls
+            - if list.filtered?
+              = link_to documents_path, class: 'reset-filter'
+                = render Global::FaIcon.new('xmark')
+                = t(:'knowledge_documents.reset_filter')

@@ -1,0 +1,38 @@
+/ Small course item, visible only on xs screen sizes
+.col-xs-12.course-item-xs class="#{'visible-xs' unless defined?(force_visibility)}" style=("background-image: url(#{course.visual_url})")
+  = course.ribbon
+  .content-wrapper
+    .course-title
+      a href="#{course.is_enrolled ? course_resume_path(course) : course_path(course)}" = course.title
+    .course-teacher = course.teacher_names
+
+    / Start and end date
+    - if course.date_label.present?
+      .shortinfo.inline-block.mr10
+        = render Global::FaIcon.new('calendar-range', css_classes: 'vmiddle')
+        span.vmiddle.ml5.mr5
+          = course.date_label
+
+    / Language
+    .shortinfo.inline-block.mr10
+      = render Global::FaIcon.new('globe', css_classes: 'vmiddle')
+      span.vmiddle.ml5 = t(:"languages.name.#{course.lang}")
+
+    / Buttons at the bottom
+    .course-actions
+      - if course.external?
+        = link_to t(:'courses.preview.button_details'), course_path(course), class: 'col-xs-6 btn btn-sm btn-default in-course-details'
+        = link_to t(:'courses.preview.button_goto_external'), course.external_course_url, class: 'col-xs-6 btn btn-sm btn-primary in-course-external'
+      - elsif course.is_enrolled
+        = link_to t(:'courses.preview.button_details'), course_path(course), class: 'col-xs-6 btn btn-sm btn-default in-course-details'
+        = link_to t(:'courses.preview.button_enter'), course_resume_path(course), class: 'col-xs-6 btn btn-sm btn-primary in-course-enter'
+      - else
+        = link_to t(:'courses.preview.button_details'), course_path(course), class: 'col-xs-6 btn btn-sm btn-default in-course-details'
+        - unless course.invite_only?
+          - if course.enrollment_policy?
+            = link_to '#', class: 'col-xs-6 btn btn-sm btn-primary in-course-enroll', data: {toggle: 'modal', target: '#enrollmentPolicyModal', 'course-code' => course.course_code, 'course-title' => course.title, 'policy-url' => course.enrollment_policy_url} do
+              = t(:'courses.preview.button_enroll')
+          - else
+            = link_to enrollments_path(course_id: course.course_code), method: :get, class: 'col-xs-6 btn btn-sm btn-primary in-course-enroll' do
+              = t(:'courses.preview.button_enroll')
+      .clearfix

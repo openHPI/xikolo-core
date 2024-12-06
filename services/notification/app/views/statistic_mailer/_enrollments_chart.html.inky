@@ -1,0 +1,9 @@
+<row>
+  <columns>
+    <h5><%= t('statistic_mail.chart') %></h5>
+    <hr class="colored" />
+    <div class="chart" style="max-width: 565px;">
+      <%= image_tag attachments['chart.png'].url %>
+    </div>
+  </columns>
+</row>

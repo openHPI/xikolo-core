@@ -1,0 +1,75 @@
+- content_for :head_assets
+  = javascript_include_tag 'course-admin'
+  = javascript_include_tag 'teacher', crossorigin: 'anonymous', integrity: true, async: true, debug: false
+
+- content_for :course_area_header
+  = render Global::PageHeader.new("#{t(:'sections.index.headline')} - #{course_layout.title}",
+    subtitle: t(:'course.admin.page_header'),
+    type: :slim) do |c|
+      - c.with_pill(t(:"items.show.coursestate.#{course_layout.fullstate}"), size: :small, color: :note)
+      = render(partial: 'course/shared/course_admin_action', locals: {course: course_layout, in_teacher_context: true})
+
+- if @course_presenter.recalculation_enabled? && @course_presenter.needs_recalculation?
+  .col-md-12.mb10
+    = render Global::Callout.new(t(:'sections.index.recalculate_text'), title: t(:'sections.index.recalculate_title'), type: :warning)
+      - if @course_presenter.recalculation_allowed?
+        = link_to course_recalculations_path, method: :post, class: 'btn btn-outline btn-default btn-sm' do
+          = render Global::FaIcon.new('sync', css_classes: 'mr10')
+          = t(:'sections.index.recalculate_learning_evaluation')
+      - else
+        = t(:'sections.index.recalculate_text_rejected')
+
+.col-md-12
+  a.btn.btn-primary.btn-sm.mb10.mr10#btn_section_new href="#" data-show-on-click='#add_section_form'
+    = t(:'sections.new')
+  button#toggle-section-uuids.btn.btn-default.btn-sm.mb10.mr5
+    span#show
+      = t(:'sections.show_uuids')
+    span#hide hidden='true'
+      = t(:'sections.hide_uuids')
+
+  - if @sections.any?
+    button#import_quizzes_button.btn.btn-default.btn-sm.mb10.mr5 data-preview-url="#{preview_quizzes_path(params['course_id'] ||= params['id'])}" data-import-url="#{import_quizzes_path(params['course_id'] ||= params['id'])}"
+      = t(:'items.quiz.import.title')
+
+    = form_tag(import_quizzes_by_service_path(params['course_id'] ||= params['id']), method: 'POST', id: 'import_quizzes_by_service_form', class: 'inline-block')
+      input.hide#import_quizzes_by_service_spreadsheet type="text" name="spreadsheet"
+      input.hide#import_quizzes_by_service_worksheet type="text" name="worksheet"
+    button#import_quizzes_by_service_button.btn.btn-default.btn-sm.mb10.mr5
+      = t(:'items.quiz.import_quizzes_by_service')
+
+  - if @sections.any? && current_user.allowed?('course.course.clone')
+    = form_tag(course_clone_path(params['course_id'] ||= params['id']), class: 'inline-block', method: 'POST', id: 'clone_course_form')
+      input.hide.inline-block.mr5#new_course_code type="text" name="new_course_code" style="width:200px;" placeholder=t(:'.clone_course.placeholder')
+      input.btn.btn-default.btn-sm.mb10#clone_course_btn type="button" value=t(:'.clone_course.button')
+
+  span.label.label-info.ml10.uuid hidden='true'
+    = @course_presenter.id
+
+.col-md-12
+  #add_section_form.form_wrapper hidden=true
+    = render partial: 'admin/courses/form_section', locals: {section: @new_section, parent_section: nil}
+    hr
+  - if @sections.any?
+    ul.sections data-behavior='sortable-sections'
+      - @sections.each do |section|
+        - if @legacy
+          = render partial: 'section', object: section, locals: {parent_section_id: nil}
+          - if section.alternatives?
+            ul
+              - section.alternatives.each do |alternative|
+                = render partial: 'section', object: alternative, locals: {parent_section_id: section.id}
+        - else
+          = render partial: 'structure_section', locals: {node: section, section: section.section, parent_section_id: nil}
+
+javascript:
+  ready(function() {
+    $("#clone_course_btn").on("click", function(evt) {
+      var new_course_code = $('#new_course_code');
+      if (new_course_code.hasClass('hide')) {
+        return new_course_code.removeClass('hide');
+      } else {
+        return $('#clone_course_form').submit();
+      }
+    });
+  });

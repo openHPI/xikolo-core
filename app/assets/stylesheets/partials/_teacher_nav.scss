@@ -1,0 +1,210 @@
+$teacher-nav-item-height: 50px;
+$teacher-nav-controls-height: 30px;
+
+.teacher-nav {
+  position: absolute;
+  z-index: 10;
+  display: none;
+  min-width: 210px;
+  height: calc(100% + #{$footer-top-margin});
+  background-color: $white;
+  box-shadow: $box-shadow-m;
+
+  &__greeting {
+    display: flex;
+    height: $teacher-nav-item-height;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    margin: 0;
+    background-color: $primary-900;
+    color: $primary-50;
+    font-weight: bold;
+  }
+
+  &__close-btn {
+    display: none;
+  }
+
+  &__control {
+    position: sticky;
+    z-index: 100;
+    top: 600px;
+    display: flex;
+
+    // Removes the blank space that the element takes
+    // up in its place of origin, before rotation
+    height: $teacher-nav-controls-height;
+    align-items: center;
+    padding: 5px 10px;
+    margin-top: -$teacher-nav-controls-height;
+    box-shadow: $box-shadow-m;
+    transform: rotate(-90deg);
+    transform-origin: top left;
+
+    p {
+      padding-right: 10px;
+      margin: 0;
+    }
+
+    &[aria-expanded="true"] {
+      .teacher-nav__open-btn {
+        display: none;
+      }
+      .teacher-nav__close-btn {
+        display: block;
+      }
+
+      ~ .teacher-nav {
+        display: block;
+      }
+    }
+  }
+
+  .teacher-nav__pin-btn .xi-icon {
+    margin-left: 10px;
+    color: $white;
+    transform: rotate(45deg);
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: $primary-100;
+    }
+  }
+
+  &[data-pinned] {
+    border-right: 1px solid $gray-250;
+    box-shadow: none;
+    .teacher-nav__pin-btn .xi-icon {
+      color: $primary-250;
+      transform: none;
+    }
+  }
+
+  &__menu {
+    position: sticky;
+    top: $navbar-height;
+    max-height: calc(100% - #{$teacher-nav-item-height});
+    border-top: 1px solid $gray-250;
+    background-color: $white;
+    overflow-y: overlay;
+  }
+
+  &__menu,
+  &__submenu {
+    padding: 0;
+  }
+
+  &__submenu {
+    display: none;
+    border-left: 2px solid $gray;
+    margin: 0 0 15px 30px;
+
+    &:hover,
+    &:focus,
+    &:active {
+      border-left: 2px solid $primary-900;
+    }
+  }
+
+  &__close-submenu {
+    display: none;
+  }
+
+  &__submenu-control {
+    position: absolute;
+    top: 0;
+    right: 12px;
+    display: none;
+    width: 30px;
+    height: $teacher-nav-item-height;
+    padding: 0;
+    font-size: 12px;
+
+    &:hover span,
+    &:focus span,
+    &:active span {
+      color: $primary-color;
+    }
+
+    &[aria-expanded="true"] {
+      .teacher-nav__open-submenu {
+        display: none;
+      }
+      .teacher-nav__close-submenu,
+      ~ .teacher-nav__submenu {
+        display: block;
+      }
+    }
+  }
+
+  &__menu-item-container {
+    position: relative;
+    list-style-type: none;
+
+    &:hover,
+    &:focus-within,
+    &:active {
+      .teacher-nav__submenu-control {
+        display: block;
+      }
+    }
+
+    &.active {
+      > .teacher-nav__menu-item {
+        border-right: 3px solid $primary-color;
+        background-color: $primary-100;
+        color: $primary-900;
+
+        .xi-icon {
+          color: inherit;
+        }
+      }
+
+      > .teacher-nav__menu-item--nested {
+        border-right: none;
+        background-color: $primary-50;
+        font-weight: bold;
+      }
+    }
+  }
+
+  &__menu-item {
+    display: flex;
+    height: $teacher-nav-item-height;
+    align-items: center;
+    padding: 10px;
+    // Take controls icon into account
+    padding-right: 40px;
+    color: $text-color;
+    white-space: nowrap;
+
+    .xi-icon {
+      margin-right: 5px;
+    }
+
+    &:hover,
+    &:focus {
+      background-color: $primary-50;
+      color: $primary-900;
+      text-decoration: none;
+
+      .xi-icon {
+        color: inherit;
+      }
+    }
+
+    &--nested {
+      height: auto;
+      padding: 5px 15px;
+      border-top: none;
+    }
+  }
+
+  .xi-icon {
+    width: 30px;
+    color: $gray;
+    text-align: center;
+  }
+}

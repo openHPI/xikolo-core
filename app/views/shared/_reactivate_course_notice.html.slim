@@ -1,0 +1,2 @@
+= render Global::Callout.new(t(:'course.courses.show.reactivate_course.notice')) do
+  = link_to t(:'course.courses.show.reactivate_course.upgrade_now'), course_redeem_voucher_path(course_id: course.course_code, product: 'course_reactivation'), class: 'btn-xs btn-default btn'

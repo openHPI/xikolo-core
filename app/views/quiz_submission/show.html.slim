@@ -1,0 +1,42 @@
+/ Item navigation above the main content
+.row.hidden_in_app
+  = render 'shared/course_item_nav', position: @inner_course_position
+
+/ Main content of the quiz
+.row
+  .col-md-8
+    .quiz-content data-lanalytics-resource={type: 'quiz', uuid: @quiz.id}.to_json data-lanalytics-context={course_id: @item_presenter.course_id}.to_json
+      = render 'items/header', item: @item_presenter
+
+      - if @item_presenter.survey?
+        p
+          = t(:'quiz_submission.submitted_survey')
+      - elsif !@item_presenter.show_quiz_results?
+        - if @item_presenter.preview_quiz_score?
+          = render Global::Callout.new(@item_presenter.preview_score_html)
+        - else
+          = render Global::Callout.new(t(:'quiz_submission.submitted_quiz_at', quiz_submission_time: I18n.l(@item_presenter.submission.quiz_submission_time.in_time_zone, format: :long), timezone: Time.zone.name))
+        - if @item_presenter.preview_quiz_score?
+          p = t(:'quiz_submission.submission_points_preview_note')
+        hr.divider.alternative#quiz_properties
+        = render 'items/quiz/quiz_properties', presenter: @item_presenter, highlight_quiz_properties: false
+      - else
+        / Render all questions
+        - @quiz.questions.each_with_index do |question, index|
+          - submission_question = @submission.get_user_submission_question_for(question.id)
+          = render partial: 'quiz_submission/question/question_base',
+            locals: {question:, show_solution: true, index:, user_submission: submission_question, snapshot: nil, item: @item_presenter}
+
+      - if @item_presenter.allow_retake_quiz?
+        .mt30
+          = render 'items/seq_navigation',
+            action: {action: new_course_item_quiz_submission_path,
+              text: t(:'quiz_submission.retake_quiz'), icon: 'redo'},
+            position: @inner_course_position
+      - else
+        .mt30
+          = render 'items/seq_navigation', position: @inner_course_position
+
+  - if !@item_presenter.survey? && @item_presenter.show_quiz_results?
+    .col-md-4.hidden_in_app
+      = render 'quiz_submission/partials/result_box', my_result: @my_result, my_proctoring: @quiz_proctoring

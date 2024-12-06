@@ -1,0 +1,39 @@
+---
+include:
+  - path: compose.background.yml
+  - path: compose.init.yml
+
+x-pinboard: &pinboard
+  image: xikolo-pinboard:latest
+  build:
+    context: ..
+    dockerfile: docker/files/pinboard.Dockerfile
+  env_file:
+    - .env
+  networks:
+    - xikolo
+  volumes:
+    - ./config/xikolo.yml:/etc/xikolo.yml:ro
+    - ./config/xikolo/pinboard.yml:/app/config/xikolo.yml:ro
+  restart: always
+  depends_on:
+    - init-database
+    - postgres
+    - rabbitmq
+    - redis-cache
+    - redis-sidekiq
+
+services:
+  pinboard-msgr:
+    <<: *pinboard
+    command: msgr
+
+  pinboard-server:
+    <<: *pinboard
+    command: server
+    ports: # only for debugging
+      - 3500:80
+
+  pinboard-sidekiq:
+    <<: *pinboard
+    command: sidekiq

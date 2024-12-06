@@ -1,0 +1,30 @@
+# lint cop settings
+
+#
+# False positives:
+#   * expect { something }.to change { something } often triggers this
+#
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - "spec/**/*_spec.rb"
+    - "services/*/spec/**/*_spec.rb"
+
+#
+# Our view components are meant to have custom constructors, and should only
+# inherit from base classes without constructors, not from each other.
+#
+Lint/MissingSuper:
+  Exclude:
+    - "app/components/**/*.rb"
+
+Lint/ShadowingOuterLocalVariable:
+  Exclude:
+    - "spec/**/*_spec.rb"
+    - "services/*/spec/**/*_spec.rb"
+
+#
+# Assume we know what we do when rescuing exceptions, as we do it much less often
+# than we actually should.
+#
+Lint/SuppressedException:
+  Enabled: false

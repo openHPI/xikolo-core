@@ -1,0 +1,23 @@
+.container
+  .row
+    .col-md-8.col-md-offset-2
+      h2 #{@teacher.name}
+      hr
+  - if @teacher.picture?
+    .row
+      .col-md-8.col-md-offset-2
+        h4 = t(:'.picture')
+        = image_tag @teacher.picture_url, class: "full-width"
+  .row
+    .col-md-8.col-md-offset-2
+      br
+      h4 = t(:'.description')
+      - @teacher.descriptions do |lang, text|
+        h5 = t("languages.name.#{lang}")
+        .RenderedMarkdown
+          == render_markdown(text)
+
+  - if current_user.allowed? 'course.teacher.manage'
+    .row
+      .col-md-8.col-md-offset-2
+        = link_to t(:'.edit'), edit_teacher_path(@teacher.id), class: 'btn btn-primary'

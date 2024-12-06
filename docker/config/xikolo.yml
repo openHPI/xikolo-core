@@ -1,0 +1,116 @@
+---
+site: xikolo
+site_name: Xikolo Platform
+
+base_url: http://localhost:3000
+
+mailsender: '"Xikolo" <xikolo@localhost>'
+email:
+  smtp:
+    address: mailout.openhpi.net
+
+statistics_email_recipients:
+  - admin@localhost
+
+csp:
+  enabled: false
+  report_uri: /csp-violation-report
+  report_only: true
+  script: []
+  style: []
+  media: []
+  frame: []
+  font: []
+  connect: []
+
+# S3 can be configured globally or overridden for each service. See
+# individual service file for bucket lists.
+s3:
+  # buckets:
+  #   avatars: bucket-public
+
+  connect_info:
+    endpoint: http://minio:9000
+    region: default
+    access_key_id: s3accesskey
+    secret_access_key: s3secretkey
+    # http_continue_timeout: 0
+
+locales:
+  available: [cn, de, en, es, fr, nl, pt-BR, ru, uk]
+  default: en
+
+course_details:
+  list_classifiers: false
+  show_date_label: false
+
+course_languages:
+  - de
+
+richtext_icon_types:
+  assistant: assistant
+  chart: chart
+  discussion: chat
+  exercise: exercise2
+  external_video: external_video
+  moderator: moderator
+  team_exercise: community
+  youtube: youtube
+
+helpdesk_email: support@xikolo.de
+
+certificate:
+  fonts:
+    RobotoCondensed: RobotoCondensed-Regular.ttf
+    RobotoCondensedBold: RobotoCondensed-Bold.ttf
+  forbidden_verification_words:
+    - penis
+    - cunts
+    - pussy
+    - spast
+    - nazis
+    - arsch
+    - fotze
+
+#
+# Integrations and connectors
+#
+
+# imgproxy_url: https://imgproxy.services.openhpi.de
+imgproxy_url: ~
+
+chatbot:
+  bridge_public_keys: []
+  version2:
+    href:
+      de: https://support-chatbot-de.kommunalcampus.xikolo.de/webhooks/rest/webhook
+
+moochub_api:
+  enabled: false
+  course_license:
+    proprietary:
+      id: proprietary
+      url: null
+  course_metadata:
+    organization:
+      name: Xikolo
+      identifier: https://localhost
+      type: Organization
+      description: Xikolo is a versatile and powerful MOOC platform
+    creator:
+      license:
+        - identifier: proprietary
+          url: null
+
+open_badges:
+  enabled: false
+  public_key: ~
+  issuer_image: ~
+
+portal_api:
+  enabled: false
+  realm: test-realm
+
+transpipe:
+  enabled: false
+  realm: test-realm

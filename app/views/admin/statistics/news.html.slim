@@ -1,0 +1,17 @@
+- content_for :head_assets
+  = javascript_include_tag 'admin-legacy'
+
+- content_for :page_header_slim
+  = render Global::PageHeader.new(t(:'admin.statistics.news.title'), subtitle: t(:'admin.page_header'), type: :slim) do
+    = render partial: 'admin/dashboard/platform_dashboard_nav', locals: {nav: @nav}
+  end
+
+.container.white-bg.statistics-page
+  .row
+    .col-md-12
+      h3 = t(:'admin.statistics.news.global.title')
+      = render partial: 'shared/statistics_table', locals: {id: 'global-news-table'}
+
+    .col-md-12
+      h3 = t(:'admin.statistics.news.course.title')
+      = render partial: 'shared/statistics_table', locals: {id: 'course-news-table'}

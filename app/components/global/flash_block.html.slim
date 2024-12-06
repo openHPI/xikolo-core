@@ -1,0 +1,5 @@
+- messages.each do |message|
+  = render Global::FlashMessage.new(message[:type], message[:text])
+
+- layers.each do |layer|
+  = render Global::FlashLayer.new(layer[:type], layer[:text])

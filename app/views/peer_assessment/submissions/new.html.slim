@@ -1,0 +1,91 @@
+= render Global::Callout.new(t(:'peer_assessment.submission.info'))
+
+= render 'peer_assessment/shared/instructions', assessment: @assessment
+
+h4
+  = t :'peer_assessment.submission.your_answer'
+  span.ml10.fp9.hidden#last_saved
+    = "#{t :'peer_assessment.last_saved'}:"
+    span.fp9.ml5.last_saved
+
+hr.divider.slim
+
+= simple_form_for(@submission,
+    as: :xikolo_peer_assessment_submission,
+    url: peer_assessment_step_submission_path,
+    html: {\
+      class: 'form-horizontal mb20',
+      multipart: true,
+      id: 'submission_form',
+      data: {\
+        :autosave_button => '#submission_form_autosave_button',
+        :submit_button => '#submission_form_submit_button',
+        :confirm_message => t(:'peer_assessment.submit'),
+        :last_saved_container => '#last_saved',
+        :remote_error_message => t(:'peer_assessment.autosave.error'),
+        :autosave_url => autosave_peer_assessment_step_submission_path,
+        :max_file_size => @assessment.max_file_size,
+        :allowed_file_types => @assessment.allowed_file_types,
+        :assessment_id => @assessment.id,
+        :current_step_id => @current_step.id,
+        :authenticity_token => form_authenticity_token\
+      },
+  }) do |f|
+  - if @assessment.is_team_assessment
+    / in case of a TPA we need this hidden dummy field so that simple form is able to determine the name of the form
+    / without this field, if also gallery opt out and training step are not available, we would run into a nasty error
+    / as then the form is not submitted at all anymore.
+    = f.input :title, as: :hidden, :input_html => { :value => "TPA_helper" }
+    = render Global::Callout.new(t(:'peer_assessment.team.text_disabled'))
+  - else
+    = f.input :text, as: :markdown, markdown_id_suffix: 'text-new-question', label: false
+
+  / Training opt-out flag
+  - if @step_presenters.detect { |s| s.step.kind_of? Xikolo::PeerAssessment::Training }
+    = f.input_field :disallowed_sample, as: :boolean, label: false, boolean_style: :inline
+    span.ml5 = t :'peer_assessment.disallowed_sample_html', popup_message: t(:'peer_assessment.submission.learn_to_grade_popup'), popup_title: t(:'peer_assessment.submission.learn_to_grade_popup_title')
+
+  .mb5
+
+  / Gallery opt-out flag
+  - if @assessment.allow_gallery_opt_out
+    = f.input_field :gallery_opt_out, as: :boolean, label: false, boolean_style: :inline
+    span.ml5 = t(:'peer_assessment.gallery_opt_out')
+
+  input type='hidden' autocomplete='off' name='next_step' value="#{@step_presenters[1].id}"
+  .mt30
+
+- if @assessment.allowed_attachments > 0
+  h5 = t :'peer_assessment.submission.attachments'
+  hr.divider.slim
+  .pa-rt-generic.mb20 = t :'peer_assessment.submission.attachment_text', files: @assessment.allowed_attachments, formats: @assessment.allowed_file_types, file_size: @assessment.max_file_size
+
+  .row.mb30
+    .col-md-5
+      form.peer-assessment-upload.dropzone#submission_upload[
+        method="POST"
+        action=@file_upload.url
+        enctype="multipart/form-data"
+        data-url=upload_peer_assessment_step_submission_path(@assessment.id, @current_step.id)
+        data-prefix="upload://#{@file_upload.id}/"
+        data-key=@file_upload.prefix
+      ]
+        - @file_upload.fields.each do |name, value|
+          input type="hidden" name=name value=value
+        .fallback
+          = render Global::Callout.new(t(:'peer_assessment.submission.upload_fallback'))
+          input.mt20 type="file" name="file"
+
+          button.mt20.btn.btn-sm.btn-primary = t :'peer_assessment.submission.start_upload'
+
+    .col-md-7#user_files
+      = render 'peer_assessment/shared/files', files: (@submission.attachments || []), deletable: true
+
+.row.mt20
+  .col-md-7
+    = button_tag(type: 'button', class: 'btn btn-default  mr10', id: 'submission_form_autosave_button', data: { :save_text => t(:'peer_assessment.saving') }) do
+      = t :'peer_assessment.review.autosave_button'
+    = button_tag(type: 'submit', class: 'btn btn-primary', id: 'submission_form_submit_button') do
+      = t :'peer_assessment.submission.submit_button'
+
+.mt30

@@ -1,0 +1,7 @@
+.quiz-question.multiple-answer-question
+  ==  render_markdown question.text
+  .quiz-question-answers style='margin-left: 1em'
+    - question.answers.each do |answer|
+      => check_box_tag "submission[#{question.id}][]", answer.id, false, id: "question_#{question.id}_answer_#{answer.id}_checkbox"
+      = label_tag "question_#{question.id}_answer_#{answer.id}_checkbox", render_markdown(answer.text)
+      br

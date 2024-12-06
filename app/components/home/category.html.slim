@@ -1,0 +1,12 @@
+.home-courses__category.course-category
+  .course-category__headline
+    h2 = @title
+  - if @category.url
+    .course-category__more
+      a.btn.btn-primary[href=@category.url]
+        = t(:'home.list_all_courses')
+  - if @teaser
+    p.course-category__teaser = @teaser
+  .course-category__list.course-card-grid
+    - @category.courses.each do |course|
+      = render Home::CourseCard.new(course)

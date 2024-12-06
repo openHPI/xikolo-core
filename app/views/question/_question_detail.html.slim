@@ -1,0 +1,110 @@
+.qa-box data-lanalytics-resource={type: 'question', uuid: question.id}.to_json data-lanalytics-context={course_id:}.to_json
+  .question-title
+    h1
+      - if question.blocked?
+        - if current_user.allowed? 'pinboard.entity.block'
+          b
+            => t(:'pinboard.reporting.blocked')
+          = question.title
+        - else
+          = t(:'pinboard.reporting.blocked')
+      - else
+        = question.title
+    table.details_table
+      tbody
+        tr
+          td.tags
+            - question.explicit_tags.each do |tag|
+              span.pinboard-tag-static.tag-button.pull-left = link_to tag.name, pinboard_index_path(tags: tag.id)
+            - if question.item
+              span.pinboard-tag-static.pull-left = question.item.title
+
+          td.actions
+            - if subscription.present?
+              span.action
+                = render Global::FaIcon.new('star', style: :solid, css_classes: 'mr5 subscription_icon')
+                = link_to t(:'.unsubscribe'), toggle_subscription_path(question.id), method: :post,
+                  remote: true, id: 'toggle_subscription', data: {toggleText: t(:'.subscribe')}
+            - else
+              span.action
+                = render Global::FaIcon.new('star', css_classes: 'mr5 subscription_icon')
+                = link_to t(:'.subscribe'), toggle_subscription_path(question.id), method: :post,
+                  remote: true, id: 'toggle_subscription', data: {toggleText: t(:'.unsubscribe')}
+  hr.divider
+  table.qa-content
+    tr
+      td.vote-column.nowrap.vtop
+        .vote-box
+          .upvote.cpointer data-votable-type='question' data-votable-id="#{question.id}"
+            = render Global::FaIcon.new('chevron-up', style: :solid, css_classes: 'em1-2 mt5')
+          .votes id="question-#{question.id}-votes"
+            = question.votes
+
+      td.qa-details
+        .qa-text
+          - if question.blocked?
+            - if current_user.allowed? 'pinboard.entity.block'
+              b
+                = t(:'pinboard.reporting.blocked')
+              == render_markdown question.text
+            - else
+              = t(:'pinboard.reporting.question_blocked')
+          - else
+            == render_markdown question.text
+
+        = render 'attachment', resource: question
+
+        .qa-bottom-wrapper.mb10
+          .user-info
+            .user-info__icons
+              = render Global::UserAvatar.new(question.author.id, size: 'medium')
+              - if user_state.available?(question.author.id)
+                .gamification-userstate.gamification-userstate-large
+                  = user_state.user_state_for(question.author.id)
+            div class="user-info__text #{'pl10' if user_state.available?(question.author.id)}"
+              .username
+                span.author = link_to question.author.name, user_path(question.author.id)
+              .timestamp
+                = t(:'pinboard.question.ago', timeago: time_ago_in_words(question.created_at))
+
+          .actions
+            - if can_edit? question
+              span.question-edit.action data-question-id="#{question.id}" data-url="#{edit_question_path}"
+                = render Global::FaIcon.new('pencil', style: :solid)
+                a = t :'.edit'
+
+            - if current_user.allowed? 'pinboard.entity.block'
+              - unless question.blocked?
+                span.action
+                  = render Global::FaIcon.new('thumbs-down', style: :solid)
+                  = link_to t(:'pinboard.reporting.block'),
+                      block_question_path(id: question.id),
+                      method: 'post'
+              - unless question.reviewed?
+                span.action
+                  = render Global::FaIcon.new('thumbs-up', style: :solid)
+                  = link_to t(:'pinboard.reporting.unblock'),
+                      unblock_question_path(id: question.id),
+                      method: 'post'
+              - if question.abuse_report_count && question.abuse_report_count > 0
+                span.action
+                  b.secondary-color =< "(#{t(:'pinboard.reporting.reports', count: question.abuse_report_count)})"
+
+            - elsif !question.blocked?
+              span.action
+                = render Global::FaIcon.new('flag', style: :solid)
+                = link_to t(:'pinboard.reporting.report'),
+                    abuse_report_question_path(id: question.id),
+                    method: 'post',
+                    data: {tooltip: t(:'pinboard.reporting.tooltip'), 'aria-label': t(:'pinboard.reporting.tooltip')},
+                    class: 'question-report'
+
+        .edit-post.hidden id="question-edit-#{question.id}"
+        .question-comments
+          = render 'question/comments', commentable: question, new_comment:, user_state:
+
+  - if !@question.closed && @pinboard.open? && (!@question.blocked? || current_user.allowed?('pinboard.entity.block'))
+    .add-reply-button
+      button data-id='scroll-trigger'
+        = render Global::FaIcon.new('circle-plus', style: :solid)
+        = t(:'question.question_detail.add_reply')

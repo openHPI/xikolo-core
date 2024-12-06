@@ -1,0 +1,12 @@
+- content_for :page_header_slim
+  = render Global::PageHeader.new(t(:'admin.classifiers.sort.title'), subtitle: t(:'admin.page_header'), type: :slim) do |c|
+    - c.with_pill @cluster.title, color: :note, size: :small
+
+.container
+  - if @cluster.classifiers.any?
+    = render Global::Callout.new(t(:'admin.classifiers.sort.info'))
+    = render partial: 'admin/classifiers/form_order', locals: {cluster_id: @cluster.id, classifiers: @cluster.classifiers_order_select, sort_mode: @cluster.sort_mode_i18n}
+  - else
+    = render Global::Callout.new(t(:'admin.classifiers.sort.empty_msg'))
+    .mt15
+      = link_to t(:'admin.classifiers.sort.back_to_list'), admin_cluster_path(@cluster), class: 'btn btn-default btn-sm'

@@ -1,0 +1,9 @@
+<%=t :'.meta', date: l(DateTime.parse @payload.timestamp), user: @payload.user_name %>
+
+<% if @payload.topic_author_id == @receiver.id %>
+  <%=t :'.hint' %>
+<% end %>
+
+# <%= @payload.thread_title %>
+
+<%= block_format @payload.text %>

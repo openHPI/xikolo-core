@@ -1,0 +1,32 @@
+// Theming
+.quiz-recap {
+  --qr-color-primary: #{$primary-500};
+  --qr-color-primary-dark: #{$primary-600};
+
+  --qr-color-neutral: #{$gray-600};
+  --qr-color-neutral-light: #{$gray-100};
+  --qr-color-neutral-dark: #{$gray-800};
+
+  --qr-color-success: #{$success-500};
+  --qr-color-success-light: #{$success-100};
+  --qr-color-success-dark: #{$success-700};
+
+  --qr-color-danger: #{$error-500};
+  --qr-color-danger-light: #{$error-100};
+  --qr-color-danger-dark: #{$error-600};
+
+  box-shadow: $box-shadow-xs;
+
+  legend {
+    border-bottom: none;
+  }
+
+  input {
+    margin-top: 0;
+  }
+
+  label {
+    margin-top: 0;
+    font-weight: normal;
+  }
+}

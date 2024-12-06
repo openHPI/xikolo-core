@@ -1,0 +1,16 @@
+@import "flatpickr/dist/flatpickr.min";
+@import "tom-select/dist/scss/tom-select";
+@import "@toast-ui/editor/dist/toastui-editor.css";
+@import "sweetalert2/src/sweetalert2";
+@import "@openhpi/quiz-recap/dist/style.css";
+
+@import "grid-settings";
+
+.html5sortable-placeholder {
+  max-width: 100%;
+  padding: 10px 10px 10px 30px;
+  border: 1px dashed $gray-250;
+  margin: 0 0 10px;
+  background-color: $gray-100;
+  list-style: none;
+}

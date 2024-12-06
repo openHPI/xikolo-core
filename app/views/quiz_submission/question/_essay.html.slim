@@ -1,0 +1,5 @@
+.quiz-answer.text class="#{'show-solution' if show_solution}"
+  label id="question_#{question.id}_answer_text_field"
+  = text_area "submission", question.id, id: "question_#{question.id}_answer_text_field", disabled: show_solution, value: user_submission, class: 'form-control', rows: 10
+  - if show_solution && user_submission.present?
+    .ribbon.ribbon-horizontal-right.correct = t :'quiz_submission.partials.quiz_answer_solution.thanks'

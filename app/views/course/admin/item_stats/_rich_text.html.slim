@@ -1,0 +1,6 @@
+- content_for :head_assets
+  = javascript_include_tag 'course-admin'
+
+h3 = t(:'course.admin.item_stats.rich_text.link_clicks')
+
+= render partial: 'shared/statistics_table', locals: {id: 'rich-text-links-table', attr: {'data-item-id': item_stats.item_id}}

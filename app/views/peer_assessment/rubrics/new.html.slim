@@ -1,0 +1,84 @@
+= link_to t(:'peer_assessment.administration.rubrics.back_to_overview'), peer_assessment_rubrics_path, class: 'btn btn-sm btn-default col-md-2 col-sm-4 col-sx-12'
+.clearfix
+.mt40
+
+= render Global::Callout.new(t(:'peer_assessment.administration.rubrics.new_info'))
+
+.mt40
+  .col-lg-3.col-md-3
+    .bold = t :'peer_assessment.administration.rubrics.options_to_add'
+  .col-xs-6.col-md-2
+    .input-group
+      input#option_count.text-align-center.form-control.input-sm.w40 type="number" value="0"
+        .input-group-btn
+          button#create_count.btn.btn-success.btn-sm = t :'peer_assessment.administration.rubrics.add'
+
+= simple_form_for(@rubric,
+    url: peer_assessment_rubrics_path(@assessment.id),
+    wrapper: :larger_labels,
+    html: {\
+      id: 'rubric_form',
+      method: 'post',
+      class: 'mt40 col-md-12 form-horizontal hidden',
+    }) do |r|
+  = r.input :title, required: true, label: t(:'peer_assessment.administration.rubrics.title'), placeholder: t(:'peer_assessment.administration.rubrics.title_placeholder')
+  = r.input :hints, as: :markdown, required: true,
+      label: t(:'peer_assessment.administration.rubrics.hints'),
+      uploads: {purpose: :peerassessment_rubric_hints},
+      value: @rubric['hints']
+      / we need the uncasted hints value: Acfs calls `to_s` on the Hash
+        and returns a wrong value. @rubric['hints'] returns the value as it
+        was retrieved from the service.
+        This value option can probably be removed once @rubric is no long an Acfs
+        resource.
+
+  hr.divider.slim
+  .row.mt40
+    .col-lg-3.col-md-3
+      .bold.inline-block = "* #{t(:'peer_assessment.administration.rubrics.options')}:"
+    .col-lg-9.col-md-9
+      table
+        tbody#options
+
+  .row
+    .col-md-12
+      hr.divider.slim
+      = r.button :submit, t(:'peer_assessment.administration.rubrics.create'), class: 'btn btn-primary mt30 col-md-offset-3 col-lg-offset-3'
+
+javascript:
+  ready(function () {
+    (function () {
+      var rubric_count = 0;
+
+      $('#create_count').click(function () {
+        var count = parseInt($('#option_count').val());
+
+        if (count && count > 0) {
+          $('#rubric_form').removeClass('hidden');
+
+          for (var i = 0; i < count; i++) {
+            add_rubric_option(i + 1 + rubric_count);
+          }
+
+          rubric_count += count;
+        }
+      });
+    })();
+  });
+
+  function add_rubric_option(index) {
+    $('#options').append( '<tr>' +
+                            '<td class="nowrap vtop">' +
+                              '<input required="required" type="number" name="options[' + index + '][points]]" class="w40 mr10 text-align-center"/>' +
+                              '<span class="mr15"> #{t(:"peer_assessment.rubrics.points")}.</span>' +
+                            '</td><td style="width: 80%">' +
+                              '<textarea style="width: 70%" name="options[' + index + '][description]" placeholder="#{t :'peer_assessment.administration.rubrics.option_description_placeholder'}" class="input-sm" />' +
+                            '</td>' +
+                            '<td class="nowrap"><button type="button" class="btn btn-sm btn-danger" onclick="remove_rubric_option(this)">#{t :'peer_assessment.administration.rubrics.delete_option'}</button></td>' +
+                          '</tr>'
+            );
+  }
+
+  function remove_rubric_option(e) {
+    $($(e).parents()[1]).remove();
+  }

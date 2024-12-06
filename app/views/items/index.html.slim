@@ -1,0 +1,7 @@
+.container
+  h2 Available Items
+  ul
+    - @items.each do |item|
+      li
+        = link_to item.title, course_section_item_path(id: item.id)
+  = link_to 'New Item', new_course_section_item_path, class: 'btn btn-primary'

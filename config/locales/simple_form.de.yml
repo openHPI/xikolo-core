@@ -1,0 +1,440 @@
+de:
+  simple_form:
+    "yes": "Ja"
+    "no": "Nein"
+    required:
+      text: "erforderlich"
+      mark: "*"
+      # You can uncomment the line below if you need to overwrite the whole required html.
+      # When using html, text and mark won't be used.
+      # html: '<abbr title="required">*</abbr>'
+    error_notification:
+      default_message: Es wurden Fehler gefunden. Bitte überprüfen Sie Ihre Eingaben.
+    upload_file: Dateien hierher ziehen oder klicken, um Dateien auszuwählen
+    upload_single_file: Datei hierher ziehen oder klicken, um eine Datei auszuwählen
+    upload_image: Bild hierher ziehen oder klicken, um ein Bild auszuwählen
+    upload_remove_hint: Das Bild wird beim Speichern entfernt.
+
+    options:
+      certificate_template:
+        certificate_type:
+          Certificate: Certificate
+          ConfirmationOfParticipation: Confirmation of Participation
+          RecordOfAchievement: Record of Achievement
+          TranscriptOfRecords: Transcript of Records
+      lti_provider:
+        presentation_mode:
+          frame: frame - Eingebettet im Kursbereich
+          pop-up: pop-up - In einem Popup-Fenster öffnen
+          window: window - In einem neuen Tab öffnen
+        privacy:
+          anonymized: anonymisiert - Keine personenbezogenen Daten an den Anbieter übergeben
+          pseudonymized: pseudonymisiert - Keine personenbezogenen Daten übergeben, aber Wiedererkennung von Nutzern in mehreren Übungen des selben Anbieters ermöglichen
+          unprotected: ohne Datenschutz - Der Anbieter erhält personenbezogenen Daten
+      course_offer:
+        payment_frequency:
+          one_time: Einmalig
+          weekly: Wöchentlich
+          monthly: Monatlich
+          quarterly: Vierteljährlich
+          half_yearly: Halbjährlich
+          by_semester: Pro Semester
+          yearly: Jährlich
+          other: Andere
+        category:
+          course: Kurs
+          certificate: Zertifikat
+          complete: Kurs & Zertifikat
+
+    labels:
+      announcement:
+        title: Titel
+        visual_upload_id: Visual
+        show_on_homepage: Auf der Startseite anzeigen
+        publish_at: Veröffentlichungsdatum
+        audience: Empfängergruppe
+        text: Text
+      calendar_event:
+        title: Titel
+        description: Beschreibung
+        start_time: Startdatum (Ortszeit)
+        end_time: Enddatum (Ortszeit)
+        color: Kategorie
+        all_day: Ganztägiges Event
+      certificate_template:
+        certificate_type: Leistungsnachweis-Typ
+        file: Template-Datei
+        dynamic_content: Dynamischer Inhalt
+        qrcode_x: QR code x
+        qrcode_y: QR code y
+      channel:
+        code: Code
+        name: Name
+        logo_upload_id: Logo
+        description: Beschreibung
+        video_stream: Stage video
+        stage_visual_upload_id: Stage visual
+        stage_statement: Stage statement
+        mobile_visual_upload_id: Mobile visual
+        public: Sichtbar
+      classifier:
+        title: ID
+        translations: Titel
+        descriptions: Beschreibung
+        courses: Kurse
+      cluster:
+        id: Code
+        visible: Sichtbar
+      course:
+        title: "Titel"
+        course_code: "Kurscode"
+        abstract: Beschreibung (kurz)
+        auto_archive: "Automatisch archivieren (nach Kursende)"
+        show_syllabus: "Übersicht"
+        description: "Beschreibung (lang)"
+        rating_stars: Bewertung (durchschnittliche Sterne)
+        rating_votes: Bewertung (Anzahl der Stimmen)
+        lang: Sprache
+        enrollment_delta: "Einschreibungszahlen-Delta"
+        groups: Auf Gruppen beschränken
+        hidden: "Kurs ist versteckt"
+        show_on_list: Auf Kursliste zeigen
+        proctored: Zertifikat (überwachte Prüfung)
+        on_demand: "Reaktivierung"
+        welcome_mail: Willkommens-Mail
+        invite_only: Einladung benötigt
+        start_date: "Startdatum (UTC)"
+        displayed_start_date: "Angezeigtes Startdatum (UTC)"
+        end_date: "Enddatum (UTC)"
+        middle_of_course_is_auto: "Kursmitte automatisch berechnen"
+        middle_of_course: "Kursmitte (UTC)"
+        roa_enabled: "Leistungsnachweis"
+        cop_enabled: "Teilnahmebestätigung"
+        roa_threshold_percentage: "Leistungsnachweis-Schwellwert"
+        cop_threshold_percentage: "Teilnahmebestätigung-Schwellwert"
+        has_collab_space: "Lernräume"
+        pinboard_enabled: Diskussionsforum
+        records_released: "Leistungsnachweise freischalten"
+        forum_is_locked: "Forum schließen"
+        external_course_url: "Externe Kurs-URL"
+        policy_url: Policy-URL
+        enable_video_download: Herunterladen der Videos / Audios
+        external_registration_url: Externe Registrierungs-URL
+      course_offer:
+        category: Kategorie
+        price: Preis
+        payment_frequency: Zahlungsrhythmus
+        price_currency: Währung
+      course_visual:
+        image: Bild
+        video_stream_id: Teaser-Video
+        subtitles: Untertitel
+      login:
+        email: E-Mail
+        password: Passwort
+      lti_provider:
+        name: Name
+        description: Beschreibung
+        domain: Start-URL
+        consumer_key: OAuth consumer key
+        shared_secret: OAuth secret
+        presentation_mode: Darstellung
+        custom_fields: Provider-spezifische Parameter
+      objective:
+        position: Position
+        title: Titel
+        description: Beschreibung
+        completion_type: Abschlusstyp
+        final: Materialien vollständig?
+      open_badge_template:
+        file: Bild-Datei
+        name: Name
+        description: Beschreibung
+      page:
+        name: Name
+        locale: Sprache
+        title: Titel
+        text: Inhalt
+      teacher:
+        name: Name
+        picture: Bild
+      translation:
+        title: Titel
+        text: Text
+      user:
+        full_name: Ihr Name
+        email: Ihre E-Mail-Adresse
+        password: Passwort
+        password_confirmation: Passwort (Wiederholung)
+      video_provider:
+        name: Name
+      video_provider_credentials_kaltura:
+        partner_id: Partner-ID
+        token: Token
+        token_id: Token-ID
+      video_provider_credentials_vimeo:
+        token: Token
+      voucher_redemption:
+        code: Geben Sie Ihren Gutschein-Code ein
+      xikolo_pinboard_answer:
+        attachment: Anhang
+      xikolo_pinboard_question:
+        title: Titel
+        text: Text
+        attachment: Anhang
+        tag_names: Tags
+        move_to: Verschieben nach
+
+    hints:
+      announcement_email:
+        consents: "Wählen Sie alle Einwilligungen aus, denen die Empfänger zugestimmt haben müssen, um die Ankündigung zu erhalten. Sollten Sie keine Einwilligungen auswählen, wird die Ankündigung an alle Empfänger versendet. Um rechtskonform zu bleiben, sollten Sie im Zweifelsfall Ihren Datenschutzexperten zu Rate ziehen."
+      channel:
+        stage_visual_upload_id: "Das Visual muss eine Mindestgröße von %{width}x%{height} px haben. Größere Bilder werden verkleinert und zugeschnitten."
+        mobile_visual_upload_id: "Das Visual muss eine Mindestgröße von %{width}x%{height} px haben. Größere Bilder werden verkleinert und zugeschnitten."
+        code: "Der Channel-Code sollte nur aus Kleinbuchstaben und dem Minuszeichen ('-') bestehen."
+        logo_upload_id: "Das Channel-Logo wird mit einer maximalen Höhe von 60 px angezeigt und sollte einen transparenten Hintergrund haben. Bitte bereiten Sie Ihr Logo entsprechend vor."
+        public: "Diesen Channel in der Navigationsleiste und anderen Auflistungen von Channels (wie den Filtern der Kursliste) anzeigen. Hinweis: Der Channel selbst bleibt über eine öffentliche URL erreichbar, so dass die Seite an anderer Stelle verlinkt werden kann."
+      classifier:
+        title: "Der Tag-ID wird nur bei der Zuweisung von Tags in den Kurs-Einstellungen verwendet. Die ID wird nicht für Lernende angezeigt. Erlaubte Zeichen: a-z, A-Z, 0-9, -, Leerzeichen."
+        descriptions: Die Beschreibung wird beim Auflisten der Kurse für diesen Tag angezeigt, zum Beispiel auf der Startseite.
+      cluster:
+        id: Der Code einer Kategorie kann nicht mehr geändert werden, nachdem sie erstellt worden ist.
+        visible: Nur Tags der sichtbaren Kategorien werden für Kursfilter und als Kursinformationen verwendet.
+      course:
+        course_code: "URL-sicheren Kurscode eingeben. Benutzen Sie nur Buchstaben, Ziffern, Unter- oder Bindestriche. Dies kann nach Erstellung des Kurses nicht mehr geändert werden."
+        external_course_url: Geben Sie eine URL an, um einen Kurs zu verlinken, der auf einer anderen Plattform angeboten wird. Dieser wird dann auf Kurslisten angezeigt und bekommt eine eigene Seite, aber Funktionen wie Einschreibungen und Kursinhalte werden deaktiviert.
+        teacher_ids: "Hier können Sie nach weiteren Dozenten suchen und sie in der Liste sortieren. Die Angaben hier werden nur für Anzeigezwecke gesetzt; Berechtigungen müssen auf der Kursberechtigungsseite gesetzt werden."
+        classifiers_keywords: Die Stichwörter werden über die <a href='https://moochub.org/about/' target='_blank'>MOOChub-API</a> veröffentlicht und für die interne Kurssuche verwendet.
+        alternative_teacher_text: "Anzeigetext, falls Sie sehr viele Teachers haben"
+        learning_goals: 'Geben Sie die Kompetenzen, Kenntnisse, Fähigkeiten und Fertigkeiten ein, welche Teilnehmende durch den erfolgreichen Abschluss des Kurses erwerben sollen. Sie werden in den Kursdetails unter "Was Teilnehmende lernen werden" angezeigt.'
+        learning_goals_only_certificate_page: "Geben Sie die Kompetenzen, Kenntnisse, Fähigkeiten und Fertigkeiten ein, welche Teilnehmende durch den erfolgreichen Abschluss des Kurses erwerben sollen. Sie werden auf der Seite zur Überprüfung des Zertifikats angezeigt."
+        target_groups: 'Geben Sie die Lerngruppen ein, an die sich der Kurs richten soll. Sie werden in den Kursdetails unter "Für wen dieser Kurs gedacht ist" angezeigt.'
+        show_on_list: Falls deaktiviert, wird der Kurs nicht auf der globalen Kursliste zu sehen sein. Auf der Landing-Page seines Channels wird er nach wie vor auftauchen.
+        roa_threshold_percentage: "Schwellwert zwischen 1 und 100 in Prozent, um einen Leistungsnachweis zu erlangen. Der globale Standard-Wert ist %{global_default}."
+        cop_threshold_percentage: "Schwellwert zwischen 1 und 100 in Prozent, um einen Leistungsnachweis zu erlangen. Der globale Standard-Wert ist %{global_default}."
+        show_on_stage: "Wenn Sie diesen Kurs auf der Channel-Stage anzeigen möchten, <i>müssen Sie Stage Visual und Statement angeben</i>."
+        stage_statement: "Sie können eine h1-Überschrift ('# Titel') für einen Statement-Titel und eine h3-Überschrift ('### Autor') zur Angabe eines Autor des Statements verwenden. Benutzen Sie kein weiteres Markdown."
+        welcome_mail: Diese Nachricht wird per Mail an neu eingeschriebene Teilnehmer gesandt. Wenn das Feld leer bleibt, wird keine Email versandt.
+        invite_only: Lernern das selbstständige Einschreiben verbieten. Um an solch einem Kurs teilzunehmen, müssen die Lerner durch die Kursbetreuer eingeschrieben werden.
+        cop_enabled: Wird ausgestellt für das Ansehen / Bearbeiten des Kursmaterials.
+        roa_enabled: Für erfolgreiche Kursteilnahme. Wird ab einer bestimmten Punktzahl ausgestellt.
+        proctored: Wie ein Leistungsnachweis, aber zusätzlich mit Webcam-basierter Überprüfung durch SMOWL. Ein Bild des Teilnehmers wird auf dem PDF-Zertifikat erscheinen. Zertifikate müssen zahlungspflichtig gebucht und durch einen Gutschein freigeschaltet werden.
+        on_demand: Erlaubt das Erreichen eines Leistungsnachweises nach der regulären Kurslaufzeit (wenn benotete Übungen wieder gesperrt sind). Diese Funktion muss zahlungspflichtig gebucht und durch einen Gutschein freigeschaltet werden.
+        records_released: Aktivieren Sie diese Option, um den Download von Leistungsnachweisen freizuschalten.
+        show_syllabus: Eine Seite im Kursbereich, die das gesamte freigeschaltete Lernmaterial anzeigt.
+        enable_video_download: Erlaubt Teilnehmern den Download von Video- und Audio-Versionen der Kursvideos, um offline zu lernen.
+        has_collab_space: Teilnehmer können öffentliche oder private Lernräume erstellen, um gemeinsam zu lernen, zusammen zu arbeiten oder Dateien auszutauschen.
+        pinboard_enabled: Deaktiviert vollständig die Diskussionsfunktion für diesen Kurs. Die Benutzer können auf keine Diskussionen zugreifen. Eventuelle Diskussionsforen in Lernräumen sind davon nicht betroffen.
+        forum_is_locked: Diskussionen werden in einen schreibgeschützten Zustand gesetzt. Dies geschieht in der Regel nach dem Ende der Kurslaufzeit.
+        visual_creation: Nachdem Sie den Kurs erstellt haben, können Sie Visuals in den Kurseinstellungen hinzufügen.
+      course_offer:
+        price: Geben Sie den Preis in Euro ein (kommasepariert, z.B. zehn Euro und fünfzig Cent als "10,50").
+      course_metadata:
+        skills:
+          'Sie können eine Datei mit Skills-Metadaten hochladen. Diese muss ein JSON-Array aus Skills-Objekten enthalten. Die Attribute der Skills-Objekte sind <a href="https://github.com/MOOChub/schema" target="_blank">hier</a> beschrieben.
+          Bitte beachten Sie, dass der Upload nur eine einzige Datei zulässt. Ein neuer Upload überschreibt die vorhandenen Skills-Metadaten.'
+        educational_alignment:
+          'Sie können eine Datei mit Themenbereich-Metadaten hochladen. Diese muss ein JSON-Array aus Themenbereich-Objekten enthalten. Die Attribute der Themenbereich-Objekte sind <a href="https://github.com/MOOChub/schema" target="_blank">hier</a> beschrieben.
+          Bitte beachten Sie, dass der Upload nur eine einzige Datei zulässt. Ein neuer Upload überschreibt die vorhandenen Themenbereich-Metadaten.'
+        license:
+          'Sie können eine Datei mit Lizenz-Metadaten hochladen. Diese muss ein JSON-Array aus Lizenz-Objekten enthalten. Die Attribute der Lizenz-Objekte sind <a href="https://github.com/MOOChub/schema" target="_blank">hier</a> beschrieben.
+          Bitte beachten Sie, dass der Upload nur eine einzige Datei zulässt. Ein neuer Upload überschreibt die vorhandenen Lizenz-Metadaten. Eine vollständige Liste von Lizenzen und Ausnahmen finden Sie hier: <a href="https://spdx.org/licenses/" target="_blank">SPDX-Lizenzliste</a>.'
+      course_visual:
+        image: This image will be shown on all course lists. If you don't upload a teaser video, it will also appear on the course details page. For accessibility reasons, the image should not show any text.
+        video_stream_id: Wenn Sie ein Teaser-Video auswählen, wird es auf der Seite mit den Kursdetails anstelle des Kursbildes verwendet.
+        subtitles: "Entweder eine Untertiteldatei im WebVTT-Format oder ein ZIP-Archiv mit mehreren WebVTT-Dateien. Die Dateinamen aller WebVTT-Dateien müssen mit einem Trennzeichen (entweder '_' oder '-') und ihrem zwei oder drei Buchstaben langen Sprachcode (z.B. 'de' für Deutsch) enden. Beispiel: 'subtitles_de.vtt'."
+      lti_provider:
+        presentation_mode: 'Hinweis: Die Einbettung (frame) funktioniert nicht mit allen Tools in allen Browsern. Bitte stellen Sie sicher, dass es mit dem gewählten Tool funktioniert oder verwenden Sie stattdessen die Option "window".'
+        custom_fields: "Spezifische Parameter, die gemäß dem LTI-Standard verwendet werden. Weitere Details zu den verfügbaren Parametern finden Sie in der Dokumentation des Tools."
+      open_badge_template:
+        name: Überschreibt den globalen Namen
+        description: Überschreibt die globale Beschreibung
+      poll:
+        start_at: "Hinweis: Sie können nur Antwortoptionen zu einer Umfrage hinzufügen, wenn diese noch nicht gestartet ist."
+      xikolo_course_item:
+        end_date: Wenn ein Enddatum angegeben wurde, wird dieses Item für alle Teilnehmenden gesperrt, sobald das Datum erreicht wurde.
+        start_date: Wenn ein Startdatum angegeben wurde, wird dieses Item für alle Teilnehmenden gesperrt, bis das Datum erreicht wurde.
+      xikolo_course_section:
+        end_date: Wenn ein Enddatum angegeben wurde, wird diese Section für alle Teilnehmenden gesperrt, sobald das Datum erreicht wurde.
+        start_date: Wenn ein Startdatum angegeben wurde, wird diese Section für alle Teilnehmenden gesperrt, bis das Datum erreicht wurde.
+      video:
+        subtitles: "Entweder eine Untertiteldatei im WebVTT-Format oder ein ZIP-Archiv mit mehreren WebVTT-Dateien. Die Dateinamen aller WebVTT-Dateien müssen dabei nach einem Trennzeichen (entweder '_' oder '-') mit dem zwei oder drei Buchstaben langen Sprachcode (z.B. 'de' für Deutsch) enden. Beispiel: 'subtitles_de.vtt'"
+
+    placeholders:
+      announcement_email:
+        recipients: "Suche nach Benutzernamen, Benutzer-E-Mail, Kurstitel oder Kurscode"
+        consents: "Wählen Sie die erforderlichen Einwilligungen aus"
+      certificate_template:
+        dynamic_content: SVG um dynamische Inhalte in das Zertifikat einzufügen
+      classifier:
+        courses: Kurs hinzufügen
+      course:
+        abstract: "Kurzbeschreibung eingeben"
+        description: "Ausführliche Beschreibung eingeben"
+        teacher_ids: "Geben Sie den Namen eines Dozenten ein"
+      course_visual:
+        video_stream_id: Stream auswählen
+        subtitles: Datei hierher ziehen oder klicken, um eine Datei auszuwählen.
+      login:
+        email: E-Mail
+        password: Passwort
+      page:
+        text: "Inhalt hier eingeben ..."
+      voucher_redemption:
+        code: "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
+
+    prompts:
+      announcement:
+        audience: "Alle Nutzer"
+
+  helpers:
+    submit:
+      create: Speichern
+      update: Speichern
+      announcement_email:
+        update: Ankündigung versenden
+      announcement:
+        create: Ankündigung erstellen
+        update: Ankündigung speichern
+      certificate_template:
+        create: Leistungsnachweis-Vorlage erstellen
+        update: Leistungsnachweis-Vorlage ändern
+      channel:
+        create: Channel erstellen
+        update: Channel speichern
+      classifier:
+        create: Tag erstellen
+        update: Tag speichern
+        submit: Reihenfolge speichern
+      cluster:
+        update: Kategorie speichern
+        submit: Reihenfolge speichern
+      course:
+        create: Kurs erstellen
+        update: Kurs speichern
+      course_metadata:
+        create: Metadaten speichern
+      course_offer:
+        create: Angebot erstellen
+        update: Angebot speichern
+      course_visual:
+        preview: Kurs speichern und anzeigen
+        update: Speichern
+      login:
+        submit: Benutzerkonto verbinden
+      objective:
+        create: Lernziel erstellen
+        update: Lernziel speichern
+      open_badge_template:
+        create: Vorlage erstellen
+        update: Vorlage ändern
+      page:
+        update: Speichern
+      poll:
+        create: Umfrage anlegen
+        update: Umfrage speichern
+      teacher:
+        create: Informationen speichern
+        update: Informationen speichern
+      video_provider:
+        create: Provider speichern
+        update: Provider speichern
+      voucher_redemption:
+        create: Einlösen
+        update: Einlösen
+      xikolo_course_item:
+        create: Item erstellen
+        update: Item speichern
+        preview: Item speichern und anzeigen
+      xikolo_course_section:
+        create: Section erstellen
+        update: Section speichern
+      xikolo_lti_lti_provider:
+        create: LTI-Provider erstellen
+        update: LTI-Provider speichern
+      xikolo_pinboard_answer:
+        create: Antwort senden #TODO: Find way to specify model name
+        update: Änderungen speichern
+      xikolo_pinboard_question:
+        update: Änderungen speichern
+      xikolo_quiz_answer:
+        create: Antwort erstellen
+        update: Antwort speichern
+      xikolo_quiz_question:
+        create: Frage erstellen
+        update: Frage speichern
+
+  errors:
+    attributes:
+      category:
+        not_supported: Die eingegebene Angebotskategorie ist nicht gültig.
+      certificate_type:
+        not_allowed: Eine Zertifikatsvorlage des gewählten Typs kann nicht angelegt werden.
+      dynamic_content:
+        invalid_xml: The XML for the dynamic content is invalid.
+      email:
+        already_taken: Die eingegebenen E-Mail-Adresse wurde bereits für einen Account auf unserer Platform registriert.
+      end_at:
+        before_start_date: Das Enddatum muss nach dem Startdatum liegen.
+      hd_url:
+        one_required: Es ist mindestens eine URL erforderlich.
+      id:
+        invalid_format: Ungültiges Format für die angegebene ID.
+        not_unique: Die ID muss eindeutig sein.
+      lecturer_stream_id:
+        one_required: Es ist mindestens einer der Streams erforderlich.
+      password:
+        below_minimum_length: Das Passwort muss eine Länge von mindestens 8 Zeichen haben.
+        maximum_length_reached: Das Passwort darf eine Länge von 72 Zeichen nicht überschreiten.
+        password_contains_email: Ihre E-Mail-Adresse darf nicht Teil des Passworts sein.
+      payment_frequency:
+        not_supported: Die eingegebene Zahlungsweise ist nicht gültig.
+      pip_stream_id:
+        one_required: Es ist mindestens einer der Streams erforderlich. Bitte fügen Sie einen Pip, Lecturer oder Slides Stream an.
+      price_currency:
+        not_supported: Diese Währung wird nicht unterstützt.
+      reading_material_uri:
+        upload_error: Fehler beim Hochladen der Datei.
+      sd_url:
+        one_required: Es ist mindestens eine URL erforderlich. Bitte fügen Sie einen Pip, Lecturer oder Slides Stream an.
+      slides_stream_id:
+        one_required: Es ist mindestens einer der Streams erforderlich. Bitte fügen Sie einen Pip, Lecturer oder Slides Stream an.
+      slides_uri:
+        upload_error: Fehler beim Hochladen der Datei.
+      subtitles:
+        language_missing: Fehlender Sprachcode im Dateinamen der WebVTT-Datei.
+      text:
+        blank: Der Text darf nicht leer sein.
+      title:
+        invalid_format: Ungültiges Format für die angegebene ID.
+        not_unique: Die ID muss eindeutig sein.
+      transcript_uri:
+        upload_error: Fehler beim Hochladen der Datei.
+
+    messages:
+      announcement:
+        base:
+          translation_title_text: Für Übersetzungen müssen der Titel und der übersetzte Text angegeben werden.
+      certificate_templates:
+        missing_fonts: "Schriftart(en) nicht unterstützt: %{missing_fonts}. Unterstützte Schriftarten sind %{configured_fonts}."
+      channel:
+        info_link_label:
+          required: Bitte geben Sie einen Titel für die dazugehörige Info-Link URL an.
+      course:
+        classifiers:
+          invalid_format: "Einer der Kurs-Tags erfüllt nicht die Formatanforderungen. Erlaubte Zeichen für Tag-IDs: a-z, A-Z, 0-9, -, Leerzeichen."
+          not_unique: Eine der Kurs-Tags (IDs) ist bereits vorhanden. Bitte beachten Sie, dass bei den Tag-IDs nicht zwischen Groß- und Kleinschreibung unterschieden wird.
+        status:
+          invalid: "%{value} ist kein gültiger Kursstatus."
+      item:
+        base:
+          # EN-fallback section_required: The item must be created for a section.
+          # EN-fallback could_not_be_created: The item could not be created for some reason. Please try again.
+        exercise_type:
+          required_when_quiz: Quiz-Items brauchen einen Übungstyp.
+        max_points:
+          invalid_format: Die Punktzahl muss positiv sein.
+        submission_deadline:
+          required_when_proctored: Für überwachte Prüfungen muss eine Abgabefrist festgelegt werden.
+        title:
+          "can't be blank": Bitte geben Sie einen Titel für die Lerneinheit an.

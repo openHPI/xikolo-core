@@ -1,0 +1,41 @@
+$tiles-group-colors: $primary-color, $secondary-color, $tertiary-color !default;
+
+.tiles-group {
+  max-width: $main-content-width;
+  padding: 50px $page-padding;
+  @include horizontal-page-padding;
+  margin: 0 auto;
+
+  @include small {
+    padding: 100px $page-padding;
+    @include horizontal-page-padding;
+  }
+
+  &__title {
+    @include font-sm;
+    margin-bottom: 20px;
+
+    @include small {
+      @include font-l;
+      margin-bottom: 40px;
+    }
+  }
+
+  &__tiles {
+    display: grid;
+    gap: 20px;
+
+    @include small {
+      gap: 50px;
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+
+  @for $i from 1 through length($tiles-group-colors) {
+    .tile-container:nth-child(#{length($tiles-group-colors)}n + #{$i})
+      .tile--with-decoration
+      .tile__title {
+      border-left: 4px solid nth($tiles-group-colors, $i);
+    }
+  }
+}

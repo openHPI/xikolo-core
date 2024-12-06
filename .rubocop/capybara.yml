@@ -1,0 +1,14 @@
+# fim: ft=yaml
+
+# We enforce the have_no style here (expect.to have_no_selector) because
+# when using Capybara selectors ourside of RSpec (e.g. E2E test), the
+# difference actually matters. This trains developers to always use the
+# safer style.
+Capybara/NegationMatcher:
+  EnforcedStyle: have_no
+
+# Always use `click_on`. From the user perspective, it does not matter
+# if it is a link or button, or a link that looks like a button. If
+# click targets are not unique, they won't be unique for a user too.
+Capybara/ClickLinkOrButtonStyle:
+  EnforcedStyle: link_or_button

@@ -1,0 +1,213 @@
+- content_for :head_assets
+  = javascript_include_tag 'admin', crossorigin: 'anonymous', integrity: true, async: true, debug: false
+
+= simple_form_for course do |f|
+  = f.error_notification
+  fieldset.form-section--large#formgroup-meta
+    legend = t :'admin.courses.formgroups.meta'
+    = f.input :title
+    = f.input :course_code do
+      .input-group
+        span.input-group-addon
+          = Xikolo.base_url.join('courses/')
+        = f.input_field :course_code
+    = f.input :lang, collection: course.lang_collection
+    = f.input :external_course_url
+    = f.input :abstract
+    = f.input :description
+
+  fieldset.form-section--large.course-visuals#formgroup-visuals
+    legend = t(:'admin.courses.formgroups.visuals')
+
+    - if course.persisted?
+      .form-group
+        .col-lg-2.col-md-2.mb10
+          span.bold = t(:'simple_form.labels.course_visual.image')
+        .col-lg-10.col-md-10
+          - if course.course_image
+            = render course.course_image
+            .mt10.mb10
+              span.bold.gray-dark.mr10 = t(:'admin.courses.form.file')
+              span = course.course_image_filename
+          - else
+            span.gray-dark = '-'
+
+      .form-group
+        .col-lg-2.col-md-2.mb10
+          span.bold = t(:'simple_form.labels.course_visual.video_stream_id')
+        .col-lg-10.col-md-10
+          - if course.stream_info.present?
+            span = course.stream_info
+          - else
+            span.gray-dark = '-'
+
+      .col-lg-offset-2.mb15
+        = link_to t(:'admin.courses.form.edit_visuals'), edit_course_visual_path(course.course_code), class: 'btn-xs btn btn-default'
+    - else
+      = render Global::Callout.new(t(:'simple_form.hints.course.visual_creation'))
+
+  fieldset.form-section--large#formgroup-teaching_team
+    legend = t :'admin.courses.formgroups.teaching_team'
+
+    = f.input :teacher_ids
+      = render Form::DynamicSortableList.new(course.teachers, name: 'course[teacher_ids][]', select_config: {url: '/teachers', placeholder: t(:'simple_form.placeholders.course.teacher_ids'), preload: true})
+    = advanced_settings do
+      = f.input :alternative_teacher_text
+  fieldset.form-section--large#formgroup-classifiers
+    legend = t :'admin.courses.formgroups.classifiers'
+    - course.clusters.each do |cluster|
+      = f.input :"classifiers_#{cluster.id}",
+          label: cluster.title,
+          collection: course.classifier(cluster.id),
+          input_html: {data: {cluster: cluster.id, behavior: 'custom-select', preload: 'true'}, multiple: true}
+
+    = f.input :learning_goals, hint: current_user.feature?('course_details.learning_goals') ? t(:'simple_form.hints.course.learning_goals') : t(:'simple_form.hints.course.learning_goals_only_certificate_page') do
+      = render Form::DynamicSortableList.new(course.dynamic_sortable_list(course.learning_goals), name: 'course[learning_goals][]', input_id: 'course_learning_goals')
+
+    = f.input :target_groups, hint: t(:'simple_form.hints.course.target_groups') do
+      = render Form::DynamicSortableList.new(course.dynamic_sortable_list(course.target_groups), name: 'course[target_groups][]', input_id: 'course_target_groups')
+
+    - if course.channels?
+      = f.input :channel_id, collection: course.channels
+      = advanced_settings do
+        = f.input :show_on_stage
+        = f.input :stage_visual_upload_id,
+          i18n_variables: {width: stage_min_width, height: stage_min_height}
+        - if course.stage_visual_url
+          .col-lg-offset-2 style='margin-top: -15px; margin-bottom: 15px; padding-left: 5px'
+            = image_tag course.stage_visual_url, style: 'width: 100%;'
+        = f.input :stage_statement
+  fieldset.form-section--large#formgroup-dates
+    legend = t :'admin.courses.formgroups.dates'
+    = f.input :status, collection: course.status_collection
+    = f.input :auto_archive
+    = f.input :hidden
+    = f.input :show_on_list
+    - if Xikolo.config.access_groups.present? && current_user.feature?('course.access-group')
+      = f.input :groups, collection: course.access_groups_collection,
+        input_html: {multiple: true, data: {behavior: 'custom-select'}}
+    = f.input :start_date, html5: true
+    = f.input :display_start_date
+    = f.input :end_date
+
+  fieldset.form-section--large#formgroup-enrollment
+    legend = t :'admin.courses.formgroups.enrollment'
+    = f.input :welcome_mail
+
+    / We render the hint manually, to stop it from appearing at the end of the block
+    = f.input :invite_only, hint: false do
+      .input-group
+        = f.input_field :invite_only
+        = f.hint :invite_only
+
+        fieldset.form-section--small.external_registration_url
+          legend = t(:'simple_form.labels.course.external_registration_url')
+          = render Global::Callout.new(t(:'admin.courses.info.invite_only'))
+          - Xikolo.config.locales['available'].each do |locale|
+            = f.input :"external_registration_url_#{locale}", label: t(:"languages.title.#{locale}")
+
+    - Xikolo.config.locales['available'].each do |locale|
+      = f.input :"policy_url_#{locale}"
+
+  fieldset.form-section--large#formgroup-features
+    legend = t :'admin.courses.formgroups.features'
+    = f.input :show_syllabus
+    = f.input :enable_video_download
+    = f.input :has_collab_space
+    = f.input :pinboard_enabled
+
+  fieldset.form-section--large#formgroup-certificate
+    legend = t :'admin.courses.formgroups.certificate'
+    = f.input :cop_enabled
+    #cop_threshold_percentage style=('display: none;' unless course.cop_enabled?)
+      = f.input :cop_threshold_percentage,
+          i18n_variables: {global_default: Xikolo.config.cop_threshold_percentage}
+    = f.input :roa_enabled
+    #roa_threshold_percentage style=('display: none;' unless course.roa_enabled?)
+      = f.input :roa_threshold_percentage,
+          i18n_variables: {global_default: Xikolo.config.roa_threshold_percentage}
+    - if course.proctoring_activatable?
+      = f.input :proctored
+    - if course.course_reactivation_activatable?
+      = f.input :on_demand
+
+  fieldset.form-section--large#formgroup-statistics
+    legend = t :'admin.courses.formgroups.statistics'
+    = f.input :enrollment_delta
+    = f.input :middle_of_course_is_auto
+    = f.input :middle_of_course
+    = f.input :rating_stars
+    = f.input :rating_votes
+
+  fieldset.form-section--large#formgroup-end
+    legend = t :'admin.courses.formgroups.end'
+    = f.input :records_released
+    = f.input :forum_is_locked
+
+  .btn-group
+    = f.button :submit, class: 'mr20'
+  - if course.persisted? && current_user.allowed?('course.course.delete')
+    = link_to t(:'admin.courses.delete'),
+        course_path(course_code: course.course_code),
+        data: {confirm: t(:'admin.courses.delete')},
+        method: :delete,
+        class: 'btn btn-default'
+
+- unless course.new_record?
+  .infobox.infobox-info.mt15
+    = link_to t(:'admin.courses.generate_ranking.label'), generate_ranking_course_path(course.course_code), method: :post, remote: true, class: 'btn btn-warning mr15 btn-force-white', id: 'generate_ranking_button'
+    - if course.statistic_dates?
+      - if course.statistic_dates['quantile_count'].present?
+        = t :'admin.courses.generate_ranking.quantile_count', count: course.statistic_dates['quantile_count']
+      - if course.statistic_dates['percentile_created_at_days'].present?
+        =< t :'admin.courses.generate_ranking.created_at', date: course.statistic_dates['percentile_created_at_days'].map {|date| Date.parse(date[0]) }.join(', ')
+
+javascript:
+  $(function() {
+    $('#generate_ranking_button').on('ajax:success', function() {
+      hideLoading();
+      return xuiSwal.fire(I18n.t('admin.courses.generate_ranking.success.title'), '', 'info');
+    });
+    $('#generate_ranking_button').on('ajax:beforeSend', function() {
+      return showLoading();
+    });
+    $('#generate_ranking_button').on('ajax:error', function() {
+      hideLoading();
+      return xuiSwal.fire(I18n.t('admin.courses.generate_ranking.error.title'), I18n.t('admin.courses.generate_ranking.error.msg'), 'error');
+    });
+
+    $('#course_roa_enabled').on('change', function() {
+      if($(this).is(":checked")) {
+        $('#roa_threshold_percentage').show();
+      } else {
+        $('#roa_threshold_percentage').hide();
+      }
+      return false;
+    });
+
+    $('#course_cop_enabled').on('change', function() {
+      if($(this).is(":checked")) {
+        $('#cop_threshold_percentage').show();
+      } else {
+        $('#cop_threshold_percentage').hide();
+      }
+      return false;
+    });
+
+    var course_invite_only = document.getElementById('course_invite_only');
+    var external_registration_url = document.getElementsByClassName('external_registration_url')[0];
+
+    toggleExternalRegistrationUrl();
+
+    course_invite_only.addEventListener('change', function(){
+      toggleExternalRegistrationUrl();
+    });
+
+    function toggleExternalRegistrationUrl() {
+      if (course_invite_only.checked) {
+        external_registration_url.classList.remove('hidden');
+      } else {
+        external_registration_url.classList.add('hidden');
+      }
+    }
+  });

@@ -1,0 +1,14 @@
+= simple_form_for cluster, url: admin_cluster_path do |f|
+  p = f.error_notification
+  = f.input :id, disabled: true
+  = f.input :visible
+  fieldset.form-section--large
+    legend = t(:'admin.clusters.name')
+    = f.simple_fields_for :translations do |t|
+      - Xikolo.config.locales['available'].each do |locale|
+        = t.input locale, label: t(:"languages.title.#{locale}"),
+          input_html: {value: cluster.translations[locale]},
+          required: Xikolo.config.locales['default'] == locale
+
+  = f.button :submit, class: 'btn btn-primary'
+  = link_to t(:'global.cancel'), admin_clusters_path, class: 'btn btn-default ml10'

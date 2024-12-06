@@ -1,0 +1,12 @@
+.navigation-system-alerts data-id='system-alerts' data-system-alert-cookie=remember_value
+  button.navigation-system-alerts__toggle.btn-as-text data-id='system-alerts__toggle' role='button' aria-haspopup='menu' aria-expanded=aria_expanded aria-label=t(:'header.navigation.alerts') tabindex=0
+    = render Global::FaIcon.new('bullhorn')
+
+  ul.navigation-system-alerts__menu aria-role='menu'
+    button.navigation-system-alerts__close-btn.btn-as-text data-id='system-alerts__close-btn' aria-label=t(:'global.close')
+      span aria-hidden='true'
+        = render Global::FaIcon.new('xmark')
+    - alerts.each do |alert|
+      li.navigation-system-alert role=(alert[:new?] ? 'status' : nil) tabindex=0
+        h6.navigation-system-alert__title = alert[:title]
+        .RenderedMarkdown == helpers.render_markdown(alert[:text])

@@ -1,0 +1,328 @@
+# frozen_string_literal: true
+
+lib = File.expand_path('features/support/lib', __dir__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+
+require 'bundler'
+Bundler.require
+
+ENV['RAILS_ENV'] ||= 'development'
+
+BASE = Dir.pwd
+require "#{Dir.pwd}/features/support/applications"
+
+# require 'gurke/rake/task'
+require 'teamcity'
+require 'fileutils'
+require 'yaml'
+require 'timeout'
+
+desc 'Clone/Update applications, install and setup, configure and run features.'
+task default: %i[update spec]
+
+task :ci do
+  puts "ENV: Running in `#{ENV.fetch('RAILS_ENV', nil)}' environment"
+  %w[bundle:install config db:migrate:reset permissions:load spec].each do |task|
+    Rake::Task[task].invoke
+  end
+end
+
+desc 'Execute cumumber tests with gurke'
+task :spec do
+  if ENV['TEAMCITY_VERSION']
+    exec 'bundle', 'exec', 'gurke', '--formatter', 'team_city'
+  else
+    exec 'bundle', 'exec', 'gurke'
+  end
+end
+
+## ## ## ## ---------------------------------------------------------
+
+desc 'Install gems and prepare databases.'
+task install: %w[bundle:install db:prepare]
+
+desc 'Install gems and migrate databases.'
+task update: %w[install]
+
+desc 'Reset all applications to a clean state'
+task reset: %w[reset:sidekiq reset:rabbitmq reset:database reset:s3 reset:data]
+
+namespace :reset do
+  desc 'Delete and re-setup the database'
+  task :database do
+    Rake::Task['db:migrate:reset'].invoke
+  end
+
+  desc 'Clear all RabbitMQ queues'
+  task :rabbitmq do
+    Server.exec :msgr, partition: 1 do |app|
+      app.bundle 'exec', 'rake', 'msgr:drain'
+    end
+  end
+
+  desc 'Clear all Sidekiq queues'
+  task :sidekiq do
+    Server.exec :sidekiq, partition: 1 do |app|
+      app.bundle 'exec', 'rake', 'sidekiq:clear'
+    end
+  end
+
+  desc 'Clear all S3 buckets'
+  task :s3 do
+    # Load environment-specific configuration
+    Xikolo::Config.add_config_location '/etc/xikolo.development.yml'
+    Xikolo::Config.add_config_location File.expand_path('~/.xikolo.development.yml') if ENV.key? 'HOME'
+
+    # Remove all buckets
+    MinioProcess.delete_all
+    puts 'Successfully cleared all buckets'
+
+    # And configure them again
+    Rake::Task['s3:configure'].invoke
+  end
+
+  desc 'Write example data and configure permissions'
+  task :data do
+    Rake::Task['permissions:load'].invoke
+    Rake::Task['db:seed'].invoke
+  end
+end
+
+desc 'Generate specific configurations for all services.'
+task :config do
+  Server.config_all
+end
+
+desc 'Execute a command in all applications'
+task :exec, [:cmd] do |_task, args|
+  cmd = args[:cmd]
+
+  Server.exec partition: 1 do |app|
+    app.process 'sh', '-c', cmd
+  end
+end
+
+namespace :bundle do
+  desc 'Install all gems by running bundle install for each application.'
+  task :install do
+    Server.exec partition: 1 do |app|
+      app.bundle 'install'
+    end
+  end
+
+  desc 'Update all gems by running bundle update for each application.'
+  task :update do
+    Server.exec partition: 1 do |app|
+      app.bundle 'update'
+    end
+  end
+end
+
+namespace :rails do
+  desc 'Clear all of Rails\' cache files.'
+  task(:clear_cache) do
+    Server.exec :rails do |app|
+      app.process 'rm', '-r', 'tmp/cache/*'
+    end
+  end
+end
+
+namespace :permissions do
+  task load: %i[^config] do
+    Server.exec :account do |app|
+      app.bundle 'exec', 'rake', 'permissions:load', env: {'RAILS_ENV' => ENV.fetch('RAILS_ENV', nil)}
+    end
+  end
+end
+
+namespace :db do
+  desc 'Create databases for current environment.'
+  task create: %w[^config] do
+    Server.exec :main do |app|
+      app.bundle 'exec', 'rake', 'db:create', env: {'RAILS_ENV' => ENV.fetch('RAILS_ENV', nil)}
+    end
+  end
+
+  namespace :create do
+    desc 'Create databases for all environments.'
+    task all: %w[^config] do
+      Server.exec :main do |app|
+        app.bundle 'exec', 'rake', 'db:create:all'
+      end
+    end
+  end
+
+  desc 'Drop databases for current environment.'
+  task drop: %w[^config] do
+    Server.exec :main do |app|
+      app.bundle 'exec', 'rake', 'db:drop', env: {'RAILS_ENV' => ENV.fetch('RAILS_ENV', nil)}
+    end
+  end
+
+  namespace :drop do
+    desc 'Drop databases for all environments.'
+    task all: %w[^config] do
+      Server.exec :main do |app|
+        app.bundle 'exec', 'rake', 'db:drop:all'
+      end
+    end
+  end
+
+  desc 'Migrate databases for current environment.'
+  task migrate: %w[^config] do
+    Server.exec :main do |app|
+      app.bundle 'exec', 'rake', 'db:migrate', env: {'RAILS_ENV' => ENV.fetch('RAILS_ENV', nil)}
+    end
+  end
+
+  namespace :migrate do
+    task reset: %w[^config] do
+      Server.exec :main do |app|
+        app.bundle 'exec', 'rake', 'db:migrate:reset', env: {'RAILS_ENV' => ENV.fetch('RAILS_ENV', nil)}
+      end
+    end
+  end
+
+  desc 'Prepare databases for current environment.'
+  task prepare: %w[^config] do
+    receiver = BroadcastReceiver.new
+    receiver << MultiProcess::Logger.new($stdout, $stderr, sys: true)
+    receiver << buffer_logger = MultiProcess::StringReceiver.new
+
+    Server.exec :main, receiver: do |app|
+      app.bundle 'exec', 'rake', 'db:prepare', env: {'RAILS_ENV' => ENV.fetch('RAILS_ENV', nil)}
+    end
+
+    # Load seeds for all services if the database was created
+    if buffer_logger.get(:out).include?('Created database')
+      Rake::Task['permissions:load'].invoke
+      Rake::Task['db:seed'].invoke(:srv)
+    end
+  end
+
+  desc 'Setup all databases'
+  task setup: %w[^config] do
+    Server.exec :main do |app|
+      app.bundle 'exec', 'rake', 'db:setup', env: {'RAILS_ENV' => ENV.fetch('RAILS_ENV', nil)}
+    end
+  end
+
+  desc 'Seed all databases (development)'
+  task :seed, [:role] => %w[^config] do |_task, args|
+    args.with_defaults(role: :db)
+    # Seeding the course service requires the account service to be running. The
+    # seeds will create courses that have hook that contacts the account service
+    # to create groups and grants specific for each new course.
+    #
+    # The account service is started with development mode and port. This task
+    # only assumes to be used in development mode.
+    process = Server[:account].bundle 'exec', 'rails', 'server', '--port', '3100'
+    process.extend(MultiProcess::Process::Rails)
+    process.port = 3100
+    process.start
+
+    30.times do
+      sleep 1
+      break if process.available?
+    end
+
+    raise 'Account service not started. Abort.' unless process.available?
+
+    Server.exec args[:role], partition: 1 do |app|
+      app.bundle 'exec', 'rake', 'db:seed', env: {'RAILS_ENV' => ENV.fetch('RAILS_ENV', nil)}
+    end
+  ensure
+    process&.stop
+  end
+
+  desc 'Reset all databases. This will drop database, ' \
+       'create new, load schema and seeds.'
+  task reset: %w[^config] do
+    Server.exec :main do |app|
+      app.bundle 'exec', 'rake', 'db:reset', env: {'RAILS_ENV' => ENV.fetch('RAILS_ENV', nil)}
+    end
+  end
+end
+
+namespace :assets do
+  desc 'Build all assets'
+  task build: %w[^config] do
+    Server.exec(:assets) do |app|
+      app.process 'make', 'assets', env: {RAILS_ENV: ENV.fetch('RAILS_ENV', nil)}
+    end
+  end
+end
+
+namespace :s3 do
+  desc 'Create needed buckets and setup their policies ...'
+  task(:configure) do
+    # Copy default configuration to ~/.xikolo.development.yml (if it does not
+    # already exist)
+    if !File.exist? File.expand_path('~/.xikolo.development.yml')
+      FileUtils.copy_file(
+        'features/support/lib/xikolo.development.yml',
+        File.expand_path('~/.xikolo.development.yml')
+      )
+      puts <<~MSG
+        Copied default s3 configuration to ~/.xikolo.development.yml'
+        If minio is configured differently (e.g. another endpoint/
+        credentials/buckets...), adjust the file accordingly.
+      MSG
+    elsif FileUtils.identical?(
+      'features/support/lib/xikolo.development.yml',
+      File.expand_path('~/.xikolo.development.yml')
+    )
+      puts <<~MSG
+        Found the default s3 configuration under ~/.xikolo.development.yml
+        If minio is configured differently (e.g. another endpoint/
+        credentials/buckets...), adjust the file accordingly.
+      MSG
+    else
+      puts <<~MSG
+        Found another than the default s3 configuration under
+        ~/.xikolo.development.yml. If you want to use the default s3
+        configuration, delete the file and run the rake task again.
+      MSG
+    end
+
+    # Load environment-specific configuration
+    Xikolo::Config.add_config_location '/etc/xikolo.development.yml'
+    Xikolo::Config.add_config_location File.expand_path('~/.xikolo.development.yml') if ENV.key? 'HOME'
+
+    # Create buckets with needed policies:
+    MinioProcess.setup
+    puts 'Successfully set up minio'
+  end
+end
+
+task server: %w[config] do
+  port = {
+    web: 3000,
+    account: 3100,
+    notification: 3200,
+    course: 3300,
+    pinboard: 3500,
+    quiz: 3800,
+    submission: 3900,
+    file: 4000,
+    log: 4200,
+    news: 4300,
+    learning_room: 4800,
+    progress: 4900,
+    game: 5100,
+    peerassessment: 5400,
+    grouping: 5600,
+  }
+
+  logger = MultiProcess::Logger.new $stdout, sys: true, collapse: false
+  group  = MultiProcess::Group.new receiver: logger
+
+  Server.each do |app|
+    group << app.process('bundle', 'exec', 'rails', 'server', 'puma', '-p', port.fetch(app.id)) if port.key?(app.id)
+  end
+
+  group.start delay: 1
+  sleep
+
+  group.stop
+end

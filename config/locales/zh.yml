@@ -1,0 +1,3509 @@
+# Localization file for Chinese.
+zh: &zh
+  default_title: "我们的课程:智能化、社交化"
+
+  date:
+    formats:
+      long: "%B %d, %Y %H:%M"
+      default: "%Y-%m-%d"
+      short: "%b %d %Y"
+      informal: "%B %-d"
+      # EN-fallback certificate: "%B %-d, %Y"
+    timezone: (UTC)
+
+  # language and language names
+  languages:
+    language: 语言
+    item: "%{name}"
+    # Do not translate this list!
+    name:
+      am: አማርኛ
+      ar: العربية
+      az: Azərbaycan dili
+      bg: български
+      bmb: Ebembe
+      bn: বাংলা
+      ca: Català
+      cn: 中文
+      cs: Čeština
+      de: Deutsch
+      el: Ελληνικά
+      en: English
+      eo: Esperanto
+      es: Español
+      fa: فارسی
+      fa-AF: دری
+      ff: Fulfulde
+      fi: Suomi
+      fr: Français
+      ha: Hausa
+      hi: हिन्दी, हिंदी
+      ht: Kreyòl ayisyen
+      hu: Magyar
+      hy: Հայերեն
+      id: Bahasa Indonesia
+      ig: Asụsụ Igbo
+      it: Italiano
+      ja: 日本語
+      ka: ქართული ენა
+      kaa: Qaraqalpaq
+      kk: Казақ тілі
+      km: ភាសាខ្មែរ
+      ko: 한국의
+      kr: Kanuri
+      ksw: ကညီစှီၤကျိာ်
+      ku: Kurdî
+      ky: Кыргызча
+      ln: Lingála
+      lo: ພາສາລາວ
+      luo: Dholuo
+      lv: Latviešu valoda
+      mai: मैथिली
+      mg: Malagasy
+      mk: македонски
+      mn: Монгол
+      ne: नेपाली
+      mr: मराठी
+      my: မြန်မာစာ
+      nl: Nederlands
+      om: Afaan Oromoo
+      or: ଓଡ଼ିଆ
+      pa: ਪੰਜਾਬੀ
+      pan: شاہ مُکھی
+      pcm: Naijá
+      pl: Polski
+      ps: پښتو
+      pt: Português
+      pt-BR: Português brasileiro
+      rhg: Ruáingga
+      ro: Română
+      ru: Русский
+      run: Kirundi
+      sd: سنڌي
+      shn: ၽႃႇသႃႇတႆး
+      si: සිංහල
+      sn: chiShona
+      so: Soomaaliga
+      sq: Shqip
+      sr: српски језик
+      sw: Kiswahili
+      ta: தமிழ்
+      te: తెలుగు
+      tet: Tetun
+      tg: тоҷикӣ
+      th: ภาษาไทย
+      tk: Türkmen
+      tr: Türkçe
+      tum: Chitumbuka
+      uk: Українська
+      ur: اردو
+      uz: O'zbek
+      vi: Tiếng Việt
+      yao: chiYao
+      yo: Yorùbá
+      zh: 中文
+      zu: isiZulu
+    title:
+      am: 阿姆哈拉語
+      ar: 阿拉伯语
+      az: 阿塞拜疆語
+      bg: 保加利亚语
+      bmb: 本巴
+      bn: 孟加拉
+      ca: 加泰罗尼亚语
+      cn: 中文
+      cs: 捷克
+      de: 德语
+      en: 英语
+      eo: 世界語
+      el: 希腊语
+      es: 西班牙语
+      fa: 波斯语
+      fa-AF: 達利語
+      fi: 芬兰语
+      ff: 富拉
+      fr: 法国
+      ha: 豪萨语
+      hi: 印地语
+      ht: 海地克里奥尔语
+      hu: 匈牙利文
+      hy: 亚美尼亚语
+      id: 印度尼西亚语
+      ig: 伊博
+      it: 意大利语
+      ja: 日本
+      ka: 格鲁吉亚语
+      kaa: 卡拉卡尔帕克语
+      kk: 哈薩克語
+      km: 科摩罗
+      ko: 朝鲜的
+      kr: 卡努里
+      ksw: 斯高克倫語
+      ku: 库尔德
+      ky: 柯尔克孜语
+      ln: 林加拉
+      lo: 老挝语
+      luo: 骆驼
+      lv: 拉脫維亞語
+      mai: 迈蒂利语
+      mg: 马尔加什
+      mk: 马其顿文
+      mn: 蒙古语
+      mr: 马拉地语
+      my: 缅甸人
+      ne: 尼泊尔语
+      nl: 荷蘭語
+      om: 奥罗莫
+      or: 奥里亚
+      pa: 潘贾比
+      pan: 旁遮普-沙赫穆基
+      pcm: 尼日利亚皮金语
+      pl: 抛光
+      ps: 普什图语
+      pt: 葡萄牙
+      pt-BR: 巴西葡萄牙语
+      rhg: 罗兴亚人
+      ro: 罗马尼亚语
+      ru: 俄语
+      run: 基隆迪
+      sd: 信德语
+      shn: 掸族
+      si: 僧伽罗语
+      sn: 修纳语
+      so: 索马里
+      sq: 阿尔巴尼亚语
+      sr: 塞尔维亚语
+      sw: 英文
+      ta: 泰米尔
+      te: 泰卢固语
+      tet: 德顿语
+      tg: 塔吉克
+      th: 泰语
+      tk: 土库曼
+      tr: 土耳其语
+      tum: 奇通布卡
+      uk: 乌克兰语
+      ur: 乌尔都语
+      uz: 乌兹别克语
+      vi: 越南语
+      yao: 姚明
+      yo: 约鲁巴语
+      zh: 中文
+      zu: 祖鲁族
+
+  subtitles:
+    machine_translated: "%{language} (自動生成)"
+
+  buttons:
+    show_advanced_settings: 高级设置
+    hide_advanced_settings: 隐藏高级设置
+    scroll_left: 向左滚动
+    scroll_right: 向右滚动
+
+  # Global strings are reusable short translations
+  # that appear often and can be references in specific scopes
+  # for languages that have less contextual differences
+  # They can be referenced like `my_string: :global.email`
+  global:
+    email: 邮箱
+    email_or_name: 电子邮件或用户名
+    password: 密码
+    toggle_dropdown: 下拉菜单
+    are_you_sure: 你确定吗？
+    confirm: 是的，当然
+    cancel: 取消
+    back: 返回
+    download: 下载
+    submit: 提交
+    add: 添加
+    edit: 编辑
+    delete: 删除
+    nojs:
+      label: 请设置浏览器以允许执行Javascript
+      link: https://turnonjs.com/
+    read_more: 更多
+    read_less: 更少
+    close: 关闭
+
+  errors:
+    not_found:
+      headline: 非常抱歉，没有找到您请求的页面(404)
+      message: 请检查输入网址，如果您认为这是一个系统错误请您通过帮助台联系我们的开发团队。
+    server:
+      headline: 系统错误
+      message: 您可以稍后重试，该错误将会被自动报告到我们的技术团队，您也可以通过帮助台提交关于该错误的详细信息以帮助我们完善系统。
+    go_to_helpdesk: 前往服务台
+  # Flash messages
+  flash:
+    notice:
+      course_not_published: 当前还没有课程。
+      enrollment_successful_short: 您已经成功注册。
+      enrollment_successful: "您已经成功注册。<br /> "
+      user_successfully_enrolled: 用戶已被成功註冊。
+      unenrollment_successful: "您已经注销.<br />您已经注销。 您的学习数据被归档保存以便之后重新注册"
+      enrollment_already_present: 您已经成功注册该课程。
+      tag_before_posting: 请至少设置一个标签。
+      section_deleted: 该章节已删除。
+      video_player_browser_choice: "为了更好的体验我们的课程，请使用当前流行的浏览器（能够播放H.264格式的视频），比如: 最新版的 Google Chrome, Safari or Firefox (除了Mac版本的Firefox浏览器)。"
+      quiz_submission_still_active: 正在提交测试。
+      quiz_is_selftest: 该测试为自我测试，您可以在任何时候重复参加。
+      file_deleted: 文件删除。
+      user_deleted: 您的账号已按请求删除。
+      user_deleted_by_admin: 账号已删除。
+      confirmation_resend: "我们已重发了确认邮件。"
+      confirmation_email_required: "我们已发送确认邮件到 %{email}，请根据提示激活您的新邮箱地址。"
+      password_changed: "您已成功修改密码。"
+      login_connect_auth: "请登录您在%{brand}的账号以便与您的%{provider}账户关联"
+      auth_deleted: 您的账户关联已中止
+      course_deleted: 该课程已被删除。
+      channel_deleted: 该频道已删除。
+
+    success:
+      certificate_template_created: 模板已创建
+      certificate_template_updated: 模板已更新
+      certificate_template_deleted: 模板已删除
+      course_created: 课程已创建。
+      course_updated: 课程已更新。
+      # EN-fallback courses_order_updated: The course order has been updated.
+      channel_created: 频道已创建。
+      channel_updated: 频道已更新。
+      quiz_submitted: 您的测试方案已成功提交。
+      section_updated: "章节 %{section_title} 已更新。"
+      subscription_canceled: 成功取消关注该主题。
+      sync_initiated: 已启动同步。
+      logged_out: 您已成功退出。
+      teacher_information_created: 教师信息已成功保存！
+      announcement_saved: 公告已成功保存！
+      cache_flush: 已删除%{deleted_items}缓存条目
+      confirmation_successful: 感谢您确认您的电子邮件地址。
+      auth_added: 您现在可以使用您的%{provider} 账号登陆 %{brand}
+      announcement_mails_disabled: "您的账户 %{mail} 将不会再收到平台相关通知邮件。如果需要，您可以在您的设置页面重新激活此功能。"
+      course_announcement_mails_disabled: "您的账户 %{mail} 将不会再收到课程相关通知邮件。如果需要，您可以在您的设置页面重新激活此功能。"
+      pinboard_mails_disabled: "您的账户 %{mail} 将不会再收到论坛通知邮件。如果需要，您可以在您的设置页面重新激活此功能。"
+      global_mails_disabled: "您的账户 %{mail} 将不会再收到任何通知邮件。如果需要，您可以在您的设置页面重新激活此功能。"
+      user_test_created: "用户测试已创建。"
+      user_test_updated: "用户测试已更新。"
+      user_test_deleted: 用户测试已删除。
+      submission_converted: 已成功从快照中提取该提交内容
+      reactivate_course: "您已经重新激活本课程直到 %{date}"
+      proctoring:
+        already_registered_smowl: 您已经在我们的合作伙伴处校准了您的照片。
+        certificate_booked: 您成功预订了该课程的合格证书。
+      lti_provider_created: LTI提供方已成功创建。
+      lti_provider_updated: LTI提供方已成功保存。
+      lti_provider_deleted: LTI提供方已成功删除。
+      course_archived: 该课程被成功标记为完成。
+      recalculation_triggered: 这门课程的学习者进度的重新计算工作已经开始。
+      quiz_attempt_added: 额外的测验尝试被批准。
+      fudge_points_added: 等级划分已经更新。
+      video_stream_deleted: 视频流已被删除。
+
+    error:
+      login_connect_auth_failed: 在与您社交/企业账户关联中发生了一个错误。请联系帮助台
+      auth_delete_failed: 无法中止您的账户关联
+      not_authorized: 未经授权
+      blocked_by_country: 这个网站在你的国家无法使用。
+      login_before_enrollment: 进入课堂前请先登录。
+      missing_user_id_for_enrollment: 缺少用戶ID。請報名前，選擇一個用戶。
+      session_expired: 您的会话已过期，请重新登录。
+      teacher_required: 您需要教师或管理员权限进行操作。
+      login_to_proceed: 请登录以继续
+      certificate_template_not_created: 模板未创建。
+      certificate_template_not_updated: 模板未更新。
+      certificate_template_not_uploaded: 模板文件未上传。
+      certificate_template_not_deleted: 该模板无法删除。
+      certificate_template_has_records: 由于已存在相关记录，无法删除此模板
+      course_not_created: 无法创建该课程。
+      course_not_updated: 无法更新该课程。
+      # EN-fallback courses_order_failed: Something went wrong. The order of the courses may not have been updated correctly. Please check the result.
+      channel_not_created: 无法创建该频道。
+      channel_not_updated: 无法更新该频道。
+      channel_not_deleted: 频道未删除。
+      confirmation_failed_no_email: 未找到该邮件地址。
+      confirmation_failed_already_confirmed: 该邮件地址已经确认。
+      not_enrolled: 请您在注册本课程之后再开始学习
+      quiz_submission_failed: 您的测试方案未正确提交。
+      quiz_submission_no_answers: 没有针对您测试方案的回复。
+      quiz_submissions_maximum_reached: 已达到该测试的最大允许参与次数。
+      quiz_submission_time_up: 您的测试时间已用完。
+      quiz_submissions_submission_deadline_passed: 该测试截至日期已过。
+      section_not_created: 该章节未创建。
+      section_not_updated: 该章节未更新。
+      subscription_not_canceled: 该主题无法取消关注。
+      picture_not_uploaded: 您的图片不能上传，请重试。
+      slides_not_uploaded: 您的幻灯片不能上传，请重试。
+      audio_not_uploaded: 您的音频文件不能上传，请重试。
+      transcript_not_uploaded: "无法上传您的字幕文件，请重试。"
+      reading_material_not_uploaded: "无法上传您的阅读材料，请重试。"
+      thumbnail_archive_not_uploaded: 您的缩略图存档不能上传，请重试。
+      attachment_not_uploaded: 您的附件不能上传，请重试。
+      login_before_posting: 发表问题前请登录。
+      description_not_saved: 您的描述未成功保存。
+      invalid_credentials: 登录失败，请检查您的证书信息。
+      invalid_digest: "内部错误导致登录失败。为了您的账户安全，请 <a href='%{url}' class='btn btn-default btn-xs'> 重置您的密码</a> 后再尝试登录"
+      generic: "登录出错，请稍后尝试。如果长时间无法登录您可以通过帮助台与我们联系。"
+      unconfirmed_user: 该邮箱地址尚未被确认。请您在的邮箱中查找注册时收到的邮件，所有后续步骤均可在那封邮件中找到。如果您没有收到那封邮件，请点击<a href='%{url}' class='btn btn-default btn-xs'>这里</a>。
+      invalid_information: 您的身份信息错误，登陆失败。请通过帮助台联系我们。
+      login_failed: 登录失败。
+      need_to_be_member: 您需要先成为该小组成员。
+      need_to_be_admin: 您需要先成为该小组管理员。
+      email_not_updated: 不能保存该邮箱地址，请重新输入有效邮箱地址。
+      document_denied: 您没有访问该文件的许可。
+      proctoring:
+        booking_failed: 你不能为这个课程预订证书。
+        already_proctored: 你已经预订了一张证书。
+        not_enrolled: 你需要报名参加课程以预订证书。
+      subtitles_not_uploaded: 字幕文件上传失败。
+      pinboard:
+        cannot_edit_question: 您不能编辑该问题。
+      password_change_failed:
+        forgot_password: "您忘记了密码？<a href='/account/reset/new' class='btn btn-default btn-xs'>请求密码重置</a>"
+        different_passwords: "请保证“新密码”和“确认密码”一致。"
+        password_save_failed: 保存密码失败，请稍后重试。
+      files:
+        attachment_file_size_exceeded: "该文件超出了允许文件大小{{maxFilesize}} MB。"
+        document:
+          invalid_mime_type: "{{fileext}} 为无效文件类型。允许的文件类型为 %{allowed}。"
+          valid_formats: "允许的文件类型为 pdf, xml, txt, jpg, png 和 gif。 允许文件大小: 8 MB."
+      email_hash_invalid: 链接无效
+      unfulfilled_prerequisites: 你没有满足参加该课程的先决条件。
+      user_test_not_updated: 无法更新该用户测试。
+      user_test_not_deleted: 无法删除该用户测试。
+      params_missing_learn_review: 参数quiz_id和course_id错过！
+      switch_question_to_mcq: 单选题只能有1个正确答案! 请审题。
+      user_required: 未指定用户。
+      reactivate_course: 重新激活课程失败，请稍候重试。如果长时间无法激活请联系帮助台。
+      voucher:
+        not_found: 无效课程重启码，请检查您的输入。
+        already_claimed: 课程重启码已被使用。课程重启码有且只有一次使用机会。
+        general: 验证课程重启码出错，请稍后重试，如果问题持续存在，请联系帮助台。
+      document:
+        title_already_taken: 所选标题已被使用。
+      users:
+        not_found: 无法找到该用户。
+      download_not_refreshed: 无法从视频供应商处获得有效的下载链接。请稍后再试。
+      recalculation_failed: 无法开始重新计算该课程的学习者进度。请稍后再试。
+      quiz_attempt_failed: 无法获得额外的测验机会。
+      fudge_points_failed: 等级划分无法更新。
+      video_stream_not_deleted: 视频流无法删除，因为它仍在学习单元中使用。
+
+  interrupts:
+    mandatory_profile_fields: 请您在进入课程学习之前，填写以下信息，我们将试图通过这些信息来帮助您构建最优的学习体验。
+
+  browser_warning:
+    headline: 不支持您的浏览器。
+    headline_soft: 您的浏览器不完全支持。
+    browser_ie: 您正在运行IE8/Edge28或更低版本
+    text_ie: "该浏览器不再被%{brand}支持，<b>您将无法使用如测试提交等重要功能。</b> 请在继续之前更新您的IE或其他浏览器的最新版本（我们推荐<a href='http://www.mozilla.org/firefox/new/'>Mozilla Firefox</a> or <a href='https://www.google.com/chrome/'>Google Chrome</a>）。"
+    text_other: "您正在运行一个过时的浏览器版本，它将不能被%{brand}完全支持。<b>您可能无法使用如测试提交等重要功能。</b> 请在继续之前更新您的IE或其他浏览器的最新版本（我们推荐<a href='http://www.mozilla.org/firefox/new/'>Mozilla Firefox</a> or <a href='https://www.google.com/chrome/'>Google Chrome</a>）。"
+    text_hide: 点击此处永久隐藏该警告信息
+
+  components:
+    actions_dropdown:
+      aria_label: 更多行动
+    countdown:
+      time_remaining: "剩余时间:"
+    filter_bar:
+      search:
+        label: 搜索
+        clear: 清除搜索
+      filter:
+        reset: 重置过滤器s
+        divider: ──────────
+        all: 所有
+        results: "结果为："
+        results_count:
+          one: "%{count}课程"
+          other: "%{count}课程"
+        adjust: 调整
+    date_time_picker:
+      today: 设置为今天
+      clear: 清除
+    popover:
+      title: 您知道吗？
+      close: 关闭
+      hide_hint_btn: 不再显示提示信息
+    promotion:
+      link: 更多信息
+
+  shared:
+    records:
+      roa:
+        download_roa: 下载结课证书
+        contact_helpdesk: "请联系帮助台"
+      cop:
+        download_cop: 下载参与证明
+        contact_helpdesk: "请联系帮助台"
+      cert:
+        download_cert: 下载证书
+        contact_helpdesk: "请联系帮助台"
+
+  # Header string translations
+  header:
+    # Log in drop down form
+    login:
+      headline: "登录到%{brand}"
+      forgot_password: "忘记密码？"
+      identity:
+        headline: 登录凭证
+        label:
+          email: 邮箱
+          password: 密码
+          submit: 登录
+        placeholder:
+          email: 邮箱
+          password: 密码
+      external:
+        headline: "或者登录"
+      register:
+        headline: 新用户？
+        text: "您可以点击%{link}。"
+        link: 创建新账户
+      omniauth:
+        github: GitHub
+        facebook: Facebook
+        twitter: Twitter
+        google: Google
+        saml_test_id: SAMLtest ID
+
+    # Navigation
+    navigation:
+      home: 主页
+      about: "关于%{site_name}"
+      courses: 课程
+      discussions: 讨论
+      points: 分数
+      login: 登录
+      logout: 退出
+      news: 新闻
+      my_things: 我的%{brand}
+      dashboard: 控制面板
+      profile: 用户资料
+      achievements: 成就
+      settings: 通知设置
+      documents: 文档
+      greeting: "%{name}"
+      choose_language: 选择语言
+      channels: 频道
+      menu: 菜单
+      more: 更多
+      profile_menu: 简介菜单
+
+      tooltip:
+        logout: 退出
+
+      administration: 管理
+      admin:
+        dashboard: 控制面板
+        courses: 课程
+        users: 用户
+        teachers: 教师
+        permissions: 权限
+        videos: 视频
+        certificates: 证书
+        knowledge_documents: 文档
+        channels: 频道
+        reports: 报告
+        gamification:
+          badges: 徽章
+          lti_providers: LTI 提供者
+        user_tests: 用户测试
+        vouchers: 电子购买码
+        lti_providers: LTI供应商
+
+      masquerade:
+        copy_user_id: 复制用户ID至剪贴板
+        copy_email: 复制用户电子邮箱至剪贴板
+        demasq: 退出伪装用户模式
+
+  # Footer strings
+  footer:
+    native_apps:
+      apple_store_alt: 从 App Store 下载
+      google_play_alt: 从 Google Play 商店下载
+
+  helpdesk:
+    button: 帮助台
+    headline:
+      brand: "%{brand}"
+      remainder: "帮助台"
+    notice: "您是否已经查阅了我们提供的 <a href='/pages/faq' target='_blank' rel='noopener'>常见问题</a> 页面？"
+    notice_title: 提示
+    text: 请使用下面的文本框描述您所遇到的问题，您的浏览器和邮箱地址信息将会和该问题报告一并自动提交。
+    report_title: 您的问题的标题
+    email: 您的邮箱地址
+    submission: 您的问题
+    submit: 问题报告
+    cancel: 取消
+    topic: 类别分类
+    general_question: 常规问题
+    technical_question: 技术问题
+    course_specific_question: 课程相关问题
+    success_message: 您的请求已被发送到我们的支持团队，并将尽快得到答复。
+    thanks: "谢谢"
+    error_message: 系统错误
+    back: 返回
+    chat: 聊天支持
+    contact: 联系表格
+    recaptcha: 帮助我们确保网站安全！勾选下面的方框，确认您是人类。
+
+  chatbot:
+    send: 发送
+    placeholder: 写留言
+    text: 聊天机器人将很乐意帮助您解决技术问题。通过提出问题开始对话!
+    hello: 您好
+
+  home:
+    platform: "%{brand}"
+    courses: 当前课程及即将开始的课程
+    news: 新闻
+    show_article: 显示全文
+    list_all_courses: 所有课程列表 »
+    claims:
+      - title: 求知欲
+        text: 无论身在何地，随时在线学习
+      - title: 社交化
+        text: 海内存知己，天涯若比邻
+      - title: 成就感
+        text: "成功结课，获取证书"
+    tile:
+      more: 更多
+
+  account:
+    confirmations:
+      confirmation_failed:
+        headline: 您的账户确认期已经结束。
+        message: 您的账户及所有相关数据因三天内未确认而被自动删除。
+        button: 创建新账户
+    preferences:
+      show:
+        privacy:
+          headline: 隐私设置
+          text: 您可以限制一些用于其他用户找到您的信息。
+        notification:
+          headline: 我的通知设置
+          mail_info: 邮件通知将发送至<em>%{email}</em>，您可以在您的用户资料页面修改邮箱地址。
+          event_notifications: 事件通知
+          event: 事件
+          default_settings: 恢复默认设置
+          headline_email: :'global.email'
+          headline_inapp: 客户端
+          email:
+            global: "%{brand}可能会通过电子邮件向我发送通知"
+            news:
+              announcement: "接收来自于 %{brand} 的公告，例如：新课程的公告"
+            course:
+              announcement: "接收您已注册课程的公告"
+            pinboard:
+              new_answer: "您所关注的讨论主题的动态"
+            stats: "接收您正在授课的课程日常统计信息"
+
+        subscription:
+          headline: 您所关注的讨论主题
+          subscribe: 关注
+          unsubscribe: 取消关注
+          thread: 讨论主题
+          action: 管理订阅
+          last_activity: ""
+          thread_count:
+            zero: 您还未订阅任何讨论主题
+            one: 您已订阅一个讨论主题
+            other: 您已订阅%{count}个讨论主题
+          ago: "%{timeago} 前"
+          empty_state: 您没有关注任何讨论主题。
+
+        xikolo:
+          course:
+            course:
+              enrollment_create: 新注册
+          pinboard:
+            answer:
+              create: 已订阅跟帖有新回复
+              notify:
+                create: 已订阅跟帖有新回复
+          news:
+            announcement:
+              create: 新公告
+
+    sessions:
+      auth_connect:
+        headline: "欢迎来到 %{brand}"
+        native_login:
+          text: >
+            <p> 您只需要%{provider}进行注册.</p>
+            <p>由于您的邮箱还未注册账户，我们将会为您创建新账号
+            <b>除非您已经拥有一个账户（使用的不同的电子邮箱地址）并且想要与您%{provider}进行关联</b></p>
+          btn_connect: 登录并关联已有账户
+          btn_cancel: 继续使用新账户
+        text: 这是您第一次使用此数字身份登录 %{brand}。
+        text_create: 刚开始学习 %{brand}？
+        btn_create: 创建一个新账户
+        title_connect: 已經是 %{brand} 學習者？
+        text_connect: 連接您現有的帳戶並保留您的學習歷史。
+        btn_connect: 連接到現有帳戶
+        provider_label:
+          github: GitHub
+          facebook: Facebook
+          twitter: Twitter
+          google: Google
+          saml_test_id: SAMLtest ID
+        provider_link:
+          saml_test_id: "https://samltest.id"
+      connect_account:
+        headline: 連接現有的 %{brand} 帳戶
+        text: 請輸入您現有的 %{brand} 帳戶的憑據。你只需要做一次。將來，您將能夠使用 %{provider} 單點登錄登錄 %{brand}。
+        btn_cancel: 取消
+        hint: 忘記密碼或密碼無效？請聯繫<a href='/helpdesk'>服務台</a>。
+    policies:
+      show:
+        headline: 隐私声明
+        instructions: "在您继续之前，请阅读并接受我们当前有关使用 %{brand} 的 <a href='%{link}' target='_blank'>隐私声明</a>（声明在外部窗口打开）。"
+        label:
+          submit: "提交"
+    password_resets:
+      new:
+        headline: 密码重置
+        instructions: 请输入您的邮箱地址并提交表格。您将会收到一封邮件，通过邮件里的链接您可以获得新密码。
+        label:
+          email: 您的邮箱地址
+          submit: 请求密码重置
+        placeholder:
+          email: 您的邮箱地址
+      show:
+        headline: 密码重置
+        instructions: 为您在%{brand}的账号选择一个新密码
+        label:
+          password: 新密码
+          password_confirmation: 确认密码
+          submit: 重置新密码
+        placeholder:
+          password: 新密码
+          password_confirmation: 确认密码
+      flash:
+        reset_send: "我们已经发送密码重置邮件到%{email}。请检查您的收件箱并参考邮件中的说明"
+        pw_changed: "您的密码已经重置。请用您的新密码再次登录"
+        email_not_found: "检查您是否输入您注册时所用的邮箱。"
+    accounts:
+      new:
+        title: 欢迎来到 %{brand}
+        text: "创建您在 %{brand}的新账户。只需填写您的基本信息。<br /><i>注意:</i> 您的姓名将会显示在您在 %{brand} 的证书中。"
+        submit: 注册 %{brand}
+      verify:
+        headline: 请验证您的账户
+        message: 您将在接下来的几分钟内收到一封验证邮件。
+        confirmation_period: 验证环节的有效期为3天。
+        notice: 如果您没有收到确认邮件，请检查您的垃圾邮件文件夹。
+    shared:
+      consent:
+        required: 需要強制同意才能繼續.
+        user_profile:
+          label: 用戶資料
+          text: "我允許 %{brand} 保存我指定的用戶配置文件。該平台的其他用戶可以在論壇或其他協作功能中查看部分配置文件。這包括<i>真實姓名</i>（除非設置了明確的<i>顯示名稱</i>）和可選的個人資料照片。"
+        profile:
+          headline: 我的同意
+          consented_at: "您已於 %{date}表示同意。"
+          consent_declined_at: "您在 %{date}拒絕了此同意。"
+          required: 導致義務
+          notice: "您可以隨時給予或撤銷可選同意。</p><p>我們需要強制同意才能為您提供 %{brand} 的基本服務。您只能通過永久刪除您的用戶帳戶來撤銷此操作。</p>"
+          external: "此同意通過中央同意目錄（同意管理器）進行管理。您可以隨時在<a href=%{url} target='_blank' rel='noopener'>此頁面</a>上查看或更改您的偏好。"
+        external_notice: 此同意通過中央同意目錄（同意管理器）進行管理。
+
+  admin:
+    channels:
+      channel: 频道
+      delete_warning:
+        zero: "您确定要删除这个频道吗？"
+        other: "该频道中有 %{count} 课程 - 您确定要删除它吗？"
+      headline: 频道
+      empty_msg: 暂无频道
+      reorder: 更改频道顺序
+      add: 添加频道
+      actions:
+        show: 查看
+        edit: 编辑
+        remove: 删除
+      code: 频道代码
+      name: 名称
+      logo: Logo
+      description: 描述
+      public: "开放访问?"
+      show_on_stage: 显示在频道封面
+      public_true: 是
+      public_false: 否
+      new: # view
+        title: 添加频道
+      edit: # view
+        title: 编辑频道
+    courses:
+      new: 创建课程
+      update: 更新课程
+      delete: 删除课程
+      classifiers:
+        status: 课程状态
+        course_status:
+          preparation: 准备中
+          active: 进行中
+          archive: 已归档
+      formgroups:
+        meta: 摘要数据
+        visuals: 课程影像
+        teaching_team: 教学老师
+        classifiers: 课程影像
+        channel: 频道设置
+        dates: 课程日期
+        certificate: 课程证书
+        end: 课程结束
+      form:
+        file: 文件名称。
+        edit_visuals: 编辑视觉效果
+      info:
+        invite_only: 如果您在任何语言中为外部注册URL设置了一个值，学习者将不能再从课程中取消自己的注册。学习者也必须到外部注册处去正确地取消他们的预订。
+      index:
+        filter:
+          archive: 课程已归档
+          preparation: 准备中
+          active: 进行中
+          status: 课程状态
+      generate_ranking:
+        label: "Generate Ranking"
+        created_at: "生成于: %{date}"
+        quantile_count: "Quantile count: %{count}"
+        success:
+          title: "The generate ranking request has been sent"
+        error:
+          title: 发生错误
+          msg: 请重新尝试或联系管理团队
+
+      sections:
+        form:
+          placeholder:
+            title: "请输入章节标题"
+            description: "请为该章节输入描述，它将会显示于课程详细信息页面"
+          label:
+            title: "标题"
+            description: "描述"
+            start_date: "开始日期"
+            end_date: "结束日期"
+            published: 已发布
+            optional: 章节是可选的
+            pinboard_closed: 关闭讨论?
+      items:
+        form:
+          placeholder:
+            title: "请输入项目标题"
+          label:
+            title: "标题"
+            start_date: "开始日期"
+            end_date: "结束日期"
+            published: 已发布
+            show_in_nav: 在课程导航中显示
+            content_type: 类型
+            exercise_type: 习题类型
+            max_points: 最高分值
+            optional: 可选步骤
+            submission_deadline: 截止提交日期
+            submission_publishing_date: 提交出版日期
+            proctored: 启用监考模式？
+          type_selector:
+            video: "视频"
+            quiz: "测试"
+            text: "文本"
+            lti_exercise: "外部练习工具"
+            peer_assessment: 同伴互评
+          exercise_type_selector:
+            selftest: 自我测试
+            main: 计分测试
+            bonus: 附加测试
+            survey: 问卷调查
+            none: 没有任何
+          video_groupings:
+            video_data: 视频数据
+            additional_files: 附加文件
+          video_data:
+            pip_stream: 画中画视频
+            lecturer_stream: 演讲人视频
+            slides_stream: 幻灯片视频
+            subtitled_stream: 内嵌字幕视频
+            stream_placeholder: 选择一个流
+            thumbnail_archive: 元数据存档
+            subtitles: 字幕
+            transpipe_link: 在TransPipe中管理字幕
+          additional_files:
+            slides: 幻灯片
+            transcript: 文本
+            reading_material: 学习材料
+            audio: 音频
+          description: 简介
+      welcome_mail:
+        group: 欢迎邮件
+        label: 欢迎邮件
+        placeholder: 请在此处输入该课程的欢迎邮件,如果没有邮件发送请留空白。
+
+    course_management:
+      enrollments:
+        user_not_enrolled: "用戶<strong>%{user_name}(%{user_email})</strong>不参加此課程!"
+        # EN-fallback user_not_confirmed: The user cannot be enrolled in this course because the account has not yet been confirmed.
+        enroll_user: 用戶注册
+        search_for_user: 查找用户
+        enrollment_id: 课程注册ID
+        user_name: 姓名
+        email: 电子邮箱
+        enrolled: 注册时间
+        features: 预定的功能
+        proctoring: 证书
+        reactivation_html: <span title="Until %{date}">重新激活</span>
+        details: 详细信息
+        submissions: 提交信息
+        progress: 学习进度
+        reset_filter: 重置过滤器
+        copy_id: 复制ID
+      submissions:
+        search_user: "搜索用户："
+        search_reset: 重置过滤器
+        user_submissions: "所有已评分的提交和附加测试，用户："
+        quiz: 测试
+        copy_id: 复制ID
+        title: 标题
+        count: 总计
+        attempts:
+          allowed: 可参与次数
+          unlimited: 无限制
+          remaining: 剩余次数
+          additional: 额外次数
+        add_attempt: "+1"
+        proctoring:
+          processing: "监考。仍在处理..."
+          passed: 监考通过
+          passed_with_issues: 监考通过，但有一些问题
+          failed: 监考失败
+          exclude: 剔除该提交
+          exclude_confirm: 您确定要将此提交从监考系统中剔除吗？
+        actions: 操作
+        submission: 提交
+        submissions: 提交
+        empty:
+          filtered: 该学员在此课程中还没有提交任何测验。
+          course: 看起来这个课程到目前为止还没有提交测验。
+        user: 用户
+        timestamps:
+          label: 时间
+          access: "已访问: %{time}"
+          submit: "已提交: %{time}"
+          not_submitted: 未提交
+        profile: 用户资料
+        access_time: 访问时间
+        submitted: "已提交?"
+        submission_time: 提交时间
+        points: 分数
+        snapshot: "快照?"
+        convert_manually: 手动转换
+        true_text: 是
+        false_text: 否
+      submission_statistics:
+        title: 提交统计
+        submissions: 提交
+        total_submissions: "总提交数："
+        distinct: "提交用户数："
+        total_points: "总分："
+        correct: 正确率
+        wrong: 错误率
+        total: 用户
+        student_performance: 用户表现
+        average_time: "平均花费时间："
+        average_points: "平均得分： "
+        percent_of: "% 中 "
+        seconds: " 秒"
+        limit: " 秒限制时间"
+      policy_url: 隐私声明链接
+    users:
+      create:
+        new: 新建用户
+      index:
+        title: 用户
+        display_name: 平台用户名
+        email: 电子邮箱
+        confirmed: 是否已确认？
+        filter: "通过用户名或电子邮箱过滤："
+        confirmed_true: 是
+        confirmed_false: 否
+        details: 详细用户信息
+        search: 搜索
+        search_by_auth_uid: "通过SSO ID搜索用户。"
+        go: 去
+      form:
+        placeholder:
+          full_name: 名称
+          email: 邮箱
+          password: 密码
+        label:
+          submit: 提交
+          full_name: "名称:"
+          email: "邮箱:"
+          password: "密码:"
+        confirmed: 已确认
+      new:
+        create_user: 创建用户
+
+    user_tests:
+      index:
+        user_tests: 用户测试
+        details: 详细信息
+        edit: 编辑
+        name: 名称
+        start_date: 开始日期
+        end_date: 结束日期
+        course: 课程
+      show:
+        back_to_list: 回到列表
+        details: 详细信息
+        start_date: 开始日期
+        end_date: 结束日期
+        course: 课程
+        alternative: 可选
+        control: "\xA0(Control)"
+        name: 名称
+        participants: 参与人数
+        required_participants: 所需参与人数
+        required_participants_hint: (需要影响因子 0.5 以及权力 0.8)
+        non-finished: 未完成
+        waiting: 等待中
+        mean: 均值
+        effect: 预计效果
+        confidence: 可信度
+        total: 总计
+        metric: 距离
+        filters: 过滤器
+        identifier: 标识
+        max_participants: 最大参与人数
+        active: 已开放
+        confidence_error: 可信度计算出错
+        edit: 编辑
+        download: 导出结果至CSV文件
+        delete: 删除
+      new:
+        new_user_test: 新建用户测试
+        none: 空
+      create:
+        new: 新建用户测试
+      form:
+        label:
+          start_date: 开始日期
+          end_date: 截止日期
+          max_participants: 最大参与数
+        test_groups: 测试组
+        test_group_name: 测试组数 %{number}
+        day_of_week_effects_hint: 请注意不同学习周的影响，我们建议在多周进行测试。
+        test_groups_hint: 使用逗号分隔的组名列表
+        filter_hint: '例如： "性别 == 女性", "注册数 < 2". 支持的域包括所有的个人信息，注册数，教师和管理员。支持的操作符包括 ==, !=, in, <, >, <=, >=, << (between), <=<=. 在输入多个过滤器是请使用逗号分隔。根据不同的操作符，域中所填的值可以是字符串，数字或者使用逗号分隔的列表。'
+      metric:
+        metric_wait_interval_hint: 距离正在评估，请稍作等待。
+      edit:
+        edit_user_test: 编辑用户测试
+
+    teachers:
+      index:
+        title: 授课教师
+        name: 姓名
+        description: 简介
+        details: 详细信息
+      show:
+        picture: 照片
+        description: 简介
+        edit: 编辑教师信息
+      new:
+        create_teacher: 创建教师信息
+      edit:
+        edit_teacher: 编辑教师信息
+
+    videos:
+      index:
+        created_at: 添加日期
+        headline: 视频
+        id: 身份证
+        provider: 供应商
+        dimensions: 尺寸
+        height: 高度
+        duration: 时长
+        quality: 质量
+        poster: 封面图片
+        edit: 编辑
+        delete: 删除
+        sync: 同步
+        hd_stream: HD
+        sd_stream: SD
+        hls_stream: HLS
+        confirm: "请再次确认您的操作"
+        deleting: "删除中..."
+        search: 搜索
+        filter_videos: "输入文件前缀搜索："
+      provider_type:
+        vimeo: Vimeo
+        kaltura: Kaltura
+
+    video_providers:
+      title: 视频源
+      index:
+        name: 名称
+        edit: 编辑
+        delete: 删除
+        confirm_delete: 您确定要删除该视频源吗？
+        deleting: 正在删除
+        id: ID
+        token: Token
+
+    lti_providers:
+      index:
+        title: LTI提供方
+        create: 创建新的LTI供应商
+        empty_state: 目前还没有LTI提供者。您可以通过 "创建新的LTI提供者 "按钮创建一个。
+        confirm_delete: 删除将破坏所有仍然引用该提供者的课程项目。你真的想删除它吗？
+        domain: 启动URL
+      new:
+        headline: 添加LTI提供者
+      edit:
+        headline: 编辑LTI提供者
+
+  announcements:
+    new:
+      headline: 新公告
+    edit:
+      headline: 编辑公告
+    operations:
+      list_announcements: 公告列表
+      new: 创建新公告
+      edit: 编辑
+      delete: 删除
+    form:
+      translations: 翻译
+      save: 保存
+      save_and_send: 保存并发送
+      save_and_test: 保存并发送测试邮件
+    no_news: 当前没有新闻发布，请稍后再来。
+    see_older: 查看旧版公告
+    older: 旧公告
+    title: 新闻
+
+  teachers:
+    show: 显示教师信息
+    promote: 授予教师身份
+
+  channels:
+    view_all: 查看所有课程
+    show_details: 显示详细课程信息
+    show:
+      previous: 上一个
+      next: 下一个
+      about: "关于此 <b>%{name}</b> 课程系列"
+      filter:
+        search: 搜索
+      empty_state: 该频道目前没有可用的课程。
+      empty: 不幸的是，我们在这个频道中没有发现任何符合这一搜索的课程。
+
+  courses:
+    ago: "发布于%{timeago}"
+    preview:
+      has_started: 该课程已经开始
+      button_details: 显示详细课程信息
+      button_enroll: 注册该课程
+      button_enter: 进入课程
+      button_progress: 显示我的进度
+      button_quit: 离开课程
+      button_reactivate_course: 重启本课程
+      button_goto_external: 去外部课程
+      proctoring:
+        booked: 您已经预订认证证书
+        register_with_smowl: 请与我们的合作伙伴校准您的照片
+        upgrade_not_possible: 无法再预定认证证书。
+      unenrollment_disabled: 要取消课程，请联系课程提供者。
+
+    nav:
+      sections: 学习
+      syllabus: 概貌
+      progress: 进度
+      certificates: 证书
+      info: 课程明细
+      knowledge_documents: 文档
+      discussions: 讨论
+      announcements: 公告
+      learning_rooms: 学习小组
+      teacher:
+        administration: 课程管理
+        # EN-fallback welcome: Welcome, teacher!
+        # EN-fallback pin: Pin menu
+        dashboard: 控制面板
+        # EN-fallback alerts: Alerts
+        # EN-fallback item_visits: Item visits
+        # EN-fallback videos: Videos
+        # EN-fallback downloads: Downloads
+        # EN-fallback rich_texts: Text items
+        # EN-fallback quizzes: Quizzes
+        # EN-fallback item_details: Item details
+        # EN-fallback forum_stats: Forum
+        # EN-fallback activity: Activity
+        # EN-fallback geo: Geographic
+        # EN-fallback announcements: Announcements
+        # EN-fallback social: Social shares
+        # EN-fallback referrers: Referrers
+        content: 课程结构和内容
+        lti: LTI提供方
+        peer_assessment: 同伴互评
+        transpipe: 字幕(TransPipe)
+        settings: 课程性质
+        permissions: 课程权限
+        # EN-fallback certificates: Certificates
+        enrollments: 学生注册
+        grading: 作业提交
+        # EN-fallback forum: Forum moderation
+        visuals: 课程影像
+      admin:
+        alerts: 查看问题
+        certificate_templates: 证书模版
+        # EN-fallback open_badge_templates: Open Badge Templates
+
+  course:
+    redeem_voucher:
+      cancel: 回到课程
+      for_course: "你要兑换以下课程的优惠券"
+      proctoring_smowl:
+        title: 预订证书
+        text: 一旦你兑换了凭证代码，你就会被带到已评分作业的在线监考的校准处。在兑换代金券之前，请确保你使用的是<a href='https://smowl.net/en/faqs-proctoring-smowl/requirements/' target='_blank' rel='noopener'>兼容的浏览器，用于监考考试</a>。
+        info_title: 没有优惠券代码？
+        info_text: "如果您想购买合格证书的凭证代码，请访问<a href='%{link}' target='_blank'>%{brand}商店</a>. 有关定价细节和更多信息，请查看我们的<a href='/pages/document_types' target='_blank'>合格证书</a>页面。"
+    card:
+      cop: 下载参与证明
+      roa: 课程结业证书
+      qc_html: 证明书 / ECTS
+      language_and_subtitles: "%{language} + %{subtitle_languages} 字幕"
+      button_details: 详细内容
+      button_enroll: 注册该课程
+      button_resume: 继续
+      button_reactivate_course: 重新激活
+      button_visit: 访问
+      date: 课程日期
+      classifiers: 课程分类器
+      certificate: 可获得的最高证书
+      language: 可提供的课程语言和字幕
+      buttons_menu:
+        details: 显示详细的信息
+      label:
+        reactivated: 重新激活
+    courses:
+      date:
+        self_paced_since: "自%{date}起开始自学"
+        beginning: "即将开始于 %{start_date}"
+        range: "%{start_date} - %{end_date}"
+        coming_soon: 敬请期待
+      index:
+        filter:
+          channel: 频道
+          language: 语言
+          status: 课程状态
+          submit: 筛选
+        filter_by: 按文本过滤
+        placeholder: 你想学什么？
+        loading: 寻找课程...
+        empty_state: 目前还没有可用的课程。
+        empty: 不幸的是，我们没有找到任何符合这一搜索的课程。
+        action: 显示所有课程
+        current: 当前课程
+        upcoming: 计划课程
+        archive: 已归档课程
+        reactivation_upsell_html: "您现在有机会在自定义进度模式下获得更多课程的成就记录。了解更多关于我们的<a href='/pages/course_reactivation' target='_blank'>重新激活课程选项</a>。"
+        load_more: 载入更多课程
+        error: 在加载其他课程时发生错误。请稍后再试。
+
+      show:
+        header_subtitle: 提供者 %{teachers}
+        user_enrolled: 您已注册
+        about_content: 课程信息
+        content: 课程内容
+        how_to_enroll: 订阅本课程
+        how_to_enroll_text: 该课程是免费的。 只需在%{brand}上注册一个帐户并参加课程！
+        how_to_register_text: 对于本课程，您必须直接向课程提供者注册。
+        button_enroll: 现在注册吧
+        button_register: 现注册在
+        dates_and_stats: 日期和统计
+        teacher_title: 该课程提供者
+        course_runtime: 开课时间
+        categories: 类别
+        language: 语言
+        reactivate_course:
+          headline: 重启本课程
+          notice: "您可以访问所有评分测试并在最后获得课程证书，通过 <a href='/pages/course_reactivation' target='_blank'>重启课程</a>. 页面了解更多"
+          upgrade: 重启
+          upgrade_now: 现有重启!
+        open_mode:
+          text: 您可以在非登录状态下观看很多我们的课程视频。
+        enrollment_policy:
+          overlay:
+            title: "注册到"
+            text: 在您参与课程之前，请您阅读并且同意课程提供者的数据保护政策。
+            link: 显示该条款
+            accept: 我已经阅读并同意此数据保护政策。
+        invite_only_notice: 此课程仅限邀请注册。
+        certificates: 证书要求
+        qc_requirements: "<b>合格证书</b>授予那些进行了预定<b>并且</b>取得了达标成绩的用户"
+        roa_requirements: "<b>课程证书</b> 授予者需要至少取得课程总分的百分之 <b>%{roa_threshold}%</b>。"
+        cop_requirements: "<b>参与证明</b> 授予者需要至少学习了所有课程资料的百分之 <b>%{cop_threshold}%</b>。"
+        open_badge_requirements: "完成课程可获得<b>开放徽章</b>。"
+        guidelines_link: "欲知详情，请访问<a href='/pages/roa_guidelines'>证书指南</a>."
+        qc_guidelines_link: "更多信息请访问 <a href='/pages/document_types'>合格证书指南</a>."
+        learning_goals: 你将学到什么
+        target_groups: 本课程适用于谁
+
+      enrollment_statistics:
+        currently_enrolled: 当前注册用户
+
+      announcements:
+        empty_state: 当前没有公告，请在课程开始后重新检查。
+        edit: 编辑
+        delete: 删除
+        new: 添加新的课程公告
+        title: 课程公告
+        ago: "%{timeago} 以前"
+        unpublished: 未发布
+
+      create:
+        edit: 编辑课程
+
+      rating:
+        headline: 评分
+        details: "本课程已由<b><span itemprop='ratingCount'>%{votes}</span></b>位用户进行了五分制评分，平均得分为<b><span itemprop='ratingValue'>%{stars}</span></b>"
+
+    progress:
+      learner_dashboard: 我的学习进度
+      graded_score: 评分点数
+      selftest_score: 自测点数
+      visited_score: 访问过的项目
+      visited_items: "%{visited} 中 %{available} 的已访问项目"
+      visited_empty: 无货
+      visits: "%{visited} 的 %{available}"
+      section_score:
+        graded: "分级: "
+        selftests: "自我测试: "
+        visited: "已访问: "
+      section_material: 科室材料
+      section_statistics: 章节统计
+      statistics:
+        main: 作业
+        bonus: 奖励
+        selftests: 自我测试
+        items_taken: "%{taken} 的 %{total} 采取"
+      progress_table: # deprecated
+        assignments: 作业
+        bonus: 奖励
+        selftests: 自我测试
+        visited: 已完成
+        total: 总分
+
+      show:
+        item_locked: （锁定）
+        points: 分
+        empty_msg: 当前还没有项目，不能显示任何进度，请稍后再来。
+        quizzes_taken: "已完成 %{taken} / %{count}"
+        items_visited: "已完成 %{visited} / %{existing}"
+      records:
+        documents_headline: 我的课程文档
+        documents_intro: 当课程结束时（教学人员发布最后的成绩）您就可以下载您的文档。
+        certificates_tab_info: 课程结束后（教学人员已经公布了最终结果）您就可以<a href='./certificates'>在新的证书页面</a>下载您的证书。
+      overview:
+        open_mode:
+          message: "列出的学习单元属于课程<b>%{title}</b>。您想访问所有课程内容吗？"
+          enroll: 自己报名吧
+          item: 这个学习单元不能预览。请注册以继续学习该课程。
+        empty_msg: 本課程沒有可用的概述。
+        continue: 继续学习
+
+    admin:
+      certificate_templates:
+        headline: 证书与开放徽章模板
+        index:
+          empty_msg: 没有可用的证书模板
+          new: 添加新模板
+          record_count: 相关记录
+          type: 类型
+          actions: 行动
+          edit: 编辑
+          preview: 预览
+          download: 下载
+          delete: 删除
+          confirm_delete: 您确定要删除此模板吗？
+        new:
+          headline: 新建证书模板
+        edit:
+          headline: 编辑证书模板
+      visuals:
+        # EN-fallback edit: Edit visuals
+        # EN-fallback back: Back to course editor
+
+    certificates:
+      intro_title: 我能在这里找到什么？
+      intro_text: 这一页罗列了您在这门课程所取得的成就。您可以看到您可以获得哪些成就，哪些您已经获得了，也可以看到证书何时可以下载！
+      intro_guidelines_html: 请参考<a href="/pages/roa_guidelines">证书指南</a>，了解更多信息。
+      requirements: 所需
+      achieved_state: 已实现
+      in_progress_state: 进行中
+      in_progress_button: 检查我的进展
+
+  certificate:
+    template:
+      top_v1: "您的成绩在本门课程所有活跃的学生中，名列前茅，属于前%{top}%。"
+      born_v1: "出生于 %{birthday}"
+      score_v1: "按照百分制，您的课程最终成绩是%{percent}。(%{points}/%{max_points})"
+
+      top_v2: "是前%{top}%活跃的课程参与者"
+      born_v2: "出生于 %{birthday}"
+      score_v2: "%{points} 分，(得分率%{percent}%)"
+      email_v2: "电子邮件: %{email}"
+
+      born_v3: "%{birthday}"
+      score_v3: "%{points} / %{max_points} 分，(得分率%{percent}%)"
+
+      verify: "在线认证：%{verification_url}"
+
+  knowledge_documents:
+    documents: 文档
+    title: 标题
+    description: 简介
+    language: 语言
+    upload_file: 上传文档
+    id: Id
+    filename: 文件名
+    size: 文件大小
+    path: 文件路径
+    download: 下载
+    actions: 操作
+    no_documents: 暂无文档
+    filter: 筛选
+    or_course: 按课程过滤
+    reset_filter: 重置过滤器
+    hint: 只能上传PDF文件，且文件大小不可以超过8MB。
+    corresponding_document: 相关文档
+    add_language: 添加语言版本
+    edit_document: 编辑文档
+    tags: 标签
+    languages: 语言
+    select_courses: 选择课程
+    select_tags: 选择标签
+    corresponding_courses: 相关课程
+    delete: 删除
+    delete_all: 删除文档及其其他语言版本
+    delete_localization: 删除其他语言版本
+    submit: 提交
+    update: 上传文档
+    internal:
+      information: 内部信息
+      title: 内部标题
+      title_placeholder: 请输入本文档的内部标题，该标题仅限管理员可见。
+      description: 文档内部简介
+      description_placeholder: 请输入本文档的内部简介，该简介仅限管理员可见。
+    localization:
+      edit: 编辑其他语言版本
+      create: 添加新语言版本
+      this_translation: 本文档的当前语言版本
+      translations: 其他语言版本
+      language: 语言
+      file: 文件 (pdf)
+      file_placeholder: 选择上传文件
+      old_file: 已有文件
+      new_file: 上传新文件 (pdf)
+      show_file: 显示当前文件
+      title: 标题(当前语言版本)
+      title_placeholder: 输入所选语言版本的文档标题
+      description: 简介（当前语言版本）
+      description_placeholder: 输入本文档的简介，请确保所用语言与附件语言一致。
+    courses: 所属课程
+    courses_placeholder: 请选择本文档的所属课程。
+    public: 开放访问？
+    create: 创建一个文档
+    platform: 发布平台
+    index: 返回索引
+    cancel: 取消
+    help:
+      help: 帮助
+      new: 文档可以使用多语言显示。您可以通过本表单创建一个文档，但是请您至少提供一个语言版本，并上传文件请使用PDF文件以确保最大的兼容性。
+      edit: 文档可以使用多语言显示。您可以通过本表单编辑一个文档的内部信息。内部信息仅限管理员查看，用以明确的表达本文档的内容的目的。您可以在下方查看和编辑本文档的各语言版本。
+
+  sections:
+    admin:
+      action: 操作
+      edit: 编辑
+      move_up: 向上移动
+      move_down: 向下移动
+      move_to_top: 移动至顶端
+      move_to_bottom: 移动至底部
+      delete: 删除
+      delete_confirm: 这将删除该部分。
+      delete_with_alternatives_confirm: 这将删除该部分和所有相应的替代部分。
+      delete_forbidden: 不可能删除
+      delete_forbidden_text: 该部分仍然包含元素。在删除该部分之前，先把它们删除。
+    unlocked_since: 章节解锁于%{date}
+    unlocked: 章节被解锁
+    optional_section: " (optional)"
+    locked_since: 章节锁定于%{date}
+    locked_until: 章节解锁于%{date}
+    locked_on: "将锁定%{date}"
+    unpublished: 章节未发布
+    published: 章节已发布
+    new: 添加章节
+    show_uuids: 显示UUID
+    hide_uuids: 隐藏UUID
+    item:
+      delete: 删除项
+      create: 添加项
+      create_headline: 在章节中添加新项
+      edit_headline: 编辑项
+      edit_subtitles: 编辑字幕
+      unpublished: 项目未发布
+      locked_until: "章节解锁于%{date}"
+      locked_since: "章节锁定于%{date}"
+      locked_on: "项目将在%{date}"
+      time_effort: "时间效果趋于.%{time_effort}"
+    index:
+      label:
+        rich_text: 文本
+        video: 视频
+        quiz: 测试
+        lti_exercise: 练习
+        peer_assessment: 同伴互评
+      clone_course:
+        button: 克隆课程
+        placeholder: 克隆课程课程代码
+        course_code_empty: 克隆课程课程代码不能为空
+        new_course_not_empty: 用于克隆的目标课程可能无内容
+        clone_started: "开始克隆课程，您可以在 <a href='/admin/courses'>课程列表</a>中找到克隆的课程"
+      recalculate_learning_evaluation: 现在重新计算
+
+    alternative:
+      create: 添加可选章节
+      decision_heading: 请选择您要关注的主题
+      select: 选择
+      continue: 继续
+
+  items:
+    new:
+      back_to_editor: 返回课程编辑界面
+    show:
+      hide_nav: 隐藏导航
+      show_nav: 显示导航
+      toggle_nav_hint: 切换导航
+      coursestate:
+        available: 课程进行中
+        was_available: 课程已结束
+        archive: 课程已归档
+        preparation: 课程准备中
+        upcoming: 课程未开始
+        hidden: 课程被隐藏
+      prev_item: 上一个
+      next_item: 下一个
+      unsupported_browser: 不支持您的浏览器，请使用更新的版本
+      video:
+        preview:
+          info: "本视频属于%{platform}课程<b>%{course_title}</b>。你想看更多吗？"
+          enroll: 免费为自己报名
+        video_events: 视频事件
+        activity: 活动
+        no_activity: 暂无
+        about: 关于这个视频
+        video_downloads: 下载视频
+        additional_downloads: 下载其他资料
+        download:
+          video: MP4视频
+          hd_video: "使用“保存为”MP4（HD）视频"
+          sd_video: "使用“保存为”MP4（SD）视频"
+          subtitled_video: "使用“保存为”MP4（带字幕）视频"
+          slides: 演讲幻灯片为PDF
+          transcript: 演讲稿
+          reading_material: 阅读材料
+          audio: MP3音频
+          disabled: 由于许可规定，下载此视频/音频是不可能的。
+        ask_own_question: 开始一个新话题
+        questions_and_discussions: 主题
+        view_or_answer: 查看或回答
+        num_questions:
+          zero: 尚无讨论主题
+          one: 1个问题
+          other: "%{count} 个问题"
+        num_replies:
+          zero: 没有答案
+          one: 1个答案
+          other: "%{count} 个答案"
+        transcript:
+          select_language_settings: 需要使用字幕时，请在视频播放器设置中选择一种语言。
+          current_position: 转换到当前位置
+      quiz:
+        instruction: "说明"
+        start_quiz_now: "现在开始测试"
+    requirements:
+      headline: 未满足的先决条件
+      not_fulfilled: "这个单元有一些先决条件，你还没有完成。请完成所有这些单元："
+      result_requirement: 完成本单元，得分至少达到总分的%{threshold}%。
+      visit_requirement: 参加并完成这个单元。
+    quiz:
+      nav:
+        properties: 测试设置
+        questions: 问题
+      time_limit: 时间限制
+      allowed_attempts: 允许参与次数
+      graded_quiz: 这是评分测试
+      bonus_quiz: 这是奖励测试
+      survey_quiz: 这是一个问卷调查
+      quiz_is_selftest: 检测您上个小结的学习情况！您可以任意参加该测试。
+      quiz_is_survey: "请与我们分享您对平台的体验。我们诚挚的邀请您花一分钟参与我们的问卷调查以分享您的使用感受。您珍贵的反馈将能极大的帮助我们提高所有用户在%{brand}上的学习体验。"
+      question: 问题
+      question_text: 问题文本
+      question_explanation: 解释
+      question_alert: 请再次检查此问题！
+      show_question_explanation: 显示解释
+      hide_question_explanation: 隐藏解释
+      actions: 操作
+      edit_question: 编辑问题
+      move_question_up: 向上移动问题
+      move_question_down: 向下移动问题
+      move_question_to_top: 移动问题到顶部
+      move_question_to_bottom: 移动问题到底部
+      delete_question: 删除问题
+      delete_question_confirm: 您确定要删除这个问题吗？
+      add_answer: 添加答案
+      question_type: 问题类型
+      select_question_type: 请选择一个问题类型
+      enter_question: 在此处添加您的问题
+      enter_question_explanation: 在此处添加您的解释
+      points: 分数
+      shuffle_answers: 选项随机排序
+      answer: 答案文本
+      answer_type: 答案类型
+      select_answer_type: 请选择答案类型
+      enter_answer: 在此处添加您的答案
+      answer_explanation: 解释
+      answer_explanation_text: 在此处添加问题解答
+      answer_correct: 回答正确
+      unlimited_time: 无限制时间
+      unlimited_attempts: 无限制参与次数
+      instruction: 说明
+      instruction_placeholder: 在此处输入帮助说明
+      start_quiz_now: 现在开始测试
+      publish_results_at: 公布结果日期
+      lock_submissions_at: 提交锁定于
+      skip_welcome_page: 跳过欢迎页面
+      edit: 编辑测试
+      import: 从XML导入测试题
+      confirm_start_quiz: 本测验已评分，不能暂停。开始测验前，请确保您有足够的时间完成测验。
+      instructions_placeholder: "请输入评分测试的帮助说明（题型与得分）。"
+      exclude_from_recap: 禁止测验回顾
+      question_types:
+        multiple_choice_question: 单选题
+        multiple_answer_question: 多选题
+        free_text_question: 问答题
+        essay_question: 小论文
+      submit:
+        question: 创建提问
+        answer: 创建回答
+      proctoring:
+        book_certificate: 预订证书
+        certificate_booked:
+          title: 您已成功预订了您的证书
+          instructions: "请务必遵守规则 (<a href='https://smowl.net/en/faqs-proctoring-smowl/camera-monitoring/' target='_blank' rel='noopener'>常见问题</a> | <a href='/pages/proctoring_guidelines' target='_blank'>指南</a>). 如有违反，我们不能颁发证书。永远记住。"
+          exclusion_criteria:
+            <ul><li>你必须是摄像机前唯一的人。如果没有人、多人或除注册人之外的另一个人出现，监考将失败。</li>
+            <li>选择一个不受干扰的考试时间，在考试期间不必离开你的位置。</li>
+            <li>确保有足够的光线条件，并确保你的脸清晰可见。后面的光源会使你的脸在镜头里显得太暗。</li>
+            <li>不要用任何东西遮住你的头或脸（帽子、太阳镜......）。可以使用阅读眼镜。</li>
+            </ul>
+            <p>技术建议。</p>
+            <ul><li>确保你的相机是打开的，并且功能齐全。取下你的网络摄像头盖。</li>
+            <li>关闭所有能访问摄像头的其他应用程序。</li>
+            <li>考试期间，确保作业标签是你浏览器中唯一打开的标签。</li></ul>
+        deadline_passed: 证书的注册期已过。你仍然可以通过完成分级测验来获得成就记录。
+        upgrade_not_possible: 你已经提交了太多的每周作业，因此不能再预订证书。你仍然可以通过完成分级测验来获得成就记录。
+        upgrade_information:
+          title: 你想预订证书吗？
+          info: 你仍然可以在<strong>%{deadline}</strong>日之前注册证书. 证书是一个付费附加项目。你总是可以通过完成分级测验获得免费的成就记录。
+          registration_periods_info: <b>注册期限。</b> 你只能在第二次分级作业的提交截止日期前注册证书。如果提交第二份作业的截止日期已过，就不能再申请监考了。
+    lti:
+      allowed_attempts: 允许参与次数
+      bonus_exercise: 这是奖励练习
+      bonus_points: 成功解决该任务可以获得附加分
+      custom_exercise_fields: 该练习附加参数
+      exercise_title: 可选练习题目
+      graded: 这是一个评分练习
+      instruction: 说明
+      launch_lti_exercise: 运行练习工具
+      main_exercise: 这是该章节主要练习
+      results: 练习结果
+      ungraded: 这是一个无评分练习
+      wait_message_new_window: 外部工具将在新窗口中打开
+      wait_message_same_window: 外部工具将会立刻加载
+      weight: 分数
+      lti_provider: 第三方LTI
+      lti_providers_global: 全球供应者
+      lti_providers_course: 课程供应者
+      custom_fields_placeholder: "key1=值1&key2=值2"
+      not_available: 不能使用这个练习了。
+      provider_deleted: 本项目所附的LTI供应商已被删除。
+    rich_text:
+      form:
+        markup: 正文
+        placeholder_text: 请输入正文
+    edit:
+      quiz_info: 测试概览信息
+      questions: "题目数： "
+      quiz_total_points: "测试总分值： "
+    deleted_quiz: "已成功删除该测试"
+    deleted_richtext: 删除文本项目。
+    deleted_item: "已成功删除该项。"
+    type_label:
+      video: 视频
+      rich_text: 文本
+      peer_assessment: 同行评估
+      bonus_peer_assessment: 奖励性同伴评估
+      self_test: 自我测试
+      graded_test: 分级测试
+      bonus_test: 奖励测试
+      survey: 调查
+      exercise: 练习
+      graded_exercise: 分级练习
+      bonus_exercise: 奖励练习
+
+  lti_provider:
+    actions: 操作
+    confirm_delete: 删除操作将会移除该提供者所有的项目？确定删除？
+    consumer_key: 用户密码
+    custom_fields: 自定义字段
+    edit: 编辑LTI提供者
+    delete: 删除LTI提供者
+    domain: 加载URL
+    presentation_mode: 演讲模式
+    shared_secret: 共享密码
+
+  next_dates:
+    course_start: 课程开始于
+    section_start: "%{title} 开始于"
+    item_submission_deadline: "%{title}的提交结束于"
+    item_submission_publishing: "%{title}的提交将发布于"
+    on_demand_expires: 您只能在重启课程过期前才有机会获得课程证书，您的重启课程过期于
+    deadline_widget:
+      tooltip: "查看即将到来的截止日期"
+      empty_state: "目前没有很迫切的提交截止日期。"
+      events:
+        on_demand_expires: "您的课程激活状态将在 %{when} 后到期"
+        item_submission_deadline: "距离截止日期还有 %{when}"
+
+  ical:
+    course_start: "课程 %{title} 开始"
+    section_start: " 课程 %{course_title} 的 %{title} 开始"
+    item_submission_deadline: "%{title} 的提交结束"
+    item_submission_publishing: " %{title} 的提交结果即将发表"
+    course_start_desc: " %{site} 的课程 %{title} 开始"
+    section_start_desc: " %{site} 的课程 %{title} 的 %{course_title} 开始"
+    item_submission_deadline_desc: " %{site} 的 %{title} 的提交结束"
+    item_submission_publishing_desc: " %{site} 的 %{title} 的提交结果即将发表"
+
+  dashboard:
+    courses:
+      current: 当前课程
+      upcoming: 我的即将开始的课程
+      completed: 已完成课程
+    not_enrolled_upcoming: '您当前并未注册任何课程，请通过<a href="/courses">我们的课程</a> 注册并开始课程学习！'
+    mark_completed: 标记为已完成
+    mark_completed_confirmation: 通过此选项，您可以将该自学课程从我的当前课程列表中永久的移动到已完成课程列表中。确认后，您依然可以在此页面访问该课程。
+    more_courses: '提示: 您可以在 <a href="/courses">已归档课程</a> 中找到您没有注册的课程，注册课程并自学（无证书）'
+    sidebar:
+      dates: 下一次上课时间
+      recommendations: 其他课程
+    starting_soon: 即将开始
+    started: 已开始
+    profile:
+      my_profile: 我的用户资料
+      service_unavailable: 这个服务目前不可用,请稍后再尝试一遍.
+      error_message: 很抱歉这个数据不能被存储,请检查一下你的输入再刷新.
+      name: 姓名
+      name_text: 您此处填写的姓名将显示在证书上。
+      display_name: 平台用户名
+      display_name_text: 您此处填写的用户名将显示在平台中。
+      resulting_display_name: 您在平台中的用户名将显示为
+      additional_info: 附加信息
+      additional_info_text: 该信息用于统计分析以帮助我们改善我们的服务，这些信息是化名的，不会被公共访问。
+      required_info: 所需信息
+      education: 最高学历
+      age: 年龄
+      gender: 性别
+      career: 专业领域
+      background_in_IT: 信息和通信技术（ICT）背景
+      about_me: 关于我
+      about_me_text: 一些关于您的信息
+      identities: 连接标识
+      delete_account: 删除账号
+      delete_account_buttontext: 删除账号
+      delete_account_confirm_text: 您确定要这样做吗？在此之后，您将无法再访问您的账号和学习内容，并且此操作时无法恢复的。
+      delete_account_text: "您可以在这里永久性删除您在 %{brand} 账号:"
+      affiliation: 隶属机构
+      career_status: 职业状态
+      highest_degree: 最高学历
+      background_it: IT 背景
+      professional_life: 职业生涯
+      position: 职位
+      country: 国家
+      city: 城市
+      change_password: 更改密码
+      change_password_text: 更改密码前需要您输入您的旧密码，如果您忘记密码请退出并使用登录表格中<i>忘记密码</i>按钮
+      change_password_callout: 更改凭证后，你将需要在其他浏览器中再次登录
+      password: "密码"
+      old_password: "旧密码"
+      new_password: "新密码"
+      password_confirmation: "确认密码"
+      birthdate: "出生日期"
+      select_birthdate: "请选择"
+      show_birthdate_on_record: "您可以在<a href='%{url}'>证书</a>中决定是否将您的生日显示在文档中。"
+      combodate_format: "YYYY-MM-DD"
+      combodate_viewformat: "MMMM D, YYYY"
+      combodate_template: "MMMM DD, YYYY"
+      not_set: "尚未填写"
+      current_email: "您当前的邮箱是%{email}。"
+      add_email: "添加一个新的电子邮件地址"
+      pending_email_change: "有一个尚未处理的邮箱变更请求!"
+      unconfirmed_mails_present: "您已要求更改邮箱，请按照我们发送给您的确认邮件中的指引确认新的邮件地址。 "
+      unconfirmed_mail_resend: "重发确认邮件"
+      unconfirmed_mail_cancel_request: "取消"
+      primary_email: 您的主要邮箱地址
+      secondary_emails:
+        title: 此账户关联的其他邮箱地址
+        show: 显示
+        hide: 隐藏
+        promote: 改变主要邮箱
+        confirm_promote: 您确定要改变您的主要邮箱地址吗？
+        delete: 删除
+        confirm_delete: 您确定要删除该邮箱地址吗？
+      authorizations:
+        title: 社交和企业登录
+        confirm_delete: 您真的想要中断与现有账户的关联吗
+        invite_to_switch: <b>您想将您的社会或企业登录切换到另一个身份吗？</b>首先连接新的身份。然后您可以删除您不再需要的单点登录条目。
+      settings:
+        career_status:
+          none: 没有
+          student: 学生
+          professional: 专业
+          academic_researcher: 研究人员
+          teacher: 教师
+          other: 其他
+        highest_degree:
+          none: 没有
+          high_student: 高中
+          bachelor: 学士
+          master: 硕士
+          diplom: Diplom
+          magister: Magister
+          phd: 博士
+          other: 其他
+        background_it:
+          none: 没有
+          beginner: 初级
+          advanced: 高级
+          expert: 专家
+        professional_life:
+          none: 没有
+          up_to_5_years: 最多5年
+          up_to_10_years: 最多10年
+          more_than_10_years: 10年以上
+        position:
+          none: 没有
+          intern: 实习
+          technician: 技术人员
+          project_manager: 项目经理
+          team_leader: 团队领导
+          department_head: 部门主管
+        gender:
+          not_set: 未设置
+          male: 男
+          female: 女
+          other: 其他
+        subscribed_to_newsletter:
+          "true": 是
+          "false": 否
+        country:
+          not_set: 未设置
+          ac: 阿森松岛
+          bt: 不丹
+          tl: 东帝汶
+          cn: 中国
+          mo: 中国澳门特别行政区
+          hk: 中国香港特别行政区
+          cf: 中非共和国
+          dk: 丹麦
+          ua: 乌克兰
+          uz: 乌兹别克斯坦
+          ug: 乌干达
+          uy: 乌拉圭
+          td: 乍得
+          ye: 也门
+          am: 亚美尼亚
+          il: 以色列
+          iq: 伊拉克
+          ir: 伊朗
+          bz: 伯利兹
+          cv: 佛得角
+          ru: 俄罗斯
+          bg: 保加利亚
+          hr: 克罗地亚
+          gu: 关岛
+          gm: 冈比亚
+          is: 冰岛
+          gn: 几内亚
+          gw: 几内亚比绍
+          li: 列支敦士登
+          cg: 刚果（布）
+          cd: 刚果（金）
+          ly: 利比亚
+          lr: 利比里亚
+          ca: 加拿大
+          gh: 加纳
+          ga: 加蓬
+          hu: 匈牙利
+          mp: 北马里亚纳群岛
+          gs: 南乔治亚岛和南桑威齐群岛
+          aq: 南极洲
+          za: 南非
+          bw: 博茨瓦纳
+          qa: 卡塔尔
+          rw: 卢旺达
+          lu: 卢森堡
+          in: 印度
+          id: 印度尼西亚
+          gt: 危地马拉
+          ec: 厄瓜多尔
+          er: 厄立特里亚
+          sy: 叙利亚
+          cu: 古巴
+          tw: 台湾
+          kg: 吉尔吉斯斯坦
+          dj: 吉布提
+          kz: 哈萨克斯坦
+          co: 哥伦比亚
+          cr: 哥斯达黎加
+          cm: 喀麦隆
+          tv: 图瓦卢
+          tm: 土库曼斯坦
+          tr: 土耳其
+          lc: 圣卢西亚
+          kn: 圣基茨和尼维斯
+          st: 圣多美和普林西比
+          bl: 圣巴泰勒米
+          vc: 圣文森特和格林纳丁斯
+          pm: 圣皮埃尔和密克隆
+          cx: 圣诞岛
+          sh: 圣赫勒拿
+          mf: 圣马丁
+          sm: 圣马力诺
+          sx: 圣马丁岛
+          gy: 圭亚那
+          tz: 坦桑尼亚
+          eg: 埃及
+          et: 埃塞俄比亚
+          ki: 基里巴斯
+          tj: 塔吉克斯坦
+          sn: 塞内加尔
+          rs: 塞尔维亚
+          sl: 塞拉利昂
+          cy: 塞浦路斯
+          sc: 塞舌尔群岛
+          mx: 墨西哥
+          tg: 多哥
+          dm: 多米尼加
+          do: 多米尼加共和国
+          ax: 奥兰群岛
+          at: 奥地利
+          ve: 委内瑞拉
+          bd: 孟加拉国
+          ao: 安哥拉
+          ai: 安圭拉
+          ag: 安提瓜和巴布达
+          ad: 安道尔
+          fm: 密克罗尼西亚联邦
+          ni: 尼加拉瓜
+          ng: 尼日利亚
+          ne: 尼日尔
+          np: 尼泊尔
+          ps: 巴勒斯坦领土
+          bs: 巴哈马
+          pk: 巴基斯坦
+          bb: 巴巴多斯
+          pg: 巴布亚新几内亚
+          py: 巴拉圭
+          pa: 巴拿马
+          bh: 巴林
+          br: 巴西
+          bf: 布基纳法索
+          bv: 布维特岛
+          bi: 布隆迪
+          gr: 希腊
+          pw: 帕劳
+          ck: 库克群岛
+          cw: 库拉索
+          ky: 开曼群岛
+          de: 德国
+          it: 意大利
+          sb: 所罗门群岛
+          tk: 托克劳
+          lv: 拉脱维亚
+          "no": 挪威
+          cz: 捷克共和国
+          md: 摩尔多瓦
+          ma: 摩洛哥
+          mc: 摩纳哥
+          bn: 文莱
+          fj: 斐济
+          sz: 斯威士兰
+          sk: 斯洛伐克
+          si: 斯洛文尼亚
+          sj: 斯瓦尔巴特和扬马延
+          lk: 斯里兰卡
+          sg: 新加坡
+          nc: 新喀里多尼亚
+          nz: 新西兰
+          jp: 日本
+          cl: 智利
+          im: 曼岛
+          kp: 朝鲜
+          zz: 未知或无效地区
+          kh: 柬埔寨
+          gg: 格恩西岛
+          gd: 格林纳达
+          gl: 格陵兰
+          ge: 格鲁吉亚
+          va: 梵蒂冈
+          be: 比利时
+          mr: 毛里塔尼亚
+          mu: 毛里求斯
+          to: 汤加
+          sa: 沙特阿拉伯
+          fr: 法国
+          tf: 法属南部领土
+          gf: 法属圭亚那
+          pf: 法属波利尼西亚
+          fo: 法罗群岛
+          pl: 波兰
+          pr: 波多黎各
+          ba: 波斯尼亚和黑塞哥维那
+          th: 泰国
+          je: 泽西岛
+          zw: 津巴布韦
+          hn: 洪都拉斯
+          ht: 海地
+          au: 澳大利亚
+          ie: 爱尔兰
+          ee: 爱沙尼亚
+          jm: 牙买加
+          tc: 特克斯和凯科斯群岛
+          tt: 特立尼达和多巴哥
+          bo: 玻利维亚
+          nr: 瑙鲁
+          se: 瑞典
+          ch: 瑞士
+          gp: 瓜德罗普岛
+          wf: 瓦利斯和富图纳
+          vu: 瓦努阿图
+          re: 留尼汪
+          by: 白俄罗斯
+          bm: 百慕大
+          pn: 皮特凯恩
+          gi: 直布罗陀
+          fk: 福克兰群岛
+          kw: 科威特
+          km: 科摩罗
+          cc: 科科斯群岛
+          pe: 秘鲁
+          tn: 突尼斯
+          lt: 立陶宛
+          so: 索马里
+          jo: 约旦
+          na: 纳米比亚
+          nu: 纽埃
+          mm: 缅甸
+          ro: 罗马尼亚
+          us: 美国
+          vi: 美属维京群岛
+          as: 美属萨摩亚
+          la: 老挝人民民主共和国
+          ke: 肯尼亚
+          fi: 芬兰
+          sd: 苏丹
+          ss: 南苏丹
+          sr: 苏里南
+          gb: 英国
+          io: 英属印度洋领地
+          vg: 英属维京群岛
+          nl: 荷兰
+          an: 荷属安的列斯群岛
+          bq: 荷蘭加勒比區
+          mz: 莫桑比克
+          ls: 莱索托
+          ph: 菲律宾
+          sv: 萨尔瓦多
+          ws: 萨摩亚
+          pt: 葡萄牙
+          mn: 蒙古
+          ms: 蒙塞拉特群岛
+          eh: 西撒哈拉
+          es: 西班牙
+          nf: 诺福克岛
+          ci: 象牙海岸
+          bj: 贝宁
+          zm: 赞比亚
+          gq: 赤道几内亚
+          hm: 赫德与麦克唐纳群岛
+          vn: 越南
+          az: 阿塞拜疆
+          af: 阿富汗
+          dz: 阿尔及利亚
+          al: 阿尔巴尼亚
+          ae: 阿拉伯联合酋长国
+          om: 阿曼
+          ar: 阿根廷
+          aw: 阿鲁巴
+          kr: 韩国
+          mk: 马其顿
+          mv: 马尔代夫
+          mw: 马拉维
+          mq: 马提尼克群岛
+          my: 马来西亚
+          yt: 马约特
+          mh: 马绍尔群岛
+          mt: 马耳他
+          mg: 马达加斯加
+          ml: 马里
+          lb: 黎巴嫩
+          me: 黑山共和国
+      gamification:
+        badges: 勋章
+
+    documents:
+      my_documents: 我的文档
+      text: "您可以在这里找到您所有的课程文档（证书和参与证明）。只要您的成绩（来自于您的家庭作业和期末考试）高于总成绩的%{roa_threshold}%%，您将获得附带成绩的<i>结课证书</i>。只要您完成所有学习材料的50%您就可以下载<i>参与证明</i>。 参见 <a href='/pages/roa_guidelines'>证书指南</a> 以获得更多信息。"
+      show_birthdate: "在我的文档中显示出生日期"
+      no_documents: 无可用证书。
+      my_upcoming_courses: 我的即将开课课程
+      proctoring_chart: 监考在线结果
+      divergent_certificate_requirements: "差异化证书需求，请访问 <a href='/courses/%{course_code}'>课程详细信息</a>。"
+
+  feeds:
+    headline: "我们的订阅:"
+    txt: "这是我们通过JSON提供的全部订阅。"
+    course_feed_name: 可参与课程
+
+  pinboard:
+    ask_question: 开始一个新话题
+    submit_question: 发表新话题
+    update_question: 保存变化
+    locked_msg: 该课程相关讨论仅可读。无法创建新话题和回复。
+    cancel: 取消
+    search_tag_result_text:
+      one: '您关于"%{tags}"标签的搜索结果'
+      other: '您关于"%{tags}"标签的搜索结果'
+    breadcrumbs:
+      label: "当前位置："
+      all: 全部讨论
+      collabspace: "协作空间 %{name}"
+    general: 常规
+    no_results_search: 对不起，没有搜索结果
+    no_results: 对不起，这里什么也没有
+    question:
+      blocked: 已锁定
+      votes:
+        zero: 0 票
+        one: 1 票
+        other: "%{count} 票"
+      comments: 评论
+      answers: 答案
+      responses: 回复
+      views: 查看
+      ago: "%{timeago} 前"
+      last_activity: 最近活跃
+      answered: 已解决
+      discussion: 讨论
+      unanswered: 未解决
+      closed: 已关闭
+      accept_hint: 此回答对您有帮助吗？如果是，您可以点击此处以采纳此回答。
+    pagination:
+      next: 下一页
+      first: 首页
+      last: 最后一页
+      previous: 上一页
+    filters:
+      all_discussions: 全部讨论
+      discussions_in: 显示此范围内的话题：
+      technical_issues: 技术性主题
+    index:
+      filter:
+        search: 搜索
+        tags:
+          label: 标签
+          placeholder: 选择标签
+        order: 排序
+        sort:
+          activity: 最近活跃
+          age: 最新
+          votes: 最多赞
+      loading: 寻找讨论...
+    reporting:
+      report: 举报
+      block: 锁定
+      reports:
+        zero: 无举报
+        one: 1个举报
+        other: "%{count} 个举报"
+      unblock: 解锁
+      tooltip: 举报不恰当内容
+      blocked: "[已锁定]"
+      question_blocked: "[该提问由于包含不恰当内容已被锁定]"
+      answer_blocked: "[该回答由于包含不恰当内容已被锁定]"
+      comment_blocked: "[该评论由于包含不恰当内容已被锁定]"
+      reply_blocked: 该主题的回复和评论被禁用，因为它被封锁了。
+      success: 已成功收到您的举报
+      error: 提交举报出错
+      admin:
+        headline: 讨论举报审查
+        question_title: 讨论主题
+        type: 类型
+        reporter: 举报者：
+        created: 举报于：
+        view: 详细信息
+        dismiss: 忽略
+        empty_msg: 无举报信息。
+        post_types:
+          question: 提问
+          answer: 讨论
+          comment: 评论
+    sticky: 置顶
+  pinboard_comment:
+    update: 保存变化
+
+  question:
+    answered: 已回答
+    discussion: 讨论
+    unanswered: 现在回答
+    show:
+      back: 返回问题列表
+      subscribe: 关注
+      unsubscribe: 取消关注
+      destroy: 删除
+      confirm_delete: 删除该问题？
+      close: 关闭
+      confirm_close: 关闭该问题?
+      reopen: 重新开启
+      confirm_reopen: 重新开启该问题?
+      closed_msg: 问题已关闭且为只读状态. 无法创建新的回复或评论
+      section_locked_msg: "对于版块%{section}的讨论只可读。无法创建新话题和回复。"
+    question_detail:
+      subscribe: 关注
+      unsubscribe: 取消关注
+      edit: 编辑
+      add_reply: 添加回复
+    comment_form:
+      add_comment: 添加评论
+      create_comment: 发送注释
+    comments:
+      delete: 删除
+      deleting: 正在删除
+      confirm_delete: 您确定要删除吗？
+      edit: 编辑
+    answers:
+      edit: 编辑
+      delete: 删除
+      deleting: 正在删除
+      confirm_delete: 您确定要删除吗？
+    answer_form:
+      answer_question: 新回复
+      submit: 回答问题
+    attachment:
+      download_attachment: 下载附件
+
+  quiz_submission:
+    instruction: 说明
+    questions: 问题
+    retake_quiz: 重做测试
+    your_submissions: "您的提交%{submission_count}"
+    remaining_attempts: "剩余参与次数 %{remaining_attempts}"
+    choose_submission: "选择提交:"
+    total_points: "取得了%{max_points}中%{total_points}分"
+    submit:
+      selftest: 发送我的回答
+      bonus: 发送我的回答
+      main: 发送最后回答
+      survey: 发送反馈
+    proctoring:
+      sidebar_title: 监考中
+      instrumented_info: 由于您正在伪装用户，因此在线监考测试功能已暂停使用。
+      no_issues: 未发现问题
+      data_currently_unavailable: 监考数据正在处理中。
+      feature_tooltip: 违规行为已累加
+      not_passed: 您在本监考测试中出现了重大违规行为，因此您将无法获得本课程证书。违规行为如上所示。
+      passed_with_issues: "您本监考测试中出现了轻微违规行为如上所示。请注意，您的违规行为已经在后台记录并累加，一旦您的违规行为超限，您将无法获得本课程证书。"
+    quiz_sidebar_title: 测试详细信息
+    quiz_results: 测试结果
+    total: 总共
+    question_count:
+      zero: "这个测试没有问题"
+      one: "这个测试有1个问题"
+      other: "这个测试有%{count}个问题"
+    max_quiz_points: "最多%{max_points}分"
+    question_points: "%{points}分"
+    quiz_question_points: "%{points}中%{max_points} 分"
+    quiz_question_points_slashed: "%{points}/%{max_points} "
+    last_saved: "上次保存:"
+    autosave_warning: "<strong>警告:</strong> 与%{brand}服务器连接中断，您的测试无法自动保存，请检查网络连接"
+    time_up: "您已达到该测试的时间限制，您当前填写内容将被自动提交到服务器"
+    times_taken:
+      zero: "您还没有参加这个测试。"
+      one: "您已经参加这个测试 %{count}次"
+      other: "您已经参加这个测试 %{count}次"
+    unlimited_time: 该测试没有时间限制，尽情享受！
+    unlimited_attempts: 您可以无限制的重复参加该测试
+    please_select: 请选择
+    partials:
+      quiz_answer_solution:
+        correct: 回答正确！
+        wrong: 您的答案
+        unselected: 正确答案
+        thanks: 谢谢参与
+        # v Old v
+        correct_selected: 选择正确！
+        correct_unselected: 选择正确！这个陈述是错误的！
+        wrong_selected: "这个陈述是错误的，您不应该选择这个！"
+        wrong_unselected: "这个陈述是正确的，您应该选择这个！"
+      quiz_free_text_answer_solution:
+        correct: 正确！
+        wrong: 您的答案
+        empty: 空答案
+    submitted_quiz_at: "您已于 %{quiz_submission_time} (%{timezone}) 提交了这项作业/测验"
+    submission_points_preview: "您的初评分数是 <b>%{points} / %{max_points} (%{percent}%)</b>"
+    submission_points_preview_note: "<i>请注意：</i> 您不能在提交截止时间之前，于论坛中讨论本项作业/测验的内容，此类行为一经查证，可能会导致您的最终分数低于初评分数。"
+    submitted_survey: "感谢您参与此次问卷调查，您宝贵的反馈将会帮助我们进一步提高您学习体验！"
+    publish_results_at: "结果将会在%{publish_results_date}公布！"
+    submission_points: "%{points}分"
+    submission_deadline_passed:
+      title: "提交截止日期已过"
+      msg: 因为超过提交截止日期无法提交
+    properties:
+      questions:
+        zero: 没有问题
+        one: 1个问题
+        other: "%{count} 个问题"
+      due_date: "%{date}截止 %{time}"
+      time_limit: 最多%{limit}分钟
+      unlimited_time: 没有时间限制
+      points: "%{count}分"
+      allowed_attempts:
+        zero: 没有参加次数
+        one: 仅1次作业提交机会
+        other: "%{count} 参加次数"
+      unlimited_attempts: 无限制参加次数
+      homework: "家庭作业/考试已评分"
+      bonus: 这是一个附加测试
+      selftest: 这是一个无评分自我测试
+      show_results: 答案公布时间：%{datetime}
+    masq_warning: 提交截止日期已过，只有当您伪装成用户时可以提交。
+    admin_area_title: 管理员区域
+    submit_fudge_points: 提交
+    add_fudge_points: 增加补偿分
+    fudge_points: "包含%{fudge_points} 的补偿分"
+    confirm_quiz_submission:
+      text: "您还有题目尚未回答，您确认想要提交您的答案吗？"
+      btn_submit: 提交答案
+      btn_cancel: 取消
+
+  social:
+    allow_detection_via_name: 允许其他用户通过名字找到我
+    allow_detection_via_email: 允许其他用户通过电子邮件找到我
+
+  learning_rooms:
+    name: 名称
+    nav:
+      dashboard: 查看近期动态
+      discussions: 组内讨论
+      etherpad: 合作编写文本
+      video_chat: 开启视频聊天
+      files: 分享文件
+      tpa: "提交工作并进行同行评估 (%{title})"
+      administration: 管理您的合作空间
+    files:
+      headline: 分享文件
+      empty: 暂无文件
+      dropzone:
+        upload_files: 上传文件
+        hint: "允许的文档类型有pdf, txt, xml, jpg, png, gif, docx, docx, pptx, xlsx, odt, odp, ods, csv. 最大大小：%{maxFileSize} MB。"
+      file:
+        title: 文件名
+        # EN-fallback last_modified: Last Modified
+        size: 文件大小
+      details: 详细信息
+      download: 下载
+      delete: 删除
+      confirm_delete: 您真的想从服务器上删除该文件吗？
+    list: 学习小组列表
+    my_rooms: 我的学习小组
+    list_empty_state: 这个课程还没有合作空间。
+    my_rooms_empty_state: 你还没有加入一个学习空间。
+    create: 创建新的学习小组
+    create_button: 创建学习小组
+    update_button: 提交
+    go: 进入学习小组
+    pending: 待定成员身份
+    pending_text: 您正在等待您的成员身份许可
+    join: 加入学习小组
+    request: 请求成员身份
+    quit_membership: 退出成员身份
+    quit_membership_confirm: 您真的希望放弃该学习小组的成员身份吗？
+    is_open: "这是一个<i>开放</i>的学习小组，任何人可以加入。"
+    is_closed: "这是一个<i>关闭</i>的学习小组，您需要从学习小组管理员获得成员身份"
+    team_name: "团队名: %{name}"
+    member_list: 成员列表
+    teacher_information: "“<i>供您参考:</i>”授课老师和助教可以进入学习小组而不需要成为该小组成员。<br />且对开放和关闭的学习小组都适用。"
+    open: 打开
+    closed: 关闭
+    admin:
+      name: 名称
+      headline: 学习小组管理
+      delete: 删除学习小组
+      delete_confirm: 您真的希望删除该学习小组吗？
+      delete_warning: 如果您知道您在做什么，只需点击该按钮！
+      member_management: 成员身份管理
+      properties: 学习小组属性
+      member_name: 成员名字
+      membership_type: 成员类别
+      actions: 操作
+      add_user: 添加一个用户
+      kick_member: 移除成员
+      kick_member_confirm: 您真的希望从该学习小组移除该用户吗？
+      accept_member: 接受成员身份
+      promote_member: 提升成员至管理员
+      promote_member_confirm: 您真的想让该成员成为该学习小组的管理员吗？
+      promote_member_mentor: 提升成员至导师
+      promote_member_mentor_confirm: 您真的想让该成员成为该学习小组的导师吗？
+      demote_member: 降级至普通成员
+      demote_member_confirm: 您真的想放弃对该学习小组的管理权限吗？
+      is_open: 该学习小组是开放的
+      mail_to_member: 给成员写邮件
+      mail: "亲爱的 %{recipient} 先生/女士， 祝好 %{sender}"
+
+    flash_messages:
+      success:
+        delete_room: "已成功删除该学习小组"
+      notice:
+        status_pending: "您已经申请加入学习小组 %{learning_room}。您需要等待管理员审核您的申请。"
+        status_joined: "您已经加入学习小组 %{learning_room}！"
+      error:
+        # EN-fallback delete_space: The Collab Space cannot be deleted.
+
+  users:
+    list:
+      full_name: 全名
+
+    show:
+      back_to_list: 回到用户列表
+      admin_options: 管理员选项
+      change_password: 更改密码
+      delete: 删除用户
+      confirm_delete: "您确定要删除此用户吗?"
+      masquerade: 伪装成用户
+      enrollments: 课程注册人数
+      course_title: 课程标题
+      course_code: 课程代码
+      completed: 已完成？
+      points: 分数
+      quantile: 分位数
+      certificates: 证书
+      confirmation_of_participation: 参与证明
+      record_of_achievement: 结课证书
+      certificate: 证书
+      actions: 操作
+      action_submissions: 显示提交信息
+      user_information: 用户信息
+      password: 密码
+      password_hint: <strong>請注意：</strong>更改密碼不會影響鏈接的 SSO 憑據。如果 SSO 帳戶訪問權限丟失，提供新密碼將允許將現有帳戶鏈接到新的 SSO 憑據。
+
+  time:
+    am: 上午
+    pm: 下午
+    formats:
+      default: ! "%Y年%m月%d日 %A %H:%M:%S %Z"
+      long: ! "%Y年%m月%d日 %H:%M"
+      short: ! "%b%d日 %H:%M"
+      # Datetime is not supported by I18n, instead, time is used.
+      # Proposed workaround is to define datetime formats in the time section.
+      long_datetime: "%B %d, %Y %H:%M"
+      short_datetime: "%B %-d, %Y"
+      very_short_datetime: "%b %d %H:%M"
+      quiz_submission: "%A, %b %d日, %Y, %H:%M:%S"
+      abbreviated_month_date: "%Y. %b. %-d"
+
+  peer_assessment:
+    inline: 同伴互评
+    rubrics:
+      points: "积分"
+    "Xikolo::PeerAssessment::AssignmentSubmission": 提交您的工作
+    "Xikolo::PeerAssessment::Training": 学习评分
+    "Xikolo::PeerAssessment::PeerGrading": 同伴互评
+    "Xikolo::PeerAssessment::SelfAssessment": 自我评估
+    "Xikolo::PeerAssessment::Results": 查看结果
+
+    notes:
+      text: 注释
+      text_placeholder: "您的评论仅教学人员可见"
+      error_header: 错误
+      create_error: "创建注释失败"
+      update_error: "更新注释失败"
+      destroy_error: "删除注释失败"
+      not_allowed: "操作不允许"
+      delete_confirm_title: "确认删除"
+      delete_confirm_text: "永久删除该注释"
+
+    info_texts:
+      general: "同伴互评允许学习者访问其他同伴的工作。这允许教学人员设计需要人为评估的作业，即使是在大规模在线课堂中。 学生可通过审阅和思考其他人的工作提升对课程材料的理解。"
+      "Xikolo::PeerAssessment::AssignmentSubmission": "<strong>提交您的工作:</strong> 在该阶段中，您提交您工作。请确保在截止日期之前提交否则您的工作将不会被评估，同时您也无法获得分数。"
+      "Xikolo::PeerAssessment::Training": "<strong>学习评分:</strong> 在该阶段中，您评估“专家评估”的作业。 您可以通过比较您的评分和教学人员的评分并学会检查和调整您的评估。"
+      "Xikolo::PeerAssessment::PeerGrading": "<strong>同伴互评:</strong> 您会被随机分配（通常3-5个）同伴的作业。通过教学人员提供的标准进行匿名打分。如果您希望您的作业被评估及打分，那么参与同伴互拼是必须的。请确保在截止日期之前提交否则，您的工作将不会被评估。"
+      "Xikolo::PeerAssessment::SelfAssessment": "<strong>自我评估:</strong> 在该阶段中，在评估完您同伴的作业之后再评估您自己的工作。如果您自我评估的分数在您同伴评分分数的10%之内，您将收到奖励分。请确保在截止日期之前提交。"
+      "Xikolo::PeerAssessment::Results": "<strong>查看结果:</strong> 您的分数由汇总您的同伴给予的分数而计算得出。结果（分数及作业回馈）可以“结果部分”中查看"
+
+    advancement:
+      errors:
+        step_incomplete: 请在继续前完成当前步骤
+        no_next_step: 没有下一步以继续
+        invalid_step: 无效步骤
+        not_optional: "不能跳过该步骤"
+
+    coh_text: 我已阅读 <a href="/pages/honor_code" id="coh_link">荣誉准则</a><span class="ml5">并且意识到某些操作（</span><strong>如剽窃，攻击/色情内容及语言，错过截止日期等</strong>）将产生的后果。
+    disallowed_sample_html: 请<strong>不要</strong> 使用我的作业作为案例用于 <a class="js-swal-popup" data-popup-title="%{popup_title} data-popup-message="%{popup_message}" href="#">学习评分阶段</a>.
+    gallery_opt_out: 请 <strong>不要</strong> 在评分过程之外分享我的作业 (如作业提交名单中).
+    saving: 保存...
+    last_saved: 草稿保存
+    start_assessment: 开始同伴互评
+    ack_error: 请先同意荣誉准则
+    error: 错误发生，如果错误依然存在请联系帮助台。
+    resume: 回到同伴互评
+    grading_hints:
+      headline: 一般评分提示
+      inline: 一般评分提示
+      learn_more: 给我一些
+    deadline_passed: 该同伴互评截止日期已过，您很不幸不能够参与。
+    locked: 该同伴互评将解锁于<strong>%{unlock}</strong>
+    locked_notification: 既然您已至此，请花几分钟时间阅读以下内容，该内容在之后的评估开始中必须由您确认。
+    not_authorized: 您无访问该资源权限
+    assessment_closed: 评估关闭
+    team:
+      locked: 您无法使用团队互评，因为您不属于任何一个团队。
+      text_disabled: 需要团队内指定成员为团队提交结果。且请以附件形式提交您的结果！文本提供功能已禁用。
+
+    under_construction:
+      header: 建设中
+      info: 该评估正在建设中。请在教学人员完成评估设置之后再检查
+
+    administration:
+      item_creation_info_text: <p>同伴互评配置将会在项目创建后（如果您创建一个新的项目）发生。<p><p><strong>不能复制已有的评估</strong>, 但新建项目将链接到已有项目该功能主要用于那些较长时间跨度的评估。</p><p>如果您想编辑评估，您可以这样做 <a href="%{edit_path}" target="_blank">这里</a>.</p>
+      new_or_existing: 新/已建评估
+      create_new: 创建新评估
+      edit_header: "'%{title}'的同伴互评配置"
+      save_changes: 保存修改
+      save_success: 您的修改已经成功保存
+      save_failure: 无法保存您的修改
+      overview: 去同伴互评概览
+      file_upload_failed: 未知上传错误
+      missing_permission: You do not have the necessary rights to trigger this action.
+
+      tabs:
+        general: 常规评估配置
+        files: 附件
+        workflow: 工作流步骤
+        rubrics: 评分准则
+
+      peer_assessment:
+        title: 标题
+        instructions: 作业说明<br/>(学生要解决的作业)
+        grading_hints: 评分提示<br/>（页面顶部显示评审人-通常在这里）
+        allow_gallery_opt_out: 仅提交，不公开
+        allowed_attachments: 允许的附件数量
+        allowed_file_types: 允许文件类型<br/>（文件扩展名以逗点前加点隔开）
+        max_file_size: 附件最大大小，以MB为单位
+        usage_disclaimer: 用户免责<br>（文本和/或链接，必须在评估开始前确认）
+        is_team_assessment: 团队互评
+
+      files:
+        info_text: "这些文件将会以作业附件的形式显示并且可下载。使用拖拽区域（点击或拖拽）上传文件。文件会立即开始上传-您需要等待它们完成！"
+
+      steps:
+        select_steps: 选择步骤
+        creation_success: 成功为评估创建初始步骤
+        deadline: 截止日期
+        unlock_date: 解锁日期
+        required_trainings: "所需要的训练次数（推荐设为1至3，考虑到参与者的工作量，此值不宜设得过高）"
+        required_reviews: 需要的评审(<strong>仅仅</strong>在您确定实际工作量时修改该值)
+        optional: 可选步骤
+        results_only: "只显示结果（取消和同伴之间的互动）"
+        update: 更新步骤
+        update_success: 已成功更新工作流
+        results_deadline_notice: 该步骤的截止日期设置了学生可以申诉争议和评价他们收到的评分的时间点
+        step_names:
+          "Xikolo::PeerAssessment::AssignmentSubmission": 作业提交
+          "Xikolo::PeerAssessment::Training": 培训
+          "Xikolo::PeerAssessment::PeerGrading": 同伴互评
+          "Xikolo::PeerAssessment::SelfAssessment": 自我评估
+          "Xikolo::PeerAssessment::Results": 结果
+        setup_hint: 请选择您希望包含在作业中的步骤
+        title: 请确定你想在同行评估中包括哪些阶段
+        initial_setup: 请您确定“同行评估”将包含的阶段，在下一步中，您可以定义每一个阶段的起止时间。
+        setup_info_about: 关于工作流程阶段。
+        setup_info:
+          - 这些步骤是同伴互评的核心并且学生们需要相继的完成
+          - 您可以<strong>移除</strong>培训和自我评估步骤
+          - "但是请您注意培训和自我评估<strong>是可选的</strong>，如果您不想完全将它们移除！"
+          - 培训步骤需要您-教学人员<strong>对20个培训案例进行评分</strong> 以建立学生培训的黄金标准
+          - 默认情况下，<strong>除非没有明确的解锁日期设置</strong>，学生可以在任意时间进行下一步。这将允许您将整个工作流分为多个非连续的部分（比如，多个星期完成）
+          - 尽管解锁日期不是必须的，设置截止日期是强制性的。
+
+      rubrics:
+        hints: 提示/常规解释（将在所有的打分选项之上显示，请保持其简洁性和信息量）
+        create: 创建准则
+        title: 准则标题
+        title_placeholder: 如：写作风格，技术性知识
+        create_success: 成功创建准则
+        index_info: 以下您会找到所有该评估的准则的预览。 您可以编辑和删除准则并且您可以上下移动改变它们的位置，它们的位置对于学生而言<strong>非常重要</strong>，请谨慎设置。
+        confirm_delete_title: 真的要删除准则吗
+        confirm_delete_message: "您将不能恢复它"
+        delete_option_title: 删除该选项
+        delete_option_message: "您将不能恢复它"
+        destroy_success: 准则已删除
+        destroy_failure: 删除准则过程中出错，请联系帮助台如果错误依然存在
+        moved_success: 评分准则已移动
+        moved_failure: 评分准则移动失败
+        moveup: 向上移动准则
+        movedown: 向下移动准则
+        delete: 删除该准则
+        edit: 编辑该准则
+        deadline_warning: 在评估开始培训或同伴评分阶段修改此部分将导致不可预测的后果，我们<strong>强烈不建议!</strong>
+        new_info: "首先，为这个准则选择多少个评分选项。 然后填写以下内容。<strong>请清晰明了的说明评分标准</strong> 在制定准则时请牢记这一点！<strong>这些选项会根据分数自动排序</strong>"
+        options_to_add: 评分选项数量<br/> (去添加)
+        add: 添加
+        options: 准则选项
+        option_description_placeholder: 在此简单描述（可选，但强烈建议使用
+        delete_option: 删除
+        update: 更新准则
+        add_option: 添加新选项
+        confirm_option_delete: "删除该准则选项"
+        update_success: 准则已更新
+        update_failure: 保存准则失败
+        back_to_overview: 返回概览
+        sort_info: 新创建的准则选项会根据它们的分数排序自动的分配位置
+        new: 添加新的准则
+      team_evaluation_rubrics:
+        index_info: 以下是该队内互评的所有准则。该内容仅在<strong>队内互评</strong>的自我评估阶段显示。
+        new: 新建队内互评准则
+        new_info: 学生们可以根据这些准则评估他们的组员。类似于互评反馈，评估采用星级标准。因此请确保所有的问题都能使用0-3分的标准范围来回答。
+        proposed_rubrics: "请使用准则 <i>贡献度<i/>, <i>组织性<i/>, and <i>社交能力<i/>."
+        explanation: 请根据以下准则评估您的团队成员。
+
+    assignment:
+      question: 作业问题
+      question_collapsible: <a class="collapsed" data-toggle="collapse" href="#assignment-question-body">作业问题<span class="caret"></span></a>
+
+    review:
+      open: 打开
+      closed: 完成
+      suspended: 该审阅违背纳入总体评分
+      submit_message_title: 提交该评估
+      submit_message: 如果评估阶段没有关闭您可以修改该评估
+      no_samples: 当前没有已评分的评估
+      no_grading_samples_available: 当前没有可用于评分的作业
+      grade_samples: 评估下一个作业
+      assigned_grade: 已分配的评估
+      actions: 操作
+      extend_deadline: 延长截止日期
+      view: 查看/编辑评估
+      view_only: 查看
+      continue: 继续评分
+      grading: 您的评分
+      rubrics: 评分准则
+      written_feedback: 书面反馈意见
+      written_feedback_hint: 请给您的同伴留下评价！您欣赏哪部分以及哪部分仍需改进？如果您没有给您的同伴满分，请提供相应的解释。
+      missing_text: 请提供书面反馈意见
+      missing_rubric: 请根据准则评估所有部分
+      server_error: 保存您的评估过程中出错。请联系帮助台如果错误依然存在。
+      check_errors: 您缺少了评估的某些方面（参见页面结尾）
+      submit_success: 已成功提交您的评估
+      deadline_passed: 评估提交截止日期已过
+      unload_message: 保存修改？
+      extension_failure: 您不能延长该评估的截止日期
+      extension_success: 已成功延长您的截止日期
+      submit_button: 提交
+      autosave_button: 保存草稿
+      autosave_explanation: 您的草稿将会自动保存，请不要忘记提交您的评估。
+      student_answer: 学生回复
+      time_left: 剩余时间
+      no_time_left: 没有时间
+      status: 状态
+      not_editable: 您已经提交该评估，所以您不能再编辑。
+      not_revisable: 您当前不能修改该评估
+      award: 这是一个特别的作业
+      award_disabled: "（被同伴取消）"
+      award_description: 请选中此项如果您认为您的同伴提交了一个优秀的作业。
+      report: 报告该作业
+      report_hint: 如果您报告了此提交，课程团队将会审核您的报告。您的评分将不会计入该提交者的总评分中，提交人亦看不到您的反馈。请注意，如果您报告了此提交，您仍然需要为另一份提交进行评分。
+      report_submit: 您的报告已成功记录。感谢您为改善同伴互拼所作出的贡献
+      report_failure: 非常抱歉，错误发生。请联系帮助台如果错误依然存在。
+      continue_confirm_title: 结束您的评估并继续？
+      continue_confirm_message: 一旦您结束评估您将不能评估附加的同伴
+      additional_review: 附加评估
+      advance: 继续下一步
+      advance_wait_info: 您在解锁后可以继续进行下一步操作（在%{deadline}）
+      revision: 修改
+      revision_error: 您不能修改该评估
+      back_to_overview: 回概览
+      submit_revise_info: 当您完成请点击<em>提交</em>。否则该评估将在截止日期之后不予以考虑。您仍然有机会修改评估。
+      review_deleted: 请求的评估已过期不再可用。请及时提交评估以避免再次发生。
+      process: 进度
+      grading_guideline: 评分指南
+      grade_first: 评估第一份作业
+      grade_next: 评估下一个同伴
+      info_text:
+        - "您还有<strong>%{days}</strong>天时间来完成指定的<strong>%{required_reviews} 次评审（还差%{review_count} 次）.</strong>"
+        - "对每一项评审，您有<strong>6小时</strong>的时间来完成，完成后请点击<em>提交</em> ，提交后您仍有机会进行修改。"
+        - "您必须完成当前评审才能开始下一个，如果您已经完成了全部评审，可以选择额外进行%{required_reviews}次评审."
+        - "当您完成了所有提交的审阅和评分，<strong>请检查一下您的评审</strong>。如果您的反馈被他人标记为“有帮助”，您将获得额外的计分。"
+        - "一旦同行评估阶段结束，您也完成了全部的评审，就可以点击<em>继续下一步</em>按钮了。 请注意：对于部分课程，您可以在同行评估结束前就进入下一步，但是一旦进入下一步，您的所有评审意见均不能再修改，所以请务必在提交前进行确认。"
+      guideline_text:
+        - "根据预设定的标准评估提交的作业。"
+        - "提供对他人有帮助的书面反馈：明确优缺点，详细解释原因，提供具体建议等等"
+        - '保持友善，尊重他人，实事求是，坚持<a href="/pages/honor_code">荣誉守则</a> 。'
+      phase: 流程解释
+      team_evaluation: 队内互评
+      required_reviews: 您需要至少评阅%{required_reviews}个提交以获得本同伴互评分数。
+
+    conflict:
+      search_by_referral: "通过参考ID搜索"
+      reporter: "申诉人"
+      accused_student: "被申述人"
+      delta: "增量"
+      absolute: 绝对增量
+      comment: 解释/评论
+      comment_placeholder: 来源/解释以支持您的观点
+      submit_message_title: 申诉该问题
+      submit_message: "您将不能修改您的决定，并且填写不公正的报告可能会导致严重后果（参考荣誉准则）"
+      submit: 提交申诉
+      reason: 原因
+      state: 状态
+      reasons: # Note: these are the reasons a user can choose from, for the conflict page translations look further below
+        plagiarism: 剽窃
+        offensive_content: 攻击性内容
+        unrelated: 与作业无关内容
+        other: 其他原因
+      suspended: 该审阅违背纳入总体评分
+      no_conflicts: 当前没有争议需要仲裁
+      filed_at: 申诉于
+      filed_by: 申诉人：
+      filed_against: 针对提出
+      submssion_updated_at: 作业最近更新于
+      draft_created_at: 作业草稿创建于
+      referral_id: 参考ID
+      referral_info: 该ID唯一地标识冲突，学生可使用该ID用于向帮助台请求帮助
+      open: 打开
+      closed: 关闭
+      TrueClass: "是"
+      FalseClass: "否"
+      conflict_subject: 争议主题
+      conflict_reconciliation: 争议仲裁
+      reconciliate_confirm: "请确保您没有忘记‘合理’复选框并且不要忘记在您点击之后学生会收到通知"
+      subjects:
+        review: 评估
+        submission: 作业
+        blank: "-"
+      reconcile: 仲裁
+      back_to_overview: 返回概览
+      all_reasons:
+        plagiarism: 剽窃
+        offensive_content: 攻击性内容
+        unrelated: 与作业无关内容
+        other: 其他原因
+        grading_conflict: 打分争议
+        no_reviews: 没有评价
+      grading_weight: 权重
+      reviews_info_text: 您可以从以下找到关于以上作业的评估
+      reconciliation_success: 争议已成功解决并发送通知给学生
+      reconciliation_error: 保存争议的过程中出错
+      conflicting_changes: "在您的仲裁过程中有人更改了评分（可能通过其他争议，或该争议已被其他人关闭）"
+      reconcile_button: 保存修改并关闭
+      filters:
+        any: "- 任何 -"
+        submit: 应用过滤器
+      no_reviews: 学生没有收到任何评估
+      no_review_submit_title: Submit this review?
+      no_review_submit_message: You cannot revise this review, so make sure everything is correctly graded!
+      submission: 学生作业
+      submission_info: 提交作业的学生请求重新打分。
+      review: 评估
+      teacher_notes: 教学人员说明（对学生不可见）
+      dependent_conflict_warning: 学生报告了一个分数计算评估。 推荐您先解决其他的争议然后再解决该评估。<a href="%{conflict_url}" target="_blank">前往争议。</a>
+      reconciliation_info: 您可以调整申诉人及被申诉人的分数（如果涉及）。如果争议解决请标记为合理的。 当您点击<em>保存修改并关闭争议</em>按钮该争议会关闭。注意：这样做之后，涉及的学生将会被通知争议已关闭并且去检查他们的分数，分数也有可能在稍后改变。 即使还没有最后的分数 （因为评估还在进行中），您可能会现在选择分数增量，它将会影响您之后的分数计算。<strong>总分不能为负，并且会移除小数点之的数。</strong>
+      reporter_adjustment: "申诉人评分调整:"
+      accused_adjustment: "被申述人评分调整:"
+      tpa_warning: 该数据将被应用到<b>所有团队成员</b>！
+      review_text: 评估文本
+      review_info: 该评估已报告，相应的提交来自申诉人
+      grading_rubrics: 评分准则
+      given_grade: "给分：%{rec}/%{max}"
+      corr_submission: 相应的作业
+      grade:
+        overall: 总分
+        base: 评估基础分
+        relative: 当前相对增量
+        absolute: 当前绝对增量
+        set_delta: "设置增量为："
+        delta_absolute: 增量式绝对的
+        delta_info: 绝对增量将设置固定分值，然而相对增量（比如，不选中此项）将在<strong>总分</strong>之上使用。当绝对增量使用，所有介于评分均值与奖励分数将会被忽略。
+      view_original_submission: 显示与该申诉相关的提交
+      view_submission_to_regrade: 显示将被重新评分的提交
+      view_reported_submission: 显示被申述的提交
+
+    step:
+      inaccessible: 您不能访问该步骤
+      locked: 该步骤当前未解锁，将解锁于<strong>%{unlock}</strong>.
+      deadline_passed: 该阶段已经关闭您不能完成该阶段。很遗憾，您将没有资格参加并得到同伴互评
+      optional_deadline_passed: 很抱歉，已超过该部分的截至提交日期(%{deadline})，您未能及时完成该部分的提交。如果该部分属于本同伴互评的必选部分，您将无法继续参与本同伴互评，您已经提交的结果也无法在最后获得任何分数。如果该部分属于可选部分，您可以在进度栏中点击“查看我的结果”查看您的得分。
+      advancement_unavailable: 您当前不能继续到下一步
+
+    index:
+      table:
+        week: 星期
+        assessment: 评估
+        section: 章节
+        status: 状态
+        progress: 进度
+        grade: 您的分数
+        no_conflicts: 争议
+        awards: 奖励提名
+      headlines:
+        overall_statistics: 整体同伴互评统计
+        overview: 同伴互评概览
+        my_statistics: 我的同伴互评统计
+      alert_assessments_not_available: 同伴互评当前不可用。请稍后在课程开始和章节解锁后再检查
+      admin:
+        empty_msg: "本课程暂无同伴互评。您可以通过 <em>课程结果与内容</em> 添加 (添加 一个 <em>同伴互评</em> )。"
+        edit: 编辑
+        view: 去评估
+        manage_submissions: 管理作业
+        missing_train_samples: 缺少培训案例
+        grade_samples: 评分案例
+        view_training: 培训案例概览
+        open_training: 培训可以开启
+        conflict_overview: 争议概览
+        manage_gallery: 管理最佳作业
+
+    shared:
+      rubric:
+        hints: 附加提示
+      explanation:
+        learn_more: 显示更多关于
+
+    files:
+      download_button: 下载
+      confirm: 确认
+      confirm_button: 永久删除
+      delete_subtitle: "您将不能恢复它"
+      filename: 文件名
+      size: 文件大小
+      upload_default_message: 将文件拖至此处（或点击）
+
+    submission:
+      already_submitted: "您已经提交了您的草稿，所以您不能再修改您的作业。"
+      save_error: "作业提交中有错误发生。请联系帮助台如果错误依然存在。"
+      success: "成功提交了您的方案"
+      content_missing: "您的作业为空。请在文本框中填写内容或者上传文件"
+      server_error: "错误发生。请联系帮助台如果错误依然存在。"
+      not_found: "我们没有找到任何作业"
+      your_answer: "您的回复"
+      submit_button: "提交方案"
+      instructions: " 在当前步骤中，您必须要解决以下任务。您的作业稍后将会被同伴评估并打分。"
+      autosave_notice: "您的作业将会被定期保存，因而您可以随时返回完成您的作业只要您没有提交。 在截止日期过后，您将不能提交或编辑您的作业（它不会被自动提交！）"
+      add_files: 添加文件
+      start_all: 上传所有
+      cancel_all: 取消所有
+      start_upload: 开始上传
+      delete_file: 删除文件
+      delete_file_message: 删除该文件？
+      file_delete_failed: 删除失败。
+      unauthorized: 您不能删除该文件（权限错误）
+      no_text: 该学生没有提供书面作业
+      no_text_you: 您没有提供书面作业
+      upload_limit_reached: 您不能再上传任何文件
+      upload_extension_disallowed: 您不能上传该文件类型
+      no_file_provided: 没有文件上传
+      upload_failed: 上传失败。请稍后重试或联系帮助台如果错误依然存在。
+      info: "请您提供您的工作并尽可能多次的保存它。只要您点击<em>提交作业</em> 您将不能再修改您的工作。请确保在截止日期之前点击<em>提交作业</em> ，否则您的工作将不会被评估并收到分数。<strong>您的身份不会被同伴分享。如果您想保护隐私信息请不要在提交作业时上传您的个人信息</strong>"
+      attachments: 附件
+      attachment_text: "您可以提交最多<strong>%{files}个文件</strong>。如果教学人员允许提交多个文件，请分别上传。请确保在点击<em>提交作业</em>所有的文件都被正确的上传。只要您点击了<em>提交作业</em>您将不能再上传或者修改文件。<br/><strong>允许格式: %{formats};  允许文件大小 (max.): %{file_size} MB</strong>"
+      upload_fallback: 选择您的文件并点击<em>开始上传</em>进行上传。刷新页面您可以在本页面的右边找到您上传，如果没有找到，那么您的上传没有成功。
+      submit: 您是否已完成并准备结束您的作业？ 您将不允许修改，同时您将进入下一阶段。
+      submit_title: 确认提交
+      learn_to_grade_popup: " 在‘学习评分’阶段，为了提供评分参考，教学人员会预评估多个学生作业。学生根据一些匿名的随机选择的作业去学习评分。"
+      learn_to_grade_popup_title: 学习评分阶段
+      no_video: 无视频文件.
+
+      confirmation_window:
+        title: "注意"
+        text: 完成您的作业前，请通过下载并打开您的文件等方式以确保您的文件正常。
+        confirm_button: 完成
+        attempt_notice: "您已经收到额外的尝试次数去编辑和完成您的作业"
+
+      additional_attempt:
+        info: "<strong>请注意，您的编辑将不会被自动保存。</strong> 您需要点击<em>提交作业</em> 保存您的编辑。您只有一次修改机会"
+        not_allowed: 您已经使用了所有的编辑尝试次数
+        update_error: 更新作业过程中错误发生。请联系帮助台如果错误依然存在。
+
+    autosave:
+      error: "很抱歉，自动保存出错"
+
+    train_samples:
+      train_sample_overview: 培训案例概览
+      notice: "请注意： 要开启学生培训节点，%{count} 培训案例评估只是最低要求的数量。强烈推荐使用<strong>20个或更多的案例</strong>以便为学生提供更好的培训体验。"
+      no_samples: 当前没有可用于评分的作业
+      written_feedback: 您可能选择写文本内容评审（或一个提纲）让学生了解如何写一个评估或评估中哪些因素是需要注意和考虑的。
+      submit_message_title: "提交该案例？"
+      submit_message: 您可以稍后修改该案例只要培训还没有开启
+      open_training_title: "开启培训？"
+      open_training_message: "培训开启之后，您不能修改已创建的培训案列，因此请确保正确评分！继续开启培训？"
+      opening_possible: "培训现在可以为学生开启了！"
+      open_missing: "开启培训（需要更多的培训评审案例）"
+      open_training: 开启培训
+      eligible_submissions: 有%{count}符合条件的培训案例可用于评分
+      training_open_error: 您不能完成操作因为培训已经开始
+      status: 状态
+      deadline: 截止日期
+      delete: 删除
+      skip: 跳过（删除草稿）
+      back: 返回概览
+      open_error: 开启培训过程中发生错误
+      open_success: 成功开启培训
+      delete_review_title: "跳过或删除该评估？"
+      delete_review: 确定要跳过该评估？您（或其他助教）将不能再评估该作业。您可以跳过该评估只要您认为该评估不符合用于培训。
+      training_opened: 培训已经开启，因为您不能再创建，编辑或删除培训案例。
+
+    training:
+      unavailable: 指导员正在评分作业以提供评分参考。它们一旦可用您就可以开始评估培训。
+      phase: 学习分级阶段
+      next_sample: 下一个案例
+      additional_sample: 附加案例
+      continue: 继续同伴互评
+      continue_confirm_title: "继续同伴互评？"
+      continue_confirm_message: 您不能再完成培训评审。
+      no_samples_left: 培训已关闭或没有剩余培训案例可供您评分
+      continue_info: 您可以进一步的评估培训案例或者进入<em>评估您的同伴</em>阶段
+      continue_info_passed: 您可以继续到评估您的同伴阶段
+      grading_hints: "（关于书面反馈的提示仅与之后真实同伴互评有关，请您在评估作业时记住这一点）"
+      confirmation_title: 确认提交
+      confirmation_message: 提交该评估培训
+      instructor_feedback: "指导老师的书面反馈"
+      grading_comparison: 评分比较
+      match_type:
+        your_answer: 您
+        ta_answer: 指导老师
+        match: 非常好
+      info_text:
+        one: "学习评分阶段的目的在于减少不同同伴评估间的分数差异。教学人员预评估了一些学生作业并且提供了评分参考，您将根据一些匿名的随机选择的作业去学习评分。"
+        two: "您必须完成总共<strong>%{required_reviews} 个培训聘雇</strong>，它将不计入您对同伴评审的结果。在培训评估之后，您将进入评估您的同伴阶段"
+        three: "根据预定义的标准（准则）评估每一个作业。由于这是培训阶段，您不需要提供书面反馈。在提交您的评估之后，您的评分和教学人员评分都将会展示。您可以通过理解专家评估并应用于您未来的评分中"
+
+    self_assessment:
+      phase: 自我评价阶段
+      info_texts:
+        general: "请在浏览了其他人提交的作业后，通过横向比较，客观地进行自我测评。我们鼓励公正而富有自我批评精神的测评：如果您的自测得分在他人对您提交的作业的平均评分上下浮动10%范围之内，您可以获得额外加分。"
+
+      #    self_assessment:
+      #      info_text:
+      #        - 在此阶段您将给自己的作业评分
+      #        - 请尽量客观并使用您在评审您同伴时准则去自我评估
+      #        - 如果您的分数能近似（或接近）您的同伴，您可以获得奖励分数。更多细节请参考FAQ。
+      already_submitted: 您已经提交了您的草稿，所以您不能再修改您的作业。
+      grading_rubrics: 评分准则
+
+      skip_button: "跳过并继续"
+      submit_button: "提交并继续"
+      confirm_title: "现在提交自我测评？"
+      confirm_message: "您将不能再做修改了。"
+
+      advance_confirmation:
+        title: "跳过比我测评环节并继续？"
+        text: "您将不能回到之前的状态了。"
+        confirm_button: 保存答案
+        cancel_button: 取消
+
+    results:
+      phase: 显示您结果的解释
+      info_text:
+        intro: "您可以从以下找到您收到的和您书写的评估"
+        general:
+          - "<ul><li>在所有的之前的阶段都关闭后，将显示同伴给您的评分 </li>"
+          - "<li>您书写的优秀的评估将能给您带来<strong>额外分数</strong>。这些分数将在您同伴给您的评估反馈评级后显示（每个评估最多一个额外分数）。</li>"
+          - "<li>您可以<strong>获得您自我测试的额外分数</strong>。您收到的分数将在下方展示。</li>"
+          - "<li>给您同伴的评估反馈打分并查看他们详细的评审，点击<em>查看</em>。一旦您给您的同伴评估反馈评级，相应同伴给您的分数将显示。评级是可选的并在结果查看关闭之前完成。</li></ul>"
+          - "您的总分由您的同伴给出的分数和您得到的额外分数构成。总分在<em>查看您的结果阶段</em>关闭后最终确定"
+
+      where_is_grade: "我的分数在哪里？"
+      waiting_for_peers: 您当前没有可用分数。教学团队正在努力，一旦您的分数确定我们将以邮件的形式通知您。
+      waiting_for_deadline: 您的分数将于<strong>%{distance}</strong>可用，如果您所有的评审在那时完成
+      your_grade: 您的分数
+      nomination: 恭喜，您的作业被%{times}标记为优秀作业。教学团队可能会选择您的作业到最佳作业。在教学团队完成评审之后您可查看最佳作业
+      reviews_written: 您写的评估
+      reviews_received: 您收到的评估
+      no_reviews: 您目前没有任何评审意见，请稍后再检查
+      your_feedback: 您的反馈
+      rate_first: 请查看和对该评估评级以查看您的分数
+      waiting_rating: 等待评级
+      received_feedback: 收到的反馈
+      received_grade: 收到的分数
+      grade: 给出的分数
+      rating_authorization_error: 您不能对您自己的评估评级
+      invalid_rating: 无效评级值
+      rating_success: 谢谢！您现在可以查看详细的评估
+      rating_failure: 给您的同伴评级过程中出错。请联系帮助台如果错误依然存在。
+      grading_rubrics: 评分准则
+      proficiency: 您的同伴在培训之后将他/她的熟练程度设置为<strong>%{proficiency}</strong>。
+      award: 该同伴提议将您的作业加入最佳作业
+      reported: 已申诉
+      peer_reported: "由于原因：%{reason}，您的同伴申诉了您的评审。教学人员正在调查该问题。当仲裁解决您将收到通知。<br/>该申诉的参考ID是<strong>%{referral}</strong>。请在联系帮助台时包含该申诉的参考ID"
+      you_reported: "由于原因：%{reason}，您申诉您的同伴。教学人员正在调查该问题。当仲裁关闭您将收到通知。<br/>该申诉的参考ID是<strong>%{referral}</strong>。请在联系帮助台包含该申诉的参考ID"
+      you_reported_short: "由于原因：%{reason}您申诉您的同伴。"
+      conflict_closed: 该举报已被教务处办结。
+      peer_reported_short: "由于原因：%{reason}，您的同伴申诉了您的评估"
+      deadline_passed: "您不能完成操作因为该阶段截止日期已过。"
+      peer_grade: "您的同伴给您：%{grade}"
+      rating_passed: 评级截止日期已过
+      rating_received_passed: 您的同伴没有及时的对您的评估评级
+      grade_exceeded: "恭喜：您获得了额外分数并且已超出了最大分"
+      reported_peer: "您已申诉您的同伴"
+      reported_by_peer: "您的同伴申诉了您"
+      peer_reported_submission: "您的提交已经被您的同伴以%{reason}申诉。 教学成员正在调查这个问题。当仲裁完成您将收到通知。<br/>该申诉的参考ID是<strong>%{referral}</strong>. 请在联系帮助台时包含该申诉的参考ID"
+      you_reported_submission: "您已经以%{reason}申诉了您的同伴。 教学成员正在调查这个问题。当仲裁完成您将收到通知。<br/>该申诉的参考ID是<strong>%{referral}</strong>. 请在联系帮助台时包含该申诉的参考ID"
+      peer_reported_short_submission: "您的提交已经被您的同伴以%{reason}申诉"
+      written_reviews:
+        reported_peer: 您申诉了您的同伴的提交
+        reported_by_peer: 您的反馈被申诉了
+      received_reviews:
+        reported_peer: 您申诉了此反馈
+        reported_by_peer: 您的提交被申诉了
+
+      grade_composition:
+        headline: 分数构成
+        base: 同伴分数
+        self_assessment: 自我评估的额外分数
+        usefulness: 您写评审的额外分数
+        team_evaluation: 由您的团队成员评估
+        delta: 教学人员使用了加分
+        absolute_delta: 您的分数已经被设置为固定值 %{grade} 分
+        helpers:
+          base: "使用均值确定同伴的评分。 同伴评分=平均标准1+平均标准2+...+平均标准n"
+          self_assessment: "如果您的同伴给出的分数和您自我评估的分数差在最大分值的10%以内，您将获得奖励分数。奖励分数=5%x最大分值 "
+          usefulness: 奖励分数是根据对您书面反馈的评级给出的
+          delta: 教学人员校正分数（比如，来自您的投诉或其他人对您的申诉）
+          team_evaluation: 由您的团队成员评估
+
+      status:
+        status: 状态
+        reported: 已申诉
+        new_message: 新信息
+
+      buttons:
+        view: 查看
+        view_discuss: 查看和讨论
+
+      rating:
+        headline: 同伴评级
+        report: 申诉该评级
+        report_hint: 如果您申述了该评审结果，课程团队将根据您的申述报告进行调查。如果申述报告合理，该评审结果将不会计算在您的最终成绩中。
+        rate_button: 提交您的评级
+        confirm_title: "您想提交您的评级吗？"
+        confirm: 您将不能再修改
+        grading_received: "您的同伴对您的评估评级为：<strong>%{grade}</strong>"
+        grading_given: "您评级您的同伴为：<strong>%{grade}</strong>"
+        stars: "<strong>该评估已经被评级为 %{stars} 星</strong>"
+
+        info_text:
+          intro: "以下您将找到您同伴给出的书面评估。"
+          points:
+            - "您可以对该评估进行评级，这种有意义的回馈将会有助于您的同伴改进自己的评估。在您对评估评级之后，您可以看见根据准则给出详细的分数。"
+            - "您可能不完全同意您同伴的评估意见，但是请您通过评级指出该评估对您有多大建设性帮助。"
+            - "对评估评级是可选的。根据您对您同伴评级您可以获得额外分数（每个评估最多一个额外分数）。您自己的分数将不会受到影响。"
+        explanation:
+          intro: "<strong>点击星选择您评级，然后为该评估点击<em>提交我的评级</em></strong>"
+          stars:
+            - "<strong>0 星</strong><br/> 该反馈没有帮助；它与我工作无具体方面无关。"
+            - "<strong>1 星</strong><br/> 该反馈有一定的帮助。它给出了相关意见，但是相当的粗略和/或模糊；工作的亮点或关注点并没有被清楚的强调重视"
+            - "<strong>2 星</strong><br/> 该反馈有帮助。它具体而且清楚的强调了亮点和关注点，但解释和/或实际的提示没有/或不可信服"
+            - "<strong>3 星</strong><br/> 该反馈非常有帮助，它具体而且清楚的强调了亮点和关注点。同时解释和/或实际的提示令人信服"
+
+      grading_conflict:
+        notifier: "您已经请求重新评分。教学团队正在评估您的作业，这可能需要一段时间。评估结束后您将收到邮件通知。.<br/>关于您重新评分请求的参考ID为%{referral}. 请在联系的过程中引用该ID."
+        notifier_closed: "您的重新评分请求已经完成，关于您重新评分请求的参考ID为%{referral}. 请在联系的过程中引用该ID。"
+        submit_button: 重新评分请求
+        submit_button_hint: 只有您已经给所有评估评级并且这些评级之间有显著区别时才能申请重新评分。
+        label: 解释
+        placeholder: 请解释为什么您认为您值得得到更高的分数。
+        info_text: >
+          请仔细阅读您同伴给出的评审意见。您可能不完全同意您同伴的意见，但是我们建议您客观的看待并且您也可以将该评估与您收到的其他评估进行比较。
+          <p>如果您仍然觉得您的作业并没有公正评分并且您觉得您值得获得更高的分数，您可以请求<em>重新评分</em>。 请解释为什么您认为您值得得到更高的分数，我们的教学团队会根据您给出的理由评估您的作业。</p>
+          <p>请谨慎使用该功能</p>
+
+        confirmation_title: 您确定要请求重新评分吗？
+        confirmation_text: 请再三思考后再发送重新评分请求
+        not_eligible: 您没有资格请求重新评分。
+        success: 您的重新评分请求已经发送。重新评分可能需要一段时间，请稍后检查！
+        user_instrumented_hint_possible: 由于您是伪装用户，因此可以申请重新评分，该用户亦有权申请重新评分。
+        user_instrumented_hint_not_possible: 由于您是伪装用户，因此可以申请重新评分，该用户无权请求重评或已经提交重评申请。
+        teacherview_hint_possible: 为您显示的页面是为该用户所显示的页面，由于该用户有权重新评分，因此重评按钮已激活。
+        teacherview_hint_not_possible: 为您显示的页面是为该用户显示的页面，该用户无权请求重评或已经提交重评申请，因此重评按钮已关闭。
+
+    statistics:
+      names:
+        submission_create: 已创建唯一作业草稿
+        submission_submit: 最终提交
+      submission_stats: 作业统计(%{overall} 开始, %{content} 草稿, %{submitted} 最终)
+      config_headline: 通用信息和配置
+
+    submission_management:
+      submitted: 已提交
+      allowed_in_gallery: 允许出现在最佳作品集
+      average: 同伴给出的分数均值
+      average_rating: 评级
+      nominations: 提名
+      nominated_submissions: 总提名
+      refid: 参考ID
+      gallery_entries: 已标记最佳作业候选
+      rate: 级
+      availalbe_submissions: 有效作业
+      final_submissions: 最终作业
+      votes: 评级
+      your_vote: "您为该评估定级为%{votes} 星"
+      view: 查看
+      per_page_limit: "限制每页作业数为："
+      final_only: 只显示最终作业
+      apply: 应用
+      submission_headline: 学生作业
+      rating_info: "点击星星对该作业评级。<strong>仅在您和您的专家同事完成作业的评估之后点击 <em>加入作业到最佳作业</em>选项框</strong>，注意您可能稍后修改您的评级。"
+      your_rating: 您的评级
+      include_submission: 加入作业到最佳作业
+      confirm_rating_title: 提交您的评级
+      confirm_rating_message: 您可能稍后修改您的决定
+      rating_success: 以保存评级
+      rating_error: 您的评级不能保存。请联系帮助台如果错误依然存在。
+      no_submissions: 当前没有可用于评分作业
+      order_by: 排序
+      then: 然后
+      none: 没有
+      sort_button: 排序
+      average_sort: 分数
+      gallery_include: 该作业已标记为最佳作业候选
+      generate_gallery: 生成最佳作业模版
+      copy_notice: 复制该文本并粘贴到任一您需要的地方（Pinboard, Text 文件, ...）。选择文本区域并按CTRL + A然后CTRL + C以进行复制；Macintosh CMD + A 然后 CMD + C
+      generated_gallery: 已生成最佳作业
+      close_button: 关闭
+      generation_error: 生成最佳作业过程中错误
+      user: 作者
+      display_student_submission:
+        title: 显示学生可见页面
+        submission_page: 提交您的工作
+        results_page: 查看结果
+        self_assessment_page: 自我评估
+        training_page: 学习评分
+        peer_grading_page: 同伴互评
+        draft_hint: "  该学生已经开始该阶段，但尚未提交任何内容。"
+      gallery_only: 仅显示可供浏览的项目
+      gallery_button_disabled_info: 请保证至少一项内容可供浏览
+      metadata: "评分细节和基本信息"
+      submission_date: "创建："
+      received_reviews_meta: "收到的评审结果  <br/> (截止日期 | 评分)"
+      written_reviews_meta: "已撰写评审结果 <br/> (截止日期 | 步骤 | 评分)"
+      review_details: "评审结果细节"
+      no_review_matrix: "暂无可用于申请重评的提交"
+      teams: 团队
+
+      additional_attempts:
+        title: "附加参与次数："
+        confirm_title: "增加参与次数？"
+        confirm_message: "确定为此用户增加一次参与机会？"
+        button: "增加参与次数"
+      opted_out_from_gallery: "此用户拒绝将他的作业在最佳作品集中展出"
+
+      user_filter:
+        placeholder: 姓名或邮箱
+        submit: 搜索
+
+      template:
+        student_headline: "### 来自%{name}的学生作业"
+        desc_placeholder: "这个描述不错，也许吧？"
+        hline: "---"
+        link: "[%{description}](%{path})"
+        image_with_link: "[![%{description}](%{image_path}?size=%{size}) %{additional_text}](%{link})"
+        image: "![%{description}](%{path}?size=%{size})"
+        generic_attachment: "[%{description}](%{path})"
+        pdf_download: 下载PDF
+        explanation: "一个关于“为什么选择该作业”的很好的解释"
+
+  verify:
+    headline: 证书验证
+    valid: "证书验证码 <i>%{code}</i> 是有效的。"
+    user_deleted: 该候选人的账户已被删除。因此，我们无法再验证该证书。
+    narrative: "%{brand} 在此证明该学生完成了课程 <a href='%{link}'>%{title}</a> 的学习并通过相应的练习和测试，可以获得课程证书。"
+    narrative_meta: "%{brand} 在此证明该学生完成了课程 >%{title} 的学习并通过相应的练习和测试，可以获得课程证书。"
+    user_data: 用户信息
+    issued_for: 出具给
+    identified_by: 认证邮箱为
+    date_of_birth: 出生日期
+    course_data: 课程信息
+    course_title: 出具于课程
+    course_teachers: 授课人
+    course_runtime: 课程时间
+    course_date: "%{start_date} 至 %{end_date}"
+    course_date_from: "自 %{start_date} 起"
+    course_learning_goals: 学习目标
+    certificate_data: 证书信息
+    certificate_type: 证书类型
+    record_of_achievement: 成绩证书
+    confirmation_of_participation: 参与证明
+    certificate: 认证证书
+    issued_at: 出具于
+    result: 成绩
+    points: "%{points}分（满分%{max_points}，占比%{percent}%）"
+    top: "该成绩位列本课程全部用户的<b>前%{top}%</b>"
+
+  gamification:
+    points: 经验值
+    badge:
+      level:
+        default:
+          "0": 青铜
+          "1": 银
+          "2": 黄金
+    badges:
+      headline: 徽章
+    scores:
+      your_points: "您的分数%{points}"
+      empty: 你可以通过学习内容和参与论坛讨论来获得经验值（XP）。
+      course: 课程
+      selftests: 自我测试
+      communication: 交流互动
+      total: 总计
+    courses_scores:
+      course: 课程
+      total: 总计
+
+  proctoring:
+    register_with_smowl: 校准你的图像
+    calibration_missing_callout: 你必须在参加考试前校准你的图像
+    calibration_missing_text: 在你开始校准过程之前，你将无法参加考试。
+    calibration_missing_action: 转到校准细节页面
+    calibration_pending_title: 校准待定
+    calibration_pending_text: 您的图像目前正在校准中。这个过程可能需要几个小时。请稍后回到这里参加考试。
+    service_unavailable: 监考服务目前不可用。请稍后再试。
+    book_certificate: 预订证书
+
+    registration_details:
+      title: 为证书进行校准
+      headline_steps: 拍摄照片进行验证
+      steps_introduction: "如果你选择了证书，我们需要你的三张照片来进行自动人脸识别。采取以下步骤来激活人脸识别功能："
+      step_1: 确保您使用的是<a href='https://smowl.net/en/faqs-proctoring-smowl/requirements/' target='_blank' rel='noopener'> 兼容浏览器</a>。
+      step_2: 单击本页末尾的“校准您的图像”。
+      step_3: 使用网络摄像头为您拍摄 3 张照片。 第二张照片将出现在您的证书上。
+      step_4: 拒绝照片后确认照片或拍摄新照片。
+      callout_title: 尽快校准您的图像
+      callout_text: 校准过程可能需要<strong>最多 48 小时</strong>。 在此期间，无法访问分级测验和所有相关练习。
+      verification_lifetime_headline: 验证的生命周期
+      verification_lifetime_text: 校准是针对每个参与者进行的，而不是针对每门课程进行的，也就是说，您无需为每门课程再次重复整个过程。 在接下来的课程中，将检查外观是否发生了很大变化以至于需要重新校准。 如果是这样，您将被要求在课程中这样做。
+
+  time_effort:
+    seconds: 秒
+    minutes:
+      one: 1 分钟
+      other: "%{count} 分钟"
+
+  learn:
+    title: "测验回顾"
+
+  permissions:
+    headline: 平台权限设置
+    grant_text: "此组内的所有成员都被赋予了如下角色和权限："
+    confirmed: 已确认
+    confirmed_true: 是
+    confirmed_false: 否
+    details: 详细信息
+    remove: 移除
+    add_user:
+      button: 添加用户
+    enrollment_list: '查看<a href="%{url}">注册列表</a>内此组的成员。'
+    group_names:
+      admins: 课程管理员
+      moderators: 课程版主
+      teachers: 教师
+      students: 学生
+      partners: 合作伙伴
+      content_editors: 内容编辑
+      pa_content_experts: Peer assessment content experts
+      pa_jury: Peer assessment jury
+      stakeholders: Course stakeholders
+      global:
+        gdpr_admins: 平台管理员 (GDPR)
+        admins: 平台管理员
+        helpdesk: 帮助台员工 (GDPR)
+        reviewers: 质检员 (评审)
+    role_names:
+      account:
+        admin:
+          name: "<b>账户管理：</b> 查看，创建和删除用户，修改用户密码以及伪装用户"
+        permissions:
+          admin:
+            name: "<b>权限管理：</b> 查看，赋予和剥夺全局权限（例如 管理员）"
+        support:
+          name: "<b>账户支持：</b> 查看用户，修改用户密码和伪装用户"
+        tracer:
+          name: "<b>用户搜索：</b> 过滤提交时搜索用户等"
+      course:
+        admin:
+          name: "<b>课程管理员：</b> 创建，编辑和克隆课程，管理教师"
+        manager:
+          name: "<b>课程管理：</b> 编辑课程设置，管理课程内容，管理课程权限，查看课程仪表盘和管理注册"
+          global:
+            name: "<b>全局课程管理：</b> 添加和编辑教师（前权限系统遗留权限）"
+        previewer:
+          name: "<b>课程预览：</b> 查看未发布课程内容"
+        student:
+          name: "<b>学生：</b> 注册用户，课程注册用户的基本权限（无特殊角色）"
+        controller:
+          name: "<b>课程控制：</b> 访问课程仪表盘和统计信息"
+        editor:
+          name: "<b>课程编辑：</b> 编辑课程内容，查看课程统计信息"
+        content:
+          controller:
+            name: "<b>内容控制：</b> 查看内容项目统计"
+        channel:
+          admin:
+            name: "<b>频道管理员：</b> 创建、编辑和克隆课程，管理教师"
+        teacher:
+          name: "<b>教师:</b> 老的教师角色的遗留权限"
+        vouchers:
+          admin:
+            name: "<b>Voucher administration:</b> voucher self-service, statistics, inspection of vouchers"
+        stakeholder:
+          name: "<b>Course controlling:</b> view course dashboards"
+      certificate:
+        admin:
+          name: "<b>Certificate administration:</b> add, edit and delete certificate templates, preview certificates"
+      collabspace:
+        admin:
+          name: "<b>Collab space administration:</b> access, manage, close and delete collab spaces, manage collab space members"
+        mentor:
+          name: "<b>Collab space mentoring:</b> access team collab spaces"
+      file:
+        admin:
+          name: "<b>文件管理：</b> 查看和删除已上传文件"
+      grouping:
+        admin:
+          name: "<b>User tests administration:</b> create and manage user tests"
+        inspector:
+          name: "<b>User tests:</b> work with user test results"
+      lanalytics:
+        alert:
+          admin:
+            name: "<b>QC Alert administration:</b> delete alerts for all users"
+          inspector:
+            name: "<b>QC Alerting:</b> list and ignore (own) alerts"
+        report:
+          inspector:
+            name: "<b>Reports:</b> create anonymized reportings"
+        rule:
+          admin:
+            name: "<b>QC Rule administration:</b> manage rules for QC alerts"
+      lti:
+        admin:
+          name: "<b>LTI administration:</b> manage LTI providers"
+        tool:
+          administrator:
+            name: "<b>LTI administration:</b> manage LTI providers"
+          instructor:
+            name: "<b>LTI:</b> use LTI providers"
+      news:
+        announcement:
+          admin:
+            name: "<b>新闻管理：</b> 创建，编辑，删除和发送公告"
+          previewer:
+            name: "<b>新闻预览：</b> 查看未发布的公告"
+          editor:
+            name: "<b>新闻编辑：</b> 创建，编辑，删除公告，发送测试邮件"
+        page:
+          admin:
+            name: "<b>Page administration:</b> create and edit static pages"
+      peerassessment:
+        admin:
+          name: "<b>Peer assessment administration:</b> view and edit PA settings (evaluation criteria etc.), manage submissions (= view submissions/ reviews/ points/ progress, grant additional attempts, create regrading requests), manage training samples, manage conflicts, rate and mark submissions for best-of gallery, create best of gallery"
+        manager:
+          name: "<b>同伴互评管理：</b> 所有同伴互评相关权限"
+        support:
+          name: "<b>同伴互评助手：</b> 解决纷争，调查提交内容"
+        expert:
+          name: "<b>同伴互评专家：</b> 为提交打分，管理优秀作品集"
+        expert_support:
+          name: "<b>Peer assessment expert support:</b> view submissions, rate and mark submissions for best-of gallery"
+        editor:
+          name: "<b>Peer assessment editing:</b> create and edit peer assessments"
+      pinboard:
+        moderator:
+          name: "<b>论坛版主：</b> <i>暂未指定</i>"
+        instructor:
+          name: "<b>论坛指导员：</b> <i>暂未指定</i>"
+        support:
+          name: "<b>论坛规范助手：</b> 锁定、移动论坛内容或标注标签"
+      platform:
+        operator:
+          name: "<b>Platform operation:</b> access global platform dashboard"
+      quiz:
+        admin:
+          name: "<b>测试管理：</b> 管理提交，增加参与次数"
+        controller:
+          name: "<b>测试统计：</b> 查看统计"
+        inspector:
+          name: "<b>测试审核：</b> 查看提交"
+      video:
+        controller:
+          name: "<b>视频控制：</b> 查看视频统计</b>"
+        admin:
+          name: "<b>视频管理员：</b> 管理视频提供方"
+      subtitle:
+        editor:
+          name: "<b>Subtitle editing:</b> upload and delete subtitles for videos"
+      helpdesk:
+        polls:
+          admin:
+            name: "<b>Polls administration:</b> creation, editing, deletion, and evaluation of polls"
+        pages:
+          admin:
+            name: "<b>Pages administration:</b> creation, editing, and deletion of pages"
+
+  vouchers:
+    headline: 代金卷自助服务
+    nav:
+      create: 创建代金卷
+      stats: 统计信息
+      query: 购买请求
+    create:
+      text: 代金卷总量
+      button: 生成购买码
+      count_error: 至少大于1
+      codes: 生存代金卷购买码
+      tag_placeholder: "标签（可选）"
+    no_products: 商品或服务未定义。
+    stats:
+      issued: 已发行代金卷
+      claimed: 已兑换代金卷
+      by_product: 按产品或服务排序
+      by_tag: 按标签排序
+      product: 产品或服务
+      tag: 标签
+    query:
+      text: 查找代金卷
+      placeholder: 代金卷代码
+      button: 查找
+      code: 代金卷代码
+      tag: 标签
+      created_at: 创建于
+      claimed: 已兑换？
+      claimant: 兑换用户
+      claimed_at: 兑换于
+      course: 兑换产品或服务：
+
+  lti_providers:
+    lti_provider:
+      actions: 操作
+      edit: 编辑LTI提供者
+      delete: 删除LTI提供者
+      confirm_delete: 删除将破坏所有仍然引用该提供者的课程项目。你真的想删除它吗？
+    index:
+      add: 添加第三方LTI
+
+  pages:
+    edit:
+      headline: 编辑静态页面
+    show:
+      last_changed: "此页最后更改时间为%{date}。"
+
+  quiz_questions:
+    edit:
+      question_type:
+        multiple_choice: 单项选择
+        multiple_answer: 多重选择
+      markup: 题干
+      type: 类型
+      submit: 保存题目
+    form:
+      question_type:
+        multiple_choice: 单项选择
+        multiple_answer: 多重选择
+        free_text: 问答题
+        essay: 小论文
+
+  quiz_answers:
+    form:
+      submit: 保存答案
+      cancel: 取消
+
+  notification_user_disables:
+    show:
+      title:
+      deactivate_for:
+        global:
+        announcement:
+        course_announcement:
+        pinboard:
+
+  social_sharing:
+    facebook:
+      button: 分享
+      info: 在Facebook上分享
+      icon:
+        name: facebook
+        style: brands
+    linkedin_add:
+      button: 添加到配置文件
+      info: 添加到LinkedIn个人资料
+      icon:
+        name: linkedin
+        style: brands
+    twitter:
+      button: 邮寄
+      info: 在 X 上分享，以前是 Twitter
+      icon:
+        name: x-twitter
+        style: brands
+      share_course: "我注册了 #%{site} 平台的 %{title} 课程"
+      share_certificate: "I successfully completed the course %{title} on #%{site}!"
+    mail:
+      button: 分享
+      info: 通过电子邮件传送
+      icon:
+        name: envelope
+        style: solid
+      share_course:
+        subject: "和我一起在%{site}上学习"
+        body: |
+          你好 ,
+
+          我注册了%{site}提供的课程 %{title}: %{url}。
+          你只需要使用有效的邮箱注册即可，之后你就可以跨越时间和空间的限制和我一起开始学习的旅途。
+
+          祝好,
+      share_certificate:
+        subject: "I successfully completed a course on %{site}"
+        body: |
+          Hello ,
+
+          I just finished the %{site} course %{title}: %{course_url}.
+          You can check my Open Badge here: %{certificate_url}
+
+          Best regards,
+
+cn:
+  <<: *zh

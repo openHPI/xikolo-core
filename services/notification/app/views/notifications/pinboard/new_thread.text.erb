@@ -1,0 +1,5 @@
+<%=t :'.meta', date: l(DateTime.parse @payload.timestamp), user: @payload.user_name %>
+
+# <%= @payload.thread_title %>
+
+<%= block_format @payload.text %>

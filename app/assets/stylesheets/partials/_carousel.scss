@@ -1,0 +1,84 @@
+/*------------------------------------*\
+    $CONTENTS
+
+    Carousel component.
+    Uses Twitter Bootstrap carousel.
+\*------------------------------------*/
+/**
+ * Variables...................Variables and Bootstrap SASS-Var overrides
+ * Bootstrap-Import............Required import for BS component
+ * Carousel-Styles.............Styling for the carousel wireframe
+ * Carousel-Contents...........Styling for carousel content
+ */
+
+/*------------------------------------*\
+    $Variables
+\*------------------------------------*/
+// Any variable declarations/overrides go here
+$xi-carousel-indicators-color: $gray-600 !default;
+$xi-carousel-indicators-color-active: $primary-color !default;
+
+/*------------------------------------*\
+    $Bootstrap-Import
+\*------------------------------------*/
+@import "bootstrap-sass/assets/stylesheets/bootstrap/mixins/opacity";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/mixins/image";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/mixins/gradients";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/carousel";
+
+/*------------------------------------*\
+    $Carousel-Styles
+\*------------------------------------*/
+
+/* Please do not change the Bootstrap Carousel directly
+as it is used for multiple purposes. */
+
+.carousel,
+.carousel-inner {
+  min-height: $lightbox-height - 20;
+
+  &.item {
+    height: $lightbox-height - 20;
+  }
+}
+
+.carousel-indicators {
+  bottom: 0px !important;
+  border: none;
+
+  & li {
+    background-color: $xi-carousel-indicators-color; //rgba(200, 200, 200, 0.5);
+    &.active {
+      background-color: $xi-carousel-indicators-color-active;
+    }
+  }
+}
+
+/*------------------------------------*\
+    $Carousel-Contents
+\*------------------------------------*/
+.welcome {
+  width: 56%;
+  height: 100%;
+  padding: 2%;
+  padding-top: 50px;
+  float: left;
+  font-size: 1.5em;
+}
+
+.claim {
+  padding: 5%;
+  border-top: 1px solid rgba(200, 200, 200, 0.5);
+  border-bottom: 1px solid rgba(200, 200, 200, 0.5);
+}
+
+/*------------------------------------*\
+    $preview-carousel
+\*------------------------------------*/
+#featured-items-carousel {
+  min-height: 310px;
+
+  .carousel-inner {
+    min-height: 310px;
+  }
+}

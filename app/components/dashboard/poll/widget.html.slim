@@ -1,0 +1,9 @@
+.poll
+  .headline
+    h3 = t(:'polls.widget.headline')
+    p = t(:'polls.widget.end_at', date: l(@poll.end_at.to_date, format: :short))
+  hr.divider
+  p
+    b = @poll.question
+
+  = content

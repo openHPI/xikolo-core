@@ -1,0 +1,97 @@
+roles:
+  course.admin:
+    - course.teacher.manage
+    - course.course.index
+    - course.course.create
+    - course.course.clone
+    - course.course.delete
+    - course.content.access
+    - course.course.show
+    - course.course.recalculate
+    - course.cluster.index
+    - course.cluster.manage
+  course.manager:
+    - course.permissions.manage
+    - course.permissions.view
+    - course.course.teaching
+    - course.document.manage
+    - course.enrollment.create
+    - course.enrollment.index
+    - course.enrollment.delete
+    - course.file.create
+    - course.file.index
+    - course.ranking.persist
+    - course.content.edit
+    - course.course.recalculate
+    - course.course.edit
+    - course.enrollment_counter.view
+    - course.dashboard.view
+    - course.statistics.show
+    - course.item_stats.show
+  course.editor:
+    - course.file.create
+    - course.file.index
+    - course.content.edit
+  course.manager.global:
+    - course.course.teaching_anywhere
+    - course.teacher.manage
+    - course.category.index
+    - course.teacher.view
+  course.previewer:
+    - course.content.access
+    - course.course.show
+  course.controller:
+    - course.dashboard.view
+    - course.statistics.show
+    - course.item_stats.show
+    - course.enrollment.index
+  course.teacher:
+    - course.course.teaching
+    - course.enrollment.index
+  course.student:
+    - course.content.access.available
+  course.channel.admin:
+    - course.channel.index
+    - course.channel.create
+    - course.channel.edit
+    - course.channel.delete
+  course.vouchers.admin:
+    - course.vouchers.issue
+  course.stakeholder:
+    - course.dashboard.view
+    - course.statistics.show
+    - course.item_stats.show
+  course.visitor:
+    - course.course.show
+
+grants:
+  - role: course.manager.global
+    group: xikolo.gdpr_admins
+    context: root
+  - role: course.admin
+    group: xikolo.admins
+    context: root
+  - role: course.manager
+    group: xikolo.admins
+    context: root
+  - role: course.channel.admin
+    group: xikolo.admins
+    context: root
+  - role: course.vouchers.admin
+    group: xikolo.admins
+    context: root
+  - role: course.previewer
+    group: xikolo.helpdesk
+    context: root
+  - role: course.controller
+    group: xikolo.helpdesk
+    context: root
+  - role: course.previewer
+    group: xikolo.reviewers
+    context: root
+  - role: course.stakeholder
+    group: xikolo.stakeholders
+    context: root
+  - role: course.previewer
+    group: xikolo.stakeholders
+    context: root

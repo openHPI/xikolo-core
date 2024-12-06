@@ -1,0 +1,8 @@
+# vim: ft=yaml
+
+nav:
+  - troubleshooting
+  - Dev Tooling:
+    - configure_rubymine.md
+    - install_overmind.md
+  - ...

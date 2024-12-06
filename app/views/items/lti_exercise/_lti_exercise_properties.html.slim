@@ -1,0 +1,29 @@
+ul.lti-exercise-properties
+  li
+    - if item.main_exercise?
+      = render Global::FaIcon.new('money-check-pen', css_classes: 'fa-fw mr5')
+      span = t(:'items.lti.graded')
+    - elsif item.bonus_exercise?
+      = render Global::FaIcon.new('circle-star', css_classes: 'fa-fw mr5')
+      span = t(:'items.lti.bonus_points')
+    - else
+      = render Global::FaIcon.new('lightbulb-on', css_classes: 'fa-fw mr5')
+      span = t(:'items.lti.ungraded')
+  li
+    = render Global::FaIcon.new('check', css_classes: 'fa-fw mr5')
+    span = t(:'quiz_submission.properties.points', count: item.max_points)
+  - if item.submission_deadline
+    li
+      = render Global::FaIcon.new('alarm-clock', css_classes: 'fa-fw mr5')
+      span
+        => t(:'quiz_submission.properties.due_date',
+          date: l(item.submission_deadline.in_time_zone, format: '%B %d, %Y'),
+          time: l(item.submission_deadline.in_time_zone, format: '%H:%M'))
+        '(#{Time.zone.name})
+  - if item.submission_publishing_date
+    li
+      = render Global::FaIcon.new('check-circle', css_classes: 'fa-fw mr5')
+      span
+        => t(:'quiz_submission.properties.show_results',
+          datetime: l(item.submission_publishing_date.in_time_zone, format: :long))
+        '(#{Time.zone.name})

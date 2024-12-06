@@ -1,0 +1,85 @@
+/*------------------------------------*\
+    $CONTENTS
+
+    Learning room styles.
+\*------------------------------------*/
+/**
+ * Variables..............Variable declarations
+ * Learning-Room-Content..Styling for the learning room content
+
+ */
+
+/*------------------------------------*\
+    $Variables
+\*------------------------------------*/
+$xi-learning-rooms-container-background-color: $white !default;
+
+/*------------------------------------*\
+    $Learning-Room-Content
+\*------------------------------------*/
+
+table.learning_room .is_open,
+table.learning_room .actions {
+  width: auto;
+}
+
+table.learning_room .learning-room-name {
+  width: 100%;
+}
+
+.learning-room-container {
+  background-color: $xi-learning-rooms-container-background-color !important;
+}
+
+.calendar {
+  .category-keys {
+    display: none;
+    padding: 10px 5px;
+
+    span {
+      margin-right: 20px;
+      i {
+        margin-right: 5px;
+      }
+    }
+  }
+}
+
+.action-button-auto-width {
+  width: auto;
+}
+
+a.list-toggle:visited,
+a.list-toggle:focus {
+  text-decoration: none !important;
+}
+
+.list-toggle {
+  .xi-icon {
+    margin-right: 10px;
+    color: gray;
+    float: left;
+  }
+
+  .uncollapsed-icon {
+    display: none;
+  }
+
+  &[aria-expanded="true"] {
+    .uncollapsed-icon {
+      display: none;
+    }
+    .collapsed-icon {
+      display: inline;
+    }
+  }
+
+  &[aria-expanded="false"] {
+    .uncollapsed-icon {
+      display: inline;
+    }
+    .collapsed-icon {
+      display: none;
+    }
+  }
+}

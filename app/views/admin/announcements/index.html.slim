@@ -1,0 +1,82 @@
+- content_for :head_assets do
+  = stylesheet_link_tag 'admin', media: 'all', crossorigin: 'anonymous', integrity: true
+
+- content_for :page_header_slim
+  = render Global::PageHeader.new(t(:'admin.announcements.show.headline'), subtitle: t(:'admin.page_header'), type: :slim)
+
+.container
+  .row
+    .col-md-10
+      .mt20.text-align-right
+        = link_to t(:'admin.announcements.index.new_announcement'),
+          new_admin_announcement_path,
+          class: 'btn btn-primary'
+
+    .col-md-10
+
+      h2 = t(:'admin.announcements.index.drafts')
+
+      - if @drafts.any?
+        table.table.table-striped.mt20
+          tbody
+            - @drafts.each do |draft|
+              tr
+                td.announcement__title
+                  = draft.title
+                td
+                  span.announcement__creator__avatar
+                    = render Global::UserAvatar.new(draft.author_id, size: 'tiny', type: 'rounded')
+                  span.announcement__created_on
+                    = t(:'admin.announcements.index.created_on', date: draft.created_at)
+                td
+                  .announcement__actions
+                    => link_to t(:'admin.announcements.index.publish_site'),
+                      '#',
+                      class: 'btn btn-default btn-xs',
+                      onclick: "alert('Coming soon')"
+                    => link_to t(:'admin.announcements.index.publish_email'),
+                      draft.email_create_path,
+                      class: 'btn btn-default btn-xs'
+      - else
+        = t(:'admin.announcements.index.drafts_empty')
+
+      h2 = t(:'admin.announcements.index.published')
+
+      - if @published.any?
+        table.table.table-striped.mt20
+          tbody
+            - @published.each do |announcement|
+              tr
+                td.announcement__title
+                  = announcement.title
+                td
+                  span.announcement__creator__avatar
+                    = render Global::UserAvatar.new(announcement.author_id, size: 'tiny', type: 'rounded')
+                  span.announcement__created_on
+                    = t(:'admin.announcements.index.created_on', date: announcement.created_at)
+                td
+                  - if announcement.blog?
+                    span.announcement__status__text
+                      = t(:'admin.announcements.index.published_site')
+                    span
+                      = link_to t(:'admin.announcements.index.view_post'), announcement.blog_path
+                  - else
+                    => link_to t(:'admin.announcements.index.publish_site'),
+                      '#',
+                      class: 'btn btn-default btn-xs',
+                      onclick: "alert('Coming soon')"
+                td
+                  - if announcement.email?
+                    span.announcement__status__text
+                      = announcement.email_status
+                    span
+                      = link_to t(:'admin.announcements.index.view_statistics'), announcement.email_stats_path
+                  - else
+                    => link_to t(:'admin.announcements.index.publish_email'),
+                      announcement.email_create_path,
+                      class: 'btn btn-default btn-xs'
+
+        / Uncomment when xi-news endpoint filters are implemented and used
+        /= will_paginate @published.pagination, renderer: PaginationRenderer
+      - else
+        = t(:'admin.announcements.index.published_empty')

@@ -1,0 +1,247 @@
+/*------------------------------------*\
+    $CONTENTS
+
+    Main navigation bar styles
+\*------------------------------------*/
+/**
+ * Variables..............Variable declarations and overrides
+ * Bootstrap-Import.......Bootstrap import
+ * Icon-Box...............Navbar Icon-box styles
+ * Tabs...................Tab navigation styles
+ * Course-Item-Nav........Course area item navigation
+ * Pills..................Pills navigation
+ */
+
+/*------------------------------------*\
+    $Variables
+\*------------------------------------*/
+// FILTER
+$xi-filter-dropdown-bg: $black !default;
+$xi-filter-dropdown-active-bg: $gray-600 !default;
+$xi-filter-dropdown-items-active-bg: $black !default;
+$xi-filter-dropdown-items-height: 20px !default;
+
+/*------------------------------------*\
+    $Bootstrap-Import
+\*------------------------------------*/
+@import "bootstrap-sass/assets/stylesheets/bootstrap/mixins/border-radius";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/navs";
+
+/*------------------------------------*\
+    $Filter
+\*------------------------------------*/
+.filter .nav-pills {
+  background: $gray-800;
+
+  & > .dropdown > a {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: $white;
+    line-height: $xi-filter-dropdown-items-height;
+
+    &:hover,
+    &:focus {
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+  }
+
+  a,
+  a:hover,
+  a:focus {
+    padding: 5px 15px;
+    border: none;
+    border-radius: 0px;
+    background: inherit;
+  }
+
+  li {
+    margin-bottom: 0px;
+  }
+
+  .dropdown-toggle:hover {
+    background-color: $xi-filter-dropdown-active-bg;
+  }
+
+  a:hover {
+    background-color: $xi-filter-dropdown-bg;
+  }
+
+  li.open > a {
+    background-color: $xi-filter-dropdown-active-bg;
+  }
+
+  .dropdown.open {
+    background-color: $xi-filter-dropdown-active-bg;
+  }
+
+  span.badge {
+    background: $xi-filter-dropdown-active-bg;
+  }
+
+  .dropdown-menu {
+    li {
+      & > a {
+        padding-right: 10px;
+      }
+
+      &.active,
+      & a:hover {
+        background-color: $xi-filter-dropdown-items-active-bg;
+      }
+    }
+  }
+}
+
+/*------------------------------------*\
+    $Icon-Box
+\*------------------------------------*/
+.icon-box {
+  height: $navbar-height;
+
+  margin-top: -3px; // QUICKFIX! Redo the Icon-box when there's time!
+  color: $white;
+  line-height: $navbar-height;
+
+  & .item {
+    position: relative;
+
+    color: $white;
+    cursor: pointer;
+
+    & > li {
+      height: $navbar-height;
+    }
+
+    & > a {
+      display: inline-block;
+      height: 100%;
+      color: $white;
+      text-decoration: none;
+    }
+
+    & > a:hover,
+    & > a:focus {
+      color: $primary-color;
+    }
+
+    & a.dropdown-toggle,
+    & a.dropdown-toggle:hover,
+    & a.dropdown-toggle:focus {
+      background-color: rgba($white, 0%);
+    }
+
+    & .overlay {
+      @extend .badge;
+      position: absolute;
+      z-index: 10000;
+      right: -10px;
+      bottom: 10px;
+      padding: 3px;
+      background-color: $primary-color;
+      font-size: 0.7em;
+      font-weight: normal;
+      line-height: 100%;
+      text-align: center;
+    }
+  }
+}
+
+/*------------------------------------*\
+    $Tabs
+\*------------------------------------*/
+
+.nav > li > a {
+  color: $black;
+}
+
+.dashboard-nav > li > a {
+  padding: 10px;
+}
+
+.course-nav > li > a {
+  padding: 12px 10px 10px;
+}
+
+.dashboard-nav,
+.course-nav {
+  // Make sure all icons are aligned equally
+  & > li > a > .xi-icon {
+    display: inline-block;
+    width: 23px;
+    margin-top: -3px;
+    margin-right: 7px;
+    font-size: 1.5em;
+    line-height: inherit;
+  }
+}
+
+.course-deadlines {
+  button {
+    border: none;
+    background-color: transparent;
+  }
+
+  &__bubble {
+    position: absolute;
+    top: 0px;
+    left: 42px;
+    display: inline-block;
+
+    min-width: 18px;
+    height: 18px;
+    padding: 3px;
+    border-radius: 50%;
+
+    background-color: $gray-600;
+
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 1;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+
+    .state-urgent & {
+      background-color: $primary-color;
+    }
+  }
+
+  &__placeholder {
+    padding: 5px 10px;
+    color: $gray;
+    font-weight: bold;
+    text-align: center;
+  }
+}
+
+.course-deadline {
+  &__item {
+    display: block;
+    font-weight: bold;
+  }
+
+  &__due {
+    display: block;
+    font-size: 0.8em;
+  }
+}
+
+/*------------------------------------*\
+    $News-Nav
+\*------------------------------------*/
+.news-nav li {
+  padding: 0px;
+  border-left: 3px solid $background-color;
+  margin: 0px 0px 10px 0;
+
+  &.active {
+    border-left: 3px solid $primary-color;
+  }
+
+  a {
+    padding: 0 5px 0px 10px;
+    margin: 0 5px 0px 0;
+  }
+}

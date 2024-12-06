@@ -1,0 +1,34 @@
+de:
+  achievements:
+    certificates:
+      confirmation:
+        name: Teilnahmebestätigung
+        state:
+          unavailable: Für diesen Kurs wird keine Teilnahmebestätigung angeboten.
+          no_longer_achievable: Die reguläre Kurslaufzeit ist bereits zu Ende. Sie können die Teilnahmebestätigung nur erreichen, während der Kurs läuft. Bitte achten Sie auf eine mögliche Wiederholung.
+          reactivatable: Die reguläre Kurslaufzeit ist bereits zu Ende. Wenn Sie die Teilnahmebestätigung erwerben wollen, können Sie den Kurs jetzt reaktivieren.
+          not_achieved: Sie haben bereits %{user_percentage}% der verfügbaren Lerneinheiten in diesem Kurs abgeschlossen. Für die Teilnahmebestätigung müssen Sie noch weitere %{difference}% Einheiten abschließen.
+          not_released: Herzlichen Glückwunsch! Sie haben die Teilnahmebestätigung in diesem Kurs erreicht, indem Sie %{user_percentage}% aller Lerneinheiten abgeschlossen haben. Sobald die Teilnahmebestätigung von den Kursbetreuern freigegeben wird, können Sie diese hier herunterladen. Dies kann bis zu zwei Wochen nach Kursende dauern.
+          released: Herzlichen Glückwunsch! Sie haben die Teilnahmebestätigung in diesem Kurs erreicht, indem Sie %{user_percentage}% aller Lerneinheiten abgeschlossen haben.
+          achieved_via_roa: Herzlichen Glückwunsch! Sie haben die Teilnahmebestätigung in diesem Kurs erreicht, indem Sie den Leistungsnachweis erworben haben.
+        requirements:
+          progress: Schließen Sie mindestens %{course_percentage}% der Lerneinheiten ab.
+        download:
+          not_released: Sobald die Teilnahmebestätigung freigegeben wird, können Sie diese hier herunterladen.
+      achievement:
+        name: Leistungsnachweis
+        state:
+          unavailable: Für diesen Kurs wird kein Leistungsnachweis angeboten.
+          no_longer_achievable: Die reguläre Kurslaufzeit ist bereits zu Ende. Sie können den Leistungsnachweis nur erreichen, während der Kurs läuft. Bitte achten Sie auf eine mögliche Wiederholung.
+          reactivatable: Die reguläre Kurslaufzeit ist bereits zu Ende. Wenn Sie den Leistungsnachweis erwerben wollen, können Sie den Kurs jetzt reaktivieren.
+          not_achieved: Sie haben bereits %{user_percentage}% der Gesamtpunkte in bewerteten Prüfungen erreicht. %{difference}
+          not_released: Herzlichen Glückwunsch! Sie haben sich für einen Leistungsnachweis in diesem Kurs qualifiziert, indem Sie %{user_percentage}% der Punkte in bewerten Prüfungen erreicht haben. Sobald der Leistungsnachweis von den Kursbetreuern freigegeben wird, können Sie es hier herunterladen. Dies kann bis zu zwei Wochen nach Kursende dauern.
+          released: Herzlichen Glückwunsch! Sie haben sich für den Leistungsnachweis in diesem Kurs qualifiziert, indem Sie %{user_percentage}% der Punkte in bewerten Prüfungen erreicht haben.
+        requirements:
+          completion: Erreichen Sie %{course_percentage}% der möglichen Gesamtpunkte in bewerteten Prüfungen.
+        download:
+          not_released: Sobald der Leistungsnachweis freigegeben wird, können Sie diesen hier herunterladen.
+    points_difference:
+      zero: ~
+      one: Sie benötigen einen weiteren Punkt, um sich für den Leistungsnachweis in diesem Kurs zu qualifizieren.
+      other: "Sie benötigen %{count} weitere Punkte, um sich für den Leistungsnachweis in diesem Kurs zu qualifizieren."

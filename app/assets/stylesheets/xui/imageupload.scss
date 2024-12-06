@@ -1,0 +1,150 @@
+.xui-imageupload {
+  display: flex;
+
+  .imageupload-current {
+    width: fit-content;
+
+    img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    .dz-image-preview {
+      margin-right: 1em;
+    }
+
+    .dz-preview {
+      margin-right: 1em;
+    }
+  }
+
+  .xui-imageupload-zone {
+    display: flex;
+    min-height: 50px;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+    border: 3px dashed $gray-250;
+    border-radius: 3px;
+
+    // Consistent with mdupload component
+    background-color: $gray-50;
+    cursor: pointer;
+    &:hover {
+      background: $gray-100;
+    }
+  }
+
+  .dz-drag-hover {
+    background: $gray-100;
+  }
+
+  .dz-message {
+    padding: 5px;
+    text-align: center;
+  }
+
+  .dz-started .dz-message {
+    display: none;
+  }
+
+  .dz-preview {
+    display: flex;
+  }
+
+  .dz-details {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 2;
+    justify-content: flex-end;
+
+    margin: 1px 0;
+  }
+
+  .dz-info {
+    display: flex;
+    align-items: baseline;
+
+    & > span {
+      line-height: 22px;
+    }
+  }
+
+  .dz-thumb {
+    width: 30px;
+    height: 30px;
+    border-radius: 2px;
+    margin: 1px 4px;
+  }
+
+  .dz-size {
+    margin: 0 0 0 1em;
+    font-size: 80%;
+  }
+
+  .dz-progress {
+    display: block;
+    width: 100%;
+
+    border-radius: 2px;
+    background-color: lighten($primary-color, 50%);
+    opacity: 0;
+
+    & > div {
+      width: 0;
+      height: 4px;
+
+      border-radius: 2px;
+      background-color: $primary-color;
+    }
+  }
+
+  .dz-processing .dz-progress {
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+  }
+
+  .dz-success .dz-progress {
+    opacity: 0;
+  }
+
+  .dz-error .dz-progress > div {
+    background-color: $state-danger-bg;
+  }
+
+  .dz-actions button {
+    display: inline-block;
+
+    width: 30px;
+    height: 30px;
+    border: none;
+    background: transparent;
+
+    color: #ddd;
+    line-height: 0;
+
+    &:hover {
+      color: #333;
+    }
+    &.dz-clear {
+      border: solid;
+      border-radius: 50%;
+      margin-top: -9px;
+      margin-left: -21px;
+      background-color: $white;
+      color: $error-500;
+      cursor: pointer;
+      font-size: 1em;
+      text-decoration: none;
+
+      &.hidden {
+        display: none;
+      }
+    }
+  }
+
+  .to-be-removed {
+    filter: alpha(opacity=40);
+    opacity: 0.4;
+  }
+}

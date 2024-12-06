@@ -1,0 +1,4 @@
+li.mb10
+  b = branch.title
+  - node.children.each do |child|
+    = render partial: 'branch_item', locals: {section:, item: child.item}

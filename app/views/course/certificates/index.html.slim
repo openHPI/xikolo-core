@@ -1,0 +1,13 @@
+.col-md-4
+
+  .PageIntro
+    h2.PageIntro-title
+      = t(:'course.certificates.intro_title')
+    .PageIntro-lead
+      p = t(:'course.certificates.intro_text')
+      p = t(:'course.certificates.intro_guidelines_html')
+
+.col-md-8
+  .CourseAchievementsList
+    - @index.each do |achievement|
+      = render Course::Achievement.new(achievement)

@@ -1,0 +1,43 @@
+.courses-slider {
+  &__container {
+    width: 100%;
+    padding: 10px 0 20px;
+    background: $courses-slider-background-color;
+    @include screen-size-sm-and-up {
+      padding: 35px 0 45px;
+    }
+  }
+
+  &__content {
+    max-width: $main-content-width;
+    margin: 0 auto;
+  }
+
+  &__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    @include horizontal-page-padding;
+  }
+
+  &__title {
+    padding-right: 15px;
+    color: $white;
+    font-weight: normal;
+
+    @include font-m;
+    @include screen-size-sm-and-up {
+      @include font-l;
+    }
+  }
+
+  &__slider {
+    width: 100%;
+    @include screen-size-sm-and-up {
+      padding: 15px;
+      @include horizontal-page-padding;
+    }
+  }
+}
