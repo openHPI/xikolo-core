@@ -6,10 +6,6 @@ class NewsDecorator < ApplicationDecorator
   # Read tracking was introduced on this date
   MARK_AS_READ_BEFORE = Date.new(2016, 5, 24).freeze
 
-  def self.collection_decorator_class
-    MultipleNewsDecorator
-  end
-
   def basic
     {
       id:,

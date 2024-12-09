@@ -8,7 +8,7 @@ class API::V2::Course::CoursesController < API::V2::RootController
     Responders::HttpCacheResponder,
     Responders::PaginateResponder
 
-  respond_to :json, :msgpack
+  respond_to :json
 
   # List allowed filter parameters for #index here.
   rfc6570_params index: %i[embed channel document_id]

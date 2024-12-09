@@ -31,25 +31,6 @@ describe 'Sessions: Show', type: :request do
     expect(resource).to eq session_resource
   end
 
-  context 'Accept: application/msgpack' do
-    let(:config) do
-      {
-        headers: {
-          Accept: 'application/msgpack, application/json',
-        },
-      }
-    end
-
-    it 'returns a msgpack response' do
-      expect(resource.response.headers['CONTENT_TYPE'])
-        .to eq 'application/msgpack'
-    end
-
-    it 'responds with session resource' do
-      expect(resource).to eq session_resource
-    end
-  end
-
   describe 'access date' do
     around {|example| Timecop.freeze(&example) }
 

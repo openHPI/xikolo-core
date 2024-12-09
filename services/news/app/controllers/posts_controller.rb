@@ -5,7 +5,7 @@ class PostsController < ApplicationController
     Responders::HttpCacheResponder,
     Responders::PaginateResponder
 
-  respond_to :json, :msgpack
+  respond_to :json
 
   # This focuses on exposing the announcements published on the site ("News").
   # It does not include announcements that have been published via email.

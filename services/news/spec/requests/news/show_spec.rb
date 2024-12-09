@@ -20,23 +20,6 @@ RSpec.describe 'News: Show', type: :request do
     it { is_expected.to have_rel :user_visit }
   end
 
-  describe '(msgpack)' do
-    let(:service) do
-      Restify.new(
-        :test,
-        headers: {'Accept' => 'application/msgpack, application/json'}
-      ).get.value!
-    end
-
-    it 'returns a Msgpack-encoded response' do
-      expect(request.response.content_type).to eq 'application/msgpack'
-    end
-
-    it { is_expected.to have_rel :self }
-    it { is_expected.to have_rel :email }
-    it { is_expected.to have_rel :user_visit }
-  end
-
   describe 'with different translations' do
     let!(:announcement) { create(:news, :with_german_translation) }
 

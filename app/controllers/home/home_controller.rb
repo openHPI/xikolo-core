@@ -34,8 +34,7 @@ class Home::HomeController < Abstract::FrontendController
         published: true,
         only_homepage: true,
         language: I18n.locale,
-      },
-      {headers: {'Accept' => 'application/msgpack, application/json'}}
+      }
     ).value!.map do |post|
       AnnouncementPresenter.create post
     end

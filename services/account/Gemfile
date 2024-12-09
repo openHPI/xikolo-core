@@ -15,7 +15,6 @@ gem 'mutex_m'
 gem 'syslog'
 
 gem 'bcrypt', '~> 3.1'
-gem 'msgpack'
 gem 'uuid4'
 
 gem 'activerecord-postgres_enum', '~> 2.0'

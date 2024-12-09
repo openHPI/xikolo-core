@@ -75,16 +75,6 @@ describe '[API v2] Course: List', type: :request do
     end
   end
 
-  context '<Accept: application/msgpack>' do
-    let(:session_headers) { super().merge 'Accept' => 'application/msgpack' }
-    let(:course_attrs) { {status: 'active'} }
-
-    it 'responds with MessagePack' do
-      expect(request.response.headers['CONTENT_TYPE'])
-        .to eq 'application/msgpack'
-    end
-  end
-
   context 'as anonymous user' do
     let(:user_id) { nil }
     let(:permissions) { [] }

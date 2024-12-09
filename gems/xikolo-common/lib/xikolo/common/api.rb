@@ -15,8 +15,6 @@ module Xikolo::Common
 
     class << self
       ACCEPT_HEADER = %w[
-        application/msgpack
-        application/x-msgpack
         application/json
       ].join(', ').freeze
 

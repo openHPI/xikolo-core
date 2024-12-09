@@ -35,6 +35,10 @@ module Xikolo
         def member_routes
           @member_routes ||= {}
         end
+
+        def collection_routes
+          @collection_routes ||= {}
+        end
       end
     end
   end

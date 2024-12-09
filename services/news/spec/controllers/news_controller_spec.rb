@@ -35,22 +35,6 @@ describe NewsController, type: :controller do
       expect(json.size).to eq(1)
     end
 
-    context 'format=msgpack' do
-      before { request.set_header 'HTTP_ACCEPT', 'application/msgpack, application/json' }
-
-      let(:msgpack) { MessagePack.load response.body }
-
-      it 'responds with a Msgpack document' do
-        index
-        expect(response.content_type).to eq 'application/msgpack'
-      end
-
-      it 'returns a list' do
-        index
-        expect(msgpack.size).to eq(1)
-      end
-    end
-
     context 'for a course' do
       let(:params) { super().merge! course_id: news.course_id }
       let(:other_course_id) { SecureRandom.uuid }

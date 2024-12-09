@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class API::SessionsController < API::RESTController
-  respond_to :json, :msgpack
+  respond_to :json
 
   has_scope :user_id do |_, scope, value|
     scope.where user_id: value

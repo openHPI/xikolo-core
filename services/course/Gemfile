@@ -37,7 +37,6 @@ gem 'rails-rfc6570', '~> 3.0'
 gem 'responders'
 gem 'will_paginate'
 
-gem 'msgpack'
 gem 'oj', platform: :ruby
 
 gem 'acts_as_list'

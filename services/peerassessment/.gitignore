@@ -14,8 +14,8 @@
 dump.rdb
 
 # Ignore all logfiles and tempfiles.
-/log/*.log
-/tmp
+/log/*
+/tmp/*
 
 # IntellJ / RubyMine
 /.idea

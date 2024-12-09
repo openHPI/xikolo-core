@@ -13,8 +13,7 @@ class Home::AnnouncementsController < Abstract::FrontendController
     get_params[:user_id] = current_user.id if current_user.logged_in?
 
     @posts = Xikolo.api(:news).value!.rel(:posts).get(
-      get_params,
-      headers: {'Accept' => 'application/msgpack, application/json'}
+      get_params
     ).value!.map do |post|
       AnnouncementPresenter.create post
     end

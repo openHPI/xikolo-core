@@ -6,10 +6,6 @@ class ApplicationDecorator < Draper::Decorator
     export.as_json opts
   end
 
-  def to_msgpack(opts)
-    as_json(opts).to_msgpack
-  end
-
   private
 
   def extract(fields)

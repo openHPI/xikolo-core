@@ -74,9 +74,5 @@ module Xikolo::CourseService
       Symbol,
       Time,
     ]
-
-    initializer 'core_ext' do
-      require 'core_ext/to_msgpack'
-    end
   end
 end

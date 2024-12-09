@@ -69,8 +69,7 @@ module Xikolo
                 else
                   hash['global'] = true
                 end
-              }.merge(filters),
-              headers: {'Accept' => 'application/msgpack, application/json'}
+              }.merge(filters)
             ).value!
           end
         end

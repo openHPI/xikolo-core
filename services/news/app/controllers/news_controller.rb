@@ -16,7 +16,8 @@ class NewsController < ApplicationController
     Responders::HttpCacheResponder,
     Responders::PaginateResponder
 
-  respond_to :json, :msgpack
+  respond_to :json
+
   def index
     news = News.includes(:translations).all
 

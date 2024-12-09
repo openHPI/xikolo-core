@@ -12,8 +12,8 @@
 /db/*.sqlite3-journal
 
 # Ignore all logfiles and tempfiles.
-/log/*.log
-/tmp
+/log/*
+/tmp/*
 
 # OSX trash files
 .DS_STORE

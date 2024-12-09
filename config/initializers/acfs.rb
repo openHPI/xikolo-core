@@ -2,10 +2,10 @@
 
 module RestifyCompatiblity
   #
-  # Provides a restify compatible access ([], keys?, fetch)
-  # to Acfs resources. These methods return non-casted values
-  # e.g. times as string. Only basic JSON/Msgpack types are
-  # directly supported: nil, string, int, boolean
+  # Provides a restify compatible access ([], keys?, fetch) to Acfs
+  # resources. These methods return non-casted values e.g. times as
+  # string. Only basic JSON types are directly supported: nil, string,
+  # int, boolean
   #
   # the new `raw_attributes` stores each attributes unprocesses as it
   # has been received from the service

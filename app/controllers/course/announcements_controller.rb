@@ -14,8 +14,7 @@ class Course::AnnouncementsController < Abstract::FrontendController
         course_id: the_course.id,
         published: !current_user.allowed?('news.announcement.show'),
         language: I18n.locale,
-      },
-      {headers: {'Accept' => 'application/msgpack, application/json'}}
+      }
     ).value!.map do |post|
       AnnouncementPresenter.create post
     end

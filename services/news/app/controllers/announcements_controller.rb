@@ -5,7 +5,7 @@ class AnnouncementsController < ApplicationController
     Responders::HttpCacheResponder,
     Responders::PaginateResponder
 
-  respond_to :json, :msgpack
+  respond_to :json
 
   # This returns (targeted) announcements for admins only, these are not
   # displayed to regular users.

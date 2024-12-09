@@ -107,7 +107,7 @@ GEM
       public_suffix (>= 2.0.2, < 7.0)
     amq-protocol (2.3.2)
     aws-eventstream (1.3.0)
-    aws-partitions (1.1014.0)
+    aws-partitions (1.1018.0)
     aws-sdk-core (3.214.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
@@ -116,7 +116,7 @@ GEM
     aws-sdk-kms (1.96.0)
       aws-sdk-core (~> 3, >= 3.210.0)
       aws-sigv4 (~> 1.5)
-    aws-sdk-s3 (1.174.0)
+    aws-sdk-s3 (1.176.0)
       aws-sdk-core (~> 3, >= 3.210.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.5)
@@ -148,7 +148,7 @@ GEM
       activerecord (>= 5.a)
       database_cleaner-core (~> 2.0.0)
     database_cleaner-core (2.0.1)
-    date (3.4.0)
+    date (3.4.1)
     decorate-responder (2.1.0)
       responders (>= 2, < 4)
     diff-lcs (1.5.1)
@@ -187,7 +187,7 @@ GEM
       foundation_emails (~> 2)
       nokogiri
     jmespath (1.6.2)
-    json (2.8.2)
+    json (2.9.0)
     launchy (3.0.1)
       addressable (~> 2.8)
       childprocess (~> 5.0)
@@ -197,7 +197,7 @@ GEM
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
     little-plugger (1.1.4)
-    logger (1.6.1)
+    logger (1.6.2)
     logging (2.4.0)
       little-plugger (~> 1.1)
       multi_json (~> 1.14)
@@ -217,7 +217,7 @@ GEM
     method_source (1.1.0)
     mini_mime (1.1.5)
     mini_portile2 (2.8.8)
-    minitest (5.25.2)
+    minitest (5.25.4)
     mnemosyne-ruby (2.0.0)
       activesupport (>= 6.1)
       bunny
@@ -237,10 +237,10 @@ GEM
     net-smtp (0.5.0)
       net-protocol
     nio4r (2.7.4)
-    nokogiri (1.16.7)
+    nokogiri (1.17.0)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
-    nokogiri (1.16.7-x86_64-linux)
+    nokogiri (1.17.0-x86_64-linux)
       racc (~> 1.4)
     paginate-responder (2.1.0)
       rack-link_headers (>= 2.2)
@@ -290,9 +290,9 @@ GEM
       activesupport (>= 5.0.0)
       minitest
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.6.0)
+    rails-html-sanitizer (1.6.1)
       loofah (~> 2.21)
-      nokogiri (~> 1.14)
+      nokogiri (>= 1.15.7, != 1.16.7, != 1.16.6, != 1.16.5, != 1.16.4, != 1.16.3, != 1.16.2, != 1.16.1, != 1.16.0.rc1, != 1.16.0)
     rails-i18n (7.0.10)
       i18n (>= 0.7, < 2)
       railties (>= 6.0.0, < 8)
@@ -351,7 +351,7 @@ GEM
       rspec-expectations (~> 3.13)
       rspec-mocks (~> 3.13)
       rspec-support (~> 3.13)
-    rspec-support (3.13.1)
+    rspec-support (3.13.2)
     rspec-teamcity (1.0.0)
       rspec (>= 2.99, >= 2.14.2, < 4)
     ruby2_keywords (0.0.5)
@@ -448,7 +448,6 @@ DEPENDENCIES
   letter_opener
   listen (~> 3.9.0)
   mnemosyne-ruby (~> 2.0)
-  msgpack (~> 1.2)
   msgr (~> 1.5)
   mutex_m
   paginate-responder (~> 2.0)
@@ -493,4 +492,4 @@ RUBY VERSION
    ruby 3.3.5p100
 
 BUNDLED WITH
-   2.5.21
+   2.5.23

@@ -3,7 +3,7 @@
 class ApplicationDecorator < Draper::Decorator
   include ApiResponder::Formattable
 
-  api_formats :json, :msgpack
+  api_formats :json
 
   def item_attributes
     {

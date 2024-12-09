@@ -26,7 +26,6 @@ gem 'telegraf', '~> 3.0'
 # API
 gem 'decorate-responder', '~> 2.0'
 gem 'draper', '~> 4.0'
-gem 'msgpack', '~> 1.2'
 gem 'paginate-responder', '~> 2.0'
 gem 'rails-rfc6570', '~> 3.0'
 gem 'responders'

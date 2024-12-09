@@ -170,24 +170,6 @@ describe '[API v2] Course: Show', type: :request do
     end
   end
 
-  context '<Accept: application/msgpack>' do
-    let(:session_headers) { super().merge 'Accept' => 'application/msgpack' }
-    let(:course_attrs) { {status: 'active'} }
-
-    # REGRESSION: Generate a course that belongs to a channel, as that used to
-    # break Msgpack serialization.
-    before do
-      course.update(channel: create(:channel))
-    end
-
-    it 'responds with MessagePack' do
-      expect(resource.response.headers['CONTENT_TYPE'])
-        .to eq 'application/msgpack'
-    end
-
-    it { is_expected.to eq json(course_full.decorate.as_json(api_version: 2)) }
-  end
-
   context 'as anonymous user' do
     let(:user_id) { nil }
     let(:permissions) { ['course.course.show'] }
