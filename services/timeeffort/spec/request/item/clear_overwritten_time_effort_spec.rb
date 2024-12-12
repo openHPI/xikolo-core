@@ -46,7 +46,7 @@ RSpec.describe 'Item: clear_overwritten_time_effort', type: :request do
 
       it 'responds with 422 Unprocessable Entity' do
         expect { clear_effort }.to raise_error(Restify::ClientError) do |error|
-          expect(error.status).to eq :unprocessable_entity
+          expect(error.status).to eq :unprocessable_content
         end
       end
     end

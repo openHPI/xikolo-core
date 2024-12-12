@@ -20,7 +20,7 @@ RSpec.describe 'Item: overwrite_time_effort', type: :request do
 
     it 'responds with 422 Unprocessable Entity' do
       expect { overwrite_effort }.to raise_error(Restify::ClientError) do |error|
-        expect(error.status).to eq :unprocessable_entity
+        expect(error.status).to eq :unprocessable_content
         expect(error.errors).to eq 'time_effort_required'
       end
     end
@@ -63,7 +63,7 @@ RSpec.describe 'Item: overwrite_time_effort', type: :request do
         it 'responds with 422 Unprocessable Entity' do
           expect { overwrite_effort }.to raise_error(Restify::ClientError) do |error|
             expect(course_item_stub).to have_been_requested
-            expect(error.status).to eq :unprocessable_entity
+            expect(error.status).to eq :unprocessable_content
           end
         end
       end
@@ -82,7 +82,7 @@ RSpec.describe 'Item: overwrite_time_effort', type: :request do
 
       it 'responds with 422 Unprocessable Entity' do
         expect { overwrite_effort }.to raise_error(Restify::ClientError) do |error|
-          expect(error.status).to eq :unprocessable_entity
+          expect(error.status).to eq :unprocessable_content
           expect(error.errors).to eq 'overwrite_time_effort_error'
         end
       end

@@ -29,7 +29,7 @@ class ItemsController < RESTController
 
   def overwrite_time_effort
     if params[:time_effort].blank?
-      return render status: :unprocessable_entity, json: {errors: 'time_effort_required'}
+      return render status: :unprocessable_content, json: {errors: 'time_effort_required'}
     end
 
     item = Item.find(params.require(:item_id))
@@ -37,9 +37,9 @@ class ItemsController < RESTController
 
     head :no_content
   rescue Errors::OverwriteTimeEffortError => e
-    render status: :unprocessable_entity, json: {errors: e.reason}
+    render status: :unprocessable_content, json: {errors: e.reason}
   rescue Restify::ClientError => e
-    render status: :unprocessable_entity, json: {errors: e.errors}
+    render status: :unprocessable_content, json: {errors: e.errors}
   end
 
   def clear_overwritten_time_effort
@@ -49,7 +49,7 @@ class ItemsController < RESTController
 
     respond_with item
   rescue Restify::ClientError => e
-    render status: :unprocessable_entity, json: {errors: e.errors}
+    render status: :unprocessable_content, json: {errors: e.errors}
   end
 
   private
