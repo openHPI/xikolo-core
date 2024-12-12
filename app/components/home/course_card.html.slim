@@ -3,7 +3,7 @@ div class="course-card #{"course-card--#{css_modifiers}" if css_modifiers}" data
     .course-card__label
       span = label
   .course-card__image-wrapper
-    a.course-card__image class=("course-card__image--hidden-course" if @course.hidden) href=course_path(@course.course_code) aria-hidden='true' tabindex='-1'
+    a.course-card__image class=('course-card__image--hidden-course' if @course.hidden) href=course_path(@course.course_code) aria-hidden='true' tabindex='-1'
       picture
         - visuals.each do |source|
           source media=source.media srcset=source.srcset
@@ -31,10 +31,10 @@ div class="course-card #{"course-card--#{css_modifiers}" if css_modifiers}" data
       - if classifier_clusters.present?
         li.course-card__classifiers aria-label=t(:'course.card.classifiers')
           = render Global::FaIcon.new('hashtag')
-          span class="#{"course-card__empty-datapoint-text" if classifiers.empty?}" = classifiers
+          span class="#{'course-card__empty-datapoint-text' if classifiers.empty?}" = classifiers
       li.course-card__certificates aria-label=t(:'course.card.certificate')
         = render Global::FaIcon.new('medal')
-        span class="#{"course-card__empty-datapoint-text" if highest_achievable_certificate.blank?}" = highest_achievable_certificate
+        span class="#{'course-card__empty-datapoint-text' if highest_achievable_certificate.blank?}" = highest_achievable_certificate
       li.course-card__language aria-label=t(:'course.card.language')
         = render Global::FaIcon.new('globe')
         span = languages_preview

@@ -7,21 +7,6 @@ module Course
         include UUIDHelper
         include ProgressHelper
 
-        EXERCISE_TYPES =
-          {
-            'bonus' => 'lightbulb-on+circle-star',
-            'selftest' => 'lightbulb-on',
-            'main' => 'money-check-pen',
-            'survey' => 'clipboard-list-check',
-          }.freeze
-
-        CONTENT_TYPES =
-          {
-            'video' => 'video',
-            'rich_text' => 'file-lines',
-            'lti_exercise' => 'display-code',
-          }.freeze
-
         def initialize(item, course)
           @item = item
           @course = course
@@ -51,12 +36,7 @@ module Course
         end
 
         def icon
-          case @item['content_type']
-            when 'quiz'
-              EXERCISE_TYPES.fetch(@item['exercise_type'])
-            else
-              CONTENT_TYPES.fetch(@item['content_type'], 'money-check-pen')
-          end
+          ::Course::Item::Icon.from_resource(@item).icon_class
         end
 
         private

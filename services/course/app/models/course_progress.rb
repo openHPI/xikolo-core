@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CourseProgress < ApplicationRecord
-  self.primary_keys = :course_id, :user_id
+  self.primary_key = %i[course_id user_id]
 
   # `0_00..100_00` are the fixed point representation of 0.00% - 100.00%
   validates_inclusion_of :points_percentage_fpoints, in: 0_00..100_00

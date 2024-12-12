@@ -14,7 +14,7 @@ module Duplicated
 
     default_scope { order(identifier: :asc) }
 
-    serialize :style, Hash
+    serialize :style, coder: YAML, type: Hash
 
     def clone(attrs = {})
       self.class.create attributes.except('id').merge(attrs)

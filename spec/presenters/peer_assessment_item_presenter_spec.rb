@@ -19,7 +19,9 @@ describe PeerAssessmentItemPresenter, type: :presenter do
   describe '#icon_class' do
     subject { presenter.icon_class }
 
-    context 'without icon_type set' do
+    let(:item_params) { super().merge content_type: 'peer_assessment' }
+
+    context 'with nothing else set' do
       it { is_expected.to eq 'money-check-pen' }
     end
   end

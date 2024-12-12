@@ -137,7 +137,7 @@ describe 'Course: Update', type: :request do
       )
 
       expect { action }.to raise_error(Restify::ClientError) do |error|
-        expect(error.status).to eq :unprocessable_entity
+        expect(error.status).to eq :unprocessable_content
         expect(error.errors).to eq \
           'description' => ['rtfile_rejected']
       end
@@ -162,7 +162,7 @@ describe 'Course: Update', type: :request do
       stub_request(:put, store_regex).and_return(status: 503)
 
       expect { action }.to raise_error(Restify::ClientError) do |error|
-        expect(error.status).to eq :unprocessable_entity
+        expect(error.status).to eq :unprocessable_content
         expect(error.errors).to eq \
           'description' => ['rtfile_error']
       end

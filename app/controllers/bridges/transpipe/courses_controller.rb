@@ -20,7 +20,7 @@ module Bridges
 
         render json: serialize_course_for_show(course)
       rescue Restify::NotFound
-        head :not_found, content_type: 'text/plain'
+        head(:not_found, content_type: 'text/plain')
       end
 
       private

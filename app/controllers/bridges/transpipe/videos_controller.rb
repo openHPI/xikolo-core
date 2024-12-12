@@ -11,7 +11,7 @@ module Bridges
       def show
         render json: serialize_video(Video::Video.find(params[:id]))
       rescue ActiveRecord::RecordNotFound
-        head :not_found, content_type: 'text/plain'
+        head(:not_found, content_type: 'text/plain')
       end
 
       private

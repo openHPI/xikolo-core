@@ -22,7 +22,7 @@ class API::FeaturesController < API::RESTController
   end
 
   def destroy
-    return head :not_found if params[:name].blank?
+    return head(:not_found, content_type: 'text/plain') if params[:name].blank?
 
     feature = Feature
       .where(owner:, context:, name: params[:name])

@@ -5,9 +5,7 @@ source 'https://rubygems.org'
 ruby '~> 3.3.0'
 
 # Rails
-gem 'rails', '~> 6.1.0'
-gem 'sprockets', '~> 3.2'
-gem 'sprockets-rails', '~> 3.2'
+gem 'rails', '~> 7.2.0'
 
 gem 'base64'
 gem 'bigdecimal'
@@ -41,7 +39,6 @@ gem 'oj', platform: :ruby
 
 gem 'acts_as_list'
 gem 'awesome_nested_set', '~> 3.4'
-gem 'composite_primary_keys', '~> 13.0'
 gem 'uuid4', '~> 1.4'
 
 # Messaging via RabbitMQ
@@ -55,11 +52,6 @@ gem 'xikolo-sidekiq', path: './gems/xikolo-sidekiq'
 
 # Versioning of ActiveRecords
 gem 'paper_trail', '~> 15.0'
-
-# Successfactors API
-gem 'addressable'
-gem 'redcarpet', platform: :ruby
-gem 'typhoeus'
 
 # Data storage
 gem 'activerecord-postgres_enum', '~> 2.0'

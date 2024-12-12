@@ -102,7 +102,7 @@ class ItemsController < ApplicationController
 
     if (params[:user_id].present? || params[:for_user].present?) &&
        !item.accessible_for(user_id: params[:user_id].presence || params[:for_user])
-      return head :not_found, content_type: 'text/plain'
+      return head(:not_found, content_type: 'text/plain')
     end
 
     if embed.include?('user_visit') && params[:user_id].present?

@@ -53,7 +53,7 @@ describe 'Item User Results: Create', type: :request do
 
     it 'errors' do
       expect { creation }.to raise_error(Restify::ClientError) do |err|
-        expect(err.status).to eq :unprocessable_entity
+        expect(err.status).to eq :unprocessable_content
         expect(err.errors).to eq 'points' => %w[invalid_format]
       end
     end

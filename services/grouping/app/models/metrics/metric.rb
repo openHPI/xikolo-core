@@ -54,7 +54,7 @@ module Metrics
       # This overrides ActiveRecord::Inheritance::ClassMethods#find_sti_class.
       def find_sti_class(type_name)
         if (cls = STI_TYPE_TO_CLASS[type_name])
-          ::ActiveSupport::Dependencies.constantize(cls)
+          cls.constantize
         else
           raise SubclassNotFound.new("Unsupported record type: #{type_name}")
         end

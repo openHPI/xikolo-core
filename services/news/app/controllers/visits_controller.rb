@@ -11,7 +11,7 @@ class VisitsController < ApplicationController
     news = News.find_by(id: params[:announcement_id])
 
     unless news
-      head :not_found, content_type: 'text/plain'
+      head(:not_found, content_type: 'text/plain')
       return
     end
 

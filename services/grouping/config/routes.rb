@@ -1,11 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  defaults format: 'json' do
-    root to: 'root#index'
-
-    resources :system_info, only: [:show]
-
+  defaults format: :json do
     resources :user_tests, except: %i[new edit]
     resources :trials, except: %i[new edit create]
     resources :test_groups, only: %i[index show]
@@ -15,5 +11,6 @@ Rails.application.routes.draw do
     post '/users/:user_id/assignments', to: 'assignments#create', as: 'user_assignments'
 
     resources :system_info, only: [:show]
+    root to: 'root#index'
   end
 end

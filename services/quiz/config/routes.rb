@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  defaults format: 'json' do
+  defaults format: :json do
     resources :quizzes, except: %i[new edit] do
       member do
         post :clone
       end
     end
+    post '/quizzes/preview', to: 'quizzes#preview', as: 'preview'
 
     resources :questions, except: %i[new edit]
 
@@ -43,8 +44,6 @@ Rails.application.routes.draw do
     resources :quiz_submission_statistics, only: [:show], controller: :submission_statistics
 
     resources :system_info, only: [:show]
-
-    post '/quizzes/preview', to: 'quizzes#preview', as: 'preview'
     root to: 'application#index'
   end
 end

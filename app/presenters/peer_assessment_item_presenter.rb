@@ -11,10 +11,6 @@ class PeerAssessmentItemPresenter < ItemPresenter
     presenter
   end
 
-  def default_icon
-    'money-check-pen'
-  end
-
   def redirect!
     @redirect = peer_assessment_path UUID(@item.content_id).to_param
   end

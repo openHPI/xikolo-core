@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class API::BaseController < ApplicationController
-  include API::Accept
   include Vary
 
   # This is API!

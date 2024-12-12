@@ -19,11 +19,13 @@ describe RichTextItemPresenter, type: :presenter do
   describe '#icon_class' do
     subject { presenter.icon_class }
 
-    context 'without icon_type set' do
+    let(:item_params) { super().merge content_type: 'rich_text' }
+
+    context 'without icon type set' do
       it { is_expected.to eq 'file-lines' }
     end
 
-    context 'with icon_type set' do
+    context 'with icon type set' do
       let(:item_params) { super().merge icon_type: 'youtube' }
 
       it { is_expected.to eq 'video+circle-arrow-up-right' }

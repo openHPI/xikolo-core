@@ -11,7 +11,7 @@ class SubtitlesController < ApplicationController
 
     render plain: subtitle.to_vtt, content_type: 'text/vtt'
   rescue ActiveRecord::RecordNotFound
-    head :not_found, content_type: 'text/plain'
+    head(:not_found, content_type: 'text/plain')
   end
 
   def destroy
@@ -21,6 +21,6 @@ class SubtitlesController < ApplicationController
 
     redirect_back fallback_location: root_path
   rescue ActiveRecord::RecordNotFound
-    head :not_found
+    head(:not_found, content_type: 'text/plain')
   end
 end

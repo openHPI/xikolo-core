@@ -13,7 +13,7 @@ class ProgressesController < ApplicationController
   def index
     # 0. verify params
     unless params[:course_id].present? && params[:user_id].present?
-      return head :not_found
+      return head(:not_found, content_type: 'text/plain')
     end
 
     user = params[:user_id]

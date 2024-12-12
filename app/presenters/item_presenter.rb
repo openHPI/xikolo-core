@@ -85,7 +85,7 @@ class ItemPresenter < PrivatePresenter
           'peer_assessment'
         end
       when 'rich_text'
-        'rich_text' if icon_type.blank?
+        'rich_text' if @item['icon_type'].blank?
       else
         content_type
     end
@@ -140,24 +140,8 @@ class ItemPresenter < PrivatePresenter
     }.compact.to_json
   end
 
-  # This is overwritten by the content_type specific presenter
-  def default_icon
-    ''
-  end
-
-  # This might be overwritten by the content_type specific presenter
-  def icon_mapping
-    {}
-  end
-
-  def icon
-    return default_icon if exercise_type.nil?
-
-    icon_mapping.fetch(exercise_type.to_sym, default_icon)
-  end
-
   def icon_class
-    icon
+    Course::Item::Icon.from_resource(@item).icon_class
   end
 
   def css_classes

@@ -78,7 +78,7 @@ describe QuizItemPresenter, type: :presenter do
   describe '#icon_class' do
     subject { presenter.icon_class }
 
-    context 'as self test' do
+    context 'as self-test' do
       let(:item_params) { super().merge exercise_type: 'selftest' }
 
       it { is_expected.to eq 'lightbulb-on' }

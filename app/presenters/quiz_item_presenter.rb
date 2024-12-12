@@ -84,21 +84,6 @@ class QuizItemPresenter < ItemPresenter
     end
   end
 
-  # rubocop:enable all
-
-  def icon_mapping
-    # Mapping from exercise_type to identifier in the xikolo font
-    {
-      main: 'money-check-pen',
-      bonus: 'lightbulb-on+circle-star',
-      selftest: 'lightbulb-on',
-    }.freeze
-  end
-
-  def default_icon
-    'clipboard-list-check'
-  end
-
   def question_count
     if @quiz.questions.nil?
       '-' # Unknown amount of questions... necessary only in dev env?

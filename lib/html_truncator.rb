@@ -20,6 +20,8 @@ class HtmlTruncator
     # Truncato takes care of HTML-aware truncation.
     # For example, it also adds closing tags when they are missing.
 
+    return if html.blank?
+
     sanitize_opts = options.extract!(:tags)
 
     Truncato.truncate \

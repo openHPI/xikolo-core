@@ -19,7 +19,7 @@ module Xikolo
         attribute('icon') {
           description 'The icon for this item (reflecting the icon in the xikolo-font)'
           type :string
-          reading {|item| ItemPresenter.new(item:).icon }
+          reading {|item| ItemPresenter.new(item:).icon_class }
         }
 
         attribute('exercise_type') {

@@ -1265,7 +1265,7 @@ describe EnrollmentsController, type: :controller do
 
     it 'fails with only one unique param' do
       post :create, params: {user_id: SecureRandom.uuid}
-      expect(response).to have_http_status :unprocessable_entity
+      expect(response).to have_http_status :unprocessable_content
       expect(json['errors']).to include 'course_id'
     end
 
@@ -1339,7 +1339,7 @@ describe EnrollmentsController, type: :controller do
 
       it 'creates a not saved enrollment' do
         post :create, params: new_enrollment.attributes
-        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_http_status :unprocessable_content
       end
     end
 

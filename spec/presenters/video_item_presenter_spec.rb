@@ -29,6 +29,16 @@ describe VideoItemPresenter, type: :presenter do
     params.permit(:nvp, :old)
   end
 
+  describe '#icon_class' do
+    subject { presenter.icon_class }
+
+    let(:item_params) { super().merge content_type: 'video' }
+
+    context 'with nothing else set' do
+      it { is_expected.to eq 'video' }
+    end
+  end
+
   describe 'forum_locked?' do
     subject { presenter.forum_locked? }
 
@@ -62,14 +72,6 @@ describe VideoItemPresenter, type: :presenter do
       let(:course_params) { super().merge forum_is_locked: true }
 
       it { is_expected.to be_truthy }
-    end
-  end
-
-  describe '#icon_class' do
-    subject { presenter.icon_class }
-
-    context 'with nothing else set' do
-      it { is_expected.to eq 'video' }
     end
   end
 end

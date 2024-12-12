@@ -9,7 +9,7 @@ class LastVisitsController < ApplicationController
 
   def show
     if params[:user_id].blank?
-      return head :not_found, content_type: 'text/plain'
+      return head(:not_found, content_type: 'text/plain')
     end
 
     enrollment = Enrollment.find_by(

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
-  include Accept
   include Vary
 
   # This is API!
@@ -19,7 +18,7 @@ class ApplicationController < ActionController::Base
   end
 
   def error_param_missing(exception)
-    error :unprocessable_entity, json: {errors: {exception.param => 'required'}}
+    error :unprocessable_content, json: {errors: {exception.param => 'required'}}
   end
 
   def rescue_from_api_error(err)
@@ -37,7 +36,7 @@ class ApplicationController < ActionController::Base
   class APIError < StandardError
     attr_reader :status, :errors, :extra
 
-    def initialize(errors:, status: :unprocessable_entity, **extra)
+    def initialize(errors:, status: :unprocessable_content, **extra)
       @errors = errors
       @status = status
       @extra  = extra

@@ -2,7 +2,7 @@
 
 class NextDate < ApplicationRecord
   self.table_name = :dates
-  self.primary_key = :slot_id, :user_id
+  self.primary_key = %i[slot_id user_id]
   self.inheritance_column = false # no single table inheritance (STI)
 
   belongs_to :course
@@ -32,12 +32,7 @@ class NextDate < ApplicationRecord
     end
 
     def calc_id(resource_id, type)
-      # the uuid must be encoded as 16 bytes string
-      # see https://github.com/rails/rails/issues/37681 for more information
-      # it might get fixed in upcoming Rails versions
-      uuid = UUID4.new(resource_id).to_i
-      bin = [96, 64, 32, 0].map {|b| (uuid >> b) & 0xFFFFFFFF }.pack('NNNN')
-      Digest::UUID.uuid_v5 bin, type
+      Digest::UUID.uuid_v5(resource_id, type)
     end
 
     def nil_user_id

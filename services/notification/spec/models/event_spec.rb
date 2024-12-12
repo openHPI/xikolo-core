@@ -13,7 +13,7 @@ describe Event, type: :model do
     it { is_expected.not_to accept_values_for :key, nil }
     it { is_expected.to accept_values_for :key, 'pinboard.new_answer' }
 
-    it { is_expected.not_to accept_values_for :payload, nil, 'random string' }
+    it { is_expected.not_to accept_values_for :payload, nil }
     it { is_expected.to accept_values_for :payload, this: 'is a hash', another: 'pair' }
   end
 

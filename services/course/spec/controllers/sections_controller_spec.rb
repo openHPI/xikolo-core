@@ -138,7 +138,7 @@ describe SectionsController, type: :controller do
     context 'with optional_section' do
       it 'rejects nil as value' do
         post :create, params: params.merge(optional_section: nil)
-        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_http_status :unprocessable_content
       end
     end
   end

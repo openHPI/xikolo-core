@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class SectionChoice < ApplicationRecord
-  self.primary_keys = :section_id, :user_id
+  self.primary_key = %i[section_id user_id]
+
   after_initialize :default_values
 
   validates :user_id, presence: true

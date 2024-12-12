@@ -5,13 +5,12 @@ source 'https://rubygems.org'
 ruby '~> 3.3.0'
 
 # Rails
-gem 'rails', '~> 6.1.0'
-gem 'sprockets', '~> 3.2'
-gem 'sprockets-rails', '~> 3.2'
+gem 'rails', '~> 7.2.0'
 
 gem 'drb'
 gem 'json'
 gem 'mutex_m'
+gem 'ostruct'
 gem 'syslog'
 
 # API
@@ -65,8 +64,7 @@ end
 
 group :test do
   gem 'accept_values_for'
-  # https://github.com/thoughtbot/factory_bot_rails/pull/432
-  gem 'factory_bot_rails', '~> 6.0'
+  gem 'factory_bot_rails', '~> 6.4'
   gem 'timecop'
   gem 'webmock'
 end

@@ -19,13 +19,13 @@ class TestGroup < ApplicationRecord
   validates :flippers, uniqueness: {scope: :user_test_id}
   validate :valid_flipper_values
 
-  serialize :waiting_count, Hash
-  serialize :mean, Hash
-  serialize :change, Hash
-  serialize :confidence, Hash
-  serialize :effect, Hash
-  serialize :required_participants, Hash
-  serialize :box_plot_data, Hash
+  serialize :waiting_count, coder: YAML, type: Hash
+  serialize :mean, coder: YAML, type: Hash
+  serialize :change, coder: YAML, type: Hash
+  serialize :confidence, coder: YAML, type: Hash
+  serialize :effect, coder: YAML, type: Hash
+  serialize :required_participants, coder: YAML, type: Hash
+  serialize :box_plot_data, coder: YAML, type: Hash
 
   default_scope { order('index ASC') }
 

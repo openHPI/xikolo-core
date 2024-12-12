@@ -35,17 +35,6 @@ class LtiExerciseItemPresenter < ItemPresenter
     exercise.instructions.present?
   end
 
-  def default_icon
-    'display-code'
-  end
-
-  def icon_mapping
-    # Mapping from exercise_type to identifier in the xikolo font
-    {
-      bonus: 'display-code+circle-star',
-    }
-  end
-
   ##
   # Decide whether to show an intro page or an embedded launch iframe.
   #

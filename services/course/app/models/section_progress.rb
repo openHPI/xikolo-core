@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class SectionProgress < ApplicationRecord
-  self.primary_keys = :section_id, :user_id
+  self.primary_key = %i[section_id user_id]
+
   belongs_to :section
 
   # In the context of alternative sections, we have one progress per child section and

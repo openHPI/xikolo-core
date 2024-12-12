@@ -26,7 +26,7 @@
               .items.mb20
                 - section_progress.items.each do |item|
                   = render Global::ItemStatus.new({text: item.label,
-                    icon_name: item.icon,
+                    icon_name: item.icon_class,
                     path: item.path,
                     title: item.title,
                     tooltip: item.locked_hint},

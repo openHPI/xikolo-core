@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  defaults format: 'json' do
-    resources :system_info, only: %i[show]
+  defaults format: :json do
     resource :statistics, only: %i[show]
 
     resources :peer_assessments, except: %i[new edit] do
@@ -30,6 +29,7 @@ Rails.application.routes.draw do
     resources :results, controller: 'steps', type: 'Results', only: %i[index update create]
     resources :self_assessments, controller: 'steps', type: 'SelfAssessment', only: %i[index update create]
 
+    resources :system_info, only: %i[show]
     root to: 'application#index'
   end
 end

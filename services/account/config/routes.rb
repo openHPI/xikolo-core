@@ -2,7 +2,7 @@
 
 # rubocop:disable Metrics/BlockLength
 Xikolo::Account::Application.routes.draw do
-  scope module: 'api' do
+  scope module: 'api', defaults: {format: :json} do
     resources :users, except: %i[new edit] do
       resource :ban, only: :create
       resource :preferences, only: %i[show update]
@@ -30,7 +30,6 @@ Xikolo::Account::Application.routes.draw do
 
     resources :tokens, only: %i[index show create]
     resources :authorizations, except: %i[new edit]
-    resources :system_info, only: [:show]
     resources :password_resets, only: %i[create show update]
     resources :policies, only: %i[index show create update]
     resources :groups, only: %i[index create show update destroy],
@@ -69,6 +68,7 @@ Xikolo::Account::Application.routes.draw do
       to: 'email_suspensions#create',
       constraints: {address: %r{[^/]+}}
 
+    resources :system_info, only: [:show]
     root to: 'root#index'
   end
 end

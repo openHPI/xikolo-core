@@ -73,7 +73,7 @@ module Xikolo
           description 'The icon for this item (reflecting the icon in the xikolo-font)'
           type :string
           reading {|item|
-            ItemPresenter.for(item).icon
+            ItemPresenter.for(item).icon_class
           }
         }
 

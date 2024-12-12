@@ -107,5 +107,13 @@ describe HtmlTruncator do
         expect(output).to eq '<p>Some short HTML content</p>'
       end
     end
+
+    context 'with empty input' do
+      let(:input) { '' }
+
+      it 'does not raise an error' do
+        expect(output).to be_nil
+      end
+    end
   end
 end

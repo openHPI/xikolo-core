@@ -105,7 +105,7 @@ describe 'Channel: update of logo', type: :request do
         }
       )
       expect { action }.to raise_error(Restify::ClientError) do |error|
-        expect(error.status).to eq :unprocessable_entity
+        expect(error.status).to eq :unprocessable_content
         expect(error.errors).to eq 'logo_upload_id' => ['invalid upload']
       end
     end
@@ -114,7 +114,7 @@ describe 'Channel: update of logo', type: :request do
       stub_request(:head, file_url).to_return(status: 403)
 
       expect { action }.to raise_error(Restify::ClientError) do |error|
-        expect(error.status).to eq :unprocessable_entity
+        expect(error.status).to eq :unprocessable_content
         expect(error.errors).to eq \
           'logo_upload_id' => ['could not process file upload']
       end
@@ -134,7 +134,7 @@ describe 'Channel: update of logo', type: :request do
         channels/[0-9a-zA-Z]+/logo_v2.jpg}x).to_return(status: 403)
 
       expect { action }.to raise_error(Restify::ClientError) do |error|
-        expect(error.status).to eq :unprocessable_entity
+        expect(error.status).to eq :unprocessable_content
         expect(error.errors).to eq \
           'logo_upload_id' => ['could not process file upload']
       end

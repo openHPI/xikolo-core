@@ -55,7 +55,7 @@ describe 'Teacher: creating new ones', type: :request do
 
     it 'raises an unprocessable entity error' do
       expect { action }.to raise_error(Restify::ClientError) do |error|
-        expect(error.status).to eq :unprocessable_entity
+        expect(error.status).to eq :unprocessable_content
         expect(error.errors).to include 'description'
       end
     end

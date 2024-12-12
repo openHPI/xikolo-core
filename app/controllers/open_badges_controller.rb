@@ -39,7 +39,7 @@ class OpenBadgesController < OpenBadges::OpenBadgesController
   # Specs: https://www.imsglobal.org/sites/default/files/Badges/OBv2p0/history/1.1-specification.html#BadgeClass
   # Example: https://www.imsglobal.org/sites/default/files/Badges/OBv2p0/examples/index.html#BadgeClass
   def badge_class
-    return head :not_found if badge_template.blank? || !course['records_released']
+    return head(:not_found, content_type: 'text/plain') if badge_template.blank? || !course['records_released']
 
     render json: {
       '@context': 'https://w3id.org/openbadges/v1',
@@ -60,6 +60,6 @@ class OpenBadgesController < OpenBadges::OpenBadgesController
     open_badge = Certificate::OpenBadge.find(UUID4(params[:id]).to_s)
     render json: open_badge.assertion
   rescue ActiveRecord::RecordNotFound
-    head :not_found
+    head(:not_found, content_type: 'text/plain')
   end
 end

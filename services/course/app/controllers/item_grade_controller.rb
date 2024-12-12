@@ -7,7 +7,7 @@ class ItemGradeController < ApplicationController
   respond_to :json
 
   def show
-    return head :not_found unless grade
+    return head(:not_found, content_type: 'text/plain') unless grade
 
     respond_with grade
   end

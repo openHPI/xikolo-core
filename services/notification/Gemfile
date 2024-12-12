@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 ruby '~> 3.3.0'
 
 # Rails
-gem 'rails', '~> 6.1.0'
+gem 'rails', '~> 7.2.0'
 gem 'rails-i18n'
 gem 'slim'
 gem 'sprockets', '~> 3.2'

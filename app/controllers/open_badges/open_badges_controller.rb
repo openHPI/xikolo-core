@@ -8,7 +8,7 @@ module OpenBadges
 
   class OpenBadgesController < ActionController::Base # rubocop:disable Rails/ApplicationController
     before_action do
-      head :not_found unless Xikolo.config.open_badges['enabled']
+      head(:not_found, content_type: 'text/plain') unless Xikolo.config.open_badges['enabled']
     end
 
     # Issuer Profile (describing the individual or organization awarding badges)
@@ -61,7 +61,7 @@ module OpenBadges
     # Specs: https://www.imsglobal.org/sites/default/files/Badges/OBv2p0Final/index.html#BadgeClass
     # Example: https://www.imsglobal.org/sites/default/files/Badges/OBv2p0Final/examples/index.html#BadgeClass
     def badge_class
-      return head :not_found if badge_template.blank? || !course.records_released
+      return head(:not_found, content_type: 'text/plain') if badge_template.blank? || !course.records_released
 
       render json: {
         '@context': 'https://w3id.org/openbadges/v2',
@@ -82,7 +82,7 @@ module OpenBadges
       open_badge = Certificate::V2::OpenBadge.find(UUID4(params[:id]).to_s)
       render json: open_badge.assertion
     rescue ActiveRecord::RecordNotFound
-      head :not_found
+      head(:not_found, content_type: 'text/plain')
     end
 
     private

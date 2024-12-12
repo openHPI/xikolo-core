@@ -71,7 +71,7 @@ describe 'Enrollment: Reactivations: Create', type: :request do
 
     it 'responds with error' do
       expect { request }.to raise_error(Restify::ClientError) do |e|
-        expect(e.status).to eq :unprocessable_entity
+        expect(e.status).to eq :unprocessable_content
         expect(e.errors).to eq 'submission_date' => 'running'
       end
     end
@@ -96,7 +96,7 @@ describe 'Enrollment: Reactivations: Create', type: :request do
 
     it 'responds with error' do
       expect { request }.to raise_error(Restify::ClientError) do |e|
-        expect(e.status).to eq :unprocessable_entity
+        expect(e.status).to eq :unprocessable_content
         expect(e.errors).to eq 'submission_date' => 'invalid'
       end
     end

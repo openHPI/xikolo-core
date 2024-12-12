@@ -17,10 +17,6 @@ class VideoItemPresenter < ItemPresenter
     end
   end
 
-  def default_icon
-    'video'
-  end
-
   def forum_locked?
     course_pinboard_closed? || section_pinboard_closed?
   end

@@ -24,7 +24,7 @@ describe 'Repetition Suggestions: Index', type: :request do
   context 'without course_id provided' do
     it 'returns 422 Unprocessible Entity' do
       expect { list }.to raise_error(Restify::ClientError) do |error|
-        expect(error.status).to eq :unprocessable_entity
+        expect(error.status).to eq :unprocessable_content
       end
     end
   end
@@ -34,7 +34,7 @@ describe 'Repetition Suggestions: Index', type: :request do
 
     it 'returns 422 Unprocessible Entity' do
       expect { list }.to raise_error(Restify::ClientError) do |error|
-        expect(error.status).to eq :unprocessable_entity
+        expect(error.status).to eq :unprocessable_content
       end
     end
   end

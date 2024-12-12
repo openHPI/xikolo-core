@@ -7,7 +7,7 @@ class SubscriptionsController < ApplicationController
 
   respond_to :json
 
-  before_action :set_subscription, only: %i[show edit update destroy]
+  before_action :set_subscription, only: %i[show update destroy]
 
   def index
     subscriptions = Subscription.all
