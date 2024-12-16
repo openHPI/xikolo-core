@@ -433,6 +433,12 @@ pt-BR:
       aria_label: Mais ações
     countdown:
       time_remaining: "Tempo restante:"
+    enrollment_dialog:
+      title: "Matricular-se em %{course_title}"
+      text: Antes de poder se inscrever no curso, você precisa concordar com a política de proteção de dados do fornecedor do curso.
+      link: Mostrar política
+      accept: Eu concordo com a política de proteção de dados.
+      enroll: Registre-se para o curso
     filter_bar:
       search:
         label: Search
@@ -1373,12 +1379,6 @@ pt-BR:
           upgrade_now: reative agora!
         open_mode:
           text: Você pode assistir à maioria dos vídeos de nossos cursos imediatamente! Não é necessário fazer login.
-        enrollment_policy:
-          overlay:
-            title: "Matricular-se em"
-            text: Antes de poder se inscrever no curso, você precisa concordar com a política de proteção de dados do fornecedor do curso.
-            link: Mostrar política
-            accept: Eu concordo com a política de proteção de dados.
         invite_only_notice: Você deve ser convidado a se inscrever neste curso.
         certificates: Requisitos de certificado
         qc_requirements: "Ganhe um <b>certificado</b> reservando-o <b>e</b> ganhando um registro de conquistas."

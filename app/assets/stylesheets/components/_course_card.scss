@@ -133,6 +133,7 @@ $xi-course-card-font: $basefont !default;
 
   &__empty-datapoint-text {
     color: $gray-250;
+
     &:before {
       content: "-";
     }
@@ -176,6 +177,8 @@ $xi-course-card-font: $basefont !default;
 
   &__action-btn {
     padding: 3px 10px;
+    // Remove border outline on <buttons>
+    border-style: none;
     border-radius: $course-card-btn-radius;
     margin: 0 0 5px 5px;
     background-color: $course-card-primary-btn-bg;
@@ -294,6 +297,7 @@ $xi-course-card-font: $basefont !default;
     .course-card__datapoints {
       padding: 13px $side-padding 8px;
       transition: padding $transition-duration $transition-delay ease-in-out;
+
       span {
         // Reset text truncation
         display: block;

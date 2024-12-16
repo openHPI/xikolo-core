@@ -119,11 +119,11 @@ describe Home::CourseCard, type: :component do
             let(:course) { create(:course, :active, policy_url:) }
             let(:policy_url) { {en: 'https://test.mock/en/policy'} }
 
-            it 'displays a link to enroll in the course, requiring to accept the policy' do
+            it 'displays a button to enroll in the course, which opens a dialog requiring to accept the policy' do
               render_inline(component)
 
-              expect(page).to have_link 'Enroll'
-              expect(page).to have_css "[data-policy-url='https://test.mock/en/policy']"
+              expect(page).to have_button 'Enroll'
+              expect(page).to have_link 'Show policy', href: 'https://test.mock/en/policy'
             end
 
             it 'displays the course details link only' do

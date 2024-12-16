@@ -14,10 +14,8 @@
                   = link_to t(:'dashboard.mark_completed'),
                     complete_enrollment_path(@enrollments[course.id]),
                     method: :post,
-                    data: { confirm: t(:'dashboard.mark_completed_confirmation') }
+                    data: {confirm: t(:'dashboard.mark_completed_confirmation')}
   = render Global::Callout.new(t(:'dashboard.more_courses'))
 
 - content_for :sidebar
   = render 'dashboard/overview_sidebar'
-
-= render 'course/shared/accept_enrollment_policy'

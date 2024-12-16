@@ -5,6 +5,7 @@
  */
 
 import ready from 'util/ready';
+import initializeDialog from '../../course/dialog';
 
 const isPartiallyHidden = (card) => {
   const slider = card.closest('[data-slider-target="content"]');
@@ -68,6 +69,18 @@ const expandCard = (card) => {
   );
 
   placeholderCard.appendChild(cloneCard);
+
+  const enrollmentPolicyButton = cloneCard.querySelector(
+    '[data-behavior="open-enrollment-dialog"]',
+  );
+
+  if (enrollmentPolicyButton) {
+    const dialog = document.querySelector('[data-behavior=enrollment-dialog]');
+    // Setting aria-controls in the markup makes the original and cloned card share the same attribute.
+    // Instead, we only set it on the cloned card to ensure dialog.ts attaches the event listener to it, as it is the card the user interacts with.
+    enrollmentPolicyButton.setAttribute('aria-controls', `${dialog.id}`);
+    initializeDialog(dialog);
+  }
 
   const cardProperties = card.getBoundingClientRect();
   cloneCard.classList.add('course-card--expanded');

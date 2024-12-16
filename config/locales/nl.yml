@@ -451,6 +451,12 @@ nl:
       aria_label: Meer acties
     countdown:
       time_remaining: "Overgebleven tijd:"
+    enrollment_dialog:
+      title: "Inschrijven voor %{course_title}"
+      text: Voordat u zich kunt inschrijven voor de cursus, moet u het gegevensbeschermingsbeleid van de cursusaanbieder lezen en ermee akkoord gaan.
+      link: Toon beleid
+      accept: Ik heb het gegevensbeschermingsbeleid gelezen en ga hiermee akkoord.
+      enroll: Inschrijven voor de cursus
     filter_bar:
       search:
         label: Zoekopdracht
@@ -1497,12 +1503,6 @@ nl:
           upgrade_now: nu opnieuw activeren!
         open_mode:
           text: De meeste van onze cursusvideo's kun je direct bekijken! Inloggen is niet nodig.
-        enrollment_policy:
-          overlay:
-            title: "Inschrijven voor"
-            text: Voordat u zich kunt inschrijven voor de cursus, moet u het gegevensbeschermingsbeleid van de cursusaanbieder lezen en ermee akkoord gaan.
-            link: Toon beleid
-            accept: Ik heb het gegevensbeschermingsbeleid gelezen en ga hiermee akkoord.
         invite_only_notice: Je moet worden uitgenodigd om je in te schrijven voor deze cursus.
         certificates: Certificaatvereisten
         qc_requirements: "Behaal een <b>Certificaat</b> door het te boeken <b>en</b> een prestatierecord te behalen."

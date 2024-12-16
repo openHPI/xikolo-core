@@ -1,0 +1,29 @@
+.enrollment-dialog {
+  width: 100%;
+  padding: 20px;
+  border: none;
+  border-radius: 8px;
+  box-shadow: $box-shadow-m;
+
+  @include small {
+    width: 600px;
+  }
+
+  h1 {
+    margin-top: 0px;
+  }
+
+  &::backdrop {
+    background-color: rgba($gray-500, 0.5);
+  }
+
+  &__checkbox {
+    display: flex;
+    align-items: flex-start;
+    padding-top: 10px;
+
+    label {
+      margin-top: 0px;
+    }
+  }
+}

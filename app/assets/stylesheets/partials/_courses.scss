@@ -90,10 +90,12 @@ body.in_app .course-action {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
   p {
     @include font-sm;
   }
 }
+
 /*------------------------------------*\
     $Course-Item
 \*------------------------------------*/
@@ -105,7 +107,7 @@ body.in_app .course-action {
 .course-actions {
   margin-top: $course-item-padding;
 
-  a {
+  .action {
     display: inline-block;
 
     // This triggers the baseline of any inline-block children to be the bottom
@@ -204,9 +206,11 @@ body.in_app .course-action {
   .xi-icon {
     margin-right: 5px;
   }
+
   &[data-status="complete"] {
     color: $success-500;
   }
+
   &[data-status="incomplete"] {
     color: $error-600;
   }
@@ -268,6 +272,7 @@ body.in_app .course-action {
   &[data-state="completed"] {
     color: $success-500;
   }
+
   &[data-state="missing"] {
     color: $error-600;
   }
@@ -383,6 +388,7 @@ body.in_app .course-action {
   padding: 10px 15px 20px;
   background-color: $xi-course-area-main-background-color;
   @include heavy-bar($color: $gray);
+
   @media (max-width: $screen-md) {
     padding-top: 5px;
   }
@@ -434,17 +440,21 @@ ul.sections .item {
   padding-right: 0;
   padding-left: 0;
 }
+
 #course-nav-toggle .navbar-toggle {
   padding-right: 0;
   margin-right: 0;
   margin-bottom: 5px;
+
   @media (min-width: $screen-md) {
     margin-top: 25px;
   }
+
   @media (max-width: $screen-md) {
     margin-top: 10px;
   }
 }
+
 #course-nav-toggle .icon-bar {
   border-bottom: 2px solid grey;
 }
@@ -455,16 +465,19 @@ ul.sections .item {
 #maincontent {
   position: relative;
 }
+
 .course-navbar-toggle {
   width: 30px;
   height: 30px;
   padding-top: 5px;
   border: none;
   background: none;
+
   .xi-icon {
     font-size: 175%;
   }
 }
+
 #maincontent {
   .course-navbar-toggle {
     position: absolute;
@@ -473,8 +486,10 @@ ul.sections .item {
     display: none;
   }
 }
+
 #maincontent[data-expanded="true"] {
   padding-left: 65px;
+
   .course-navbar-toggle {
     display: inherit;
   }
@@ -491,6 +506,7 @@ ul.certificate-requirements {
   .input-group {
     width: 50%;
   }
+
   .input-group-btn .btn {
     // magic number: bootstrap input height
     height: 34px;
@@ -512,8 +528,10 @@ ul.certificate-requirements {
       font-size: $font-size-l;
     }
   }
+
   &__buttons {
     margin-top: 20px;
+
     * {
       margin-right: 10px;
     }

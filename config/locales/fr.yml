@@ -374,6 +374,12 @@ fr:
       aria_label: Plus d'actions
     countdown:
       time_remaining: "Temps qui reste :"
+    enrollment_dialog:
+      title: "S'inscrire à  %{course_title}"
+      text: Avant de pouvoir vous inscrire au cours, vous devez lire et accepter la politique de protection des données de l'organisateur du cours.
+      link: Politique d'affichage
+      accept: J'ai lu et j'accepte la politique de protection des données.
+      enroll: M'inscrire à ce cours
     filter_bar:
       search:
         label: Chercher

@@ -120,8 +120,5 @@
                       .RenderedMarkdown
                         == render_markdown teacher.description
 
-- if @course_presenter.enrollment_policy?
-  = render 'course/shared/accept_enrollment_policy'
-
 - if @course_presenter.open_mode?
   = render Course::Popover.new(t(:'course.courses.show.open_mode.text'), 'popover-openmode', cookie_name: 'hide_openmode_hint')

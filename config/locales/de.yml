@@ -497,6 +497,12 @@ de:
       no_results: Keine Ergebnisse für "%{input}" gefunden
       option_create: "<strong>%{input}...</strong> hinzufügen"
       remove_item: Dieses Element entfernen
+    enrollment_dialog:
+      title: "Anmeldung für %{course_title}"
+      text: Bevor Sie sich für diesen Kurs einschreiben können, akzeptieren Sie bitte die Datenschutzvereinbarung des Kursanbieters.
+      link: Datenschutzvereinbarung anzeigen
+      accept: Ich akzeptiere die Datenschutzvereinbarung.
+      enroll: Für den Kurs einschreiben
     markdown_editor:
       expand: Editor aufklappen
       collapse: Editor zuklappen
@@ -1627,12 +1633,6 @@ de:
           notice: "Diesen Kurs können Sie <b>reaktivieren</b> und so die Möglichkeit erhalten, sich noch für einen Leistungsnachweis zu qualifizieren. Weitere Informationen finden Sie <a href='/pages/course_reactivation'>hier</a> &mdash; oder "
           upgrade_now: buchen Sie jetzt!
           upgrade: Reaktivieren
-        enrollment_policy:
-          overlay:
-            title: "Anmeldung für "
-            text: Bevor Sie sich für diesen Kurs einschreiben können, akzeptieren Sie bitte die Datenschutzvereinbarung des Kursanbieters.
-            link: Datenschutzvereinbarung anzeigen
-            accept: Ich akzeptiere die Datenschutzvereinbarung.
         open_mode:
           text: Die meisten unserer Kursvideos können Sie direkt anschauen! Ganz ohne Login.
         invite_only_notice: Sie benötigen eine Einladung, um sich für diesen Kurs einzuschreiben.

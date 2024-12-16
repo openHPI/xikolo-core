@@ -1,4 +1,4 @@
-div class="course-card #{"course-card--#{css_modifiers}" if css_modifiers}" data=data_attributes
+div class='course-card #{"course-card--#{css_modifiers}" if css_modifiers}' data=data_attributes
   - if label
     .course-card__label
       span = label
@@ -55,8 +55,15 @@ div class="course-card #{"course-card--#{css_modifiers}" if css_modifiers}" data
         = render Home::Course::DetailsButton.new(@course)
 
       - if show_additional_buttons?
-        = render Home::Course::EnrollButton.new(@course, enrollment: @enrollment)
+        - if @course.policy_url.present?
+          button.course-card__action-btn type='button' data-behavior='open-enrollment-dialog'
+            = t(:'course.card.button_enroll')
+        - else
+          = render Home::Course::EnrollButton.new(@course, enrollment: @enrollment)
         = render Home::Course::ResumeButton.new(@course, enrollment: @enrollment)
         = render Home::Course::ExternalButton.new(@course)
         - if !compact_card? && show_reactivation_button?
           = render Home::Course::ReactivationButton.new(@course, enrollment: @enrollment, user: @user)
+
+- if @course.policy_url.present?
+  = render Course::EnrollmentDialog.new(@course.course_code, target_id: "course-card-#{@course.course_code}")

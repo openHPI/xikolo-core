@@ -58,36 +58,37 @@
     .row
       .col-md-12.course-actions.hidden_in_app
         - if course.external?
-          = link_to course.external_course_url, class: 'course-action-button course-action-external btn-external-course mr10', target: '_blank', rel: 'noopener' do
+          = link_to course.external_course_url, class: 'course-action-button action course-action-external btn-external-course mr10', target: '_blank', rel: 'noopener' do
             = t(:'courses.preview.button_goto_external')
         - elsif course.enrolled?
           - if (!course.access_allowed? || course.external?) && !course.fullstate.nil?
-            = link_to course_resume_path(course), class: 'course-action-button course-action-resume disabled mr10'
-              = t(:"items.show.coursestate.#{course.fullstate}")
+            = link_to course_resume_path(course), class: 'course-action-button action course-action-resume disabled mr10'
+              = t("items.show.coursestate.#{course.fullstate}")
           - else
-            = link_to course_resume_path(course), class: 'course-action-button course-action-resume mr10' do
+            = link_to course_resume_path(course), class: 'course-action-button action course-action-resume mr10' do
               = t(:'courses.preview.button_enter')
           - if course.unenrollment_enabled?
-            = link_to enrollment_path(course.enrollment_id), method: 'delete', class: 'course-action-button course-action-quit mr10' do
+            = link_to enrollment_path(course.enrollment_id), method: 'delete', class: 'course-action-button action course-action-quit mr10' do
               = t(:'courses.preview.button_quit')
         - elsif course.external_registration_url?
-          = link_to t(:'course.courses.show.button_register'), course.external_registration_url, class: 'course-action-button course-action-enroll mr10', target: '_blank', rel: 'noopener'
+          = link_to t(:'course.courses.show.button_register'), course.external_registration_url, class: 'course-action-button action course-action-enroll mr10', target: '_blank', rel: 'noopener'
         - elsif !course.invite_only?
           - if course.enrollment_policy?
-            = link_to '#', data: {toggle: 'modal', target: '#enrollmentPolicyModal', 'course-code' => course.course_code, 'course-title' => course.title, 'policy-url' => course.enrollment_policy_url}, class: 'course-action-button course-action-enroll mr10' do
+            = render Course::EnrollmentDialog.new(course.course_code, target_id: 'course_preview_large')
+            button.course-action-button.action.course-action-enroll.mr10 type='button' aria-controls='course_preview_large'
               = t(:'courses.preview.button_enroll')
           - else
-            = link_to enrollments_path(course_id: course.course_code), method: :get, data: {behavior: 'disable-after-click'}, class: 'course-action-button course-action-enroll mr10' do
+            = link_to enrollments_path(course_id: course.course_code), method: :get, data: {behavior: 'disable-after-click'}, class: 'course-action-button action course-action-enroll mr10' do
               = t(:'courses.preview.button_enroll')
         - if course.reactivate?
-          = link_to course_redeem_voucher_path(course_id: course.course_code, product: 'course_reactivation'), class: 'course-action-button course-action-reactivate mr10' do
+          = link_to course_redeem_voucher_path(course_id: course.course_code, product: 'course_reactivation'), class: 'course-action-button action course-action-reactivate mr10' do
             = t(:'courses.preview.button_reactivate_course')
         - if course.upgrade_proctoring?
           - if course.proctoring_upgrade_possible?
-            = link_to course_redeem_voucher_path(course_id: course.course_code, product: 'proctoring_smowl'), class: 'course-action-button course-action-proctoring' do
+            = link_to course_redeem_voucher_path(course_id: course.course_code, product: 'proctoring_smowl'), class: 'course-action-button action course-action-proctoring' do
               = t(:'proctoring.book_certificate')
           - else
-            a class='course-action-button course-action-proctoring inactive'
+            a class='course-action-button action course-action-proctoring inactive'
               = t(:'proctoring.book_certificate')
         - if course.enrolled? && !course.unenrollment_enabled?
           p.mt10 = t(:'courses.preview.unenrollment_disabled')

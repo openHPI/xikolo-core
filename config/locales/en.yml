@@ -587,6 +587,12 @@ en:
       no_results: No results found for "%{input}"
       option_create: "Add <strong>%{input}...</strong>"
       remove_item: Remove this item
+    enrollment_dialog:
+      title: "Enroll for %{course_title}"
+      text: Before you can be enrolled for the course, you have to read and agree to the course provider's data protection policy.
+      link: Show policy
+      accept: I have read and agree to the data protection policy.
+      enroll: Enroll me for this course
     markdown_editor:
       expand: Expand editor
       collapse: Collapse editor
@@ -2335,12 +2341,6 @@ en:
           upgrade_now: reactivate now!
         open_mode:
           text: You can watch most of our course videos right away! No login required.
-        enrollment_policy:
-          overlay:
-            title: "Enroll for"
-            text: Before you can be enrolled for the course, you have to read and agree to the course provider's data protection policy.
-            link: Show policy
-            accept: I have read and agree to the data protection policy.
         invite_only_notice: You must be invited to enroll in this course.
         certificates: Certificate Requirements
         qc_requirements: "Gain a <b>Certificate</b> by booking it <b>and</b> gaining a Record of Achievement."

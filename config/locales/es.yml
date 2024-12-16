@@ -446,6 +446,12 @@ es:
       aria_label: Más acciones
     countdown:
       time_remaining: "Tiempo restante:"
+    enrollment_dialog:
+      title: "Matricularse en %{course_title}"
+      text: Antes de poder matricularse en el curso, debe aceptar la política de protección de datos del proveedor del curso.
+      link: Mostrar política
+      accept: Acepto la política de protección de datos.
+      enroll: Inscribirse en el curso
     filter_bar:
       search:
         label: Search
@@ -1391,12 +1397,6 @@ es:
           upgrade_now: ¡reactívelo ahora!
         open_mode:
           text: ¡Puede ver la mayoría de los vídeos de nuestros cursos ahora mismo!.
-        enrollment_policy:
-          overlay:
-            title: "Matricularse en"
-            text: Antes de poder matricularse en el curso, debe aceptar la política de protección de datos del proveedor del curso.
-            link: Mostrar política
-            accept: Acepto la política de protección de datos.
         invite_only_notice: Necesita una invitación para matricularse en este curso.
         certificates: Requisitos para el certificado
         qc_requirements: "Obtenga un <b>certificado</b> solicitándolo <b>y</b> obteniendo un certificado de estudios."

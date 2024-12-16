@@ -403,6 +403,12 @@ zh: &zh
       aria_label: 更多行动
     countdown:
       time_remaining: "剩余时间:"
+    enrollment_dialog:
+      title: "注册到 %{course_title}"
+      text: 在您参与课程之前，请您阅读并且同意课程提供者的数据保护政策。
+      link: 显示该条款
+      accept: 我已经阅读并同意此数据保护政策。
+      enroll: 注册课程
     filter_bar:
       search:
         label: 搜索
@@ -1234,12 +1240,6 @@ zh: &zh
           upgrade_now: 现有重启!
         open_mode:
           text: 您可以在非登录状态下观看很多我们的课程视频。
-        enrollment_policy:
-          overlay:
-            title: "注册到"
-            text: 在您参与课程之前，请您阅读并且同意课程提供者的数据保护政策。
-            link: 显示该条款
-            accept: 我已经阅读并同意此数据保护政策。
         invite_only_notice: 此课程仅限邀请注册。
         certificates: 证书要求
         qc_requirements: "<b>合格证书</b>授予那些进行了预定<b>并且</b>取得了达标成绩的用户"

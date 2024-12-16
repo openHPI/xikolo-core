@@ -28,22 +28,19 @@
           / Only self-paced courses are paginated so far, so there is a `next_page` for them.
           - if category.courses.respond_to?(:next_page) && category.courses.next_page.present?
             .load-more
-              = button_tag(type: 'button', class: 'btn btn-default btn-outline mb20 mt20', \
-                data: { behavior: 'load-more', current_page: category.courses.current_page, target: "category-#{index}", dispatch_event: "load-more:course-cards"}) do
+              = button_tag(type: 'button', class: 'btn btn-default btn-outline mb20 mt20',
+                data: {behavior: 'load-more', current_page: category.courses.current_page, target: "category-#{index}", dispatch_event: 'load-more:course-cards'}) do
                 = t(:'course.courses.index.load_more')
               div data-id='load-more__indicator' hidden='true'
                 = render State::Loading.new
               p data-id='load-more__error-message' hidden='true'
                 = t(:'course.courses.index.error')
 
-    - else
+    - elsif @filtered_list
       / Show dedicated empty state message for filtered lists without courses
-      - if @filtered_list
-        = render State::Empty.new(t(:'course.courses.index.empty'))
-          = link_to t(:'course.courses.index.action'), courses_path, \
-            data: { 'hide-on-click': '#course-list__content', 'show-on-click': '#course-list__loading'}, \
-            class: 'btn btn-primary mt10'
-      - else
-        = render State::Empty.new(t(:'course.courses.index.empty_state'))
-
-= render 'course/shared/accept_enrollment_policy'
+      = render State::Empty.new(t(:'course.courses.index.empty'))
+        = link_to t(:'course.courses.index.action'), courses_path,
+          data: {'hide-on-click': '#course-list__content', 'show-on-click': '#course-list__loading'},
+          class: 'btn btn-primary mt10'
+    - else
+      = render State::Empty.new(t(:'course.courses.index.empty_state'))

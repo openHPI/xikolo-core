@@ -10,7 +10,7 @@ module Home
       end
 
       def call
-        link_to(enrollment_link, class: css_classes, data:) do
+        link_to(enrollments_path(course_id: @course.course_code), class: css_classes) do
           I18n.t(:'course.card.button_enroll')
         end
       end
@@ -25,24 +25,6 @@ module Home
         classes = %w[course-card__action-btn]
         classes << 'course-card__action-btn--large' if large?
         classes.join(' ')
-      end
-
-      def data
-        return if @course.policy_url.blank?
-
-        {
-          toggle: 'modal',
-          target: '#enrollmentPolicyModal',
-          'course-code' => @course.course_code,
-          'course-title' => @course.title,
-          'policy-url' => Translations.new(@course.policy_url).to_s,
-        }
-      end
-
-      def enrollment_link
-        return '#' if @course.policy_url.present?
-
-        enrollments_path(course_id: @course.course_code)
       end
 
       def large?
