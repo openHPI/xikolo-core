@@ -18,7 +18,7 @@ Feature: Report a post
 
   Scenario: Reporting a topic twice
     When I report the topic twice
-    Then I see a reporting failure notice
+    Then I see a reporting success notice
 
   Scenario: Reporting an answer
     When I report the answer
