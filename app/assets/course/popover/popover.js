@@ -1,11 +1,8 @@
+import $ from 'jquery';
 import Cookies from 'js-cookie';
 import ready from 'util/ready';
 
 ready(() => {
-  // HACK: popover is a Bootstrap component that requires jQuery - jQuery comes from Sprockets assets.
-  // eslint-disable-next-line no-undef
-  const $ = jQuery;
-
   const popovers = document.querySelectorAll(
     '[data-behavior="popover-template"]',
   );

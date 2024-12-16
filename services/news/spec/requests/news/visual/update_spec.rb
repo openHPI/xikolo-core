@@ -62,8 +62,7 @@ RSpec.describe 'News: Update with visual', type: :request do
   before do
     stub_request(:get,
       'http://s3.xikolo.de/xikolo-uploads?list-type=2&' \
-      'prefix=uploads%2Ff13d30d3-6369-4816-9695-af5318c8ac15') \
-      .to_return(
+      'prefix=uploads%2Ff13d30d3-6369-4816-9695-af5318c8ac15').to_return(
         status: 200,
         headers: {'Content-Type' => 'Content-Type: application/xml'},
         body: <<~XML)

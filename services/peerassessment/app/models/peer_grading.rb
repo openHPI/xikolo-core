@@ -51,6 +51,6 @@ class PeerGrading < Step
   # override
   def advance_team_to_step?
     # true if successor of assignment submission
-    peer_assessment.training_step.nil?
+    peer_assessment.reload.training_step.nil?
   end
 end

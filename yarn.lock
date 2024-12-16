@@ -2103,6 +2103,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@rails/ujs@npm:7.1.3-4":
+  version: 7.1.3-4
+  resolution: "@rails/ujs@npm:7.1.3-4"
+  checksum: 10/2fb85c1c5478d48fe6db1e1fb9eea27ef0edb5ec2b9399832010fb6c5ae18397872c5b880dd792d52c74950ef2a6ba266e7f91d88e4474e7959a0db00c3d364f
+  languageName: node
+  linkType: hard
+
 "@rtsao/scc@npm:^1.1.0":
   version: 1.1.0
   resolution: "@rtsao/scc@npm:1.1.0"
@@ -2279,7 +2286,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jquery@npm:*, @types/jquery@npm:^3.5.24":
+"@types/jquery@npm:*":
   version: 3.5.32
   resolution: "@types/jquery@npm:3.5.32"
   dependencies:
@@ -7175,6 +7182,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jquery@npm:^2.2.4":
+  version: 2.2.4
+  resolution: "jquery@npm:2.2.4"
+  checksum: 10/fe1bb90423eda61255b969fed0420dfb09dc055793b83ad380a2fbe5b5ce3bc747029d010e580bf39c95bdd07fb309ef8c0fc22a700ca97015311626881db152
+  languageName: node
+  linkType: hard
+
 "js-cookie@npm:^2.2.1":
   version: 2.2.1
   resolution: "js-cookie@npm:2.2.1"
@@ -10206,8 +10220,8 @@ __metadata:
     "@fullcalendar/timegrid": "npm:^4.3.0"
     "@openhpi/quiz-recap": "npm:^1.4.2"
     "@openhpi/xikolo-video-player": "npm:^1.2.5"
+    "@rails/ujs": "npm:7.1.3-4"
     "@toast-ui/editor": "npm:^3.2.2"
-    "@types/jquery": "npm:^3.5.24"
     "@types/jqueryui": "npm:^1.12.20"
     "@types/luxon": "npm:^3.4.2"
     "@types/markdown-it": "npm:^14.0.1"
@@ -10234,6 +10248,7 @@ __metadata:
     html5sortable: "npm:^0.14.0"
     husky: "npm:9.1.7"
     image-webpack-loader: "npm:^8.1.0"
+    jquery: "npm:^2.2.4"
     js-cookie: "npm:^2.2.1"
     lint-staged: "npm:^15.2.7"
     luxon: "npm:^3.2.1"

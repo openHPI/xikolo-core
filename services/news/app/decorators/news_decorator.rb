@@ -72,11 +72,10 @@ class NewsDecorator < ApplicationDecorator
   end
 
   def requested_translation
-    @requested_translation ||= \
-      translations.find {|t| t.locale == context[:language] } \
-      || translations.find {|t| t.locale == Xikolo.config.locales['default'] } \
-      || translations.find {|t| t.locale == 'en' } \
-      || translations[0]
+    @requested_translation ||= translations.find {|t| t.locale == context[:language] } ||
+                               translations.find {|t| t.locale == Xikolo.config.locales['default'] } ||
+                               translations.find {|t| t.locale == 'en' } ||
+                               translations[0]
   end
 
   def other_translations

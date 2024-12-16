@@ -15,7 +15,6 @@
 
 //= require jquery2
 
-//= require jquery_ujs
 //= require jquery.cookie
 //= require helpdesk
 //= require i18n

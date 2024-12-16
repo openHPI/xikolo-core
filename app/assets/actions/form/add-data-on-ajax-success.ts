@@ -7,17 +7,13 @@
  *
  */
 
+import $ from 'jquery';
 import ready from '../../util/ready';
 
 ready(() => {
-  // ------------------------
-  // HACK: jQuery comes from Sprockets assets.
-  // ------------------------
-  // eslint-disable-next-line no-undef
-  const $ = jQuery;
-
-  $(document).on('ajax:success', '[data-render-to]', (event, data) => {
+  $(document).on('ajax:success', '[data-render-to]', (event: CustomEvent) => {
     const target = event.target as HTMLElement;
+    const data = event.detail as string;
 
     if (target instanceof HTMLElement && target.matches('[data-render-to]')) {
       const selector = target.getAttribute('data-render-to');

@@ -19,20 +19,13 @@ const xuiSwal = Swal.mixin({
 
 ready(() => {
   // Override the default Rails confirmation dialog with a sweetalert
-
-  // HACK: The 'confirm' event on the document is part of the `jquery_ujs` library.
-  // jQuery comes from Sprockets assets.
-  // eslint-disable-next-line no-undef
-  const $ = jQuery;
-
-  $(document).on('confirm', (event) => {
+  document.addEventListener('confirm', (event) => {
     event.preventDefault();
 
     // eslint-disable-next-line no-undef
-    const element = $(event.target);
-    const message = element.data('confirm');
-    const title =
-      element.data('confirm-title') || I18n.t('global.are_you_sure');
+    const element = event.target;
+    const message = element.dataset.confirm;
+    const title = element.dataset.confirmTitle || I18n.t('global.are_you_sure');
 
     // Display prompt
     xuiSwal
@@ -47,13 +40,13 @@ ready(() => {
       })
       .then((result) => {
         if (result.value) {
-          // User hits OK
-          // Remove data-confirm
-          element.data('confirm', null);
-          // Re-click link
-          element.trigger('click.rails');
-          // Replace data-confirm (in case of AJAX update, still want prompt next time)
-          element.data('confirm', message);
+          // When the user hits "OK", we retrigger the click event
+          // without the `data-confirm` attribute to prevent the popup showing up again.
+          element.removeAttribute('data-confirm');
+          element.click();
+          // In case of an AJAX update, still prompt the user
+          // the next time by re-adding the `data-confirm` attribute.
+          element.setAttribute('data-confirm', message);
         }
       });
 

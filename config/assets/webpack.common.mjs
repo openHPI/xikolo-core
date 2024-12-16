@@ -61,11 +61,6 @@ export default async (settings) => {
       rules,
     },
 
-    externals: {
-      // Use legacy jquery from sprockets bundle <- DO NOT USE AT ALL
-      jquery: 'jQuery',
-    },
-
     plugins: [
       // Inject __BRAND__ and __MODE__ magic variables. They allow for
       // conditional code, e.g. print debug messages when not building in

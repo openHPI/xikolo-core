@@ -1,9 +1,10 @@
+import $ from 'jquery';
+
 export type SharingService = 'facebook' | 'twitter' | 'mail';
 
 /**
  * Lanalytics events are emitted via jQuery plugin,
  * which comes with its own event engine.
- * jQuery comes from Sprockets assets.
  * @deprecated
  */
 const triggerTrackEvent = (

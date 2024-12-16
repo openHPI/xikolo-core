@@ -4,16 +4,15 @@ source 'https://rubygems.org'
 
 ruby '~> 3.3.0'
 
-gem 'rails', '~> 6.1.0'
+gem 'rails', '~> 7.2.0'
 gem 'rails-rfc6570', '~> 3.0'
-gem 'sprockets', '~> 3.2'
-gem 'sprockets-rails', '~> 3.2'
 
 gem 'bigdecimal'
 gem 'csv'
 gem 'drb'
 gem 'json'
 gem 'mutex_m'
+gem 'ostruct'
 gem 'syslog'
 
 gem 'acts_as_list'

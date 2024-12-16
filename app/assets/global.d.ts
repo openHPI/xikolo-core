@@ -20,3 +20,4 @@ declare const I18n: {
 };
 
 declare module 'html5sortable/dist/html5sortable.es';
+declare module 'jquery';

@@ -31,7 +31,6 @@ module.exports = {
     },
   },
   rules: {
-    'import/no-unresolved': ['error', { ignore: ['jquery'] }],
     complexity: ['error', { max: 9 }],
   },
 };

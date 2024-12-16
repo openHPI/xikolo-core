@@ -1,5 +1,4 @@
-//
-
+import $ from 'jquery';
 import './modal.scss';
 
 /**
@@ -27,10 +26,6 @@ import './modal.scss';
  * @return {void}
  */
 export default function modal(el, src) {
-  // HACK: Bootstrap modals are a jQuery plugin - jQuery comes from Sprockets assets.
-  // eslint-disable-next-line no-undef
-  const $ = jQuery;
-
   return new Promise((resolve) => {
     const iframe = document.createElement('iframe');
     iframe.src = src;

@@ -18,7 +18,7 @@ javascript:
       $('#submit_new_option').prop('disabled', $(this).val().length < 1)
     });
 
-    $(document).on('ajax:success', '#poll_options', function (e, data) {
-      $('#poll_options').html(data);
+    $(document).on('ajax:success', '#poll_options', function (event) {
+      $('#poll_options').html(event.detail.data);
     });
   });

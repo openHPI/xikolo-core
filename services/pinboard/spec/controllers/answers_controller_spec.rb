@@ -439,8 +439,7 @@ describe AnswersController, type: :controller do
       before do
         stub_request(:get,
           'https://s3.xikolo.de/xikolo-uploads?list-type=2&' \
-          'prefix=uploads%2F83aebd2a-f026-4d58-8a61-5ee4f1a7cbfa') \
-          .to_return(
+          'prefix=uploads%2F83aebd2a-f026-4d58-8a61-5ee4f1a7cbfa').to_return(
             status: 200,
             headers: {'Content-Type' => 'Content-Type: application/xml'},
             body: <<~XML)
@@ -636,8 +635,7 @@ describe AnswersController, type: :controller do
       before do
         stub_request(:get,
           'https://s3.xikolo.de/xikolo-uploads?list-type=2&' \
-          'prefix=uploads%2F83aebd2a-f026-4d58-8a61-5ee4f1a7cbfa') \
-          .to_return(
+          'prefix=uploads%2F83aebd2a-f026-4d58-8a61-5ee4f1a7cbfa').to_return(
             status: 200,
             headers: {'Content-Type' => 'Content-Type: application/xml'},
             body: <<~XML)

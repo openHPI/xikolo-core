@@ -6,6 +6,20 @@
  * initializers. Probably.
  */
 
+import jQuery from 'jquery';
+import Rails from '@rails/ujs';
+
+/**
+ * jQuery for legacy inline JS.
+ * Do not use in webpack JS code.
+ * @deprecated
+ */
+// eslint-disable-next-line no-undef, @typescript-eslint/no-unused-vars
+const $ = jQuery;
+
+// Rails UJS
+Rails.start();
+
 // Polyfills
 import 'form-request-submit-polyfill';
 
