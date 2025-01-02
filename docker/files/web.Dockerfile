@@ -1,11 +1,11 @@
-# syntax = docker/dockerfile:1.12-labs@sha256:c0232100a2ae4603c5c6a8a97b77d002bbf994a69f19f70d7b487e1cd7fa5612
+# syntax = docker/dockerfile:1.12-labs@sha256:5a2914b8a3ae788a4b8874f80dddde9fdf932e1d224fab8bab669bd18f251f9a
 
 #
 # Assets build environment (with NodeJS)
 #
 # * Compile and bundle web assets
 #
-FROM timbru31/ruby-node:3.3-slim-20@sha256:b0ac83410d2bca5ade302e880a129d75d1e484e8d9b42c2edba510ac09d75839 AS assets
+FROM timbru31/ruby-node:3.3-slim-20@sha256:13964e49372594bf4fa74a1d58d29b3ed294fff1bba19a90364c0514e057a5f7 AS assets
 
 ARG BRAND=xikolo
 ARG TARGETARCH
@@ -68,7 +68,7 @@ EOF
 # * Collect required native dependencies for gems
 # * Clean up application directory
 #
-FROM ruby:3.3.6-slim@sha256:694f3ccb7edc9b39a455040a070f4140d4778692dd739c9359045de20ae82705 AS build
+FROM ruby:3.3.6-slim@sha256:655ed7e1f547cfe051ec391e5b55a8cb5a1450f56903af9410dd31a6aedc5681 AS build
 
 ARG BRAND=xikolo
 ARG TARGETARCH
@@ -138,7 +138,7 @@ EOF
 #
 # Runtime image
 #
-FROM docker.io/ruby:3.3.6-slim@sha256:694f3ccb7edc9b39a455040a070f4140d4778692dd739c9359045de20ae82705
+FROM docker.io/ruby:3.3.6-slim@sha256:655ed7e1f547cfe051ec391e5b55a8cb5a1450f56903af9410dd31a6aedc5681
 
 ARG BRAND=xikolo
 ARG TARGETARCH
@@ -180,6 +180,7 @@ COPY --from=build /usr/local/bundle /usr/local/bundle
 
 # Install required runtime packages for native dependencies
 RUN <<EOF
+  apt-get --yes --quiet update
   xargs apt-get install --yes < /usr/local/bundle/packages
 EOF
 

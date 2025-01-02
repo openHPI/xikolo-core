@@ -15,14 +15,14 @@ class SubmissionFilesController < ApplicationController
 
     current_attachments_count = shared.file_ids.count
     if current_attachments_count >= shared.peer_assessment.allowed_attachments
-      return render json: {}, status: :unprocessable_entity
+      return render json: {}, status: :unprocessable_content
     end
 
     file = shared.files.build id: SecureRandom.uuid, user_id: params.require(:user_id)
     upload = Xikolo::S3::UploadByUri.new \
       uri: params.require(:upload_uri),
       purpose: :peerassessment_submission_attachment
-    return render json: {}, status: :unprocessable_entity unless upload.valid?
+    return render json: {}, status: :unprocessable_content unless upload.valid?
 
     pid = UUID4(submission.peer_assessment.id).to_s(format: :base62)
     sid = UUID4(shared.id).to_s(format: :base62)
@@ -35,7 +35,7 @@ class SubmissionFilesController < ApplicationController
       content_disposition: "attachment; filename=\"#{file.name}\"",
       content_type: upload.content_type,
       acl: 'private'
-    return render json: {}, status: :unprocessable_entity if result.is_a?(Symbol)
+    return render json: {}, status: :unprocessable_content if result.is_a?(Symbol)
 
     file.storage_uri = result.storage_uri
     file.save

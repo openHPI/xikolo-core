@@ -40,7 +40,6 @@ export function initializeTomSelect(scope: Document | HTMLElement = document) {
   );
 
   selectInputs.forEach((select: TomInput) => {
-    // eslint-disable-next-line no-new
     new TomSelect(select, {
       ...tomSelectSettings(select),
       // Custom settings for specific implementation

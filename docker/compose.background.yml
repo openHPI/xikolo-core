@@ -1,7 +1,7 @@
 ---
 services:
   minio:
-    image: minio/minio@sha256:ac591851803a79aee64bc37f66d77c56b0a4b6e12d9e5356380f4105510f2332
+    image: minio/minio@sha256:1dce27c494a16bae114774f1cec295493f3613142713130c2d22dd5696be6ad3
     command: server /data
     volumes:
       - minio:/data
@@ -33,7 +33,7 @@ services:
   # Restarting the stack purges all still pending background jobs or queued
   # messages.
   rabbitmq:
-    image: rabbitmq:3.13-management@sha256:5c3ead81d8a4134e33f45751b5b9dda6a6a6546a58adfe2a3575063935ebf9c5
+    image: rabbitmq:3.13-management@sha256:29ded394fc8639f891e0c80fac7b8f594bb8edaa83e15dc8c5795ef8d6c15f6a
     restart: always
     healthcheck:
       test: rabbitmq-diagnostics -q ping
@@ -44,7 +44,7 @@ services:
       - xikolo
 
   redis-cache:
-    image: redis:7@sha256:af0be38eb8e43191bae9b03fe5c928803930b6f93e2dde3a7ad1165c04b1ce22
+    image: redis:7@sha256:bb142a9c18ac18a16713c1491d779697b4e107c22a97266616099d288237ef47
     command: redis-server --databases 8196
     healthcheck:
       test: redis-cli ping
@@ -55,7 +55,7 @@ services:
       - xikolo
 
   redis-sidekiq:
-    image: redis:7@sha256:af0be38eb8e43191bae9b03fe5c928803930b6f93e2dde3a7ad1165c04b1ce22
+    image: redis:7@sha256:bb142a9c18ac18a16713c1491d779697b4e107c22a97266616099d288237ef47
     command: redis-server --databases 8196
     healthcheck:
       test: redis-cli ping

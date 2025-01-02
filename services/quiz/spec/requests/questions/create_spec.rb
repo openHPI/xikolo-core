@@ -40,7 +40,7 @@ RSpec.describe 'Questions: Create', type: :request do
 
     it 'responds with 422 Unprocessable Entity' do
       expect { creation }.to raise_error(Restify::ClientError) do |err|
-        expect(err.status).to eq :unprocessable_entity
+        expect(err.status).to eq :unprocessable_content
       end
     end
   end
@@ -83,7 +83,7 @@ RSpec.describe 'Questions: Create', type: :request do
       )
 
       expect { creation }.to raise_error(Restify::ClientError) do |error|
-        expect(error.status).to eq :unprocessable_entity
+        expect(error.status).to eq :unprocessable_content
         expect(error.errors).to eq 'text' => ['rtfile_rejected']
       end
     end
@@ -106,7 +106,7 @@ RSpec.describe 'Questions: Create', type: :request do
       stub_request(:put, store_regex).and_return(status: 503)
 
       expect { creation }.to raise_error(Restify::ClientError) do |error|
-        expect(error.status).to eq :unprocessable_entity
+        expect(error.status).to eq :unprocessable_content
         expect(error.errors).to eq 'text' => ['rtfile_error']
       end
     end
@@ -150,7 +150,7 @@ RSpec.describe 'Questions: Create', type: :request do
       )
 
       expect { creation }.to raise_error(Restify::ClientError) do |error|
-        expect(error.status).to eq :unprocessable_entity
+        expect(error.status).to eq :unprocessable_content
         expect(error.errors).to eq 'explanation' => ['rtfile_rejected']
       end
     end
@@ -173,7 +173,7 @@ RSpec.describe 'Questions: Create', type: :request do
       stub_request(:put, store_regex).and_return(status: 503)
 
       expect { creation }.to raise_error(Restify::ClientError) do |error|
-        expect(error.status).to eq :unprocessable_entity
+        expect(error.status).to eq :unprocessable_content
         expect(error.errors).to eq 'explanation' => ['rtfile_error']
       end
     end

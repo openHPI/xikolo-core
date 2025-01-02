@@ -58,7 +58,6 @@ ready(() => {
         config.formatDate = formatDate;
         config.onReady = (_, __, instance) => {
           if (!instance.input.placeholder) {
-            // eslint-disable-next-line no-param-reassign
             instance.input.placeholder = 'YYYY-MM-DDThh:mm:ssZ';
           }
         };

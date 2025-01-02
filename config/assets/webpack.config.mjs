@@ -6,12 +6,10 @@ import { resolve } from 'path';
 import development from './webpack.dev.mjs';
 import production from './webpack.prod.mjs';
 
-const DIRNAME = new URL('.', import.meta.url).pathname;
-
 export default async (env = {}, argv = {}) => {
   const settings = {
     mode: 'development',
-    root: resolve(DIRNAME, '../..'),
+    root: resolve(import.meta.dirname, '../..'),
     publicPath: env.publicPath || '/assets/webpack/',
     // Hack to detect if running webpack-dev-server
     devServer: !!argv.host,

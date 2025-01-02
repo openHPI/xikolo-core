@@ -1,4 +1,3 @@
-/* eslint-disable import/first */
 /**
  * Main application bundle
  *
@@ -14,7 +13,7 @@ import Rails from '@rails/ujs';
  * Do not use in webpack JS code.
  * @deprecated
  */
-// eslint-disable-next-line no-undef, @typescript-eslint/no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const $ = jQuery;
 
 // Rails UJS

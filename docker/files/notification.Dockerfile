@@ -1,6 +1,6 @@
-# syntax = docker/dockerfile:1.12@sha256:db1ff77fb637a5955317c7a3a62540196396d565f3dd5742e76dddbb6d75c4c5
+# syntax = docker/dockerfile:1.12@sha256:93bfd3b68c109427185cd78b4779fc82b484b0b7618e36d0f104d4d801e66d25
 
-FROM docker.io/ruby:3.3.6-slim@sha256:694f3ccb7edc9b39a455040a070f4140d4778692dd739c9359045de20ae82705 AS build
+FROM docker.io/ruby:3.3.6-slim@sha256:655ed7e1f547cfe051ec391e5b55a8cb5a1450f56903af9410dd31a6aedc5681 AS build
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -67,7 +67,7 @@ EOF
 #
 # Runtime image
 #
-FROM docker.io/ruby:3.3.6-slim@sha256:694f3ccb7edc9b39a455040a070f4140d4778692dd739c9359045de20ae82705
+FROM docker.io/ruby:3.3.6-slim@sha256:655ed7e1f547cfe051ec391e5b55a8cb5a1450f56903af9410dd31a6aedc5681
 
 ARG TARGETARCH
 
@@ -109,6 +109,7 @@ COPY --from=build /usr/local/bundle /usr/local/bundle
 
 # Install required runtime packages for native dependencies
 RUN <<EOF
+  apt-get --yes --quiet update
   xargs apt-get install --yes < /usr/local/bundle/packages
 EOF
 

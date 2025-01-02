@@ -66,7 +66,7 @@ ready(() => {
       } else {
         throw new Error(response.statusText);
       }
-    } catch (error) {
+    } catch {
       loadingIndicator.hidden = true;
       errorMessage.hidden = false;
       button.hidden = false;

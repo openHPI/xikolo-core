@@ -53,7 +53,7 @@ describe 'PeerAssessment Files: Create', type: :request do
     )
 
     expect { creation }.to raise_error(Restify::ClientError) do |error|
-      expect(error.status).to eq :unprocessable_entity
+      expect(error.status).to eq :unprocessable_content
     end
   end
 
@@ -77,7 +77,7 @@ describe 'PeerAssessment Files: Create', type: :request do
     stub_request(:put, store_regex).and_return(status: 503)
 
     expect { creation }.to raise_error(Restify::ClientError) do |error|
-      expect(error.status).to eq :unprocessable_entity
+      expect(error.status).to eq :unprocessable_content
     end
   end
 end

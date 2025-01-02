@@ -70,7 +70,6 @@ ready(() => {
         addInputValueToList(sortableInput, sortableList);
       });
     } else if (sortableSelect) {
-      // eslint-disable-next-line no-new
       new TomSelect(sortableSelect, {
         ...tomSelectSettings(sortableSelect),
 

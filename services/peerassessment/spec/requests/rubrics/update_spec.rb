@@ -55,7 +55,7 @@ RSpec.describe 'Rubric: Update', type: :request do
       )
 
       expect { modification }.to raise_error(Restify::ClientError) do |error|
-        expect(error.status).to eq :unprocessable_entity
+        expect(error.status).to eq :unprocessable_content
         expect(error.errors).to eq 'hints' => ['rtfile_rejected']
       end
     end
@@ -80,7 +80,7 @@ RSpec.describe 'Rubric: Update', type: :request do
       stub_request(:put, store_regex).and_return(status: 503)
 
       expect { modification }.to raise_error(Restify::ClientError) do |error|
-        expect(error.status).to eq :unprocessable_entity
+        expect(error.status).to eq :unprocessable_content
         expect(error.errors).to eq 'hints' => ['rtfile_error']
       end
     end

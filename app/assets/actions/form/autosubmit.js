@@ -14,7 +14,6 @@ ready(() => {
   const els = document.querySelectorAll('form[data-autosubmit]');
 
   if (__MODE__ !== 'production' && els.length > 1) {
-    // eslint-disable-next-line no-console
     console.warn(
       'Multiple form[data-autosubmit] found. Only first will be submitted in production',
     );

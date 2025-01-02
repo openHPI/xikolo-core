@@ -19,8 +19,18 @@ export default async (settings) => {
   const brandPath = join(root, 'brand', brand, 'assets');
   const defaultPath = join(root, 'app', 'assets');
 
-  // eslint-disable-next-line no-console
+  /* eslint-disable no-console */
   console.log(`==> Building ${brand}-${mode}...`);
+  console.log(`  Brand path  : ${brandPath}`);
+  console.log(`  Default path: ${defaultPath}`);
+  console.log(`  Entries:`);
+  const nameMax = Math.max(...Object.keys(entry).map((x) => x.length));
+  // eslint-disable-next-line no-restricted-syntax
+  for (const [name, files] of Object.entries(entry)) {
+    console.log(`    ${name.padEnd(nameMax)}: ${files}`);
+  }
+  console.log();
+  /* eslint-enable no-console */
 
   return {
     context: root,

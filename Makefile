@@ -33,4 +33,4 @@ $(SPROCKET_TARGETS): install
 	RAILS_ENV=$(RAILS_ENV) RAILS_GROUPS=assets BRAND=$(@F) bundle exec rake assets:precompile
 
 $(WEBPACK_TARGETS): install
-	corepack yarn run build --mode $(RAILS_ENV) --env BRAND=$(@F)
+	corepack yarn run build --mode $(RAILS_ENV) --env BRAND=$(@F) --stats-error-details

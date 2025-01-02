@@ -30,7 +30,6 @@ const setProgressBar = (
 ) => {
   const timePercentage = ((totalSecs - remainingSecs) * 100) / totalSecs;
 
-  // eslint-disable-next-line no-param-reassign
   bar.style.width = `${timePercentage}%`;
   setBarColor(timePercentage, bar);
 };
@@ -52,7 +51,6 @@ const startTimer = (
     timePassed += 1;
     timeLeft = totalSecs - timePassed;
 
-    // eslint-disable-next-line no-param-reassign
     label.innerHTML = formatTime(timeLeft, formatWithHours);
 
     setProgressBar(timeLeft, totalSecs, bar);

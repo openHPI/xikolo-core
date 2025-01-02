@@ -62,7 +62,7 @@ describe StepsController, type: :controller do
 
       it 'is not successful' do
         action
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
 
       context 'with enough training samples' do

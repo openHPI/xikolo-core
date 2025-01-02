@@ -50,9 +50,9 @@ class QuizzesController < ApplicationController
     end
   rescue XMLImporter::SchemaError,
          XMLImporter::ParameterError => e
-    render json: {errors: e.errors}, status: :unprocessable_entity
+    render json: {errors: e.errors}, status: :unprocessable_content
   rescue ActiveRecord::RecordInvalid => e
-    render json: {errors: [e.message]}, status: :unprocessable_entity
+    render json: {errors: [e.message]}, status: :unprocessable_content
   rescue Restify::ClientError => e
     render json: {errors: [e.message]}, status: e.status
   end
@@ -102,7 +102,7 @@ class QuizzesController < ApplicationController
       errors = []
       errors << 'Missing "xml" parameter' if params[:xml].blank?
       errors << 'Missing "course_id" parameter' if params[:course_id].blank?
-      return render json: {errors:}, status: :unprocessable_entity
+      return render json: {errors:}, status: :unprocessable_content
     end
 
     importer = XMLImporter::Quiz.new(params[:course_code], params[:course_id], params[:xml])
@@ -132,7 +132,7 @@ class QuizzesController < ApplicationController
     }
   rescue XMLImporter::SchemaError,
          XMLImporter::ParameterError => e
-    render json: {errors: e.errors}, status: :unprocessable_entity
+    render json: {errors: e.errors}, status: :unprocessable_content
   end
 
   def course_api

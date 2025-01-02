@@ -333,7 +333,7 @@ describe ReviewsController, type: :controller do
         it 'rejects the update' do
           skip 'Adding a validation for this requires rewriting the factories / test state'
           modification
-          expect(response).to have_http_status :unprocessable_entity
+          expect(response).to have_http_status :unprocessable_content
         end
       end
 
@@ -351,7 +351,7 @@ describe ReviewsController, type: :controller do
 
         it 'rejects the update' do
           modification
-          expect(response).to have_http_status :unprocessable_entity
+          expect(response).to have_http_status :unprocessable_content
         end
 
         it 'does not change the training review' do
@@ -399,7 +399,7 @@ describe ReviewsController, type: :controller do
 
           modification
 
-          expect(response).to have_http_status :unprocessable_entity
+          expect(response).to have_http_status :unprocessable_content
           expect(json['errors']).to eq 'text' => ['rtfile_rejected']
         end
 
@@ -424,7 +424,7 @@ describe ReviewsController, type: :controller do
 
           modification
 
-          expect(response).to have_http_status :unprocessable_entity
+          expect(response).to have_http_status :unprocessable_content
           expect(json['errors']).to eq 'text' => ['rtfile_error']
         end
       end

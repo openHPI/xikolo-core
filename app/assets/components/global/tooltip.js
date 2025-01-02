@@ -84,7 +84,7 @@ const buildTooltip = (element) => {
   try {
     tooltipContent = JSON.parse(tooltipContent);
     type = 'advanced';
-  } catch (e) {
+  } catch {
     type = 'simple';
   }
 

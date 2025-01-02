@@ -22,7 +22,6 @@ ready(() => {
   document.addEventListener('confirm', (event) => {
     event.preventDefault();
 
-    // eslint-disable-next-line no-undef
     const element = event.target;
     const message = element.dataset.confirm;
     const title = element.dataset.confirmTitle || I18n.t('global.are_you_sure');

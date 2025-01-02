@@ -58,3 +58,6 @@ examples.txt
 
 # Auto-generated API documentation
 /doc/api
+
+# License-restricted files (add internal updates with force)
+/app/assets/fontawesome-pro/

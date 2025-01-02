@@ -25,7 +25,6 @@ const handleError = (message?: string, error?: unknown, showMessage = true) => {
   }
 
   if (error) {
-    // eslint-disable-next-line no-console
     console.error(error);
   }
 };

@@ -10,7 +10,7 @@ class UserStepsController < ApplicationController
   rfc6570_params index: %i[user_id]
 
   def index
-    return render json: nil, status: :unprocessable_entity unless params[:user_id]
+    return render json: nil, status: :unprocessable_content unless params[:user_id]
 
     respond_with Step.where(peer_assessment_id:)
   end
