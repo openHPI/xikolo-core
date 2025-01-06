@@ -229,7 +229,7 @@ describe Admin::CourseManagementController, type: :controller do
     let(:params) { {id: course_id} }
 
     before do
-      request.env['HTTP_REFERER'] = 'where_i_came_from'
+      request.env['HTTP_REFERER'] = 'http://test.host/where_i_came_from'
     end
 
     context 'as user' do
@@ -253,7 +253,7 @@ describe Admin::CourseManagementController, type: :controller do
 
       it 'is successful' do
         action.call
-        expect(response).to redirect_to 'where_i_came_from'
+        expect(response).to redirect_to 'http://test.host/where_i_came_from'
       end
 
       context 'with submission and snapshot params' do

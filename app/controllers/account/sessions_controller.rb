@@ -235,7 +235,7 @@ class Account::SessionsController < Abstract::FrontendController
       store_location(redirect_param)
       # This can also happen for SSO authentication, i.e., when native
       # login is disabled.
-      redirect_to(
+      redirect_external(
         login_url,
         error: format_error_message(@handler.error_code)
       )

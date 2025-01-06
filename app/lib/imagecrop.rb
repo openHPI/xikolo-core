@@ -37,20 +37,4 @@ module Imagecrop
       Addressable::URI.parse(Xikolo.config.imgproxy_url).freeze
     end
   end
-
-  module AssetUrlExtension
-    # Extends Rails' asset path helpers.
-    # The method is delegated to by image_tag, stylesheet_link_tag, and more.
-    #
-    # For image assets, we prepend the imagecrop service URL if configured
-    # to optimize images on the fly.
-    def path_to_asset(_source = '', options = {})
-      return super unless options[:type] == :image
-
-      Imagecrop.transform(
-        super,
-        options.fetch(:imagecrop, {})
-      )
-    end
-  end
 end

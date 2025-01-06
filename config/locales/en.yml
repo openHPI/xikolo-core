@@ -969,6 +969,9 @@ en:
         notice: Please check your spam folder if you did not receive the confirmation email.
     shared:
       consent:
+        marketing:
+          label: marketing
+          text: USED IN TESTS ONLY
         user_profile:
           label: User Profile
           text: "I allow %{brand} to store the user profile I have created. Some elements of this profile will be visible to other users of the platform in discussion forums or other collaborative tools. These include my <i>real name</i>, if I have not created a dedicated <i>display name</i>, as well as an optional profile photo."

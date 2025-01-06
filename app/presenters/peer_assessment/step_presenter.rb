@@ -19,9 +19,9 @@ class PeerAssessment::StepPresenter < Presenter
 
   def deadline_passed_text
     if @step.is_a? Xikolo::PeerAssessment::SelfAssessment
-      I18n.t(:'peer_assessment.step.optional_deadline_passed', deadline: deadline.to_formatted_s(:short))
+      I18n.t(:'peer_assessment.step.optional_deadline_passed', deadline: deadline.to_fs(:short))
     else
-      I18n.t(:'peer_assessment.step.deadline_passed', deadline: deadline.to_formatted_s(:short))
+      I18n.t(:'peer_assessment.step.deadline_passed', deadline: deadline.to_fs(:short))
     end
   end
 

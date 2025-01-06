@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 ruby '~> 3.3.0'
 
 # Rails
-gem 'rails', '~> 6.1.0'
+gem 'rails', '~> 7.2.0'
 
 gem 'base64'
 gem 'bigdecimal'
@@ -20,7 +20,6 @@ gem 'syslog'
 gem 'activerecord-postgres_enum', '~> 2.0'
 gem 'acts_as_list'
 gem 'awesome_nested_set', '~> 3.4'
-gem 'composite_primary_keys', '~> 13.0'
 gem 'fx', '~> 0.8.0'
 gem 'groupdate', '~> 6.0'
 gem 'json-schema'
@@ -135,7 +134,7 @@ gem 'prawn-table'
 gem 'prawn-templates', '~> 0.1.0'
 
 # Monitoring
-gem 'mnemosyne-ruby', '~> 2.0'
+gem 'mnemosyne-ruby', '~> 2.1'
 gem 'sentry-rails', '~> 5.22.0'
 gem 'sentry-ruby', '~> 5.22.0'
 gem 'sentry-sidekiq', '~> 5.22.0'

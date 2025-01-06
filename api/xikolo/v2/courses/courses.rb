@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'imagecrop'
-
 module Xikolo
   module V2::Courses
     class Courses < Xikolo::Endpoint::CollectionEndpoint

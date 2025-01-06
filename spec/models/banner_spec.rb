@@ -91,15 +91,18 @@ describe Banner, type: :model do
   end
 
   describe '(deletion)' do
-    around {|example| perform_enqueued_jobs(&example) }
-
     it 'deletes the referenced S3 object' do
       delete_stub = stub_request(
         :delete,
         'https://s3.xikolo.de/xikolo-public/banners/banner.jpg'
       )
 
-      banner.destroy
+      banner.save!
+
+      perform_enqueued_jobs do
+        banner.destroy
+      end
+
       expect(delete_stub).to have_been_requested
     end
   end

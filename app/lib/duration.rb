@@ -2,19 +2,21 @@
 
 class Duration
   def initialize(total_seconds)
-    @total_seconds = total_seconds
+    @duration = ActiveSupport::Duration.build(total_seconds.to_i)
   end
 
   def hours
-    @total_seconds.to_i / 3600
+    @duration.in_hours.to_i
   end
 
   def minutes
-    @total_seconds.to_i / 60 % 60
+    # Minutes remaining for an hour started.
+    (@duration.in_minutes % 60).to_i
   end
 
   def seconds
-    @total_seconds.to_i % 60
+    # Seconds remaining for a minute started.
+    (@duration.in_seconds % ActiveSupport::Duration::SECONDS_PER_MINUTE).to_i
   end
 
   def to_s

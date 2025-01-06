@@ -48,6 +48,6 @@ class StatisticMailer < ApplicationMailer
   private
 
   def current_date
-    @current_date ||= DateTime.now.to_formatted_s(:db)
+    @current_date ||= DateTime.now.to_fs(:db)
   end
 end

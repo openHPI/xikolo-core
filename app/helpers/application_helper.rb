@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'imagecrop'
-
 module ApplicationHelper
   def current_controller?(controller_name)
     params[:controller] == controller_name

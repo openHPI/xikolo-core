@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-require 'certificate/record_renderer'
 
 describe Certificate::RecordRenderer do
   subject(:pdf_content) do

@@ -15,7 +15,7 @@ class PeerAssessment::SubmissionFilesController < Abstract::FrontendController
     file = submission['attachments'].find {|f| f['id'] == file_id }
     raise Status::NotFound unless file
 
-    redirect_to file['download_url']
+    redirect_external(file['download_url'])
   rescue Restify::NotFound
     raise Status::NotFound
   end

@@ -16,7 +16,7 @@ module Video
 
     default_scope { order(identifier: :asc) }
 
-    serialize :style, Hash
+    serialize :style, coder: YAML, type: Hash
 
     def as_api_v2
       @api_v2 ||= ::Video::SubtitleCue::APIV2.new(self).as_json # rubocop:disable Naming/MemoizedInstanceVariableName

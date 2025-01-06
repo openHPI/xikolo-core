@@ -34,6 +34,13 @@ class ApplicationController < ActionController::Base
     super
   end
 
+  # Use this method when explicitly redirecting to an external URL that
+  # might have a different hostname. This makes bypassing the same-host
+  # protection of `#redirect_to` explicit.
+  def redirect_external(*, **)
+    redirect_to(*, **, allow_other_host: true)
+  end
+
   protected
 
   # Before helper to ensure privileges!

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'certificate/record_renderer'
-
 module Certificate
   class Record
     class Render < ::ApplicationOperation

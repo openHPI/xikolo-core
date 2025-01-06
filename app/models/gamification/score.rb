@@ -8,7 +8,7 @@ module Gamification
     validates :rule, presence: true
     validates :checksum, uniqueness: {scope: :rule}
 
-    serialize :data
+    serialize :data, coder: YAML
 
     after_create :update_user_badges!
 

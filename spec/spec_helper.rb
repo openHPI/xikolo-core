@@ -106,8 +106,18 @@ RSpec.configure do |config|
   config.before do
     OmniAuth.config.test_mode = true
 
-    ActiveJob::Base.queue_adapter = :test
     Sidekiq::Worker.clear_all
+  end
+
+  config.around do |example|
+    # Around runs before before hook, and we must set the queue_adapter
+    # before around hooks in specs are run, such as:
+    #
+    #     around {|example| perform_enqueued_jobs(&example) }
+    #
+    ActiveJob::Base.queue_adapter = :test
+
+    example.run
   end
 
   config.around do |example|

@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 ruby '~> 3.3.0'
 
 # Libraries
-gem 'activesupport', '< 7'
+gem 'activesupport', '~> 7.2'
 gem 'restify', '~> 1.15'
 gem 'uuid4'
 

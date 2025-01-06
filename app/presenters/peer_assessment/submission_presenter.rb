@@ -81,11 +81,11 @@ class PeerAssessment::SubmissionPresenter < PrivatePresenter
   end
 
   def created_at
-    @submission['created_at'].to_datetime.to_formatted_s(:short)
+    @submission['created_at'].to_datetime.to_fs(:short)
   end
 
   def updated_at
-    @submission['updated_at'].to_datetime.to_formatted_s(:short)
+    @submission['updated_at'].to_datetime.to_fs(:short)
   end
 
   def base_points_from_grade

@@ -2,6 +2,8 @@
 
 module Certificate
   class Template < ::ApplicationRecord
+    self.table_name = 'templates'
+
     CERTIFICATE_TYPES = ::Certificate::Record::TYPES.map(&:to_sym).freeze
     SVG_XSD = Rails.root.join('vendor', 'assets', 'schemas', 'svg', 'svg.xsd').freeze
 
@@ -13,6 +15,7 @@ module Certificate
     belongs_to :course, class_name: 'Course::Course'
     has_many :records,
       class_name: '::Certificate::Record',
+      inverse_of: :template,
       dependent: :destroy
 
     default_scope { order('updated_at DESC') }

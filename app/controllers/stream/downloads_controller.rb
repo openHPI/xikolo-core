@@ -4,7 +4,7 @@ class Stream::DownloadsController < ApplicationController
   before_action :ensure_logged_in, unless: -> { browser.bot.search_engine? }
 
   def show
-    redirect_to download_link
+    redirect_external download_link
   rescue Video::Vimeo::API::RequestTimeout
     add_flash_message :error, t(:'flash.error.download_not_refreshed')
     redirect_back fallback_location: dashboard_url

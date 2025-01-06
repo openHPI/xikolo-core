@@ -91,14 +91,12 @@ class PeerAssessment::ReviewPresenter < PrivatePresenter
       (deadline < current_step.deadline)
   end
 
+  include ActionView::Helpers::DateHelper
+
   def time_left
     return '—' if submitted || suspended?
 
-    base    = DateTime.parse(deadline).to_i - DateTime.now.to_i
-    hours   = base / 3600
-    minutes = (base % 3600) / 60
-
-    "#{hours}h #{minutes}min"
+    distance_of_time_in_words(DateTime.now, DateTime.parse(deadline))
   end
 
   def to_param

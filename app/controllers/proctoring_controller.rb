@@ -18,8 +18,10 @@ class ProctoringController < Abstract::FrontendController
   def registration_details; end
 
   def register_at_smowl
-    redirect_to enrollment.proctoring.vendor_registration_url(
-      redirect_to: course_url(course)
+    redirect_external(
+      enrollment.proctoring.vendor_registration_url(
+        redirect_to: course_url(course)
+      )
     )
   end
 

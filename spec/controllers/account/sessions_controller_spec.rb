@@ -380,7 +380,7 @@ describe Account::SessionsController, type: :controller do
 
             # Includes link to request new confirmation email
             # The `request` query parameter is a time-dependent signed blob
-            expect(msg).to match %r{href='/account/confirm/new\?request=[\w-]*'}
+            expect(msg).to match %r{href='/account/confirm/new\?request=[\w%-]*'}
           end
         end
 

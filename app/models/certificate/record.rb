@@ -36,6 +36,7 @@ module Certificate
     belongs_to :course, class_name: 'Course::Course'
     belongs_to :template,
       class_name: 'Certificate::Template',
+      inverse_of: :records,
       optional: true
 
     before_save :add_verification_hash
@@ -49,7 +50,7 @@ module Certificate
       # This overrides ActiveRecord::Inheritance::ClassMethods#find_sti_class.
       def find_sti_class(type_name)
         if (cls = STI_TYPE_TO_CLASS[type_name])
-          ::ActiveSupport::Dependencies.constantize(cls)
+          cls.constantize
         else
           raise SubclassNotFound.new("Unsupported record type: #{type_name}")
         end

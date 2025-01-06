@@ -3,7 +3,6 @@
 require_relative 'boot'
 
 require 'rails'
-
 # Pick the frameworks you want:
 require 'active_model/railtie'
 require 'active_job/railtie'
@@ -42,8 +41,15 @@ Xikolo.brand = ENV['BRAND'] if ENV.key?('BRAND')
 module Xikolo
   module Web
     class Application < Rails::Application
+      include Xikolo::Common::Secrets
+
       # Initialize configuration defaults for originally generated Rails version.
-      config.load_defaults 6.1
+      config.load_defaults 7.2
+
+      # Please, add to the `ignore` list any other `lib` subdirectories that do
+      # not contain `.rb` files, or that should not be reloaded or eager loaded.
+      # Common ones are `templates`, `generators`, or `middleware`, for example.
+      config.autoload_lib(ignore: %w[assets tasks])
 
       # Configuration for the application, engines, and railties goes here.
       #
@@ -182,15 +188,4 @@ module Xikolo
       end
     end
   end
-end
-
-module Admin
-end
-
-module Course
-  module Admin
-  end
-end
-
-module PeerAssessment
 end

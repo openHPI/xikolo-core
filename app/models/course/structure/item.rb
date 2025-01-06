@@ -7,7 +7,7 @@ module Course
 
       class << self
         def preload_content!(nodes)
-          ActiveRecord::Associations::Preloader.new.preload(nodes, :item)
+          ActiveRecord::Associations::Preloader.new(records: nodes, associations: :item).call
         end
       end
     end

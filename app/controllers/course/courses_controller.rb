@@ -115,7 +115,7 @@ class Course::CoursesController < Abstract::FrontendController
     return if PublicCoursePage.enabled?
 
     r = PublicCoursePage::Redirect.new(the_course, current_user)
-    redirect_to r.target if r.redirect?
+    redirect_external(r.target) if r.redirect?
   end
 
   def my_enrollment
