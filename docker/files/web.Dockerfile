@@ -5,7 +5,7 @@
 #
 # * Compile and bundle web assets
 #
-FROM timbru31/ruby-node:3.3-slim-20@sha256:13964e49372594bf4fa74a1d58d29b3ed294fff1bba19a90364c0514e057a5f7 AS assets
+FROM timbru31/ruby-node:3.3-slim-20@sha256:efd3c14031e52ce6ce46253ebc1492c2d02e5f60266f20d5ef98013724db7a87 AS assets
 
 ARG BRAND=xikolo
 ARG TARGETARCH

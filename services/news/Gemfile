@@ -67,7 +67,7 @@ group :development, :test do
   gem 'pry'
   gem 'pry-byebug'
   gem 'rspec', '~> 3.10'
-  gem 'rspec-rails', '~> 6.0'
+  gem 'rspec-rails', '~> 7.0'
   gem 'rspec-teamcity', require: false
 end
 

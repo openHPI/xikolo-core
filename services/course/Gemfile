@@ -51,7 +51,7 @@ gem 'xikolo-s3', path: './gems/xikolo-s3'
 gem 'xikolo-sidekiq', path: './gems/xikolo-sidekiq'
 
 # Versioning of ActiveRecords
-gem 'paper_trail', '~> 15.0'
+gem 'paper_trail', '~> 16.0'
 
 # Data storage
 gem 'activerecord-postgres_enum', '~> 2.0'
@@ -70,7 +70,7 @@ group :development, :test do
   gem 'rspec', '~> 3.10'
   gem 'rspec-collection_matchers'
   gem 'rspec-its'
-  gem 'rspec-rails', '~> 6.0'
+  gem 'rspec-rails', '~> 7.0'
   gem 'rspec-teamcity', require: false
   gem 'uuidtools'
   gem 'wirble'
