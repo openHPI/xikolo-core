@@ -1,0 +1,41 @@
+---
+name: docs
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pipenv
+      - run: pip install pipenv
+      - run: pipenv install --dev
+      - run: pipenv run mkdocs build --verbose --site-dir tmp/mkdocs/site
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: tmp/mkdocs/site
+
+  deploy:
+    needs: build
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    # Only deploy from main branch
+    if: ${{ github.ref == 'refs/heads/main' }}
+
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment
