@@ -1107,19 +1107,19 @@ nl:
       submission_statistics: # Do not translate
         title: Quiz Details (Deprecated) # Do not translate
         submissions: Submission # Do not translate
-        total_submissions: "Total Submissions: " # Do not translate
-        distinct: "Submitting users: " # Do not translate
-        total_points: "Total points: " # Do not translate
+        total_submissions: "Total Submissions:" # Do not translate
+        distinct: "Submitting users:" # Do not translate
+        total_points: "Total points:" # Do not translate
         please_select: "Please select..." # Do not translate
         correct: Correct # Do not translate
         wrong: Wrong # Do not translate
         total: total # Do not translate
         student_performance: Student performance # Do not translate
-        average_time: "Average time: " # Do not translate
-        average_points: "Average points: " # Do not translate
-        percent_of: "% of " # Do not translate
-        seconds: " seconds" # Do not translate
-        limit: " limit" # Do not translate
+        average_time: "Average time:" # Do not translate
+        average_points: "Average points:" # Do not translate
+        percent_of: "% of" # Do not translate
+        seconds: seconds # Do not translate
+        limit: limit # Do not translate
       policy_url: Policy URL
 
     users:

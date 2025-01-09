@@ -898,18 +898,18 @@ fr:
       submission_statistics:
         title: Submission Statistics
         submissions: Submission
-        total_submissions: "Total Submissions: "
-        distinct: "Distinct: "
-        total_points: "Total points: "
+        total_submissions: "Total Submissions:"
+        distinct: "Distinct:"
+        total_points: "Total points:"
         correct: Correct
         wrong: Wrong
         total: total
         student_performance: Student performance
-        average_time: "Average time: "
-        average_points: "Average points: "
-        percent_of: "% of "
-        seconds: " seconds"
-        limit: " limit"
+        average_time: "Average time:"
+        average_points: "Average points:"
+        percent_of: "% of"
+        seconds: seconds
+        limit: limit
       policy_url: Policy URL
 
     teachers:

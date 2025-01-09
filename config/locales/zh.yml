@@ -908,7 +908,7 @@ zh: &zh
       submission_statistics:
         title: 提交统计
         submissions: 提交
-        total_submissions: "总提交数："
+        total_submissions: 总提交数
         distinct: "提交用户数："
         total_points: "总分："
         correct: 正确率
@@ -916,10 +916,10 @@ zh: &zh
         total: 用户
         student_performance: 用户表现
         average_time: "平均花费时间："
-        average_points: "平均得分： "
-        percent_of: "% 中 "
-        seconds: " 秒"
-        limit: " 秒限制时间"
+        average_points: "平均得分："
+        percent_of: "% 中"
+        seconds: 秒
+        limit: 秒限制时间
       policy_url: 隐私声明链接
     users:
       create:

@@ -47,18 +47,11 @@ Rails.application.config.tap do |config|
   config.assets.precompile += %w[course-admin.js]
 
   config.assets.precompile += %w[charts.js]
-  config.assets.precompile += %w[jquery.canvasjs.min.js]
   config.assets.precompile += %w[peer_assessment/train_samples.js]
 
   # Localizations
   config.assets.precompile += %w[xikolo-locale-*.js]
 
   # Expensive libraries
-  config.assets.precompile += %w[d3.v3.js]
-  config.assets.precompile += %w[dimple.js]
   config.assets.precompile += %w[moment.js]
-  config.assets.precompile += %w[bootstrap-editable.js]
-
-  ## m.e.i.n.e.l
-  config.assets.precompile += %w[m.e.i.n.e.l.js]
 end

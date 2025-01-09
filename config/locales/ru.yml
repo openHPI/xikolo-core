@@ -984,19 +984,19 @@ ru:
       submission_statistics:
         title: Статистика работ
         submissions: Работа
-        total_submissions: "Всего работ: "
-        distinct: "Отправившие работу пользователи: "
-        total_points: "Всего баллов: "
+        total_submissions: "Всего работ:"
+        distinct: "Отправившие работу пользователи:"
+        total_points: "Всего баллов:"
         please_select: "Выберите..."
         correct: Правильно
         wrong: Неправильно
         total: всего
         student_performance: Показатели успеваемости
-        average_time: "Среднее время: "
-        average_points: "Средний балл: "
-        percent_of: "% из "
-        seconds: " сек."
-        limit: " ограничение"
+        average_time: "Среднее время:"
+        average_points: "Средний балл:"
+        percent_of: "% из"
+        seconds: сек.
+        limit: ограничение
       policy_url: URL-адрес политики
 
     users:

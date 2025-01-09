@@ -978,19 +978,19 @@ pt-BR:
       submission_statistics:
         title: Estatísticas de envio
         submissions: Envio
-        total_submissions: "Total de envios: "
-        distinct: "Usuários com envios: "
-        total_points: "Pontuação total: "
+        total_submissions: "Total de envios:"
+        distinct: "Usuários com envios:"
+        total_points: "Pontuação total:"
         please_select: "Favor selecionar..."
         correct: Correto
         wrong: Errado
         total: total
         student_performance: Desempenho do aluno
-        average_time: "Tempo médio: "
-        average_points: "Pontuação média: "
-        percent_of: "% do "
-        seconds: " segundos"
-        limit: " limite"
+        average_time: "Tempo médio:"
+        average_points: "Pontuação média:"
+        percent_of: "% do"
+        seconds: segundos
+        limit: limite
       policy_url: URL da política
 
     users:

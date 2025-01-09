@@ -1,4 +1,4 @@
-= javascript_include_tag 'm.e.i.n.e.l'
+= javascript_include_tag 'm.e.i.n.e.l', crossorigin: 'anonymous', integrity: true, async: true, debug: false
 
 - if current_user.feature?('quiz_box_plot_distributions_query')
   ajax-wrapper data-url="/api/v2/statistics/details/quiz?embed=box_plot_distributions&type=#{type}&course_id=#{course_id}"

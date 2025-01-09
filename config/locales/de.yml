@@ -1189,19 +1189,19 @@ de:
       submission_statistics:
         title: "Einreichungs-Statistik"
         submissions: Einreichungen
-        total_submissions: "Einreichungen gesamt: "
-        distinct: "Einreichende Nutzer: "
-        total_points: "Punkte gesamt: "
+        total_submissions: "Einreichungen gesamt:"
+        distinct: "Einreichende Nutzer:"
+        total_points: "Punkte gesamt:"
         please_select: "Bitte wählen Sie..."
         correct: Richtig
         wrong: Falsch
         total: gesamt
         student_performance: Kursteilnehmer-Leistung
-        average_time: "Zeit im Durchschnitt: "
-        average_points: "Punkte im Durchschnitt: "
-        percent_of: "% von "
-        seconds: " Sekunden"
-        limit: " Limit"
+        average_time: "Zeit im Durchschnitt:"
+        average_points: "Punkte im Durchschnitt:"
+        percent_of: "% von"
+        seconds: Sekunden
+        limit: Limit
     dashboard:
       nav:
         title: Statistiken

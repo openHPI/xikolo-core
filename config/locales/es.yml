@@ -995,19 +995,19 @@ es:
       submission_statistics:
         title: Estadísticas de las entregas
         submissions: Entrega
-        total_submissions: "Entregas totales: "
-        distinct: "Usuarios presentados: "
-        total_points: "Puntos totales: "
+        total_submissions: "Entregas totales:"
+        distinct: "Usuarios presentados:"
+        total_points: "Puntos totales:"
         please_select: "Por favor, seleccione..."
         correct: Correcto
         wrong: Incorrecto
         total: total
         student_performance: Resultado del estudiante
-        average_time: "Promedio de tiempo: "
-        average_points: "Promedio de puntos: "
-        percent_of: "% de "
-        seconds: " segundos"
-        limit: " límite"
+        average_time: "Promedio de tiempo:"
+        average_points: "Promedio de puntos:"
+        percent_of: "% de"
+        seconds: segundos
+        limit: límite
       policy_url: URL de política
 
     users:

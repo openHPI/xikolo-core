@@ -10,7 +10,6 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery with: :exception
   before_action { Acfs.runner.clear } # clear Acfs queue
-  before_action { I18n.locale = Xikolo.config.locales['default'] } # Reset locale between requests
   around_action :auth_middleware
   after_action  :remember_user
 

@@ -26,5 +26,11 @@ export default async function entries() {
     'lanalytics-pa-item': 'legacy/lanalytics/visits/peer_assessment_item.js',
     'lanalytics-pa-results':
       'legacy/lanalytics/visits/peer_assessment_results.js',
+
+    // Libraries
+    'd3.v3': 'd3/d3.min.js',
+    dimple: './vendor/assets/javascripts/dimple',
+    'bootstrap-editable': './vendor/assets/javascripts/bootstrap-editable',
+    'm.e.i.n.e.l': './vendor/assets/javascripts/m.e.i.n.e.l',
   };
 }

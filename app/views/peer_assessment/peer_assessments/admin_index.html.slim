@@ -1,6 +1,6 @@
 - content_for :head_assets
   = javascript_include_tag 'd3.v3.js'
-  = javascript_include_tag 'dimple.js'
+  = javascript_include_tag 'dimple.js', crossorigin: 'anonymous', integrity: true, async: true, debug: false
 
 - content_for :course_area_header
   = render Global::PageHeader.new("#{t(:'peer_assessment.index.admin.headline')} - #{course_layout.title}",
