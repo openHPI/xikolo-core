@@ -1,6 +1,6 @@
 - content_for :head_assets
   = javascript_include_tag 'admin-legacy'
-  = javascript_include_tag 'm.e.i.n.e.l', crossorigin: 'anonymous', integrity: true, async: true, debug: false
+  = javascript_include_tag 'm.e.i.n.e.l'
 
 - content_for :page_header_slim
   = render Global::PageHeader.new(t(:'admin.dashboard.show.title'), subtitle: t(:'admin.page_header'), type: :slim) do

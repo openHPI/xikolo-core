@@ -1,3 +1,6 @@
+= javascript_include_tag 'moment'
+= javascript_include_tag 'bootstrap-editable', crossorigin: 'anonymous', integrity: true, debug: false
+
 .row
   .col-md-12
     #description-edit hidden='' = t(:'global.edit')
@@ -153,8 +156,6 @@
     = render 'account/profiles/consents', consents: @profile.consents
   = render 'account/profiles/delete_account', user_id: @profile.user.id
 
-== render 'shared/bootstrap_editable_assets'
-
 javascript:
   ajaxurl = "#{dashboard_profile_path}";
   service_unavailable = "#{t(:'dashboard.profile.service_unavailable')}";
@@ -205,7 +206,6 @@ javascript:
     }
 
     $("#form-changepassword").hide();
-    $.fn.editable.defaults.mode = "inline";
     $(".editable").not(".editable-required").editable({
       success: function() {
         if(!$(this).hasClass("editable-updated")) $(this).addClass("editable-updated");

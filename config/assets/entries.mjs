@@ -30,7 +30,6 @@ export default async function entries() {
     // Libraries
     'd3.v3': 'd3/d3.min.js',
     dimple: './vendor/assets/javascripts/dimple',
-    'bootstrap-editable': './vendor/assets/javascripts/bootstrap-editable',
-    'm.e.i.n.e.l': './vendor/assets/javascripts/m.e.i.n.e.l',
+    'bootstrap-editable': 'legacy/bootstrap-editable.js',
   };
 }

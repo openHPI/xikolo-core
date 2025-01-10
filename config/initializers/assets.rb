@@ -52,6 +52,9 @@ Rails.application.config.tap do |config|
   # Localizations
   config.assets.precompile += %w[xikolo-locale-*.js]
 
+  ## m.e.i.n.e.l
+  config.assets.precompile += %w[m.e.i.n.e.l.js]
+
   # Expensive libraries
   config.assets.precompile += %w[moment.js]
 end

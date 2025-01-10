@@ -1,3 +1,5 @@
+= javascript_include_tag 'bootstrap-editable', crossorigin: 'anonymous', integrity: true, debug: false
+
 #time_effort.form-group
   label.col-lg-3.col-md-3
     = t(:'admin.courses.items.form.label.time_effort')
@@ -15,8 +17,6 @@
     .mt10
       span.small = t(:'admin.courses.items.form.time_effort.calculated_time_effort_hint')
 
-== render 'shared/bootstrap_editable_assets'
-
 javascript:
   $("#time_effort").hide();
   var timeEffortOverwritten;
@@ -24,7 +24,6 @@ javascript:
   var currentTimeEffort;
 
   $(function () {
-    $.fn.editable.defaults.mode = "inline";
     $("#time_effort_editable").editable({
       emptytext: "#{t(:'admin.courses.items.form.time_effort.not_overwritten')}",
       validate: function (value) {
