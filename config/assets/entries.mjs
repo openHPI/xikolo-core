@@ -26,6 +26,7 @@ export default async function entries() {
     'lanalytics-pa-item': 'legacy/lanalytics/visits/peer_assessment_item.js',
     'lanalytics-pa-results':
       'legacy/lanalytics/visits/peer_assessment_results.js',
+    'account-profile': 'legacy/account-profile.js',
 
     // Libraries
     'd3.v3': 'd3/d3.min.js',

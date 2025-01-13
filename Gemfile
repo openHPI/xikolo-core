@@ -150,7 +150,6 @@ gem 'sprockets', '~> 3.2'
 gem 'sprockets-rails', '~> 3.2'
 
 group :assets do
-  gem 'bootstrap-x-editable-rails'
   gem 'dartsass-sprockets'
   gem 'highcharts-rails'
   gem 'i18n-js', '~> 3.0', '>= 3.0.1'

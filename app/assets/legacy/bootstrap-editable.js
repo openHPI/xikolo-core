@@ -1,7 +1,11 @@
 /* eslint-disable no-undef */
-// We cannot import the $ because the bootstrap-editable plugin
-// expects it to be globally available.
-import 'jquery';
+
+// The bootstrap editable type 'combodate' needs moment.js
+// with locales to format and display the input fields.
+import moment from 'moment/min/moment-with-locales';
+window.moment = moment;
+moment.locale(document.documentElement.lang);
+
 import '../../../vendor/assets/javascripts/bootstrap-editable';
 
 $.fn.editableform.buttons =
