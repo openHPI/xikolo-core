@@ -1004,7 +1004,8 @@ fr:
       cop: Confirmation de participation
       roa: Attestation de réussite
       qc_html: Certificat / ECTS
-      language_and_subtitles: "%{language} + %{subtitle_languages} sous-titres"
+      subtitles_more: "%{subtitle_languages} + %{count} de plus"
+      subtitles: "%{subtitle_languages}"
       button_details: Détails
       button_enroll: Inscrivez-moi
       button_resume: Reprendre
@@ -1013,7 +1014,8 @@ fr:
       date: Dates du cours
       classifiers: Classificateurs du cours
       certificate: Le plus haut niveau de certification possible
-      language: Langue du cours et sous-titres disponibles
+      language: Langue du cours
+      available_subtitles: Sous-titres disponibles
       buttons_menu:
         details: Montrez les détails
       label:
@@ -1092,6 +1094,7 @@ fr:
         selftests: "Quiz: "
         visits: "Visité: "
       section_material: Matériau de la section
+      section_material_empty: Pas d'articles disponibles
       section_statistics: Statistiques de la section
       statistics:
         main: Quiz gradué

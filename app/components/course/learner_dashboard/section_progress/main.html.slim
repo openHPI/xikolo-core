@@ -11,17 +11,20 @@
 
     .section-progress__visited-items
       - if items_available.positive?
-        = render Global::Pill.new(t(:'course.progress.visited_items', visited: items_visited, available: items_available))
+        p = t(:'course.progress.visited_items', visited: items_visited, available: items_available)
       - else
-        = render Global::Pill.new(t(:'course.progress.visited_empty'))
+        p = t(:'course.progress.visited_empty')
 
   .section-progress__content
     .section-material
       h5 = t(:'course.progress.section_material')
 
-      .section-material__items
-        - items.each do |item|
-          = render Course::LearnerDashboard::SectionProgress::Item.new(item, @course)
+      - if items.any?
+        .section-material__items
+          - items.each do |item|
+            = render Course::LearnerDashboard::SectionProgress::Item.new(item, @course)
+      - else
+        p = t(:'course.progress.section_material_empty')
 
     .section-statistics
       h5 = t(:'course.progress.section_statistics')

@@ -500,7 +500,25 @@ describe Home::CourseCard, type: :component do
       it 'displays the course language and the number of subtitles available' do
         render_inline(component)
 
-        expect(page).to have_css "[aria-label='Course language and subtitles available']", text: 'en + 3 subtitles'
+        expect(page).to have_css "[aria-label='Course language']", text: 'en'
+        expect(page).to have_css "[aria-label='Available subtitles']", text: 'de, en, fr'
+      end
+
+      context 'with more than four subtitles' do
+        let(:subtitle_4) { create(:video_subtitle, video_id: video.id, lang: 'es') }
+        let(:subtitle_5) { create(:video_subtitle, video_id: video.id, lang: 'cn') }
+        let(:subtitle_6) { create(:video_subtitle, video_id: video.id, lang: 'uk') }
+
+        it 'displays the first four subtitles and then truncates the rest with + x more' do
+          video_item
+          subtitle_4
+          subtitle_5
+          subtitle_6
+          render_inline(component)
+
+          expect(page).to have_css "[aria-label='Course language']", text: 'en'
+          expect(page).to have_css "[aria-label='Available subtitles']", text: 'cn, de, en, es + 2 more'
+        end
       end
     end
 
@@ -509,7 +527,7 @@ describe Home::CourseCard, type: :component do
         render_inline(component)
 
         # NOTE: We match the *exact* text, to ensure no mention of "subtitles"
-        expect(page).to have_css "[aria-label='Course language and subtitles available']", exact_text: 'en'
+        expect(page).to have_css "[aria-label='Course language']", exact_text: 'en'
       end
     end
   end

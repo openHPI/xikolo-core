@@ -1324,7 +1324,8 @@ es:
       cop: Confirmación de participación
       roa: Certificado de estudios
       qc_html: Certificado / ECTS
-      language_and_subtitles: "%{language} + %{subtitle_languages} subtítulos"
+      subtitles_more: "%{subtitle_languages} + %{count} más"
+      subtitles: "%{subtitle_languages}"
       button_details: Detalles
       button_enroll: Matricularme
       button_resume: Renaudar
@@ -1333,7 +1334,8 @@ es:
       date: Fechas del curso
       classifiers: Clasificadores del curso
       certificate: Certificado más alto que se puede obtener
-      language: Idioma del curso y subtítulos disponibles
+      language: Idioma del curso
+      available_subtitles: Subtítulos disponibles
       buttons_menu:
         details: Ver detalles
       label:
@@ -1437,6 +1439,7 @@ es:
         selftests: "Autoevaluaciones: "
         visits: "Visitados: "
       section_material: Material de sección
+      section_material_empty: Ningún elemento disponible
       section_statistics: Estadísticas de sección
       statistics:
         main: Trabajos

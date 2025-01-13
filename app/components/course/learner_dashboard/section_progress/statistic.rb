@@ -13,22 +13,19 @@ module Course
         end
 
         def points_scored
-          if @values&.dig('max_points')&.positive?
-            percentage = calc_progress(@values['submitted_points'], @values['max_points'])
-            "#{@values['submitted_points']} / #{@values['max_points']} (#{percentage}%)"
-          else
-            '-'
-          end
+          return unless @values&.dig('max_points')&.positive?
+
+          percentage = calc_progress(@values['submitted_points'], @values['max_points'])
+          "#{@values['submitted_points']} / #{@values['max_points']} (#{percentage}%)"
         end
 
         def exercises_taken
           return if @values.blank?
+          return unless @values['total_exercises']&.positive?
 
-          if @values['total_exercises']&.positive?
-            t(:'course.progress.statistics.items_taken',
-              taken: @values['submitted_exercises'],
-              total: @values['total_exercises'])
-          end
+          t(:'course.progress.statistics.items_taken',
+            taken: @values['submitted_exercises'],
+            total: @values['total_exercises'])
         end
       end
     end

@@ -22,7 +22,7 @@ describe Course::LearnerDashboard::SectionProgress::Score, type: :component do
     it 'shows no information but a dash instead' do
       render_inline(component)
 
-      expect(page).to have_content 'Graded-'
+      expect(page).to have_content 'Graded—'
     end
   end
 end

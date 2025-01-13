@@ -5,7 +5,7 @@
   border-radius: 50%;
 
   background: radial-gradient(closest-side, white 79%, transparent 80% 100%),
-    conic-gradient($success-500 var(--circular-progress-value), $gray-50 0);
+    conic-gradient($success-500 var(--circular-progress-value), $gray-100 0);
 
   &__label {
     position: absolute;

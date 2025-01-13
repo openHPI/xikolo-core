@@ -2279,7 +2279,8 @@ en:
       cop: Confirmation of Participation
       roa: Record of Achievement
       qc_html: Certificate / ECTS
-      language_and_subtitles: "%{language} + %{subtitle_languages} subtitles"
+      subtitles_more: "%{subtitle_languages} + %{count} more"
+      subtitles: "%{subtitle_languages}"
       button_details: Details
       button_enroll: Enroll
       button_resume: Resume
@@ -2288,7 +2289,8 @@ en:
       date: Course dates
       classifiers: Course classifiers
       certificate: Highest achievable certificate
-      language: Course language and subtitles available
+      language: Course language
+      available_subtitles: Available subtitles
       buttons_menu:
         details: Show details
       label:
@@ -2396,6 +2398,7 @@ en:
         selftests: "Self-tests: "
         visits: "Visited: "
       section_material: Section material
+      section_material_empty: No available items
       section_statistics: Section statistics
       statistics:
         main: Assignments

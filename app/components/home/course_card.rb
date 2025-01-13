@@ -92,6 +92,10 @@ module Home
       Xikolo.base_url.join(helpers.asset_path('defaults/course.png')).to_s
     end
 
+    def course_abstract
+      Rails::HTML5::SafeListSanitizer.new.sanitize(helpers.render_markdown(@course.abstract), tags: %w[p br])
+    end
+
     def date_label
       return unless Xikolo.config.course_details['show_date_label']
 
@@ -166,18 +170,35 @@ module Home
       end
     end
 
-    def subtitle_languages
-      @subtitle_languages ||= ::Course::Course
+    def subtitles_for_course
+      subtitle_languages = ::Course::Course
         .by_identifier(@course.course_code).take!
         .subtitle_offer
-    end
 
-    def languages_preview
-      if subtitle_languages.any?
-        I18n.t(:'course.card.language_and_subtitles', language: @course.lang,
-          subtitle_languages: subtitle_languages.size)
+      return unless subtitle_languages&.any?
+
+      # Identify the best language for the user.
+      if subtitle_languages.size > 1
+        subtitle_languages = LanguagePreferences.new(available_languages: subtitle_languages, user: @user,
+          request:).sort
+      end
+
+      # Display the available languages in the desired format.
+      # Example:
+      # - 4 or more languages: "DE, EN, ES, FR & 1 more"
+      # - Fewer languages: "DE, EN, ES"
+      subtitle_count = subtitle_languages.size
+      if subtitle_count > 4
+        I18n.t(
+          :'course.card.subtitles_more',
+          count: subtitle_count - 4,
+          subtitle_languages: subtitle_languages.first(4).join(', ')
+        )
       else
-        @course.lang
+        I18n.t(
+          :'course.card.subtitles',
+          subtitle_languages: subtitle_languages.join(', ')
+        )
       end
     end
   end

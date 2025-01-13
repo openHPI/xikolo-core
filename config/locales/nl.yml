@@ -1438,7 +1438,8 @@ nl:
       cop: Bevestiging van deelname
       roa: Record van Prestatie
       qc_html: Certificaat / ECTS
-      language_and_subtitles: "%{language} + %{subtitle_languages} ondertitels"
+      subtitles_more: "%{subtitle_languages} + %{count} meer"
+      subtitles: "%{subtitle_languages}"
       button_details: Details
       button_enroll: Inschrijven
       button_resume: Hervat
@@ -1447,7 +1448,8 @@ nl:
       date: Cursusdata
       classifiers: Classificaties
       certificate: Hoogst haalbare certificaat
-      language: Cursustaal en ondertitels beschikbaar
+      language: Cursustaal
+      available_subtitles: Beschikbare ondertitels
       buttons_menu:
         details: Toon details
       label:
@@ -1554,6 +1556,7 @@ nl:
         selftests: "Zelftesten: "
         visits: "Bezocht: "
       section_material: Sectiemateriaal
+      section_material_empty: Geen items beschikbaar
       section_statistics: Sectiestatistieken
       statistics:
         main: Opdrachten

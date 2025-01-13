@@ -4,6 +4,6 @@
   .item
     = @label
   .item__data
-    = points_scored
+    = points_scored.presence || Course::LearnerDashboard::CourseProgress::EMPTY_STATE
   .item__data
     = exercises_taken

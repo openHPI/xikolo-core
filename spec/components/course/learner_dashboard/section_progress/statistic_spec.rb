@@ -26,7 +26,7 @@ describe Course::LearnerDashboard::SectionProgress::Statistic, type: :component 
     it 'shows no information but a dash instead' do
       render_inline(component)
 
-      expect(page).to have_content 'Assignments-'
+      expect(page).to have_content 'Assignments—'
     end
   end
 end

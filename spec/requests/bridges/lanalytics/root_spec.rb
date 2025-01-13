@@ -27,6 +27,7 @@ RSpec.describe 'Lanalytics Bridge API: Root', type: :request do
     expect(json).to match({
       'course_open_badge_stats_url' => 'http://www.example.com/bridges/lanalytics/courses/{course_id}/open_badge_stats',
       'course_ticket_stats_url' => 'http://www.example.com/bridges/lanalytics/courses/{course_id}/ticket_stats',
+      'video_stats_url' => 'http://www.example.com/bridges/lanalytics/videos/{video_id}/video_stats',
     })
   end
 end

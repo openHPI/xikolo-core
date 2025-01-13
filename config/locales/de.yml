@@ -1569,7 +1569,10 @@ de:
       cop: Teilnahmebestätigung
       roa: Leistungsnachweis
       qc_html: Zertifikat / ECTS
-      language_and_subtitles: "%{language} + %{subtitle_languages} Untertitel"
+      subtitles_more:
+        one: "%{subtitle_languages} + %{count} weiterer"
+        other: "%{subtitle_languages} + %{count} weitere"
+      subtitles: "%{subtitle_languages}"
       button_details: Details
       button_enroll: Einschreiben
       button_resume: Fortsetzen
@@ -1578,7 +1581,8 @@ de:
       date: Kursdaten
       classifiers: Kurs-Klassifizierung
       certificate: Höchstes zu erreichendes Zertifikat
-      language: Kurssprache und verfügbare Untertitel
+      language: Kurssprache
+      available_subtitles: Verfügbare Untertitel
       buttons_menu:
         details: Details zeigen
       label:
@@ -1687,6 +1691,7 @@ de:
         selftests: "Selbsttests: "
         visits: "Besucht: "
       section_material: Wocheninhalte
+      section_material_empty: Keine Inhalte verfügbar
       section_statistics: Wochenstatistiken
       statistics:
         main: Hausaufgaben

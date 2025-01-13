@@ -9,7 +9,12 @@
 
   &__items {
     display: flex;
+    flex-direction: column;
     margin-bottom: 20px;
+
+    @include screen-size-s-and-up {
+      flex-direction: row;
+    }
   }
 
   &__item {

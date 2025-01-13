@@ -1179,7 +1179,8 @@ zh: &zh
       cop: 下载参与证明
       roa: 课程结业证书
       qc_html: 证明书 / ECTS
-      language_and_subtitles: "%{language} + %{subtitle_languages} 字幕"
+      subtitles_more: "%{subtitle_languages} + %{count} 个"
+      subtitles: "%{subtitle_languages}"
       button_details: 详细内容
       button_enroll: 注册该课程
       button_resume: 继续
@@ -1188,7 +1189,8 @@ zh: &zh
       date: 课程日期
       classifiers: 课程分类器
       certificate: 可获得的最高证书
-      language: 可提供的课程语言和字幕
+      language: 课程语言
+      available_subtitles: 可用字幕
       buttons_menu:
         details: 显示详细的信息
       label:
@@ -1283,6 +1285,7 @@ zh: &zh
         selftests: "自我测试: "
         visited: "已访问: "
       section_material: 科室材料
+      section_material_empty: 无可用项目
       section_statistics: 章节统计
       statistics:
         main: 作业

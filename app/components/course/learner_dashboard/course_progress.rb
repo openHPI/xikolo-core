@@ -5,6 +5,8 @@ module Course
     class CourseProgress < ApplicationComponent
       include ProgressHelper
 
+      EMPTY_STATE = '—'
+
       def initialize(progresses, course)
         @course_progress = progresses.pop
         @section_progresses = progresses
@@ -58,8 +60,6 @@ module Course
       end
 
       def selftest_percentage
-        return if @course_progress['selftest_exercises'].blank?
-
         @selftest_percentage ||= begin
           achieved_points = @course_progress.dig('selftest_exercises', :submitted_points)
           available_points = @course_progress.dig('selftest_exercises', :max_points)

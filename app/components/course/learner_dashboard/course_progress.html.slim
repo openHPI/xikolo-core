@@ -4,37 +4,37 @@
       - if graded_percentage.present?
         = render Course::CircularProgress.new(graded_percentage, "#{graded_percentage}%", :small)
       - else
-        = render Course::CircularProgress.new(graded_percentage, '-', :small)
+        = render Course::CircularProgress.new(graded_percentage, EMPTY_STATE, :small)
       .course-progress__overall-score
         span = t(:'course.progress.graded_score')
         - if graded_score.present?
           span = graded_score
         - else
-          span = '-'
+          span = EMPTY_STATE
 
     .course-progress__item
       - if selftest_percentage.present?
         = render Course::CircularProgress.new(selftest_percentage, "#{selftest_percentage}%", :small)
       - else
-        = render Course::CircularProgress.new(selftest_percentage, '-', :small)
+        = render Course::CircularProgress.new(selftest_percentage, EMPTY_STATE, :small)
       .course-progress__overall-score
         span = t(:'course.progress.selftest_score')
         - if selftest_score.present?
           span = selftest_score
         - else
-          span = '-'
+          span = EMPTY_STATE
 
     .course-progress__item
       - if visits_percentage.present?
         = render Course::CircularProgress.new(visits_percentage, "#{visits_percentage}%", :small)
       - else
-        = render Course::CircularProgress.new(visits_percentage, '-', :small)
+        = render Course::CircularProgress.new(visits_percentage, EMPTY_STATE, :small)
       .course-progress__overall-score
         span = t(:'course.progress.visited_score')
         - if items_available.positive?
           span = t(:'course.progress.visits', visited: items_visited, available: items_available)
         - else
-          span = '-'
+          span = EMPTY_STATE
 
 .sections-progress
   - @section_progresses.each do |section_progress|

@@ -51,7 +51,7 @@ class ApplicationController < ActionController::Base
       add_flash_message :error, t(:'flash.error.login_to_proceed')
     end
 
-    redirect_to login_url
+    redirect_external login_url
     false
   end
 

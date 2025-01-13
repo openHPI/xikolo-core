@@ -1438,7 +1438,8 @@ uk:
       cop: Підтвердження участі
       roa: Відомість досягнень
       qc_html: Сертифікат/ECTS
-      language_and_subtitles: "%{language} + %{subtitle_languages} субтитри"
+      subtitles_more: "%{subtitle_languages} + %{count} ще"
+      subtitles: "%{subtitle_languages}"
       button_details: Подробиці
       button_enroll: Зарахувати
       button_resume: Резюме
@@ -1447,7 +1448,8 @@ uk:
       date: Дати курсу
       classifiers: Класифікатори курсу
       certificate: Найвищий досяжний сертифікат
-      language: Мова курсу та доступні субтитри
+      language: Мова курсу
+      available_subtitles: доступні субтитри
       buttons_menu:
         details: Показати деталі
       label:
@@ -1554,6 +1556,7 @@ uk:
         selftests: "Самоперевірка: "
         visited: "Відвідано: "
       section_material: Матеріали розділу
+      section_material_empty: Немає доступних товарів
       section_statistics: Статистика розділу
       statistics:
         main: Завдання

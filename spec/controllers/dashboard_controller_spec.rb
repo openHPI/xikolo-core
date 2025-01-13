@@ -17,8 +17,23 @@ describe DashboardController, type: :controller do
     context 'anonymous' do
       let(:user_id) { nil }
 
-      it 'redirects if not loged in' do
+      it 'redirects if not logged in' do
         expect(request.status).to eq 302
+      end
+
+      context 'with external login page configured' do
+        before do
+          xi_config <<~YML
+            portal_mode:
+              external_login:
+                enabled: true
+                url: https://example.com/signin
+          YML
+        end
+
+        it 'redirects to the external login page' do
+          expect(request).to redirect_to 'https://example.com/signin'
+        end
       end
     end
 

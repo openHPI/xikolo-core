@@ -91,7 +91,7 @@ describe Account::SessionsController, type: :controller do
 
     let(:params) { {} }
 
-    context 'with native login enabled' do
+    context 'with native login (email / password) enabled' do
       let(:anonymous_session) do
         super().merge(features: {'account.login' => true})
       end
@@ -291,7 +291,7 @@ describe Account::SessionsController, type: :controller do
           end
         end
 
-        context '(external login enabled)' do
+        context 'with external login page configured' do
           before do
             xi_config <<~YML
               portal_mode:

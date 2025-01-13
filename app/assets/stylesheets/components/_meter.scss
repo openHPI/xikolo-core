@@ -52,4 +52,15 @@
       background: $information-500;
     }
   }
+
+  &--white {
+    meter[value] {
+      background: $white;
+    }
+
+    /* Chrome and Safari */
+    meter::-webkit-meter-bar {
+      background: $white;
+    }
+  }
 }

@@ -6,8 +6,6 @@
   }
 
   &__content {
-    display: flex;
-    flex-wrap: wrap;
     justify-content: space-between;
     padding: 10px;
 
@@ -37,7 +35,7 @@
         justify-content: center;
         margin-top: 5px;
         margin-right: 5px;
-        background-color: $gray-50;
+        background-color: $gray-100;
 
         a {
           color: $text-color;
@@ -100,7 +98,7 @@
     justify-content: space-between;
     padding: 10px 15px 0px 10px;
     border: none;
-    background-color: $gray-50;
+    background-color: $gray-100;
 
     &[aria-expanded="false"] {
       + .section-progress__content {
@@ -147,6 +145,11 @@
     display: flex;
     flex-grow: 1;
     flex-wrap: wrap;
+    justify-content: flex-end;
+
+    @include screen-size-s-and-up {
+      justify-content: flex-start;
+    }
   }
 
   &__score {
@@ -175,12 +178,5 @@
 
   &__visited-items {
     display: flex;
-    margin-bottom: 10px;
-
-    .pill {
-      background-color: $gray-500;
-      color: white;
-      font-size: 12px;
-    }
   }
 }

@@ -28,6 +28,10 @@ module Global
     def with_label
       render Global::Meter.new(value: 40, label: '40%')
     end
+
+    def white_background
+      render Global::Meter.new(value: 40, background_color: :white)
+    end
     # @!endgroup
   end
 end

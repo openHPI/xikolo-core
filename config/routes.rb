@@ -579,6 +579,10 @@ Rails.application.routes.draw do
         resource :ticket_stats, controller: 'course_ticket_stats', only: %i[show]
         resource :open_badge_stats, controller: 'course_open_badge_stats', only: %i[show]
       end
+
+      scope 'videos/:video_id' do
+        resource :video_stats, controller: 'video_stats', only: %i[show]
+      end
     end
 
     scope 'moochub', module: :mooc_hub, as: 'moochub' do

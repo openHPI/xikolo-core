@@ -131,6 +131,13 @@ $xi-course-card-font: $basefont !default;
     }
   }
 
+  &__subtitles {
+    overflow: hidden;
+    max-height: 0;
+    padding-bottom: 0;
+    opacity: 0;
+  }
+
   &__empty-datapoint-text {
     color: $gray-250;
 
@@ -196,6 +203,8 @@ $xi-course-card-font: $basefont !default;
     &:focus {
       background-color: $course-card-primary-btn-bg-hover;
       color: $course-card-primary-btn-color;
+      outline: 3px auto Highlight;
+      outline: 3px auto -webkit-focus-ring-color;
       text-decoration: none;
     }
 
@@ -231,14 +240,6 @@ $xi-course-card-font: $basefont !default;
       font-family: $xi-font-body;
       text-transform: none;
       @include font-s;
-    }
-  }
-
-  &__action-btn {
-    &:focus {
-      // Sets browser's default focus style
-      outline: 3px auto Highlight;
-      outline: 3px auto -webkit-focus-ring-color;
     }
   }
 
@@ -305,6 +306,17 @@ $xi-course-card-font: $basefont !default;
       }
     }
 
+    .course-card__subtitles {
+      display: flex;
+      max-height: 21px;
+      padding-bottom: $vertical-space-xs;
+      opacity: 1;
+      transition:
+        padding $transition-duration $transition-delay ease-in-out,
+        max-height $transition-duration $transition-delay ease-in-out,
+        opacity $transition-duration $transition-delay ease-in-out;
+    }
+
     .course-card__actions {
       display: flex;
       // Three lines of buttons
@@ -369,11 +381,11 @@ $xi-course-card-font: $basefont !default;
 .channel-courses,
 .course-list {
   .course-card-grid {
-    @media (min-width: 576px) and (max-width: $xs-to-sm - 1) {
+    @media (min-width: 576px) and (max-width: ($xs-to-sm - 1)) {
       grid-template-columns: repeat(2, minmax(10px, 1fr));
     }
 
-    @media (min-width: $xs-to-sm) and (max-width: $sm-to-md - 1) {
+    @media (min-width: $xs-to-sm) and (max-width: ($sm-to-md - 1)) {
       gap: 28px;
       grid-template-columns: repeat(3, minmax(10px, 1fr));
     }
@@ -388,11 +400,11 @@ $xi-course-card-font: $basefont !default;
 // Less room on the dashboard page
 .dashboard {
   .course-card-grid {
-    @media (min-width: 576px) and (max-width: $xs-to-sm - 1) {
+    @media (min-width: 576px) and (max-width: ($xs-to-sm - 1)) {
       grid-template-columns: repeat(1, minmax(10px, 1fr));
     }
 
-    @media (min-width: $xs-to-sm) and (max-width: $sm-to-md - 1) {
+    @media (min-width: $xs-to-sm) and (max-width: ($sm-to-md - 1)) {
       gap: 20px;
       grid-template-columns: repeat(2, minmax(10px, 1fr));
     }

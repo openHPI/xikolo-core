@@ -30,5 +30,14 @@ describe Global::Meter, type: :component do
         expect(page).to have_css('.meter--info')
       end
     end
+
+    context 'with background_color white' do
+      subject(:component) { described_class.new(value:, label: 'Label', background_color: :white) }
+
+      it 'includes a class for styling' do
+        render_inline(component)
+        expect(page).to have_css('.meter--white')
+      end
+    end
   end
 end

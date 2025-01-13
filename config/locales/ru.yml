@@ -1314,7 +1314,8 @@ ru:
       cop: Сертификат об участии
       roa: Сертификат об окончании курса
       qc_html: Сертификат / ECTS
-      language_and_subtitles: "%{language} + %{subtitle_languages} субтитры"
+      subtitles_more: "%{subtitle_languages} + еще %{count}"
+      subtitles: "%{subtitle_languages}"
       button_details: подробности
       button_enroll: Записаться
       button_resume: возобновить
@@ -1323,7 +1324,8 @@ ru:
       date: Дата проведения курса
       classifiers: Классификаторы курсов
       certificate: Наивысший достижимый сертификат
-      language: Язык курса и наличие субтитров
+      language: Язык курса
+      available_subtitles: Доступные субтитры
       buttons_menu:
         details: Смотреть описание
       label:
@@ -1428,6 +1430,7 @@ ru:
         selftests: "Тесты для самопроверки: "
         visited: "Просмотрено: "
       section_material: Материал раздела
+      section_material_empty: Нет в наличии
       section_statistics: Статистика раздела
       statistics:
         main: Задания

@@ -1306,7 +1306,8 @@ pt-BR:
       cop: Confirmação de participação
       roa: Registro de conquista
       qc_html: Certificado / ECTS
-      language_and_subtitles: "%{language} + %{subtitle_languages} legendas"
+      subtitles_more: "%{subtitle_languages} + %{count} mais"
+      subtitles: "%{subtitle_languages}"
       button_details: Detalhes
       button_enroll: Inscrever-me
       button_resume: Retomar
@@ -1315,7 +1316,8 @@ pt-BR:
       date: Datas do curso
       classifiers: Classificadores de cursos
       certificate: Certificado mais alto alcançável
-      language: Idioma do curso e legendas disponíveis
+      language: Idioma do curso
+      available_subtitles: Legendas disponíveis
       buttons_menu:
         details: Ver detalhes
       label:
@@ -1419,6 +1421,7 @@ pt-BR:
         selftests: "Autoavaliações: "
         visits: "Visitadas: "
       section_material: Material da seção
+      section_material_empty: Nenhum item disponível
       section_statistics: Estatísticas da seção
       statistics:
         main: Tarefas

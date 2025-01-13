@@ -3,7 +3,7 @@
 
   - if disabled?
     .section-progress__score-empty
-      p = '-'
+      p = Course::LearnerDashboard::CourseProgress::EMPTY_STATE
   - else
     .section-progress__score-progress
-      = render Global::Meter.new(value: @value, label: "#{@value}%")
+      = render Global::Meter.new(value: @value, label: "#{@value}%", background_color: :white)
