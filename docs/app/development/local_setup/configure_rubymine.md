@@ -1,13 +1,13 @@
 # Configure RubyMine
 
-!!! hint
+!!! note
     This guide is written for RubyMine but also applies to IntelliJ Ultimate with the Ruby plugins. IntelliJ offers the same options but some might be located in different places.
 
 ## Rails
 
 The Rails project root is typically detected automatically. If necessary, right-click on the respective project root and select *Mark as... > Ruby Project Root* from the context menu.
 
-!!! hint
+!!! tip
     You might want to set a custom `UNICORN_TIMEOUT` as environment variable to a higher value (e.g., `3600` which represents one hour) to avoid timeouts when debugging the application.
 
 ## Background Services
@@ -35,9 +35,9 @@ When working with overmind this is not an issue as these services are started an
 4. Switch to the bundler tab of your configuration and check the box *Run the script in context of the bundle* (`bundle exec`).
 5. *Save* your configuration.
 
-## Mark Directory as
+## "Mark Directory as"
 
-!!! hint
+!!! tip
     You might speed up indexing and improve search results by marking some files and folders with their respective use case or exclude them (e.g. `logs`, `node_modules`, `coverage`)
 
 1. Right-click on the folder to be marked.

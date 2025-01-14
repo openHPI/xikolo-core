@@ -1,4 +1,4 @@
-# Code Smells
+# Code smells
 
 ## What is a code smell?
 

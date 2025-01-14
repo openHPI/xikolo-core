@@ -1,4 +1,4 @@
-# JavaScript Styleguide
+# JavaScript styleguide
 
 This page contains a set of standards and rules on how to write JavaScript code in Xikolo.
 Its purpose is to develop a more consistent and maintainable project.

@@ -112,13 +112,13 @@ Since Node 16, manually installing `yarn` can be completely substituted by using
 yarn install
 ```
 
-!!! hint
+!!! note
 
     `--install-directory` can be used to install the stubs in a specific directory, such as `/usr/local/bin`, or without sudo `~/.local/bin`. This path must be in `PATH`.
 
 **RabbitMQ**: Asynchronous messaging / event broadcasting between services
 
-!!! hint
+!!! tip
 
     There is a RabbitMQ Web-UI (if you install it): [http://localhost:15672](http://localhost:15672/)
 
@@ -183,7 +183,7 @@ yarn install
 
 **Redis (7.0)**: A key-value store for caching and other use-cases
 
-!!! hint
+!!! note
     Increase database number (databases option) to >8000 (e.g. 8192)
 
 === "Debian / Ubuntu"
@@ -444,7 +444,7 @@ RAILS_ENV=production BRAND=brandname make assets
 
 EditorConfig is a standard for some generic auto-formatting options supported by many IDEs.
 
-!!! hint
+!!! tip
 
     Check <https://editorconfig.org/> for your IDE's built-in support. If not available, please install the corresponding add-on / editor plug-in.
 
@@ -452,7 +452,7 @@ EditorConfig is a standard for some generic auto-formatting options supported by
 
 Any push command which operates on the master branch will require confirmation.
 
-!!! hint
+!!! note
 
     1. Copy the snippet below to `.git/hooks/pre-push`
     2. Make the hook executable: `chmod +x .git/hooks/pre-push`

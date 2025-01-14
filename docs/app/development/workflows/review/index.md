@@ -15,8 +15,12 @@ A good merge request is crucial for efficient collaboration in software developm
 ### Overview
 
 - Choose a concise (short, but precise) summary line that is prefixed with the corresponding ticket identifier (GitLab will automatically recognize this and link to the ticket).
-  - :white_check_mark: Good: `[XI-1234] Upload course videos directly to learners' brains`
-  - :x: Bad: `xk/my-branch-name`
+
+    !!! info
+
+        - :white_check_mark: Good: `[XI-1234] Upload course videos directly to learners' brains`
+        - :x: Bad: `xk/my-branch-name`
+
 - Add a detailed description (use the template!) to highlight the purpose and impact of the changes made
 - Shortly explain the idea behind the ticket and who it will affect. This, together with the summary line, should answer the _"What?"_ question.
 - A link to the ticket is helpful for reviewers to gather additional context (if they want to), but reading the ticket should not be required to understand the merge request.

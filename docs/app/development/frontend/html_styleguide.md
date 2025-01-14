@@ -1,4 +1,4 @@
-# HTML Styleguide
+# HTML styleguide
 
 To write HTML, we use the [slim template language](https://github.com/slim-template/slim) in our project.
 There is currently no linter set up for it.

@@ -4117,10 +4117,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"d3@npm:3.5.6":
-  version: 3.5.6
-  resolution: "d3@npm:3.5.6"
-  checksum: 10/6377d6163f74f910444de623a814e66a5690e4b8e3dbe5b974618afd708f159930ff389ee63d6275c89c69b20efd1997d334becf2384750b794063f8192989b2
+"d3@npm:3.5.17":
+  version: 3.5.17
+  resolution: "d3@npm:3.5.17"
+  checksum: 10/b1a6890f95276603a52afacf806c2c16a439b2538c0f71f7b6245b61c48f8f5cc1462ed0362b655b74c9a319a7008d955d452f268c3ed3edefe1e81d9deeb22f
   languageName: node
   linkType: hard
 
@@ -9910,7 +9910,7 @@ __metadata:
     core-js: "npm:^3.4.5"
     css-loader: "npm:^7.1.2"
     cssnano: "npm:^7.0.4"
-    d3: "npm:3.5.6"
+    d3: "npm:3.5.17"
     dropzone: "npm:^5.5.0"
     editorconfig-checker: "npm:^6.0.0"
     eslint: "npm:^9.17.0"

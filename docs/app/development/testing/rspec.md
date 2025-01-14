@@ -65,7 +65,7 @@ To set up the test, we use the `before` block to create an `enrollement` for thi
   end
 ```
 
-!!! hint
+!!! note
 
     Factories can be found in `spec/factories`.
     They are grouped by specific domains of our application (e.g., account, course, and video).
@@ -89,7 +89,7 @@ In this example, we use `stub_user_request` to stub a user resource, `Stub.servi
   end
 ```
 
-!!! hint
+!!! note
 
     For more information, please take a look at our custom helper methods implementation (`/gems/xikolo-common/lib/xikolo/common/rspec/stub.rb`).
 

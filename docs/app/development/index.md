@@ -6,7 +6,7 @@ This section focuses on all aspects related to the development of the Xikolo pla
 - everything needed to keep the local environment up-to-date (see below),
 - details and guidelines for the [frontend implementation](frontend/index.md) and [branding](branding/index.md) of the platform,
 - explanations of specific implementation concepts,
-- a guide on how to use [database migrations](database_migrations.md),
+- a guide on how to use [database migrations](best_practices/database_migrations.md),
 - our [testing best practices](testing/index.md) ,
 - the available [monitoring tools](monitoring/index.md),
 - and general workflows that apply to our development process, e.g. [code reviews](workflows/review/index.md).
@@ -57,6 +57,6 @@ bundle exec rake reset
 
     Make sure that Minio (our recommended local S3 server) is running when you run this command.
 
-!!! attention
+!!! danger "This is a complete reset!"
 
-    **This is a complete reset!** All local state (PostgreSQL, Redis, RabbitMQ, S3) will be deleted. On the bright side, the system will be re-seeded, so that you can play around with useful example data for many features.
+    All local state (PostgreSQL, Redis, RabbitMQ, S3) will be deleted. On the bright side, the system will be re-seeded, so that you can play around with useful example data for many features.

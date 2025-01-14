@@ -61,7 +61,7 @@ CustomMultiSelectField.create!(
 
 In rare cases, custom fields may be updated, e.g. when adding further options to a multi-select field.
 
-!!! warning
+!!! danger
 
     Please be careful with such operations and only update profile field if required.
     Always consider the implications thoroughly, especially when renaming / removing values from select fields. If possible, only add new values to select fields.

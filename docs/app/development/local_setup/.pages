@@ -2,7 +2,7 @@
 
 nav:
   - troubleshooting
-  - Dev Tooling:
+  - Dev tooling:
     - configure_rubymine.md
     - install_overmind.md
   - ...

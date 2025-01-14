@@ -20,7 +20,7 @@ course_reactivation:
       en: "https://shop.example.org/voucher/qualified-certificate"
 ```
 
-!!! Hint
+!!! note
 
     `period` is the number of weeks for the reactivation period.
 

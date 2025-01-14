@@ -19,7 +19,7 @@ The application is able to handle more than one root key for languages.
 
 Add a folder in the `/brand` directory with the name of the configured brand.
 
-!!! hint
+!!! tip
     If your brand requires a homepage, adapt the `brand_mapping` in `app/controllers/home/home_controller.rb` and add a view in `app/views/home/home/index_<name>.html.slim`.
 
 When switching brands, to compile the brand's specific assets before starting services, use: `BRAND=your_brand make`.

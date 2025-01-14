@@ -1,0 +1,5 @@
+# vim: ft=yaml
+
+nav:
+  - regranting_permissions.md
+  - ...

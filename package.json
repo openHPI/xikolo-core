@@ -15,7 +15,7 @@
     "@toast-ui/editor": "^3.2.2",
     "bootstrap-sass": "3.4.3",
     "core-js": "^3.4.5",
-    "d3": "3.5.6",
+    "d3": "3.5.17",
     "dropzone": "^5.5.0",
     "flatpickr": "^4.6.13",
     "form-request-submit-polyfill": "^2.0.0",

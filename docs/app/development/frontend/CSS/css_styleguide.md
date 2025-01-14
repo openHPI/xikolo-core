@@ -1,4 +1,4 @@
-# CSS Styleguide
+# CSS styleguide
 
 This CSS Styleguide contains a set of standards and rules on how to write CSS code in Xikolo. Its purpose is to develop a more consistent and maintainable project.
 

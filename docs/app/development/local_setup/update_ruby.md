@@ -109,7 +109,7 @@ The `Gemfile` and `Gemfile.lock` files need to be updated to the new Ruby versio
          bundle update --bundler
          ```
 
-!!! hint
+!!! tip
 
     The changes to the `Gemfile` and `Gemfile.lock` are required for each service. With our custom `rake exec["cmd"]` task, you can perform the the required changes for all services at once:
 
@@ -144,7 +144,7 @@ locally, as the digest is included in the output:
 docker pull ruby:3.3.5
 ```
 
-!!! hint
+!!! note
 
     You may also skip this step and leave updating to the Renovate bot. Based on the schedule defined, Renovate will automatically update the image and image digest, so that you just need to approve and merge the corresponding merge request.
 

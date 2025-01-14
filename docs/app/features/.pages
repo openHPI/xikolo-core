@@ -3,7 +3,7 @@
 nav:
   - index.md
   - Platform:
-    - permissions.md
+    - permissions
     - course_list_banner.md
   - courses
   - User profile: profile
