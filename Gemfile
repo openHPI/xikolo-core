@@ -173,7 +173,7 @@ group :development, :test do
   gem 'rspec-collection_matchers'
   gem 'rspec-its'
   gem 'rspec-rails', '~> 7.0'
-  gem 'rubocop', '~> 1.69.0'
+  gem 'rubocop', '~> 1.70.0'
   gem 'rubocop-capybara', '~> 2.21.0'
   gem 'rubocop-factory_bot', '~> 2.26.1'
   gem 'rubocop-performance', '~> 1.23.0'

@@ -6,7 +6,7 @@ class SafeThread < Thread
   def initialize(*args)
     @exception = nil
 
-    super(*args) do
+    super do
       yield
     rescue Exception => e # rubocop:disable Lint/RescueException
       # warn e

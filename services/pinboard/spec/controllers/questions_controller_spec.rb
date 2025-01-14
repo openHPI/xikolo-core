@@ -778,7 +778,7 @@ describe QuestionsController, type: :controller do
       before do
         stub_request(:get,
           'https://s3.xikolo.de/xikolo-uploads?list-type=2&' \
-          'prefix=uploads%2F83aebd2a-f026-4d58-8a61-5ee4f1a7cbfa') \
+          'prefix=uploads%2F83aebd2a-f026-4d58-8a61-5ee4f1a7cbfa')
           .to_return(
             status: 200,
             headers: {'Content-Type' => 'Content-Type: application/xml'},
@@ -798,7 +798,7 @@ describe QuestionsController, type: :controller do
       end
 
       it 'stores file and use it afterwards' do
-        stub_request(:head, file_url) \
+        stub_request(:head, file_url)
           .to_return(
             status: 200,
             headers: {
@@ -818,7 +818,7 @@ describe QuestionsController, type: :controller do
       end
 
       it 'rejects invalid attachments' do
-        stub_request(:head, file_url) \
+        stub_request(:head, file_url)
           .to_return(
             status: 200,
             headers: {
@@ -1138,7 +1138,7 @@ describe QuestionsController, type: :controller do
       before do
         stub_request(:get,
           'https://s3.xikolo.de/xikolo-uploads?list-type=2&' \
-          'prefix=uploads%2F83aebd2a-f026-4d58-8a61-5ee4f1a7cbfa') \
+          'prefix=uploads%2F83aebd2a-f026-4d58-8a61-5ee4f1a7cbfa')
           .to_return(
             status: 200,
             headers: {'Content-Type' => 'Content-Type: application/xml'},
@@ -1158,7 +1158,7 @@ describe QuestionsController, type: :controller do
       end
 
       it 'stores file and use it afterwards' do
-        stub_request(:head, file_url) \
+        stub_request(:head, file_url)
           .to_return(
             status: 200,
             headers: {
@@ -1178,7 +1178,7 @@ describe QuestionsController, type: :controller do
 
       it 'removes an old attachment' do
         question.update attachment_uri: 's3://xikolo-pinboard/courses/1/threads/1/1/otto.jpg'
-        stub_request(:head, file_url) \
+        stub_request(:head, file_url)
           .to_return(
             status: 200,
             headers: {
@@ -1191,7 +1191,7 @@ describe QuestionsController, type: :controller do
                            /courses/#{cid}/topics/[0-9a-zA-Z]+/
                            [0-9a-zA-Z]+/image.jpg}x
         store_stub = stub_request(:put, store_regex).to_return(status: 200, body: '<xml></xml>')
-        cleanup_stub = stub_request(:delete, 'https://s3.xikolo.de/xikolo-pinboard/courses/1/threads/1/1/otto.jpg') \
+        cleanup_stub = stub_request(:delete, 'https://s3.xikolo.de/xikolo-pinboard/courses/1/threads/1/1/otto.jpg')
           .to_return(status: 200)
 
         expect { request; question.reload }.to change(question, :attachment_uri)
@@ -1200,7 +1200,7 @@ describe QuestionsController, type: :controller do
       end
 
       it 'rejects invalid attachments' do
-        stub_request(:head, file_url) \
+        stub_request(:head, file_url)
           .to_return(
             status: 200,
             headers: {

@@ -27,8 +27,7 @@ class CourseProvider < ApplicationRecord
   end
 
   def self.changed_to_preparation?(course)
-    course.previous_changes.key?(:status) &&
-      (course.previous_changes[:status] == %w[active preparation] ||
-      course.previous_changes[:status] == %w[archive preparation])
+    course.status_previously_changed?(from: 'active', to: 'preparation') ||
+      course.status_previously_changed?(from: 'archive', to: 'preparation')
   end
 end

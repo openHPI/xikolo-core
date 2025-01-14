@@ -18,7 +18,7 @@ namespace :xikolo do
     peer_assessment_id = args[:assessment_id]
     user_id = args[:user_id]
     team_name = args[:team_name]
-    dry_run = args[:dry_run] == 'true' || args[:dry_run] == 't'
+    dry_run = %w[true t].include?(args[:dry_run])
 
     # 1. Gather Data
     participant = Participant.find_by(peer_assessment_id:, user_id:)
@@ -118,7 +118,7 @@ namespace :xikolo do
   task :reset_moved_user, %i[assessment_id user_id dry_run] => :environment do |_, args|
     peer_assessment_id = args[:assessment_id]
     user_id = args[:user_id]
-    dry_run = args[:dry_run] == 'true' || args[:dry_run] == 't'
+    dry_run = %w[true t].include?(args[:dry_run])
     participant = Participant.find_by(user_id:, peer_assessment_id:)
 
     # Log Participant

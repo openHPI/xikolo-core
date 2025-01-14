@@ -72,7 +72,7 @@ module Xikolo::Course
     end
 
     def published?
-      status == 'active' || status == 'archive'
+      %w[active archive].include?(status)
     end
 
     def available?(startdate = start_date)

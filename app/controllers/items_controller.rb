@@ -422,7 +422,7 @@ class ItemsController < Abstract::FrontendController
 
     # Quizzes are destroyed by `xi-quiz`.
     # Peer assessment are not destroyed upon item destruction (yet).
-    unless item.content_type == 'quiz' || item.content_type == 'peer_assessment'
+    unless %w[quiz peer_assessment].include?(item.content_type)
       @content.destroy!
       @notice = I18n.t('items.deleted_item')
     end

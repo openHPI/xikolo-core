@@ -78,7 +78,7 @@ module Collabspace
 
     def privileged?
       !membership.nil? &&
-        (membership['status'] == 'admin' || membership['status'] == 'mentor')
+        %w[admin mentor].include?(membership['status'])
     end
 
     def membership

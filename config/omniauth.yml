@@ -53,6 +53,11 @@ test:
     provider: saml
     idp_sso_service_url: https://example.com/saml/service
     visible: true
+  test_saml_with_slo:
+    provider: saml
+    idp_sso_service_url: https://example.com/saml/service
+    idp_slo_service_url: https://example.com/saml/service
+    visible: true
 
 integration:
   saml:
