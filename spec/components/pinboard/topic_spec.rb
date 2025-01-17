@@ -34,7 +34,7 @@ describe Pinboard::Topic, type: :component do
   end
 
   describe '#url' do
-    it 'returns the url of the topic' do
+    it 'returns the URL of the topic' do
       render_inline(component)
 
       expect(component.url).to eq "/courses/course-123/question/#{topic['id']}"
@@ -43,7 +43,7 @@ describe Pinboard::Topic, type: :component do
     context 'when it belongs to the pinboard of a learning room' do
       let(:topic) { super().merge('learning_room_id' => generate(:uuid)) }
 
-      it 'returns the url of the topic in the learning room pinboard' do
+      it 'returns the URL of the topic in the learning room pinboard' do
         render_inline(component)
 
         learning_room_id_hash = UUID(topic['learning_room_id']).to_s(format: :base62)
@@ -54,7 +54,7 @@ describe Pinboard::Topic, type: :component do
     context 'when it belongs to the pinboard of a section' do
       let(:topic) { super().merge('section_id' => section['id']) }
 
-      it 'returns the url of the topic in the section pinboard' do
+      it 'returns the URL of the topic in the context of the section' do
         render_inline(component)
 
         expect(component.url).to eq "/courses/course-123/question/#{topic['id']}?section_id=#{section['id']}"
@@ -85,10 +85,10 @@ describe Pinboard::Topic, type: :component do
     it 'returns both user and implicit tags' do
       render_inline(component)
 
-      expect(component.tags).to eq [
+      expect(component.tags).to contain_exactly(
         {name: 'Coding', id: '81e01000-0000-4444-a000-000000000003'},
-        {name: 'Week 1', id: '81e01000-0000-4444-a000-000000000004'},
-      ]
+        {name: 'Week 1', id: '81e01000-0000-4444-a000-000000000004'}
+      )
     end
   end
 end

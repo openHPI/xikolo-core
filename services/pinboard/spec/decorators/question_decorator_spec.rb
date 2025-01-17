@@ -92,8 +92,11 @@ describe QuestionDecorator, type: :decorator do
           let(:tag1) { question.tags.first }
           let(:tag2) { question.tags.last }
 
-          it 'lists the ids and names of related user tags' do
-            expect(user_tags).to match_array [{'id' => tag1.id, 'name' => 'SQL'}, {'id' => tag2.id, 'name' => 'Definition'}] # rubocop:disable RSpec/MatchArray
+          it 'lists related user tags' do
+            expect(user_tags).to contain_exactly(
+              {'id' => tag1.id, 'name' => 'SQL'},
+              {'id' => tag2.id, 'name' => 'Definition'}
+            )
           end
         end
       end

@@ -24,7 +24,7 @@ end
 Capybara.register_driver :chrome do |app|
   options = Selenium::WebDriver::Chrome::Options.new
   options.add_argument("--window-size=#{BROWSER_DEFAULT_DIMENSIONS[:width]},#{BROWSER_DEFAULT_DIMENSIONS[:height]}")
-  options.add_argument('--headless=old') if headless?
+  options.add_argument('--headless=new') if headless?
   options.add_argument('--incognito')
   options.add_argument('--disable-site-isolation-trials')
   options.add_argument('--disable-search-engine-choice-screen')

@@ -1,4 +1,4 @@
-.row data-lanalytics-context="#{ {course_id: @course.id}.to_json }"
+.row data-lanalytics-context={course_id: @course.id}.to_json
   .col-md-12
     .row.mb20
       .col-sm-8
@@ -26,7 +26,7 @@
         = t(:'pinboard.filters.discussions_in')
         = select_tag 'pinboard_section',
           options_for_select(@pinboard.section_filter, selected: @pinboard.current_section),
-          data: { change: 'redirect' }
+          data: {change: 'redirect'}
     div data-hide-on-submit='#pinboard__content' data-show-on-submit='#pinboard__loading'
       = render Course::Pinboard::FilterBar.new(tags: @pinboard.tags_filter, within_collabspace: @pinboard.collabspace_pinboard?)
 

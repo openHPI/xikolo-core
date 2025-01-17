@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_08_01_084556) do
-
+ActiveRecord::Schema[7.2].define(version: 2024_08_01_084556) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "pg_trgm"
@@ -84,8 +83,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.uuid "reportable_id"
     t.string "reportable_type"
     t.uuid "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "url"
     t.uuid "course_id"
   end
@@ -94,33 +93,33 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.uuid "quiz_id"
     t.uuid "user_id"
     t.integer "count"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
   end
 
   create_table "alerts", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.jsonb "translations", default: {}, null: false
-    t.datetime "publish_at"
-    t.datetime "publish_until"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "publish_at", precision: nil
+    t.datetime "publish_until", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "announcements", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.integer "lock_version", default: 0, null: false
-    t.datetime "publish_at"
+    t.datetime "publish_at", precision: nil
     t.jsonb "recipients", default: [], null: false
     t.jsonb "translations", default: {}, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.uuid "author_id", null: false
   end
 
   create_table "answers", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.text "text"
     t.uuid "question_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.uuid "user_id"
     t.uuid "file_id"
     t.boolean "deleted", default: false, null: false
@@ -134,8 +133,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
   create_table "assignment_rules", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.string "type"
     t.uuid "user_test_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
   end
 
   create_table "authorizations", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
@@ -144,7 +143,7 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.text "uid", null: false
     t.text "token"
     t.text "secret"
-    t.datetime "expires_at"
+    t.datetime "expires_at", precision: nil
     t.text "info"
     t.index ["provider"], name: "index_authorizations_on_provider"
     t.index ["user_id"], name: "index_authorizations_on_user_id"
@@ -154,8 +153,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.string "name"
     t.integer "level"
     t.uuid "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.uuid "course_id"
   end
 
@@ -164,17 +163,17 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.string "link_url"
     t.enum "link_target", enum_type: "link_target"
     t.string "alt_text", null: false
-    t.datetime "publish_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "expire_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "publish_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "expire_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "branches", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.string "title"
     t.uuid "group_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.uuid "fork_id", null: false
     t.index ["fork_id"], name: "index_branches_on_fork_id"
     t.index ["group_id"], name: "index_branches_on_group_id"
@@ -184,13 +183,13 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.uuid "collab_space_id"
     t.string "title", null: false
     t.text "description"
-    t.datetime "start_time", null: false
-    t.datetime "end_time", null: false
+    t.datetime "start_time", precision: nil, null: false
+    t.datetime "end_time", precision: nil, null: false
     t.string "category"
     t.uuid "user_id", null: false
     t.boolean "all_day", default: false, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["collab_space_id"], name: "index_calendar_events_on_collab_space_id"
   end
 
@@ -200,8 +199,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.uuid "logo_id"
     t.boolean "public", default: true, null: false
     t.boolean "archived", default: false, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.text "stage_statement"
     t.uuid "stage_visual_id"
     t.hstore "description"
@@ -234,8 +233,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
   create_table "client_applications", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.string "name", null: false
     t.text "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "clusters", id: :string, force: :cascade do |t|
@@ -247,15 +246,15 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
   create_table "collab_space_memberships", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.uuid "collab_space_id"
     t.uuid "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "status"
   end
 
   create_table "collab_spaces", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.boolean "is_open"
     t.uuid "course_id"
     t.string "kind", default: "group", null: false
@@ -266,8 +265,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
   create_table "comments", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.text "text"
     t.uuid "commentable_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.uuid "user_id"
     t.string "commentable_type"
     t.boolean "deleted", default: false, null: false
@@ -283,8 +282,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.string "conflict_subject_type"
     t.uuid "reporter"
     t.text "comment"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.uuid "accused"
     t.uuid "peer_assessment_id"
   end
@@ -292,9 +291,9 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
   create_table "consents", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
     t.uuid "treatment_id", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.boolean "value", default: false, null: false
-    t.datetime "updated_at", null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["treatment_id"], name: "index_consents_on_treatment_id"
     t.index ["user_id", "treatment_id"], name: "index_consents_on_user_id_and_treatment_id", unique: true
     t.index ["user_id"], name: "index_consents_on_user_id"
@@ -303,8 +302,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
   create_table "content_tests", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.uuid "course_id", null: false
     t.string "groups", default: [], null: false, array: true
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "round_robin_counter", default: 0, null: false
     t.string "identifier", null: false
     t.index ["course_id", "identifier"], name: "index_content_tests_on_course_id_and_identifier", unique: true
@@ -313,8 +312,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
   create_table "contexts", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.uuid "parent_id"
     t.string "reference_uri"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "course_offers", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
@@ -323,8 +322,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.enum "category", default: "course", null: false, enum_type: "offer_category"
     t.integer "price", default: 0, null: false
     t.uuid "course_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["course_id"], name: "index_course_offers_on_course_id"
   end
 
@@ -338,8 +337,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.integer "bonus_exercises", default: 0, null: false
     t.integer "selftest_dpoints", default: 0, null: false
     t.integer "selftest_exercises", default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "max_dpoints", default: 0, null: false
     t.integer "max_visits", default: 0, null: false
     t.integer "points_percentage_fpoints", default: 0, null: false
@@ -352,8 +351,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.string "provider_type", null: false
     t.jsonb "config", null: false
     t.boolean "enabled", default: false, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "course_set_entries", primary_key: ["course_set_id", "course_id"], force: :cascade do |t|
@@ -365,22 +364,22 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.string "kind"
     t.uuid "source_set_id"
     t.uuid "target_set_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "course_sets", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "course_visuals", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.uuid "course_id", null: false
     t.uuid "video_id"
     t.string "image_uri"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["course_id"], name: "index_course_visuals_on_course_id", unique: true
   end
 
@@ -388,12 +387,12 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.string "title"
     t.string "status", default: "preparation"
     t.string "course_code", null: false
-    t.datetime "start_date"
-    t.datetime "end_date"
+    t.datetime "start_date", precision: nil
+    t.datetime "end_date", precision: nil
     t.text "abstract"
     t.string "lang"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.uuid "description_rtid"
     t.boolean "records_released"
     t.integer "enrollment_delta", default: 0, null: false
@@ -403,7 +402,7 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.boolean "affiliated", default: false, null: false
     t.boolean "hidden", default: false, null: false
     t.text "welcome_mail"
-    t.datetime "display_start_date"
+    t.datetime "display_start_date", precision: nil
     t.boolean "proctored", default: false, null: false
     t.boolean "auto_archive", default: true
     t.boolean "show_syllabus", default: true
@@ -412,7 +411,7 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.uuid "context_id"
     t.string "special_groups", default: [], null: false, array: true
     t.uuid "teacher_ids", default: [], null: false, array: true
-    t.datetime "middle_of_course"
+    t.datetime "middle_of_course", precision: nil
     t.boolean "on_demand", default: false, null: false
     t.boolean "show_on_stage", default: false, null: false
     t.text "stage_statement"
@@ -435,8 +434,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.string "target_groups", default: [], null: false, array: true
     t.boolean "show_on_list", default: true, null: false
     t.text "search_data"
-    t.datetime "progress_calculated_at"
-    t.datetime "progress_stale_at"
+    t.datetime "progress_calculated_at", precision: nil
+    t.datetime "progress_stale_at", precision: nil
     t.boolean "pinboard_enabled", default: true, null: false
     t.index "lower((course_code)::text)", name: "index_courses_on_lower_course_code", unique: true
     t.index ["search_data"], name: "index_courses_on_search_data", opclass: :gin_trgm_ops, using: :gin
@@ -475,13 +474,13 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.string "type", null: false
     t.string "resource_type", null: false
     t.uuid "resource_id", null: false
-    t.datetime "date", null: false
+    t.datetime "date", precision: nil, null: false
     t.string "title", null: false
     t.integer "section_pos"
     t.integer "item_pos"
-    t.datetime "visible_after"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "visible_after", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["user_id", "course_id"], name: "index_dates_on_user_id_and_course_id"
   end
 
@@ -490,21 +489,21 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.integer "attempts", default: 0, null: false
     t.text "handler", null: false
     t.text "last_error"
-    t.datetime "run_at"
-    t.datetime "locked_at"
-    t.datetime "failed_at"
+    t.datetime "run_at", precision: nil
+    t.datetime "locked_at", precision: nil
+    t.datetime "failed_at", precision: nil
     t.string "locked_by"
     t.string "queue"
-    t.datetime "created_at", precision: 6
-    t.datetime "updated_at", precision: 6
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
   create_table "deliveries", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.uuid "message_id", null: false
     t.uuid "user_id", null: false
-    t.datetime "sent_at"
-    t.datetime "created_at", null: false
+    t.datetime "sent_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
     t.index ["message_id", "user_id"], name: "index_deliveries_on_message_id_and_user_id", unique: true
     t.index ["message_id"], name: "index_deliveries_on_message_id"
   end
@@ -517,8 +516,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.string "language"
     t.boolean "deleted", default: false, null: false
     t.uuid "document_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "file_uri"
     t.index ["document_id"], name: "index_document_localizations_on_document_id"
   end
@@ -529,8 +528,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.boolean "deleted", default: false, null: false
     t.boolean "public", default: true, null: false
     t.string "tags", default: [], array: true
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["title"], name: "index_documents_on_title"
   end
 
@@ -547,8 +546,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.string "address", null: false
     t.boolean "primary"
     t.boolean "confirmed"
-    t.datetime "confirmed_at"
-    t.datetime "created_at"
+    t.datetime "confirmed_at", precision: nil
+    t.datetime "created_at", precision: nil
     t.index "lower((address)::text)", name: "index_emails_on_lower_address", unique: true
     t.index ["address"], name: "index_emails_on_address", unique: true
     t.index ["user_id"], name: "index_emails_on_user_id"
@@ -559,12 +558,12 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.uuid "user_id"
     t.uuid "course_id"
     t.string "role"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.float "quantile"
     t.boolean "proctored", default: false, null: false
     t.boolean "deleted", default: false, null: false
-    t.datetime "forced_submission_date"
+    t.datetime "forced_submission_date", precision: nil
     t.boolean "completed"
     t.integer "quantiled_user_dpoints"
     t.index ["course_id", "created_at"], name: "index_enrollments_on_course_id_and_created_at"
@@ -579,12 +578,12 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.string "key"
     t.boolean "public"
     t.hstore "payload"
-    t.datetime "expire_at"
+    t.datetime "expire_at", precision: nil
     t.uuid "course_id"
     t.uuid "context_id"
     t.uuid "collab_space_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "link"
     t.index ["public"], name: "index_events_on_public"
   end
@@ -594,16 +593,16 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.string "original_filename", null: false
     t.string "blob_uri"
     t.integer "size", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["file_id"], name: "index_file_versions_on_file_id"
   end
 
   create_table "files", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.uuid "collab_space_id", null: false
     t.uuid "creator_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "title", null: false
     t.text "description"
     t.index ["collab_space_id"], name: "index_files_on_collab_space_id"
@@ -613,8 +612,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.string "field_name"
     t.string "field_value"
     t.string "operator"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
   end
 
   create_table "filters_user_tests", primary_key: ["filter_id", "user_test_id"], force: :cascade do |t|
@@ -630,8 +629,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.float "visits_percentage"
     t.integer "user_dpoints"
     t.integer "maximal_dpoints"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
   end
 
   create_table "flippers", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
@@ -648,8 +647,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
   create_table "forks", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.string "title"
     t.uuid "content_test_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.uuid "section_id", null: false
     t.index ["content_test_id"], name: "index_forks_on_content_test_id"
     t.index ["section_id"], name: "index_forks_on_section_id"
@@ -658,8 +657,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
   create_table "gallery_votes", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.integer "rating"
     t.uuid "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.uuid "shared_submission_id"
   end
 
@@ -669,8 +668,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.string "bonus_points", default: [], array: true
     t.float "delta"
     t.boolean "absolute"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["submission_id"], name: "index_grades_on_submission_id", unique: true
   end
 
@@ -679,8 +678,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.uuid "role_id"
     t.uuid "principal_id"
     t.string "principal_type"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "groups", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
@@ -696,8 +695,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.uuid "user_id"
     t.integer "user_points"
     t.boolean "visited", default: false, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["item_id", "user_id"], name: "index_item_results_on_item_id_and_user_id", unique: true
     t.index ["item_id"], name: "index_item_results_on_item_id"
     t.index ["user_id"], name: "index_item_results_on_user_id"
@@ -705,19 +704,19 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
 
   create_table "items", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.string "title"
-    t.datetime "start_date"
-    t.datetime "end_date"
+    t.datetime "start_date", precision: nil
+    t.datetime "end_date", precision: nil
     t.string "content_type"
     t.uuid "section_id"
     t.uuid "content_id"
     t.boolean "published", default: true
     t.integer "position"
     t.boolean "show_in_nav", default: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "exercise_type"
-    t.datetime "submission_deadline"
-    t.datetime "submission_publishing_date"
+    t.datetime "submission_deadline", precision: nil
+    t.datetime "submission_publishing_date", precision: nil
     t.integer "max_dpoints"
     t.boolean "proctored", default: false, null: false
     t.boolean "optional", default: false, null: false
@@ -734,24 +733,24 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
   create_table "knowledge_acquisitions", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.uuid "learning_unit_id", null: false
     t.uuid "item_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["learning_unit_id", "item_id"], name: "index_knowledge_acquisitions_on_learning_unit_id_and_item_id", unique: true
   end
 
   create_table "knowledge_examinations", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.uuid "learning_unit_id", null: false
     t.uuid "item_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["learning_unit_id", "item_id"], name: "index_knowledge_examinations_on_learning_unit_id_and_item_id", unique: true
   end
 
   create_table "learning_units", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.uuid "objective_id", null: false
     t.integer "priority", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["objective_id"], name: "index_learning_units_on_objective_id"
   end
 
@@ -760,11 +759,11 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.text "description"
     t.string "event_type"
     t.text "speaker"
-    t.datetime "start_at"
+    t.datetime "start_at", precision: nil
     t.string "further_info"
     t.boolean "deleted", default: false, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.text "live_video_id"
     t.text "live_chat_id"
   end
@@ -777,26 +776,26 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.string "custom_fields"
     t.boolean "is_bonus_exercise"
     t.boolean "is_main_exercise"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.integer "weight"
-    t.datetime "lock_submissions_at"
+    t.datetime "lock_submissions_at", precision: nil
     t.text "instructions"
   end
 
   create_table "lti_gradebooks", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
     t.uuid "lti_exercise_id", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["lti_exercise_id", "user_id"], name: "index_lti_gradebooks_on_lti_exercise_id_and_user_id", unique: true
   end
 
   create_table "lti_grades", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.float "value"
     t.uuid "lti_gradebook_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "nonce", null: false
     t.index ["lti_gradebook_id", "nonce"], name: "index_lti_grades_on_lti_gradebook_id_and_nonce", unique: true
     t.index ["lti_gradebook_id"], name: "index_lti_grades_on_lti_gradebook_id"
@@ -810,8 +809,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.text "custom_fields"
     t.string "privacy", null: false
     t.text "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.uuid "course_id"
     t.string "presentation_mode"
     t.index ["course_id"], name: "index_lti_providers_on_course_id"
@@ -823,8 +822,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.uuid "news_id"
     t.string "state"
     t.string "key"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["news_id", "state"], name: "index_mail_logs_on_news_id_and_state"
     t.index ["news_id", "user_id"], name: "index_mail_logs_on_news_id_and_user_id"
   end
@@ -842,7 +841,7 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.jsonb "translations", default: {}, null: false
     t.boolean "test", default: false, null: false
     t.string "status", default: "preparation", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.uuid "creator_id", null: false
     t.jsonb "consents", default: [], null: false
     t.index ["announcement_id"], name: "index_messages_on_announcement_id"
@@ -853,8 +852,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.string "name", null: false
     t.string "version", null: false
     t.uuid "course_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["course_id", "name", "version"], name: "index_metadata_on_course_id_and_name_and_version", unique: true
     t.index ["course_id"], name: "index_metadata_on_course_id"
   end
@@ -865,8 +864,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.integer "wait_interval", default: 0
     t.string "type"
     t.string "distribution"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
   end
 
   create_table "metrics_user_tests", primary_key: ["metric_id", "user_test_id"], force: :cascade do |t|
@@ -879,10 +878,10 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
   create_table "news", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.uuid "course_id"
     t.uuid "author_id"
-    t.datetime "publish_at"
+    t.datetime "publish_at", precision: nil
     t.boolean "show_on_homepage", default: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "state"
     t.integer "receivers"
     t.integer "sending_state"
@@ -893,15 +892,15 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
   create_table "news_emails", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.uuid "news_id", null: false
     t.uuid "test_recipient"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "news_translations", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.uuid "news_id", null: false
     t.string "locale", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "title", null: false
     t.text "text", null: false
     t.text "teaser", default: "", null: false
@@ -919,11 +918,11 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.integer "children_count", default: 0, null: false
     t.uuid "section_id"
     t.uuid "item_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.uuid "fork_id"
     t.uuid "branch_id"
-    t.datetime "progress_stale_at"
+    t.datetime "progress_stale_at", precision: nil
     t.index ["branch_id"], name: "index_nodes_on_branch_id"
     t.index ["course_id"], name: "index_nodes_on_course_id"
     t.index ["fork_id"], name: "index_nodes_on_fork_id"
@@ -940,15 +939,15 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.string "subject_type"
     t.uuid "user_id"
     t.text "text"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
   end
 
   create_table "notifications", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.uuid "event_id"
     t.uuid "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
@@ -957,8 +956,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.uuid "context_id", null: false
     t.string "title", null: false
     t.string "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "position"
     t.string "completion_type"
     t.boolean "final", default: false, null: false
@@ -969,8 +968,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
   create_table "objectives_items", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.string "item_type", null: false
     t.integer "time_effort"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.jsonb "meta", default: {}, null: false
     t.index "((meta ->> 'course_id'::text))", name: "index_items_on_meta_course_id"
   end
@@ -980,8 +979,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.text "svg"
     t.string "name"
     t.text "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "file_uri"
     t.index ["course_id"], name: "index_open_badge_templates_on_course_id", unique: true
   end
@@ -990,8 +989,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.uuid "record_id", null: false
     t.uuid "template_id", null: false
     t.jsonb "assertion"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "file_uri"
     t.string "type", default: "OpenBadge"
     t.index ["record_id", "template_id"], name: "index_open_badges_on_record_id_and_template_id"
@@ -1003,8 +1002,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.string "locale", null: false
     t.string "title", null: false
     t.text "text", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["name", "locale"], name: "index_pages_on_name_and_locale", unique: true
   end
 
@@ -1022,7 +1021,7 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
   create_table "password_resets", id: :serial, force: :cascade do |t|
     t.uuid "user_id"
     t.string "token"
-    t.datetime "created_at"
+    t.datetime "created_at", precision: nil
   end
 
   create_table "peer_assessment_files", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
@@ -1032,20 +1031,20 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.integer "size", null: false
     t.string "mime_type", null: false
     t.uuid "peer_assessment_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "peer_assessment_groups", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
   end
 
   create_table "peer_assessments", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.string "title"
     t.text "instructions"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.uuid "course_id"
     t.uuid "item_id"
     t.text "grading_hints"
@@ -1062,14 +1061,14 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
   create_table "pinboards", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.string "topic"
     t.boolean "supervised"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
   end
 
   create_table "policies", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.integer "version"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.hstore "url", default: {}, null: false
   end
 
@@ -1077,8 +1076,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.text "text"
     t.integer "position", null: false
     t.uuid "poll_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["poll_id", "position"], name: "index_poll_options_on_poll_id_and_position", unique: true
   end
 
@@ -1086,18 +1085,18 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.uuid "poll_id", null: false
     t.uuid "user_id", null: false
     t.uuid "choices", null: false, array: true
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["poll_id", "user_id"], name: "index_poll_responses_on_poll_id_and_user_id", unique: true
   end
 
   create_table "polls", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.text "question", null: false
     t.boolean "allow_multiple_choices", default: false, null: false
-    t.datetime "start_at", null: false
-    t.datetime "end_at", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "start_at", precision: nil, null: false
+    t.datetime "end_at", precision: nil, null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.boolean "show_intermediate_results", default: true, null: false
   end
 
@@ -1105,8 +1104,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.integer "resource_pool_id"
     t.integer "available_locks"
     t.uuid "submission_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.float "priority", default: 0.0
     t.index ["created_at"], name: "index_pool_entries_on_created_at"
     t.index ["submission_id"], name: "index_pool_entries_on_submission_id"
@@ -1117,19 +1116,19 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.json "points_progress", default: {}, null: false
     t.json "visit_progress", default: {}, null: false
     t.boolean "achievable"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["user_objective_id"], name: "index_progresses_on_user_objective_id"
   end
 
   create_table "providers", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.string "name"
     t.string "token"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.boolean "default", default: false, null: false
-    t.datetime "synchronized_at", default: "1970-01-01 00:00:00", null: false
-    t.datetime "run_at", default: "1970-01-01 00:00:00", null: false
+    t.datetime "synchronized_at", precision: nil, default: "1970-01-01 00:00:00", null: false
+    t.datetime "run_at", precision: nil, default: "1970-01-01 00:00:00", null: false
     t.string "provider_type", null: false
     t.jsonb "credentials", default: {}, null: false
   end
@@ -1147,8 +1146,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.integer "incorrect_submission_count", default: 0
     t.integer "partly_correct_submission_count", default: 0
     t.jsonb "answer_statistics", default: []
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["question_id"], name: "index_question_statistics_on_question_id"
   end
 
@@ -1157,8 +1156,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.string "title"
     t.uuid "video_id"
     t.uuid "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.uuid "accepted_answer_id"
     t.uuid "course_id"
     t.boolean "discussion_flag", default: false
@@ -1195,8 +1194,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.boolean "correct"
     t.uuid "answer_rtid"
     t.string "type"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.text "text"
     t.index ["question_id"], name: "index_quiz_answers_on_quiz_question_id"
   end
@@ -1208,8 +1207,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.boolean "shuffle_answers"
     t.string "type"
     t.integer "position", default: 0
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.uuid "explanation_rtid"
     t.boolean "exclude_from_recap", default: false, null: false
     t.boolean "case_sensitive", default: true, null: false
@@ -1222,8 +1221,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.string "type"
     t.uuid "quiz_answer_id"
     t.uuid "quiz_submission_question_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.text "user_answer_text"
     t.index ["quiz_answer_id"], name: "index_quiz_submission_answers_on_quiz_answer_id"
     t.index ["quiz_submission_question_id"], name: "index_quiz_submission_answers_on_quiz_submission_question_id"
@@ -1233,8 +1232,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.uuid "quiz_submission_id"
     t.uuid "quiz_question_id"
     t.float "points"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["quiz_question_id"], name: "index_quiz_submission_questions_on_quiz_question_id"
     t.index ["quiz_submission_id", "quiz_question_id"], name: "index_submission_questions_on_submission_id_and_qq_id", unique: true
     t.index ["quiz_submission_id"], name: "index_quiz_submission_questions_on_quiz_submission_id"
@@ -1243,19 +1242,19 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
   create_table "quiz_submission_snapshots", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.uuid "quiz_submission_id"
     t.text "data"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["quiz_submission_id"], name: "index_quiz_submission_snapshots_on_quiz_submission_id", unique: true
   end
 
   create_table "quiz_submissions", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.uuid "quiz_id"
     t.uuid "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.datetime "quiz_submission_time"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
+    t.datetime "quiz_submission_time", precision: nil
     t.uuid "course_id"
-    t.datetime "quiz_version_at"
+    t.datetime "quiz_version_at", precision: nil
     t.float "fudge_points", default: 0.0
     t.jsonb "vendor_data", default: {}, null: false
     t.index ["course_id"], name: "index_quiz_submissions_on_course_id"
@@ -1268,8 +1267,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.uuid "instructions_rtid"
     t.integer "time_limit_seconds"
     t.integer "allowed_attempts"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.boolean "unlimited_time"
     t.boolean "unlimited_attempts"
     t.boolean "skip_welcome_page"
@@ -1280,8 +1279,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
   create_table "read_states", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
     t.uuid "news_id", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["news_id"], name: "index_read_states_on_news_id"
     t.index ["user_id"], name: "index_read_states_on_user_id"
   end
@@ -1290,8 +1289,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.uuid "course_id"
     t.uuid "template_id"
     t.uuid "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "type"
     t.text "render_state"
     t.string "verification"
@@ -1303,16 +1302,16 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
   create_table "resource_pools", id: :serial, force: :cascade do |t|
     t.uuid "peer_assessment_id"
     t.string "purpose"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
   end
 
   create_table "results", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.uuid "user_id"
     t.uuid "item_id"
     t.integer "dpoints", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["item_id"], name: "index_results_on_item_id"
     t.index ["user_id", "item_id"], name: "index_results_on_user_id_and_item_id"
   end
@@ -1325,10 +1324,10 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.boolean "submitted"
     t.boolean "award"
     t.integer "feedback_grade"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.boolean "train_review", default: false
-    t.datetime "deadline"
+    t.datetime "deadline", precision: nil
     t.uuid "optionIDs", default: [], array: true
     t.boolean "extended", default: false
     t.string "worker_jid"
@@ -1337,14 +1336,14 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
   create_table "richtexts", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.uuid "course_id"
     t.text "text"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "roles", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.string "permissions", default: [], array: true
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "name"
   end
 
@@ -1368,8 +1367,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.uuid "course_id"
     t.string "rule", null: false
     t.integer "points", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.text "data", default: "{}", null: false
     t.string "checksum"
     t.index ["checksum", "rule"], name: "index_scores_on_checksum_and_rule"
@@ -1381,8 +1380,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.uuid "user_id", null: false
     t.uuid "section_id", null: false
     t.uuid "choice_ids", default: [], array: true
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
   end
 
   create_table "section_progresses", primary_key: ["section_id", "user_id"], force: :cascade do |t|
@@ -1396,25 +1395,25 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.integer "bonus_exercises", default: 0, null: false
     t.integer "selftest_dpoints", default: 0, null: false
     t.integer "selftest_exercises", default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "sections", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.string "title"
     t.text "description"
     t.boolean "published"
-    t.datetime "start_date"
-    t.datetime "end_date"
+    t.datetime "start_date", precision: nil
+    t.datetime "end_date", precision: nil
     t.uuid "course_id"
     t.boolean "optional_section", default: false, null: false
     t.integer "position"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.boolean "pinboard_closed", default: false, null: false
     t.string "alternative_state", default: "none", null: false
     t.uuid "parent_id"
-    t.datetime "progress_stale_at"
+    t.datetime "progress_stale_at", precision: nil
     t.uuid "required_section_ids", default: [], null: false, array: true
     t.index ["course_id"], name: "index_sections_on_course_id"
     t.index ["parent_id"], name: "index_sections_on_parent_id"
@@ -1423,8 +1422,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
   create_table "sessions", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.uuid "user_id"
     t.string "user_agent"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.uuid "masquerade_id"
     t.date "access_at", default: -> { "CURRENT_DATE" }, null: false
     t.index ["access_at"], name: "index_sessions_on_access_at"
@@ -1438,21 +1437,21 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.boolean "gallery_opt_out", default: false
     t.uuid "attachments", default: [], array: true
     t.integer "additional_attempts", default: 0
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
   end
 
   create_table "steps", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.uuid "peer_assessment_id"
-    t.datetime "deadline"
+    t.datetime "deadline", precision: nil
     t.boolean "optional", default: false
     t.integer "position", default: 0
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "type"
     t.integer "required_reviews"
     t.boolean "open"
-    t.datetime "unlock_date"
+    t.datetime "unlock_date", precision: nil
     t.string "deadline_worker_jids", default: [], array: true
   end
 
@@ -1462,8 +1461,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.string "sd_url"
     t.integer "width"
     t.integer "height"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "poster"
     t.uuid "provider_id"
     t.bigint "sd_size"
@@ -1478,7 +1477,7 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.string "sd_download_url"
     t.string "hd_download_url"
     t.string "provider_video_id", null: false
-    t.datetime "downloads_expire"
+    t.datetime "downloads_expire", precision: nil
   end
 
   create_table "submission_files", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
@@ -1488,14 +1487,14 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.integer "size", null: false
     t.string "mime_type", null: false
     t.uuid "shared_submission_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "submissions", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.uuid "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.uuid "grade"
     t.uuid "shared_submission_id"
     t.index ["shared_submission_id"], name: "index_submissions_on_shared_submission_id"
@@ -1505,8 +1504,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
   create_table "subscriptions", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.uuid "user_id"
     t.uuid "question_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["question_id"], name: "index_subscriptions_on_question_id"
   end
 
@@ -1524,15 +1523,15 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.uuid "video_id", null: false
     t.string "lang", null: false
     t.boolean "automatic", default: false, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["video_id", "lang"], name: "index_subtitles_on_video_id_and_lang", unique: true
   end
 
   create_table "tags", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.uuid "course_id"
     t.uuid "learning_room_id"
     t.string "referenced_resource"
@@ -1556,8 +1555,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.text "dynamic_content"
     t.string "certificate_type"
     t.uuid "course_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.integer "qrcode_x"
     t.integer "qrcode_y"
     t.string "file_uri"
@@ -1570,8 +1569,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.integer "index"
     t.uuid "group_id"
     t.uuid "user_test_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.text "confidence"
     t.text "box_plot_data"
     t.boolean "invalidated_flipper", default: false
@@ -1603,7 +1602,7 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.uuid "course_id"
     t.text "data"
     t.string "mail"
-    t.datetime "created_at"
+    t.datetime "created_at", precision: nil
   end
 
   create_table "time_effort_items", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
@@ -1614,8 +1613,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.integer "time_effort"
     t.integer "calculated_time_effort"
     t.boolean "time_effort_overwritten", default: false, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["course_id"], name: "index_time_effort_items_on_course_id"
     t.index ["section_id"], name: "index_time_effort_items_on_section_id"
   end
@@ -1624,8 +1623,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.uuid "item_id", null: false
     t.uuid "job_id"
     t.string "status", default: "waiting", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "tokens", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
@@ -1640,8 +1639,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
   create_table "treatments", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.string "name", null: false
     t.boolean "required", default: false, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.jsonb "consent_manager", default: {}, null: false
     t.index ["name"], name: "index_treatments_on_name", unique: true
   end
@@ -1651,8 +1650,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.uuid "metric_id"
     t.boolean "waiting", default: false
     t.float "result"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
   end
 
   create_table "trials", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
@@ -1660,9 +1659,9 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.boolean "finished", default: false
     t.uuid "user_test_id"
     t.uuid "test_group_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.datetime "finish_time"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
+    t.datetime "finish_time", precision: nil
     t.index ["user_test_id", "user_id"], name: "index_trials_on_user_test_id_and_user_id", unique: true
   end
 
@@ -1670,9 +1669,9 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.uuid "objective_id", null: false
     t.uuid "user_id", null: false
     t.boolean "active", default: true, null: false
-    t.datetime "completed_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "completed_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["objective_id", "user_id"], name: "index_user_objectives_on_objective_id_and_user_id", unique: true
     t.index ["user_id"], name: "index_user_objectives_on_user_id"
   end
@@ -1681,8 +1680,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.uuid "user_id", null: false
     t.uuid "context_id", null: false
     t.hstore "settings", default: {}, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["user_id", "context_id"], name: "index_user_statuses_on_user_id_and_context_id", unique: true
   end
 
@@ -1690,12 +1689,12 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.string "name"
     t.string "identifier"
     t.text "description"
-    t.datetime "start_date"
-    t.datetime "end_date"
+    t.datetime "start_date", precision: nil
+    t.datetime "end_date", precision: nil
     t.integer "max_participants"
     t.uuid "course_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.integer "round_robin_counter", default: 0
     t.boolean "round_robin", default: false
   end
@@ -1703,12 +1702,12 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
   create_table "users", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.string "password_digest"
     t.string "display_name"
-    t.datetime "born_at"
+    t.datetime "born_at", precision: nil
     t.string "language"
     t.string "timezone"
     t.uuid "image_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.hstore "preferences", default: {}, null: false
     t.boolean "archived", default: false
     t.boolean "affiliated", default: false, null: false
@@ -1736,7 +1735,7 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.string "event", null: false
     t.string "whodunnit"
     t.text "object"
-    t.datetime "created_at"
+    t.datetime "created_at", precision: nil
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
@@ -1746,8 +1745,8 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.uuid "lecturer_stream_id"
     t.uuid "slides_stream_id"
     t.uuid "pip_stream_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.uuid "subtitled_stream_id"
     t.integer "thumbnail_job_counter", default: 0
     t.string "slides_uri"
@@ -1762,16 +1761,16 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
   create_table "visits", primary_key: ["user_id", "item_id"], force: :cascade do |t|
     t.uuid "user_id", null: false
     t.uuid "item_id", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["item_id"], name: "index_visits_on_item_id"
   end
 
   create_table "votes", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.integer "value"
     t.uuid "votable_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.uuid "user_id"
     t.string "votable_type"
     t.index ["votable_id", "votable_type"], name: "index_votes_on_votable_id_and_votable_type"
@@ -1781,11 +1780,11 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
     t.string "country", null: false
     t.uuid "course_id"
     t.uuid "claimant_id"
-    t.datetime "claimed_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "claimed_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "tag", default: "untagged", null: false
-    t.datetime "expires_at"
+    t.datetime "expires_at", precision: nil
     t.inet "claimant_ip"
     t.string "claimant_country", limit: 3
     t.string "product_type", null: false
@@ -1794,15 +1793,15 @@ ActiveRecord::Schema.define(version: 2024_08_01_084556) do
   create_table "watches", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.uuid "user_id"
     t.uuid "question_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["question_id"], name: "index_watches_on_question_id"
   end
 
   create_table "well_known_files", primary_key: "filename", id: { type: :string, limit: 64 }, force: :cascade do |t|
     t.text "content", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   add_foreign_key "authorizations", "users"
