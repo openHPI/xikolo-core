@@ -5,6 +5,8 @@ import renderQuizRecap, {
   QuizType,
 } from '@openhpi/quiz-recap';
 
+import I18n from '../i18n/i18n';
+
 import ready from '../util/ready';
 import handleError from '../util/error';
 import fetch from '../util/fetch';

@@ -9,15 +9,10 @@ declare const gon: {
   course_id?: string;
 };
 
-// Platform localization variable
-declare const I18n: {
-  brand: string;
-  locale: string;
-  t: (
-    token: string,
-    interpolationVariables?: { [key: string]: string },
-  ) => string;
-};
-
 declare module 'html5sortable/dist/html5sortable.es';
 declare module 'jquery';
+
+declare module 'i18n/*.json' {
+  const value: string;
+  export default value;
+}

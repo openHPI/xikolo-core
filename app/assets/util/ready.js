@@ -1,17 +1,28 @@
+import { loadTranslations } from '../i18n/i18n';
+
 /**
- * Invoke a function when the DOM is ready.
+ * Invoke a function when the DOM is ready and translations are loaded.
  *
- * @param {Function} fn A function to execute when the DOM is ready.
+ * @param {Function} fn A function to execute when the DOM and translations are ready.
  *
  * @return {void}
  */
-export default function ready(fn) {
+
+const loadDomContent = new Promise((resolve) => {
   if (
     document.readyState === 'complete' ||
     document.readyState === 'interactive'
   ) {
-    setTimeout(fn, 0);
+    setTimeout(resolve, 0);
   } else {
-    document.addEventListener('DOMContentLoaded', fn);
+    document.addEventListener('DOMContentLoaded', resolve);
   }
-}
+});
+
+const ready = async (fn) => {
+  // Wait for both DOM and translations to be ready
+  await Promise.all([loadDomContent, loadTranslations()]);
+  fn();
+};
+
+export default ready;

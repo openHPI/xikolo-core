@@ -3185,6 +3185,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bignumber.js@npm:*":
+  version: 9.1.2
+  resolution: "bignumber.js@npm:9.1.2"
+  checksum: 10/d89b8800a987225d2c00dcbf8a69dc08e92aa0880157c851c287b307d31ceb2fc2acb0c62c3e3a3d42b6c5fcae9b004035f13eb4386e56d529d7edac18d5c9d8
+  languageName: node
+  linkType: hard
+
 "bin-build@npm:^3.0.0":
   version: 3.0.0
   resolution: "bin-build@npm:3.0.0"
@@ -6012,6 +6019,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"i18n-js@npm:^4.5.0":
+  version: 4.5.0
+  resolution: "i18n-js@npm:4.5.0"
+  dependencies:
+    bignumber.js: "npm:*"
+    lodash: "npm:*"
+    make-plural: "npm:*"
+  checksum: 10/d2a27bf792cf7db946f3887e44fe3355ef9b3e9f49530f34caed0f77befe7d16a083e7415421715fd57ba7bb824aac4f84ae977e4426e140d16afabd15fc1388
+  languageName: node
+  linkType: hard
+
 "iconv-lite@npm:0.4.24":
   version: 0.4.24
   resolution: "iconv-lite@npm:0.4.24"
@@ -6990,6 +7008,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash@npm:*":
+  version: 4.17.21
+  resolution: "lodash@npm:4.17.21"
+  checksum: 10/c08619c038846ea6ac754abd6dd29d2568aa705feb69339e836dfa8d8b09abbb2f859371e86863eda41848221f9af43714491467b5b0299122431e202bb0c532
+  languageName: node
+  linkType: hard
+
 "log-update@npm:^6.1.0":
   version: 6.1.0
   resolution: "log-update@npm:6.1.0"
@@ -7103,6 +7128,13 @@ __metadata:
     promise-retry: "npm:^2.0.1"
     ssri: "npm:^10.0.0"
   checksum: 10/11bae5ad6ac59b654dbd854f30782f9de052186c429dfce308eda42374528185a100ee40ac9ffdc36a2b6c821ecaba43913e4730a12f06f15e895ea9cb23fa59
+  languageName: node
+  linkType: hard
+
+"make-plural@npm:*":
+  version: 7.4.0
+  resolution: "make-plural@npm:7.4.0"
+  checksum: 10/1a6d17a08074bbeb27ffbfc1bf21ec9ef325980b8facaa11b0b0b1c9cb9f1b1407ae424f685be2927dd0a297b65023fd6005534c4f1fa8e2bf6936aa392d3ed4
   languageName: node
   linkType: hard
 
@@ -9919,6 +9951,7 @@ __metadata:
     globals: "npm:^15.14.0"
     html5sortable: "npm:^0.14.0"
     husky: "npm:9.1.7"
+    i18n-js: "npm:^4.5.0"
     image-webpack-loader: "npm:^8.1.0"
     jquery: "npm:^2.2.4"
     js-cookie: "npm:^2.2.1"

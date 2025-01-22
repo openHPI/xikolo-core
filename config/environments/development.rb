@@ -63,11 +63,6 @@ Rails.application.configure do
   # Raise an error on page load if there are pending migrations.
   config.active_record.migration_error = :page_load
 
-  if Rails.root.join('config', 'i18n-js.yml').exist?
-    # Generate frontend translations on-the-fly.
-    config.middleware.use I18n::JS::Middleware
-  end
-
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
 

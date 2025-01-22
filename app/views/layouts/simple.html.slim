@@ -1,5 +1,5 @@
 doctype 5
-html lang="#{I18n.locale}"
+html lang="#{I18n.locale}" data-default-locale="#{I18n.default_locale}" data-brand="#{Xikolo.config.brand}"
   head
     meta charset="utf-8"
     meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"
@@ -36,15 +36,6 @@ html lang="#{I18n.locale}"
 
     - if content_for? :head_assets
       = yield :head_assets
-
-    /
-    / Deprecated: Inline JavaScript adjustments
-    /
-
-    javascript:
-      I18n.defaultLocale = "#{I18n.default_locale}";
-      I18n.locale = "#{I18n.locale}";
-      I18n.brand = "#{Xikolo.config.brand}";
 
   body class="#{Xikolo.config.brand} layout-simple"
 

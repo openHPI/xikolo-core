@@ -4,10 +4,11 @@
   "compilerOptions": {
     "outDir": "./dist/",
     "strict": true,
-    "module": "es6",
-    "target": "es5",
+    "module": "es2020",
+    "target": "es2017",
     "allowJs": true,
     "moduleResolution": "node",
+    "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true
   }
 }

@@ -80,7 +80,7 @@ gem 'i18n_data'
 gem 'maxminddb', '~> 0.1' # Location tracking
 
 # Xikolo service gems
-gem 'acfs', '~> 1.5', '>= 1.5.1'
+gem 'acfs', '~> 2.0', '>= 2.0.0'
 gem 'xikolo-account',         '~> 8.0',   path: 'clients/xikolo-account'
 gem 'xikolo-course',          '~> 12.0',  path: 'clients/xikolo-course'
 gem 'xikolo-peer_assessment', '~> 3.0',   path: 'clients/xikolo-peer_assessment'
@@ -152,7 +152,7 @@ gem 'sprockets-rails', '~> 3.2'
 group :assets do
   gem 'dartsass-sprockets'
   gem 'highcharts-rails'
-  gem 'i18n-js', '~> 3.0', '>= 3.0.1'
+  gem 'i18n-js', '~> 4.2', '>= 4.2.3'
   gem 'jquery-rails'
   gem 'momentjs-rails'
   gem 'terser', '~> 1.1'
@@ -177,8 +177,8 @@ group :development, :test do
   gem 'rubocop-capybara', '~> 2.21.0'
   gem 'rubocop-factory_bot', '~> 2.26.1'
   gem 'rubocop-performance', '~> 1.23.0'
-  gem 'rubocop-rails', '~> 2.28.0'
-  gem 'rubocop-rspec', '~> 3.3.0'
+  gem 'rubocop-rails', '~> 2.29.0'
+  gem 'rubocop-rspec', '~> 3.4.0'
   gem 'rubocop-rspec_rails', '~> 2.30.0'
   gem 'slim_lint'
 end

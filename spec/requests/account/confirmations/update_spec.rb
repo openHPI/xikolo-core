@@ -66,22 +66,4 @@ describe 'Account: Confirmations: Update', type: :request do
 
     it { is_expected.to render_template 'account/confirmations/confirmed_token' }
   end
-
-  context 'with auto login' do
-    before do
-      xi_config <<~YML
-        auto_login:
-          enabled: true
-          auth_provider: test
-          issuer_domain: example.org
-      YML
-    end
-
-    let(:headers) { {'X-SSL-Issuer' => 'john@example.org'} }
-
-    it 'confirms the account' do
-      expect(resp).to redirect_to '/sessions/new'
-      expect(confirm).to have_been_requested.once
-    end
-  end
 end

@@ -1,4 +1,5 @@
 import ToastUi from '@toast-ui/editor/types/index';
+import I18n from '../../../i18n/i18n';
 
 const hasScrollBar = (el: HTMLElement) => el.scrollHeight > el.clientHeight;
 const toggleScrollbarModifier = (btn: HTMLElement, el: HTMLElement) => {

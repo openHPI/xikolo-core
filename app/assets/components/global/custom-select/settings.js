@@ -1,4 +1,5 @@
 import fetch from 'util/fetch';
+import I18n from 'i18n/i18n';
 
 /**
  * Basic TomSelect settings

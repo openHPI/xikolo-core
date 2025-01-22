@@ -31,25 +31,4 @@ describe 'Account: Confirmations: New', type: :request do
       expect(resp).to render_template 'account/confirmations/invalid_signature'
     end
   end
-
-  context 'with auto login' do
-    before do
-      xi_config <<~YML
-        auto_login:
-          enabled: true
-          auth_provider: test
-          issuer_domain: example.org
-      YML
-    end
-
-    let(:headers) { {'X-SSL-Issuer' => 'john@example.org'} }
-
-    it 'responds with 200 Ok' do
-      expect(resp).to have_http_status :ok
-    end
-
-    it 'renders show template' do
-      expect(resp).to render_template 'account/confirmations/new'
-    end
-  end
 end

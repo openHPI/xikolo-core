@@ -16,7 +16,7 @@ Xikolo::Web::Application.load_tasks
 
 namespace :ci do
   desc 'Setup service for CI'
-  task setup: %w[i18n:js:export db:drop:all db:create:all db:schema:load]
+  task setup: %w[assets:i18n:export db:drop:all db:create:all db:schema:load]
 
   begin
     require 'rspec/core/rake_task'
@@ -37,7 +37,7 @@ namespace :api do
 end
 
 namespace :assets do
-  task precompile: %w[assets:brand:check i18n:js:export]
+  task precompile: %w[assets:brand:check]
 
   namespace :brand do
     task check: :environment do
@@ -49,6 +49,13 @@ namespace :assets do
           Brand directory `brand/#{ENV['BRAND']}' does not exist.
         ERROR
       end
+    end
+  end
+
+  namespace :i18n do
+    task export: :environment do
+      require 'i18n-js'
+      I18nJS.call(config_file: 'config/i18n.yml')
     end
   end
 end

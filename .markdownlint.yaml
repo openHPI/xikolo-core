@@ -4,7 +4,7 @@
 # long as paragraph with in-editor line breaks.
 MD013: false
 
-# MD033/no-inline-html: allow often need tags
+# MD033/no-inline-html: allow often needed tags
 MD033:
   allowed_elements:
     - br
@@ -14,6 +14,7 @@ MD033:
     - dt
     - figcaption
     - figure
+    - span
     - summary
     - lookbook-embed
 

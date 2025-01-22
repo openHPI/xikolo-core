@@ -1,4 +1,5 @@
 import fetch from 'util/fetch';
+import I18n from 'i18n/i18n';
 
 export default function loadClassifiers(element) {
   const { locale, defaultLocale } = I18n;

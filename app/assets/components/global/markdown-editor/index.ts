@@ -24,6 +24,7 @@ import ToastUiType from '@toast-ui/editor/types/index';
 import { Pos } from '@toast-ui/editor/types/toastmark';
 
 import ready from '../../../util/ready';
+import I18n from '../../../i18n/i18n';
 import parseMarkdownToHTML from './html-parser';
 import setResizeBtn from './resize-editor';
 

@@ -2,6 +2,7 @@ import ready from '../util/ready';
 import swal from '../util/swal';
 import fetch from '../util/fetch';
 import handleError from '../util/error';
+import I18n from '../i18n/i18n';
 
 const fireReactivateAlert = (e: Event) => {
   const reactivateButton = e.target as HTMLButtonElement;

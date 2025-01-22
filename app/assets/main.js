@@ -32,6 +32,7 @@ import 'form-request-submit-polyfill';
 import swal from 'util/swal';
 import { showLoading, hideLoading } from './util/loading';
 import sanitize from './util/sanitize';
+import i18n from './i18n/i18n';
 
 window.Swal = swal;
 window.xuiSwal = swal;
@@ -50,6 +51,13 @@ window.hideLoading = hideLoading;
  * @deprecated
  */
 window.sanitize = sanitize;
+
+/**
+ * Legacy utility to add translations
+ * Use explicit import instead
+ * @deprecated
+ */
+window.I18n = i18n;
 
 /*
  * Webpack-native snippets and main components

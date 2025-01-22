@@ -26,11 +26,6 @@ Rails.application.config.tap do |config|
   # As a prerequisite for migrating to webpack, we temporarily import certain node modules into sprockets
   config.assets.paths << Rails.root.join('node_modules/bootstrap-sass/assets/javascripts')
 
-  # Load generated i18n-js files containing the exported locale strings. These
-  # files are created when running `rake i18n:js:export`, which is also part
-  # of `rake assets:precompile`.
-  config.assets.paths << Rails.root.join("tmp/cache/#{Xikolo.brand}")
-
   # Precompile additional assets.
   # application.js, application.css, and all non-JS/CSS in the app/assets
   # folder are already added.
@@ -48,9 +43,6 @@ Rails.application.config.tap do |config|
 
   config.assets.precompile += %w[charts.js]
   config.assets.precompile += %w[peer_assessment/train_samples.js]
-
-  # Localizations
-  config.assets.precompile += %w[xikolo-locale-*.js]
 
   ## m.e.i.n.e.l
   config.assets.precompile += %w[m.e.i.n.e.l.js]

@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class Account::ConfirmationsController < Abstract::FrontendController
-  skip_auto_login!
-
   rescue_from ::ActiveSupport::MessageVerifier::InvalidSignature,
     with: :invalid_signature
 

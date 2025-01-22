@@ -45,9 +45,6 @@ module SessionHelper
     # will create a new session for `current_user` and store it's ID in the
     # session make logout impossible.
     session[:id] = 'anonymous'
-
-    # with auto-login feature: set cooldown of 3 requests after logout, to allow manual re-login
-    cookies.signed[:logout_cooldown] = 3 if Xikolo.config.auto_login['enabled']
   end
 
   def preserve_saml_session

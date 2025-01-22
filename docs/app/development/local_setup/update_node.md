@@ -40,18 +40,18 @@ Update the `nodejs` constraint for the NodeJS version being installed on product
 The `.gitlab-ci.yml` file needs to be updated to the new NodeJS version. The `image` line specifies the Docker image to
 use for the respective job in the CI pipeline.
 
-The line consists of the image name (`node`), the NodeJS version and image flavour (`20-slim`), and a digest  (`sha256: <...>`).
+The line consists of the image name (`node`), the NodeJS version and image flavour (`22-slim`), and a digest  (`sha256: <...>`).
 
 ```yaml
 # .gitlab-ci.yml
-image: node:20-slim@sha256:9ea5a2bb557ff295d04bbd4b3a5990f75d02457779f60026279c2795b84b22b0
+image: node:22-slim@sha256:35531c52ce27b6575d69755c73e65d4468dba93a25644eed56dc12879cae9213
 ```
 
 You may also skip this step and leave updating to the Renovate bot. Based on the schedule defined, Renovate will automatically update the image and image digest, so that you just need to approve and merge the corresponding merge request.
 
 ```yaml
 # .gitlab-ci.yml
-image: node:20-slim
+image: node:22-slim
 ```
 
 ### Documentation

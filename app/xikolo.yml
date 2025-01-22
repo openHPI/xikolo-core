@@ -222,14 +222,6 @@ video:
 ### Auth
 #######################
 
-# Automatic authentication with TLS certificates
-auto_login:
-  enabled: false
-  # Domain of the issuer of SSL client certificates to consider
-  issuer_domain: "example.com"
-  # Name of the corresponding authentication provider
-  auth_provider: "example"
-
 # List of global groups that users can be added to
 global_permission_groups: ["gdpr_admins", "admins", "helpdesk"]
 

@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class Home::PagesController < Abstract::FrontendController
-  skip_auto_login!
-
   def show
     translations = Page.preferred_locales(I18n.locale, Xikolo.config.locales['default'])
       .where(name: params[:id]).load

@@ -31,4 +31,15 @@ describe Course::FeaturedCourse, type: :component do
       expect(page).to have_no_link 'Enroll'
     end
   end
+
+  context 'when the course abstract contains markdown' do
+    let(:course) { create(:course, :active, abstract: '**Abstract text**') }
+
+    it 'renders sanitized content' do
+      render_inline(component)
+
+      expect(page).to have_content 'Abstract text'
+      expect(page).to have_no_content '**Abstract text**'
+    end
+  end
 end

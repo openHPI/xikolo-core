@@ -4,7 +4,6 @@ class Home::GoController < Abstract::FrontendController
   include TracksReferrers
 
   skip_around_action :auth_middleware, except: :survey
-  skip_auto_login!
 
   # safe redirect to external URLs from inside the application
   def redirect

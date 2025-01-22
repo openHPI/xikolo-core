@@ -1,4 +1,5 @@
 import ready from 'util/ready';
+import I18n from 'i18n/i18n';
 
 const addTimestampListener = (timestamp, player, seconds) => {
   timestamp.addEventListener('click', () => {

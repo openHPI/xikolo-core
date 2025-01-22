@@ -1,4 +1,7 @@
 import { ExerciseType } from './form-types';
+import I18n from '../../i18n/i18n';
+
+const brand = document.documentElement.getAttribute('data-brand') || 'xikolo';
 
 const switchChangeHandler = (target: HTMLInputElement, selector: string) => {
   const element = document.querySelector<HTMLInputElement>(selector);
@@ -10,7 +13,7 @@ const markdownHasDefaultPlaceholders = (markdown: HTMLElement) =>
   markdown.innerHTML === '<div>[ Enter quiz instructions here ]</div>' ||
   markdown.innerHTML ===
     `<div>${I18n.t('items.quiz.quiz_is_survey', {
-      brand: I18n.brand,
+      brand,
     })}</div>`;
 
 export const handleQuizExerciseTypes = (quizType: ExerciseType) => {
@@ -53,7 +56,7 @@ export const handleQuizExerciseTypes = (quizType: ExerciseType) => {
       quizInstructionsContainer.hidden = false;
       if (markdownHasDefaultPlaceholders(quizInstructions)) {
         quizInstructions.innerHTML = I18n.t('items.quiz.quiz_is_survey', {
-          brand: I18n.brand,
+          brand,
         });
       }
       break;

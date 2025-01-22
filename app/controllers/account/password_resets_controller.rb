@@ -4,8 +4,6 @@ class Account::PasswordResetsController < Abstract::FrontendController
   respond_to :html
 
   require_feature 'account.login'
-  # Allow password reset (also) if auto-login is enabled.
-  skip_auto_login!
 
   def show
     reset = account_api.rel(:password_reset).get(id: params[:id]).value!

@@ -5,6 +5,7 @@ BRANDS := xikolo $(shell find brand -mindepth 1 -maxdepth 1 -type d | xargs -n1 
 
 SPROCKET_TARGETS=$(BRANDS:%=sprockets/%)
 WEBPACK_TARGETS=$(BRANDS:%=webpack/%)
+I18N_TARGETS=$(BRANDS:%=i18n/%)
 
 # The default assets target builds all assets for a single target. This
 # can be invoked by a developer to build the webpack assets and the
@@ -14,8 +15,11 @@ assets: webpack sprockets
 install:
 	corepack yarn install $(YARNFLAGS)
 
-webpack: install
-	corepack yarn run build --mode $(RAILS_ENV)
+i18n:
+	bundle exec rake assets:i18n:export
+
+webpack: install i18n
+	corepack yarn run build --mode $(RAILS_ENV) --stats-error-details
 
 sprockets: install
 	RAILS_ENV=$(RAILS_ENV) RAILS_GROUPS=assets bundle exec rake assets:precompile
@@ -26,11 +30,15 @@ sprockets: install
 # individually.
 all: all-webpack all-sprockets
 
+all-i18n: $(I18N_TARGETS)
 all-webpack: $(WEBPACK_TARGETS)
 all-sprockets: $(SPROCKET_TARGETS)
+
+$(I18N_TARGETS):
+	BRAND=$(@F) bundle exec rake assets:i18n:export
 
 $(SPROCKET_TARGETS): install
 	RAILS_ENV=$(RAILS_ENV) RAILS_GROUPS=assets BRAND=$(@F) bundle exec rake assets:precompile
 
-$(WEBPACK_TARGETS): install
+$(WEBPACK_TARGETS): install all-i18n
 	corepack yarn run build --mode $(RAILS_ENV) --env BRAND=$(@F) --stats-error-details

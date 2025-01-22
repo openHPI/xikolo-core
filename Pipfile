@@ -6,6 +6,6 @@ name = "pypi"
 [packages]
 mkdocs-awesome-pages-plugin = "==2.10.1"
 mkdocs-git-revision-date-plugin = "==0.3.2"
-mkdocs-material = "==9.5.49"
+mkdocs-material = "==9.5.50"
 
 [dev-packages]

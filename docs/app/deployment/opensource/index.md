@@ -4,7 +4,7 @@ This documentation outlines the fundamental requirements and steps to operate th
 The Xikolo platform is modular and based on the following open-source repositories:
 
 - [xikolo-core](https://github.com/openHPI/xikolo-core): core application with (micro)service-based domain applications.
-- [xikolo-lanalytics](https://github.com/openHPI/xikolo-learnanalytics): reporting and learning analytics capabilities.
+- [xikolo-learnanalytics](https://github.com/openHPI/xikolo-learnanalytics): reporting and learning analytics capabilities.
 
 The following information provides an overview to help evaluate whether the platform is suitable for your operational needs.
 
@@ -144,4 +144,4 @@ To successfully operate the platform, the following points should be considered:
 Detailed installation and configuration instructions can be also found in the `README` files of the repositories:
 
 - [xikolo-core](https://github.com/openHPI/xikolo-core)
-- [xikolo-lanalytics](https://github.com/openHPI/xikolo-learnanalytics)
+- [xikolo-learnanalytics](https://github.com/openHPI/xikolo-learnanalytics)

@@ -6,12 +6,11 @@ require 'omniauth-saml'
 module OmniAuth
   module Strategies
     class XikoloSAML < OmniAuth::Strategies::SAML
-      # Our auto-login mechanism passes a desired redirect path (signed with a
-      # secret to prevent tampering) to the request phase.
-      # If we forward this via SAML's standard "RelayState" parameter, we will
-      # get it back in the callback phase.
+      # During the request phase, we store the session ID in the `request.params`.
+      # It is passed through via SAML's standard `RelayState` parameter, so it will be preserved and can be used in the
+      # callback phase.
       option :idp_sso_service_url_runtime_params, {
-        redirect_path: 'RelayState',
+        session_id: 'RelayState',
       }
 
       # The `RelayState` is used by the `omniauth-saml` gem to specify a redirection target after a successful logout.
@@ -70,10 +69,6 @@ module OmniAuth
         # will create a new session for `current_user` and store it's ID in the
         # session make logout impossible.
         session[:id] = 'anonymous'
-
-        # With auto-login feature: Set the cooldown of 3 requests after logout,
-        # to allow manual re-login.
-        cookies.signed[:logout_cooldown] = 3 if Xikolo.config.auto_login['enabled']
       }
 
       def request_phase
@@ -99,6 +94,10 @@ module OmniAuth
         # options are also validated and thus ignored if they do not apply).
         if session['id'].present? && session['id'] != 'anonymous' && on_path?(request_path)
           options[:force_authn] = true
+
+          # Store the session ID in the SAML RelayState if a user is logged in, so that it can be accessed for
+          # requesting the current user in the callback phase and to add the new identity to the existing account.
+          request.params['session_id'] = OmniAuth::NonceStore.add session['id']
         end
 
         # NOTE: During the activation phase of SLO support, we temporarily need to patch the `omniauth-saml` gem.
@@ -122,16 +121,6 @@ module OmniAuth
       def slo_path
         # This path is defined and handled by the `omniauth-saml` gem.
         "#{full_host}#{script_name}#{request_path}/slo"
-      end
-
-      class << self
-        def sign(url)
-          Rails.application.message_verifier('saml').generate(url)
-        end
-
-        def try_verify(url)
-          Rails.application.message_verifier('saml').verified(url)
-        end
       end
     end
   end

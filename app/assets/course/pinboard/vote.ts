@@ -3,6 +3,7 @@ import fetch from '../../util/fetch';
 import triggerTrackEvent from '../../util/track-event';
 import handleError from '../../util/error';
 import { appendVoteFormData } from './util';
+import I18n from '../../i18n/i18n';
 
 type VoteResponseData = {
   response: 'success' | 'server error' | 'already voted';

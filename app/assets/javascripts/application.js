@@ -17,7 +17,6 @@
 
 //= require jquery.cookie
 //= require helpdesk
-//= require i18n
 
 //= require dropzone
 

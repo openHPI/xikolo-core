@@ -1,3 +1,4 @@
+import I18n from '../../i18n/i18n';
 import handleError from '../../util/error';
 import fetch from '../../util/fetch';
 import ready from '../../util/ready';

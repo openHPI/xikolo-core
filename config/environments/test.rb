@@ -55,11 +55,6 @@ Rails.application.configure do
   # Tell Active Support which deprecation messages to disallow.
   config.active_support.disallowed_deprecation_warnings = []
 
-  if Rails.root.join('config', 'i18n-js.yml').exist?
-    # Generate frontend translations on-the-fly.
-    config.middleware.use I18n::JS::Middleware
-  end
-
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 

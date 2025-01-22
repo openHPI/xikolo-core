@@ -1,6 +1,11 @@
-import $ from 'jquery';
+/* eslint-disable no-undef */
+
+// We cannot import $ because the popover plugin
+// expects it to be globally available.
+import 'jquery';
 import Cookies from 'js-cookie';
 import ready from 'util/ready';
+import I18n from 'i18n/i18n';
 
 ready(() => {
   const popovers = document.querySelectorAll(

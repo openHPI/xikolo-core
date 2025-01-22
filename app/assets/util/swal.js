@@ -1,5 +1,6 @@
 import Swal from 'sweetalert2';
 import ready from './ready';
+import I18n from '../i18n/i18n';
 
 const xuiSwal = Swal.mixin({
   customClass: {

@@ -1,5 +1,5 @@
 doctype 5
-html lang="#{I18n.locale}"
+html lang="#{I18n.locale}" data-default-locale="#{I18n.default_locale}" data-brand="#{Xikolo.config.brand}"
   head prefix=('og: http://ogp.me/ns#' if meta_tags[:og].present?)
     /
     / Start with meta tags (includes title tag)
@@ -85,15 +85,6 @@ html lang="#{I18n.locale}"
       = yield :head_assets
 
     = render Global::CustomHeadSnippets.new
-
-    /
-    / Deprecated: Inline JavaScript adjustments
-    /
-
-    javascript:
-      I18n.defaultLocale = "#{I18n.default_locale}";
-      I18n.locale = "#{I18n.locale}";
-      I18n.brand = "#{Xikolo.config.brand}";
 
   body[class="#{Xikolo.config.brand} #{params[:controller].tr('/_', '-')}-controller #{params[:action]}-action #{'in_app' if @in_app} #{'is-masqueraded' if current_user.instrumented?}"
     data-offset="150"

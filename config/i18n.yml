@@ -25,7 +25,9 @@
 #   - file: "app/assets/javascripts/i18n/translations.js"
 #     only: "*"
 #
-export_i18n_js: false
 translations:
-  - file: "tmp/cache/<%= Xikolo.config.brand %>/i18n/translations-%{locale}.js"
-    only: "*"
+  - file: "tmp/cache/<%= Xikolo.config.brand %>/i18n/:locale.json"
+    patterns:
+      - "*"
+embed_fallback_translations:
+  enabled: true

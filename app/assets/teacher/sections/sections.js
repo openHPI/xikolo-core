@@ -1,5 +1,6 @@
 import ready from 'util/ready';
 import swal from 'util/swal';
+import I18n from 'i18n/i18n';
 import setScrollMarkers from '../../util/scroll-marker';
 import toggleUuids from '../toggle-uuids';
 

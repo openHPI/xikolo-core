@@ -13,5 +13,9 @@ module Course
         css_classes: 'featured-course__image'
       )
     end
+
+    def course_abstract
+      Rails::HTML5::SafeListSanitizer.new.sanitize(helpers.render_markdown(@course.abstract), tags: %w[p br])
+    end
   end
 end

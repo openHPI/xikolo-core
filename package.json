@@ -20,6 +20,7 @@
     "flatpickr": "^4.6.13",
     "form-request-submit-polyfill": "^2.0.0",
     "html5sortable": "^0.14.0",
+    "i18n-js": "^4.5.0",
     "jquery": "^2.2.4",
     "js-cookie": "^2.2.1",
     "luxon": "^3.2.1",

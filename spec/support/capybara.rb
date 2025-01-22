@@ -6,14 +6,9 @@ def headless?
   %w[0 n no off false].exclude?(ENV.fetch('HEADLESS', '1').downcase)
 end
 
-BROWSER_DEFAULT_DIMENSIONS = {
-  width: 1024,
-  height: 768,
-}.freeze
-
 Capybara.register_driver :firefox do |app|
   options = Selenium::WebDriver::Firefox::Options.new
-  options.add_argument("--window-size=#{BROWSER_DEFAULT_DIMENSIONS[:width]},#{BROWSER_DEFAULT_DIMENSIONS[:height]}")
+  options.add_argument('--window-size=1280,720')
   options.add_argument('-headless') if headless?
 
   options.add_preference('intl.accept_languages', 'en')
@@ -23,7 +18,7 @@ end
 
 Capybara.register_driver :chrome do |app|
   options = Selenium::WebDriver::Chrome::Options.new
-  options.add_argument("--window-size=#{BROWSER_DEFAULT_DIMENSIONS[:width]},#{BROWSER_DEFAULT_DIMENSIONS[:height]}")
+  options.add_argument('--window-size=1280,720')
   options.add_argument('--headless=new') if headless?
   options.add_argument('--incognito')
   options.add_argument('--disable-site-isolation-trials')
@@ -42,7 +37,10 @@ case ENV.fetch('BROWSER', 'chrome')
 end
 
 Capybara.configure do |config|
-  # Some of our form fields are visually hidden and replaced by "prettier" alternatives.
+  # Some of our form fields are visually hidden and replaced by
+  # "prettier" alternatives. When set to true, capybara will attempt to
+  # click the associated <label> element if the checkbox/radio button
+  # are non-visible.
   config.automatic_label_click = true
 end
 
@@ -57,9 +55,6 @@ RSpec.configure do |config|
 
   config.before(type: :feature) do
     # Reset browser size to desktop view
-    Capybara.page.driver.browser.manage.window.resize_to(
-      BROWSER_DEFAULT_DIMENSIONS[:width].to_s,
-      BROWSER_DEFAULT_DIMENSIONS[:height].to_s
-    )
+    Capybara.page.driver.browser.manage.window.resize_to(1280, 720)
   end
 end

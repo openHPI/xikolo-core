@@ -11,7 +11,6 @@ module Abstract
   class FrontendController < ::ApplicationController
     helper LanalyticsHelper
 
-    include AutoLogin
     include LoadsCourseChannels
 
     before_action :check_primary_email

@@ -2,9 +2,9 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Authentication: Login with SAML', type: :request do
+RSpec.describe 'Authentication: Authenticate with SAML', type: :request do
   describe 'request phase' do
-    subject(:saml_login) { get '/auth/test_saml', params: }
+    subject(:saml_login) { get '/auth/test_saml' }
 
     before do
       # To check the actual redirect to the SAML IdP, we need to disable the
@@ -12,36 +12,57 @@ RSpec.describe 'Authentication: Login with SAML', type: :request do
       OmniAuth.config.test_mode = false
     end
 
-    context 'without redirect URL' do
-      let(:params) { {} }
-
-      it 'passes on to SAML without RelayState' do
-        saml_login
-
-        expect(response).to be_redirect
-        expect(response.location).to include 'example.com/saml'
-        expect(response.location).not_to include 'RelayState'
-      end
+    it 'passes on to SAML' do
+      saml_login
+      expect(response).to be_redirect
+      expect(response.location).to include 'example.com/saml'
     end
 
-    context 'with target redirect URL in query params' do
-      let(:params) { {redirect_path: '/target'} }
+    it 'does not pass any internal state on' do
+      saml_login
+      expect(response.location).not_to include 'RelayState'
+    end
 
-      it 'passes on the redirect URL to SAML via RelayState' do
+    context 'when the user is logged in' do
+      let(:nonce) { SecureRandom.urlsafe_base64 }
+
+      before do
+        set_session({id: stub_session_id})
+        allow(OmniAuth::NonceStore).to receive(:add).with(stub_session_id).and_return(nonce)
+      end
+
+      it 'passes on to SAML' do
         saml_login
-
         expect(response).to be_redirect
         expect(response.location).to include 'example.com/saml'
-        expect(response.location).to include '&RelayState=%2Ftarget'
+      end
+
+      it 'passes the nonce to SAML' do
+        saml_login
+        expect(response.location).to include "RelayState=#{nonce}"
       end
     end
   end
 
   describe 'callback phase' do
-    subject(:saml_callback) { get '/auth/test_saml/callback', params: }
+    subject(:saml_callback) { get '/auth/test_saml/callback' }
 
-    let(:unsigned_internal_path) { '/target' }
-    let(:signed_path) { OmniAuth::Strategies::XikoloSAML.sign(unsigned_internal_path) }
+    let(:create_session_request) do
+      Stub.request(:account, :post, '/sessions').to_return create_session_response
+    end
+    let(:authorization_id) { SecureRandom.uuid }
+    let(:authorization_response) do
+      {
+        body: {
+          id: authorization_id,
+          user_id: nil,
+          provider: 'test_saml',
+          uid: '1',
+        }.to_json,
+        status: 201,
+        headers: {'Content-Type' => 'application/json'},
+      }
+    end
 
     before do
       OmniAuth.config.add_mock(
@@ -54,58 +75,86 @@ RSpec.describe 'Authentication: Login with SAML', type: :request do
       )
 
       Stub.request(:account, :post, '/authorizations')
-      Stub.request(:account, :post, '/sessions')
-        .to_return Stub.json({user_id: generate(:user_id)})
+        .to_return authorization_response
+      create_session_request
     end
 
-    context 'without redirect URL' do
-      let(:params) { {} }
+    context 'with an anonymous user' do
+      let(:user_id) { nil }
 
-      it 'redirects to the dashboard (default target)' do
-        saml_callback
+      context 'when autocreate is disabled' do
+        # When autocreate is disabled, the account service answers with an error: user_creation_required
+        let(:create_session_response) do
+          Stub.json({errors: {authorization: 'user_creation_required'}}, status: 422)
+        end
 
-        expect(response).to redirect_to 'http://www.example.com/dashboard'
+        it 'creates a new session' do
+          saml_callback
+          expect(create_session_request).to have_been_requested
+        end
+
+        # In the end, the auth_connect view is rendered to ask the user to either create a new account or connect the
+        # authorization to an existing one
+        it 'redirects to the login page' do
+          saml_callback
+          expect(response).to redirect_to login_url(authorization: authorization_id)
+        end
+      end
+
+      context 'when autocreate is enabled' do
+        let(:create_session_response) { Stub.json(build(:'account:session', user_id: SecureRandom.uuid)) }
+
+        it 'creates a new session' do
+          saml_callback
+          expect(create_session_request).to have_been_requested
+        end
+
+        it 'redirects to the dashboard page of the new user' do
+          saml_callback
+          expect(response).to redirect_to dashboard_url
+        end
       end
     end
 
-    context 'with signed redirect URL in RelayState parameter' do
-      let(:params) { {RelayState: signed_path} }
+    context 'with a formerly logged-in user' do
+      subject(:saml_callback) { get '/auth/test_saml/callback', params: {RelayState: nonce} }
 
-      it 'redirects to the URL identified via RelayState' do
-        saml_callback
+      let(:user_id) { SecureRandom.uuid }
+      let(:nonce) { SecureRandom.urlsafe_base64 }
 
-        expect(response).to redirect_to "http://www.example.com#{unsigned_internal_path}"
+      let(:create_session_response) { Stub.json({errors: {authorization: 'user_creation_required'}}, status: 422) }
+      let(:show_session_request) do
+        Stub.request(:account, :get, "/sessions/#{stub_session_id}",
+          query: {embed: 'user,permissions,features', context: 'root'})
+          .to_return Stub.json(build(:'account:session', user_id:,
+            user: build(:'account:user', id: user_id, anonymous: false)))
       end
-    end
-
-    context 'with unsigned relative internal URL in RelayState parameter' do
-      let(:params) { {RelayState: unsigned_internal_path} }
-
-      it 'redirects to that internal URL' do
-        saml_callback
-
-        expect(response).to redirect_to "http://www.example.com#{unsigned_internal_path}"
+      let(:update_authorization_request) do
+        Stub.request(
+          :account, :put, "/authorizations/#{authorization_id}",
+          body: hash_including(user_id:)
+        ).to_return Stub.json({id: authorization_id})
       end
-    end
 
-    context 'with unsigned absolute internal URL in RelayState parameter' do
-      let(:params) { {RelayState: 'http://www.example.com/pages/internal'} }
-
-      it 'redirects to that internal URL' do
-        saml_callback
-
-        expect(response).to redirect_to 'http://www.example.com/pages/internal'
+      before do
+        allow(OmniAuth::NonceStore).to receive(:pop).with(nonce).and_return(stub_session_id)
+        show_session_request
+        update_authorization_request
       end
-    end
 
-    context 'with unsigned absolute external URL (or any unknown content, really) in RelayState parameter' do
-      let(:params) { {RelayState: unsigned_external_uri} }
-      let(:unsigned_external_uri) { 'https://www.client.com/target' }
-
-      it 'redirects to the dashboard (default target)' do
+      it 'restores the session' do
         saml_callback
+        expect(show_session_request).to have_been_requested
+      end
 
-        expect(response).to redirect_to 'http://www.example.com/dashboard'
+      it 'adds the authorization to the user' do
+        saml_callback
+        expect(update_authorization_request).to have_been_requested
+      end
+
+      it 'redirects to the profile page' do
+        saml_callback
+        expect(response).to redirect_to dashboard_profile_url
       end
     end
   end

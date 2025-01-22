@@ -148,6 +148,15 @@ class ApplicationController < ActionController::Base
   def auth_middleware(&app)
     request.env['xikolo_context'] = auth_context
 
+    # Check if an existing user is already signed in and trying to add a new identity to their account;
+    # the session ID is passed through the RelayState then (see the `XikoloSAML` strategy).
+    #
+    # If the RelayState contains a session ID, we pass it on, so that the middleware can find the current user.
+    # This is necessary to avoid creating a new user (when 'autocreate' is enabled) or redirect to `auth_connect`.
+    if request.params[:RelayState]
+      request.env['rack.session']['id'] = OmniAuth::NonceStore.pop(request.params.delete(:RelayState))
+    end
+
     Xikolo::Common::Auth::Middleware.new(app).call(request.env)
   end
 

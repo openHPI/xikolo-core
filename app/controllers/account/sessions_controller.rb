@@ -7,8 +7,6 @@ class Account::SessionsController < Abstract::FrontendController
   skip_before_action :verify_authenticity_token, only: [:authorization_callback]
   skip_after_action :remember_user
 
-  skip_auto_login!
-
   RACK_ATTACK_MAXRETRY = 15
   RACK_ATTACK_FINDTIME = 1.minute
   RACK_ATTACK_BANTIME  = 1.hour
@@ -118,23 +116,7 @@ class Account::SessionsController < Abstract::FrontendController
   end
 
   def target_url(fallback: dashboard_url)
-    relay_state_url || redirect_url || cookie_url || fallback
-  end
-
-  ##
-  # SAML providers relay the redirect URL in the "RelayState" query parameter.
-  #
-  # If that contains a properly signed redirect URL, we know we generated it.
-  # In addition, unsigned internal URLs (absolute or relative) are permitted.
-  def relay_state_url
-    return unless request.env['omniauth.strategy'].is_a?(OmniAuth::Strategies::XikoloSAML)
-    return unless params[:RelayState]
-
-    signed = OmniAuth::Strategies::XikoloSAML.try_verify params[:RelayState]
-    return URI.join(request.base_url, signed).to_s if signed
-
-    unsigned = RedirectURL.new(params[:RelayState])
-    unsigned.to_s if unsigned.internal?(request.base_url)
+    redirect_url || cookie_url || fallback
   end
 
   def cookie_url

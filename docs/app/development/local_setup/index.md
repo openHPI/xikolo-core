@@ -84,7 +84,7 @@ gem install bundler -v '~> 2.0'
         Follow install documentation [from `nvm` on GitHub](https://github.com/nvm-sh/nvm#installing-and-updating)
 
         ```console
-        nvm install lts/iron
+        nvm install
         ```
 
 === "Mac"
@@ -100,7 +100,7 @@ gem install bundler -v '~> 2.0'
     Follow install documentation [from nvm on GitHub](https://github.com/nvm-sh/nvm#installing-and-updating)
 
     ```console
-    nvm install lts/iron
+    nvm install
     ```
 
 **Yarn**: Another dependency manager for NodeJS
@@ -483,6 +483,34 @@ A pre-commit hook should be automatically installed through `husky` when running
 
 See `lint-staged` rules in `package.json` for applied commands.
 
+### Git commit message template
+
+You can add a git commit message template to help you always have the right format.
+
+Create a `commit-template.txt` file wherever you like.
+
+Add this to the file:
+
+```text
+# Use this format for the message header:
+# <type>[optional scope]: <description>
+# optional scopes are bound to our services e.g.
+# course, account, lanalytics and so on
+#| <----- Type Maximum 50 Characters here -----> |
+
+# The commit message body should contain the what and why, starting with a blank line
+# For more information, see our guidelines: https://xikolo.pages.xikolo.de/web/development/workflows/review/#commits
+#| <---- Try To Limit Each Line to a Maximum Of 70 Characters -----> |
+
+
+```
+
+Run the following command to set it up.
+
+```console
+git config --global commit.template <filepath/commit-template.txt>
+```
+
 ### Set up your local dev tooling
 
 There are multiple ways to work with your local copy of Xikolo. These tutorials provide hints for a few of them:
@@ -556,6 +584,14 @@ OVERMIND_ENV=.env.docker overmind start
 ```
 
 For many IDEs providing run configurations, you can set the environment variable in the IDE settings or the run configurations, e.g. in RubyMine.
+
+## Locales
+
+The project uses `i18n` for internationalization (i.e., localization of content), making these locales accessible to the frontend application using the `i18n-js` gem.
+This gem exports the locales into JSON format and stores them in `tmp/cache/xikolo/i18n` for each brand (configured in `./config/i18n`).
+These JSON objects are imported in the Webpack code, then, and consumed by the `i18n-js` npm package.
+
+To ensure that the locales are available when Webpack is built and to avoid potential build failures, execute the gem's CLI command (`i18n export`) before executing `yarn run build`. Alternatively, you can simply use `make assets`, which automates all the required steps.
 
 ## Seeds
 

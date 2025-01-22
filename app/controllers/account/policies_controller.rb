@@ -3,7 +3,6 @@
 module Account
   class PoliciesController < Abstract::FrontendController
     before_action :ensure_logged_in
-    skip_auto_login!
 
     def show
       @policy = PolicyPresenter.new(policy)

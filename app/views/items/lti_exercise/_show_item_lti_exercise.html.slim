@@ -33,4 +33,4 @@
           .bar-content
             em.mr5 = "#{t(:'quiz_submission.total')}:"
             strong.primary-color = t(:'quiz_submission.total_points', max_points: item.max_points, total_points: item.score)
-            = render Global::Meter.new(value: item.percentage)
+            = render Global::Meter.new(value: item.percentage, label: "#{item.percentage}%")

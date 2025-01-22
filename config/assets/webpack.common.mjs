@@ -63,8 +63,16 @@ export default async (settings) => {
         'browser',
         'main',
       ],
-      modules: [brandPath, defaultPath, join(root, 'node_modules')],
-      extensions: ['.ts', '.js', '.mjs', '.sass', '.scss', '.css'],
+      modules: [
+        brandPath,
+        defaultPath,
+        join(root, 'node_modules'),
+        // Load generated i18n-js files containing the exported locale strings. These
+        // files are created when running `rake assets:i18n:export`, which is also part
+        // of `make assets`.
+        join(root, 'tmp', 'cache', brand),
+      ],
+      extensions: ['.ts', '.js', '.mjs', '.sass', '.scss', '.css', '.json'],
     },
 
     module: {
