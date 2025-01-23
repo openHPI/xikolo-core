@@ -75,6 +75,7 @@ describe Course::LearnerDashboard::SectionProgress::Main, type: :component do
     expect(page).to have_content 'Section material'
     expect(page).to have_css '[aria-label="Week 1: Quiz 1"]'
     expect(page).to have_css '[aria-label="Week 1: Quiz 2"]'
+    expect(page).to have_content 'Show explanation'
   end
 
   it 'shows information about the section statistics' do

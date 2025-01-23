@@ -2,7 +2,7 @@
  * Navigation::Tabs
  */
 
-import isMobile from '../../util/media-query';
+import { isScreenSizeSmall } from '../../util/media-query';
 import ready from '../../util/ready';
 
 const setExpanded = (
@@ -34,7 +34,7 @@ const initToggleButton = (button: Element, tabNavigation: Element) => {
   });
 
   // Hide navigation per default on small devices
-  if (isMobile()) {
+  if (isScreenSizeSmall()) {
     setExpanded(false, content, button, showText);
   }
 };

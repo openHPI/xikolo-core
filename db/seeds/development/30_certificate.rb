@@ -26,15 +26,15 @@ Certificate::Template.new(
   id: roa_template_id,
   dynamic_content: '<?xml version="1.0" encoding="utf-8"?>
     <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Basic//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-basic.dtd">
-    <svg version="1.1" baseProfile="basic" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
       x="0px" y="0px" width="842" height="595" viewBox="0 0 842 595" xml:space="preserve">
-      <g id="Dynamic data">
-      <text fill="#C82B4A" stroke="#C82B4A" stroke-width="0" x="128.90" y="153.04"  font-size="21.6" font-family="NeoSansMedium" text-anchor="left" xml:space="preserve">##NAME##</text>
-      <text fill="#3B3939" stroke="#3B3939" stroke-width="0" x="128.90" y="174.26"  font-size="14.4" font-family="NeoSans" text-anchor="left" xml:space="preserve">##EMAIL##</text>
-      <text fill="#3B3939" stroke="#3B3939" stroke-width="0" x="128.90" y="215.138"  font-size="14.4" font-family="NeoSans" text-anchor="left" xml:space="preserve">##BIRTHDAY##</text>
-      <text fill="#3B3939" stroke="#3B3939" stroke-width="0" x="131.9" y="432.37"  font-size="8" font-family="NeoSans" text-anchor="left" xml:space="preserve">##GRADE##</text>
-      <text fill="#3B3939" stroke="#3B3939" stroke-width="0" x="131.9" y="453.37"  font-size="8" font-family="NeoSans" text-anchor="left" xml:space="preserve">##TOP##</text>
-      <text fill="#3B3939" stroke="#3B3939" stroke-width="0" x="131.9" y="470"  font-size="8" font-family="NeoSans" text-anchor="left" xml:space="preserve">##VERIFY##</text>
+      <g id="Dynamic_data">
+      <text fill="#C82B4A" stroke="#C82B4A" stroke-width="0" x="128.90" y="153.04"  font-size="21.6" font-family="OpenSansRegular" text-anchor="start" xml:space="preserve">##NAME##</text>
+      <text fill="#3B3939" stroke="#3B3939" stroke-width="0" x="128.90" y="174.26"  font-size="14.4" font-family="OpenSansRegular" text-anchor="start" xml:space="preserve">##EMAIL##</text>
+      <text fill="#3B3939" stroke="#3B3939" stroke-width="0" x="128.90" y="215.138"  font-size="14.4" font-family="OpenSansRegular" text-anchor="start" xml:space="preserve">##BIRTHDAY##</text>
+      <text fill="#3B3939" stroke="#3B3939" stroke-width="0" x="131.9" y="432.37"  font-size="8" font-family="OpenSansRegular" text-anchor="start" xml:space="preserve">##GRADE##</text>
+      <text fill="#3B3939" stroke="#3B3939" stroke-width="0" x="131.9" y="453.37"  font-size="8" font-family="OpenSansRegular" text-anchor="start" xml:space="preserve">##TOP##</text>
+      <text fill="#3B3939" stroke="#3B3939" stroke-width="0" x="131.9" y="470"  font-size="8" font-family="OpenSansRegular" text-anchor="start" xml:space="preserve">##VERIFY##</text>
       </g>
     </svg>',
   certificate_type: Certificate::Record::ROA,

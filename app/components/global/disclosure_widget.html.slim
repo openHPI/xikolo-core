@@ -1,11 +1,11 @@
-details.disclosure-widget
+details.disclosure-widget class=css_classes
   - if @summary.present?
     summary
-      .disclosure-widget__summary--closed
-        = render Global::FaIcon.new('chevron-right', style: :solid, css_classes: 'mr10')
+      .disclosure-widget__summary.disclosure-widget__summary--closed
+        = render Global::FaIcon.new(icons[:closed], style: icons[:style], css_classes: icons[:closed_classes])
         = @summary
-      .disclosure-widget__summary--opened
-        = render Global::FaIcon.new('chevron-down', style: :solid, css_classes: 'mr5')
+      .disclosure-widget__summary.disclosure-widget__summary--opened
+        = render Global::FaIcon.new(icons[:opened], style: icons[:style], css_classes: icons[:opened_classes])
         = expanded_summary
 
   div lang=@content_lang

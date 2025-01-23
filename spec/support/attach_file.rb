@@ -9,7 +9,8 @@ module AttachFile
     results = all(:file_field, locator, **kwargs, visible: :all)
 
     # If any possible connected "file input" is a S3-dropzone hidden
-    # input we must make it visible before being able to interact with it.
+    # input we must make it visible before being able to interact with
+    # it.
     if results.any? {|e| e['class'] == 'dz-hidden-input' }
       kwargs[:make_visible] = {
         'visibility' => 'visible',
@@ -28,5 +29,5 @@ module AttachFile
 end
 
 RSpec.configure do |config|
-  config.include AttachFile, type: :feature
+  config.include AttachFile, type: :system
 end

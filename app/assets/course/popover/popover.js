@@ -6,6 +6,7 @@ import 'jquery';
 import Cookies from 'js-cookie';
 import ready from 'util/ready';
 import I18n from 'i18n/i18n';
+import { isScreenSizeSM } from 'util/media-query';
 
 ready(() => {
   const popovers = document.querySelectorAll(
@@ -26,7 +27,7 @@ ready(() => {
 
     popoverTarget
       .popover({
-        placement: 'right',
+        placement: isScreenSizeSM() ? 'top' : 'right',
         title: I18n.t('components.popover.title'),
         content: popover.dataset.content,
         trigger: 'manual',

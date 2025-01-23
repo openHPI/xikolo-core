@@ -2,6 +2,16 @@
   padding: 10px;
   background-color: $gray-50;
 
+  &--light {
+    padding: 10px 10px 0 0;
+    background-color: transparent;
+
+    .disclosure-widget__summary {
+      color: $gray-500;
+      font-size: $font-size-xs;
+    }
+  }
+
   // Remove the disclosure triangle for WebKit browsers
   summary::-webkit-details-marker {
     display: none;
@@ -16,16 +26,18 @@
       display: none;
     }
     .disclosure-widget__summary--opened {
-      display: block;
+      display: flex;
     }
   }
 
   &__summary {
+    display: flex;
+    align-items: center;
     cursor: pointer;
-  }
 
-  &__summary > * {
-    display: inline;
+    &--opened {
+      display: none;
+    }
   }
 
   & > div {

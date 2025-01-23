@@ -4,11 +4,11 @@ The Xikolo Platform offers a variety of powerful features to enhance the learnin
 
 It includes tools for general course and platform management, more sophisticated course setups, and integrations with third-party solutions. Additionally, it allows user profile customization, fine-grained role-based permissions, and more.
 
-- :material-key: **Permission management**: Manage roles and access control.
-- :material-wrench: **Course management**: Customize and organize course structures.
-- :material-account: **User profiles**: Configure user settings (e.g., consents) and custom profile fields.
-- :material-star: **Advanced course features**: Understand deadlines, quiz regrading, and the open mode.
-- :material-widgets: **Integrations**: Support for proctoring and course reactivation.
+- :material-key-outline: **Permission management**: Manage roles and access control.
+- :material-wrench-outline: **Course management**: Customize and organize course structures.
+- :material-account-outline: **User profiles**: Configure user settings (e.g., consents) and custom profile fields.
+- :material-star-outline: **Advanced course features**: Understand deadlines, quiz regrading, and the open mode.
+- :material-widgets-outline: **Integrations**: Support for proctoring and course reactivation.
 
 !!! note
     This section describes the platform features to provide a better understanding of its capabilities.

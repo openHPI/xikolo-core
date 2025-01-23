@@ -60,6 +60,16 @@ module Course
         def items_available
           @section_progress.dig('visits', 'total').presence || 0
         end
+
+        def legend_items
+          [
+            {class_modifier: 'completed', text: t(:'course.progress.legend.completed')},
+            {class_modifier: 'warning', text: t(:'course.progress.legend.warning')},
+            {class_modifier: 'critical', text: t(:'course.progress.legend.critical')},
+            {class_modifier: '', text: t(:'course.progress.legend.not_visited')},
+            {class_modifier: 'optional', text: t(:'course.progress.legend.optional')},
+          ]
+        end
       end
     end
   end

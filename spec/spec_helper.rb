@@ -91,9 +91,8 @@ RSpec.configure do |config|
   end
 
   config.before(:suite) do
-    # Clean up database and MSGR once, before any test runs so that
-    # nothing leaks from previous runs or debugging sessions.
-    DatabaseCleaner.clean_with :truncation
+    # Clean up Msgr once, before any test runs so that nothing leaks
+    # from previous runs or debugging sessions.
     Msgr.client.stop delete: true
 
     # Disable HTTP requests, but allow 127.0.0.1 connection for selenium/capybara.
@@ -118,18 +117,6 @@ RSpec.configure do |config|
     ActiveJob::Base.queue_adapter = :test
 
     example.run
-  end
-
-  config.around do |example|
-    # Feature tests with Capybara opening on a real browser don't work
-    # with the `:transaction` strategy, as changes are not visible to
-    # other database connections (such as the one from the test server).
-    if example.metadata[:gen] == 2 || example.metadata[:transaction] == false
-      DatabaseCleaner.strategy = :deletion
-    else
-      DatabaseCleaner.strategy = :transaction
-    end
-    DatabaseCleaner.cleaning(&example)
   end
 
   config.after do

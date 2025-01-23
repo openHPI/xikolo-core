@@ -1470,6 +1470,14 @@ es:
           item: Esta unidad de aprendizaje no se puede previsualizar. Por favor, inscríbase para poder continuar con el curso.
         empty_msg: No hay una visión general disponible para este curso.
         continue: Seguir aprendiendo
+      legend:
+        show: Mostrar explicación
+        hide: Ocultar explicación
+        completed: Contenido completado
+        not_visited: Contenido aún no visitado
+        warning: Puntuación suficiente alcanzada
+        critical: Puntuación baja, revisar si es posible
+        optional: Contenido opcional, no afecta la puntuación
 
     admin:
       certificate_templates:

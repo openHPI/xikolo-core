@@ -23,6 +23,16 @@
         .section-material__items
           - items.each do |item|
             = render Course::LearnerDashboard::SectionProgress::Item.new(item, @course)
+
+        = render Global::DisclosureWidget.new(t(:'course.progress.legend.show'),
+          expanded_summary: t(:'course.progress.legend.hide'),
+          variant: :light,
+          icons: {opened: 'circle-info', closed: 'circle-info', style: :regular, closed_classes: 'mr5'}) do
+          .section-progress__legend
+            - legend_items.each do |item|
+              .legend__item
+                .legend__icon class="legend__icon--#{item[:class_modifier]}"
+                .legend__text = item[:text]
       - else
         p = t(:'course.progress.section_material_empty')
 

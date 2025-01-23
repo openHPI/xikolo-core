@@ -574,9 +574,9 @@ describe Home::CourseCard, type: :component do
 
       context 'course with topics and level classifiers' do
         before do
-          course.classifiers << create(:classifier, cluster: topic, title: 'programming', translations: {en: 'Programming'})
-          course.classifiers << create(:classifier, cluster: topic, title: 'databases', translations: {en: 'Databases', de: 'Datenbanken'})
-          course.classifiers << create(:classifier, cluster: level, title: 'beginner', translations: {en: 'Beginner', de: 'Anfänger'})
+          course.classifiers << create(:classifier, cluster: topic, title: 'programming', translations: {en: 'Programming'}, position: 0)
+          course.classifiers << create(:classifier, cluster: topic, title: 'databases', translations: {en: 'Databases', de: 'Datenbanken'}, position: 1)
+          course.classifiers << create(:classifier, cluster: level, title: 'beginner', translations: {en: 'Beginner', de: 'Anfänger'}, position: 2)
         end
 
         it 'displays topics before levels as defined in the configuration' do

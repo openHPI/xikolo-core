@@ -2411,6 +2411,14 @@ en:
         selftests: Self-tests
         visited: Visited
         total: Total
+      legend:
+        show: Show explanation
+        hide: Hide explanation
+        completed: Item completed
+        not_visited: Item not visited yet
+        warning: Sufficient score achieved
+        critical: Low score, revisit if possible
+        optional: Optional item, does not affect score
 
       show:
         item_locked: " (locked)"

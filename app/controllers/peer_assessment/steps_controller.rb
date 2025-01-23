@@ -2,18 +2,18 @@
 
 class PeerAssessment::StepsController < PeerAssessment::BaseController
   inside_course
-  inside_item except: %i[index update edit setup]
-  inside_assessment except: %i[index update edit setup]
+  inside_item except: %i[index update setup]
+  inside_assessment except: %i[index update setup]
 
   skip_before_action :check_step_validity
 
   # TODO: remove Acfs
 
-  before_action only: %i[update edit setup] do
+  before_action only: %i[update setup] do
     authorize!('peerassessment.peerassessment.edit')
   end
 
-  layout 'peer_assessment', except: %i[index update edit]
+  layout 'peer_assessment', except: %i[index update]
 
   def index
     authorize!('peerassessment.peerassessment.view')

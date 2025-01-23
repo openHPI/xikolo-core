@@ -1316,6 +1316,14 @@ zh: &zh
           item: 这个学习单元不能预览。请注册以继续学习该课程。
         empty_msg: 本課程沒有可用的概述。
         continue: 继续学习
+      legend:
+        show: 显示解释
+        hide: 隐藏解释
+        completed: 内容完成
+        not_visited: 内容尚未访问
+        warning: 达到足够分数
+        critical: 分数低，可能的话重新学习
+        optional: 可选内容，不影响分数
 
     admin:
       certificate_templates:

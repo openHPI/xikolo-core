@@ -1722,6 +1722,14 @@ de:
           item: Für diese Lerneinheit gibt es keine Vorschau. Bitte schreiben Sie sich für den Kurs ein, um fortzufahren.
         empty_msg: Die Übersicht ist für diesen Kurs nicht verfügbar.
         continue: Weiterlernen
+      legend:
+        show: Erklärung anzeigen
+        hide: Erklärung ausblenden
+        completed: Inhalt abgeschlossen
+        not_visited: Inhalt noch nicht besucht
+        warning: Ausreichende Punktzahl erreicht
+        critical: Niedriger Punktestand, wenn möglich wiederholen
+        optional: Optionaler Inhalt, beeinflusst die Punktzahl nicht
 
     admin:
       page_header: Kursadministration

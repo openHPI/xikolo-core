@@ -30,6 +30,18 @@ module Global
     # ----------
     # The component can be present or not based on the `visible` parameter.
     # Try it out in the _params_ tab.
+    #
+    # Variant (default: :default)
+    # -------
+    # The component can be displayed in two variants:
+    # - `default` (dark background)
+    # - `light` (light background and smaller font size)
+    #
+    # Icons (optional)
+    # -----
+    # The component can be customized with different icons for opened and closed states.
+    # The default icons are `chevron-down` and `chevron-right`.
+    #
 
     def default
       render Global::DisclosureWidget.new(
@@ -79,6 +91,29 @@ module Global
       ) do
         tag.div(render_markdown(md_content, allow_tables: true, escape_html: false), class: 'RenderedMarkdown',
           escape: false)
+      end
+    end
+
+    def light_variant
+      render Global::DisclosureWidget.new(
+        'I am less obtrusive',
+        variant: :light
+      ) do
+        'Here is a simple text content.'
+      end
+    end
+
+    def with_custom_icons
+      render Global::DisclosureWidget.new(
+        'Expand me!',
+        icons: {
+          opened: 'ellipsis',
+          opened_classes: 'mr10',
+          closed: 'ellipsis-vertical',
+          closed_classes: 'mr15',
+        }
+      ) do
+        'Here is a simple text content.'
       end
     end
 

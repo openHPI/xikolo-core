@@ -179,8 +179,11 @@ module Home
 
       # Identify the best language for the user.
       if subtitle_languages.size > 1
-        subtitle_languages = LanguagePreferences.new(available_languages: subtitle_languages, user: @user,
-          request:).sort
+        subtitle_languages = LanguagePreferences.new(
+          available_languages: subtitle_languages,
+          user: @user,
+          request:
+        ).sort
       end
 
       # Display the available languages in the desired format.

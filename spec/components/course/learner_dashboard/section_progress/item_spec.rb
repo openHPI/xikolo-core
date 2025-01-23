@@ -171,6 +171,70 @@ describe Course::LearnerDashboard::SectionProgress::Item, type: :component do
     end
   end
 
+  context 'for a peer assessment exercise that has not yet been visited' do
+    let(:item) { super().merge('user_state' => 'new', 'content_type' => 'peer_assessment') }
+
+    it 'shows the item as not yet visited' do
+      render_inline(component)
+
+      expect(page).to have_css("[aria-label='Graded quiz']")
+      expect(page).to have_css("[data-tooltip='Graded quiz']")
+      expect(page).to have_css('.fa-money-check-pen')
+      expect(page).to have_link(href: "/courses/#{course.course_code}/items/MuWLdgp3ovAznAJohFLuT")
+      expect(page).to have_no_css('.section-material__item--critical')
+      expect(page).to have_no_css('.section-material__item--warning')
+      expect(page).to have_no_css('.section-material__item--completed')
+    end
+  end
+
+  context 'for a peer assessment exercise with less than 50% achieved points' do
+    let(:item) { super().merge('content_type' => 'peer_assessment', 'user_state' => 'graded', 'user_points' => 3.0) }
+
+    it 'shows the item, indicating that the quiz result is critical' do
+      render_inline(component)
+
+      expect(page).to have_css("[aria-label='Graded quiz']")
+      expect(page).to have_css("[data-tooltip='Graded quiz']")
+      expect(page).to have_css('.fa-money-check-pen')
+      expect(page).to have_link(href: "/courses/#{course.course_code}/items/MuWLdgp3ovAznAJohFLuT")
+      expect(page).to have_css('.section-material__item--critical')
+      expect(page).to have_no_css('.section-material__item--warning')
+      expect(page).to have_no_css('.section-material__item--completed')
+    end
+  end
+
+  context 'for a peer assessment exercise with exactly or more than 50% achieved points' do
+    let(:item) { super().merge('content_type' => 'peer_assessment', 'user_state' => 'graded', 'user_points' => 5.0) }
+
+    it 'shows the item, indicating that the quiz result can be improved' do
+      render_inline(component)
+
+      expect(page).to have_css("[aria-label='Graded quiz']")
+      expect(page).to have_css("[data-tooltip='Graded quiz']")
+      expect(page).to have_css('.fa-money-check-pen')
+      expect(page).to have_link(href: "/courses/#{course.course_code}/items/MuWLdgp3ovAznAJohFLuT")
+      expect(page).to have_css('.section-material__item--warning')
+      expect(page).to have_no_css('.section-material__item--critical')
+      expect(page).to have_no_css('.section-material__item--completed')
+    end
+  end
+
+  context 'for a peer assessment exercise with more than 95% achieved points' do
+    let(:item) { super().merge('content_type' => 'peer_assessment', 'user_state' => 'graded', 'user_points' => 9.6) }
+
+    it 'shows the item as completed' do
+      render_inline(component)
+
+      expect(page).to have_css("[aria-label='Graded quiz']")
+      expect(page).to have_css("[data-tooltip='Graded quiz']")
+      expect(page).to have_css('.fa-money-check-pen')
+      expect(page).to have_link(href: "/courses/#{course.course_code}/items/MuWLdgp3ovAznAJohFLuT")
+      expect(page).to have_css('.section-material__item--completed')
+      expect(page).to have_no_css('.section-material__item--critical')
+      expect(page).to have_no_css('.section-material__item--warning')
+    end
+  end
+
   context 'for a survey' do
     context 'that has been visited but not completed' do
       let(:item) { super().merge('title' => 'Survey', 'exercise_type' => 'survey', 'user_state' => 'visited') }

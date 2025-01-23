@@ -16,6 +16,7 @@
       &__items {
         display: flex;
         flex-wrap: wrap;
+        margin-bottom: 5px;
       }
 
       &__item {
@@ -178,5 +179,47 @@
 
   &__visited-items {
     display: flex;
+  }
+
+  &__legend {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: flex-start;
+
+    .legend__item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+
+    .legend__icon {
+      min-width: 20px;
+      min-height: 20px;
+      margin-right: 10px;
+
+      background-color: $gray-100;
+
+      &--completed {
+        background-color: $success-500;
+      }
+
+      &--critical {
+        background: linear-gradient(to top, $error-500 20%, $gray-100 0);
+      }
+
+      &--warning {
+        background: linear-gradient(to top, $information-500 50%, $gray-100 0);
+      }
+
+      &--optional {
+        border: 1px, dashed, $gray-500;
+        background-color: $gray-50;
+      }
+
+      span {
+        margin-left: 5px;
+      }
+    }
   }
 }

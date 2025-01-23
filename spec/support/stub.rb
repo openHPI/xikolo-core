@@ -108,7 +108,7 @@ module SetUserForControllerSpecs
   end
 end
 
-module SetUserForGen2Specs
+module SetUserForSystemSpecs
   def stub_user(**)
     page.visit('/__session__')
     page.fill_in('session_id', with: stub_session_id)
@@ -123,5 +123,5 @@ RSpec.configure do |config|
   config.include StubAnonymousSession
 
   config.include SetUserForControllerSpecs, type: :controller
-  config.include SetUserForGen2Specs, gen: 2
+  config.include SetUserForSystemSpecs, type: :system
 end

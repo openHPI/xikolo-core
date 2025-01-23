@@ -17,16 +17,6 @@ Xikolo::Web::Application.load_tasks
 namespace :ci do
   desc 'Setup service for CI'
   task setup: %w[assets:i18n:export db:drop:all db:create:all db:schema:load]
-
-  begin
-    require 'rspec/core/rake_task'
-    desc 'Run specs for CI'
-    RSpec::Core::RakeTask.new(:spec) do |t|
-      t.rspec_opts = '--tag ~gen:2'
-    end
-  rescue LoadError
-    # noop
-  end
 end
 
 namespace :api do

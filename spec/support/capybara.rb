@@ -8,7 +8,7 @@ end
 
 Capybara.register_driver :firefox do |app|
   options = Selenium::WebDriver::Firefox::Options.new
-  options.add_argument('--window-size=1280,720')
+  options.add_argument('--window-size=1280,1024')
   options.add_argument('-headless') if headless?
 
   options.add_preference('intl.accept_languages', 'en')
@@ -18,7 +18,7 @@ end
 
 Capybara.register_driver :chrome do |app|
   options = Selenium::WebDriver::Chrome::Options.new
-  options.add_argument('--window-size=1280,720')
+  options.add_argument('--window-size=1280,1024')
   options.add_argument('--headless=new') if headless?
   options.add_argument('--incognito')
   options.add_argument('--disable-site-isolation-trials')
@@ -53,8 +53,12 @@ RSpec.configure do |config|
   # "has_link?".
   config.include Capybara::RSpecMatchers, type: :request
 
-  config.before(type: :feature) do
+  config.before(type: :system) do
+    # Always run with a full browser to ensure the page behavior is like
+    # a real browser.
+    driven_by(Capybara.default_driver)
+
     # Reset browser size to desktop view
-    Capybara.page.driver.browser.manage.window.resize_to(1280, 720)
+    Capybara.page.driver.browser.manage.window.resize_to(1280, 1024)
   end
 end

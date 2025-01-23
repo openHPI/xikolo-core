@@ -4,7 +4,8 @@ article.featured-course
 
   div
     = link_to @course.title, course_path(@course.course_code), class: 'featured-course__heading'
-    p.featured-course__text == course_abstract
+    .featured-course__text
+      == course_abstract
 
     .featured-course__actions
       = render Home::Course::DetailsButton.new(@course, type: :large)
