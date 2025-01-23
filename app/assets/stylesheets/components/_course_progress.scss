@@ -10,7 +10,8 @@
   &__items {
     display: flex;
     flex-direction: column;
-    margin-bottom: 20px;
+    margin: 15px 0 25px;
+    gap: 15px;
 
     @include screen-size-s-and-up {
       flex-direction: row;
@@ -21,7 +22,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-right: 20px;
   }
 
   &__overall-score {

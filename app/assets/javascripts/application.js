@@ -18,8 +18,6 @@
 //= require jquery.cookie
 //= require helpdesk
 
-//= require dropzone
-
 // Peer assessment related javascript
 //= require peer_assessment/pa_bundled
 

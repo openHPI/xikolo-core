@@ -26,18 +26,21 @@ Rails.application.config.tap do |config|
   # As a prerequisite for migrating to webpack, we temporarily import certain node modules into sprockets
   config.assets.paths << Rails.root.join('node_modules/bootstrap-sass/assets/javascripts')
 
-  # Precompile additional assets.
-  # application.js, application.css, and all non-JS/CSS in the app/assets
-  # folder are already added.
-
-  # Lazy load all loose assets from brands just like Rails already does for
-  # assets from `app/assets`, such as images, fonts, etc. (everything not JS or
-  # CSS)
+  # Override the default assets matcher since that matches, for example,
+  # all TypeScript files too. Instead, we load only an allowed list of
+  # image file extensions by default and include files from `./brand`.
+  config.assets.precompile = []
   config.assets.precompile << lambda do |logical_path, filename|
-    filename.start_with?(Rails.root.join('brand').to_s) &&
-      ['.js', '.css', ''].exclude?(File.extname(logical_path))
+    (
+      filename.start_with?(Rails.root.join('app/assets').to_s) ||
+      filename.start_with?(Rails.root.join('brand').to_s)
+    ) && logical_path =~ /\.(gif|ico|jpe?g|png|svg)$/
   end
 
+  # Load default application.(js|css)
+  config.assets.precompile << %r{(?:/|\\|\A)application\.(css|js)$}
+
+  # Precompile additional assets.
   config.assets.precompile += %w[admin-legacy.js]
   config.assets.precompile += %w[course-admin.js]
 

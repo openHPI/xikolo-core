@@ -44,7 +44,7 @@ Rails.application.configure do
   # [file|letter_opener] File defaults to the application tmp/mails.
   config.action_mailer.delivery_method = :letter_opener
   config.action_mailer.perform_deliveries = true
-  config.action_mailer.preview_path = Rails.root.join('spec/mailers/previews')
+  config.action_mailer.preview_paths << Rails.root.join('spec/mailers/previews')
 
   # Disable caching for Action Mailer templates even if Action Controller
   # caching is enabled.

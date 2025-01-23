@@ -1,3 +1,5 @@
+//= require dropzone
+
 // Disabling autoDiscover, otherwise Dropzone will try to attach twice and throw an error
 Dropzone.autoDiscover = false;
 

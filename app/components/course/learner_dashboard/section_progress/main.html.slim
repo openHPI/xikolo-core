@@ -2,7 +2,8 @@
   button.section-progress__titlebar data-behaviour='toggle-menu' aria-expanded='false'
     .section-progress__trigger
       span.section-progress__icon
-      span = @section_progress['title']
+      span.section-progress__title title=@section_progress['title']
+        = @section_progress['title']
 
     .section-progress__score-bar
       = render Course::LearnerDashboard::SectionProgress::Score.new(label: t(:'course.progress.section_score.graded'), value: graded_percentage)

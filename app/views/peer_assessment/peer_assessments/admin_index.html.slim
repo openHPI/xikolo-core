@@ -1,6 +1,6 @@
 - content_for :head_assets
   = javascript_include_tag 'd3.v3.js'
-  = javascript_include_tag 'dimple.js', crossorigin: 'anonymous', integrity: true, async: true, debug: false
+  = javascript_include_tag 'dimple.js', crossorigin: 'anonymous', integrity: true, defer: true, debug: false
 
 - content_for :course_area_header
   = render Global::PageHeader.new("#{t(:'peer_assessment.index.admin.headline')} - #{course_layout.title}",
@@ -28,18 +28,20 @@
         .white-bg id="peer_assessment_#{presenter.id}" style="height:250px"
           - # rubocop:disable Rails/OutputSafety
           javascript:
-            peer_chart_data = #{raw data.to_json};
-            var presenter_id = "#{presenter.id}"
-            var svg = dimple.newSvg(`#peer_assessment_${presenter_id}`, '100%', '100%');
-            var myPeerChart = new dimple.chart(svg, peer_chart_data);
-            var x = myPeerChart.addTimeAxis("x", "Date", "%Y-%m-%d", "%d-%m-%Y");
-            //var x = myPeerChart.addCategoryAxis("x", "Date");
-            x.addOrderRule("Date");
-            myPeerChart.addMeasureAxis("y", "Count");
-            s = myPeerChart.addSeries("Type", dimple.plot.line);
-            myPeerChart.setMargins("25px", "25px", "25px", "75px");
-            myPeerChart.addLegend(60, 10, 500, 20, "right");
-            myPeerChart.draw();
+            ready(function () {
+              peer_chart_data = #{raw data.to_json};
+              var presenter_id = "#{presenter.id}"
+              var svg = dimple.newSvg(`#peer_assessment_${presenter_id}`, '100%', '100%');
+              var myPeerChart = new dimple.chart(svg, peer_chart_data);
+              var x = myPeerChart.addTimeAxis("x", "Date", "%Y-%m-%d", "%d-%m-%Y");
+              //var x = myPeerChart.addCategoryAxis("x", "Date");
+              x.addOrderRule("Date");
+              myPeerChart.addMeasureAxis("y", "Count");
+              s = myPeerChart.addSeries("Type", dimple.plot.line);
+              myPeerChart.setMargins("25px", "25px", "25px", "75px");
+              myPeerChart.addLegend(60, 10, 500, 20, "right");
+              myPeerChart.draw();
+            });
           - # rubocop:enable Rails/OutputSafety
 
       .col-md-6

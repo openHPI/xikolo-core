@@ -29,7 +29,7 @@
       hr.hr
 
       = javascript_include_tag 'd3.v3.js'
-      = javascript_include_tag 'dimple.js', crossorigin: 'anonymous', integrity: true, async: true, debug: false
+      = javascript_include_tag 'dimple.js', crossorigin: 'anonymous', integrity: true, defer: true, debug: false
       javascript:
        var chartHolder = [];
        $(window).resize(function () {
@@ -49,16 +49,18 @@
           .white-bg#chart_time style="height:250px"
             - # rubocop:disable Rails/OutputSafety
             javascript:
-              chart_data = #{raw @stats[stat[0]]['submissions_over_time'].map {|k, v| {Date: k[0..9], Count: v.to_i} }.to_json};
-              var svg = dimple.newSvg("#chart_time", '100%', '100%');
-              var myChart = new dimple.chart(svg, chart_data);
-              var x = myChart.addTimeAxis("x", "Date", "%Y-%m-%d", "%Y-%m-%d");
-              myChart.addMeasureAxis("y", "Count");
-              s = myChart.addSeries(null, dimple.plot.line);
-              myChart.setMargins("25px", "25px", "25px", "75px");
-              myChart.addLegend(60, 10, 500, 20, "right");
-              myChart.draw();
-              chartHolder.push(myChart);
+              ready(function () {
+                chart_data = #{raw @stats[stat[0]]['submissions_over_time'].map {|k, v| {Date: k[0..9], Count: v.to_i} }.to_json};
+                var svg = dimple.newSvg("#chart_time", '100%', '100%');
+                var myChart = new dimple.chart(svg, chart_data);
+                var x = myChart.addTimeAxis("x", "Date", "%Y-%m-%d", "%Y-%m-%d");
+                myChart.addMeasureAxis("y", "Count");
+                s = myChart.addSeries(null, dimple.plot.line);
+                myChart.setMargins("25px", "25px", "25px", "75px");
+                myChart.addLegend(60, 10, 500, 20, "right");
+                myChart.draw();
+                chartHolder.push(myChart);
+              });
             - # rubocop:enable Rails/OutputSafety
           - @stats_quizzes[stat[0]].questions.each do |question|
             h4 = question.text[0..80]
@@ -97,33 +99,34 @@
                 = average.last
 
                 .chart.white-bg id="chart_question_#{question.id}" style="height:250px"
-                - data = false_answers.map {|e| {Id: e[0], Answer: e[1][:text], Count: e[1][:count], Color: 1, Position: e[1][:position]} } + \
-                    correct_answers.map {|e| {Id: e[0], Answer: e[1][:text], Count: e[1][:count], Color: 0, Position: e[1][:position]} }
+                - data = false_answers.map {|e| {Id: e[0], Answer: e[1][:text], Count: e[1][:count], Color: 1, Position: e[1][:position]} } + correct_answers.map {|e| {Id: e[0], Answer: e[1][:text], Count: e[1][:count], Color: 0, Position: e[1][:position]} }
                 - is_survey = @items.find {|item| item.content_id == stat[0] }.exercise_type == 'survey'
 
                 - # rubocop:disable Rails/OutputSafety
                 javascript:
-                  var chart_data = #{raw data.to_json};
-                  var svg = dimple.newSvg("##{"chart_question_#{question.id}"}", '100%', '100%');
-                  var myChart = new dimple.chart(svg, chart_data);
-                  var x = myChart.addCategoryAxis("x", "Answer");
-                  var isSurvey = #{is_survey}
-                  c = myChart.addColorAxis("Color", [ "#8cb30d", "#ff0000"]);
-                  myChart.addMeasureAxis("y", "Count");
-                  s = myChart.addSeries(null, dimple.plot.bar);
-                  s.getTooltipText = function (e) {
-                    return [
-                      e.cy + " : "+ e.cx
-                    ];
-                  };
-                  x.addOrderRule("Color", false);
-                  if (isSurvey) {
-                    x.addOrderRule("Position", false);
-                  }
-                  myChart.setMargins("25px", "25px", "25px", "25px");
-                  myChart.addLegend(60, 10, 500, 20, "right");
-                  myChart.draw();
-                  chartHolder.push(myChart);
+                  ready(function () {
+                    var chart_data = #{raw data.to_json};
+                    var svg = dimple.newSvg("##{"chart_question_#{question.id}"}", '100%', '100%');
+                    var myChart = new dimple.chart(svg, chart_data);
+                    var x = myChart.addCategoryAxis("x", "Answer");
+                    var isSurvey = #{is_survey}
+                    c = myChart.addColorAxis("Color", [ "#8cb30d", "#ff0000"]);
+                    myChart.addMeasureAxis("y", "Count");
+                    s = myChart.addSeries(null, dimple.plot.bar);
+                    s.getTooltipText = function (e) {
+                      return [
+                        e.cy + " : "+ e.cx
+                      ];
+                    };
+                    x.addOrderRule("Color", false);
+                    if (isSurvey) {
+                      x.addOrderRule("Position", false);
+                    }
+                    myChart.setMargins("25px", "25px", "25px", "25px");
+                    myChart.addLegend(60, 10, 500, 20, "right");
+                    myChart.draw();
+                    chartHolder.push(myChart);
+                  });
                 - # rubocop:enable Rails/OutputSafety
 
                 p

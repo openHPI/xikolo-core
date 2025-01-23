@@ -92,14 +92,27 @@
   }
 
   &__titlebar {
-    display: flex;
+    display: grid;
     width: 100%;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 15px 0px 10px;
+    padding: 10px;
     border: none;
     background-color: $gray-100;
+    gap: 10px;
+    grid-template-areas:
+      "title"
+      "info"
+      "score-bars";
+
+    @include screen-size-sm-and-up {
+      grid-template-areas:
+        "title info"
+        "score-bars score-bars";
+    }
+
+    @include screen-size-m-and-up {
+      grid-template-areas: "title score-bars info";
+      grid-template-columns: auto auto 180px;
+    }
 
     &[aria-expanded="false"] {
       + .section-progress__content {
@@ -133,52 +146,79 @@
 
   &__trigger {
     display: flex;
-    width: 250px;
     align-items: center;
-    margin-bottom: 10px;
+    font-weight: bold;
+    grid-area: title;
+  }
 
-    span {
-      font-weight: bold;
-    }
+  &__title {
+    text-align: left;
+    @include truncate-text(1);
   }
 
   &__score-bar {
     display: flex;
-    flex-grow: 1;
-    flex-wrap: wrap;
-    justify-content: flex-end;
+    flex-direction: column;
+    align-items: end;
+    margin: 0 auto;
+    gap: 10px;
+    grid-area: score-bars;
+    @include screen-size-sm-and-up {
+      flex-direction: row;
+      margin: 0 auto;
+    }
 
-    @include screen-size-s-and-up {
-      justify-content: flex-start;
+    @include screen-size-m-and-up {
+      justify-content: end;
+      margin: 0;
     }
   }
 
   &__score {
     display: flex;
-    align-items: center;
-    margin-right: 20px;
-    margin-bottom: 10px;
-
-    label {
-      margin: 0 5px;
+    width: 100%;
+    justify-content: flex-end;
+    margin: 0;
+    gap: 5px;
+    > label {
+      margin-top: 0;
       font-weight: normal;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    @include screen-size-sm-and-up {
+      flex-direction: column;
+      > label {
+        min-width: auto;
+      }
+    }
+
+    @include screen-size-m-and-up {
+      width: auto;
+      flex-direction: row;
+      justify-content: flex-end;
     }
   }
 
-  &__score-empty {
-    width: 150px;
-
+  &__score-empty,
+  &__score-progress {
+    min-width: 150px;
     p {
       margin-bottom: 0;
     }
   }
 
-  &__score-progress {
-    width: 150px;
-  }
-
   &__visited-items {
-    display: flex;
+    color: $gray-600;
+    grid-area: info;
+    white-space: nowrap;
+    @include screen-size-sm-and-up {
+      justify-self: end;
+    }
+    p {
+      margin-bottom: 0;
+    }
   }
 
   &__legend {
