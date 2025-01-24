@@ -32,7 +32,7 @@ describe 'Course: Admin: Certificate Templates: Update', type: :request do
   let(:list_stub) do
     stub_request(:get,
       'https://s3.xikolo.de/xikolo-uploads?list-type=2&' \
-      "prefix=uploads/#{upload_id}") \
+      "prefix=uploads/#{upload_id}")
       .to_return(
         status: 200,
         headers: {'Content-Type' => 'Content-Type: application/xml'},
@@ -126,7 +126,7 @@ describe 'Course: Admin: Certificate Templates: Update', type: :request do
     let(:list_stub) do
       stub_request(:get,
         'https://s3.xikolo.de/xikolo-uploads?list-type=2&' \
-        "prefix=uploads/#{upload_id}") \
+        "prefix=uploads/#{upload_id}")
         .to_return(
           status: 200,
           headers: {'Content-Type' => 'Content-Type: application/xml'},

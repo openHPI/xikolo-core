@@ -19,7 +19,7 @@ describe 'Course: Admin: Metadata: Update', type: :request do
   let(:alignment_file_name) { 'alignment.json' }
   let(:license_file_name) { 'license.json' }
   let(:skills_list_stub) do
-    stub_request(:get, "https://s3.xikolo.de/xikolo-uploads?list-type=2&prefix=uploads%2F#{skills_upload_id}") \
+    stub_request(:get, "https://s3.xikolo.de/xikolo-uploads?list-type=2&prefix=uploads%2F#{skills_upload_id}")
       .to_return(
         status: 200,
         headers: {'Content-Type' => 'Content-Type: application/xml'},
@@ -38,7 +38,7 @@ describe 'Course: Admin: Metadata: Update', type: :request do
         XML
   end
   let(:alignment_list_stub) do
-    stub_request(:get, "https://s3.xikolo.de/xikolo-uploads?list-type=2&prefix=uploads%2F#{alignment_upload_id}") \
+    stub_request(:get, "https://s3.xikolo.de/xikolo-uploads?list-type=2&prefix=uploads%2F#{alignment_upload_id}")
       .to_return(
         status: 200,
         headers: {'Content-Type' => 'Content-Type: application/xml'},
@@ -57,7 +57,7 @@ describe 'Course: Admin: Metadata: Update', type: :request do
         XML
   end
   let(:license_list_stub) do
-    stub_request(:get, "https://s3.xikolo.de/xikolo-uploads?list-type=2&prefix=uploads%2F#{license_upload_id}") \
+    stub_request(:get, "https://s3.xikolo.de/xikolo-uploads?list-type=2&prefix=uploads%2F#{license_upload_id}")
       .to_return(
         status: 200,
         headers: {'Content-Type' => 'Content-Type: application/xml'},

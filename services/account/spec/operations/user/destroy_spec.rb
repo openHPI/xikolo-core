@@ -11,7 +11,7 @@ describe User::Destroy, type: :operation do
   let(:s3_avatar_index) do
     stub_request(:get,
       'http://s3.xikolo.de/xikolo-public?list-type=2&' \
-      "prefix=avatars%2F#{uid}") \
+      "prefix=avatars%2F#{uid}")
       .to_return(
         status: 200,
         headers: {'Content-Type' => 'Content-Type: application/xml'},

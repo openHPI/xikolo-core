@@ -28,7 +28,7 @@ describe 'Channel: update of mobile visual', type: :request do
     before do
       stub_request(:get,
         'https://s3.xikolo.de/xikolo-uploads?list-type=2&' \
-        "prefix=uploads%2F#{upload_id}") \
+        "prefix=uploads%2F#{upload_id}")
         .to_return(
           status: 200,
           headers: {'Content-Type' => 'Content-Type: application/xml'},
@@ -76,7 +76,7 @@ describe 'Channel: update of mobile visual', type: :request do
     before do
       stub_request(:get,
         'https://s3.xikolo.de/xikolo-uploads?list-type=2&' \
-        "prefix=uploads%2F#{upload_id}") \
+        "prefix=uploads%2F#{upload_id}")
         .to_return(
           status: 200,
           headers: {'Content-Type' => 'Content-Type: application/xml'},

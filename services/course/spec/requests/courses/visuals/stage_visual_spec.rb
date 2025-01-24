@@ -107,7 +107,7 @@ RSpec.describe 'Courses: Update with stage visual', type: :request do
       end
 
       before do
-        stub_request(:get, "https://s3.xikolo.de/xikolo-uploads?list-type=2&prefix=uploads%2F#{upload_id}") \
+        stub_request(:get, "https://s3.xikolo.de/xikolo-uploads?list-type=2&prefix=uploads%2F#{upload_id}")
           .to_return(
             status: 200,
             headers: {'Content-Type' => 'Content-Type: application/xml'},
@@ -249,7 +249,7 @@ RSpec.describe 'Courses: Update with stage visual', type: :request do
       let(:update_params) { {stage_visual_upload_id: upload_id} }
 
       before do
-        stub_request(:get, "https://s3.xikolo.de/xikolo-uploads?list-type=2&prefix=uploads%2F#{upload_id}") \
+        stub_request(:get, "https://s3.xikolo.de/xikolo-uploads?list-type=2&prefix=uploads%2F#{upload_id}")
           .to_return(
             status: 200,
             headers: {'Content-Type' => 'Content-Type: application/xml'},

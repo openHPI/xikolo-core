@@ -19,7 +19,7 @@ describe 'Course: Admin: Visuals: Update', type: :request do
 
   # S3 related stubs
   let(:list_stub) do
-    stub_request(:get, "https://s3.xikolo.de/xikolo-uploads?list-type=2&prefix=uploads%2F#{upload_id}") \
+    stub_request(:get, "https://s3.xikolo.de/xikolo-uploads?list-type=2&prefix=uploads%2F#{upload_id}")
       .to_return(
         status: 200,
         headers: {'Content-Type' => 'Content-Type: application/xml'},
@@ -176,7 +176,7 @@ describe 'Course: Admin: Visuals: Update', type: :request do
           let(:subtitles_file_url) { "https://s3.xikolo.de/xikolo-uploads/uploads/#{subtitles_upload_id}/#{file_name}" }
 
           let(:list_stub) do
-            stub_request(:get, "https://s3.xikolo.de/xikolo-uploads?list-type=2&prefix=uploads%2F#{subtitles_upload_id}") \
+            stub_request(:get, "https://s3.xikolo.de/xikolo-uploads?list-type=2&prefix=uploads%2F#{subtitles_upload_id}")
               .to_return(
                 status: 200,
                 headers: {'Content-Type' => 'Content-Type: application/xml'},

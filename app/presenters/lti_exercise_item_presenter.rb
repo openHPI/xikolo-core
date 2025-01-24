@@ -20,7 +20,7 @@ class LtiExerciseItemPresenter < ItemPresenter
   end
 
   def percentage
-    @percentage ||= lti_grades.present? ? lti_grades.first.score * 100 : nil
+    @percentage ||= lti_grades.present? ? (lti_grades.first.score * 100).floor : nil
   end
 
   def error

@@ -1,7 +1,7 @@
 ---
 services:
   minio:
-    image: minio/minio@sha256:1dce27c494a16bae114774f1cec295493f3613142713130c2d22dd5696be6ad3
+    image: minio/minio@sha256:ed9be66eb5f2636c18289c34c3b725ddf57815f2777c77b5938543b78a44f144
     command: server /data
     volumes:
       - minio:/data
@@ -44,7 +44,7 @@ services:
       - xikolo
 
   redis-cache:
-    image: redis:7@sha256:bb142a9c18ac18a16713c1491d779697b4e107c22a97266616099d288237ef47
+    image: redis:7@sha256:ca65ea36ae16e709b0f1c7534bc7e5b5ac2e5bb3c97236e4fec00e3625eb678d
     command: redis-server --databases 8196
     healthcheck:
       test: redis-cli ping
@@ -55,7 +55,7 @@ services:
       - xikolo
 
   redis-sidekiq:
-    image: redis:7@sha256:bb142a9c18ac18a16713c1491d779697b4e107c22a97266616099d288237ef47
+    image: redis:7@sha256:ca65ea36ae16e709b0f1c7534bc7e5b5ac2e5bb3c97236e4fec00e3625eb678d
     command: redis-server --databases 8196
     healthcheck:
       test: redis-cli ping
