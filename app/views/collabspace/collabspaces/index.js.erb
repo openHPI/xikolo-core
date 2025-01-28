@@ -1,2 +1,2 @@
-$("#pagination-items").html("<%= escape_javascript(render "collabspace_list", collabspaces: @collabspace_presenters) %>");
+$("#pagination-items").html("<%= escape_javascript(render "list", collabspaces: @collabspace_presenters) %>");
 $("#pagination-menu").html("<%= escape_javascript(will_paginate RestifyPaginationCollection.new(@unjoined_collabspaces), renderer: AjaxPaginationRenderer) %>");

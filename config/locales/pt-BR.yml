@@ -2511,7 +2511,6 @@ pt-BR:
       dashboard: Ver atividade recente
       discussions: Conversar com sua equipe
       etherpad: Colaborar em textos
-      video_chat: Iniciar um bate-papo por vídeo
       files: Compartilhar arquivos
       tpa: "Enviar seu trabalho em equipe e avaliar os pares (%{title})"
       administration: Gerenciar seu Espaço de Colaboração
@@ -2530,8 +2529,8 @@ pt-BR:
       confirm_delete: Quer mesmo excluir este arquivo do servidor?
     list: Lista de espaços de colaboração
     my_rooms: Meus espaços de colaboração
-    list_empty_state: Ainda não existem espaços de colaboração para este curso.
     my_rooms_empty_state: Ainda não aderiu a um espaço de colaboração.
+    list_empty_state: Ainda não existem espaços de colaboração para este curso.
     create: Crie um novo espaço de colaboração
     create_button: Criar espaço de colaboração
     update_button: Atualizar espaço de colaboração

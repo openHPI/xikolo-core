@@ -3636,7 +3636,6 @@ en:
       dashboard: View recent activity
       discussions: Discuss with your team
       etherpad: Collaborate on texts
-      video_chat: Start a video chat
       files: Share files
       tpa: "Submit your team work and evaluate your peers (%{title})"
       administration: Manage your Collab Space
@@ -3659,6 +3658,7 @@ en:
     my_rooms: My Collab Spaces
     my_rooms_empty_state: You have not joined a Collab Space yet.
     list_empty_state: There are no Collab Spaces for this course yet.
+    memberships_empty_state: No members have joined the Collab Space yet.
     create: Create new Collab Space
     create_button: Create Collab Space
     update_button: Update Collab Space
@@ -3704,36 +3704,6 @@ en:
       is_open: This Collab Space is open
       mail_to_member: Write a mail to member
       mail: Dear %{recipient}, Best regards %{sender}
-
-    video_chats:
-      headline: Video chat
-      btn_txt: Start video chat on Jitsi Meet
-      note: "Note: When you start the video chat, you will be directed to a third-party provider (“Jitsi Meet“). <br>Jitsi Meet is an open-source project. We will not pass on any of your data. <br>You do not need to create an account on Jitsi Meet."
-      description: Arrange a meeting time with your teammates and decide who should share the link to the video chat.
-      start_chat:
-        headline: Before the video chat
-        how_to: "How to create and share a meeting link:"
-        list_text:
-          - Press the “Start video chat on Jitsi Meet” button. A new window or tab opens.
-          - Press the “Start Meeting” button. A new window opens.
-          - Copy the meeting link. You’ll find it in the address bar of the browser.
-          - Share the meeting link with your teammates. You can use the discussion forum in your Collab Space to share the link.
-      chat_info:
-        headline: When the meeting takes place
-        list_text:
-          - Follow the meeting link.
-          - Enter the username that you want to use during the meeting.
-          - Press the “Join meeting“ button.
-          - You are now in the video chat.
-          - - "At the bottom of the screen, you will find a menu bar with useful functions such as:"
-            - Microphone (mute / unmute)
-            - Camera (start / stop)
-            - Screen sharing (start / stop)
-            - Chat window (open / close)
-            - Raise your hand (on / off)
-            - Participants (show / stop showing)
-            - And many more functions
-          - To be seen, you need to start your camera. To be heard, you have to unmute your microphone.
     flash_messages:
       success:
         delete_room: The Collab Space has been successfully deleted.

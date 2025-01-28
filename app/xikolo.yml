@@ -411,9 +411,9 @@ footer:
   social_media:
     headline: { en: "Follow us", de: "Folgen Sie uns" }
     links:
-      - href: "https://twitter.com"
-        text: { en: "X", de: "X" }
-        type: "square-x-twitter"
+      - href: "https://www.instagram.com"
+        text: { en: "Instagram", de: "Instagram" }
+        type: "square-instagram"
       - href: "https://www.facebook.com"
         text: { en: "Facebook", de: "Facebook" }
         type: "facebook"

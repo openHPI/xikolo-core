@@ -37,9 +37,10 @@
       - else
         p = t(:'course.progress.section_material_empty')
 
-    .section-statistics
-      h5 = t(:'course.progress.section_statistics')
+    - if section_statistics?
+      .section-statistics
+        h5 = t(:'course.progress.section_statistics')
 
-      = render Course::LearnerDashboard::SectionProgress::Statistic.new(label: t(:'course.progress.statistics.main'), values: main_statistic, icon: 'money-check-pen')
-      = render Course::LearnerDashboard::SectionProgress::Statistic.new(label: t(:'course.progress.statistics.bonus'), values: bonus_statistic, icon: 'lightbulb-on+circle-star')
-      = render Course::LearnerDashboard::SectionProgress::Statistic.new(label: t(:'course.progress.statistics.selftests'), values: selftest_statistic, icon: 'lightbulb-on')
+        = render Course::LearnerDashboard::SectionProgress::Statistic.new(label: t(:'course.progress.statistics.main'), values: main_statistic, icon: 'money-check-pen')
+        = render Course::LearnerDashboard::SectionProgress::Statistic.new(label: t(:'course.progress.statistics.bonus'), values: bonus_statistic, icon: 'lightbulb-on+circle-star')
+        = render Course::LearnerDashboard::SectionProgress::Statistic.new(label: t(:'course.progress.statistics.selftests'), values: selftest_statistic, icon: 'lightbulb-on')

@@ -2679,7 +2679,6 @@ nl:
       dashboard: Recente activiteit bekijken
       discussions: Bespreek met je team
       etherpad: Samenwerken aan teksten
-      video_chat: Start een videochat
       files: Deel bestanden
       tpa: "Dien uw teamwerk in en evalueer uw peers (%{title})"
       administration: Beheer uw samenwerkingsruimte
@@ -2700,8 +2699,9 @@ nl:
       confirm_delete: Wilt u dit bestand echt van de server verwijderen?
     list: Lijst met samenwerkingsruimten
     my_rooms: Mijn samenwerkingsruimten
-    list_empty_state: Er zijn nog geen leerplekken voor deze cursus.
     my_rooms_empty_state: Je hebt je nog niet aangesloten bij een leerruimte.
+    list_empty_state: Er zijn nog geen leerplekken voor deze cursus.
+    memberships_empty_state: Er zijn nog geen leden lid geworden van de leerruimte.
     create: Nieuwe samenwerkingsruimte maken
     create_button: Samenwerkingsruimte maken
     update_button: Werk samenwerkruimte bij
@@ -2747,36 +2747,6 @@ nl:
       is_open: Deze samenwerkingsruimte is open
       mail_to_member: Schrijf een e-mail naar lid
       mail: Beste %{recipient}, Met vriendelijke groet %{sender}
-
-    video_chats:
-      headline: Videochat
-      btn_txt: Start een videochat op Jitsi Meet
-      note: "Opmerking: wanneer u de videochat start, wordt u doorverwezen naar een externe provider ('Jitsi Meet'). <br>Jitsi Meet is een open-sourceproject. We zullen uw gegevens niet doorgeven. <br>Je hoeft geen account aan te maken op Jitsi Meet."
-      description: Spreek een ontmoetingstijd af met je teamgenoten en bepaal wie de link naar de videochat moet delen.
-      start_chat:
-        headline: Voor de videochat
-        how_to: "Een vergaderlink maken en delen:"
-        list_text:
-          - Druk op de knop "Start videochat op Jitsi Meet". Er wordt een nieuw venster of tabblad geopend.
-          - Druk op de knop “Vergadering starten”. Er wordt een nieuw venster geopend.
-          - Kopieer de vergaderlink. Je vindt het in de adresbalk van de browser.
-          - Deel de meetinglink met je teamgenoten. U kunt het discussieforum in uw samenwerkingsruimte gebruiken om de link te delen.
-      chat_info:
-        headline: Wanneer de vergadering plaatsvindt
-        list_text:
-          - Volg de vergaderlink.
-          - Voer de gebruikersnaam in die u tijdens de vergadering wilt gebruiken.
-          - Druk op de knop "Deelnemen aan vergadering".
-          - Je bent nu in de videochat.
-          - - "Onderaan het scherm vind je een menubalk met handige functies zoals:"
-            - Microfoon (mute / unmute)
-            - Camera (start / stop)
-            - Scherm delen (start / stop)
-            - Chatvenster (openen / sluiten)
-            - Hand opsteken (aan/uit)
-            - Deelnemers (tonen / stoppen met tonen)
-            - En nog veel meer functies
-          - Om gezien te worden, moet je je camera starten. Om gehoord te worden, moet je de microfoon uitschakelen.
     flash_messages:
       success:
         delete_room: De samenwerkingsruimte is succesvol verwijderd.

@@ -2081,7 +2081,6 @@ fr:
       dashboard: Afficher l'activité récente
       discussions: Discuter avec votre équipe
       etherpad: Collaborer sur les contenus texte
-      video_chat: Lancer une conversation vidéo
       files: Partager des fichiers
       tpa: "Soumettre des tâches à votre équipe et évaluer les autres apprenants (%{title})"
       administration: Gérer votre espace de collaboration
@@ -2101,8 +2100,9 @@ fr:
       confirm_delete: Do you really want to delete this file from the server?
     list: Liste d'espaces de collaboration
     my_rooms: Mes espaces de collaboration
-    list_empty_state: Il n'y a pas encore de salle d'étude pour ce cours.
     my_rooms_empty_state: Vous n'avez pas encore rejoint un espace d'apprentissage.
+    list_empty_state: Il n'y a pas encore de salle d'étude pour ce cours.
+    memberships_empty_state: Aucun membre n'a encore rejoint l'espace d'apprentissage.
     create: Créer un nouvel espace de collaboration
     create_button: Créer un espace de collaboration
     update_button: Soumettre

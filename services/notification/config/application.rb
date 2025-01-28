@@ -71,21 +71,6 @@ module Xikolo::NotificationService
     config.i18n.default_locale = :en
     config.i18n.fallbacks = %i[en]
 
-    # Use brand specific manifest for sprockets because assets can be overridden
-    # in the brand specific path added further down
-    config.assets.manifest = Rails.public_path.join('assets', ".sprockets.#{Xikolo.brand}.json")
-
-    # Add brand specific path *before* the regular `app/assets` directory to be
-    # able to override specific assets such as brand specific stylesheets
-    config.paths['app/assets'] = [
-      "brand/#{Xikolo.brand}/assets",
-      'app/assets',
-    ]
-    config.assets.enabled = true
-    config.assets.digest = true
-    config.assets.version = '1.0'
-    config.assets.precompile += ['foundation_*.css', "#{Xikolo.brand}.css"]
-
     # Configure Telegraf event collection
     config.telegraf.tags = {application: 'notification'}
 

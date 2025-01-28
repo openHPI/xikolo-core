@@ -2332,7 +2332,6 @@ zh: &zh
       dashboard: 查看近期动态
       discussions: 组内讨论
       etherpad: 合作编写文本
-      video_chat: 开启视频聊天
       files: 分享文件
       tpa: "提交工作并进行同行评估 (%{title})"
       administration: 管理您的合作空间
@@ -2352,8 +2351,8 @@ zh: &zh
       confirm_delete: 您真的想从服务器上删除该文件吗？
     list: 学习小组列表
     my_rooms: 我的学习小组
-    list_empty_state: 这个课程还没有合作空间。
     my_rooms_empty_state: 你还没有加入一个学习空间。
+    list_empty_state: 这个课程还没有合作空间。
     create: 创建新的学习小组
     create_button: 创建学习小组
     update_button: 提交

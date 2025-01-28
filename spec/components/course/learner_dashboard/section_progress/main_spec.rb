@@ -89,4 +89,31 @@ describe Course::LearnerDashboard::SectionProgress::Main, type: :component do
     expect(page).to have_content 'Self-tests4.0 / 4.0 (100%)'
     expect(page).to have_content '2 of 2 taken'
   end
+
+  context 'with no progress for a certain type of section material' do
+    let(:section_progress) { super().merge('bonus_exercises' => nil, 'selftest_exercises' => nil) }
+
+    it 'only shows relevant statistics' do
+      render_inline(component)
+
+      within('.section-statistics') do
+        expect(page).to have_content 'Section statistics'
+        expect(page).to have_content 'Assignments'
+
+        expect(page).to have_no_content 'Self-tests'
+        expect(page).to have_no_content 'Bonus'
+      end
+    end
+  end
+
+  context 'with no item relevant for the section statistics' do
+    let(:section_progress) { super().merge('main_exercises' => nil, 'bonus_exercises' => nil, 'selftest_exercises' => nil) }
+
+    it 'does not show the section statistics' do
+      render_inline(component)
+
+      expect(page).to have_content 'Section material'
+      expect(page).to have_no_content 'Section statistics'
+    end
+  end
 end

@@ -25,16 +25,14 @@
                   span class="collabspace-file__title__icon fa-regular fa-#{file.icon}"
                   span.collabspace-file__title__name = file.title
                 td
-                  span.collabspace-file__modified_at
-                    = file.modified_at
+                  span = file.modified_at
                   div
                     span.collabspace-file__editor__avatar
                       = render Global::UserAvatar.new(file.editor_id, size: 'tiny')
                     span.collabspace-file__editor__name
                       = file.editor_name
                 td
-                  span.collabspace-file__size
-                    = file.size
+                  span = file.size
                 td
                   .collabspace-file__actions
                     = link_to t(:'learning_rooms.files.download'), file.download_url, class: 'btn btn-primary btn-xs'
@@ -42,7 +40,7 @@
                       = link_to t(:'learning_rooms.files.delete'),
                         course_learning_room_file_path(id: file.id),
                         method: 'delete',
-                        data: { confirm: t(:'learning_rooms.files.confirm_delete') },
+                        data: {confirm: t(:'learning_rooms.files.confirm_delete')},
                         class: 'btn btn-danger btn-xs'
 
         = will_paginate @files.pagination, renderer: PaginationRenderer

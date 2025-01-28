@@ -16,7 +16,7 @@ h4
     - c.with_tab(controls: 'chatbot-panel-2')
       = t(:'helpdesk.contact')
     - c.with_panel(id: 'chatbot-panel-1', active: true)
-      = render(partial: 'chatbot')
+      = render partial: 'chatbot'
     - c.with_panel(id: 'chatbot-panel-2')
       = render partial: 'form', locals: {ticket: @ticket, recaptcha: @recaptcha}
 - else

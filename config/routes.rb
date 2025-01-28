@@ -414,7 +414,6 @@ Rails.application.routes.draw do
       resources :calendar_events, only: %i[index update], controller: 'ajax/calendar_events', constraints: ->(r) { r.xhr? }
       resources :calendar_events, only: %i[new create edit update destroy]
       resources :files, only: %i[index create destroy]
-      get '/video_chat', to: 'video_chat#index', as: :video_chat
       resources :memberships, only: %i[create destroy update]
     end
   end
@@ -510,7 +509,7 @@ Rails.application.routes.draw do
   get '/learn', to: 'learning_mode#index'
   get '/learn/review', to: 'learning_mode#review'
 
-  resources :video_providers, module: 'admin' do
+  resources :video_providers, except: %i[show], module: 'admin' do
     member do
       resource :sync, only: %i[create], controller: 'video_provider_sync', as: :sync_video_provider
     end
@@ -533,7 +532,7 @@ Rails.application.routes.draw do
       get '/classifiers/order', to: 'cluster/classifiers_order#index'
       post '/classifiers/order', to: 'cluster/classifiers_order#update'
     end
-    resources :lti_providers, except: [:show]
+    resources :lti_providers, except: %i[show]
     resources :announcements, except: %i[show destroy] do
       member do
         resource :email, as: 'announcement_email', controller: 'announcement_emails', only: %i[show new create]

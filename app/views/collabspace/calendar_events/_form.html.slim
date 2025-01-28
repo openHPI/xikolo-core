@@ -8,8 +8,8 @@
       = f.input :description
       - if current_user.feature?('collabspace_calendar.all_day_events')
         = f.input :all_day
-      = f.input :start_time, input_html: { 'data-localdate': true }
-      = f.input :end_time, input_html: { 'data-localdate': true }
+      = f.input :start_time, input_html: {'data-localdate': true}
+      = f.input :end_time, input_html: {'data-localdate': true}
       = f.input :category, collection: form.categories, include_blank: false
     .modal-footer
       - if form.persisted?

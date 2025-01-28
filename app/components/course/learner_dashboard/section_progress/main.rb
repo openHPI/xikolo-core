@@ -70,6 +70,10 @@ module Course
             {class_modifier: 'optional', text: t(:'course.progress.legend.optional')},
           ]
         end
+
+        def section_statistics?
+          main_statistic.present? || bonus_statistic.present? || selftest_statistic.present?
+        end
       end
     end
   end

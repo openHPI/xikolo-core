@@ -61,7 +61,7 @@ module Collabspace
       if member? || current_user.allowed?('course.course.teaching_anywhere')
         render layout: LAYOUTS[:course_area_two_cols]
       else
-        render 'request_membership', layout: LAYOUTS[:course_area]
+        render 'join', layout: LAYOUTS[:course_area]
       end
     end
 

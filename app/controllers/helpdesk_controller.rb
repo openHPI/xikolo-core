@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'uri'
-require 'recaptcha_integration'
+require 'xi/recaptcha/integration'
 
 class HelpdeskController < Abstract::FrontendController
   layout :helpdesk_layout
@@ -9,7 +9,7 @@ class HelpdeskController < Abstract::FrontendController
   before_action :set_no_cache_headers
 
   def send_helpdesk
-    @recaptcha = RecaptchaIntegration.new(request: request, params: params, action: 'helpdesk')
+    @recaptcha = Xi::Recaptcha::Integration.new(request: request, params: params, action: 'helpdesk')
     unless @recaptcha.verified?
       @recaptcha.require_manual_verification!
       @ticket = Helpdesk::TicketForm.new(ticket_params).tap { annotate_with_metadata _1 }
@@ -21,20 +21,20 @@ class HelpdeskController < Abstract::FrontendController
       end
     end
 
-    create_ticket
+    create_ticket!
     render 'success'
   rescue ActiveRecord::RecordInvalid
     render 'error', status: :unprocessable_entity
   end
 
   def show
-    @recaptcha = RecaptchaIntegration.new(request: request, params: params, action: 'helpdesk')
+    @recaptcha = Xi::Recaptcha::Integration.new(request: request, params: params, action: 'helpdesk')
     @ticket = Helpdesk::TicketForm.new(ticket_params).tap { annotate_with_metadata _1 }
   end
 
   private
 
-  def create_ticket
+  def create_ticket!
     params[:mail] = current_user.email if current_user.logged_in?
 
     # Here you can add as much data as you want...

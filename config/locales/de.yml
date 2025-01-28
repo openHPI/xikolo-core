@@ -2877,7 +2877,6 @@ de:
       dashboard: Letzte Aktivitäten ansehen
       discussions: Mit der Gruppe diskutieren
       etherpad: Gemeinsam Texte bearbeiten
-      video_chat: Video-Chat starten
       files: Dateien teilen
       tpa: "Teamarbeit abgeben und Arbeiten anderer Teams bewerten (%{title})"
       administration: Lernraum verwalten
@@ -2898,8 +2897,9 @@ de:
       confirm_delete: Möchten Sie diese Datei wirklich vom Server löschen?
     list: Liste der Lernräume
     my_rooms: Meine Lernräume
-    list_empty_state: Für diesen Kurs gibt es noch keine Lernräume.
     my_rooms_empty_state: Sie sind noch keinem Lernraum beigetreten.
+    list_empty_state: Für diesen Kurs gibt es noch keine Lernräume.
+    memberships_empty_state: Dem Lernraum sind noch keine Mitglieder beigetreten.
     create: Neuen Lernraum anlegen
     create_button: Lernraum anlegen
     update_button: Lernraum aktualisieren
@@ -2945,36 +2945,6 @@ de:
       is_open: Dieser Lernraum ist offen
       mail_to_member: E-Mail an Mitglied schreiben
       mail: Sehr geehrte/r Frau/Herr %{recipient}, Viele Grüße %{sender}
-
-    video_chats:
-      headline: Video-Chat
-      btn_txt: Video-Chat auf Jitsi Meet starten
-      note: "Hinweis: Wenn Sie den Video-Chat starten, werden Sie zu einem Drittanbieter (“Jitsi Meet“) weitergeleitet. <br>Jitsi Meet ist ein Open Source Projekt. Wir geben keine Ihrer Daten weiter. <br>Sie müssen auf Jitsi Meet keinen Account anlegen."
-      description: Vereinbaren Sie mit den anderen Teammitgliedern einen Termin für Ihren Video-Chat und legen Sie fest, wer den Link zum Video-Chat teilen soll.
-      start_chat:
-        headline: Vor dem Video-Chat
-        how_to: "So erzeugen und teilen Sie einen Konferenzlink:"
-        list_text:
-          - Drücken Sie die Schaltfläche „Video-Chat auf Jitsi Meet starten“. Ein neues Fenster oder Tab öffnet sich.
-          - Drücken Sie die Schaltfläche „Meeting starten“. Ein neues Fenster öffnet sich.
-          - Kopieren Sie den Konferenzlink. Sie finden ihn in der Adressleiste des Browsers.
-          - Teilen Sie den Konferenzlink mit Ihren Teammitgliedern. Sie können das Diskussionsforum Ihres Lernraums zum Teilen nutzen.
-      chat_info:
-        headline: "Wenn das Meeting stattfindet"
-        list_text:
-          - Folgen Sie dem Konferenzlink.
-          - Geben Sie den Benutzernamen ein, den Sie während der Konferenz nutzen wollen.
-          - Drücken Sie die Schaltfläche „Konferenz beitreten“.
-          - Sie befinden sich jetzt im Video-Chat.
-          - - "Am unteren Bildschirmrand finden Sie eine Menüleiste mit nützlichen Funktionen, wie:"
-            - Mikrofon (an / aus)
-            - Kamera (an / aus)
-            - Bildschirmteilen (an / aus)
-            - Chat-Fenster (öffnen / schließen)
-            - Handheben (ein / aus)
-            - Anwesende anzeigen (an / aus)
-            - Und viele weitere Funktionen
-          - Um gesehen zu werden, müssen Sie Ihre Kamera anschalten. Um gehört zu werden müssen Sie Ihr Mikrofon anschalten.
     flash_messages:
       success:
         delete_room: Der Lernraum wurde erfolgreich gelöscht.

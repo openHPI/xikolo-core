@@ -11,12 +11,12 @@
       h3
         = t(:'learning_rooms.admin.member_management')
       hr.divider
-      = render 'member_management', members: @members, memberships: @memberships, team: true
+      = render 'collabspace/memberships/management', members: @members, memberships: @memberships, team: true
   - else
     h3
       = t(:'learning_rooms.admin.member_management')
     hr.divider
-    = render 'member_management', members: @members, memberships: @memberships, team: false
+    = render 'collabspace/memberships/management', members: @members, memberships: @memberships, team: false
 
     h3
       = t(:'learning_rooms.admin.delete')
@@ -26,5 +26,4 @@
         course_learning_room_path(params[:course_id], params[:id]),
         class: 'btn btn-xs btn-danger',
         method: :delete,
-        data: { confirm: t(:'learning_rooms.admin.delete_confirm') }
-    end
+        data: {confirm: t(:'learning_rooms.admin.delete_confirm')}

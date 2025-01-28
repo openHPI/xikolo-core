@@ -192,7 +192,6 @@ module Navigation
         @request = request
       end
 
-      # rubocop:disable Metrics/BlockLength
       def build
         ::Navigation::TableOfContents.new.tap do |toc|
           # 1. Add general collabspace links.
@@ -216,13 +215,6 @@ module Navigation
             link: {href: etherpad_url, target: '_blank'},
             tooltip: 'Etherpad',
             active: false
-          )
-          toc.with_section(
-            text: I18n.t(:'learning_rooms.nav.video_chat'),
-            link: {href: course_learning_room_video_chat_path(@context.course_code, @context.collabspace_id)},
-            tooltip: 'Jitsi Meet',
-            active: @context.current_page?(course_learning_room_video_chat_path(@context.course_code,
-              @context.collabspace_id))
           )
           toc.with_section(
             text: I18n.t(:'learning_rooms.nav.files'),
@@ -263,8 +255,6 @@ module Navigation
           end
         end
       end
-      # rubocop:enable Metrics/BlockLength
-
       private
 
       def etherpad_url

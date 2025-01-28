@@ -28,6 +28,7 @@
 
 # Generated assets
 /coverage/*
+/public/assets
 
 # RSpec state file
 /spec/examples.txt

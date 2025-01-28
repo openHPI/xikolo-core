@@ -9,7 +9,7 @@
             = t(:'learning_rooms.my_rooms')
         div class="collapse in" id="my-learning-rooms"
           - if @my_collabspace_presenters.any?
-            = render partial: 'collabspace_list', locals: {collabspaces: @my_collabspace_presenters}
+            = render partial: 'list', locals: {collabspaces: @my_collabspace_presenters}
           - else
             = render State::Empty.new(t(:'learning_rooms.my_rooms_empty_state'), size: :small)
 
@@ -21,7 +21,7 @@
         div class="collapse in" id="unjoined-learning-rooms"
           - if @unjoined_collabspaces.any?
             #pagination-items
-              = render 'collabspace_list', collabspaces: @collabspace_presenters
+              = render partial: 'list', locals: {collabspaces: @collabspace_presenters}
             #pagination-menu
               = will_paginate RestifyPaginationCollection.new(@unjoined_collabspaces), renderer: AjaxPaginationRenderer
           - else

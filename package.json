@@ -51,7 +51,7 @@
     "image-webpack-loader": "^8.1.0",
     "lint-staged": "^15.2.7",
     "markdownlint": "^0.37.0",
-    "markdownlint-cli": "^0.43.0",
+    "markdownlint-cli": "^0.44.0",
     "mini-css-extract-plugin": "^2.9.0",
     "postcss": "^8.4.40",
     "postcss-loader": "^8.1.1",

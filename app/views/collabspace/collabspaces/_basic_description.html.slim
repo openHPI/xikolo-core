@@ -2,13 +2,10 @@ h2
   = collabspace_presenter.name
 div
   p = collabspace_presenter.description
-  .mt10 == collabspace_presenter.details
+  p.mt10 == collabspace_presenter.details
 
 - unless collabspace_presenter.team?
-  p
-    - if collabspace_presenter.open?
-      = render Global::FaIcon.new('unlock', style: :solid, css_classes: 'mr10 em1-2')
-      span = t(:'learning_rooms.is_open')
-    - else
-      = render Global::FaIcon.new('lock', style: :solid, css_classes: 'mr10 em1-2')
-      span = t(:'learning_rooms.is_closed')
+  - if collabspace_presenter.open?
+    = render Global::Callout.new(t(:'learning_rooms.is_open'), icon: Global::FaIcon.new('unlock', style: :solid))
+  - else
+    = render Global::Callout.new(t(:'learning_rooms.is_closed'), icon: Global::FaIcon.new('lock', style: :solid))

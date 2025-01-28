@@ -23,7 +23,7 @@
           .modal-frame.modal-frame--higher
 
     .category-keys
-      - ::Collabspace::CalendarEventForm.categories.each do |title, category|
+      - Collabspace::CalendarEventForm.categories.each do |title, category|
         span.category-keys__key
           = render Global::FaIcon.new('circle', style: :solid, css_classes: "xi-icon--#{category}")
           = title

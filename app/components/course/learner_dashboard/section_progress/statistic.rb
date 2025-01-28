@@ -27,6 +27,12 @@ module Course
             taken: @values['submitted_exercises'],
             total: @values['total_exercises'])
         end
+
+        private
+
+        def render?
+          @values.present?
+        end
       end
     end
   end

@@ -146,8 +146,8 @@ gem 'jwt'
 
 # Assets
 gem 'rails-assets-manifest', '~> 3.0', '>= 3.0.1'
-gem 'sprockets', '~> 3.2'
-gem 'sprockets-rails', '~> 3.2'
+gem 'sprockets', '~> 4.2'
+gem 'sprockets-rails', '~> 3.5'
 
 group :assets do
   gem 'dartsass-sprockets'
