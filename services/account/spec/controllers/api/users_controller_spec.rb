@@ -17,7 +17,7 @@ describe API::UsersController, type: :controller do
     describe '#headers' do
       subject { response.headers.to_h }
 
-      it { is_expected.to include 'X-Cache-Xikolo' => 'shared' }
+      it { is_expected.to include 'x-cache-xikolo' => 'shared' }
     end
 
     describe '#links' do
@@ -105,7 +105,7 @@ describe API::UsersController, type: :controller do
       describe '#headers' do
         subject { response.headers.to_h }
 
-        it { is_expected.to include 'Location' => user_url(user) }
+        it { is_expected.to include 'location' => user_url(user) }
       end
 
       describe 'payload' do

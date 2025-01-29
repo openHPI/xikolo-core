@@ -142,8 +142,6 @@ GEM
     bunny (2.23.0)
       amq-protocol (~> 2.3, >= 2.3.1)
       sorted_set (~> 1, >= 1.0.2)
-    byebug (11.1.3)
-    coderay (1.1.3)
     concurrent-ruby (1.3.4)
     connection_pool (2.5.0)
     crack (1.0.0)
@@ -157,6 +155,9 @@ GEM
       database_cleaner-core (~> 2.0.0)
     database_cleaner-core (2.0.1)
     date (3.4.1)
+    debug (1.10.0)
+      irb (~> 1.10)
+      reline (>= 0.3.8)
     decorate-responder (2.1.0)
       responders (>= 2, < 4)
     diff-lcs (1.5.1)
@@ -216,7 +217,6 @@ GEM
       net-pop
       net-smtp
     marcel (1.0.4)
-    method_source (1.1.0)
     mini_mime (1.1.5)
     mini_portile2 (2.8.8)
     minitest (5.25.4)
@@ -247,12 +247,6 @@ GEM
     paginate-responder (2.1.0)
       rack-link_headers (>= 2.2)
     pg (1.5.9)
-    pry (0.14.2)
-      coderay (~> 1.1)
-      method_source (~> 1.0)
-    pry-byebug (3.10.1)
-      byebug (~> 11.0)
-      pry (>= 0.13, < 0.15)
     psych (5.2.2)
       date
       stringio
@@ -422,6 +416,7 @@ DEPENDENCIES
   activerecord-postgres_enum (~> 2.0)
   concurrent-ruby (~> 1.0)
   database_cleaner (~> 2.0)
+  debug
   decorate-responder (~> 2.0)
   draper (~> 4.0)
   drb
@@ -434,8 +429,6 @@ DEPENDENCIES
   mutex_m
   paginate-responder (~> 2.0)
   pg
-  pry
-  pry-byebug
   puma
   rack-remote
   rails (~> 7.2.0)

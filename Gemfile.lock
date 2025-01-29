@@ -225,7 +225,6 @@ GEM
     bunny (2.23.0)
       amq-protocol (~> 2.3, >= 2.3.1)
       sorted_set (~> 1, >= 1.0.2)
-    byebug (11.1.3)
     capybara (3.40.0)
       addressable
       matrix
@@ -238,7 +237,6 @@ GEM
     childprocess (5.1.0)
       logger (~> 1.5)
     chunky_png (1.4.0)
-    coderay (1.1.3)
     colorize (1.1.0)
     concurrent-ruby (1.3.4)
     connection_pool (2.5.0)
@@ -267,6 +265,9 @@ GEM
       database_cleaner-core (~> 2.0.0)
     database_cleaner-core (2.0.1)
     date (3.4.1)
+    debug (1.10.0)
+      irb (~> 1.10)
+      reline (>= 0.3.8)
     debug_inspector (1.2.0)
     decorate-responder (2.1.0)
       responders (>= 2, < 4)
@@ -277,15 +278,27 @@ GEM
     docile (1.4.1)
     domain_name (0.6.20240107)
     drb (2.2.1)
+    dry-configurable (1.3.0)
+      dry-core (~> 1.1)
+      zeitwerk (~> 2.6)
     dry-core (1.1.0)
       concurrent-ruby (~> 1.0)
       logger
       zeitwerk (~> 2.6)
     dry-inflector (1.2.0)
+    dry-initializer (3.2.0)
     dry-logic (1.6.0)
       bigdecimal
       concurrent-ruby (~> 1.0)
       dry-core (~> 1.1)
+      zeitwerk (~> 2.6)
+    dry-schema (1.14.0)
+      concurrent-ruby (~> 1.0)
+      dry-configurable (~> 1.0, >= 1.0.1)
+      dry-core (~> 1.1)
+      dry-initializer (~> 3.2)
+      dry-logic (~> 1.5)
+      dry-types (~> 1.8)
       zeitwerk (~> 2.6)
     dry-types (1.8.0)
       bigdecimal (~> 3.0)
@@ -293,6 +306,12 @@ GEM
       dry-core (~> 1.0)
       dry-inflector (~> 1.0)
       dry-logic (~> 1.4)
+      zeitwerk (~> 2.6)
+    dry-validation (1.11.1)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 1.1)
+      dry-initializer (~> 3.2)
+      dry-schema (~> 1.14)
       zeitwerk (~> 2.6)
     email_validator (2.2.4)
       activemodel
@@ -340,13 +359,12 @@ GEM
     google-protobuf (4.29.3-x86_64-linux)
       bigdecimal
       rake (>= 13)
-    grape (1.8.0)
-      activesupport (>= 5)
-      builder
+    grape (2.2.0)
+      activesupport (>= 6)
       dry-types (>= 1.1)
-      mustermann-grape (~> 1.0.0)
-      rack (>= 1.3.0)
-      rack-accept
+      mustermann-grape (~> 1.1.0)
+      rack (>= 2)
+      zeitwerk
     grape-entity (1.0.1)
       activesupport (>= 3.0.0)
       multi_json (>= 1.3.2)
@@ -490,7 +508,7 @@ GEM
       bigdecimal (~> 3.1)
     mustermann (3.0.3)
       ruby2_keywords (~> 0.0.1)
-    mustermann-grape (1.0.2)
+    mustermann-grape (1.1.0)
       mustermann (>= 1.0.0)
     mutex_m (0.3.0)
     net-http (0.6.0)
@@ -598,12 +616,6 @@ GEM
       actionmailer (>= 3)
       net-smtp
       premailer (~> 1.7, >= 1.7.9)
-    pry (0.14.2)
-      coderay (~> 1.1)
-      method_source (~> 1.0)
-    pry-byebug (3.10.1)
-      byebug (~> 11.0)
-      pry (>= 0.13, < 0.15)
     psych (5.2.2)
       date
       stringio
@@ -612,9 +624,7 @@ GEM
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.8.1)
-    rack (2.2.10)
-    rack-accept (0.4.5)
-      rack (>= 0.4)
+    rack (3.1.8)
     rack-attack (6.7.0)
       rack (>= 1.0, < 4)
     rack-cors (2.0.2)
@@ -628,19 +638,20 @@ GEM
       faraday-follow_redirects
       json-jwt (>= 1.11.0)
       rack (>= 2.1.0)
-    rack-protection (3.2.0)
+    rack-protection (4.1.1)
       base64 (>= 0.1.0)
-      rack (~> 2.2, >= 2.2.4)
+      logger (>= 1.6.0)
+      rack (>= 3.0.0, < 4)
     rack-remote (1.1.0)
       multi_json
       rack
-    rack-session (1.0.2)
-      rack (< 3)
+    rack-session (2.1.0)
+      base64 (>= 0.1.0)
+      rack (>= 3.0.0)
     rack-test (2.2.0)
       rack (>= 1.3)
-    rackup (1.0.1)
-      rack (< 3)
-      webrick
+    rackup (2.2.1)
+      rack (>= 3)
     rails (7.2.2.1)
       actioncable (= 7.2.2.1)
       actionmailbox (= 7.2.2.1)
@@ -958,13 +969,15 @@ DEPENDENCIES
   csv
   dartsass-sprockets
   database_cleaner (~> 2.0)
+  debug
   decorate-responder (~> 2.0)
   delayed (~> 0.4)
   drb
+  dry-validation
   factory_bot_rails (~> 6.0)
   fx (~> 0.9.0)
   gon (~> 6.4)
-  grape (~> 1.6)
+  grape (~> 2.2)
   grape-entity
   groupdate (~> 6.0)
   gurke (~> 3.3)
@@ -1015,10 +1028,8 @@ DEPENDENCIES
   prawn-table
   prawn-templates (~> 0.1.0)
   premailer-rails
-  pry
-  pry-byebug
   puma
-  rack (~> 2.2.0)
+  rack (~> 3.1.0)
   rack-attack
   rack-cors (~> 2.0)
   rack-link_headers (~> 2.2)

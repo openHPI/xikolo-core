@@ -517,6 +517,10 @@ Rails.application.routes.draw do
 
   get 'ical', to: 'ical#index'
 
+  # Private API endpoints used by the frontend only. Must shadow the
+  # deprecated public API below.
+  post 'api/tracking-events', to: 'api/tracking_events#create'
+
   # mount Rack based API app
   mount Xikolo::API => '/api'
 

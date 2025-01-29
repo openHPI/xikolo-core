@@ -29,7 +29,7 @@ describe 'Groups: Creation', type: :request do
 
     it 'withs a validation error' do
       expect { resource }.to raise_error Restify::ClientError do |error|
-        expect(error.status).to eq :unprocessable_entity
+        expect(error.status).to eq :unprocessable_content
         expect(error.errors).to eq 'name' => %w[required invalid]
       end
     end
@@ -40,7 +40,7 @@ describe 'Groups: Creation', type: :request do
 
     it 'withs a validation error' do
       expect { resource }.to raise_error Restify::ClientError do |error|
-        expect(error.status).to eq :unprocessable_entity
+        expect(error.status).to eq :unprocessable_content
         expect(error.errors).to eq 'name' => %w[required invalid]
       end
     end
@@ -51,7 +51,7 @@ describe 'Groups: Creation', type: :request do
 
     it 'withs a validation error' do
       expect { resource }.to raise_error Restify::ClientError do |error|
-        expect(error.status).to eq :unprocessable_entity
+        expect(error.status).to eq :unprocessable_content
         expect(error.errors).to eq 'name' => %w[invalid]
       end
     end
@@ -66,7 +66,7 @@ describe 'Groups: Creation', type: :request do
 
     it 'withs a validation error' do
       expect { resource }.to raise_error Restify::ClientError do |error|
-        expect(error.status).to eq :unprocessable_entity
+        expect(error.status).to eq :unprocessable_content
         expect(error.errors).to eq 'name' => %w[invalid]
       end
     end

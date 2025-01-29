@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-require 'pry'
 
 describe Event, type: :model do
   subject(:event) { create(:event) }

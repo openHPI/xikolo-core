@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-require 'pry'
 
 describe QuizzesController, type: :controller do
   let(:quiz) { create(:quiz) }

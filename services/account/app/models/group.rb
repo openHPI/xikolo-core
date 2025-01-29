@@ -141,22 +141,44 @@ class Group < ApplicationRecord
       ensure! name: NAME::UNCONFIRMED, description: 'Unconfirmed users', validate_name_format: false
     end
 
-    %i[
-      active_users
-      all_users
-      archived_users
-      confirmed_users
-      unconfirmed_users
-    ].each do |name|
-      module_eval <<-RUBY, __FILE__, __LINE__ + 1
-        def #{name}_id                                           # def all_users_id
-          Rails.cache.fetch('group/id/#{name}') { #{name}.id }   #   Rails.cache.fetch('group/id/all_users') { all_users.id }
-        end                                                      # end
+    def active_users_id
+      Rails.cache.fetch('group/id/active_users_id') { active_users.id }
+    end
 
-        def #{name}_scope                                        # def all_users_scope
-          where id: #{name}_id                                   #   where id: all_users_id
-        end                                                      # end
-      RUBY
+    def active_users_scope
+      where(id: active_users_id)
+    end
+
+    def all_users_id
+      Rails.cache.fetch('group/id/all_users_id') { all_users.id }
+    end
+
+    def all_users_scope
+      where(id: all_users_id)
+    end
+
+    def archived_users_id
+      Rails.cache.fetch('group/id/archived_users_id') { archived_users.id }
+    end
+
+    def archived_users_scope
+      where(id: archived_users_id)
+    end
+
+    def confirmed_users_id
+      Rails.cache.fetch('group/id/confirmed_users_id') { confirmed_users.id }
+    end
+
+    def confirmed_users_scope
+      where(id: confirmed_users_id)
+    end
+
+    def unconfirmed_users_id
+      Rails.cache.fetch('group/id/unconfirmed_users_id') { unconfirmed_users.id }
+    end
+
+    def unconfirmed_users_scope
+      where(id: unconfirmed_users_id)
     end
 
     private

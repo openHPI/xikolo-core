@@ -34,11 +34,11 @@ gem 'redis', '~> 5.0'
 gem 'puma'
 
 # API & Messaging
-gem 'grape', '~> 1.6'
+gem 'grape', '~> 2.2'
 gem 'grape-entity'
 gem 'msgr', '~> 1.5' # Connecting to RabbitMQ
 gem 'oj'
-gem 'rack', '~> 2.2.0'
+gem 'rack', '~> 3.1.0'
 gem 'rack-attack'
 gem 'rack-cors', '~> 2.0'
 gem 'restify', '~> 1.15'
@@ -60,6 +60,7 @@ gem 'view_component', '~> 3.0'
 # Helper
 gem 'addressable'
 gem 'browser', '~> 6.0'
+gem 'dry-validation'
 gem 'http_accept_language'
 gem 'idn-ruby', '~> 0.1.0' # Used by Addressable when available (for better performance)
 gem 'imgproxy'
@@ -164,11 +165,12 @@ group :development do
 end
 
 group :development, :test do
+  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
+  gem 'debug', platforms: %i[mri windows], require: 'debug/prelude'
+
   gem 'brakeman'
   gem 'letter_opener'
   gem 'listen', '~> 3.9.0'
-  gem 'pry'
-  gem 'pry-byebug'
   gem 'rspec', '~> 3.10'
   gem 'rspec-collection_matchers'
   gem 'rspec-its'

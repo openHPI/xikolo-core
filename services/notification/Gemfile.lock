@@ -118,7 +118,6 @@ GEM
     bunny (2.23.0)
       amq-protocol (~> 2.3, >= 2.3.1)
       sorted_set (~> 1, >= 1.0.2)
-    byebug (11.1.3)
     cairo (1.17.14)
       native-package-installer (>= 1.0.3)
       pkg-config (>= 1.2.2)
@@ -128,7 +127,6 @@ GEM
       glib2 (= 4.2.5)
     childprocess (5.1.0)
       logger (~> 1.5)
-    coderay (1.1.3)
     concurrent-ruby (1.3.4)
     connection_pool (2.5.0)
     crack (1.0.0)
@@ -144,6 +142,9 @@ GEM
       database_cleaner-core (~> 2.0.0)
     database_cleaner-core (2.0.1)
     date (3.4.1)
+    debug (1.10.0)
+      irb (~> 1.10)
+      reline (>= 0.3.8)
     decorate-responder (2.1.0)
       responders (>= 2, < 4)
     diff-lcs (1.5.1)
@@ -224,7 +225,6 @@ GEM
       net-smtp
     marcel (1.0.4)
     matrix (0.4.2)
-    method_source (1.1.0)
     mini_mime (1.1.5)
     mini_portile2 (2.8.8)
     minitest (5.25.4)
@@ -265,12 +265,6 @@ GEM
       actionmailer (>= 3)
       net-smtp
       premailer (~> 1.7, >= 1.7.9)
-    pry (0.14.2)
-      coderay (~> 1.1)
-      method_source (~> 1.0)
-    pry-byebug (3.10.1)
-      byebug (~> 11.0)
-      pry (>= 0.13, < 0.15)
     psych (5.2.2)
       date
       stringio
@@ -278,19 +272,19 @@ GEM
     puma (6.5.0)
       nio4r (~> 2.0)
     racc (1.8.1)
-    rack (2.2.10)
+    rack (3.1.8)
     rack-link_headers (2.4.1)
       rack
     rack-remote (1.1.0)
       multi_json
       rack
-    rack-session (1.0.2)
-      rack (< 3)
+    rack-session (2.1.0)
+      base64 (>= 0.1.0)
+      rack (>= 3.0.0)
     rack-test (2.2.0)
       rack (>= 1.3)
-    rackup (1.0.1)
-      rack (< 3)
-      webrick
+    rackup (2.2.1)
+      rack (>= 3)
     rails (7.2.2.1)
       actioncable (= 7.2.2.1)
       actionmailbox (= 7.2.2.1)
@@ -460,7 +454,6 @@ GEM
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
-    webrick (1.9.1)
     websocket-driver (0.7.7)
       base64
       websocket-extensions (>= 0.1.0)
@@ -478,6 +471,7 @@ DEPENDENCIES
   addressable
   concurrent-ruby (~> 1.0)
   database_cleaner (~> 2.0)
+  debug
   decorate-responder (~> 2.0)
   draper (~> 4.0)
   drb
@@ -494,8 +488,6 @@ DEPENDENCIES
   paginate-responder (~> 2.0)
   pg
   premailer-rails
-  pry
-  pry-byebug
   puma
   rack-remote
   rails (~> 7.2.0)

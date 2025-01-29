@@ -76,7 +76,7 @@ describe API::EmailsController, type: :controller do
 
       it 'responds with appropriate Location header' do
         expect(response.headers.to_h).to include \
-          'Location' => user_email_url(email.reload.user, email)
+          'location' => user_email_url(email.reload.user, email)
       end
 
       describe 'JSON' do
@@ -103,7 +103,7 @@ describe API::EmailsController, type: :controller do
           expect { response }.not_to change(user, :primary_email)
         end
 
-        it { is_expected.to have_http_status :unprocessable_entity }
+        it { is_expected.to have_http_status :unprocessable_content }
 
         describe 'JSON' do
           subject(:json) { JSON.parse(response.body) }
@@ -148,7 +148,7 @@ describe API::EmailsController, type: :controller do
           create(:email, user:, confirmed: true, primary: true)
         end
 
-        it { is_expected.to have_http_status :unprocessable_entity }
+        it { is_expected.to have_http_status :unprocessable_content }
 
         it 'does not change the primary email record' do
           expect { response }.not_to change { email.reload.attributes }
@@ -184,7 +184,7 @@ describe API::EmailsController, type: :controller do
 
       it 'responds with appropriate Location header' do
         expect(response.headers.to_h).to include \
-          'Location' => user_email_url(user, user.emails.last)
+          'location' => user_email_url(user, user.emails.last)
       end
 
       context 'database record' do
@@ -206,7 +206,7 @@ describe API::EmailsController, type: :controller do
       it { expect { response }.not_to change(Email, :count) }
       it { expect { response }.not_to change(user.emails, :count) }
 
-      it { is_expected.to have_http_status :unprocessable_entity }
+      it { is_expected.to have_http_status :unprocessable_content }
 
       describe 'JSON' do
         subject(:json) { JSON.parse(response.body) }
@@ -232,7 +232,7 @@ describe API::EmailsController, type: :controller do
     context 'with primary address' do
       let(:email) { user.primary_email.reload }
 
-      it { is_expected.to have_http_status :unprocessable_entity }
+      it { is_expected.to have_http_status :unprocessable_content }
 
       it 'does not delete database record' do
         expect { response }.not_to change(Email, :count)

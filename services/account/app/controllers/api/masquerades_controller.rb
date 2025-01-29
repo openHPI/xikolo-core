@@ -7,7 +7,7 @@ class API::MasqueradesController < API::RESTController
 
       render status: :ok, json: {}
     else
-      render status: :unprocessable_entity,
+      render status: :unprocessable_content,
         json: {errors: {user: %w[required]}}
     end
   end

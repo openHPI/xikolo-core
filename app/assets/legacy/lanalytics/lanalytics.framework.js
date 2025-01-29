@@ -62,7 +62,7 @@ import ready from 'util/ready';
       var errorHandler, experienceStatement, request;
       experienceStatement = this.eventQueue.shift();
       request = new XMLHttpRequest();
-      request.open('POST', '/api/v2/tracking-events', true);
+      request.open('POST', '/api/tracking-events', true);
       request.setRequestHeader('Content-Type', 'application/json');
       errorHandler = () => {
         this.eventQueue.push(experienceStatement);
@@ -73,7 +73,7 @@ import ready from 'util/ready';
           errorHandler();
         }
       };
-      return request.send(experienceStatement.serializeJsonApi());
+      return request.send(experienceStatement.toJSON());
     }
   };
 

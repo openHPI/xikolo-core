@@ -14,7 +14,7 @@ class API::BaseController < ApplicationController
   end
 
   def error_invalid
-    error :unprocessable_entity
+    error :unprocessable_content
   end
 
   def error(code, opts = {})

@@ -21,9 +21,9 @@ RSpec.describe 'GET /.well-known/*', type: :request do
       # Headers must be converted to hash (`#to_h`) otherwise the `include`
       # matcher will not work because `response.headers` is a Rails object.
       response.headers.to_h.tap do |headers|
-        expect(headers).to include 'Cache-Control' => 'max-age=3600, public'
-        expect(headers).to include 'Content-Type' => include('text/plain')
-        expect(headers).to include 'ETag', 'Last-Modified'
+        expect(headers).to include 'cache-control' => 'max-age=3600, public'
+        expect(headers).to include 'content-type' => include('text/plain')
+        expect(headers).to include 'etag', 'last-modified'
       end
     end
 

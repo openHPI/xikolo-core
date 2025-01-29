@@ -151,7 +151,7 @@ describe API::ProfilesController, type: :controller do
 
           before { field.update_values(user, ['text']) }
 
-          it { is_expected.to have_http_status :unprocessable_entity }
+          it { is_expected.to have_http_status :unprocessable_content }
 
           it 'responds with error JSON' do
             expect(json['errors']).to include 'fn' => ['required']
@@ -185,7 +185,7 @@ describe API::ProfilesController, type: :controller do
           }
         end
 
-        it { is_expected.to have_http_status :unprocessable_entity }
+        it { is_expected.to have_http_status :unprocessable_content }
 
         it 'responds with error JSON' do
           expect(json['errors']).to include 'fn' => ['values not allowed']
@@ -279,7 +279,7 @@ describe API::ProfilesController, type: :controller do
 
           before { field.update_values(user, ['1']) }
 
-          it { is_expected.to have_http_status :unprocessable_entity }
+          it { is_expected.to have_http_status :unprocessable_content }
 
           it 'responds with error JSON' do
             expect(json['errors']).to include 'fn' => ['required']
@@ -340,7 +340,7 @@ describe API::ProfilesController, type: :controller do
           }
         end
 
-        it { is_expected.to have_http_status :unprocessable_entity }
+        it { is_expected.to have_http_status :unprocessable_content }
 
         it 'responds with error JSON' do
           expect(json['errors']).to include 'fn' => ['INVALID']

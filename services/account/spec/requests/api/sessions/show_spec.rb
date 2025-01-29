@@ -154,7 +154,7 @@ describe 'Sessions: Show', type: :request do
       end
 
       it { is_expected.to respond_with :ok }
-      it { is_expected.not_to include_header 'X-Cache-Xikolo' => 'shared' }
+      it { is_expected.not_to include_header 'x-cache-xikolo' => 'shared' }
 
       it 'includes user resource' do
         expect(resource['user']).to eq json(session.user)
@@ -182,7 +182,7 @@ describe 'Sessions: Show', type: :request do
       end
 
       it { is_expected.to respond_with :ok }
-      it { is_expected.not_to include_header 'X-Cache-Xikolo' => 'shared' }
+      it { is_expected.not_to include_header 'x-cache-xikolo' => 'shared' }
 
       it 'includes feature map' do
         expect(resource['features']).to match_array json \
@@ -208,7 +208,7 @@ describe 'Sessions: Show', type: :request do
       end
 
       it { is_expected.to respond_with :ok }
-      it { is_expected.not_to include_header 'X-Cache-Xikolo' => 'shared' }
+      it { is_expected.not_to include_header 'x-cache-xikolo' => 'shared' }
 
       it { is_expected.to have_key 'permissions' }
 
@@ -250,7 +250,7 @@ describe 'Sessions: Show', type: :request do
     end
 
     it { is_expected.to respond_with :ok }
-    it { is_expected.not_to include_header 'X-Cache-Xikolo' => 'shared' }
+    it { is_expected.not_to include_header 'x-cache-xikolo' => 'shared' }
 
     it 'includes permissions' do
       expect(resource['permissions']).to \

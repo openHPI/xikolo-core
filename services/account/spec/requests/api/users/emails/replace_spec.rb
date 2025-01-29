@@ -40,9 +40,9 @@ describe "Replace user's email addresses", type: :request do
   end
 
   shared_examples_for 'an invalid email address replacement request' do
-    it 'responds with :unprocessable_entity, and does not delete the old email record' do
+    it 'responds with :unprocessable_content, and does not delete the old email record' do
       expect { resource }.to raise_error(Restify::UnprocessableEntity) do |error|
-        expect(error.status).to eq :unprocessable_entity
+        expect(error.status).to eq :unprocessable_content
         expect(Email.exists?(old_email.id)).to be(true)
       end
     end

@@ -29,7 +29,7 @@ describe API::PasswordResetsController, type: :controller do
     context 'with non-existing email address' do
       let(:params) { {email: 'does.not.exists@xikolo.de'} }
 
-      it { is_expected.to have_http_status :unprocessable_entity }
+      it { is_expected.to have_http_status :unprocessable_content }
 
       it 'does not create a password reset' do
         expect { response }.not_to change(PasswordReset, :count)
@@ -67,13 +67,13 @@ describe API::PasswordResetsController, type: :controller do
     let(:params) { {id: reset.token} }
 
     context 'without password' do
-      it { is_expected.to have_http_status :unprocessable_entity }
+      it { is_expected.to have_http_status :unprocessable_content }
     end
 
     context 'with empty password' do
       let(:params) { {**super(), password: ''} }
 
-      it { is_expected.to have_http_status :unprocessable_entity }
+      it { is_expected.to have_http_status :unprocessable_content }
 
       describe 'JSON' do
         subject(:json) { JSON.parse(response.body) }
@@ -87,7 +87,7 @@ describe API::PasswordResetsController, type: :controller do
     context 'with too short password' do
       let(:params) { {**super(), password: 'test'} }
 
-      it { is_expected.to have_http_status :unprocessable_entity }
+      it { is_expected.to have_http_status :unprocessable_content }
 
       describe 'JSON' do
         subject(:json) { JSON.parse(response.body) }
@@ -134,7 +134,7 @@ describe API::PasswordResetsController, type: :controller do
       context 'with expired reset token' do
         before { reset.update! created_at: 24.hours.ago }
 
-        it { is_expected.to have_http_status :unprocessable_entity }
+        it { is_expected.to have_http_status :unprocessable_content }
 
         describe 'JSON' do
           subject(:json) { JSON.parse(response.body) }

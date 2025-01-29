@@ -28,7 +28,7 @@ class API::SessionsController < API::RESTController
     if handler.authenticated?
       respond_with handler.session
     else
-      render status: :unprocessable_entity, json: {errors: handler.errors}
+      render status: :unprocessable_content, json: {errors: handler.errors}
     end
   end
 

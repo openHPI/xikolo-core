@@ -85,7 +85,7 @@ describe 'Sessions: Create with User ID', type: :request do
       end
 
       it 'responds with a unprocessable entity (422) status code' do
-        expect(response).to respond_with :unprocessable_entity
+        expect(response).to respond_with :unprocessable_content
       end
 
       describe 'payload error messages' do

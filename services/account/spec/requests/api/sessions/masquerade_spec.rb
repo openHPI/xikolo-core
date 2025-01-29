@@ -26,7 +26,7 @@ describe 'Sessions: Masquerade', type: :request do
 
       it 'raises a client error' do
         expect { response }.to raise_error Restify::ClientError do |error|
-          expect(error.status).to eq :unprocessable_entity
+          expect(error.status).to eq :unprocessable_content
           expect(error.errors).to eq 'user' => %w[required]
         end
       end

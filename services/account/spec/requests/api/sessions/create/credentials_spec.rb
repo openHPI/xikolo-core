@@ -45,7 +45,7 @@ describe 'Sessions: Create with Credentials', type: :request do
       end
 
       it 'responds with 422 Unprocessable Entity' do
-        expect(response).to respond_with :unprocessable_entity
+        expect(response).to respond_with :unprocessable_content
       end
 
       it 'does not create session record' do
@@ -71,7 +71,7 @@ describe 'Sessions: Create with Credentials', type: :request do
       end
 
       it 'responds with 422 Unprocessable Entity' do
-        expect(response).to respond_with :unprocessable_entity
+        expect(response).to respond_with :unprocessable_content
       end
 
       it 'does not create session record' do
@@ -91,7 +91,7 @@ describe 'Sessions: Create with Credentials', type: :request do
       end
 
       it 'responds with 422 Unprocessable Entity' do
-        expect(response).to respond_with :unprocessable_entity
+        expect(response).to respond_with :unprocessable_content
       end
 
       it 'does not create session record' do
@@ -111,7 +111,7 @@ describe 'Sessions: Create with Credentials', type: :request do
       end
 
       it 'responds with 422 Unprocessable Entity' do
-        expect(response).to respond_with :unprocessable_entity
+        expect(response).to respond_with :unprocessable_content
       end
 
       it 'does not create session record' do
@@ -129,7 +129,7 @@ describe 'Sessions: Create with Credentials', type: :request do
       before { user.update! archived: true }
 
       it 'responds with 422 Unprocessable Entity' do
-        expect(response).to respond_with :unprocessable_entity
+        expect(response).to respond_with :unprocessable_content
       end
 
       it 'does not create session record' do

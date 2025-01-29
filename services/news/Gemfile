@@ -62,10 +62,11 @@ gem 'premailer-rails'
 gem 'sass-rails'
 
 group :development, :test do
+  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
+  gem 'debug', platforms: %i[mri windows], require: 'debug/prelude'
+
   gem 'letter_opener'
   gem 'listen', '~> 3.9.0'
-  gem 'pry'
-  gem 'pry-byebug'
   gem 'rspec', '~> 3.10'
   gem 'rspec-rails', '~> 7.0'
   gem 'rspec-teamcity', require: false

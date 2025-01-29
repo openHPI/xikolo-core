@@ -12,7 +12,7 @@ RSpec.describe 'News: Create', type: :request do
 
     it 'returns with errors' do
       expect { request }.to raise_error(Restify::ClientError) do |e|
-        expect(e.status).to eq :unprocessable_entity
+        expect(e.status).to eq :unprocessable_content
         expect(News.count).to eq 0
       end
     end

@@ -24,7 +24,7 @@ class API::ProfilesController < API::RESTController
     end
   rescue ActiveRecord::RecordInvalid => e
     render formats.first => {errors: e.record.errors},
-      status: :unprocessable_entity
+      status: :unprocessable_content
   end
 
   def fields

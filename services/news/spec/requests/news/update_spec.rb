@@ -17,7 +17,7 @@ RSpec.describe 'Announcements: Update', type: :request do
 
     it 'returns with errors' do
       expect { request }.to raise_error(Restify::ClientError) do |e|
-        expect(e.status).to eq :unprocessable_entity
+        expect(e.status).to eq :unprocessable_content
       end
     end
   end

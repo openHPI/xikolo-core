@@ -41,11 +41,10 @@
       this.timestamp = timestamp;
     }
 
-    serializeJsonApi() {
+    toJSON() {
       return JSON.stringify({
-        data: {
-          type: 'tracking-events',
-          attributes: {
+        events: [
+          {
             user: this.user.params(),
             verb: this.verb.params(),
             resource: this.resource.params(),
@@ -53,7 +52,7 @@
             result: this.with_result,
             context: this.in_context,
           },
-        },
+        ],
       });
     }
   };

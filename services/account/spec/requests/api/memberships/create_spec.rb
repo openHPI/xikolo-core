@@ -41,7 +41,7 @@ describe 'Memberships: Creation', type: :request do
 
       it 'responds with a validation error' do
         expect { resource }.to raise_error Restify::ClientError do |error|
-          expect(error.status).to eq :unprocessable_entity
+          expect(error.status).to eq :unprocessable_content
           expect(error.errors).to eq 'group' => %w[invalid]
         end
       end
@@ -82,7 +82,7 @@ describe 'Memberships: Creation', type: :request do
 
     it 'responds with a validation error' do
       expect { resource }.to raise_error Restify::ClientError do |error|
-        expect(error.status).to eq :unprocessable_entity
+        expect(error.status).to eq :unprocessable_content
         expect(error.errors).to eq 'user' => %w[required]
       end
     end
@@ -93,7 +93,7 @@ describe 'Memberships: Creation', type: :request do
 
     it 'responds with a validation error' do
       expect { resource }.to raise_error Restify::ClientError do |error|
-        expect(error.status).to eq :unprocessable_entity
+        expect(error.status).to eq :unprocessable_content
         expect(error.errors).to eq 'user' => %w[required]
       end
     end
