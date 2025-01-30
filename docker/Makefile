@@ -13,7 +13,7 @@ APPLICATIONS := $(basename $(notdir $(wildcard ./files/*.Dockerfile)))
 
 .PHONY: all
 all: info
-	docker buildx bake --pull --load default
+	docker buildx bake --allow=fs.read=.. --pull --load default
 
 .PHONY: info
 info:
@@ -24,4 +24,4 @@ info:
 .PHONY: $(APPLICATIONS)
 $(APPLICATIONS): info
 	echo "$(REGISTRY)"
-	docker buildx bake --pull --load "$@"
+	docker buildx bake --allow=fs.read=.. --pull --load "$@"

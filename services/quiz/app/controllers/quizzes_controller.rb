@@ -41,8 +41,7 @@ class QuizzesController < ApplicationController
     xml_string = params[:xml].presence || params[:xml_string]
 
     if xml_string.present? && params[:course_id].present?
-      importer = XMLImporter::Quiz.new(params[:course_code], params[:course_id], xml_string)
-      importer.create_quizzes
+      XMLImporter::Quiz.new(params[:course_code], params[:course_id], xml_string).create_quizzes!
       head :no_content
     else
       quiz = Quiz.new id: UUID4.new
@@ -107,7 +106,7 @@ class QuizzesController < ApplicationController
 
     importer = XMLImporter::Quiz.new(params[:course_code], params[:course_id], params[:xml])
 
-    quizzes = Array.wrap(importer.preprocess['quizzes']['quiz']).map do |quiz|
+    quizzes = Array.wrap(importer.preprocess!['quizzes']['quiz']).map do |quiz|
       questions = Array.wrap(quiz.dig('questions', 'question'))
       number_answers = questions.sum do |question|
         Array.wrap(question.dig('answers', 'answer')).length

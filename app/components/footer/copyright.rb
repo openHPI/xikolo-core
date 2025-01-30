@@ -63,8 +63,27 @@ module Footer
       Xikolo.config.footer&.dig('copyright')
     end
 
+    def build_commit_sha
+      ENV.fetch('BUILD_COMMIT_SHA', nil)
+    end
+
+    def build_commit_short_sha
+      ENV.fetch('BUILD_COMMIT_SHORT_SHA', nil)
+    end
+
     def release_number
       ENV.fetch('RELEASE_NUMBER', nil)
+    end
+
+    def release_tag
+      if release_number.present? || build_commit_short_sha.present? || build_commit_sha.present?
+        content_tag(
+          :span,
+          release_number.presence || build_commit_short_sha.presence || build_commit_sha,
+          class: 'footer__release',
+          title: build_commit_sha
+        )
+      end
     end
   end
 end

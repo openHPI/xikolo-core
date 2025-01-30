@@ -4,8 +4,16 @@ variable TAG {
   default = "latest"
 }
 
+variable CI_COMMIT_REF_NAME {
+  default = ""
+}
+
 variable CI_COMMIT_SHA {
   default = "latest"
+}
+
+variable CI_COMMIT_SHORT_SHA {
+  default = ""
 }
 
 variable REGISTRY {
@@ -37,6 +45,12 @@ target build {
   name       = "${app}"
   context    = "../"
   dockerfile = "./docker/files/${app}.Dockerfile"
+
+  args = {
+    BUILD_REF_NAME         = "${CI_COMMIT_REF_NAME}"
+    BUILD_COMMIT_SHA       = "${CI_COMMIT_SHA}"
+    BUILD_COMMIT_SHORT_SHA = "${CI_COMMIT_SHORT_SHA}"
+  }
 
   tags = [
     "${REGISTRY}xikolo-${app}:${TAG}",

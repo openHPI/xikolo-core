@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe XMLImporter::Quiz do
-  subject(:create_quizzes) { described_class.new(course_code, course_id, xml).create_quizzes }
+  subject(:create_quizzes) { described_class.new(course_code, course_id, xml).create_quizzes! }
 
   let(:course_code) { 'a4h1' }
   let(:course_id) { '00000000-0000-4444-9999-000000000000' }
@@ -117,42 +117,42 @@ describe XMLImporter::Quiz do
       context 'with not existing section' do
         let(:xml) do
           <<-XML
-          <?xml version="1.0" encoding="UTF-8"?>
-          <quizzes>
-            <quiz bonus="false" course_code="a4h1" graded="false" published="false"
-                  section="3" show_in_nav="true" skip_intro="false" survey="false">
-              <name lang="en">Selftest 3.1</name>
-              <instructions></instructions>
-              <attempts>0</attempts>
-              <time_limit>0</time_limit>
-              <due_date>2014-09-10T20:00:00</due_date>
-              <publish_results_date>2014-09-10T20:00:00</publish_results_date>
-              <questions>
-                <question points="3" shuffle_answers="true" type="MultipleAnswer">
-                  <text lang="en">Which of the following statements about Company X’s user interface technology are true? Note: There are 2 correct answers to this question.</text>
-                  <answers>
-                    <answer correct="true" type="TextAnswer">
-                      <text lang="en">Increasingly, Company X is decoupling the UI from back-end systems.</text>
-                      <explanation></explanation>
-                    </answer>
-                    <answer correct="false" type="TextAnswer">
-                      <text lang="en">It offers UI and business logic in one stack.</text>
-                      <explanation></explanation>
-                    </answer>
-                  </answers>
-                </question>
-                <question points="3" shuffle_answers="true" type="MultipleAnswer">
-                  <text lang="en">Which 3 terms describe Company X’s UX strategy?</text>
-                  <answers>
-                    <answer correct="true" type="TextAnswer">
-                      <text lang="en">New, renew, enable</text>
-                      <explanation></explanation>
-                    </answer>
-                  </answers>
-                </question>
-              </questions>
-            </quiz>
-          </quizzes>
+            <?xml version="1.0" encoding="UTF-8"?>
+            <quizzes>
+              <quiz bonus="false" course_code="a4h1" graded="false" published="false"
+                    section="3" show_in_nav="true" skip_intro="false" survey="false">
+                <name lang="en">Selftest 3.1</name>
+                <instructions></instructions>
+                <attempts>0</attempts>
+                <time_limit>0</time_limit>
+                <due_date>2014-09-10T20:00:00</due_date>
+                <publish_results_date>2014-09-10T20:00:00</publish_results_date>
+                <questions>
+                  <question points="3" shuffle_answers="true" type="MultipleAnswer">
+                    <text lang="en">Which of the following statements about Company X’s user interface technology are true? Note: There are 2 correct answers to this question.</text>
+                    <answers>
+                      <answer correct="true" type="TextAnswer">
+                        <text lang="en">Increasingly, Company X is decoupling the UI from back-end systems.</text>
+                        <explanation></explanation>
+                      </answer>
+                      <answer correct="false" type="TextAnswer">
+                        <text lang="en">It offers UI and business logic in one stack.</text>
+                        <explanation></explanation>
+                      </answer>
+                    </answers>
+                  </question>
+                  <question points="3" shuffle_answers="true" type="MultipleAnswer">
+                    <text lang="en">Which 3 terms describe Company X’s UX strategy?</text>
+                    <answers>
+                      <answer correct="true" type="TextAnswer">
+                        <text lang="en">New, renew, enable</text>
+                        <explanation></explanation>
+                      </answer>
+                    </answers>
+                  </question>
+                </questions>
+              </quiz>
+            </quizzes>
           XML
         end
 
@@ -168,42 +168,42 @@ describe XMLImporter::Quiz do
 
         let(:xml) do
           <<-XML
-          <?xml version="1.0" encoding="UTF-8"?>
-          <quizzes>
-            <quiz bonus="false" course_code="a4h1" graded="false" published="false"
-                  section="2" subsection="1" show_in_nav="true" skip_intro="false" survey="false">
-              <name lang="en">Selftest 3.1</name>
-              <instructions></instructions>
-              <attempts>0</attempts>
-              <time_limit>0</time_limit>
-              <due_date>2014-09-10T20:00:00</due_date>
-              <publish_results_date>2014-09-10T20:00:00</publish_results_date>
-              <questions>
-                <question points="3" shuffle_answers="true" type="MultipleAnswer">
-                  <text lang="en">Which of the following statements about Company X’s user interface technology are true? Note: There are 2 correct answers to this question.</text>
-                  <answers>
-                    <answer correct="true" type="TextAnswer">
-                      <text lang="en">Increasingly, Company X is decoupling the UI from back-end systems.</text>
-                      <explanation></explanation>
-                    </answer>
-                    <answer correct="false" type="TextAnswer">
-                      <text lang="en">It offers UI and business logic in one stack.</text>
-                      <explanation></explanation>
-                    </answer>
-                  </answers>
-                </question>
-                <question points="3" shuffle_answers="true" type="MultipleAnswer">
-                  <text lang="en">Which 3 terms describe Company X’s UX strategy?</text>
-                  <answers>
-                    <answer correct="true" type="TextAnswer">
-                      <text lang="en">New, renew, enable</text>
-                      <explanation></explanation>
-                    </answer>
-                  </answers>
-                </question>
-              </questions>
-            </quiz>
-          </quizzes>
+            <?xml version="1.0" encoding="UTF-8"?>
+            <quizzes>
+              <quiz bonus="false" course_code="a4h1" graded="false" published="false"
+                    section="2" subsection="1" show_in_nav="true" skip_intro="false" survey="false">
+                <name lang="en">Selftest 3.1</name>
+                <instructions></instructions>
+                <attempts>0</attempts>
+                <time_limit>0</time_limit>
+                <due_date>2014-09-10T20:00:00</due_date>
+                <publish_results_date>2014-09-10T20:00:00</publish_results_date>
+                <questions>
+                  <question points="3" shuffle_answers="true" type="MultipleAnswer">
+                    <text lang="en">Which of the following statements about Company X’s user interface technology are true? Note: There are 2 correct answers to this question.</text>
+                    <answers>
+                      <answer correct="true" type="TextAnswer">
+                        <text lang="en">Increasingly, Company X is decoupling the UI from back-end systems.</text>
+                        <explanation></explanation>
+                      </answer>
+                      <answer correct="false" type="TextAnswer">
+                        <text lang="en">It offers UI and business logic in one stack.</text>
+                        <explanation></explanation>
+                      </answer>
+                    </answers>
+                  </question>
+                  <question points="3" shuffle_answers="true" type="MultipleAnswer">
+                    <text lang="en">Which 3 terms describe Company X’s UX strategy?</text>
+                    <answers>
+                      <answer correct="true" type="TextAnswer">
+                        <text lang="en">New, renew, enable</text>
+                        <explanation></explanation>
+                      </answer>
+                    </answers>
+                  </question>
+                </questions>
+              </quiz>
+            </quizzes>
           XML
         end
 
@@ -398,7 +398,8 @@ describe XMLImporter::Quiz do
       end
 
       context 'with an existing quiz with the same external_ref_id in a another course' do
-        # The course service does not return this quiz' id as an item's content_id in a section of the current course
+        # The course service does not return this quiz' id as an item's
+        # content_id in a section of the current course.
         let(:quiz) { create(:quiz, external_ref_id: quiz_1_ref) }
 
         it 'creates both quizzes' do
@@ -412,10 +413,10 @@ describe XMLImporter::Quiz do
   context 'with invalid XML' do
     let(:xml) do
       <<-XML
-    <?xml version="1.0" encoding="UTF-8"?>
-    <quizzes>
-      </quiz>
-    </quizzes>
+        <?xml version="1.0" encoding="UTF-8"?>
+        <quizzes>
+          </quiz>
+        </quizzes>
       XML
     end
 

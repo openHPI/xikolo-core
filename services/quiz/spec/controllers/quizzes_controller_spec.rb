@@ -302,7 +302,7 @@ describe QuizzesController, type: :controller do
       it 'responds with 422 Unprocessable Entity due to missing section' do
         action.call
         expect(response).to have_http_status :unprocessable_content
-        expect(response.body).to eql '{"errors":["Course section for quiz \\"My Test\\" does not exist"]}'
+        expect(response.body).to eql '{"errors":["Course section for quiz \'My Test\' does not exist"]}'
       end
     end
 

@@ -1,6 +1,5 @@
 - content_for :head_assets
-  = javascript_include_tag 'd3.v3.js'
-  = javascript_include_tag 'dimple.js', crossorigin: 'anonymous', integrity: true, defer: true, debug: false
+  = javascript_include_tag 'peer-assessment-statistics', crossorigin: 'anonymous', integrity: true, async: true, debug: false
 
 - content_for :course_area_header
   = render Global::PageHeader.new("#{t(:'peer_assessment.index.admin.headline')} - #{course_layout.title}",
@@ -25,24 +24,7 @@
 
         - data = []
         - presenter.statistic['point_groups'].to_h.each {|key, value| value.each {|k, v| data << {Type: t(:"peer_assessment.statistics.names.#{key}"), Date: k[0..9], Count: v} } }
-        .white-bg id="peer_assessment_#{presenter.id}" style="height:250px"
-          - # rubocop:disable Rails/OutputSafety
-          javascript:
-            ready(function () {
-              peer_chart_data = #{raw data.to_json};
-              var presenter_id = "#{presenter.id}"
-              var svg = dimple.newSvg(`#peer_assessment_${presenter_id}`, '100%', '100%');
-              var myPeerChart = new dimple.chart(svg, peer_chart_data);
-              var x = myPeerChart.addTimeAxis("x", "Date", "%Y-%m-%d", "%d-%m-%Y");
-              //var x = myPeerChart.addCategoryAxis("x", "Date");
-              x.addOrderRule("Date");
-              myPeerChart.addMeasureAxis("y", "Count");
-              s = myPeerChart.addSeries("Type", dimple.plot.line);
-              myPeerChart.setMargins("25px", "25px", "25px", "75px");
-              myPeerChart.addLegend(60, 10, 500, 20, "right");
-              myPeerChart.draw();
-            });
-          - # rubocop:enable Rails/OutputSafety
+        .white-bg id="peer_assessment_#{presenter.id}" style="height:250px" data-behavior='peer-assessment-chart' data-chart-data=data.to_json
 
       .col-md-6
         h5

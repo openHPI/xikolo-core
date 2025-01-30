@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
 module XMLImporter
+  require 'xml_importer/course'
   require 'xml_importer/quiz'
+  require 'xml_importer/quiz_persistence'
+  require 'xml_importer/quiz_validator'
+  require 'xml_importer/xml_validator'
 
   class SchemaError < StandardError
     attr_reader :errors

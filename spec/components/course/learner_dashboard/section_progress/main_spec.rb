@@ -116,4 +116,27 @@ describe Course::LearnerDashboard::SectionProgress::Main, type: :component do
       expect(page).to have_no_content 'Section statistics'
     end
   end
+
+  context 'with alternative sections' do
+    context 'with alternative state as parent' do
+      let(:section_progress) { super().merge('alternative_state' => 'parent', 'title' => 'Alternative section parent') }
+
+      it 'does not show the section' do
+        render_inline(component)
+
+        expect(page).to have_no_content 'Alternative section parent'
+        expect(page.text).to be_empty
+      end
+    end
+
+    context 'with alternative state as child' do
+      let(:section_progress) { super().merge('alternative_state' => 'child', 'title' => 'Alternative section child') }
+
+      it 'shows the section' do
+        render_inline(component)
+
+        expect(page).to have_content 'Alternative section child'
+      end
+    end
+  end
 end

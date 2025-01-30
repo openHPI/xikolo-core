@@ -1726,9 +1726,9 @@ de:
         show: Erklärung anzeigen
         hide: Erklärung ausblenden
         completed: Inhalt abgeschlossen
-        not_visited: Inhalt noch nicht besucht
+        not_completed: Inhalt nicht abgeschlossen
         warning: Ausreichende Punktzahl erreicht
-        critical: Niedriger Punktestand, wenn möglich wiederholen
+        critical: Niedrige Punktzahl, wenn möglich wiederholen
         optional: Optionaler Inhalt, beeinflusst die Punktzahl nicht
 
     admin:

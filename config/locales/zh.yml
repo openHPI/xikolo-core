@@ -1319,11 +1319,11 @@ zh: &zh
       legend:
         show: 显示解释
         hide: 隐藏解释
-        completed: 内容完成
-        not_visited: 内容尚未访问
+        completed: 内容已完成
+        not_completed: 内容未完成
         warning: 达到足够分数
         critical: 分数低，可能的话重新学习
-        optional: 可选内容，不影响分数
+        optional: 可选内容，不影响得分
 
     admin:
       certificate_templates:

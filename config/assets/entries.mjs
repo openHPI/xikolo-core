@@ -27,9 +27,10 @@ export default async function entries() {
     'lanalytics-pa-results':
       'legacy/lanalytics/visits/peer_assessment_results.js',
     'account-profile': 'legacy/account-profile.js',
+    'result-box': 'legacy/quiz/result-box.js',
+    'peer-assessment-statistics': 'legacy/peer-assessment/statistics.js',
 
     // Libraries
-    'd3.v3': 'd3/d3.min.js',
     dimple: 'legacy/libraries/dimple.js',
     'bootstrap-editable': 'legacy/bootstrap-editable.js',
 

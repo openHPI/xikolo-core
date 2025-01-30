@@ -66,13 +66,19 @@ module Course
             {class_modifier: 'completed', text: t(:'course.progress.legend.completed')},
             {class_modifier: 'warning', text: t(:'course.progress.legend.warning')},
             {class_modifier: 'critical', text: t(:'course.progress.legend.critical')},
-            {class_modifier: '', text: t(:'course.progress.legend.not_visited')},
+            {class_modifier: '', text: t(:'course.progress.legend.not_completed')},
             {class_modifier: 'optional', text: t(:'course.progress.legend.optional')},
           ]
         end
 
         def section_statistics?
           main_statistic.present? || bonus_statistic.present? || selftest_statistic.present?
+        end
+
+        private
+
+        def render?
+          @section_progress['alternative_state'] != 'parent'
         end
       end
     end
