@@ -5,6 +5,7 @@
   margin: 0;
   background-color: $gray-100;
   color: $gray-600;
+  white-space: nowrap;
   @include font-s;
 
   &--small {

@@ -18,8 +18,8 @@ module Course
 
         def css_classes
           [].tap do |cls|
-            cls << "section-material__item--#{state}" if state.present?
-            cls << 'section-material__item--optional' if optional?
+            cls << "section-progress__material-item--#{state}" if state.present?
+            cls << 'section-progress__material-item--optional' if optional?
           end
         end
 

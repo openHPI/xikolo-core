@@ -6,7 +6,7 @@
   - unless @in_app
     .mt30
 - elsif nav.any?
-  .col-md-12
+  .col-md-12 data-behavior='popover-openmode--mobile'
     = render Navigation::Tabs.new(collapsible: true) do |c|
       - nav.each do |item|
         - c.with_tab(active: item.active?(request))

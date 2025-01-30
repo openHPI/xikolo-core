@@ -72,7 +72,6 @@ describe Course::LearnerDashboard::SectionProgress::Main, type: :component do
   it 'shows information about the section material' do
     render_inline(component)
 
-    expect(page).to have_content 'Section material'
     expect(page).to have_css '[aria-label="Week 1: Quiz 1"]'
     expect(page).to have_css '[aria-label="Week 1: Quiz 2"]'
     expect(page).to have_content 'Show explanation'
@@ -81,12 +80,11 @@ describe Course::LearnerDashboard::SectionProgress::Main, type: :component do
   it 'shows information about the section statistics' do
     render_inline(component)
 
-    expect(page).to have_content 'Section statistics'
-    expect(page).to have_content 'Assignments22.0 / 26.0 (84%)'
+    expect(page).to have_content '84%Assignments22 of 26 points'
     expect(page).to have_content '3 of 4 taken'
-    expect(page).to have_content 'Bonus5.0 / 8.0 (62%)'
+    expect(page).to have_content '62%Bonus5 of 8 points'
     expect(page).to have_content '1 of 1 taken'
-    expect(page).to have_content 'Self-tests4.0 / 4.0 (100%)'
+    expect(page).to have_content '100%Self-tests4 of 4 points'
     expect(page).to have_content '2 of 2 taken'
   end
 
@@ -96,8 +94,7 @@ describe Course::LearnerDashboard::SectionProgress::Main, type: :component do
     it 'only shows relevant statistics' do
       render_inline(component)
 
-      within('.section-statistics') do
-        expect(page).to have_content 'Section statistics'
+      within('.section-progress__statistics') do
         expect(page).to have_content 'Assignments'
 
         expect(page).to have_no_content 'Self-tests'
@@ -112,8 +109,12 @@ describe Course::LearnerDashboard::SectionProgress::Main, type: :component do
     it 'does not show the section statistics' do
       render_inline(component)
 
-      expect(page).to have_content 'Section material'
-      expect(page).to have_no_content 'Section statistics'
+      expect(page).to have_content 'Section 1'
+      within('.section-progress__statistics') do
+        expect(page).to have_no_content 'Assignments'
+        expect(page).to have_no_content 'Self-tests'
+        expect(page).to have_no_content 'Bonus'
+      end
     end
   end
 

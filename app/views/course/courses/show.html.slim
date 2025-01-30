@@ -122,3 +122,4 @@
 
 - if @course_presenter.open_mode?
   = render Course::Popover.new(t(:'course.courses.show.open_mode.text'), 'popover-openmode', cookie_name: 'hide_openmode_hint')
+  = render Course::Popover.new(t(:'course.courses.show.open_mode.text'), 'popover-openmode--mobile', cookie_name: 'hide_openmode_hint')

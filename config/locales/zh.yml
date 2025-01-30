@@ -1275,7 +1275,9 @@ zh: &zh
     progress:
       learner_dashboard: 我的学习进度
       graded_score: 评分点数
+      graded: "%{achieved} 的 %{available}"
       selftest_score: 自测点数
+      selftest: "%{achieved} 的 %{available}"
       visited_score: 访问过的项目
       visited_items: "%{visited} 中 %{available} 的已访问项目"
       visited_empty: 无货
@@ -1284,14 +1286,14 @@ zh: &zh
         graded: "分级: "
         selftests: "自我测试: "
         visited: "已访问: "
-      section_material: 科室材料
       section_material_empty: 无可用项目
-      section_statistics: 章节统计
       statistics:
         main: 作业
         bonus: 奖励
         selftests: 自我测试
+        points_achieved: "%{submitted_points} 分中的 %{max_points} 分"
         items_taken: "%{taken} 的 %{total} 采取"
+        empty_state_points: 无积分
       progress_table: # deprecated
         assignments: 作业
         bonus: 奖励

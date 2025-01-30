@@ -4,6 +4,7 @@ module Course
   module LearnerDashboard
     class CourseProgress < ApplicationComponent
       include ProgressHelper
+      include ActiveSupport::NumberHelper
 
       EMPTY_STATE = '—'
 
@@ -25,7 +26,9 @@ module Course
 
         return unless available_points&.positive?
 
-        "#{achieved_points} / #{available_points}"
+        achieved = number_to_rounded(achieved_points, strip_insignificant_zeros: true)
+        available = number_to_rounded(available_points, strip_insignificant_zeros: true)
+        t(:'course.progress.graded', achieved:, available:)
       end
 
       def selftest_score
@@ -36,7 +39,9 @@ module Course
 
         return unless available_points&.positive?
 
-        "#{achieved_points} / #{available_points}"
+        achieved = number_to_rounded(achieved_points, strip_insignificant_zeros: true)
+        available = number_to_rounded(available_points, strip_insignificant_zeros: true)
+        t(:'course.progress.selftest', achieved:, available:)
       end
 
       def items_visited

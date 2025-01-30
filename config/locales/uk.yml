@@ -1546,7 +1546,9 @@ uk:
     progress:
       learner_dashboard: Мій прогрес у навчанні
       graded_score: Оцінки за балами
+      graded: "%{achieved} від %{available}"
       selftest_score: Бали за самоперевірку
+      selftest: "%{achieved} від %{available}"
       visited_score: Відвідані предмети
       visited_items: "%{visited} від %{available} відвіданих пунктів"
       visited_empty: немає доступних товарів
@@ -1555,14 +1557,14 @@ uk:
         graded: "Оцінено: "
         selftests: "Самоперевірка: "
         visited: "Відвідано: "
-      section_material: Матеріали розділу
       section_material_empty: Немає доступних товарів
-      section_statistics: Статистика розділу
       statistics:
         main: Завдання
         bonus: Бонус
         selftests: Самоперевірка
+        points_achieved: "%{submitted_points} з %{max_points} балів"
         items_taken: "%{taken} від %{total} складено"
+        empty_state_points: Немає балів
       progress_table: # deprecated
         assignments: Завдання
         bonus: Бонус

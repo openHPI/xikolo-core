@@ -2388,7 +2388,9 @@ en:
     progress:
       learner_dashboard: My learning progress
       graded_score: Graded points
+      graded: "%{achieved} of %{available}"
       selftest_score: Self-test points
+      selftest: "%{achieved} of %{available}"
       visited_score: Visited items
       visited_items: "%{visited} of %{available} items visited"
       visited_empty: No available items
@@ -2397,14 +2399,14 @@ en:
         graded: "Graded: "
         selftests: "Self-tests: "
         visits: "Visited: "
-      section_material: Section material
       section_material_empty: No available items
-      section_statistics: Section statistics
       statistics:
         main: Assignments
         bonus: Bonus
         selftests: Self-tests
+        points_achieved: "%{submitted_points} of %{max_points} points"
         items_taken: "%{taken} of %{total} taken"
+        empty_state_points: No points
       progress_table: # deprecated
         assignments: Assignments
         bonus: Bonus

@@ -6,7 +6,7 @@
       - else
         = render Course::CircularProgress.new(graded_percentage, EMPTY_STATE, :small)
       .course-progress__overall-score
-        span = t(:'course.progress.graded_score')
+        span.course-progress__overall-score-title = t(:'course.progress.graded_score')
         - if graded_score.present?
           span = graded_score
         - else
@@ -18,7 +18,7 @@
       - else
         = render Course::CircularProgress.new(selftest_percentage, EMPTY_STATE, :small)
       .course-progress__overall-score
-        span = t(:'course.progress.selftest_score')
+        span.course-progress__overall-score-title = t(:'course.progress.selftest_score')
         - if selftest_score.present?
           span = selftest_score
         - else
@@ -30,7 +30,7 @@
       - else
         = render Course::CircularProgress.new(visits_percentage, EMPTY_STATE, :small)
       .course-progress__overall-score
-        span = t(:'course.progress.visited_score')
+        span.course-progress__overall-score-title = t(:'course.progress.visited_score')
         - if items_available.positive?
           span = t(:'course.progress.visits', visited: items_visited, available: items_available)
         - else

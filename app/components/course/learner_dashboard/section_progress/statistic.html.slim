@@ -1,9 +1,14 @@
 .section-progress__statistic
-  .item
-    = render Global::FaIcon.new(@icon)
-  .item
-    = @label
-  .item__data
-    = points_scored.presence || Course::LearnerDashboard::CourseProgress::EMPTY_STATE
-  .item__data
-    = exercises_taken
+  .section-progress__statistic-percentage
+    - if percentage.present?
+      = percentage
+      span = '%'
+
+  div
+    .section-progress__statistic-item
+      = render Global::FaIcon.new(@icon)
+      = @label
+    .section-progress__statistic-item-data
+      = render Global::Pill.new \
+        points_scored || t(:'course.progress.statistics.empty_state_points'), size: :small
+      = render Global::Pill.new(exercises_taken, size: :small)

@@ -11,17 +11,15 @@
       = render Course::LearnerDashboard::SectionProgress::Score.new(label: t(:'course.progress.section_score.visits'), value: visits_percentage)
 
     .section-progress__visited-items
-      - if items_available.positive?
-        p = t(:'course.progress.visited_items', visited: items_visited, available: items_available)
-      - else
-        p = t(:'course.progress.visited_empty')
+      = render Global::Pill.new \
+        items_available.positive? ? t(:'course.progress.visited_items', visited: items_visited, available: items_available) : t(:'course.progress.visited_empty'),
+        size: :small,
+        color: :note
 
   .section-progress__content
-    .section-material
-      h5 = t(:'course.progress.section_material')
-
+    .section-progress__material
       - if items.any?
-        .section-material__items
+        .section-progress__material-items
           - items.each do |item|
             = render Course::LearnerDashboard::SectionProgress::Item.new(item, @course)
 
@@ -31,16 +29,13 @@
           icons: {opened: 'circle-info', closed: 'circle-info', style: :regular, closed_classes: 'mr5'}) do
           .section-progress__legend
             - legend_items.each do |item|
-              .legend__item
-                .legend__icon class="legend__icon--#{item[:class_modifier]}"
-                .legend__text = item[:text]
+              .section-progress__legend-item
+                .section-progress__legend-icon class="section-progress__legend-icon--#{item[:class_modifier]}"
+                .section-progress__legend-text = item[:text]
       - else
         p = t(:'course.progress.section_material_empty')
 
-    - if section_statistics?
-      .section-statistics
-        h5 = t(:'course.progress.section_statistics')
-
-        = render Course::LearnerDashboard::SectionProgress::Statistic.new(label: t(:'course.progress.statistics.main'), values: main_statistic, icon: 'money-check-pen')
-        = render Course::LearnerDashboard::SectionProgress::Statistic.new(label: t(:'course.progress.statistics.bonus'), values: bonus_statistic, icon: 'lightbulb-on+circle-star')
-        = render Course::LearnerDashboard::SectionProgress::Statistic.new(label: t(:'course.progress.statistics.selftests'), values: selftest_statistic, icon: 'lightbulb-on')
+    .section-progress__statistics
+      = render Course::LearnerDashboard::SectionProgress::Statistic.new(label: t(:'course.progress.statistics.main'), values: main_statistic, icon: 'money-check-pen')
+      = render Course::LearnerDashboard::SectionProgress::Statistic.new(label: t(:'course.progress.statistics.bonus'), values: bonus_statistic, icon: 'lightbulb-on+circle-star')
+      = render Course::LearnerDashboard::SectionProgress::Statistic.new(label: t(:'course.progress.statistics.selftests'), values: selftest_statistic, icon: 'lightbulb-on')

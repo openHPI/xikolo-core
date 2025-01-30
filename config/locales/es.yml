@@ -1429,7 +1429,9 @@ es:
     progress:
       learner_dashboard: Mi progreso de aprendizaje
       graded_score: Puntos calificados
+      graded: "%{achieved} de %{available}"
       selftest_score: Puntos de autoevaluación
+      selftest: "%{achieved} de %{available}"
       visited_score: Elementos visitados
       visited_items: "%{visited} de %{available} elementos visitados"
       visited_empty: no hay artículos disponibles
@@ -1438,14 +1440,14 @@ es:
         graded: "Calificado: "
         selftests: "Autoevaluaciones: "
         visits: "Visitados: "
-      section_material: Material de sección
       section_material_empty: Ningún elemento disponible
-      section_statistics: Estadísticas de sección
       statistics:
         main: Trabajos
         bonus: Extras
         selftests: Autoevaluaciones
+        points_achieved: "%{submitted_points} de %{max_points} puntos"
         items_taken: "%{taken} de %{total} tomado"
+        empty_state_points: Sin puntos
       progress_table: # deprecated
         assignments: Trabajos
         bonus: Extras

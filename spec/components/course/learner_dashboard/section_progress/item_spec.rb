@@ -35,9 +35,9 @@ describe Course::LearnerDashboard::SectionProgress::Item, type: :component do
       expect(page).to have_css("[data-tooltip='Graded quiz']")
       expect(page).to have_css('.fa-money-check-pen')
       expect(page).to have_link(href: "/courses/#{course.course_code}/items/MuWLdgp3ovAznAJohFLuT")
-      expect(page).to have_no_css('.section-material__item--critical')
-      expect(page).to have_no_css('.section-material__item--warning')
-      expect(page).to have_no_css('.section-material__item--completed')
+      expect(page).to have_no_css('.section-progress__material-item--critical')
+      expect(page).to have_no_css('.section-progress__material-item--warning')
+      expect(page).to have_no_css('.section-progress__material-item--completed')
     end
   end
 
@@ -51,9 +51,9 @@ describe Course::LearnerDashboard::SectionProgress::Item, type: :component do
       expect(page).to have_css("[data-tooltip='Graded quiz']")
       expect(page).to have_css('.fa-money-check-pen')
       expect(page).to have_link(href: "/courses/#{course.course_code}/items/MuWLdgp3ovAznAJohFLuT")
-      expect(page).to have_css('.section-material__item--critical')
-      expect(page).to have_no_css('.section-material__item--warning')
-      expect(page).to have_no_css('.section-material__item--completed')
+      expect(page).to have_css('.section-progress__material-item--critical')
+      expect(page).to have_no_css('.section-progress__material-item--warning')
+      expect(page).to have_no_css('.section-progress__material-item--completed')
     end
   end
 
@@ -67,9 +67,9 @@ describe Course::LearnerDashboard::SectionProgress::Item, type: :component do
       expect(page).to have_css("[data-tooltip='Graded quiz']")
       expect(page).to have_css('.fa-money-check-pen')
       expect(page).to have_link(href: "/courses/#{course.course_code}/items/MuWLdgp3ovAznAJohFLuT")
-      expect(page).to have_css('.section-material__item--warning')
-      expect(page).to have_no_css('.section-material__item--critical')
-      expect(page).to have_no_css('.section-material__item--completed')
+      expect(page).to have_css('.section-progress__material-item--warning')
+      expect(page).to have_no_css('.section-progress__material-item--critical')
+      expect(page).to have_no_css('.section-progress__material-item--completed')
     end
   end
 
@@ -83,10 +83,10 @@ describe Course::LearnerDashboard::SectionProgress::Item, type: :component do
       expect(page).to have_css("[data-tooltip='Graded quiz']")
       expect(page).to have_css('.fa-money-check-pen')
       expect(page).to have_link(href: "/courses/#{course.course_code}/items/MuWLdgp3ovAznAJohFLuT")
-      expect(page).to have_css('.section-material__item--completed')
-      expect(page).to have_no_css('.section-material__item--critical')
-      expect(page).to have_no_css('.section-material__item--warning')
-      expect(page).to have_no_css('.section-material__item--optional')
+      expect(page).to have_css('.section-progress__material-item--completed')
+      expect(page).to have_no_css('.section-progress__material-item--critical')
+      expect(page).to have_no_css('.section-progress__material-item--warning')
+      expect(page).to have_no_css('.section-progress__material-item--optional')
     end
   end
 
@@ -100,10 +100,10 @@ describe Course::LearnerDashboard::SectionProgress::Item, type: :component do
       expect(page).to have_css("[data-tooltip='Optional quiz']")
       expect(page).to have_css('.fa-money-check-pen')
       expect(page).to have_link(href: "/courses/#{course.course_code}/items/MuWLdgp3ovAznAJohFLuT")
-      expect(page).to have_css('.section-material__item--completed')
-      expect(page).to have_css('.section-material__item--optional')
-      expect(page).to have_no_css('.section-material__item--critical')
-      expect(page).to have_no_css('.section-material__item--warning')
+      expect(page).to have_css('.section-progress__material-item--completed')
+      expect(page).to have_css('.section-progress__material-item--optional')
+      expect(page).to have_no_css('.section-progress__material-item--critical')
+      expect(page).to have_no_css('.section-progress__material-item--warning')
     end
   end
 
@@ -117,9 +117,9 @@ describe Course::LearnerDashboard::SectionProgress::Item, type: :component do
       expect(page).to have_css("[data-tooltip='Graded quiz']")
       expect(page).to have_css('.fa-display-code')
       expect(page).to have_link(href: "/courses/#{course.course_code}/items/MuWLdgp3ovAznAJohFLuT")
-      expect(page).to have_no_css('.section-material__item--critical')
-      expect(page).to have_no_css('.section-material__item--warning')
-      expect(page).to have_no_css('.section-material__item--completed')
+      expect(page).to have_no_css('.section-progress__material-item--critical')
+      expect(page).to have_no_css('.section-progress__material-item--warning')
+      expect(page).to have_no_css('.section-progress__material-item--completed')
     end
   end
 
@@ -133,9 +133,9 @@ describe Course::LearnerDashboard::SectionProgress::Item, type: :component do
       expect(page).to have_css("[data-tooltip='Graded quiz']")
       expect(page).to have_css('.fa-display-code')
       expect(page).to have_link(href: "/courses/#{course.course_code}/items/MuWLdgp3ovAznAJohFLuT")
-      expect(page).to have_css('.section-material__item--critical')
-      expect(page).to have_no_css('.section-material__item--warning')
-      expect(page).to have_no_css('.section-material__item--completed')
+      expect(page).to have_css('.section-progress__material-item--critical')
+      expect(page).to have_no_css('.section-progress__material-item--warning')
+      expect(page).to have_no_css('.section-progress__material-item--completed')
     end
   end
 
@@ -149,9 +149,9 @@ describe Course::LearnerDashboard::SectionProgress::Item, type: :component do
       expect(page).to have_css("[data-tooltip='Graded quiz']")
       expect(page).to have_css('.fa-display-code')
       expect(page).to have_link(href: "/courses/#{course.course_code}/items/MuWLdgp3ovAznAJohFLuT")
-      expect(page).to have_css('.section-material__item--warning')
-      expect(page).to have_no_css('.section-material__item--critical')
-      expect(page).to have_no_css('.section-material__item--completed')
+      expect(page).to have_css('.section-progress__material-item--warning')
+      expect(page).to have_no_css('.section-progress__material-item--critical')
+      expect(page).to have_no_css('.section-progress__material-item--completed')
     end
   end
 
@@ -165,9 +165,9 @@ describe Course::LearnerDashboard::SectionProgress::Item, type: :component do
       expect(page).to have_css("[data-tooltip='Graded quiz']")
       expect(page).to have_css('.fa-display-code')
       expect(page).to have_link(href: "/courses/#{course.course_code}/items/MuWLdgp3ovAznAJohFLuT")
-      expect(page).to have_css('.section-material__item--completed')
-      expect(page).to have_no_css('.section-material__item--critical')
-      expect(page).to have_no_css('.section-material__item--warning')
+      expect(page).to have_css('.section-progress__material-item--completed')
+      expect(page).to have_no_css('.section-progress__material-item--critical')
+      expect(page).to have_no_css('.section-progress__material-item--warning')
     end
   end
 
@@ -181,9 +181,9 @@ describe Course::LearnerDashboard::SectionProgress::Item, type: :component do
       expect(page).to have_css("[data-tooltip='Graded quiz']")
       expect(page).to have_css('.fa-money-check-pen')
       expect(page).to have_link(href: "/courses/#{course.course_code}/items/MuWLdgp3ovAznAJohFLuT")
-      expect(page).to have_no_css('.section-material__item--critical')
-      expect(page).to have_no_css('.section-material__item--warning')
-      expect(page).to have_no_css('.section-material__item--completed')
+      expect(page).to have_no_css('.section-progress__material-item--critical')
+      expect(page).to have_no_css('.section-progress__material-item--warning')
+      expect(page).to have_no_css('.section-progress__material-item--completed')
     end
   end
 
@@ -197,9 +197,9 @@ describe Course::LearnerDashboard::SectionProgress::Item, type: :component do
       expect(page).to have_css("[data-tooltip='Graded quiz']")
       expect(page).to have_css('.fa-money-check-pen')
       expect(page).to have_link(href: "/courses/#{course.course_code}/items/MuWLdgp3ovAznAJohFLuT")
-      expect(page).to have_css('.section-material__item--critical')
-      expect(page).to have_no_css('.section-material__item--warning')
-      expect(page).to have_no_css('.section-material__item--completed')
+      expect(page).to have_css('.section-progress__material-item--critical')
+      expect(page).to have_no_css('.section-progress__material-item--warning')
+      expect(page).to have_no_css('.section-progress__material-item--completed')
     end
   end
 
@@ -213,9 +213,9 @@ describe Course::LearnerDashboard::SectionProgress::Item, type: :component do
       expect(page).to have_css("[data-tooltip='Graded quiz']")
       expect(page).to have_css('.fa-money-check-pen')
       expect(page).to have_link(href: "/courses/#{course.course_code}/items/MuWLdgp3ovAznAJohFLuT")
-      expect(page).to have_css('.section-material__item--warning')
-      expect(page).to have_no_css('.section-material__item--critical')
-      expect(page).to have_no_css('.section-material__item--completed')
+      expect(page).to have_css('.section-progress__material-item--warning')
+      expect(page).to have_no_css('.section-progress__material-item--critical')
+      expect(page).to have_no_css('.section-progress__material-item--completed')
     end
   end
 
@@ -229,9 +229,9 @@ describe Course::LearnerDashboard::SectionProgress::Item, type: :component do
       expect(page).to have_css("[data-tooltip='Graded quiz']")
       expect(page).to have_css('.fa-money-check-pen')
       expect(page).to have_link(href: "/courses/#{course.course_code}/items/MuWLdgp3ovAznAJohFLuT")
-      expect(page).to have_css('.section-material__item--completed')
-      expect(page).to have_no_css('.section-material__item--critical')
-      expect(page).to have_no_css('.section-material__item--warning')
+      expect(page).to have_css('.section-progress__material-item--completed')
+      expect(page).to have_no_css('.section-progress__material-item--critical')
+      expect(page).to have_no_css('.section-progress__material-item--warning')
     end
   end
 
@@ -246,9 +246,9 @@ describe Course::LearnerDashboard::SectionProgress::Item, type: :component do
         expect(page).to have_css("[data-tooltip='Survey']")
         expect(page).to have_css('.fa-clipboard-list-check')
         expect(page).to have_link(href: "/courses/#{course.course_code}/items/MuWLdgp3ovAznAJohFLuT")
-        expect(page).to have_no_css('.section-material__item--completed')
-        expect(page).to have_no_css('.section-material__item--critical')
-        expect(page).to have_no_css('.section-material__item--warning')
+        expect(page).to have_no_css('.section-progress__material-item--completed')
+        expect(page).to have_no_css('.section-progress__material-item--critical')
+        expect(page).to have_no_css('.section-progress__material-item--warning')
       end
     end
 
@@ -262,9 +262,9 @@ describe Course::LearnerDashboard::SectionProgress::Item, type: :component do
         expect(page).to have_css("[data-tooltip='Survey']")
         expect(page).to have_css('.fa-clipboard-list-check')
         expect(page).to have_link(href: "/courses/#{course.course_code}/items/MuWLdgp3ovAznAJohFLuT")
-        expect(page).to have_css('.section-material__item--completed')
-        expect(page).to have_no_css('.section-material__item--critical')
-        expect(page).to have_no_css('.section-material__item--warning')
+        expect(page).to have_css('.section-progress__material-item--completed')
+        expect(page).to have_no_css('.section-progress__material-item--critical')
+        expect(page).to have_no_css('.section-progress__material-item--warning')
       end
     end
 
@@ -278,9 +278,9 @@ describe Course::LearnerDashboard::SectionProgress::Item, type: :component do
         expect(page).to have_css("[data-tooltip='Survey']")
         expect(page).to have_css('.fa-clipboard-list-check')
         expect(page).to have_link(href: "/courses/#{course.course_code}/items/MuWLdgp3ovAznAJohFLuT")
-        expect(page).to have_css('.section-material__item--completed')
-        expect(page).to have_no_css('.section-material__item--critical')
-        expect(page).to have_no_css('.section-material__item--warning')
+        expect(page).to have_css('.section-progress__material-item--completed')
+        expect(page).to have_no_css('.section-progress__material-item--critical')
+        expect(page).to have_no_css('.section-progress__material-item--warning')
       end
     end
   end
@@ -298,10 +298,10 @@ describe Course::LearnerDashboard::SectionProgress::Item, type: :component do
         expect(page).to have_css("[data-tooltip='Video item']")
         expect(page).to have_css('.fa-video')
         expect(page).to have_link(href: "/courses/#{course.course_code}/items/MuWLdgp3ovAznAJohFLuT")
-        expect(page).to have_css('.section-material__item')
-        expect(page).to have_no_css('.section-material__item--completed')
-        expect(page).to have_no_css('.section-material__item--critical')
-        expect(page).to have_no_css('.section-material__item--warning')
+        expect(page).to have_css('.section-progress__material-item')
+        expect(page).to have_no_css('.section-progress__material-item--completed')
+        expect(page).to have_no_css('.section-progress__material-item--critical')
+        expect(page).to have_no_css('.section-progress__material-item--warning')
       end
     end
 
@@ -315,9 +315,9 @@ describe Course::LearnerDashboard::SectionProgress::Item, type: :component do
         expect(page).to have_css("[data-tooltip='Video item']")
         expect(page).to have_css('.fa-video')
         expect(page).to have_link(href: "/courses/#{course.course_code}/items/MuWLdgp3ovAznAJohFLuT")
-        expect(page).to have_css('.section-material__item--completed')
-        expect(page).to have_no_css('.section-material__item--critical')
-        expect(page).to have_no_css('.section-material__item--warning')
+        expect(page).to have_css('.section-progress__material-item--completed')
+        expect(page).to have_no_css('.section-progress__material-item--critical')
+        expect(page).to have_no_css('.section-progress__material-item--warning')
       end
     end
   end

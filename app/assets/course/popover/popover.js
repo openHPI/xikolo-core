@@ -25,17 +25,19 @@ ready(() => {
       ...$.fn.popover.Constructor.DEFAULTS.whiteList,
     };
 
-    popoverTarget
-      .popover({
-        placement: isScreenSizeSM() ? 'top' : 'right',
-        title: I18n.t('components.popover.title'),
-        content: popover.dataset.content,
-        trigger: 'manual',
-        template: popover.innerHTML,
-        whiteList: popOverWhiteList,
-        container: 'body',
-      })
-      .popover('show');
+    popoverTarget.popover({
+      placement: isScreenSizeSM() ? 'top' : 'right',
+      title: I18n.t('components.popover.title'),
+      content: popover.dataset.content,
+      trigger: 'manual',
+      template: popover.innerHTML,
+      whiteList: popOverWhiteList,
+      container: 'body',
+    });
+
+    if (targetId.includes('--mobile') === isScreenSizeSM()) {
+      popoverTarget.popover('show');
+    }
 
     const closeButton = document.querySelector('[data-popover="close"]');
     if (closeButton) {

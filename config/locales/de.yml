@@ -1681,7 +1681,9 @@ de:
     progress:
       learner_dashboard: Mein Lernfortschritt
       graded_score: Bewertete Punkte
+      graded: "%{achieved} von %{available}"
       selftest_score: Selbsttests
+      selftest: "%{achieved} von %{available}"
       visited_score: Besuchte Inhalte
       visited_items: "%{visited} von %{available} besucht"
       visited_empty: Keine Inhalte verfügbar
@@ -1690,14 +1692,14 @@ de:
         graded: "Bewertet: "
         selftests: "Selbsttests: "
         visits: "Besucht: "
-      section_material: Wocheninhalte
       section_material_empty: Keine Inhalte verfügbar
-      section_statistics: Wochenstatistiken
       statistics:
         main: Hausaufgaben
         bonus: Bonus
         selftests: Selbsttests
+        points_achieved: "%{submitted_points} von %{max_points} Punkte"
         items_taken: "%{taken} von %{total} bearbeitet"
+        empty_state_points: Keine Punkte
       progress_table: # deprecated
         assignments: Hausaufgaben
         bonus: Bonus

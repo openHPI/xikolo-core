@@ -16,17 +16,17 @@ describe Course::LearnerDashboard::SectionProgress::Statistic, type: :component 
   it 'shows information about the section statistics' do
     render_inline(component)
 
-    expect(page).to have_content 'Assignments13.0 / 26.0 (50%)'
+    expect(page).to have_content '50%Assignments13 of 26 points'
     expect(page).to have_content '2 of 4 taken'
   end
 
   context 'when there are no exercises available' do
     let(:values) { {'max_points' => 0, 'submitted_points' => 0, 'total_exercises' => nil} }
 
-    it 'shows no information but a dash instead' do
+    it 'shows no points' do
       render_inline(component)
 
-      expect(page).to have_content 'Assignments—'
+      expect(page).to have_content 'AssignmentsNo points'
     end
   end
 end
