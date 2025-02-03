@@ -7,7 +7,7 @@
   div
     .section-progress__statistic-item
       = render Global::FaIcon.new(@icon)
-      = @label
+      span = @label
     .section-progress__statistic-item-data
       = render Global::Pill.new \
         points_scored || t(:'course.progress.statistics.empty_state_points'), size: :small

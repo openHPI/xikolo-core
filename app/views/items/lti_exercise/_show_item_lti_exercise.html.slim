@@ -12,15 +12,17 @@
     = render 'items/lti_exercise/lti_exercise_properties', item: item
 
     div data-lanalytics-resource={type: 'lti_exercise', uuid: item.id}.to_json
-      = render 'seq_navigation', action: {action: item.open_path,
+      = render 'items/shared/action', action: {action: item.open_path,
         text: t('items.lti.launch_lti_exercise'),
-        icon: 'play'},
-        position:
+        icon: 'play'}
+      = render Course::BottomNavigation.new(course_id: position.course.id,
+        prev_item_id: position.prev_item&.id,
+        next_item_id: position.next_item&.id)
 
     - if item.presentation_as_window?
       javascript:
         $(function() {
-          $('#nextprevnav .filler-area').attr('target', '_blank');
+          $('#action .filler-area').attr('target', '_blank');
         });
 
 - if item.grades?

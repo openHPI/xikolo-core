@@ -1,17 +1,17 @@
-.split-seq-nav-container.seq-submit-btn
+.multi_action-container.seq-submit-btn
   - if action.key?(:action1) && action[:action1]
-    = link_to action[:action1], {class: 'split-filler-area', style: 'margin-right: 1px', id: action[:id1], 'data-behavior': 'disable-after-click'}
+    = link_to action[:action1], {class: 'multi-action-filler-area', style: 'margin-right: 1px', id: action[:id1], 'data-behavior': 'disable-after-click'}
       = render Global::FaIcon.new(action[:icon1], style: :solid, css_classes: 'fa-lg')
       span.ml5.hidden-xs.hidden-sd = action[:text1]
   - else
-    .split-filler-area.inactive
+    .multi-action-filler-area.inactive
       = render Global::FaIcon.new(action[:icon1], style: :solid, css_classes: 'fa-lg')
       span.ml5.hidden-xs.hidden-sd = action[:text1]
   - if action.key?(:action2) && action[:action2]
-    = link_to action[:action2], {class: 'split-filler-area', id: action[:id2], 'data-behavior': 'disable-after-click'}
+    = link_to action[:action2], {class: 'multi-action-filler-area', id: action[:id2], 'data-behavior': 'disable-after-click'}
       = render Global::FaIcon.new(action[:icon2], style: :solid, css_classes: 'fa-lg')
       span.ml5.hidden-xs.hidden-sd = action[:text2]
   - else
-    .split-filler-area.inactive
+    .multi-action-filler-area.inactive
       = render Global::FaIcon.new(action[:icon2], style: :solid, css_classes: 'fa-lg')
       span.ml5.hidden-xs.hidden-sd = action[:text2]

@@ -4,13 +4,30 @@ require 'spec_helper'
 
 describe 'Quiz: Submissions: Show', type: :request do
   subject(:show) do
-    get "/courses/the_course/items/#{item['id']}/quiz_submission/#{submission_id}",
+    get "/courses/the_course/items/#{item_resource['id']}/quiz_submission/#{submission_id}",
       headers: {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"}
   end
 
-  let(:submission_id) { UUID4.new(requested_submission['id']).to_s(format: :base62) }
+  let(:user_id) { requested_submission['user_id'] }
+  let(:request_context_id) { course.context_id }
+  let(:course) { create(:course, :active, course_code: 'the_course') }
+  let(:section) { create(:section, course:) }
+  let(:section_resource) { build(:'course:section', id: section.id, course_id: course.id) }
+  let(:item) { create(:item, section:) }
+  let(:item_resource) do
+    build(:'course:item', :quiz, :exam,
+      id: item.id, section_id: section.id, course_id: course.id, content_id: quiz['id'])
+  end
+  let(:my_enrollment) { create(:enrollment, course:, user_id:) }
+
+  let(:quiz) { build(:'quiz:quiz', :exam) }
+  let(:quiz_question) { build(:'quiz:question', quiz_id: quiz['id']) }
+  let(:quiz_answer) do
+    build(:'quiz:answer', question_id: quiz_question['id'], quiz_id: quiz['id'])
+  end
+
+  let(:submission_id) { short_uuid(requested_submission['id']) }
   let(:requested_submission) { build(:'quiz:submission', **submission_attrs) }
-  let(:submissions_for_dropdown) { [requested_submission] }
   let(:submission_attrs) do
     {
       course_id: course.id,
@@ -19,23 +36,7 @@ describe 'Quiz: Submissions: Show', type: :request do
       quiz_submission_time: 1.hour.ago.iso8601,
     }
   end
-  let(:user_id) { requested_submission['user_id'] }
-  let(:request_context_id) { course.context_id }
-  let(:course) { create(:course, :active, course_code: 'the_course') }
-  let!(:my_enrollment) { create(:enrollment, course:, user_id:) }
-  let(:section) { build(:'course:section', course_id: course.id) }
-  let(:item) do
-    build(:'course:item', :quiz, :exam,
-      section_id: section['id'],
-      course_id: course.id,
-      content_id: quiz['id'])
-  end
-
-  let(:quiz) { build(:'quiz:quiz', :exam) }
-  let(:quiz_question) { build(:'quiz:question', quiz_id: quiz['id']) }
-  let(:quiz_answer) do
-    build(:'quiz:answer', question_id: quiz_question['id'], quiz_id: quiz['id'])
-  end
+  let(:submissions_for_dropdown) { [requested_submission] }
   let(:submission_question) do
     build(:'quiz:submission_question',
       quiz_submission_id: requested_submission['id'],
@@ -61,13 +62,13 @@ describe 'Quiz: Submissions: Show', type: :request do
     Stub.request(:course, :get, '/enrollments', query: {course_id: course.id, user_id:})
       .to_return Stub.json([my_enrollment.as_json])
     Stub.request(:course, :get, '/sections', query: hash_including(course_id: course.id))
-      .to_return Stub.json([section])
-    Stub.request(:course, :get, "/sections/#{section['id']}")
-      .to_return Stub.json(section)
-    Stub.request(:course, :get, '/items', query: hash_including(section_id: section['id']))
-      .to_return Stub.json([item])
-    Stub.request(:course, :get, "/items/#{item['id']}", query: hash_including({}))
-      .to_return Stub.json(item)
+      .to_return Stub.json([section_resource])
+    Stub.request(:course, :get, "/sections/#{section.id}")
+      .to_return Stub.json(section_resource)
+    Stub.request(:course, :get, '/items', query: hash_including(section_id: section.id))
+      .to_return Stub.json([item_resource])
+    Stub.request(:course, :get, "/items/#{item.id}", query: hash_including({}))
+      .to_return Stub.json(item_resource)
     Stub.request(:course, :get, '/next_dates', query: hash_including({}))
       .to_return Stub.json([])
 
@@ -111,9 +112,10 @@ describe 'Quiz: Submissions: Show', type: :request do
   describe 'proctored submission' do
     let(:course) { create(:course, :active, :offers_proctoring, course_code: 'the_course') }
     let(:my_enrollment) { create(:enrollment, :proctored, course:, user_id:) }
-    let(:item) do
+    let(:item_resource) do
       build(:'course:item', :quiz, :exam, :proctored,
-        section_id: section['id'],
+        id: item.id,
+        section_id: section.id,
         course_id: course.id,
         content_id: quiz['id'])
     end

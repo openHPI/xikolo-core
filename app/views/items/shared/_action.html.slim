@@ -1,0 +1,26 @@
+.p0
+  #action.action-container.hidden-print
+    - if browser_support.unsupported? && !hide_browser_warning?
+      span.ml5.filler-area.seq-submit-btn
+        = render Global::FaIcon.new('warning', style: :solid, css_classes: 'fa-lg mr10')
+        span.ml5
+          => t(:'items.show.unsupported_browser')
+    - elsif defined?(split_action) && split_action
+      = render 'items/shared/multi_action', position:, action:
+    - elsif action[:as_button]
+      button.filler-area.seq-submit-btn type="submit" data-behavior='disable-after-click'
+        = render Global::FaIcon.new(action[:icon], style: :solid, css_classes: 'hidden-xs hidden-sd')
+        span.ml5 = action[:text]
+    - elsif action.key?(:action) && action[:action]
+      - if action.key?(:confirm_start_graded_quiz) && action[:confirm_start_graded_quiz]
+        = link_to action[:action], class: 'filler-area seq-submit-btn', data: {confirm: t(:'items.quiz.confirm_start_quiz'), method: 'get'}
+          = render Global::FaIcon.new(action[:icon], style: :solid, css_classes: 'fa-lg hidden-xs hidden-sd')
+          span.ml5 = action[:text]
+      - else
+        = link_to action[:action], class: 'filler-area seq-submit-btn', id: action[:id]
+          = render Global::FaIcon.new(action[:icon], style: :solid, css_classes: 'fa-lg hidden-xs hidden-sd')
+          span.ml5 = action[:text]
+    - else
+      .filler-area.seq-submit-btn.inactive
+        = render Global::FaIcon.new(action[:icon], style: :solid, css_classes: 'fa-lg hidden-xs hidden-sd')
+        span.ml5 = action[:text]

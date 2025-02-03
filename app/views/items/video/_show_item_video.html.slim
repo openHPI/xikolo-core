@@ -31,4 +31,7 @@
           .col-md-12.mb15
             = render Video::TopicList.new(item:, user: current_user)
 
-      = render 'seq_navigation', position:
+      .mt40
+        = render Course::BottomNavigation.new(course_id: position.course.id,
+          prev_item_id: position.prev_item&.id,
+          next_item_id: position.next_item&.id)

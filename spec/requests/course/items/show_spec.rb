@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'Course: Items: Show', type: :request do
-  subject(:show_item) { get "/courses/example/items/#{item['id']}", headers: }
+  subject(:show_item) { get "/courses/example/items/#{item.id}", headers: }
 
   let(:headers) { {} }
   let(:user_id) { generate(:user_id) }
@@ -11,12 +11,13 @@ describe 'Course: Items: Show', type: :request do
   let(:course) { create(:course, course_code: 'example') }
   let(:course_resource) { build(:'course:course', id: course.id, course_code: course.course_code) }
   let(:other_course) { build(:'course:course', course_code: 'tatort') }
-  let(:section) { build(:'course:section', course_id: course.id) }
-  let(:item) { build(:'course:item', item_params) }
-  let(:richtext) { create(:richtext, id: item['content_id'], course:) }
+  let(:section) { create(:section, course:) }
+  let(:section_resource) { build(:'course:section', id: section.id, course_id: course.id) }
+  let(:item) { create(:item, section: section, content: richtext) }
+  let(:item_resource) { build(:'course:item', id: item.id, **item_params) }
   let(:item_params) do
     {
-      section_id: section['id'],
+      section_id: section.id,
       content_type: 'rich_text',
       content_id:,
       title: 'The Richtext Item',
@@ -24,18 +25,19 @@ describe 'Course: Items: Show', type: :request do
       published:,
     }
   end
+  let(:richtext) { create(:richtext, id: content_id, course:) }
   let(:published) { true }
 
   before do
-    richtext
     Stub.service(:quiz, build(:'quiz:root'))
     Stub.service(:course, build(:'course:root'))
+
     Stub.request(:course, :get, '/courses/example')
       .to_return Stub.json(course_resource)
     Stub.request(
-      :course, :get, "/items/#{item['id']}",
+      :course, :get, "/items/#{item.id}",
       query: {user_id:}
-    ).to_return Stub.json(item)
+    ).to_return Stub.json(item_resource)
   end
 
   context 'for anonymous user' do
@@ -53,24 +55,24 @@ describe 'Course: Items: Show', type: :request do
     let(:permissions) { %w[course.content.access.available] }
     let(:enrollments) { [] }
     let!(:visit_stub) do
-      Stub.request(:course, :post, "/items/#{item['id']}/users/#{user_id}/visit")
+      Stub.request(:course, :post, "/items/#{item.id}/users/#{user_id}/visit")
     end
 
     before do
       stub_user_request(id: user_id, permissions:)
 
       Stub.request(
-        :course, :get, "/items/#{item['id']}"
-      ).to_return Stub.json(item)
+        :course, :get, "/items/#{item.id}"
+      ).to_return Stub.json(item_resource)
 
       Stub.request(
         :course, :get, '/sections',
         query: {course_id: course.id}
-      ).to_return Stub.json([section])
+      ).to_return Stub.json([section_resource])
 
       Stub.request(
-        :course, :get, "/sections/#{section['id']}"
-      ).to_return Stub.json(section)
+        :course, :get, "/sections/#{section.id}"
+      ).to_return Stub.json(section_resource)
 
       Stub.request(
         :course, :get, '/enrollments',
@@ -94,22 +96,22 @@ describe 'Course: Items: Show', type: :request do
 
         Stub.request(
           :course, :get, '/items',
-          query: {published: true, section_id: section['id'], state_for: user_id}
-        ).to_return Stub.json(item)
+          query: {published: true, section_id: section.id, state_for: user_id}
+        ).to_return Stub.json(item_resource)
 
         Stub.request(
           :course, :get, '/items',
-          query: {section_id: section['id'], state_for: ''}
-        ).to_return Stub.json(item)
+          query: {section_id: section.id, state_for: ''}
+        ).to_return Stub.json(item_resource)
 
         Stub.request(
           :course, :get, '/sections',
           query: {course_id: other_course['id']}
-        ).to_return Stub.json([section])
+        ).to_return Stub.json([section_resource])
       end
 
       context 'when the requested course in the URL does not match the item\'s course' do
-        subject(:show_item) { get "/courses/tatort/items/#{item['id']}", headers: }
+        subject(:show_item) { get "/courses/tatort/items/#{item.id}", headers: }
 
         it 'responds with 404 Not Found' do
           expect { show_item }.to raise_error(Status::NotFound)
@@ -117,7 +119,7 @@ describe 'Course: Items: Show', type: :request do
       end
 
       context 'when the requested course in the URL matches item\'s course' do
-        subject(:show_item) { get "/courses/example/items/#{item['id']}", headers: }
+        subject(:show_item) { get "/courses/example/items/#{item.id}", headers: }
 
         it 'shows the item' do
           show_item
@@ -133,8 +135,8 @@ describe 'Course: Items: Show', type: :request do
       before do
         Stub.request(
           :course, :get, '/items',
-          query: hash_including(section_id: section['id'])
-        ).to_return Stub.json([item])
+          query: hash_including(section_id: section.id)
+        ).to_return Stub.json([item_resource])
       end
 
       it 'interrupts with the requirements page' do
@@ -156,7 +158,7 @@ describe 'Course: Items: Show', type: :request do
 
         it 'shows the item' do
           show_item
-          expect(response.body).to include item['title']
+          expect(response.body).to include item_resource['title']
           expect(response.body).not_to include 'Requirements not met'
           expect(visit_stub).to have_been_requested
         end
@@ -348,18 +350,18 @@ describe 'Course: Items: Show', type: :request do
 
       context 'unpublished item' do
         let(:published) { false }
-        let(:quiz) { build(:'course:item', section_id: section['id'], content_type: 'quiz', title: 'The Quiz Item', open_mode: false, published: true, effective_start_date: 1.day.from_now) }
+        let(:quiz) { build(:'course:item', section_id: section.id, content_type: 'quiz', title: 'The Quiz Item', open_mode: false, published: true, effective_start_date: 1.day.from_now) }
 
         before do
           Stub.request(
             :course, :get, '/items',
-            query: {published: true, section_id: section['id'], state_for: user_id}
-          ).to_return Stub.json([item, quiz])
+            query: {published: true, section_id: section.id, state_for: user_id}
+          ).to_return Stub.json([item_resource, quiz])
 
           Stub.request(
             :course, :get, '/items',
-            query: {section_id: section['id'], state_for: ''}
-          ).to_return Stub.json([item, quiz])
+            query: {section_id: section.id, state_for: ''}
+          ).to_return Stub.json([item_resource, quiz])
         end
 
         it 'can be accessed' do

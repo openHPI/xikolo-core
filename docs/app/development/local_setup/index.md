@@ -628,25 +628,24 @@ If discrepancies are noticed when carrying your local setup, please update this 
 
 - The documentation can be found in the repository here: ``docs/app/development/local_setup/index.md``
 
-To view and edit this documentation locally, you need to install `pipenv` (if not already installed).
+To view and edit this documentation locally, you need to install `uv` (if not already installed).
 The following commands are to be run from the top-level project directory:
 
 === "Debian / Ubuntu"
 
     ```console
     sudo apt install python-pip
-    python -m pip install --user pipenv
+    python -m pip install uv
     ```
 
 === "Mac"
 
     ```console
-    brew install pipenv
-    pipenv install
+    brew install uv
     ```
 
 To run the docs:
 
 ```console
-pipenv run mkdocs serve
+uv run mkdocs serve
 ```

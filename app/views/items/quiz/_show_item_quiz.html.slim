@@ -30,16 +30,13 @@
       - if item.smowl_registration_required?
         = render Global::Callout.new(t('proctoring.calibration_missing_text'), title: t('proctoring.calibration_missing_callout'), type: :warning) do
           = link_to t('proctoring.calibration_missing_action'), proctoring_registration_details_path(course_id: item.course_code), class: 'btn btn-default'
-        = render 'seq_navigation', position:
       - elsif item.smowl_registration_pending?
         = render Global::Callout.new(t('proctoring.calibration_pending_text'), title: t('proctoring.calibration_pending_title'))
-        = render 'seq_navigation', position:
       - elsif item.proctored_quiz_unavailable?
         = render Global::Callout.new(t('proctoring.service_unavailable'), type: :error)
-        = render 'seq_navigation', position:
       - elsif item.quiz_taken?
         - if item.allow_retake_or_view_results?
-          = render 'seq_navigation',
+          = render 'items/shared/action',
             position:,
             split_action: true,
             action: {action1: new_course_item_quiz_submission_path(item.course_code, item_id: item),
@@ -49,16 +46,18 @@
               text2: t(:'quiz_submission.quiz_results'),
               icon2: 'money-check-pen'}
         - elsif item.attempts_left? && !item.submission_deadline.nil?
-          = render 'seq_navigation',
-            position:,
+          = render 'items/shared/action',
             action: {action: new_course_item_quiz_submission_path(item.course_code, item_id: item),
               text: t(:'quiz_submission.retake_quiz'),
               icon: 'redo',
               confirm_start_graded_quiz: item.confirm_quiz_start?}
       - elsif !item.quiz_taken?
-        = render 'seq_navigation',
-          position:,
+        = render 'items/shared/action',
           action: {action: new_course_item_quiz_submission_path(item_id: item),
             text: t('items.quiz.start_quiz_now'),
             icon: 'play',
             confirm_start_graded_quiz: item.confirm_quiz_start?}
+
+      = render Course::BottomNavigation.new(course_id: position.course.id,
+        prev_item_id: position.prev_item&.id,
+        next_item_id: position.next_item&.id)

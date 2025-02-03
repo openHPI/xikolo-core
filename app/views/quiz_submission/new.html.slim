@@ -28,17 +28,19 @@
         div data-lanalytics-resource={type: 'quiz', uuid: @quiz.id}.to_json data-lanalytics-context={course_id: @item_presenter.course_id}.to_json
           - if @item_presenter.quiz_submittable?
             / Firefox needs a void() around javascript-hrefs to avoid actual rendering for some return values
-            = render 'items/seq_navigation',
+            = render 'items/shared/action',
               action: {action: 'javascript:void(checkQuizCompletion());',
                 text: t(:"quiz_submission.submit.#{@item_presenter.exercise_type}"),
                 icon: 'play',
-                id: 'quiz_submit_button'},
-              position: @inner_course_position
+                id: 'quiz_submit_button'}
           - else
-            = render 'items/seq_navigation',
+            = render 'items/shared/action',
               action: {text: t(:'proctoring.service_unavailable'),
-                icon: 'warning'},
-              position: @inner_course_position
+                icon: 'warning'}
+
+          = render Course::BottomNavigation.new(course_id: @inner_course_position.course.id,
+            prev_item_id: @inner_course_position.prev_item&.id,
+            next_item_id: @inner_course_position.next_item&.id)
 
       - if @item_presenter.graded?
         = render 'quiz_submission/partials/confirm_quiz_submission'

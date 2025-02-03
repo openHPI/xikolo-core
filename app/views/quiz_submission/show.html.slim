@@ -27,15 +27,15 @@
           = render partial: 'quiz_submission/question/question_base',
             locals: {question:, show_solution: true, index:, user_submission: submission_question, snapshot: nil, item: @item_presenter}
 
-      - if @item_presenter.allow_retake_quiz?
-        .mt30
-          = render 'items/seq_navigation',
-            action: {action: new_course_item_quiz_submission_path,
-              text: t(:'quiz_submission.retake_quiz'), icon: 'redo'},
-            position: @inner_course_position
-      - else
-        .mt30
-          = render 'items/seq_navigation', position: @inner_course_position
+      .mt30
+        - if @item_presenter.allow_retake_quiz?
+            = render 'items/shared/action',
+              action: {action: new_course_item_quiz_submission_path,
+                text: t(:'quiz_submission.retake_quiz'), icon: 'redo'}
+
+      = render Course::BottomNavigation.new(course_id: @inner_course_position.course.id,
+        prev_item_id: @inner_course_position.prev_item&.id,
+        next_item_id: @inner_course_position.next_item&.id)
 
   - if !@item_presenter.survey? && @item_presenter.show_quiz_results?
     .col-md-4.hidden_in_app

@@ -5,5 +5,7 @@
     .RichTextItem-Content.RenderedMarkdown lang=item.lang
       == item.text_html
 
-    div data-lanalytics-resource={type: 'rich_text', uuid: item.id}.to_json
-      = render 'seq_navigation', position:
+    .mt40 data-lanalytics-resource={type: 'rich_text', uuid: item.id}.to_json
+      = render Course::BottomNavigation.new(course_id: position.course.id,
+        prev_item_id: position.prev_item&.id,
+        next_item_id: position.next_item&.id)

@@ -17,5 +17,7 @@
               path: course_item_path(req_item.course_code, req_item.id)},
               color_scheme: req_item.icon_color_scheme)
 
-      div data-lanalytics-resource={type: @item_presenter.content_type, uuid: @item_presenter.id}.to_json
-        = render 'seq_navigation', position: @inner_course_position
+      .mt40 data-lanalytics-resource={type: @item_presenter.content_type, uuid: @item_presenter.id}.to_json
+        = render Course::BottomNavigation.new(course_id: @inner_course_position.course.id,
+          prev_item_id: @inner_course_position.prev_item&.id,
+          next_item_id: @inner_course_position.next_item&.id)

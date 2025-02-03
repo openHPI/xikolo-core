@@ -8,4 +8,7 @@
 
     iframe.lti-frame src=item.tool_launch_path allow="fullscreen" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"
 
-    = render 'seq_navigation', position:
+    .mt40
+      = render Course::BottomNavigation.new(course_id: position.course.id,
+        prev_item_id: position.prev_item&.id,
+        next_item_id: position.next_item&.id)

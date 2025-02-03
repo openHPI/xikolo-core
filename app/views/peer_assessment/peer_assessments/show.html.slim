@@ -14,6 +14,8 @@ form action="#{start_assessment_peer_assessment_path @assessment.id}" method="po
 
   div data-lanalytics-resource={type: 'peer_assessment', uuid: @assessment.id}.to_json data-lanalytics-context={course_id: @item_presenter.course_id}.to_json
     .mt30
-    = render 'items/seq_navigation',
-      position: @inner_course_position,
+    = render 'items/shared/action',
       action: {as_button: true, icon: 'play', text: t(:'peer_assessment.start_assessment')}
+    = render Course::BottomNavigation.new(course_id: @inner_course_position.course.id,
+      prev_item_id: @inner_course_position.prev_item&.id,
+      next_item_id: @inner_course_position.next_item&.id)

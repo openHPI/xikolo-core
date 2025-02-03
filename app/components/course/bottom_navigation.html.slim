@@ -1,0 +1,10 @@
+nav.bottom-navigation__items
+  - items.each do |item|
+    = link_to item[:url], class: "bottom-navigation__item #{item[:css_modifier]}", data: item[:data]
+      .bottom-navigation__text
+        .bottom-navigation__nav-text = item[:text]
+        .bottom-navigation__title = item[:title]
+      .bottom-navigation__icon
+        = render Global::FaIcon.new(item[:icon])
+      .bottom-navigation__arrow
+        = render Global::FaIcon.new(item[:arrow_icon], style: :solid)

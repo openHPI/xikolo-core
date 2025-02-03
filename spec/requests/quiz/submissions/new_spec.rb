@@ -4,27 +4,27 @@ require 'spec_helper'
 
 describe 'Quiz: Submissions: New', type: :request do
   subject(:new_submission) do
-    get "/courses/the_course/items/#{item['id']}/quiz_submission/new",
+    get "/courses/the_course/items/#{item.id}/quiz_submission/new",
       headers: {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"}
   end
 
-  let(:page) { Capybara.string(response.body) }
   let(:user_id) { generate(:user_id) }
   let(:request_context_id) { course.context_id }
-  let!(:course) do
+  let(:course) do
     create(:course, :active, course_code: 'the_course', title: 'Automated Quiz Submissions 101')
   end
-  let!(:my_enrollment) { create(:enrollment, course:, user_id:) }
-  let(:section_id) { generate(:section_id) }
-  let(:section) { build(:'course:section', id: section_id, course_id: course.id) }
-  let(:item) do
+  let(:section) { create(:section, course:) }
+  let(:section_resource) { build(:'course:section', id: section.id, course_id: course.id) }
+  let(:item) { create(:item, section:) }
+  let(:item_resource) do
     build(:'course:item', :quiz, :exam,
-      section_id:, course_id: course.id, content_id: quiz_id,
+      id: item.id, section_id: section.id, course_id: course.id, content_id: quiz_id,
       submission_deadline:)
   end
+  let(:my_enrollment) { create(:enrollment, course:, user_id:) }
+
   let(:quiz_id) { generate(:quiz_id) }
   let(:quiz_question) { build(:'quiz:question', :free_text, quiz_id:) }
-
   let(:submission_deadline) { 1.hour.from_now }
   let(:create_submission_stub) do
     Stub.request(
@@ -37,6 +37,8 @@ describe 'Quiz: Submissions: New', type: :request do
     }, status: created_submission_status)
   end
   let(:created_submission_status) { 201 }
+
+  let(:page) { Capybara.string(response.body) }
 
   around {|example| Timecop.freeze(&example) }
 
@@ -57,19 +59,19 @@ describe 'Quiz: Submissions: New', type: :request do
       query: hash_including(course_id: course.id)
     ).to_return Stub.json([])
     Stub.request(
-      :course, :get, "/sections/#{section_id}"
-    ).to_return Stub.json(section)
+      :course, :get, "/sections/#{section.id}"
+    ).to_return Stub.json(section_resource)
     Stub.request(
       :course, :get, '/sections',
       query: {course_id: course.id}
     ).to_return Stub.json([])
     Stub.request(
-      :course, :get, "/items/#{item['id']}",
+      :course, :get, "/items/#{item.id}",
       query: {user_id:}
-    ).to_return Stub.json(item)
+    ).to_return Stub.json(item_resource)
     Stub.request(
       :course, :get, '/items',
-      query: {section_id:, state_for: user_id, published: 'true'}
+      query: {section_id: section.id, state_for: user_id, published: 'true'}
     ).to_return Stub.json([])
 
     Stub.service :quiz, build(:'quiz:root')
@@ -150,7 +152,7 @@ describe 'Quiz: Submissions: New', type: :request do
     let(:submission_deadline) { 1.hour.ago }
 
     it 'redirects to course item page' do
-      expect(new_submission).to redirect_to course_item_path id: short_uuid(item['id'])
+      expect(new_submission).to redirect_to "/courses/the_course/items/#{short_uuid(item.id)}"
     end
   end
 
@@ -163,18 +165,18 @@ describe 'Quiz: Submissions: New', type: :request do
     end
 
     it 'redirects to course item page' do
-      expect(new_submission).to redirect_to course_item_path id: short_uuid(item['id'])
+      expect(new_submission).to redirect_to "/courses/the_course/items/#{short_uuid(item.id)}"
     end
   end
 
-  describe 'proctoring' do
+  describe '(proctoring)' do
     let(:course) do
       create(:course, :active, :offers_proctoring, course_code: 'the_course', title: 'Automated Quiz Submissions 101')
     end
     let(:my_enrollment) { create(:enrollment, :proctored, course:, user_id:) }
-    let(:item) do
+    let(:item_resource) do
       build(:'course:item', :quiz, :exam, :proctored,
-        section_id:, course_id: course.id, content_id: quiz_id,
+        id: item.id, section_id: section.id, course_id: course.id, content_id: quiz_id,
         submission_deadline:)
     end
 
@@ -212,7 +214,7 @@ describe 'Quiz: Submissions: New', type: :request do
 
         expect(create_submission_stub).not_to have_been_requested
 
-        expect(response).to redirect_to course_item_path id: short_uuid(item['id'])
+        expect(response).to redirect_to "/courses/the_course/items/#{short_uuid(item.id)}"
         expect(flash[:error].first).to eq 'The proctored exam could not be started. Please try again later.'
       end
     end

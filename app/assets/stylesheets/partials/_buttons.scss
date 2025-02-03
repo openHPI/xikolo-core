@@ -351,9 +351,9 @@ a.btn {
 }
 
 /* ------------------------------------*\
-    $Next-Previous-Bar
+    $Quiz action(s)
 \*------------------------------------ */
-.next-previous-button-bar {
+.action-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -364,77 +364,15 @@ a.btn {
   }
 
   .filler-area,
-  .split-seq-nav-container {
+  .multi_action-container {
     width: 100%;
-  }
-
-  .next-button {
-    text-align: right;
-  }
-
-  .previous-button {
-    text-align: left;
-  }
-
-  .next-prev-text {
-    color: $gray-600;
-
-    .next-prev {
-      margin: 0;
-      color: $link-color;
-      font-weight: bold;
-    }
-
-    .next-prev-title {
-      display: none;
-
-      @include small {
-        display: inline;
-      }
-    }
-  }
-
-  .next-button,
-  .previous-button {
-    display: flex;
-    max-width: 45%;
-    align-items: center;
-    margin: 20px 0;
-
-    & > * {
-      margin-right: 10px;
-    }
-
-    .xi-icon {
-      font-size: 1.5em;
-    }
-
-    &:hover,
-    &:active,
-    &:focus {
-      text-decoration: none;
-
-      .next-prev-text > * {
-        color: $link-color-hover;
-        text-decoration: underline;
-      }
-    }
-
-    .arrow {
-      font-size: 3rem;
-    }
-
-    &:before {
-      color: $gray-600;
-      font-size: 20px;
-    }
   }
 }
 
 // The filler area lies (full-width) between both buttons and may be used
 // for action buttons and the like (i.e. take self-test)
 .filler-area,
-.split-filler-area {
+.multi-action-filler-area {
   height: $next-prev-height;
   border: 0;
   background: $primary-color;
@@ -470,12 +408,12 @@ a.btn {
   }
 }
 
-.split-filler-area {
+.multi-action-filler-area {
   display: inline-block !important;
   width: 50%;
 }
 
-.split-seq-nav-container {
+.multi_action-container {
   overflow: hidden;
   white-space: nowrap;
 }

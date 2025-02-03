@@ -1,3 +1,12 @@
+GIT
+  remote: https://github.com/jgraichen/truncato.git
+  revision: b7df8f9d1fa2bfe8cab9b9036d2e812c0963d8b1
+  branch: fix/encoding
+  specs:
+    truncato (0.7.12)
+      htmlentities (~> 4.3.1)
+      nokogiri (>= 1.7.0, <= 2.0)
+
 PATH
   remote: clients/xikolo-account
   specs:
@@ -895,9 +904,6 @@ GEM
     tilt (2.5.0)
     timecop (0.9.10)
     timeout (0.4.3)
-    truncato (0.7.12)
-      htmlentities (~> 4.3.1)
-      nokogiri (>= 1.7.0, <= 2.0)
     ttfunk (1.8.0)
       bigdecimal (~> 3.1)
     typhoeus (1.4.1)
@@ -1080,7 +1086,7 @@ DEPENDENCIES
   terser (~> 1.1)
   tilt (~> 2.0)
   timecop
-  truncato
+  truncato!
   uuid4 (~> 1.4)
   view_component (~> 3.0)
   webmock

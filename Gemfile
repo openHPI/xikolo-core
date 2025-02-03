@@ -69,7 +69,7 @@ gem 'rack-link_headers', '~> 2.2'
 gem 'rubyzip', '~> 2.4.0', require: 'zip'
 gem 'sanitize'
 gem 'simple_form', '~> 5.0'
-gem 'truncato'
+gem 'truncato', github: 'jgraichen/truncato', branch: 'fix/encoding'
 gem 'uuid4', '~> 1.4'
 gem 'xui-form', path: 'gems/xui-form'
 

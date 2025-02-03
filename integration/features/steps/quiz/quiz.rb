@@ -94,6 +94,7 @@ module Steps
     Then 'I see the split navigation on the quiz intro page' do
       send :'Then I see the quiz intro page information'
       expect(page).to have_content 'Results'
+      expect(page).to have_content 'Retake quiz'
     end
 
     Then 'I see the quiz intro page information' do
