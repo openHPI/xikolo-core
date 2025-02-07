@@ -58,6 +58,7 @@ module Xikolo::Grouping
     Restify::Processors::Json.indifferent_access = false
 
     # Configure Telegraf event collection
+    config.telegraf.connect = ENV.fetch('TELEGRAF_CONNECT', nil)
     config.telegraf.tags = {application: 'grouping'}
 
     # The `TestGroup` model stores statistical metrics in a serialized

@@ -2,15 +2,15 @@
   = render 'form'
 - else
   = render Navigation::Tabs.new do |c|
-    - c.with_tab(controls: 'quiz_properties', active: true)
-        = render Global::FaIcon.new('gear', css_classes: 'mr5')
-        = t(:'items.quiz.nav.properties')
-    - c.with_tab(controls: 'quiz_questions')
-        = render Global::FaIcon.new('lightbulb', css_classes: 'mr5')
-        = t(:'items.quiz.nav.questions')
-    - c.with_panel(id: 'quiz_properties', active: true)
+    - c.with_tab(controls: 'quiz_properties', active: @quiz.questions.blank?)
+      = render Global::FaIcon.new('gear', css_classes: 'mr5')
+      = t(:'items.quiz.nav.properties')
+    - c.with_tab(controls: 'quiz_questions', active: @quiz.questions.present?)
+      = render Global::FaIcon.new('lightbulb', css_classes: 'mr5')
+      = t(:'items.quiz.nav.questions')
+    - c.with_panel(id: 'quiz_properties', active: @quiz.questions.blank?)
       = render 'form'
-    - c.with_panel(id: 'quiz_questions')
+    - c.with_panel(id: 'quiz_questions', active: @quiz.questions.present?)
       #quiz_questions
 
 #form-extensions

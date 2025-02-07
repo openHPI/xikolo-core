@@ -2,12 +2,12 @@
   = render 'dashboard/polls'
 
   / Upcoming dates
-  - if @next_dates.length > 0
+  - if @next_dates.any?
     .sidebar__component
       h3
         = t(:'dashboard.sidebar.dates')
       hr.divider
-      - @next_dates.group_by { |date| date.course_title }.each do |course_title, next_dates|
+      - @next_dates.group_by(&:course_title).each do |course_title, next_dates|
         article.next-date-wrapper
           h4
             = course_title

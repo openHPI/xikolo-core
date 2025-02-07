@@ -15,7 +15,7 @@ Xikolo::Account::Application.routes.draw do
 
       resources :permissions, only: [:index]
 
-      resources :consents, only: %i[index show create destroy]
+      resources :consents, only: %i[index show destroy]
       patch  'consents' => 'consents#merge'
 
       get    'flippers' => 'features#index'
@@ -31,7 +31,7 @@ Xikolo::Account::Application.routes.draw do
     resources :tokens, only: %i[index show create]
     resources :authorizations, except: %i[new edit]
     resources :password_resets, only: %i[create show update]
-    resources :policies, only: %i[index show create update]
+    resources :policies, only: %i[index create]
     resources :groups, only: %i[index create show update destroy],
       format: false,
       constraints: {id: /[\w.-]+/} do

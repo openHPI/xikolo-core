@@ -23,6 +23,10 @@
     flex-wrap: wrap;
     margin-bottom: 5px;
     gap: 5px;
+
+    a {
+      text-decoration: none;
+    }
   }
 
   &__material-item {
@@ -43,8 +47,7 @@
 
     .xi-icon {
       color: $text-color;
-      // Remove !important flag when dropping old dashboard code (progress.scss)
-      font-size: 16px !important;
+      font-size: 16px;
     }
 
     &--completed {

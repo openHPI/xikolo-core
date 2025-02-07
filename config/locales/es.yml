@@ -1448,19 +1448,9 @@ es:
         points_achieved: "%{submitted_points} de %{max_points} puntos"
         items_taken: "%{taken} de %{total} tomado"
         empty_state_points: Sin puntos
-      progress_table: # deprecated
-        assignments: Trabajos
-        bonus: Extras
-        selftests: Autoevaluaciones
-        visited: Visitados
-        total: Total
 
       show:
-        item_locked: " (bloqueado)"
-        points: Puntos
         empty_msg: "Todavía no hay ningún elemento, así que ahora no podemos mostrarle la evolución. Vuelva más tarde."
-        quizzes_taken: "%{taken} de %{count} hechos"
-        items_visited: "%{visited} de %{existing} visitados"
       records:
         documents_headline: Mis certificados del curso
         documents_intro: Tan pronto como el curso haya terminado (y el personal docente haya publicado los resultados finales), podrá descargarse sus certificados aquí.
@@ -3861,7 +3851,6 @@ es:
       icon:
         name: x-twitter
         style: brands
-      share_course: "Me he matriculado en el curso %{title} de #%{site}"
       share_certificate: "¡He finalizado con éxito el curso #%{title} en %{site}!"
     mail:
       button: Correo
@@ -3869,15 +3858,6 @@ es:
       icon:
         name: envelope
         style: solid
-      share_course:
-        subject: "Únete a mí y aprende con %{site}"
-        body: |
-          Hola  ,
-
-          Me matriculé en %{site} para el curso %{title}: %{url}.
-          Todo lo que necesitar para registrarte es una dirección válida de correo electrónico y ya puedes aprender desde cualquier lugar del mundo, cuando tú quieras.
-
-          Saludos cordiales,
       share_certificate:
         subject: "He finalizado con éxito un curso en %{site}"
         body: |

@@ -4,7 +4,7 @@ include:
   - path: compose.init.yml
 
 x-course: &course
-  image: xikolo-course:latest
+  image: registry.xikolo.de/xikolo/web/xikolo-course:latest
   build:
     context: ..
     dockerfile: docker/files/course.Dockerfile

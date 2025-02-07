@@ -1,17 +1,12 @@
 # frozen_string_literal: true
 
 class SocialSharingPresenter
-  TRACKING_VERBS = {
-    course: 'share_course',
-      certificate: 'share_open_badge',
-  }.freeze
+  TRACKING_VERBS = {certificate: 'share_open_badge'}.freeze
 
   def initialize(context:, options: {})
     @context = context
     @processor =
       case context
-        when :course
-          CourseSharingProcessor.new(options)
         when :certificate
           CertificateSharingProcessor.new(options)
         else
@@ -43,39 +38,6 @@ class SocialSharingPresenter
 
     def url_for(service)
       # implement in subclasses
-    end
-  end
-
-  class CourseSharingProcessor < SharingProcessor
-    def url_for(service)
-      case service
-        when 'twitter'
-          %W[
-            #{SHARING_URLS[:twitter]}
-            #{ERB::Util.url_encode I18n.t(
-              :'social_sharing.twitter.share_course',
-              site: options[:site],
-              title: options[:title]
-            )}
-            &url=#{options[:course_url]}
-          ].join
-        when 'mail'
-          %W[
-            #{SHARING_URLS[:mail]}
-            ?subject=#{ERB::Util.url_encode I18n.t(
-              :'social_sharing.mail.share_course.subject',
-              site: options[:site]
-            )}
-            &body=#{ERB::Util.url_encode I18n.t(
-              :'social_sharing.mail.share_course.body',
-              site: options[:site],
-              title: options[:title],
-              url: options[:course_url]
-            )}
-          ].join
-        else
-          "#{SHARING_URLS[service.to_sym]}#{options[:course_url]}"
-      end
     end
   end
 

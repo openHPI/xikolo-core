@@ -4,7 +4,7 @@ include:
   - path: compose.init.yml
 
 x-web: &web
-  image: xikolo-web:latest
+  image: registry.xikolo.de/xikolo/web/xikolo-web:latest
   build:
     context: ..
     dockerfile: docker/files/web.Dockerfile

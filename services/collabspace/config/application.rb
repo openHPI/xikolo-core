@@ -62,6 +62,7 @@ module Xikolo::CollabSpace
     Restify::Processors::Json.indifferent_access = false
 
     # Configure Telegraf event collection
+    config.telegraf.connect = ENV.fetch('TELEGRAF_CONNECT', nil)
     config.telegraf.tags = {application: 'collabspace'}
   end
 end

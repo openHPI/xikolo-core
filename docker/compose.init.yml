@@ -4,7 +4,7 @@ include:
 
 services:
   init-database:
-    image: xikolo-web:latest
+    image: registry.xikolo.de/xikolo/web/xikolo-web:latest
     command: migrate
     build:
       context: ..
@@ -26,7 +26,7 @@ services:
         condition: service_healthy
 
   init-permissions:
-    image: xikolo-account:latest
+    image: registry.xikolo.de/xikolo/web/xikolo-account:latest
     command: rake permissions:load
     build:
       context: ..

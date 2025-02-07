@@ -7,9 +7,6 @@
     - else
       = render Course::CourseVisual.new(course.visual_url, width: 550, alt_text: course.title, css_classes: 'full-width')
   .col-md-6.course-info
-    - if course.show_social_media_buttons?
-      = render 'shared/social_sharing', social_sharing:, services: %w[facebook twitter mail]
-
     .row
       .col-md-12.course-description.mt20 lang=course.lang
         == course.abstract_html

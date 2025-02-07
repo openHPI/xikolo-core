@@ -4,7 +4,7 @@ include:
   - path: compose.init.yml
 
 x-grouping: &grouping
-  image: xikolo-grouping:latest
+  image: registry.xikolo.de/xikolo/web/xikolo-grouping:latest
   build:
     context: ..
     dockerfile: docker/files/grouping.Dockerfile

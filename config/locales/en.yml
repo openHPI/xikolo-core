@@ -2407,12 +2407,6 @@ en:
         points_achieved: "%{submitted_points} of %{max_points} points"
         items_taken: "%{taken} of %{total} taken"
         empty_state_points: No points
-      progress_table: # deprecated
-        assignments: Assignments
-        bonus: Bonus
-        selftests: Self-tests
-        visited: Visited
-        total: Total
       legend:
         show: Show explanation
         hide: Hide explanation
@@ -2423,11 +2417,7 @@ en:
         optional: Optional content, does not affect score
 
       show:
-        item_locked: " (locked)"
-        points: Points
         empty_msg: "There are no items yet, so we cannot show you any progress now. Come back later."
-        quizzes_taken: "%{taken} of %{count} taken"
-        items_visited: "%{visited} of %{existing} visited"
       records:
         documents_headline: My course certificates
         documents_intro: As soon as the course has finished (and the teaching staff have published the final results), you can download your certificates here.
@@ -5024,7 +5014,6 @@ en:
       icon:
         name: x-twitter
         style: brands
-      share_course: "I enrolled in the #%{site} course %{title}"
       share_certificate: "I successfully completed the course %{title} on #%{site}!"
     mail:
       button: Mail
@@ -5032,15 +5021,6 @@ en:
       icon:
         name: envelope
         style: solid
-      share_course:
-        subject: "Join me and learn with %{site}"
-        body: |
-          Hello  ,
-
-          I enrolled in the %{site} course %{title}: %{url}.
-          All you need to sign up is a valid email address and you can learn from anywhere in the world, at any time.
-
-          Best regards,
       share_certificate:
         subject: "I successfully completed a course on %{site}"
         body: |

@@ -1294,19 +1294,9 @@ zh: &zh
         points_achieved: "%{submitted_points} 分中的 %{max_points} 分"
         items_taken: "%{taken} 的 %{total} 采取"
         empty_state_points: 无积分
-      progress_table: # deprecated
-        assignments: 作业
-        bonus: 奖励
-        selftests: 自我测试
-        visited: 已完成
-        total: 总分
 
       show:
-        item_locked: （锁定）
-        points: 分
         empty_msg: 当前还没有项目，不能显示任何进度，请稍后再来。
-        quizzes_taken: "已完成 %{taken} / %{count}"
-        items_visited: "已完成 %{visited} / %{existing}"
       records:
         documents_headline: 我的课程文档
         documents_intro: 当课程结束时（教学人员发布最后的成绩）您就可以下载您的文档。
@@ -3490,7 +3480,6 @@ zh: &zh
       icon:
         name: x-twitter
         style: brands
-      share_course: "我注册了 #%{site} 平台的 %{title} 课程"
       share_certificate: "I successfully completed the course %{title} on #%{site}!"
     mail:
       button: 分享
@@ -3498,15 +3487,6 @@ zh: &zh
       icon:
         name: envelope
         style: solid
-      share_course:
-        subject: "和我一起在%{site}上学习"
-        body: |
-          你好 ,
-
-          我注册了%{site}提供的课程 %{title}: %{url}。
-          你只需要使用有效的邮箱注册即可，之后你就可以跨越时间和空间的限制和我一起开始学习的旅途。
-
-          祝好,
       share_certificate:
         subject: "I successfully completed a course on %{site}"
         body: |

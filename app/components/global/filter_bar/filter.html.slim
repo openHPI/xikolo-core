@@ -4,7 +4,7 @@ label
     = select_tag @key,
       options_for_select(@options, selected: @selected, disabled: t(:'components.filter_bar.filter.divider')),
       class: "select #{'select--active' if @selected.present?}",
-      include_blank:, data: { change: 'submit', behavior: ('custom-select' if @multi_select) },
+      include_blank:, data: {change: 'submit', behavior: ('custom-select' if @multi_select)},
       multiple: @multi_select
   - else
     span.select.select--active.select--disabled = disabled_select_text

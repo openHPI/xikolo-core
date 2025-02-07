@@ -19,7 +19,7 @@ These items with the `content_type` of `quiz` or `lti_exercise` are marked with 
 The item is marked as **completed** when:
 
 - the percentage is greater than 95% **OR**
-- the item’s maximum points are zero.
+- the item’s maximum points are zero **AND** there is a submission.
 
 The item is marked as **warning** when:
 
@@ -28,5 +28,4 @@ The item is marked as **warning** when:
 
 The item is marked as **critical** when:
 
-- the percentage is less than 50% **OR**
-- no points are awarded for this item **AND** the item has been visited.
+- the percentage is less than 50%

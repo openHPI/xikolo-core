@@ -3,10 +3,11 @@
     - if @show_overview
       .filter-bar__overview
         p.filter-bar__overview-text
-          span.filter-bar__overview-title = "#{t(:'components.filter_bar.filter.results')}"
+          span.filter-bar__overview-title
+            = t(:'components.filter_bar.filter.results')
           = applied_filters
-        = link_to "#adjust-anchor", class: 'filter-bar__adjust' do
-          = render Global::FaIcon.new('filter',  css_classes: 'mr5')
+        = link_to '#adjust-anchor', class: 'filter-bar__adjust' do
+          = render Global::FaIcon.new('filter', css_classes: 'mr5')
           = t(:'components.filter_bar.filter.adjust')
 
     .filter-bar__results

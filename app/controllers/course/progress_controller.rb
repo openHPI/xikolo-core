@@ -22,13 +22,14 @@ class Course::ProgressController < Abstract::FrontendController
     # monitoring the progress of enrolled users in the course admin interface, not
     # the actual user. However, this doesn't matter for now since the feature
     # (proctoring) is a global platform feature.
-    @course_documents = Course::DocumentsPresenter.new(user_id: user.id, course: the_course, current_user:)
-    if feature?('learner_dashboard')
-      @course_progress = course_api.rel(:progresses).get(user_id: user.id, course_id: the_course.id).value!
-    else
-      @course_progress = Course::ProgressPresenter.build user, the_course
-    end
+    @course_documents = Course::DocumentsPresenter.new(
+      user_id: user.id, course: the_course, current_user:
+    )
     Acfs.run
+
+    @course_progress = course_api.rel(:progresses)
+      .get(user_id: user.id, course_id: the_course.id)
+      .value!
 
     set_page_title the_course.title, t(:'courses.nav.progress')
     render(layout: !request.xhr?)

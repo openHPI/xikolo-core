@@ -4,7 +4,7 @@ include:
   - path: compose.init.yml
 
 x-pinboard: &pinboard
-  image: xikolo-pinboard:latest
+  image: registry.xikolo.de/xikolo/web/xikolo-pinboard:latest
   build:
     context: ..
     dockerfile: docker/files/pinboard.Dockerfile

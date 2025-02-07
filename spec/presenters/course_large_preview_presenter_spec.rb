@@ -236,26 +236,6 @@ describe CourseLargePreviewPresenter, type: :presenter do
     end
   end
 
-  describe '#show_social_media_buttons?' do
-    context 'regular course' do
-      let(:course_params) { super().merge public: true }
-
-      it { is_expected.to be_show_social_media_buttons }
-
-      context 'that has not started yet' do
-        let(:course_params) { super().merge(start_date: 1.week.from_now) }
-
-        it { is_expected.to be_show_social_media_buttons }
-      end
-    end
-
-    context 'non-public course' do
-      let(:course_params) { super().merge public: false }
-
-      it { is_expected.not_to be_show_social_media_buttons }
-    end
-  end
-
   describe '#unenrollment_enabled?' do
     subject(:unenrollment_enabled) { presenter.unenrollment_enabled? }
 

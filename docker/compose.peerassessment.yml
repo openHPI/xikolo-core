@@ -4,7 +4,7 @@ include:
   - path: compose.init.yml
 
 x-peerassessment: &peerassessment
-  image: xikolo-peerassessment:latest
+  image: registry.xikolo.de/xikolo/web/xikolo-peerassessment:latest
   build:
     context: ..
     dockerfile: docker/files/peerassessment.Dockerfile

@@ -81,9 +81,6 @@ imgproxy_url: ~
 
 chatbot:
   bridge_public_keys: []
-  version2:
-    href:
-      de: https://support-chatbot-de.kommunalcampus.xikolo.de/webhooks/rest/webhook
 
 moochub_api:
   enabled: false

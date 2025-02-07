@@ -57,7 +57,10 @@ module Steps
     Then 'I pass the challenge' do
       # grecaptcha.getResponse() triggers Google's reCAPTCHA client-side JavaScript library, which returns a token
       # when the reCAPTCHA v2 challenge is passed.
-      page.execute_script('window.grecaptcha = { getResponse: function() { return "329iorjwe"; } };')
+      recaptcha_token = '329iorjwea' * 20
+      page.execute_script(
+        "window.grecaptcha = { getResponse: function() { return \"#{recaptcha_token}\"; } };"
+      )
     end
 
     Then 'the course should be listed in the category menu' do

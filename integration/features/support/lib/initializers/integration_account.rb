@@ -2,11 +2,10 @@
 
 if Rails.env.integration? && ENV['GURKE']
   require 'webmock'
+  require 'rack/remote'
 
   WebMock.enable!
   WebMock.allow_net_connect!
-
-  require 'rack/remote'
 
   def __clean_database
     Rails.logger.info '>>> Clean database [Account]'

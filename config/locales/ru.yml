@@ -1437,19 +1437,9 @@ ru:
         bonus: Бонус
         selftests: Тесты для самопроверки
         items_taken: "%{taken} из %{total} принятых"
-      progress_table: # deprecated
-        assignments: Задания
-        bonus: Бонус
-        selftests: Тесты для самопроверки
-        visited: Просмотрено
-        total: Всего
 
       show:
-        item_locked: " (заблокировано)"
-        points: Баллы
         empty_msg: "Ничего не найдено, поэтому показать прогресс невозможно. Зайдите позже."
-        quizzes_taken: "Пройдено %{taken} из %{count}"
-        items_visited: "Просмотрено %{visited} из %{existing}"
       records:
         documents_headline: Мои сертификаты
         documents_intro: Здесь вы можете скачать свои сертификаты, когда курс завершится (и преподаватели опубликуют окончательные результаты).
@@ -3851,7 +3841,6 @@ ru:
       icon:
         name: x-twitter
         style: brands
-      share_course: "Я записался на курс #%{site} «%{title}»"
       share_certificate: "Я успешно прошел курс #%{title} на %{site}!"
     mail:
       button: По почте
@@ -3859,15 +3848,6 @@ ru:
       icon:
         name: envelope
         style: solid
-      share_course:
-        subject: "Присоединяйтесь ко мне и учитесь на %{site}"
-        body: |
-          Здравствуйте  ,
-
-          Я записался на курс %{site} «%{title}»: %{url}.
-          Для регистрации вам понадобится только действующий адрес электронной почты — и вы сможете учиться в любой точке мира в любое время.
-
-          С уважением,
       share_certificate:
         subject: "Я успешно окончил курс на %{site}"
         body: |

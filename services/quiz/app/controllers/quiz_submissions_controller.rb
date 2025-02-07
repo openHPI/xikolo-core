@@ -10,15 +10,21 @@ class QuizSubmissionsController < ApplicationController
   def index
     submissions = QuizSubmission.all
 
-    submissions.where! id: params[:id] if params[:id]
-    submissions.where! course_id: params[:course_id] if params[:course_id]
-    submissions.where! quiz_id: params[:quiz_id] if params[:quiz_id]
-    submissions.where! quiz_access_time: params[:quiz_access_time] if params[:quiz_access_time]
-    submissions.where! user_id: params[:user_id] if params[:user_id]
+    # Decorating always access snapshots and e.g. points, which access
+    # questions. Therefore, load them at bulk.
+    submissions = submissions.includes(:quiz_submission_questions, :quiz_submission_snapshot)
+
+    submissions = submissions.where(id: params[:id]) if params[:id]
+    submissions = submissions.where(course_id: params[:course_id]) if params[:course_id]
+    submissions = submissions.where(quiz_id: params[:quiz_id]) if params[:quiz_id]
+    submissions = submissions.where(quiz_access_time: params[:quiz_access_time]) if params[:quiz_access_time]
+    submissions = submissions.where(user_id: params[:user_id]) if params[:user_id]
     submissions = submissions.where_submitted(true) if params[:only_submitted] == 'true'
+
     if params[:newest_first] == 'true'
       submissions = submissions.reorder('quiz_submission_time DESC')
     end
+
     # Model loaded from DB
     if params[:highest_score] == 'true'
       submissions = submissions.sort_by_rating

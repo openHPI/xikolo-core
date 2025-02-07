@@ -82,6 +82,7 @@ module Xikolo::NewsService
     end
 
     # Configure Telegraf event collection
+    config.telegraf.connect = ENV.fetch('TELEGRAF_CONNECT', nil)
     config.telegraf.tags = {application: 'news'}
   end
 end

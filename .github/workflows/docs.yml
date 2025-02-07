@@ -10,13 +10,16 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.13"
+          python-version-file: ".python-version"
           cache: pipenv
-      - run: pip install pipenv
-      - run: pipenv install --dev
-      - run: pipenv run mkdocs build --verbose --site-dir tmp/mkdocs/site
+      - run: uv sync
+      - run: uv run mkdocs build --verbose --site-dir tmp/mkdocs/site
       - uses: actions/upload-pages-artifact@v3
         with:
           path: tmp/mkdocs/site

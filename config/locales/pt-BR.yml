@@ -1428,19 +1428,9 @@ pt-BR:
         bonus: Bônus
         selftests: Autoavaliações
         items_taken: "%{taken} de %{total} tomados"
-      progress_table: # deprecated
-        assignments: Tarefas
-        bonus: Bônus
-        selftests: Autoavaliações
-        visited: Visitado
-        total: Total
 
       show:
-        item_locked: " (trancado)"
-        points: Pontos
         empty_msg: "Ainda não há itens. Portanto, não podemos mostrar nenhum progresso agora. Volte mais tarde."
-        quizzes_taken: "%{taken} de %{count} recebidas"
-        items_visited: "%{visited} de %{existing} visitado"
       records:
         documents_headline: Meus certificados de curso
         documents_intro: Assim que o curso terminar (e os professores tiverem publicado os resultados finais), você poderá baixar seus certificados aqui.
@@ -3811,7 +3801,6 @@ pt-BR:
       icon:
         name: x-twitter
         style: brands
-      share_course: "Eu me matriculei no #% {site} curso% {title}"
       share_certificate: "Concluí com sucesso o curso #% {title} no% {site}!"
     mail:
       button: Mail
@@ -3819,15 +3808,6 @@ pt-BR:
       icon:
         name: envelope
         style: solid
-      share_course:
-        subject: "Junte-se a mim e aprenda com %{site}"
-        body: |
-          Olá,
-
-          Eu me inscrevi no % {site} curso % {title}: % {url}.
-          Tudo o que você precisa para se inscrever é um endereço de e-mail válido e você pode aprender em qualquer lugar do mundo, a qualquer momento.
-
-          Atenciosamente,
       share_certificate:
         subject: "Concluí com êxito um curso em %{site}"
         body: |

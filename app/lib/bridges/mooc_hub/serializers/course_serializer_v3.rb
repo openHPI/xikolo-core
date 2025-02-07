@@ -34,8 +34,7 @@ module Bridges
             attributes: {
               name: course['title'],
               courseCode: course['course_code'],
-              # Both the abstract and description are converted to HTML.
-              abstract: render_markdown(course['abstract']).presence,
+              # Convert the description to HTML.
               description: render_markdown(course['abstract']).presence,
               startDate: Array.wrap(course['start_date']),
               endDate: Array.wrap(course['end_date']),
@@ -44,12 +43,9 @@ module Bridges
               availableUntil: nil,
               image: image_data_for(course),
               instructors: instructors_for(course),
-              learningObjectives: course['learning_goals'],
               duration: duration_for(course),
               # As the workload is not available as structured data, it's omitted.
               workload: nil,
-              partnerInstitute: [],
-              moocProvider: provider,
               access: access_for(course),
               url: PublicCoursePage.url_for(course),
               trailer: teaser_data_for(course),
@@ -208,16 +204,6 @@ module Bridges
         def educational_alignment_for(course)
           Course::Metadata.resolve(course['id'], Course::Metadata::TYPE::EDUCATIONAL_ALIGNMENT,
             Course::Metadata::VERSION)
-        end
-
-        def provider
-          @provider ||= {
-            name: Xikolo.config.site_name,
-            url: @context.root_url,
-            logo: @context.image_url(
-              "#{I18n.t(:'header.logo', default: 'logo', fallback: false)}.png"
-            ),
-          }
         end
 
         ##

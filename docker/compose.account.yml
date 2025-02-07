@@ -4,7 +4,7 @@ include:
   - path: compose.init.yml
 
 x-account: &account
-  image: xikolo-account:latest
+  image: registry.xikolo.de/xikolo/web/xikolo-account:latest
   command: server
   build:
     context: ..

@@ -1,7 +1,6 @@
-= simple_form_for(@certificate, url: {controller: 'certificates', action: @certificate.new_record? ? :create : :update }) do |f|
+= simple_form_for(@certificate, url: {controller: 'certificates', action: @certificate.new_record? ? :create : :update}) do |f|
   = f.error_notification
   = f.input :name, required: true,  placeholder: t(:'.placeholder.name')
-  = f.input :description, :required => false, placeholder: t(:'.placeholder.description'),  :as => :string
-  //= f.input :published, :as => :boolean
+  = f.input :description, required: false, placeholder: t(:'.placeholder.description'), as: :string
 
   = f.button :submit, class: 'btn btn-primary'

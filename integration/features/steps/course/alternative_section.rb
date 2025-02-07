@@ -172,9 +172,9 @@ module Steps
     end
 
     Then 'the course progress should only count one alternative section' do
-      within 'table' do
-        expect(find('tr', text: 'Total')).to have_content('0.0/3.0 Points')
-        expect(find('tr', text: 'Total')).to have_content('1 of 1 visited')
+      within '.course-progress' do
+        expect(find('.course-progress__item', text: 'Self-test points')).to have_content('0 of 3')
+        expect(find('.course-progress__item', text: 'Visited items')).to have_content('1 of 1')
       end
     end
 

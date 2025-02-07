@@ -15,9 +15,11 @@ include:
 
 services:
   nginx:
-    image: xikolo-nginx:latest
+    image: registry.xikolo.de/xikolo/web/xikolo-nginx:latest
     volumes:
-      - ./config/support/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./config/support/server.conf:/etc/nginx/templates/nginx.conf.template:ro
+    environment:
+      NGINX_ENTRYPOINT_LOCAL_RESOLVERS: "true"
     networks:
       - xikolo
     ports:

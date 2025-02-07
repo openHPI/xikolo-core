@@ -13,7 +13,7 @@ module LoadsCourseChannels
     helper_method :course_channels
   end
 
-  CHANNELS_PUBLIC_CACHE_KEY = 'web/application/channels/public/v2'
+  CHANNELS_PUBLIC_CACHE_KEY = 'web/channels/public/v2'
 
   def course_channels
     @course_channels ||= Rails.cache.fetch(CHANNELS_PUBLIC_CACHE_KEY, expires_in: 1.hour) do

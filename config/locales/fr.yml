@@ -1101,19 +1101,9 @@ fr:
         bonus: Bonus
         selftests: Quiz
         items_taken: "%{taken} de %{total} pris"
-      progress_table: # deprecated
-        assignments: Quiz gradué
-        bonus: Bonus
-        selftests: Quiz
-        visited: Visité
-        total: Total
 
       show:
-        item_locked: " (locked)"
-        points: Points
         empty_msg: "Il n'y a pas d'objets encore, donc nous ne pouvons pas vous montrer tout progrès maintenant. Revenez plus tard."
-        quizzes_taken: "%{taken} de %{count} sont terminés"
-        items_visited: "%{visited} de %{existing} ont visité"
       records:
         documents_headline: Mes documents de cours
         documents_intro: Dès que le cours est terminé (et le personnel de l'enseignement publie les résultats de l'examination), vous pouvez télécharger vos documents ici.
@@ -3233,7 +3223,6 @@ fr:
       icon:
         name: x-twitter
         style: brands
-      share_course: "Je me suis inscrit au cours %{title} sur #%{site}"
       share_certificate: "J'ai complété avec succès le cours %{title} sur #%{site}!"
     mail:
       button: Mail
@@ -3241,15 +3230,6 @@ fr:
       icon:
         name: envelope
         style: solid
-      share_course:
-        subject: "Rejoignez-moi et apprenez sur %{site}"
-        body: |
-          Bonjour  ,
-
-          Je me suis inscrit au cours% {site} %{title}: %{url}.
-          Tout ce dont vous avez besoin pour vous inscrire est une adresse email valide et vous pouvez apprendre de n'importe où dans le monde, à tout moment.
-
-          Meilleures salutations,
       share_certificate:
         subject: "J'ai terminé avec succès un cours sur %{site}"
         body: |

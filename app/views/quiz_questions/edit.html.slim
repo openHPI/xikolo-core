@@ -1,7 +1,9 @@
 = simple_form_for(@quiz_question, url: {controller: 'quiz_questions', action: :update}) do |f|
   = simple_fields_for(@quiz_question) do |t|
     - if @multiple_choice_question || @multiple_answer_question
-      = t.input :type, label: t(:'.type'),  required: true, collection: [[t(:'.question_type.multiple_choice'),  'MultipleChoiceQuestion'], [t(:'.question_type.multiple_answer'), 'MultipleAnswerQuestion'] ], class: 'form-control mb10'
+      = t.input :type, label: t(:'.type'), required: true,
+        collection: [[t(:'.question_type.multiple_choice'), 'MultipleChoiceQuestion'], [t(:'.question_type.multiple_answer'), 'MultipleAnswerQuestion']],
+        class: 'form-control mb10'
     = t.input :text, as: :markdown, required: true,
         label: t(:'.markup'),
         placeholder: t(:'items.quiz.enter_question'),
@@ -14,7 +16,7 @@
         markdown_id_suffix: "quiz_explanation_text_#{@quiz_question.id}",
         uploads: {purpose: :quiz_question_explanation, content_type: 'image/*'},
         value: @quiz_question['explanation']
-    / we need the uncasted text and explanation value: Acfs calls `to_s` on
+    / We need the uncasted text and explanation value: Acfs calls `to_s` on
       the Hashes and returns a wrong value. @quiz_question['text'] and
       @quiz_question['explanation'] returns the values as it was retrieved
       from the service (as Hash).
@@ -29,9 +31,9 @@
     = render 'quiz_questions/question_forms/form_free_text_question', question: @free_text_question
   - unless @essay_question.nil?
     = render 'quiz_questions/question_forms/form_essay_question', question: @essay_question
-  // TODO: Add further types
+  / TODO: Add further types
 
-  = f.button :submit, t(:'.submit'),  class: 'btn btn-primary mr10'
+  = f.button :submit, t(:'.submit'), class: 'btn btn-primary mr10'
 
   .btn.btn-default onclick="$(this).closest('.edit_form_quiz_wrapper').hide();"
     = t(:'global.cancel')

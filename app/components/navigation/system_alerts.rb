@@ -44,7 +44,7 @@ module Navigation
     # whenever alerts are marked as read.
     def cached_system_alerts
       Rails.cache.fetch(
-        "system_alerts_#{I18n.locale}.v1",
+        "system_alerts/#{I18n.locale}",
         expires_in: 5.minutes
       ) do
         Alert.published.by_publication_date.map do |alert|

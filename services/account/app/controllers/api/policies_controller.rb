@@ -8,7 +8,7 @@ class API::PoliciesController < API::RESTController
   end
 
   def create
-    respond_with Policy.create policy_params
+    respond_with Policy.create(policy_params), location: nil
   end
 
   private

@@ -72,7 +72,6 @@ RSpec/SpecFilePathFormat:
     - "services/course/spec/comparison/enrollment_evaluation_spec.rb"
   CustomTransform:
     OpenHPI: openhpi
-    OpenWHO: openwho
 
 # Nothing we can quickly change.
 #

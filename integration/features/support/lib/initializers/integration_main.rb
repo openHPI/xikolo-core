@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 if Rails.env.integration?
-  require 'rack/remote'
   require 'database_cleaner'
 
   DatabaseCleaner.strategy = :truncation, {

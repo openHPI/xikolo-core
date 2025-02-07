@@ -9,8 +9,6 @@ config/*integration*
 config/initializers/integration*
 !db/
 !docker/bin/
-!docker/rootfs/
-!docker/tool/
 !gems/
 !lib/
 !public/

@@ -14,15 +14,13 @@
           = f.input :password_confirmation
           = f.hidden_field :language, value: I18n.locale
 
-          h3
-            = t(:'account.treatments.index.mandatory.headline')
+          h3 = t(:'account.treatments.index.mandatory.headline')
           = render 'account/shared/required_consent', consents: @required_consents
 
-          h3
-            = t(:'account.treatments.index.optional.headline')
+          h3 = t(:'account.treatments.index.optional.headline')
           = render 'account/shared/consent', consents: @consents
 
           = hidden_field_tag 'treatments', @consents.concat(@required_consents).map(&:name).join(',')
 
           .buttons
-            = f.button :submit, t(:'.submit'), class:'full-width', id: 'submit'
+            = f.button :submit, t(:'.submit'), class: 'full-width', id: 'submit'

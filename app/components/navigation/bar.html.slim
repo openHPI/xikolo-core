@@ -1,7 +1,7 @@
 nav.navigation-bar
   // Mobile view
   .navigation-bar__content.navigation-bar__content--mobile data-test="mobile"
-    div.navigation-bar__left-container
+    .navigation-bar__left-container
       - if mobile_left_navigation.present?
         ul.navigation-bar__left
           = render Navigation::Item.new(text: t(:'header.navigation.menu'), active: false) do |dropdown|

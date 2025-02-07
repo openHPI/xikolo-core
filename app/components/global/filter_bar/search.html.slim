@@ -4,7 +4,7 @@ label
     = text_field_tag @name, @search_param, type: 'search'
     - if @search_param.present?
       = button_tag t(:'components.filter_bar.search.clear'), type: 'button', class: 'filter-bar__clear-button',
-        data: { 'id': 'clear-button', 'clear-target': "##{@name}" }, 'aria-label': t(:'components.filter_bar.search.label') do
+        data: {id: 'clear-button', 'clear-target': "##{@name}"}, 'aria-label': t(:'components.filter_bar.search.label') do
         = render Global::FaIcon.new('xmark')
     = button_tag t(:'components.filter_bar.search.label'), type: 'submit', class: 'filter-bar__search-button', 'aria-label': t(:'components.filter_bar.search.label') do
       = render Global::FaIcon.new('magnifying-glass')

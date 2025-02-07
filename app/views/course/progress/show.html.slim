@@ -1,13 +1,11 @@
 .container-fluid#progress-page
   - course = @course_documents.course
-  - if feature?('learner_dashboard') && @course_progress.present?
+  - if @course_progress.present?
     .progress-headline
       h3 = t(:'course.progress.learner_dashboard')
     .progress-card
       .card-container
         = render Course::LearnerDashboard::CourseProgress.new(@course_progress, course)
-  - elsif @course_progress&.available?
-    = render partial: 'progress_table', locals: {course_progress: @course_progress}
   - else
     .progress-card
       .card-container

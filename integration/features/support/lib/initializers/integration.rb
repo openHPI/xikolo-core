@@ -37,6 +37,4 @@ if Rails.env.integration?
 
     nil
   end
-
-  # Rails.logger = Logger.new(STDOUT)
 end

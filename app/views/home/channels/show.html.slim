@@ -16,13 +16,13 @@
       .carousel.slide#channel-carousel data-ride='carousel'
         ol.carousel-indicators
           li.active data-target='#channel-carousel' data-slide-to='0'
-          - for i in 1..(@channel.stage_items.count-1)
-            li data-target='#channel-carousel' data-slide-to="#{i}"
+          - (1...@channel.stage_items.count).each do |i|
+            li data-target='#channel-carousel' data-slide-to=i.to_s
 
         .carousel-inner role='listbox'
           - @channel.stage_items.each_with_index do |stage_item, i|
             .item class="#{'active' if i == 0}"
-              = render partial: 'stage_item', locals: { stage_item: stage_item }
+              = render partial: 'stage_item', locals: {stage_item: stage_item}
 
         a.left.carousel-control.invisible-to-xs href='#channel-carousel' role='button' data-slide='prev'
           span.icon-prev aria-hidden='true'
@@ -38,7 +38,7 @@
       .carousel.slide#channel-carousel
         .carousel-inner
           .item.active
-            = render partial: 'stage_item', locals: {stage_item: @channel.stage_items.first}
+            = render(partial: 'stage_item', locals: {stage_item: @channel.stage_items.first})
 
   .channel-courses#channel-courses
     - if @channel.description.blank?
@@ -84,24 +84,23 @@
               - if category.callout.present?
                 = render Global::Callout.new category.callout
               .course-card-grid data-id = "category-#{index}"
-                = render partial: 'home/courses/courses', locals: { courses: category.courses, enrollments: @enrollments }
+                = render(partial: 'home/courses/courses', locals: {courses: category.courses, enrollments: @enrollments})
 
               / Only self-paced courses are paginated so far, so there is a `next_page` for them.
               - if category.courses.respond_to?(:next_page) && category.courses.next_page.present?
                 .load-more
-                  = button_tag(type: 'button', class: 'btn btn-default btn-outline mb20 mt20', \
-                    data: { behavior: 'load-more', current_page: category.courses.current_page, target: "category-#{index}", dispatch_event: "load-more:course-cards" }) do
+                  = button_tag(type: 'button', class: 'btn btn-default btn-outline mb20 mt20',
+                    data: {behavior: 'load-more', current_page: category.courses.current_page, target: "category-#{index}", dispatch_event: 'load-more:course-cards'}) do
                     = t(:'course.courses.index.load_more')
                   div data-id='load-more__indicator' hidden='true'
                     = render State::Loading.new
                   p data-id='load-more__error-message' hidden='true'
                     = t(:'course.courses.index.error')
-        - else
+        - elsif request.GET.empty?
           / Check if the course list has been filtered and only then show a call to action button to reset all filters.
-          - if request.GET.empty?
-            = render State::Empty.new(t(:'channels.show.empty_state'))
-          - else
-            = render State::Empty.new(t(:'channels.show.empty'))
-              = link_to t(:'course.courses.index.action'), channel_path(@channel.code), \
-                data: { 'hide-on-click': '#course-list__content', 'show-on-click': '#course-list__loading' }, \
-                class: 'btn btn-primary mt10'
+          = render State::Empty.new(t(:'channels.show.empty_state'))
+        - else
+          = render State::Empty.new(t(:'channels.show.empty'))
+            = link_to t(:'course.courses.index.action'), channel_path(@channel.code),
+              data: {'hide-on-click': '#course-list__content', 'show-on-click': '#course-list__loading'},
+              class: 'btn btn-primary mt10'

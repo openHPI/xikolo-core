@@ -47,9 +47,6 @@ if File.exist?(file)
           when 'egovcampus'
             require 'omniauth/strategies/egovcampus'
             provider :egovcampus, auth.merge(name:)
-          when 'who'
-            require 'omniauth/strategies/who'
-            provider :who, auth.merge(name:)
           when 'mein_bildungsraum'
             require 'omniauth/strategies/mein_bildungsraum'
             provider :mein_bildungsraum, auth.merge(name:)

@@ -77,7 +77,7 @@ You can speed up showing / removing a banner by deleting the corresponding Rails
 3. Delete the caching key for the course list banner.
 
     ```ruby
-    Rails.cache.delete('web/courses/banners/current')
+    Rails.cache.delete('web/banners/current')
     ```
 
     !!! tip

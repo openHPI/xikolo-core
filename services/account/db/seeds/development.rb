@@ -297,7 +297,6 @@ end
 
 # Feature Flippers for Kevin Cool
 %w[
-  learner_dashboard
   quiz_recap
 ].each do |feature|
   Feature.create!(

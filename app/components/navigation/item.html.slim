@@ -16,24 +16,22 @@ li class=css_classes data-test=item_type aria-label=tooltip data-tooltip=tooltip
     ul.navigation-item__menu id=aria_controls data-behaviour='menu-dropdown'
       - items.each do |item|
         = item
-
+  - elsif @link.present?
+    = link_to @link[:href], target: @link[:target], rel: rel, class: action_css_classes,
+      'aria-current': aria_current, title: aria_label, 'aria-label': aria_label, 'aria-description': aria_description,
+      lang: @lang
+      - if icon?
+        .navigation-item__icon
+          = render Global::FaIcon.new(icon_code)
+      - if @text.present?
+        .navigation-item__text
+          = @text
   - else
-    - if @link.present?
-      = link_to @link[:href], target: @link[:target], rel: rel, class: action_css_classes,
-        'aria-current': aria_current, title: aria_label, 'aria-label': aria_label, 'aria-description': aria_description,
-        lang: @lang
-        - if icon?
-          .navigation-item__icon
-            = render Global::FaIcon.new(icon_code)
-        - if @text.present?
-          .navigation-item__text
-            = @text
-    - else
-      div class=action_css_classes lang=@lang
-        - if icon?
-          .navigation-item__icon
-            = render Global::FaIcon.new(icon_code)
-        - if @text.present?
-          .navigation-item__text
-            = @text
+    div class=action_css_classes lang=@lang
+      - if icon?
+        .navigation-item__icon
+          = render Global::FaIcon.new(icon_code)
+      - if @text.present?
+        .navigation-item__text
+          = @text
   = content

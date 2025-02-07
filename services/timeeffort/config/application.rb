@@ -58,6 +58,7 @@ module Xikolo::TimeEffort
     Restify::Processors::Json.indifferent_access = false
 
     # Configure Telegraf event collection
+    config.telegraf.connect = ENV.fetch('TELEGRAF_CONNECT', nil)
     config.telegraf.tags = {application: 'timeeffort'}
   end
 end

@@ -4,7 +4,7 @@ include:
   - path: compose.init.yml
 
 x-collabspace: &collabspace
-  image: xikolo-collabspace:latest
+  image: registry.xikolo.de/xikolo/web/xikolo-collabspace:latest
   build:
     context: ..
     dockerfile: docker/files/collabspace.Dockerfile

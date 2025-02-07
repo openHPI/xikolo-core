@@ -1565,19 +1565,9 @@ uk:
         points_achieved: "%{submitted_points} з %{max_points} балів"
         items_taken: "%{taken} від %{total} складено"
         empty_state_points: Немає балів
-      progress_table: # deprecated
-        assignments: Завдання
-        bonus: Бонус
-        selftests: Самоперевірка
-        visited: Відвідано
-        total: Разом
 
       show:
-        item_locked: " (заблоковано)"
-        points: Бали
         empty_msg: "Поки що немає пунктів, тому ми не можемо показати вам прогрес. Повертайтеся пізніше."
-        quizzes_taken: "%{taken} з %{count} пройдено"
-        items_visited: "%{visited} з %{existing} відвідано"
       records:
         documents_headline: Мої сертифікати курсу
         documents_intro: Як тільки курс закінчиться (і викладачі опублікують остаточні результати), ви зможете завантажити тут свої сертифікати.
@@ -4055,7 +4045,6 @@ uk:
       icon:
         name: x-twitter
         style: brands
-      share_course: "Я зарахований на #%{site} курс %{title}"
       share_certificate: "Я успішно закінчив курс %{title} на %{site}!"
     mail:
       button: Пошта
@@ -4063,15 +4052,6 @@ uk:
       icon:
         name: envelope
         style: solid
-      share_course:
-        subject: "Приєднуйтесь до мене та навчайтеся з %{site}"
-        body: |
-          Привіт,
-
-          Я зарахований на %{site} курс %{title}: %{url}.
-          Все, що вам потрібно для реєстрації, це дійсна адреса електронної пошти, і ви можете навчатися з будь-якої точки світу в будь-який час.
-
-          З повагою,
       share_certificate:
         subject: "Я успішно закінчив курс на %{site}"
         body: |

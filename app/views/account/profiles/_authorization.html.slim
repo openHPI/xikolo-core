@@ -3,6 +3,6 @@ div aria-label="ID: #{auth.uid}" data-provider=auth.provider data-tooltip="ID: #
     = t(:"header.login.omniauth.#{auth.provider}")
   - if profile.delete_authorizations?
     = link_to auth_delete_path(auth.id),
-      data: { confirm: t(:'dashboard.profile.authorizations.confirm_delete') },
+      data: {confirm: t(:'dashboard.profile.authorizations.confirm_delete')},
       method: :delete
       = render Global::FaIcon.new('xmark')

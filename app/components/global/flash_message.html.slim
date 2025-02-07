@@ -3,5 +3,5 @@ div class="flash flash--#{@type}" data-id=object_id
     .flash__icon
       = render Global::FaIcon.new(icon_name, style: :solid)
     span.flash__text role="status" aria-live="polite" == @text
-    button.flash__close data={"hide-on-click": "[data-id='#{object_id}']"} type="button" aria-label=t(:'global.close')
+    button.flash__close data={'hide-on-click': "[data-id='#{object_id}']"} type="button" aria-label=t(:'global.close')
       = render Global::FaIcon.new('xmark', style: :solid)

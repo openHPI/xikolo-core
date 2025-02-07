@@ -73,9 +73,9 @@ class PeerAssessment::ConflictsController < PeerAssessment::BaseController
     end
 
     unless submission.nil?
-      @path_to_submission = path_to_submission(
-        @assessment['id'],
-        submission['id']
+      @path_to_submission = peer_assessment_submission_management_path(
+        short_uuid(@assessment['id']),
+        short_uuid(submission['id'])
       )
     end
     load_notes @conflict['id']
@@ -97,13 +97,6 @@ class PeerAssessment::ConflictsController < PeerAssessment::BaseController
 
     # To ease the navigation -> users go back to the page they came from
     @page = params[:page]
-  end
-
-  def path_to_submission(pa_id, submission_id)
-    peer_assessment_submission_management_path(
-      short_uuid(pa_id),
-      short_uuid(submission_id)
-    )
   end
 
   def reconcile

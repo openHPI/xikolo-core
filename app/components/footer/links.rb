@@ -5,9 +5,14 @@ module Footer
     private
 
     def link_columns
-      Xikolo.config.footer&.dig('columns')&.map do |links_config|
-        LinkColumn.new(links_config)
-      end || []
+      Rails.cache.fetch(
+        "footer/links/#{I18n.locale}",
+        expires_in: 30.minutes
+      ) do
+        Xikolo.config.footer&.dig('columns')&.map do |links_config|
+          LinkColumn.new(links_config)
+        end || []
+      end
     end
 
     class LinkColumn
@@ -52,8 +57,8 @@ module Footer
       def link_item_for(config)
         Global::LinkItem.new(
           href: Translations.new(config.fetch('href')).to_s,
-          text: Translations.new(config.fetch('text')),
-          title: Translations.new(config['title']),
+          text: Translations.new(config.fetch('text')).to_s,
+          title: Translations.new(config['title']).to_s,
           target: config['target']
         )
       rescue KeyError

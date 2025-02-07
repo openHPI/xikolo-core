@@ -19,9 +19,10 @@ class AnswersController < ApplicationController
                   return error :bad_request, json: {error: 'invalid_sort_order'}
               end
 
-    answers.where! deleted: false unless params[:deleted]
-    answers.where! question_id: params[:question_id] if params[:question_id]
-    answers.where! user_id: params[:user_id] if params[:user_id]
+    answers = answers.includes(:abuse_reports, :votes)
+    answers = answers.where(deleted: false) unless params[:deleted]
+    answers = answers.where(question_id: params[:question_id]) if params[:question_id]
+    answers = answers.where(user_id: params[:user_id]) if params[:user_id]
     answers = answers.unblocked unless [true, 'true'].include? params[:blocked]
 
     if params[:vote_value_for_user_id]

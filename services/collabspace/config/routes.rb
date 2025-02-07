@@ -6,11 +6,11 @@ Rails.application.routes.draw do
     resources :collab_spaces, except: %i[new edit] do
       resources :files, only: %i[index create]
     end
-    resources :memberships, except: %i[new edit]
+    resources :memberships, only: %i[index create update destroy]
     resources :files, only: %i[show destroy]
     resources :calendar_events
 
-    resources :system_info, only: [:show]
+    resources :system_info, only: %i[show]
     root to: 'root#index'
   end
 end

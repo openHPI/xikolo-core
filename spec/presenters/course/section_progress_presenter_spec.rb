@@ -9,18 +9,6 @@ describe Course::SectionProgressPresenter do
     end
   end
 
-  shared_examples 'ProgressExerciseStats' do
-    it { is_expected.to be_a Course::ProgressExerciseStatsPresenter }
-
-    it 'passes the course instance' do
-      expect(stats.instance_variable_get(:@course)).to be_a Xikolo::Course::Course
-    end
-
-    it 'passes the user instance' do
-      expect(stats.instance_variable_get(:@user)).to be_a Xikolo::Account::User
-    end
-  end
-
   let(:course) { Xikolo::Course::Course.new id: SecureRandom.uuid }
   let(:progress) { Xikolo::Course::Progress.new section_progress }
   let(:section_progress) { {'kind' => 'course', 'visits' => {}, 'items' => []} }
@@ -48,30 +36,6 @@ describe Course::SectionProgressPresenter do
 
       it { is_expected.to be_truthy }
     end
-  end
-
-  describe '#self_test_stats' do
-    subject(:stats) { presenter.self_test_stats }
-
-    it_behaves_like 'ProgressExerciseStats'
-  end
-
-  describe '#main_exercise_stats' do
-    subject(:stats) { presenter.main_exercise_stats }
-
-    it_behaves_like 'ProgressExerciseStats'
-  end
-
-  describe '#bonus_exercise_stats' do
-    subject(:stats) { presenter.bonus_exercise_stats }
-
-    it_behaves_like 'ProgressExerciseStats'
-  end
-
-  describe '#visits_stats' do
-    subject { presenter.visits_stats }
-
-    it { is_expected.to be_a Course::ProgressVisitsStatsPresenter }
   end
 
   describe '#items' do

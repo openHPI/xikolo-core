@@ -12,7 +12,7 @@ module Global
 
     def banner
       @banner ||= Rails.cache.fetch(
-        'web/courses/banners/current',
+        'web/banners/current',
         expires_in: CACHE_DURATION,
         race_condition_ttl: 1.minute
       ) { Banner.current }

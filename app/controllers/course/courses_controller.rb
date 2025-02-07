@@ -41,16 +41,6 @@ class Course::CoursesController < Abstract::FrontendController
     enrollments = Array.wrap(my_enrollment)
 
     @large_preview = CourseLargePreviewPresenter.build the_course, current_user, enrollments
-    if @large_preview.show_social_media_buttons?
-      @social_sharing = SocialSharingPresenter.new(
-        context: :course,
-        options: {
-          site: Xikolo.config.site_name,
-          title: the_course.title,
-          course_url: course_url(the_course.course_code),
-        }
-      )
-    end
     @course_presenter = Course::CourseDetailsPresenter.build the_course, enrollments, current_user
 
     if current_user.anonymous? && !cookies.signed[:stored_location]

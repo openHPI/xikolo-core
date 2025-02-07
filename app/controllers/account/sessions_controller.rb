@@ -192,7 +192,11 @@ class Account::SessionsController < Abstract::FrontendController
     if @in_app
       handle_mobile_application!
     else
-      target = current_user.logged_in? ? target_url(fallback: dashboard_profile_url) : target_url
+      target = if current_user.logged_in? && session[:saml_provider] != 'egovcampus'
+                 target_url(fallback: dashboard_profile_url)
+               else
+                 target_url
+               end
       cookies.delete :stored_location if cookies.signed[:stored_location]
       redirect_to target
     end

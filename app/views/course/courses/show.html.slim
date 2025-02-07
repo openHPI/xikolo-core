@@ -9,7 +9,7 @@
 
 / Main Container
 .container
-  = render 'course_preview_large', course: @large_preview, social_sharing: @social_sharing
+  = render 'course_preview_large', course: @large_preview
 
   - if @course_presenter.prerequisites?
     .row

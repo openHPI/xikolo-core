@@ -1,9 +1,0 @@
-- items.each do |item|
-  - if item.unlocked?
-    .progress_item class="#{'progress_item_visited' if item.visited?} #{'progress_item_optional' if item.optional}" data-tooltip=item.title aria-label=item.title
-      = link_to item.path, class: item.icon_class
-        = render Global::FaIcon.new(item.icon_class)
-  - else
-    .progress_item.progress_item_locked data-tooltip=(item.title + t(:'course.progress.show.item_locked')) aria-label=(item.title + t(:'course.progress.show.item_locked'))
-      span class=item.icon_class
-        = render Global::FaIcon.new(item.icon_class)

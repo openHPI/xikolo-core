@@ -4,7 +4,7 @@ include:
   - path: compose.init.yml
 
 x-quiz: &quiz
-  image: xikolo-quiz:latest
+  image: registry.xikolo.de/xikolo/web/xikolo-quiz:latest
   build:
     context: ..
     dockerfile: docker/files/quiz.Dockerfile

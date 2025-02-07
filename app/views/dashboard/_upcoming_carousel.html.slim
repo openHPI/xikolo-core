@@ -5,7 +5,7 @@
     #upcoming-carousel.carousel.slide data-ride="carousel"
       - if @my_promoted.count > 1
         ol.carousel-indicators
-          - @my_promoted.each_with_index do |course, index|
+          - @my_promoted.each_with_index do |_, index|
             li class="#{'active' if index == 0}" data-slide-to="#{index}" data-target="#upcoming-carousel"
       .carousel-inner
         - @my_promoted.each_with_index do |course, index|

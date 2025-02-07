@@ -10,7 +10,7 @@ class CommentsController < ApplicationController
   # GET /comments
   # GET /comments.xml
   def index
-    comments = Comment.default_order
+    comments = Comment.default_order.includes(:abuse_reports)
     comments.where! deleted: false unless params[:deleted]
     comments.where! user_id: params[:user_id] if params[:user_id]
     comments = comments.unblocked unless [true, 'true'].include? params[:blocked]

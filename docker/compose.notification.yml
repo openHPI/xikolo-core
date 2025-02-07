@@ -4,7 +4,7 @@ include:
   - path: compose.init.yml
 
 x-notification: &notification
-  image: xikolo-notification:latest
+  image: registry.xikolo.de/xikolo/web/xikolo-notification:latest
   build:
     context: ..
     dockerfile: docker/files/notification.Dockerfile

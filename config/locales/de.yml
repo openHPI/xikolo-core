@@ -1700,19 +1700,9 @@ de:
         points_achieved: "%{submitted_points} von %{max_points} Punkte"
         items_taken: "%{taken} von %{total} bearbeitet"
         empty_state_points: Keine Punkte
-      progress_table: # deprecated
-        assignments: Hausaufgaben
-        bonus: Bonus
-        selftests: Selbsttests
-        visited: Besucht
-        total: Gesamt
 
       show:
-        item_locked: " (gesperrt)"
-        points: Punkte
         empty_msg: Es gibt noch keine Inhalte in diesem Kurs, daher auch noch keine Fortschrittsanzeige.
-        quizzes_taken: "%{taken} von %{count} bearbeitet"
-        items_visited: "%{visited} von %{existing} besucht"
       records:
         documents_headline: Meine Leistungsnachweise
         documents_intro: Sobald ein Kurs beendet ist (und der Lehrkörper die Abschlussergebnisse veröffentlicht hat), können Sie Ihre Leistungsnachweise hier herunterladen.
@@ -4205,7 +4195,6 @@ de:
       icon:
         name: x-twitter
         style: brands
-      share_course: "Ich habe mich in den #%{site}-Kurs %{title} eingeschrieben."
       share_certificate: "Ich habe den Kurs %{title} auf #%{site} erfolgreich abgeschlossen!"
     mail:
       button: Mail
@@ -4213,15 +4202,6 @@ de:
       icon:
         name: envelope
         style: solid
-      share_course:
-        subject: "Ich lerne bei %{site}, mach doch mit!"
-        body: |
-          Hallo ,
-
-          Ich habe mich in den %{site}-Kurs %{title} eingeschrieben: %{url}.
-          Um dich anzumelden, brauchst Du nur eine gültige E-Mail-Adresse und schon kann es losgehen. Lerne von überall und jederzeit mit %{site}.
-
-          Viele Grüße,
       share_certificate:
         subject: "Ich habe einen Kurs auf %{site} erfolgreich abgeschlossen"
         body: |

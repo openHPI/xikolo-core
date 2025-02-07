@@ -1,7 +1,5 @@
-p
-  =t :'.greeting'
-p
-  =t :'.text'
+p = t(:'.greeting')
+p = t(:'.text')
 center
   table.button.large.float-center
     tr
@@ -9,5 +7,5 @@ center
         table
           tr
             td
-              a href=@payload.item_url = t(:'.link_text')
-
+              a href=@payload.item_url
+                = t(:'.link_text')

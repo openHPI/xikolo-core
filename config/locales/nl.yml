@@ -1563,19 +1563,9 @@ nl:
         bonus: Bonus
         selftests: Zelftests
         items_taken: "%{taken} van %{total} genomen"
-      progress_table: # deprecated
-        assignments: Opdrachten
-        bonus: Bonus
-        selftests: Quiz
-        visited: Bezocht
-        total: Totaal
 
       show:
-        item_locked: " (op slot)"
-        points: Punten
-        empty_msg: "Er zijn nog geen items, dus we kunnen je nu geen voortgang laten zien. Kom later terug."
         quizzes_taken: "%{taken} van %{count} genomen"
-        items_visited: "%{visited} van %{existing} bezocht"
       records:
         documents_headline: Mijn cursuscertificaten
         documents_intro: Zodra de cursus is afgelopen (en de docenten de eindresultaten hebben gepubliceerd), kun je hier je certificaten downloaden.
@@ -4018,7 +4008,6 @@ nl:
       icon:
         name: x-twitter
         style: solid
-      share_course: "Ik heb me ingeschreven voor de #%{site} cursus %{title}"
       share_certificate: "Ik heb de cursus %{title} succesvol afgerond op #%{site}!"
     mail:
       button: Mail
@@ -4026,15 +4015,6 @@ nl:
       icon:
         name: envelope
         style: solid
-      share_course:
-        subject: "Doe mee en leer met %{site}"
-        body: |
-          Hallo  ,
-
-          Ik heb me ingeschreven voor de %{site} cursus %{title}: %{url}.
-          Het enige dat u nodig hebt om u aan te melden, is een geldig e-mailadres en u kunt op elk moment van overal ter wereld leren.
-
-          Met vriendelijke groet,
       share_certificate:
         subject: "Ik heb een cursus succesvol afgerond op %{site}"
         body: |

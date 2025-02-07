@@ -70,7 +70,9 @@ describe Course::ProgressController, type: :controller do
       end
     end
 
-    context 'as logged in and enrolled' do
+    context 'as logged in and enrolled user' do
+      render_views
+
       before do
         stub_user id: user_id, language: 'en', permissions: ['course.content.access.available']
 
@@ -86,14 +88,15 @@ describe Course::ProgressController, type: :controller do
         ).to_return Stub.json([])
       end
 
-      it 'responds with a valid html page' do
+      it 'renders the empty progress page' do
         action.call
         expect(response).to have_http_status :ok
-        expect(assigns(:course_progress)).to be_a(Course::ProgressPresenter)
+        expect(response.body).to include 'Progress | Test Course | Xikolo'
+        expect(response.body).to include 'here are no items yet, so we cannot show you any progress now. Come back later.'
       end
     end
 
-    context 'as course admin and different user_id' do
+    context 'as course admin masquerading as another user, i.e. with different user ID' do
       render_views
 
       let(:action) do
@@ -161,16 +164,16 @@ describe Course::ProgressController, type: :controller do
         expect(user_progress_statistic).to have_been_requested
       end
 
-      it 'renders a proper progress page' do
+      it 'renders the progress page with a linked item' do
         action.call
-        expect(response.body).to include 'Progress | Test Course | Xikolo'
+        expect(response.body).to include 'My learning progress'
 
         video_id = UUID4.try_convert(video['id']).to_s(format: :base62)
-        expect(response.body).to include "<a class=\"video\" href=\"/courses/#{course_code}/items/#{video_id}\">"
+        expect(response.body).to include "<a href=\"/courses/#{course_code}/items/#{video_id}\">"
       end
     end
 
-    context 'as no course admin and different user_id' do
+    context 'as no course admin and different user ID' do
       let(:params) do
         {course_id:, user_id: other_user_id}
       end

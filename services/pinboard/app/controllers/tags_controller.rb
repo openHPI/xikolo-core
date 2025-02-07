@@ -40,15 +40,13 @@ class TagsController < ApplicationController
   # GET /tags/1
   # GET /tags/1.xml
   def show
-    @tag = Tag.find(params[:id])
-    respond_with(@tag)
+    respond_with Tag.find(params[:id])
   end
 
   # POST /tags
   # POST /tags.xml
   def create
-    @tag = Tag.create tag_params
-    respond_with @tag
+    respond_with Tag.create(tag_params)
   end
 
   def max_per_page

@@ -4,7 +4,7 @@ include:
   - path: compose.init.yml
 
 x-news: &news
-  image: xikolo-news:latest
+  image: registry.xikolo.de/xikolo/web/xikolo-news:latest
   build:
     context: ..
     dockerfile: docker/files/news.Dockerfile

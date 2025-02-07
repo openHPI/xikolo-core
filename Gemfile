@@ -32,6 +32,7 @@ gem 'redis', '~> 5.0'
 
 # App servers
 gem 'puma'
+gem 'thruster'
 
 # API & Messaging
 gem 'grape', '~> 2.2'
@@ -106,7 +107,7 @@ gem 'rexml', '>= 3.2.1' # https://github.com/onelogin/ruby-saml/issues/516
 gem 'ruby-saml', '~> 1.14'
 
 # reCAPTCHA
-gem 'recaptcha'
+gem 'recaptcha', '5.19.0'
 
 # HTML Emails
 gem 'inky-rb', require: 'inky'

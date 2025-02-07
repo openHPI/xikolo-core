@@ -11,7 +11,7 @@ Feature: Course Progress function
   Scenario: Enter an item for the first time
     When I am on the progress page
     Given I count the unvisited items
-    When I click on a unvisited item
+    When I click on an unvisited item
     And I wait for 5 seconds
     And I am on the progress page
     Then the number of unvisited items is decreased by one

@@ -1,7 +1,0 @@
-#!/usr/bin/bash
-
-set -x
-
-mkdir --parents /var/cache/nginx/cache
-
-exec nginx -g "daemon off;"

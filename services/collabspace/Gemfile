@@ -27,6 +27,7 @@ gem 'redis', '~> 5.0'
 gem 'scenic', '~> 1.5'
 
 gem 'puma'
+gem 'thruster'
 
 gem 'msgr', '~> 1.5'
 

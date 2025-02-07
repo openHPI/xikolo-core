@@ -19,8 +19,7 @@ describe 'course/courses/_course_preview_large.html.slim', type: :view do
   let(:course_attrs) { {course_code: 'test', lang: 'en'} }
   let(:course_presenter) { CourseLargePreviewPresenter.build(course_resource, user, enrollments) }
   let(:enrollments) { nil }
-  let(:social_sharing_presenter) { nil }
-  let(:render_view) { render 'course/courses/course_preview_large', course: course_presenter, social_sharing: social_sharing_presenter, current_user: user }
+  let(:render_view) { render 'course/courses/course_preview_large', course: course_presenter, current_user: user }
 
   context 'show' do
     context 'as anonymous user' do
@@ -130,21 +129,6 @@ describe 'course/courses/_course_preview_large.html.slim', type: :view do
 
       it { is_expected.not_to include 'Enroll me for this course' }
       it { is_expected.to include 'Register now' }
-    end
-
-    context '(social media buttons)' do
-      let(:social_sharing_presenter) { SocialSharingPresenter.new(context: :course) }
-      let(:course_attrs) { super().merge(public: true) }
-
-      describe 'for regular course' do
-        it { is_expected.to render_template 'shared/_social_sharing' }
-      end
-
-      describe 'for hidden course' do
-        let(:course_attrs) { super().merge(public: false) }
-
-        it { is_expected.not_to render_template 'shared/_social_sharing' }
-      end
     end
   end
 end

@@ -48,6 +48,7 @@ gem 'redcarpet', '~> 3.4'
 
 # App servers
 gem 'puma'
+gem 'thruster'
 
 group :test do
   gem 'accept_values_for'

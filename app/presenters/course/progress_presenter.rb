@@ -24,14 +24,6 @@ class Course::ProgressPresenter < CourseInfoPresenter
     @section_progresses.any?
   end
 
-  def course_title
-    @course['title']
-  end
-
-  def with_bonus_exercises?
-    !@course_progress.bonus_exercises.nil?
-  end
-
   def open_mode?
     # We check this, because @user can be an instance of either
     # Xikolo::Common::Auth::CurrentUser or Xikolo::Account::User
@@ -46,21 +38,5 @@ class Course::ProgressPresenter < CourseInfoPresenter
     @section_progresses.map do |section|
       Course::SectionProgressPresenter.new section:, course: @course, user: @user
     end
-  end
-
-  def self_test_stats
-    Course::ProgressExerciseStatsPresenter.new @course_progress.selftest_exercises
-  end
-
-  def main_exercise_stats
-    Course::ProgressExerciseStatsPresenter.new @course_progress.main_exercises
-  end
-
-  def bonus_exercise_stats
-    Course::ProgressExerciseStatsPresenter.new @course_progress.bonus_exercises
-  end
-
-  def visits_stats
-    Course::ProgressVisitsStatsPresenter.new @course_progress.visits
   end
 end

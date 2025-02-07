@@ -5,7 +5,7 @@ require_relative 'boot'
 require 'rails'
 # Pick the frameworks you want:
 require 'active_model/railtie'
-# require 'active_job/railtie'
+require 'active_job/railtie'
 require 'active_record/railtie'
 # require 'active_storage/engine'
 require 'action_controller/railtie'
@@ -60,6 +60,7 @@ module Xikolo::CourseService
     ActiveSupport::JSON::Encoding.time_precision = 0
 
     # Configure Telegraf event collection
+    config.telegraf.connect = ENV.fetch('TELEGRAF_CONNECT', nil)
     config.telegraf.tags = {application: 'course'}
 
     # Our paper trail setup uses YAML serialization into a text column,

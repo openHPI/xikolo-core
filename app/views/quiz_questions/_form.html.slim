@@ -1,6 +1,9 @@
 = simple_form_for(@quiz_question, url: {controller: 'quiz_questions', action: :create, item_id: @item.id}) do |f|
   => label_tag :meta_question_type, t(:'items.quiz.question_type')
-  = select 'meta', 'question_type', [[t(:'.question_type.multiple_choice'),  'multiple_choice'], [t(:'.question_type.multiple_answer'), 'multiple_answer'], [t('.question_type.free_text'), 'free_text' ], [t('.question_type.essay'), 'essay' ] ], {include_blank: t(:'items.quiz.select_question_type')}, class: 'form-control mb10'
+  = select 'meta', 'question_type',
+    [[t(:'.question_type.multiple_choice'), 'multiple_choice'], [t(:'.question_type.multiple_answer'), 'multiple_answer'], [t('.question_type.free_text'), 'free_text'], [t('.question_type.essay'), 'essay']],
+    {include_blank: t(:'items.quiz.select_question_type')},
+    class: 'form-control mb10'
   br
   .generic-fields
     = f.input :text, as: :markdown, required: true,
@@ -15,7 +18,6 @@
         uploads: {purpose: :quiz_question_explanation, content_type: 'image/*'}
 
   #active-question-form
-
   .generic-fields
     = f.button :submit, class: 'btn btn-primary mr10', data: {behavior: 'scroll-marker'}
 
@@ -28,4 +30,4 @@
     = render 'quiz_questions/question_forms/form_free_text_question', question: @free_text_question
   .question-form#simple-essay-form
     = render 'quiz_questions/question_forms/form_essay_question', question: @essay_question
-  // TODO: Add further types – also to selection! :)
+  / TODO: Add further types – also to selection!

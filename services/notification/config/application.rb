@@ -72,6 +72,7 @@ module Xikolo::NotificationService
     config.i18n.fallbacks = %i[en]
 
     # Configure Telegraf event collection
+    config.telegraf.connect = ENV.fetch('TELEGRAF_CONNECT', nil)
     config.telegraf.tags = {application: 'notification'}
 
     initializer 'configure-mailer' do

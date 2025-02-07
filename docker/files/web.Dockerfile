@@ -56,10 +56,10 @@ RUN <<EOF
   corepack yarn install
 EOF
 
-COPY --exclude=docker/rootfs --exclude=services . /app/
+COPY --exclude=docker --exclude=services . /app/
 
-RUN <<EOF
-  make --jobs="$(./docker/tool/njobs)" all
+RUN --mount=type=bind,target=/docker,source=/docker <<EOF
+  make --jobs="$(/docker/bin/njobs)" all
 EOF
 
 #
@@ -169,20 +169,13 @@ RUN useradd --create-home --shell /bin/bash xikolo
 RUN <<EOF
   apt-get --yes --quiet update
   apt-get --yes --quiet --no-install-recommends install \
-    curl \
     ffmpeg \
-    git \
     libcurl4 \
     libsodium23 \
-    nginx \
     shared-mime-info \
     tzdata \
     xz-utils
 EOF
-
-COPY docker/rootfs/web/ /
-COPY docker/bin/ /docker/bin
-RUN /docker/bin/install-s6-overlay
 
 # Copy installed gems and config from `build` stage above
 COPY --from=build /usr/local/bundle /usr/local/bundle
@@ -196,7 +189,9 @@ EOF
 # Copy application files from build stage
 COPY --from=build /app/ /app/
 
+USER 1000:1000
+
 EXPOSE 80/tcp
 
 CMD [ "server" ]
-ENTRYPOINT [ "/init", "with-contenv", "/app/bin/entrypoint" ]
+ENTRYPOINT [ "/app/bin/entrypoint" ]

@@ -44,10 +44,10 @@ sidekiq)
 server)
   shift
   echo "[INFO] Starting application server..."
-  export WORKERS="${PUMA_WORKERS:-1}"
+  export WORKERS="${PUMA_WORKERS:-0}"
   export CONCURRENCY="${PUMA_CONCURRENCY:-16}"
   export RAILS_MAX_THREADS="${CONCURRENCY}"
-  set -- bundle exec puma --config config/puma.production.rb --bind tcp://0.0.0.0:3000 "$@"
+  set -- /app/bin/thrust puma --config config/puma.production.rb --bind tcp://0.0.0.0:3000 "$@"
   ;;
 esac
 

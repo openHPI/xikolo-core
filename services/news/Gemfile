@@ -47,6 +47,7 @@ gem 'scenic', '~> 1.5'
 
 # App servers
 gem 'puma'
+gem 'thruster'
 
 gem 'xikolo-common', path: './gems/xikolo-common'
 gem 'xikolo-config', path: './gems/xikolo-config'

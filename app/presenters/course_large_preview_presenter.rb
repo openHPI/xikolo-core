@@ -65,8 +65,4 @@ class CourseLargePreviewPresenter < CourseInfoPresenter
     enrollment = Course::Enrollment.active.find_by!(user_id: @user.id, course_id: @course.id)
     enrollment.proctoring.vendor_registration.required?
   end
-
-  def show_social_media_buttons?
-    @course.public
-  end
 end

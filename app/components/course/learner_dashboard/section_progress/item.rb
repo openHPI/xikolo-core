@@ -94,10 +94,9 @@ module Course
         end
 
         def critical?
-          return false unless graded_or_submitted? || visited?
+          return false unless graded_or_submitted?
 
-          (@item['max_points'].zero? && visited?) ||
-            @percentage < 50
+          @percentage < 50
         end
 
         private

@@ -4,7 +4,7 @@ include:
   - path: compose.init.yml
 
 x-timeeffort: &timeeffort
-  image: xikolo-timeeffort:latest
+  image: registry.xikolo.de/xikolo/web/xikolo-timeeffort:latest
   build:
     context: ..
     dockerfile: docker/files/timeeffort.Dockerfile

@@ -84,15 +84,6 @@ describe 'Course: Progress', type: :request do
         expect(response.body).to include 'My course certificates'
       end
 
-      context 'when the learner dashboard is enabled' do
-        let(:features) { {'learner_dashboard' => true} }
-
-        it 'displays the course progress page' do
-          show_progress
-          expect(response.body).to include 'My course certificates'
-        end
-      end
-
       context 'when the user has started a course but not completed yet' do
         let(:certificates) do
           {
