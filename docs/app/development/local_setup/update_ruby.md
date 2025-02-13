@@ -11,7 +11,7 @@ The following changes need to be performed by each developer individually to get
 ### Update RVM
 
 Using the newest RVM version might help prevent issues with installing Ruby. See
-the [changelog](https://github.com/rvm/rvm/blob/master/CHANGELOG.md) for more details and recent releases.
+the [change log](https://github.com/rvm/rvm/blob/master/CHANGELOG.md) for more details and recent releases.
 
 ```shell
 rvm get stable
@@ -31,7 +31,7 @@ version:
     First, the newest Ruby version is installed, followed by the installation of the newest RubyGems version. Finally, bundler is installed to be used in accordance with the rake tasks in `integration`.
 
     ```shell
-    rvm install 3.3.5
+    rvm install 3.3.6
     gem update --system
     gem install bundler
 
@@ -47,7 +47,7 @@ version:
     ```shell
     # Syntax: rvm upgrade <old ruby> <new ruby>
     # Get existing ruby versions with `rvm list`
-    rvm upgrade 3.3.4 3.3.5
+    rvm upgrade 3.3.5 3.3.6
     gem update --system
     ```
 
@@ -84,7 +84,7 @@ The `Gemfile` and `Gemfile.lock` files need to be updated to the new Ruby versio
         ```ruby
         # Gemfile.lock
         RUBY VERSION
-           ruby 3.3.5p100
+           ruby 3.3.6p108
         ```
 
         The `RUBY VERSION` is updated with the following command:
@@ -100,7 +100,7 @@ The `Gemfile` and `Gemfile.lock` files need to be updated to the new Ruby versio
         ```ruby
         # Gemfile.lock
         BUNDLED WITH
-           2.5.20
+           2.6.3
         ```
 
         The `RUBY VERSION` is updated with the following command:
@@ -130,18 +130,18 @@ The `Gemfile` and `Gemfile.lock` files need to be updated to the new Ruby versio
 The `.gitlab-ci.yml` file needs to be updated to the new Ruby version. The `image` line specifies the Docker image to
 use for the respective job in the CI pipeline.
 
-The line consists of the image name (`ruby`), the Ruby version (`3.3.5`), and a digest (`sha256: <...>`).
+The line consists of the image name (`ruby`), the Ruby version (`3.3.6`), and a digest (`sha256: <...>`).
 
 ```yaml
 # .gitlab-ci.yml
-image: ruby:3.3.5-slim@sha256:4299eb3ea78d8a864da0e2a47dfa1473082814b6aec23555827eb17a1359a38b
+image: ruby:3.3.6-slim@sha256:b210597cc7d05e19edf9c8e7935dcf1554886905dcdad0475cfe63a654147f7a
 ```
 
 While the image name and the Ruby version can be updated manually, the digest is best received through pulling the image
 locally, as the digest is included in the output:
 
 ```shell
-docker pull ruby:3.3.5
+docker pull ruby:3.3.6
 ```
 
 !!! note

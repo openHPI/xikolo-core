@@ -1,0 +1,54 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'stringio'
+require 'shellwords'
+
+DEBIAN_FIELD = /^(?<field>.+):\s+(?<value>.*)$/
+DEBIAN_EMPTY = /^\s+\.$/
+DEBIAN_CONT = /^\s+(?<value>.*)$/
+
+def find_debian(file, key)
+  field = nil
+  value = nil
+
+  File.open(file) do |fd|
+    fd.each do |line|
+      if (m = DEBIAN_FIELD.match(line))
+        return value.strip if field == key
+
+        field = m[:field]
+        value = m[:value]
+      elsif (m = DEBIAN_EMPTY.match(line))
+        value << "\n"
+      elsif (m = DEBIAN_CONT.match(line))
+        value << "\n" << m[:value]
+      else
+        raise "Unparsable line: #{line}"
+      end
+    end
+
+    return value.strip if field == key
+  end
+end
+
+def clean_depends(depends)
+  depends.split(',').filter_map do |dep|
+    # Ignore alternatives ("a | b | c") and just use first one
+    dep = dep.split('|').first
+
+    # Ignore packaging and language deps, since we install for inside
+    # containers here.
+    next if /^(\$|debhelper|dh-|ruby|nodejs)/.match?(dep)
+
+    # Ignore all suffixes, such as version constraints
+    dep.split.first
+  end
+end
+
+packages = Set.new(%w[build-essential])
+if (build_depends = find_debian('debian/control', 'Build-Depends'))
+  packages += clean_depends(build_depends)
+end
+
+puts packages.join(' ')

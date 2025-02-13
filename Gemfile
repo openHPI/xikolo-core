@@ -35,7 +35,7 @@ gem 'puma'
 gem 'thruster'
 
 # API & Messaging
-gem 'grape', '~> 2.2'
+gem 'grape', '~> 2.2', '< 2.3' # breaks deprecated API::V2
 gem 'grape-entity'
 gem 'msgr', '~> 1.5' # Connecting to RabbitMQ
 gem 'oj'

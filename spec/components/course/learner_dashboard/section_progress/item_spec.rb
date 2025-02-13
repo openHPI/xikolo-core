@@ -138,6 +138,22 @@ describe Course::LearnerDashboard::SectionProgress::Item, type: :component do
       end
     end
 
+    context 'with no max_points' do
+      let(:item) { super().merge('max_points' => nil) }
+
+      context 'that has not been submitted' do
+        it_behaves_like 'a quiz or peer assessment'
+        it_behaves_like 'an item with status: no progress'
+      end
+
+      context 'that has been submitted' do
+        let(:item) { super().merge('user_state' => 'submitted') }
+
+        it_behaves_like 'a quiz or peer assessment'
+        it_behaves_like 'an item with status: completed'
+      end
+    end
+
     context 'that has not yet been visited' do
       let(:item) { super().merge('user_state' => 'new') }
 

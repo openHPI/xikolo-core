@@ -84,7 +84,7 @@ module Course
         def completed?
           return false unless graded_or_submitted?
 
-          @item['max_points'].zero? || @percentage > 95
+          @item['max_points'].nil? || @item['max_points'].zero? || @percentage > 95
         end
 
         def warning?

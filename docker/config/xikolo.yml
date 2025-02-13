@@ -7,7 +7,8 @@ base_url: http://localhost:3000
 mailsender: '"Xikolo" <xikolo@localhost>'
 email:
   smtp:
-    address: mailout.openhpi.net
+    address: mailpit
+    port: 1025
 
 statistics_email_recipients:
   - admin@localhost

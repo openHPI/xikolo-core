@@ -2,7 +2,9 @@
 
 ![Documentation](https://github.com/openHPI/xikolo-core/actions/workflows/docs.yml/badge.svg)
 
-The open-source core of the openHPI platform.
+The open-source core of the [openHPI](https://open.hpi.de/) platform.
+Please refer to the [documentation](https://openhpi.github.io/xikolo-core/)
+for details.
 
 ## License
 

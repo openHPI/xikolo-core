@@ -13,11 +13,10 @@ jobs:
       - uses: astral-sh/setup-uv@v5
         with:
           enable-cache: true
-          cache-dependency-glob: "uv.lock"
+          cache-dependency-glob: uv.lock
       - uses: actions/setup-python@v5
         with:
-          python-version-file: ".python-version"
-          cache: pipenv
+          python-version-file: .python-version
       - run: uv sync
       - run: uv run mkdocs build --verbose --site-dir tmp/mkdocs/site
       - uses: actions/upload-pages-artifact@v3

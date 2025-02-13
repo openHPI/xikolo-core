@@ -49,8 +49,9 @@ input {
 pre,
 code,
 kbd {
-  font-family: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
-    'Courier New', monospace;
+  font-family:
+    SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+    monospace;
 }
 
 /* ensure tables are 100% */
