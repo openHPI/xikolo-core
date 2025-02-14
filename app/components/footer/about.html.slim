@@ -1,6 +1,6 @@
-.footer__about class=css_classes
-  - if headline.present?
-    h4 = headline
+.footer__about
+  p.footer__headline
+    = headline.presence
   = logo
   p = description
 

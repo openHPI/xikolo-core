@@ -66,19 +66,6 @@ class PinboardController < Abstract::FrontendController
     redirect_back fallback_location: root_path
   end
 
-  def admin_tags
-    authorize! 'pinboard.tag.manage'
-
-    if params[:type] == 'explicit'
-      @tags = Xikolo::Pinboard::ExplicitTag.where(all: true, per_page: 500)
-      @view_type = 'explicit'
-    else
-      @tags = Xikolo::Pinboard::ImplicitTag.where(all: true, per_page: 500)
-      @view_type = 'implicit'
-    end
-    Acfs.run
-  end
-
   private
 
   def filters

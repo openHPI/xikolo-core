@@ -2348,12 +2348,6 @@ pt-BR:
           answer: Resposta
           comment: Comentário
     sticky: Fixo
-    admin_tags:
-      title: Tags
-      id: ID
-      name: Nome
-      resource: Recurso R
-      type: Tipo
 
   pinboard_comment:
     update: Salvar alterações

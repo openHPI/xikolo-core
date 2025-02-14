@@ -1,7 +1,7 @@
 - link_columns.each do |column|
   .footer__column-links
-    - if column.headline?
-      h4 = column.headline
+    p.footer__headline
+      = column&.headline.presence
     .footer-nav class=column.css_classes
       ul
         - column.links.each do |link|

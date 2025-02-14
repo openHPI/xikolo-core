@@ -2503,12 +2503,6 @@ nl:
           answer: Antwoord
           comment: Commentaar
     sticky: Kleverig
-    admin_tags:
-      title: Tags
-      id: ID
-      name: Naam
-      resource: R-bron
-      type: Type
 
   pinboard_comment:
     update: Wijzigingen opslaan

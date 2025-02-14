@@ -1,6 +1,6 @@
 .footer-newsletter.hidden-print
-  - if headline.present?
-    h4 = headline
+  p.footer__headline
+    = headline.presence
   - if description.present?
     p = description
   .mt20

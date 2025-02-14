@@ -9,7 +9,7 @@ class MailLog < ApplicationRecord
     presence: true
 
   class << self
-    def queue_if_unsent!(news_id:, user_id:, &block)
+    def queue_if_unsent!(news_id:, user_id:, &)
       transaction do
         find_by!(news_id:, user_id:).tap do |log|
           if log.failed?
@@ -18,7 +18,7 @@ class MailLog < ApplicationRecord
           end
         end
       rescue ActiveRecord::RecordNotFound
-        create!(news_id:, user_id:, state: 'queued').tap(&block)
+        create!(news_id:, user_id:, state: 'queued').tap(&)
       end
     end
   end

@@ -2525,12 +2525,6 @@ uk:
           answer: Відповідь
           comment: Коментар
     sticky: Потребує уваги
-    admin_tags:
-      title: Теги
-      id: ID
-      name: Ім'я
-      resource: R Resource
-      type: Тип
 
   pinboard_comment:
     update: Зберегти зміни

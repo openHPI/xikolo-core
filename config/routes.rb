@@ -424,7 +424,7 @@ Rails.application.routes.draw do
     post '/tool_grading', to: 'lti#tool_grading', as: :tool_grading_course_item, defaults: {format: 'xml'}
     get '/tool_return', to: 'lti#tool_return', as: :tool_return_course_item, defaults: {format: 'xml'}
   end
-  # legacy paths:
+  # Legacy item routes:
   scope '/courses/:course_id/sections/:section_id/items/:id' do
     get '/tool_launch', to: 'lti#tool_launch', as: nil
     post '/tool_grading', to: 'lti#tool_grading', as: nil, defaults: {format: 'xml'}
@@ -441,15 +441,15 @@ Rails.application.routes.draw do
     get '/enrollments', to: 'enrollments#create', as: 'create_enrollment'
   end
 
-  # legacy route
+  # Legacy course route:
   get '/course/:id', to: 'course/courses#show'
-  get '/pinboard_tags', to: 'pinboard#tags'
-  get 'dbpb', to: 'pinboard#admin_tags'
-  delete '/tag/:id', to: 'pinboard#destroy', as: :tag_delete
-  resources :ping, only: [:index]
 
-  post '/helpdesk', to: 'helpdesk#send_helpdesk'
+  get '/pinboard_tags', to: 'pinboard#tags'
+  delete '/tag/:id', to: 'pinboard#destroy', as: :tag_delete
+
   get '/helpdesk', to: 'helpdesk#show'
+  post '/helpdesk', to: 'helpdesk#send_helpdesk'
+
   get '/dashboard', to: 'dashboard#dashboard'
   get '/dashboard/achievements', to: 'dashboard#achievements'
   get '/dashboard/documents', to: 'dashboard#documents'
@@ -476,7 +476,6 @@ Rails.application.routes.draw do
   get '/news/:id/', to: 'home/announcements#index' # as we dont have a index route yet
   get '/courses/:course_id/announcements/:id', to: 'course/announcements#index'
   get '/courses/:course_id/overview', to: 'course/syllabus#show', as: :course_overview
-  root to: 'home/home#index'
 
   # The web manifest (for home screen installation on mobile devices)
   get '/web_manifest.json', to: 'web_manifest#show'
@@ -606,6 +605,9 @@ Rails.application.routes.draw do
       resources :vouchers, only: %i[index create]
     end
   end
+
+  resources :ping, only: %i[index]
+  root to: 'home/home#index'
 
   if Rails.env.development?
     mount Lookbook::Engine, at: '/rails/components'

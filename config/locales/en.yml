@@ -3460,12 +3460,6 @@ en:
           answer: Answer
           comment: Comment
     sticky: Sticky
-    admin_tags:
-      title: Tags
-      id: ID
-      name: Name
-      resource: R Resource
-      type: Type
     errors:
       loading: An error occurred while loading.
       already_voted: You can only vote once.

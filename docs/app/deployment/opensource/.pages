@@ -1,5 +1,5 @@
 # vim: ft=yaml
 
 nav:
-  - index.md
+  - Open source: index.md
   - ...

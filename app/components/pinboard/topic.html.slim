@@ -3,7 +3,7 @@ tr class=css_classes
 
     - if sticky?
       = render Global::FaIcon.new('thumbtack', style: :solid, css_classes: 'mr5')
-      span = link_to title, url, class: 'question-title'
+      = link_to title, url, class: 'question-title'
     - else
       = link_to title, url, class: 'question-title'
 

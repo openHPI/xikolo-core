@@ -17,6 +17,7 @@ html lang="#{I18n.locale}" data-default-locale="#{I18n.default_locale}" data-bra
 
     = csrf_meta_tags
     = display_meta_tags
+    = sentry_meta_tags
 
     / Custom meta tags
     - if content_for? :custom_meta_tags

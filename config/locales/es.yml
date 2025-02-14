@@ -2378,12 +2378,6 @@ es:
           answer: Respuesta
           comment: Comentario
     sticky: Fijado
-    admin_tags:
-      title: Etiquetas
-      id: ID
-      name: Nombre
-      resource: Recurso R
-      type: Tipo
 
   pinboard_comment:
     update: Guardar cambios

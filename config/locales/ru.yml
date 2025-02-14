@@ -2365,12 +2365,6 @@ ru:
           answer: Ответ
           comment: Комментарий
     sticky: Закрепить
-    admin_tags:
-      title: Теги
-      id: ID
-      name: Имя
-      resource: Ресурс
-      type: Тип
 
   pinboard_comment:
     update: Сохранить изменения

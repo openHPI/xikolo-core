@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '~> 3.3.0'
+ruby '~> 3.4.0'
 
 # Rails
 gem 'rails', '~> 7.2.0'
@@ -70,7 +70,7 @@ gem 'rack-link_headers', '~> 2.2'
 gem 'rubyzip', '~> 2.4.0', require: 'zip'
 gem 'sanitize'
 gem 'simple_form', '~> 5.0'
-gem 'truncato', github: 'jgraichen/truncato', branch: 'fix/encoding'
+gem 'truncato', '~> 0.7.13'
 gem 'uuid4', '~> 1.4'
 gem 'xui-form', path: 'gems/xui-form'
 

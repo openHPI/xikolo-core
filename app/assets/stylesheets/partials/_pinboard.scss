@@ -103,6 +103,7 @@ $xi-pinboard-comment-avatar-connector-width: 2px;
 .topics-table,
 .details_table {
   width: 100%;
+
   .spacer {
     height: 3px;
     padding: 0px;
@@ -203,7 +204,7 @@ $xi-pinboard-comment-avatar-connector-width: 2px;
 
   // RHS content
   .question-title {
-    display: block;
+    display: inline-block;
     min-height: 32px;
     margin-bottom: 5px;
     color: $black;
@@ -260,6 +261,7 @@ $xi-pinboard-comment-avatar-connector-width: 2px;
 .pinboard-question {
   border-left: 5px solid transparent;
   transition: border-left-color 0.3s ease-in-out;
+
   &.unread {
     border-left-color: $primary-color;
   }
@@ -272,6 +274,7 @@ $xi-pinboard-comment-avatar-connector-width: 2px;
 
 .pinboard-question-info-facts {
   flex-grow: 1;
+
   // All adjacent siblings of direct children (a.k.a. all children
   // except for the first) should have left spacing.
   & > * + * {
@@ -298,6 +301,7 @@ $xi-pinboard-comment-avatar-connector-width: 2px;
   color: $white;
   cursor: pointer;
   text-overflow: ellipsis;
+
   a {
     color: inherit;
     text-decoration: none;
@@ -349,6 +353,7 @@ $xi-pinboard-comment-avatar-connector-width: 2px;
   font-size: 0.85em;
   text-overflow: ellipsis;
   white-space: nowrap;
+
   // Topic tags are right aligned, so we need to float the tags to the right.
   .pinboard-question-info-tags & {
     float: right;
@@ -356,6 +361,7 @@ $xi-pinboard-comment-avatar-connector-width: 2px;
 
   &.tag-button {
     cursor: pointer;
+
     a {
       color: inherit;
       text-decoration: none;
@@ -366,26 +372,32 @@ $xi-pinboard-comment-avatar-connector-width: 2px;
         color: inherit;
       }
     }
+
     &:hover,
     &:focus {
       background-color: $gray-600;
     }
   }
+
   &.no-style {
     background-color: transparent;
     color: inherit;
   }
+
   &.answered {
     background-color: $success-500;
     color: $white;
   }
+
   &.unanswered {
     background-color: $orange;
   }
+
   &.closed {
     background-color: gray;
     color: $white;
   }
+
   &.discussion {
     border: 1px solid gray;
   }
@@ -439,6 +451,7 @@ $xi-pinboard-comment-avatar-connector-width: 2px;
           color: $gray-900;
           text-decoration: none;
         }
+
         .xi-icon {
           color: $gray-900;
         }
@@ -703,6 +716,7 @@ $xi-pinboard-comment-avatar-connector-width: 2px;
     .author > * {
       margin-right: 5px;
     }
+
     .author > :last-child {
       margin-right: 0;
     }

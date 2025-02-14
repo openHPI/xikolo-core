@@ -71,6 +71,7 @@ end
 
 ActiveSupport.on_load(:action_view) do
   include SimpleFormDynamicDefaultFormClass
+  include AdvancedOptionsHelpers
 end
 
 module SimpleFormTranslateWithVariables
@@ -88,6 +89,33 @@ module SimpleFormTranslateWithVariables
   end
 
   SimpleForm::Inputs::Base.prepend SimpleFormTranslateWithVariables
+end
+
+module AdvancedOptionsHelpers
+  def advanced_settings(column_offset: 2, &)
+    id = SecureRandom.uuid
+
+    capture do
+      concat advanced_settings_button(id, column_offset)
+      concat tag.div(capture(&), id:)
+    end
+  end
+
+  def advanced_settings_button(id, column_offset)
+    show_text = I18n.t :'buttons.show_advanced_settings'
+    hide_text = I18n.t :'buttons.hide_advanced_settings'
+
+    tag.div do
+      tag.button(show_text, class: "btn-xs btn btn-default col-lg-offset-#{column_offset} mb15",
+        'data-behavior': 'toggle-visibility',
+        data: {
+          'toggle-visibility': id,
+          'toggle-text-on': show_text,
+          'toggle-text-off': hide_text,
+        },
+        type: 'button')
+    end
+  end
 end
 
 SimpleForm::FormBuilder.map_type :boolean, to: ToggleSwitchInput

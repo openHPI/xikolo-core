@@ -48,13 +48,13 @@ Install RVM as described in
 === "Debian / Ubuntu"
 
     ```console
-    rvm install 3.3.4
+    rvm install 3.4.1
     ```
 
 === "Mac"
 
     ```console
-    rvm install 3.3.4
+    rvm install 3.4.1
     ```
 
 **Bundler**: Ruby's dependency manager

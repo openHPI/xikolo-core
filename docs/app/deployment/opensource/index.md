@@ -89,6 +89,24 @@ An example setup for a platform, which is currently in production, uses the foll
 | **Lanalytics Postgres** | 1     | 4 vCPUs, 8 GB RAM, Disk |
 | **Elasticsearch**       | 1     | 4 vCPUs, 8 GB RAM, Disk |
 
+### Sample setup
+
+The table below presents a sample setup for running the platform, offering a basis for resource planning and estimation.
+
+| Category                               | Quantity | Unit       |
+|----------------------------------------|----------|------------|
+| ECS (Elastic Cloud Server)             | 12       | Units      |
+| CPU                                    | 24       | Cores      |
+| RAM                                    | 192      | GB         |
+| Storage (High IO SAS)                  | 1200     | GB         |
+| ECS - Backup Space                     | 500      | GB         |
+| RDS HA - PostgreSQL (2 CPU, 16 GB RAM) | 2        | Instances  |
+| RDS - Storage (Ultra High IO SSD)      | 100      | GB         |
+| RDS - Backup Space                     | 1000     | GB         |
+| ELB (Elastic Load Balancer) - Shared   | 1        | Unit       |
+| Elastic IP (Public Internet Access)    | 1        | Unit       |
+| Elastic Outgoing Traffic               | 100      | GB / month |
+
 ### Redundancy and distribution
 
 To ensure stable operation, it is advisable to run services redundantly and distribute them across multiple availability zones.

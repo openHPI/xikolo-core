@@ -2699,12 +2699,6 @@ de:
           answer: Answer
           comment: Comment
     sticky: Sticky
-    admin_tags:
-      title: Tags
-      id: ID
-      name: Name
-      resource: R Resource
-      type: Typ
     errors:
       loading: Es ist ein Fehler beim Laden aufgetreten.
       already_voted: Sie können nur einmal abstimmen.

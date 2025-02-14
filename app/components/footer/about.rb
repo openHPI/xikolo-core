@@ -4,10 +4,6 @@ module Footer
   class About < ApplicationComponent
     private
 
-    def css_classes
-      headline.blank? ? 'mt10' : ''
-    end
-
     def render?
       headline.present? || description.present?
     end
