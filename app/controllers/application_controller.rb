@@ -183,17 +183,21 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user
-    @current_user ||= if request.env['current_user']
-                        request.env['current_user'].value!
-                      else
-                        Xikolo::Common::Auth::CurrentUser.from_session(
-                          'user' => {
-                            'anonymous' => true,
-                            'language' => I18n.locale,
-                            'preferred_language' => nil,
-                          }
-                        )
-                      end
+    @current_user ||= begin # rubocop:disable Style/RedundantBegin
+      if request.env['current_user']
+        request.env['current_user'].value!
+      else
+        Xikolo::Common::Auth::CurrentUser.from_session(
+          'user' => {
+            'anonymous' => true,
+            'language' => I18n.locale,
+            'preferred_language' => nil,
+          }
+        )
+      end.tap do |user|
+        Sentry.set_user(id: user.id)
+      end
+    end
   rescue Restify::NotFound
     # If we get a 404 error here, we assume that this means the session has expired
     reset_session
