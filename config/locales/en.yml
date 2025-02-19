@@ -418,6 +418,7 @@ en:
       lti_provider_deleted: The LTI provider has successfully been deleted.
       course_archived: The course was successfully marked as completed.
       recalculation_triggered: The recalculation of learners' progresses for this course has been started.
+      quiz_answer: The answer was successfully deleted.
       quiz_attempt_added: The additional attempt for quiz was granted.
       fudge_points_added: The grading was updated.
       video_provider_deleted: The video provider has been deleted.
@@ -558,6 +559,7 @@ en:
       download_not_refreshed: A valid download link could not be requested from the video provider. Please try again later.
       recalculation_failed: The recalculation of learners' progresses for this course could not be started. Please try again later.
       recalculation_rejected: The recalculation of learners' progresses for this course has been recently triggered. Please try again later.
+      quiz_answer: An error occurred while deleting the answer.
       quiz_attempt_failed: An additional attempt for the quiz could not be granted.
       fudge_points_failed: The grading could not be updated.
       video_provider_not_deleted: The video provider could not be deleted as corresponding streams are still referenced.
@@ -2810,7 +2812,6 @@ en:
       question_alert: Review this question!
       show_question_explanation: Show Explanation
       hide_question_explanation: Hide Explanation
-      actions: Actions
       edit_question: Edit question
       move_question_up: Move question up
       move_question_down: Move question down
@@ -2819,6 +2820,8 @@ en:
       delete_question: Delete question
       delete_question_confirm: Are you sure you want to delete this question?
       add_answer: Add answer
+      delete_answer_confirm_title: Are you sure you want to delete this answer?
+      delete_answer_confirm_text: This action cannot be undone. It can have unforeseeable consequences if the quiz has been published.
       question_type: Question type
       select_question_type: Please select a question type to add question to this quiz
       enter_question: Enter your question here
@@ -2826,6 +2829,7 @@ en:
       points: Points
       shuffle_answers: Shuffle answers
       answer: Answer text
+      answers: Answers
       answer_type: Answer type
       select_answer_type: Please select an answer type
       enter_answer: Enter your answer here

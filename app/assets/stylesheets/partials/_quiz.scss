@@ -186,6 +186,64 @@ $xi-quiz-main-background-color: $white !default;
   }
 }
 
+.quiz-question-editor {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  margin-bottom: 10px;
+  background: $white;
+  box-shadow: $box-shadow-s;
+  gap: 20px;
+
+  &__h2 {
+    margin: 10px 0;
+    color: $text-color;
+    font-size: $font-size-s;
+  }
+
+  &__h3 {
+    margin: 10px 0;
+    color: $text-color;
+    font-size: $font-size-s;
+  }
+
+  &__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+}
+
+.quiz-answer-editor {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-between;
+
+  padding: 10px;
+  margin-bottom: 10px;
+
+  background: $gray-100;
+
+  &__content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__inner-content {
+    display: flex;
+    align-items: center;
+  }
+}
+
 /*------------------------------------*\
     $Quiz-Properties
 \*------------------------------------*/

@@ -89,7 +89,13 @@ class QuizAnswersController < Abstract::FrontendController
   end
 
   def destroy
-    render json: {}
+    quiz_api.rel(:answer).delete(id: params[:id]).value!
+
+    add_flash_message :success, t('flash.success.quiz_answer')
+  rescue Restify::ClientError
+    add_flash_message :error, t('flash.error.quiz_answer')
+  ensure
+    redirect_to edit_course_section_item_path(id: params[:item_id]), anchor: 'questions'
   end
 
   private
@@ -116,5 +122,9 @@ class QuizAnswersController < Abstract::FrontendController
       .require(:xikolo_quiz_free_text_answer)
       .permit(:text, :comment)
       .tap {|p| p[:text]&.strip! }
+  end
+
+  def quiz_api
+    @quiz_api ||= Xikolo.api(:quiz).value!
   end
 end

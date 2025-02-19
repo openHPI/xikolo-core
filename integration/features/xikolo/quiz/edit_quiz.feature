@@ -41,3 +41,10 @@ Feature: Edit a quiz
     And I confirm the deletion warning
     And I open the questions tab
     Then the question has been deleted successfully
+
+  Scenario: Delete answer
+    When I open the questions tab
+    And I delete the first answer
+    And I confirm the answer deletion warning
+    And I open the questions tab
+    Then the answer has been deleted successfully

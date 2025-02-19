@@ -330,6 +330,7 @@ de:
       lti_provider_deleted: Der LTI-Provider wurde erfolgreich gelöscht.
       course_archived: Der Kurs wurde erfolgreich als abgeschlossen markiert.
       recalculation_triggered: Die Neuberechnung der Lernfortschritte für diesen Kurs wurde gestartet.
+      quiz_answer: Die Antwort wurde erfolgreich gelöscht.
       quiz_attempt_added: Der zusätzliche Versuch für ein Quiz wurde gewährt.
       fudge_points_added: Die Bewertung wurde aktualisiert.
       video_provider_deleted: Der Video-Provider wurde gelöscht.
@@ -468,6 +469,7 @@ de:
       download_not_refreshed: Es konnte kein gültiger Download-Link vom Videoanbieter angefordert werden. Bitte versuchen Sie es später noch einmal.
       recalculation_failed: Die Neuberechnung der Lernfortschritte für diesen Kurs konnte nicht gestartet werden. Bitte versuchen Sie es später noch einmal.
       recalculation_rejected: Die Neuberechnung der Lernfortschritte für diesen Kurs wurde bereits vor kurzem gestartet. Bitte versuchen Sie es später noch einmal.
+      quiz_answer: Beim Löschen der Antwort ist ein Fehler aufgetreten.
       quiz_attempt_failed: Ein weiterer Versuch für das Quiz konnte nicht gewährt werden.
       fudge_points_failed: Die Bewertung konnte nicht aktualisiert werden.
       video_provider_not_deleted: Der Video-Provider konnte nicht gelöscht werden, da zugehörige Videostreams noch verwendet werden.
@@ -2050,6 +2052,8 @@ de:
       delete_question: Frage löschen
       delete_question_confirm: Sind Sie sicher, dass Sie diese Frage löschen wollen?
       add_answer: Neue Antwort
+      delete_answer_confirm_title: Sind Sie sicher, dass Sie diese Antwort löschen möchten?
+      delete_answer_confirm_text: Diese Aktion kann nicht rückgängig gemacht werden. Sie kann unvorhersehbare Folgen haben, wenn das Quiz bereits veröffentlicht wurde.
       question_type: Fragentyp
       select_question_type: Bitte wählen Sie einen Fragentyp aus, um eine neue Frage hinzuzufügen
       enter_question: Geben Sie Ihre Frage ein
@@ -2057,6 +2061,7 @@ de:
       points: Punkte
       shuffle_answers: Antworten mischen
       answer: Antwort
+      answers: Antworten
       answer_type: Antwort-Typ
       select_answer_type: Bitte wählen Sie einen Antwort-Typ aus
       enter_answer: Geben Sie Ihre Antwort ein

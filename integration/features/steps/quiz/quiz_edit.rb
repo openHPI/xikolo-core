@@ -17,11 +17,15 @@ module Steps
 
     When 'I open the questions tab' do
       click_on 'Questions'
+      expect(page).to have_content 'Question type'
     end
 
     When 'I edit the first question' do
-      click_on 'Actions'
-      within '.dropdown-menu' do
+      within '.quiz-question-editor__header' do
+        find("[aria-label='More actions']").click
+      end
+
+      within "[data-behaviour='menu-dropdown']" do
         click_on 'Edit question'
       end
     end
@@ -33,14 +37,32 @@ module Steps
     end
 
     When 'I delete the first question' do
-      click_on 'Actions'
-      within '.dropdown-menu' do
-        click_on 'Delete question'
+      context.with :quiz_question do |question|
+        within "[data-id='#{question.id}'] .quiz-question-editor__header" do
+          find("[aria-label='More actions']").click
+          within "[data-behaviour='menu-dropdown']" do
+            click_on 'Delete question'
+          end
+        end
       end
     end
 
     When 'I edit the first answer' do
-      first("[aria-label='Edit']").click
+      context.with :answer_1 do |answer|
+        within "[data-id='#{answer.id}']" do
+          find("[aria-label='More actions']").click
+          click_on('Edit')
+        end
+      end
+    end
+
+    When 'I delete the first answer' do
+      context.with :answer_1 do |answer|
+        within "[data-id='#{answer.id}']" do
+          find("[aria-label='More actions']").click
+          click_on('Delete')
+        end
+      end
     end
 
     When 'I change the question type' do
@@ -60,13 +82,30 @@ module Steps
       end
     end
 
+    When 'I confirm the answer deletion warning' do
+      expect(page).to have_content 'Are you sure you want to delete this answer?'
+      within_dialog do
+        click_on 'Yes, sure'
+      end
+    end
+
     Then 'the question has been deleted successfully' do
       expect(page).to have_content 'Question(s): 0'
     end
 
+    Then 'the answer has been deleted successfully' do
+      context.with :answer_1 do |answer|
+        expect(page).not_to have_content answer.text
+      end
+    end
+
     Then 'the new question type should be applied' do
       send :'When I open the questions tab'
-      expect(page).to have_content 'Question 1: ( Single Select Question )'
+
+      within '.quiz-question-editor' do
+        expect(page).to have_content('Question 1')
+        expect(page).to have_content('Single Select Question')
+      end
     end
 
     Then 'the new answer text should be applied' do

@@ -1,8 +1,6 @@
 import ready from 'util/ready';
 
-ready(() => {
-  const dropdowns = document.querySelectorAll("[data-behaviour='dropdown']");
-
+const initDropdowns = (dropdowns) => {
   dropdowns.forEach((dropdown) => {
     const parentMenu = dropdown.closest("[data-behaviour='menu-dropdown']");
     const parentMenuId = parentMenu ? parentMenu.id : null;
@@ -35,4 +33,12 @@ ready(() => {
 
     dropdowns.forEach((d) => d.setAttribute('aria-expanded', 'false'));
   });
+};
+
+ready(() => {
+  const dropdowns = document.querySelectorAll("[data-behaviour='dropdown']");
+
+  initDropdowns(dropdowns);
 });
+
+export default initDropdowns;
