@@ -1,6 +1,6 @@
 # syntax = docker/dockerfile:1.13@sha256:426b85b823c113372f766a963f68cfd9cd4878e1bcc0fda58779127ee98a28eb
 
-FROM docker.io/ruby:3.4.1-slim@sha256:f78dc1bba60f85d40d6dc6d6722ca2cda0b5273fc179119badd0f7654d5d1d6e AS build
+FROM docker.io/ruby:3.4.2-slim@sha256:2864c6bfcf8fec6aecbdbf5bd7adcb8abe9342e28441a77704428decf59930fd AS build
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -22,6 +22,7 @@ RUN <<EOF
     libidn11-dev \
     libpq-dev \
     libsodium23 \
+    libyaml-dev \
     pax-utils \
     shared-mime-info \
     tzdata
@@ -62,7 +63,7 @@ EOF
 #
 # Runtime image
 #
-FROM docker.io/ruby:3.4.1-slim@sha256:f78dc1bba60f85d40d6dc6d6722ca2cda0b5273fc179119badd0f7654d5d1d6e
+FROM docker.io/ruby:3.4.2-slim@sha256:2864c6bfcf8fec6aecbdbf5bd7adcb8abe9342e28441a77704428decf59930fd
 
 ARG BRAND=xikolo
 ARG BUILD_REF_NAME

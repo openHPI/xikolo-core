@@ -39,10 +39,7 @@ export default async function entries() {
     'xikolo-locale-de': `i18n/translations/de.ts`,
     'xikolo-locale-es': `i18n/translations/es.ts`,
     'xikolo-locale-fr': `i18n/translations/fr.ts`,
-    'xikolo-locale-pt-BR': `i18n/translations/pt-BR.ts`,
     'xikolo-locale-nl': `i18n/translations/nl.ts`,
-    'xikolo-locale-ru': `i18n/translations/ru.ts`,
     'xikolo-locale-uk': `i18n/translations/uk.ts`,
-    'xikolo-locale-cn': `i18n/translations/cn.ts`,
   };
 }

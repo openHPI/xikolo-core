@@ -25,13 +25,14 @@ version:
 
 1. Clean installation of all gems
 
-    Using a clean installation of all gems is the safest approach. It will ensure that all gems are compatible with the new Ruby version. However, it will also take longer to complete. This approach is recommended when upgrading to a new major Ruby version.
+    Using a clean installation of all gems is the safest approach. It will ensure that all gems are compatible with the new Ruby version. However, it will also take longer to complete.
+    This approach is recommended when upgrading to a new major Ruby version.
 
     The following commands will install all gems from scratch, in accordance with the [local setup](./index.md) guide.
     First, the newest Ruby version is installed, followed by the installation of the newest RubyGems version. Finally, bundler is installed to be used in accordance with the rake tasks in `integration`.
 
     ```shell
-    rvm install 3.4.1
+    rvm install 3.4.2
     gem update --system
     gem install bundler
 
@@ -42,12 +43,14 @@ version:
 
 2. Migrating existing gems
 
-    Using an existing installation of all gems is the fastest approach. It will first install the binaries of the new Ruby version and then move all existing gems to the new Ruby version. The upgrade process might take a while to complete and requires multiple confirmations. However, it might cause issues when upgrading to a new major Ruby version. Therefore, this approach is only recommended when upgrading to a new minor Ruby version. Finally, the RubyGems version is also updated to the newest version.
+    Using an existing installation of all gems is the fastest approach. It will first install the binaries of the new Ruby version and then move all existing gems to the new Ruby version.
+    The upgrade process might take a while to complete and requires multiple confirmations. However, it might cause issues when upgrading to a new major Ruby version.
+    Therefore, this approach is only recommended when upgrading to a new minor Ruby version. Finally, the RubyGems version is also updated to the newest version.
 
     ```shell
     # Syntax: rvm upgrade <old ruby> <new ruby>
     # Get existing ruby versions with `rvm list`
-    rvm upgrade 3.3.6 3.4.1
+    rvm upgrade 3.3.6 3.4.2
     gem update --system
     ```
 
@@ -57,8 +60,8 @@ The following changes are only performed once and need to be committed to the re
 
 ### Update `.ruby-version`
 
-RVM (and other tools) use the `.ruby-version` file to determine the Ruby version to use. Therefore, the file needs to be
-updated to the new Ruby version.
+RVM (and other tools) use the `.ruby-version` file to determine the Ruby version to use.
+Therefore, the file needs to be updated to the new Ruby version.
 
 ### Update `Gemfile` and `Gemfile.lock`
 
@@ -66,7 +69,8 @@ The `Gemfile` and `Gemfile.lock` files need to be updated to the new Ruby versio
 
 1. `Gemfile`
 
-    The `Gemfile` file needs to be updated to the new Ruby version, where the `ruby` line specifies the Ruby version to use. For patch versions, this line should not be touched, as our production versions shall be upgraded independently of the patch version specified in the `Gemfile`.
+    The `Gemfile` file needs to be updated to the new Ruby version, where the `ruby` line specifies the Ruby version to use.
+    For patch versions, this line should not be touched, as our production versions shall be upgraded independently of the patch version specified in the `Gemfile`.
 
     ```ruby
     # Gemfile
@@ -75,7 +79,8 @@ The `Gemfile` and `Gemfile.lock` files need to be updated to the new Ruby versio
 
 2. `Gemfile.lock`
 
-    The `Gemfile.lock` file needs to be updated to the new Ruby and the new RubyGems version. Both changes are performed through the following commands and the `Gemfile.lock` should not be changed manually.
+    The `Gemfile.lock` file needs to be updated to the new Ruby and the new RubyGems version.
+    Both changes are performed through the following commands and the `Gemfile.lock` should not be changed manually.
 
     1. Ruby version
 
@@ -84,7 +89,7 @@ The `Gemfile` and `Gemfile.lock` files need to be updated to the new Ruby versio
         ```ruby
         # Gemfile.lock
         RUBY VERSION
-           ruby 3.4.1p0
+           ruby 3.4.2p28
         ```
 
         The `RUBY VERSION` is updated with the following command:
@@ -111,42 +116,32 @@ The `Gemfile` and `Gemfile.lock` files need to be updated to the new Ruby versio
 
 !!! tip
 
-    The changes to the `Gemfile` and `Gemfile.lock` are required for each service. With our custom `rake exec["cmd"]` task, you can perform the the required changes for all services at once:
+    The changes to the `Gemfile` and `Gemfile.lock` are required for each service, and `integration/`. You can use `find` to run a command for each Gemfile that exists in the repository:
 
     ```shell
-    # switch to web/integration
-    bundle exec rake exec\["bundle update --ruby --bundler"\]
+    find . -name Gemfile -execdir bundle update --ruby \;
     ```
 
-    Alternatively, you can use the following loop in case of issues with the rake task:
+    And for bundler:
 
     ```shell
-    # switch to web/services
-    for dir in */; do cd $dir; bundle update --ruby --bundler; cd ..; done
+    find . -name Gemfile -execdir bundle update --bundler \;
     ```
 
 ### Update `.gitlab-ci.yml`
 
-The `.gitlab-ci.yml` file needs to be updated to the new Ruby version. The `image` line specifies the Docker image to
-use for the respective job in the CI pipeline.
+The `.gitlab-ci.yml` file needs to be updated to the new Ruby version. The `image` line specifies the Docker image to use for the respective job in the CI pipeline.
 
-The line consists of the image name (`ruby`), the Ruby version (`3.4.1`), and a digest (`sha256: <...>`).
+For example:
 
 ```yaml
 # .gitlab-ci.yml
-image: ruby:3.4.1-slim
-```
-
-While the image name and the Ruby version can be updated manually, the digest is best received through pulling the image
-locally, as the digest is included in the output:
-
-```shell
-docker pull ruby:3.4.1
+image: ruby:3.4.2-slim
 ```
 
 !!! note
 
-    You may also skip this step and leave updating to the Renovate bot. Based on the schedule defined, Renovate will automatically update the image and image digest, so that you just need to approve and merge the corresponding merge request.
+    Renovate will include this in its maintenance merge requests, and will bump this together with other image digests, such as the Ruby base image in Dockerfiles.
 
 ### Documentation
 

@@ -72,6 +72,8 @@ module Bridges
         ALLOWED_IMG_KEYS  = %w[description type contentUrl license].freeze
         REQUIRED_IMG_KEYS = %w[contentUrl license].freeze
 
+        private_constant :ALLOWED_ORG_KEYS, :REQUIRED_ORG_KEYS, :ALLOWED_IMG_KEYS, :REQUIRED_IMG_KEYS
+
         def organization
           org = @config.dig('course_metadata', 'organization')
 

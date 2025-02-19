@@ -13,6 +13,7 @@ module Home
     private
 
     COURSE_ID = SecureRandom.uuid
+    private_constant :COURSE_ID
 
     def courses
       Array.new(10, course)

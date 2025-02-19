@@ -27,6 +27,5 @@ s3:
     pinboard: xikolo-pinboard
     quiz: xikolo-quiz
     scientist: xikolo-scientist
-    sitemaps: xikolo-public
     uploads: xikolo-uploads
     video: xikolo-video

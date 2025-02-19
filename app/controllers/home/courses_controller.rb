@@ -54,6 +54,7 @@ class Home::CoursesController < Abstract::FrontendController
   private
 
   Category = Struct.new(:title, :courses, :callout)
+  private_constant :Category
 
   def categorize(scope)
     categories = [

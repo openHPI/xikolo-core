@@ -6,7 +6,7 @@ namespace :search_index do
   DOC
   task create: :environment do
     Course.unscope(:order).in_batches do |courses|
-      job_args = courses.ids.map {|x| [x] }
+      job_args = courses.ids.zip
       UpdateCourseSearchIndexWorker.perform_bulk(job_args)
       $stdout.print 'launched update of search index for courses'
       $stdout.print "\n"

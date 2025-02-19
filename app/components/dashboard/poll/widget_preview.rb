@@ -48,6 +48,7 @@ module Dashboard
       end
 
       Stats = Struct.new(:participants, :responses)
+      private_constant :Stats
 
       def many_participants
         Stats.new(

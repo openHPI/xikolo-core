@@ -44,9 +44,9 @@ describe Course::Documents::FilterBar, type: :component do
         expect(localized_component).to have_select 'Sprache', text: "Alle\nEnglisch (English)\nDeutsch (Deutsch)"
       end
 
-      context 'in Chinese' do
-        subject(:localized_component_chinese) do
-          I18n.with_locale(:cn) do
+      context 'in Spanish' do
+        subject(:localized_component_spanish) do
+          I18n.with_locale(:es) do
             with_request_url '/courses/123/documents' do
               render_inline(described_class.new(documents))
             end
@@ -54,7 +54,7 @@ describe Course::Documents::FilterBar, type: :component do
         end
 
         it 'localizes the language filter using our custom language lookup' do
-          expect(localized_component_chinese).to have_select '语言', text: "所有\n英语 (English)\n德语 (Deutsch)"
+          expect(localized_component_spanish).to have_select 'Idioma', text: "Todos\nInglés (English)\nAlemán (Deutsch)"
         end
       end
     end

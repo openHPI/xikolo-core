@@ -6,7 +6,7 @@ describe Translations do
   subject(:translations) { described_class.new hash }
 
   let(:hash) do
-    {de: 'Mikro-Lernen', es: 'Micro aprendizaje', en: 'Microlearning', zh: '微观学习'}
+    {de: 'Mikro-Lernen', es: 'Micro aprendizaje', en: 'Microlearning'}
   end
 
   describe '#to_s' do
@@ -19,14 +19,8 @@ describe Translations do
     end
 
     it 'falls back to English when the current locale is not available' do
-      I18n.with_locale(:'pt-BR') do
+      I18n.with_locale(:fr) do
         expect(string).to eq 'Microlearning'
-      end
-    end
-
-    it 'uses the correct Chinese locale (zh) when the wrong Chinese locale (cn) is the current locale' do
-      I18n.with_locale(:cn) do
-        expect(string).to eq '微观学习'
       end
     end
 
@@ -34,7 +28,7 @@ describe Translations do
       let(:hash) { super().except(:en) }
 
       it 'uses the first locale that can be found when the current locale is not available' do
-        I18n.with_locale(:'pt-BR') do
+        I18n.with_locale(:fr) do
           expect(string).to eq 'Mikro-Lernen'
         end
       end
@@ -76,7 +70,7 @@ describe Translations do
       end
 
       it 'falls back to the first locale that can be found when the current locale is not available' do
-        I18n.with_locale(:'pt-BR') do
+        I18n.with_locale(:fr) do
           expect(string).to eq 'Mikro-Lernen'
         end
       end

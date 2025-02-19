@@ -72,6 +72,17 @@ describe User, type: :model do
 
       it { is_expected.to be_nil }
     end
+
+    context 'when the user has an invalid language' do
+      before { Xikolo.config.locales['available'] = %w[en de] }
+
+      it 'sanitizes the language when the user is fetched' do
+        user = build(:user, language: 'zh')
+        user.save!(validate: false)
+
+        expect(User.find(user.id).language).to be_nil
+      end
+    end
   end
 
   describe '#preferences' do

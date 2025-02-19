@@ -18,7 +18,6 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'activesupport'
   spec.add_dependency 'addressable', '~> 2'
-  spec.add_dependency 'lograge', '~> 0.3.5'
   spec.add_dependency 'railties'
   spec.add_dependency 'restify', '~> 1.6'
   spec.add_dependency 'telegraf'

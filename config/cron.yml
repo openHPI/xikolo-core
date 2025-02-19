@@ -1,10 +1,4 @@
 production:
-  # Refresh sitemap at 5:24 a.m.
-  refresh_sitemap:
-    cron: "24 5 * * *"
-    class: RefreshSitemapJob
-    queue: default
-    active_job: true
   # Delete voucher claimant IPs at 4:15 a.m.
   delete_voucher_claimant_ip:
     cron: "15 4 * * *"

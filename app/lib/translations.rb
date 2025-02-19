@@ -13,11 +13,7 @@ class Translations
       return
     end
 
-    @hash = hash&.stringify_keys&.tap do |h|
-      # The incorrect Chinese language code `cn` is still used in the platform.
-      # To be able to use the correct code `zh` in the data, it is mapped here.
-      h['cn'] = h['zh'] if h.key?('zh')
-    end || {}
+    @hash = hash&.stringify_keys || {}
     @locales = locale_preference
   end
 

@@ -72,7 +72,7 @@ User.create!(
   full_name: 'Jimmy Cheng',
   display_name: 'Jimmy CHENG',
   password: 'qwe123qwe',
-  language: 'cn' # TODO: should be zh
+  language: 'fr'
 ).tap do |user|
   user.emails.create!(
     address: 'cheng@example.de',

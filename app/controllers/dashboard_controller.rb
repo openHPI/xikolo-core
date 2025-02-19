@@ -73,6 +73,7 @@ class DashboardController < Abstract::FrontendController
   private
 
   Category = Struct.new(:title, :courses, :empty_msg, :completed_button)
+  private_constant :Category
 
   def categorize(courses, enrollments)
     [

@@ -71,9 +71,9 @@ describe API::UsersController, type: :controller do
     context 'with partial update' do
       subject(:payload) { JSON.parse(response.body) }
 
-      let(:params) { {**super(), language: 'cn'} }
+      let(:params) { {**super(), language: 'de'} }
 
-      it { is_expected.to include 'language' => 'cn' }
+      it { is_expected.to include 'language' => 'de' }
     end
   end
 

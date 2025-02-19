@@ -229,6 +229,7 @@ module Proctoring
       nobody wronguser morepeople covered
       wrongimage discarted cheat othertab black
     ].freeze
+    private_constant :SMOWL_FEATURES_V1
 
     # The 'suspicious' feature is explicitly excluded as this was an
     # experimental feature for some SMOWL customers but is not
@@ -238,6 +239,7 @@ module Proctoring
       invalidconditions webcamdiscarted notallowedelement nocam
       otherappblockingthecam notsupportedbrowser othertab emptyimage
     ].freeze
+    private_constant :SMOWL_FEATURES_V2
 
     def thresholds_v1
       SMOWL_FEATURES_V1.index_with do |key|

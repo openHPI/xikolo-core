@@ -75,7 +75,6 @@ gem 'uuid4', '~> 1.4'
 gem 'xui-form', path: 'gems/xui-form'
 
 gem 'icalendar'
-gem 'sitemap_generator'
 
 gem 'countries', '~> 7.0' # ISO country codes
 gem 'i18n_data'
@@ -176,12 +175,12 @@ group :development, :test do
   gem 'rspec-collection_matchers'
   gem 'rspec-its'
   gem 'rspec-rails', '~> 7.0'
-  gem 'rubocop', '~> 1.71.0'
+  gem 'rubocop', '~> 1.72.0'
   gem 'rubocop-capybara', '~> 2.21.0'
   gem 'rubocop-factory_bot', '~> 2.26.1'
-  gem 'rubocop-performance', '~> 1.23.0'
-  gem 'rubocop-rails', '~> 2.29.0'
-  gem 'rubocop-rspec', '~> 3.4.0'
+  gem 'rubocop-performance', '~> 1.24.0'
+  gem 'rubocop-rails', '~> 2.30.0'
+  gem 'rubocop-rspec', '~> 3.5.0'
   gem 'rubocop-rspec_rails', '~> 2.30.0'
   gem 'slim_lint'
 end

@@ -1,7 +1,7 @@
 csp:
   enabled: false
 locales:
-  available: [cn, de, en, es, fr, nl, pt-BR, ru, uk]
+  available: [de, en, es, fr, nl, uk]
   default: en
 s3:
   buckets:
@@ -10,7 +10,6 @@ s3:
     course: xikolo-public
     lti: xikolo-public
     pages: xikolo-public
-    sitemaps: xikolo-public
     uploads: xikolo-uploads
     video: xikolo-video
   client:

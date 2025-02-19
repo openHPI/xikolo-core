@@ -17,6 +17,7 @@ module Navigation
     private
 
     USER_ID = SecureRandom.uuid
+    private_constant :USER_ID
 
     def registered_user
       Xikolo::Common::Auth::CurrentUser.from_session({

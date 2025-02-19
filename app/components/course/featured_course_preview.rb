@@ -20,6 +20,8 @@ module Course
     ENROLLMENT_ID = SecureRandom.uuid
     USER_ID = SecureRandom.uuid
 
+    private_constant :ENROLLMENT_ID, :COURSE_ID, :USER_ID
+
     def course
       Catalog::Course.new({
         id: COURSE_ID,

@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  # Sitemap served from S3 bucket
-  get '/sitemap.xml.gz', to: 'files#sitemap'
-
   resources :reports, only: %i[index create destroy], module: 'admin'
 
   resources :documents, controller: 'admin/documents' do

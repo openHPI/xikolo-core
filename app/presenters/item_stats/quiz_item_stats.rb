@@ -238,5 +238,6 @@ module ItemStats
       'Xikolo::Quiz::FreeTextQuestion' => FreeTextQuestion,
       'Xikolo::Quiz::EssayQuestion' => EssayQuestion,
     }.freeze
+    private_constant :TYPE_CLASS_MAPPING
   end
 end

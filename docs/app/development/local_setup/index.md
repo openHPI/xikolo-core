@@ -48,13 +48,13 @@ Install RVM as described in
 === "Debian / Ubuntu"
 
     ```console
-    rvm install 3.4.1
+    rvm install 3.4.2
     ```
 
 === "Mac"
 
     ```console
-    rvm install 3.4.1
+    rvm install 3.4.2
     ```
 
 **Bundler**: Ruby's dependency manager
@@ -634,8 +634,8 @@ The following commands are to be run from the top-level project directory:
 === "Debian / Ubuntu"
 
     ```console
-    sudo apt install python-pip
-    python -m pip install uv
+    sudo apt install pipx
+    pipx install uv
     ```
 
 === "Mac"

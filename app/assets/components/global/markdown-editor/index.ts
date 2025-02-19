@@ -14,10 +14,7 @@
 import '@toast-ui/editor/dist/i18n/de-de';
 import '@toast-ui/editor/dist/i18n/es-es';
 import '@toast-ui/editor/dist/i18n/fr-fr';
-import '@toast-ui/editor/dist/i18n/pt-br';
-import '@toast-ui/editor/dist/i18n/ru-ru';
 import '@toast-ui/editor/dist/i18n/uk-ua';
-import '@toast-ui/editor/dist/i18n/zh-cn';
 
 import ToastUi from '@toast-ui/editor';
 import ToastUiType from '@toast-ui/editor/types/index';

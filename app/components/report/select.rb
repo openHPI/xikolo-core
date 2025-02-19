@@ -18,6 +18,7 @@ module Report
     private
 
     HTML_OPTIONS = %i[required].freeze
+    private_constant :HTML_OPTIONS
 
     def html_options
       # Rails select tags have a distinct html_options block, that needs to be sent as its own argument.

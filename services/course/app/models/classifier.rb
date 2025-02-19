@@ -23,7 +23,7 @@ class Classifier < ApplicationRecord
     course_ids = courses.pluck(:id)
     yield if block_given?
 
-    job_args = course_ids.map {|x| [x] }
+    job_args = course_ids.zip
     UpdateCourseSearchIndexWorker.perform_bulk(job_args)
   end
 end

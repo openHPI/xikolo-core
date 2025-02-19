@@ -16,6 +16,8 @@ module Video
     USER_ID = SecureRandom.uuid
     ITEM_ID = SecureRandom.uuid
 
+    private_constant :COURSE_ID, :USER_ID, :ITEM_ID
+
     def course(forum_is_locked)
       Catalog::Course.new({
         id: COURSE_ID,

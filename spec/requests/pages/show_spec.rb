@@ -96,12 +96,9 @@ RSpec.describe 'Page: Show', type: :request do
       expect(response.body).to include('last changed')
 
       # "Add" for missing translations
-      expect(response.body).to include 'Add Chinese translation'
       expect(response.body).to include 'Add Spanish translation'
       expect(response.body).to include 'Add French translation'
       expect(response.body).to include 'Add Dutch translation'
-      expect(response.body).to include 'Add Brazilian portuguese translation'
-      expect(response.body).to include 'Add Russian translation'
       expect(response.body).to include 'Add Ukrainian translation'
 
       # "Edit" for existing translations
@@ -118,14 +115,11 @@ RSpec.describe 'Page: Show', type: :request do
       expect(response.body).to include 'Go to helpdesk'
 
       # "Add" for missing translations
-      expect(response.body).to include 'Add Chinese translation'
       expect(response.body).to include 'Add German translation'
       expect(response.body).to include 'Add English translation'
       expect(response.body).to include 'Add Spanish translation'
       expect(response.body).to include 'Add French translation'
       expect(response.body).to include 'Add Dutch translation'
-      expect(response.body).to include 'Add Brazilian portuguese translation'
-      expect(response.body).to include 'Add Russian translation'
       expect(response.body).to include 'Add Ukrainian translation'
     end
 
@@ -143,11 +137,8 @@ RSpec.describe 'Page: Show', type: :request do
       expect(response.body).not_to include 'Go to helpdesk'
 
       # "Add" for missing translations
-      expect(response.body).to include 'Add Chinese translation'
       expect(response.body).to include 'Add English translation'
       expect(response.body).to include 'Add Dutch translation'
-      expect(response.body).to include 'Add Brazilian portuguese translation'
-      expect(response.body).to include 'Add Russian translation'
       expect(response.body).to include 'Add Ukrainian translation'
 
       # "Edit" for existing translations

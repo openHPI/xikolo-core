@@ -20,6 +20,7 @@ module Global
       private
 
       Filter = Struct.new(:key, :title, :options, :selected)
+      private_constant :Filter
 
       def selected_filters
         [Filter.new(:key, 'Select', %w[One Two Three], 'Two')]

@@ -33,7 +33,7 @@ RSpec.describe 'Xikolo.config' do
 
     it 'has #locales to defined globally' do
       expect(config.locales).to eq(
-        'available' => %w[de en es fr pt-BR ru cn],
+        'available' => %w[de en es fr],
         'default' => 'en'
       )
     end

@@ -64,8 +64,10 @@ module Home
       '(min-width: 768px) and (max-width: 991px)': [307, 195],
       '(min-width: 992px)': [314, 195],
     }.freeze
+    private_constant :VISUAL_SIZES
 
     Source = Struct.new(:media, :srcset)
+    private_constant :Source
 
     def visuals
       default_opts = {resizing_type: 'fill', gravity: 'ce'}

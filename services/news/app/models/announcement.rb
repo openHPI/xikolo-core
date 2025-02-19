@@ -22,6 +22,7 @@ class Announcement < ApplicationRecord
   end
 
   TRANSLATION_KEYS = %w[subject content].sort.freeze
+  private_constant :TRANSLATION_KEYS
 
   def valid_translations
     # move array out of loop

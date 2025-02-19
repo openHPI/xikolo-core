@@ -35,10 +35,6 @@ class FilesController < ApplicationController
     redirect_external view_context.image_url('favicon.ico'), status: :found
   end
 
-  def sitemap
-    redirect_external Xikolo::S3.bucket_for(:sitemaps).object('sitemaps/sitemap.xml.gz').public_url
-  end
-
   private
 
   USER_IMAGE_SIZES = {
@@ -46,6 +42,7 @@ class FilesController < ApplicationController
     'user_medium' => 100,
     'user_large'  => 200,
   }.freeze
+  private_constant :USER_IMAGE_SIZES
 
   def requested_user_image_size
     return 'user_medium' unless USER_IMAGE_SIZES.key? params[:size]

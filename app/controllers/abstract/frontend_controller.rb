@@ -113,6 +113,8 @@ module Abstract
     # - double-encoded (%2500)
     # Based on https://zenn.dev/yamap_dev/articles/640d91cae4c8dd.
     NULL_BYTE_CHARS = %W[\u0000 \x00 %00 %2500].freeze
+    private_constant :NULL_BYTE_CHARS
+
     def sanitize_params
       params.reject! do |_k, value|
         value.is_a?(String) && NULL_BYTE_CHARS.any? { value.include? _1 }

@@ -13,7 +13,6 @@ s3:
     pinboard: bucket-pinboard
     quiz: bucket-public
     scientist: bucket-scientist
-    sitemaps: bucket-public
     uploads: bucket-uploads
     video: bucket-video
 

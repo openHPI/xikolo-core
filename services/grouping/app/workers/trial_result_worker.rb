@@ -3,8 +3,8 @@
 class TrialResultWorker
   include Sidekiq::Job
 
-  # rubocop:disable Style/OptionalBooleanParameter - keyword args not supported in Sidekiq
-  # rubocop:disable Rails/SkipsModelValidations
+  # Keyword args not supported in Sidekiq
+  # rubocop:disable Style/OptionalBooleanParameter, Rails/SkipsModelValidations
   def perform(trial_result_id, final_calculation = true)
     ActiveRecord::Base.connection_pool.with_connection do
       trial_result = TrialResult.find trial_result_id

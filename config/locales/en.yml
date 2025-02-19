@@ -4936,24 +4936,18 @@ en:
   pages:
     show:
       edit_translation:
-        cn: Edit Chinese translation "%{title}"
         de: Edit German translation "%{title}"
         en: Edit English translation "%{title}"
         es: Edit Spanish translation "%{title}"
         fr: Edit French translation "%{title}"
         nl: Edit Dutch translation "%{title}"
-        pt-BR: Edit Brazilian portuguese translation "%{title}"
-        ru: Edit Russian translation "%{title}"
         uk: Edit Ukrainian translation "%{title}"
       new_translation:
-        cn: Add Chinese translation
         de: Add German translation
         en: Add English translation
         es: Add Spanish translation
         fr: Add French translation
         nl: Add Dutch translation
-        pt-BR: Add Brazilian portuguese translation
-        ru: Add Russian translation
         uk: Add Ukrainian translation
       last_changed: This page was last changed at %{date}.
     not_found:

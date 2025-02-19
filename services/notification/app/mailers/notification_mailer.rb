@@ -41,6 +41,7 @@ class NotificationMailer < ApplicationMailer
     pinboard.blocked_item
     report.new_report
   ].freeze
+  private_constant :MAILS_WITH_OLD_LAYOUT
 
   def layout_name
     MAILS_WITH_OLD_LAYOUT.include?(@key) ? 'old' : 'foundation'
@@ -50,6 +51,7 @@ class NotificationMailer < ApplicationMailer
   # sending emails in bulk, to prevent them from sending back out-of-office
   # emails and similar automatically generated responses.
   BULK_MAIL_TYPES = ['news.announcement'].freeze
+  private_constant :BULK_MAIL_TYPES
 
   def bulk_mail_headers
     return unless BULK_MAIL_TYPES.include? @key

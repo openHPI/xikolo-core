@@ -19,7 +19,6 @@ module Steps
       fill_markdown_editor 'Bio (English)', with: 'Example blurb english'
       fill_markdown_editor 'Bio (German)', with: 'Example blurb deutsch'
       fill_markdown_editor 'Bio (French)', with: 'Example blurb francais'
-      fill_markdown_editor 'Bio (Chinese)', with: 'Example blurb 中文'
       click_on 'Save information'
 
       expect(page).to have_content 'Teacher information has been successfully saved!'
@@ -50,7 +49,6 @@ module Steps
       expect(page).to have_content 'Example blurb english'
       expect(page).to have_content 'Example blurb deutsch'
       expect(page).to have_content 'Example blurb francais'
-      expect(page).to have_content 'Example blurb 中文'
     end
   end
 end

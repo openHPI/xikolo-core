@@ -19,7 +19,6 @@ ActiveSupport::Inflector.inflections do |inflect|
   inflect.acronym 'ID'
   inflect.acronym 'IP'
   inflect.acronym 'JSON'
-  inflect.acronym 'KICampus'
   inflect.acronym 'MeinBildungsraum'
   inflect.acronym 'OmniAuth'
   inflect.acronym 'OpenSAP'

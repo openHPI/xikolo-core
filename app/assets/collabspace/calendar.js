@@ -5,7 +5,6 @@ import interaction from '@fullcalendar/interaction';
 
 import de from '@fullcalendar/core/locales/de';
 import fr from '@fullcalendar/core/locales/fr';
-import zhCn from '@fullcalendar/core/locales/zh-cn';
 
 import ready from 'util/ready';
 import modal from 'util/modal';
@@ -21,7 +20,7 @@ ready(() => {
 
   const calendar = new Calendar(el, {
     plugins: [daygrid, timegrid, interaction],
-    locales: [de, fr, zhCn],
+    locales: [de, fr],
     locale: document.documentElement.lang,
     defaultView: 'dayGridMonth',
     allDayDefault: false,

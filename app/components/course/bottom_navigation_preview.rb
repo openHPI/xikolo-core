@@ -29,6 +29,7 @@ module Course
     end
 
     MockQuizItemPresenter = Struct.new(:id, :course_id, :section_id)
+    private_constant :MockQuizItemPresenter
 
     def item(id)
       MockQuizItemPresenter.new(

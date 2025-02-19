@@ -44,6 +44,7 @@ class User < ApplicationRecord
   after_create { notify(:create) }
   after_update { notify(:update) }
   after_destroy { notify(:destroy) }
+  after_find :sanitize_language
 
   after_update do
     # We do not emit :confirmed if the record was created, and updated
@@ -349,5 +350,16 @@ class User < ApplicationRecord
 
   def publish_notify(action)
     Msgr.publish(decorate.as_event, to: "xikolo.account.user.#{action}")
+  end
+
+  def sanitize_language
+    # If the stored language is no longer valid, reset it to trigger auto-detection
+    # in the frontend.
+    # Do not explicitly save the record here to avoid unexpected changes in e.g.
+    # other transactions only accessing users.
+    # The record will be saved when it is updated for other reasons.
+    if language.present? && Xikolo.config.locales['available'].exclude?(language)
+      self.language = nil
+    end
   end
 end

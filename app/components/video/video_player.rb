@@ -61,6 +61,7 @@ module Video
     end
 
     Subtitle = Struct.new(:url, :label, :default)
+    private_constant :Subtitle
 
     def text_tracks
       return {} if @video.subtitles.blank?
@@ -124,6 +125,7 @@ module Video
     end
 
     ALLOWED_PLAYBACK_RATES = [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2].freeze
+    private_constant :ALLOWED_PLAYBACK_RATES
     # Try to match the player speed from the user's legacy preferences.
     # Returns nil if the value is not supported by the video player.
     def preferred_playback_rate

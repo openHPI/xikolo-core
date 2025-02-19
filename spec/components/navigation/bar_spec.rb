@@ -279,15 +279,12 @@ describe Navigation::Bar, type: :component do
       render_inline(component)
 
       # The language chooser is rendered twice, once for small and once for larger screens
-      expect(page).to have_css('a', count: 18)
-      expect(page).to have_link '中文', count: 2, href: '/helpdesk?locale=cn'
+      expect(page).to have_css('a', count: 12)
       expect(page).to have_link 'Deutsch', count: 2, href: '/helpdesk?locale=de'
       expect(page).to have_link 'English', count: 2, href: '/helpdesk?locale=en'
       expect(page).to have_link 'Español', count: 2, href: '/helpdesk?locale=es'
       expect(page).to have_link 'Français', count: 2, href: '/helpdesk?locale=fr'
       expect(page).to have_link 'Nederlands', count: 2, href: '/helpdesk?locale=nl'
-      expect(page).to have_link 'Português brasileiro', count: 2, href: '/helpdesk?locale=pt-BR'
-      expect(page).to have_link 'Русский', count: 2, href: '/helpdesk?locale=ru'
       expect(page).to have_link 'Українська', count: 2, href: '/helpdesk?locale=uk'
 
       expect(page).to have_css 'a[aria-current]', text: 'English', count: 2

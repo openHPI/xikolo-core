@@ -22,6 +22,8 @@ module ItemTypes
     FREE_TEXT = 'Xikolo::Quiz::FreeTextQuestion'
     ESSAY = 'Xikolo::Quiz::EssayQuestion'
 
+    private_constant :SELECT_MULTIPLE, :SELECT_ONE, :FREE_TEXT, :ESSAY
+
     def general_thinking_time
       # 10 seconds (thinking + navigation) general thinking per question
       questions.count * 10

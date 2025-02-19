@@ -41,9 +41,6 @@ if File.exist?(file)
           when 'hpi_saml'
             require 'omniauth/strategies/hpi'
             provider :hpi, auth.merge(name:)
-          when 'kicampus'
-            require 'omniauth/strategies/kicampus'
-            provider :kicampus, auth.merge(name:)
           when 'egovcampus'
             require 'omniauth/strategies/egovcampus'
             provider :egovcampus, auth.merge(name:)

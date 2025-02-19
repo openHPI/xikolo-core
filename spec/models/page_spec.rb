@@ -55,7 +55,7 @@ describe Page, type: :model do
       end
 
       it 'orders non-matching translations by creation date, oldest first' do
-        expect(described_class.preferred_locales('cn', 'uk')).to match [
+        expect(described_class.preferred_locales('nl', 'uk')).to match [
           have_attributes(locale: 'en'),
           have_attributes(locale: 'en'),
           have_attributes(locale: 'fr'),

@@ -41,7 +41,7 @@ _Note_: You SHOULD NOT join with an absolute path (e.g. `/files/...`) as that wo
 - **Xikolo.config.mailsender** (``): Overwrite the mail sender, defaults to `no-reply@maildomain` if nil or empty
 - **Xikolo.config.site_name** (`Xikolo`): Title / display name for this installation (e.g. `Company`, `Company Staging`). Designed to be displayed to the user.
 - **Xikolo.config.locales:**
-  - **Xikolo.config.locales['available']** (`['de', 'en', 'es', 'fr', 'ru', 'cn']`): The list of locales that can be selected / used on the platform
+  - **Xikolo.config.locales['available']** (`['de', 'en', 'es', 'fr']`): The list of locales that can be selected / used on the platform
   - **Xikolo.config.locales['default']** (`en`): The locale that should be used for anonymous users
 - **Xikolo.config.ui_primary_color** (`#FFC04A`): Primary UI color
 

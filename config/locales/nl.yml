@@ -3930,24 +3930,18 @@ nl:
   pages:
     show:
       edit_translation:
-        cn: Bewerk Chinese vertaling "%{title}"
         de: Bewerk Duitse vertaling "%{title}"
         en: Bewerk Engelse vertaling "%{title}"
         es: Bewerk Spaanse vertaling "%{title}"
         fr: Bewerk Franse vertaling "%{title}"
         nl: Bewerk Vlaams vertaling "%{title}"
-        pt-BR: Bewerk Braziliaans-Portugese vertaling "%{title}"
-        ru: Bewerk Russische vertaling "%{title}"
         uk: Bewerk Oekraïens vertaling "%{title}"
       new_translation:
-        cn: Chinese vertaling toevoegen
         de: Duitse vertaling toevoegen
         en: Engelse vertaling toevoegen
         es: Spaanse vertaling toevoegen
         fr: Franse vertaling toevoegen
         nl: Vlaams vertaling toevoegen
-        pt-BR: Vertaling Braziliaans Portugees toevoegen
-        ru: Russische vertaling toevoegen
         uk: Oekraïens vertaling toevoegen
       last_changed: Deze pagina is voor het laatst gewijzigd op %{date}.
     not_found:

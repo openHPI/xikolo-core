@@ -10,7 +10,7 @@ s3:
     uploads: xikolo-uploads
 locales:
   available:
-    - cn
     - de
     - en
+    - es
   default: en

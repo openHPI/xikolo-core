@@ -10,12 +10,6 @@ module Video
       {}
     end
 
-    VIMEO_LANGUAGE_IDENTIFIERS = {
-      'cn' => 'zh',
-    }.tap do |hash|
-      hash.default_proc = proc {|_, key| key }
-    end
-
     def remove_subtitles!(stream, language)
       video = api.get(
         "/videos/#{stream.provider_video_id}",
@@ -24,7 +18,7 @@ module Video
 
       tracks_uri = video.dig('metadata', 'connections', 'texttracks', 'uri')
       tracks = api.get(tracks_uri)['data']
-        .select {|t| t['language'] == VIMEO_LANGUAGE_IDENTIFIERS[language] }
+        .select {|t| t['language'] == language }
         .select {|t| t['type'] == 'subtitles' }
 
       tracks.each do |track|
@@ -46,7 +40,7 @@ module Video
 
       # Create a new subtitle text track for the given language
       track = api.post(tracks_uri, body: {
-        language: VIMEO_LANGUAGE_IDENTIFIERS[subtitle.lang],
+        language: subtitle.lang,
         type: 'subtitles',
       }.compact)
 

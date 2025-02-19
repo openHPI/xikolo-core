@@ -4,7 +4,6 @@ PATH
     xikolo-common (2.18.0)
       activesupport
       addressable (~> 2)
-      lograge (~> 0.3.5)
       railties
       restify (~> 1.6)
       telegraf
@@ -125,8 +124,8 @@ GEM
       activesupport
     awesome_nested_set (3.8.0)
       activerecord (>= 4.0.0, < 8.1)
-    aws-eventstream (1.3.0)
-    aws-partitions (1.1048.0)
+    aws-eventstream (1.3.1)
+    aws-partitions (1.1050.0)
     aws-sdk-core (3.218.1)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
@@ -136,7 +135,7 @@ GEM
     aws-sdk-kms (1.98.0)
       aws-sdk-core (~> 3, >= 3.216.0)
       aws-sigv4 (~> 1.5)
-    aws-sdk-s3 (1.180.0)
+    aws-sdk-s3 (1.181.0)
       aws-sdk-core (~> 3, >= 3.216.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.5)
@@ -169,7 +168,7 @@ GEM
       reline (>= 0.3.8)
     decorate-responder (2.1.0)
       responders (>= 2, < 4)
-    diff-lcs (1.5.1)
+    diff-lcs (1.6.0)
     docile (1.4.1)
     draper (4.0.4)
       actionpack (>= 5.0)
@@ -208,19 +207,15 @@ GEM
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     jmespath (1.6.2)
-    json (2.10.0)
+    json (2.10.1)
     listen (3.9.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
     little-plugger (1.1.4)
-    logger (1.6.5)
+    logger (1.6.6)
     logging (2.4.0)
       little-plugger (~> 1.1)
       multi_json (~> 1.14)
-    lograge (0.3.6)
-      actionpack (>= 3)
-      activesupport (>= 3)
-      railties (>= 3)
     loofah (2.24.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
@@ -278,7 +273,7 @@ GEM
     puma (6.6.0)
       nio4r (~> 2.0)
     racc (1.8.1)
-    rack (3.1.9)
+    rack (3.1.10)
     rack-link_headers (2.4.1)
       rack
     rack-remote (1.1.0)
@@ -351,7 +346,7 @@ GEM
       msgpack (~> 1.2)
       rack
       typhoeus (~> 1.3)
-    rexml (3.4.0)
+    rexml (3.4.1)
     rspec (3.13.0)
       rspec-core (~> 3.13.0)
       rspec-expectations (~> 3.13.0)
@@ -396,7 +391,7 @@ GEM
       sentry-ruby (~> 5.22.4)
       sidekiq (>= 3.0)
     set (1.1.1)
-    sidekiq (7.3.8)
+    sidekiq (7.3.9)
       base64
       connection_pool (>= 2.3.0)
       logger
@@ -413,12 +408,12 @@ GEM
     sorted_set (1.0.3)
       rbtree
       set (~> 1.0)
-    stringio (3.1.2)
+    stringio (3.1.3)
     syslog (0.2.0)
     telegraf (3.1.0)
     thor (1.3.2)
-    thruster (0.1.10)
-    thruster (0.1.10-x86_64-linux)
+    thruster (0.1.11)
+    thruster (0.1.11-x86_64-linux)
     timecop (0.9.10)
     timeout (0.4.3)
     typhoeus (1.4.1)
@@ -508,7 +503,7 @@ DEPENDENCIES
   xikolo-sidekiq!
 
 RUBY VERSION
-   ruby 3.4.1p0
+   ruby 3.4.2p28
 
 BUNDLED WITH
    2.6.3

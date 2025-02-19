@@ -74,8 +74,8 @@ RSpec.describe 'OpenBadge: Issuer', type: :request do
           before do
             xi_config <<~YML
               locales:
-                available: ['de', 'ru']
-                default: ru
+                available: ['de', 'fr']
+                default: fr
             YML
           end
 

@@ -56,6 +56,8 @@ class CourseStatsConsumer < Msgr::Consumer
   end
 
   EMAIL_NOTIFICATION_TYPES = %w[notification.email.global notification.email.stats].freeze
+  private_constant :EMAIL_NOTIFICATION_TYPES
+
   def disabled_notifications?(preferences)
     # Make sure the user has not disabled these notifications (or all types)
     EMAIL_NOTIFICATION_TYPES.any? do |pref|

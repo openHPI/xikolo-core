@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'yaml'
-require 'lograge'
 
 module Xikolo
   module Common
@@ -14,11 +13,6 @@ module Xikolo
     module Auth
       require 'xikolo/common/auth/current_user'
       require 'xikolo/common/auth/middleware'
-    end
-
-    module Logging
-      require 'xikolo/common/logging/lograge'
-      require 'xikolo/common/logging/log_formatter'
     end
 
     module Rack

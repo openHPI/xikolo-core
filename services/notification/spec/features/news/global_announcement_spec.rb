@@ -256,7 +256,7 @@ describe 'Global Announcement Mail', type: :feature do
         id: '00000001-3100-4444-9999-000000000404',
         name: 'Deleted User',
         email: nil,
-        language: 'cn',
+        language: 'de',
         archived: true,
         emails_url: '/users/00000001-3100-4444-9999-000000000404/emails',
         features_url: '/users/00000001-3100-4444-9999-000000000404/features',

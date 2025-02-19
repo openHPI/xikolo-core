@@ -4,7 +4,7 @@
 
 # Overridden until XI-4438 is fixed
 locales:
-  available: [cn, de, en, es, fr, nl, pt-BR, ru, uk]
+  available: [de, en, es, fr, nl, uk]
   default: en
 
 # The SMTP server where outgoing emails should be delivered
@@ -118,7 +118,7 @@ course_details:
 # Which languages can be selected for course content? These will also be
 # available for filtering in the course list.
 # NOTE: Platform locales are not automatically part of this list.
-course_languages: [cn, de, en, es, fr, pt-BR, ru, uk]
+course_languages: [de, en, es, fr, uk]
 
 # List of custom fields for which the statistics should be shown on
 # the course dashboard. The values must be the names of the
@@ -423,7 +423,6 @@ footer:
       en: "Xikolo is the educational online platform of the Hasso Plattner Institute, Potsdam."
       de: "Xikolo ist die pädagogische Online-Plattform des Hasso-Plattner-Instituts, Potsdam."
       es: "Xikolo es la plataforma educativa en línea del Instituto Hasso Plattner, Potsdam."
-      zh: "Xikolo 是波茨坦哈索普拉特纳研究所的在线教育平台。"
   copyright:
     start_year: 2012
     owner:

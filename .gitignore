@@ -55,7 +55,6 @@ examples.txt
 
 # Auto-generated assets
 /public/assets*
-/public/sitemap.*
 
 # Auto-generated API documentation
 /doc/api
