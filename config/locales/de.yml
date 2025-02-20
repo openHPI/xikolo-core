@@ -489,6 +489,9 @@ de:
   components:
     actions_dropdown:
       aria_label: Weitere Aktionen
+    clipboard:
+      copy: In die Zwischenablage kopieren
+      copied: Kopiert!
     countdown:
       time_remaining: "Verbleibende Zeit:"
     custom_select:
@@ -1915,6 +1918,8 @@ de:
     new: Neue Section
     show_uuids: UUIDs zeigen
     hide_uuids: UUIDs ausblenden
+    course_uuid: Kurs-ID kopieren
+    section_uuid: Section-ID kopieren
     item:
       delete: Item löschen
       create: Neues Item
@@ -1922,6 +1927,8 @@ de:
       edit_headline: Item bearbeiten "%{item}"
       edit: Item bearbeiten
       edit_subtitles: Untertitel bearbeiten
+      copy_id: ID kopieren
+      copy_content_id: Content-ID kopieren
       unpublished: Item ist nicht veröffentlicht
       locked_until: "Item ist bis %{date} gesperrt"
       locked_since: "Item ist bis %{date} gesperrt"

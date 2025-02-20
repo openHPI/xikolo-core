@@ -1,0 +1,5 @@
+button.clipboard data-behavior='copy-to-clipboard' data-text=@text aria-label=t(:'components.clipboard.copy')
+  = render Global::FaIcon.new('copy')
+  - if @tooltip
+    span.clipboard__tooltip data-behavior='clipboard-tooltip'
+      = @tooltip

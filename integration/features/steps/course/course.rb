@@ -235,7 +235,7 @@ module Steps
     end
 
     When 'I move the lower section up' do
-      sections = page.all('li.section')
+      sections = page.all('[data-behavior="section-handle"]')
       sections[1].drag_to(sections[0])
     end
 

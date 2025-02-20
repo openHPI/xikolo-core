@@ -1,0 +1,44 @@
+.clipboard {
+  position: relative;
+  display: inline-block;
+  border: none;
+  background: none;
+  cursor: pointer;
+
+  &__tooltip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    display: none;
+    padding: 3px 5px;
+    border-radius: 3px;
+    background-color: $gray-100;
+    color: $gray-800;
+    font-weight: normal;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    @include font-s;
+
+    &:after {
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-top: 8px solid $gray-100;
+      border-right: 8px solid transparent;
+      border-left: 8px solid transparent;
+      content: "";
+      transform: translate(-50%, 0);
+    }
+  }
+
+  &:hover,
+  &:active {
+    color: $primary-color;
+  }
+
+  &:hover .clipboard__tooltip {
+    display: block;
+  }
+}

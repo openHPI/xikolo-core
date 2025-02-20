@@ -41,6 +41,7 @@ li.section data-node-id=node.id
         = t(:'sections.unpublished')
     span.label.label-info.uuid.mr10 hidden='true'
       = section.id
+      = render Global::CopyToClipboard.new(section.id, tooltip: t(:'sections.section_uuid'))
 
   .form_wrapper.mb10 id="edit_section_form_#{section.id}" hidden='true'
     = render partial: 'admin/courses/form_section', locals: {section:, parent_section: nil}

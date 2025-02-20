@@ -45,6 +45,7 @@
 
   span.label.label-info.ml10.uuid hidden='true'
     = @course_presenter.id
+    = render Global::CopyToClipboard.new(@course_presenter.id, tooltip: t(:'sections.course_uuid'))
 
 .col-md-12
   #add_section_form.form_wrapper hidden=true

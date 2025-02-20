@@ -579,6 +579,9 @@ en:
   components:
     actions_dropdown:
       aria_label: More actions
+    clipboard:
+      copy: Copy to clipboard
+      copied: Copied!
     countdown:
       time_remaining: "Time remaining:"
     custom_select:
@@ -2672,6 +2675,8 @@ en:
     new: Add section
     show_uuids: Show UUIDs
     hide_uuids: Hide UUIDs
+    course_uuid: Copy course ID
+    section_uuid: Copy section ID
     item:
       delete: Delete item
       create: Add item
@@ -2679,6 +2684,8 @@ en:
       edit_headline: Edit item "%{item}"
       edit: Edit item
       edit_subtitles: Edit subtitles
+      copy_id: Copy ID
+      copy_content_id: Copy content ID
       unpublished: Item is not published
       locked_until: "Item will be unlocked in %{date}"
       locked_since: "Item was locked %{date}"

@@ -19,6 +19,7 @@ ready(() => {
   const sections = sortable('[data-behavior=sortable-sections]', {
     forcePlaceholderSize: true,
     placeholderClass: 'html5sortable-placeholder',
+    handle: '[data-behavior=section-handle]',
   });
 
   sections.forEach((section: HTMLElement) => {

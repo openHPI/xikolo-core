@@ -29,6 +29,8 @@ li
     span.label.label-info.uuid.mr10 hidden='true'
       'ID:
       = item.id
+      = render Global::CopyToClipboard.new(item.id, tooltip: t(:'sections.item.copy_id'))
     span.label.label-info.uuid.mr10 hidden='true'
       'Content ID:
       = item.content_id
+      = render Global::CopyToClipboard.new(item.content_id, tooltip: t(:'sections.item.copy_content_id'))

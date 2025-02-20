@@ -372,6 +372,9 @@ fr:
   components:
     actions_dropdown:
       aria_label: Plus d'actions
+    clipboard:
+      copy: Copier dans le presse-papiers
+      copied: Copié !
     countdown:
       time_remaining: "Temps qui reste :"
     enrollment_dialog:

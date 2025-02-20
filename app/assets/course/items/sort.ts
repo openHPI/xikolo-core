@@ -20,6 +20,7 @@ ready(() => {
     forcePlaceholderSize: true,
     placeholderClass: 'html5sortable-placeholder',
     acceptFrom: '[data-behavior=sortable-items]',
+    handle: '[data-behavior=item-handle]',
   });
 
   items.forEach((item: HTMLElement) => {

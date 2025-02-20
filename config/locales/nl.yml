@@ -449,6 +449,9 @@ nl:
   components:
     actions_dropdown:
       aria_label: Meer acties
+    clipboard:
+      copy: Kopiëren naar klembord
+      copied: Gekopieerd!
     countdown:
       time_remaining: "Overgebleven tijd:"
     enrollment_dialog:

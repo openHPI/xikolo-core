@@ -445,6 +445,7 @@ uk:
   components:
     actions_dropdown:
       aria_label: Більше дій
+    clipboard: Зрозумів!
     countdown:
       time_remaining: "Залишилось часу:"
     enrollment_dialog:

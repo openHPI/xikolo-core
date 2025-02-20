@@ -444,6 +444,9 @@ es:
   components:
     actions_dropdown:
       aria_label: Más acciones
+    clipboard:
+      copy: Copiar al portapapeles
+      copied: ¡Copiado!
     countdown:
       time_remaining: "Tiempo restante:"
     enrollment_dialog:
