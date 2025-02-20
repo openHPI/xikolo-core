@@ -25,15 +25,15 @@ li.section class="#{'available' if section.available?}" data-id=section.id data-
     - if section.unlocked?
       span.label.label-success
         - if section.start_date&.past?
-          = t(:'sections.unlocked_since', date: section.start_date.to_formatted_s(:short))
+          = t(:'sections.unlocked_since', date: section.start_date.to_fs(:short))
         - else
           = t(:'sections.unlocked')
     - else
       span.label.label-warning
         - if section.start_date&.future?
-          = t(:'sections.locked_until', date: section.start_date.to_formatted_s(:short))
+          = t(:'sections.locked_until', date: section.start_date.to_fs(:short))
         - if section.end_date&.past?
-          = t(:'sections.locked_since', date: section.end_date.to_formatted_s(:short))
+          = t(:'sections.locked_since', date: section.end_date.to_fs(:short))
     - if section.published?
       span.label.label-success
         = t(:'sections.published')
@@ -44,7 +44,7 @@ li.section class="#{'available' if section.available?}" data-id=section.id data-
       = section.id
     - if section.end_date&.future?
       span.label.label-warning
-        = t(:'sections.locked_on', date: section.end_date.to_formatted_s(:short))
+        = t(:'sections.locked_on', date: section.end_date.to_fs(:short))
 
   .form_wrapper.mb10 id="edit_section_form_#{section.id}" hidden=true
     = render partial: 'admin/courses/form_section', locals: {section:, parent_section: nil}

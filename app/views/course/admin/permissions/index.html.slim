@@ -38,7 +38,7 @@
       .custom-select-group.pb20
         = form_tag action: :create, group_id: group.name do
           = select_tag :id, :id,
-            id: "newgroupmember-#{group.name}", \
+            id: "newgroupmember-#{group.name}",
             data: {behavior: 'custom-select', 'auto-completion-url': admin_find_users_path, placeholder: t(:'global.email_or_name')}
           = submit_tag t(:'permissions.add_user.button'), {class: 'btn btn-primary btn-sm ml10'}
 

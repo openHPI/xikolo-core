@@ -4,7 +4,7 @@
 .proctoring-intro
   - if item.user_booked_proctoring?
     .proctoring-intro__callout
-      = render Global::Callout.new(t(:'items.quiz.proctoring.certificate_booked.instructions'), type: :success, title:t(:'items.quiz.proctoring.certificate_booked.title') ) do
+      = render Global::Callout.new(t(:'items.quiz.proctoring.certificate_booked.instructions'), type: :success, title: t(:'items.quiz.proctoring.certificate_booked.title')) do
         p = t(:'items.quiz.proctoring.certificate_booked.exclusion_criteria')
 
   - elsif item.proctoring_upgrading_deadline_passed?

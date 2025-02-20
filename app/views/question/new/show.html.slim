@@ -38,15 +38,15 @@
   .row.mt20.moderator
     .col-md-1
       = link_to question_path,
-                method: :delete, class: 'btn btn-default', data: { confirm: t(:'question.show.confirm_delete') }
+                method: :delete, class: 'btn btn-default', data: {confirm: t(:'question.show.confirm_delete')}
         = t :'question.show.destroy'
     - if @pinboard.open?
       .col-md-1
         - if @show_close_button
           = link_to in_section_context? ? close_course_section_question_path : close_course_question_path,
-                    method: :post, class: 'btn btn-default', data: { confirm: t(:'question.show.confirm_close') }
+                    method: :post, class: 'btn btn-default', data: {confirm: t(:'question.show.confirm_close')}
             = t :'question.show.close'
         - else
           = link_to in_section_context? ? reopen_course_section_question_path : reopen_course_question_path,
-                    method: :post, class: 'btn btn-default', data: { confirm: t(:'question.show.confirm_reopen') }
+                    method: :post, class: 'btn btn-default', data: {confirm: t(:'question.show.confirm_reopen')}
             = t :'question.show.reopen'

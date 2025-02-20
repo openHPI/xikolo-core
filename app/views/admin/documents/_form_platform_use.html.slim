@@ -4,9 +4,9 @@
       placeholder: t(:'knowledge_documents.select_tags'),
       required: false,
       collection: all_tags,
-      input_html: {data: { behavior: 'custom-select', 'create': 'true' }, multiple: true }
+      input_html: {data: {behavior: 'custom-select', create: 'true'}, multiple: true}
 
-  = f.input :course_ids, label: t(:'knowledge_documents.courses'), required: false, \
-    input_html: { data: { behavior: 'custom-select', 'auto-completion-url': admin_find_courses_path, }, multiple: true }, \
-    placeholder: t(:'knowledge_documents.select_courses'), \
+  = f.input :course_ids, label: t(:'knowledge_documents.courses'), required: false,
+    input_html: {data: {behavior: 'custom-select', 'auto-completion-url': admin_find_courses_path}, multiple: true},
+    placeholder: t(:'knowledge_documents.select_courses'),
     collection: selected_courses

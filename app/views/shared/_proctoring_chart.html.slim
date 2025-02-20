@@ -1,5 +1,5 @@
 #proctoring_chart
-
+- # rubocop:disable Rails/OutputSafety
 javascript:
   proctoring_chart_data = #{raw proctoring_data.to_json};
   var max = #{proctoring_data.max}
@@ -43,3 +43,4 @@ javascript:
                       .attr("transform", "rotate(90," + (rec.x + rec.width) + "," + (rec.y + (rec.height / 2)) + ") translate(-20, -2)");
             });
   }
+- # rubocop:enable Rails/OutputSafety

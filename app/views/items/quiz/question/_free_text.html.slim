@@ -6,5 +6,5 @@
     .quiz-question-answers
       - question.answers.each do |answer|
         => text_area_tag "submission[#{question.id}]", answer.id, id: "question_#{question.id}_answer_#{answer.id}_text_area", disabled: true
-        = label_tag "question_#{question.id}_answer_#{answer.id}_text_area", raw(answer.text)
+        = label_tag "question_#{question.id}_answer_#{answer.id}_text_area", raw(answer.text) # rubocop:disable Rails/OutputSafety
         br

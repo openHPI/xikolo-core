@@ -13,7 +13,7 @@
     ul.teacher-nav__menu
       - teacher_nav.each do |item|
         li.teacher-nav__menu-item-container class=(item.active?(request) ? 'active' : '')
-          = link_to item.link, class: "teacher-nav__menu-item"
+          = link_to item.link, class: 'teacher-nav__menu-item'
             = render Global::FaIcon.new(item.icon_class, css_classes: 'fa-fw')
             = item.text
 

@@ -5,9 +5,11 @@
       - submitted_answer = user_submission.quiz_submission_answers.first.user_answer_text
     - elsif user_submission.respond_to?(:to_hash)
       - submitted_answer = user_submission.first[1]
-    = text_field "submission[#{question.id}]", answer.id, id: "question_#{question.id}_answer_#{answer.id}_text_field",\
-                 disabled: show_solution, maxlength: 255, value: (submitted_answer unless submitted_answer.nil?),\
-                 class: 'form-control', lang: lang
+    = text_field "submission[#{question.id}]", answer.id,
+      id: "question_#{question.id}_answer_#{answer.id}_text_field",
+      disabled: show_solution, maxlength: 255, value: (submitted_answer unless submitted_answer.nil?),
+      class: 'form-control',
+      lang: lang
     - if show_solution
       - correct_answer = answer.correct && (user_submission && user_submission.points == question.points)
       = render 'quiz_submission/partials/quiz_free_text_answer_solution', user_answer_text: submitted_answer, correct_answer: correct_answer

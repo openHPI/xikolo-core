@@ -16,9 +16,9 @@ li
     - unless item.unlocked?
       span.label.label-warning
         - if item.start_date&.future?
-          = t(:'sections.item.locked_until', date: item.start_date.to_formatted_s(:short))
+          = t(:'sections.item.locked_until', date: item.start_date.to_fs(:short))
         - if item.end_date&.past?
-          = t(:'sections.item.locked_since', date: item.end_date.to_formatted_s(:short))
+          = t(:'sections.item.locked_since', date: item.end_date.to_fs(:short))
 
     - if item.published?
       span.label.label-success

@@ -2,7 +2,7 @@
   = f.input :full_name, label: t(:'.label.full_name'), placeholder: t(:'.placeholder.full_name')
   = f.input :email, label: t(:'.label.email'), placeholder: t(:'.placeholder.email')
   = f.input :password, as: :string, label: t(:'.label.password'), placeholder: t(:'.placeholder.password')
-  = f.input :confirmed, label: t(:'.confirmed'), as: :toggle_switch, input_html: { checked: true }
+  = f.input :confirmed, label: t(:'.confirmed'), as: :toggle_switch, input_html: {checked: true}
 
   .buttons
-    = f.button :submit, t(:'.label.submit'), class:'full-width'
+    = f.button :submit, t(:'.label.submit'), class: 'full-width'

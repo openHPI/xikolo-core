@@ -103,7 +103,8 @@
               - if current_user.allowed? 'course.course.teaching'
                 = render partial: 'fudge_points', locals: {submission:, course: @course}
 
-            - if (proctoring = submission['proctoring'])
+            - proctoring = submission['proctoring']
+            - if proctoring.present?
               - if proctoring.results.empty?
                 span.label.label-warning = t(:'admin.course_management.submissions.proctoring.processing')
               - elsif proctoring.results.perfect?

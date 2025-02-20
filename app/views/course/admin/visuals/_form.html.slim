@@ -12,7 +12,7 @@
       value: FileUpload.new(purpose: :course_course_image, content_type: 'image/*')
     = f.input :video_stream_id,
         placeholder: t(:'simple_form.placeholders.course_visual.video_stream_id'),
-        input_html: { data: {behavior: 'custom-select', 'auto-completion-url': admin_streams_path, 'preload': true, 'prefix': visual_presenter.stream_prefix}},
+        input_html: {data: {behavior: 'custom-select', 'auto-completion-url': admin_streams_path, preload: true, prefix: visual_presenter.stream_prefix}},
         collection: visual_presenter.stream_collection
     = f.input :subtitles,
       as: :upload,
@@ -27,7 +27,7 @@
               = render Global::FaIcon.new('xmark', style: :solid, css_classes: 'ml5 mr5')
   .btn-group
     = f.button :submit, class: 'mr10 mb10'
-    = f.button :submit, t(:'helpers.submit.course_visual.preview'), name:'show', class: 'mr10 mb10'
+    = f.button :submit, t(:'helpers.submit.course_visual.preview'), name: 'show', class: 'mr10 mb10'
 
     = link_to t(:'course.admin.visuals.back'),
       edit_course_path(visual_presenter.course_code, anchor: 'formgroup-visuals'),

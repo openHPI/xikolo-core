@@ -11,8 +11,8 @@
 
 .container.white-bg.statistics-page[
   data-lanalytics-visit='item_statistics'
-  data-lanalytics-resource="#{ {type: 'item', uuid: @item_stats.item_id}.to_json }"
-  data-lanalytics-context="#{ {course_id: @item_stats.course_id, content_type: @item_stats.content_type}.to_json }"
+  data-lanalytics-resource={type: 'item', uuid: @item_stats.item_id}.to_json
+  data-lanalytics-context={course_id: @item_stats.course_id, content_type: @item_stats.content_type}.to_json
 ]
   .row
     .col-md-12

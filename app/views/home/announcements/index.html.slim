@@ -1,9 +1,7 @@
 .container.sticky-container
   .row
     .col-md-8.news
-      - if @posts.empty?
-        p.mt30 = t(:'announcements.no_news')
-      - else
+      - if @posts.any?
         .mt30
           - @posts.each_with_index do |post, index|
             - if post.publish_at&.past? || current_user.allowed?('news.announcement.show')
@@ -12,8 +10,11 @@
               a.news__anchor id="see-older"
               p.news__older-title
                 span = t(:'announcements.older')
+      - else
+        p.mt30 = t(:'announcements.no_news')
+
     .col-md-4.sticky-container__element
       - if current_user.allowed? 'news.announcement.create'
         = link_to t(:'announcements.operations.new'), new_announcement_path, class: 'btn btn-primary full-width mb10'
-      - unless @posts.empty? || @in_app
+      - if @posts.any? && !@in_app
         == render 'toc', posts: @posts

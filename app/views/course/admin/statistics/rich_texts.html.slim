@@ -11,8 +11,8 @@
 
 .container.white-bg.statistics-page[
   data-lanalytics-visit='course_statistics'
-  data-lanalytics-resource="#{ {type: 'course', uuid: @course['id']}.to_json }"
-  data-lanalytics-context="#{ {component: 'rich_texts'}.to_json }"
+  data-lanalytics-resource={type: 'course', uuid: @course['id']}.to_json
+  data-lanalytics-context={component: 'rich_texts'}.to_json
 ]
   .row
     .col-md-12

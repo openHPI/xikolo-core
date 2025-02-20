@@ -1,15 +1,13 @@
 .col-md-9.news
-  - unless @posts.empty?
+  - if @posts.any?
     - @posts.each do |post|
       - if post.publish_at < DateTime.now || (current_user.allowed? 'news.announcement.show')
         == render 'announcements/post', post: post, course: @course
   - else
-    p.mt30
-      i
-        = t(:'course.courses.announcements.empty_state')
+    p.mt30 = t(:'course.courses.announcements.empty_state')
 
 .col-md-3
   - if current_user.allowed? 'news.announcement.create'
-    = link_to t(:'course.courses.announcements.new'), new_course_announcement_path, class:"btn btn-primary full-width mb10"
-  - unless @posts.empty?
-    == render 'home/announcements/toc', posts: @posts unless @in_app
+    = link_to t(:'course.courses.announcements.new'), new_course_announcement_path, class: 'btn btn-primary full-width mb10'
+  - if @posts.any? && !@in_app
+    == render 'home/announcements/toc', posts: @posts

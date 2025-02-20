@@ -24,15 +24,15 @@ li.section data-node-id=node.id
     - if section.unlocked?
       span.label.label-success
         - if section.start_date&.past?
-          = t(:'sections.unlocked_since', date: section.start_date.to_formatted_s(:short))
+          = t(:'sections.unlocked_since', date: section.start_date.to_fs(:short))
         - else
           = t(:'sections.unlocked')
     - else
       span.label.label-warning
         - if section.start_date&.future?
-          = t(:'sections.locked_until', date: section.start_date.to_formatted_s(:short))
+          = t(:'sections.locked_until', date: section.start_date.to_fs(:short))
         - if section.end_date&.past?
-          = t(:'sections.locked_since', date: section.end_date.to_formatted_s(:short))
+          = t(:'sections.locked_since', date: section.end_date.to_fs(:short))
     - if section.published?
       span.label.label-success
         = t(:'sections.published')

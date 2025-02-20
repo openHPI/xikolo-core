@@ -11,8 +11,8 @@
 
 .container.white-bg.statistics-page[
   data-lanalytics-visit='course_statistics'
-  data-lanalytics-resource="#{ {type: 'course', uuid: @course['id']}.to_json }"
-  data-lanalytics-context="#{ {component: 'pinboard'}.to_json }"
+  data-lanalytics-resource={type: 'course', uuid: @course['id']}.to_json
+  data-lanalytics-context={component: 'pinboard'}.to_json
 ]
   .row
     - if Xikolo.config.beta_features['teaching_team_pinboard_activity']

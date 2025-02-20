@@ -3,12 +3,12 @@ fieldset
     = t("languages.title.#{translation.language}")
   = simple_fields_for(translation) do |p|
     = p.input :subject,
-      input_html: {name: "announcement[translations][][subject]"}
+      input_html: {name: 'announcement[translations][][subject]'}
     = p.input :content,
       input_html: {rows: 7,
         preview: true,
-        name: "announcement[translations][][content]"},
+        name: 'announcement[translations][][content]'},
       markdown_id_suffix: "announcement_#{translation.language}"
     = p.input :language,
-      input_html: {name: "announcement[translations][][language]"},
+      input_html: {name: 'announcement[translations][][language]'},
       as: :hidden

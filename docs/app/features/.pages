@@ -3,6 +3,7 @@
 nav:
   - index.md
   - Platform:
+    - Feature flippers: flippers
     - permissions
     - course_list_banner.md
   - courses

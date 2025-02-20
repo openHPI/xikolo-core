@@ -1,8 +1,8 @@
 .js-remove-container
   = simple_fields_for :metric, metric do |m|
-    = m.input :id, as: :hidden, input_html: {name: "user_test[metrics][][id]"}
-    = m.input :type, collection: user_test.all_metrics, as: :select, value_method: :type, input_html: {name: "user_test[metrics][][type]"}
-    = m.input :wait_interval, collection: wait_intervals, include_blank: false, input_html: {style: 'width:inherit;display:inline;', name: "user_test[metrics][][wait_interval]"}, hint: t(:'.metric_wait_interval_hint')
+    = m.input :id, as: :hidden, input_html: {name: 'user_test[metrics][][id]'}
+    = m.input :type, collection: user_test.all_metrics, as: :select, value_method: :type, input_html: {name: 'user_test[metrics][][type]'}
+    = m.input :wait_interval, collection: wait_intervals, include_blank: false, input_html: {style: 'width:inherit;display:inline;', name: 'user_test[metrics][][wait_interval]'}, hint: t(:'.metric_wait_interval_hint')
 
   button.btn.btn-danger.btn-xs.js-remove
     = render Global::FaIcon.new('trash-can', style: :solid, css_classes: 'mr5')

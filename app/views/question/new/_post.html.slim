@@ -1,16 +1,16 @@
 .pinboard2-post
-  a name=(post.id)
+  a name=post.id
   .pinboard2-post--avatar
     = Global::UserAvatar.new(post.author.id, size: 'large')
   .pinboard2-post--meta
     .author = link_to post.author.name, user_path(post.author.id)
     .date = link_to t(:'pinboard.question.ago', timeago: time_ago_in_words(post.created_at)), anchor: post.id
-    .votes.downvotes data-votable-type='answer' data-votable-id=(post.id)
+    .votes.downvotes data-votable-type='answer' data-votable-id=post.id
       / FIXME: This should be downvotes and should work for comments
       span.vote-count = post.try(:votes) || 0
       = render Global::FaIcon.new('thumbs-down', css_classes: 'action action-downvote not-downvoted-icon')
       = render Global::FaIcon.new('thumbs-down', style: :solid, css_classes: 'action action-downvote downvoted-icon')
-    .votes.upvotes class='is-upvoted' data-votable-type='answer' data-votable-id=(post.id)
+    .votes.upvotes class='is-upvoted' data-votable-type='answer' data-votable-id=post.id
       / FIXME: This should be upvotes and should work for comments
       span.vote-count = post.try(:votes) || 0
       = render Global::FaIcon.new('thumbs-up', css_classes: 'action action-upvote not-upvoted-icon')
@@ -27,8 +27,8 @@
         = link_to t(:'pinboard.reporting.block'), block_answer_path(id: post.id), method: 'post'
       - unless post.reviewed?
         = link_to t(:'pinboard.reporting.unblock'), unblock_answer_path(id: post.id), method: 'post'
-    - elsif not post.blocked?
-      = link_to t(:'pinboard.reporting.report'), abuse_report_answer_path(id: post.id), method: 'post', data: {'tooltip': t(:'pinboard.reporting.tooltip'), 'aria-label': t(:'pinboard.reporting.tooltip')}
+    - elsif !post.blocked?
+      = link_to t(:'pinboard.reporting.report'), abuse_report_answer_path(id: post.id), method: 'post', data: {tooltip: t(:'pinboard.reporting.tooltip'), 'aria-label': t(:'pinboard.reporting.tooltip')}
 
   / TODO:
     - lanalytics events & context

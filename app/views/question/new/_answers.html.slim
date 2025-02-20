@@ -1,5 +1,5 @@
-- question.answers.each do | answer |
-  = render 'question/new/post', post: answer
+- question.answers.each do |answer|
+  = render(partial: 'question/new/post', locals: {post: answer})
 
   div style="padding-left: 60px;"
-    = render 'question/new/comments', commentable: answer
+    = render(partial: 'question/new/comments', locals: {commentable: answer})

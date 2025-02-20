@@ -1,4 +1,4 @@
 - if @item_presenter.survey?
-  = render Global::Callout.new(render_markdown @item_presenter.instructions)
+  = render Global::Callout.new(render_markdown(@item_presenter.instructions))
 - else
   = render Global::Callout.new(t(:'items.quiz.quiz_is_selftest'))

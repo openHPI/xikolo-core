@@ -129,17 +129,20 @@ To successfully operate the platform, the following points should be considered:
    This also applies to supporting services like S3. Example configurations are available in the `/docker` directory.
 
     !!! tip
+
         Some application features and functionality as well as user permissions are managed via the database, e.g. via feature flippers.
         Knowledge of Ruby / Ruby on Rails is required.
 
 4. **Backup & maintenance**: Regular backups of databases and stored files, as well as updates for the infrastructure services.
 
-    !!! important
+    !!! success
+
         Additionally, regular updates of the source code are required, including rebasing on the latest application code made available in the repositories mentioned above.
 
 5. **Monitoring**: Effective monitoring is critical to ensure the platform's reliability and performance.
 
     !!! info
+
         The following (optional) services may be integrated for comprehensive monitoring.
 
         - **[Mnemosyne](https://github.com/mnemosyne-mon)**: Provides distributed tracing and performance analysis for applications.

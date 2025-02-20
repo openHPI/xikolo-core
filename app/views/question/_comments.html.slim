@@ -2,7 +2,7 @@
 - commentable_type = commentable.is_a?(Xikolo::Pinboard::Question) ? 'question' : 'answer'
 
 .comments id="comments-#{commentable_type}-#{commentable.id}"
-  - commentable.comments.each do | comment |
+  - commentable.comments.each do |comment|
     div class="comment comment-post #{'unread' unless comment.read}"
       span.avatar
         = render Global::UserAvatar.new(comment.author.id, size: 'small')
@@ -17,13 +17,13 @@
           span.timestamp = t(:'pinboard.question.ago', timeago: time_ago_in_words(comment.created_at))
 
         .comment-actions
-          - if can_edit? comment
+          - if can_edit?(comment)
             a.edit.comment-edit href="#" data-comment-id=comment.id data-url="#{edit_comment_path(comment, commentable)}"
               = render Global::FaIcon.new('pencil', style: :solid)
               = t(:'.edit')
 
           - if can_delete?
-            = link_to comment_path(comment, commentable), method: 'delete', data: { confirm: t(:'.sure'), disable_with: t(:'.deleting') } do
+            = link_to comment_path(comment, commentable), method: 'delete', data: {confirm: t(:'.sure'), disable_with: t(:'.deleting')} do
               = render Global::FaIcon.new('xmark', style: :solid)
               = t(:'.delete')
 
@@ -40,8 +40,8 @@
               - if comment.abuse_report_count > 0
                 b.secondary-color =< "(#{t(:'pinboard.reporting.reports', count: comment.abuse_report_count)})"
 
-          - elsif not comment.blocked?
-            = link_to abuse_report_comment_path(comment, commentable), method: 'post', data: { 'tooltip': t(:'pinboard.reporting.tooltip'), 'aria-label': t(:'pinboard.reporting.tooltip') }, class: 'comment-report' do
+          - elsif !comment.blocked?
+            = link_to abuse_report_comment_path(comment, commentable), method: 'post', data: {tooltip: t(:'pinboard.reporting.tooltip'), 'aria-label': t(:'pinboard.reporting.tooltip')}, class: 'comment-report' do
               = render Global::FaIcon.new('flag', style: :solid)
               = t(:'pinboard.reporting.report')
 

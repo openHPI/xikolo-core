@@ -3,19 +3,19 @@
           label: t(:'knowledge_documents.localization.language'),
           required: true,
           collection: I18nData.languages(I18n.locale).invert,
-          input_html: { name: 'localization[language]'}
+          input_html: {name: 'localization[language]'}
   = f.input :file,
           label: t(:'knowledge_documents.localization.file'),
           as: :upload,
           required: true,
           placeholder: t(:'knowledge_documents.localization.file_placeholder'),
           value: @file_upload,
-          input_html: { name: 'localization[file_upload_id]'}
+          input_html: {name: 'localization[file_upload_id]'}
   = f.input :title,
           label: t(:'knowledge_documents.localization.title'),
           required: true,
           placeholder: t(:'knowledge_documents.localization.title_placeholder'),
-          input_html: { name: 'localization[title]'}
+          input_html: {name: 'localization[title]'}
   = f.input :description, as: :markdown,
           label: t(:'knowledge_documents.localization.description'),
           placeholder: t(:'knowledge_documents.localization.description_placeholder'),

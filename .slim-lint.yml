@@ -5,11 +5,14 @@ linters:
   EmbeddedEngines:
     enabled: true
     forbidden_engines:
+      - coffee
       - css
       - sass
       - scss
+      # - javascript TODO: Take care of this!
       - less
-      - coffee
+    exclude:
+      - app/views/items/lti_exercise/tool_launch.html.slim # Known 'css' engine violation
   InstanceVariables:
     enabled: false # TODO: Take care of this!
     include:

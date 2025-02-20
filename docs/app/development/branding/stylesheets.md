@@ -40,7 +40,7 @@ All base colors go into `_colors.scss`.
 This will provide all color values that are needed for the application.
 The file also contains all shades for these colors.
 
-!!! important
+!!! note
 
     This file  overrides `app/assets/stylesheets/_colors.scss`.
     So you need to have at least all variables of `app/assets/stylesheets/_colors.scss` defined here.

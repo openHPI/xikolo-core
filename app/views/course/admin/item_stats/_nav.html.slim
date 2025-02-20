@@ -1,5 +1,5 @@
 .item-stats__nav
-  select#item-stats-select placeholder=t('course.admin.item_stats.show.select_item') data={ 'behavior': 'custom-select', 'redirect': 'true' }
+  select#item-stats-select placeholder=t('course.admin.item_stats.show.select_item') data={behavior: 'custom-select', redirect: 'true'}
     option
     - nav.each do |item|
       option selected=item[:selected] value=item[:url]

@@ -1,5 +1,4 @@
 .quiz-question.multiple-answer id=question.id
-
   .question
     .row.question-info
       .col-xs-6
@@ -32,14 +31,16 @@
         - user_answer = user_submission
       - elsif !snapshot.nil?
         - user_answer = snapshot.loaded_data[question.id]
-        - if user_answer && user_answer.first[1].length > 0
+        - if user_answer && !user_answer.first[1].empty?
           javascript:
             ready(function () {
               $("##{question.id}_indicator", '#quiz-state-indicators').addClass('edited');
             });
 
-      = render 'quiz_submission/question/free_text', show_solution: show_solution, question: question,\
-               answer: question.answers.first, user_submission: user_answer, lang: item.lang
+      = render 'quiz_submission/question/free_text',
+        show_solution: show_solution, question: question,
+        answer: question.answers.first, user_submission: user_answer,
+        lang: item.lang
     - elsif question.is_a? Xikolo::Quiz::EssayQuestion
       .mt15
       - if show_solution && user_submission
@@ -54,27 +55,29 @@
             $("##{question.id}_indicator", '#quiz-state-indicators').addClass('edited');
           });
 
-      = render 'quiz_submission/question/essay', show_solution: show_solution, question: question,\
-               answer: question.answers.first, user_submission: user_answer
+      = render 'quiz_submission/question/essay',
+        show_solution: show_solution, question: question,
+        answer: question.answers.first, user_submission: user_answer
+    - elsif question.is_a?(Xikolo::Quiz::MultipleChoiceQuestion) && item.survey? && !show_solution && question.answers.size >= Xikolo.config.multiple_choice_answers_as_dropdown_threshold
+      = render Quiz::Dropdown.new(question, submission: defined?(user_submission) ? user_submission : nil, snapshot: snapshot)
+    - elsif question.is_a? Xikolo::Quiz::MultipleAnswerQuestion
+      = render Quiz::CheckBoxes.new(question, submission: defined?(user_submission) ? user_submission : nil, snapshot: snapshot, show_solution: show_solution, lang: item.lang)
     - else
-      - if question.class == Xikolo::Quiz::MultipleChoiceQuestion && item.survey? && !show_solution && question.answers.size >= Xikolo.config.multiple_choice_answers_as_dropdown_threshold
-        = render Quiz::Dropdown.new(question, submission: defined?(user_submission) ? user_submission : nil, snapshot: snapshot)
-      - elsif question.is_a? Xikolo::Quiz::MultipleAnswerQuestion
-        = render Quiz::CheckBoxes.new(question, submission: defined?(user_submission) ? user_submission : nil, snapshot: snapshot, show_solution: show_solution, lang: item.lang)
-      - else
-        - question.answers.each do |answer|
-          - answer_selected_by_user = false
-          - if show_solution
-            .mt15
-            - answer_selected_by_user = user_submission.quiz_submission_answers.map(&:quiz_answer_id).include?(answer.id) if user_submission
-          - elsif !snapshot.nil?
-            .mt15
-            - answer_selected_by_user = snapshot.loaded_data[question.id].include?(answer.id) unless snapshot.loaded_data.nil? or snapshot.loaded_data[question.id].nil?
-            - if answer_selected_by_user
-              javascript:
-                ready(function() {
-                  $( "##{question.id}_indicator", '#quiz-state-indicators').addClass('edited');
-                });
+      - question.answers.each do |answer|
+        - answer_selected_by_user = false
+        - if show_solution
+          .mt15
+          - answer_selected_by_user = user_submission.quiz_submission_answers.map(&:quiz_answer_id).include?(answer.id) if user_submission
+        - elsif !snapshot.nil?
+          .mt15
+          - answer_selected_by_user = snapshot.loaded_data[question.id].include?(answer.id) unless snapshot.loaded_data.nil? || snapshot.loaded_data[question.id].nil?
+          - if answer_selected_by_user
+            javascript:
+              ready(function() {
+                $( "##{question.id}_indicator", '#quiz-state-indicators').addClass('edited');
+              });
 
-          = render 'quiz_submission/question/multiple_choice', show_solution: show_solution, question: question,\
-                   answer: answer, answer_selected_by_user: answer_selected_by_user, lang: item.lang
+        = render 'quiz_submission/question/multiple_choice',
+          show_solution: show_solution, question: question,
+          answer: answer, answer_selected_by_user: answer_selected_by_user,
+          lang: item.lang

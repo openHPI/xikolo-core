@@ -1,5 +1,6 @@
 .navbar-fixed-bottom.cookie-consent-banner aria-live='polite'
   .container
+    - # rubocop:disable Rails/OutputSafety
     = form_tag(cookie_consent_path, method: 'POST')
       p = text.html_safe
       div
@@ -8,5 +9,6 @@
           = t(:'footer.cookie_consents.accept')
         button.btn.btn-default type='submit' name='decline' value='true'
           = t(:'footer.cookie_consents.decline')
+    - # rubocop:enable Rails/OutputSafety
     button.btn--close title="#{t(:'footer.cookie_consents.close')}" data-behavior='hide'
       = render Global::FaIcon.new('xmark', css_classes: 'em1-5')

@@ -13,11 +13,7 @@ p
   span => 'property will be used to display the option, while the'
   code = 'id'
   span = "property will serve as the selected item's value."
-  pre = "[\
-    {text: 'Kevin Cool', \
-    id: '001-310-444'}, \
-    {text: 'Tom Teacher', \
-    id: '001-310-445'}]"
+  pre = "[{text: 'Kevin Cool', id: '001-310-444'}, {text: 'Tom Teacher', id: '001-310-445'}]"
 
 p = 'Options will be loaded after the user has typed at least 3 characters'
 
@@ -28,10 +24,7 @@ p
   span => 'To group options, each item should contain the'
   code = 'group'
   span =< 'property.'
-  pre = "[\
-    {text: 'A. Admin', \
-    id: '001-310-444'}, \
-    group: 'Users'}]"
+  pre = "[{text: 'A. Admin', id: '001-310-444'}, group: 'Users'}]"
 
 select placeholder=t(:'simple_form.placeholders.announcement_email.recipients') data={behavior: 'custom-select', 'auto-completion-url': 'http://localhost:3000/admin/announcement/recipients'} multiple=true
 

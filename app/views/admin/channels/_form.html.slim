@@ -7,9 +7,8 @@
 
   = advanced_settings do
     - Xikolo.config.locales['available'].each do |locale|
-      = f.input :"info_link_url_#{locale}"
-    - Xikolo.config.locales['available'].each do |locale|
       = f.input :"info_link_label_#{locale}"
+      = f.input :"info_link_url_#{locale}"
 
   = f.input :logo_upload_id
   - if channel.logo_url
