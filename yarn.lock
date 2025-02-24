@@ -2473,6 +2473,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/list.js@npm:^2":
+  version: 2.3.4
+  resolution: "@types/list.js@npm:2.3.4"
+  checksum: 10/228a285d3b5893ed9e3a81eb9f6cef64559cb1b8937940f747bf7412c270554fafbc02de3c4778a172f995e520595c9a2504a40eb723959574f6e483b06735f9
+  languageName: node
+  linkType: hard
+
 "@types/luxon@npm:^3.4.2":
   version: 3.4.2
   resolution: "@types/luxon@npm:3.4.2"
@@ -7464,6 +7471,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"list.js@npm:^2.3.1":
+  version: 2.3.1
+  resolution: "list.js@npm:2.3.1"
+  dependencies:
+    string-natural-compare: "npm:^2.0.2"
+  checksum: 10/b0880e0b60cbbd8de1b1bb4b543b28489c9b0b5d87a03b49b003047732dd4eea45062d8cf45a1cfacabf2389ab8c2a975f50dde646bf0d410a2560483678d93b
+  languageName: node
+  linkType: hard
+
 "listr2@npm:^8.2.5":
   version: 8.2.5
   resolution: "listr2@npm:8.2.5"
@@ -10660,6 +10676,7 @@ __metadata:
     "@toast-ui/editor": "npm:^3.2.2"
     "@types/d3": "npm:3"
     "@types/jqueryui": "npm:^1.12.20"
+    "@types/list.js": "npm:^2"
     "@types/luxon": "npm:^3.4.2"
     "@types/markdown-it": "npm:^14.0.1"
     babel-loader: "npm:^9.1.3"
@@ -10683,6 +10700,7 @@ __metadata:
     jquery: "npm:^2.2.4"
     js-cookie: "npm:^2.2.1"
     lint-staged: "npm:^15.2.7"
+    list.js: "npm:^2.3.1"
     luxon: "npm:^3.2.1"
     markdown-it: "npm:^14.1.0"
     markdownlint: "npm:^0.37.0"
@@ -10701,6 +10719,7 @@ __metadata:
     stylelint-config-recommended-scss: "npm:14.1.0"
     stylelint-config-two-dash-bem: "npm:^1.0.0"
     sweetalert2: "npm:^11.4.8"
+    table-builder: "npm:^2.1.1"
     terser-webpack-plugin: "npm:^5.3.10"
     tom-select: "npm:^2.2.2"
     typescript: "npm:^5.5.4"
@@ -11592,6 +11611,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"string-natural-compare@npm:^2.0.2":
+  version: 2.0.3
+  resolution: "string-natural-compare@npm:2.0.3"
+  checksum: 10/ec0c944d9f03973b016e3224e57bdef2b5fcd20cb205f2b9c2497143fee29ed5abb885653e5a3d5d59171754f89c2b25c0f8d2773e4c9e2759e487e8a627084d
+  languageName: node
+  linkType: hard
+
 "string-width-cjs@npm:string-width@^4.2.0, string-width@npm:^4.0.0, string-width@npm:^4.1.0, string-width@npm:^4.2.3":
   version: 4.2.3
   resolution: "string-width@npm:4.2.3"
@@ -11951,6 +11977,13 @@ __metadata:
   version: 1.1.3
   resolution: "sync-message-port@npm:1.1.3"
   checksum: 10/a84b681afd678f28af4498074c4bc5cd5c763395fbf169f1bc9777c2e01aa8d41a3046dcca43a41e81102a7fd697713dfc03e155d1c662fec88af9481b249b8a
+  languageName: node
+  linkType: hard
+
+"table-builder@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "table-builder@npm:2.1.1"
+  checksum: 10/ccefda3af2f6a7625a8eb89059d9d75a1b417b17027b9ef17886f2c09daa06ff3cf278406f93d70f881c24f4f6d44429fd726baa5b0dfac6f7d5b3f01e0d4b92
   languageName: node
   linkType: hard
 

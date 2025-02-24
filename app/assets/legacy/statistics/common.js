@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import moment from 'moment';
-import '../../../../vendor/assets/javascripts/tablebuilder';
-import '../../../../vendor/assets/javascripts/list';
+import TableBuilder from 'table-builder';
+import List from 'list.js';
 
 /* Geo Statistics */
 export function renderCountriesTable(target, data) {
@@ -578,7 +578,6 @@ export function renderQuizTable(target, data, showPerformance) {
 
 /* Helpers */
 function _renderStatisticsTable(options) {
-  // eslint-disable-next-line no-undef
   const table = new TableBuilder({
     class: 'table table-striped table-statistics mt20',
   });
@@ -651,7 +650,6 @@ function _renderStatisticsTable(options) {
       });
 
     // make table sortable
-    // eslint-disable-next-line no-undef
     new List(options.target.id, { valueNames: valueNames });
   } else {
     const noDataMessage =
