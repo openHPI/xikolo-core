@@ -9,7 +9,5 @@ span.help-block = t('peer_assessment.review.written_feedback_hint')
 = form.input :text, as: :markdown, required: presenter.text_required,
     markdown_id_suffix: 'text-new-review',
     label: false,
-    uploads: {\
-      purpose: :peerassessment_review_text,
-      content_type: %w[application/pdf image/png image/jpeg image/gif],
-    }
+    uploads: {purpose: :peerassessment_review_text,
+      content_type: %w[application/pdf image/png image/jpeg image/gif]}

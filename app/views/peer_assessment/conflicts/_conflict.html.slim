@@ -19,14 +19,14 @@ table.table.white-bg.mb30
 
     tr
       td = t :'peer_assessment.conflict.filed_at'
-      td = conflict['created_at'].to_datetime.to_formatted_s(:short)
+      td = conflict['created_at'].to_datetime.to_fs(:short)
 
     - unless conflict['reporter_object'].nil?
       tr
         td = t :'peer_assessment.conflict.filed_by'
-        td = link_to (conflict['reporter_object'].display_name.blank? ? conflict['reporter_object'].name : conflict['reporter_object'].display_name), user_path(conflict['reporter_object'].id), target: :blank
+        td = link_to (conflict['reporter_object'].display_name.presence || conflict['reporter_object'].name), user_path(conflict['reporter_object'].id), target: :blank
 
-    - if !conflict['accused_team_member_objects'].blank?
+    - if conflict['accused_team_member_objects'].present?
       tr
         td = t :'peer_assessment.conflict.filed_against'
         td
@@ -38,7 +38,7 @@ table.table.white-bg.mb30
     - elsif !conflict['accused_object'].nil?
       tr
         td = t :'peer_assessment.conflict.filed_against'
-        td.user = link_to (conflict['accused_object'].display_name.blank? ? conflict['accused_object'].name : conflict['accused_object'].display_name), user_path(conflict['accused_object'].id), target: :blank
+        td.user = link_to (conflict['accused_object'].display_name.presence || conflict['accused_object'].name), user_path(conflict['accused_object'].id), target: :blank
 
     - if conflict['conflict_subject_type'] == 'Submission'
       / Display created and updated at for submissions

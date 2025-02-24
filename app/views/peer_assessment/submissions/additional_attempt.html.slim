@@ -1,4 +1,4 @@
-= render Global::Callout.new(t :'peer_assessment.submission.additional_attempt.info')
+= render Global::Callout.new(t(:'peer_assessment.submission.additional_attempt.info'))
 
 = render 'peer_assessment/shared/instructions', assessment: @assessment
 
@@ -11,34 +11,32 @@ h4
 hr.divider.slim
 
 = simple_form_for(@submission,
-    as: :xikolo_peer_assessment_submission,
-    url: additional_attempt_update_peer_assessment_step_submission_path,
-    method: :patch,
-    html: {\
-      class: 'form-horizontal mb20',
-      multipart: true,
-      id: 'submission_form',
-      data: {\
-        :submit_button => '#submission_form_submit_button',
-        :confirm_message => t(:'peer_assessment.submit'),
-        :max_file_size => @assessment.max_file_size,
-        :allowed_file_types => @assessment.allowed_file_types,
-        :assessment_id => @assessment.id,
-        :current_step_id => @current_step.id,
-        :authenticity_token => form_authenticity_token,
-      },
-    }) do |f|
+  as: :xikolo_peer_assessment_submission,
+  url: additional_attempt_update_peer_assessment_step_submission_path,
+  method: :patch,
+  html: {class: 'form-horizontal mb20',
+    multipart: true,
+    id: 'submission_form',
+    data: {submit_button: '#submission_form_submit_button',
+      confirm_message: t(:'peer_assessment.submit'),
+      max_file_size: @assessment.max_file_size,
+      allowed_file_types: @assessment.allowed_file_types,
+      assessment_id: @assessment.id,
+      current_step_id: @current_step.id,
+      authenticity_token: form_authenticity_token,
+    },
+  }) do |f|
   - if @assessment.is_team_assessment
     / in case of a TPA we need this hidden dummy field so that simple form is able to determine the name of the form
     / without this field, if also gallery opt out and training step are not available, we would run into a nasty error
     / as then the form is not submitted at all anymore.
-    = f.input :title, as: :hidden, :input_html => {:value => "TPA_helper"}
+    = f.input :title, as: :hidden, input_html: {value: 'TPA_helper'}
     = render Global::Callout.new(t(:'peer_assessment.team.text_disabled'))
   - else
     = f.input :text, as: :markdown, markdown_id_suffix: 'text-new-question', label: false
 
   / Training opt-out flag
-  - if @step_presenters.detect { |s| s.step.kind_of? Xikolo::PeerAssessment::Training }
+  - if @step_presenters.detect {|s| s.step.is_a? Xikolo::PeerAssessment::Training }
     = f.input_field :disallowed_sample, as: :boolean, label: false, boolean_style: :inline
     span.ml5 = t :'peer_assessment.disallowed_sample_html', popup_message: t(:'peer_assessment.submission.learn_to_grade_popup'), popup_title: t(:'peer_assessment.submission.learn_to_grade_popup_title')
 
@@ -76,7 +74,8 @@ hr.divider.slim
           button.mt20.btn.btn-sm.btn-primary = t :'peer_assessment.submission.start_upload'
 
     .col-md-7#user_files
-      = render 'peer_assessment/shared/files', files: (@submission.attachments || []), deletable: true
+      = render(partial: 'peer_assessment/shared/files',
+        locals: {files: @submission.attachments || [], deletable: true})
 
 .row
   = button_tag(type: 'submit', class: 'btn btn-primary btn-sm col-sm-4 col-xs-6 col-md-offset-4 col-xs-offset-3', id: 'submission_form_submit_button') do

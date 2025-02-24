@@ -2,14 +2,14 @@
 h4
   = "#{index + 1}. #{presenter.title}"
   span.ml20
-    = simple_form_for(presenter.rubric, url: peer_assessment_team_evaluation_rubric_path(@assessment.id, presenter.id), :method => :delete, html: { class: 'inline-block js-submit-confirm', data: { :confirm_title => t(:'peer_assessment.administration.rubrics.confirm_delete_title'), :confirm_message => t(:'peer_assessment.administration.rubrics.confirm_delete_message') } }) do
+    = simple_form_for(presenter.rubric, url: peer_assessment_team_evaluation_rubric_path(@assessment.id, presenter.id), method: :delete, html: {class: 'inline-block js-submit-confirm', data: {confirm_title: t(:'peer_assessment.administration.rubrics.confirm_delete_title'), confirm_message: t(:'peer_assessment.administration.rubrics.confirm_delete_message')}}) do
       button.btn.btn-xs.btn-link.rubric-btn.red type="submit" aria-label=t(:'peer_assessment.administration.rubrics.delete') data-tooltip=t(:'peer_assessment.administration.rubrics.delete')
         = render Global::FaIcon.new('xmark', style: :solid, css_classes: 'em1-5')
 
-    = simple_form_for(presenter.rubric, url: moveup_peer_assessment_team_evaluation_rubric_path(@assessment.id, presenter.id), :method => :post, html: { class: 'inline-block' }) do
+    = simple_form_for(presenter.rubric, url: moveup_peer_assessment_team_evaluation_rubric_path(@assessment.id, presenter.id), method: :post, html: {class: 'inline-block'}) do
       button.btn.btn-xs.btn-link.rubric-btn.black type="submit" aria-label=t(:'peer_assessment.administration.rubrics.moveup') data-tooltip=t(:'peer_assessment.administration.rubrics.moveup')
         = render Global::FaIcon.new('chevron-up', style: :solid, css_classes: 'em1-5')
 
-    = simple_form_for(presenter.rubric, url: movedown_peer_assessment_team_evaluation_rubric_path(@assessment.id, presenter.id), :method => :post, html: { class: 'inline-block' }) do
+    = simple_form_for(presenter.rubric, url: movedown_peer_assessment_team_evaluation_rubric_path(@assessment.id, presenter.id), method: :post, html: {class: 'inline-block'}) do
       button.btn.btn-xs.btn-link.rubric-btn.black type="submit" aria-label=t(:'peer_assessment.administration.rubrics.movedown') data-tooltip=t(:'peer_assessment.administration.rubrics.movedown')
         = render Global::FaIcon.new('chevron-down', style: :solid, css_classes: 'em1-5')

@@ -1,16 +1,11 @@
-// this should go to course admin JS bundle
+import $ from 'jquery';
+import ready from '../../util/ready';
+import xuiSwal from '../../util/swal';
+import fetch from '../../util/fetch';
+import I18n from '../../i18n/i18n';
+import handleError from '../../util/error';
 
-ready(function () {
-  $('#import_quizzes_by_service_button').on('click', function (e) {
-    import_quizzes.fromSpreadSheet();
-  });
-
-  $('#import_quizzes_button').on('click', function (e) {
-    import_quizzes.fromXmlFile();
-  });
-});
-
-var import_quizzes = new (function () {
+const import_quizzes = new (function () {
   // public accessible start methods
 
   this.fromXmlFile = function () {
@@ -65,39 +60,45 @@ var import_quizzes = new (function () {
 
   // import steps
 
-  function onOpenUpload() {
-    var fd = new FormData();
-    fd.append('xml', $('#preview_quizzes_xml_upload')[0].files[0]);
+  async function onOpenUpload() {
+    const url = $('#import_quizzes_button').data('preview-url');
+    const formData = new FormData();
+    formData.append('xml', $('#preview_quizzes_xml_upload')[0].files[0]);
 
-    $.ajax({
-      url: $('#import_quizzes_button').data('preview-url'),
-      data: fd,
-      processData: false,
-      contentType: false,
-      type: 'POST',
-      error: function (err) {
-        onUploadError(err);
-      },
-      success: function (data) {
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
         onUploadSuccess(data);
-      },
-    });
+      } else {
+        onUploadError(data);
+      }
+    } catch (error) {
+      handleError('', error);
+    }
   }
 
   function onUploadError(err) {
-    $errors = $('<ol class="error_list">');
-    $.each(err.responseJSON.error, function (i, e) {
+    const $errors = $('<ol class="error_list">');
+    $.each(err.error, function (i, e) {
       $errors.append($('<li>' + e + '</li>'));
     });
     xuiSwal.fire({
       title: I18n.t('items.quiz.import.preview.errorTitle'),
       html: $errors[0].outerHTML,
       icon: 'error',
+      showCancelButton: false,
+      showCloseButton: true,
     });
   }
 
   function onUploadSuccess(data) {
-    $preview = generatePreview(data);
+    const $preview = generatePreview(data);
 
     xuiSwal.fire({
       title: I18n.t('items.quiz.import.preview.title'),
@@ -113,38 +114,46 @@ var import_quizzes = new (function () {
       showLoaderOnConfirm: true,
       allowOutsideClick: false,
       width: '1020px',
-      preConfirm: function () {
-        return new Promise(function (resolve) {
-          delete data.params['preview'];
-          $.ajax({
-            type: 'POST',
-            url: $('#import_quizzes_button').data('import-url'),
-            data: data.params,
-            error: function (err) {
-              onImportError(err);
-            },
-            success: function (data) {
-              onImportSuccess(data);
-            },
+      preConfirm: async function () {
+        delete data.params['preview'];
+        const url = $('#import_quizzes_button').data('import-url');
+        const formData = new FormData();
+        formData.append('course_code', data.params.course_code);
+        formData.append('course_id', data.params.course_id);
+        formData.append('xml', data.params.xml);
+
+        try {
+          const response = await fetch(url, {
+            method: 'POST',
+            body: formData,
           });
-        });
+          if (response.ok) {
+            onImportSuccess(data);
+          } else {
+            onImportError(data);
+          }
+        } catch (error) {
+          handleError('', error);
+        }
       },
     });
   }
 
   function onImportError(err) {
-    $errors = $('<ol class="error_list">');
-    $.each(err.responseJSON.error, function (i, e) {
+    const $errors = $('<ol class="error_list">');
+    $.each(err.error, function (i, e) {
       $errors.append($('<li>' + e + '</li>'));
     });
     xuiSwal.fire({
       title: I18n.t('items.quiz.import.errorTitle'),
       html: $errors[0].outerHTML,
       icon: 'error',
+      showCancelButton: false,
+      showCloseButton: true,
     });
   }
 
-  function onImportSuccess(data) {
+  function onImportSuccess() {
     xuiSwal
       .fire({
         title: I18n.t('items.quiz.import_quizzes_success'),
@@ -159,32 +168,39 @@ var import_quizzes = new (function () {
   // helper
 
   function generatePreview(data) {
-    $preview = $('<div id="preview_container">');
-    $preview_table = $(
+    const $preview = $('<div id="preview_container">');
+    const $preview_table = $(
       '<table id="quizzes_preview_table" class="table table-striped table-bordered">',
     );
     $preview.append($preview_table);
-    $thead = $('<thead>');
+
+    const $thead = $('<thead>');
     $preview_table.append($thead);
-    $trhead = $('<tr>');
+
+    const $trhead = $('<tr>');
     $thead.append($trhead);
-    $name = $('<th class="col-sm-5">');
+
+    const $name = $('<th class="col-sm-5">');
     $name.text(I18n.t('items.quiz.import.preview.name'));
     $trhead.append($name);
-    $extref = $('<th class="col-sm-4">');
+
+    const $extref = $('<th class="col-sm-4">');
     $extref.text(I18n.t('items.quiz.import.preview.extrefid'));
     $trhead.append($extref);
-    $section = $('<th class="col-sm-1 fixed_width_100">');
+
+    const $section = $('<th class="col-sm-1 fixed_width_100">');
     $section.text(I18n.t('items.quiz.import.preview.section'));
     $trhead.append($section);
-    $nquestions = $(
+
+    const $nquestions = $(
       '<th class="col-sm-1 fixed_width_100" title="' +
         'Number of Questions' +
         '">',
     );
     $nquestions.text(I18n.t('items.quiz.import.preview.questions'));
     $trhead.append($nquestions);
-    $nanswers = $(
+
+    const $nanswers = $(
       '<th class="col-sm-1 fixed_width_100" title="' +
         'Number of Answers' +
         '">',
@@ -192,18 +208,18 @@ var import_quizzes = new (function () {
     $nanswers.text(I18n.t('items.quiz.import.preview.answers'));
     $trhead.append($nanswers);
 
-    $tbody = $('<tbody>');
+    const $tbody = $('<tbody>');
     $preview_table.append($tbody);
 
     $.each(data.quizzes, function (index, value) {
-      $quiz = $('<tr>');
+      const $quiz = $('<tr>');
       $tbody.append($quiz);
 
       if (!value.new_record && value.external_ref) {
         $quiz.addClass('updated_record');
       }
 
-      $name = $(
+      const $name = $(
         '<td title="Name: ' +
           value.name +
           '\ncourse code: ' +
@@ -212,28 +228,34 @@ var import_quizzes = new (function () {
       );
       $name.text(value.name);
       $quiz.append($name);
-      $extref = $('<td title="' + value.external_ref + '">');
+
+      const $extref = $('<td title="' + value.external_ref + '">');
       $extref.text(value.external_ref ? value.external_ref : '');
       $quiz.append($extref);
 
-      var section_value = value.section;
+      let section_value = value.section;
       if (value.subsection !== undefined) {
         section_value = section_value + '.' + value.subsection;
       }
-      $section = $('<td>');
+
+      const $section = $('<td>');
       $section.text(section_value);
       $quiz.append($section);
-      $nquestions = $(
+
+      const $nquestions = $(
         '<td title="' + value.number_questions + ' Questions' + '">',
       );
       $nquestions.text(value.number_questions);
       $quiz.append($nquestions);
-      $nanswers = $('<td title="' + value.number_answers + ' Answers' + '">');
+
+      const $nanswers = $(
+        '<td title="' + value.number_answers + ' Answers' + '">',
+      );
       $nanswers.text(value.number_answers);
       $quiz.append($nanswers);
     });
 
-    $legend = $('<div class="legend">');
+    const $legend = $('<div class="legend">');
     $legend.html(I18n.t('items.quiz.import.preview.legend'));
     $preview.append($legend);
 
@@ -244,3 +266,13 @@ var import_quizzes = new (function () {
     return quizzes.some((quiz) => quiz.new_record === true);
   }
 })();
+
+await ready(function () {
+  $('#import_quizzes_by_service_button').on('click', function () {
+    import_quizzes.fromSpreadSheet();
+  });
+
+  $('#import_quizzes_button').on('click', function () {
+    import_quizzes.fromXmlFile();
+  });
+});

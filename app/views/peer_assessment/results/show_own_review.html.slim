@@ -5,7 +5,7 @@
 
 / Submission
 = render 'peer_assessment/shared/rendered_submission', submission: @submission
-- unless @review.filed_conflict!.nil?
+- if @review.filed_conflict!.present?
   = render Global::Callout.new(t(:'peer_assessment.results.you_reported_submission',
                    reason: t(:"peer_assessment.conflict.reasons.#{@review.filed_conflict!['reason']}").downcase,
                    referral: short_uuid(@review.filed_conflict!.id)), type: :error)
@@ -29,7 +29,7 @@
     .pa-rt-generic.mb20.p10 == render_markdown @review.text
 
     / Peer rating and grading stuff
-    - if @review.feedback_grade != nil
+    - unless @review.feedback_grade.nil?
       = render 'rendered_rating'
 
     .mt30

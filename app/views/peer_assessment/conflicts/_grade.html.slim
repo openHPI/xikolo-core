@@ -13,17 +13,47 @@ table.table.table-compact
         - if bonus.last.to_f != 0.0
           tr
             td = t :"peer_assessment.results.grade_composition.#{bonus.first}"
-            td == "#{bonus.last.to_f > 0 ? '+' : (bonus.last.to_f == 0 ? '&nbsp;' : '')}&nbsp;#{bonus.last.to_f}"
+            td
+              ruby:
+                bonus_value = bonus.last.to_f
+                if bonus_value.positive?
+                  sign = '+'
+                elsif bonus_value.zero?
+                  sign = '&nbsp;'
+                else
+                  sign = ''
+                end
+              == "#{sign}&nbsp;#{bonus_value}"
 
     - unless grade['absolute']
       tr
         td = t :'peer_assessment.conflict.grade.relative'
-        td == "#{grade['delta'] > 0 ? '+' : (grade['delta'] == 0 ? '&nbsp;&nbsp;' : '')}&nbsp;#{grade['delta']}"
+        td
+          ruby:
+            delta = grade['delta']
+            if delta.positive?
+              sign = '+'
+            elsif delta.zero?
+              sign = '&nbsp;&nbsp;'
+            else
+              sign = ''
+            end
+          == "#{sign}&nbsp;#{delta}"
 
     - if grade['absolute']
       tr
         td = t :'peer_assessment.conflict.grade.absolute'
-        td == "#{grade['delta'] > 0 ? '+' : (grade['delta'] == 0 ? '&nbsp;&nbsp;' : '')}&nbsp;#{grade['delta']}"
+        td
+          ruby:
+            delta = grade['delta']
+            if delta.positive?
+              sign = '+'
+            elsif delta.zero?
+              sign = '&nbsp;&nbsp;'
+            else
+              sign = ''
+            end
+          == "#{sign}&nbsp;#{delta}"
 
 .col-md-6
   span.mr10 = t :'peer_assessment.conflict.grade.set_delta'

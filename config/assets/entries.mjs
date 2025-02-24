@@ -22,6 +22,8 @@ export default async function entries() {
     user: 'user/user.ts',
     'video-player': 'video-player/video-player.js',
     'quiz-recap': 'quiz-recap/quiz-recap.ts',
+
+    // Legacy
     'lanalytics-framework': 'legacy/lanalytics/index.js',
     'lanalytics-pa-item': 'legacy/lanalytics/visits/peer_assessment_item.js',
     'lanalytics-pa-results':
@@ -29,6 +31,8 @@ export default async function entries() {
     'account-profile': 'legacy/account-profile.js',
     'result-box': 'legacy/quiz/result-box.js',
     'peer-assessment-statistics': 'legacy/peer-assessment/statistics.js',
+    'admin-legacy': 'legacy/admin.js',
+    'course-admin': 'legacy/course.js',
 
     // Libraries
     dimple: 'legacy/libraries/dimple.js',

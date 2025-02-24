@@ -1,7 +1,7 @@
 # fim: ft=yaml
 
 # We enforce the have_no style here (expect.to have_no_selector) because
-# when using Capybara selectors ourside of RSpec (e.g. E2E test), the
+# when using Capybara selectors outside of RSpec (e.g. E2E test), the
 # difference actually matters. This trains developers to always use the
 # safer style.
 Capybara/NegationMatcher:

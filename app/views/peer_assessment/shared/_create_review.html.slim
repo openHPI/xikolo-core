@@ -14,22 +14,22 @@
         as: :xikolo_peer_assessment_review,
         url: @form_presenter.submit_url,
         wrapper: :compact,
-        html: { method: 'put',
+        html: {method: 'put',
                 multipart: true,
                 id: 'review_form',
                 class: 'js-submit-confirm',
                 style: 'display: inline-block',
-                data: { :autosave_button => '#review_autosave',
-                        :submit_button => '#review_submit',
-                        :confirm_title => @form_presenter.confirm_title,
-                        :confirm_message => @form_presenter.confirm_message,
-                        :last_saved_container => '#last_saved',
-                        :remote_error_message => t(:'peer_assessment.autosave.error'),
-                        :autosave_url => @form_presenter.autosave_url,
-                        :unload_message => t(:'peer_assessment.review.unload_message')}}) do |f|
+                data: {autosave_button: '#review_autosave',
+                        submit_button: '#review_submit',
+                        confirm_title: @form_presenter.confirm_title,
+                        confirm_message: @form_presenter.confirm_message,
+                        last_saved_container: '#last_saved',
+                        remote_error_message: t(:'peer_assessment.autosave.error'),
+                        autosave_url: @form_presenter.autosave_url,
+                        unload_message: t(:'peer_assessment.review.unload_message')}}) do |f|
 
   / Additional hidden information
-  input type="hidden" name="rubrics" value="#{@rubric_presenters.map { |p| p.id}.join ' ' }"
+  input type="hidden" name="rubrics" value=@rubric_presenters.map(&:id).join(' ')
 
   / Rubrics (summative feedback)
   = render 'peer_assessment/shared/summative_feedback', form: f, presenter: @form_presenter, rubrics: @rubric_presenters
@@ -62,9 +62,9 @@
 
   .mt40
     - if @form_presenter.enable_autosave
-      = button_tag(type: 'button', class: 'btn btn-default mr10', id: 'review_autosave', data: { :save_text => t(:'peer_assessment.saving') }) do
+      = button_tag(type: 'button', class: 'btn btn-default mr10', id: 'review_autosave', data: {save_text: t(:'peer_assessment.saving')}) do
         = t :'peer_assessment.review.autosave_button'
-    = button_tag(type: 'submit', class: 'btn btn-primary mr10', id: 'review_submit', data: { :submission_state => @review.submitted }) do
+    = button_tag(type: 'submit', class: 'btn btn-primary mr10', id: 'review_submit', data: {submission_state: @review.submitted}) do
       = @form_presenter.submit_button_text
 
 - if @form_presenter.is_optional

@@ -1087,6 +1087,9 @@ fr:
     progress:
       learner_dashboard: Mes progrès d'apprentissage
       graded_score: Points obtenus
+      bonus_points:
+        one: "Vous avez obtenu 1 point et gagné %{bonus_points} supplémentaires"
+        other: "You got %{count} points and earned %{bonus_points} extra"
       selftest_score: Points d'auto-évaluation
       visited_score: Éléments visités
       visited_items: "%{visited} de %{available} éléments visités"
@@ -2830,7 +2833,7 @@ fr:
       refid: Referral ID
       gallery_entries: Gallery candidates flagged
       rate: Rate
-      availalbe_submissions: Available submissions
+      available_submissions: Available submissions
       final_submissions: Final Submissions
       votes: Vote(s)
       your_vote: You rated %{votes} stars for this submission.

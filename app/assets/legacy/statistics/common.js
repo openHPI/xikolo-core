@@ -1,8 +1,10 @@
-//= require tablebuilder
-//= require list
+import $ from 'jquery';
+import moment from 'moment';
+import '../../../../vendor/assets/javascripts/tablebuilder';
+import '../../../../vendor/assets/javascripts/list';
 
 /* Geo Statistics */
-function renderCountriesTable(target, data) {
+export function renderCountriesTable(target, data) {
   _renderStatisticsTable({
     target: target,
     headers: {
@@ -16,8 +18,8 @@ function renderCountriesTable(target, data) {
           'admin.statistics.geo.countries.' + cellData.toLowerCase(),
         );
       },
-      percentage: function (cellData, row) {
-        var percentage = (
+      percentage: function (_, row) {
+        const percentage = (
           Math.round(row['relative_users'] * 100) / 100
         ).toFixed(2);
         return percentage + '%';
@@ -27,7 +29,7 @@ function renderCountriesTable(target, data) {
   });
 }
 
-function renderCitiesTable(target, data) {
+export function renderCitiesTable(target, data) {
   _renderStatisticsTable({
     target: target,
     headers: {
@@ -42,8 +44,8 @@ function renderCitiesTable(target, data) {
           'admin.statistics.geo.countries.' + cellData.toLowerCase(),
         );
       },
-      percentage: function (cellData, row) {
-        var percentage = (
+      percentage: function (_, row) {
+        const percentage = (
           Math.round(row['relative_users'] * 100) / 100
         ).toFixed(2);
         return percentage + '%';
@@ -54,8 +56,8 @@ function renderCitiesTable(target, data) {
 }
 
 /* News Statistics */
-function renderNewsTable(target, data, hideCourseTitle) {
-  var headers = {
+export function renderNewsTable(target, data, hideCourseTitle) {
+  const headers = {
     newsTitle: I18n.t('admin.statistics.news.news_title_header'),
     courseTitle: I18n.t('admin.statistics.news.course_title_header'),
     counts:
@@ -112,7 +114,7 @@ function renderNewsTable(target, data, hideCourseTitle) {
 }
 
 function _getRelativeTime(date) {
-  var parsedDate = moment(date);
+  const parsedDate = moment(date);
   return parsedDate.isValid() ? parsedDate.fromNow() : '';
 }
 
@@ -124,7 +126,7 @@ function _buildProgressBar(progress) {
 }
 
 /* Pinboard Statistics */
-function renderPinboardActivityTable(target, data) {
+export function renderPinboardActivityTable(target, data) {
   _renderStatisticsTable({
     target: target,
     headers: {
@@ -148,7 +150,7 @@ function renderPinboardActivityTable(target, data) {
 }
 
 /* Referrer Statistics */
-function renderReferrerTable(target, data) {
+export function renderReferrerTable(target, data) {
   _renderStatisticsTable({
     target: target,
     headers: {
@@ -160,7 +162,7 @@ function renderReferrerTable(target, data) {
 }
 
 /* Social Statistics */
-function renderCourseSharesTable(target, data) {
+export function renderCourseSharesTable(target, data) {
   _renderStatisticsTable({
     target: target,
     headers: {
@@ -172,7 +174,7 @@ function renderCourseSharesTable(target, data) {
 }
 
 /* Activity Statistics */
-function registerDailyActivityFormatters(chart) {
+export function registerDailyActivityFormatters(chart) {
   chart.xLabelFormatter = function (label) {
     return moment(label).format('L');
   };
@@ -193,7 +195,7 @@ function registerDailyActivityFormatters(chart) {
 }
 
 /* Item Visits Statistics */
-function renderTopItemsTable(target, data) {
+export function renderTopItemsTable(target, data) {
   _renderStatisticsTable({
     target: target,
     headers: {
@@ -244,7 +246,7 @@ function renderTopItemsTable(target, data) {
   });
 }
 
-function renderTopItemTypesTable(target, data) {
+export function renderTopItemTypesTable(target, data) {
   _renderStatisticsTable({
     target: target,
     headers: {
@@ -262,7 +264,7 @@ function renderTopItemTypesTable(target, data) {
 }
 
 /* Videos */
-function renderVideoStatisticsTable(target, data) {
+export function renderVideoStatisticsTable(target, data) {
   _renderStatisticsTable({
     target: target,
     headers: {
@@ -291,16 +293,16 @@ function renderVideoStatisticsTable(target, data) {
           '</a>'
         );
       },
-      duration: function (cellData, row) {
-        var minutes = Math.floor(cellData / 60);
-        var seconds = cellData - minutes * 60;
+      duration: function (cellData) {
+        const minutes = Math.floor(cellData / 60);
+        const seconds = cellData - minutes * 60;
         return (
           minutes.toString().padStart(2, '0') +
           ':' +
           seconds.toString().padStart(2, '0')
         );
       },
-      avg_farthest_watched: function (cellData, row) {
+      avg_farthest_watched: function (cellData) {
         return (cellData * 100).toFixed(2) + '%';
       },
       actions: function (cellData, row) {
@@ -325,7 +327,7 @@ function renderVideoStatisticsTable(target, data) {
 }
 
 /* Downloads */
-function renderDownloadsTable(target, data) {
+export function renderDownloadsTable(target, data) {
   _renderStatisticsTable({
     target: target,
     headers: {
@@ -411,7 +413,7 @@ function renderDownloadsTable(target, data) {
 }
 
 /* Rich Texts */
-function renderRichTextLinkClicksTable(target, data) {
+export function renderRichTextLinkClicksTable(target, data) {
   _renderStatisticsTable({
     target: target,
     headers: {
@@ -443,12 +445,12 @@ function renderRichTextLinkClicksTable(target, data) {
           '</a>'
         );
       },
-      earliest_timestamp: function (cellData, row) {
-        var parsedDate = moment.utc(cellData);
+      earliest_timestamp: function (cellData) {
+        const parsedDate = moment.utc(cellData);
         return parsedDate.isValid() ? parsedDate.format('lll') : '-';
       },
-      latest_timestamp: function (cellData, row) {
-        var parsedDate = moment.utc(cellData);
+      latest_timestamp: function (cellData) {
+        const parsedDate = moment.utc(cellData);
         return parsedDate.isValid() ? parsedDate.format('lll') : '-';
       },
       actions: function (cellData, row) {
@@ -472,7 +474,7 @@ function renderRichTextLinkClicksTable(target, data) {
   });
 }
 
-function renderRichTextLinksTable(target, data) {
+export function renderRichTextLinksTable(target, data) {
   _renderStatisticsTable({
     target: target,
     headers: {
@@ -489,11 +491,11 @@ function renderRichTextLinksTable(target, data) {
       ),
     },
     preprocessors: {
-      earliest_timestamp: function (cellData, row) {
+      earliest_timestamp: function (cellData) {
         var parsedDate = moment.utc(cellData);
         return parsedDate.isValid() ? parsedDate.format('lll') : '-';
       },
-      latest_timestamp: function (cellData, row) {
+      latest_timestamp: function (cellData) {
         var parsedDate = moment.utc(cellData);
         return parsedDate.isValid() ? parsedDate.format('lll') : '-';
       },
@@ -503,7 +505,7 @@ function renderRichTextLinksTable(target, data) {
 }
 
 /* Quiz Statistics */
-function renderQuizTable(target, data, showPerformance) {
+export function renderQuizTable(target, data, showPerformance) {
   if (showPerformance === undefined) showPerformance = true;
 
   // key order is also column order
@@ -544,7 +546,7 @@ function renderQuizTable(target, data, showPerformance) {
           '</a>'
         );
       },
-      avg_performance: function (cellData, row) {
+      avg_performance: function (cellData) {
         return (cellData * 100).toFixed(2) + '%';
       },
       avg_submit_duration: function (cellData, row) {
@@ -576,7 +578,8 @@ function renderQuizTable(target, data, showPerformance) {
 
 /* Helpers */
 function _renderStatisticsTable(options) {
-  var table = new TableBuilder({
+  // eslint-disable-next-line no-undef
+  const table = new TableBuilder({
     class: 'table table-striped table-statistics mt20',
   });
   table.setHeaders(options.headers);
@@ -587,13 +590,13 @@ function _renderStatisticsTable(options) {
   }
   table.setData(options.data);
 
-  var tableHtml = table.render();
+  const tableHtml = table.render();
 
   if (tableHtml) {
     $(options.target).html(tableHtml);
 
     // sortable columns with list.js
-    var valueNames = [];
+    const valueNames = [];
 
     // attach sort meta data to table headers
     document
@@ -602,7 +605,7 @@ function _renderStatisticsTable(options) {
         e.classList.forEach(function (c) {
           // tablebuilder.js generates classes for each header key with -th suffix
           if (c.endsWith('-th')) {
-            var sortClass = c.substring(0, c.length - 2) + 'sort';
+            const sortClass = c.substring(0, c.length - 2) + 'sort';
             e.setAttribute('data-sort', sortClass);
             valueNames.push(sortClass);
           }
@@ -620,10 +623,10 @@ function _renderStatisticsTable(options) {
       .querySelectorAll('#' + options.target.id + ' td')
       .forEach(function (e) {
         // in case it should not be sorted by the plain html content, this data attribute can be used
-        var optionalSortValue = e.querySelector('[data-sort-value]');
+        const optionalSortValue = e.querySelector('[data-sort-value]');
 
         e.className.split(' ').forEach(function (c) {
-          var sortClass = c.substring(0, c.length - 2) + 'sort';
+          const sortClass = c.substring(0, c.length - 2) + 'sort';
 
           // tablebuilder.js generates classes for each header key with -td suffix
           if (c.endsWith('-td')) {
@@ -636,7 +639,7 @@ function _renderStatisticsTable(options) {
 
               // a different value name syntx is required
               // replace the old one
-              var index = valueNames.indexOf(sortClass);
+              const index = valueNames.indexOf(sortClass);
               if (index !== -1) {
                 valueNames[index] = { data: [sortClass] };
               }
@@ -648,9 +651,10 @@ function _renderStatisticsTable(options) {
       });
 
     // make table sortable
+    // eslint-disable-next-line no-undef
     new List(options.target.id, { valueNames: valueNames });
   } else {
-    var noDataMessage =
+    const noDataMessage =
       options.noDataMessage || I18n.t('admin.statistics.no_data_message');
     $(options.target).html(
       '<div class="no-data-message">' + noDataMessage + '</div>',

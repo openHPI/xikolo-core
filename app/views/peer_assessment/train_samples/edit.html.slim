@@ -3,7 +3,7 @@
     .col-md-12
       a.col-md-3.col-xs-12.col-sm-6.btn.btn-sm.btn-gray-darker href="#{peer_assessment_train_samples_path}" Back to overview
       mt10.visible-to-md
-      = simple_form_for(@review.review_form, url: peer_assessment_train_sample_path(@assessment, id: @review.id), :method => :delete, html: { class: 'delete_review' })
+      = simple_form_for(@review.review_form, url: peer_assessment_train_sample_path(@assessment, id: @review.id), method: :delete, html: {class: 'delete_review'})
         button.ml10.col-md-3.col-xs-12.col-sm-6.btn.btn-sm.btn-danger type="submit" Skip this review
       /- if @review.extension_possible?(@training_step)
         = simple_form_for(@review.review, url: extend_deadline_peer_assessment_train_sample_url(params[:peer_assessment_id], @review), :method => :post)

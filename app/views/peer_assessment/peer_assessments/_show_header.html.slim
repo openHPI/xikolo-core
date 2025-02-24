@@ -14,7 +14,7 @@
     .panel-collapse.collapse.pa-gray#assessment-info-body
       .panel-body.pa-gray
         .wmd-output
-          = render Global::Callout.new(t :'peer_assessment.info_texts.general') do
+          = render Global::Callout.new(t(:'peer_assessment.info_texts.general')) do
             - @step_presenters.each do |presenter|
               p.mt10 = t :"peer_assessment.info_texts.#{presenter.name}"
           end

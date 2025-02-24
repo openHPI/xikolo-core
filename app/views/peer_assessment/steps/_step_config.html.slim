@@ -1,26 +1,24 @@
-h5 = "Step #{index + 1}.: #{t :"peer_assessment.#{step.class}"}"
+h5 = "Step #{index + 1}.: #{t(:"peer_assessment.#{step.class}")}"
 hr.divider.slim
 
 .mt20
 
-= simple_fields_for(step, wrapper: :larger_labels, html: {class: "form-horizontal mb40"}) do |f|
-  - if step.kind_of?(Xikolo::PeerAssessment::Results)
+= simple_fields_for(step, wrapper: :larger_labels, html: {class: 'form-horizontal mb40'}) do |f|
+  - if step.is_a?(Xikolo::PeerAssessment::Results)
     .col-md-12.mb20
       = render Global::Callout.new(t(:'peer_assessment.administration.steps.results_deadline_notice'))
 
-  = f.input :unlock_date, label: t(:'peer_assessment.administration.steps.unlock_date'), required: false, input_html: { data: { behaviour: "datepicker" }, autocomplete: 'off' }, as: :string
-  = f.input :deadline, label: t(:'peer_assessment.administration.steps.deadline'), required: true, input_html: { data: { behaviour: "datepicker" }, autocomplete: 'off' }, as: :string
+  = f.input :unlock_date, label: t(:'peer_assessment.administration.steps.unlock_date'), required: false, input_html: {data: {behaviour: 'datepicker'}, autocomplete: 'off'}, as: :string
+  = f.input :deadline, label: t(:'peer_assessment.administration.steps.deadline'), required: true, input_html: {data: {behaviour: 'datepicker'}, autocomplete: 'off'}, as: :string
 
-  - if step.kind_of?(Xikolo::PeerAssessment::Training)
+  - if step.is_a?(Xikolo::PeerAssessment::Training)
     = f.input :optional, label: t(:'peer_assessment.administration.steps.optional'), as: :toggle_switch, id: 'optional-training-checkbox', checked: step.optional, onchange: 'toggleRequiredReviews(this)'
     span.ml15.em1-5.xi-icon.fa-regular.fa-comment-question.cpointer#optional-training-hint aria-label=t(:'peer_assessment.administration.steps.optional_training_notice') data-tooltip=t(:'peer_assessment.administration.steps.optional_training_notice')
-    = f.input :required_reviews, as: :integer, label: t(:'peer_assessment.administration.steps.required_trainings'), :required => false, input_html: {value: '', disabled: ''}
-
-  - elsif step.kind_of?(Xikolo::PeerAssessment::SelfAssessment)
+    = f.input :required_reviews, as: :integer, label: t(:'peer_assessment.administration.steps.required_trainings'), required: false, input_html: {value: '', disabled: ''}
+  - elsif step.is_a?(Xikolo::PeerAssessment::SelfAssessment)
     = f.input :optional, label: t(:'peer_assessment.administration.steps.optional'), as: :toggle_switch, checked: step.optional
-
-  - elsif step.kind_of?(Xikolo::PeerAssessment::PeerGrading)
-    = f.input :required_reviews, as: :integer, label: t(:'peer_assessment.administration.steps.required_reviews'), :required => true, input_html: { value: f.object.required_reviews || '3' }
+  - elsif step.is_a?(Xikolo::PeerAssessment::PeerGrading)
+    = f.input :required_reviews, as: :integer, label: t(:'peer_assessment.administration.steps.required_reviews'), required: true, input_html: {value: f.object.required_reviews || '3'}
 
 .clearfix
 .mt40

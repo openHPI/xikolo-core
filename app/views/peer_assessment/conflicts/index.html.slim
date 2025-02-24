@@ -20,10 +20,10 @@
     = select_tag 'state', options_for_select([[t(:'peer_assessment.conflict.open'), true], [t(:'peer_assessment.conflict.closed'), false]], params[:state]), prompt: t(:'peer_assessment.conflict.filters.any')
 
     label.ml20.mr5 for="reason" = "#{t(:'peer_assessment.conflict.reason')}:"
-    = select_tag 'reason', options_for_select(t(:'peer_assessment.conflict.all_reasons').map { |k, v| [v, k] }, params[:reason]), prompt: t(:'peer_assessment.conflict.filters.any')
+    = select_tag 'reason', options_for_select(t(:'peer_assessment.conflict.all_reasons').map {|k, v| [v, k] }, params[:reason]), prompt: t(:'peer_assessment.conflict.filters.any')
 
     label.ml20.mr5 for="subject" = "#{t(:'peer_assessment.conflict.conflict_subject')}:"
-    = select_tag 'subject', options_for_select(t(:'peer_assessment.conflict.subjects').first(2).map { |k, v| [v, k] }, params[:subject]), prompt: t(:'peer_assessment.conflict.filters.any')
+    = select_tag 'subject', options_for_select(t(:'peer_assessment.conflict.subjects').first(2).map {|k, v| [v, k] }, params[:subject]), prompt: t(:'peer_assessment.conflict.filters.any')
 
     button.btn.btn-primary.btn-sm.ml20 type="submit" = t :'peer_assessment.conflict.filters.submit'
 
@@ -49,15 +49,15 @@
             td = "##{(index + (((params[:page].try(:to_i) || 1) - 1) * (params[:per_page].try(:to_i) || 30))) + 1}"
             td = short_uuid(conflict['id'])
             td = conflict['reporter_object']['email'] unless conflict['reporter_object'].nil?
-            - if !conflict['accused_team_member_objects'].nil? && !conflict['accused_team_member_objects'].empty?
+            - if conflict['accused_team_member_objects'].present?
               td
                 table
                   - conflict['accused_team_member_objects'].each do |accused_member|
                     tr
                       td = accused_member['email']
             - else
-              td = conflict['accused_object'].email unless conflict['accused_object'].nil?
-            td = conflict['created_at'].to_formatted_s(:short)
+              td = conflict['accused_object']&.email
+            td = conflict['created_at'].to_fs(:short)
             td = t :"peer_assessment.conflict.all_reasons.#{conflict['reason']}"
             td
               - if conflict['open']
@@ -69,4 +69,4 @@
             td
               = link_to t(:'peer_assessment.conflict.reconcile'), peer_assessment_conflict_path(id: short_uuid(conflict['id'])), class: 'btn btn-xs btn-default'
 
-    = will_paginate RestifyPaginationCollection.new(@conflicts), :renderer => PaginationRenderer
+    = will_paginate RestifyPaginationCollection.new(@conflicts), renderer: PaginationRenderer

@@ -18,6 +18,7 @@ end
 
 Capybara.register_driver :chrome do |app|
   options = Selenium::WebDriver::Chrome::Options.new
+  options.add_argument('--no-sandbox') if ENV.key?('GITLAB_CI')
   options.add_argument('--window-size=1280,1024')
   options.add_argument('--headless=new') if headless?
   options.add_argument('--incognito')

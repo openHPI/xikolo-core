@@ -1548,6 +1548,9 @@ uk:
       learner_dashboard: Мій прогрес у навчанні
       graded_score: Оцінки за балами
       graded: "%{achieved} від %{available}"
+      bonus_points:
+        one: "Ви отримали 1 бал і заробили %{bonus_points} додаткових"
+        other: "Ви отримали %{count} балів і заробили %{bonus_points} додаткових"
       selftest_score: Бали за самоперевірку
       selftest: "%{achieved} від %{available}"
       visited_score: Відвідані предмети
@@ -3562,7 +3565,7 @@ uk:
       refid: Ідентифікатор направлення
       gallery_entries: Відмічені кандидати до галереї
       rate: Оцінка
-      availalbe_submissions: Доступні роботи
+      available_submissions: Доступні роботи
       final_submissions: Остаточні роботи
       votes: Голос(и)
       your_vote: Ви поставили %{votes} зірок цій роботі.

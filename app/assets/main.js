@@ -14,6 +14,8 @@ import Rails from '@rails/ujs';
 // Rails UJS
 Rails.start();
 
+import './legacy/helpdesk';
+
 /*
  * Webpack-native snippets and main components
  */

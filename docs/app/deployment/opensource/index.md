@@ -51,13 +51,13 @@ These are divided into necessary and optional services:
 
 ### Optional services
 
-| Service                  | Function                                            |
-|--------------------------|-----------------------------------------------------|
-| **etherpad-service**     | Supports collaborative writing with Etherpad.       |
-| **h5p-lti-1p0-provider** | Provides interactive exercises using H5P (via LTI). |
-| **mongo**                | Database for H5P.                                   |
-| **zammad-websocket**     | Offers helpdesk functionality with Zammad.          |
-| ...                      | ...                                                 |
+| Service                                                                   | Function                                            |
+|---------------------------------------------------------------------------|-----------------------------------------------------|
+| **etherpad-service**                                                      | Supports collaborative writing with Etherpad.       |
+| **[h5p-lti-1p0-provider](https://github.com/kiron/h5p-lti-1p0-provider)** | Provides interactive exercises using H5P (via LTI). |
+| **mongo**                                                                 | Database for H5P.                                   |
+| **zammad-websocket**                                                      | Offers helpdesk functionality with Zammad.          |
+| ...                                                                       | ...                                                 |
 
 ## Infrastructure
 
@@ -124,7 +124,7 @@ A distribution across at least two to three availability zones is recommended.
 To successfully operate the platform, the following points should be considered:
 
 1. **Hardware resources**: The instance types and specifications outlined above should be provisioned.
-2. **Services**: Installation and configuration of Nomad, Consul, and other supporting services.
+2. **Services**: Installation and configuration of Nomad, Consul, and other supporting infrastructure services, such as an email server.
 3. **Configuration**: A valid application configuration is required (i.e., through the `xikolo.yml` file for the application).
    This also applies to supporting services like S3. Example configurations are available in the `/docker` directory.
 

@@ -1687,6 +1687,9 @@ de:
       learner_dashboard: Mein Lernfortschritt
       graded_score: Bewertete Punkte
       graded: "%{achieved} von %{available}"
+      bonus_points:
+        one: "Du hast 1 Punkt bekommen und %{bonus_points} extra verdient"
+        other: "Du hast %{count} Punkte bekommen und %{bonus_points} extra verdient"
       selftest_score: Selbsttests
       selftest: "%{achieved} von %{available}"
       visited_score: Besuchte Inhalte
@@ -3763,7 +3766,7 @@ de:
       refid: Referral-ID
       gallery_entries: Kennzeichnung der Kandidaten für die Best-of Galerie
       rate: Bewertung des Feedbacks
-      availalbe_submissions: Angelegte Entwürfe
+      available_submissions: Angelegte Entwürfe
       final_submissions: Abgegebene Lösungen
       votes: Stimme(n)
       your_vote: Sie haben %{votes} Stern(e) für das Feedback vergeben.

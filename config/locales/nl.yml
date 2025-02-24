@@ -1549,6 +1549,9 @@ nl:
     progress:
       learner_dashboard: Mijn leervorderingen
       graded_score: Gegradueerde punten
+      bonus_points:
+        one: "Je kreeg 1 punt en verdiende %{bonus_punten} extra"
+        other: "Je kreeg %{getal} punten en verdiende %{bonus_punten} extra"
       selftest_score: Zelftestpunten
       visited_score: Bezochte items
       visited_items: "%{visited} van %{available} items bezocht"
@@ -3532,7 +3535,7 @@ nl:
       refid: Verwijzings-ID
       gallery_entries: Galerijkandidaten gemarkeerd
       rate: Tarief
-      availalbe_submissions: Beschikbare inzendingen
+      available_submissions: Beschikbare inzendingen
       final_submissions: Laatste inzendingen
       votes: Stem(men)
       your_vote: Je hebt %{votes} sterren beoordeeld voor deze inzending.

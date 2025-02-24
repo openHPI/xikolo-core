@@ -1,36 +1,36 @@
 - tpa = false if local_assigns[:tpa].nil?
-- unless defined? nomargin and nomargin
-  - unless @teacherview
-    .mt40
+- unless defined?(nomargin) && nomargin && @teacherview
+  .mt40
 
-- if defined? headline and !headline.blank?
+- if defined?(headline) && headline.present?
   h4 = headline
 - else
-  h4 = "#{t :'peer_assessment.review.student_answer'} #{headline_addition if defined?(headline_addition)}"
+  h4 = "#{t(:'peer_assessment.review.student_answer')} #{headline_addition if defined?(headline_addition)}"
 
 hr.divider.slim
 
 / Submission
 .pa-rt-generic
   - if submission.text.blank? && !tpa
-    em = t :'peer_assessment.submission.no_text'
+    em = t(:'peer_assessment.submission.no_text')
   - else
     == render_markdown submission.text
 
   = render 'peer_assessment/shared/files', files: submission.attachments, deletable: false
 
 / Report button
-- if defined? enable_reporting and enable_reporting
+- if defined?(enable_reporting) && enable_reporting
   = render Global::Callout.new(t(:'peer_assessment.review.report_hint'), type: :warning)
 
   #report_button.btn-group.pull-right.mt10
     button.btn.btn-danger.btn-sm.dropdown-toggle data-toggle="dropdown" type="button"
-      span.mr5 = t :'peer_assessment.review.report'
+      span.mr5 = t(:'peer_assessment.review.report')
       span.caret
     ul.dropdown-menu role="menu"
-      - I18n.t(:'peer_assessment.conflict.reasons').map { |k, v| k }.each do |key|
+      - I18n.t(:'peer_assessment.conflict.reasons').each_key do |k|
         li
-          a href="#" data-reason="#{key}" = t :"peer_assessment.conflict.reasons.#{key}"
+          a href="#" data-reason=k
+            = t(:"peer_assessment.conflict.reasons.#{k}")
 
   .clearfix.mb20
 

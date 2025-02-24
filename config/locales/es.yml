@@ -1433,6 +1433,9 @@ es:
       learner_dashboard: Mi progreso de aprendizaje
       graded_score: Puntos calificados
       graded: "%{achieved} de %{available}"
+      bonus_points:
+        one: "Has conseguido 1 punto y has ganado %{bonus_points} extra"
+        other: "Has conseguido %{count} puntos y has ganado %{bonus_points} extra"
       selftest_score: Puntos de autoevaluación
       selftest: "%{achieved} de %{available}"
       visited_score: Elementos visitados
@@ -3394,7 +3397,7 @@ es:
       refid: ID de referencia
       gallery_entries: Candidatos a la galería señalados
       rate: Tasa
-      availalbe_submissions: Entregas disponibles
+      available_submissions: Entregas disponibles
       final_submissions: Entregas finales
       votes: Voto(s)
       your_vote: Ha valorado esta entrega con %{votes} estrellas.

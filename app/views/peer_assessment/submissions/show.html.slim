@@ -1,10 +1,12 @@
 - if @submission.additional_attempts > 0
-  = render Global::Callout.new(t(:'peer_assessment.submission.additional_attempt.attempt_notice'))do
-    form.ml10.inline-block.js-submit-confirm action="#{additional_attempt_peer_assessment_step_submission_path}" data-confirm-title=t(:'peer_assessment.submission.additional_attempt.confirmation_window.title') data-confirm-message=t(:'peer_assessment.submission.additional_attempt.confirmation_window.text')
+  = render Global::Callout.new(t(:'peer_assessment.submission.additional_attempt.attempt_notice')) do
+    form.ml10.inline-block.js-submit-confirm action=additional_attempt_peer_assessment_step_submission_path data-confirm-title=t(:'peer_assessment.submission.additional_attempt.confirmation_window.title') data-confirm-message=t(:'peer_assessment.submission.additional_attempt.confirmation_window.text')
       - if @teacherview
-        button.btn.btn-sm.btn-primary.disabled = t(:'peer_assessment.submission.additional_attempt.edit_submission')
+        button.btn.btn-sm.btn-primary.disabled
+          = t(:'peer_assessment.submission.additional_attempt.edit_submission')
       - else
-        button.btn.btn-sm.btn-primary = t(:'peer_assessment.submission.additional_attempt.edit_submission')
+        button.btn.btn-sm.btn-primary
+          = t(:'peer_assessment.submission.additional_attempt.edit_submission')
 
 = render 'peer_assessment/shared/instructions', assessment: @assessment
 = render 'peer_assessment/shared/rendered_submission', submission: @submission, headline: t(:'peer_assessment.submission.your_answer'), tpa: @assessment.is_team_assessment

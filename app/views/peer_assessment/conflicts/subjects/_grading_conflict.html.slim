@@ -3,7 +3,7 @@
 = render Global::Callout.new(t(:'peer_assessment.conflict.submission_info'))
 .mb30
 
-h5 = t :'peer_assessment.conflict.submission'
+h5 = t(:'peer_assessment.conflict.submission')
 hr.divider.slim
 = render 'peer_assessment/conflicts/subjects/submission'
 
@@ -21,15 +21,17 @@ hr.divider.slim
         .panel-heading
           h4.panel-title
             a data-parent="#received-reviews" data-toggle="collapse" href="#review_#{index}"
-              = "#{t :'peer_assessment.conflict.review'} ##{index + 1}: #{review.grade}/#{@assessment.max_points} #{t :'items.quiz.points'}"
+              = "#{t(:'peer_assessment.conflict.review')} ##{index + 1}: #{review.grade}/#{@assessment.max_points} #{t(:'items.quiz.points')}"
         .panel-collapse.collapse id="review_#{index}"
           .panel-body
-            - unless review.accusal!.nil?
-              - if review.accusal!.open
-                = render Global::Callout.new(t(:'peer_assessment.conflict.dependent_conflict_warning', conflict_url: peer_assessment_conflict_path(short_uuid(@assessment.id), short_uuid(review.accusal!.id))), type: :error)
+            - if review.accusal!&.open
+              = render Global::Callout.new(t(:'peer_assessment.conflict.dependent_conflict_warning',
+                conflict_url: peer_assessment_conflict_path(short_uuid(@assessment.id), short_uuid(review.accusal!.id))),
+                type: :error)
 
-            .pa-rt-generic == render_markdown review.text
+            .pa-rt-generic
+              == render_markdown(review.text)
             - @rubric_presenters.each_with_index do |presenter, inner_index|
-              = render 'rendered_rubric', presenter: presenter, review: review, index: inner_index
+              = render(partial: 'rendered_rubric', locals: {presenter:, review:, index: inner_index})
 
 .mt30

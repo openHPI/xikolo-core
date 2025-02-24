@@ -1,4 +1,4 @@
-- selected_option = rubric.options!.detect {|option| review.optionIDs.include? option.id}
+- selected_option = rubric.options!.detect {|option| review.optionIDs.include? option.id }
 - selected_option_index = rubric.options!.index selected_option
 .team_evaluation data-review-id="#{review.id}"
   table
@@ -10,7 +10,7 @@
           .rating-stars
             - rubric.options!.sort_by(&:points).each_with_index do |option, i|
               - selected = selected_option_index.nil? ? false : selected_option_index >= i
-              span.xi-icon.fa-star.cpointer class=([i>0 ? 'ml10 ' : '', selected ? 'fa-solid' : 'fa-regular']) data-value=option.id data-label=i+1
+              span.xi-icon.fa-star.cpointer class=[i > 0 ? 'ml10 ' : '', selected ? 'fa-solid' : 'fa-regular'] data-value=option.id data-label=(i + 1)
           strong.rating-label.mr5 = selected_option.try(:points) || 0
         = form.input :rating, as: :hidden, input_html: {value: selected_option.try(:id) || '', class: 'rating-value', name: "team_evaluation_#{review.id}_#{rubric.id}"}
         .mb20

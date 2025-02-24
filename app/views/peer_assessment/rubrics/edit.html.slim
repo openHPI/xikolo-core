@@ -35,7 +35,7 @@
                 textarea.input-sm style="width: 80%" name="options[#{index}][description]" placeholder="#{t :'peer_assessment.administration.rubrics.option_description_placeholder'}"
                   = option.description
               td.nowrap
-                button.btn.btn-sm.btn-danger.js-remove type="button" data-url="#{remove_option_peer_assessment_rubric_path(@assessment.id, @rubric.id, params: { option_id: option.id })}" = t :'peer_assessment.administration.rubrics.delete_option'
+                button.btn.btn-sm.btn-danger.js-remove type="button" data-url="#{remove_option_peer_assessment_rubric_path(@assessment.id, @rubric.id, params: {option_id: option.id})}" = t :'peer_assessment.administration.rubrics.delete_option'
 
   .row.mt20
     .col-md-9.col-lg-9.col-md-offset-3.col-lg-offset-3
@@ -85,7 +85,7 @@ javascript:
     $('#options').append( '<tr>' +
                             '<td class="nowrap vtop">' +
                               '<input required="required" type="number" name="options[' + index + '][points]" class="w40 mr10 text-align-center"/>' +
-                              '<span class="mr15">#{ t :'items.quiz.points' }</span>' +
+                              '<span class="mr15">#{t(:'items.quiz.points')}</span>' +
                             '</td><td class="w80p">' +
                               '<textarea style="width: 80%" name="options[' + index + '][description]" placeholder="#{t :'peer_assessment.administration.rubrics.option_description_placeholder'}" class="input-sm" />' +
                             '</td>' +

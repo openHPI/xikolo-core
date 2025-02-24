@@ -1,5 +1,5 @@
 - content_for :head_assets
-  = javascript_include_tag 'course-admin'
+  = javascript_include_tag 'course-admin', crossorigin: 'anonymous', integrity: true, async: true, debug: false
 
 h3 = t(:'course.admin.item_stats.rich_text.link_clicks')
 

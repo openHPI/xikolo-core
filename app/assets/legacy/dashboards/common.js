@@ -1,6 +1,6 @@
-//= require moment
+import moment from 'moment';
 
-function registerNewsProgressKpiFormatter(element, i18nPrefix) {
+export function registerNewsProgressKpiFormatter(element, i18nPrefix) {
   if (!element) return;
 
   element.valueFormatter = function (value) {
@@ -20,7 +20,7 @@ function registerNewsProgressKpiFormatter(element, i18nPrefix) {
   };
 }
 
-function registerQuizPerformanceKpiFormatter(element) {
+export function registerQuizPerformanceKpiFormatter(element) {
   if (!element) return;
 
   element.valueFormatter = function (value) {
@@ -28,7 +28,7 @@ function registerQuizPerformanceKpiFormatter(element) {
   };
 }
 
-function registerWeekdayActivityFormatters(element, i18nPrefix) {
+export function registerWeekdayActivityFormatters(element, i18nPrefix) {
   if (!element) return;
 
   element.xLabelFormatter = function (label) {
@@ -46,7 +46,7 @@ function registerWeekdayActivityFormatters(element, i18nPrefix) {
   };
 }
 
-function registerClientUsageFormatters(element, i18nPrefix) {
+export function registerClientUsageFormatters(element, i18nPrefix) {
   if (!element) return;
 
   element.labelFormatter = function (label) {

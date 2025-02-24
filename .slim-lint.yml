@@ -12,10 +12,55 @@ linters:
       # - javascript TODO: Take care of this!
       - less
     exclude:
-      - app/views/items/lti_exercise/tool_launch.html.slim # Known 'css' engine violation
+      - app/views/items/lti_exercise/tool_launch.html.slim # Known 'css' engine violation.
   InstanceVariables:
     enabled: false # TODO: Take care of this!
     include:
       - app/views/**/_*.html.slim
   LineLength:
     enabled: false
+  RuboCop:
+    enabled: true
+    ignored_cops:
+      # Default ignored cops.
+      # See https://github.com/sds/slim-lint/blob/main/config/default.yml.
+      - Layout/ArgumentAlignment
+      - Layout/ArrayAlignment
+      - Layout/BlockAlignment
+      - Layout/ClosingParenthesisIndentation
+      - Layout/EmptyLineAfterGuardClause
+      - Layout/EndAlignment
+      - Layout/FirstArgumentIndentation
+      - Layout/FirstArrayElementIndentation
+      - Layout/FirstHashElementIndentation
+      - Layout/FirstParameterIndentation
+      - Layout/HashAlignment
+      - Layout/IndentationConsistency
+      - Layout/IndentationWidth
+      - Layout/InitialIndentation
+      - Layout/LineEndStringConcatenationIndentation
+      - Layout/LineLength
+      - Layout/MultilineArrayBraceLayout
+      - Layout/MultilineAssignmentLayout
+      - Layout/MultilineHashBraceLayout
+      - Layout/MultilineMethodCallBraceLayout
+      - Layout/MultilineMethodCallIndentation
+      - Layout/MultilineMethodDefinitionBraceLayout
+      - Layout/MultilineOperationIndentation
+      - Layout/ParameterAlignment
+      - Layout/TrailingEmptyLines
+      - Layout/TrailingWhitespace
+      - Lint/Void
+      - Metrics/BlockLength
+      - Metrics/BlockNesting
+      - Naming/FileName
+      - Style/FrozenStringLiteralComment
+      - Style/IdenticalConditionalBranches
+      - Style/IfUnlessModifier
+      - Style/Next
+      - Style/WhileUntilDo
+      - Style/WhileUntilModifier
+      # Additional ignored cops.
+      - Style/CaseLikeIf
+  Zwsp:
+    enabled: true

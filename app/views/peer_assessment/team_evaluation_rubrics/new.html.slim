@@ -4,12 +4,8 @@
 = render Global::Callout.new(t(:'peer_assessment.administration.team_evaluation_rubrics.new_info'))
 
 = simple_form_for(@rubric,
-    url: peer_assessment_team_evaluation_rubrics_path(@assessment.id),
-    wrapper: :larger_labels,
-    html: {\
-      id: 'rubric_form',
-      method: 'post',
-      class: 'mt30 col-md-12 form-horizontal',
-    }) do |r|
+  url: peer_assessment_team_evaluation_rubrics_path(@assessment.id),
+  wrapper: :larger_labels,
+  html: {id: 'rubric_form', method: 'post', class: 'mt30 col-md-12 form-horizontal'}) do |r|
   = r.input :title, required: true, label: t(:'peer_assessment.administration.rubrics.title'), placeholder: t(:'peer_assessment.administration.rubrics.title_placeholder')
   = r.button :submit, t(:'peer_assessment.administration.rubrics.create'), class: 'btn btn-primary mt30 col-md-offset-3 col-lg-offset-3'

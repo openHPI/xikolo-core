@@ -4,16 +4,17 @@
   .mt40
 
 / Info Text
-- unless @rated or @current_step.deadline.past?
-  = render Global::Callout.new(t(:'peer_assessment.results.rating.info_text.intro'))do
-    - I18n.t(:'peer_assessment.results.rating.info_text.points').each do |k, _|
-        p == k
+- unless @rated || @current_step.deadline.past?
+  = render Global::Callout.new(t(:'peer_assessment.results.rating.info_text.intro')) do
+    - I18n.t(:'peer_assessment.results.rating.info_text.points').each do |text|
+      p == text
   .mt30
 
 / Main part
-h4 = t :'peer_assessment.results.rating.headline'
+h4 = t(:'peer_assessment.results.rating.headline')
 hr.divider.slim
-.pa-rt-generic.mb20.p10 == render_markdown @review.text
+.pa-rt-generic.mb20.p10
+  == render_markdown(@review.text)
 
 / Peer rating and grading stuff
 - if @review.accused?
@@ -26,11 +27,11 @@ hr.divider.slim
   = render 'rendered_rating'
 
   .mt30
-  h4 = t :'peer_assessment.results.grading_rubrics'
+  h4 = t(:'peer_assessment.results.grading_rubrics')
   hr.divider.slim
 
   / Overall grade
-  strong = t :'peer_assessment.results.peer_grade', grade: @review.given_grade(@assessment)
+  strong = t(:'peer_assessment.results.peer_grade', grade: @review.given_grade(@assessment))
 
   / Grading rubrics
   - @rubric_presenters.each_with_index do |presenter, index|
@@ -50,16 +51,16 @@ hr.divider.slim
   #report_button.btn-group.pull-right.mt10
     - if @teacherview
       button.btn.btn-danger.btn-sm.disabled disabled="disabled" type="button"
-        span.mr5 = t :'peer_assessment.results.rating.report'
+        span.mr5 = t(:'peer_assessment.results.rating.report')
         span.caret
     - else
       button.btn.btn-danger.btn-sm.dropdown-toggle data-toggle="dropdown" type="button"
-        span.mr5 = t :'peer_assessment.results.rating.report'
+        span.mr5 = t(:'peer_assessment.results.rating.report')
         span.caret
       ul.dropdown-menu role="menu"
-        - I18n.t(:'peer_assessment.conflict.reasons').keys.each do |key|
+        - I18n.t(:'peer_assessment.conflict.reasons').each_key do |k|
           li
-            a href="#" data-reason="#{key}" = t :"peer_assessment.conflict.reasons.#{key}"
+            a href="#" data-reason="#{k}" = t(:"peer_assessment.conflict.reasons.#{k}")
 
   .clearfix.mb20
 

@@ -375,9 +375,9 @@ ul#submission-list {
    $Confirm Sweet Alert customization
 \*------------------------------------*/
 
-.sweet-alert {
+.swal2-container {
   .error_list {
-    font-size: 15px;
+    font-size: $font-size-s;
 
     li {
       text-align: left;

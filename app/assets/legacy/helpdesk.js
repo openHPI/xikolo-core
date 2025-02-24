@@ -1,15 +1,20 @@
-ready(function () {
-  var newSession = true;
-  // Generate a new "session" identifier so that we can relate tracking events to each other
-  var helpdeskSession = Math.random().toString(36).substr(2, 12);
+import $ from 'jquery';
+import fetch from '../util/fetch';
+import ready from '../util/ready';
+import handleError from '../util/error';
 
-  var enforceMinimumDelay = function (minDelay, timePassed, index, callback) {
-    var delay = Math.max(0, minDelay - timePassed);
+await ready(() => {
+  let newSession = true;
+  // Generate a new "session" identifier so that we can relate tracking events to each other
+  const helpdeskSession = Math.random().toString(36).substr(2, 12);
+
+  const enforceMinimumDelay = function (minDelay, timePassed, index, callback) {
+    const delay = Math.max(0, minDelay - timePassed);
 
     setTimeout(callback, delay * (index + 1));
   };
 
-  var load = function (helpdeskType = '') {
+  const load = function (helpdeskType = '') {
     $('#helpdesk-ajax-container').load(helpdeskURL(helpdeskType), function () {
       if ($('#course_id_container').text()) {
         $('select#category').val($('#course_id_container').text()).change();
@@ -29,79 +34,85 @@ ready(function () {
         openHelpdeskTab();
       }
 
-      $(`#helpdesk-form${helpdeskType}`).on('submit', function () {
-        var { report, title, category, topic, mail } = getFormParams();
+      const helpdeskForm = document.querySelector(
+        `#helpdesk-form${helpdeskType}`,
+      );
+      helpdeskForm.addEventListener('submit', async function (event) {
+        event.preventDefault();
 
-        var url = document.URL,
+        const { report, title, category, topic, mail } = getFormParams();
+        const url = document.URL,
           userAgent = navigator.userAgent,
           language = navigator.language,
           cookieEnabled = navigator.cookieEnabled,
           recaptcha_token_v2 = checkboxRecaptcha(helpdeskType)
-            ? grecaptcha.getResponse()
+            ? window.grecaptcha.getResponse()
             : null,
           recaptcha_token_v3 = $(
             'input#g-recaptcha-response-data-helpdesk',
           ).val();
 
-        $.ajax({
-          type: 'POST',
-          url: '/helpdesk/',
-          dataType: 'html',
-          data: {
-            report: report,
-            url: url,
-            topic: topic,
-            userAgent: userAgent,
-            language: language,
-            category: category,
-            cookie: cookieEnabled,
-            title: title,
-            mail: mail,
-            ...(recaptcha_token_v2
-              ? { recaptcha_token_v2: recaptcha_token_v2 }
-              : {}),
-            ...(recaptcha_token_v3
-              ? { recaptcha_token_v3: recaptcha_token_v3 }
-              : {}),
-          },
-        })
-          .fail(function (jqXHR) {
-            fadeInResult();
-            $('#helpdesk-panel .helpdesk-result-box').html(jqXHR.responseText);
-            helpdeskStatus = 'error';
-          })
-          .done(function (response) {
-            $('#helpdesk-panel .helpdesk-result-box').html(response);
+        const formData = new FormData();
+        formData.append('report', report);
+        formData.append('url', url);
+        formData.append('topic', topic);
+        formData.append('userAgent', userAgent);
+        formData.append('language', language);
+        formData.append('category', category);
+        formData.append('cookie', cookieEnabled);
+        formData.append('title', title);
+        formData.append('mail', mail);
+        if (recaptcha_token_v2) {
+          formData.append('recaptcha_token_v2', recaptcha_token_v2);
+        }
+        if (recaptcha_token_v3) {
+          formData.append('recaptcha_token_v3', recaptcha_token_v3);
+        }
 
-            if (response.includes('checkbox_recaptcha')) {
-              helpdeskStatus = 'with-checkbox-recaptcha';
-              $('#helpdesk-panel .helpdesk-default-box').fadeOut(
-                'slow',
-                function () {
-                  $('#helpdesk-ajax-container').fadeIn('slow');
-                  load('-with-checkbox-recaptcha');
-                },
-              );
-            } else {
-              fadeInResult();
-              helpdeskStatus = `success-${helpdeskStatus}`;
-
-              $('#issuereport').val('');
-              $('#issuetitle').val('');
-
-              track('helpdesk_ticket_created', {
-                report: report,
-                topic: category,
-                question: title,
-              });
-            }
+        try {
+          const response = await fetch('/helpdesk/', {
+            method: 'POST',
+            body: formData,
           });
-        return false;
+
+          if (!response.ok) {
+            handleError('', response.statusText);
+          }
+
+          const responseText = await response.text();
+          $('#helpdesk-panel .helpdesk-result-box').html(responseText);
+
+          if (responseText.includes('checkbox_recaptcha')) {
+            helpdeskStatus = 'with-checkbox-recaptcha';
+            $('#helpdesk-panel .helpdesk-default-box').fadeOut(
+              'slow',
+              function () {
+                $('#helpdesk-ajax-container').fadeIn('slow');
+                load('-with-checkbox-recaptcha');
+              },
+            );
+          } else {
+            fadeInResult();
+            helpdeskStatus = `success-${helpdeskStatus}`;
+
+            helpdeskForm.reset();
+
+            track('helpdesk_ticket_created', {
+              report: report,
+              topic: category,
+              question: title,
+            });
+          }
+        } catch (error) {
+          fadeInResult();
+          $('#helpdesk-panel .helpdesk-result-box').html(error.message);
+          helpdeskStatus = 'error';
+        }
       });
     });
   };
 
-  var helpdeskURL = function (helpdeskType) {
+  const helpdeskURL = function (helpdeskType) {
     let url = '/helpdesk';
     const params = getFormParams();
     // Filter out falsy values from params (undefined, null, '', 0, NaN)
@@ -116,21 +127,21 @@ ready(function () {
     return queryString ? `${url}?${queryString}` : url;
   };
 
-  var checkboxRecaptcha = function (helpdeskType) {
+  const checkboxRecaptcha = function (helpdeskType) {
     return helpdeskType == '-with-checkbox-recaptcha';
   };
 
-  var getFormParams = function () {
-    return (params = {
+  const getFormParams = function () {
+    return {
       report: $('#issuereport').val(),
       title: $('#issuetitle').val(),
       category: $('#category').val(),
       topic: $("input[name='question_topic']:checked").val(),
       mail: $('#issueemail').val(),
-    });
+    };
   };
 
-  var fadeInResult = function () {
+  const fadeInResult = function () {
     $('#helpdesk-panel .helpdesk-default-box').fadeOut('slow', function () {
       $('#helpdesk-panel .helpdesk-result-box').fadeIn('slow');
     });
@@ -139,11 +150,11 @@ ready(function () {
   const openHelpdeskTab = () =>
     document.querySelector('[aria-controls="chatbot-panel-2"]')?.click();
 
-  var track = function (verb, context) {
+  const track = function (verb, context) {
     // We currently cannot track events for guest users
-    if (!gon.user_id) return;
+    if (!window.gon.user_id) return;
 
-    var featureContainer = document.getElementById('chatbot-current-feature');
+    const featureContainer = document.getElementById('chatbot-current-feature');
 
     context['helpdesk_session_id'] = helpdeskSession;
     context['chatbot_version'] = featureContainer
@@ -160,15 +171,15 @@ ready(function () {
   };
 
   // Set up the chatbot
-  var prototype2 = function () {
-    var conversation = document.getElementById('chatbot-conversation');
+  const prototype2 = function () {
+    const conversation = document.getElementById('chatbot-conversation');
     if (!conversation) return;
 
     new Chatbot(conversation);
   };
 
-  var helpdeskStatus = 'default';
-  var helpDeskTabOpen = false;
+  let helpdeskStatus = 'default';
+  let helpDeskTabOpen = false;
 
   // Global method to allow opening the helpdesk from static links, e.g. in the footer
   window.openHelpdeskLayer = function () {
@@ -202,7 +213,8 @@ ready(function () {
 
   Chatbot.prototype = {
     listen: function () {
-      var bot = this;
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const bot = this;
 
       // Send text input to the chatbot on key input "Enter" and by clicking on the "Enter" button
       this.$sendButton.on('click', function (e) {
@@ -212,11 +224,11 @@ ready(function () {
       });
     },
 
-    handleInput: function (payload, initialize) {
-      var startTime = new Date().getTime();
-      var question = this.$input.val();
-      var url = getUrlFromConfig('chatbot-urls-v2');
-      var token =
+    handleInput: async function (payload, initialize) {
+      const startTime = new Date().getTime();
+      let question = this.$input.val();
+      const url = getUrlFromConfig('chatbot-urls-v2');
+      const token =
         document.getElementById('chatbot-api-token').dataset.chatbotToken;
 
       this.$input.val('');
@@ -228,46 +240,53 @@ ready(function () {
         this.startLoading();
       }
 
-      var bot = this;
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const bot = this;
 
-      if (payload && payload != null) {
+      if (payload) {
         question = payload;
       }
 
-      $.ajax({
-        type: 'POST',
-        url: url,
-        dataType: 'json',
-        data: JSON.stringify({ message: question, sender: token }),
-        complete: function (xhr, status) {
-          var requestTime = new Date().getTime() - startTime;
-          var trackingContext = {
-            question: question,
-            request_time: requestTime,
-            status: status,
-          };
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ message: question, sender: token }),
+        });
 
-          if (status.startsWith('success')) {
-            var response = $.parseJSON(xhr.responseText);
-            trackingContext['response'] = response;
-            bot.handleResponse(response, requestTime);
-          } else {
-            bot.stopLoading();
-          }
+        const requestTime = new Date().getTime() - startTime;
+        const trackingContext = {
+          question: question,
+          request_time: requestTime,
+          status: response.ok ? 'success' : 'error',
+        };
 
-          bot.$input.focus();
-          bot.conversation$.scrollTop = bot.conversation$.scrollHeight;
+        if (response.ok) {
+          const responseData = await response.json();
+          trackingContext['response'] = responseData;
+          bot.handleResponse(responseData, requestTime);
+        } else {
+          bot.stopLoading();
+        }
 
-          track('helpdesk_chatbot_replied', trackingContext);
-        },
-      });
+        bot.$input.focus();
+        bot.conversation$.scrollTop = bot.conversation$.scrollHeight;
+
+        track('helpdesk_chatbot_replied', trackingContext);
+      } catch (error) {
+        bot.stopLoading();
+        handleError('', error);
+      }
     },
 
     handleResponse: function (response, requestTime) {
       if (response.length === 0) return;
 
-      var bot = this;
-      var responseCount = response.length;
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const bot = this;
+      let responseCount = response.length;
 
       response.forEach(function (answer, index) {
         enforceMinimumDelay(1000, requestTime, index, function () {
@@ -281,7 +300,7 @@ ready(function () {
           if (answer.buttons) {
             $('#chatbot-typing-area').prop('disabled', true);
             $('#chatbot-enter-btn').prop('disabled', true);
-            var buttons = answer.buttons;
+            const buttons = answer.buttons;
             buttons.forEach(function (button, index) {
               enforceMinimumDelay(500, requestTime, index, function () {
                 bot.stopLoading();
@@ -319,7 +338,7 @@ ready(function () {
     },
 
     addUtterance: function (utterance, type) {
-      var message = document.createElement('div');
+      const message = document.createElement('div');
       message.classList.add('chatbot-message-box', type);
       message.innerHTML = utterance.trim();
 
@@ -331,8 +350,9 @@ ready(function () {
     },
 
     addButtonUtterance: function (utterance, payload) {
-      var bot = this;
-      var button = document.createElement('button');
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const bot = this;
+      const button = document.createElement('button');
       button.type = 'button';
       button.classList.add(
         'chatbot-message-box',
@@ -365,9 +385,8 @@ ready(function () {
   };
 
   function getUrlFromConfig(id) {
-    var urlContainer = document.getElementById(id);
-    var url = urlContainer.dataset.userChatbotUrl;
-    return url;
+    const urlContainer = document.getElementById(id);
+    return urlContainer.dataset.userChatbotUrl;
   }
 
   function closeHelpdeskLayer() {
@@ -398,7 +417,7 @@ ready(function () {
 
   $('#helpdesk-button').on('click', function () {
     if (helpDeskTabOpen == false) {
-      openHelpdeskLayer();
+      window.openHelpdeskLayer();
     } else {
       closeHelpdeskLayer();
     }

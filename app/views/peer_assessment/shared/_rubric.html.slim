@@ -1,5 +1,5 @@
 / Title
-- if defined?(small_headlines) and small_headlines
+- if defined?(small_headlines) && small_headlines
   h5 = "#{index + 1}. #{rubric_presenter.title}"
 - else
   h4 = "#{index + 1}. #{rubric_presenter.title}"
@@ -8,7 +8,7 @@ hr.divider.slim id="rubric_#{rubric_presenter.id}"
 
 / Hints
 .mt10.mb10.pa-rt-generic
-  == render_markdown rubric_presenter.hints
+  == render_markdown(rubric_presenter.hints)
 
 / Options
 - rubric_presenter.options.each do |option|

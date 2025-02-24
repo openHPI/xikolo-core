@@ -1,4 +1,13 @@
-//= require ./common
+import $ from 'jquery';
+import ready from '../../util/ready';
+import {
+  registerDailyActivityFormatters,
+  renderCountriesTable,
+  renderCitiesTable,
+  renderNewsTable,
+  renderReferrerTable,
+  renderCourseSharesTable,
+} from './common';
 
 ready(function () {
   // activity

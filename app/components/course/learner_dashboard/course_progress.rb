@@ -76,6 +76,18 @@ module Course
       def visits_percentage
         @visits_percentage ||= calc_progress(items_visited, items_available)
       end
+
+      def bonus_points
+        return if @course_progress.dig('bonus_exercises', :submitted_points).zero?
+
+        @course_progress.dig('bonus_exercises', :submitted_points).to_i
+      end
+
+      def main_points
+        return if @course_progress.dig('main_exercises', :submitted_points).zero?
+
+        @course_progress.dig('main_exercises', :submitted_points).to_i
+      end
     end
   end
 end

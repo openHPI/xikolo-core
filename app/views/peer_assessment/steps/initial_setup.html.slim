@@ -1,19 +1,19 @@
-= render Global::Callout.new( t(:'peer_assessment.administration.steps.initial_setup'), title: t(:'peer_assessment.administration.steps.title')) do
+= render Global::Callout.new(t(:'peer_assessment.administration.steps.initial_setup'), title: t(:'peer_assessment.administration.steps.title')) do
   ul
     - I18n.t(:'peer_assessment.administration.steps.setup_info').each do |v|
       li == v
 
 .mt30
-form#select-steps-form.form-inline.pa-rt-generic method="post" action="#{setup_peer_assessment_steps_path @assessment.id}"
-  input name="authenticity_token" type="hidden" value="#{form_authenticity_token}"
+form#select-steps-form.form-inline.pa-rt-generic method="post" action=setup_peer_assessment_steps_path(@assessment.id)
+  input name="authenticity_token" type="hidden" value=form_authenticity_token
   - @steps.each do |step|
     .checkbox.mr10
       label
-        - if !step.kind_of?(Xikolo::PeerAssessment::Training) and !step.kind_of?(Xikolo::PeerAssessment::SelfAssessment)
-          input type="checkbox" name="#{step.class}" id="#{step.class}" disabled="disabled" checked="checked"
+        - if !step.is_a?(Xikolo::PeerAssessment::Training) && !step.is_a?(Xikolo::PeerAssessment::SelfAssessment)
+          input type="checkbox" name=step.class id=step.class disabled="disabled" checked="checked"
           span.ml5 = t :"peer_assessment.administration.steps.step_names.#{step.class}"
         - else
-          input.mr5 type="checkbox" name="#{step.class}" id="#{step.class}"
+          input.mr5 type="checkbox" name=step.class id=step.class
           span.ml5 = t :"peer_assessment.administration.steps.step_names.#{step.class}"
 
 = @assessment_presenter.pa_button(current_user, :create_workflow_steps)

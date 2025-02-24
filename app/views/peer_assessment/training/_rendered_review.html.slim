@@ -1,7 +1,8 @@
-- unless review.text.blank?
-  - unless defined? nomargin and nomargin
+- if review.text.present?
+  - unless defined?(nomargin) && nomargin
     .mt40
 
-  h4 = t :'peer_assessment.training.instructor_feedback'
+  h4 = t(:'peer_assessment.training.instructor_feedback')
   hr.divider.slim
-  .pa-rt-generic == render_markdown review.text
+  .pa-rt-generic
+    == render_markdown(review.text)
