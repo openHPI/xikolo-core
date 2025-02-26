@@ -87,10 +87,10 @@ class BasicCoursePresenter
   private
 
   def tor_template?
-    Certificate::Template.find_by(course_id: @course['id'], certificate_type: Certificate::Record::TOR).present?
+    Certificate::Template.exists?(course_id: @course['id'], certificate_type: Certificate::Record::TOR)
   end
 
   def open_badge_template?
-    Certificate::OpenBadgeTemplate.find_by(course_id: @course['id']).present?
+    Certificate::OpenBadgeTemplate.exists?(course_id: @course['id'])
   end
 end

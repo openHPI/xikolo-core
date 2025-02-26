@@ -4,7 +4,7 @@ a.news__anchor id="post_#{post.id}"
     = post.title
   - if post.publish_at < DateTime.now
     p.small
-      = render Util::RelativeTimeTag.new(post.publish_at, limit: 10.days.ago)
+      = render Util::RelativeTimeTag.new(post.publish_at, limit: 'P10D')
   - else
     p
       span.label.label-warning.mr10

@@ -8,7 +8,7 @@
       .course-progress__overall-score
         span.course-progress__overall-score-title = t(:'course.progress.graded_score')
         - if graded_score.present?
-            div
+            .course-progress__overall-graded-score
               = graded_score
               - if bonus_points.present?
                 span data-tooltip=t(:'course.progress.bonus_points', count: main_points, bonus_points:)

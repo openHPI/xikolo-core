@@ -50,3 +50,4 @@ import 'components/navigation/tabs';
 
 import 'util/forms/upload';
 import 'util/forms/mdupload';
+import 'util/get-relative-time';

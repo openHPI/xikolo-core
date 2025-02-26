@@ -22,7 +22,7 @@
               td = report.question_title
               td = report.post_type
               td = link_to report.reporter, user_path(report.user_id)
-              td = render Util::RelativeTimeTag.new(Time.zone.parse(report.created_at), limit: 10.days.ago)
+              td = render Util::RelativeTimeTag.new(Time.zone.parse(report.created_at), limit: 'P10D')
               td = link_to t(:'pinboard.reporting.admin.view'), report.url, class: 'btn btn-primary btn-xs mr10'
     - else
       = render Global::Callout.new(t(:'pinboard.reporting.admin.empty_msg'))

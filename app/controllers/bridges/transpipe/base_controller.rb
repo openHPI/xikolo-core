@@ -10,7 +10,7 @@ module Bridges
       Xikolo.config.transpipe['realm']
     end
 
-    class BaseController < ActionController::API
+    class BaseController < Abstract::BridgeAPIController
       protected
 
       def course_api

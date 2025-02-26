@@ -2,15 +2,18 @@
 
 module Util
   class RelativeTimeTag < ApplicationComponent
-    def initialize(time, limit: 4.days.ago)
+    # Generates a relative-time HTML element using a given timestamp.
+    #
+    # @param time [Time] The timestamp to display.
+    # @param limit [String] An ISO 8601 duration (e.g., "P4D" for 4 days, "PT3H" for 3 hours).
+    #
+    def initialize(time, limit: 'P4D')
       @time = time.iso8601
-      @limit = limit.iso8601
+      @limit = limit
     end
 
     def call
-      # For progressive enhancement,
-      # the component displays the unformatted time until JS converts it.
-      tag.time(@time, datetime: @time, data: {controller: 'relative-time', time: @time, limit: @limit})
+      tag.relative_time(datetime: @time, threshold: @limit)
     end
   end
 end

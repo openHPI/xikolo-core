@@ -6,7 +6,7 @@ module Bridges
       Rails.application.secrets.chatbot_bridge_shared_secret
     end
 
-    class BaseController < ActionController::API
+    class BaseController < Abstract::BridgeAPIController
       before_action :require_authorization_header!
 
       def require_authorization_header!

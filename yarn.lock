@@ -1847,6 +1847,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@github/relative-time-element@npm:^4.4.5":
+  version: 4.4.5
+  resolution: "@github/relative-time-element@npm:4.4.5"
+  checksum: 10/7fd86fa0dd739d59cbb3578d727ad9be91b904a173afc6527cf9e75ff35b24741ca70725f6f0316524d37347776dc7b04f18aa7a9c4d6fc589efd963ebc74cc6
+  languageName: node
+  linkType: hard
+
 "@humanfs/core@npm:^0.19.1":
   version: 0.19.1
   resolution: "@humanfs/core@npm:0.19.1"
@@ -2308,7 +2315,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/d3@npm:3":
+"@types/d3@npm:^3":
   version: 3.5.53
   resolution: "@types/d3@npm:3.5.53"
   checksum: 10/c439487274af476736db26f0dbf42bf87642ded9ce0f1d2687be30d1d6a15c0b45214d6434328dc73db6d75a908237fb6cd924dae5ba779628b5a7a9b791e81a
@@ -4418,7 +4425,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"d3@npm:3.5.17":
+"d3@npm:^3.5.17":
   version: 3.5.17
   resolution: "d3@npm:3.5.17"
   checksum: 10/b1a6890f95276603a52afacf806c2c16a439b2538c0f71f7b6245b61c48f8f5cc1462ed0362b655b74c9a319a7008d955d452f268c3ed3edefe1e81d9deeb22f
@@ -10669,12 +10676,13 @@ __metadata:
     "@fullcalendar/daygrid": "npm:^4.3.0"
     "@fullcalendar/interaction": "npm:^4.3.0"
     "@fullcalendar/timegrid": "npm:^4.3.0"
+    "@github/relative-time-element": "npm:^4.4.5"
     "@openhpi/quiz-recap": "npm:^1.4.2"
     "@openhpi/xikolo-video-player": "npm:^1.2.5"
     "@rails/ujs": "npm:7.1.3-4"
     "@stoplight/cli": "npm:^6.0.2354"
     "@toast-ui/editor": "npm:^3.2.2"
-    "@types/d3": "npm:3"
+    "@types/d3": "npm:^3"
     "@types/jqueryui": "npm:^1.12.20"
     "@types/list.js": "npm:^2"
     "@types/luxon": "npm:^3.4.2"
@@ -10686,7 +10694,7 @@ __metadata:
     core-js: "npm:^3.4.5"
     css-loader: "npm:^7.1.2"
     cssnano: "npm:^7.0.4"
-    d3: "npm:3.5.17"
+    d3: "npm:^3.5.17"
     dropzone: "npm:^5.5.0"
     editorconfig-checker: "npm:^6.0.0"
     eslint: "npm:^9.17.0"

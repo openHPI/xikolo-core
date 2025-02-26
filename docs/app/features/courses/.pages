@@ -3,6 +3,7 @@
 nav:
   - "Organizing courses":
     - classifiers.md
+    - featured_courses.md
     - relations.md
   - deadlines.md
   - regrading.md
