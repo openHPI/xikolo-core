@@ -22,15 +22,22 @@ $xi-sidebar-toggle-bg: $gray-250 !default;
 $xi-sidebar-toggle-button-bg: $gray !default;
 
 .sidebar {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 2px;
+
   // magic number for alignment with dashboard course cards
-  padding-top: 18px;
+  margin-top: 68px;
+  background-color: $white;
+  box-shadow: $box-shadow-xs;
+  gap: 20px;
 
   &__component {
-    padding-top: 20px;
-
     h3,
     h4,
     h5 {
+      margin-top: 10px;
       font-weight: 400;
     }
   }

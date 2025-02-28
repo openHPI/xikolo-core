@@ -473,6 +473,10 @@ nl:
           one: "%{count} cursus"
           other: "%{count} cursussen"
         adjust: Aanpassen
+    ical_feed:
+      text: Je kunt je abonneren op deze feed door de iCal URL te kopiëren en deze te importeren in je agenda-applicatie.
+      summary: Voeg data toe aan je kalender
+      label: URL iCal kopiëren
     date_time_picker:
       today: Stel in op vandaag
       clear: Duidelijk
@@ -2025,6 +2029,7 @@ nl:
     # EN-fallback more_courses: 'Hint: You can still find all other courses you are not yet enrolled for in <a href="/courses">the course archive</a> and register for self-study (without Record of Achievement).'
     sidebar:
       dates: Volgende datums per cursus
+      dates_empty: Je hebt geen aankomende afspraken.
       recommendations: Cursusaanbevelingen
     starting_soon: Begint binnenkort
     started: Begonnen
@@ -2645,10 +2650,6 @@ nl:
       text: U heeft niet alle vragen beantwoord. Weet u zeker dat u uw antwoorden wilt indienen?
       btn_submit: Lever antwoorden in
       btn_cancel: Annuleren
-
-  social:
-    allow_detection_via_name: Sta andere gebruikers toe mij te vinden via naam
-    allow_detection_via_email: Sta andere gebruikers toe mij te vinden via e-mail
 
   learning_rooms:
     name: Naam

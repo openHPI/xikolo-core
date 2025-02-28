@@ -1,0 +1,4 @@
+.ical-feed
+  = render Global::DisclosureWidget.new(t(:'components.ical_feed.summary')) do
+    p = t(:'components.ical_feed.text')
+    = render Global::CopyToClipboard.new(url, label: t(:'components.ical_feed.label'), type: :button)

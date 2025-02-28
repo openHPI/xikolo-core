@@ -1,9 +1,36 @@
 .clipboard {
   position: relative;
   display: inline-block;
-  border: none;
-  background: none;
   cursor: pointer;
+
+  &--icon {
+    border: none;
+    background: none;
+
+    &:hover,
+    &:active {
+      color: $primary-color;
+    }
+
+    &:hover .clipboard__tooltip {
+      display: block;
+    }
+  }
+
+  &--button {
+    @include btn-variant(
+      $btn-outline-default,
+      transparent,
+      $btn-outline-default,
+      $white,
+      $btn-outline-default,
+      $btn-outline-default
+    );
+  }
+
+  &__label {
+    margin-right: 5px;
+  }
 
   &__tooltip {
     position: absolute;
@@ -31,14 +58,5 @@
       content: "";
       transform: translate(-50%, 0);
     }
-  }
-
-  &:hover,
-  &:active {
-    color: $primary-color;
-  }
-
-  &:hover .clipboard__tooltip {
-    display: block;
   }
 }

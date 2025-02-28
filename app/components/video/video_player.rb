@@ -74,7 +74,7 @@ module Video
           Subtitle.new(
             subtitle_path(sub.id),
             subtitle_label(sub),
-            sub.lang == user_preferences[:track_language] ? true : nil
+            (sub.lang == user_preferences[:track_language]) || nil
           ),
         ]
       end

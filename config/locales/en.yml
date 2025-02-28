@@ -598,6 +598,10 @@ en:
       link: Show policy
       accept: I have read and agree to the data protection policy.
       enroll: Enroll me for this course
+    ical_feed:
+      text: You can subscribe to this feed by copying the iCal URL and importing it into your calendar application.
+      label: Copy iCal URL
+      summary: Add dates to your calendar
     markdown_editor:
       expand: Expand editor
       collapse: Collapse editor
@@ -2989,6 +2993,7 @@ en:
     more_courses: 'Hint: You can still find all other courses you are not yet enrolled for in <a href="/courses">the course archive</a> and register for self-study (without Record of Achievement).'
     sidebar:
       dates: Next dates per course
+      dates_empty: You don't have any upcoming dates.
       recommendations: Course Recommendations
     starting_soon: Starting soon
     started: Started
@@ -3612,10 +3617,6 @@ en:
       text: You have not answered all of the questions. Are you sure you want to submit your answers?
       btn_submit: Submit answers
       btn_cancel: Cancel
-
-  social:
-    allow_detection_via_name: Allow other users to find me via name
-    allow_detection_via_email: Allow other users to find me via e-mail
 
   learning_rooms:
     name: Name

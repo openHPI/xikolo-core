@@ -468,6 +468,10 @@ es:
           one: "%{count} curso"
           other: "%{count} cursos"
         adjust: Ajustar
+    ical_feed:
+      text: Puede suscribirse a este feed copiando la URL de iCal e importándola a su aplicación de calendario.
+      summary: Añade fechas a tu calendario
+      label: Copiar URL de iCal
     date_time_picker:
       today: Ajustar a hoy
       clear: Borrar
@@ -1901,6 +1905,7 @@ es:
     more_courses: 'Sugerencia: también puede encontrar todos los cursos en los que no se ha matriculado en <a href="/courses">el archivo de cursos</a> y puede darse de alta en modo de autoaprendizaje sin obtener un certificado de estudios.'
     sidebar:
       dates: Próximas fechas por curso
+      dates_empty: No tienes próximas citas.
       recommendations: Recomendaciones de cursos
     starting_soon: De próximo inicio
     started: Empezados
@@ -2520,10 +2525,6 @@ es:
       text: No ha contestado todas las preguntas. ¿Seguro que quiere entregar sus respuestas?
       btn_submit: Entregar respuestas
       btn_cancel: Cancelar
-
-  social:
-    allow_detection_via_name: Permitir que otros usuarios me encuentren por el nombre
-    allow_detection_via_email: Permitir que otros usuarios me encuentren por el correo electróncia
 
   learning_rooms:
     name: Nombre

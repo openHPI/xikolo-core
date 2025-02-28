@@ -19,18 +19,35 @@ const showSuccessMessage = (element: Element) => {
   const tooltip = element.querySelector<HTMLElement>(
     "[data-behavior='clipboard-tooltip']",
   );
-  if (!tooltip) return;
 
-  const originalText = tooltip.textContent;
-  if (originalText != I18n.t('components.clipboard.copied')) {
-    tooltip.textContent = I18n.t('components.clipboard.copied');
-    tooltip.style.display = 'block';
+  const label = element.querySelector<HTMLElement>(
+    "[data-behavior='clipboard-label']",
+  );
 
-    // Restore original text after 1 second
-    setTimeout(() => {
-      tooltip.textContent = originalText;
-      tooltip.style.removeProperty('display');
-    }, 1000);
+  if (tooltip) {
+    const originalText = tooltip.textContent;
+    if (originalText != I18n.t('components.clipboard.copied')) {
+      tooltip.textContent = I18n.t('components.clipboard.copied');
+      tooltip.style.display = 'block';
+
+      // Restore original text after 1 second
+      setTimeout(() => {
+        tooltip.textContent = originalText;
+        tooltip.style.removeProperty('display');
+      }, 1000);
+    }
+  }
+
+  if (label) {
+    const originalLabel = label.textContent;
+    if (originalLabel != I18n.t('components.clipboard.copied')) {
+      label.textContent = I18n.t('components.clipboard.copied');
+
+      // Restore original text after 1 second
+      setTimeout(() => {
+        label.textContent = originalLabel;
+      }, 1000);
+    }
   }
 };
 

@@ -22,4 +22,4 @@ table.table.table-striped.table-condensed.table-hover class=('hidden' if files.e
             = form_tag(delete_path, method: 'delete', multipart: true, class: 'inline-block js-delete-file', data: {confirm_title: t(:'peer_assessment.submission.delete_file_message'), confirm_text: t(:'peer_assessment.files.delete_subtitle')}) do
               = hidden_field_tag 'file_id', file['id']
               = hidden_field_tag 'peer_assessment_id', @assessment.id
-              = button_tag(t(:'peer_assessment.submission.delete_file'), class: "btn btn-xs btn-danger #{disabled_class}", disabled: disabled_class == 'disabled' ? true : nil)
+              = button_tag(t(:'peer_assessment.submission.delete_file'), class: "btn btn-xs btn-danger #{disabled_class}", disabled: (disabled_class == 'disabled') || nil)

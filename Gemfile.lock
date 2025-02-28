@@ -775,7 +775,7 @@ GEM
     rspec-support (3.13.2)
     rspec-teamcity (1.0.0)
       rspec (>= 2.99, >= 2.14.2, < 4)
-    rubocop (1.72.2)
+    rubocop (1.73.0)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.1.0)
@@ -1063,7 +1063,7 @@ DEPENDENCIES
   rspec-its
   rspec-rails (~> 7.0)
   rspec-teamcity (~> 1.0)
-  rubocop (~> 1.72.0)
+  rubocop (~> 1.73.0)
   rubocop-capybara (~> 2.21.0)
   rubocop-factory_bot (~> 2.26.1)
   rubocop-performance (~> 1.24.0)

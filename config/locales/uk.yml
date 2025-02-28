@@ -470,6 +470,10 @@ uk:
           many: "%{count} курсів"
           other: "%{count} курси"
         adjust: Налаштувати
+    ical_feed:
+      text: Ви можете підписатися на цю стрічку, скопіювавши URL-адресу iCal та імпортувавши її у свій календарний додаток.
+      summary: Додайте дати до свого календаря
+      label: Скопіювати URL-адресу iCal
     date_time_picker:
       today: Налаштовано на сьогодні
       clear: Очистити
@@ -2041,6 +2045,7 @@ uk:
     # EN-fallback more_courses: 'Hint: You can still find all other courses you are not yet enrolled for in <a href="/courses">the course archive</a> and register for self-study (without Record of Achievement).'
     sidebar:
       dates: Наступні дати на курс
+      dates_empty: У вас немає запланованих зустрічей.
       recommendations: Рекомендації по курсам
     starting_soon: Скоро почнуться
     started: Почалися
@@ -2673,10 +2678,6 @@ uk:
       text: Ви не відповіли на всі запитання. Ви впевнені, що хочете надіслати свої відповіді?
       btn_submit: Надіслати відповіді
       btn_cancel: Скасувати
-
-  social:
-    allow_detection_via_name: Дозволити іншим користувачам знаходити мене за іменем
-    allow_detection_via_email: Дозволити іншим користувачам знайти мене за допомогою адерси електронної пошти
 
   learning_rooms:
     name: Ім'я

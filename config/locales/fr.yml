@@ -396,6 +396,10 @@ fr:
           one: "%{count} cours"
           other: "%{count} cours"
         adjust: Ajuster
+      ical_feed:
+        text: Vous pouvez vous abonner à ce flux en copiant l'URL iCal et en l'important dans votre application de calendrier.
+        summary: Ajouter des dates à votre calendrier
+        label: Copier l'URL d'iCal
       date_time_picker:
         today: Régler sur aujourd'hui
         clear: Effacer
@@ -1479,6 +1483,7 @@ fr:
     mark_completed_confirmation: En choisissant cette option vous déplacez définitivement le cours de vos cours actuels à vos cours déjà terminés. De là, vous pouvez toujours accéder au cours.
     sidebar:
       dates: Prochaines dates par cours
+      dates_empty: Vous n'avez aucun rendez-vous à venir.
       recommendations: Cours recommendés
     starting_soon: Commence bientôt
     started: Commencé
@@ -2067,10 +2072,6 @@ fr:
       text: "Vous n’avez pas répondu à toutes les questions. Etes-vous sûr que vous voulez envoyer vos réponses ?"
       btn_submit: Envoyer réponses
       btn_cancel: Annuler
-
-  social:
-    allow_detection_via_name: Autoriser d'autres utilisateurs de me trouver par nom
-    allow_detection_via_email: Autoriser d'autres utilisateurs de me trouver par e-mail
 
   learning_rooms:
     nav:

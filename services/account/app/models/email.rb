@@ -79,12 +79,12 @@ class Email < ApplicationRecord
   end
 
   def primary
-    self[:primary] ? true : false
+    self[:primary] || false
   end
   alias primary? primary
 
   def confirmed
-    self[:confirmed] ? true : false
+    self[:confirmed] || false
   end
   alias confirmed? confirmed
 

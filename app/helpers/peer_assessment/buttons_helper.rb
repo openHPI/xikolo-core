@@ -20,7 +20,7 @@ module PeerAssessment::ButtonsHelper
     &
   )
     btn_class = "#{btn_class} #{disabled}"
-    options.merge!(class: btn_class, target:, disabled: disabled == 'disabled' ? true : nil)
+    options.merge!(class: btn_class, target:, disabled: (disabled == 'disabled') || nil)
     if btn_txt
       link_to(btn_txt, btn_href, options, &)
     else
@@ -31,14 +31,14 @@ module PeerAssessment::ButtonsHelper
   def assemble_submit(btn_txt, btn_class, disabled, options = {})
     btn_class = "#{btn_class} #{disabled}"
     options[:class] = btn_class
-    options[:disabled] = disabled == 'disabled' ? true : nil
+    options[:disabled] = (disabled == 'disabled') || nil
     submit_tag btn_txt, options
   end
 
   def assemble_icon_button(btn_class, disabled, options = {}, &)
     btn_class = "#{btn_class} #{disabled}"
     options[:class] = btn_class
-    options[:disabled] = disabled == 'disabled' ? true : nil
+    options[:disabled] = (disabled == 'disabled') || nil
     button_tag(options, &)
   end
 

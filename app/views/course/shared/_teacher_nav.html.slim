@@ -5,7 +5,7 @@
       = render Global::FaIcon.new('chevron-down')
     span.teacher-nav__close-btn
       = render Global::FaIcon.new('chevron-up')
-  nav.teacher-nav#teacher-nav data-pinned=(cookies[:pin_teacher_nav].present? ? true : nil)
+  nav.teacher-nav#teacher-nav data-pinned=cookies[:pin_teacher_nav].presence
     p.teacher-nav__greeting
       = t(:'courses.nav.teacher.welcome')
       button.teacher-nav__pin-btn.btn-as-text data-pin-teacher-nav="#teacher-nav" title=t(:'courses.nav.teacher.pin')

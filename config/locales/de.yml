@@ -508,6 +508,10 @@ de:
       link: Datenschutzvereinbarung anzeigen
       accept: Ich akzeptiere die Datenschutzvereinbarung.
       enroll: Für den Kurs einschreiben
+    ical_feed:
+      text: Sie können diesen Feed abonnieren, indem Sie die iCal-URL kopieren und sie in Ihre Kalenderanwendung importieren.
+      summary: Termine in den Kalender eintragen
+      label: iCal-URL kopieren
     markdown_editor:
       expand: Editor aufklappen
       collapse: Editor zuklappen
@@ -2228,6 +2232,7 @@ de:
     more_courses: 'Tipp: Sie können immer alle abgeschlossenen Kurse, für die Sie noch nicht eingeschrieben sind, im <a href="/courses">Kursarchiv</a> finden und sich für ein Selbststudium (ohne Leistungsnachweis) anmelden.'
     sidebar:
       dates: Nächste Termine pro Kurs
+      dates_empty: Es gibt keine bevorstehenden Termine.
       recommendations: Kurs-Empfehlungen
     starting_soon: Startet bald
     started: Gestartet
@@ -2853,10 +2858,6 @@ de:
       text: Sie haben nicht alle Fragen beantwortet. Möchten Sie Ihre Antworten dennoch abschicken?
       btn_submit: Antworten abschicken
       btn_cancel: Abbrechen
-
-  social:
-    allow_detection_via_name: Andere Nutzer können mich über meinen Namen finden
-    allow_detection_via_email: Andere Nutzer können mich finden, wenn sie meine E-Mail-Adresse kennen
 
   learning_rooms:
     name: Name

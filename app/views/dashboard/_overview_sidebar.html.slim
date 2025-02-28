@@ -1,12 +1,9 @@
 .sidebar
-  = render 'dashboard/polls'
-
   / Upcoming dates
-  - if @next_dates.any?
-    .sidebar__component
-      h3
-        = t(:'dashboard.sidebar.dates')
-      hr.divider
+  .sidebar__component
+    h3 = t(:'dashboard.sidebar.dates')
+    hr.divider
+    - if @next_dates.any?
       - @next_dates.group_by(&:course_title).each do |course_title, next_dates|
         article.next-date-wrapper
           h4
@@ -21,12 +18,13 @@
                 a href=next_date.do_url title = "#{next_date.description} #{distance_of_time_in_words(DateTime.now, next_date.date)}"
                   == next_date.description
                   =< distance_of_time_in_words(DateTime.now, next_date.date)
+    - else
+      = render State::Empty.new(t(:'dashboard.sidebar.dates_empty'), size: :small)
 
-      - if feature?('ical_feed')
-        .mt5
-          button.btn.btn-default.btn-xs type="button" onclick="xuiSwal.fire({ title: 'iCal Feed', showCancelButton: false, html:'#{@ical_url}' });"
-            = render Global::FaIcon.new('calendar', css_classes: 'mr5')
-            'iCal
+    .mt20
+      = render Dashboard::IcalFeed.new(user: current_user)
+
+  = render 'dashboard/polls'
 
   - if feature?('dashboard.course_recommendations')
     = render 'dashboard/upcoming_carousel'

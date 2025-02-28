@@ -278,12 +278,7 @@ describe API::UsersController, type: :controller do
       let!(:matches) do
         users[3].update! full_name: 'Jack'
         users[4].update! full_name: 'Jackson'
-        users[5].update! display_name: 'Jacky James', preferences: {
-          'social.allow_detection_via_name' => 'false',
-        }
-        users[6].update! preferences: {
-          'social.allow_detection_via_email' => 'false',
-        }
+        users[5].update! display_name: 'Jacky James'
         users[6].emails.primary.take.update! address: 'jack.smith@example.de'
         users[3..6]
       end

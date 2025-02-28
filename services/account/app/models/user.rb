@@ -149,20 +149,6 @@ class User < ApplicationRecord
       ].reduce(:or)
     end
 
-    def search(query)
-      query = query.gsub(%r{[/%_]}) {|m| "\\#{m}" }
-      query = "%#{query}%"
-
-      where [
-        pref('social.allow_detection_via_display_name')
-          .and(t[:display_name].matches(query)),
-        pref('social.allow_detection_via_name')
-          .and(t[:full_name].matches(query)),
-        pref('social.allow_detection_via_email')
-          .and(t[:id].in(Email.address_matches(query).select(:user_id).arel)),
-      ].reduce(:or)
-    end
-
     def auth_uid(query)
       joins(:authorizations).where(authorizations: {uid: query.to_s})
     end
@@ -193,13 +179,6 @@ class User < ApplicationRecord
     end
 
     alias t arel_table
-
-    def pref(preference)
-      col   = t[:preferences]
-      quote = Arel::Nodes.build_quoted("#{preference}=>false", col)
-
-      Arel::Nodes::InfixOperation.new('@>', col, quote).not
-    end
   end
 
   def avatar_url

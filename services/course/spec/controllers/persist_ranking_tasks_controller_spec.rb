@@ -49,7 +49,7 @@ describe PersistRankingTasksController, type: :controller do
               user_id:,
               quantile: start_quantile,
               quantiled_user_dpoints: start_quantiled_user_dpoints,
-              deleted: i % 2 ? true : false)
+              deleted: i % 2 ? true : false) # rubocop:disable Style/RedundantCondition
           end
         end
 
