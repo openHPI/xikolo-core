@@ -17,17 +17,6 @@
     }
   }
 
-  &--button {
-    @include btn-variant(
-      $btn-outline-default,
-      transparent,
-      $btn-outline-default,
-      $white,
-      $btn-outline-default,
-      $btn-outline-default
-    );
-  }
-
   &__label {
     margin-right: 5px;
   }

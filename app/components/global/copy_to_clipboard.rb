@@ -11,7 +11,7 @@ module Global
 
     def css_classes
       if type == :button
-        'clipboard clipboard--button'
+        'clipboard btn btn-default btn-outline btn-xs'
       else
         'clipboard clipboard--icon'
       end
