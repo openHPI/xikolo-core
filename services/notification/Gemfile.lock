@@ -254,7 +254,7 @@ GEM
     paginate-responder (2.1.0)
       rack-link_headers (>= 2.2)
     pg (1.5.9)
-    pkg-config (1.5.9)
+    pkg-config (1.6.0)
     pp (0.6.2)
       prettyprint
     premailer (1.27.0)
@@ -331,7 +331,7 @@ GEM
     red-colors (0.4.0)
       json
       matrix
-    redcarpet (3.6.0)
+    redcarpet (3.6.1)
     redis (5.4.0)
       redis-client (>= 0.22.0)
     redis-client (0.23.2)
