@@ -15,8 +15,6 @@
 
 //= require jquery2
 
-//= require jquery.cookie
-
 // Peer assessment related javascript
 //= require peer_assessment/pa_bundled
 

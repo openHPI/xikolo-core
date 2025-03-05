@@ -19,7 +19,9 @@ class NextDate::OnDemandExpiresSyncWorker
 
     NextDate
       .find_or_initialize_by(slot_id:, user_id: @user_id)
-      .update(attrs)
+      .update!(attrs)
+  rescue ActiveRecord::RecordNotUnique
+    retry
   end
 
   private

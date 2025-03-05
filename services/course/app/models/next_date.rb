@@ -5,6 +5,8 @@ class NextDate < ApplicationRecord
   self.primary_key = %i[slot_id user_id]
   self.inheritance_column = false # no single table inheritance (STI)
 
+  validates :slot_id, uniqueness: {scope: :user_id}
+
   belongs_to :course
 
   class << self

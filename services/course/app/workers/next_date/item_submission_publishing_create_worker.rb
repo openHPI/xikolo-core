@@ -23,9 +23,10 @@ class NextDate::ItemSubmissionPublishingCreateWorker
     return purge! unless applicable?
 
     NextDate
-      .find_or_initialize_by(slot_id:,
-        user_id: @user_id)
-      .update(attrs)
+      .find_or_initialize_by(slot_id:, user_id: @user_id)
+      .update!(attrs)
+  rescue ActiveRecord::RecordNotUnique
+    retry
   end
 
   private
@@ -48,9 +49,9 @@ class NextDate::ItemSubmissionPublishingCreateWorker
       resource_type: 'item',
       resource_id: @item_id,
       course_id: item.section.course.id,
-      # when there is no submission_publishing_date, we set a past
+      # When there is no submission_publishing_date, we set a past
       # date to ensure the `item_submission_deadline` date is hidden
-      # but the new date is excluded, too
+      # but the new date is excluded, too.
       date: item.submission_publishing_date || 1.second.ago,
       title: "#{item.section.title}: #{item.title}",
       section_pos: item.section.position,

@@ -1,0 +1,7 @@
+button type='button' aria-controls='dialog'
+  = 'Open dialog'
+
+= render Global::Dialog.new('dialog')
+  div
+    h3 = 'Dialog Title'
+    p = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam condimentum purus in viverra nibh.'

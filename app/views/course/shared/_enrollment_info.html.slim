@@ -10,8 +10,10 @@ h3.course-details--section-title = t(:'course.courses.show.how_to_enroll')
     = t(:'course.courses.show.how_to_enroll_text')
     .mt10
     - if course.enrollment_policy?
-      = render Course::EnrollmentDialog.new(course.course_code, target_id: 'enrollment_info')
-      button.btn.btn-default.full-width.mb20 type='button' aria-controls='enrollment_info'
+      = render Global::Dialog.new('enrollment_info') do
+        = render Course::EnrollmentPolicyForm.new(course.course_code)
+      end
+      button.btn.btn-default.full-width.mb20 type='button' aria-controls='enrollment_info' data-behavior='open-enrollment-dialog'
         = t(:'course.courses.show.button_enroll')
     - else
       = link_to enrollments_path(course_id: course.course_code), method: :get, class: 'btn btn-default full-width mb20' do

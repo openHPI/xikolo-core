@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
 module Course
-  class EnrollmentDialog < ApplicationComponent
-    def initialize(course_identifier, target_id:)
+  class EnrollmentPolicyForm < ApplicationComponent
+    def initialize(course_identifier)
       @course = ::Course::Course.by_identifier(course_identifier).take!
-      @target_id = target_id
     end
 
     def course_title

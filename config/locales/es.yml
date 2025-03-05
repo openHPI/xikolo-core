@@ -449,7 +449,7 @@ es:
       copied: ¡Copiado!
     countdown:
       time_remaining: "Tiempo restante:"
-    enrollment_dialog:
+    enrollment_form:
       title: "Matricularse en %{course_title}"
       text: Antes de poder matricularse en el curso, debe aceptar la política de protección de datos del proveedor del curso.
       link: Mostrar política

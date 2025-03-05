@@ -4,6 +4,7 @@ class Visit < ApplicationRecord
   self.primary_key = %i[item_id user_id]
 
   validates :user_id, presence: true
+  validates :item_id, uniqueness: {scope: :user_id}
   belongs_to :item
 
   class << self

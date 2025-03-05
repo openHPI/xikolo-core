@@ -22,12 +22,18 @@ describe VisitsController, type: :controller do
       end
 
       context 'with visit already existing for course item' do
-        let!(:visit) { create(:visit, item:, user_id: params[:user_id]) }
-        let(:create_time) { visit.updated_at }
-        let(:recreate_time) { Time.now.utc + 10.minutes }
+        let(:visit) { create(:visit, item:, user_id: params[:user_id]) }
+        let(:create_time) { 10.minutes.ago }
+        let(:recreate_time) { 10.minutes.from_now }
 
-        before { Timecop.travel(recreate_time) }
-        after { Timecop.return }
+        around do |example|
+          Timecop.travel(create_time)
+          visit
+          Timecop.travel(recreate_time)
+          example.run
+        ensure
+          Timecop.return
+        end
 
         it { is_expected.to be_successful }
 

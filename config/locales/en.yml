@@ -592,7 +592,7 @@ en:
       no_results: No results found for "%{input}"
       option_create: "Add <strong>%{input}...</strong>"
       remove_item: Remove this item
-    enrollment_dialog:
+    enrollment_form:
       title: "Enroll for %{course_title}"
       text: Before you can be enrolled for the course, you have to read and agree to the course provider's data protection policy.
       link: Show policy

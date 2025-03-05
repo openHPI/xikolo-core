@@ -377,7 +377,7 @@ fr:
       copied: Copié !
     countdown:
       time_remaining: "Temps qui reste :"
-    enrollment_dialog:
+    enrollment_form:
       title: "S'inscrire à  %{course_title}"
       text: Avant de pouvoir vous inscrire au cours, vous devez lire et accepter la politique de protection des données de l'organisateur du cours.
       link: Politique d'affichage

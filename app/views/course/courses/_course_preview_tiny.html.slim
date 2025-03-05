@@ -30,9 +30,10 @@
         = link_to t(:'courses.preview.button_details'), course_path(course), class: 'col-xs-6 btn btn-sm btn-default in-course-details action'
         - unless course.invite_only?
           - if course.enrollment_policy?
-            = render Course::EnrollmentDialog.new(course.course_code, target_id: 'course_preview_tiny')
+            = render Global::Dialog.new('course_preview_tiny') do
+              = render Course::EnrollmentPolicyForm.new(course.course_code)
+            end
             button.course-action-button.course-action-enroll.mr10 type='button' aria-controls='course_preview_tiny'
-              = t(:'courses.preview.button_enroll')
           - else
             = link_to enrollments_path(course_id: course.course_code), method: :get, class: 'col-xs-6 btn btn-sm btn-primary in-course-enroll action' do
               = t(:'courses.preview.button_enroll')

@@ -1,0 +1,27 @@
+.dialog {
+  width: 95%;
+  padding: 20px;
+  border: none;
+  border-radius: 2px;
+  box-shadow: $box-shadow-m;
+
+  @include screen-size-sm-and-up {
+    width: 600px;
+  }
+
+  ::backdrop {
+    background-color: rgba($gray-500, 0.5);
+  }
+
+  &__close {
+    border: none;
+    margin-bottom: 20px;
+    background: none;
+    float: right;
+    @include font-sm;
+
+    &:hover {
+      color: $primary-color;
+    }
+  }
+}

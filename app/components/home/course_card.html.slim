@@ -59,7 +59,7 @@ div class='course-card #{"course-card--#{css_modifiers}" if css_modifiers}' data
         = render Home::Course::DetailsButton.new(@course)
 
       - if show_additional_buttons?
-        - if @course.policy_url.present?
+        - if @course.policy_url.present? && !@enrollment
           button.course-card__action-btn type='button' data-behavior='open-enrollment-dialog'
             = t(:'course.card.button_enroll')
         - else
@@ -70,4 +70,5 @@ div class='course-card #{"course-card--#{css_modifiers}" if css_modifiers}' data
           = render Home::Course::ReactivationButton.new(@course, enrollment: @enrollment, user: @user)
 
 - if @course.policy_url.present?
-  = render Course::EnrollmentDialog.new(@course.course_code, target_id: "course-card-#{@course.course_code}")
+  = render Global::Dialog.new("enrollment-dialog-#{@course.course_code}")
+    = render Course::EnrollmentPolicyForm.new(@course.course_code)

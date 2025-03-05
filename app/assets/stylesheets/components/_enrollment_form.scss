@@ -1,0 +1,15 @@
+.enrollment-form {
+  h1 {
+    margin-top: 0px;
+  }
+
+  &__checkbox {
+    display: flex;
+    align-items: flex-start;
+    padding-top: 10px;
+
+    label {
+      margin-top: 0px;
+    }
+  }
+}

@@ -448,7 +448,7 @@ uk:
     clipboard: Зрозумів!
     countdown:
       time_remaining: "Залишилось часу:"
-    enrollment_dialog:
+    enrollment_form:
       title: "Зарахувати на %{course_title}"
       text: Перш ніж ви зможете зарахуватися на курс, ви повинні прочитати та погодитися з політикою захисту даних постачальника курсу.
       link: Показати політику

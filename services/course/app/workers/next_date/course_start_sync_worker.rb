@@ -16,7 +16,9 @@ class NextDate::CourseStartSyncWorker
 
     NextDate
       .find_or_initialize_by(slot_id:)
-      .update(attrs)
+      .update!(attrs)
+  rescue ActiveRecord::RecordNotUnique
+    retry
   end
 
   private

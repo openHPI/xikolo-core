@@ -454,7 +454,7 @@ nl:
       copied: Gekopieerd!
     countdown:
       time_remaining: "Overgebleven tijd:"
-    enrollment_dialog:
+    enrollment_form:
       title: "Inschrijven voor %{course_title}"
       text: Voordat u zich kunt inschrijven voor de cursus, moet u het gegevensbeschermingsbeleid van de cursusaanbieder lezen en ermee akkoord gaan.
       link: Toon beleid

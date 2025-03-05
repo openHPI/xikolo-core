@@ -71,9 +71,11 @@
           = link_to t(:'course.courses.show.button_register'), course.external_registration_url, class: 'course-action-button action course-action-enroll mr10', target: '_blank', rel: 'noopener'
         - elsif !course.invite_only?
           - if course.enrollment_policy?
-            = render Course::EnrollmentDialog.new(course.course_code, target_id: 'course_preview_large')
-            button.course-action-button.action.course-action-enroll.mr10 type='button' aria-controls='course_preview_large'
+            button.course-action-button.action.course-action-enroll.mr10 type='button' aria-controls='course_preview_large' data-behavior='open-enrollment-dialog'
               = t(:'courses.preview.button_enroll')
+            = render Global::Dialog.new('course_preview_large') do
+              = render Course::EnrollmentPolicyForm.new(course.course_code)
+            end
           - else
             = link_to enrollments_path(course_id: course.course_code), method: :get, data: {behavior: 'disable-after-click'}, class: 'course-action-button action course-action-enroll mr10' do
               = t(:'courses.preview.button_enroll')

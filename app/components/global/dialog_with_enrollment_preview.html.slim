@@ -1,0 +1,5 @@
+button type='button' aria-controls='dialog-with-enrollment' data-behavior='open-enrollment-dialog'
+  = 'Open dialog with enrollment'
+
+= render Global::Dialog.new('dialog-with-enrollment')
+  = render Course::EnrollmentPolicyForm.new('content-ab')

@@ -5,7 +5,7 @@
  */
 
 import ready from 'util/ready';
-import initializeDialog from '../../course/dialog';
+import initializeDialog from '../global/dialog';
 
 const isPartiallyHidden = (card) => {
   const slider = card.closest('[data-slider-target="content"]');
@@ -75,7 +75,7 @@ const expandCard = (card) => {
   );
 
   if (enrollmentPolicyButton) {
-    const dialog = document.querySelector('[data-behavior=enrollment-dialog]');
+    const dialog = document.querySelector('[data-behavior=dialog]');
     // Setting aria-controls in the markup makes the original and cloned card share the same attribute.
     // Instead, we only set it on the cloned card to ensure dialog.ts attaches the event listener to it, as it is the card the user interacts with.
     enrollmentPolicyButton.setAttribute('aria-controls', `${dialog.id}`);

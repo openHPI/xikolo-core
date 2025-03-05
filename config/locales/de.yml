@@ -502,7 +502,7 @@ de:
       no_results: Keine Ergebnisse für "%{input}" gefunden
       option_create: "<strong>%{input}...</strong> hinzufügen"
       remove_item: Dieses Element entfernen
-    enrollment_dialog:
+    enrollment_form:
       title: "Anmeldung für %{course_title}"
       text: Bevor Sie sich für diesen Kurs einschreiben können, akzeptieren Sie bitte die Datenschutzvereinbarung des Kursanbieters.
       link: Datenschutzvereinbarung anzeigen
