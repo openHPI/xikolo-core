@@ -14,9 +14,5 @@ route 'xikolo.notification.notify_announcement', to: 'notification#announcement'
 # Enrollments
 route 'xikolo.course.enrollment.create', to: 'welcome_mail#notify'
 
-# Peer assessment routes
-route 'xikolo.peer_assessment.conflict.create', to: 'peer_assessment#new_conflict'
-route 'xikolo.peer_assessment.conflict.resolved', to: 'peer_assessment#conflict_resolved'
-
 # Statistic emails
 route 'xikolo.lanalytics.course_stats.calculate', to: 'course_stats#send_daily_mails'

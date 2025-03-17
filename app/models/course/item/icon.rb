@@ -47,8 +47,6 @@ module Course
         case @item['content_type']
           when 'lti_exercise'
             LTI_ICONS.fetch(@item['exercise_type']&.to_sym, 'display-code')
-          when 'peer_assessment'
-            'money-check-pen'
           when 'quiz'
             QUIZ_ICONS.fetch(@item['exercise_type']&.to_sym, 'clipboard-list-check')
           when 'rich_text'

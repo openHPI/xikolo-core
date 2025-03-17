@@ -1,8 +1,0 @@
-/ Submission
-.pa-rt-generic
-  - if @submission.text.blank?
-    em = t :'peer_assessment.submission.no_text'
-  - else
-    == render_markdown @submission.text
-
-  = render 'peer_assessment/shared/files', files: @submission.attachments, deletable: false

@@ -47,6 +47,11 @@ module Collabspace
         collabspace.rel(:memberships).get(user_id: params[:id]).then do |memberships|
           next if memberships.blank?
 
+          if prevent_removing_last_admin?(memberships.first, collabspace)
+            add_flash_message :error, t(:'learning_rooms.flash_messages.error.membership_last_admin')
+            next
+          end
+
           collabspace_api.rel(:membership).patch(
             {status: params[:status]},
             {id: memberships.first['id']}
@@ -60,7 +65,7 @@ module Collabspace
     def destroy
       current = collabspace.rel(:memberships).get(user_id: current_user.id).value!.first
 
-      unless allowed_to_delete_membership?(collabspace, current)
+      unless allow_deleting_membership?(collabspace, current)
         return redirect_to course_learning_room_path(course_code, collabspace['id'])
       end
 
@@ -100,8 +105,20 @@ module Collabspace
       params[:learning_room_id]
     end
 
-    def allowed_to_delete_membership?(collabspace, current_membership)
-      return false if collabspace['kind'] == 'team' && !current_user.allowed?('course.course.teaching')
+    def prevent_removing_last_admin?(membership, collabspace)
+      # Only continue when an admin is about to be removed.
+      return false unless membership.status == 'admin'
+
+      # No need to block the operation if there are other admins remaining.
+      remaining_admins = collabspace.rel(:memberships).get(status: 'admin').value!
+      return false if (remaining_admins.count - 1).positive?
+
+      true
+    end
+
+    def allow_deleting_membership?(collabspace, current_membership)
+      return false if collabspace['kind'] == 'team' &&
+                      !current_user.allowed?('course.course.teaching')
 
       current_user.allowed?('course.course.teaching_anywhere') ||
         (current_membership && %w[admin mentor].include?(current_membership['status'])) ||

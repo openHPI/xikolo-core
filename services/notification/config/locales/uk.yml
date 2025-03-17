@@ -57,18 +57,6 @@ uk:
           few: сповіщення дискусійного форуму
           many: сповіщення дискусійного форуму
           other: сповіщення дискусійного форуму
-      peer_assessments:
-        conflict:
-          new:
-            staff: email
-            reporter: email
-            accused_student: email
-            regrading: email
-          resolved:
-            reporter: email
-            accused_student: email
-            regrading: email
-            no_reviews: email
 
     disable_link:
       explanation:
@@ -143,64 +131,6 @@ uk:
       questions:
         no_questions: За останній час не було жодних активних обговорень.
         no_unanswered: Питань без відповідей немає.
-
-    peer_assessments:
-      conflict:
-        referral: "Ідентифікатор переходу для цього конфлікту: %{refid}. Вказуйте цей ідентифікатор у будь-якому листуванні щодо цієї скарги."
-
-        reasons:
-          plagiarism: Плагіат
-          offensive_content: Образливий контент
-          unrelated: Зміст, не пов'язаний із завданням
-          other: Інша причина
-          grading_conflict: Конфлікт оцінювання
-          no_reviews: Відгуків немає
-
-        subjects:
-          review: огляд
-          submission: подання
-
-        new:
-          staff:
-            subject: "%{assessment_name}: Скарга зареєстрована"
-            title: "%{assessment_name}: Скарга зареєстрована"
-            body: "Студент поскаржився на подання на підставі: '%{reason}'."
-
-          reporter:
-            subject: "%{assessment_name}: Скаргу отримано"
-            title: "%{assessment_name}: Ми отримали вашу скаргу щодо '%{reason}'"
-            body: "Ми отримали скаруг, яку ви заповнили. Ми повідомимо вас, коли розглянемо претензію та приймемо рішення."
-
-          accused_student:
-            subject: "%{assessment_name}: На %{conflict_subject} поскаржились через '%{reason}'"
-            title: "%{assessment_name}: На %{conflict_subject} поскаржились через '%{reason}'"
-            body: "Рецензент поскаржився на %{conflict_subject} на підставі '%{reason}'. Ми розглянемо цю претензію та повідомимо вас, як тільки приймемо рішення."
-
-          regrading:
-            subject: "%{assessment_name}: Запит на переоцінку отримано."
-            title: "%{assessment_name}: Ми отримали ваш запит на переоцінку на підставі '%{reason}'"
-            body: "Ми отримали ваш запит на переоцінку. Як тільки ми розглянемо його та приймемо рішення, ми повідомимо вас. До того часу просимо вас проявити терпіння."
-
-        resolved:
-          reporter:
-            subject: "%{assessment_name}: Скаргу вирішено"
-            title: "%{assessment_name}: Скаргу вирішено"
-            body: "Скаргу, яку ви заповнили на підставі '%{reason}', було закрито. Як наслідок, ви можете побачити зміни оцінок (якщо такі є) на сторінці результатів оцінювання."
-
-          accused_student:
-            subject: "%{assessment_name}: Скаргу вирішено"
-            title: "%{assessment_name}: Скаргу вирішено"
-            body: "Скаргу на %{conflict_subject} на підставі '%{reason}' було закрито. Як наслідок, ви можете побачити зміни оцінок (якщо такі є) на сторінці результатів оцінювання."
-
-          regrading:
-            subject: "%{assessment_name}: Повторне оцінювання оброблено"
-            title: "%{assessment_name}: Повторне оцінювання оброблено"
-            body: "Ваш запит на переоцінку через '%{reason}' оброблено та закрито.. Як наслідок, ви можете побачити зміни оцінок (якщо такі є) на сторінці результатів оцінювання."
-
-          no_reviews:
-            subject: "%{assessment_name}: Ваша оцінка тепер доступна"
-            title: "%{assessment_name}: Ваша оцінка тепер доступна"
-            body: "Команда викладача перевірила вашу роботу. Подивіться, як ви впоралися із завданням, на сторінці оцінювання!"
 
   account_mailer:
     password_reset:

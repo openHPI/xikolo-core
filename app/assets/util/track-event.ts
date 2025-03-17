@@ -1,6 +1,6 @@
 import $ from 'jquery';
 
-export type SharingService = 'facebook' | 'twitter' | 'mail';
+export type SharingService = 'facebook' | 'mail';
 
 /**
  * Lanalytics events are emitted via jQuery plugin,

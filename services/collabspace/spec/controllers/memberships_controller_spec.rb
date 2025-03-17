@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe MembershipsController, type: :controller do
-  let!(:collab_space) { create(:collab_space) }
+  let!(:collabspace) { create(:collab_space) }
   let(:user_id) { '00000001-3100-4444-9999-000000000076' }
   let(:json) { JSON.parse response.body }
   let(:params) { {format: :json}.merge additional_params }
@@ -27,21 +27,21 @@ describe MembershipsController, type: :controller do
     subject(:create_membership) { post :create, params: }
 
     let(:additional_params) do
-      {collab_space_id: collab_space.id,
+      {collab_space_id: collabspace.id,
        user_id:,
        status:}
     end
     let(:status) { 'regular' }
 
-    it 'adds a member to the specified collab_space' do
+    it 'adds a member to the specified collabspace' do
       expect { create_membership }.to change {
-        CollabSpace.find(collab_space.id).memberships.size
+        CollabSpace.find(collabspace.id).memberships.size
       }.by(1)
     end
 
     it 'knows that the user is a member afterwards' do
       create_membership
-      expect(collab_space.reload).to be_member user_id
+      expect(collabspace.reload).to be_member user_id
     end
 
     describe 'pending membership' do
@@ -84,7 +84,7 @@ describe MembershipsController, type: :controller do
       let(:additional_params) { {kind: 'team'} }
 
       context 'without any team' do
-        before { create_list(:membership, 5, collab_space:) }
+        before { create_list(:membership, 5, collab_space: collabspace) }
 
         it 'does not return anything' do
           list_memberships
@@ -105,51 +105,51 @@ describe MembershipsController, type: :controller do
     end
 
     describe 'for one collab space' do
-      let(:additional_params) { {collab_space_id: collab_space_2.id} }
-      let(:collab_space_2) { create(:collab_space) }
+      let(:additional_params) { {collab_space_id: collabspace_2.id} }
+      let(:collabspace_2) { create(:collab_space) }
 
       before do
-        create_list(:membership, 5, collab_space_id: collab_space_2.id)
+        create_list(:membership, 5, collab_space_id: collabspace_2.id)
       end
 
       it 'just gets the users from that collab space' do
         list_memberships
-        expect(json.size).to eq(collab_space_2.reload.memberships.size)
+        expect(json.size).to eq(collabspace_2.reload.memberships.size)
       end
 
       describe 'with an array of statuses' do
         let(:additional_params) do
-          {collab_space_id: collab_space_2.id,
+          {collab_space_id: collabspace_2.id,
            status: {'0' => 'regular', '1' => 'admin'}}
         end
 
         it 'responds with all memberships' do
           create(
             :membership,
-            collab_space_id: collab_space_2.id,
+            collab_space_id: collabspace_2.id,
             status: 'admin'
           )
 
           list_memberships
-          expect(json.size).to eq(collab_space_2.reload.memberships.size)
+          expect(json.size).to eq(collabspace_2.reload.memberships.size)
         end
 
         it 'does not include a pending membership if not specified' do
           create(
             :membership,
-            collab_space_id: collab_space_2.id,
+            collab_space_id: collabspace_2.id,
             status: 'pending'
           )
 
           list_memberships
-          expect(json.size).to eq(collab_space_2.reload.memberships.size - 1)
+          expect(json.size).to eq(collabspace_2.reload.memberships.size - 1)
         end
       end
 
       describe 'for an admin' do
         let(:additional_params) do
           {
-            collab_space_id: collab_space_2.id,
+            collab_space_id: collabspace_2.id,
             status: 'admin',
           }
         end
@@ -157,7 +157,7 @@ describe MembershipsController, type: :controller do
         before do
           create(
             :membership,
-            collab_space_id: collab_space_2.id,
+            collab_space_id: collabspace_2.id,
             status: 'admin'
           )
         end
@@ -175,7 +175,7 @@ describe MembershipsController, type: :controller do
 
         it 'has fewer items than the total of memberships' do
           list_memberships
-          expect(json.size).to be < collab_space_2.reload.memberships.size
+          expect(json.size).to be < collabspace_2.reload.memberships.size
         end
       end
     end
@@ -198,27 +198,29 @@ describe MembershipsController, type: :controller do
   end
 
   describe '#update' do
+    subject(:update_membership) { put :update, params: }
+
     let(:membership) { create(:membership, status: 'pending') }
     let(:additional_params) { {id: membership.id, status: 'regular'} }
 
     it 'can change the status to regular' do
-      put(:update, params:)
+      update_membership
       expect(membership.reload.status).to eq 'regular'
     end
   end
 
   describe '#destroy' do
-    subject(:delete_mambership) { delete :destroy, params: {format: :json, id: membership.id} }
+    subject(:delete_membership) { delete :destroy, params: {format: :json, id: membership.id} }
 
-    let!(:membership) { create(:membership, user_id:) }
+    let!(:membership) { create(:membership, collab_space: collabspace, user_id:) }
 
-    it 'deletes the record' do
-      delete_mambership
+    it 'removes the membership' do
+      delete_membership
       expect { membership.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
     it 'changes the number of memberships by one' do
-      expect { delete_mambership }.to change { Membership.all.size }.by(-1)
+      expect { delete_membership }.to change { collabspace.memberships.reload.count }.from(2).to(1)
     end
   end
 end

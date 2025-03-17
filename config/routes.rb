@@ -175,144 +175,6 @@ Rails.application.routes.draw do
     get 'rich_texts', to: 'statistics#rich_texts', as: :rich_texts
   end
 
-  scope module: 'peer_assessment' do
-    resources :peer_assessments, only: %i[show edit update] do
-      member do
-        post :start_assessment
-        get :files
-        post :upload
-        delete :remove_file
-        put :advance
-      end
-
-      resources :conflicts, only: %i[index show] do
-        member do
-          post :reconcile
-          put :reconcile # to use the create_review stuff with no_review conflicts
-        end
-      end
-
-      resources :submissions, only: [] do
-        resources :files, only: [], controller: 'submission_files' do
-          member do
-            get :gallery
-          end
-        end
-      end
-
-      resources :submission_management, only: %i[index show] do
-        member do
-          post :rate
-          post :grant_attempt
-          get :submission_details
-          post :request_regrading
-        end
-
-        collection do
-          get :generate_gallery
-        end
-      end
-
-      resource :error, only: %i[show]
-
-      resources :rubrics, except: %i[show] do
-        member do
-          post :moveup
-          post :movedown
-          post :remove_option
-        end
-      end
-
-      resources :team_evaluation_rubrics, except: %i[show edit update] do
-        member do
-          post :moveup
-          post :movedown
-        end
-      end
-
-      resources :train_samples, except: %i[show create] do
-        collection do
-          post :open_training
-        end
-
-        member do
-          patch :autosave
-          post :extend_deadline
-        end
-      end
-
-      # Controllers handling the individual steps
-      resources :steps, only: %i[index show] do
-        member do
-          get :locked
-          get :deadline_passed
-          get :inaccessible
-          get :advance
-        end
-
-        collection do
-          post :setup
-          post :update
-        end
-
-        resource :submission, only: %i[show new update] do
-          member do
-            # Advancement is handled through the update method
-            get :additional_attempt
-            patch :additional_attempt_update
-            patch :autosave
-            post :upload
-            delete :remove_file
-          end
-        end
-
-        resources :training, only: %i[new update] do
-          member do
-            patch :autosave
-          end
-
-          collection do
-            get :evaluate
-            put :advance
-          end
-        end
-
-        resources :reviews, except: %i[create destroy] do
-          member do
-            patch :autosave
-            post :extend_deadline
-          end
-
-          collection do
-            post :report
-            put :advance
-          end
-        end
-
-        resource :self_assessments, only: %i[show new update] do
-          member do
-            # Advancement is handled through the update method
-            patch :autosave
-            put :advance
-          end
-        end
-
-        resource :results, only: %i[show] do
-          collection do
-            # No advancement required
-            post :report
-            get '/:review_id', controller: :results, action: :show_review, as: :review_result
-            post '/rate/:review_id', controller: :results, action: :rate_review, as: :rate_review
-            post :request_regrading
-          end
-        end
-      end
-    end
-
-    # Notes are somewhat separate from the rest of the peer assessment components
-    resources :notes, only: %i[create update destroy], as: :peer_assessment_notes
-  end
-
   resources :channels, only: %i[create update new edit destroy], module: 'admin'
   resources :channels, only: %i[show], module: 'home'
   namespace :admin do
@@ -342,8 +204,6 @@ Rails.application.routes.draw do
       end
     end
 
-    # Make peer assessments available as /courses/:course_id/peer_assessments
-    resources :peer_assessments, only: %i[index], module: 'peer_assessment'
     # Make course announcements available as /courses/:course_id/announcements
     resources :announcements, except: %i[show], module: 'course'
     resources :lti_providers, except: %i[edit new show]
@@ -504,12 +364,6 @@ Rails.application.routes.draw do
   get '/learn', to: 'learning_mode#index'
   get '/learn/review', to: 'learning_mode#review'
 
-  resources :video_providers, except: %i[show], module: 'admin' do
-    member do
-      resource :sync, only: %i[create], controller: 'video_provider_sync', as: :sync_video_provider
-    end
-  end
-
   get 'ical', to: 'ical#index'
 
   # Private API endpoints used by the frontend only. Must shadow the
@@ -538,7 +392,12 @@ Rails.application.routes.draw do
       end
     end
     namespace :announcement do
-      resources :recipients, only: [:index]
+      resources :recipients, only: %i[index]
+    end
+    resources :video_providers, except: %i[show] do
+      member do
+        resource :sync, only: %i[create], controller: 'video_provider_sync', as: :sync_video_provider
+      end
     end
   end
 

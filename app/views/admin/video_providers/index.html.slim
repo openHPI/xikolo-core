@@ -16,16 +16,16 @@
               td
                 = provider.sync_status_locale
               td.text-align-right
-                = link_to t(:'.full_sync'), sync_video_provider_path(id: provider.id, full: true), method: :post, class: 'btn btn-default btn-sm ml10'
-                = link_to t(:'.partial_sync'), sync_video_provider_path(id: provider.id), method: :post, class: 'btn btn-default btn-sm ml10 mr10'
+                = link_to t(:'.full_sync'), admin_sync_video_provider_path(id: provider.id, full: true), method: :post, class: 'btn btn-default btn-sm ml10'
+                = link_to t(:'.partial_sync'), admin_sync_video_provider_path(id: provider.id), method: :post, class: 'btn btn-default btn-sm ml10 mr10'
                 = render Global::ActionsDropdown.new(menu_side: 'right') do |c|
                   - c.with_action
                     button data-behavior='copy-to-clipboard' data-text=provider.id
                       = t(:'.copy_id')
                   - c.with_action
-                    = link_to t(:'.edit'), edit_video_provider_path(provider)
+                    = link_to t(:'.edit'), edit_admin_video_provider_path(provider)
                   - c.with_destructive_action
-                    = link_to video_provider_path(provider), method: :delete, data: {confirm: t(:'.confirm_delete'), disable_with: t(:'.deleting')}
+                    = link_to admin_video_provider_path(provider), method: :delete, data: {confirm: t(:'.confirm_delete'), disable_with: t(:'.deleting')}
                       = t(:'.delete')
                       = render Global::FaIcon.new('trash-can')
       = render Global::Callout.new(t(:'admin.video_providers.index.synchronization.info'),
@@ -37,4 +37,4 @@
           span.caret
         ul.dropdown-menu
           - Video::Provider::VALID_PROVIDER_TYPES.each_key do |type|
-            li = link_to t(:"admin.videos.provider_type.#{type}"), new_video_provider_path(type:)
+            li = link_to t(:"admin.videos.provider_type.#{type}"), new_admin_video_provider_path(type:)

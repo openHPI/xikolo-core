@@ -33,7 +33,9 @@ Feature: Choose alternative section within a course
 
   Scenario: View progress with two alternative sections
     When I select the first alternative section
+    And I complete the item
     And I select the second alternative section
+    And I complete the item
     And I am on the progress page
     Then both alternative sections should be listed
     And the course progress should only count one alternative section

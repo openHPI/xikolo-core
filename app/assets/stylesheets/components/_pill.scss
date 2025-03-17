@@ -1,6 +1,7 @@
 .pill {
   display: inline-block;
   padding: 3px 10px;
+  border: 1px solid $gray-500;
   border-radius: 100px;
   margin: 0;
   background-color: $gray-100;
@@ -14,7 +15,26 @@
   }
 
   &--note {
+    border: 1px solid $note-500;
     background-color: $note-100;
     color: $note-900;
+  }
+
+  &--success {
+    border: 1px solid $success-500;
+    background-color: $success-100;
+    color: $success-900;
+  }
+
+  &--information {
+    border-color: $information-500;
+    background-color: $information-100;
+    color: $information-900;
+  }
+
+  &--error {
+    border-color: $error-500;
+    background-color: $error-100;
+    color: $error-900;
   }
 }

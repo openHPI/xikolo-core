@@ -36,9 +36,9 @@ describe 'Home: Course List', type: :system do
     it 'hides empty categories' do
       visit '/courses'
 
-      expect(page).to have_no_content 'Current courses'
       expect(page).to have_content 'Upcoming courses'
       expect(page).to have_content 'Self-paced courses'
+      expect(page).to have_no_content 'Current courses'
     end
   end
 

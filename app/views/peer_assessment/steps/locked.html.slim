@@ -1,5 +1,0 @@
-= render Global::Callout.new(t(:'peer_assessment.step.locked', unlock: distance_of_time_in_words(DateTime.now, @current_step.unlock_date)))
-
-- if @inside_training
-  = render 'peer_assessment/training/guidance'
-  .mt30

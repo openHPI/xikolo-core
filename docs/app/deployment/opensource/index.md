@@ -39,7 +39,7 @@ These are divided into necessary and optional services:
 | **web-msgr**                       | Asynchronous messaging service for the web service.                                |
 | **web-sidekiq**                    | Background job processing with Sidekiq for the web service.                        |
 | **web-delayed**                    | Background job processing with Delayed for the web service.                        |
-| ... (more application services)    | Service functionality provided for peerassessment, pinboard, quiz, and timeeffort. |
+| ... (more application services)    | Service functionality provided for pinboard, quiz, and timeeffort. |
 | **elasticsearch-master**           | Search engine and event store for lanalytics.                                      |
 | **postgres-lanalytics**            | Database for the lanalytics service.                                               |
 | **postgres-web**                   | Database for the core services.                                                    |

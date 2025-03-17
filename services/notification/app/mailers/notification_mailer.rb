@@ -33,11 +33,6 @@ class NotificationMailer < ApplicationMailer
   private
 
   MAILS_WITH_OLD_LAYOUT = %w[
-    peer_assessments.conflict.new.accused_student
-    peer_assessments.conflict.new.reporter
-    peer_assessments.conflict.new.staff
-    peer_assessments.conflict.resolved.accused_student
-    peer_assessments.conflict.resolved.reporter
     pinboard.blocked_item
     report.new_report
   ].freeze

@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'Admin: VideoProviders: Index', type: :request do
-  subject(:get_video_providers) { get '/video_providers', headers: }
+  subject(:get_video_providers) { get '/admin/video_providers', headers: }
 
   let(:headers) { {} }
 

@@ -70,7 +70,6 @@ group :development, :test do
   gem 'listen', '~> 3.9.0'
   gem 'rspec', '~> 3.10'
   gem 'rspec-rails', '~> 7.0'
-  gem 'rspec-teamcity', require: false
 end
 
 group :test do
@@ -80,6 +79,9 @@ group :test do
   # Needed for Restify request specs
   gem 'typhoeus', '~> 1.0'
   gem 'webmock'
+
+  gem 'rspec-github', '~> 3.0', require: false
+  gem 'rspec-teamcity', '~> 1.0', require: false
 end
 
 group :test, :integration do

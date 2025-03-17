@@ -74,12 +74,13 @@ describe 'Course: Items: Destroy', type: :request do
 
       shared_examples 'a monolithized content item' do |content_class|
         before do
-          # We need to delete the item manually here, as the delete request is only stubbed,
-          # but the content record's destruction is impossible without.
-          # As the node is created by the item factory and is dependent on the item, it have to be deleted as well.
-          # Once, `xi-quiz` and `xi-peerassessment` are part of the monolith,
-          # we can destroy the `Course::Item` record in `xi-web`, which also triggers
-          # the destruction of the content.
+          # We need to delete the item manually here, as the delete
+          # request is only stubbed, but the content record's
+          # destruction is impossible without. As the node is created by
+          # the item factory and is dependent on the item, it have to be
+          # deleted as well. Once, `xi-quiz` is part of the monolith, we
+          # can destroy the `Course::Item` record in `xi-web`, which
+          # also triggers the destruction of the content.
           item.node.destroy
           item.delete
         end
@@ -119,49 +120,6 @@ describe 'Course: Items: Destroy', type: :request do
         let(:item) { create(:item, content_id: richtext.id, content_type: 'rich_text') }
 
         it_behaves_like 'a monolithized content item', Course::Richtext
-      end
-
-      context 'with a peer assessment as item content' do
-        let(:peer_assessment_resource) { build(:'peerassessment:peerassessment', course_id: course.id) }
-        let(:item) { create(:item, content_id: peer_assessment_resource['id'], content_type: 'peer_assessment') }
-        let(:item_resource) do
-          build(:'course:item',
-            id: item.id,
-            content_id: peer_assessment_resource['id'],
-            section_id: section['id'],
-            content_type: 'peer_assessment')
-        end
-        let(:content_delete_stub) do
-          Stub.request(:peerassessment, :delete, "/peer_assessments/#{peer_assessment_resource['id']}")
-            .to_return Stub.response(status: 200)
-        end
-
-        before do
-          Stub.service(:peerassessment, build(:'peerassessment:root'))
-          Stub.request(
-            :peerassessment, :get, "/peer_assessments/#{peer_assessment_resource['id']}",
-            query: {course_id: course['id']}
-          ).to_return Stub.json([peer_assessment_resource])
-          content_delete_stub
-        end
-
-        it 'redirects to the edit page' do
-          expect(action).to redirect_to course_sections_path
-        end
-
-        # We do not destroy PeerAssessments upon item destruction (yet)
-        # it 'destroys the related content record' do
-        #   expect { action }.to change(PeerAssessment::PeerAssessment, :count).from(1).to(0)
-        # end
-        it 'does not request to delete the peer assessment' do
-          action
-          expect(content_delete_stub).not_to have_been_requested
-        end
-
-        it 'deletes the item' do
-          action
-          expect(delete_item_stub).to have_been_requested
-        end
       end
 
       context 'with a quiz as item content' do

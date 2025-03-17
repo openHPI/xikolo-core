@@ -5,7 +5,7 @@ module Steps
     module Progress
       Then 'the item should be completed' do
         within '.course-progress' do
-          expect(find('.course-progress__item', text: 'Visited items')).to have_content('1 of 1')
+          expect(find('.course-progress__item', text: 'Completed items')).to have_content('1 of 1')
         end
       end
 

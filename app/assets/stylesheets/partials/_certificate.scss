@@ -1,0 +1,9 @@
+.certificate-sharing {
+  display: flex;
+  align-items: center;
+
+  &__info {
+    flex-basis: 1;
+    padding-left: 10px;
+  }
+}

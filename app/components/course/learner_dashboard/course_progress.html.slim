@@ -29,14 +29,14 @@
           span = EMPTY_STATE
 
     .course-progress__item
-      - if visits_percentage.present?
-        = render Course::CircularProgress.new(visits_percentage, "#{visits_percentage}%", :small)
+      - if completed_items_percentage.present?
+        = render Course::CircularProgress.new(completed_items_percentage, "#{completed_items_percentage}%", :small)
       - else
-        = render Course::CircularProgress.new(visits_percentage, EMPTY_STATE, :small)
+        = render Course::CircularProgress.new(completed_items_percentage, EMPTY_STATE, :small)
       .course-progress__overall-score
-        span.course-progress__overall-score-title = t(:'course.progress.visited_score')
+        span.course-progress__overall-score-title = t(:'course.progress.completed_score')
         - if items_available.positive?
-          span = t(:'course.progress.visits', visited: items_visited, available: items_available)
+          span = t(:'course.progress.completed', completed: completed_items_count, available: items_available)
         - else
           span = EMPTY_STATE
 

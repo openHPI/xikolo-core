@@ -59,7 +59,9 @@ group :development, :test do
   gem 'rspec-collection_matchers'
   gem 'rspec-its'
   gem 'rspec-rails', '~> 7.0'
-  gem 'rspec-teamcity'
+
+  gem 'rspec-github', '~> 3.0', require: false
+  gem 'rspec-teamcity', '~> 1.0', require: false
 end
 
 group :development do

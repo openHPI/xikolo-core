@@ -5,10 +5,7 @@ class CourseNav < MenuWithPermissions
   item 'courses.nav.sections', 'lamp-desk',
     active: lambda {|request|
       controller_name = request.filtered_parameters['controller']
-      course_content_controller = %w[items quiz_submission].include? controller_name
-      peer_assessment_controller = controller_name.start_with? 'peer_assessment/'
-
-      course_content_controller || peer_assessment_controller
+      %w[items quiz_submission].include?(controller_name)
     },
     route: :course_resume
 

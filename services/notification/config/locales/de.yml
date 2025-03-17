@@ -83,19 +83,6 @@ de:
         new_thread:
           one: Forenbenachrichtigung
           other: Forenbenachrichtigungen
-      peer_assessments:
-        conflict:
-          new:
-            staff: E-Mail
-            reporter: E-Mail
-            accused_student: E-Mail
-            regrading: E-Mail
-
-          resolved:
-            reporter: E-Mail
-            accused_student: E-Mail
-            regrading: E-Mail
-            no_reviews: E-Mail
 
     disable_link:
       explanation:
@@ -174,64 +161,6 @@ de:
       questions:
         no_questions: In den letzten Tagen hat sich im Forum nichts getan. Starten Sie heute eine neue Diskussion!
         no_unanswered: Es gibt keine unbeantworteten Fragen.
-
-    peer_assessments:
-      conflict:
-        referral: "Die ID für diesen Konflikt ist: %{refid}. Bitte geben Sie diese ID in jeglicher Korrespondenz zu diesem Konflikt an, damit wir die Anfrage zuordnen können."
-
-        reasons:
-          plagiarism: Plagiat
-          offensive_content: Unangebrachter Inhalt
-          unrelated: Inhalt hat keinen Bezug zur Aufgabe
-          other: Andere Gründe
-          grading_conflict: Bewertungskonflikt
-          no_reviews: Keine Bewertung
-
-        subjects:
-          review: Bewertung
-          submission: Abgabe
-
-        new:
-          staff:
-            subject: "%{assessment_name}: Es wurde ein Report erstellt"
-            title: "%{assessment_name}: Es wurde ein Report erstellt"
-            body: "Ein Student hat eine Abgabe aus folgendem Grund gemeldet: '%{reason}'."
-
-          reporter:
-            subject: "%{assessment_name}: Report erhalten"
-            title: "%{assessment_name}: Wir haben Ihren Report erhalten. Grund des Reports: '%{reason}'"
-            body: "Wir haben Ihren Report erhalten. Sobald wir eine Entscheidung getroffen haben, werden wir uns bei Ihnen melden."
-
-          accused_student:
-            subject: "%{assessment_name}: Ihre %{conflict_subject} wurde uns aus folgendem Grund gemeldet: '%{reason}'"
-            title: "%{assessment_name}: Ihre %{conflict_subject} wurde uns aus folgendem Grund gemeldet: '%{reason}'"
-            body: "Ein Bewerter hat uns Ihre  %{conflict_subject} gemeldet. Grund: '%{reason}'. Sobald wir eine Entscheidung getroffen haben, werden wir uns bei Ihnen melden."
-
-          regrading:
-            subject: "%{assessment_name}: Neubewertungsanfrage erhalten."
-            title: "%{assessment_name}: Wir haben Ihre Anfrage zur Neubewertung der Aufgabe erhalten. Grund der Neubewertungsanfrage: '%{reason}'"
-            body: "Wir haben Ihre Anfrage zur Neubewertung einer Aufgabe erhalten. Sobald wir eine Entscheidung getroffen haben, werden wir uns bei Ihnen melden. Bis dahin bitten wir um etwas Geduld."
-
-        resolved:
-          reporter:
-            subject: "%{assessment_name}: Report bearbeitet"
-            title: "%{assessment_name}: Report bearbeitet"
-            body: "Ihre Meldung mit dem Grund: '%{reason}' wurde geschlossen. Ihre Gesamtnote könnte sich dadurch geändert haben."
-
-          accused_student:
-            subject: "%{assessment_name}: Report bearbeitet"
-            title: "%{assessment_name}: Report bearbeitet"
-            body: "Eine Meldung über Ihre %{conflict_subject} mit dem Grund '%{reason}' wurde geschlossen. Ihre Gesamtnote könnte sich dadurch geändert haben."
-
-          regrading:
-            subject: "%{assessment_name}: Neubewertung bearbeitet"
-            title: "%{assessment_name}: Neubewertung bearbeitet"
-            body: "Ihre Anfrage zur Neubewertung einer Aufgabe mit dem Grund '%{reason}' wurde bearbeitet und geschlossen. Sollte sich die Note geändert haben, finden Sie diese Änderungen auf der Ergebnisübersicht des Peer Assessments."
-
-          no_reviews:
-            subject: "%{assessment_name}: Ihre Note steht nun zur Verfügung."
-            title: "%{assessment_name}: Ihre Note steht nun zur Verfügung."
-            body: "Das Teaching Team hat Ihre Abgabe bewertet. Die Ergebnisse finden Sie auf der Seite des Peer Assessments."
 
   account_mailer:
     password_reset:

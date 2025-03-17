@@ -16,8 +16,7 @@ module Collabspace
 
       @collabspace_presenter = build_collabspace_presenter(
         collabspace:,
-        memberships: user_memberships,
-        load_tpa: true
+        memberships: user_memberships
       )
 
       files = collabspace.rel(:files).get(per_page:, page: current_page).value!

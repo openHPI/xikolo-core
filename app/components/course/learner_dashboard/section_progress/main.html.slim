@@ -8,11 +8,11 @@
     .section-progress__score-bar
       = render Course::LearnerDashboard::SectionProgress::Score.new(label: t(:'course.progress.section_score.graded'), value: graded_percentage)
       = render Course::LearnerDashboard::SectionProgress::Score.new(label: t(:'course.progress.section_score.selftests'), value: selftest_percentage)
-      = render Course::LearnerDashboard::SectionProgress::Score.new(label: t(:'course.progress.section_score.visits'), value: visits_percentage)
+      = render Course::LearnerDashboard::SectionProgress::Score.new(label: t(:'course.progress.section_score.completed'), value: completed_items_percentage)
 
-    .section-progress__visited-items
+    .section-progress__completed-items
       = render Global::Pill.new \
-        items_available.positive? ? t(:'course.progress.visited_items', visited: items_visited, available: items_available) : t(:'course.progress.visited_empty'),
+        items_available.positive? ? t(:'course.progress.completed_items', completed: completed_items_count, available: items_available) : t(:'course.progress.completed_empty'),
         size: :small,
         color: :note
 

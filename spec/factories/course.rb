@@ -281,7 +281,7 @@ FactoryBot.define do
           'title' => 'Week 1: Quiz 1',
           'content_type' => 'quiz',
           'exercise_type' => 'main',
-          'user_state' => 'visited',
+          'user_state' => 'submitted',
           'optional' => false,
           'icon_type' => nil,
           'max_points' => 10.0,

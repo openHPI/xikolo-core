@@ -1,0 +1,20 @@
+---
+name: Set up node
+description: Set up Node, Corepack, and installs deps via Yarn
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version-file: .node-version
+        cache: yarn
+      env:
+        # Workaround for https://github.com/actions/setup-node/issues/899
+        SKIP_YARN_COREPACK_CHECK: true
+
+    - shell: sh
+      run: corepack enable
+
+    - shell: sh
+      run: yarn install --immutable --refresh-lockfile

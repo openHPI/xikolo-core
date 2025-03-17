@@ -67,6 +67,7 @@ Capybara.register_driver :chrome do |app|
     if headless?
       opts.add_argument('headless=new')
       opts.add_argument('disable-gpu') if Gem.win_platform?
+      opts.add_argument('--no-sandbox') if ENV.key?('CI')
     end
 
     opts.add_argument('disable-search-engine-choice-screen')

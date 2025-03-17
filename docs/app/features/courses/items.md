@@ -11,7 +11,7 @@ All required items must be _fulfilled_ in order to gain access to the item with 
 Fulfillment means:
 
 - For the content types _Text_ and _Video_: the item must have been visited at least once.
-- For the assessment content types _Quiz_, _Exercise_, and _Peer Assessment_: the item must have been completed
+- For the assessment content types _Quiz_, and _Exercise_: the item must have been completed
   with a score of at least 50% (default value) of the maximum points. This percentage can be configured in
   `Xikolo.config.required_assessment_threshold` by the platform administrator.
 

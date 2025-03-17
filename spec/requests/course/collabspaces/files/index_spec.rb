@@ -55,7 +55,6 @@ describe 'Course: Collabspace: Files: Index', type: :request do
       collab_space_files_url: '/collab_spaces/{collab_space_id}/files',
       memberships_url: '/memberships'
     )
-    Stub.service(:peerassessment, build(:'peerassessment:root'))
   end
 
   context 'registered and enrolled user' do
@@ -90,13 +89,6 @@ describe 'Course: Collabspace: Files: Index', type: :request do
 
       # And finally, this is what we actually want:
       collabspace_stub
-
-      # Oh no, how could I dare. Of course, we need the peer assessment.
-      # Wait...what?? Why?
-      Stub.request(
-        :peerassessment, :get, '/peer_assessments',
-        query: hash_including(course_id: course['id'])
-      ).to_return Stub.json([])
 
       # Finally...
       files_stub

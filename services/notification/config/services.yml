@@ -8,7 +8,6 @@ production:
     learning_room: <%= ENV['XIKOLO_SERVICE_LEARNING_ROOM'] || 'http://localhost:4800' %>
     news: <%= ENV['XIKOLO_SERVICE_NEWS'] || 'http://localhost:4300' %>
     notification: <%= ENV['XIKOLO_SERVICE_NOTIFICATION'] || 'http://localhost:3200' %>
-    peerassessment: <%= ENV['XIKOLO_SERVICE_PEERASSESSMENT'] || 'http://localhost:5400' %>
     pinboard: <%= ENV['XIKOLO_SERVICE_PINBOARD'] || 'http://localhost:3500' %>
 
 development:
@@ -21,7 +20,6 @@ development:
     learning_room: <%= ENV['XIKOLO_SERVICE_LEARNING_ROOM'] || 'http://localhost:4800' %>
     news: <%= ENV['XIKOLO_SERVICE_NEWS'] || 'http://localhost:4300' %>
     notification: <%= ENV['XIKOLO_SERVICE_NOTIFICATION'] || 'http://localhost:3200' %>
-    peerassessment: <%= ENV['XIKOLO_SERVICE_PEERASSESSMENT'] || 'http://localhost:5400' %>
     pinboard: <%= ENV['XIKOLO_SERVICE_PINBOARD'] || 'http://localhost:3500' %>
 
 test:
@@ -34,5 +32,4 @@ test:
     learning_room: http://localhost:4800
     news: http://localhost:4300
     notification: http://notification.xikolo.tld/
-    peerassessment: http://localhost:5400
     pinboard: http://localhost:3500

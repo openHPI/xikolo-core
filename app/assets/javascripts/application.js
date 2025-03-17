@@ -15,9 +15,6 @@
 
 //= require jquery2
 
-// Peer assessment related javascript
-//= require peer_assessment/pa_bundled
-
 //= require user_tests
 
 // As a prerequisite for migrating to webpack, we temporarily import certain node modules into sprockets

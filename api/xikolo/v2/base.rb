@@ -50,7 +50,6 @@ module Xikolo
       mount_json_api_endpoint 'features', V2::Features::Features
       mount_json_api_endpoint 'last-visits', V2::Courses::LastVisits
       mount_json_api_endpoint 'lti-exercises', V2::CourseItems::LtiExercises
-      mount_json_api_endpoint 'peer-assessments', V2::CourseItems::PeerAssessments
       mount_json_api_endpoint 'pinboard-topics', V2::Pinboard::Topics
       mount_json_api_endpoint 'platform-events', V2::Activity::PlatformEvents
       mount_json_api_endpoint 'quizzes', V2::Quiz::Quizzes

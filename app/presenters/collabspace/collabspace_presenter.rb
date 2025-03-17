@@ -12,7 +12,7 @@ module Collabspace
     require 'digest/md5'
 
     attr_accessor :collabspace, :course, :include_calendar, :members, :membership, :membership_status,
-      :request, :space_admins_total, :super_privileged, :team_peer_assessments
+      :request, :space_admins_total, :super_privileged
 
     def_restify_delegators :collabspace, :description, :kind
 
@@ -27,7 +27,6 @@ module Collabspace
         members: user_memberships,
         membership: options[:membership],
         request: options[:request],
-        team_peer_assessments: options[:team_peer_assessments] || [],
         include_calendar: options[:include_calendar] || false,
         super_privileged: options[:super_privileged] || false,
         membership_status:,

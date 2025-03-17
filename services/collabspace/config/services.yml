@@ -5,7 +5,6 @@ production:
     course: <%= ENV['XIKOLO_SERVICE_COURSE'] || 'http://localhost:3300' %>
     grouping: <%= ENV['XIKOLO_SERVICE_GROUPING'] || 'http://localhost:5600' %>
     notification: <%= ENV['XIKOLO_SERVICE_NOTIFICATION'] || 'http://localhost:3200' %>
-    peerassessment: <%= ENV['XIKOLO_SERVICE_PEERASSESSMENT'] || 'http://localhost:5400' %>
     pinboard: <%= ENV['XIKOLO_SERVICE_PINBOARD'] || 'http://localhost:3500' %>
 
 development: &dev
@@ -15,7 +14,6 @@ development: &dev
     course: <%= ENV['XIKOLO_SERVICE_COURSE'] || 'http://localhost:3300' %>
     grouping: <%= ENV['XIKOLO_SERVICE_GROUPING'] || 'http://localhost:5600' %>
     notification: <%= ENV['XIKOLO_SERVICE_NOTIFICATION'] || 'http://localhost:3200' %>
-    peerassessment: <%= ENV['XIKOLO_SERVICE_PEERASSESSMENT'] || 'http://localhost:5400' %>
     pinboard: <%= ENV['XIKOLO_SERVICE_PINBOARD'] || 'http://localhost:3500' %>
 
 test:

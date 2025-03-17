@@ -8,13 +8,13 @@
   }
 
   &__items {
-    display: flex;
-    flex-direction: column;
+    display: grid;
     margin: 15px 0 25px;
-    gap: 15px;
+    gap: 10px;
+    grid-template-columns: 1fr;
 
     @include screen-size-s-and-up {
-      flex-direction: row;
+      grid-template-columns: 1fr 1fr 1fr;
     }
   }
 
@@ -33,6 +33,7 @@
 
   &__overall-score-title {
     font-weight: bold;
+    text-align: center;
   }
 
   &__overall-graded-score {

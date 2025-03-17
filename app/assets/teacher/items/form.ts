@@ -1,16 +1,15 @@
-import ready from '../../util/ready';
-import { ContentType, InitState } from './form-types';
 import { initializeTomSelect } from '../../components/global/custom-select';
-import { hideAllInputs, setDefaultTypes } from './form-helpers';
 import initMarkdownEditorOnSelector from '../../util/markdown-editor';
+import ready from '../../util/ready';
+import { hideAllInputs, setDefaultTypes } from './form-helpers';
+import { ContentType, InitState } from './form-types';
 
-import handleVideoType from './video';
-import handlePeerAssessmentType from './peer-assessment';
-import handleRichTextType from './rich-text';
-import handleQuizType from './quiz';
-import handleLtiExerciseType from './lti-exercise';
-import upload from '../../util/forms/upload';
 import mdupload from '../../util/forms/mdupload';
+import upload from '../../util/forms/upload';
+import handleLtiExerciseType from './lti-exercise';
+import handleQuizType from './quiz';
+import handleRichTextType from './rich-text';
+import handleVideoType from './video';
 
 const appendTemplate = (id: string, parent: HTMLElement) => {
   const template = document.querySelector<HTMLTemplateElement>(id);
@@ -38,9 +37,6 @@ const handleFormInputs = (
   switch (contentTypeElem.value as ContentType) {
     case 'video':
       handleVideoType();
-      break;
-    case 'peer_assessment':
-      handlePeerAssessmentType();
       break;
     case 'rich_text':
       handleRichTextType();

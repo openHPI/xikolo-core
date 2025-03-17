@@ -12,7 +12,7 @@ The following diagram outlines the implementation:
 ### Dynamic content handling
 
 `form.ts` manages the dynamic display of content-specific inputs in `app/views/items/_form.html.slim`.
-Based on the `content_type` value (`quiz`, `form`, `video`, `lti`, `rich_text` or `peer_assessment`), `handleFormInputs` toggles the visibility of some form inputs.
+Based on the `content_type` value (`quiz`, `form`, `video`, `lti`, or `rich_text`), `handleFormInputs` toggles the visibility of some form inputs.
 
 The custom form content (`#custom-form`) is also dynamically adjusted using the `toggleContentForm` function.
 This function selects the appropriate template from `app/views/items/_form_wrapper.html.slim` and appends it to the `#custom-form` element.

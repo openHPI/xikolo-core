@@ -15,13 +15,6 @@ PATH
       xikolo-pinboard (~> 5.0)
 
 PATH
-  remote: clients/xikolo-peer_assessment
-  specs:
-    xikolo-peer_assessment (3.0.0)
-      acfs (~> 2.0)
-      activesupport
-
-PATH
   remote: clients/xikolo-pinboard
   specs:
     xikolo-pinboard (5.0.0)
@@ -758,6 +751,8 @@ GEM
     rspec-expectations (3.13.3)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
+    rspec-github (3.0.0)
+      rspec-core (~> 3.0)
     rspec-its (2.0.0)
       rspec-core (>= 3.13.0)
       rspec-expectations (>= 3.13.0)
@@ -788,10 +783,12 @@ GEM
       unicode-display_width (>= 2.4.0, < 4.0)
     rubocop-ast (1.38.1)
       parser (>= 3.3.1.0)
-    rubocop-capybara (2.21.0)
-      rubocop (~> 1.41)
-    rubocop-factory_bot (2.26.1)
-      rubocop (~> 1.61)
+    rubocop-capybara (2.22.0)
+      lint_roller (~> 1.1)
+      rubocop (~> 1.72, >= 1.72.1)
+    rubocop-factory_bot (2.27.0)
+      lint_roller (~> 1.1)
+      rubocop (~> 1.72, >= 1.72.1)
     rubocop-performance (1.24.0)
       lint_roller (~> 1.1)
       rubocop (>= 1.72.1, < 2.0)
@@ -805,9 +802,10 @@ GEM
     rubocop-rspec (3.5.0)
       lint_roller (~> 1.1)
       rubocop (~> 1.72, >= 1.72.1)
-    rubocop-rspec_rails (2.30.0)
-      rubocop (~> 1.61)
-      rubocop-rspec (~> 3, >= 3.0.1)
+    rubocop-rspec_rails (2.31.0)
+      lint_roller (~> 1.1)
+      rubocop (~> 1.72, >= 1.72.1)
+      rubocop-rspec (~> 3.5)
     ruby-next-core (1.1.1)
     ruby-progressbar (1.13.0)
     ruby-rc4 (0.1.5)
@@ -1060,16 +1058,17 @@ DEPENDENCIES
   rexml (>= 3.2.1)
   rspec (~> 3.10)
   rspec-collection_matchers
+  rspec-github (~> 3.0)
   rspec-its
   rspec-rails (~> 7.0)
   rspec-teamcity (~> 1.0)
   rubocop (~> 1.73.0)
-  rubocop-capybara (~> 2.21.0)
-  rubocop-factory_bot (~> 2.26.1)
+  rubocop-capybara (~> 2.22.0)
+  rubocop-factory_bot (~> 2.27.0)
   rubocop-performance (~> 1.24.0)
   rubocop-rails (~> 2.30.0)
   rubocop-rspec (~> 3.5.0)
-  rubocop-rspec_rails (~> 2.30.0)
+  rubocop-rspec_rails (~> 2.31.0)
   ruby-saml (~> 1.14)
   rubyzip (~> 2.4.0)
   sanitize
@@ -1104,7 +1103,6 @@ DEPENDENCIES
   xikolo-common!
   xikolo-config!
   xikolo-course (~> 12.0)!
-  xikolo-peer_assessment (~> 3.0)!
   xikolo-pinboard (~> 5.0)!
   xikolo-quiz (~> 5.0)!
   xikolo-s3!

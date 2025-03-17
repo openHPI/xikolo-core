@@ -67,7 +67,7 @@ module Xikolo
         end
 
         def completed?(item)
-          (%w[quiz peer_assessment lti_exercise].exclude?(item['content_type']) && item['user_state'] == 'visited') ||
+          (%w[quiz lti_exercise].exclude?(item['content_type']) && item['user_state'] == 'visited') ||
             %w[submitted graded].include?(item['user_state'])
         end
       end

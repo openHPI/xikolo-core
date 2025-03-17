@@ -66,9 +66,11 @@ group :test, :integration do
   # https://github.com/thoughtbot/factory_bot_rails/pull/432
   gem 'factory_bot_rails', '~> 6.0'
   gem 'rack-remote'
-  gem 'rspec-teamcity', require: false
   gem 'simplecov', require: false
   gem 'simplecov-teamcity-summary', require: false
   gem 'timecop'
   gem 'webmock', require: false
+
+  gem 'rspec-github', '~> 3.0', require: false
+  gem 'rspec-teamcity', '~> 1.0', require: false
 end

@@ -1,15 +1,13 @@
 # frozen_string_literal: true
 
-# rubocop:disable Rails/HelperInstanceVariable
 # TODO: Get rid of this helper
 module Collabspace::CollabspacesControllerCommon
-  def build_collabspace_presenter(collabspace:, memberships:, load_tpa: false)
+  def build_collabspace_presenter(collabspace:, memberships:)
     Collabspace::CollabspacePresenter.create(
       collabspace,
       the_course,
       request:,
       membership:,
-      team_peer_assessments: load_tpa && team_peer_assessments_for(collabspace),
       include_calendar: current_user.feature?('collabspace_calendar'),
       super_privileged: current_user.allowed?('course.course.teaching_anywhere'),
       user_memberships: memberships.presence || []
@@ -34,20 +32,6 @@ module Collabspace::CollabspacesControllerCommon
 
     add_flash_message :error, t(:'flash.error.need_to_be_admin')
     redirect_to(course_learning_room_path(params[:course_id], collabspace_id))
-  end
-
-  def team_peer_assessments_for(collabspace)
-    return if collabspace['kind'] != 'team'
-    return @team_peer_assessments if @team_peer_assessments
-
-    team_peer_assessments = Xikolo.api(:peerassessment).value!.rel(:peer_assessments).get(
-      course_id: the_course.id,
-      is_team_assessment: true
-    ).value!
-
-    @team_peer_assessments = team_peer_assessments.select do |tpa|
-      course_items.get(id: tpa['item_id'], published: true).value!.present?
-    end
   end
 
   private

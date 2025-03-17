@@ -365,6 +365,8 @@ GEM
     rspec-expectations (3.13.3)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
+    rspec-github (3.0.0)
+      rspec-core (~> 3.0)
     rspec-its (2.0.0)
       rspec-core (>= 3.13.0)
       rspec-expectations (>= 3.13.0)
@@ -504,9 +506,10 @@ DEPENDENCIES
   rexml
   rspec (~> 3.10)
   rspec-collection_matchers
+  rspec-github (~> 3.0)
   rspec-its
   rspec-rails (~> 7.0)
-  rspec-teamcity
+  rspec-teamcity (~> 1.0)
   rsvg2
   sass-rails
   scenic (~> 1.5)

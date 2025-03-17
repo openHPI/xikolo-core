@@ -78,12 +78,6 @@ class ItemPresenter < PrivatePresenter
         type_label_quiz
       when 'lti_exercise'
         type_label_lti
-      when 'peer_assessment'
-        if bonus_exercise?
-          'bonus_peer_assessment'
-        else
-          'peer_assessment'
-        end
       when 'rich_text'
         'rich_text' if @item['icon_type'].blank?
       else

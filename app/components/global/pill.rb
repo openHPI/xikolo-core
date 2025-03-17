@@ -17,7 +17,7 @@ module Global
     def css_modifiers
       [].tap do |modifiers|
         modifiers << 'pill--small' if @size == :small
-        modifiers << "pill--#{@color}" if %i[note].include?(@color)
+        modifiers << "pill--#{@color}" if %i[note success information error].include?(@color)
       end.join(' ')
     end
   end

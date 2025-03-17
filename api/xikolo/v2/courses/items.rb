@@ -25,7 +25,7 @@ module Xikolo
         }
 
         attribute('content_type') {
-          description 'The type of item: one of quiz, video, rich_text, lti_exercise, peer_assessment'
+          description 'The type of item: one of quiz, video, rich_text, lti_exercise'
           type :string
         }
 
@@ -52,8 +52,6 @@ module Xikolo
                 else
                   'lti_exercise'
                 end
-              when 'peer_assessment'
-                'homework'
               when 'rich_text'
                 # This maps the new icon_types to the old identifiers
                 icon_type_mapping = {exercise2: 'exercise', community: 'team_exercise', chat: 'discussion'}
@@ -132,7 +130,6 @@ module Xikolo
           morph 'quiz', Xikolo::V2::Quiz::Quizzes
           morph 'rich_text', Xikolo::V2::CourseItems::RichTexts
           morph 'video', Xikolo::V2::CourseItems::Videos
-          morph 'peer_assessment', Xikolo::V2::CourseItems::PeerAssessments
         }
 
         has_one('section', Xikolo::V2::Courses::Sections) {

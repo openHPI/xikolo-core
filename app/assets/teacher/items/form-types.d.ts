@@ -3,11 +3,6 @@ export type InitState = {
   isNotProctoringType: boolean;
 };
 
-export type ContentType =
-  | 'video'
-  | 'rich_text'
-  | 'quiz'
-  | 'lti_exercise'
-  | 'peer_assessment';
+export type ContentType = 'video' | 'rich_text' | 'quiz' | 'lti_exercise';
 
 export type ExerciseType = 'main' | 'bonus' | 'selftest' | 'survey' | '';

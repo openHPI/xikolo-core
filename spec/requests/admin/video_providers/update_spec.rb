@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'Admin: VideoProviders: Update', type: :request do
-  let(:update_video_provider) { patch "/video_providers/#{provider.id}", params:, headers: }
+  let(:update_video_provider) { patch "/admin/video_providers/#{provider.id}", params:, headers: }
   let(:headers) { {} }
   let(:params) { {} }
   let(:provider) { create(:video_provider, :vimeo) }
@@ -33,7 +33,7 @@ describe 'Admin: VideoProviders: Update', type: :request do
 
         it 'redirects to the index page' do
           update_video_provider
-          expect(response).to redirect_to video_providers_path
+          expect(response).to redirect_to admin_video_providers_path
         end
       end
 
@@ -61,7 +61,7 @@ describe 'Admin: VideoProviders: Update', type: :request do
 
         it 'redirects to the index page' do
           update_video_provider
-          expect(response).to redirect_to video_providers_path
+          expect(response).to redirect_to admin_video_providers_path
         end
       end
 

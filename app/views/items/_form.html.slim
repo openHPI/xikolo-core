@@ -27,7 +27,7 @@
   #public-description-markdown
     = f.input :public_description, label: t(:'admin.courses.items.form.label.public_description'), required: false, class: 'form-control', as: :markdown, placeholder: 'Enter content', hint: t(:'admin.courses.items.form.label.public_description_hint')
   - if @item.new_record?
-    = f.input :content_type, label: t(:'admin.courses.items.form.label.content_type'), required: true, collection: [[t(:'admin.courses.items.form.type_selector.video'), 'video'], [t(:'admin.courses.items.form.type_selector.quiz'), 'quiz'], [t(:'admin.courses.items.form.type_selector.text'), 'rich_text'], [t(:'admin.courses.items.form.type_selector.lti_exercise'), 'lti_exercise'], [t(:'admin.courses.items.form.type_selector.peer_assessment'), 'peer_assessment']]
+    = f.input :content_type, label: t(:'admin.courses.items.form.label.content_type'), required: true, collection: [[t(:'admin.courses.items.form.type_selector.video'), 'video'], [t(:'admin.courses.items.form.type_selector.quiz'), 'quiz'], [t(:'admin.courses.items.form.type_selector.text'), 'rich_text'], [t(:'admin.courses.items.form.type_selector.lti_exercise'), 'lti_exercise']]
   - else
     = f.hidden_field :content_type
   - if Xikolo.config.richtext_icon_types.present?
@@ -57,8 +57,6 @@
       = render 'items/quiz/form', quiz: @quiz, item: @item
     - if @item.content_type == 'lti_exercise'
       = render 'items/lti_exercise/form', lti_exercise: @lti_exercise
-    - if @item.content_type == 'peer_assessment'
-      = render 'items/peer_assessment/form', peer_assessment: @peer_assessment, item: @item
 
   .col-md-9.pl0
     = f.button :submit, class: 'btn btn-primary'

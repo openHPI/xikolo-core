@@ -1,9 +1,0 @@
-tr id=id
-  td.nowrap = author
-  td.nowrap = created_at
-  td.w100p = text
-  td.nowrap
-    - if render_form
-      = form_with url: path, scope: :peer_assessment_note_form, method: :delete, class: 'inline-block js-note-delete' do |f|
-        button.btn.btn-xs.btn-danger = t :'global.delete'
-        = f.hidden_field :subject_id, value: subject_id

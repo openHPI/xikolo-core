@@ -81,8 +81,8 @@ describe 'Item: Time Effort', type: :system do
       it 'does not add the time effort information' do
         visit "/courses/the_course/sections/#{section['id']}/items/#{item['id']}"
 
-        expect(page).to have_no_content 'Time effort: approx. 3 minutes'
         expect(page.find('li.video > a')['data-tooltip']).not_to include '"item-info":"(Video, \u0026sim;3 minutes)"'
+        expect(page).to have_no_content 'Time effort: approx. 3 minutes'
       end
     end
 
@@ -104,8 +104,8 @@ describe 'Item: Time Effort', type: :system do
         it 'does not add the time effort information' do
           visit "/courses/the_course/sections/#{section['id']}/items/#{item['id']}"
 
-          expect(page).to have_no_content 'Time effort: approx. 3 minutes'
           expect(page.find('li.video > a')['data-tooltip']).not_to include '"item-info":"(Video, \u0026sim;3 minutes)"'
+          expect(page).to have_no_content 'Time effort: approx. 3 minutes'
         end
       end
     end
@@ -171,8 +171,8 @@ describe 'Item: Time Effort', type: :system do
       it 'does not add the time effort information' do
         visit "/courses/the_course/sections/#{section['id']}/items/#{item['id']}"
 
-        expect(page).to have_no_content 'Time effort: approx. 4 minutes'
         expect(page.find('li.quiz > a')['data-tooltip']).not_to include '"item-info":"(Graded Test, \u0026sim;4 minutes)"'
+        expect(page).to have_no_content 'Time effort: approx. 4 minutes'
       end
     end
   end

@@ -59,7 +59,6 @@ group :development, :test do
   gem 'rspec', '~> 3.10'
   gem 'rspec-its'
   gem 'rspec-rails', '~> 7.0'
-  gem 'rspec-teamcity'
 end
 
 group :test do
@@ -68,6 +67,9 @@ group :test do
   gem 'factory_bot_rails', '~> 6.0'
   gem 'timecop'
   gem 'webmock'
+
+  gem 'rspec-github', '~> 3.0', require: false
+  gem 'rspec-teamcity', '~> 1.0', require: false
 end
 
 group :test, :integration do

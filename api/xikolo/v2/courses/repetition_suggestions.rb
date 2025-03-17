@@ -12,7 +12,7 @@ module Xikolo
         }
 
         attribute('content_type') {
-          description 'The type of item: one of quiz, video, rich_text, lti_exercise, peer_assessment'
+          description 'The type of item: one of quiz, video, rich_text, lti_exercise'
           type :string
         }
 

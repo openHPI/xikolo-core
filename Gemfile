@@ -84,7 +84,6 @@ gem 'maxminddb', '~> 0.1' # Location tracking
 gem 'acfs', '~> 2.0', '>= 2.0.0'
 gem 'xikolo-account',         '~> 8.0',   path: 'clients/xikolo-account'
 gem 'xikolo-course',          '~> 12.0',  path: 'clients/xikolo-course'
-gem 'xikolo-peer_assessment', '~> 3.0',   path: 'clients/xikolo-peer_assessment'
 gem 'xikolo-pinboard',        '~> 5.0',   path: 'clients/xikolo-pinboard'
 gem 'xikolo-quiz',            '~> 5.0',   path: 'clients/xikolo-quiz'
 gem 'xikolo-submission',      '~> 100.0', path: 'clients/xikolo-submission'
@@ -176,12 +175,12 @@ group :development, :test do
   gem 'rspec-its'
   gem 'rspec-rails', '~> 7.0'
   gem 'rubocop', '~> 1.73.0'
-  gem 'rubocop-capybara', '~> 2.21.0'
-  gem 'rubocop-factory_bot', '~> 2.26.1'
+  gem 'rubocop-capybara', '~> 2.22.0'
+  gem 'rubocop-factory_bot', '~> 2.27.0'
   gem 'rubocop-performance', '~> 1.24.0'
   gem 'rubocop-rails', '~> 2.30.0'
   gem 'rubocop-rspec', '~> 3.5.0'
-  gem 'rubocop-rspec_rails', '~> 2.30.0'
+  gem 'rubocop-rspec_rails', '~> 2.31.0'
   gem 'slim_lint'
 end
 
@@ -198,11 +197,13 @@ group :test do
   gem 'json_spec'
   gem 'pdf-inspector', require: 'pdf/inspector'
   gem 'rails-controller-testing'
-  gem 'rspec-teamcity', '~> 1.0', require: false
   gem 'selenium-webdriver', '~> 4.11'
   gem 'timecop'
   gem 'webmock'
   gem 'webrick'
+
+  gem 'rspec-github', '~> 3.0', require: false
+  gem 'rspec-teamcity', '~> 1.0', require: false
 end
 
 group :test, :integration do

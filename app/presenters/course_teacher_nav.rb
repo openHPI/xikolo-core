@@ -67,10 +67,6 @@ class CourseTeacherNav < MenuWithPermissions
       if: ->(user, _course) { user.allowed? 'course.content.edit' },
       route: :course_lti_providers
 
-    item 'courses.nav.teacher.peer_assessment', '',
-      if: ->(user, _course) { user.allowed? 'peerassessment.peerassessment.index' },
-      route: :course_peer_assessments
-
     item 'courses.nav.teacher.transpipe', '',
       if: ->(user, _course) { user.allowed?('video.subtitle.manage') && Transpipe.enabled? },
       route: ->(course) { Transpipe::URL.for_course course }

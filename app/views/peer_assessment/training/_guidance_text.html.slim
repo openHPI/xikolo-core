@@ -1,4 +1,0 @@
-= render Global::Callout.new(t(:'peer_assessment.training.info_text.one')) do
-  - if @current_step.required_reviews && !@current_step.optional
-    p == t(:'peer_assessment.training.info_text.two').gsub('%{required_reviews}', @current_step.required_reviews.to_s)
-  p == t(:'peer_assessment.training.info_text.three')

@@ -202,14 +202,16 @@ class User < ApplicationRecord
 
   def affiliation
     return if anonymous?
-    return if org_name_field.blank?
 
-    CustomField.find_by!(context: 'user', name: org_name_field)
+    affiliation = Xikolo.config.external_booking['affiliation_field']
+    return if affiliation.blank?
+
+    CustomField.find_by!(context: 'user', name: affiliation)
       .custom_field_values
       .find_by(context_id: id)
       &.values&.first
   rescue ActiveRecord::RecordNotFound
-    raise "User affiliation field #{org_name_field} required for JWT not found."
+    raise "User affiliation field #{affiliation} required for JWT not found."
   end
 
   # TODO: enable when removing the affiliated flag
@@ -322,10 +324,6 @@ class User < ApplicationRecord
   end
 
   private
-
-  def org_name_field
-    Xikolo.config.external_booking['affiliation_field']
-  end
 
   def publish_notify(action)
     Msgr.publish(decorate.as_event, to: "xikolo.account.user.#{action}")

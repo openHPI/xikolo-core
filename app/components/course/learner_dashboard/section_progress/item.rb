@@ -50,7 +50,7 @@ module Course
             item = case @item['content_type']
                      when 'quiz'
                        survey? ? Survey.new(@item) : Gradable.new(@item, percentage)
-                     when 'lti_exercise', 'peer_assessment'
+                     when 'lti_exercise'
                        Gradable.new(@item, percentage)
                      else
                        Other.new(@item)

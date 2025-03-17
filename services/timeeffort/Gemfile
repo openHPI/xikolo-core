@@ -55,9 +55,11 @@ group :test do
   # https://github.com/thoughtbot/factory_bot_rails/pull/432
   gem 'factory_bot_rails', '~> 6.0'
   gem 'rspec', '~> 3.10'
-  gem 'rspec-teamcity'
   gem 'typhoeus', require: false
   gem 'webmock', require: false
+
+  gem 'rspec-github', '~> 3.0', require: false
+  gem 'rspec-teamcity', '~> 1.0', require: false
 end
 
 group :development, :test do

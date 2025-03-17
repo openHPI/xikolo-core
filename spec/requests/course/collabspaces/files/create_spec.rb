@@ -27,7 +27,6 @@ describe 'Course: Collabspace: Files: Create', type: :request do
       collab_space_files_url: '/collab_spaces/{collab_space_id}/files',
       memberships_url: '/memberships'
     )
-    Stub.service(:peerassessment, build(:'peerassessment:root'))
   end
 
   context 'registered and enrolled user' do
@@ -67,12 +66,6 @@ describe 'Course: Collabspace: Files: Create', type: :request do
         id: collab_space_id,
         files_url: "/collab_spaces/#{collab_space_id}/files",
       })
-
-      # For some reason, peer assessments are requested
-      Stub.request(
-        :peerassessment, :get, '/peer_assessments',
-        query: hash_including(course_id: course['id'])
-      ).to_return Stub.json([])
     end
 
     context 'with invalid/missing collabspace file params' do

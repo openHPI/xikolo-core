@@ -44,18 +44,6 @@ es:
         new_thread:
           one: notificación del foro de debate
           other: notificaciones del foro de debate
-      peer_assessments:
-        conflict:
-          new:
-            staff: correo electrónico
-            reporter: correo electrónico
-            accused_student: correo electrónico
-            regrading: correo electrónico
-          resolved:
-            reporter: correo electrónico
-            accused_student: correo electrónico
-            regrading: correo electrónico
-            no_reviews: correo electrónico
 
     disable_link:
       explanation:
@@ -134,64 +122,6 @@ es:
       questions:
         no_questions: No ha habido actividad reciente en los debates.
         no_unanswered: No hay preguntas sin responder.
-
-    peer_assessments:
-      conflict:
-        referral: "El ID de referencia para este conflicto es: %{refid}. Incluya este ID de referencia en toda la correspondencia relacionada con este informe de denuncia."
-
-        reasons:
-          plagiarism: Plagio
-          offensive_content: Contenido ofensivo
-          unrelated: Contenido no relacionado con la tarea
-          other: Otras razones
-          grading_conflict: Conflicto relacionado con la nota
-          no_reviews: No hay revisiones
-
-        subjects:
-          review: revisión
-          submission: entrega
-
-        new:
-          staff:
-            subject: "%{assessment_name}: Se ha presentado un informe de denuncia"
-            title: "%{assessment_name}: Se ha presentado un informe de denuncia"
-            body: "Un estudiante ha denunciado una entrega aduciendo que '%{reason}'."
-
-          reporter:
-            subject: "%{assessment_name}: Informe de denuncia recibido"
-            title: "%{assessment_name}: Hemos recibido su informe de denuncia relativo a '%{reason}'"
-            body: "Hemos recibido el informe de denuncia que ha rellenado. Una vez que lo hayamos analizado y hayamos tomado una decisión sobre su queja, le enviaremos una notificación."
-
-          accused_student:
-            subject: "%{assessment_name}: Su %{conflict_subject} ha sido denunciado por '%{reason}'"
-            title: "%{assessment_name}: Su %{conflict_subject} ha sido denunciado por '%{reason}'"
-            body: "Un revisor ha denunciado su %{conflict_subject} alegando que '%{reason}'. Analizaremos esta queja y le enviaremos una notificación tan pronto como hayamos tomado una decisión."
-
-          regrading:
-            subject: "%{assessment_name}: Solicitud de reevaluación recibida."
-            title: "%{assessment_name}: Hemos recibido su solicitud de reevaluación referente a '%{reason}'"
-            body: "Hemos recibido su solicitud de reevaluación. Una vez que la hayamos analizado y hayamos tomado una decisión, le daremos una respuesta. Le agradecemos su paciencia hasta entonces."
-
-        resolved:
-          reporter:
-            subject: "%{assessment_name}: Informe de denuncia resuelto"
-            title: "%{assessment_name}: Informe de denuncia resuelto"
-            body: "El informe de denuncia que presentó alegando '%{reason}' ha sido cerrado. Como resultado, puede ver los cambios en su nota (si los hay) en la página de resultados de la evaluación entre pares."
-
-          accused_student:
-            subject: "%{assessment_name}: Informe de denuncia resuelto"
-            title: "%{assessment_name}: Informe de denuncia resuelto"
-            body: "El informe de denuncia presentado contra usted %{conflict_subject} a causa de '%{reason}' ha sido cerrado. Como resultado, puede ver los cambios en su nota (si los hay) en la página de resultados de la evaluación entre pares."
-
-          regrading:
-            subject: "%{assessment_name}: Reevaluación rechazada"
-            title: "%{assessment_name}: Reevaluación rechazada"
-            body: "Su solicitud de reevaluación debido a '%{reason}' ha sido rechazada y ya está cerrada."
-
-          no_reviews:
-            subject: "%{assessment_name}: Su nota ya está disponible"
-            title: "%{assessment_name}: Su nota ya está disponible"
-            body: "El equipo docente ha revisado su entrega. ¡Vea qué tal lo ha hecho en la página de evaluaciones!"
 
   account_mailer:
     password_reset:

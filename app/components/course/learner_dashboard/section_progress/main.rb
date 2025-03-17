@@ -47,14 +47,14 @@ module Course
           calc_progress(selftest_statistic['submitted_points'], selftest_statistic['max_points'])
         end
 
-        def visits_percentage
-          return if @section_progress['visits'].blank? || items_available.zero?
+        def completed_items_percentage
+          return if completed_items_count.zero? || items_available.zero?
 
-          @section_progress['visits']['percentage']
+          calc_progress(completed_items_count, items_available)
         end
 
-        def items_visited
-          @section_progress.dig('visits', 'user').presence || 0
+        def completed_items_count
+          items.count {|item| completed_item?(item) }
         end
 
         def items_available
@@ -76,6 +76,18 @@ module Course
         end
 
         private
+
+        def completed_item?(item)
+          if gradable_item?(item)
+            %w[graded submitted].include?(item['user_state'])
+          else
+            item['user_state'] == 'visited'
+          end
+        end
+
+        def gradable_item?(item)
+          %w[lti_exercise peer_assessment quiz].include?(item['content_type'])
+        end
 
         def render?
           @section_progress['alternative_state'] != 'parent'

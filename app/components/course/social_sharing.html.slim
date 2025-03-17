@@ -1,0 +1,11 @@
+.social-sharing
+  - @services.each do |service|
+    = link_to build_url_for(service),
+              target: '_blank',
+              rel: 'noopener',
+              class: "social-sharing__button social-sharing__button--#{service}",
+              title: t(:"social_sharing.#{service}.info"),
+              data: {popup: true, 'sharing-service': service, 'tracking-verb': tracking_verb},
+              'aria-label': t(:"social_sharing.#{service}.info") do
+      = render Global::FaIcon.new(t(:"social_sharing.#{service}.icon.name"), style: t(:"social_sharing.#{service}.icon.style"))
+      span.social-sharing__text.text-truncate = t(:"social_sharing.#{service}.button")

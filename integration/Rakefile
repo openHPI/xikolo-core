@@ -310,7 +310,6 @@ task server: %w[config] do
     learning_room: 4800,
     progress: 4900,
     game: 5100,
-    peerassessment: 5400,
     grouping: 5600,
   }
 

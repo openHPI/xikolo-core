@@ -28,7 +28,6 @@ describe 'Teacher: Item: Proctoring: Create Item', type: :system do
       permissions: %w[course.content.access course.content.edit],
       features: {'proctoring' => 'true'}
     Stub.service(:course, build(:'course:root'))
-    Stub.service(:peerassessment, build(:'peerassessment:root'))
     Stub.service(:pinboard, build(:'pinboard:root'))
     Stub.service(:quiz, build(:'quiz:root'))
 
@@ -53,10 +52,6 @@ describe 'Teacher: Item: Proctoring: Create Item', type: :system do
     Stub.request(
       :course, :get, '/next_dates',
       query: hash_including({})
-    ).to_return Stub.json([])
-    Stub.request(
-      :peerassessment, :get, '/peer_assessments',
-      query: {course_id: course['id']}
     ).to_return Stub.json([])
 
     # Stubs for processing and the "Edit item" page shown after saving

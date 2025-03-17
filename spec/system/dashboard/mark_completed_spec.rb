@@ -88,13 +88,13 @@ describe 'Dashboard: Course: Mark Completed', type: :system do
     it 'there is no course that can be marked as completed' do
       visit '/dashboard'
 
-      expect(page).to have_no_content 'My current courses'
       expect(page).to have_content 'My upcoming courses'
       expect(page).to have_content 'You are not enrolled in any upcoming courses.'
       expect(page).to have_content 'My completed courses'
       page.find(:xpath, "//*[text()='My completed courses']//ancestor::*[@class='course-group']") do |elem|
         expect(elem).to have_content 'My course'
       end
+      expect(page).to have_no_content 'My current courses'
 
       expect(page).to have_no_link 'Mark as completed', visible: :all
     end
@@ -124,13 +124,13 @@ describe 'Dashboard: Course: Mark Completed', type: :system do
     it 'there is no course that can be marked as completed' do
       visit '/dashboard'
 
-      expect(page).to have_no_content 'My current courses'
       expect(page).to have_content 'My upcoming courses'
       page.find(:xpath, "//*[text()='My upcoming courses']//ancestor::*[@class='course-group']") do |elem|
         expect(elem).to have_content 'My course'
       end
       expect(page).to have_no_content 'You are not enrolled in any upcoming courses.'
       expect(page).to have_no_content 'My completed courses'
+      expect(page).to have_no_content 'My current courses'
 
       expect(page).to have_no_link 'Mark as completed', visible: :all
     end

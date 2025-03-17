@@ -1373,8 +1373,6 @@ CourseSetRelation.create!(
   kind: 'requires_roa'
 )
 
-##### Peer Assessment #####
-
 #
 # Require additional seeds
 #

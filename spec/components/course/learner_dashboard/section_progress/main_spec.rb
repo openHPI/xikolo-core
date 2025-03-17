@@ -60,13 +60,17 @@ describe Course::LearnerDashboard::SectionProgress::Main, type: :component do
     expect(page).to have_content 'Section 1'
   end
 
-  it 'shows information about the section progress title bar' do
+  it 'shows the ratio of completed items' do
     render_inline(component)
 
+    expect(page).to have_content 'Completed: 6%'
+    expect(page).to have_content '1 of 16 items completed'
+  end
+
+  it 'shows progress information about the graded and self-test items' do
+    render_inline(component)
     expect(page).to have_content 'Graded: 100%'
     expect(page).to have_content 'Self-tests: 100%'
-    expect(page).to have_content 'Visited: 93%'
-    expect(page).to have_content '15 of 16 items visited'
   end
 
   it 'shows information about the section material' do
@@ -86,6 +90,23 @@ describe Course::LearnerDashboard::SectionProgress::Main, type: :component do
     expect(page).to have_content '1 of 1 taken'
     expect(page).to have_content '100%Self-tests4 of 4 points'
     expect(page).to have_content '2 of 2 taken'
+  end
+
+  context 'with a visited quiz that has not been submitted' do
+    let(:section_progress) do
+      super().merge(
+        'items' => super()['items'].map do |item|
+          item['title'] == 'Week 1: Quiz 1' ? item.merge('user_state' => 'visited') : item
+        end
+      )
+    end
+
+    it 'does not count the item as completed' do
+      render_inline(component)
+
+      expect(page).to have_content 'Completed: —'
+      expect(page).to have_content '0 of 16 items completed'
+    end
   end
 
   context 'with no progress for a certain type of section material' do

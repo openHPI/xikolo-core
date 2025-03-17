@@ -48,8 +48,6 @@ course_groups:
         context: course
       - role: news.announcement.admin
         context: course
-      - role: peerassessment.manager
-        context: course
       - role: pinboard.moderator
         context: course
       - role: quiz.admin
@@ -61,8 +59,6 @@ course_groups:
       - role: video.controller
         context: course
       - role: subtitle.editor
-        context: course
-      - role: peerassessment.admin
         context: course
       - role: video.editor
         context: root
@@ -99,8 +95,6 @@ course_groups:
       - role: quiz.inspector
         context: course
       - role: video.controller
-        context: course
-      - role: peerassessment.expert
         context: course
 
 #######################

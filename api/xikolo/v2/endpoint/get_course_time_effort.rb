@@ -16,7 +16,7 @@ module Xikolo
             state_for: current_user.id
           ).value!
 
-          exercises = %w[quiz peer_assessment lti_exercise]
+          exercises = %w[quiz lti_exercise]
           completed_items = published_items.select do |i|
             (exercises.include?(i['content_type']) &&
               %w[new visited].exclude?(i['user_state'])) ||

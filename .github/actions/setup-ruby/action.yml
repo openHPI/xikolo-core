@@ -1,0 +1,16 @@
+---
+name: Set up node
+description: Install native deps, Ruby, and Gems
+
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: |
+        sudo apt-get --quiet --quiet update
+        sudo apt-get --quiet --quiet --option Dpkg::Use-Pty=0 install $(${{ github.workspace }}/scripts/read-deps)
+
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: .ruby-version
+        bundler-cache: true

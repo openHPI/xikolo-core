@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe 'Admin: VideoProviderSync: Create', type: :request do
   let(:create_provider_sync) do
-    post "/video_providers/#{provider.id}/sync", params:, headers:
+    post "/admin/video_providers/#{provider.id}/sync", params:, headers:
   end
   let(:headers) { {} }
   let(:params) { {id: provider.id} }
@@ -24,7 +24,7 @@ describe 'Admin: VideoProviderSync: Create', type: :request do
         it 'triggers the synchronisation' do
           expect { create_provider_sync }.to have_enqueued_job(Video::SyncVideosJob).with(provider: provider.id, full: false)
           expect(flash[:success].first).to eq 'The synchronization has been initiated.'
-          expect(response).to redirect_to '/video_providers'
+          expect(response).to redirect_to '/admin/video_providers'
         end
 
         context 'with a provider sync already running' do
@@ -35,7 +35,7 @@ describe 'Admin: VideoProviderSync: Create', type: :request do
           it 'does not trigger the synchronisation' do
             expect { create_provider_sync }.not_to have_enqueued_job(Video::SyncVideosJob)
             expect(flash[:notice].first).to eq 'The sync has been recently triggered.'
-            expect(response).to redirect_to '/video_providers'
+            expect(response).to redirect_to '/admin/video_providers'
           end
         end
 
@@ -48,7 +48,7 @@ describe 'Admin: VideoProviderSync: Create', type: :request do
           it 'triggers the synchronisation' do
             expect { create_provider_sync }.to have_enqueued_job(Video::SyncVideosJob).with(provider: provider.id, full: false)
             expect(flash[:success].first).to eq 'The synchronization has been initiated.'
-            expect(response).to redirect_to '/video_providers'
+            expect(response).to redirect_to '/admin/video_providers'
           end
         end
       end
@@ -59,7 +59,7 @@ describe 'Admin: VideoProviderSync: Create', type: :request do
         it 'triggers the synchronisation' do
           expect { create_provider_sync }.to have_enqueued_job(Video::SyncVideosJob).with(provider: provider.id, full: true)
           expect(flash[:success].first).to eq 'The synchronization has been initiated.'
-          expect(response).to redirect_to '/video_providers'
+          expect(response).to redirect_to '/admin/video_providers'
         end
 
         context 'with a provider sync running' do
@@ -70,7 +70,7 @@ describe 'Admin: VideoProviderSync: Create', type: :request do
           it 'does not trigger the synchronisation' do
             expect { create_provider_sync }.not_to have_enqueued_job(Video::SyncVideosJob)
             expect(flash[:notice].first).to eq 'The sync has been recently triggered.'
-            expect(response).to redirect_to '/video_providers'
+            expect(response).to redirect_to '/admin/video_providers'
           end
         end
 
@@ -83,7 +83,7 @@ describe 'Admin: VideoProviderSync: Create', type: :request do
           it 'does not trigger the synchronisation' do
             expect { create_provider_sync }.not_to have_enqueued_job(Video::SyncVideosJob)
             expect(flash[:notice].first).to eq 'The sync has been recently triggered.'
-            expect(response).to redirect_to '/video_providers'
+            expect(response).to redirect_to '/admin/video_providers'
           end
         end
       end

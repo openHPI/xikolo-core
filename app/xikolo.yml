@@ -145,7 +145,7 @@ quiz_item_statistics_submission_limit: 50_000
 # List of additional icons available for richtext items (edit course item)
 richtext_icon_types: {}
 
-# Fulfillment threshold for required assessment items (quizzes, LTI, peer assessments)
+# Fulfillment threshold for required assessment items (quizzes, LTI)
 # Can have values from 0 to 100, the default value of 50 means that users need 50%
 # of the maximum points for the requirement to be met
 required_assessment_threshold: 50

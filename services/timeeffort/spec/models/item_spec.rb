@@ -13,7 +13,7 @@ RSpec.describe Item, type: :model do
   end
 
   it { is_expected.to accept_values_for(:content_type, 'video', 'rich_text', 'quiz') }
-  it { is_expected.to accept_values_for(:content_type, 'peer_assessment', 'lti_exercise') }
+  it { is_expected.to accept_values_for(:content_type, 'lti_exercise') }
   it { is_expected.to accept_values_for(:time_effort, 10) }
   it { is_expected.not_to accept_values_for(:time_effort, 10.5, -12) }
   it { is_expected.to accept_values_for(:calculated_time_effort, 10) }

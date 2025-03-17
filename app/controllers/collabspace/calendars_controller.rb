@@ -20,8 +20,7 @@ module Collabspace
 
       @collabspace_presenter = build_collabspace_presenter(
         collabspace:,
-        memberships: user_memberships,
-        load_tpa: true
+        memberships: user_memberships
       )
     end
 

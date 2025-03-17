@@ -52,8 +52,7 @@ module Collabspace
       @members = approved_members
       @collabspace_presenter = build_collabspace_presenter(
         collabspace:,
-        memberships: @memberships,
-        load_tpa: true
+        memberships: @memberships
       )
 
       set_page_title the_course.title, t(:'courses.nav.learning_rooms')
@@ -85,8 +84,7 @@ module Collabspace
       @members = all_members
       @collabspace_presenter = build_collabspace_presenter(
         collabspace:,
-        memberships: @memberships,
-        load_tpa: true
+        memberships: @memberships
       )
 
       @collabspace = Collabspace::CollabspacesForm.new(collabspace)

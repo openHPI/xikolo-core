@@ -43,18 +43,6 @@ class Course::CertificatesController < Abstract::FrontendController
 
     set_meta_tags certificate_meta_tags
 
-    @social_sharing = SocialSharingPresenter.new(
-      context: :certificate,
-      options: {
-        site: Xikolo.config.site_name,
-        title: the_course.title,
-        certificate_url: certificate_verification_url(@record.verification_code),
-        course_url: course_url(the_course.course_code),
-        issued_year: @record.issued_year,
-        issued_month: @record.issued_month,
-      }
-    )
-
     gon.course_id = the_course.id
     render template: 'course/certificates/verify'
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotFound
@@ -155,22 +143,11 @@ class Course::CertificatesController < Abstract::FrontendController
         ),
         site_name: Xikolo.config.site_name,
       },
-      twitter: {
-        card: 'summary',
-        title: "#{I18n.t(:'verify.headline_show')} - #{@record.course_title}",
-        description: I18n.t(
-          :'verify.narrative_meta',
-          title: @record.course_title,
-          brand: Xikolo.config.site_name
-        ),
-      },
     }
 
     if @open_badge
       meta_tags[:og][:image] = @open_badge.file_url
       meta_tags[:og]['image:secure_url'] = @open_badge.file_url
-      meta_tags[:twitter][:image] = @open_badge.file_url
-      meta_tags[:twitter]['image:alt'] = "Open Badge for #{@record.course_title}"
     end
 
     meta_tags

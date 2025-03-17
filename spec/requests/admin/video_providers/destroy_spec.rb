@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'Admin: VideoProviders: Destroy', type: :request do
-  let(:destroy_video_provider) { delete "/video_providers/#{provider.id}", headers: }
+  let(:destroy_video_provider) { delete "/admin/video_providers/#{provider.id}", headers: }
   let(:headers) { {} }
   let!(:provider) { create(:video_provider, :vimeo) }
 
@@ -18,7 +18,7 @@ describe 'Admin: VideoProviders: Destroy', type: :request do
       it 'deletes the video provider' do
         expect { destroy_video_provider }.to change(Video::Provider, :count).from(1).to(0)
         expect(flash[:success].first).to eq('The video provider has been deleted.')
-        expect(response).to redirect_to video_providers_path
+        expect(response).to redirect_to admin_video_providers_path
       end
 
       context 'with referenced video streams' do
@@ -30,7 +30,7 @@ describe 'Admin: VideoProviders: Destroy', type: :request do
         it 'does not allow to delete the video provider' do
           expect { destroy_video_provider }.not_to change(Video::Provider, :count).from(1)
           expect(flash[:error].first).to eq('The video provider could not be deleted as corresponding streams are still referenced.')
-          expect(response).to redirect_to video_providers_path
+          expect(response).to redirect_to admin_video_providers_path
         end
       end
     end

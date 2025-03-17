@@ -25,12 +25,8 @@ export default async function entries() {
 
     // Legacy
     'lanalytics-framework': 'legacy/lanalytics/index.js',
-    'lanalytics-pa-item': 'legacy/lanalytics/visits/peer_assessment_item.js',
-    'lanalytics-pa-results':
-      'legacy/lanalytics/visits/peer_assessment_results.js',
     'account-profile': 'legacy/account-profile.js',
     'result-box': 'legacy/quiz/result-box.js',
-    'peer-assessment-statistics': 'legacy/peer-assessment/statistics.js',
     'admin-legacy': 'legacy/admin.js',
     'course-admin': 'legacy/course.js',
 

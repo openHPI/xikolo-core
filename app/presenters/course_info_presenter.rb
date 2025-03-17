@@ -184,7 +184,8 @@ class CourseInfoPresenter < PrivatePresenter
     ).to_s.then do |url|
       if @user.feature?('integration.external_booking')
         uri = Addressable::URI.parse(url)
-        uri.query_values = (uri.query_values.presence || {}).merge('jwt' => @user.jwt)
+        jwt = ExternalRegistration.new(@user).token
+        uri.query_values = (uri.query_values.presence || {}).merge('jwt' => jwt)
         uri.to_s
       else
         url

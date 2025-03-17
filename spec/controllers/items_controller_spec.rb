@@ -73,12 +73,6 @@ describe ItemsController, type: :controller do
       let(:request_context_id) { course_context_id }
       let(:permissions)        { %w[course.content.edit course.content.access] }
 
-      before do
-        Stub.service(:peerassessment, build(:'peerassessment:root'))
-        Stub.request(:peerassessment, :get, '/peer_assessments', query: {course_id: course.id})
-          .to_return Stub.json([])
-      end
-
       it { is_expected.to have_http_status :ok }
     end
   end

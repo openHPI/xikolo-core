@@ -150,12 +150,6 @@ describe 'Course: Certificates: Verify', type: :request do
       expect(verify_response.body).to include '<meta property="og:site_name" content="Xikolo">'
     end
 
-    it 'contains the Twitter Card meta tags' do
-      expect(verify_response.body).to include '<meta name="twitter:card" content="summary">'
-      expect(verify_response.body).to include "<meta name=\"twitter:title\" content=\"Certificate Details - #{course.title}\">"
-      expect(verify_response.body).to include "<meta name=\"twitter:description\" content=\"Xikolo verifies that the candidate completed the course #{course.title} and passed the necessary exercises and exams to earn a course certificate.\">"
-    end
-
     context 'with Open Badge' do
       let(:open_badge) { create(:open_badge, record:, open_badge_template: template) }
       let(:file_url) { "https://s3.xikolo.de/xikolo-certificate/openbadges/#{UUID4(user.id).to_s(format: :base62)}/#{UUID4(record.id).to_s(format: :base62)}.png" }
@@ -170,11 +164,6 @@ describe 'Course: Certificates: Verify', type: :request do
       it 'links the Open Badge in Open Graph meta data' do
         expect(verify_response.body).to include "<meta property=\"og:image\" content=\"#{file_url}\">"
         expect(verify_response.body).to include "<meta property=\"og:image:secure_url\" content=\"#{file_url}\">"
-      end
-
-      it 'links the Open Badge in the Twitter Card' do
-        expect(verify_response.body).to include "<meta name=\"twitter:image\" content=\"#{file_url}\">"
-        expect(verify_response.body).to include "<meta name=\"twitter:image:alt\" content=\"Open Badge for #{course.title}\">"
       end
     end
   end

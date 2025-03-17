@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'Admin: VideoProviders: Create', type: :request do
-  let(:create_video_provider) { post '/video_providers', params:, headers: }
+  let(:create_video_provider) { post '/admin/video_providers', params:, headers: }
   let(:headers) { {} }
   let(:params) { {} }
 
@@ -34,7 +34,7 @@ describe 'Admin: VideoProviders: Create', type: :request do
 
         it 'redirects to the index page' do
           create_video_provider
-          expect(response).to redirect_to video_providers_path
+          expect(response).to redirect_to admin_video_providers_path
         end
       end
 
@@ -63,7 +63,7 @@ describe 'Admin: VideoProviders: Create', type: :request do
 
         it 'redirects to the index page' do
           create_video_provider
-          expect(response).to redirect_to video_providers_path
+          expect(response).to redirect_to admin_video_providers_path
         end
       end
 

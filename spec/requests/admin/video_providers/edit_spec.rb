@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'Admin: VideoProviders: Edit', type: :request do
-  let(:edit_video_provider) { get "/video_providers/#{provider.id}/edit", headers: }
+  let(:edit_video_provider) { get "/admin/video_providers/#{provider.id}/edit", headers: }
   let(:headers) { {} }
   let(:provider) { create(:video_provider, :vimeo) }
 

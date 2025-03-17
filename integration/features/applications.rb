@@ -46,9 +46,6 @@ Server.add :news,               name: 'news',
 Server.add :notification,       name: 'notification',
   roles: %i[rails db srv msgr sidekiq config integration],
   subpath: 'services/notification'
-Server.add :peerassessment,     name: 'peerassessment',
-  roles: %i[rails db srv sidekiq config integration],
-  subpath: 'services/peerassessment'
 Server.add :pinboard,           name: 'pinboard',
   roles: %i[rails db srv msgr sidekiq config integration],
   subpath: 'services/pinboard'

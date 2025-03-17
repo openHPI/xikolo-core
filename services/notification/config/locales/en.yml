@@ -47,18 +47,6 @@ en:
         new_thread:
           one: discussion forum notification
           other: discussion forum notifications
-      peer_assessments:
-        conflict:
-          new:
-            staff: email
-            reporter: email
-            accused_student: email
-            regrading: email
-          resolved:
-            reporter: email
-            accused_student: email
-            regrading: email
-            no_reviews: email
 
     disable_link:
       explanation:
@@ -137,64 +125,6 @@ en:
       questions:
         no_questions: There was no recent discussions activity.
         no_unanswered: There are no unanswered questions.
-
-    peer_assessments:
-      conflict:
-        referral: "The referral ID for this conflict is: %{refid}. Include this ID in any correspondence concerning this report."
-
-        reasons:
-          plagiarism: Plagiarism
-          offensive_content: Offensive content
-          unrelated: No assignment related content
-          other: Other reason
-          grading_conflict: Grading conflict
-          no_reviews: No Reviews
-
-        subjects:
-          review: review
-          submission: submission
-
-        new:
-          staff:
-            subject: "%{assessment_name}: A report has been filed"
-            title: "%{assessment_name}: A report has been filed"
-            body: "A student has reported a submission on the grounds of '%{reason}'."
-
-          reporter:
-            subject: "%{assessment_name}: Report received"
-            title: "%{assessment_name}: We received your report regarding '%{reason}'"
-            body: "We have received the report which you completed. We will notify you once we have reviewed and made a decision regarding the claim."
-
-          accused_student:
-            subject: "%{assessment_name}: Your %{conflict_subject} has been reported for '%{reason}'"
-            title: "%{assessment_name}: Your %{conflict_subject} has been reported for '%{reason}'"
-            body: "A reviewer has reported your %{conflict_subject} claiming '%{reason}'. We will review this claim and notify you as soon as we have reached a decision."
-
-          regrading:
-            subject: "%{assessment_name}: Re-grading request received."
-            title: "%{assessment_name}: We received your re-grading request regarding '%{reason}'"
-            body: "We have received your re-grading request. Once we have reviewed it and reached a decision, you will be informed. We kindly ask you for your patience until then."
-
-        resolved:
-          reporter:
-            subject: "%{assessment_name}: Report resolved"
-            title: "%{assessment_name}: Report resolved"
-            body: "A report you completed claiming '%{reason}' has been closed. As a result, you might find grade changes (if any) displayed on the results page of the peer assessment."
-
-          accused_student:
-            subject: "%{assessment_name}: Report resolved"
-            title: "%{assessment_name}: Report resolved"
-            body: "A report against your %{conflict_subject} claiming '%{reason}' has been closed. As a result, you might find grade changes (if any) displayed on the results page of the peer assessment."
-
-          regrading:
-            subject: "%{assessment_name}: Regrading processed"
-            title: "%{assessment_name}: Regrading processed"
-            body: "Your regrading request due to '%{reason}' has been processed and is now closed. As a result, you might find grade changes (if any) displayed on the results page of the peer assessment."
-
-          no_reviews:
-            subject: "%{assessment_name}: Your grade is now available"
-            title: "%{assessment_name}: Your grade is now available"
-            body: "The teaching team reviewed your submission. See how you did on the assessment page!"
 
   account_mailer:
     password_reset:

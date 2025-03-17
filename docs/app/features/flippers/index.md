@@ -250,6 +250,10 @@ See below for explanations on [managing feature flippers](#manage-feature-flippe
 
     *Scope:* `Group.all_users`, `Context.root`
 
+`social_sharing.certificate`
+
+: Enable social sharing for open badges on the certificates page
+
 `time_effort` :material-test-tube:
 
 :   Enable time effort estimation shown in the item navigation and on the item page.

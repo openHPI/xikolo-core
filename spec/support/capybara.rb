@@ -18,9 +18,20 @@ end
 
 Capybara.register_driver :chrome do |app|
   options = Selenium::WebDriver::Chrome::Options.new
-  options.add_argument('--no-sandbox') if ENV.key?('GITLAB_CI')
-  options.add_argument('--window-size=1280,1024')
+
+  # TODO: Chrome 134 produces too much unhandled Node does not belong to
+  # the document errors, similar to:
+  #   * https://github.com/SeleniumHQ/selenium/issues/15401
+  #
+  options.browser_version = '133'
+
+  # Chrome for Testing (CfT) cannot run a user-based sandbox on modern
+  # systems, locally as well as headless CI servers.
+  options.add_argument('--no-sandbox')
+
   options.add_argument('--headless=new') if headless?
+
+  options.add_argument('--window-size=1280,1024')
   options.add_argument('--incognito')
   options.add_argument('--disable-site-isolation-trials')
   options.add_argument('--disable-search-engine-choice-screen')

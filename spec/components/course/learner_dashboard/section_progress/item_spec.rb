@@ -25,8 +25,8 @@ describe Course::LearnerDashboard::SectionProgress::Item, type: :component do
     described_class.new(section_progress['items'].first, course)
   end
 
-  shared_examples 'a quiz or peer assessment' do
-    it 'shows the correct icon for quizzes or peer assessments' do
+  shared_examples 'a quiz' do
+    it 'shows the correct icon for quizzes' do
       render_inline(component)
 
       expect(page).to have_css("[aria-label='Graded quiz']")
@@ -126,14 +126,14 @@ describe Course::LearnerDashboard::SectionProgress::Item, type: :component do
       let(:item) { super().merge('max_points' => 0.0) }
 
       context 'that has not been submitted' do
-        it_behaves_like 'a quiz or peer assessment'
+        it_behaves_like 'a quiz'
         it_behaves_like 'an item with status: no progress'
       end
 
       context 'that has been submitted' do
         let(:item) { super().merge('user_state' => 'submitted') }
 
-        it_behaves_like 'a quiz or peer assessment'
+        it_behaves_like 'a quiz'
         it_behaves_like 'an item with status: completed'
       end
     end
@@ -142,14 +142,14 @@ describe Course::LearnerDashboard::SectionProgress::Item, type: :component do
       let(:item) { super().merge('max_points' => nil) }
 
       context 'that has not been submitted' do
-        it_behaves_like 'a quiz or peer assessment'
+        it_behaves_like 'a quiz'
         it_behaves_like 'an item with status: no progress'
       end
 
       context 'that has been submitted' do
         let(:item) { super().merge('user_state' => 'submitted') }
 
-        it_behaves_like 'a quiz or peer assessment'
+        it_behaves_like 'a quiz'
         it_behaves_like 'an item with status: completed'
       end
     end
@@ -157,28 +157,28 @@ describe Course::LearnerDashboard::SectionProgress::Item, type: :component do
     context 'that has not yet been visited' do
       let(:item) { super().merge('user_state' => 'new') }
 
-      it_behaves_like 'a quiz or peer assessment'
+      it_behaves_like 'a quiz'
       it_behaves_like 'an item with status: no progress'
     end
 
     context 'with less than 50% achieved points' do
       let(:item) { super().merge('user_state' => 'graded', 'user_points' => 3.0) }
 
-      it_behaves_like 'a quiz or peer assessment'
+      it_behaves_like 'a quiz'
       it_behaves_like 'an item with status: critical'
     end
 
     context 'with exactly or more than 50% achieved points' do
       let(:item) { super().merge('user_state' => 'graded', 'user_points' => 5.0) }
 
-      it_behaves_like 'a quiz or peer assessment'
+      it_behaves_like 'a quiz'
       it_behaves_like 'an item with status: warning'
     end
 
     context 'with more than 95% achieved points' do
       let(:item) { super().merge('user_state' => 'graded', 'user_points' => 9.6) }
 
-      it_behaves_like 'a quiz or peer assessment'
+      it_behaves_like 'a quiz'
       it_behaves_like 'an item with status: completed'
 
       it 'does not shows the item as optional' do
@@ -230,38 +230,6 @@ describe Course::LearnerDashboard::SectionProgress::Item, type: :component do
       let(:item) { super().merge('user_state' => 'graded', 'user_points' => 9.6) }
 
       it_behaves_like 'an LTI exercise'
-      it_behaves_like 'an item with status: completed'
-    end
-  end
-
-  context 'for a peer assessment exercise' do
-    let(:item) { super().merge('content_type' => 'peer_assessment') }
-
-    context 'that has not yet been visited' do
-      let(:item) { super().merge('user_state' => 'new') }
-
-      it_behaves_like 'a quiz or peer assessment'
-      it_behaves_like 'an item with status: no progress'
-    end
-
-    context 'with less than 50% achieved points' do
-      let(:item) { super().merge('user_state' => 'graded', 'user_points' => 3.0) }
-
-      it_behaves_like 'a quiz or peer assessment'
-      it_behaves_like 'an item with status: critical'
-    end
-
-    context 'with exactly or more than 50% achieved points' do
-      let(:item) { super().merge('user_state' => 'graded', 'user_points' => 5.0) }
-
-      it_behaves_like 'a quiz or peer assessment'
-      it_behaves_like 'an item with status: warning'
-    end
-
-    context 'with more than 95% achieved points' do
-      let(:item) { super().merge('user_state' => 'graded', 'user_points' => 9.6) }
-
-      it_behaves_like 'a quiz or peer assessment'
       it_behaves_like 'an item with status: completed'
     end
   end

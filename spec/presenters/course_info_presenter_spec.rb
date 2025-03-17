@@ -271,7 +271,7 @@ describe CourseInfoPresenter do
         let(:features) { {'integration.external_booking' => true} }
 
         before do
-          allow(user).to receive(:jwt).and_return('mytoken')
+          allow(ExternalRegistration::JwtTokenGenerator).to receive(:call).once.and_return('mytoken')
         end
 
         it 'provides the user\'s JWT token for the English registration URL' do

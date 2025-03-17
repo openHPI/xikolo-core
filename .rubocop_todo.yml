@@ -21,7 +21,6 @@ Rails/ActiveRecordAliases:
 Rails/HelperInstanceVariable:
   Exclude:
     - app/helpers/item_context_helper.rb
-    - app/helpers/peer_assessment/peer_assessment_context_helper.rb
 
 #
 # We have too many specs with too many lets

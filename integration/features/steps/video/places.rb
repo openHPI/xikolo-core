@@ -14,7 +14,7 @@ module Steps
       end
 
       Given 'I am on the video provider page' do
-        visit '/video_providers'
+        visit '/admin/video_providers'
       end
     end
   end

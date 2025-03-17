@@ -13,7 +13,7 @@ class LtiServlet < WEBrick::HTTPServlet::AbstractServlet
     response.body = <<~HTML
       <html>
         <body>Welcome to LTI!</body>
-      </html>
+      </html>spec/system/item/time_effort_spec.rb
     HTML
   end
 end
@@ -116,8 +116,8 @@ describe 'LTI: Tool Launch', type: :system do
       it 'skips the intro page and renders the iframe' do
         visit "/courses/the_course/items/#{item.id}"
 
-        expect(page).to have_no_button 'Launch exercise tool'
         expect(page).to have_css "nav[data-controller~='course-item-nav']"
+        expect(page).to have_no_button 'Launch exercise tool'
       end
     end
   end
@@ -176,8 +176,8 @@ describe 'LTI: Tool Launch', type: :system do
       it 'renders the instructions without a heading' do
         visit "/courses/the_course/items/#{item.id}"
 
-        expect(page).to have_no_content 'Instructions'
         expect(page).to have_content 'Launch the tool and submit your results'
+        expect(page).to have_no_content 'Instructions'
       end
     end
   end

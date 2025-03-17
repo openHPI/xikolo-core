@@ -21,11 +21,23 @@ The item is marked as **completed** when:
 - the percentage is greater than 95% **OR**
 - the item’s maximum points are zero **AND** there is a submission.
 
+!!! note
+
+    In the user-facing legend, these items are labeled with "Content successfully completed".
+
 The item is marked as **warning** when:
 
 - the percentage is greater than or equal to 50% **AND**
 - the percentage is less than or equal to 95%.
 
+!!! note
+
+    In the user-facing legend, these items are labeled with "Sufficient score achieved".
+
 The item is marked as **critical** when:
 
 - the percentage is less than 50%
+
+!!! note
+
+    In the user-facing legend, these items are labeled with "Low score, revisit if possible".

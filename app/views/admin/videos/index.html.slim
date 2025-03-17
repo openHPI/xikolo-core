@@ -6,7 +6,7 @@
     .col-md-12.pt10
       .filter.mb20
         .mb10.pull-right
-          = link_to t(:'admin.video_providers.title'), video_providers_path, class: 'mr10'
+          = link_to t(:'admin.video_providers.title'), admin_video_providers_path, class: 'mr10'
         = form_tag videos_path, method: :get
           => label :video_filter, :prefix, t(:'admin.videos.index.filter_videos')
           => search_field_tag 'prefix', params[:prefix], id: 'video_filter_prefix'
