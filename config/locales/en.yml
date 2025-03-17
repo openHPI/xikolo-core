@@ -2760,6 +2760,7 @@ en:
       prev_item: Previous
       next_item: Next
       unsupported_browser: Your browser is not supported. Please use a modern browser.
+      unsupported_item_type: This item type is no longer supported. Please skip to the next item.
       video:
         preview:
           info: "This video belongs to the %{platform} course <b>%{course_title}</b>. Do you want to see more?"

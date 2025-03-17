@@ -19,6 +19,18 @@ class ItemPresenter < PrivatePresenter
   def_delegator :@section, :pinboard_closed, :section_pinboard_closed?
   def_delegator :@course, :lang, :lang
 
+  class << self
+    def lookup(item)
+      "#{item.content_type}_item_presenter".camelize.constantize
+    rescue NameError
+      UnsupportedItemPresenter
+    end
+
+    def for(item, course: nil, user: nil)
+      lookup(item).new(item:, course:, user:)
+    end
+  end
+
   def partial_name
     "items/#{content_type}/show_item_#{content_type}"
   end
@@ -42,11 +54,6 @@ class ItemPresenter < PrivatePresenter
 
   def exercise_type
     @item['exercise_type']
-  end
-
-  def self.for(item, course: nil, user: nil)
-    class_name = Module.const_get "#{item.content_type}_item_presenter".camelize
-    class_name.new(item:, course:, user:)
   end
 
   def redirect(controller)

@@ -272,7 +272,7 @@ class QuizSubmissionController < Abstract::FrontendController
 
   def create_item_presenter!
     Acfs.on the_item, the_section, the_course, the_quiz do |item, section, course, quiz|
-      presenter_class = Module.const_get "#{item.content_type}_item_presenter".camelize
+      presenter_class = ItemPresenter.lookup(item)
       @item_presenter = presenter_class.build item, section, course, current_user, quiz
     end
   end

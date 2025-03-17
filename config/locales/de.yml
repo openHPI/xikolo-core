@@ -1997,6 +1997,7 @@ de:
       prev_item: Zurück
       next_item: Weiter
       unsupported_browser: Ihr Browser wird nicht unterstützt. Bitte benutzen Sie einen modernen Browser.
+      unsupported_item_type: Diese Art von Lerninhalt wird nicht mehr unterstützt. Bitte fahren Sie mit dem nächsten fort.
       video:
         preview:
           info: "Dieses Video gehört zum %{platform}-Kurs <b>%{course_title}</b>. Möchten Sie mehr sehen?"

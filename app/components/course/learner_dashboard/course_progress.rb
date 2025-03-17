@@ -91,7 +91,7 @@ module Course
       private
 
       def section_completed_items_count(section)
-        return 0 if section['discarded']
+        return 0 if section['discarded'] || section['items'].blank?
 
         section['items'].count {|item| completed_item?(item) && !item['discarded'] }
       end

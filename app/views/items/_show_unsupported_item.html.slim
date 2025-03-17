@@ -1,0 +1,10 @@
+.col-md-12
+  .course-area-main data-lanalytics-context={course_id: item.course_id}.to_json
+    = render 'items/header', item: item
+
+    = render Global::Callout.new(t(:'items.show.unsupported_item_type'), type: :error)
+
+    .mt40
+      = render Course::BottomNavigation.new(course_id: position.course.id,
+        prev_item_id: position.prev_item&.id,
+        next_item_id: position.next_item&.id)
