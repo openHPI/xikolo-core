@@ -49,7 +49,7 @@ module PortalAPI
 
     def courses
       @courses ||= Xikolo.api(:course).value!.rel(:courses)
-        .get(public: true, hidden: false, exclude_external: true, latest_first: true, page:)
+        .get({public: true, hidden: false, exclude_external: true, latest_first: true, page:})
         .value!
     end
 
@@ -58,7 +58,7 @@ module PortalAPI
     end
 
     def course
-      @course ||= Xikolo.api(:course).value!.rel(:course).get(id: params[:id]).value!
+      @course ||= Xikolo.api(:course).value!.rel(:course).get({id: params[:id]}).value!
     end
 
     def private_course?

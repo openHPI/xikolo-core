@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Essay Questions: Delete', type: :request do
-  subject(:deletion) { api.rel(:essay_question).delete(id: question.id).value! }
+  subject(:deletion) { api.rel(:essay_question).delete({id: question.id}).value! }
 
   let(:api) { Restify.new(:test).get.value! }
   let!(:question) { create(:essay_question, text:, explanation:) }

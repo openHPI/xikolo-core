@@ -36,6 +36,7 @@ module Steps
 
     When 'I remove the team member' do
       click_on 'Remove member'
+
       within_dialog do
         click_on 'Yes, sure'
       end

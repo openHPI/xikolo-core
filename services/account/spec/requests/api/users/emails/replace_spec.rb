@@ -6,7 +6,7 @@ describe "Replace user's email addresses", type: :request do
   subject(:resource) { base.rel(:emails).put(emails).value! }
 
   let(:api) { Restify.new(:test).get.value! }
-  let(:base) { api.rel(:user).get(id: user).value! }
+  let(:base) { api.rel(:user).get({id: user}).value! }
   let(:emails) { [] }
   let(:user) { create(:user) }
   let!(:old_email) { user.primary_email }

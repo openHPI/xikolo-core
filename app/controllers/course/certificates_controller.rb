@@ -18,8 +18,8 @@ class Course::CertificatesController < Abstract::FrontendController
 
     Acfs.on the_course do |course|
       @index = Restify.new(course['achievements_url']).get(
-        {user_id: current_user.id},
-        {headers: {'Accept-Language' => I18n.locale}}
+        params: {user_id: current_user.id},
+        headers: {'Accept-Language' => I18n.locale}
       ).value!
     end
 

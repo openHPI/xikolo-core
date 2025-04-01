@@ -55,7 +55,7 @@ module Steps
     Then 'I should see the reference page in a new window' do
       context.with :review_window, :item do |review_window, item|
         within_window(review_window) do
-          expect(page).to have_content item.title
+          expect(page).to have_content item['title']
           current_window.close
         end
       end

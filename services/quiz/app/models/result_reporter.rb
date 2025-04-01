@@ -14,14 +14,14 @@ class ResultReporter
         item_id: item['id'],
         points: submission.points,
       },
-      {id: submission.id}
+      params: {id: submission.id}
     ).value!
   end
 
   private
 
   def item
-    @item ||= course_api.rel(:items).get(content_id: @quiz_id).value!.first
+    @item ||= course_api.rel(:items).get({content_id: @quiz_id}).value!.first
   end
 
   def course_api

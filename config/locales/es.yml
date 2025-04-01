@@ -310,7 +310,6 @@ es:
       reactivate_course: "Ha reactivado este curso hasta %{date}"
       primary_email_unsuspended: Su dirección de correo electrónico principal se ha reactivado correctamente.
       proctoring:
-        already_registered_smowl: Ya ha calibrado su imagen con la empresa colaboradora.
         certificate_booked: Ha reservado con éxito el certificado de cualificación para este curso.
       account_confirmed_manually: La cuenta se confirmó manualmente.
       lti_provider_created: El proveedor LTI se ha creado con éxito.
@@ -976,8 +975,6 @@ es:
           passed: Proctoring superada
           passed_with_issues: Proctoring superada con algunos problemas
           failed: Proctoring no se ha llevado a cabo
-          exclude: Excluir de vigilancia
-          exclude_confirm: ¿Está seguro de que quiere excluir de vigilancia la entrega?
         actions: Acciones
         submission: Entrega
         submissions: Entregas
@@ -1247,7 +1244,6 @@ es:
       button_goto_external: Ir a curso externo
       proctoring:
         booked: Ha solicitado un certificado.
-        register_with_smowl: Por favor, calibre su imagen con la empresa colaboradora.
         upgrade_not_possible: Ya no se puede solicitar un certificado.
       unenrollment_disabled: Para anular la inscripción en el curso, póngase en contacto con el proveedor del curso.
 
@@ -1803,27 +1799,6 @@ es:
       submit:
         question: Crear pregunta
         answer: Crear respuesta
-      proctoring:
-        book_certificate: Solicitar el certificado
-        certificate_booked:
-          title: Ha solicitado su certificado con éxito
-          instructions: "Por favor, asegúrese de seguir las reglas (<a href='https://smowl.net/es/faqs-proctoring-smowl/camera-monitoring/' target='_blank' rel='noopener'>FAQ</a> | <a href='/pages/proctoring_guidelines' target='_blank'>guía</a>). En caso de infracción, no podemos emitir un certificado. Recuerde siempre:"
-          exclusion_criteria:
-            <ul><li>Usted debe ser la <strong>única persona</strong> frente a la cámara. Si no se ve a ninguna persona, a varias personas o a otra persona distinta de la registrada, el examen fallará.</li>
-            <li>Elija un periodo de examen en el que <strong>nadie le moleste</strong> y no tenga que abandonar su lugar durante el examen.</li>
-            <li>Asegúrese de que <strong>las condiciones de luz son adecuadas </strong> y de que su cara es claramente visible. Una fuente de luz en la parte trasera puede hacer que su cara aparezca demasiado oscura en la cámara.</li>
-            <li>No utilice nada que le cubra la cabeza o la cara (sombrero, gafas de sol, ...). Las gafas de lectura están permitidas.</li>
-            </ul>
-            <p>Consejos técnicos:</p>
-            <ul><li>Asegúrese de que su cámara está encendida y es totalmente funcional. Retire la cubierta de su cámara web.</li>
-            <li>Cierre otras aplicaciones que tengan acceso a la cámara.</li>
-            <li>Durante el examen, asegúrese de que la pestaña de la tarea es la única pestaña abierta en su navegador.</li></ul>
-        deadline_passed: El periodo de inscripción para el Certificado ha finalizado. Todavía puede obtener un certificado de estudios completando los cuestionarios calificados
-        upgrade_not_possible: Ya ha entregado demasiadas tareas semanales y, por lo tanto, ya no puede solicitar el Certificado. Todavía puede obtener un certificado de estudios completando los cuestionarios calificados.
-        upgrade_information:
-          title: ¿Quiere solicitar un certificado?
-          info: Todavía puede inscribirse en el Certificado hasta <strong>%{deadline}</strong>. El Certificado es un complemento de pago. Siempre puede obtener un certificado de estudios gratuito completando los cuestionarios calificados.
-          registration_periods_info: <b>Períodos de inscripción:</b> Puede solicitar el Certificado sólo antes de la fecha límite de entrega de la segunda tarea calificada. Si el plazo de entrega de la segunda tarea ha expirado, ya no es posible solicitar el examen supervisado.
 
     lti:
       allowed_attempts: Intentos permitidos
@@ -2446,8 +2421,6 @@ es:
       main: Enviar mis respuestas finales
       survey: Enviar comentarios
     proctoring:
-      sidebar_title: Vigilancia en línea
-      instrumented_info: La funcionalidad de vigilancia en línea está temporalmente deshabilitada porque está haciéndose pasar por el usuario.
       no_issues: No se han detectado problemas
       data_currently_unavailable: Los datos de la vigilancia todavía se están procesando.
       feature_tooltip: Las infracciones se acumularán
@@ -2796,27 +2769,7 @@ es:
       total: Total
 
   proctoring:
-    register_with_smowl: Calibrar la imagen
-    calibration_missing_callout: Debe calibrar su imagen antes de realizar el examen
-    calibration_missing_text: No podrá realizar el examen hasta que no haya iniciado el proceso de calibración.
-    calibration_missing_action: Ir a la página de detalles de calibración
-    calibration_pending_title: Calibración pendiente
-    calibration_pending_text: Su imagen está siendo calibrada. Este proceso puede tardar un par de horas. Vuelva aquí más tarde para realizar el examen.
     service_unavailable: El servicio de supervisión no está disponible en este momento. Por favor, inténtelo más tarde.
-    book_certificate: Solicite un certificado
-
-    registration_details:
-      title: Calibración para el certificado
-      headline_steps: Tomar una foto para la verificación
-      steps_introduction: "Si ha optado por el Certificado, necesitamos tres fotos suyas para el reconocimiento facial automático. Siga los siguientes pasos para activar la función de reconocimiento facial:"
-      step_1: Asegúrese de que utiliza un <a href='https://smowl.net/es/faqs-proctoring-smowl/requirements/' target='_blank' rel='noopener'> navegador compatible</a>.
-      step_2: Haz clic en "Calibrar la imagen" al final de esta página.
-      step_3: Tómese 3 fotos con su webcam. La segunda foto aparecerá en su certificado.
-      step_4: Confirme las fotos o tome una nueva serie después de rechazarlas.
-      callout_title: Calibre su imagen lo antes posible
-      callout_text: El proceso de calibración puede tardar <strong>hasta 48 horas</strong>. Durante este tiempo se bloquea el acceso a los cuestionarios calificados y a todos los ejercicios relevantes.
-      verification_lifetime_headline: Duración de la verificación
-      verification_lifetime_text: La calibración se realiza por participante, es decir, no es necesario repetir todo el proceso para cada curso. En los siguientes cursos, se comprobará si el aspecto ha cambiado tanto que es necesario realizar una nueva calibración. Si es así, se le pedirá que lo haga en el curso.
 
   time_effort:
     seconds: segundos

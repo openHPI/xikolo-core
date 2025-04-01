@@ -42,7 +42,7 @@ gem 'oj'
 gem 'rack', '~> 3.1.0'
 gem 'rack-attack'
 gem 'rack-cors', '~> 2.0'
-gem 'restify', '~> 1.15'
+gem 'restify', '~> 2.0'
 
 gem 'decorate-responder', '~> 2.0'
 gem 'paginate-responder', '~> 2.0'
@@ -135,9 +135,9 @@ gem 'prawn-templates', '~> 0.1.0'
 
 # Monitoring
 gem 'mnemosyne-ruby', '~> 2.1'
-gem 'sentry-rails', '~> 5.22.0'
-gem 'sentry-ruby', '~> 5.22.0'
-gem 'sentry-sidekiq', '~> 5.22.0'
+gem 'sentry-rails', '~> 5.23.0'
+gem 'sentry-ruby', '~> 5.23.0'
+gem 'sentry-sidekiq', '~> 5.23.0'
 gem 'telegraf', '~> 3.0'
 
 # Open Badges
@@ -151,7 +151,6 @@ gem 'sprockets-rails', '~> 3.5'
 
 group :assets do
   gem 'dartsass-sprockets'
-  gem 'highcharts-rails'
   gem 'i18n-js', '~> 4.2', '>= 4.2.3'
   gem 'jquery-rails'
   gem 'momentjs-rails'
@@ -174,7 +173,7 @@ group :development, :test do
   gem 'rspec-collection_matchers'
   gem 'rspec-its'
   gem 'rspec-rails', '~> 7.0'
-  gem 'rubocop', '~> 1.73.0'
+  gem 'rubocop', '~> 1.74.0'
   gem 'rubocop-capybara', '~> 2.22.0'
   gem 'rubocop-factory_bot', '~> 2.27.0'
   gem 'rubocop-performance', '~> 1.24.0'

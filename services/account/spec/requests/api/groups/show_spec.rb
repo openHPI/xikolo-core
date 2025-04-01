@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'Groups: Show', type: :request do
-  subject(:resource) { api.rel(:group).get(id: 'owner.groupname').value! }
+  subject(:resource) { api.rel(:group).get({id: 'owner.groupname'}).value! }
 
   let(:api) { Restify.new(:test).get.value! }
   let!(:group) { create(:group, name: 'owner.groupname') }

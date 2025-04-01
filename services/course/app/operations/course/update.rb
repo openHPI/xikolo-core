@@ -14,10 +14,10 @@ class Course::Update < Course::Store
 
   def revoke_obsolete_visitor_grants!
     # fetch all grants with course.visitor role in the course context
-    grants = account.rel(:grants).get(
+    grants = account.rel(:grants).get({
       context: @course.context_id,
-      role: 'course.visitor'
-    ).value!
+      role: 'course.visitor',
+    }).value!
 
     # revoke all obsolete grants
     grants.each do |grant|

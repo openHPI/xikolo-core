@@ -6,7 +6,7 @@ describe 'Groups: Features: Listing', type: :request do
   subject(:resource) { base.rel(:features).get.value! }
 
   let(:api) { Restify.new(:test).get.value! }
-  let(:base) { api.rel(:group).get(id: group).value! }
+  let(:base) { api.rel(:group).get({id: group}).value! }
   let(:group) { create(:group) }
 
   let!(:features) do

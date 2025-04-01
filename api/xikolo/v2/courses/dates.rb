@@ -55,7 +55,7 @@ module Xikolo
 
           block_courses_by('course_id') do
             Xikolo.api(:course).value.rel(:next_dates).get(
-              filters.merge('user_id' => current_user.id)
+              filters.merge({'user_id' => current_user.id})
             ).value!
           end
         end

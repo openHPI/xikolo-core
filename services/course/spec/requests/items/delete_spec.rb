@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'Items: Destroy', type: :request do
-  subject(:request) { api.rel(:item).delete(id: item.id).value! }
+  subject(:request) { api.rel(:item).delete({id: item.id}).value! }
 
   let(:item) { create(:item) }
   let(:api) { Restify.new(:test).get.value }

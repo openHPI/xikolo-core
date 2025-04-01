@@ -56,9 +56,6 @@ module Xikolo::QuizService
     # CSRF tokens on POST requests.
     config.action_controller.default_protect_from_forgery = false
 
-    # Restify: Do not wrap hashes with object-like accessors
-    Restify::Processors::Json.indifferent_access = false
-
     # Configure Telegraf event collection
     config.telegraf.connect = ENV.fetch('TELEGRAF_CONNECT', nil)
     config.telegraf.tags = {application: 'quiz'}

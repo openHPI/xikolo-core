@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'Document Localization: Update', type: :request do
-  subject(:action) { api.rel(:document_localization).patch(update_params, id: localization.id).value! }
+  subject(:action) { api.rel(:document_localization).patch(data, params: {id: localization.id}).value! }
 
   let!(:localization) do
     create(:document_localization,
@@ -16,7 +16,7 @@ describe 'Document Localization: Update', type: :request do
 
   let(:api) { Restify.new(:test).get.value }
 
-  let(:update_params) do
+  let(:data) do
     {
       title: 'Updated title',
       description: 'Updated Description',
@@ -34,7 +34,7 @@ describe 'Document Localization: Update', type: :request do
   end
 
   context 'with valid upload' do
-    let(:update_params) { super().merge file_upload_id: upload_id }
+    let(:data) { super().merge file_upload_id: upload_id }
     let!(:store_stub) do
       stub_request(:put, %r{https://s3.xikolo.de/xikolo-public/
         documents/[0-9a-zA-Z]+/de_v2.pdf}x).to_return(status: 200, body: '<xml></xml>')
@@ -78,7 +78,7 @@ describe 'Document Localization: Update', type: :request do
   end
 
   context 'with invalid file upload' do
-    let(:update_params) { super().merge file_upload_id: upload_id }
+    let(:data) { super().merge file_upload_id: upload_id }
 
     before do
       stub_request(:get,

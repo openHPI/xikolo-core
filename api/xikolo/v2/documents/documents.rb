@@ -62,7 +62,7 @@ module Xikolo
       member do
         get 'Retrieve information about a document' do
           authenticate!
-          Xikolo.api(:course).value!.rel(:document).get(id: UUID(id).to_s).value!
+          Xikolo.api(:course).value!.rel(:document).get({id: UUID(id).to_s}).value!
         end
       end
     end

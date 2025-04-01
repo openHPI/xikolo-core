@@ -11,8 +11,8 @@ describe Course::LearnerDashboard::CourseProgress, type: :component do
   let(:progresses) do
     [
       {
-        'main_exercises' => {submitted_points: 20, max_points: 50},
-        'bonus_exercises' => {submitted_points: 5, max_points: 10},
+        'main_exercises' => {'submitted_points' => 20, 'max_points' => 50},
+        'bonus_exercises' => {'submitted_points' => 5, 'max_points' => 10},
       },
     ]
   end
@@ -44,6 +44,27 @@ describe Course::LearnerDashboard::CourseProgress, type: :component do
       render_inline(component)
       expect(page).to have_content('40%Graded points20 of 50')
       expect(page).to have_no_css('[data-tooltip]')
+    end
+  end
+
+  context 'with a course that has no items' do
+    let(:progresses) do
+      [
+        {
+          'kind' => 'section',
+          'items' => nil,
+        },
+        {
+          'kind' => 'course',
+          'main_exercises' => {},
+          'bonus_exercises' => {},
+        },
+      ]
+    end
+
+    it 'shows the empty state' do
+      render_inline(component)
+      expect(page).to have_content('Completed items—')
     end
   end
 end

@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'Groups: Deletion', type: :request do
-  subject(:resource) { api.rel(:group).delete(id: group).value! }
+  subject(:resource) { api.rel(:group).delete({id: group}).value! }
 
   let(:api) { Restify.new(:test).get.value! }
   let(:data) { {name: 'testowner.group_x'} }

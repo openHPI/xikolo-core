@@ -54,8 +54,8 @@ class UserTest < ApplicationRecord
     # Add user to test group group
     Xikolo.api(:account).value!
       .rel(:memberships)
-      .post(user: user_id, group: test_group.group_name)
-      .value
+      .post({user: user_id, group: test_group.group_name})
+      .value!
 
     begin
       new_trial = test_group.trials.find_or_create_by!(
@@ -164,7 +164,7 @@ class UserTest < ApplicationRecord
   end
 
   def active?
-    start_date <= Time.now.utc && end_date >= Time.now.utc
+    Time.now.utc.between?(start_date, end_date)
   end
 
   def finished?
@@ -221,7 +221,7 @@ class UserTest < ApplicationRecord
 
   def course
     @course ||= Xikolo.api(:course).value!
-      .rel(:course).get(id: course_id).value!
+      .rel(:course).get({id: course_id}).value!
   end
 
   # For course-specific user tests, other course-specific user tests are

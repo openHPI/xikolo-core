@@ -5,7 +5,7 @@ module Steps
     def update_answer(answer)
       Server[:quiz].api.rel(:answer).patch(
         {correct: true},
-        {id: answer.id}
+        params: {id: answer.fetch('id')}
       ).value!
     end
 
@@ -38,7 +38,7 @@ module Steps
 
     When 'I delete the first question' do
       context.with :quiz_question do |question|
-        within "[data-id='#{question.id}'] .quiz-question-editor__header" do
+        within "[data-id='#{question.fetch('id')}'] .quiz-question-editor__header" do
           find("[aria-label='More actions']").click
           within "[data-behaviour='menu-dropdown']" do
             click_on 'Delete question'
@@ -49,7 +49,7 @@ module Steps
 
     When 'I edit the first answer' do
       context.with :answer_1 do |answer|
-        within "[data-id='#{answer.id}']" do
+        within "[data-id='#{answer.fetch('id')}']" do
           find("[aria-label='More actions']").click
           click_on('Edit')
         end
@@ -58,7 +58,7 @@ module Steps
 
     When 'I delete the first answer' do
       context.with :answer_1 do |answer|
-        within "[data-id='#{answer.id}']" do
+        within "[data-id='#{answer.fetch('id')}']" do
           find("[aria-label='More actions']").click
           click_on('Delete')
         end
@@ -95,7 +95,7 @@ module Steps
 
     Then 'the answer has been deleted successfully' do
       context.with :answer_1 do |answer|
-        expect(page).not_to have_content answer.text
+        expect(page).not_to have_content answer.fetch('text')
       end
     end
 

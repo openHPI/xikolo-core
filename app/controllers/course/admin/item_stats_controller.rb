@@ -8,9 +8,9 @@ class Course::Admin::ItemStatsController < Abstract::FrontendController
 
   def show
     @item_stats = ItemStats::ItemStatsPresenter.for(
-      course_api.rel(:item).get(
-        id: UUID4(params[:item_id]).to_s
-      ).value!
+      course_api.rel(:item).get({
+        id: UUID4(params[:item_id]).to_s,
+      }).value!
     )
 
     Acfs.run

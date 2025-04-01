@@ -493,7 +493,7 @@ Add this to the file:
 
 ```text
 # Use this format for the message header:
-# <type>[optional scope]: <description>
+# <type>[optional scope]: <subject>
 # optional scopes are bound to our services e.g.
 # course, account, lanalytics and so on
 #| <----- Type Maximum 50 Characters here -----> |
@@ -546,7 +546,7 @@ overmind start -l account,course,web
 Whenever you need additional services, you can add it to this list. When you don't know which services you need, you'll get an error message with the specific port. Just take a look at the 'Procfile'. An overview of all ports is available in `config/services.yml`.
 
 ```console
-overmind start -l pinboard,collabspace,lti,peerassessment,account,course,news,web,video,quiz
+overmind start -l pinboard,collabspace,lti,account,course,news,web,video,quiz
 ```
 
 Start the project with a different brand than default:

@@ -41,10 +41,10 @@ RSpec.describe Xikolo::Common::Auth::CurrentUser do
 
   let(:user) do
     Xikolo::Common::Auth::CurrentUser.from_session(
-      Xikolo.api(:account).value!.rel(:session).get(
+      Xikolo.api(:account).value!.rel(:session).get({
         id: session_id,
-        embed: 'user,permissions,features'
-      ).value!
+        embed: 'user,permissions,features',
+      }).value!
     )
   end
 

@@ -66,7 +66,7 @@ class Account::ProfilesController < Abstract::FrontendController
   end
 
   def unsuspend_primary_email
-    user  = Xikolo.api(:account).value!.rel(:user).get(id: current_user.id).value!
+    user  = Xikolo.api(:account).value!.rel(:user).get({id: current_user.id}).value!
     email = user.rel(:emails).get.value!
       .find {|e| e[:primary] }
     email.rel(:suspension).delete.value!

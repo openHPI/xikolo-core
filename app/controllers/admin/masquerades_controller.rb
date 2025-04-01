@@ -5,8 +5,8 @@ class Admin::MasqueradesController < ApplicationController
 
   def create
     authorize! 'account.user.masquerade'
-    Xikolo.api(:account).value!.rel(:session).get(id: current_user.session_id).then do |session|
-      session.rel(:masquerade).post(user: params[:user_id])
+    Xikolo.api(:account).value!.rel(:session).get({id: current_user.session_id}).then do |session|
+      session.rel(:masquerade).post({user: params[:user_id]})
     end.value!
 
     # Temporarily change the CSRF token. This will cause a new CSRF
@@ -22,7 +22,7 @@ class Admin::MasqueradesController < ApplicationController
   end
 
   def destroy
-    Xikolo.api(:account).value!.rel(:session).get(id: current_user.session_id).then do |session|
+    Xikolo.api(:account).value!.rel(:session).get({id: current_user.session_id}).then do |session|
       session.rel(:masquerade).delete
     end.value!
 

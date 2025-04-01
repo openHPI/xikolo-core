@@ -51,7 +51,7 @@ module PortalAPI
       end
 
       enrollment = course_api.rel(:enrollments)
-        .post(user_id: authorization['user_id'], course_id: params[:course_id])
+        .post({user_id: authorization['user_id'], course_id: params[:course_id]})
         .value!
 
       response.headers['Content-Type'] = 'application/vnd.openhpi.enrollment+json;v=1.0'
@@ -101,7 +101,7 @@ module PortalAPI
     end
 
     def authorization
-      @authorization ||= account_api.rel(:authorizations).get(uid: params[:user_id]).value!.first
+      @authorization ||= account_api.rel(:authorizations).get({uid: params[:user_id]}).value!.first
     end
 
     def account_api

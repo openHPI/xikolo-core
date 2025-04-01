@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe 'News: Delete', type: :request do
-  subject(:request) { service.rel(:news).delete(id: announcement.id).value! }
+  subject(:request) { service.rel(:news).delete({id: announcement.id}).value! }
 
   let(:service) { Restify.new(:test).get.value! }
 

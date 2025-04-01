@@ -557,7 +557,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_25_101640) do
   create_table "enrollments", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.uuid "user_id"
     t.uuid "course_id"
-    t.string "role"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.float "quantile"
@@ -567,7 +566,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_25_101640) do
     t.boolean "completed"
     t.integer "quantiled_user_dpoints"
     t.index ["course_id", "created_at"], name: "index_enrollments_on_course_id_and_created_at"
-    t.index ["course_id", "role"], name: "index_enrollments_on_course_id_and_role"
     t.index ["user_id", "course_id", "deleted"], name: "index_enrollments_on_user_id_and_course_id_and_deleted"
     t.index ["user_id", "course_id"], name: "index_enrollments_on_user_id_and_course_id", unique: true
     t.index ["user_id"], name: "index_enrollments_on_user_id"
@@ -730,52 +728,12 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_25_101640) do
     t.index ["section_id"], name: "index_items_on_section_id"
   end
 
-  create_table "knowledge_acquisitions", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "learning_unit_id", null: false
-    t.uuid "item_id", null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.index ["learning_unit_id", "item_id"], name: "index_knowledge_acquisitions_on_learning_unit_id_and_item_id", unique: true
-  end
-
-  create_table "knowledge_examinations", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "learning_unit_id", null: false
-    t.uuid "item_id", null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.index ["learning_unit_id", "item_id"], name: "index_knowledge_examinations_on_learning_unit_id_and_item_id", unique: true
-  end
-
-  create_table "learning_units", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "objective_id", null: false
-    t.integer "priority", null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.index ["objective_id"], name: "index_learning_units_on_objective_id"
-  end
-
-  create_table "live_events", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "title"
-    t.text "description"
-    t.string "event_type"
-    t.text "speaker"
-    t.datetime "start_at", precision: nil
-    t.string "further_info"
-    t.boolean "deleted", default: false, null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.text "live_video_id"
-    t.text "live_chat_id"
-  end
-
   create_table "lti_exercises", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.string "title"
     t.uuid "lti_provider_id"
     t.uuid "instructions_rtid"
     t.integer "allowed_attempts"
     t.string "custom_fields"
-    t.boolean "is_bonus_exercise"
-    t.boolean "is_main_exercise"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.integer "weight"
@@ -949,29 +907,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_25_101640) do
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.index ["user_id"], name: "index_notifications_on_user_id"
-  end
-
-  create_table "objectives", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "parent_objective_id"
-    t.uuid "context_id", null: false
-    t.string "title", null: false
-    t.string "description"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.integer "position"
-    t.string "completion_type"
-    t.boolean "final", default: false, null: false
-    t.index ["context_id"], name: "index_objectives_on_context_id"
-    t.index ["parent_objective_id"], name: "index_objectives_on_parent_objective_id"
-  end
-
-  create_table "objectives_items", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "item_type", null: false
-    t.integer "time_effort"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.jsonb "meta", default: {}, null: false
-    t.index "((meta ->> 'course_id'::text))", name: "index_items_on_meta_course_id"
   end
 
   create_table "open_badge_templates", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
@@ -1295,7 +1230,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_25_101640) do
     t.text "render_state"
     t.string "verification"
     t.boolean "preview", default: false
-    t.uuid "truerec_id"
     t.index ["verification"], name: "index_records_on_verification"
   end
 
@@ -1663,17 +1597,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_25_101640) do
     t.datetime "updated_at", precision: nil
     t.datetime "finish_time", precision: nil
     t.index ["user_test_id", "user_id"], name: "index_trials_on_user_test_id_and_user_id", unique: true
-  end
-
-  create_table "user_objectives", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "objective_id", null: false
-    t.uuid "user_id", null: false
-    t.boolean "active", default: true, null: false
-    t.datetime "completed_at", precision: nil
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.index ["objective_id", "user_id"], name: "index_user_objectives_on_objective_id_and_user_id", unique: true
-    t.index ["user_id"], name: "index_user_objectives_on_user_id"
   end
 
   create_table "user_statuses", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|

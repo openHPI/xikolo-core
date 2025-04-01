@@ -42,13 +42,13 @@ gem 'xikolo-config', path: './gems/xikolo-config'
 gem 'xikolo-s3', path: './gems/xikolo-s3'
 gem 'xikolo-sidekiq', path: './gems/xikolo-sidekiq'
 
-gem 'restify', '~> 1.15'
+gem 'restify', '~> 2.0'
 
 gem 'concurrent-ruby', '~> 1.0'
 gem 'mnemosyne-ruby', '~> 2.0'
-gem 'sentry-rails', '~> 5.22.0'
-gem 'sentry-ruby', '~> 5.22.0'
-gem 'sentry-sidekiq', '~> 5.22.0'
+gem 'sentry-rails', '~> 5.23.0'
+gem 'sentry-ruby', '~> 5.23.0'
+gem 'sentry-sidekiq', '~> 5.23.0'
 gem 'telegraf', '~> 3.0'
 
 group :development, :test do

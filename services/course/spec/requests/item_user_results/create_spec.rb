@@ -5,15 +5,15 @@ require 'spec_helper'
 describe 'Item User Results: Create', type: :request do
   subject(:creation) do
     api.rel(:item_user_results).post(
-      params,
-      item_id: item.id, user_id:
+      data,
+      params: {item_id: item.id, user_id:}
     ).value!
   end
 
   let(:api) { Restify.new(:test).get.value! }
   let!(:item) { create(:item) }
 
-  let(:params) { {points: 2.3} }
+  let(:data) { {points: 2.3} }
   let(:user_id) { generate(:user_id) }
 
   it { is_expected.to respond_with :created }
@@ -29,7 +29,7 @@ describe 'Item User Results: Create', type: :request do
   end
 
   context 'when given 0 points' do
-    let(:params) { {points: 0} }
+    let(:data) { {points: 0} }
 
     it { is_expected.to respond_with :created }
 
@@ -49,7 +49,7 @@ describe 'Item User Results: Create', type: :request do
   end
 
   context 'with more than one decimal after the comma' do
-    let(:params) { {points: 2.13} }
+    let(:data) { {points: 2.13} }
 
     it 'errors' do
       expect { creation }.to raise_error(Restify::ClientError) do |err|

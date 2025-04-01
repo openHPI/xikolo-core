@@ -4,7 +4,7 @@ require 'spec_helper'
 
 RSpec.describe 'Calendar Events: List', type: :request do
   subject(:list_request) do
-    api.rel(:collab_space).get(id: params[:collab_space_id]).value
+    api.rel(:collab_space).get({id: params[:collab_space_id]}).value
       .rel(:calendar_events).get.value!
   end
 

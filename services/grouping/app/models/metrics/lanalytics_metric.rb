@@ -3,11 +3,13 @@
 module Metrics
   class LanalyticsMetric < Metric
     def self.query(user_id, course_id = nil, start_date = nil, end_date = nil)
-      options = {name: metric_name,
-                 user_id:,
-                 course_id:,
-                 start_date:,
-                 end_date:}.compact
+      options = {
+        name: metric_name,
+        user_id:,
+        course_id:,
+        start_date:,
+        end_date:,
+      }.compact
       Xikolo.api(:learnanalytics).value!.rel(:metric).get(options).value!
     end
 

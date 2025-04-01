@@ -25,7 +25,7 @@ class ItemConsumer < Msgr::Consumer
     # we cannot ensure the correct order of events
     course_item = Xikolo.api(:course).value!
       .rel(:item)
-      .get(id: item.id)
+      .get({id: item.id})
       .value!
     item.update! section_id: course_item['section_id']
 

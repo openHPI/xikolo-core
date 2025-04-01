@@ -27,15 +27,13 @@ class Home::HomeController < Abstract::FrontendController
     return [] unless feature?('announcements')
     return [] unless Xikolo.api?(:news)
 
-    Xikolo.api(:news).value!.rel(:news_index).get(
-      {
-        global: true,
-        per_page: 4,
-        published: true,
-        only_homepage: true,
-        language: I18n.locale,
-      }
-    ).value!.map do |post|
+    Xikolo.api(:news).value!.rel(:news_index).get({
+      global: true,
+      per_page: 4,
+      published: true,
+      only_homepage: true,
+      language: I18n.locale,
+    }).value!.map do |post|
       AnnouncementPresenter.create post
     end
   rescue Restify::NetworkError, Restify::ServerError => e

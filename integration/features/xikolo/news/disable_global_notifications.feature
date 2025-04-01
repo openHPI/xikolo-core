@@ -29,6 +29,6 @@ Feature: One click unsubscription of email notifications
     And email notifications should not be turned off
 
   Scenario: Use a disable link with invalid hash
-    When I use a disable link with invalid email address
+    When I use a disable link with invalid hash
     Then I am on the home page
     And email notifications should not be turned off

@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Free Text Questions: Show', type: :request do
-  subject { api.rel(:free_text_question).get(id: question.id).value! }
+  subject { api.rel(:free_text_question).get({id: question.id}).value! }
 
   let(:api) { Restify.new(:test).get.value! }
 

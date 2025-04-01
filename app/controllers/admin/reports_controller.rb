@@ -8,7 +8,7 @@ class Admin::ReportsController < Abstract::FrontendController
     if request.xhr?
       jobs = lanalytics_api
         .rel(:report_jobs)
-        .get(user_id: current_user.id, per_page: 200)
+        .get({user_id: current_user.id, per_page: 200})
         .value!
         .map {|job| Admin::ReportJobPresenter.new job, current_user }
 
@@ -25,7 +25,7 @@ class Admin::ReportsController < Abstract::FrontendController
       begin
         authorize! 'lanalytics.report.delete'
 
-        job = lanalytics_api.rel(:report_job).get(id: params[:restart_id]).value!
+        job = lanalytics_api.rel(:report_job).get({id: params[:restart_id]}).value!
 
         create_report_job!(
           current_user.id,
@@ -85,20 +85,20 @@ class Admin::ReportsController < Abstract::FrontendController
   private
 
   def create_report_job!(user_id, task_type, task_scope, task_options)
-    lanalytics_api.rel(:report_jobs).post(
+    lanalytics_api.rel(:report_jobs).post({
       user_id:,
       task_type:,
       task_scope:,
-      options: task_options
-    ).value!
+      options: task_options,
+    }).value!
   end
 
   def destroy_report_job!(job_id, user_id)
-    job = lanalytics_api.rel(:report_job).get(id: job_id).value!
+    job = lanalytics_api.rel(:report_job).get({id: job_id}).value!
 
     raise Status::Unauthorized unless job['user_id'] == user_id
 
-    lanalytics_api.rel(:report_job).delete(id: job_id).value!
+    lanalytics_api.rel(:report_job).delete({id: job_id}).value!
   end
 
   def report_params
@@ -156,7 +156,7 @@ class Admin::ReportsController < Abstract::FrontendController
   def courses
     @courses ||= [].tap do |array|
                    Xikolo.paginate(
-                     course_api.rel(:courses).get(alphabetic: true, public: true, groups: 'any')
+                     course_api.rel(:courses).get({alphabetic: true, public: true, groups: 'any'})
                    ) {|course| array << course }
                  end.map do |course|
       ["#{course['course_code']} - #{course['title'].truncate(40)}", course['id']]

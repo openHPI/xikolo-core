@@ -30,7 +30,7 @@ class QuizSubmissionController < Abstract::FrontendController
     raise Status::NotFound if (uuid = UUID4.try_convert(params[:id])).nil?
 
     # Retrieve the submission from the url
-    submission_from_url = Xikolo.api(:quiz).value!.rel(:quiz_submission).get(id: uuid.to_s).value!
+    submission_from_url = Xikolo.api(:quiz).value!.rel(:quiz_submission).get({id: uuid.to_s}).value!
     # Access submission only if owner or course admin
     unless submission_from_url['user_id'] == current_user.id || current_user.allowed?('quiz.submission.manage')
       add_flash_message :error, t(:'flash.error.not_authorized')
@@ -99,8 +99,9 @@ class QuizSubmissionController < Abstract::FrontendController
       return redirect_to course_item_path id: short_uuid(the_item.id)
     end
 
-    # Check if the user has registered for proctoring
-    if proctoring? && !enrollment.proctoring.vendor_registration.available?
+    # Temporary: We do not offer proctoring anymore, so do no allow starting
+    # the quiz.
+    if proctoring?
       add_flash_message :error, t(:'flash.error.quiz_submission_proctoring_unavailable')
       return redirect_to course_item_path id: short_uuid(the_item.id)
     end
@@ -108,10 +109,12 @@ class QuizSubmissionController < Abstract::FrontendController
     nowts = DateTime.now.in_time_zone.to_i
 
     begin
-      submission = quiz_api.rel(:quiz_submissions).post(
-        course_id: the_course.id, quiz_id: @quiz.id, user_id: current_user.id,
-        vendor_data: proctoring? ? {proctoring: 'smowl_v2'} : nil
-      ).value!
+      submission = quiz_api.rel(:quiz_submissions).post({
+        course_id: the_course.id,
+        quiz_id: @quiz.id,
+        user_id: current_user.id,
+        vendor_data: proctoring? ? {proctoring: 'smowl_v2'} : nil,
+      }).value!
 
       # To prevent breakage in other parts, let's wrap the Restify response in
       # an Acfs client object for now.
@@ -161,11 +164,6 @@ class QuizSubmissionController < Abstract::FrontendController
     ].compact.min - nowts
     @counter_init_timestamp = nowts
     shuffle_answers @quiz, @submission.id.to_i
-
-    @submission_presenter = QuizSubmissionPresenter.new(
-      @submission,
-      course: the_course, item: the_item, user: current_user
-    )
 
     set_page_title the_course.title, the_item.title
   end
@@ -320,10 +318,6 @@ class QuizSubmissionController < Abstract::FrontendController
     @attempts.remaining_attempts_for_quiz(quiz) - 1 > 0
   end
 
-  def proctoring_context
-    @proctoring_context ||= Proctoring::ItemContext.new(the_course, the_item, enrollment)
-  end
-
   def enrollment
     return @enrollment if defined? @enrollment
 
@@ -352,14 +346,13 @@ class QuizSubmissionController < Abstract::FrontendController
 
   def submit!(submission, submission_data = nil)
     submission.update_attributes({submission: submission_data, submitted: true})
-
-    if proctoring?
-      Proctoring::StoreSubmissionResultsJob.set(wait: 30.minutes).perform_later(submission.id)
-      Proctoring::UploadCertificateImageJob.perform_later(enrollment.id)
-    end
   end
 
   def proctoring?
     current_user.feature?('proctoring') && proctoring_context.enabled?
+  end
+
+  def proctoring_context
+    @proctoring_context ||= Proctoring::ItemContext.new(the_course, the_item, enrollment)
   end
 end

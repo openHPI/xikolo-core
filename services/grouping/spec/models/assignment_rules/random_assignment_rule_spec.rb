@@ -15,7 +15,7 @@ describe AssignmentRules::RandomAssignmentRule do
           Array.new(10) do
             assignment_rule.assign num_groups:
           end
-        ).to all(be_a(Integer).and(satisfy {|val| val >= 0 && val <= 1 }))
+        ).to all(be_a(Integer).and(satisfy {|val| val.between?(0, 1) }))
       end
     end
 
@@ -27,7 +27,7 @@ describe AssignmentRules::RandomAssignmentRule do
           Array.new(10) do
             assignment_rule.assign num_groups:
           end
-        ).to all(be_a(Integer).and(satisfy {|val| val >= 0 && val <= 3 }))
+        ).to all(be_a(Integer).and(satisfy {|val| val.between?(0, 3) }))
       end
     end
   end

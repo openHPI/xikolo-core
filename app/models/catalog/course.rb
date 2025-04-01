@@ -211,11 +211,11 @@ module Catalog
       end
 
       def with_achievement(user)
-        Xikolo.api(:course).value!.rel(:enrollments).get(
+        Xikolo.api(:course).value!.rel(:enrollments).get({
           user_id: user.id,
           learning_evaluation: true,
-          per_page: 1000
-        ).value!.then do |enrollments|
+          per_page: 1000,
+        }).value!.then do |enrollments|
           enrollments.select { _1['completed'] }.pluck('course_id')
         end
       rescue Restify::ResponseError

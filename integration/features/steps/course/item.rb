@@ -119,8 +119,10 @@ module Steps
     end
 
     def set_item_deadline(item, date)
-      Server[:course].api.rel(:item).put({submission_deadline: date},
-        {id: item.id}).value!
+      Server[:course].api.rel(:item).put(
+        {submission_deadline: date},
+        params: {id: item['id']}
+      ).value!
     end
 
     Given 'the item deadline has passed' do
@@ -136,8 +138,10 @@ module Steps
     end
 
     def set_publish_date(item, date)
-      Server[:course].api.rel(:item).put({submission_publishing_date: date},
-        {id: item.id}).value!
+      Server[:course].api.rel(:item).put(
+        {submission_publishing_date: date},
+        params: {id: item['id']}
+      ).value!
     end
 
     Given 'the quiz results are not published' do
@@ -194,7 +198,7 @@ module Steps
     Given 'I am on the video page' do
       send :'Given I am on the course detail page'
       click_on 'Learnings'
-      click_on context.fetch(:item)[:title]
+      click_on context.fetch(:item)['title']
     end
 
     Then 'I should be on the first items page' do

@@ -79,9 +79,9 @@ class NotificationConsumer < Msgr::Consumer
   end
 
   def news
-    @news ||= Xikolo.api(:news).value!.rel(:news).get(
+    @news ||= Xikolo.api(:news).value!.rel(:news).get({
       id: notify_payload.fetch('news_id'),
-      embed: 'translations'
-    ).value!
+      embed: 'translations',
+    }).value!
   end
 end

@@ -3,10 +3,10 @@
 require 'spec_helper'
 
 RSpec.describe 'News User Visit: Update', type: :request do
-  subject(:request) { news_resource.rel(:user_visit).patch({}, {user_id:}).value! }
+  subject(:request) { news_resource.rel(:user_visit).patch({}, params: {user_id:}).value! }
 
   let(:service) { Restify.new(:test).get.value! }
-  let(:news_resource) { service.rel(:news).get(id: announcement.id).value! }
+  let(:news_resource) { service.rel(:news).get({id: announcement.id}).value! }
   let(:announcement) { create(:news) }
   let(:user_id) { SecureRandom.uuid }
 

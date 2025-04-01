@@ -6,10 +6,10 @@ module Steps::Forum::Subscriptions
     subscribers = Factory.create_list(:user, 2)
     subscribers = subscribers.map do |userdata|
       user = Server[:account].api.rel(:users).post(userdata).value!
-      Server[:pinboard].api.rel(:subscriptions).post(
+      Server[:pinboard].api.rel(:subscriptions).post({
         user_id: user['id'],
-        question_id: topic['id']
-      ).value!
+        question_id: topic['id'],
+      }).value!
       user
     end
     context.assign :forum_topic_subscribers, subscribers
@@ -17,10 +17,10 @@ module Steps::Forum::Subscriptions
 
   Given 'I am subscribed to the current topic' do
     context.with :user, :forum_topic do |user, topic|
-      Server[:pinboard].api.rel(:subscriptions).post(
+      Server[:pinboard].api.rel(:subscriptions).post({
         user_id: user['id'],
-        question_id: topic['id']
-      ).value!
+        question_id: topic['id'],
+      }).value!
     end
   end
 
@@ -53,16 +53,6 @@ module Steps::Forum::Subscriptions
     end
   end
 
-  Then 'I should get a notification email about a new topic' do
-    context.with :user do |user|
-      open_email fetch_emails(
-        to: user['email'],
-        subject: 'There is a new topic in the forum.'
-      ).first
-      expect(page).to have_content 'posted in the forum'
-    end
-  end
-
   When 'every subscriber received a comment notification email' do
     send :'Then every subscriber received a notification email'
   end
@@ -77,10 +67,6 @@ module Steps::Forum::Subscriptions
     end
   end
 
-  When 'I click on the topic title' do
-    click_on 'An important Question'
-  end
-
   When 'I open my forum notification email' do
     context.with :user do |user|
       open_email fetch_emails(
@@ -92,18 +78,20 @@ module Steps::Forum::Subscriptions
 
   Then 'the topic is added to my subscribed topics' do
     context.with :user, :forum_topic do |user, topic|
-      subscriptions = Server[:pinboard].api.rel(:subscriptions).get(
-        user_id: user['id'], question_id: topic['id']
-      ).value!
+      subscriptions = Server[:pinboard].api.rel(:subscriptions).get({
+        user_id: user['id'],
+        question_id: topic['id'],
+      }).value!
       expect(subscriptions.size).to eq 1
     end
   end
 
   Then 'the topic is removed from my subscribed topics' do
     context.with :user, :forum_topic do |user, topic|
-      subscriptions = Server[:pinboard].api.rel(:subscriptions).get(
-        user_id: user['id'], question_id: topic['id']
-      ).value!
+      subscriptions = Server[:pinboard].api.rel(:subscriptions).get({
+        user_id: user['id'],
+        question_id: topic['id'],
+      }).value!
       expect(subscriptions.size).to eq 0
     end
   end

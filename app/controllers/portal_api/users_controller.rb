@@ -24,7 +24,7 @@ module PortalAPI
     def destroy
       return head(:not_found) unless authorization
 
-      account_api.rel(:user).delete(id: authorization['user_id']).value!
+      account_api.rel(:user).delete({id: authorization['user_id']}).value!
 
       head(:no_content)
     end
@@ -36,11 +36,11 @@ module PortalAPI
     end
 
     def authorization
-      @authorization ||= account_api.rel(:authorizations).get(uid: params[:id]).value!.first
+      @authorization ||= account_api.rel(:authorizations).get({uid: params[:id]}).value!.first
     end
 
     def user
-      @user ||= account_api.rel(:user).get(id: authorization['user_id']).value!
+      @user ||= account_api.rel(:user).get({id: authorization['user_id']}).value!
     end
 
     def user_params
@@ -58,7 +58,7 @@ module PortalAPI
         u[:avatar_uri] = params[:avatar] if params.key?(:avatar)
       end
 
-      @updated_user = account_api.rel(:user).patch(sanitized_params, id: authorization['user_id']).value!
+      @updated_user = account_api.rel(:user).patch(sanitized_params, params: {id: authorization['user_id']}).value!
     rescue Restify::UnprocessableEntity
       # If this request goes wrong, we silently swallow the error
     end

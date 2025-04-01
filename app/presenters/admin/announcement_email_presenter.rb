@@ -7,8 +7,8 @@ class Admin::AnnouncementEmailPresenter
 
     # Start loading information about users (creator and sender)
     account_api = Xikolo.api(:account).value!
-    @author_promise = account_api.rel(:user).get(id: author_id)
-    @sender_promise = account_api.rel(:user).get(id: sender_id)
+    @author_promise = account_api.rel(:user).get({id: author_id})
+    @sender_promise = account_api.rel(:user).get({id: sender_id})
   end
 
   def authored_at

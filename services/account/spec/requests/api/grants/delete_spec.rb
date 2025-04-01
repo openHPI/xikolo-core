@@ -10,7 +10,7 @@ describe 'Grants: Delete', type: :request do
   let!(:grant)   { create(:grant, principal: group, role:) }
 
   let(:api)      { Restify.new(:test).get.value! }
-  let(:resource) { api.rel(:grant).get(id: grant.id).value! }
+  let(:resource) { api.rel(:grant).get({id: grant.id}).value! }
 
   it 'responds with :ok' do
     expect(delete_grant).to respond_with :ok

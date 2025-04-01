@@ -314,10 +314,10 @@ class Enrollment < ApplicationRecord
   end
 
   def create_membership!
-    Xikolo.api(:account).value!.rel(:memberships).post(
+    Xikolo.api(:account).value!.rel(:memberships).post({
       user: user_id,
-      group: course.students_group_name
-    ).value!
+      group: course.students_group_name,
+    }).value!
   end
 
   def archive!

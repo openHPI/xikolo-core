@@ -6,9 +6,9 @@ module Xikolo
       class EditSubscription < Xikolo::API
         desc 'Unsubscribes a Subscription', object_fields: Xikolo::Entities::PinboardSubscription.documentation
         delete do
-          Xikolo.api(:pinboard).value!.rel(:subscription).delete(
-            id: params[:subscription_id]
-          ).value!
+          Xikolo.api(:pinboard).value!.rel(:subscription).delete({
+            id: params[:subscription_id],
+          }).value!
           status :no_content
         rescue StandardError
           status 404

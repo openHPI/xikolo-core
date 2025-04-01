@@ -303,9 +303,7 @@ nl:
       submission_converted: De inzending is met succes geconverteerd vanuit een bestaande momentopname!
       reactivate_course: "Je hebt deze cursus opnieuw geactiveerd tot %{date}"
       proctoring:
-        already_registered_smowl: U heeft uw afbeelding al gekalibreerd met onze partner.
         certificate_booked: Je hebt met succes het Certificaat voor deze cursus geboekt.
-        submission_excluded: Inzending succesvol uitgesloten van proctoring.
       primary_email_unsuspended: Uw primaire e-mailadres is succesvol opnieuw geactiveerd.
       account_confirmed_manually: Het account is handmatig bevestigd.
       lti_provider_created: De LTI-provider is aangemaakt.
@@ -386,7 +384,6 @@ nl:
         booking_failed: U kunt voor deze cursus geen Certificaat boeken.
         already_proctored: U heeft al een Certificaat geboekt.
         not_enrolled: U moet zich inschrijven voor de cursus om een Certificaat te boeken.
-        submission_exclude_failed: Uitsluiting van inzending mislukt.
       reactivation:
         not_available: Reactivering is op dit moment niet beschikbaar voor deze cursus.
         already_reactivated: Je hebt deze cursus al opnieuw geactiveerd.
@@ -1088,8 +1085,6 @@ nl:
           passed: Proctoring geslaagd
           passed_with_issues: Proctoring geslaagd met enkele problemen
           failed: Proctoring mislukt
-          exclude: Uitsluiten van proctoring
-          exclude_confirm: Weet je zeker dat je de inzending wilt uitsluiten van proctoring?
         actions: Acties
         submission: Inzending
         submissions: Inzendingen
@@ -1358,7 +1353,6 @@ nl:
       button_goto_external: Ga naar externe cursus
       proctoring:
         booked: U heeft een Certificaat geboekt.
-        register_with_smowl: Kalibreer uw afbeelding met onze partner.
         upgrade_not_possible: Het boeken van een Certificaat is niet meer mogelijk.
       unenrollment_disabled: Neem contact op met de aanbieder van de cursus om u af te melden voor de cursus.
 
@@ -1925,27 +1919,6 @@ nl:
       submit:
         question: Vraag maken
         answer: Antwoord maken
-      proctoring:
-        book_certificate: Boek het certificaat
-        certificate_booked:
-          title: U heeft uw certificaat succesvol geboekt
-          instructions: "Zorg ervoor dat u zich aan de regels houdt (<a href='https://smowl.net/en/faqs-proctoring-smowl/camera-monitoring/' target='_blank' rel='noopener'>FAQ</a> | <a href='/pages/proctoring_guidelines' target='_blank'>handleiding</a>). In geval van overtreding kunnen wij geen certificaat uitreiken. Denk er altijd aan:"
-          exclusion_criteria:
-            <ul><li>U moet de <strong>enige persoon</strong> die voor de camera staat. Als er geen persoon, meerdere personen, of een andere persoon dan de geregistreerde zichtbaar is, zal de proctoring mislukken.</li>
-            <li>Kies een examenperiode waarin je <strong>niet gestoord</strong> wordt en je tijdens het examen je plaats niet hoeft te verlaten.</li>
-            <li>Zorg voor <strong>voldoende licht</strong> en dat je gezicht duidelijk zichtbaar is. Een lichtbron achteraan kan je gezicht te donker doen lijken in de camera.</li>
-            <li>Gebruik niets dat uw hoofd of gezicht bedekt (hoed, zonnebril, ...). Een leesbril is toegestaan.</li>
-            </ul>
-            <p>Technisch advies:</p>
-            <ul><li>Zorg ervoor dat uw camera is ingeschakeld en volledig functioneel is. Verwijder uw webcamcover.</li>
-            <li>Sluit alle andere toepassingen die toegang geven tot de camera.</li>
-            <li>Zorg ervoor dat tijdens het examen het tabblad Opdracht het enige geopende tabblad in uw browser is.</li></ul>
-        deadline_passed: De registratieperiode voor het certificaat is verstreken. U kunt nog steeds een Record of Achievement verdienen door de beoordeelde quizzen te voltooien.
-        upgrade_not_possible: Je hebt al te veel wekelijkse opdrachten ingeleverd en kunt daarom het Certificaat niet meer reserveren. Je kunt nog steeds een Record of Achievement verdienen door de quizzen te voltooien.
-        upgrade_information:
-          title: Wilt u een Certificaat boeken?
-          info: U kunt zich nog inschrijven voor het Certificaat tot en met de <strong>%{deadline}</strong>. Het certificaat is een betaalde toevoeging. Je kunt altijd nog een gratis Record of Achievement verdienen door de quizzen te voltooien.
-          registration_periods_info: <b>Registratie Periodes:</b> U kunt zich alleen inschrijven voor het certificaat voor de deadline voor het inleveren van de tweede beoordeelde opdracht. Als de deadline voor het inleveren van de tweede opdracht is verstreken, is een aanvraag voor het gesurveilleerde examen niet meer mogelijk.
 
     lti:
       allowed_attempts: Toegestane pogingen
@@ -2571,8 +2544,6 @@ nl:
       main: Stuur mijn definitieve antwoorden
       survey: Feedback verzenden
     proctoring:
-      sidebar_title: Online proctoring
-      instrumented_info: De online proctoring-functionaliteit is tijdelijk uitgeschakeld omdat u zich als gebruiker voordoet.
       no_issues: Geen problemen gedetecteerd
       data_currently_unavailable: De proctoringgegevens worden nog verwerkt.
       feature_tooltip: Overtredingen zullen zich ophopen
@@ -2934,27 +2905,7 @@ nl:
       total: Totaal
 
   proctoring:
-    register_with_smowl: Kalibreer uw beeld
-    calibration_missing_callout: U moet uw beeld kalibreren voordat u aan het examen begint
-    calibration_missing_text: U kunt het examen pas afleggen nadat u het kalibratieproces hebt gestart.
-    calibration_missing_action: Ga naar de kalibratie details pagina
-    calibration_pending_title: Kalibratie in behandeling
-    calibration_pending_text: Uw beeld wordt momenteel gekalibreerd. Dit proces kan een paar uur duren. Kom hier later terug om het examen af te leggen.
     service_unavailable: De surveillancedienst is momenteel niet beschikbaar. Probeer het later nog eens.
-    book_certificate: Boek een certificaat
-
-    registration_details:
-      title: Kalibratie voor het certificaat
-      headline_steps: Het maken van een foto voor verificatie
-      steps_introduction: "Als u voor het Certificaat heeft gekozen, hebben wij drie foto's van u nodig voor de automatische gezichtsherkenning. Voer de volgende stappen uit om de gezichtsherkenningsfunctie te activeren:"
-      step_1: Zorg ervoor dat u een <a href='https://smowl.net/en/faqs-proctoring-smowl/requirements/' target='_blank' rel='noopener'> compatibele browser</a> gebruikt.
-      step_2: Klik op "Kalibreer uw beeld" aan het einde van deze pagina.
-      step_3: Neem 3 foto's van jezelf met je webcam. De tweede foto komt op uw certificaat.
-      step_4: Bevestig de foto's of neem een nieuwe set nadat ze zijn afgewezen.
-      callout_title: Kalibreer uw beeld zo snel mogelijk
-      callout_text: Het kalibratieproces kan <strong>tot 48 uur</strong> duren. Gedurende deze tijd is de toegang tot gecorrigeerde testen en alle relevante oefeningen geblokkeerd.
-      verification_lifetime_headline: Levensduur van de verificatie
-      verification_lifetime_text: De kalibratie wordt uitgevoerd per deelnemer, niet per cursus, d.w.z. dat u het hele proces niet voor elke cursus opnieuw hoeft te herhalen. In volgende cursussen zal worden nagegaan of het uiterlijk zodanig is veranderd dat een nieuwe ijking noodzakelijk is. Als dat het geval is, zal u in de cursus worden gevraagd dat te doen.
 
   time_effort:
     seconds: seconden

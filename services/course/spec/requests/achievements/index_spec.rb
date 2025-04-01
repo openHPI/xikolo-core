@@ -17,8 +17,8 @@ describe 'Achievements: Index', type: :request do
 
   let(:request) do
     api
-      .rel(:course).get(id: course.id).value!
-      .rel(:achievements).get(params, opts).value!
+      .rel(:course).get({id: course.id}).value!
+      .rel(:achievements).get(params, **opts).value!
   end
 
   it { expect(request.response).to be_success }

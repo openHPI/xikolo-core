@@ -10,7 +10,7 @@ describe 'Course: Show', type: :request do
   let(:course_params) { {description: desc_rt, groups: ['xikolo.admin']} }
 
   context 'with case-insensitive course code' do
-    subject(:show) { api.rel(:course).get(id: 'CoUrSe-cOdE').value! }
+    subject(:show) { api.rel(:course).get({id: 'CoUrSe-cOdE'}).value! }
 
     let!(:course) { create(:course, course_code: 'course-code') }
 
@@ -24,7 +24,7 @@ describe 'Course: Show', type: :request do
   end
 
   context 'in normal format' do
-    subject(:show) { api.rel(:course).get(id: course.course_code).value! }
+    subject(:show) { api.rel(:course).get({id: course.course_code}).value! }
 
     it 'returns the inlined description with external URLs' do
       expect(show['description']).to eq desc_rendered
@@ -34,7 +34,7 @@ describe 'Course: Show', type: :request do
   end
 
   context 'in raw format' do
-    subject(:show) { api.rel(:course).get(id: course.course_code, raw: true).value! }
+    subject(:show) { api.rel(:course).get({id: course.course_code, raw: true}).value! }
 
     it 'returns the inlined description for editing' do
       expect(show['description']).to eq(

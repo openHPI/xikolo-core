@@ -57,7 +57,7 @@ class Account::Register < ApplicationOperation
   def accept_policy!(user, policy)
     return unless policy
 
-    user.rel(:self).patch(accepted_policy_version: policy['version'])
+    user.rel(:self).patch({accepted_policy_version: policy['version']})
   end
 
   def trigger_welcome_mail(user, email)

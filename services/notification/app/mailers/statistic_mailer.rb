@@ -26,7 +26,7 @@ class StatisticMailer < ApplicationMailer
   def course_admin_statistics(receiver_obj, admin_statistic, course_stats)
     @receiver = receiver_obj
 
-    I18n.with_locale get_language(@receiver.language) do
+    I18n.with_locale(get_language(@receiver.fetch('language'))) do
       # Global stats
       @admin_statistic = admin_statistic
       @course_stats = course_stats
@@ -41,7 +41,7 @@ class StatisticMailer < ApplicationMailer
       @enrollments = EnrollmentChart.new @course_stats
       attachments.inline['chart.png'] = @enrollments.to_png unless @enrollments.empty?
 
-      mail to: @receiver.email, subject:, template_name: 'course_admin_statistics'
+      mail to: @receiver.fetch('email'), subject:, template_name: 'course_admin_statistics'
     end
   end
 

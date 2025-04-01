@@ -6,7 +6,7 @@ describe 'Group Stats', type: :request do
   subject(:resource) { base.rel(:stats).get(params).value! }
 
   let(:api) { Restify.new(:test).get.value! }
-  let(:base) { api.rel(:group).get(id: group).value! }
+  let(:base) { api.rel(:group).get({id: group}).value! }
   let(:params) { {} }
 
   let(:group) { create(:group) }
@@ -72,7 +72,7 @@ describe 'Group Stats', type: :request do
     it { is_expected.to eq 7 }
 
     context 'on magic groups' do
-      let(:base) { api.rel(:group).get(id: 'all').value! }
+      let(:base) { api.rel(:group).get({id: 'all'}).value! }
 
       it { is_expected.to eq 10 }
     end

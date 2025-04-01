@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Recap: Load questions for recap', type: :request do
-  subject { api.rel(:questions).get(**params, selftests: true).value! }
+  subject { api.rel(:questions).get({**params, selftests: true}).value! }
 
   let(:api) { Restify.new(:test).get.value! }
   let(:params) { {} }
@@ -12,7 +12,7 @@ RSpec.describe 'Recap: Load questions for recap', type: :request do
       all_available: true,
       content_type: 'quiz',
       exercise_type: 'selftest',
-      course_id: '',
+      course_id: nil,
       required_items: 'none',
       per_page: 250,
     }

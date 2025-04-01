@@ -16,7 +16,7 @@ class Experiment
         identifier: @identifier,
         exclude_groups:,
       }.compact,
-      user_id: user.id
+      params: {user_id: user.id}
     ).value!
 
     AssignmentResult.new(user, assignment)

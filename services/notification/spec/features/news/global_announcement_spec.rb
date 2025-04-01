@@ -280,7 +280,7 @@ describe 'Global Announcement Mail', type: :feature do
 
       api = Restify.new(:test).get.value!
 
-      stats = api.rel(:mail_log_stats).get(news_id: announcement_id).value!
+      stats = api.rel(:mail_log_stats).get({news_id: announcement_id}).value!
       expect(stats['count']).to eq 5
       expect(stats['success_count']).to eq 4
       expect(stats['disabled_count']).to eq 1
@@ -371,13 +371,13 @@ describe 'Global Announcement Mail', type: :feature do
 
     api = Restify.new(:test).get.value!
 
-    stats = api.rel(:mail_log_stats).get(news_id: announcement_id).value!
+    stats = api.rel(:mail_log_stats).get({news_id: announcement_id}).value!
     expect(stats['count']).to eq 0
 
     # Trigger notification events (page 1)
     Msgr::TestPool.run count: 1
 
-    stats = api.rel(:mail_log_stats).get(news_id: announcement_id).value!
+    stats = api.rel(:mail_log_stats).get({news_id: announcement_id}).value!
     expect(stats['count']).to eq 3
     expect(stats['success_count']).to eq 0
     expect(stats['disabled_count']).to eq 0
@@ -386,7 +386,7 @@ describe 'Global Announcement Mail', type: :feature do
     # Send the queued notification mails from page 1 and load page 2
     Msgr::TestPool.run count: 4
 
-    stats = api.rel(:mail_log_stats).get(news_id: announcement_id).value!
+    stats = api.rel(:mail_log_stats).get({news_id: announcement_id}).value!
     expect(stats['count']).to eq 4
     expect(stats['success_count']).to eq 3
     expect(stats['disabled_count']).to eq 0
@@ -395,7 +395,7 @@ describe 'Global Announcement Mail', type: :feature do
     # Send the remaining queued notification mail from page 2
     Msgr::TestPool.run count: 1
 
-    stats = api.rel(:mail_log_stats).get(news_id: announcement_id).value!
+    stats = api.rel(:mail_log_stats).get({news_id: announcement_id}).value!
     expect(stats['count']).to eq 4
     expect(stats['success_count']).to eq 4
     expect(stats['disabled_count']).to eq 0

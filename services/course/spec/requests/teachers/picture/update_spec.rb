@@ -50,7 +50,7 @@ shared_examples 'does not delete the old picture' do
 end
 
 RSpec.describe 'Teachers: Update with picture', type: :request do
-  subject(:update_teacher) { api.rel(:teacher).patch(update_params, id: teacher.id).value! }
+  subject(:update_teacher) { api.rel(:teacher).patch(data, params: {id: teacher.id}).value! }
 
   let(:api) { Restify.new(:test).get.value }
   let(:teacher) { create(:teacher, initial_params) }
@@ -64,7 +64,7 @@ RSpec.describe 'Teachers: Update with picture', type: :request do
     let(:initial_params) { {} }
 
     context 'with picture_upload_id' do
-      let(:update_params) { {picture_upload_id: upload_id} }
+      let(:data) { {picture_upload_id: upload_id} }
 
       before do
         stub_request(:get, 'https://s3.xikolo.de/xikolo-uploads?list-type=2&' \
@@ -135,7 +135,7 @@ RSpec.describe 'Teachers: Update with picture', type: :request do
     end
 
     context 'with picture_uri' do
-      let(:update_params) { {picture_upload_id: upload_id, picture_uri: "upload://#{upload_id}/#{file_name}"} }
+      let(:data) { {picture_upload_id: upload_id, picture_uri: "upload://#{upload_id}/#{file_name}"} }
 
       before do
         stub_request(:head, store_stub_url).and_return(status: 404)
@@ -198,7 +198,7 @@ RSpec.describe 'Teachers: Update with picture', type: :request do
     let(:old_store_stub_url) { %r{https://s3.xikolo.de/xikolo-public/teachers/[0-9a-zA-Z]+/[0-9a-zA-Z]+/#{file_name}} }
 
     context 'with picture_upload_id' do
-      let(:update_params) { {picture_upload_id: upload_id} }
+      let(:data) { {picture_upload_id: upload_id} }
 
       before do
         stub_request(:get, 'https://s3.xikolo.de/xikolo-uploads?list-type=2&' \
@@ -272,7 +272,7 @@ RSpec.describe 'Teachers: Update with picture', type: :request do
     end
 
     context 'with picture_uri' do
-      let(:update_params) { {picture_upload_id: upload_id, picture_uri: "upload://#{upload_id}/#{new_file}"} }
+      let(:data) { {picture_upload_id: upload_id, picture_uri: "upload://#{upload_id}/#{new_file}"} }
 
       before do
         stub_request(:head, store_stub_url).and_return(status: 404)

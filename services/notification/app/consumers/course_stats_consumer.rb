@@ -78,9 +78,9 @@ class CourseStatsConsumer < Msgr::Consumer
   end
 
   def course_admins(course)
-    account_service.value!.rel(:group).get(
-      id: "course.#{course.course_code}.admins"
-    ).value!.rel(:members).get.value!
+    account_service.value!.rel(:group).get({
+      id: "course.#{course.course_code}.admins",
+    }).value!.rel(:members).get.value!
   end
 
   def account_service

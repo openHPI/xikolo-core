@@ -51,7 +51,7 @@ describe 'Repetition Suggestions: Index', type: :request do
     end
 
     it 'returns the items in the correct order' do
-      expect(list.map(&:id)).to eq [result_1, result_3, result_2].map {|r| r.item.id }
+      expect(list.map { it['id'] }).to eq [result_1, result_3, result_2].map {|r| r.item.id }
     end
 
     it 'returns the item resources with decorated attributes' do
@@ -99,7 +99,7 @@ describe 'Repetition Suggestions: Index', type: :request do
       before { create(:result, user_id:, item: homework, dpoints: 5) }
 
       it 'does not include the item' do
-        expect(list.map(&:id)).to eq [result_1, result_3, result_2].map {|r| r.item.id }
+        expect(list.map { it['id'] }).to eq [result_1, result_3, result_2].map {|r| r.item.id }
       end
     end
 
@@ -112,7 +112,7 @@ describe 'Repetition Suggestions: Index', type: :request do
       before { create(:result, user_id:, item: other_course_item, dpoints: 5) }
 
       it 'does not include the item' do
-        expect(list.map(&:id)).to eq [result_1, result_3, result_2].map {|r| r.item.id }
+        expect(list.map { it['id'] }).to eq [result_1, result_3, result_2].map {|r| r.item.id }
       end
     end
 
@@ -120,7 +120,7 @@ describe 'Repetition Suggestions: Index', type: :request do
       before { create(:result, user_id:, item: items[0], dpoints: 5) }
 
       it 'does return the according item only once' do
-        expect(list.map(&:id)).to eq [result_1, result_3, result_2].map {|r| r.item.id }
+        expect(list.map { it['id'] }).to eq [result_1, result_3, result_2].map {|r| r.item.id }
       end
 
       it 'does take the better result' do
@@ -134,7 +134,7 @@ describe 'Repetition Suggestions: Index', type: :request do
       before { create(:result, user_id:, item: item_unpublished, dpoints: 5) }
 
       it 'does not return the unpublished item' do
-        expect(list.map(&:id)).to eq [result_1, result_3, result_2].map {|r| r.item.id }
+        expect(list.map { it['id'] }).to eq [result_1, result_3, result_2].map {|r| r.item.id }
       end
     end
   end

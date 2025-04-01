@@ -16,8 +16,10 @@ module Steps
     end
 
     def lock_section_forum(section)
-      Server[:course].api.rel(:section).patch({pinboard_closed: true},
-        {id: section.id}).value!
+      Server[:course].api.rel(:section).patch(
+        {pinboard_closed: true},
+        params: {id: section['id']}
+      ).value!
     end
 
     Given 'the section forum is locked' do

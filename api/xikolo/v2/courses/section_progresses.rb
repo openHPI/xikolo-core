@@ -94,7 +94,7 @@ module Xikolo
           authenticate!
 
           progresses = Xikolo.api(:course).value!.rel(:progresses).get(
-            filters.merge('user_id' => current_user.id)
+            filters.merge({'user_id' => current_user.id})
           ).value!
 
           # remove course progress

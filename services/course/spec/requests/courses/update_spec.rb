@@ -30,7 +30,7 @@ describe 'Course: Update', type: :request do
       classifiers:,
       proctored: true,
       invite_only: true,
-    }, {id: course.id}).value!
+    }, params: {id: course.id}).value!
   end
   let(:grant_visitor_group) { 'all' }
   let!(:grant_visitor_stub) do
@@ -97,7 +97,7 @@ describe 'Course: Update', type: :request do
     let!(:course) { create(:course, initial_params) }
     let(:initial_params) { {id: '4290e188-6063-4721-95ea-c2b35bc95e86'} }
     let(:action) do
-      api.rel(:course).patch({description: text}, {id: course.id}).value!
+      api.rel(:course).patch({description: text}, params: {id: course.id}).value!
     end
     let(:text) { 'upload://b5f99337-224f-40f5-aa82-44ee8b272579/company1.jpg' }
 
@@ -205,14 +205,14 @@ describe 'Course: Update', type: :request do
     end
 
     context 'when publishing the course' do
-      let(:action_params) do
+      let(:data) do
         {
           status: 'active',
           start_date: 2.days.from_now,
           end_date: 10.days.from_now,
         }
       end
-      let(:action) { api.rel(:course).patch(action_params, id: course.id).value! }
+      let(:action) { api.rel(:course).patch(data, params: {id: course.id}).value! }
       let(:grant_id) { SecureRandom.uuid }
       let(:existing_grants) do
         [
@@ -310,7 +310,7 @@ describe 'Course: Update', type: :request do
 
       context 'with group restrictions' do
         let(:grant_visitor_group) { 'xikolo.affiliated' }
-        let(:action_params) { super().merge(groups: [grant_visitor_group]) }
+        let(:data) { super().merge(groups: [grant_visitor_group]) }
 
         it 'grants the permission to visit the course details page to the respective group' do
           action
@@ -350,7 +350,7 @@ describe 'Course: Update', type: :request do
     subject(:patch) do
       api.rel(:course).patch({
         groups: ['group.b', 'group.c'],
-      }, {id: course.id}).value!
+      }, params: {id: course.id}).value!
     end
 
     let!(:course) { create(:course, groups: ['group.a']) }

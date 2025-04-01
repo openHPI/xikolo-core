@@ -28,6 +28,6 @@ class UserPresenter
   end
 
   def all_emails
-    Account::User.find(@user.id).emails
+    Account::User.find(id).emails
   end
 end

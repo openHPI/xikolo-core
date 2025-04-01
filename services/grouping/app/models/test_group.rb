@@ -44,11 +44,11 @@ class TestGroup < ApplicationRecord
 
     Xikolo.api(:account).value!
       .rel(:group)
-      .get(id: group_name)
-      .value
+      .get({id: group_name})
+      .value!
       .rel(:flippers)
-      .patch(flippers_for_account, context: user_test.context_id)
-      .value
+      .patch(flippers_for_account, params: {context: user_test.context_id})
+      .value!
   end
 
   def total_count

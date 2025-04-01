@@ -8,7 +8,7 @@ module Xikolo
         get do
           authenticate!
 
-          dates = Xikolo.api(:course).value!.rel(:next_dates).get(user_id: current_user.id).value!
+          dates = Xikolo.api(:course).value!.rel(:next_dates).get({user_id: current_user.id}).value!
 
           present :next_dates, dates, with: Xikolo::Entities::CourseDate
         end

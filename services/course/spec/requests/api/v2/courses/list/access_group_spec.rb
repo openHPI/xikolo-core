@@ -31,7 +31,7 @@ RSpec.describe '[API v2] Course: List: Limit access to groups', type: :request d
 
   context 'with user w/o group membership' do
     it 'lists only non-restricted courses' do
-      expect(resource.map(&:id)).to contain_exactly(courses.first.id)
+      expect(resource.map { it['id'] }).to contain_exactly(courses.first.id)
     end
   end
 
@@ -44,7 +44,7 @@ RSpec.describe '[API v2] Course: List: Limit access to groups', type: :request d
     end
 
     it 'lists all courses' do
-      expect(resource.map(&:id)).to match_array courses.map(&:id)
+      expect(resource.map { it['id'] }).to match_array courses.map(&:id)
     end
   end
 end

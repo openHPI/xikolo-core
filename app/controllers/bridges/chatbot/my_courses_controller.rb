@@ -8,7 +8,7 @@ module Bridges
       def index
         courses = []
         Xikolo.paginate(
-          course_api.rel(:courses).get(user_id: @user_id)
+          course_api.rel(:courses).get({user_id: @user_id})
         ) do |course|
           courses << serialize(course)
         end
@@ -16,7 +16,7 @@ module Bridges
       end
 
       def create
-        course = course_api.rel(:course).get(id: params[:id]).value!
+        course = course_api.rel(:course).get({id: params[:id]}).value!
 
         if course['invite_only']
           problem_details(
@@ -27,10 +27,10 @@ module Bridges
         end
 
         # Create the new enrollment.
-        course_api.rel(:enrollments).post(
+        course_api.rel(:enrollments).post({
           user_id: @user_id,
-          course_id: params[:id]
-        ).value!
+          course_id: params[:id],
+        }).value!
 
         head(:ok)
       rescue Restify::ClientError => e
@@ -41,9 +41,9 @@ module Bridges
       end
 
       def destroy
-        enrollment = course_api.rel(:enrollments).get(
+        enrollment = course_api.rel(:enrollments).get({
           course_id: params[:id], user_id: @user_id
-        ).value!.first
+        }).value!.first
 
         if enrollment.nil?
           problem_details(
@@ -53,7 +53,7 @@ module Bridges
           return
         end
 
-        course_api.rel(:enrollment).delete(id: enrollment['id']).value!
+        course_api.rel(:enrollment).delete({id: enrollment['id']}).value!
       rescue Restify::ClientError => e
         problem_details(
           e.response.message,

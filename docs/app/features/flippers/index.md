@@ -252,7 +252,9 @@ See below for explanations on [managing feature flippers](#manage-feature-flippe
 
 `social_sharing.certificate`
 
-: Enable social sharing for open badges on the certificates page
+:   Enable social sharing for open badges on the certificates page.
+
+    *Scope:* `Group.all_users`, `Context.root`
 
 `time_effort` :material-test-tube:
 

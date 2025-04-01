@@ -101,8 +101,6 @@ describe 'Pinboard: Create Topic', type: :system do
     end
 
     it 'prevents accidental submissions of admin posts as the masqueraded user' do
-      pending 'Multi-window browser spec fail in CI'
-
       visit '/courses/our_course/pinboard'
       click_on 'Start a new topic'
       fill_in 'Title', with: 'I have a question'
@@ -128,8 +126,6 @@ describe 'Pinboard: Create Topic', type: :system do
     end
 
     it 'prevents accidental submissions of masqueraded user posts as the admin' do
-      pending 'Multi-window browser spec fail in CI'
-
       # In a separate tab, masquerade as another user
       masquerade_window = open_new_window
       within_window masquerade_window do
@@ -163,8 +159,6 @@ describe 'Pinboard: Create Topic', type: :system do
     end
 
     it 'still allows submissions of previously prepared posts after demasquerading' do
-      pending 'Multi-window browser spec fail in CI'
-
       visit '/courses/our_course/pinboard'
       click_on 'Start a new topic'
       fill_in 'Title', with: 'I have a question'

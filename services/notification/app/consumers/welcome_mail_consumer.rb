@@ -25,6 +25,6 @@ class WelcomeMailConsumer < Msgr::Consumer
 
   def course
     @course ||= Xikolo.api(:course).value!
-      .rel(:course).get(id: payload.fetch(:course_id)).value!
+      .rel(:course).get({id: payload.fetch(:course_id)}).value!
   end
 end

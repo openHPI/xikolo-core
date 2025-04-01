@@ -9,7 +9,7 @@ class Account::ConfirmationsController < Abstract::FrontendController
 
     # Verify signature and fetch email to show address in template.
     address = self.class.verifier.verify(@request)
-    @email = api.rel(:email).get(id: address).value!
+    @email = api.rel(:email).get({id: address}).value!
   rescue ::Restify::NotFound
     render :confirmation_failed, status: :not_found
   end
@@ -26,7 +26,7 @@ class Account::ConfirmationsController < Abstract::FrontendController
   def create
     request = params.require(:request)
     address = self.class.verifier.verify(request)
-    email   = api.rel(:email).get(id: address).value!
+    email   = api.rel(:email).get({id: address}).value!
 
     verifier = self.class.verifier
     payload  = verifier.generate(email.fetch('id').to_s)
@@ -44,10 +44,10 @@ class Account::ConfirmationsController < Abstract::FrontendController
   def update
     address = self.class.verifier.verify(params[:id])
 
-    email = api.rel(:email).get(id: address).value!
+    email = api.rel(:email).get({id: address}).value!
     return render :confirmed_token, status: :gone if email['confirmed']
 
-    email.rel(:self).patch(confirmed: true, primary: true).value!
+    email.rel(:self).patch({confirmed: true, primary: true}).value!
 
     add_flash_message :success, t(:'flash.success.confirmation_successful')
     redirect_to new_session_url

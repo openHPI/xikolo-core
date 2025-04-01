@@ -100,7 +100,7 @@ module Bridges
             race_condition_ttl: 1.minute
           ) do
             if course['teacher_ids'].any?
-              @api.rel(:teachers).get(course: course['id']).then do |teachers|
+              @api.rel(:teachers).get({course: course['id']}).then do |teachers|
                 # Return an array with the prefix and the actual name, e.g.
                 # ['Prof. Dr.', 'Mustermann'] for 'Prof. Dr. Mustermann'.
                 regex = /((?>Prof\.[[:blank:]]?)?(?>(?:PD)?[[:blank:]]?)?(?>Dr\.(?>-Ing\.)?[[:blank:]]?)*)(.*)/

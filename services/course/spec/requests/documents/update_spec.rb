@@ -3,14 +3,14 @@
 require 'spec_helper'
 
 describe 'Documents: Update', type: :request do
-  subject(:action) { api.rel(:document).patch(update_params, id: document.id).value! }
+  subject(:action) { api.rel(:document).patch(data, params: {id: document.id}).value! }
 
   let!(:document) { create(:document, :with_localizations) }
   let!(:course) { create(:course, :full_blown) }
 
   let(:api) { Restify.new(:test).get.value }
 
-  let(:update_params) do
+  let(:data) do
     {
       title: 'Updated title',
       tags: ['new_tag'],

@@ -4,7 +4,7 @@ class Admin::ChannelsOrderController < Abstract::FrontendController
   def index
     authorize! 'course.channel.index'
 
-    @channels = Admin::ChannelOrderPresenter.new(course_api.rel(:channels).get(per_page: 250).value!)
+    @channels = Admin::ChannelOrderPresenter.new(course_api.rel(:channels).get({per_page: 250}).value!)
 
     render template: 'admin/channels/order'
   end
@@ -16,7 +16,7 @@ class Admin::ChannelsOrderController < Abstract::FrontendController
       begin
         Restify::Promise.new(
           params[:positions].map.with_index(1) do |channel_id, position|
-            course_api.rel(:channel).patch({position:}, id: channel_id)
+            course_api.rel(:channel).patch({position:}, params: {id: channel_id})
           end
         ).value!
         add_flash_message(:success, t(:'flash.success.channel_order_updated'))

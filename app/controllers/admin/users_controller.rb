@@ -8,7 +8,7 @@ class Admin::UsersController < Abstract::FrontendController
     end
 
     if params[:uid_query].present?
-      user = account_api.rel(:users).get(auth_uid: params[:uid_query]).value!.first
+      user = account_api.rel(:users).get({auth_uid: params[:uid_query]}).value!.first
 
       if user
         return redirect_to user_path user['id']
@@ -19,12 +19,12 @@ class Admin::UsersController < Abstract::FrontendController
 
     users_promise =
       if params[:q].present?
-        account_api.rel(:users).get(
+        account_api.rel(:users).get({
           query: params[:q].strip,
-          page: params[:page]
-        )
+          page: params[:page],
+        })
       else
-        account_api.rel(:users).get(page: params[:page])
+        account_api.rel(:users).get({page: params[:page]})
       end
     @users = UserListPresenter.new users_promise
   end

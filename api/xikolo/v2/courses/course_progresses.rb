@@ -51,10 +51,10 @@ module Xikolo
         get 'Get course progress' do
           authenticate!
 
-          progresses = Xikolo.api(:course).value!.rel(:progresses).get(
-            'user_id' => current_user.id,
-            'course_id' => id
-          ).value!
+          progresses = Xikolo.api(:course).value!.rel(:progresses).get({
+            user_id: current_user.id,
+            course_id: id,
+          }).value!
 
           # only return course progress
           course_progress = progresses.pop

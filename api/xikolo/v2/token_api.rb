@@ -12,10 +12,10 @@ module Xikolo
         post do
           begin
             # Create a new session...
-            session = Xikolo.api(:account).value!.rel(:sessions).post(
+            session = Xikolo.api(:account).value!.rel(:sessions).post({
               ident: params[:email],
-              password: params[:password]
-            ).value!
+              password: params[:password],
+            }).value!
           rescue Restify::ClientError
             raise Xikolo::Error::Unauthorized.new 401, 'Invalid credentials'
           end

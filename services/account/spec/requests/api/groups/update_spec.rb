@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'Group: Update', type: :request do
-  subject(:resource) { api.rel(:group).patch(data, id: data[:name]).value! }
+  subject(:resource) { api.rel(:group).patch(data, params: {id: data[:name]}).value! }
 
   let(:api) { Restify.new(:test).get.value! }
   let(:data) { {name: 'xikolo.group', description: 'Just for testing.'} }
@@ -48,7 +48,7 @@ describe 'Group: Update', type: :request do
   end
 
   context 'using PUT method w/ non-existent resource' do
-    subject(:resource) { api.rel(:group).put(data, id: data[:name]).value! }
+    subject(:resource) { api.rel(:group).put(data, params: {id: data[:name]}).value! }
 
     let(:data) { {name: 'xikolo.othergroup', description: 'Just for testing.'} }
 

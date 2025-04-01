@@ -6,7 +6,7 @@ describe 'Item Results: List', type: :resource do
   subject(:resource) { item_api.rel(:results).get(params).value! }
 
   let(:api) { Restify.new(:test).get.value! }
-  let(:item_api) { api.rel(:item).get(id: item.id).value! }
+  let(:item_api) { api.rel(:item).get({id: item.id}).value! }
   let!(:item) { create(:item) }
 
   let(:params) { {} }

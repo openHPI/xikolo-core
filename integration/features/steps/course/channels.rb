@@ -52,18 +52,18 @@ module Steps
     end
 
     def create_channel(public:)
-      Server[:course].api.rel(:channels).post(
+      Server[:course].api.rel(:channels).post({
         code: 'enterprise',
         name: 'Enterprise Channel',
         color: '#FF0000',
-        public:
-      ).value!
+        public:,
+      }).value!
     end
 
     def assign_course_to_channel(course, channel)
       Server[:course].api.rel(:course).patch(
         {channel_id: channel['id']},
-        {id: course['id']}
+        params: {id: course['id']}
       ).value!
     end
   end

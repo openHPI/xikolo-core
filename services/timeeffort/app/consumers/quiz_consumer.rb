@@ -14,7 +14,7 @@ class QuizConsumer < Msgr::Consumer
 
     question = Xikolo.api(:quiz).value!
       .rel(:question)
-      .get(id: payload.fetch(:question_id))
+      .get({id: payload.fetch(:question_id)})
       .value!
 
     schedule_job question['quiz_id']

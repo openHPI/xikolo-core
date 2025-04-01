@@ -47,7 +47,7 @@ module Collabspace::CollabspacesControllerCommon
   def user_memberships
     @user_memberships ||= collabspace_api
       .rel(:memberships)
-      .get(collab_space_id: collabspace_id, user_id: current_user.id)
+      .get({collab_space_id: collabspace_id, user_id: current_user.id})
       .value!
   end
 

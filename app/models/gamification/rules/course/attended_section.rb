@@ -61,9 +61,9 @@ module Gamification
         end
 
         def section_items
-          Xikolo.api(:course).value!.rel(:items).get(
-            section_id: @payload.fetch(:section_id)
-          ).value!
+          Xikolo.api(:course).value!.rel(:items).get({
+            section_id: @payload.fetch(:section_id),
+          }).value!
         end
 
         def video_item_ids

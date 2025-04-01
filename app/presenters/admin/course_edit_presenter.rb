@@ -29,7 +29,7 @@ class Admin::CourseEditPresenter
     def for_course(id:, user:, form: nil)
       course = Xikolo.api(:course).value!
         .rel(:course)
-        .get(id:, raw: true)
+        .get({id:, raw: true})
         .value!
       form ||= Admin::CourseForm.from_resource(course)
 
@@ -41,7 +41,7 @@ class Admin::CourseEditPresenter
   end
 
   def initialize(course, form, user)
-    @channels = course_api.rel(:channels).get(per_page: 250)
+    @channels = course_api.rel(:channels).get({per_page: 250})
 
     @course = course
     @form = form
@@ -141,7 +141,7 @@ class Admin::CourseEditPresenter
     @teachers ||= ids.map do |teacher_id|
       # Call to_s on UUID4 to get full-length uuid (local patch would generate
       # short format which is not supported by the backend)
-      course_api.rel(:teacher).get(id: teacher_id.to_s)
+      course_api.rel(:teacher).get({id: teacher_id.to_s})
     end
   end
   # rubocop:enable Naming/MemoizedInstanceVariableName
@@ -150,7 +150,7 @@ class Admin::CourseEditPresenter
   def with_statistic_dates!(course_id)
     @statistic_dates ||= course_api
       .rel(:stats)
-      .get(course_id:, key: 'percentile_created_at_days')
+      .get({course_id:, key: 'percentile_created_at_days'})
   end
   # rubocop:enable Naming/MemoizedInstanceVariableName
 

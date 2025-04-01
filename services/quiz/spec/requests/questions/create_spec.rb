@@ -3,11 +3,11 @@
 require 'spec_helper'
 
 RSpec.describe 'Questions: Create', type: :request do
-  subject(:creation) { api.rel(:questions).post(params).value! }
+  subject(:creation) { api.rel(:questions).post(payload).value! }
 
   let(:api) { Restify.new(:test).get.value! }
 
-  let(:params) { attributes_for(:multiple_choice_question, quiz_id: quiz.id) }
+  let(:payload) { attributes_for(:multiple_choice_question, quiz_id: quiz.id) }
   let(:quiz) { create(:quiz) }
   let(:qid) { UUID4(quiz.id).to_s(format: :base62) }
 
@@ -19,7 +19,7 @@ RSpec.describe 'Questions: Create', type: :request do
     )
     Stub.request(
       :course, :get, '/items',
-      query: {content_id: params[:quiz_id]}
+      query: {content_id: payload[:quiz_id]}
     ).to_return Stub.json([
       {id: '53d99410-28c1-4516-8ef5-49ed0e593918'},
     ])
@@ -36,7 +36,7 @@ RSpec.describe 'Questions: Create', type: :request do
   end
 
   context 'without a type attribute' do
-    let(:params) { super().except(:type) }
+    let(:payload) { super().except(:type) }
 
     it 'responds with 422 Unprocessable Entity' do
       expect { creation }.to raise_error(Restify::ClientError) do |err|
@@ -47,7 +47,7 @@ RSpec.describe 'Questions: Create', type: :request do
 
   context 'text with file upload references' do
     let(:text) { 'upload://b5f99337-224f-40f5-aa82-44ee8b272579/foo.jpg' }
-    let(:params) { super().merge text: }
+    let(:payload) { super().merge text: }
 
     it 'stores valid upload and creates a new resource' do
       stub_request(
@@ -114,7 +114,7 @@ RSpec.describe 'Questions: Create', type: :request do
 
   context 'explanation with file upload references' do
     let(:explanation) { 'upload://b5f99337-224f-40f5-aa82-44ee8b272579/foo.jpg' }
-    let(:params) { super().merge explanation: }
+    let(:payload) { super().merge explanation: }
 
     it 'stores valid upload and creates a new richexplanation' do
       stub_request(

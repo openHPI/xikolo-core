@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Collab Spaces: Delete', type: :request do
-  subject(:delete_request) { api.rel(:collab_space).delete(id: collab_space.id).value! }
+  subject(:delete_request) { api.rel(:collab_space).delete({id: collab_space.id}).value! }
 
   let(:api) { Restify.new(:test).get.value! }
   let!(:collab_space) { create(:collab_space) }

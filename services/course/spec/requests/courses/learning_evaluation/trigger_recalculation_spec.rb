@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe 'Course: Learning Evaluation: Trigger Recalculation', type: :request do
   subject(:creation) do
-    api.rel(:course_learning_evaluation).post({}, {course_id: course.id}).value!
+    api.rel(:course_learning_evaluation).post({}, params: {course_id: course.id}).value!
   end
 
   let(:api) { Restify.new(:test).get.value! }

@@ -6,6 +6,7 @@
 import Dropzone from 'dropzone';
 import ready from 'util/ready';
 import sanitize from 'util/sanitize';
+import I18n from '../../i18n/i18n';
 
 Dropzone.autoDiscover = false;
 
@@ -38,6 +39,25 @@ const init = (el) => {
   delete s3.key;
   delete s3.content_type;
 
+  const previewTemplate = `\
+    <div class="dz-preview dz-file-preview">
+      <div class="dz-details">
+        <div class="dz-size"><span data-dz-size></span></div>
+        <div class="dz-filename"><span data-dz-name></span></div>
+      </div>
+      <img data-dz-thumbnail />
+      <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>
+      <div class="dz-success-mark"><span>✔</span></div>
+      <div class="dz-error-mark"><span>✘</span></div>
+      <div class="dz-error-message"><span data-dz-errormessage></span></div>
+      <div class="dz-actions">
+        <button class="dz-clear btn btn-danger btn-xs" title="Reset file"><i class="fas fa-trash"></i>
+          ${I18n.t('global.delete')}
+        </button>
+      </div>
+    </div>\
+    `;
+
   const opts = {
     url,
     maxFiles: 1,
@@ -45,15 +65,7 @@ const init = (el) => {
     thumbnailWidth: null,
     thumbnailHeight: null,
     previewsContainer: '.imageupload-current',
-    previewTemplate:
-      '<div class="dz-preview">' +
-      '<img data-dz-thumbnail />' +
-      '<div class="dz-actions">' +
-      '<button class="dz-clear hidden" title="Reset file">' +
-      '<i class="fas fa-times"></i>' +
-      '</button>' +
-      '</div>' +
-      '</div>',
+    previewTemplate,
   };
 
   if (el.dataset.maxFilesize) {

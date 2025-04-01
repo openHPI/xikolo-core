@@ -79,7 +79,7 @@ class ItemsController < RESTController
   def patch_course_item!(item_id, time_effort)
     Xikolo.api(:course).value!
       .rel(:item)
-      .patch({time_effort:}, {id: item_id})
+      .patch({time_effort:}, params: {id: item_id})
       .value!
   end
 

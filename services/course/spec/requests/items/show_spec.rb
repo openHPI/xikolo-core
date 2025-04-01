@@ -56,12 +56,12 @@ describe 'Items: Show', type: :request do
 
       it { is_expected.to respond_with :ok }
       it { is_expected.to have_key 'user_visit' }
-      its('user_visit') { is_expected.to be_nil }
+      its(['user_visit']) { is_expected.to be_nil }
 
       context 'with a visit by the user' do
         before { create(:visit, item:, user_id:) }
 
-        its('user_visit') { is_expected.to respond_to(:to_hash) }
+        its(['user_visit']) { is_expected.to respond_to(:to_hash) }
       end
     end
   end

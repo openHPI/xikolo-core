@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'Item: clear_overwritten_time_effort', type: :request do
   subject(:clear_effort) do
-    api.rel(:item_overwritten_time_effort).delete(item_id: item.id).value!
+    api.rel(:item_overwritten_time_effort).delete({item_id: item.id}).value!
   end
 
   let(:api) { Restify.new(:test).get.value! }

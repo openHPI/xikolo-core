@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Multiple Choice Questions: Show', type: :request do
-  subject { api.rel(:multiple_choice_question).get(id: question.id).value! }
+  subject { api.rel(:multiple_choice_question).get({id: question.id}).value! }
 
   let(:api) { Restify.new(:test).get.value! }
 

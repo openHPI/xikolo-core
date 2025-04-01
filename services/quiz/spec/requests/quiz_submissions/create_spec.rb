@@ -3,12 +3,12 @@
 require 'spec_helper'
 
 RSpec.describe 'Quiz Submissions: Create', type: :request do
-  subject(:creation) { api.rel(:quiz_submissions).post(params).value! }
+  subject(:creation) { api.rel(:quiz_submissions).post(payload).value! }
 
   let(:api) { Restify.new(:test).get.value! }
 
   let!(:quiz) { create(:quiz) }
-  let(:params) do
+  let(:payload) do
     {
       quiz_id: quiz.id,
       user_id:,
@@ -25,7 +25,7 @@ RSpec.describe 'Quiz Submissions: Create', type: :request do
 
   it 'stores the passed course ID' do
     creation
-    expect(QuizSubmission.first.course_id).to eq params[:course_id]
+    expect(QuizSubmission.first.course_id).to eq payload[:course_id]
   end
 
   context 'for a quiz with limited attempts' do
@@ -53,7 +53,7 @@ RSpec.describe 'Quiz Submissions: Create', type: :request do
 
   describe 'vendor data' do
     context 'nil' do
-      let(:params) { super().merge(vendor_data: nil) }
+      let(:payload) { super().merge(vendor_data: nil) }
 
       it 'creates a new quiz submission' do
         expect { creation }.to change { QuizSubmission.where(quiz_id: quiz.id).count }.from(0).to(1)
@@ -63,7 +63,7 @@ RSpec.describe 'Quiz Submissions: Create', type: :request do
     end
 
     context 'with proctoring flag' do
-      let(:params) { super().merge(vendor_data: {proctoring: 'smowl_v2'}) }
+      let(:payload) { super().merge(vendor_data: {proctoring: 'smowl_v2'}) }
 
       it 'creates a new quiz submission' do
         expect { creation }.to change { QuizSubmission.where(quiz_id: quiz.id).count }.from(0).to(1)

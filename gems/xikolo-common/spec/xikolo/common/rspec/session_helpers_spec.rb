@@ -19,9 +19,11 @@ RSpec.describe 'Session helpers' do
       describe 'a CurrentUser object using the stub' do
         subject do
           Xikolo::Common::Auth::CurrentUser.from_session(
-            Xikolo.api(:account).value!.rel(:session).get(
-              id: super(), context: 'root', embed: 'user,permissions,features'
-            ).value!
+            Xikolo.api(:account).value!.rel(:session).get({
+              id: super(),
+              context: 'root',
+              embed: 'user,permissions,features',
+            }).value!
           )
         end
 
@@ -36,9 +38,11 @@ RSpec.describe 'Session helpers' do
         subject do
           super()
           Xikolo::Common::Auth::CurrentUser.from_session(
-            Xikolo.api(:account).value!.rel(:session).get(
-              id: 'anonymous', context: 'root', embed: 'user,permissions,features'
-            ).value!
+            Xikolo.api(:account).value!.rel(:session).get({
+              id: 'anonymous',
+              context: 'root',
+              embed: 'user,permissions,features',
+            }).value!
           )
         end
 

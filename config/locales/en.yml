@@ -408,9 +408,7 @@ en:
       submission_converted: Submission was successfully converted from existing snapshot!
       reactivate_course: "You have reactivated this course until %{date}"
       proctoring:
-        already_registered_smowl: You have already calibrated your image with our partner.
         certificate_booked: You successfully booked the Certificate for this course.
-        submission_excluded: Submission successfully excluded from proctoring.
       primary_email_unsuspended: Your primary e-mail address has been reactivated successfully.
       account_confirmed_manually: The account was confirmed manually.
       lti_provider_created: The LTI provider has successfully been created.
@@ -511,7 +509,6 @@ en:
         booking_failed: You cannot book a Certificate for this course.
         already_proctored: You already booked a Certificate.
         not_enrolled: You need to enroll to the course to book a Certificate.
-        submission_exclude_failed: Submission exclusion failed.
       reactivation:
         not_available: Reactivation is not available for this course at this time.
         already_reactivated: You have already reactivated this course.
@@ -1292,8 +1289,6 @@ en:
           passed: Proctoring passed
           passed_with_issues: Proctoring passed with some issues
           failed: Proctoring failed
-          exclude: Exclude from proctoring
-          exclude_confirm: Are you sure you want to exclude the submission from proctoring?
         actions: Actions
         submission: Submission
         submissions: Submissions
@@ -2195,7 +2190,6 @@ en:
       button_goto_external: Go to external course
       proctoring:
         booked: You have booked a Certificate.
-        register_with_smowl: Please calibrate your image with our partner.
         upgrade_not_possible: Booking a Certificate is no longer possible.
       unenrollment_disabled: To un-enroll from the course, contact the course provider.
 
@@ -2887,27 +2881,6 @@ en:
       submit:
         question: Create Question
         answer: Create Answer
-      proctoring:
-        book_certificate: Book the Certificate
-        certificate_booked:
-          title: You successfully booked your Certificate
-          instructions: "Please make sure to follow the rules (<a href='https://smowl.net/en/faqs-proctoring-smowl/camera-monitoring/' target='_blank' rel='noopener'>FAQ</a> | <a href='/pages/proctoring_guidelines' target='_blank'>guide</a>). In case of a violation, we cannot issue a Certificate. Always remember:"
-          exclusion_criteria:
-            <ul><li>You need to be the <strong>only person</strong> in front of the camera. If no person, multiple people, or another person than the registered one is visible, proctoring will fail.</li>
-            <li>Choose an exam period where you are <strong>undisturbed</strong> and do not have to leave your place during the exam.</li>
-            <li>Ensure <strong>adequate light conditions</strong> and that your face is clearly visible. A source of light in the back can make your face appear too dark in the camera.</li>
-            <li>Don't use anything that covers your head or face (hat, sunglasses, ...). Reading glasses are allowed.</li>
-            </ul>
-            <p>Technical advice:</p>
-            <ul><li>Make sure your camera is turned on and fully functional. Remove your webcam cover.</li>
-            <li>Close all other applications that access the camera.</li>
-            <li>During the exam, make sure the assignment tab is the only open tab in your browser.</li></ul>
-        deadline_passed: The registration period for the Certificate has passed. You can still earn a Record of Achievement by completing the graded quizzes.
-        upgrade_not_possible: You already have submitted too many weekly assignments and therefore can no more book the Certificate. You can still earn a Record of Achievement by completing the graded quizzes.
-        upgrade_information:
-          title: Do you want to book a Certificate?
-          info: You can still register for the Certificate until <strong>%{deadline}</strong>. The Certificate is a paid add-on. You can always earn a free Record of Achievement by completing the graded quizzes.
-          registration_periods_info: <b>Registration Periods:</b> You can register for the Certificate only before the submission deadline of the second graded assignment. If the deadline for submitting the second assignment has expired, an application for the proctored examination is no longer possible.
 
     lti:
       allowed_attempts: Allowed attempts
@@ -3539,8 +3512,6 @@ en:
       main: Send my final answers
       survey: Send feedback
     proctoring:
-      sidebar_title: Online proctoring
-      instrumented_info: The online proctoring functionality is temporary disabled because you are masqueraded as the user.
       no_issues: No issues detected
       data_currently_unavailable: The proctoring data is still being processed.
       feature_tooltip: Violations will be accumulated
@@ -3920,27 +3891,7 @@ en:
       total: Total
 
   proctoring:
-    register_with_smowl: Calibrate your image
-    calibration_missing_callout: You must calibrate your image before you take the exam
-    calibration_missing_text: You will not be able to take the exam until you have started the calibration process.
-    calibration_missing_action: Go to calibration details page
-    calibration_pending_title: Calibration pending
-    calibration_pending_text: Your image is currently being calibrated. This process might take a couple of hours. Please return here later to take the exam.
     service_unavailable: The proctoring service is currently unavailable. Please reload the page. If the problem persists, please contact the helpdesk.
-    book_certificate: Book a Certificate
-
-    registration_details:
-      title: Calibration for the Certificate
-      headline_steps: Taking a photo for verification
-      steps_introduction: "If you have opted for the Certificate, we need three photos of you for the automatic face recognition. Take the following steps to activate the face recognition function:"
-      step_1: Make sure you are using a <a href='https://smowl.net/en/faqs-proctoring-smowl/requirements/' target='_blank' rel='noopener'> compatible browser</a>.
-      step_2: Click on "Calibrate your image" at the end of this page.
-      step_3: Take 3 photos of you with your webcam. The second photo will appear on your certificate.
-      step_4: Confirm the photos or take a new set after rejecting them.
-      callout_title: Calibrate your image as soon as possible
-      callout_text: The calibration process can take <strong>up to 48 hours</strong>. During this time the access to graded quizzes and all relevant exercises is blocked.
-      verification_lifetime_headline: Lifetime of Verification
-      verification_lifetime_text: The calibration is performed per participant, not per course, i.e. you don't need to repeat the whole process again for every course. In following courses, it will be checked if the appearance has changed so much that a new calibration is necessary. If so, you will be asked to do so in the course.
 
   time_effort:
     seconds: seconds

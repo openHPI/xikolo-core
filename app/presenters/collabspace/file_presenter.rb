@@ -69,7 +69,7 @@ module Collabspace
 
     def editor
       @editor ||= Xikolo.api(:account).value!
-        .rel(:user).get(id: @file['creator_id']).value!
+        .rel(:user).get({id: @file['creator_id']}).value!
     end
 
     def file_extension
@@ -84,7 +84,7 @@ module Collabspace
     def membership
       @membership ||= Xikolo.api(:collabspace).value!
         .rel(:memberships)
-        .get(collab_space_id: @collabspace['id'], user_id: @current_user.id)
+        .get({collab_space_id: @collabspace['id'], user_id: @current_user.id})
         .value!.first
     end
   end

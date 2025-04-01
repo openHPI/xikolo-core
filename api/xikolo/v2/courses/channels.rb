@@ -84,9 +84,9 @@ module Xikolo
 
       collection do
         get 'List all channels on this platform' do
-          Xikolo.api(:course).value.rel(:channels).get(
-            public: true
-          ).value!.each {|channel|
+          Xikolo.api(:course).value.rel(:channels).get({
+            public: true,
+          }).value!.each {|channel|
             channel['description'] = Xikolo::V2::Courses::Channels.description_for_language(channel['description'], accept_language)
           }
         end
@@ -94,7 +94,7 @@ module Xikolo
 
       member do
         get 'Retrieve information about a channel' do
-          Xikolo.api(:course).value.rel(:channel).get(id:).value!.tap {|channel|
+          Xikolo.api(:course).value.rel(:channel).get({id:}).value!.tap {|channel|
             channel['description'] = Xikolo::V2::Courses::Channels.description_for_language(channel['description'], accept_language)
           }
         end

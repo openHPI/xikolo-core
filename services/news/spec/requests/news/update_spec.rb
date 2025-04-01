@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Announcements: Update', type: :request do
-  subject(:request) { service.rel(:news).patch(update_params, id: announcement.id).value! }
+  subject(:request) { service.rel(:news).patch(payload, params: {id: announcement.id}).value! }
 
   let(:service) { Restify.new(:test).get.value! }
 
@@ -13,7 +13,7 @@ RSpec.describe 'Announcements: Update', type: :request do
   let(:new_announcement_text) { 'The updated text' }
 
   context 'with invalid data' do
-    let(:update_params) { {author_id: nil} }
+    let(:payload) { {author_id: nil} }
 
     it 'returns with errors' do
       expect { request }.to raise_error(Restify::ClientError) do |e|
@@ -23,7 +23,7 @@ RSpec.describe 'Announcements: Update', type: :request do
   end
 
   context 'with valid announcement data' do
-    let(:update_params) { {title: new_announcement_title, text: new_announcement_text} }
+    let(:payload) { {title: new_announcement_title, text: new_announcement_text} }
 
     it { is_expected.to respond_with :ok }
 
@@ -42,7 +42,7 @@ RSpec.describe 'Announcements: Update', type: :request do
     context 'with a translation' do
       let(:new_german_title) { 'Deutscher Titel' }
       let(:new_german_text) { 'Deutscher Text' }
-      let(:update_params) do
+      let(:payload) do
         super().merge(
           translations: {
             de: {title: new_german_title, text: new_german_text},

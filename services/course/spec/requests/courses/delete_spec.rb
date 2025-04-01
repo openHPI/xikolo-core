@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'Course: Delete', type: :request do
-  subject(:action) { api.rel(:course).delete(id: course.id).value! }
+  subject(:action) { api.rel(:course).delete({id: course.id}).value! }
 
   let(:api) { Restify.new(:test).get.value! }
   let(:orig_course_code) { 'the-course-code' }

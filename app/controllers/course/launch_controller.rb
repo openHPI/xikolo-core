@@ -26,7 +26,7 @@ class Course::LaunchController < ApplicationController
     @course ||= Xikolo.api(:course)
       .value!
       .rel(:course)
-      .get(id: params[:course_id])
+      .get({id: params[:course_id]})
       .value
   end
 end

@@ -15,7 +15,5 @@
 
 //= require jquery2
 
-//= require user_tests
-
 // As a prerequisite for migrating to webpack, we temporarily import certain node modules into sprockets
 //= require bootstrap-sprockets.js

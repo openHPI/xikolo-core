@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe 'Channel: update', type: :request do
   subject(:request) do
-    api.rel(:channel).patch({name: 'New Name'}, {id: identifier}).value!
+    api.rel(:channel).patch({name: 'New Name'}, params: {id: identifier}).value!
   end
 
   let(:api) { Restify.new(:test).get.value }

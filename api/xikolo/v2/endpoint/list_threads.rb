@@ -6,7 +6,7 @@ module Xikolo
       class ListThreads < Xikolo::API
         desc 'Returns all threads for a course / user'
         get do
-          course = Xikolo.api(:course).value!.rel(:course).get(id: params[:course]).value!
+          course = Xikolo.api(:course).value!.rel(:course).get({id: params[:course]}).value!
           in_context course['context_id']
           authenticate!
 
@@ -35,7 +35,7 @@ module Xikolo
 
           pinboard_api = Xikolo.api(:pinboard).value!
           threads = pinboard_api.rel(:questions).get(apiparams)
-          tags = get_paged! pinboard_api.rel(:tags).get(**apiparams, page: 1, per_page: 1000).value!
+          tags = get_paged! pinboard_api.rel(:tags).get({**apiparams, page: 1, per_page: 1000}).value!
 
           threads = threads.value!
 

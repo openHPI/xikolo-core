@@ -170,11 +170,11 @@ module Xikolo
       end
 
       def _load_session_object
-        Xikolo.api(:account).value!.rel(:session).get(
+        Xikolo.api(:account).value!.rel(:session).get({
           id: _session_id,
           embed: 'user,permissions,features',
-          context: _current_context
-        ).value!
+          context: _current_context,
+        }).value!
       rescue Restify::NotFound # Session has expired
         unauthorized!
       end

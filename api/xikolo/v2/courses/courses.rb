@@ -264,7 +264,7 @@ module Xikolo
           # TODO: Cache-Control: no-cache
           block_courses_by('id') do
             Xikolo.api(:course).value!.rel(:api_v2_course_courses).get(
-              filters.merge(embed: 'enrollment'),
+              filters.merge({'embed' => 'enrollment'}),
               headers: {'Authorization' => auth_header}
             ).value!
           end
@@ -276,7 +276,7 @@ module Xikolo
           block_access_by('id') do
             Xikolo.api(:course).value!.rel(:api_v2_course_course).get(
               {id:, embed: 'description,enrollment'},
-              {headers: {'Authorization' => auth_header}}
+              headers: {'Authorization' => auth_header}
             ).value!
           end
         end

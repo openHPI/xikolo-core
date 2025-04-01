@@ -204,7 +204,7 @@ class Account::SessionsController < Abstract::FrontendController
   # rubocop:enable all
 
   def handle_mobile_application!
-    token = Xikolo.api(:account).value!.rel(:tokens).post(user_id: @handler.session.user_id).value!.token
+    token = Xikolo.api(:account).value!.rel(:tokens).post({user_id: @handler.session.user_id}).value!.token
     redirect_to auth_path(provider: 'app', token:)
   end
 

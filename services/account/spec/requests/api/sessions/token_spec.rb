@@ -6,7 +6,7 @@ describe 'Sessions: Show by token', type: :request do
   let(:api) { Restify.new(:test).get.value! }
 
   context 'user token' do
-    subject { api.rel(:session).get(id: "token=#{token.token}").value! }
+    subject { api.rel(:session).get({id: "token=#{token.token}"}).value! }
 
     let(:token) { create(:token) }
 
@@ -26,7 +26,7 @@ describe 'Sessions: Show by token', type: :request do
     it { is_expected.to eq expected_response }
 
     context 'embed user' do
-      subject { api.rel(:session).get(id: "token=#{token.token}", embed: 'user').value! }
+      subject { api.rel(:session).get({id: "token=#{token.token}", embed: 'user'}).value! }
 
       let(:expected_response) do
         super().merge 'user' => json(token.user)
@@ -38,7 +38,7 @@ describe 'Sessions: Show by token', type: :request do
   end
 
   context 'client application token' do
-    subject { api.rel(:session).get(id: "token=#{token.token}").value! }
+    subject { api.rel(:session).get({id: "token=#{token.token}"}).value! }
 
     let(:token) { create(:token, :with_client_application) }
 
@@ -51,7 +51,7 @@ describe 'Sessions: Show by token', type: :request do
     it { is_expected.to eq expected_response }
 
     context 'embed user' do
-      subject { api.rel(:session).get(id: "token=#{token.token}", embed: 'user').value! }
+      subject { api.rel(:session).get({id: "token=#{token.token}", embed: 'user'}).value! }
 
       let(:expected_response) do
         super().merge! 'user' => nil

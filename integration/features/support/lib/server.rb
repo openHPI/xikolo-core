@@ -473,21 +473,6 @@ class MinioProcess < MultiProcess::Process
           Principal: {'AWS': '*'}
     POLICY
 
-    pas = Xikolo::S3.resource.bucket 'xikolo-peerassessment'
-    pas.create unless pas.exists?
-    pas.policy.put policy: JSON.dump(YAML.safe_load(<<~POLICY))
-      Id: peerassessment
-      Version: '2012-10-17'
-      Statement:
-        - Sid: content
-          Action:
-            - 's3:GetObject'
-          Effect: Allow
-          Resource:
-            - 'arn:aws:s3:::xikolo-peerassessment/assessments/*/attachments/*'
-          Principal: {'AWS': '*'}
-    POLICY
-
     pinboard = Xikolo::S3.resource.bucket 'xikolo-pinboard'
     pinboard.create unless pinboard.exists?
     pinboard.policy.put policy: JSON.dump(YAML.safe_load(<<~POLICY))

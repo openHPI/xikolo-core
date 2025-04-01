@@ -19,21 +19,6 @@ module Proctoring
 
     retry_on ExpectedRetry, wait: 1.hour, attempts: 48
 
-    def perform(submission_id)
-      proctoring = Quiz::Submission.find(submission_id).proctoring
-
-      # Do not overwrite data that has been stored already. For example,
-      # if the features or their configuration (thresholds) on our side or
-      # on the provider's side changes, we want to keep the proctoring
-      # results from this point of time.
-      return if proctoring.loaded?
-
-      proctoring.load_from_vendor!
-    rescue Quiz::Submission::Proctoring::VendorNotReady
-      # Proctoring results not yet being ready is a frequent and expected
-      # scenario. Raise an error to retry until the results are ready and can
-      # be stored with the submission.
-      raise ExpectedRetry.new 'Proctoring results not ready'
-    end
+    def perform(_submission_id); end
   end
 end

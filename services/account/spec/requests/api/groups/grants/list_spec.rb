@@ -6,7 +6,7 @@ describe 'Groups: Grants: Listing', type: :request do
   subject(:resource) { base.rel(:grants).get.value! }
 
   let(:api) { Restify.new(:test).get.value! }
-  let(:base) { api.rel(:group).get(id: group).value! }
+  let(:base) { api.rel(:group).get({id: group}).value! }
   let(:group) { create(:group, name: 'owner.groupname') }
   let(:roles) { create_list(:role, 2) }
   let(:context) { create(:context) }

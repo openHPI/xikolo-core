@@ -27,14 +27,14 @@ class Course::Destroy < ApplicationOperation
 
   def destroy_special_groups!
     Xikolo.config.course_groups.each_key.map do |name|
-      account_api.rel(:group).delete(id: "course.#{code}.#{name}")
+      account_api.rel(:group).delete({id: "course.#{code}.#{name}"})
     end.each(&:value!)
   rescue Restify::ServerError, Restify::ClientError => e
     Mnemosyne.attach_error(e)
   end
 
   def destroy_context!
-    account_api.rel(:context).delete(id: course.context_id).value!
+    account_api.rel(:context).delete({id: course.context_id}).value!
   rescue Restify::ServerError, Restify::ClientError => e
     Mnemosyne.attach_error(e)
   end

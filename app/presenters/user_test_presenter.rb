@@ -32,7 +32,7 @@ class UserTestPresenter < Presenter
   def course
     return if user_test.course_id.nil?
 
-    @course ||= Xikolo.api(:course).value!.rel(:course).get(id: user_test[:course_id]).value!
+    @course ||= Xikolo.api(:course).value!.rel(:course).get({id: user_test[:course_id]}).value!
   end
 
   def load_dependent
@@ -54,6 +54,6 @@ class UserTestPresenter < Presenter
   end
 
   def active?
-    start_date <= Time.current.utc && end_date >= Time.current.utc
+    Time.current.utc.between?(start_date, end_date)
   end
 end

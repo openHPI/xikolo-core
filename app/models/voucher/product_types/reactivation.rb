@@ -68,10 +68,10 @@ module Voucher
 
         Xikolo.api(:course).value!
           .rel(:enrollments)
-          .post(course_id: @course.id, user_id: @user.id)
+          .post({course_id: @course.id, user_id: @user.id})
           .value!
           .rel(:reactivations)
-          .post(submission_date: submission_date.iso8601)
+          .post({submission_date: submission_date.iso8601})
           .value!
       end
 

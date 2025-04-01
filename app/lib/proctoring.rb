@@ -9,15 +9,10 @@ module Proctoring
     def enabled?
       # Check whether proctoring is configured correctly for the platform
       Xikolo.config.proctoring.present? &&
-        Xikolo.config.proctoring_smowl_endpoints.present? &&
         Xikolo.config.proctoring_smowl_options.present? &&
         entity.present? &&
         license_key.present? &&
         password.present?
-    end
-
-    def smowl_config(key)
-      Xikolo.config.proctoring_smowl_endpoints[key]
     end
 
     def smowl_option(key)
@@ -46,8 +41,6 @@ module Proctoring
       configured_url[I18n.locale.to_s] || configured_url['en']
     end
   end
-
-  class ApiError < RuntimeError; end
 
   class ServiceError < RuntimeError; end
 end

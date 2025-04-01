@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'Teacher: Show', type: :request do
-  subject(:action) { api.rel(:teacher).get(id: teacher.id).value! }
+  subject(:action) { api.rel(:teacher).get({id: teacher.id}).value! }
 
   let(:teacher) { create(:teacher) }
   let(:api) { Restify.new(:test).get.value }

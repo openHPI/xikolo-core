@@ -54,9 +54,6 @@ module Xikolo::Grouping
     config.autoload_paths += %W[#{config.root}/lib]
     config.eager_load_paths += %W[#{config.root}/lib]
 
-    # Restify: Do not wrap hashes with object-like accessors
-    Restify::Processors::Json.indifferent_access = false
-
     # Configure Telegraf event collection
     config.telegraf.connect = ENV.fetch('TELEGRAF_CONNECT', nil)
     config.telegraf.tags = {application: 'grouping'}

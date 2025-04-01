@@ -7,8 +7,8 @@ describe 'Enrollment: Update', type: :request do
 
   let(:user_id) { generate(:user_id) }
 
-  def patch(params)
-    api.rel(:enrollment).patch(params, id: enrollment.id).value!
+  def patch(data)
+    api.rel(:enrollment).patch(data, params: {id: enrollment.id}).value!
   end
 
   context 'updating proctored' do

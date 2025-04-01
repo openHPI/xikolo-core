@@ -51,7 +51,7 @@ module Xikolo
 
       member do
         get 'Retrieve information about a document localization' do
-          Xikolo.api(:course).value!.rel(:document_localization).get(id: UUID(id).to_s).value!
+          Xikolo.api(:course).value!.rel(:document_localization).get({id: UUID(id).to_s}).value!
         end
       end
     end

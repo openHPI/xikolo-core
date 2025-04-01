@@ -18,18 +18,18 @@ module Processors
       quiz_api = Xikolo.api(:quiz).value!
       @course_item = Xikolo.api(:course).value!
         .rel(:item)
-        .get(id: item.id)
+        .get({id: item.id})
         .value!
-      @quiz = quiz_api.rel(:quiz).get(id: item.content_id).value!
+      @quiz = quiz_api.rel(:quiz).get({id: item.content_id}).value!
 
       @questions = quiz_api
         .rel(:questions)
-        .get(quiz_id: quiz['id'])
+        .get({quiz_id: quiz['id']})
         .then do |questions|
         Restify::Promise.new(questions.map do |question|
           quiz_api
             .rel(:answers)
-            .get(question_id: question['id'])
+            .get({question_id: question['id']})
             .then do |answers|
             question['answers'] = answers.map do |answer|
               additional_params = {'explanation' => answer['comment']}

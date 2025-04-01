@@ -60,7 +60,7 @@ module Xikolo
           authenticate!
 
           Restify::Promise.new([
-            Xikolo.api(:course).value!.rel(:item).get(id: filters['item_id']),
+            Xikolo.api(:course).value!.rel(:item).get({id: filters['item_id']}),
             Xikolo.api(:pinboard).value!.rel(:topics).get(filters),
           ]) do |item, topics|
             topics.each {|topic|
@@ -75,14 +75,14 @@ module Xikolo
 
           resource = entity.to_resource
 
-          Xikolo.api(:pinboard).value!.rel(:topics).post(
+          Xikolo.api(:pinboard).value!.rel(:topics).post({
             title: resource['title'],
             first_post: {text: resource['abstract']},
             meta: {video_timestamp: resource['meta']['video_timestamp']},
             author_id: current_user.id,
             course_id: resource['course_id'],
-            item_id: resource['item_id']
-          ).value!.tap {|topic|
+            item_id: resource['item_id'],
+          }).value!.tap {|topic|
             topic['course_id'] = resource['course_id']
             topic['item_id'] = resource['item_id']
           }

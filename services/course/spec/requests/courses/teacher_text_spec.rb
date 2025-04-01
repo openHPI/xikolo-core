@@ -14,7 +14,7 @@ describe 'Course\'s teacher text', type: :request do
   end
 
   describe '#show' do
-    subject { api.rel(:course).get(id: course.id).value['teacher_text'] }
+    subject { api.rel(:course).get({id: course.id}).value['teacher_text'] }
 
     context 'with alternative_teacher_text' do
       let(:alternative_teacher_text) { 'Viele Teachers' }

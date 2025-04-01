@@ -33,7 +33,7 @@ class AnnouncementMailer < ApplicationMailer
   def email_resource_for(user)
     @email_resource ||=
       Xikolo.api(:account).value!
-        .rel(:user).get(id: user.fetch('id')).value!
+        .rel(:user).get({id: user.fetch('id')}).value!
         .rel(:emails).get.then(&:first)
   end
   # rubocop:enable all

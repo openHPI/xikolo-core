@@ -9,13 +9,11 @@ class Course::AnnouncementsController < Abstract::FrontendController
   def index
     Acfs.run # because of `inside_course`
 
-    @posts = news_service.rel(:news_index).get(
-      {
-        course_id: the_course.id,
-        published: !current_user.allowed?('news.announcement.show'),
-        language: I18n.locale,
-      }
-    ).value!.map do |post|
+    @posts = news_service.rel(:news_index).get({
+      course_id: the_course.id,
+      published: !current_user.allowed?('news.announcement.show'),
+      language: I18n.locale,
+    }).value!.map do |post|
       AnnouncementPresenter.create post
     end
     @course_presenter = CoursePresenter.create(@course = the_course, current_user)
@@ -36,7 +34,7 @@ class Course::AnnouncementsController < Abstract::FrontendController
 
     @announcement = news_service
       .rel(:news)
-      .get(id: params[:id])
+      .get({id: params[:id]})
       .then do |announcement|
       check_access! announcement
 
@@ -77,7 +75,7 @@ class Course::AnnouncementsController < Abstract::FrontendController
     @announcement = Course::Admin::AnnouncementForm.from_params(params)
     @announcement.persisted!
 
-    announcement = news_service.rel(:news).get(id: params[:id]).value!
+    announcement = news_service.rel(:news).get({id: params[:id]}).value!
     check_access! announcement
 
     # re-render edit form if announcement is invalid
@@ -99,7 +97,7 @@ class Course::AnnouncementsController < Abstract::FrontendController
     authorize! 'news.announcement.delete'
     Acfs.run # because of `inside_course`
 
-    announcement = news_service.rel(:news).get(id: params[:id]).value!
+    announcement = news_service.rel(:news).get({id: params[:id]}).value!
     check_access! announcement
 
     announcement.rel(:self).delete.value!

@@ -36,12 +36,12 @@ class Account::PreferencesController < Abstract::FrontendController
     @preferences = Account::PreferencesPresenter.new preferences
 
     @pinboard_subscriptions = Xikolo.api(:pinboard).value!
-      .rel(:subscriptions).get(
+      .rel(:subscriptions).get({
         with_question: true,
         user_id: current_user.id,
         page: params[:page] || 1,
-        per_page: params[:per_page] || 15
-      ).value!
+        per_page: params[:per_page] || 15,
+      }).value!
 
     @subscription_list = Admin::SubscriptionListPresenter.new(@pinboard_subscriptions)
   end

@@ -6,7 +6,7 @@ describe 'EmailSuspensions: Create', type: :request do
   subject(:resource) do
     api
       .rel(:email_suspensions)
-      .post({}, {address: 'p.3/-k+fuu@example.de'})
+      .post({}, params: {address: 'p.3/-k+fuu@example.de'})
       .value!
   end
 
@@ -62,7 +62,7 @@ describe 'EmailSuspensions: Create', type: :request do
     subject(:resource) do
       api
         .rel(:email_suspensions)
-        .post({}, {address: 'justinbieber@example.de'})
+        .post({}, params: {address: 'justinbieber@example.de'})
         .value!
     end
 

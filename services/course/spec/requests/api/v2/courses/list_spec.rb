@@ -276,64 +276,64 @@ describe '[API v2] Course: List', type: :request do
       }
     end
 
-    its('id') { is_expected.to eq course.id }
+    its(['id']) { is_expected.to eq course.id }
 
-    its('language') { is_expected.to eq 'se' }
+    its(['language']) { is_expected.to eq 'se' }
 
     context 'for a external course' do
       let(:course_attrs) { {status: 'active', external_course_url: 'https://example.org/test'} }
 
-      its('state') { is_expected.to eq 'external' }
+      its(['state']) { is_expected.to eq 'external' }
       its(['external_course_url']) { is_expected.to eq 'https://example.org/test' }
     end
 
     context 'for a announced course' do
       let(:course_attrs) { {status: 'active', start_date: 2.days.from_now} }
 
-      its('state') { is_expected.to eq 'announced' }
+      its(['state']) { is_expected.to eq 'announced' }
     end
 
     context 'for a preview course' do
       let(:course_attrs) { {status: 'active', start_date: 2.days.ago, display_start_date: 2.days.from_now, end_date: 3.weeks.from_now} }
 
-      its('state') { is_expected.to eq 'preview' }
+      its(['state']) { is_expected.to eq 'preview' }
     end
 
     context 'for a preview course without start date' do
       let(:course_attrs) { {status: 'active', start_date: nil, display_start_date: 2.days.from_now, end_date: 3.weeks.from_now} }
 
-      its('state') { is_expected.to eq 'preview' }
+      its(['state']) { is_expected.to eq 'preview' }
     end
 
     context 'for a active course' do
       let(:course_attrs) { {status: 'active', start_date: 2.days.ago, display_start_date: 2.days.ago, end_date: 3.weeks.from_now} }
 
-      its('state') { is_expected.to eq 'active' }
+      its(['state']) { is_expected.to eq 'active' }
     end
 
     context 'for a self-paced course' do
       let(:course_attrs) { {status: 'active', start_date: 2.days.ago, display_start_date: 2.days.ago, end_date: 1.day.ago} }
 
-      its('state') { is_expected.to eq 'self-paced' }
+      its(['state']) { is_expected.to eq 'self-paced' }
     end
 
     context 'for a self-paced course without end date' do
       let(:course_attrs) { {status: 'active', start_date: 2.days.ago, display_start_date: 2.days.ago, end_date: nil} }
 
-      its('state') { is_expected.to eq 'self-paced' }
+      its(['state']) { is_expected.to eq 'self-paced' }
     end
 
     context 'with enrollment' do
       let!(:enrollment) { create(:enrollment, user_id:, course_id: course.id) }
 
-      its('id') { is_expected.to eq course.id }
+      its(['id']) { is_expected.to eq course.id }
 
       it 'does not include description by default' do
         expect(api.rel(:courses).get.value[0].keys).not_to include 'description'
       end
 
       it 'includes description if wanted' do
-        course_data = api.rel(:courses).get(embed: 'description').value[0]
+        course_data = api.rel(:courses).get({embed: 'description'}).value[0]
         expect(course_data).to include 'description'
         expect(course_data['description']).to eq 'Course Characteristics --------------- ...'
       end
@@ -343,7 +343,7 @@ describe '[API v2] Course: List', type: :request do
       end
 
       it 'includes enrollment info if wanted' do
-        data = api.rel(:courses).get(embed: 'enrollment').value[0]
+        data = api.rel(:courses).get({embed: 'enrollment'}).value[0]
         expect(data['id']).to eq course.id
         expect(data.keys).to include 'enrollment'
         expect(data['enrollment'].to_h).to eq(
@@ -381,16 +381,16 @@ describe '[API v2] Course: List', type: :request do
       end
 
       it 'includes description if wanted' do
-        course_data = api.rel(:courses).get(embed: 'description').value[0]
+        course_data = api.rel(:courses).get({embed: 'description'}).value[0]
         expect(course_data).to include 'description'
         expect(course_data['description']).to eq 'Course Characteristics --------------- ...'
       end
 
-      its(:start_date) { is_expected.to eq course.display_start_date.iso8601(3) }
-      its(:end_date) { is_expected.to eq course.end_date.iso8601(3) }
+      its(['start_date']) { is_expected.to eq course.display_start_date.iso8601(3) }
+      its(['end_date']) { is_expected.to eq course.end_date.iso8601(3) }
 
       it 'includes enrollment info if wanted' do
-        data = api.rel(:courses).get(embed: 'enrollment').value[0]
+        data = api.rel(:courses).get({embed: 'enrollment'}).value[0]
         expect(data.keys).to include 'enrollment'
         expect(data['enrollment']).to be_nil
       end

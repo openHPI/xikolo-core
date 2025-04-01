@@ -33,6 +33,6 @@ class Enrollment::Delete < ApplicationOperation
 
     user = enrollment.user_id
     group = enrollment.course.students_group_name
-    account.rel(:memberships).delete(user:, group:).value!
+    account.rel(:memberships).delete({user:, group:}).value!
   end
 end

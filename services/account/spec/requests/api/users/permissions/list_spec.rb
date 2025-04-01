@@ -6,7 +6,7 @@ describe 'List user permissions', type: :request do
   subject(:resource) { base.rel(:permissions).get.value! }
 
   let(:api) { Restify.new(:test).get.value! }
-  let(:base) { api.rel(:user).get(id: user).value! }
+  let(:base) { api.rel(:user).get({id: user}).value! }
 
   let(:user) { create(:user) }
 
@@ -15,7 +15,7 @@ describe 'List user permissions', type: :request do
   end
 
   context '[permissions]' do
-    subject { base.rel(:permissions).get(context: request_context).value! }
+    subject { base.rel(:permissions).get({context: request_context}).value! }
 
     include_examples 'shared:permissions'
   end

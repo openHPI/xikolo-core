@@ -59,7 +59,7 @@ class StatisticsController < ApplicationController
     sql = ApplicationRecord.sanitize_sql_array([sql, {course_id: course['id'], cnt: count}])
     records = ActiveRecord::Base.connection.execute(sql).values
     users = records.map do |record|
-      account_api.rel(:user).get(id: record[0]).value!
+      account_api.rel(:user).get({id: record[0]}).value!
     end
     users -= teaching_team unless with_teaching_team
     users
@@ -68,12 +68,12 @@ class StatisticsController < ApplicationController
   def teaching_team_members
     course['special_groups'].flat_map do |group|
       group_name = ['course', course['course_code'], group].join '.'
-      account_api.rel(:group).get(id: group_name).value!.rel(:members).get.value!
+      account_api.rel(:group).get({id: group_name}).value!.rel(:members).get.value!
     end
   end
 
   def course
-    @course ||= ::Xikolo.api(:course).value!.rel(:course).get(id: params[:course_id]).value!
+    @course ||= ::Xikolo.api(:course).value!.rel(:course).get({id: params[:course_id]}).value!
   end
 
   def account_api

@@ -46,13 +46,13 @@ RSpec.describe 'Versioned Questions', :versioning, type: :request do
   end
 
   it 'returns two versions when modified' do
-    api.rel(:question).put({points: 4}, {id: question.id}).value!
+    api.rel(:question).put({points: 4}, params: {id: question.id}).value!
     question.reload
     expect(question.versions.size).to be 2
   end
 
   it 'answers with the previous version' do
-    api.rel(:question).put({points: 4}, {id: question.id}).value!
+    api.rel(:question).put({points: 4}, params: {id: question.id}).value!
     question.reload
     expect(question.points).to eq 4
     expect(question.paper_trail.previous_version.points).to eq 3
@@ -64,16 +64,16 @@ RSpec.describe 'Versioned Questions', :versioning, type: :request do
       Timecop.travel(2008, 9, 1, 12, 0, 0)
       question
       Timecop.travel(2010, 9, 1, 12, 0, 0)
-      api.rel(:question).put({points: 4}, {id: question.id}).value!
+      api.rel(:question).put({points: 4}, params: {id: question.id}).value!
       Timecop.return
 
       question.reload
       expect(question.points).to eq 4
 
-      json = api.rel(:question).get(
+      json = api.rel(:question).get({
         id: question.id,
-        version_at: DateTime.new(2009, 9, 1, 12, 0, 0).to_s
-      ).value!
+        version_at: DateTime.new(2009, 9, 1, 12, 0, 0).to_s,
+      }).value!
 
       expect(json['points']).to eq 3
     end
@@ -83,8 +83,8 @@ RSpec.describe 'Versioned Questions', :versioning, type: :request do
       question1 = question
       question2 = create(:multiple_choice_question, quiz: question1.quiz, points: 2)
       Timecop.travel(2010, 9, 1, 12, 0, 0)
-      api.rel(:question).put({points: 4}, {id: question1.id}).value!
-      api.rel(:question).put({points: 5}, {id: question2.id}).value!
+      api.rel(:question).put({points: 4}, params: {id: question1.id}).value!
+      api.rel(:question).put({points: 5}, params: {id: question2.id}).value!
       Timecop.return
 
       question1.reload
@@ -92,9 +92,9 @@ RSpec.describe 'Versioned Questions', :versioning, type: :request do
       expect(question1.points).to eq 4
       expect(question2.points).to eq 5
 
-      json = api.rel(:questions).get(
-        version_at: DateTime.new(2009, 9, 1, 12, 0, 0).to_s
-      ).value!
+      json = api.rel(:questions).get({
+        version_at: DateTime.new(2009, 9, 1, 12, 0, 0).to_s,
+      }).value!
 
       expect(json.pluck('points')).to contain_exactly(3, 2)
     end

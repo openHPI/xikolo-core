@@ -28,7 +28,7 @@ module Xikolo
           # (The "profile ID" that is passed in here is the ID of the user whose data we want to see.)
           authenticate_as! id
 
-          Xikolo.api(:account).value!.rel(:user).get(id:).value!
+          Xikolo.api(:account).value!.rel(:user).get({id:}).value!
         end
       end
     end

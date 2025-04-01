@@ -44,8 +44,6 @@
             = render Global::FaIcon.new('medal', css_classes: 'vmiddle em1-5 fa-fw')
             span.ml5.vmiddle
               = t(:'courses.preview.proctoring.booked')
-              - if course.show_smowl_registration_notice?
-                =< link_to t(:'courses.preview.proctoring.register_with_smowl'), proctoring_registration_details_path(course_id: course.course_code)
         - elsif course.show_proctoring_impossible_message?
           br
           span.shortinfo
@@ -82,12 +80,5 @@
         - if course.reactivate?
           = link_to course_redeem_voucher_path(course_id: course.course_code, product: 'course_reactivation'), class: 'course-action-button action course-action-reactivate mr10' do
             = t(:'courses.preview.button_reactivate_course')
-        - if course.upgrade_proctoring?
-          - if course.proctoring_upgrade_possible?
-            = link_to course_redeem_voucher_path(course_id: course.course_code, product: 'proctoring_smowl'), class: 'course-action-button action course-action-proctoring' do
-              = t(:'proctoring.book_certificate')
-          - else
-            a class='course-action-button action course-action-proctoring inactive'
-              = t(:'proctoring.book_certificate')
         - if course.enrolled? && !course.unenrollment_enabled?
           p.mt10 = t(:'courses.preview.unenrollment_disabled')

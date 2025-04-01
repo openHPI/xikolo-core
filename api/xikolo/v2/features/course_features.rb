@@ -16,15 +16,15 @@ module Xikolo
         get 'Get all course features' do
           authenticate!
 
-          course = Xikolo.api(:course).value!.rel(:course).get(
-            id:
-          ).value!
+          course = Xikolo.api(:course).value!.rel(:course).get({
+            id:,
+          }).value!
 
-          features = Xikolo.api(:account).value!.rel(:user).get(
-            id: current_user.id
-          ).value!.rel(:features).get(
-            context: course['context_id']
-          ).value!
+          features = Xikolo.api(:account).value!.rel(:user).get({
+            id: current_user.id,
+          }).value!.rel(:features).get({
+            context: course['context_id'],
+          }).value!
 
           {'id' => course['id'], 'features' => features.keys}
         end

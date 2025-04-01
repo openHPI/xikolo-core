@@ -16,10 +16,10 @@ class AnnouncementsController < Abstract::FrontendController
   def edit
     authorize! 'news.announcement.update'
 
-    @announcement = news_service.rel(:news).get(
+    @announcement = news_service.rel(:news).get({
       id: params[:id],
-      embed: 'translations'
-    ).then do |announcement|
+      embed: 'translations',
+    }).then do |announcement|
       Admin::NewsForm.from_resource(announcement)
     end.value!
   end
@@ -34,9 +34,11 @@ class AnnouncementsController < Abstract::FrontendController
 
     announcement = news_service
       .rel(:news_index)
-      .post(@announcement.to_resource.merge(
-              'author_id' => current_user.id
-            )).value!
+      .post(
+        @announcement.to_resource.merge(
+          'author_id' => current_user.id
+        )
+      ).value!
 
     announcement.rel(:email).post(email_params).value! if send_emails?
 
@@ -57,7 +59,7 @@ class AnnouncementsController < Abstract::FrontendController
     # re-render edit form if announcement is invalid
     return render(action: :edit) unless @announcement.valid?
 
-    announcement = news_service.rel(:news).get(id: params[:id]).value!
+    announcement = news_service.rel(:news).get({id: params[:id]}).value!
     announcement.rel(:self).patch(@announcement.to_resource).value!
 
     announcement.rel(:email).post(email_params).value! if send_emails?
@@ -75,7 +77,7 @@ class AnnouncementsController < Abstract::FrontendController
     authorize! 'news.announcement.delete'
 
     news_service
-      .rel(:news).get(id: params[:id]).value!
+      .rel(:news).get({id: params[:id]}).value!
       .rel(:self).delete.value!
 
     redirect_to news_index_path

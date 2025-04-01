@@ -40,14 +40,16 @@ class ImageUploadInput < SimpleForm::Inputs::Base
   end
 
   def current_image
-    template.tag.div(class: 'imageupload-current') do
+    template.tag.div(class: 'imageupload-current dropzone-previews') do
       template.tag.input(type: 'hidden', name: 'file_url', value: current_image_value)
     end
   end
 
   def dropzone
-    template.tag.div(class: 'xui-imageupload-zone xui-upload-target') do
-      template.tag.div(dropzone_placeholder, class: 'dz-message')
+    template.tag.div(class: 'dropzone') do
+      template.tag.div(class: 'xui-imageupload-zone xui-upload-target') do
+        template.tag.div(dropzone_placeholder, class: 'dz-message')
+      end
     end
   end
 

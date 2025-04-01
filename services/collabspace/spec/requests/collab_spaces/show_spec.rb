@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Collab Spaces: Show', type: :request do
-  subject { api.rel(:collab_space).get(id: collab_space.id).value! }
+  subject { api.rel(:collab_space).get({id: collab_space.id}).value! }
 
   let(:api) { Restify.new(:test).get.value! }
   let(:collab_space) { create(:collab_space) }

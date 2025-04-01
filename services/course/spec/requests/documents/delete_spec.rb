@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'Documents: Delete', type: :request do
-  subject(:action) { api.rel(:document).delete(id: document.id).value! }
+  subject(:action) { api.rel(:document).delete({id: document.id}).value! }
 
   let!(:document) { create(:document, :with_localizations) }
 

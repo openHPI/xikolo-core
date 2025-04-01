@@ -29,7 +29,7 @@ class Admin::TeachersController < Abstract::FrontendController
     authorize! 'course.teacher.view'
 
     @teacher = Course::TeacherListPresenter::TeacherPresenter.new(
-      course_api.rel(:teacher).get(id: params[:id]).value!
+      course_api.rel(:teacher).get({id: params[:id]}).value!
     )
   end
 
@@ -39,7 +39,7 @@ class Admin::TeachersController < Abstract::FrontendController
     @teacher =
       if params[:user_id].present?
         Admin::TeacherForm.new(
-          account_api.rel(:user).get(id: params[:user_id]).value!
+          account_api.rel(:user).get({id: params[:user_id]}).value!
         )
       else
         Admin::TeacherForm.new
@@ -53,7 +53,7 @@ class Admin::TeachersController < Abstract::FrontendController
     authorize! 'course.teacher.manage'
 
     @teacher = Admin::TeacherForm.from_resource(
-      course_api.rel(:teacher).get(id: params[:id]).value!
+      course_api.rel(:teacher).get({id: params[:id]}).value!
     )
   end
 
@@ -74,7 +74,7 @@ class Admin::TeachersController < Abstract::FrontendController
     teacher = course_api.rel(:teachers).post(teacher_resource).value!
 
     add_flash_message :success, t(:'flash.success.teacher_information_created')
-    redirect_to action: :show, id: teacher.id
+    redirect_to action: :show, id: teacher.fetch('id')
   rescue Restify::UnprocessableEntity => e
     @teacher.remote_errors e.errors
     render action: :new
@@ -88,7 +88,7 @@ class Admin::TeachersController < Abstract::FrontendController
 
     return render(action: :edit) unless @teacher.valid?
 
-    course_api.rel(:teacher).patch(@teacher.to_resource, id: params[:id]).value!
+    course_api.rel(:teacher).patch(@teacher.to_resource, params: {id: params[:id]}).value!
 
     add_flash_message :success, t(:'flash.success.teacher_information_created')
     redirect_to action: :show

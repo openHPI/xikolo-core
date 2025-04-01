@@ -40,7 +40,7 @@
               = link_to t(:'knowledge_documents.add_language'), new_document_localization_path(document.id), class: 'btn btn-primary btn-xs mt10 mr10'
             td
               - document.localizations.each do |loc|
-                = link_to I18nData.languages(I18n.locale)[loc.language.upcase], loc.file_url, class: 'btn btn-primary btn-xs mt10 mr10'
+                = link_to loc.title, loc.file_url, class: 'btn btn-primary btn-xs mt10 mr10'
 
     = will_paginate @document_list, renderer: PaginationRenderer
     = link_to t(:'knowledge_documents.new'), new_document_path, class: 'btn btn-primary mt20 full-width'

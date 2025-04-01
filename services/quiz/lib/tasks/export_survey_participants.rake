@@ -76,7 +76,7 @@ namespace :xikolo do
           csv << ['User ID', 'Email', 'Name']
           account_service = Xikolo.api(:account).value!
           results.each do |result|
-            user = account_service.rel(:user).get(id: result['user_id']).value
+            user = account_service.rel(:user).get({id: result['user_id']}).value
             csv << [result['user_id'], user['email'], user['full_name']] unless user.nil?
           end
         end

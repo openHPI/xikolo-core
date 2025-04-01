@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'Bans: Create', type: :request do
-  subject(:ban_user) { api.rel(:user_ban).post({}, user_id: user.id).value! }
+  subject(:ban_user) { api.rel(:user_ban).post({}, params: {user_id: user.id}).value! }
 
   let(:api) { Restify.new(:test).get.value! }
   let(:user) { create(:user) }
@@ -45,7 +45,7 @@ describe 'Bans: Create', type: :request do
     end
 
     context 'the user does not exist' do
-      subject(:ban_user) { api.rel(:user_ban).post({}, user_id: 'non-existing').value! }
+      subject(:ban_user) { api.rel(:user_ban).post({}, params: {user_id: 'non-existing'}).value! }
 
       it 'responds with 404 Not Found' do
         expect { ban_user }.to raise_error(Restify::NotFound) do |error|

@@ -3,13 +3,13 @@
 require 'spec_helper'
 
 RSpec.describe 'Teachers: Delete the picture', type: :request do
-  subject(:update_teacher) { api.rel(:teacher).patch(update_params, id: teacher.id).value! }
+  subject(:update_teacher) { api.rel(:teacher).patch(data, params: {id: teacher.id}).value! }
 
   let(:api) { Restify.new(:test).get.value }
   let(:old_picture_uri) { 's3://xikolo-public/teachers/1/42/tux.jpg' }
   let(:teacher) { create(:teacher, picture_uri: old_picture_uri) }
   let(:old_store_stub_url) { %r{https://s3.xikolo.de/xikolo-public/teachers/[0-9a-zA-Z]+/[0-9a-zA-Z]+/tux.jpg} }
-  let(:update_params) { {picture_uri: nil} }
+  let(:data) { {picture_uri: nil} }
 
   context 'when the picture_uri is nil' do
     it { is_expected.to respond_with :no_content }

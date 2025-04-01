@@ -7,7 +7,7 @@ RSpec.describe 'Quiz: Clone', type: :request do
 
   let(:quiz) { create(:quiz) }
   let(:api) { Restify.new(:test).get.value }
-  let(:quiz_api) { api.rel(:quiz).get(id: quiz.id).value! }
+  let(:quiz_api) { api.rel(:quiz).get({id: quiz.id}).value! }
 
   it { is_expected.to respond_with :created }
 

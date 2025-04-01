@@ -77,7 +77,7 @@ module Xikolo
         get 'List all sections for a given course' do
           block_courses_by('course_id') do
             Xikolo.api(:course).value!.rel(:sections).get(
-              filters.merge('published' => true)
+              filters.merge({'published' => true})
             ).value!
           end
         end
@@ -86,7 +86,7 @@ module Xikolo
       member do
         get 'Retrieve information about a section' do
           block_access_by('course_id') do
-            Xikolo.api(:course).value!.rel(:section).get(id:).value!
+            Xikolo.api(:course).value!.rel(:section).get({id:}).value!
           end
         end
       end

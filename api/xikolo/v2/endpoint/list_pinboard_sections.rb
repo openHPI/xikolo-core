@@ -9,14 +9,14 @@ module Xikolo
           authenticate!
           header 'Cache-Control', 'no-cache'
 
-          course = Xikolo.api(:course).value!.rel(:course).get(id: params[:course]).value!
+          course = Xikolo.api(:course).value!.rel(:course).get({id: params[:course]}).value!
 
-          sections = Xikolo.api(:course).value!.rel(:sections).get(
+          sections = Xikolo.api(:course).value!.rel(:sections).get({
             course_id: course['id'],
             include_alternatives: true,
             published: true,
-            available: true
-          ).value!
+            available: true,
+          }).value!
 
           # Always add the "Technical Issues" section to the list of selectable sections
           unless Xikolo.config.disable_technical_issues_section

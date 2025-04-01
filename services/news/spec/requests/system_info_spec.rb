@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe 'System Info', type: :request do
-  subject(:info) { api.rel(:system_info).get(id: -1).value! }
+  subject(:info) { api.rel(:system_info).get({id: -1}).value! }
 
   let(:api) { Restify.new(:test).get.value! }
   let(:deb_version) { nil }

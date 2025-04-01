@@ -90,7 +90,12 @@ class Course::Clone < ApplicationOperation
       # Do not save the item when the content cannot be cloned.
       next unless new_content
 
-      i.content_id = new_content[:id]
+      # TODO: have #clone_content return only the ID
+      #
+      # `new_content` can be a Restify::Resource OR any ActiveRecord
+      # model, which is catastrophical for safely accessing the ID (and
+      # failing when empty/nil/unsupported).
+      i.content_id = new_content['id']
       i.save!
     end
   end
@@ -113,10 +118,10 @@ class Course::Clone < ApplicationOperation
           end
     return unless rel
 
-    content = rel.get(id: old_item.content_id).value
+    content = rel.get({id: old_item.content_id}).value!
     return unless content&.rel? :clone
 
-    content.rel(:clone).post(course_id:).value
+    content.rel(:clone).post({course_id:}).value!
   rescue ActiveRecord::RecordNotFound # Richtext not found
     nil
   end

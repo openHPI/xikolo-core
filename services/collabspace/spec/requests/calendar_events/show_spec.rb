@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Calendar Events: Show', type: :request do
-  subject(:show_request) { api.rel(:calendar_event).get(id: event.id).value! }
+  subject(:show_request) { api.rel(:calendar_event).get({id: event.id}).value! }
 
   let(:api) { Restify.new(:test).get.value! }
   let(:event) { create(:calendar_event) }

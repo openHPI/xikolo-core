@@ -59,11 +59,11 @@ module Xikolo
           suggestions = []
           if current_user.logged_in?
             suggestions = Xikolo.api(:course).value!.rel(:repetition_suggestions).get(
-              filters.merge(
-                user_id: current_user.id,
-                exercise_type: 'selftest',
-                limit: 3
-              )
+              filters.merge({
+                'user_id' => current_user.id,
+                'exercise_type' => 'selftest',
+                'limit' => 3,
+              })
             ).value!
           end
           suggestions

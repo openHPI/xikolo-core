@@ -7,7 +7,7 @@ module SessionHelper
       begin
         account_api
           .rel(:session)
-          .delete(id: current_user.session_id)
+          .delete({id: current_user.session_id})
           .value!
 
       # If the session does not exists it has already been deleted by the

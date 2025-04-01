@@ -3,10 +3,10 @@
 require 'spec_helper'
 
 RSpec.describe 'Multiple Answer Questions: Update', type: :request do
-  subject(:resource) { api.rel(:multiple_answer_question).put(params, id: question.id).value! }
+  subject(:resource) { api.rel(:multiple_answer_question).put(payload, params: {id: question.id}).value! }
 
   let(:api) { Restify.new(:test).get.value! }
-  let(:params) { {points: 10.0, shuffle_answers: true} }
+  let(:payload) { {points: 10.0, shuffle_answers: true} }
 
   let!(:question) { create(:multiple_answer_question) }
 
@@ -35,7 +35,7 @@ RSpec.describe 'Multiple Answer Questions: Update', type: :request do
   it { is_expected.to respond_with :no_content }
 
   context 'when setting the question points' do
-    let(:params) { {points: new_points} }
+    let(:payload) { {points: new_points} }
 
     context 'with the old value' do
       let(:new_points) { 10.0 }
@@ -57,7 +57,7 @@ RSpec.describe 'Multiple Answer Questions: Update', type: :request do
   end
 
   context 'when changing the question type' do
-    let(:params) { {type: new_type, points: question.points} }
+    let(:payload) { {type: new_type, points: question.points} }
     let(:new_type) { 'MultipleChoiceQuestion' }
 
     it 'updates the question\'s type' do

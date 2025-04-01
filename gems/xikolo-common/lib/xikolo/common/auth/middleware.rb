@@ -21,11 +21,11 @@ module Xikolo
         end
 
         def current_user_promise(env)
-          Xikolo.api(:account).value!.rel(:session).get(
+          Xikolo.api(:account).value!.rel(:session).get({
             id: session_id(env),
             embed: 'user,permissions,features',
-            context: context_id(env)
-          ).then do |session|
+            context: context_id(env),
+          }).then do |session|
             Xikolo::Common::Auth::CurrentUser.from_session session
           end
         end

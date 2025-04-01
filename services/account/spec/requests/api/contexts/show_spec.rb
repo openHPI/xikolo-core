@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'Context: Show', type: :request do
-  subject(:resource) { api.rel(:context).get(id: record).value! }
+  subject(:resource) { api.rel(:context).get({id: record}).value! }
 
   let(:api) { Restify.new(:test).get.value! }
   let(:data) { {} }

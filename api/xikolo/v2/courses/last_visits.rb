@@ -22,10 +22,10 @@ module Xikolo
         get 'Get last visit information' do
           authenticate!
 
-          Xikolo.api(:course).value!.rel(:last_visit).get(
-            'course_id' => id,
-            'user_id' => current_user.id
-          ).value!.merge(resource_id: id)
+          Xikolo.api(:course).value!.rel(:last_visit).get({
+            course_id: id,
+            user_id: current_user.id,
+          }).value!.merge(resource_id: id)
         end
       end
     end

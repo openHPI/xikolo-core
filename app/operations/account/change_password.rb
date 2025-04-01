@@ -27,7 +27,7 @@ module Account
       begin
         account_api.rel(:user).patch(
           {password: @params[:new_password]},
-          id: @current_user.id
+          params: {id: @current_user.id}
         ).value!
       rescue Restify::UnprocessableEntity, Restify::NotFound
         return error('password_save_failed')

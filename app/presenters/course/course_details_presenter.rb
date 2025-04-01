@@ -13,9 +13,9 @@ class Course::CourseDetailsPresenter < CoursePresenter
     return if @user.anonymous?
     return unless @course['prerequisite_status_url']
 
-    @prereq_promise ||= Restify.new(@course['prerequisite_status_url']).get(
-      user_id: @user.id
-    )
+    @prereq_promise ||= Restify.new(@course['prerequisite_status_url']).get({
+      user_id: @user.id,
+    })
   end
   # rubocop:enable Naming/MemoizedInstanceVariableName
 
@@ -31,12 +31,12 @@ class Course::CourseDetailsPresenter < CoursePresenter
     # This can be taken from the course context now (Restify!)
     return if @user.anonymous?
 
-    @next_dates_promise = course_api.rel(:next_dates).get(
+    @next_dates_promise = course_api.rel(:next_dates).get({
       course_id: @course.id,
       all: 'true',
       type: 'course_start,section_start,on_demand_expires',
-      user_id: @user.id
-    ).then do |next_dates|
+      user_id: @user.id,
+    }).then do |next_dates|
       next_dates[0..1].map do |next_date|
         # The course_start type would link to the course details page and we are already there.
         Course::NextDatePresenter.new(next_date, with_link: next_date['type'] != 'course_start')
@@ -113,7 +113,7 @@ class Course::CourseDetailsPresenter < CoursePresenter
   def previewable_items
     @previewable_items ||= course_api
       .rel(:items)
-      .get(course_id: @course.id, open_mode: true)
+      .get({course_id: @course.id, open_mode: true})
       .value!
   end
 

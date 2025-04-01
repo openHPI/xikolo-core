@@ -3,14 +3,14 @@
 require 'spec_helper'
 
 RSpec.describe 'News Email: Create (Send)', type: :request do
-  subject(:request) { news_resource.rel(:email).post(email_params).value! }
+  subject(:request) { news_resource.rel(:email).post(payload).value! }
 
   let(:service) { Restify.new(:test).get.value! }
-  let(:news_resource) { service.rel(:news).get(id: announcement.id).value! }
+  let(:news_resource) { service.rel(:news).get({id: announcement.id}).value! }
 
   let(:announcement) { create(:news) }
 
-  let(:email_params) { {} }
+  let(:payload) { {} }
 
   it { is_expected.to respond_with :created }
 
@@ -51,7 +51,7 @@ RSpec.describe 'News Email: Create (Send)', type: :request do
 
   context 'with explicit receiver for test email' do
     let(:receiver_id) { SecureRandom.uuid }
-    let(:email_params) { super().merge test_receiver: receiver_id }
+    let(:payload) { super().merge test_receiver: receiver_id }
 
     it { is_expected.to respond_with :created }
 

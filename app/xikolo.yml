@@ -238,16 +238,6 @@ course_reactivation:
 proctoring:
   store_url: "https://shop.example.org/voucher/qualified-certificate"
 
-proctoring_smowl_endpoints:
-  # The URL of SMOWL's camera check widget
-  camera_check: "https://swl.smowltech.net/monitor/check/checkBBLink.php{?entity_Name,lang}"
-  # The URL of SMOWL's proctoring widget
-  proctoring: "https://swl.smowltech.net/monitor/controller.php{?query*}"
-  # The URL of SMOWL's registration (or as we call it: calibration) page
-  register: "https://swl.smowltech.net/monitor/controllerReg.php{?query*}"
-  # The URL of SMOWL's REST web service
-  api_base: "https://results-api.smowltech.net/index.php/Restv1/{function}"
-
 proctoring_smowl_options:
   # Thresholds for proctoring passed/failed features.
   # Nobody in front of the screen.

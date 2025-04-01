@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'Replace treatment', type: :request do
-  subject(:resource) { api.rel(:treatment).put(data, id: record.id).value! }
+  subject(:resource) { api.rel(:treatment).put(data, params: {id: record.id}).value! }
 
   let(:api) { Restify.new(:test).get.value! }
 

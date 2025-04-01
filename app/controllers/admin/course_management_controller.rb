@@ -65,10 +65,10 @@ class Admin::CourseManagementController < Admin::BaseController
               end
             end
 
-            quiz_api.rel(:user_quiz_attempts).get(
+            quiz_api.rel(:user_quiz_attempts).get({
               user_id: params[:user_id],
-              quiz_id: quiz.id
-            ).then do |attempts|
+              quiz_id: quiz.id,
+            }).then do |attempts|
               remaining_attempts = quiz.current_allowed_attempts +
                                    attempts['additional_attempts'] -
                                    attempts['attempts']
@@ -94,14 +94,14 @@ class Admin::CourseManagementController < Admin::BaseController
   def convert_submission
     authorize! 'quiz.submission.manage'
     if params[:submission_id] && params[:snapshot_id]
-      submission = quiz_api.rel(:quiz_submission).get(id: params[:submission_id]).value!
-      snapshot = quiz_api.rel(:quiz_submission_snapshot).get(id: params[:snapshot_id]).value!
+      submission = quiz_api.rel(:quiz_submission).get({id: params[:submission_id]}).value!
+      snapshot = quiz_api.rel(:quiz_submission_snapshot).get({id: params[:snapshot_id]}).value!
 
       if snapshot['loaded_data']
-        submission.rel(:self).patch(
+        submission.rel(:self).patch({
           submission: snapshot['loaded_data'],
-          submitted: true
-        ).value!
+          submitted: true,
+        }).value!
       end
 
       add_flash_message :success, t(:'flash.success.submission_converted')
@@ -123,7 +123,7 @@ class Admin::CourseManagementController < Admin::BaseController
     }
     begin
       resource = Xikolo.api(:quiz).value!.rel(:quizzes)
-        .post(data, preview: true).value!
+        .post(data, params: {preview: true}).value!
       render json: resource.data
     rescue Restify::ClientError => e
       render json: {error: e.errors}, status: e.status
@@ -150,11 +150,11 @@ class Admin::CourseManagementController < Admin::BaseController
     Acfs.run
 
     begin
-      resource = Restify.new(Xikolo::Common::API.services[:quizimporter]).get(
+      resource = Restify.new(Xikolo::Common::API.services[:quizimporter]).get({
         spreadsheet: params[:spreadsheet],
         worksheet: params[:worksheet],
-        course_code: the_course.course_code
-      ).value!
+        course_code: the_course.course_code,
+      }).value!
     rescue Restify::ClientError, Restify::ServerError => e
       add_flash_message :error, e.response.body.force_encoding('utf-8')
       redirect_to course_sections_path params[:id]
@@ -172,7 +172,7 @@ class Admin::CourseManagementController < Admin::BaseController
 
   def generate_ranking
     authorize! 'course.ranking.persist'
-    Xikolo.api(:course).value!.rel(:course_persist_ranking_task).post({}, {course_id: the_course.id}).value!
+    Xikolo.api(:course).value!.rel(:course_persist_ranking_task).post({}, params: {course_id: the_course.id}).value!
     head :ok
   end
 
@@ -185,20 +185,20 @@ class Admin::CourseManagementController < Admin::BaseController
     @stats = {}
     @stats_titles = {}
     @items = []
-    @sections = Xikolo.api(:course).value!.rel(:sections).get(
+    @sections = Xikolo.api(:course).value!.rel(:sections).get({
       course_id: the_course.id,
-      include_alternatives: true
-    ).value!.index_by {|s| s['id'] }
+      include_alternatives: true,
+    }).value!.index_by {|s| s['id'] }
 
     Xikolo::Course::Item.each_item(course_id: the_course.id, content_type: 'quiz', was_available: true) do |quiz_item|
       @items << quiz_item
       next if quiz_item.id != params[:stat_id]
 
       Xikolo::Quiz::Quiz.find quiz_item.content_id do |quiz|
-        stat = quiz_api.rel(:submission_statistic).get(
+        stat = quiz_api.rel(:submission_statistic).get({
           id: quiz.id,
-          embed: 'avg_submit_duration,submissions_over_time,questions'
-        ).value!
+          embed: 'avg_submit_duration,submissions_over_time,questions',
+        }).value!
         next if stat.blank?
 
         @stats[quiz.id] = stat

@@ -27,8 +27,8 @@ module Steps
 
       def update_learning_room(data)
         context.with :learning_room do |room|
-          params = {id: room.id}
-          Server[:collabspace].api.rel(:learning_room).patch(data, params).value!
+          params = {id: room['id']}
+          Server[:collabspace].api.rel(:learning_room).patch(data, params:).value!
         end
       end
 
@@ -64,10 +64,6 @@ module Steps
         update_learning_room is_open: false
       end
 
-      Given 'the collab space is a team' do
-        update_learning_room is_open: false, kind: 'team'
-      end
-
       Given 'I am a member of this team' do
         context.with :user do |user|
           create_membership user, status: 'admin'
@@ -83,14 +79,14 @@ module Steps
         end
       end
 
-      When(/^I create a Learning Room$/) do
+      When 'I create a Learning Room' do
         click_on 'Collab Space'
         click_on 'Create new Collab Space'
         fill_in 'Name', with: 'Test Room'
         click_on 'Create Collab Space'
       end
 
-      Then(/^I should see the Learning Room in the list$/) do
+      Then 'I should see the Learning Room in the list' do
         context.with :course do |course|
           visit "/courses/#{course['course_code']}/learning_rooms"
         end

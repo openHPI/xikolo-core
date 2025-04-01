@@ -10,11 +10,11 @@ module XMLImporter
     end
 
     def course_sections
-      @course_sections ||= course_api.rel(:sections).get(course_id: @course_id).value!
+      @course_sections ||= course_api.rel(:sections).get({course_id: @course_id}).value!
     end
 
     def alternative_sections(parent_id)
-      course_api.rel(:sections).get(course_id: @course_id, parent_id:).value!
+      course_api.rel(:sections).get({course_id: @course_id, parent_id:}).value!
     end
 
     def find_section(quiz)
@@ -26,7 +26,7 @@ module XMLImporter
         section_ids = course_sections.pluck('id')
 
         Restify::Promise.new(section_ids.map do |section_id|
-          course_api.rel(:items).get(section_id:).then do |items|
+          course_api.rel(:items).get({section_id:}).then do |items|
             items.pluck('content_id')
           end
         end).value!

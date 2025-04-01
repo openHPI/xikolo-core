@@ -55,7 +55,7 @@
                       </small>
                     </p>
                   <% end %>
-                  <% if cs.start_date && DateTime.parse(cs.start_date).past? %>
+                  <% if cs.start_date&.past? %>
                     <% if cs.total_enrollments.to_i > 0 and cs.no_shows and cs.no_shows > 0 %>
                       <br>
                       <%= t('statistic_mail.course_info.no_show') %>
@@ -73,7 +73,7 @@
               <columns large="6">
                 <% if !cs.start_date %>
                   <%= t('statistic_mail.course_info.soon') %>
-                <% elsif DateTime.parse(cs.start_date).past? %>
+                <% elsif cs.start_date.past? %>
                   <%= t('statistic_mail.course_info.since') %>
                   <%= time_ago_in_words(cs.start_date) %>
                 <% else %>

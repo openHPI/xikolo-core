@@ -90,7 +90,7 @@ module Course
         def warning?
           return false unless graded_or_submitted?
 
-          @percentage >= 50 && @percentage <= 95
+          @percentage.between?(50, 95)
         end
 
         def critical?

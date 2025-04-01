@@ -9,9 +9,9 @@ module Admin
       require_permission 'account.user.find'
 
       def index
-        users = account_api.rel(:users).get(
-          query: params[:q]
-        ).value!
+        users = account_api.rel(:users).get({
+          query: params[:q],
+        }).value!
 
         render json: users.map {|u| {id: u['id'], text: "#{u['name']} (#{u['email']})"} }
       end

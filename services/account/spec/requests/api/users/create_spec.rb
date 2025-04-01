@@ -5,10 +5,10 @@ require 'spec_helper'
 describe 'Create user', type: :request do
   subject(:response) { request.value! }
 
-  let(:request) { api.rel(:users).post(params) }
+  let(:request) { api.rel(:users).post(data) }
 
   let(:api) { Restify.new(:test).get.value! }
-  let(:params) { {**attributes_for(:user), email: 'root@localhost'} }
+  let(:data) { {**attributes_for(:user), email: 'root@localhost'} }
   let(:created_user) { User.find response['id'] }
 
   # test for side effects; we had an error declare ALL users as admin if
@@ -64,7 +64,7 @@ describe 'Create user', type: :request do
   context 'with already taken email' do
     let!(:another_user) { create(:user) }
 
-    let(:params) { {**super(), email: another_user.email} }
+    let(:data) { {**super(), email: another_user.email} }
 
     it 'responds with 422 Unprocessable Entity' do
       expect { request.value! }.to raise_error(Restify::UnprocessableEntity)
@@ -78,14 +78,14 @@ describe 'Create user', type: :request do
   context 'with affiliated: true' do
     subject(:payload) { response.to_h }
 
-    let(:params) { {**super(), affiliated: true} }
+    let(:data) { {**super(), affiliated: true} }
 
     it { is_expected.to include 'affiliated' => true }
   end
 
   context 'with insufficient password' do
     describe '(password too short)' do
-      let(:params) { super().merge password: 'katze' }
+      let(:data) { super().merge password: 'katze' }
 
       it 'responds with 422 Unprocessable Entity' do
         expect { response }.to raise_error(Restify::UnprocessableEntity) do |err|
@@ -95,7 +95,7 @@ describe 'Create user', type: :request do
     end
 
     describe '(empty string)' do
-      let(:params) { super().merge password: '' }
+      let(:data) { super().merge password: '' }
 
       it 'responds with 422 Unprocessable Entity' do
         expect { response }.to raise_error(Restify::UnprocessableEntity) do |err|
@@ -105,7 +105,7 @@ describe 'Create user', type: :request do
     end
 
     describe '(not existing)' do
-      let(:params) { super().except(:password) }
+      let(:data) { super().except(:password) }
 
       it { is_expected.to respond_with :created }
     end

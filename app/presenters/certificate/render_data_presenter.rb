@@ -239,7 +239,7 @@ module Certificate
 
     def prerequisite_status
       @prerequisite_status ||= Xikolo.api(:course).value!.rel(:prerequisite_status)
-        .get(id: @record.course_id, user_id: @record.user_id)
+        .get({id: @record.course_id, user_id: @record.user_id})
         .value!
     end
 

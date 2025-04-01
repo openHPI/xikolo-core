@@ -3,10 +3,10 @@
 require 'spec_helper'
 
 describe 'Channel: create with stage visual', type: :request do
-  subject(:action) { api.rel(:channels).post(create_params).value! }
+  subject(:action) { api.rel(:channels).post(data).value! }
 
   let(:api) { Restify.new(:test).get.value }
-  let(:create_params) do
+  let(:data) do
     {
       name: 'group',
       code: 'code',

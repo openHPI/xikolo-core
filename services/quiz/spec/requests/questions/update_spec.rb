@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Questions: Update', type: :request do
-  subject(:modification) { api.rel(:question).put(params, id: question.id).value! }
+  subject(:modification) { api.rel(:question).put(payload, params: {id: question.id}).value! }
 
   before do
     Stub.service(
@@ -20,7 +20,7 @@ RSpec.describe 'Questions: Update', type: :request do
   end
 
   let(:api) { Restify.new(:test).get.value! }
-  let(:params) { {points: 10.0, shuffle_answers: true} }
+  let(:payload) { {points: 10.0, shuffle_answers: true} }
   let(:quiz) { create(:quiz) }
   let(:question) { create(:multiple_choice_question, quiz:) }
   let(:qid) { UUID4(quiz.id).to_s(format: :base62) }
@@ -35,7 +35,7 @@ RSpec.describe 'Questions: Update', type: :request do
   it { is_expected.to respond_with :no_content }
 
   context 'when setting the question points' do
-    let(:params) { {points: new_points} }
+    let(:payload) { {points: new_points} }
 
     context 'with the old value' do
       let(:new_points) { 10.0 }
@@ -58,7 +58,7 @@ RSpec.describe 'Questions: Update', type: :request do
 
   context 'text with file upload references' do
     let(:text) { 'upload://b5f99337-224f-40f5-aa82-44ee8b272579/foo.jpg' }
-    let(:params) { super().merge text: }
+    let(:payload) { super().merge text: }
 
     it 'stores valid upload and updates resource' do
       stub_request(
@@ -125,7 +125,7 @@ RSpec.describe 'Questions: Update', type: :request do
 
   context 'explanation with file upload references' do
     let(:explanation) { 'upload://b5f99337-224f-40f5-aa82-44ee8b272579/foo.jpg' }
-    let(:params) { super().merge explanation: }
+    let(:payload) { super().merge explanation: }
 
     it 'stores valid upload and creates a new richexplanation' do
       stub_request(

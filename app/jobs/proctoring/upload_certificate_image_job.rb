@@ -18,10 +18,6 @@ module Proctoring
     # limit the number of retries.
     retry_on Proctoring::ServiceError, wait: ->(executions) { executions.hours }, attempts: 10
 
-    def perform(enrollment_id)
-      Course::Enrollment.find(enrollment_id)
-        .proctoring
-        &.load_certificate_image!
-    end
+    def perform(_enrollment_id); end
   end
 end

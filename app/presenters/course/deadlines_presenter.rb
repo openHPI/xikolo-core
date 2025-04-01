@@ -14,12 +14,12 @@ module Course
       course_api = Xikolo.api(:course).value
       return unless course_api&.rel?(:next_dates)
 
-      @promise = course_api.rel(:next_dates).get(
+      @promise = course_api.rel(:next_dates).get({
         course_id: course.id,
         user_id: @user.id,
         all: true,
-        type: 'item_submission_deadline,on_demand_expires'
-      )
+        type: 'item_submission_deadline,on_demand_expires',
+      })
     end
 
     def show?

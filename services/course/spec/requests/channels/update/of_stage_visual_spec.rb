@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe 'Channel: update of stage visual', type: :request do
   subject(:action) do
-    api.rel(:channel).patch({stage_visual_upload_id: upload_id}, {id: channel.id}).value!
+    api.rel(:channel).patch({stage_visual_upload_id: upload_id}, params: {id: channel.id}).value!
   end
 
   let(:api) { Restify.new(:test).get.value }

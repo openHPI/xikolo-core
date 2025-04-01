@@ -8,7 +8,7 @@ module Steps
 
     Then 'a COP should be listed' do
       context.with :course do |course|
-        expect(page).to have_content course.title, count: 1
+        expect(page).to have_content course.fetch('title'), count: 1
         expect(page).to have_content 'Download Confirmation of Participation', count: 1
       end
     end
@@ -20,12 +20,12 @@ module Steps
 
     Then 'all course can be marked as completed' do
       context.with :course, :archived_course do |course, archived_course|
-        within('.course-card', text: course.title) do
+        within('.course-card', text: course.fetch('title')) do
           find('[aria-label="More actions"]').click
           expect(page).to have_content 'Mark as completed'
         end
 
-        within('.course-card', text: archived_course.title) do
+        within('.course-card', text: archived_course.fetch('title')) do
           find('[aria-label="More actions"]').click
           expect(page).to have_content 'Mark as completed'
         end
@@ -34,7 +34,7 @@ module Steps
 
     When 'I mark the archived course as completed' do
       context.with :archived_course do |course|
-        within('.course-card', text: course.title) do
+        within('.course-card', text: course.fetch('title')) do
           find('[aria-label="More actions"]').click
           within('[data-behaviour="menu-dropdown"]') do
             click_on 'Mark as completed'
@@ -60,7 +60,7 @@ module Steps
     Then 'the archived course is listed as completed course' do
       context.with :archived_course do |course|
         within('.course-group', text: 'My completed courses') do
-          expect(page).to have_content course.title
+          expect(page).to have_content course.fetch('title')
         end
       end
     end

@@ -34,7 +34,6 @@ target build {
       "news",
       "nginx",
       "notification",
-      "peerassessment",
       "pinboard",
       "quiz",
       "timeeffort",

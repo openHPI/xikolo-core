@@ -3,17 +3,17 @@
 require 'spec_helper'
 
 describe 'Groups: Features: Merge', type: :request do
-  subject(:resource) { base.rel(:features).patch(params).value! }
+  subject(:resource) { base.rel(:features).patch(data).value! }
 
   let(:api) { Restify.new(:test).get.value! }
-  let(:base) { api.rel(:group).get(id: group).value! }
+  let(:base) { api.rel(:group).get({id: group}).value! }
   let(:group) { create(:group) }
   let!(:feature) { create(:feature, owner: group) }
 
   context 'with new flipper' do
-    let(:params) { {'new.flipper' => 'On Sale now!'} }
+    let(:data) { {'new.flipper' => 'On Sale now!'} }
 
-    before { expect(params.keys.first).not_to eq feature.name }
+    before { expect(data.keys.first).not_to eq feature.name }
 
     it 'responds with 200 Ok' do
       expect(resource).to respond_with :ok
@@ -25,16 +25,16 @@ describe 'Groups: Features: Merge', type: :request do
   end
 
   context 'with existing feature' do
-    let(:params) { {feature.name => 'On Sale now!'} }
+    let(:data) { {feature.name => 'On Sale now!'} }
 
-    before { expect(params.values.first).not_to eq feature.value }
+    before { expect(data.values.first).not_to eq feature.value }
 
     it 'responds with 200 Ok' do
       expect(resource).to respond_with :ok
     end
 
     it 'updates existing feature' do
-      expect { resource }.to change { feature.reload.value }.from(feature.value).to(params.values.first)
+      expect { resource }.to change { feature.reload.value }.from(feature.value).to(data.values.first)
     end
 
     it 'responds with features' do
@@ -43,7 +43,7 @@ describe 'Groups: Features: Merge', type: :request do
   end
 
   context 'with multiple features' do
-    let(:params) do
+    let(:data) do
       {feature.name => 'On Sale now!',
        'dr.flipps' => 'Astromedical'}
     end
@@ -55,7 +55,7 @@ describe 'Groups: Features: Merge', type: :request do
     end
 
     it 'updates existing feature' do
-      expect { resource }.to change { feature.reload.value }.from(feature.value).to(params[feature.name])
+      expect { resource }.to change { feature.reload.value }.from(feature.value).to(data[feature.name])
     end
 
     it 'creates new feature' do
@@ -69,7 +69,7 @@ describe 'Groups: Features: Merge', type: :request do
     end
 
     context 'with invalid feature' do
-      let(:params) { super().merge 'feature.with.empty.value' => '' }
+      let(:data) { super().merge 'feature.with.empty.value' => '' }
 
       it 'responds with Unprocessable Entity' do
         expect { resource }.to raise_error Restify::ClientError do |error|

@@ -62,7 +62,10 @@ module Steps
       send 'Given I am on his user detail page'
 
       context.with :additional_user do |user|
-        expect(page).to have_link(user[:email], href: "mailto:#{user[:email]}", count: 1)
+        email = user.fetch('email')
+        expect(email).to be_present
+
+        expect(page).to have_link(email, href: "mailto:#{email}", count: 1)
       end
     end
 
@@ -71,7 +74,10 @@ module Steps
       send 'Given I am on his user detail page'
 
       context.with :additional_user do |user|
-        expect(page).to have_no_link(user[:email])
+        email = user.fetch('email')
+        expect(email).to be_present
+
+        expect(page).to have_no_link(email)
       end
     end
 

@@ -29,9 +29,9 @@ module Xikolo
         get 'Load information about a user (use "me" as ID if the current user\'s ID is not available)' do
           authenticate!
 
-          Xikolo.api(:account).value!.rel(:user).get(
-            id: id == 'me' ? current_user.id : id
-          ).value!
+          Xikolo.api(:account).value!.rel(:user).get({
+            id: id == 'me' ? current_user.id : id,
+          }).value!
         end
       end
     end

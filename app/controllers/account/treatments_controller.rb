@@ -33,7 +33,7 @@ class Account::TreatmentsController < Abstract::FrontendController
   end
 
   def user
-    @user ||= account_api.rel(:user).get(id: current_user.id).value!
+    @user ||= account_api.rel(:user).get({id: current_user.id}).value!
   end
 
   def given_consents

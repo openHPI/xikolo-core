@@ -48,21 +48,7 @@ class CourseLargePreviewPresenter < CourseInfoPresenter
                             proctoring_context.can_enable?
   end
 
-  def proctoring_upgrade_possible?
-    # The #upgrade_possible? needs to be guarded by #upgrade_proctoring?
-    # to ensure all preconditions are met. This is done here to not rely
-    # on the order of calls in the views.
-    upgrade_proctoring? && proctoring_context.upgrade_possible?
-  end
-
   def show_proctoring_impossible_message?
     upgrade_proctoring? && !proctoring_context.upgrade_possible?
-  end
-
-  def show_smowl_registration_notice?
-    return false unless @user.feature?('proctoring')
-
-    enrollment = Course::Enrollment.active.find_by!(user_id: @user.id, course_id: @course.id)
-    enrollment.proctoring.vendor_registration.required?
   end
 end

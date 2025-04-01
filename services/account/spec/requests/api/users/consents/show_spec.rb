@@ -9,7 +9,7 @@ describe 'Show user consents', type: :request do
 
   let(:base) do
     api
-      .rel(:user).get(id: user).value!
+      .rel(:user).get({id: user}).value!
       .rel(:consents).get.value!.first
   end
 

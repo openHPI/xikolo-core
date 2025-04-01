@@ -15,7 +15,7 @@ module Video
 
     def topics
       @topics ||= pinboard_api.rel(:topics)
-        .get(item_id: @item.id)
+        .get({item_id: @item.id})
         .value!
         .map {|t| VideoItemTopicPresenter.new(t, @item.course_code) }
         .sort

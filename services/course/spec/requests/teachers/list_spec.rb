@@ -18,7 +18,7 @@ describe 'Teachers: List', type: :request do
   end
 
   context 'filter course_id' do
-    subject(:result) { api.rel(:teachers).get(course: course1.id).value }
+    subject(:result) { api.rel(:teachers).get({course: course1.id}).value }
 
     let!(:teachers) { create_list(:teacher, 10) }
     let!(:course1) { create(:course, teacher_ids: [teachers[3].id, teachers[1].id, teachers[8].id]) }
@@ -31,7 +31,7 @@ describe 'Teachers: List', type: :request do
   end
 
   context 'filter query' do
-    subject(:result) { api.rel(:teachers).get(query: 'ott').value }
+    subject(:result) { api.rel(:teachers).get({query: 'ott'}).value }
 
     let!(:teacher1) { create(:teacher, name: 'Hans Otto') }
     let!(:teacher2) { create(:teacher, name: 'ottonen') }
@@ -45,7 +45,7 @@ describe 'Teachers: List', type: :request do
   end
 
   context 'select user_id' do
-    subject { api.rel(:teachers).get(user_id: teacher3.user_id).value! }
+    subject { api.rel(:teachers).get({user_id: teacher3.user_id}).value! }
 
     let!(:teacher3) { create(:teacher, :connected_to_user) }
 
@@ -58,7 +58,7 @@ describe 'Teachers: List', type: :request do
   end
 
   context 'with sort parameter' do
-    subject(:result) { api.rel(:teachers).get(sort: 'name').value }
+    subject(:result) { api.rel(:teachers).get({sort: 'name'}).value }
 
     let!(:teacher_list) do
       [].tap do |teachers|

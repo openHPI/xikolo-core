@@ -96,19 +96,19 @@ class CreateNotificationsWorker
     end
 
     def team?
-      Xikolo.api(:collabspace).value!.rel(:collab_space).get(id: @model.collab_space_id).value!['kind'] == 'team'
+      Xikolo.api(:collabspace).value!.rel(:collab_space).get({id: @model.collab_space_id}).value!['kind'] == 'team'
     end
 
     # Events in a collab space are sent to all its members plus all course admins
     def collab_space_subscribers
-      members = Xikolo.api(:collabspace).value!.rel(:memberships).get(
-        collab_space_id: @model.collab_space_id
-      ).value!.map(&:user_id)
+      members = Xikolo.api(:collabspace).value!.rel(:memberships).get({
+        collab_space_id: @model.collab_space_id,
+      }).value!.map(&:user_id)
 
-      course_code = Xikolo.api(:course).value!.rel(:course).get(id: @model.course_id).value!['course_code']
+      course_code = Xikolo.api(:course).value!.rel(:course).get({id: @model.course_id}).value!['course_code']
 
       # TODO: Get other users by permission, not by group
-      admins = Xikolo.api(:account).value!.rel(:group).get(id: "course.#{course_code}.admins").then do |group|
+      admins = Xikolo.api(:account).value!.rel(:group).get({id: "course.#{course_code}.admins"}).then do |group|
         group.rel(:members).get
       end
 

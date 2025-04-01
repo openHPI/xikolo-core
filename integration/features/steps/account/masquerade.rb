@@ -11,7 +11,7 @@ module Steps
 
       When 'I search for the other user' do
         context.with :additional_user do |user|
-          fill_in 'Filter by name or email:', with: user[:email]
+          fill_in 'Filter by name or email:', with: user.fetch('email')
           find('#user_filter_query').native.send_keys(:return)
         end
       end
@@ -30,7 +30,7 @@ module Steps
       Then 'I should be masquerade as this user' do
         expect(page).to have_link 'DEMASQ'
         context.with :additional_user do |user|
-          expect(page).to have_selector("[title='#{user[:full_name]}']")
+          expect(page).to have_selector("[title='#{user.fetch('full_name')}']")
         end
       end
 

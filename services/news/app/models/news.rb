@@ -75,13 +75,13 @@ class News < ApplicationRecord
 
     def load_groups!
       @groups = api.rel(:groups)
-        .get(user: @user_id, per_page: 1000).then do |groups|
+        .get({user: @user_id, per_page: 1000}).then do |groups|
           groups.pluck('name')
         end
     end
 
     def load_permissions!
-      @permissions = api.rel(:user).get(id: @user_id).then do |user|
+      @permissions = api.rel(:user).get({id: @user_id}).then do |user|
         user.rel(:permissions).get
       end
     end

@@ -119,18 +119,9 @@ describe CourseLargePreviewPresenter, type: :presenter do
     let(:proctoring_context) { presenter.proctoring_context }
     let(:course_proctored) { true }
     let(:enrollment_proctored) { true }
-    let(:registration_status) { :complete }
 
     before do
       allow(Proctoring).to receive(:enabled?).and_return true
-
-      allow(Proctoring::SmowlAdapter).to receive(:new).and_wrap_original do |m, *args|
-        m.call(*args).tap do |adapter|
-          allow(adapter).to receive(:registration_status).and_return(
-            Proctoring::RegistrationStatus.new(registration_status)
-          )
-        end
-      end
     end
 
     describe '#show_proctoring_impossible_message?' do
@@ -207,28 +198,6 @@ describe CourseLargePreviewPresenter, type: :presenter do
 
         context 'with not proctored enrollment' do
           let(:enrollment_proctored) { false }
-
-          it { is_expected.to be true }
-        end
-      end
-    end
-
-    describe '#show_smowl_registration_notice?' do
-      subject { super().show_smowl_registration_notice? }
-
-      context 'with disabled proctoring feature' do
-        it { is_expected.to be false }
-      end
-
-      context 'with enabled proctoring feature' do
-        let(:features) { {'proctoring' => true} }
-
-        context 'with registration at smowl' do
-          it { is_expected.to be false }
-        end
-
-        context 'without registration at smowl' do
-          let(:registration_status) { :required }
 
           it { is_expected.to be true }
         end

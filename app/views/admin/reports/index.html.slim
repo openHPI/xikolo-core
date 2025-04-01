@@ -18,9 +18,7 @@
               .panel-body
                 = render Report::Form.new(report)
     - else
-      .info-box
-        .indicator = render Global::FaIcon.new('circle-info')
-        .text = t(:'reports.no_reports_configured')
+      = render State::Empty.new(t(:'reports.no_reports_configured'), size: :small)
 
   .report-jobs data-id='report-jobs'
 

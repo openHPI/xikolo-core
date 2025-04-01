@@ -4,11 +4,11 @@ require 'spec_helper'
 
 RSpec.describe 'Answers: Update', type: :request do
   subject(:modification) do
-    api.rel(:answer).patch(params, id: answer.id).value!
+    api.rel(:answer).patch(payload, params: {id: answer.id}).value!
   end
 
   let(:api) { Restify.new(:test).get.value! }
-  let(:params) { {correct: true, comment: 'Very Important'} }
+  let(:payload) { {correct: true, comment: 'Very Important'} }
   let(:quiz) { create(:quiz) }
   let(:question) { create(:multiple_choice_question, quiz:) }
   let(:answer) { create(:answer, question:) }
@@ -22,7 +22,7 @@ RSpec.describe 'Answers: Update', type: :request do
 
   context 'text with file upload references' do
     let(:text) { 'upload://b5f99337-224f-40f5-aa82-44ee8b272579/foo.jpg' }
-    let(:params) { super().merge text: }
+    let(:payload) { super().merge text: }
 
     it 'stores valid upload and updates resource' do
       stub_request(

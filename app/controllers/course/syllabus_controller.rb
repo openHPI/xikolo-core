@@ -44,7 +44,7 @@ class Course::SyllabusController < Abstract::FrontendController
   def previewable_items
     @previewable_items ||= Xikolo.api(:course).value!
       .rel(:items)
-      .get(course_id: the_course.id, open_mode: true)
+      .get({course_id: the_course.id, open_mode: true})
       .value!
   end
 end

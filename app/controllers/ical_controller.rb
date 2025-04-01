@@ -20,7 +20,7 @@ class IcalController < ApplicationController
         raise Status::NotFound
       end
 
-      events = Xikolo.api(:course).value!.rel(:next_dates).get(user_id: uuid.to_s).value!
+      events = Xikolo.api(:course).value!.rel(:next_dates).get({user_id: uuid.to_s}).value!
 
       User.find(uuid.to_s) do |user|
         I18n.locale = user.language if user.language.present?

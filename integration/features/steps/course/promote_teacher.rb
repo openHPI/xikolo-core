@@ -5,7 +5,8 @@ module Steps
     Given 'I am on his user detail page' do
       send 'When I open the users list'
 
-      email = context.fetch(:additional_user)[:email]
+      email = context.fetch(:additional_user).fetch('email')
+      expect(email).to be_present
 
       tr = find :xpath, "//tr[td[contains(., '#{email}')]]"
       tr.click_on 'Details'

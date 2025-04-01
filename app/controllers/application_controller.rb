@@ -171,9 +171,9 @@ class ApplicationController < ActionController::Base
     return if session[:id]
 
     # If we get here, create a new session for the authenticated user
-    session[:id] = Xikolo.api(:account).value!.rel(:sessions).post(
-      user: current_user.id
-    ).value!['id']
+    session[:id] = Xikolo.api(:account).value!.rel(:sessions).post({
+      user: current_user.id,
+    }).value!['id']
   end
 
   def the_course

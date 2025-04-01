@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe 'Channel: delete', type: :request do
   subject(:request) do
-    api.rel(:channel).delete(id: identifier).value!
+    api.rel(:channel).delete({id: identifier}).value!
   end
 
   let(:api) { Restify.new(:test).get.value }

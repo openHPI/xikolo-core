@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'Document Localizations: Show', type: :request do
-  subject(:resource) { api.rel(:document_localization).get(id: localization_id).value! }
+  subject(:resource) { api.rel(:document_localization).get({id: localization_id}).value! }
 
   let!(:document) { create(:document, :english) }
   let(:localization) { document.localizations.first }

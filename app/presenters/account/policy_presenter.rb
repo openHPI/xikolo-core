@@ -2,8 +2,9 @@
 
 class Account::PolicyPresenter
   extend Forwardable
+  extend RestifyForwardable
 
-  def_delegators :@policy, :version
+  def_restify_delegators :@policy, :version
 
   def initialize(policy)
     @policy = policy
@@ -15,10 +16,10 @@ class Account::PolicyPresenter
       Xikolo.config.locales['default'],
       *Xikolo.config.locales['available'],
     ].each do |locale|
-      if @policy.url.key? locale
-        return @policy.url[locale]
-      end
+      url_map = @policy.fetch('url')
+      return url_map[locale] if url_map.key?(locale)
     end
+
     nil
   end
 end

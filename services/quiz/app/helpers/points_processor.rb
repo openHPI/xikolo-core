@@ -9,13 +9,13 @@ module PointsProcessor
     end
 
     course_api = Xikolo.api(:course).value!
-    items = course_api.rel(:items).get(content_id: quiz_id).value!
+    items = course_api.rel(:items).get({content_id: quiz_id}).value!
 
     unless items.empty?
       item = items.first
       course_api.rel(:item).patch(
         {max_points: sum_points == 0 ? nil : sum_points},
-        {id: item['id']}
+        params: {id: item['id']}
       ).value!
     end
   end

@@ -4,14 +4,14 @@ module Steps
   module Notifications
     Then 'I receive an email notification' do
       user  = context.fetch :user
-      mails = fetch_emails(to: user[:email])
+      mails = fetch_emails(to: user['email'])
       count = mails.count
       expect(count).to eq 1
     end
 
     Then 'I only have one mail' do
       user  = context.fetch :user
-      mails = fetch_emails(to: user[:email])
+      mails = fetch_emails(to: user['email'])
       count = mails.count
       expect(count).to eq 1
     end
@@ -29,7 +29,7 @@ module Steps
 
     Then 'email notifications should be turned off' do
       context.with :user do |user|
-        expect(page).to have_content "Your account #{user[:email]} will not receive any more notifications via email."
+        expect(page).to have_content "Your account #{user['email']} will not receive any more notifications via email."
         send :'Given I am logged in'
         send :'Given I am on the profile settings page'
         expect(page.find('#preferences-notification-email-global', visible: false).value).to eq 'false'
@@ -38,7 +38,7 @@ module Steps
 
     Then 'announcement notifications should be turned off' do
       context.with :user do |user|
-        expect(page).to have_content "Your account #{user[:email]} will not receive any more platform news."
+        expect(page).to have_content "Your account #{user['email']} will not receive any more platform news."
         send :'Given I am logged in'
         send :'Given I am on the profile settings page'
         expect(page.find('#preferences-notification-email-news-announcement', visible: false).value).to eq 'false'
@@ -47,7 +47,7 @@ module Steps
 
     Then 'forum notifications should be turned off' do
       context.with :user do |user|
-        expect(page).to have_content "Your account #{user[:email]} will not receive any more pinboard news."
+        expect(page).to have_content "Your account #{user['email']} will not receive any more pinboard news."
         send :'Given I am logged in'
         send :'Given I am on the profile settings page'
         expect(page.find('#preferences-notification-email-pinboard-new-answer', visible: false).value).to eq 'false'

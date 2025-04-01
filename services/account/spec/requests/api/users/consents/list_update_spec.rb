@@ -6,7 +6,7 @@ describe 'List user consents', type: :request do
   subject(:resource) { base.rel(:consents).patch(data).value! }
 
   let(:api) { Restify.new(:test).get.value! }
-  let(:base) { api.rel(:user).get(id: user).value! }
+  let(:base) { api.rel(:user).get({id: user}).value! }
 
   let(:user) { create(:user) }
 

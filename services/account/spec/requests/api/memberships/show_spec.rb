@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'Memberships: Show', type: :request do
-  subject(:resource) { api.rel(:membership).get(id: membership).value! }
+  subject(:resource) { api.rel(:membership).get({id: membership}).value! }
 
   let(:api) { Restify.new(:test).get.value! }
   let(:membership) { create(:membership) }

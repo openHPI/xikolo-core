@@ -9,7 +9,7 @@ gem 'xikolo-config', path: '../xikolo-config'
 group :development, :test do
   gem 'actionpack'
   gem 'rake'
-  gem 'restify', '~> 1.15'
+  gem 'restify', '~> 2.0'
   gem 'rspec', '~> 3.10'
   gem 'simplecov'
 end

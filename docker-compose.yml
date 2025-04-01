@@ -3,7 +3,7 @@
 #
 # Runs all needed external services via docker on localhost bound ports
 #
-version: "3.6"
+
 services:
   postgres:
     image: postgres:16.0-bullseye
@@ -16,6 +16,11 @@ services:
       POSTGRES_USER: $USER
       POSTGRES_HOST_AUTH_METHOD: trust
       POSTGRES_INITDB_ARGS: --locale=C.UTF-8 --encoding=UTF8
+    healthcheck:
+      test: pg_isready
+      interval: 10s
+      timeout: 3s
+      retries: 3
 
   minio:
     image: minio/minio
@@ -38,6 +43,11 @@ services:
     ports:
       - 127.0.0.1:5672:5672
       - 127.0.0.1:15672:15672
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
   redis:
     image: redis:7-alpine

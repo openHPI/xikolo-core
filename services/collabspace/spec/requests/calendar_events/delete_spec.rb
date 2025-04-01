@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Calendar Events: Delete', type: :request do
-  subject(:delete_request) { api.rel(:calendar_event).delete(id: event.id).value! }
+  subject(:delete_request) { api.rel(:calendar_event).delete({id: event.id}).value! }
 
   let(:api) { Restify.new(:test).get.value! }
   let!(:event) { create(:calendar_event) }

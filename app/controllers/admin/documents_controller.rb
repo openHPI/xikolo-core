@@ -15,7 +15,7 @@ class Admin::DocumentsController < Abstract::FrontendController
     documents = course_api.rel(:documents).get(
       document_index_params.merge(embed: 'course_ids')
     )
-    courses = course_api.rel(:courses).get(affilated: true, per_page: 250)
+    courses = course_api.rel(:courses).get({affilated: true, per_page: 250})
     document_tags = course_api.rel(:documents_tags).get
 
     @document_list = DocumentsListPresenter.build(
@@ -30,7 +30,7 @@ class Admin::DocumentsController < Abstract::FrontendController
   def show
     authorize! 'course.document.manage'
 
-    @document = course_api.rel(:document).get(id: params[:id], embed: 'course_ids').value!
+    @document = course_api.rel(:document).get({id: params[:id], embed: 'course_ids'}).value!
     @course_titles = preselected_courses(@document.course_ids).map(&:title)
   end
 
@@ -48,7 +48,7 @@ class Admin::DocumentsController < Abstract::FrontendController
     load_all_tags
 
     @is_new_document = false
-    @document = course_api.rel(:document).get(id: params[:id], embed: 'course_ids').value!
+    @document = course_api.rel(:document).get({id: params[:id], embed: 'course_ids'}).value!
     @selected_courses = preselected_courses @document.course_ids
   end
 
@@ -74,7 +74,7 @@ class Admin::DocumentsController < Abstract::FrontendController
 
   def preselected_courses(course_ids)
     course_ids.map do |course_id|
-      course_api.rel(:course).get(id: course_id)
+      course_api.rel(:course).get({id: course_id})
     end.filter_map(&:value)
   end
 

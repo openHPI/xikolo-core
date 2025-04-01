@@ -313,7 +313,6 @@ Rails.application.routes.draw do
 
   post 'courses/:course_id/add_attempt', to: 'course/admin/quiz_submissions#add_attempt', as: :add_attempt
   post 'courses/:course_id/add_fudge_points', to: 'course/admin/quiz_submissions#add_fudge_points', as: :add_fudge_points
-  post 'courses/:course_id/exclude_from_proctoring', to: 'course/admin/quiz_submissions#exclude_from_proctoring', as: :exclude_from_proctoring
   get '/courses/:id/dashboard', to: 'course/admin/dashboard#show', as: :course_dashboard
   get '/courses/:id/statistic', to: 'admin/course_management#statistic', as: :course_statistic
   get '/courses/:id/documents', to: 'course/documents#index', as: :course_documents
@@ -372,9 +371,6 @@ Rails.application.routes.draw do
 
   # mount Rack based API app
   mount Xikolo::API => '/api'
-
-  get '/courses/:course_id/proctoring/registration_details', to: 'proctoring#registration_details', as: :proctoring_registration_details
-  get '/courses/:course_id/proctoring/register_at_smowl', to: 'proctoring#register_at_smowl', as: :proctoring_register_at_smowl
 
   namespace :admin do
     resources :clusters, only: %i[index show edit update] do

@@ -3,11 +3,11 @@
 require 'spec_helper'
 
 describe 'Documents: Create', type: :request do
-  subject(:action) { api.rel(:documents).post(create_params).value! }
+  subject(:action) { api.rel(:documents).post(data).value! }
 
   let(:api) { Restify.new(:test).get.value }
 
-  let(:create_params) { attributes_for(:document) }
+  let(:data) { attributes_for(:document) }
 
   it 'responds with :created' do
     expect(action).to respond_with :created
@@ -18,7 +18,7 @@ describe 'Documents: Create', type: :request do
   end
 
   context 'without description' do
-    let(:create_params) { {title: 'title'} }
+    let(:data) { {title: 'title'} }
 
     it 'responds with 422 Unprocessable Entity' do
       expect { action }.to raise_error(Restify::ClientError) do |error|
@@ -28,7 +28,7 @@ describe 'Documents: Create', type: :request do
   end
 
   context 'without title' do
-    let(:create_params) { {description: 'descriptive description'} }
+    let(:data) { {description: 'descriptive description'} }
 
     it 'responds with 422 Unprocessable Entity' do
       expect { action }.to raise_error(Restify::ClientError) do |error|
@@ -38,7 +38,7 @@ describe 'Documents: Create', type: :request do
   end
 
   context 'when title already exists' do
-    before { create(:document, title: create_params[:title]) }
+    before { create(:document, title: data[:title]) }
 
     it 'responds with 422 Unprocessable Entity' do
       expect { action }.to raise_error(Restify::ClientError) do |error|
@@ -48,7 +48,7 @@ describe 'Documents: Create', type: :request do
   end
 
   context 'when title already exists, but in a deleted document' do
-    before { create(:document, title: create_params[:title], deleted: true) }
+    before { create(:document, title: data[:title], deleted: true) }
 
     it 'responds with :created' do
       expect(action).to respond_with :created
@@ -61,7 +61,7 @@ describe 'Documents: Create', type: :request do
 
   context 'with courses' do
     let!(:course1) { create(:course) }
-    let(:create_params) { super().merge(course_ids: [course1.id]) }
+    let(:data) { super().merge(course_ids: [course1.id]) }
 
     it 'creates the new document' do
       expect { action }.to change(Document, :count).from(0).to(1)

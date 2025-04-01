@@ -33,7 +33,7 @@ class Course::Create < Course::Store
       reference_uri: "urn:x-xikolo:course:course:#{@course.course_code}",
     }
     context = account.rel(:contexts).post(context_data).value!
-    @course.context_id = context[:id]
+    @course.context_id = context.fetch('id')
   rescue Restify::ResponseError => e
     raise_operation_error e, 'error creating context'
   end

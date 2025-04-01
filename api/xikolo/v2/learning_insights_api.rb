@@ -15,13 +15,13 @@ module Xikolo
             get do
               current_time = Time.zone.now
               end_date = params[:end_date].present? ? Time.zone.parse(params[:end_date]) : current_time
-              Xikolo.api(:learnanalytics).value!.rel(:metric).get(
+              Xikolo.api(:learnanalytics).value!.rel(:metric).get({
                 name: 'QuizPointsTimebased',
                 user_id: current_user.id,
                 course_id: params[:course_id],
                 start_date: params[:start_date],
-                end_date: [end_date, current_time].min
-              ).value!
+                end_date: [end_date, current_time].min,
+              }).value!
             end
           end
 
@@ -35,13 +35,13 @@ module Xikolo
             get do
               current_time = Time.zone.now
               end_date = params[:end_date].present? ? Time.zone.parse(params[:end_date]) : current_time
-              Xikolo.api(:learnanalytics).value!.rel(:metric).get(
+              Xikolo.api(:learnanalytics).value!.rel(:metric).get({
                 name: 'ItemVisitsTimebased',
                 user_id: current_user.id,
                 course_id: params[:course_id],
                 start_date: params[:start_date],
-                end_date: [end_date, current_time].min
-              ).value!
+                end_date: [end_date, current_time].min,
+              }).value!
             end
           end
         end
@@ -53,11 +53,11 @@ module Xikolo
               requires :course_id, type: String, desc: 'The course UUID'
             end
             get do
-              Xikolo.api(:learnanalytics).value!.rel(:metric).get(
+              Xikolo.api(:learnanalytics).value!.rel(:metric).get({
                 name: 'QuizSubmitDuration',
                 user_id: current_user.id,
-                course_id: params[:course_id]
-              ).value!
+                course_id: params[:course_id],
+              }).value!
             end
           end
 
@@ -67,11 +67,11 @@ module Xikolo
               requires :course_id, type: String, desc: 'The course UUID'
             end
             get do
-              Xikolo.api(:learnanalytics).value!.rel(:metric).get(
+              Xikolo.api(:learnanalytics).value!.rel(:metric).get({
                 name: 'QuizSubmissionTimeliness',
                 user_id: current_user.id,
-                course_id: params[:course_id]
-              ).value!
+                course_id: params[:course_id],
+              }).value!
             end
           end
         end
@@ -82,11 +82,11 @@ module Xikolo
             requires :course_id, type: String, desc: 'The course UUID'
           end
           get do
-            stats = Xikolo.api(:learnanalytics).value!.rel(:metric).get(
+            stats = Xikolo.api(:learnanalytics).value!.rel(:metric).get({
               name: 'PinboardSummary',
               user_id: current_user.id,
-              course_id: params[:course_id]
-            ).value!
+              course_id: params[:course_id],
+            }).value!
 
             {
               topicsViewed: stats.fetch('visited_question', 0),
@@ -106,13 +106,13 @@ module Xikolo
           get do
             current_time = Time.zone.now
             end_date = params[:end_date].present? ? Time.zone.parse(params[:end_date]) : current_time
-            Xikolo.api(:learnanalytics).value!.rel(:metric).get(
+            Xikolo.api(:learnanalytics).value!.rel(:metric).get({
               name: 'CourseActivityTimebased',
               user_id: current_user.id,
               course_id: params[:course_id],
               start_date: params[:start_date],
-              end_date: [end_date, current_time].min
-            ).value!
+              end_date: [end_date, current_time].min,
+            }).value!
           end
         end
       end

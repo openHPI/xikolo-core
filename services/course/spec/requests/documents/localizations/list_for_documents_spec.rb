@@ -3,7 +3,10 @@
 require 'spec_helper'
 
 describe 'Document Localizations for a Document: List', type: :request do
-  subject(:list) { api.rel(:document).get(id: document1.id).value!.rel(:localizations).get.value! }
+  subject(:list) do
+    api.rel(:document).get({id: document1.id}).value!
+      .rel(:localizations).get.value!
+  end
 
   let!(:document1) { create(:document) }
   let!(:document2) { create(:document) }

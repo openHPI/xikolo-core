@@ -1,5 +1,9 @@
 # Proctoring
 
+!!! danger
+
+    The proctoring feature is deprecated and will be removed.
+
 Proctoring is implemented with the solution provided by [SMOWL](https://smowl.net/).
 
 !!! note
@@ -25,19 +29,6 @@ proctoring:
 ```
 
 For configuring the proctoring solution provided by SMOWL, the following options are relevant:
-
-!!! example
-
-    ```yaml title="xikolo.yml"
-      # The URL of SMOWL's camera check widget
-      camera_check: "https://swl.smowltech.net/monitor/check/checkBBLink.php{?entity_Name,lang}"
-      # The URL of SMOWL's proctoring widget
-      proctoring: "https://swl.smowltech.net/monitor/controller.php{?query*}"
-      # The URL of SMOWL's registration page (or as we call it: calibration)
-      register: "https://swl.smowltech.net/monitor/controllerReg.php{?query*}"
-      # The URL of SMOWL's REST web service
-      api_base: "https://results-api.smowltech.net/index.php/Restv1/{function}"
-    ```
 
 !!! example
 

@@ -19,7 +19,7 @@ class Admin::DocumentLocalizationsController < Abstract::FrontendController
   def edit
     authorize! 'course.document.manage'
 
-    localization = Xikolo.api(:course).value!.rel(:document_localization).get(id: params[:id]).value!
+    localization = Xikolo.api(:course).value!.rel(:document_localization).get({id: params[:id]}).value!
     @localization = Localization.new(localization.title,
       localization.description,
       localization.file_url,

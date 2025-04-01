@@ -7,7 +7,7 @@ RSpec.describe 'GET /questions{?search}', type: :request do
   # no english stemming would be used for the search term. Without
   # english stemming there would be no match.
   subject(:response) do
-    api.rel(:questions).get(search: query, course_id:).value!
+    api.rel(:questions).get({search: query, course_id:}).value!
   end
 
   let(:api) { Restify.new(:test).get.value! }

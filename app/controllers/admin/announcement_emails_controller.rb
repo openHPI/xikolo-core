@@ -9,8 +9,8 @@ class Admin::AnnouncementEmailsController < Abstract::FrontendController
     announcement = news_service
       .rel(:announcement)
       .get(
-        {id: params[:id]},
-        {headers: {'Accept' => 'application/json'}}
+        params: {id: params[:id]},
+        headers: {'Accept' => 'application/json'}
       ).value!
     email = announcement.rel(:message).get.value!
 
@@ -18,7 +18,7 @@ class Admin::AnnouncementEmailsController < Abstract::FrontendController
   end
 
   def new
-    announcement = news_service.rel(:announcement).get(id: UUID4(params[:id]).to_s).value!
+    announcement = news_service.rel(:announcement).get({id: UUID4(params[:id]).to_s}).value!
 
     @announcement_email = Admin::AnnouncementEmailForm.from_resource(
       announcement.merge('language' => Xikolo.config.locales['default'])
@@ -31,7 +31,7 @@ class Admin::AnnouncementEmailsController < Abstract::FrontendController
     # Re-render creation form if announcement is invalid
     return render(action: :new) unless @announcement_email.valid?
 
-    announcement = news_service.rel(:announcement).get(id: UUID4(params[:id]).to_s).value!
+    announcement = news_service.rel(:announcement).get({id: UUID4(params[:id]).to_s}).value!
     announcement.rel(:messages).post(
       @announcement_email.to_resource.merge('creator_id' => current_user.id)
     ).value!

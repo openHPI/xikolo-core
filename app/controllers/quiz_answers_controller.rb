@@ -89,7 +89,7 @@ class QuizAnswersController < Abstract::FrontendController
   end
 
   def destroy
-    quiz_api.rel(:answer).delete(id: params[:id]).value!
+    quiz_api.rel(:answer).delete({id: params[:id]}).value!
 
     add_flash_message :success, t('flash.success.quiz_answer')
   rescue Restify::ClientError

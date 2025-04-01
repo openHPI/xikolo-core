@@ -128,11 +128,11 @@ class UserAnswerFactory
     end
 
     def fetch_question(id)
-      Xikolo.api(:quiz).value!.rel(:question).get(id:).value!
+      Xikolo.api(:quiz).value!.rel(:question).get({id:}).value!
     end
 
     def fetch_answers(question_id)
-      Xikolo.api(:quiz).value!.rel(:answers).get(question_id:).value!
+      Xikolo.api(:quiz).value!.rel(:answers).get({question_id:}).value!
     end
   end
 end
@@ -145,16 +145,16 @@ module Xikolo
 
         if submission['submitted']
           quiz_api = Xikolo.api(:quiz).value!
-          quiz_api.rel(:quiz_submission_questions).get(
+          quiz_api.rel(:quiz_submission_questions).get({
             quiz_submission_id: submission['id'],
-            per_page: 250
-          ).then {|submission_questions|
+            per_page: 250,
+          }).then {|submission_questions|
             Restify::Promise.new(
               submission_questions.map {|question|
-                quiz_api.rel(:quiz_submission_answers).get(
+                quiz_api.rel(:quiz_submission_answers).get({
                   quiz_submission_question_id: question['id'],
-                  per_page: 500
-                ).then {|answers|
+                  per_page: 500,
+                }).then {|answers|
                   question_id = question['quiz_question_id']
                   submission['answers'][question_id] = UserAnswerFactory.from_submission question_id, answers
                 }
@@ -239,7 +239,7 @@ module Xikolo
           authenticate!
 
           quiz_id = entity.to_resource['quiz_id']
-          course_id = Xikolo.api(:course).value!.rel(:items).get(content_id: quiz_id).value!.first['course_id']
+          course_id = Xikolo.api(:course).value!.rel(:items).get({content_id: quiz_id}).value!.first['course_id']
 
           Xikolo.api(:quiz).value!.rel(:quiz_submissions).post(
             user_id: current_user.id,
@@ -253,25 +253,25 @@ module Xikolo
 
       member do
         get 'Load a quiz submission' do
-          Xikolo.api(:quiz).value!.rel(:quiz_submission).get(id: UUID(id).to_s).then {|submission|
+          Xikolo.api(:quiz).value!.rel(:quiz_submission).get({id: UUID(id).to_s}).then {|submission|
             authenticate_as! submission['user_id']
             load_related_objects[submission]
           }.value!
         end
 
         patch 'Update a quiz submission' do |entity|
-          submission = Xikolo.api(:quiz).value!.rel(:quiz_submission).get(id: UUID(id).to_s).value!
+          submission = Xikolo.api(:quiz).value!.rel(:quiz_submission).get({id: UUID(id).to_s}).value!
           authenticate_as! submission['user_id']
 
           if entity.attributes['submitted']
             submission.rel(:self).patch(
               entity.to_resource,
-              id: entity.id
+              params: {id: entity.id}
             ).value!
           else
-            submission.rel(:snapshots).post(
-              submission: entity.to_resource['submission']
-            ).value!
+            submission.rel(:snapshots).post({
+              submission: entity.to_resource['submission'],
+            }).value!
           end
 
           submission.rel(:self).get.then {|resource|

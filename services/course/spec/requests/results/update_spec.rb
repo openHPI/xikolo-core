@@ -9,9 +9,9 @@ describe 'Results: Update', type: :request do
   let!(:item) { create(:item) }
 
   describe '(via PATCH)' do
-    subject(:update) { api.rel(:result).patch(params, id: result_id).value! }
+    subject(:update) { api.rel(:result).patch(data, params: {id: result_id}).value! }
 
-    let(:params) { {user_id:, item_id: item.id, points: 2.3} }
+    let(:data) { {user_id:, item_id: item.id, points: 2.3} }
 
     context 'with existing resource' do
       let!(:result) { Result.create id: result_id, user_id:, item_id: item.id, dpoints: 34 }
@@ -23,7 +23,7 @@ describe 'Results: Update', type: :request do
       end
 
       context 'with more than one decimal after the comma' do
-        let(:params) { super().merge(points: 2.13) }
+        let(:data) { super().merge(points: 2.13) }
 
         it 'errors without side effects' do
           expect { update }.to raise_error(Restify::UnprocessableEntity) do |err|
@@ -43,9 +43,9 @@ describe 'Results: Update', type: :request do
   end
 
   describe '(via PUT)' do
-    subject(:update) { api.rel(:result).put(params, id: result_id).value! }
+    subject(:update) { api.rel(:result).put(data, params: {id: result_id}).value! }
 
-    let(:params) { {user_id:, item_id: item.id, points: 2.3} }
+    let(:data) { {user_id:, item_id: item.id, points: 2.3} }
 
     context 'with existing resource' do
       let(:result) { Result.create id: result_id, user_id:, item_id: item.id, dpoints: 34 }
@@ -57,7 +57,7 @@ describe 'Results: Update', type: :request do
       end
 
       context 'with more than one decimal after the comma' do
-        let(:params) { super().merge(points: 2.13) }
+        let(:data) { super().merge(points: 2.13) }
 
         it 'errors without side effects' do
           expect { update }.to raise_error(Restify::UnprocessableEntity) do |err|
@@ -81,7 +81,7 @@ describe 'Results: Update', type: :request do
       end
 
       context 'with more than one decimal after the comma' do
-        let(:params) { super().merge(points: 2.13) }
+        let(:data) { super().merge(points: 2.13) }
 
         it 'errors' do
           expect { update }.to raise_error(Restify::UnprocessableEntity) do |err|

@@ -9,10 +9,10 @@ class Course::Admin::QuizSubmissionsController < Abstract::FrontendController
     authorize! 'quiz.submission.grant_attempt'
 
     if params[:user_id] && params[:quiz_id]
-      quiz_api.rel(:user_quiz_attempts).post(
+      quiz_api.rel(:user_quiz_attempts).post({
         user_id: params[:user_id],
-        quiz_id: params[:quiz_id]
-      ).value!
+        quiz_id: params[:quiz_id],
+      }).value!
     end
 
     add_flash_message :success, t(:'flash.success.quiz_attempt_added')
@@ -27,28 +27,13 @@ class Course::Admin::QuizSubmissionsController < Abstract::FrontendController
 
     quiz_api.rel(:quiz_submission).patch(
       {fudge_points: params.require(:fudge_points).to_f},
-      {id: params[:id]}
+      params: {id: params[:id]}
     ).value!
 
     add_flash_message :success, t(:'flash.success.fudge_points_added')
   rescue Restify::ServerError, Restify::ClientError, ActionController::ParameterMissing
     add_flash_message :error, t(:'flash.error.fudge_points_failed')
   ensure
-    redirect_back fallback_location: root_path
-  end
-
-  def exclude_from_proctoring
-    authorize! 'quiz.submission.manage.proctoring'
-
-    submission = Quiz::Submission.find(UUID4(params[:id]).to_s)
-    exclusion = submission.proctoring.exclude!
-
-    if exclusion.acknowledged?
-      add_flash_message :success, t(:'flash.success.proctoring.submission_excluded')
-    else
-      add_flash_message :error, t(:'flash.error.proctoring.submission_exclude_failed')
-    end
-
     redirect_back fallback_location: root_path
   end
 

@@ -79,17 +79,17 @@ class CommentsController < ApplicationController
       event_key = 'pinboard.question.answer.comment.new'
     end
 
-    user = Xikolo.api(:account).value.rel(:user).get(id: comment.user_id)
-    answer_author = Xikolo.api(:account).value.rel(:user).get(id: commentable.user_id)
+    user = Xikolo.api(:account).value.rel(:user).get({id: comment.user_id})
+    answer_author = Xikolo.api(:account).value.rel(:user).get({id: commentable.user_id})
 
-    course = Xikolo.api(:course).value.rel(:course).get(id: question.course_id).value!
+    course = Xikolo.api(:course).value.rel(:course).get({id: question.course_id}).value!
 
     collab_space = {}
     if question.learning_room_id.present?
-      collab_space = Xikolo.api(:collabspace).value.rel(:collab_space).get(id: question.learning_room_id).value!
+      collab_space = Xikolo.api(:collabspace).value.rel(:collab_space).get({id: question.learning_room_id}).value!
     end
 
-    Xikolo.api(:notification).value.rel(:events).post(
+    Xikolo.api(:notification).value.rel(:events).post({
       key: event_key,
       payload: {
         user_id: comment.user_id,
@@ -113,8 +113,8 @@ class CommentsController < ApplicationController
       course_id: question.course_id,
       learning_room_id: question.learning_room_id,
       link: opts[:question_url],
-      subscribers: question.subscriptions.pluck(:user_id)
-    ).value!
+      subscribers: question.subscriptions.pluck(:user_id),
+    }).value!
   end
 
   # PUT /comments/1

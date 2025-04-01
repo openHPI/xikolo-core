@@ -44,7 +44,7 @@ module Collabspace::CollabspacesIntegrationHelper
   def collabspace
     @collabspace ||= Xikolo.api(:collabspace).value!
       .rel(:collab_space)
-      .get(id: collabspace_id)
+      .get({id: collabspace_id})
       .value!
   end
 end

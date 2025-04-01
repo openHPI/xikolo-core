@@ -3,10 +3,10 @@
 require 'spec_helper'
 
 describe 'User\'s avatar upload', type: :request do
-  subject(:update_avatar) { api.rel(:user).patch(update_params, id: user.id).value! }
+  subject(:update_avatar) { api.rel(:user).patch(data, params: {id: user.id}).value! }
 
   let(:user) { create(:user) }
-  let(:update_params) { {} }
+  let(:data) { {} }
   let(:api) { Restify.new(:test).get.value! }
 
   describe '(S3 avatar upload)' do
@@ -88,7 +88,7 @@ describe 'User\'s avatar upload', type: :request do
       let(:old_store_stub_url) { nil }
 
       context 'with avatar_upload_id' do
-        let(:update_params) { {avatar_upload_id: upload_id} }
+        let(:data) { {avatar_upload_id: upload_id} }
 
         context 'when upload is successful' do
           before do
@@ -149,7 +149,7 @@ describe 'User\'s avatar upload', type: :request do
       end
 
       context 'with avatar_uri' do
-        let(:update_params) do
+        let(:data) do
           {
             avatar_upload_id: upload_id,
             avatar_uri: "upload://#{upload_id}/profil.jpg",
@@ -215,7 +215,7 @@ describe 'User\'s avatar upload', type: :request do
       let(:old_store_stub_url) { 'http://s3.xikolo.de/xikolo-public/avatars/3/avatar_v1.jpg' }
 
       context 'with upload_id' do
-        let(:update_params) { {avatar_upload_id: upload_id} }
+        let(:data) { {avatar_upload_id: upload_id} }
 
         context 'when upload is successful' do
           include_examples 'updates the avatar'
@@ -268,7 +268,7 @@ describe 'User\'s avatar upload', type: :request do
       end
 
       context 'with avatar_uri' do
-        let(:update_params) { {avatar_upload_id: upload_id, avatar_uri: "upload://#{upload_id}/profil.jpg"} }
+        let(:data) { {avatar_upload_id: upload_id, avatar_uri: "upload://#{upload_id}/profil.jpg"} }
 
         before do
           stub_request(:head, store_stub_url).and_return(status: 404)
@@ -325,7 +325,7 @@ describe 'User\'s avatar upload', type: :request do
       end
 
       context 'passing nil as avatar_uri' do
-        let(:update_params) { {avatar_uri: nil} }
+        let(:data) { {avatar_uri: nil} }
 
         it 'deletes the existing avatar' do
           expect { update_avatar }.to change { user.reload.avatar_url }
@@ -341,18 +341,18 @@ describe 'User\'s avatar upload', type: :request do
   end
 
   describe '(external avatar URL)' do
-    let(:update_params) do
+    let(:data) do
       {avatar_uri: 'https://external.example.com/profil.jpg'}
     end
     let(:json) { JSON.parse update_avatar.response.body }
 
     it 'stores and responds with the external avatar URL' do
-      expect(json).to include('avatar_url' => update_params[:avatar_uri])
+      expect(json).to include('avatar_url' => data[:avatar_uri])
     end
 
     describe 'remove avatar' do
       let(:user) { create(:user, avatar_uri: 'https://external.example.com/profil.jpg') }
-      let(:update_params) { super().merge(avatar_uri: nil) }
+      let(:data) { super().merge(avatar_uri: nil) }
 
       it 'removes the external avatar URL of the user' do
         expect(json['avatar_url']).to be_nil

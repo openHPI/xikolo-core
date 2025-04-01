@@ -32,7 +32,7 @@ class AbuseReportPresenter
 
   def reporter!
     @reporter = Rails.cache.fetch("users/#{user_id}/name") do
-      Xikolo.api(:account).value!.rel(:user).get(id: user_id).value!['name']
+      Xikolo.api(:account).value!.rel(:user).get({id: user_id}).value!['name']
     end
   end
 end

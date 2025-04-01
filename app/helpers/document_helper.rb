@@ -26,24 +26,24 @@ module DocumentHelper
   end
 
   def add_localization(document = nil)
-    document ||= Xikolo.api(:course).value!.rel(:document).get(
-      id: params[:document_id]
-    ).value!
+    document ||= Xikolo.api(:course).value!.rel(:document).get({
+      id: params[:document_id],
+    }).value!
     document.rel(:localizations).post(create_localization_params).value!
     redirect_to documents_path
   end
 
   def update_localization
     update_params = update_localization_params
-    localization = Xikolo.api(:course).value!.rel(:document_localization).get(
-      id: params[:id]
-    ).value!
+    localization = Xikolo.api(:course).value!.rel(:document_localization).get({
+      id: params[:id],
+    }).value!
     localization.rel(:self).patch(update_params).value!
     redirect_to localization.document_url
   end
 
   def delete_localization
-    Xikolo.api(:course).value!.rel(:document_localization).delete(id: params[:id]).value!
+    Xikolo.api(:course).value!.rel(:document_localization).delete({id: params[:id]}).value!
     redirect_to documents_path
   end
 
@@ -77,12 +77,12 @@ module DocumentHelper
     update_params[:tags]&.reject!(&:blank?)
     update_params[:course_ids]&.reject!(&:blank?)
 
-    Xikolo.api(:course).value!.rel(:document).patch(update_params, id: params[:id]).value!
+    Xikolo.api(:course).value!.rel(:document).patch(update_params, params: {id: params[:id]}).value!
     redirect_to document_path(id: update_params[:id])
   end
 
   def delete_document
-    Xikolo.api(:course).value!.rel(:document).delete(id: params[:id]).value!
+    Xikolo.api(:course).value!.rel(:document).delete({id: params[:id]}).value!
     redirect_to documents_path
   end
 

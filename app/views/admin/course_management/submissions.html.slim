@@ -115,11 +115,6 @@
                 span.label.label-danger = t(:'admin.course_management.submissions.proctoring.failed')
           td
             = render Global::ActionsDropdown.new(menu_side: 'right') do |c|
-              - if current_user.allowed?('quiz.submission.manage.proctoring') && submission['proctoring']
-                - c.with_destructive_action
-                  = link_to t(:'admin.course_management.submissions.proctoring.exclude'),
-                    exclude_from_proctoring_path(course_id: @course.id, id: submission['id']),
-                    method: :post
               - if current_user.allowed?('course.course.teaching')
                 - c.with_action
                   = link_to t(:'quiz_submission.add_fudge_points'), '#', class: 'js-show-fudge', data: {submission: submission.id}

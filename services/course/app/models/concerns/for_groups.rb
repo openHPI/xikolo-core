@@ -28,7 +28,7 @@ module ForGroups
 
     def _get_groups(user)
       Xikolo.api(:account).value!
-        .rel(:groups).get(user:, per_page: 1000).value!
+        .rel(:groups).get({user:, per_page: 1000}).value!
         .pluck('name')
     rescue StandardError => e
       ::Mnemosyne.attach_error(e)

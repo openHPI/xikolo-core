@@ -6,7 +6,7 @@ describe 'List user features', type: :request do
   subject(:resource) { base.rel(:features).get.value! }
 
   let(:api) { Restify.new(:test).get.value! }
-  let(:base) { api.rel(:user).get(id: user).value! }
+  let(:base) { api.rel(:user).get({id: user}).value! }
   let(:user) { create(:user) }
 
   let(:groups) { create_list(:group, 5) }
@@ -35,7 +35,7 @@ describe 'List user features', type: :request do
   end
 
   context '?context' do
-    subject(:resource) { base.rel(:features).get(context:).value! }
+    subject(:resource) { base.rel(:features).get({context:}).value! }
 
     let(:context) { create(:context) }
 

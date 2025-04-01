@@ -36,7 +36,7 @@ module Lti
           item_id: gradebook.item.id,
           points: item_score,
         },
-        {id:}
+        params: {id:}
       ).value!
     end
   end

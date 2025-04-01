@@ -7,7 +7,7 @@ describe 'Role: Show', type: :request do
   let!(:role) { create(:role) }
 
   context 'by id' do
-    subject(:resource) { api.rel(:role).get(id: role.id).value! }
+    subject(:resource) { api.rel(:role).get({id: role.id}).value! }
 
     it 'responds successful' do
       expect(resource).to respond_with :ok
@@ -19,7 +19,7 @@ describe 'Role: Show', type: :request do
   end
 
   context 'by name' do
-    subject(:resource) { api.rel(:role).get(id: role.name).value! }
+    subject(:resource) { api.rel(:role).get({id: role.name}).value! }
 
     let!(:role) { create(:role, name: 'account.admins') }
 

@@ -1,10 +1,9 @@
 plugins:
+  - rubocop-capybara
+  - rubocop-factory_bot
   - rubocop-performance
   - rubocop-rails
   - rubocop-rspec
-require:
-  - rubocop-capybara
-  - rubocop-factory_bot
   - rubocop-rspec_rails
 
 inherit_from:

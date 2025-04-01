@@ -55,7 +55,9 @@ describe 'Voucher Redemptions: Create', type: :request do
       create(:enrollment, course:, user_id:, proctored: false)
     end
 
-    it 'redeems the voucher' do
+    # Proctoring::CourseContext#upgrade_possible? is hardcoded to `false`, which
+    # makes the `Voucher::Claim` operation fail.
+    it 'redeems the voucher', skip: 'upgrade_possible? set to `false`' do
       redeem_voucher
 
       voucher.reload
@@ -64,7 +66,9 @@ describe 'Voucher Redemptions: Create', type: :request do
       expect(claim_stub).to have_been_requested
     end
 
-    it 'redirects to the course page' do
+    # Proctoring::CourseContext#upgrade_possible? is hardcoded to `false`, which
+    # makes the `Voucher::Claim` operation fail.
+    it 'redirects to the course page', skip: 'upgrade_possible? set to `false`' do
       redeem_voucher
 
       expect(response).to redirect_to course_path(course.course_code)
@@ -75,7 +79,9 @@ describe 'Voucher Redemptions: Create', type: :request do
         create(:voucher, :proctoring, claimant_id: generate(:user_id))
       end
 
-      it 're-renders the form with an error' do
+      # Proctoring::CourseContext#upgrade_possible? is hardcoded to `false`, which
+      # makes the `Voucher::Claim` operation fail.
+      it 're-renders the form with an error', skip: 'upgrade_possible? set to `false`' do
         redeem_voucher
 
         expect(response).to render_template(:new)

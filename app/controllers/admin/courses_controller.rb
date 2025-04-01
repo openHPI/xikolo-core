@@ -12,11 +12,11 @@ class Admin::CoursesController < Admin::BaseController
     authorize! 'course.course.index'
 
     category = params[:status]
-    courses = course_api.rel(:courses).get(
+    courses = course_api.rel(:courses).get({
       alphabetic: 1,
       groups: 'any',
-      **filter_params
-    ).value!
+      **filter_params,
+    }).value!
 
     @courses = Admin::CourseListPresenter.new(courses, category)
   end
@@ -62,13 +62,15 @@ class Admin::CoursesController < Admin::BaseController
     form = Admin::CourseForm.from_params params
     form.persisted!
 
-    course = course_api.rel(:course).get(id: params[:id])
+    course = course_api.rel(:course).get({id: params[:id]})
     form.id = course.value!['id']
 
     begin
       if form.valid? && course_api.rel(:course)
-          .patch(form.to_resource.except('id', 'course_code'),
-            id: form.id.to_s).value!
+          .patch(
+            form.to_resource.except('id', 'course_code'),
+            params: {id: form.id.to_s}
+          ).value!
         add_flash_message :success, t(:'flash.success.course_updated')
         return redirect_to course_path(id: form.course_code)
       end
@@ -109,7 +111,7 @@ class Admin::CoursesController < Admin::BaseController
 
   def destroy
     authorize! 'course.course.delete'
-    course_api.rel(:course).get(id: params[:course_code]).then do |course|
+    course_api.rel(:course).get({id: params[:course_code]}).then do |course|
       course.rel(:self).delete
     end.value!
     redirect_to admin_courses_path, notice: t(:'flash.notice.course_deleted')

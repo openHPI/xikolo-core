@@ -69,14 +69,14 @@ class QuestionsController < ApplicationController
     selftests = []
 
     Xikolo.paginate(
-      course_api.rel(:items).get(
+      course_api.rel(:items).get({
         course_id:,
         content_type: 'quiz',
         exercise_type: 'selftest',
         all_available: true,
         required_items: 'none',
-        per_page: 250
-      )
+        per_page: 250,
+      })
     ).each_page do |items|
       item_ids = items.pluck('content_id')
       Quiz.includes(questions: :answers).where(id: item_ids).find_each do |quiz|

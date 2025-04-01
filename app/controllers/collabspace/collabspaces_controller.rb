@@ -23,16 +23,20 @@ module Collabspace
       @course = the_course
       Restify::Promise.new [
         collabspace_api.rel(:collab_spaces)
-          .get(user_id: current_user.id,
+          .get({
+            user_id: current_user.id,
             course_id: @course.id,
             with_membership: 'false',
             per_page: PER_PAGE,
             page: current_page,
-            sort: 'name'),
+            sort: 'name',
+          }),
         collabspace_api.rel(:collab_spaces)
-          .get(user_id: current_user.id,
+          .get({
+            user_id: current_user.id,
             course_id: @course.id,
-            with_membership: 'true'),
+            with_membership: 'true',
+          }),
       ] do |unjoined_collabspaces, my_collabspaces|
         @my_collabspace_presenters = wrap_in_presenters my_collabspaces
         @unjoined_collabspaces = unjoined_collabspaces
@@ -177,7 +181,7 @@ module Collabspace
     def course_memberships
       @course_memberships ||= collabspace_api
         .rel(:memberships)
-        .get(user_id: current_user.id, course_id: @course.id)
+        .get({user_id: current_user.id, course_id: @course.id})
         .value!
     end
 
@@ -238,7 +242,7 @@ module Collabspace
     end
 
     def collabspace
-      @collabspace ||= collabspace_api.rel(:collab_space).get(id: collabspace_id).value!
+      @collabspace ||= collabspace_api.rel(:collab_space).get({id: collabspace_id}).value!
     end
 
     def collabspace_api

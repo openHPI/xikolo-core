@@ -9,7 +9,6 @@ s3:
     lti: bucket-public
     news: bucket-public
     pages: bucket-public
-    peerassessment: bucket-peerassessment
     pinboard: bucket-pinboard
     quiz: bucket-public
     scientist: bucket-scientist

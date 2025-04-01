@@ -3,10 +3,10 @@
 require 'spec_helper'
 
 describe 'Group Profile Field Stats', type: :request do
-  subject(:resource) { base.rel(:profile_field_stats).get(id: field_name).value! }
+  subject(:resource) { base.rel(:profile_field_stats).get({id: field_name}).value! }
 
   let(:api) { Restify.new(:test).get.value! }
-  let(:base) { api.rel(:group).get(id: group).value! }
+  let(:base) { api.rel(:group).get({id: group}).value! }
   let(:field_name) { 'background' }
 
   let(:group) { create(:group) }

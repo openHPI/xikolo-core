@@ -6,7 +6,7 @@ class Account::PasswordResetsController < Abstract::FrontendController
   require_feature 'account.login'
 
   def show
-    reset = account_api.rel(:password_reset).get(id: params[:id]).value!
+    reset = account_api.rel(:password_reset).get({id: params[:id]}).value!
     @reset = Account::PasswordResetForm.from_resource reset
   rescue Restify::NotFound
     render :not_found, status: :not_found, formats: %i[html]
@@ -50,7 +50,7 @@ class Account::PasswordResetsController < Abstract::FrontendController
 
     if @reset.valid?
       begin
-        reset = account_api.rel(:password_reset).get(id: params[:id]).value!
+        reset = account_api.rel(:password_reset).get({id: params[:id]}).value!
         reset.rel(:self).patch(@reset.to_resource.slice('password')).value!
 
         return redirect_to new_session_url, notice: t(:'account.password_resets.flash.pw_changed')

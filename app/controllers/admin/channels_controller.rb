@@ -16,7 +16,7 @@ class Admin::ChannelsController < Abstract::FrontendController
 
   def edit
     authorize! 'course.channel.edit'
-    channel = course_api.rel(:channel).get(id: params[:id]).value!
+    channel = course_api.rel(:channel).get({id: params[:id]}).value!
     @channel = Admin::ChannelEditPresenter.new channel:
   end
 
@@ -44,13 +44,13 @@ class Admin::ChannelsController < Abstract::FrontendController
 
     form = Admin::ChannelForm.from_params params
 
-    channel = course_api.rel(:channel).get(id: params[:id]).value!
+    channel = course_api.rel(:channel).get({id: params[:id]}).value!
     form.id = channel['id']
     form.persisted!
 
     begin
       if form.valid? && course_api.rel(:channel)
-          .patch(form.to_resource, id: channel['id']).value!
+          .patch(form.to_resource, params: {id: channel['id']}).value!
         add_flash_message :success, t(:'flash.success.channel_updated')
         return redirect_to admin_channels_path
       end

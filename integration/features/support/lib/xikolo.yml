@@ -23,7 +23,6 @@ s3:
     certificate: xikolo-certificate
     course: xikolo-public
     news: xikolo-public
-    peerassessment: xikolo-peerassessment
     pinboard: xikolo-pinboard
     quiz: xikolo-quiz
     scientist: xikolo-scientist

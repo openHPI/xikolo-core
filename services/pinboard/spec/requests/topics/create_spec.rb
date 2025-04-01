@@ -3,11 +3,11 @@
 require 'spec_helper'
 
 RSpec.describe 'Topics: Create', type: :request do
-  subject(:creation) { service.rel(:topics).post(attrs).value! }
+  subject(:creation) { service.rel(:topics).post(payload).value! }
 
   let(:service) { Restify.new(:test).get.value! }
 
-  let(:attrs) do
+  let(:payload) do
     {
       title: 'I am happy, because...',
       author_id: generate(:user_id),
@@ -31,7 +31,7 @@ RSpec.describe 'Topics: Create', type: :request do
   end
 
   context 'with a video_timestamp in the meta hash' do
-    let(:attrs) do
+    let(:payload) do
       super().merge(
         meta: {
           video_timestamp: 1357,
@@ -49,7 +49,7 @@ RSpec.describe 'Topics: Create', type: :request do
   end
 
   context 'with tags' do
-    let(:attrs) do
+    let(:payload) do
       super().merge(
         tags: %w[tag1 tag2 tag3]
       )
@@ -86,7 +86,7 @@ RSpec.describe 'Topics: Create', type: :request do
   end
 
   context 'with an item_id' do
-    let(:attrs) { super().merge(item_id:) }
+    let(:payload) { super().merge(item_id:) }
     let(:item_id) { generate(:item_id) }
     let(:section_id) { generate(:section_id) }
 
@@ -120,7 +120,7 @@ RSpec.describe 'Topics: Create', type: :request do
   end
 
   context 'with tags AND an item_id' do
-    let(:attrs) do
+    let(:payload) do
       super().merge(
         tags: %w[tag1 tag2 tag3],
         item_id:
@@ -156,7 +156,7 @@ RSpec.describe 'Topics: Create', type: :request do
 
   context 'with image references' do
     let(:text) { 'upload://b5f99337-224f-40f5-aa82-44ee8b272579/foo.jpg' }
-    let(:attrs) { super().merge first_post: {text:} }
+    let(:payload) { super().merge first_post: {text:} }
     let(:cid) { UUID4(course_id).to_s(format: :base62) }
 
     it 'stores valid upload and creates a new richtext' do

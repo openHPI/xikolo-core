@@ -57,7 +57,7 @@ module Course
         race_condition_ttl: 30.seconds
       ) do
         Xikolo.api(:learnanalytics).value!
-          .rel(:metric).get(name: 'certificates', course_id: @course.id).value!
+          .rel(:metric).get({name: 'certificates', course_id: @course.id}).value!
       end
     end
   end

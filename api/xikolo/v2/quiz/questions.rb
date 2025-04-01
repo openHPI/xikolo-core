@@ -4,7 +4,7 @@ module Xikolo
   module V2::Quiz
     class Questions < Xikolo::Endpoint::CollectionEndpoint
       load_related_objects = proc {|question|
-        promise = Xikolo.api(:course).value.rel(:items).get(content_id: question['quiz_id'])
+        promise = Xikolo.api(:course).value.rel(:items).get({content_id: question['quiz_id']})
 
         question['expose_secret_attrs'] = promise.then {|items|
           item = items.first
@@ -12,7 +12,7 @@ module Xikolo
         }
 
         Xikolo.api(:quiz).value
-          .rel(:answers).get(question_id: question['id'])
+          .rel(:answers).get({question_id: question['id']})
           .then {|answers|
           question['options'] = answers.map {|answer|
             secret_attrs = if question['expose_secret_attrs'].value
@@ -120,7 +120,7 @@ module Xikolo
         get 'Retrieve a quiz question by ID' do
           authenticate!
 
-          Xikolo.api(:quiz).value.rel(:question).get(id:).then {|question|
+          Xikolo.api(:quiz).value.rel(:question).get({id:}).then {|question|
             load_related_objects[question]
           }.value!
         end

@@ -114,8 +114,10 @@ module Steps
     end
 
     def allow_unlimited_attempts(quiz)
-      Server[:quiz].api.rel(:quiz).put({unlimited_attempts: true},
-        {id: quiz.id}).value
+      Server[:quiz].api.rel(:quiz).put(
+        {unlimited_attempts: true},
+        params: {id: quiz['id']}
+      ).value!
     end
 
     Given 'the quiz has unlimited attempts' do
@@ -140,7 +142,7 @@ module Steps
     def create_survey(quiz)
       Server[:quiz].api.rel(:quiz).patch(
         {allowed_attempts: 1, unlimited_attempts: false},
-        {id: quiz.id}
+        params: {id: quiz['id']}
       ).value!
     end
   end

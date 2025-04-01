@@ -150,8 +150,7 @@ body.in_app .course-action {
 .course-action-enroll,
 .course-action-resume,
 .course-action-external,
-.course-action-reactivate,
-.course-action-proctoring {
+.course-action-reactivate {
   background-color: $primary-color;
   color: $white;
 
@@ -510,31 +509,6 @@ ul.certificate-requirements {
   .input-group-btn .btn {
     // magic number: bootstrap input height
     height: 34px;
-  }
-}
-
-.registration-details {
-  &__steps {
-    margin: 20px 0;
-  }
-
-  &__step {
-    display: flex;
-    align-items: center;
-
-    .xi-icon {
-      width: 50px;
-      height: 50px;
-      font-size: $font-size-l;
-    }
-  }
-
-  &__buttons {
-    margin-top: 20px;
-
-    * {
-      margin-right: 10px;
-    }
   }
 }
 

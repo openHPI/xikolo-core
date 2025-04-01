@@ -76,10 +76,10 @@ module Xikolo
 
       member do
         get 'Get the enrollment' do
-          enrollment = Xikolo.api(:course).value!.rel(:enrollments).get(
+          enrollment = Xikolo.api(:course).value!.rel(:enrollments).get({
             id:,
-            learning_evaluation: true
-          ).value!.first
+            learning_evaluation: true,
+          }).value!.first
 
           authenticate_as! enrollment['user_id']
 
@@ -87,7 +87,7 @@ module Xikolo
         end
 
         patch 'Update the enrollment' do |entity|
-          old_enrollment = Xikolo.api(:course).value!.rel(:enrollment).get(id:).value!
+          old_enrollment = Xikolo.api(:course).value!.rel(:enrollment).get({id:}).value!
 
           # Check that only users can update their own enrollments
           authenticate_as! old_enrollment['user_id']
@@ -95,25 +95,25 @@ module Xikolo
           # Update the enrollment with new values...
           Xikolo.api(:course).value!.rel(:enrollment).patch(
             entity.to_resource,
-            id:
+            params: {id:}
           ).value!
 
           # ...and return the updated enrollment!
           # We use the enrollments index route here (and return the first result), because without it, we cannot
           # get any learning evaluation data (which we need for some of the attributes).
-          Xikolo.api(:course).value!.rel(:enrollments).get(
+          Xikolo.api(:course).value!.rel(:enrollments).get({
             course_id: old_enrollment['course_id'],
             user_id: old_enrollment['user_id'],
-            learning_evaluation: true
-          ).value!.first
+            learning_evaluation: true,
+          }).value!.first
         end
 
         delete 'Delete the enrollment' do
-          enrollment = Xikolo.api(:course).value!.rel(:enrollment).get(id:).value!
+          enrollment = Xikolo.api(:course).value!.rel(:enrollment).get({id:}).value!
 
           authenticate_as! enrollment['user_id']
 
-          Xikolo.api(:course).value!.rel(:enrollment).delete(id:).value!
+          Xikolo.api(:course).value!.rel(:enrollment).delete({id:}).value!
         end
       end
 
@@ -122,10 +122,10 @@ module Xikolo
           authenticate!
 
           block_courses_by('course_id') do
-            Xikolo.api(:course).value!.rel(:enrollments).get(
+            Xikolo.api(:course).value!.rel(:enrollments).get({
               user_id: current_user.id,
-              learning_evaluation: true
-            ).value!
+              learning_evaluation: true,
+            }).value!
           end
         end
 
@@ -133,23 +133,23 @@ module Xikolo
           authenticate!
 
           course_api = Xikolo.api(:course).value!
-          course = course_api.rel(:course).get(id: entity.to_resource['course_id']).value!
+          course = course_api.rel(:course).get({id: entity.to_resource['course_id']}).value!
           forbidden! if course['invite_only']
 
           # Create the new enrollment...
-          new_enrollment = course_api.rel(:enrollments).post(
+          new_enrollment = course_api.rel(:enrollments).post({
             user_id: current_user.id,
-            course_id: entity.to_resource['course_id']
-          ).value!
+            course_id: entity.to_resource['course_id'],
+          }).value!
 
           # ...and return the created enrollment!
           # We use the enrollments index route here (and return the first result), because without it, we cannot
           # get any learning evaluation data (which we need for some of the attributes).
-          course_api.rel(:enrollments).get(
+          course_api.rel(:enrollments).get({
             course_id: new_enrollment['course_id'],
             user_id: new_enrollment['user_id'],
-            learning_evaluation: true
-          ).value!.first
+            learning_evaluation: true,
+          }).value!.first
         end
       end
     end

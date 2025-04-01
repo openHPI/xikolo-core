@@ -34,10 +34,10 @@ module Middleware
       # NOTE: We're not calling `value` here, so that the request is executed in parallel
       # while the actual application is run. Also, this way we do not delay sending of the
       # response in case the news service is hanging or taking a long time to respond.
-      Xikolo.api(:news).value!.rel(:visits).post(
+      Xikolo.api(:news).value!.rel(:visits).post({
         user_id:,
-        announcement_id: announcement_id.to_s
-      )
+        announcement_id: announcement_id.to_s,
+      })
     end
   end
 end

@@ -9,7 +9,7 @@ describe 'Memberships: Deletion', type: :request do
 
   describe '#destroy' do
     context 'w/ membership' do
-      subject(:resource) { api.rel(:membership).delete(id: membership).value! }
+      subject(:resource) { api.rel(:membership).delete({id: membership}).value! }
 
       let!(:membership) { create(:membership, user:, group:) }
 
@@ -29,7 +29,7 @@ describe 'Memberships: Deletion', type: :request do
     context 'w/o membership' do
       subject(:resource) do
         api.rel(:membership)
-          .delete(id: '0fe85664-492e-4a5c-a4ba-8270692a0ad8')
+          .delete({id: '0fe85664-492e-4a5c-a4ba-8270692a0ad8'})
           .value!
       end
 
@@ -42,7 +42,7 @@ describe 'Memberships: Deletion', type: :request do
   describe '#delete' do
     context 'w/ membership' do
       subject(:resource) do
-        api.rel(:memberships).delete(user:, group:).value!
+        api.rel(:memberships).delete({user:, group:}).value!
       end
 
       let!(:membership) { create(:membership, user:, group:) }
@@ -62,7 +62,7 @@ describe 'Memberships: Deletion', type: :request do
 
     context 'w/o membership' do
       subject(:resource) do
-        api.rel(:memberships).delete(user:, group:).value!
+        api.rel(:memberships).delete({user:, group:}).value!
       end
 
       it 'responds with 200 Ok' do
@@ -75,7 +75,7 @@ describe 'Memberships: Deletion', type: :request do
     end
 
     context 'w/o user' do
-      subject(:resource) { api.rel(:memberships).delete(group:).value! }
+      subject(:resource) { api.rel(:memberships).delete({group:}).value! }
 
       it 'responds with 404 Not Found' do
         expect { resource }.to raise_error(Restify::ClientError) do |error|
@@ -85,7 +85,7 @@ describe 'Memberships: Deletion', type: :request do
     end
 
     context 'w/o group' do
-      subject(:resource) { api.rel(:memberships).delete(user:).value! }
+      subject(:resource) { api.rel(:memberships).delete({user:}).value! }
 
       it 'responds with 404 Not Found' do
         expect { resource }.to raise_error(Restify::ClientError) do |error|

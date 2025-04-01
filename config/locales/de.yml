@@ -320,9 +320,7 @@ de:
       subscription_canceled: Dem Thema wurde erfolgreich entfolgt.
       reactivate_course: "Sie haben diesen Kurs bis %{date} reaktiviert."
       proctoring:
-        already_registered_smowl: Der Kalibrierungsprozess bei unserem Partner ist bereits abgeschlossen.
         certificate_booked: Sie haben ein Zertifikat für diesen Kurs gebucht.
-        submission_excluded: Die Quiz-Abgabe wurde von der Online-Aufsicht ausgeschlossen.
       primary_email_unsuspended: Ihre primäre E-Mail-Adresse wurde wieder aktiviert.
       account_confirmed_manually: Der Account wurde manuell bestätigt.
       lti_provider_created: Der LTI-Provider wurde erfolgreich hinzugefügt.
@@ -421,7 +419,6 @@ de:
         booking_failed: Ein Zertifikat kann für diesen Kurs nicht gebucht werden.
         already_proctored: Sie haben bereits ein Zertifikat für diesen Kurs gebucht.
         not_enrolled: Sie müssen sich zuerst für den Kurs einschreiben, um ein Zertifikat zu buchen.
-        submission_exclude_failed: Die Quiz-Abgabe konnte nicht von der Online-Aufsicht ausgeschlossen werden.
       reactivation:
         not_available: Dieser Kurs kann derzeit nicht reaktiviert werden.
         already_reactivated: Sie haben diesen Kurs bereits reaktiviert.
@@ -1172,8 +1169,6 @@ de:
           passed: Proctoring bestanden
           passed_with_issues: Proctoring mit Fehlern bestanden
           failed: Proctoring fehlgeschlagen
-          exclude: Von der Online-Aufsicht ausschließen
-          exclude_confirm: Sind Sie sicher, dass die Quiz-Abgabe von der Online-Aufsicht ausgeschlossen werden soll?
         actions: Aktionen
         submission: Abgabe
         submissions: Abgaben
@@ -1485,7 +1480,6 @@ de:
       button_goto_external: Externen Kurs besuchen
       proctoring:
         booked: Sie haben ein Zertifikat gebucht.
-        register_with_smowl: Bitte kalibrieren Sie Ihr Bild bei unserem Partner.
         upgrade_not_possible: Die Buchung eines Zertifikats ist nicht mehr möglich.
       unenrollment_disabled: Um sich vom Kurs abzumelden, wenden Sie sich an den Kursanbieter.
 
@@ -2116,27 +2110,6 @@ de:
         multiple_answer_question: Multi Select Question
         free_text_question: Free Text Question
         essay_question: Essay
-      proctoring:
-        book_certificate: Das Zertifikat buchen
-        certificate_booked:
-          title: Sie haben Ihr Zertifikat erfolgreich gebucht
-          instructions: "Bitte achten Sie auf die Einhaltung der Regeln (<a href='https://smowl.net/en/faqs-proctoring-smowl/camera-monitoring/' target='_blank' rel='noopener'>FAQ</a> | <a href='/pages/proctoring_guidelines' target='_blank'>Anleitung</a>). Im Falle eines Verstoßes können wir kein Zertifikat ausstellen. Denken Sie immer daran:"
-          exclusion_criteria:
-            <ul><li>Sie müssen die <strong>einzige Person</strong> sein, die sich vor der Kamera befindet. Wenn keine Person, mehrere Personen oder eine andere als die angemeldete Person sichtbar ist, wird die Prüfung fehlschlagen.</li>
-            <li>Wählen Sie eine Prüfungszeit, in der Sie <strong>ungestört</strong> sind und Ihren Platz während der Prüfung nicht verlassen müssen.</li>
-            <li>Sorgen Sie für <strong>ausreichende Lichtverhältnisse</strong> und dafür, dass Ihr Gesicht gut zu sehen ist. Eine Lichtquelle im Rücken kann Ihr Gesicht in der Kamera zu dunkel erscheinen lassen.</li>
-            <li>Tragen Sie keine Gegenstände, die Ihren Kopf oder Ihr Gesicht verdecken (Hut, Sonnenbrille, ...). Lesebrillen sind erlaubt.</li>
-            </ul>
-            <p>Technische Ratschläge:</p>
-            <ul><li>Vergewissern Sie sich, dass Ihre Kamera eingeschaltet und voll funktionsfähig ist. Entfernen Sie die Abdeckung Ihrer Webcam.</li>
-            <li>Schließen Sie alle anderen Anwendungen, die auf die Kamera zugreifen.</li>
-            <li>Vergewissern Sie sich während der Prüfung, dass die Registerkarte "Aufgaben" die einzige offene Registerkarte in Ihrem Browser ist.</li></ul>
-        deadline_passed: Die Anmeldefrist für das Zertifikat ist abgelaufen. Sie können immer noch einen Leistungsnachweis erwerben, indem Sie die benoteten Prüfungen abschließen.
-        upgrade_not_possible: Sie haben bereits zu viele wöchentliche Aufgaben eingereicht und können daher das Zertifikat nicht mehr buchen. Sie können jedoch weiterhin einen Leistungsnachweis erwerben, indem Sie die benoteten Quizzes lösen.
-        upgrade_information:
-          title: Möchten Sie ein Zertifikat buchen?
-          info: Sie können sich noch bis <strong>%{deadline}</strong> für das Zertifikat anmelden. Das Zertifikat ist ein kostenpflichtiges Add-on. Sie können jederzeit einen kostenlosen Leistungsnachweis erwerben, indem Sie die benoteten Prüfungen abschließen.
-          registration_periods_info: <b>Anmeldefristen:</b> Die Anmeldung zum Zertifikat ist nur bis zum Abgabetermin der zweiten benoteten Prüfung möglich. Nach Ablauf der Frist für die zweite Prüfung ist eine Anmeldung zur Online-Aufsicht nicht mehr möglich.
 
     lti:
       allowed_attempts: Erlaubte Anläufe
@@ -2781,8 +2754,6 @@ de:
       main: Sende meine finalen Antworten
       survey: Sende Feedback
     proctoring:
-      sidebar_title: Online-Aufsicht
-      instrumented_info: Die Online-Aufsicht ist vorübergehend deaktiviert, da Sie als Nutzer maskiert sind.
       no_issues: Keine Verstöße erkannt.
       data_currently_unavailable: Die Daten werden noch ausgewertet.
       feature_tooltip: Die Verstöße werden akkumuliert.
@@ -3161,27 +3132,7 @@ de:
       total: Gesamt
 
   proctoring:
-    register_with_smowl: Zur Kalibrierung
-    calibration_missing_callout: Sie müssen Ihr Bild kalibrieren, bevor Sie die Prüfung ablegen
-    calibration_missing_text: Sie können die Prüfung erst ablegen, wenn Sie den Kalibrierungsprozess abgeschlossen haben.
-    calibration_missing_action: Zur Seite mit Details zur Kalibrierung gehen
-    calibration_pending_title: Kalibrierung ausstehend
-    calibration_pending_text: Ihr Bild wird gerade kalibriert. Dieser Vorgang kann ein paar Stunden dauern. Bitte kommen Sie später hierher zurück, um die Prüfung abzulegen.
     service_unavailable: Die Online-Aufsicht ist derzeit nicht verfügbar. Bitte laden Sie die Seite neu. Wenn das Problem bestehen bleibt, wenden Sie sich an den Helpdesk.
-    book_certificate: Zertifikat buchen
-
-    registration_details:
-      title: Kalibrierung für das Zertifikat
-      headline_steps: Aufnahme eines Fotos zur Verifizierung
-      steps_introduction: "Wenn Sie sich für das Zertifikat entschieden haben, benötigen wir drei Fotos von Ihnen für die automatische Gesichtserkennung. Führen Sie die folgenden Schritte aus, um diese zu aktivieren:"
-      step_1: Stellen Sie sicher, dass Sie einen <a href='https://smowl.net/en/faqs-proctoring-smowl/requirements/' target='_blank' rel='noopener'>kompatiblen Browser</a> verwenden.
-      step_2: Klicken Sie am Ende dieser Seite auf "Zur Kalibrierung".
-      step_3: Machen Sie 3 Fotos von sich mit Ihrer Webcam. Das zweite Foto wird auf Ihrem Zertifikat erscheinen.
-      step_4: Bestätigen Sie die Fotos oder nehmen Sie diese erneut auf, nachdem Sie sie abgelehnt haben.
-      callout_title: Kalibrieren Sie Ihr Bild so bald wie möglich
-      callout_text: Der Kalibrierungsprozess kann <strong>bis zu 48 Stunden</strong> dauern. Während dieser Zeit ist der Zugang zu benoteten Quizzen und allen relevanten Übungen gesperrt.
-      verification_lifetime_headline: Gültigkeitsdauer der Verifizierung
-      verification_lifetime_text: Die Kalibrierung wird pro Teilnehmer und nicht pro Kurs durchgeführt, d.h. Sie müssen nicht für jeden Kurs den gesamten Vorgang wiederholen. In den nachfolgenden Kursen wird geprüft, ob sich das Erscheinungsbild so stark verändert hat, dass eine neue Kalibrierung notwendig ist. Ist das der Fall, werden Sie im Kurs dazu aufgefordert.
 
   time_effort:
     seconds: Sekunden

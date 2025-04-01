@@ -3,10 +3,10 @@
 require 'spec_helper'
 
 RSpec.describe 'Answers: Create', type: :request do
-  subject(:creation) { api.rel(:answers).post(params).value! }
+  subject(:creation) { api.rel(:answers).post(payload).value! }
 
   let(:api) { Restify.new(:test).get.value! }
-  let(:params) { attributes_for(:answer).merge question_id: question.id }
+  let(:payload) { attributes_for(:answer).merge question_id: question.id }
   let(:quiz) { create(:quiz) }
   let(:question) { create(:multiple_choice_question, quiz:) }
   let(:qid) { UUID4(quiz.id).to_s(format: :base62) }
@@ -20,7 +20,7 @@ RSpec.describe 'Answers: Create', type: :request do
 
   context 'text with file upload references' do
     let(:text) { 'upload://b5f99337-224f-40f5-aa82-44ee8b272579/foo.jpg' }
-    let(:params) { super().merge text: }
+    let(:payload) { super().merge text: }
 
     it 'stores valid upload and creates a new resource' do
       stub_request(

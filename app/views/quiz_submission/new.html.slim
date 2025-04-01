@@ -47,7 +47,7 @@
 
   - unless @item_presenter.survey?
     .col-md-4
-      = render 'quiz_submission/partials/detail_box', submission: @submission_presenter
+      = render 'quiz_submission/partials/detail_box'
 
 / This JS should not be moved right now, since the internationalization causes additional dev overhead (TODO, though)
 - if @item_presenter.graded?

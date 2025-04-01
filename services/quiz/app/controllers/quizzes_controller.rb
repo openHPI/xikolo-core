@@ -91,7 +91,7 @@ class QuizzesController < ApplicationController
   def quiz_ids_for_course(course_id)
     course_api
       .rel(:items)
-      .get(course_id:, content_type: 'quiz')
+      .get({course_id:, content_type: 'quiz'})
       .value!
       .pluck('content_id')
   end

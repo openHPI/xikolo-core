@@ -28,8 +28,9 @@ class Course::ProgressController < Abstract::FrontendController
     Acfs.run
 
     @course_progress = course_api.rel(:progresses)
-      .get(user_id: user.id, course_id: the_course.id)
+      .get({user_id: user.id, course_id: the_course.id})
       .value!
+      .data
 
     set_page_title the_course.title, t(:'courses.nav.progress')
     render(layout: !request.xhr?)

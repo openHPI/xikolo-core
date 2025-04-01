@@ -93,13 +93,13 @@ describe 'List users', type: :request do
         expect(res.as_json.to_struct.map(&:id)).to eq users[0, 10].map(&:id)
         expect(res.response.headers['X_TOTAL_COUNT']).to eq '28'
 
-        res = api.rel(:users).get(**params, page: 2).value!
+        res = api.rel(:users).get({**params, page: 2}).value!
 
         expect(res.size).to eq 10
         expect(res.as_json.to_struct.map(&:id)).to eq users[10, 10].map(&:id)
         expect(res.response.headers['X_TOTAL_COUNT']).to eq '28'
 
-        res = api.rel(:users).get(**params, page: 3).value!
+        res = api.rel(:users).get({**params, page: 3}).value!
 
         expect(res.size).to eq 8
         expect(res.as_json.to_struct.map(&:id)).to eq users[20, 8].map(&:id)

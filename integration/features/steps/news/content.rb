@@ -8,7 +8,7 @@ module Steps
           admin = create_user admin: true
 
           data = {
-            author_id: admin[:id],
+            author_id: admin.fetch('id'),
             publish_at: DateTime.now,
             show_on_homepage: true,
             title: 'Test Title',
@@ -23,15 +23,15 @@ module Steps
         context.with :user do
           admin = create_user admin: true
 
-          Server[:news].api.rel(:announcements).post(
-            author_id: admin[:id],
+          Server[:news].api.rel(:announcements).post({
+            author_id: admin.fetch('id'),
             translations: {
               en: {
                 subject: 'Join our new course on MOOCs!',
                 content: 'You already took our first course - now join the second one.',
               },
-            }
-          ).value!
+            },
+          }).value!
         end
       end
 

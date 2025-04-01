@@ -8,7 +8,7 @@ module Bridges
       def index
         courses = []
         Xikolo.paginate(
-          course_api.rel(:courses).get(hidden: false)
+          course_api.rel(:courses).get({hidden: false})
         ) do |course|
           next if course['invite_only']
 

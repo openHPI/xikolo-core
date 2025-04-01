@@ -3,20 +3,20 @@
 require 'spec_helper'
 
 RSpec.describe 'Calendar Events: Create', type: :request do
-  subject(:create_request) { api.rel(:calendar_events).post(params).value! }
+  subject(:create_request) { api.rel(:calendar_events).post(payload).value! }
 
   let(:api) { Restify.new(:test).get.value! }
 
   let(:collab_space) { create(:collab_space) }
-  let(:params) { {} }
+  let(:payload) { {} }
 
-  context 'with valid params' do
-    let(:params) { attributes_for(:calendar_event, collab_space_id: collab_space.id) }
+  context 'with valid payload' do
+    let(:payload) { attributes_for(:calendar_event, collab_space_id: collab_space.id) }
 
     it { is_expected.to respond_with :created }
 
     it 'returns the calendar event' do
-      expect(create_request['title']).to eq(params[:title])
+      expect(create_request['title']).to eq(payload[:title])
     end
 
     it 'adds a calendar event to the collab space' do
@@ -26,7 +26,7 @@ RSpec.describe 'Calendar Events: Create', type: :request do
     end
   end
 
-  context 'with missing params' do
+  context 'with missing payload' do
     it 'returns all error messages' do
       expect { create_request }.to raise_error(Restify::UnprocessableEntity) do |err|
         expect(err.errors).to eq(
@@ -42,7 +42,7 @@ RSpec.describe 'Calendar Events: Create', type: :request do
   end
 
   context 'with a blank title' do
-    let(:params) do
+    let(:payload) do
       attributes_for(:calendar_event, collab_space_id: collab_space.id, title: '')
     end
 

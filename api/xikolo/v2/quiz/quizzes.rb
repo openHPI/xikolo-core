@@ -46,13 +46,13 @@ module Xikolo
 
           quiz_api = Xikolo.api(:quiz).value!
 
-          quiz_api.rel(:quiz).get(id: UUID(id).to_s).then {|quiz|
-            quiz_api.rel(:quiz_submissions).get(
+          quiz_api.rel(:quiz).get({id: UUID(id).to_s}).then {|quiz|
+            quiz_api.rel(:quiz_submissions).get({
               quiz_id: quiz['id'],
               user_id: current_user.id,
               highest_score: false,
-              newest_first: true
-            ).then {|submissions|
+              newest_first: true,
+            }).then {|submissions|
               quiz['newest_user_submission_id'] = submissions.first['id'] if submissions.first
               quiz
             }

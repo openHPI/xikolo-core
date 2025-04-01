@@ -17,7 +17,7 @@ module Xikolo
         end
 
         def course_dashboard_permission!(course_id)
-          course = course_api.rel(:course).get(id: course_id).value!
+          course = course_api.rel(:course).get({id: course_id}).value!
           in_context course['context_id']
           permission! 'course.dashboard.view'
         end
@@ -31,23 +31,23 @@ module Xikolo
         end
 
         def course_item_stats_permission!(item_id)
-          item = course_api.rel(:item).get(id: item_id).value!
-          course = course_api.rel(:course).get(id: item['course_id']).value!
+          item = course_api.rel(:item).get({id: item_id}).value!
+          course = course_api.rel(:course).get({id: item['course_id']}).value!
           in_context course['context_id']
           permission! 'course.item_stats.show'
         end
 
         def course_item_stats_permission_for_quiz!(quiz_id)
-          item = course_api.rel(:items).get(content_id: quiz_id).value!.first
-          course = course_api.rel(:course).get(id: item['course_id']).value!
+          item = course_api.rel(:items).get({content_id: quiz_id}).value!.first
+          course = course_api.rel(:course).get({id: item['course_id']}).value!
           in_context course['context_id']
           permission! 'course.item_stats.show'
         end
 
         def course_item_stats_permission_for_question!(question_id)
-          question = quiz_api.rel(:question).get(id: question_id).value!
-          item = course_api.rel(:items).get(content_id: question['quiz_id']).value!.first
-          course = course_api.rel(:course).get(id: item['course_id']).value!
+          question = quiz_api.rel(:question).get({id: question_id}).value!
+          item = course_api.rel(:items).get({content_id: question['quiz_id']}).value!.first
+          course = course_api.rel(:course).get({id: item['course_id']}).value!
           in_context course['context_id']
           permission! 'course.item_stats.show'
         end
@@ -65,8 +65,8 @@ module Xikolo
           names.map(&:underscore).all? {|name| available_metrics.include?(name) }
         end
 
-        def fetch_metric(name:, **)
-          return lanalytics_api.rel(:metric).get({name:}.merge(**)) if metrics_available?(name)
+        def fetch_metric(name:, **params)
+          return lanalytics_api.rel(:metric).get({**params, name:}) if metrics_available?(name)
 
           Restify::Promise.fulfilled(nil)
         end
@@ -115,7 +115,7 @@ module Xikolo
               Rails.cache.fetch('statistics/platform/learners_and_enrollments/', expires_in: 1.hour, race_condition_ttl: 1.minute) do
                 Restify::Promise.new([
                   account_api.rel(:statistics).get,
-                  course_api.rel(:stats).get(key: 'global'),
+                  course_api.rel(:stats).get({key: 'global'}),
                 ]) do |account_stats, course_stats|
                   total_enrollments = course_stats['platform_enrollments'] + course_stats['platform_enrollment_delta_sum'] + Xikolo.config.global_enrollment_delta
                   confirmed_users = account_stats['confirmed_users'] + Xikolo.config.global_users_delta
@@ -243,11 +243,11 @@ module Xikolo
             get do
               course_dashboard_permission! params[:course_id]
 
-              course = course_api.rel(:course).get(id: params[:course_id]).value!
+              course = course_api.rel(:course).get({id: params[:course_id]}).value!
               Rails.cache.fetch("statistics/course/#{params[:course_id]}/enrollments/", expires_in: 1.hour, race_condition_ttl: 1.minute) do
                 Restify::Promise.new(
-                  course_api.rel(:stats).get(course_id: params[:course_id], key: 'enrollments'),
-                  course_api.rel(:stats).get(course_id: params[:course_id], key: 'shows_and_no_shows'),
+                  course_api.rel(:stats).get({course_id: params[:course_id], key: 'enrollments'}),
+                  course_api.rel(:stats).get({course_id: params[:course_id], key: 'shows_and_no_shows'}),
                   fetch_metric(name: 'certificates', course_id: params[:course_id]),
                   fetch_metric(name: 'certificates', course_id: params[:course_id], start_date: course['start_date'], end_date: course['end_date']),
                   fetch_metric(name: 'certificates', course_id: params[:course_id], start_date: course['end_date'])
@@ -343,14 +343,14 @@ module Xikolo
                 promises = []
 
                 Xikolo.paginate(
-                  course_api.rel(:items).get(
+                  course_api.rel(:items).get({
                     course_id: params[:course_id],
                     was_available: true,
                     content_type: 'quiz',
-                    exercise_type: types.join(',')
-                  )
+                    exercise_type: types.join(','),
+                  })
                 ) do |quiz|
-                  promises.append quiz_api.rel(:submission_statistic).get(id: quiz['content_id'])
+                  promises.append quiz_api.rel(:submission_statistic).get({id: quiz['content_id']})
                 end
 
                 quiz_stats = Restify::Promise.new(promises).value!
@@ -378,9 +378,9 @@ module Xikolo
 
               Rails.cache.fetch("statistics/course/#{params[:course_id]}/forum/", expires_in: 1.hour, race_condition_ttl: 10.seconds) do
                 Restify::Promise.new(
-                  pinboard_api.rel(:statistic).get(id: params[:course_id]),
-                  fetch_metric(name: 'forum_activity', course_id: params[:course_id]),
-                  fetch_metric(name: 'forum_write_activity', course_id: params[:course_id])
+                  pinboard_api.rel(:statistic).get({id: params[:course_id]}),
+                  fetch_metric({name: 'forum_activity', course_id: params[:course_id]}),
+                  fetch_metric({name: 'forum_write_activity', course_id: params[:course_id]})
                 ) do |forum_statistics, forum_activity, forum_write_activity|
                   {
                     forum_statistics:,
@@ -417,7 +417,7 @@ module Xikolo
               course_dashboard_permission! params[:course_id]
 
               Rails.cache.fetch("statistics/course/#{params[:course_id]}/bookings/", expires_in: 1.hour, race_condition_ttl: 10.seconds) do
-                bookings = course_api.rel(:stats).get(course_id: params[:course_id], key: 'bookings').value!
+                bookings = course_api.rel(:stats).get({course_id: params[:course_id], key: 'bookings'}).value!
                 {
                   proctorings: bookings['proctorings'],
                   reactivations: bookings['reactivations'],
@@ -443,7 +443,7 @@ module Xikolo
               course_dashboard_permission! params[:course_id]
 
               Rails.cache.fetch("statistics/course/#{params[:course_id]}/historic_data/", expires_in: 1.hour, race_condition_ttl: 30.seconds) do
-                course = course_api.rel(:course).get(id: params[:course_id]).value!
+                course = course_api.rel(:course).get({id: params[:course_id]}).value!
 
                 end_date =
                   if course['end_date'].blank? || DateTime.parse(course['end_date']).future?
@@ -452,12 +452,12 @@ module Xikolo
                     DateTime.parse(course['end_date']) + 12.weeks
                   end
 
-                course_statistics = lanalytics_api.rel(:course_statistics).get(
+                course_statistics = lanalytics_api.rel(:course_statistics).get({
                   course_id: params[:course_id],
                   historic_data: true,
                   start_date: course['created_at'],
-                  end_date:
-                ).value!
+                  end_date:,
+                }).value!
 
                 course_statistics.map do |stats|
                   {
@@ -529,13 +529,13 @@ module Xikolo
                   buckets
                 end
 
-                global_stats = account_api.rel(:group).get(id: 'all').value!
-                  .rel(:stats).get(embed: 'user').value!
+                global_stats = account_api.rel(:group).get({id: 'all'}).value!
+                  .rel(:stats).get({embed: 'user'}).value!
 
                 if params[:course_id]
-                  course_stats = course_api.rel(:course).get(id: params[:course_id]).value!
+                  course_stats = course_api.rel(:course).get({id: params[:course_id]}).value!
                     .rel(:students_group).get.value!
-                    .rel(:stats).get(embed: 'user').value!
+                    .rel(:stats).get({embed: 'user'}).value!
                   create_buckets.call(global_stats, course_stats)
                 else
                   create_buckets.call(global_stats, nil)
@@ -579,8 +579,8 @@ module Xikolo
                 expires_in: 6.hours,
                 race_condition_ttl: 10.seconds
               ) do
-                course = course_api.rel(:course).get(id: params[:course_id]).value!
-                course.rel(:students_group).get.value!.rel(:profile_field_stats).get(id: params[:name]).value!
+                course = course_api.rel(:course).get({id: params[:course_id]}).value!
+                course.rel(:students_group).get.value!.rel(:profile_field_stats).get({id: params[:name]}).value!
               end
 
               custom_field.fetch('aggregation').map do |k, v|
@@ -599,7 +599,7 @@ module Xikolo
               Rails.cache.fetch("statistics/dashboard/weekday_activity/#{checksum(for_hash: params)}", expires_in: 6.hours, race_condition_ttl: 10.seconds) do
                 start_date, end_date =
                   if params[:course_id].present?
-                    course = course_api.rel(:course).get(id: params[:course_id]).value!
+                    course = course_api.rel(:course).get({id: params[:course_id]}).value!
 
                     start_date = Time.zone.parse(course['start_date'] || course['created_at'])
 
@@ -684,7 +684,7 @@ module Xikolo
               Rails.cache.fetch("statistics/dashboard/details/daily_activity/#{checksum(for_hash: params)}", expires_in: 30.minutes, race_condition_ttl: 10.seconds) do
                 start_date, end_date =
                   if params[:course_id].present?
-                    course = course_api.rel(:course).get(id: params[:course_id]).value!
+                    course = course_api.rel(:course).get({id: params[:course_id]}).value!
 
                     start_date = Time.zone.parse(course['start_date'] || course['created_at'])
 
@@ -792,17 +792,17 @@ module Xikolo
 
                 items = []
                 Xikolo.paginate(
-                  course_api.rel(:items).get(course_id: params[:course_id])
+                  course_api.rel(:items).get({course_id: params[:course_id]})
                 ) do |item|
                   items << item
                 end
 
                 sections = []
                 Xikolo.paginate(
-                  course_api.rel(:sections).get(
+                  course_api.rel(:sections).get({
                     course_id: params[:course_id],
-                    include_alternatives: true
-                  )
+                    include_alternatives: true,
+                  })
                 ) do |section|
                   sections << section
                 end
@@ -837,7 +837,7 @@ module Xikolo
 
                 items = []
                 Xikolo.paginate(
-                  course_api.rel(:items).get(course_id: params[:course_id])
+                  course_api.rel(:items).get({course_id: params[:course_id]})
                 ) do |item|
                   items << item
                 end
@@ -917,10 +917,10 @@ module Xikolo
                 course_dashboard_permission! params[:course_id]
 
                 if Xikolo.config.beta_features['teaching_team_pinboard_activity']
-                  pinboard_api.rel(:statistics).get(
+                  pinboard_api.rel(:statistics).get({
                     for_teaching_team: true,
-                    course_id: params[:course_id]
-                  ).value
+                    course_id: params[:course_id],
+                  }).value
                 end
               end
             end
@@ -934,10 +934,10 @@ module Xikolo
                 course_dashboard_permission! params[:course_id]
 
                 if Xikolo.config.beta_features['teaching_team_pinboard_activity']
-                  pinboard_api.rel(:statistics).get(
+                  pinboard_api.rel(:statistics).get({
                     most_active: 20,
-                    course_id: params[:course_id]
-                  ).value
+                    course_id: params[:course_id],
+                  }).value
                 end
               end
             end
@@ -977,21 +977,21 @@ module Xikolo
 
               sections = []
               Xikolo.paginate(
-                course_api.rel(:sections).get(
+                course_api.rel(:sections).get({
                   course_id: params[:course_id],
-                  include_alternatives: true
-                )
+                  include_alternatives: true,
+                })
               ) do |section|
                 sections << section
               end
 
               Xikolo.paginate(
-                course_api.rel(:items).get(
+                course_api.rel(:items).get({
                   course_id: params[:course_id],
                   was_available: true,
                   content_type: 'quiz',
-                  exercise_type: types.join(',')
-                )
+                  exercise_type: types.join(','),
+                })
               ) do |quiz|
                 promises.append(
                   quiz:,
@@ -1079,8 +1079,8 @@ module Xikolo
               course_item_stats_permission! params[:id]
 
               course_api
-                .rel(:item).get(id: params[:id]).value!
-                .rel(:statistics).get(only: 'submissions_over_time').value!
+                .rel(:item).get({id: params[:id]}).value!
+                .rel(:statistics).get({only: 'submissions_over_time'}).value!
             end
           end
 
@@ -1091,10 +1091,10 @@ module Xikolo
             get do
               course_item_stats_permission_for_quiz! params[:id]
 
-              quiz_api.rel(:submission_statistic).get(
+              quiz_api.rel(:submission_statistic).get({
                 id: params[:id],
-                only: 'submissions_over_time'
-              ).value!
+                only: 'submissions_over_time',
+              }).value!
             end
           end
 
@@ -1106,7 +1106,7 @@ module Xikolo
             get do
               course_item_stats_permission_for_question! params[:id]
 
-              quiz_api.rel(:submission_question_statistic).get(id: params[:id]).then do |response|
+              quiz_api.rel(:submission_question_statistic).get({id: params[:id]}).then do |response|
                 if params[:exercise_type] == 'survey'
                   response['answers'].sort_by! {|a| a['position'] }
                   response['answers'].each {|a| a['marker_color'] = 'rgb(31, 119, 180, 1)' }
@@ -1128,7 +1128,7 @@ module Xikolo
             get do
               course_item_stats_permission_for_question! params[:id]
 
-              quiz_api.rel(:submission_question_statistic).get(id: params[:id]).then do |response|
+              quiz_api.rel(:submission_question_statistic).get({id: params[:id]}).then do |response|
                 response['answers']['non_unique_answer_texts'] = response['answers']['non_unique_answer_texts'].map do |k, v|
                   title = k.empty? ? '(empty answer)' : k
                   {title:, value: v}
@@ -1146,7 +1146,7 @@ module Xikolo
             get do
               course_item_stats_permission_for_question! params[:id]
 
-              quiz_api.rel(:submission_question_statistic).get(id: params[:id]).value!
+              quiz_api.rel(:submission_question_statistic).get({id: params[:id]}).value!
             end
           end
         end

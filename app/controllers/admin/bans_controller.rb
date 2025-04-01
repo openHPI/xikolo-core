@@ -11,7 +11,7 @@ class Admin::BansController < ApplicationController
       return
     end
 
-    account_api.rel(:user_ban).post({}, user_id: params[:user_id]).value!
+    account_api.rel(:user_ban).post({}, params: {user_id: params[:user_id]}).value!
 
     add_flash_message :success, I18n.t(:'flash.success.user_banned')
     redirect_to user_path(params[:user_id])

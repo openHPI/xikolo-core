@@ -3,10 +3,10 @@
 require 'spec_helper'
 
 RSpec.describe 'Essay Questions: Update', type: :request do
-  subject(:resource) { api.rel(:essay_question).put(params, id: question.id).value! }
+  subject(:resource) { api.rel(:essay_question).put(payload, params: {id: question.id}).value! }
 
   let(:api) { Restify.new(:test).get.value! }
-  let(:params) { {points: 10.0, shuffle_answers: true} }
+  let(:payload) { {points: 10.0, shuffle_answers: true} }
 
   let!(:question) { create(:essay_question) }
 
@@ -35,7 +35,7 @@ RSpec.describe 'Essay Questions: Update', type: :request do
   it { is_expected.to respond_with :no_content }
 
   context 'when setting the question points' do
-    let(:params) { {points: new_points} }
+    let(:payload) { {points: new_points} }
 
     context 'with the old value' do
       let(:new_points) { 10.0 }

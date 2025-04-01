@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'Item: overwrite_time_effort', type: :request do
   subject(:overwrite_effort) do
-    api.rel(:item_overwritten_time_effort).put(attrs, item_id: item.id).value!
+    api.rel(:item_overwritten_time_effort).put(payload, params: {item_id: item.id}).value!
   end
 
   let(:api) { Restify.new(:test).get.value! }
@@ -12,11 +12,11 @@ RSpec.describe 'Item: overwrite_time_effort', type: :request do
   let(:old_time_effort) { 22 }
   let(:new_time_effort) { 55 }
   let(:item) { create(:item, id: item_id, time_effort: old_time_effort) }
-  let(:attrs) { {time_effort: new_time_effort} }
+  let(:payload) { {time_effort: new_time_effort} }
   let(:overwrite_time_effort_operation) { instance_double(Operation) }
 
   context 'w/o time_effort present' do
-    let(:attrs) { super().merge(time_effort: nil) }
+    let(:payload) { super().merge(time_effort: nil) }
 
     it 'responds with 422 Unprocessable Entity' do
       expect { overwrite_effort }.to raise_error(Restify::ClientError) do |error|
@@ -32,14 +32,14 @@ RSpec.describe 'Item: overwrite_time_effort', type: :request do
       Stub.service(:course, item_url: 'http://course.xikolo.tld/items/{id}')
       Stub.request(
         :course, :patch, "/items/#{item.id}",
-        body: hash_including(time_effort: attrs[:time_effort])
+        body: hash_including(time_effort: payload[:time_effort])
       ).to_return Stub.response(status: patch_item_status)
     end
 
     before do
       allow(Item).to receive(:find).with(item.id).and_return(item)
       expect(item).to receive(:overwrite_time_effort).once
-        .with(attrs[:time_effort])
+        .with(payload[:time_effort])
         .and_return overwrite_time_effort_operation
     end
 

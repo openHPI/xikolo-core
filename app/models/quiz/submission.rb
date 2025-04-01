@@ -8,7 +8,7 @@ module Quiz
       def find(id)
         from_restify(
           Xikolo.api(:quiz).value!
-            .rel(:quiz_submission).get(id:).value!
+            .rel(:quiz_submission).get({id:}).value!
         )
       end
 

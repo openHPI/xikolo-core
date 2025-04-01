@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Quiz: Destroy', type: :request do
-  subject(:destroy) { api.rel(:quiz).delete(id: quiz.id).value! }
+  subject(:destroy) { api.rel(:quiz).delete({id: quiz.id}).value! }
 
   let(:api) { Restify.new(:test).get.value! }
   let!(:quiz) { create(:quiz, instructions: 's3://xikolo-quiz/quizzes/1/1/test.jpg') }

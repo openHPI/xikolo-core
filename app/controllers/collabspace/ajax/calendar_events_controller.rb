@@ -13,7 +13,7 @@ module Collabspace
       def index
         events = collabspace_api
           .rel(:calendar_events)
-          .get(collab_space_id: params[:learning_room_id])
+          .get({collab_space_id: params[:learning_room_id]})
           .value!
 
         @events = events.map {|event| CalendarEventPresenter.create(event, view_context) }
@@ -28,7 +28,7 @@ module Collabspace
           :all_day
         ).to_h
 
-        collabspace_api.rel(:calendar_event).patch(data, id: params[:id]).value!
+        collabspace_api.rel(:calendar_event).patch(data, params: {id: params[:id]}).value!
 
         head :ok
       end

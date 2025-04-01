@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe 'Channel: update of logo', type: :request do
   subject(:action) do
-    api.rel(:channel).patch({logo_upload_id: upload_id}, {id: channel.id}).value!
+    api.rel(:channel).patch({logo_upload_id: upload_id}, params: {id: channel.id}).value!
   end
 
   let(:api) { Restify.new(:test).get.value }

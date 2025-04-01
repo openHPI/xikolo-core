@@ -20,7 +20,7 @@ class Filter < ApplicationRecord
 
   def check_profile_field(user_id, _)
     profile = Xikolo.api(:account).value!
-      .rel(:user).get(id: user_id).value!
+      .rel(:user).get({id: user_id}).value!
       .rel(:profile).get.value!
 
     field = profile['fields'].find do |f|
@@ -64,9 +64,9 @@ class Filter < ApplicationRecord
     @complex_queries ||=
       {'enrollments' =>
            proc do |filter, user_id, _|
-             enrollments = Xikolo.api(:course).value!.rel(:enrollments).get(
-               user_id:
-             ).value!
+             enrollments = Xikolo.api(:course).value!.rel(:enrollments).get({
+               user_id:,
+             }).value!
              filter.check enrollments.size, int: true
            end}
   end

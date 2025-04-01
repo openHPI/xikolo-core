@@ -122,7 +122,7 @@ class NewsController < ApplicationController
 
   def course_ids_for(user_id)
     Xikolo.api(:course).value!
-      .rel(:enrollments).get(user_id:).value!
+      .rel(:enrollments).get({user_id:}).value!
       .pluck('course_id')
   end
 

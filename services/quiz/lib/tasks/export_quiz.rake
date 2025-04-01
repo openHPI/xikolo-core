@@ -44,7 +44,7 @@ namespace :xikolo do
 
       sections = []
       Xikolo.paginate(
-        course_api.rel(:sections).get(course_id: @course_id)
+        course_api.rel(:sections).get({course_id: @course_id})
       ) do |section|
         sections.push section['id']
       end
@@ -53,7 +53,7 @@ namespace :xikolo do
       quizzes = []
       sections.each do |section|
         Xikolo.paginate(
-          course_api.rel(:items).get(section_id: section, content_type: 'quiz')
+          course_api.rel(:items).get({section_id: section, content_type: 'quiz'})
         ) do |item|
           item_tmp = {}
           exercise_type = item['exercise_type'].presence || 'survey'

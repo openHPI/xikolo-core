@@ -173,10 +173,10 @@ module Xikolo
           course =
             block_access_by('id') do
               if filters['course_id']
-                course_api.rel(:course).get(id: filters['course_id']).value!
+                course_api.rel(:course).get({id: filters['course_id']}).value!
               elsif filters['section_id']
-                section = course_api.rel(:section).get(id: filters['section_id']).value!
-                course_api.rel(:course).get(id: section['course_id']).value!
+                section = course_api.rel(:section).get({id: filters['section_id']}).value!
+                course_api.rel(:course).get({id: section['course_id']}).value!
               end
             end
 
@@ -208,8 +208,8 @@ module Xikolo
 
             # set context before current_user is accessed / authenticate is called
             # required to check if time_effort is enabled
-            item = course_api.rel(:item).get(id: UUID(id).to_s).value!
-            course = course_api.rel(:course).get(id: item['course_id']).value!
+            item = course_api.rel(:item).get({id: UUID(id).to_s}).value!
+            course = course_api.rel(:course).get({id: item['course_id']}).value!
 
             in_context course['context_id']
 
@@ -220,7 +220,7 @@ module Xikolo
 
             course_api
               .rel(:item)
-              .get(id: UUID(id).to_s, embed: 'user_visit', user_id: current_user.id)
+              .get({id: UUID(id).to_s, embed: 'user_visit', user_id: current_user.id})
               .value!
               .tap {|i| Xikolo::V2::Courses::Items.sanitize_time_effort(i, current_user) }
           end
@@ -231,8 +231,8 @@ module Xikolo
 
           # set context before current_user is accessed / authenticate is called
           # required to check if time_effort is enabled
-          item = course_api.rel(:item).get(id:).value!
-          course = course_api.rel(:course).get(id: item['course_id']).value!
+          item = course_api.rel(:item).get({id:}).value!
+          course = course_api.rel(:course).get({id: item['course_id']}).value!
 
           in_context course['context_id']
 
@@ -246,7 +246,7 @@ module Xikolo
             course_api
               .rel(:item_user_visit).post(
                 {},
-                {
+                params: {
                   user_id: current_user.id,
                   item_id: id,
                 }
@@ -255,7 +255,7 @@ module Xikolo
 
           course_api
             .rel(:item)
-            .get(id:, embed: 'user_visit', user_id: current_user.id)
+            .get({id:, embed: 'user_visit', user_id: current_user.id})
             .value!
             .tap {|i| Xikolo::V2::Courses::Items.sanitize_time_effort(i, current_user) }
         end

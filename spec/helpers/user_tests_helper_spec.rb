@@ -56,7 +56,7 @@ describe UserTestsHelper, type: :helper do
       let!(:assignment_stub) do
         Stub.request(
           :grouping, :post, '/user_assignment',
-          query: {user_id: ''},
+          query: {user_id: nil},
           body: {identifier:}
         ).to_return Stub.json({
           features: {
@@ -93,7 +93,7 @@ describe UserTestsHelper, type: :helper do
         let!(:assignment_stub) do
           Stub.request(
             :grouping, :post, '/user_assignment',
-            query: {user_id: ''},
+            query: {user_id: nil},
             body: {identifier:}
           ).to_return Stub.json({features: {}})
         end
@@ -119,7 +119,7 @@ describe UserTestsHelper, type: :helper do
       let!(:assignment_stub) do
         Stub.request(
           :grouping, :post, '/user_assignment',
-          query: {user_id: ''},
+          query: {user_id: nil},
           body: {identifier:, exclude_groups: excluded_groups}
         ).to_return Stub.json({features: {'my_flipper.new_functionality': true}})
       end

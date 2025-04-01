@@ -24,30 +24,30 @@ module Xikolo
           news_list = if params[:course]
                         Xikolo.api(:course).value!
                           .rel(:course)
-                          .get(id: params[:course])
+                          .get({id: params[:course]})
                           .then do |course|
-                            news_index.get(
+                            news_index.get({
                               course_id: course['id'],
                               global_read_count: true,
-                              per_page: 10
-                            )
+                              per_page: 10,
+                            })
                           end
                       elsif params[:global]
-                        news_index.get(
+                        news_index.get({
                           global: true,
                           global_read_count: true,
-                          per_page: 5
-                        )
+                          per_page: 5,
+                        })
                       else
-                        news_index.get(
+                        news_index.get({
                           all_courses: true,
                           global_read_count: true,
-                          per_page: 5
-                        )
+                          per_page: 5,
+                        })
                       end.value!
 
           statistics = news_list.map do |news|
-            mail_log_stats.get(news_id: news.id).then do |stats|
+            mail_log_stats.get({news_id: news.id}).then do |stats|
               state = if stats['count'].positive? && (stats['count'] >= news['receivers'] - 10)
                         'sent'
                       elsif stats['count'].positive? && stats['newest'] < 10.minutes.ago
@@ -59,7 +59,7 @@ module Xikolo
               course_title = if (cid = news['course_id'])
                                Xikolo.api(:course).value!
                                  .rel(:course)
-                                 .get(id: cid)
+                                 .get({id: cid})
                                  .value!['title']
                              else
                                ''

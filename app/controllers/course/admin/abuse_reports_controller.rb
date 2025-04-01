@@ -12,10 +12,10 @@ class Course::Admin::AbuseReportsController < Abstract::FrontendController
     Acfs.run # load course entities
 
     Xikolo.paginate(
-      Xikolo.api(:pinboard).value!.rel(:abuse_reports).get(
+      Xikolo.api(:pinboard).value!.rel(:abuse_reports).get({
         open: true,
-        course_id: the_course.id
-      )
+        course_id: the_course.id,
+      })
     ) do |report|
       @abuse_reports << AbuseReportPresenter.new(report)
     end

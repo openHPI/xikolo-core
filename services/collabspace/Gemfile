@@ -17,7 +17,7 @@ gem 'decorate-responder', '~> 2.0'
 gem 'draper', '~> 4.0'
 gem 'paginate-responder', '~> 2.0'
 gem 'responders', '~> 3.0'
-gem 'restify', '~> 1.15'
+gem 'restify', '~> 2.0'
 gem 'will_paginate'
 
 gem 'activerecord-postgres_enum', '~> 2.0'
@@ -40,9 +40,9 @@ gem 'xikolo-sidekiq', path: './gems/xikolo-sidekiq'
 
 gem 'concurrent-ruby', '~> 1.0'
 gem 'mnemosyne-ruby', '~> 2.0'
-gem 'sentry-rails', '~> 5.22.0'
-gem 'sentry-ruby', '~> 5.22.0'
-gem 'sentry-sidekiq', '~> 5.22.0'
+gem 'sentry-rails', '~> 5.23.0'
+gem 'sentry-ruby', '~> 5.23.0'
+gem 'sentry-sidekiq', '~> 5.23.0'
 gem 'telegraf', '~> 3.0'
 
 group :development, :test do

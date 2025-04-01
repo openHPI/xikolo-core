@@ -64,7 +64,7 @@ shared_examples 'deletes the stage visual' do
 end
 
 RSpec.describe 'Courses: Update with stage visual', type: :request do
-  subject(:update_course) { api.rel(:course).patch(update_params, id: course.id).value! }
+  subject(:update_course) { api.rel(:course).patch(data, params: {id: course.id}).value! }
 
   let!(:course) { create(:course, initial_params) }
   let(:api) { Restify.new(:test).get.value! }
@@ -96,7 +96,7 @@ RSpec.describe 'Courses: Update with stage visual', type: :request do
     let(:initial_params) { {classifiers: {cluster.id => %w[databases pro-track]}} }
 
     context 'with stage_visual_upload_id' do
-      let(:update_params) do
+      let(:data) do
         {
           title: 'new course title',
           classifiers:,
@@ -174,7 +174,7 @@ RSpec.describe 'Courses: Update with stage visual', type: :request do
     end
 
     context 'with stage_visual_uri' do
-      let(:update_params) do
+      let(:data) do
         {
           title: 'new course title',
           classifiers:,
@@ -246,7 +246,7 @@ RSpec.describe 'Courses: Update with stage visual', type: :request do
     let(:old_store_stub_url) { %r{https://s3.xikolo.de/xikolo-public/courses/[0-9a-zA-Z]+/[0-9a-zA-Z]+/#{file_name}} }
 
     context 'with stage_visual_upload_id' do
-      let(:update_params) { {stage_visual_upload_id: upload_id} }
+      let(:data) { {stage_visual_upload_id: upload_id} }
 
       before do
         stub_request(:get, "https://s3.xikolo.de/xikolo-uploads?list-type=2&prefix=uploads%2F#{upload_id}")
@@ -323,7 +323,7 @@ RSpec.describe 'Courses: Update with stage visual', type: :request do
     end
 
     context 'with stage_visual_uri' do
-      let(:update_params) { {stage_visual_upload_id: upload_id, stage_visual_uri: "upload://#{upload_id}/#{new_file}"} }
+      let(:data) { {stage_visual_upload_id: upload_id, stage_visual_uri: "upload://#{upload_id}/#{new_file}"} }
 
       before do
         stub_request(:head, store_stub_url).and_return(status: 404)
@@ -383,7 +383,7 @@ RSpec.describe 'Courses: Update with stage visual', type: :request do
       end
 
       context 'when the stage_visual_uri is nil' do
-        let(:update_params) { {stage_visual_upload_id: upload_id, stage_visual_uri: nil} }
+        let(:data) { {stage_visual_upload_id: upload_id, stage_visual_uri: nil} }
 
         include_examples 'deletes the stage visual'
       end

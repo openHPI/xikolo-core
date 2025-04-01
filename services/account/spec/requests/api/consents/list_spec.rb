@@ -13,15 +13,17 @@ describe 'List consents', type: :request do
   it { is_expected.to respond_with :ok }
 
   it 'responds with a list of consents' do
-    expect(resource).to contain_exactly(an_object_having_attributes(
-      'name' => consents[0].treatment.name,
-      'required' => false,
-      'consented' => true
-    ), an_object_having_attributes(
-      'name' => consents[1].treatment.name,
-      'required' => false,
-      'consented' => true
-    ))
+    expect(resource).to contain_exactly(
+      hash_including(
+        'name' => consents[0].treatment.name,
+        'required' => false,
+        'consented' => true
+      ), hash_including(
+        'name' => consents[1].treatment.name,
+        'required' => false,
+        'consented' => true
+      )
+    )
   end
 
   context 'with external consent' do
@@ -30,9 +32,9 @@ describe 'List consents', type: :request do
     before { create(:consent, user:, treatment:) }
 
     it 'has an external consent url' do
-      expect(resource).to include an_object_having_attributes(
-        name: 'external_treatment',
-        external_consent_url: 'https://example.com/consents'
+      expect(resource).to include hash_including(
+        'name' => 'external_treatment',
+        'external_consent_url' => 'https://example.com/consents'
       )
     end
   end

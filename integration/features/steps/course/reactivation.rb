@@ -4,7 +4,10 @@ module Steps
   module Reactivation
     Given 'the archived course allows reactivation' do
       context.with :archived_course do |course|
-        Server[:course].api.rel(:course).patch({on_demand: true}, {id: course['id']}).value!
+        Server[:course].api.rel(:course).patch(
+          {on_demand: true},
+          params: {id: course['id']}
+        ).value!
       end
     end
 
@@ -13,7 +16,6 @@ module Steps
         Addressable::URI.parse(Server[:web].url).join('bridges/shop/vouchers')
       ).post(
         {product: 'course_reactivation', qty: 1, country: 'DE'},
-        {},
         headers: {'Authorization' => 'Bearer secret_token'}
       ).value!
 

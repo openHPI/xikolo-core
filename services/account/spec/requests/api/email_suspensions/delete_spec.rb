@@ -9,7 +9,7 @@ describe 'EmailSuspensions: Destroy', type: :request do
   let(:user)  { email.user }
 
   let(:api)           { Restify.new(:test).get.value! }
-  let(:restify_user)  { api.rel(:user).get(id: user).value! }
+  let(:restify_user)  { api.rel(:user).get({id: user}).value! }
   let(:restify_email) { restify_user.rel(:emails).get.value!.first }
 
   before do

@@ -116,7 +116,7 @@ class SectionsController < Abstract::FrontendController
 
     raise ActionController::Forbidden unless section.destroyable?
 
-    course_service.rel(:section).delete(id: section.id).value!
+    course_service.rel(:section).delete({id: section.id}).value!
 
     redirect_to course_sections_url, notice: t(:'flash.notice.section_deleted')
   end

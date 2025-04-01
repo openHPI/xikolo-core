@@ -3,10 +3,10 @@
 require 'spec_helper'
 
 describe 'Users: Features: Delete', type: :request do
-  subject(:resource) { base.rel(:features).delete(name: features[2].name).value! }
+  subject(:resource) { base.rel(:features).delete({name: features[2].name}).value! }
 
   let(:api) { Restify.new(:test).get.value! }
-  let(:base) { api.rel(:user).get(id: user).value! }
+  let(:base) { api.rel(:user).get({id: user}).value! }
   let(:user) { create(:user) }
 
   let!(:features) do

@@ -29,14 +29,14 @@ class Home::GoController < Abstract::FrontendController
   end
 
   def pinboard
-    item = course_api.rel(:item).get(id: params[:id]).value!
-    course = course_api.rel(:course).get(id: item['course_id']).value!
+    item = course_api.rel(:item).get({id: params[:id]}).value!
+    course = course_api.rel(:course).get({id: item['course_id']}).value!
 
-    tag = Xikolo.api(:pinboard).value!.rel(:tags).get(
+    tag = Xikolo.api(:pinboard).value!.rel(:tags).get({
       type: 'ImplicitTag',
       course_id: course['id'],
-      name: item['id']
-    ).value!.first
+      name: item['id'],
+    }).value!.first
 
     if tag.present?
       redirect_to course_pinboard_index_path(course_id: course['course_code'], tags: tag['id'])
@@ -88,8 +88,8 @@ class Home::GoController < Abstract::FrontendController
   end
 
   def item_path_params
-    item = course_api.rel(:item).get(id: UUID4(params[:id]).to_uuid).value!
-    course = course_api.rel(:course).get(id: item['course_id']).value!
+    item = course_api.rel(:item).get({id: UUID4(params[:id]).to_uuid}).value!
+    course = course_api.rel(:course).get({id: item['course_id']}).value!
 
     {course_id: course['course_code'], id: UUID4(item['id']).to_param}
   end

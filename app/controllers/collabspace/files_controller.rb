@@ -19,7 +19,7 @@ module Collabspace
         memberships: user_memberships
       )
 
-      files = collabspace.rel(:files).get(per_page:, page: current_page).value!
+      files = collabspace.rel(:files).get({per_page:, page: current_page}).value!
       @files = Collabspace::FilesListPresenter.new files, current_user, collabspace
       @new_file = Collabspace::FileForm.new
 
@@ -37,11 +37,11 @@ module Collabspace
       file = form.to_resource
       upload_name = params.dig('collabspace_file', 'file_upload_name')
 
-      collabspace.rel(:files).post(
+      collabspace.rel(:files).post({
         title: upload_name,
         creator_id: current_user.id,
-        upload_uri: "upload://#{file['file_upload_id']}/#{upload_name}"
-      ).value!
+        upload_uri: "upload://#{file['file_upload_id']}/#{upload_name}",
+      }).value!
 
       redirect_to action: :index
     rescue Restify::ClientError
@@ -77,11 +77,11 @@ module Collabspace
     end
 
     def collabspace
-      @collabspace ||= collabspace_api.rel(:collab_space).get(id: collabspace_id).value!
+      @collabspace ||= collabspace_api.rel(:collab_space).get({id: collabspace_id}).value!
     end
 
     def file
-      @file ||= collabspace_api.rel(:file).get(id: params[:id]).value!
+      @file ||= collabspace_api.rel(:file).get({id: params[:id]}).value!
     end
 
     def authorize_file_deletion!

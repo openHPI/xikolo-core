@@ -103,100 +103,6 @@ describe QuizItemPresenter, type: :presenter do
     end
   end
 
-  describe '#show_proctoring_intro?' do
-    subject { presenter.show_proctoring_intro? }
-
-    context 'with disabled proctoring feature' do
-      it { is_expected.to be false }
-    end
-
-    context 'with enabled proctoring feature' do
-      let(:features) { {'proctoring' => true} }
-
-      it { is_expected.to be false }
-
-      context 'with not graded exam' do
-        let(:item_params) { super().merge exercise_type: 'survey' }
-
-        it { is_expected.to be false }
-      end
-
-      context 'with graded exam' do
-        let(:item_params) { super().merge exercise_type: 'main' }
-
-        context 'with proctoring context enabled' do
-          before do
-            allow(proctoring_context).to receive(:enabled?).and_return(true)
-          end
-
-          it { is_expected.to be true }
-        end
-
-        context 'with proctoring context disabled' do
-          before do
-            allow(proctoring_context).to receive(:enabled?).and_return(false)
-          end
-
-          context 'proctoring context cannot be enabled' do
-            before do
-              allow(proctoring_context).to receive(:can_enable?).and_return(false)
-            end
-
-            it { is_expected.to be false }
-          end
-
-          context 'proctoring_context can be enabled' do
-            before do
-              allow(proctoring_context).to receive(:can_enable?).and_return(true)
-            end
-
-            it { is_expected.to be true }
-          end
-        end
-      end
-    end
-  end
-
-  describe '#proctoring_upgrade_possible?' do
-    subject { presenter.proctoring_upgrade_possible? }
-
-    context 'with disabled proctoring feature' do
-      it { is_expected.to be false }
-    end
-
-    context 'with enabled proctoring feature' do
-      let(:features) { {'proctoring' => true} }
-
-      before do
-        allow(proctoring_context).to receive(:can_enable?).and_return(false)
-      end
-
-      it { is_expected.to be false }
-
-      context 'proctoring context can be enabled' do
-        before do
-          allow(proctoring_context).to receive(:can_enable?).and_return(true)
-        end
-
-        context 'with upgrade not possible' do
-          before do
-            allow(proctoring_context).to receive(:upgrade_possible?).and_return(false)
-          end
-
-          it { is_expected.to be false }
-        end
-
-        context 'with upgrade possible' do
-          before do
-            allow(proctoring_context).to receive(:upgrade_possible?).and_return(true)
-          end
-
-          it { is_expected.to be true }
-        end
-      end
-    end
-  end
-
   describe '#quiz_submittable?' do
     subject { presenter.quiz_submittable? }
 
@@ -228,25 +134,10 @@ describe QuizItemPresenter, type: :presenter do
       context 'with proctoring (item) context enabled' do
         before do
           allow(proctoring_context).to receive(:enabled?).and_return(true)
-          allow(Proctoring::SmowlAdapter).to receive(:new).and_wrap_original do |m, *args|
-            m.call(*args).tap do |adapter|
-              allow(adapter).to receive(:registration_status).and_return(
-                Proctoring::RegistrationStatus.new(registration_status)
-              )
-            end
-          end
         end
 
         context 'with proctoring service unavailable' do
-          let(:registration_status) { nil }
-
           it { is_expected.to be false }
-        end
-
-        context 'with proctoring service available' do
-          let(:registration_status) { :complete }
-
-          it { is_expected.to be true }
         end
       end
     end

@@ -5,8 +5,8 @@ class UsersController < Abstract::FrontendController
   before_action :ensure_logged_in
 
   def show
-    user = account_api.rel(:user).get(id: params[:id]).value!
-    teacher = course_api.rel(:teachers).get(user_id: params[:id]).value!.first
+    user = account_api.rel(:user).get({id: params[:id]}).value!
+    teacher = course_api.rel(:teachers).get({user_id: params[:id]}).value!.first
 
     @profile = UserProfilePresenter.new(current_user, UserPresenter.new(user))
     @teacher = Course::TeacherListPresenter::TeacherPresenter.new(teacher) if teacher.present?
@@ -17,7 +17,7 @@ class UsersController < Abstract::FrontendController
   def destroy
     authorize! 'account.user.delete' if params[:id] != current_user.id
 
-    account_api.rel(:user).delete(id: params[:id]).value!
+    account_api.rel(:user).delete({id: params[:id]}).value!
 
     if params[:id] == current_user.id
       logout
@@ -32,7 +32,7 @@ class UsersController < Abstract::FrontendController
   def change_user_password
     authorize! 'account.user.change_password'
 
-    account_api.rel(:user).patch({password: password_params[:password]}, {id: params[:id]}).value!
+    account_api.rel(:user).patch({password: password_params[:password]}, params: {id: params[:id]}).value!
 
     add_flash_message :notice, t(:'flash.notice.password_changed')
     redirect_to user_path(id: params[:id])

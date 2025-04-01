@@ -68,14 +68,25 @@ class DocumentsListPresenter < PrivatePresenter
   end
 
   class DocumentPresenter < PrivatePresenter
-    def_delegators :@document, :id, :title, :description, :tags, :localizations
+    def_restify_delegators :@document, :id, :title, :description, :tags
 
     def courses
-      @document.course_ids.map do |course_id|
+      @document.fetch('course_ids').map do |course_id|
         course = @courses.find {|c| c['id'] == course_id }
         course ? course['title'] : course_id
       end
     end
+
+    def localizations
+      @document['localizations'].map do |loc|
+        Localization.new(
+          I18nData.languages(I18n.locale).fetch(loc.fetch('language').upcase),
+          loc.fetch('file_url')
+        )
+      end
+    end
+
+    Localization = Struct.new(:title, :file_url)
   end
 
   class DocumentListFilter

@@ -4,17 +4,16 @@ class AdminStatistic
   attr_reader :course_stats
 
   def initialize
-    @platform_course_stats_promise = course_api.rel(:stats).get(key: 'global')
-
+    @platform_course_stats_promise = course_api.rel(:stats).get({key: 'global'})
     @platform_user_stats_promise = account_api.rel(:statistics).get
-
-    @platform_certificate_stats_promise = lanalytics_api.rel(:metric).get(name: 'certificates')
+    @platform_certificate_stats_promise = lanalytics_api.rel(:metric).get({name: 'certificates'})
 
     # Load all course stats
     # We do not parallelize these requests, as that tends to overload the lanalytics
     # service and result in timeouts (many courses, many requests)
     @course_stats = courses.filter_map do |course|
-      lanalytics_api.rel(:course_statistic).get(id: course['id']).value!
+      stats = lanalytics_api.rel(:course_statistic).get({id: course['id']}).value!
+      CourseStats.new(stats)
     rescue Restify::NotFound
       # Course stats for newly published courses may not have been calculated yet.
       nil
@@ -61,7 +60,7 @@ class AdminStatistic
     @courses ||= begin
       courses = []
       Xikolo.paginate(
-        course_api.rel(:courses).get(groups: 'any')
+        course_api.rel(:courses).get({groups: 'any'})
       ) do |course|
         next if course['status'] == 'preparation' || course['external_course_url'].present?
 

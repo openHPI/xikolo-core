@@ -15,13 +15,13 @@ describe 'Marking a question sticky', type: :request do
 
   it 'changes the order' do
     questions = Restify.new(:test).get.value!
-      .rel(:questions).get(course_id:).value!
+      .rel(:questions).get({course_id:}).value!
     expect(questions.pluck('id')).to eq old_order
 
     question3.update sticky: true
 
     questions = Restify.new(:test).get.value!
-      .rel(:questions).get(course_id:).value!
+      .rel(:questions).get({course_id:}).value!
     expect(questions.pluck('id')).to eq new_order
   end
 end

@@ -67,8 +67,8 @@ class Admin::UserTestForm < XUI::Form
   def initialize(*)
     super
 
-    @metrics_promise = Xikolo.api(:grouping).value!.rel(:metrics).get(available: true)
-    @courses_promise = Xikolo.api(:course).value!.rel(:courses).get(groups: 'any', per_page: 250)
+    @metrics_promise = Xikolo.api(:grouping).value!.rel(:metrics).get({available: true})
+    @courses_promise = Xikolo.api(:course).value!.rel(:courses).get({groups: 'any', per_page: 250})
   end
 
   class FilterString
@@ -109,7 +109,7 @@ class Admin::UserTestForm < XUI::Form
     return unless valid?
 
     if persisted?
-      grouping_api.rel(:user_test).patch(to_resource, id: id.to_s).value!
+      grouping_api.rel(:user_test).patch(to_resource, params: {id: id.to_s}).value!
     else
       grouping_api.rel(:user_tests).post(to_resource).value!
     end

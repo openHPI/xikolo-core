@@ -16,11 +16,11 @@ class Admin::UserTestsController < Abstract::FrontendController
   def show
     authorize! 'grouping.user_test.export'
 
-    user_test = Xikolo.api(:grouping).value!.rel(:user_test).get(
+    user_test = Xikolo.api(:grouping).value!.rel(:user_test).get({
       id: params[:id],
       statistics: true,
-      export: params[:format] == 'csv'
-    ).value!
+      export: params[:format] == 'csv',
+    }).value!
 
     respond_to do |format|
       format.html { @user_test = UserTestPresenter.create(user_test, get_dependent: true) }
@@ -84,7 +84,7 @@ class Admin::UserTestsController < Abstract::FrontendController
   def destroy
     authorize! 'grouping.user_test.manage'
 
-    Xikolo.api(:grouping).value!.rel(:user_test).delete(id: params[:id]).value!
+    Xikolo.api(:grouping).value!.rel(:user_test).delete({id: params[:id]}).value!
     add_flash_message :success, t(:'flash.success.user_test_deleted')
     redirect_to user_tests_path
   rescue Restify::ClientError
@@ -96,6 +96,6 @@ class Admin::UserTestsController < Abstract::FrontendController
 
   def user_test
     @user_test ||= Xikolo.api(:grouping).value!
-      .rel(:user_test).get(id: params[:id]).value!
+      .rel(:user_test).get({id: params[:id]}).value!
   end
 end

@@ -4,7 +4,7 @@ require 'spec_helper'
 
 RSpec.describe 'Collab Space: Files: List', type: :request do
   subject(:list) do
-    api.rel(:collab_space).get(id: collab_space.id).value
+    api.rel(:collab_space).get({id: collab_space.id}).value!
       .rel(:files).get.value!
   end
 

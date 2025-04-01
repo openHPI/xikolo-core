@@ -10,7 +10,7 @@ require 'midi-smtp-server'
 
 module CapybaraEMail
   def fetch_emails(opts = {})
-    recipient = opts.fetch(:to) { context.fetch(:user)[:email] }
+    recipient = opts.fetch(:to) { context.fetch(:user).fetch('email') }
     subject = opts.fetch(:subject, nil)
     timeout = Integer opts.fetch(:timeout, 45)
     counter = 0

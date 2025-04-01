@@ -15,9 +15,9 @@ gem 'syslog'
 
 gem 'concurrent-ruby', '~> 1.0'
 gem 'mnemosyne-ruby', '~> 2.0'
-gem 'sentry-rails', '~> 5.22.0'
-gem 'sentry-ruby', '~> 5.22.0'
-gem 'sentry-sidekiq', '~> 5.22.0'
+gem 'sentry-rails', '~> 5.23.0'
+gem 'sentry-ruby', '~> 5.23.0'
+gem 'sentry-sidekiq', '~> 5.23.0'
 gem 'telegraf', '~> 3.0'
 
 # API
@@ -27,7 +27,7 @@ gem 'groupdate', '~> 6.0'
 gem 'paginate-responder', '~> 2.0'
 gem 'rails-rfc6570', '~> 3.0'
 gem 'responders'
-gem 'restify', '~> 1.15'
+gem 'restify', '~> 2.0'
 gem 'will_paginate'
 
 # Xikolo

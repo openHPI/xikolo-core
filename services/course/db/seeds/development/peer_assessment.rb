@@ -46,15 +46,5 @@ user_ids = %w[
 ]
 
 user_ids.each do |user_id|
-  course.enrollments.create!(
-    user_id:,
-    role: 'student'
-  )
+  course.enrollments.create!(user_id:)
 end
-
-# Admin
-
-course.enrollments.create!(
-  user_id: '00000001-3100-4444-9999-000000000002',
-  role: 'teacher'
-)

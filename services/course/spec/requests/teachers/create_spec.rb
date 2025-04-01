@@ -3,10 +3,10 @@
 require 'spec_helper'
 
 describe 'Teacher: creating new ones', type: :request do
-  subject(:action) { api.rel(:teachers).post(create_params).value! }
+  subject(:action) { api.rel(:teachers).post(data).value! }
 
   let(:api) { Restify.new(:test).get.value }
-  let(:create_params) do
+  let(:data) do
     {
       id: generate(:user_id),
       name: 'This is a text',
@@ -18,7 +18,7 @@ describe 'Teacher: creating new ones', type: :request do
   end
 
   context 'with valid parameters' do
-    let(:create_params) do
+    let(:data) do
       {
         id: generate(:user_id),
         name: 'This is a text',
@@ -37,7 +37,7 @@ describe 'Teacher: creating new ones', type: :request do
   end
 
   context 'with empty description' do
-    let(:create_params) do
+    let(:data) do
       {
         id: generate(:user_id),
         name: 'This is a text',
@@ -63,7 +63,7 @@ describe 'Teacher: creating new ones', type: :request do
 
   context 'no user_id given' do
     let(:teacher_id) { generate(:user_id) }
-    let(:create_params) do
+    let(:data) do
       {
         id: teacher_id,
         name: 'This is a text',
@@ -83,7 +83,7 @@ describe 'Teacher: creating new ones', type: :request do
 
   context 'user_id given' do
     let(:user_id) { generate(:user_id) }
-    let(:create_params) do
+    let(:data) do
       {
         id: generate(:user_id),
         name: 'This is a text',
@@ -103,7 +103,7 @@ describe 'Teacher: creating new ones', type: :request do
   end
 
   context 'user_id is nil' do
-    let(:create_params) do
+    let(:data) do
       {
         id: generate(:user_id),
         name: 'This is a text',

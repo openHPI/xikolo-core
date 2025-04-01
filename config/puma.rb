@@ -36,7 +36,7 @@ port ENV.fetch('PORT', 3000)
 # Workers do not work on JRuby or Windows (both of which do not support
 # processes).
 #
-workers ENV.fetch('WORKERS', 2)
+workers ENV.fetch('WORKERS', 0)
 
 # Specify the PID file. Defaults to tmp/pids/server.pid in development.
 # In other environments, only set the PID file if requested.

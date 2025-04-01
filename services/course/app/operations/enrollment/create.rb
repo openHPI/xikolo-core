@@ -53,7 +53,6 @@ class Enrollment::Create < ApplicationOperation
   end
 
   def update_fields!
-    enrollment.role = 'student'
     enrollment.proctored = params[:proctored] unless params[:proctored].nil?
     enrollment.deleted = false
     enrollment.save!

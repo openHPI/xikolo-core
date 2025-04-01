@@ -106,7 +106,7 @@ class DashboardController < Abstract::FrontendController
   def load_sidebar_content!
     @my_promoted = fetch_promoted_courses
 
-    next_dates = Xikolo.api(:course).value!.rel(:next_dates).get(user_id: current_user.id)
+    next_dates = Xikolo.api(:course).value!.rel(:next_dates).get({user_id: current_user.id})
 
     Acfs.run
 

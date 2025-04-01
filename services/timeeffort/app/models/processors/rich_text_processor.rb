@@ -15,7 +15,7 @@ module Processors
 
       @rich_text = Xikolo.api(:course).value!
         .rel(:richtext)
-        .get(id: item.content_id)
+        .get({id: item.content_id})
         .value!
     rescue Restify::NotFound
       raise Errors::LoadResourcesError

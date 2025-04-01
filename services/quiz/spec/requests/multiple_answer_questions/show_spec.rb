@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Multiple Answer Questions: Show', type: :request do
-  subject { api.rel(:multiple_answer_question).get(id: question.id).value! }
+  subject { api.rel(:multiple_answer_question).get({id: question.id}).value! }
 
   let(:api) { Restify.new(:test).get.value! }
 

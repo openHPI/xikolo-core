@@ -4,10 +4,10 @@ module Xikolo
   module Model
     class CourseRepository
       def courses_for(user, course_id)
-        courses = course_api.rel(:courses).get(
+        courses = course_api.rel(:courses).get({
           per_page: 100,
-          user_id: user.id
-        ).value!
+          user_id: user.id,
+        }).value!
         if course_id.present?
           courses.select {|c| c['id'] == course_id }
         else

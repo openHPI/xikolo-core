@@ -22,6 +22,7 @@ describe 'Daily Statistic Mails', type: :feature do
       group_url: 'http://localhost:3100/groups/{id}',
       statistics_url: 'http://localhost:3100/statistic'
     )
+
     Stub.request(
       :account, :get, '/groups/course.futcode.admins'
     ).to_return Stub.json({
@@ -29,6 +30,7 @@ describe 'Daily Statistic Mails', type: :feature do
       description: 'Course Admins of course futcode',
       members_url: 'http://localhost:3100/groups/course.futcode.admins/members',
     })
+
     Stub.request(
       :account, :get, '/groups/course.futcode.admins/members'
     ).to_return Stub.json([
@@ -40,6 +42,7 @@ describe 'Daily Statistic Mails', type: :feature do
         preferences_url: 'http://localhost:3100/users/00000001-3100-4444-9999-000000000003/preferences',
       },
     ])
+
     Stub.request(
       :account, :get, '/groups/course.aff.admins'
     ).to_return Stub.json({
@@ -47,6 +50,7 @@ describe 'Daily Statistic Mails', type: :feature do
       description: 'Course Admins of course aff',
       members_url: 'http://localhost:3100/groups/course.aff.admins/members',
     })
+
     Stub.request(
       :account, :get, '/groups/course.aff.admins/members'
     ).to_return Stub.json([
@@ -58,12 +62,14 @@ describe 'Daily Statistic Mails', type: :feature do
         preferences_url: 'http://localhost:3100/users/00000001-3100-4444-9999-000000000003/preferences',
       },
     ])
+
     Stub.request(
       :account, :get, '/users/00000001-3100-4444-9999-000000000003/preferences'
     ).to_return Stub.json({
       user_id: '00000001-3100-4444-9999-000000000003',
       properties: {'notification.email.stats' => 'true', 'notification.email.global' => 'true'},
     })
+
     Stub.request(
       :account, :get, '/statistic'
     ).to_return Stub.json({
@@ -77,6 +83,7 @@ describe 'Daily Statistic Mails', type: :feature do
       courses_url: 'http://localhost:3300/courses',
       stats_url: 'http://localhost:3300/stats'
     )
+
     Stub.request(
       :course, :get, '/courses',
       query: {groups: 'any'}
@@ -85,6 +92,7 @@ describe 'Daily Statistic Mails', type: :feature do
       {id: course_id2, title: 'Course in Preparation', status: 'preparation'},
       {id: course_id3, course_code: 'aff', title: 'Company Course', affiliated: true, status: 'active', start_date: DateTime.now - 4.days},
     ])
+
     Stub.request(
       :course, :get, '/stats',
       query: {key: 'global'}
@@ -100,135 +108,165 @@ describe 'Daily Statistic Mails', type: :feature do
       course_statistic_url: 'http://localhost:5900/course_statistics/{id}',
       metric_url: 'http://localhost:5900/metrics/{name}'
     )
+
     Stub.request(
       :learnanalytics, :get, "/course_statistics/#{course_id1}"
-    ).to_return Stub.json({
+    ).to_return Stub.json(CourseStats.verify({
       id: '00d6833d-d75c-4f64-813f-5d312bd7e686',
       course_code: 'futcode',
       course_id: course_id1,
       course_status: 'active',
-      total_enrollments: 0,
-      no_shows: 0,
-      no_shows_at_middle: 0,
-      no_shows_at_end: 0,
-      shows: 0,
-      shows_at_middle: 0,
-      shows_at_end: 0,
-      current_enrollments: 0,
-      enrollments_last_day: 0,
-      enrollments_at_course_start: 0,
-      enrollments_at_course_start_netto: 0,
-      enrollments_at_course_middle: 0,
-      enrollments_at_course_middle_netto: 0,
-      enrollments_at_course_end: 0,
-      enrollments_at_course_end_netto: 0,
-      posts: 0,
-      posts_last_day: 0,
-      threads: 0,
-      threads_last_day: 0,
-      roa_count: 0,
-      helpdesk_tickets: 0,
-      helpdesk_tickets_last_day: 0,
       start_date: 4.days.from_now,
       end_date: 12.days.from_now,
-      new_users: 0,
       created_at: '2016-09-14T09:11:53.781Z',
       updated_at: '2016-09-14T11:29:57.596Z',
+
+      active_users_last_7days: nil,
+      active_users_last_day: nil,
+      badge_downloads: nil,
+      badge_issues: nil,
+      badge_shares: nil,
       completion_rate: 0.0,
       consumption_rate: 0.0,
+      cop_count: nil, qc_count: nil,
+      current_enrollments: 0,
+      days_since_coursestart: 4,
+      enrollments_at_course_end_netto: 0,
+      enrollments_at_course_end: 0,
+      enrollments_at_course_middle_netto: 0,
+      enrollments_at_course_middle: 0,
+      enrollments_at_course_start_netto: 0,
+      enrollments_at_course_start: 0,
+      enrollments_last_day: 0,
       enrollments_per_day: [0, 3, 0, 0, 0, 0, 0, 0, 0, 0],
+      helpdesk_tickets_last_day: 0,
+      helpdesk_tickets: 0,
+      hidden: false,
+      new_users: 0,
+      no_shows_at_end: 0,
+      no_shows_at_middle: 0,
+      no_shows: 0,
       posts_in_collab_spaces: 0,
       posts_last_day_in_collab_spaces: 0,
+      posts_last_day: 0,
+      posts: 0,
+      roa_count: 0,
+      shows_at_end: 0,
+      shows_at_middle: 0,
+      shows: 0,
       threads_in_collab_spaces: 0,
       threads_last_day_in_collab_spaces: 0,
-      hidden: false,
-    })
+      threads_last_day: 0,
+      threads: 0,
+      total_enrollments: 0
+    }))
+
     Stub.request(
       :learnanalytics, :get, "/course_statistics/#{course_id2}"
-    ).to_return Stub.json({
+    ).to_return Stub.json(CourseStats.verify({
       id: '00d6833d-d75c-4f64-813f-5d312bd7e683',
       course_code: 'prep',
       course_id: course_id2,
       course_status: 'preparation',
-      total_enrollments: 0,
-      no_shows: 0,
-      no_shows_at_middle: 0,
-      no_shows_at_end: 0,
-      shows: 0,
-      shows_at_middle: 0,
-      shows_at_end: 0,
-      current_enrollments: 0,
-      enrollments_last_day: 0,
-      enrollments_at_course_start: 0,
-      enrollments_at_course_start_netto: 0,
-      enrollments_at_course_middle: 0,
-      enrollments_at_course_middle_netto: 0,
-      enrollments_at_course_end: 0,
-      enrollments_at_course_end_netto: 0,
-      posts: 0,
-      posts_last_day: 0,
-      threads: 0,
-      threads_last_day: 0,
-      roa_count: 0,
-      helpdesk_tickets: 0,
-      helpdesk_tickets_last_day: 0,
       start_date: 4.days.from_now,
       end_date: 12.days.from_now,
-      new_users: 0,
       created_at: '2016-09-14T09:11:53.781Z',
       updated_at: '2016-09-14T11:29:57.596Z',
+
+      active_users_last_7days: nil,
+      active_users_last_day: nil,
+      badge_downloads: nil,
+      badge_issues: nil,
+      badge_shares: nil,
       completion_rate: 0.0,
       consumption_rate: 0.0,
+      cop_count: nil,
+      current_enrollments: 0,
+      days_since_coursestart: nil,
+      enrollments_at_course_end_netto: 0,
+      enrollments_at_course_end: 0,
+      enrollments_at_course_middle_netto: 0,
+      enrollments_at_course_middle: 0,
+      enrollments_at_course_start_netto: 0,
+      enrollments_at_course_start: 0,
+      enrollments_last_day: 0,
       enrollments_per_day: [0, 3, 0, 0, 0, 0, 0, 0, 0, 0],
+      helpdesk_tickets_last_day: 0,
+      helpdesk_tickets: 0,
+      hidden: false,
+      new_users: 0,
+      no_shows_at_end: 0,
+      no_shows_at_middle: 0,
+      no_shows: 0,
       posts_in_collab_spaces: 0,
       posts_last_day_in_collab_spaces: 0,
+      posts_last_day: 0,
+      posts: 0,
+      qc_count: nil,
+      roa_count: 0,
+      shows_at_end: 0,
+      shows_at_middle: 0,
+      shows: 0,
       threads_in_collab_spaces: 0,
       threads_last_day_in_collab_spaces: 0,
-      hidden: false,
-    })
+      threads_last_day: 0,
+      threads: 0,
+      total_enrollments: 0,
+    }))
+
     Stub.request(
       :learnanalytics, :get, "/course_statistics/#{course_id3}"
-    ).to_return Stub.json({
+    ).to_return Stub.json(CourseStats.verify({
       id: '00d6833d-d75c-4f64-813f-5d312bd7e682',
       course_code: 'aff',
       course_id: course_id3,
       course_status: 'active',
-      total_enrollments: 0,
-      no_shows: 0,
-      no_shows_at_middle: 0,
-      no_shows_at_end: 0,
-      shows: 0,
-      shows_at_middle: 0,
-      shows_at_end: 0,
-      current_enrollments: 0,
-      enrollments_last_day: 0,
-      enrollments_at_course_start: 0,
-      enrollments_at_course_start_netto: 0,
-      enrollments_at_course_middle: 0,
-      enrollments_at_course_middle_netto: 0,
-      enrollments_at_course_end: 0,
-      enrollments_at_course_end_netto: 0,
-      posts: 0,
-      posts_last_day: 0,
-      threads: 0,
-      threads_last_day: 0,
-      roa_count: 0,
-      helpdesk_tickets: 0,
-      helpdesk_tickets_last_day: 0,
       start_date: 4.days.ago,
       end_date: 2.days.ago,
-      new_users: 0,
       created_at: '2016-09-14T09:11:53.781Z',
       updated_at: '2016-09-14T11:29:57.596Z',
+
+      active_users_last_7days: nil,
+      active_users_last_day: nil,
+      badge_downloads: nil,
+      badge_issues: nil,
+      badge_shares: nil,
       completion_rate: 0.0,
       consumption_rate: 0.0,
+      cop_count: nil,
+      current_enrollments: 0,
+      days_since_coursestart: nil,
+      enrollments_at_course_end_netto: 0,
+      enrollments_at_course_end: 0,
+      enrollments_at_course_middle_netto: 0,
+      enrollments_at_course_middle: 0,
+      enrollments_at_course_start_netto: 0,
+      enrollments_at_course_start: 0,
+      enrollments_last_day: 0,
       enrollments_per_day: [0, 3, 0, 0, 0, 0, 0, 0, 0, 0],
+      helpdesk_tickets_last_day: 0,
+      helpdesk_tickets: 0,
+      hidden: false,
+      new_users: 0,
+      no_shows_at_end: 0,
+      no_shows_at_middle: 0,
+      no_shows: 0,
       posts_in_collab_spaces: 0,
       posts_last_day_in_collab_spaces: 0,
+      posts_last_day: 0,
+      posts: 0,
+      qc_count: nil,
+      roa_count: 0,
+      shows_at_end: 0,
+      shows_at_middle: 0,
+      shows: 0,
       threads_in_collab_spaces: 0,
       threads_last_day_in_collab_spaces: 0,
-      hidden: false,
-    })
+      threads_last_day: 0,
+      threads: 0,
+      total_enrollments: 0,
+    }))
+
     Stub.request(
       :learnanalytics, :get, '/metrics/certificates'
     ).to_return Stub.json({

@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'Role: Update', type: :request do
-  subject(:resource) { api.rel(:role).patch(data, id: data[:name]).value! }
+  subject(:resource) { api.rel(:role).patch(data, params: {id: data[:name]}).value! }
 
   let(:api) { Restify.new(:test).get.value! }
   let(:data) do
@@ -51,7 +51,7 @@ describe 'Role: Update', type: :request do
   end
 
   context 'using PUT method w/ non-existent resource' do
-    subject(:resource) { api.rel(:role).put(data, id: data[:name]).value! }
+    subject(:resource) { api.rel(:role).put(data, params: {id: data[:name]}).value! }
 
     let(:data) { {name: 'xikolo.helpdesk', permissions: []} }
 

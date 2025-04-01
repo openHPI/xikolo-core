@@ -6,7 +6,7 @@ ruby '~> 3.4.0'
 
 # Libraries
 gem 'activesupport', '~> 7.2'
-gem 'restify', '~> 1.15'
+gem 'restify', '~> 2.0'
 gem 'uuid4'
 
 gem 'bigdecimal'

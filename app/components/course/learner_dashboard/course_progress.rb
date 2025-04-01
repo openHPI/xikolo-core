@@ -19,10 +19,10 @@ module Course
                   @course_progress['bonus_exercises'].blank?
 
         achieved_points = [
-          @course_progress.dig('main_exercises', :submitted_points).presence,
-          @course_progress.dig('bonus_exercises', :submitted_points).presence,
+          @course_progress.dig('main_exercises', 'submitted_points').presence,
+          @course_progress.dig('bonus_exercises', 'submitted_points').presence,
         ].compact.sum
-        available_points = @course_progress.dig('main_exercises', :max_points)
+        available_points = @course_progress.dig('main_exercises', 'max_points')
 
         return unless available_points&.positive?
 
@@ -34,8 +34,8 @@ module Course
       def selftest_score
         return if @course_progress['selftest_exercises'].blank?
 
-        achieved_points = @course_progress.dig('selftest_exercises', :submitted_points)
-        available_points = @course_progress.dig('selftest_exercises', :max_points)
+        achieved_points = @course_progress.dig('selftest_exercises', 'submitted_points')
+        available_points = @course_progress.dig('selftest_exercises', 'max_points')
 
         return unless available_points&.positive?
 
@@ -53,16 +53,16 @@ module Course
       end
 
       def items_available
-        @course_progress.dig('visits', :total).presence || 0
+        @course_progress.dig('visits', 'total').presence || 0
       end
 
       def graded_percentage
         @graded_percentage ||= begin
           achieved_points = [
-            @course_progress.dig('main_exercises', :submitted_points).presence,
-            @course_progress.dig('bonus_exercises', :submitted_points).presence,
+            @course_progress.dig('main_exercises', 'submitted_points').presence,
+            @course_progress.dig('bonus_exercises', 'submitted_points').presence,
           ].compact.sum
-          available_points = @course_progress.dig('main_exercises', :max_points)
+          available_points = @course_progress.dig('main_exercises', 'max_points')
 
           calc_progress(achieved_points, available_points)
         end
@@ -70,22 +70,22 @@ module Course
 
       def selftest_percentage
         @selftest_percentage ||= begin
-          achieved_points = @course_progress.dig('selftest_exercises', :submitted_points)
-          available_points = @course_progress.dig('selftest_exercises', :max_points)
+          achieved_points = @course_progress.dig('selftest_exercises', 'submitted_points')
+          available_points = @course_progress.dig('selftest_exercises', 'max_points')
 
           calc_progress(achieved_points, available_points)
         end
       end
 
       def bonus_points
-        points = @course_progress.dig('bonus_exercises', :submitted_points)
+        points = @course_progress.dig('bonus_exercises', 'submitted_points')
         return if points.nil? || points.zero?
 
         points.to_i
       end
 
       def main_points
-        @course_progress.dig('main_exercises', :submitted_points)&.to_i
+        @course_progress.dig('main_exercises', 'submitted_points')&.to_i
       end
 
       private

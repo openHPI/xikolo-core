@@ -36,11 +36,11 @@ namespace :xikolo do
       init 'Creating group and flipper...'
 
       account_service = Xikolo.api(:account).value!
-      account_service.rel(:groups).post(name: @group_name).value
-      account_service.rel(:group).get(id: @group_name).value.rel(:flippers).patch(@group_name => '1').value
+      account_service.rel(:groups).post({name: @group_name}).value
+      account_service.rel(:group).get({id: @group_name}).value.rel(:flippers).patch({@group_name => '1'}).value
 
       results.each do |result|
-        account_service.rel(:memberships).post(user: result['user_id'], group: @group_name).value
+        account_service.rel(:memberships).post({user: result['user_id'], group: @group_name}).value
       end
       inform "Group with #{count} participants and flipper created."
     else

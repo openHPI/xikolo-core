@@ -10,11 +10,11 @@ module Admin
       def index
         authorize_any! 'course.course.index', 'course.document.manage'
 
-        courses = course_api.rel(:courses).get(
+        courses = course_api.rel(:courses).get({
           autocomplete: params[:q],
           offset: params[:offset],
-          limit: 50
-        ).value!
+          limit: 50,
+        }).value!
 
         render json: courses.map {|c| {id: c['id'], text: "#{c['title']} (#{c['course_code']})"} }
       end

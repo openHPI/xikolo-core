@@ -4,10 +4,10 @@ require 'spec_helper'
 
 RSpec.describe 'Statistics: Index: most_active', type: :request do
   subject(:response) do
-    api.rel(:statistics).get(
+    api.rel(:statistics).get({
       most_active: 2,
-      course_id:
-    ).value!
+      course_id:,
+    }).value!
   end
 
   let(:api) { Restify.new(:test).get.value! }

@@ -8,7 +8,7 @@ describe 'Delete user consents', type: :request do
   let(:api) { Restify.new(:test).get.value! }
 
   let(:base) do
-    api.rel(:user).get(id: user).value!.rel(:consents).get.value!.first
+    api.rel(:user).get({id: user}).value!.rel(:consents).get.value!.first
   end
 
   let!(:consent) { create(:consent) }

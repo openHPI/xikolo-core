@@ -4,8 +4,8 @@ require 'spec_helper'
 
 describe 'Course: Prerequisite Status: Index', type: :request do
   subject(:index) do
-    api.rel(:course).get(id: course.course_code).value!
-      .rel(:prerequisite_status).get(user_id:).value!
+    api.rel(:course).get({id: course.course_code}).value!
+      .rel(:prerequisite_status).get({user_id:}).value!
   end
 
   let(:api) { Restify.new(:test).get.value! }

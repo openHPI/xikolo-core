@@ -112,7 +112,7 @@ module Xikolo::Common::Auth::CurrentUser
 
       @permission_map.fetch(context) do
         @permission_map[context] = Restify.new(@user['permissions_url'])
-          .get(context:).value!
+          .get({context:}).value!
       end
     end
   end

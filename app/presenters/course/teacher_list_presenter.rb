@@ -5,7 +5,7 @@ class Course::TeacherListPresenter
     promise = if course.teacher_ids.empty?
                 Restify::Promise.fulfilled([])
               else
-                Xikolo.api(:course).value!.rel(:teachers).get(course: course.id)
+                Xikolo.api(:course).value!.rel(:teachers).get({course: course.id})
               end
 
     new promise

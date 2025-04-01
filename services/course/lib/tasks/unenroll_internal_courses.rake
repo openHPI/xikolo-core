@@ -36,7 +36,7 @@ namespace :unenroll do
     affiliated_courses.each do |affiliated_course|
       inform "Checking for course #{affiliated_course.course_code}"
       affiliated_course.enrollments.each do |enrollment|
-        user = account_api.rel(:user).get(id: enrollment.user_id).value!
+        user = account_api.rel(:user).get({id: enrollment.user_id}).value!
         if user['affiliated']
           inform "Enrollment ok: course #{affiliated_course.course_code}, " \
                  "user #{user['full_name']}, affiliated: #{user['affiliated']}"

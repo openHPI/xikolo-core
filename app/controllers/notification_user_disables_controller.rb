@@ -31,7 +31,7 @@ class NotificationUserDisablesController < Abstract::FrontendController
     end
 
     email = Xikolo.api(:account).value!.rel(:email)
-      .get(id: params[:email]).value!
+      .get({id: params[:email]}).value!
     user = email.rel(:user).get.value!
 
     if hash_email(id: email['id'], user_id: user['id']) != params[:hash]
@@ -41,7 +41,7 @@ class NotificationUserDisablesController < Abstract::FrontendController
 
     user
       .rel(:preferences)
-      .patch(properties: {settings_key(params[:key]) => false})
+      .patch({properties: {settings_key(params[:key]) => false}})
       .value!
 
     add_flash_message :success,

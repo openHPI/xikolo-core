@@ -168,9 +168,9 @@ class AnnouncementConsumer < Msgr::Consumer
     end
 
     def course
-      @course ||= course_api.rel(:course).get(
-        id: @course_id
-      ).value!
+      @course ||= course_api.rel(:course).get({
+        id: @course_id,
+      }).value!
     end
 
     def course_api
@@ -182,7 +182,7 @@ class AnnouncementConsumer < Msgr::Consumer
     class AllConfirmedUsers
       def to_s
         account_api.rel(:users)
-          .expand(confirmed: true, per_page: 500)
+          .expand({confirmed: true, per_page: 500})
       end
 
       def extract(resource)
@@ -212,7 +212,7 @@ class AnnouncementConsumer < Msgr::Consumer
       private
 
       def group
-        @group ||= Xikolo.api(:account).value!.rel(:group).get(id: @id).value!
+        @group ||= Xikolo.api(:account).value!.rel(:group).get({id: @id}).value!
       end
     end
 
@@ -223,7 +223,7 @@ class AnnouncementConsumer < Msgr::Consumer
 
       def to_s
         course_api.rel(:enrollments)
-          .expand(course_id: @course_id, per_page: 50)
+          .expand({course_id: @course_id.to_s, per_page: 50})
       end
 
       def extract(resource)
@@ -246,7 +246,7 @@ class AnnouncementConsumer < Msgr::Consumer
       end
 
       def count
-        Restify.new(@audience).get(per_page: 1).value!
+        Restify.new(@audience.to_s).get({per_page: '1'}).value!
           .response.headers['X_TOTAL_PAGES'].to_i
       end
 
@@ -294,7 +294,7 @@ class AnnouncementConsumer < Msgr::Consumer
 
       def enrolled_once?(user_id)
         course_api.rel(:enrollments)
-          .get(deleted: true, user_id:, per_page: 1).value!
+          .get({deleted: true, user_id:, per_page: 1}).value!
           .any?
       end
 

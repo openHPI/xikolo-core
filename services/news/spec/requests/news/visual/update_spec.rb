@@ -50,7 +50,7 @@ shared_examples 'does not delete the old visual' do
 end
 
 RSpec.describe 'News: Update with visual', type: :request do
-  subject(:update_announcement) { service.rel(:news).patch(update_params, id: announcement.id).value! }
+  subject(:update_announcement) { service.rel(:news).patch(payload, params: {id: announcement.id}).value! }
 
   let(:service) { Restify.new(:test).get.value! }
   let(:upload_id) { 'f13d30d3-6369-4816-9695-af5318c8ac15' }
@@ -89,7 +89,7 @@ RSpec.describe 'News: Update with visual', type: :request do
     end
 
     context 'with visual_upload_id' do
-      let(:update_params) { {visual_upload_id: upload_id} }
+      let(:payload) { {visual_upload_id: upload_id} }
 
       context 'when upload is successful' do
         include_examples 'updates with visual'
@@ -139,7 +139,7 @@ RSpec.describe 'News: Update with visual', type: :request do
     end
 
     context 'with visual_uri' do
-      let(:update_params) { {visual_uri: "upload://#{upload_id}/visual.png"} }
+      let(:payload) { {visual_uri: "upload://#{upload_id}/visual.png"} }
 
       before do
         stub_request(:head, store_stub_url).and_return(status: 404)
@@ -208,7 +208,7 @@ RSpec.describe 'News: Update with visual', type: :request do
     end
 
     context 'with upload_visual_id' do
-      let(:update_params) { {visual_upload_id: upload_id} }
+      let(:payload) { {visual_upload_id: upload_id} }
 
       context 'when upload is successful' do
         include_examples 'updates with visual'
@@ -265,7 +265,7 @@ RSpec.describe 'News: Update with visual', type: :request do
     end
 
     context 'with visual_uri' do
-      let(:update_params) { {visual_uri: "upload://#{upload_id}/visual.png"} }
+      let(:payload) { {visual_uri: "upload://#{upload_id}/visual.png"} }
 
       before do
         stub_request(:head, store_stub_url).and_return(status: 404)

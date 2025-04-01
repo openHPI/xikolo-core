@@ -44,7 +44,7 @@ shared_examples 'does not create' do |error_details|
 end
 
 RSpec.describe 'News: Create with visual', type: :request do
-  subject(:create_announcement) { service.rel(:news_index).post(params).value! }
+  subject(:create_announcement) { service.rel(:news_index).post(payload).value! }
 
   let(:service) { Restify.new(:test).get.value! }
   let(:upload_id) { 'f13d30d3-6369-4816-9695-af5318c8ac15' }
@@ -76,7 +76,7 @@ RSpec.describe 'News: Create with visual', type: :request do
   end
 
   context 'with visual_upload_id' do
-    let(:params) do
+    let(:payload) do
       attributes_for(:news).merge(
         title: 'Some title',
         text: 'A beautiful announcement text',
@@ -132,7 +132,7 @@ RSpec.describe 'News: Create with visual', type: :request do
   end
 
   context 'with visual_uri' do
-    let(:params) do
+    let(:payload) do
       attributes_for(:news).merge(
         title: 'Some title',
         text: 'A beautiful announcement text',

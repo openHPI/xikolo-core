@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'Document Localizations: Delete', type: :request do
-  subject(:deletion) { api.rel(:document_localization).delete(id: localization_id).value! }
+  subject(:deletion) { api.rel(:document_localization).delete({id: localization_id}).value! }
 
   let!(:document) { create(:document, :english) }
   let(:localization) { document.localizations.first }

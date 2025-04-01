@@ -573,25 +573,25 @@ module Steps
 
     Then 'the topic should be visible' do
       context.with :forum_topic do |topic|
-        expect(page).to have_content topic[:title]
+        expect(page).to have_content topic['title']
       end
     end
 
     Then 'the topic should not be visible' do
       context.with :forum_topic do |topic|
-        expect(page).to_not have_content topic[:title]
+        expect(page).to_not have_content topic['title']
       end
     end
 
     Then 'I can\'t see the topic\'s content' do
       context.with :forum_topic do |topic|
-        expect(page).to_not have_content topic[:text]
+        expect(page).to_not have_content topic['text']
       end
     end
 
     Then 'I can see the topic\'s content' do
       context.with :forum_topic do |topic|
-        expect(page).to have_content topic[:text]
+        expect(page).to have_content topic['text']
       end
     end
 
@@ -610,25 +610,25 @@ module Steps
 
     Then 'the answer should not be visible' do
       context.with :forum_topic_answer do |answer|
-        expect(page).to_not have_content answer[:text]
+        expect(page).to_not have_content answer['text']
       end
     end
 
     Then 'the topic comment should not be visible' do
       context.with :forum_topic_comment do |comment|
-        expect(page).to_not have_content comment[:text]
+        expect(page).to_not have_content comment['text']
       end
     end
 
     Then 'the answer comment should not be visible' do
       context.with :forum_answer_comment do |comment|
-        expect(page).to_not have_content comment[:text]
+        expect(page).to_not have_content comment['text']
       end
     end
 
     Then 'the topic belongs to that section' do
       context.with :section do |section|
-        expect(page.find('.pinboard-breadcrumbs')).to have_content section[:title]
+        expect(page.find('.pinboard-breadcrumbs')).to have_content section['title']
       end
     end
 
@@ -639,7 +639,7 @@ module Steps
     Then 'the topic belongs to no section' do
       context.with :section do |section|
         within '.pinboard-breadcrumbs' do
-          expect(page).not_to have_content section[:title]
+          expect(page).not_to have_content section['title']
         end
       end
     end
@@ -665,7 +665,7 @@ module Steps
       first = page.all('.pinboard-question').first
       # expect(first).to have_selector '.sticky'
       context.with :forum_topic do |topic|
-        expect(first).to have_content topic[:title]
+        expect(first).to have_content topic['title']
       end
       within first do
         expect(page).to have_selector '.fa-thumbtack'
@@ -694,12 +694,6 @@ module Steps
 
     Then 'I should not see the edit form' do
       expect(page).to_not have_selector '.edit-post'
-    end
-
-    Then 'the topic should not be visible' do
-      context.with :forum_topic do |topic|
-        expect(page).to_not have_content topic[:title]
-      end
     end
 
     Then "the first answer doesn't look any different" do

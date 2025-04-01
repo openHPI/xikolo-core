@@ -74,16 +74,16 @@ class AnswersController < ApplicationController
   def notify_subscribers(question, answer, opts = {})
     return if answer.blocked?
 
-    user = Xikolo.api(:account).value.rel(:user).get(id: @answer.user_id)
+    user = Xikolo.api(:account).value.rel(:user).get({id: @answer.user_id})
 
-    course = Xikolo.api(:course).value.rel(:course).get(id: question.course_id).value!
+    course = Xikolo.api(:course).value.rel(:course).get({id: question.course_id}).value!
 
     collab_space = {}
     if question.learning_room_id.present?
-      collab_space = Xikolo.api(:collabspace).value.rel(:collab_space).get(id: question.learning_room_id).value!
+      collab_space = Xikolo.api(:collabspace).value.rel(:collab_space).get({id: question.learning_room_id}).value!
     end
 
-    Xikolo.api(:notification).value.rel(:events).post(
+    Xikolo.api(:notification).value.rel(:events).post({
       key: 'pinboard.question.answer.new',
       payload: {
         user_id: @answer.user_id,
@@ -106,8 +106,8 @@ class AnswersController < ApplicationController
       course_id: question.course_id,
       learning_room_id: question.learning_room_id,
       link: opts[:question_url],
-      subscribers: question.subscriptions.pluck(:user_id)
-    ).value!
+      subscribers: question.subscriptions.pluck(:user_id),
+    }).value!
   end
 
   def update

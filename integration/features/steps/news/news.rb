@@ -285,7 +285,7 @@ module Steps
 
     When 'I use a disable link with invalid hash' do
       context.with :user do |user|
-        visit "/notification_user_settings/disable?email=#{user[:email]}&hash=nonsense&key=nonsense"
+        visit "/notification_user_settings/disable?email=#{user.fetch('email')}&hash=nonsense&key=nonsense"
       end
     end
   end

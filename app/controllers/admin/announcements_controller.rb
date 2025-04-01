@@ -8,7 +8,7 @@ class Admin::AnnouncementsController < Abstract::FrontendController
 
     announcements = news_service
       .rel(:announcements)
-      .get({}, {headers: {'Accept' => 'application/json'}})
+      .get(headers: {'Accept' => 'application/json'})
       .value!
 
     @drafts = Admin::AnnouncementsListPresenter.new(
@@ -35,7 +35,7 @@ class Admin::AnnouncementsController < Abstract::FrontendController
   def edit
     authorize! 'news.announcement.update'
 
-    @announcement = news_service.rel(:announcement).get(id: params[:id])
+    @announcement = news_service.rel(:announcement).get({id: params[:id]})
       .then {|announcement| Admin::AnnouncementForm.from_resource(announcement) }
       .value!
   end
@@ -70,7 +70,7 @@ class Admin::AnnouncementsController < Abstract::FrontendController
     # Re-render edit form if announcement is invalid
     return render(action: :edit) unless @announcement.valid?
 
-    announcement = news_service.rel(:announcement).get(id: UUID4(params[:id]).to_s).value!
+    announcement = news_service.rel(:announcement).get({id: UUID4(params[:id]).to_s}).value!
     announcement.rel(:self).patch(@announcement.to_resource).value!
 
     add_flash_message(:success, t(:'flash.success.announcement_saved'))

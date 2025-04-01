@@ -295,8 +295,7 @@ courses << Course::Create.call(
 3.upto(199) do |i|
   Enrollment::Create.call(
     format('00000001-3100-4444-9999-0000000%05d', i + 100),
-    courses[0],
-    role: 'student'
+    courses[0]
   )
 end
 

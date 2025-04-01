@@ -3,11 +3,11 @@
 require 'spec_helper'
 
 RSpec.describe 'Quiz Submission Snapshots: Create', type: :request do
-  subject(:creation) { api.rel(:quiz_submission_snapshots).post(params).value! }
+  subject(:creation) { api.rel(:quiz_submission_snapshots).post(payload).value! }
 
   let(:api) { Restify.new(:test).get.value! }
 
-  let(:params) { {quiz_submission_id: submission.id} }
+  let(:payload) { {quiz_submission_id: submission.id} }
   let!(:submission) { create(:quiz_submission) }
 
   it { is_expected.to respond_with :created }
@@ -17,7 +17,7 @@ RSpec.describe 'Quiz Submission Snapshots: Create', type: :request do
   end
 
   context 'with data hash' do
-    let(:params) do
+    let(:payload) do
       {
         **super(),
         submission: {
@@ -31,7 +31,7 @@ RSpec.describe 'Quiz Submission Snapshots: Create', type: :request do
 
     it 'stores serialized data' do
       creation
-      expect(JSON.parse(QuizSubmissionSnapshot.first.read_attribute_before_type_cast(:data))).to eq params[:submission]
+      expect(JSON.parse(QuizSubmissionSnapshot.first.read_attribute_before_type_cast(:data))).to eq payload[:submission]
     end
 
     it 'returns deserialized data' do
@@ -39,7 +39,7 @@ RSpec.describe 'Quiz Submission Snapshots: Create', type: :request do
     end
 
     it 'returns the loaded_data' do
-      expect(creation['loaded_data']).to eq params[:submission]
+      expect(creation['loaded_data']).to eq payload[:submission]
     end
   end
 
@@ -57,7 +57,7 @@ RSpec.describe 'Quiz Submission Snapshots: Create', type: :request do
     end
 
     context 'with data hash' do
-      let(:params) do
+      let(:payload) do
         {
           **super(),
           submission: {
@@ -72,7 +72,7 @@ RSpec.describe 'Quiz Submission Snapshots: Create', type: :request do
         expect { creation }.to \
           change { snapshot.reload.data }
           .from(nil)
-          .to(params[:submission])
+          .to(payload[:submission])
       end
     end
   end

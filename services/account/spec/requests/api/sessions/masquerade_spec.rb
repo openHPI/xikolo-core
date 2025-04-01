@@ -5,10 +5,10 @@ require 'spec_helper'
 describe 'Sessions: Masquerade', type: :request do
   let(:api) { Restify.new(:test).get.value! }
   let(:record) { create(:session) }
-  let(:session) { api.rel(:session).get(id: record).value! }
+  let(:session) { api.rel(:session).get({id: record}).value! }
 
   describe 'PUT masquerade' do
-    subject(:response) { session.rel(:masquerade).post(user: user.id).value! }
+    subject(:response) { session.rel(:masquerade).post({user: user.id}).value! }
 
     let(:user) { create(:user) }
 
@@ -33,7 +33,7 @@ describe 'Sessions: Masquerade', type: :request do
     end
 
     describe '#permissions' do
-      subject(:response) { session.rel(:self).get(embed: :permissions).value! }
+      subject(:response) { session.rel(:self).get({embed: 'permissions'}).value! }
 
       let(:role)   { create(:role) }
       let(:record) { create(:session, masquerade: user) }

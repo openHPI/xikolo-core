@@ -637,25 +637,11 @@ describe QuestionsController, type: :controller do
   describe 'POST create' do
     subject(:creation) { post :create, params: }
 
-    let!(:sql_tag) { create(:sql_tag) }
-    let(:definition_tag_attributes) { attributes_for(:definition_tag) }
-    let(:tag_names) { [sql_tag.name] }
-    let(:question_params) { attributes_for(:question) }
-    let(:params) do
-      question_params.merge(
-        tag_names:,
-        question_url: 'http://test.host/courses/test/question/{id}'
-      )
-    end
-
     before do
       Stub.service(
         :notification,
         events_url: '/events'
       )
-      Stub.request(
-        :notification, :post, '/events'
-      ).to_return Stub.response(status: 201)
       Stub.service(
         :course,
         course_url: '/courses/{id}',
@@ -680,6 +666,22 @@ describe QuestionsController, type: :controller do
         id: question_params[:user_id],
         name: 'Egon Olsen',
       })
+    end
+
+    let!(:sql_tag) { create(:sql_tag) }
+    let!(:event_request) do
+      Stub.request(
+        :notification, :post, '/events'
+      ).to_return Stub.response(status: 201)
+    end
+    let(:definition_tag_attributes) { attributes_for(:definition_tag) }
+    let(:tag_names) { [sql_tag.name] }
+    let(:question_params) { attributes_for(:question) }
+    let(:params) do
+      question_params.merge(
+        tag_names:,
+        question_url: 'http://test.host/courses/test/question/{id}'
+      )
     end
 
     it { is_expected.to have_http_status :created }
@@ -1022,6 +1024,14 @@ describe QuestionsController, type: :controller do
       )
 
       creation
+    end
+
+    it 'creates a notification event' do
+      Sidekiq::Testing.inline! do
+        creation
+      end
+
+      expect(event_request).to have_been_requested
     end
   end
 

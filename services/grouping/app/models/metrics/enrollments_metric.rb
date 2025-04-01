@@ -3,10 +3,10 @@
 module Metrics
   class EnrollmentsMetric < Metric
     def self.query(user_id, course_id, start_date, _end_date)
-      enrollment = Xikolo.api(:course).value!.rel(:enrollments).get(
+      enrollment = Xikolo.api(:course).value!.rel(:enrollments).get({
         user_id:,
-        course_id:
-      ).value!.first
+        course_id:,
+      }).value!.first
 
       if enrollment && DateTime.parse(enrollment['created_at']) > start_date
         1

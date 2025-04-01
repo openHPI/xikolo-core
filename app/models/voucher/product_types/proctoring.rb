@@ -67,7 +67,7 @@ module Voucher
       def claim!
         Xikolo.api(:course).value!
           .rel(:enrollments)
-          .post(course_id: @course.id, user_id: @user.id, proctored: true)
+          .post({course_id: @course.id, user_id: @user.id, proctored: true})
           .value!
       end
     end

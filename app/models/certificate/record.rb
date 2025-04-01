@@ -95,12 +95,12 @@ module Certificate
     end
 
     def enrollment
-      @enrollment ||= Xikolo.api(:course).value!.rel(:enrollments).get(
+      @enrollment ||= Xikolo.api(:course).value!.rel(:enrollments).get({
         course_id:,
         user_id:,
         deleted: true,
-        learning_evaluation: true
-      ).value!.first
+        learning_evaluation: true,
+      }).value!.first
     end
 
     private

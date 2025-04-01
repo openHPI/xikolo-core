@@ -6,7 +6,7 @@ RSpec.describe 'Announcement: Messages: Create', type: :request do
   subject(:resource) { announcement_resource.rel(:messages).post(payload).value! }
 
   let(:service) { Restify.new(:test).get.value! }
-  let(:announcement_resource) { service.rel(:announcement).get(id: announcement.id).value! }
+  let(:announcement_resource) { service.rel(:announcement).get({id: announcement.id}).value! }
   let(:announcement) { create(:announcement) }
   let(:payload) { {} }
 

@@ -46,13 +46,13 @@ describe 'Items: Position', type: :request do
 
   with_all do
     it 'exposes the same position for lists and for individual items' do
-      section_items = api.rel(:items).get(section_id: section.id, user_id:).value!
+      section_items = api.rel(:items).get({section_id: section.id, user_id:}).value!
 
       # Ensure the following loop actually has something to assert on
       expect(section_items.count).to eq 3
 
       section_items.each do |list_item|
-        individual_item = api.rel(:item).get(id: list_item['id'], user_id:).value!
+        individual_item = api.rel(:item).get({id: list_item['id'], user_id:}).value!
 
         expect(individual_item['position']).to eq list_item['position']
       end

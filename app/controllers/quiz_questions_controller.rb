@@ -72,10 +72,10 @@ class QuizQuestionsController < Abstract::FrontendController
 
     quiz_api.rel(:question).patch(
       the_question_params,
-      id: question.id
+      params: {id: question.id}
     ).value!
 
-    unless plausible_question_type(quiz_api.rel(:question).get(id: question.id).value!)
+    unless plausible_question_type(quiz_api.rel(:question).get({id: question.id}).value!)
       add_flash_message :error, t(:'flash.error.switch_question_to_mcq')
       review_id = question.id
     end
@@ -192,9 +192,10 @@ class QuizQuestionsController < Abstract::FrontendController
   def plausible_question_type(question)
     return true if question['type'] != 'Xikolo::Quiz::MultipleChoiceQuestion'
 
-    quiz_api.rel(:answers).get(
-      question_id: question['id'], per_page: 250
-    ).value!.count {|answer| answer['correct'] } <= 1
+    quiz_api.rel(:answers).get({
+      question_id: question['id'],
+      per_page: 250,
+    }).value!.count {|answer| answer['correct'] } <= 1
   end
 
   def quiz_api

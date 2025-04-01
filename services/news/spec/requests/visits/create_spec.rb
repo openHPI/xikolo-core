@@ -3,10 +3,10 @@
 require 'spec_helper'
 
 RSpec.describe 'Visits: Create', type: :request do
-  subject(:request) { service.rel(:visits).post(visit_params).value! }
+  subject(:request) { service.rel(:visits).post(payload).value! }
 
   let(:service) { Restify.new(:test).get.value! }
-  let(:visit_params) { {user_id:, announcement_id: announcement.id} }
+  let(:payload) { {user_id:, announcement_id: announcement.id} }
   let(:user_id) { SecureRandom.uuid }
   let(:announcement) { create(:news) }
 

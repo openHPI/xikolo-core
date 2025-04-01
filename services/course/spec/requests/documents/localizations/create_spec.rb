@@ -3,10 +3,13 @@
 require 'spec_helper'
 
 describe 'Document Localizations: Create', type: :request do
-  subject(:action) { api.rel(:document).get(id: document.id).value!.rel(:localizations).post(create_params).value! }
+  subject(:action) do
+    api.rel(:document).get({id: document.id}).value!
+      .rel(:localizations).post(data).value!
+  end
 
   let!(:document) { create(:document, :english) }
-  let(:create_params) { attributes_for(:document_localization) }
+  let(:data) { attributes_for(:document_localization) }
   let(:api) { Restify.new(:test).get.value }
   let(:upload_id) { 'f13d30d3-6369-4816-9695-af5318c8ac15' }
   let(:file_url) do
@@ -20,7 +23,7 @@ describe 'Document Localizations: Create', type: :request do
   end
 
   context 'without description' do
-    let(:create_params) { {title: 'title', document_id: document.id, language: 'de'} }
+    let(:data) { {title: 'title', document_id: document.id, language: 'de'} }
 
     it 'responds with 422 Unprocessable Entity' do
       expect { action }.to raise_error(Restify::UnprocessableEntity)
@@ -28,7 +31,7 @@ describe 'Document Localizations: Create', type: :request do
   end
 
   context 'without title' do
-    let(:create_params) { {description: 'descriptive description', document_id: document.id, language: 'de'} }
+    let(:data) { {description: 'descriptive description', document_id: document.id, language: 'de'} }
 
     it 'responds with 422 Unprocessable Entity' do
       expect { action }.to raise_error(Restify::UnprocessableEntity)
@@ -36,7 +39,7 @@ describe 'Document Localizations: Create', type: :request do
   end
 
   context 'without language' do
-    let(:create_params) { {title: 'title', description: 'descriptive description', document_id: document.id} }
+    let(:data) { {title: 'title', description: 'descriptive description', document_id: document.id} }
 
     it 'responds with 422 Unprocessable Entity' do
       expect { action }.to raise_error(Restify::UnprocessableEntity)
@@ -44,7 +47,7 @@ describe 'Document Localizations: Create', type: :request do
   end
 
   context 'with valid upload' do
-    let(:create_params) { super().merge file_upload_id: upload_id }
+    let(:data) { super().merge file_upload_id: upload_id }
     let!(:store_stub) do
       stub_request(:put, %r{https://s3.xikolo.de/xikolo-public/
         documents/[0-9a-zA-Z]+/de_v1.pdf}x).to_return(status: 200, body: '<xml></xml>')
@@ -90,7 +93,7 @@ describe 'Document Localizations: Create', type: :request do
   end
 
   context 'with invalid file upload' do
-    let(:create_params) { super().merge file_upload_id: upload_id }
+    let(:data) { super().merge file_upload_id: upload_id }
 
     before do
       stub_request(:get,

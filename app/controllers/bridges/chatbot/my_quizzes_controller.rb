@@ -8,18 +8,18 @@ module Bridges
       def index
         my_quizzes = []
         Xikolo.paginate(
-          course_api.rel(:items).get(
+          course_api.rel(:items).get({
             course_id: params[:course_id],
             content_type: 'quiz',
             exercise_type: 'selftest',
             all_available: true,
             required_items: 'none',
-            user_id: @user_id
-          )
+            user_id: @user_id,
+          })
         ) do |quiz|
-          quiz['questions'] = quiz_api.rel(:questions).get(quiz_id: quiz['content_id']).then do |questions|
+          quiz['questions'] = quiz_api.rel(:questions).get({quiz_id: quiz['content_id']}).then do |questions|
             Restify::Promise.new(questions.map do |question|
-              quiz_api.rel(:answers).get(question_id: question['id']).then do |answers|
+              quiz_api.rel(:answers).get({question_id: question['id']}).then do |answers|
                 question['answers'] = answers.map {|answer| serialize_answer(answer) }
                 serialize_question(question)
               end

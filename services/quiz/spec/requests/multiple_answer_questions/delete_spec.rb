@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Multiple Answer Questions: Delete', type: :request do
-  subject(:deletion) { api.rel(:multiple_answer_question).delete(id: question.id).value! }
+  subject(:deletion) { api.rel(:multiple_answer_question).delete({id: question.id}).value! }
 
   let(:api) { Restify.new(:test).get.value! }
   let!(:question) { create(:multiple_answer_question, text:, explanation:) }

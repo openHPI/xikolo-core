@@ -187,25 +187,6 @@ describe 'Quiz: Submissions: Create', type: :request do
         end
       end
 
-      context 'with a proctored submission' do
-        let(:course) { create(:course, :active, :offers_proctoring, course_code: 'the_course') }
-        let(:my_enrollment) { create(:enrollment, :proctored, course:, user_id:) }
-        let(:item) do
-          build(:'course:item', :quiz, :exam, :proctored,
-            section_id: section['id'],
-            course_id: course.id,
-            content_id: quiz['id'])
-        end
-
-        it 'schedules jobs for fetching proctoring results and the user certificate image' do
-          expect { create_submission }
-            .to have_enqueued_job(Proctoring::StoreSubmissionResultsJob)
-            .with(submission['id'])
-            .and have_enqueued_job(Proctoring::UploadCertificateImageJob)
-            .with(my_enrollment.id)
-        end
-      end
-
       context 'with further attempts' do
         let(:quiz) { build(:'quiz:quiz', :exam, current_allowed_attempts: 2) }
 
@@ -262,25 +243,6 @@ describe 'Quiz: Submissions: Create', type: :request do
           )
           expect(flash[:error].first).to eq 'No answers were submitted for your quiz solution.'
         end
-
-        context 'with a proctored submission' do
-          let(:course) { create(:course, :active, :offers_proctoring, course_code: 'the_course') }
-          let(:my_enrollment) { create(:enrollment, :proctored, course:, user_id:) }
-          let(:item) do
-            build(:'course:item', :quiz, :exam, :proctored,
-              section_id: section['id'],
-              course_id: course.id,
-              content_id: quiz['id'])
-          end
-
-          it 'schedules jobs for fetching proctoring results and the user certificate image' do
-            expect { create_submission }
-              .to have_enqueued_job(Proctoring::StoreSubmissionResultsJob)
-              .with(submission['id'])
-              .and have_enqueued_job(Proctoring::UploadCertificateImageJob)
-              .with(my_enrollment.id)
-          end
-        end
       end
     end
 
@@ -301,25 +263,6 @@ describe 'Quiz: Submissions: Create', type: :request do
           highest_score: false
         )
         expect(flash[:error].first).to eq 'The time for your active quiz is up.'
-      end
-
-      context 'with a proctored submission' do
-        let(:course) { create(:course, :active, :offers_proctoring, course_code: 'the_course') }
-        let(:my_enrollment) { create(:enrollment, :proctored, course:, user_id:) }
-        let(:item) do
-          build(:'course:item', :quiz, :exam, :proctored,
-            section_id: section['id'],
-            course_id: course.id,
-            content_id: quiz['id'])
-        end
-
-        it 'schedules jobs for fetching proctoring results and the user certificate image' do
-          expect { create_submission }
-            .to have_enqueued_job(Proctoring::StoreSubmissionResultsJob)
-            .with(submission['id'])
-            .and have_enqueued_job(Proctoring::UploadCertificateImageJob)
-            .with(my_enrollment.id)
-        end
       end
     end
   end

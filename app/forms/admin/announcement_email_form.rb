@@ -105,14 +105,14 @@ class Admin::AnnouncementEmailForm < XUI::Form
     recipients.map do |recipient|
       case recipient
         when /^user:(.+)/
-          user = account_service.rel(:user).get(id: Regexp.last_match(1)).value!
+          user = account_service.rel(:user).get({id: Regexp.last_match(1)}).value!
           ["#{user['name']} (#{user['email']})", recipient]
         when /^group:course.([\w-]+).students/
           title = Course::Course.find_by(course_code: Regexp.last_match(1))&.title
           [I18n.t('admin.announcement_email.recipients_course_students', course: title,
             course_code: Regexp.last_match(1)), recipient]
         when /^group:(.+)/
-          group = account_service.rel(:group).get(id: Regexp.last_match(1)).value!
+          group = account_service.rel(:group).get({id: Regexp.last_match(1)}).value!
           [group['description'], recipient]
       end
     end

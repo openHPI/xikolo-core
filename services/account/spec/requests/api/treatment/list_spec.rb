@@ -17,33 +17,35 @@ describe 'List treatments', type: :request do
   it { is_expected.to respond_with :ok }
 
   it 'responds with list of consents' do
-    expect(resource).to contain_exactly(an_object_having_attributes(
-      name: treatments[0].name,
-      required: true,
-      self_url: treatment_url(treatments[0]),
-      consent_manager: {}
-    ), an_object_having_attributes(
-      name: treatments[2].name,
-      required: true,
-      self_url: treatment_url(treatments[2]),
-      consent_manager: {}
-    ), an_object_having_attributes(
-      name: treatments[1].name,
-      required: false,
-      self_url: treatment_url(treatments[1]),
-      consent_manager: {}
-    ))
+    expect(resource).to contain_exactly(
+      hash_including(
+        'name' => treatments[0].name,
+        'required' => true,
+        'self_url' => treatment_url(treatments[0]),
+        'consent_manager' => {}
+      ), hash_including(
+        'name' => treatments[2].name,
+        'required' => true,
+        'self_url' => treatment_url(treatments[2]),
+        'consent_manager' => {}
+      ), hash_including(
+        'name' => treatments[1].name,
+        'required' => false,
+        'self_url' => treatment_url(treatments[1]),
+        'consent_manager' => {}
+      )
+    )
   end
 
   context 'with external consent manager' do
     before { create(:treatment, :external, name: 'external_treatment') }
 
     it 'contains treatment with external consent manager data' do
-      expect(resource).to include an_object_having_attributes(
-        name: 'external_treatment',
-        consent_manager: hash_including(
-          type: 'external',
-          consent_url: 'https://example.com/consents'
+      expect(resource).to include hash_including(
+        'name' => 'external_treatment',
+        'consent_manager' => hash_including(
+          'type' => 'external',
+          'consent_url' => 'https://example.com/consents'
         )
       )
     end

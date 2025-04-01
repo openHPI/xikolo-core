@@ -19,24 +19,34 @@ end
 Capybara.register_driver :chrome do |app|
   options = Selenium::WebDriver::Chrome::Options.new
 
-  # TODO: Chrome 134 produces too much unhandled Node does not belong to
-  # the document errors, similar to:
-  #   * https://github.com/SeleniumHQ/selenium/issues/15401
+  # Use BiDi mode since that reports a few more errors in much better
+  # ways, such as aborted concurrent navigation issues.
+  options.web_socket_url = true
+
+  # TODO: Chrome 129 and later does not wait on all navigational events
+  # which break some assertion and assumptions and breaks navigation
+  # without assertions between:
   #
-  options.browser_version = '133'
+  #   * https://github.com/teamcapybara/capybara/issues/2800
+  #
+  options.browser_version = '128'
 
   # Chrome for Testing (CfT) cannot run a user-based sandbox on modern
   # systems, locally as well as headless CI servers.
   options.add_argument('--no-sandbox')
 
-  options.add_argument('--headless=new') if headless?
+  if headless?
+    options.add_argument('--headless=new')
+    options.add_argument('--disable-gpu') if Gem.win_platform?
+  end
 
-  options.add_argument('--window-size=1280,1024')
-  options.add_argument('--incognito')
-  options.add_argument('--disable-site-isolation-trials')
   options.add_argument('--disable-search-engine-choice-screen')
+  options.add_argument('--disable-site-isolation-trials')
+  options.add_argument('--window-size=1280,1024')
 
+  options.add_preference('download.prompt_for_download', false)
   options.add_preference('intl.accept_languages', 'en')
+  options.add_preference('plugins.plugins_disabled', ['Chrome PDF Viewer'])
 
   Capybara::Selenium::Driver.new app, browser: :chrome, options:
 end
@@ -72,5 +82,18 @@ RSpec.configure do |config|
 
     # Reset browser size to desktop view
     Capybara.page.driver.browser.manage.window.resize_to(1280, 1024)
+
+    # Workaround for "Node with given id does not belong to the
+    # document". See
+    # https://github.com/teamcapybara/capybara/issues/2800#issuecomment-2728801284.
+    #
+    # Try handling these unknown errors (can't filter on the message
+    # too) as if the element were stale, which means that capybara will
+    # look up the selector again, e.g. on the new page that is now
+    # loaded.
+    if page.driver.respond_to?(:invalid_element_errors) &&
+       page.driver.invalid_element_errors.exclude?(Selenium::WebDriver::Error::UnknownError)
+      page.driver.invalid_element_errors << Selenium::WebDriver::Error::UnknownError
+    end
   end
 end

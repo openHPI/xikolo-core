@@ -57,6 +57,7 @@ module Steps
       }
       data.merge! attrs
       data.compact!
+
       Server[:course].api.rel(:items).post(data).value!
     end
 

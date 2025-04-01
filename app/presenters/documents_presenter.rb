@@ -11,7 +11,7 @@ class DocumentsPresenter < Presenter
   end
 
   def course!
-    @course = course_api.rel(:course).get(id: enrollment.course_id).then do |course|
+    @course = course_api.rel(:course).get({id: enrollment.course_id}).then do |course|
       BasicCoursePresenter.new(course)
     end.value!
   end

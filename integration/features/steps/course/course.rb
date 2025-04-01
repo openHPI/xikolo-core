@@ -52,15 +52,17 @@ module Steps
     end
 
     def join_user_into_group(user, group_name)
-      Server[:account].api.rel(:memberships).post(
+      Server[:account].api.rel(:memberships).post({
         group: group_name,
-        user: user['id']
-      ).value!
+        user: user['id'],
+      }).value!
     end
 
     def lock_course_forum(course)
-      Server[:course].api.rel(:course).patch({forum_is_locked: true},
-        {id: course.id}).value!
+      Server[:course].api.rel(:course).patch(
+        {forum_is_locked: true},
+        params: {id: course['id']}
+      ).value!
     end
 
     Given 'the course forum is locked' do
@@ -139,13 +141,13 @@ module Steps
       teachers.map! do |data|
         account_service.rel(:users).post(data).then do |user|
           data.each_pair {|key, value| user[key] ||= value }
-          course_service.rel(:teachers).post(
-            id: user[:id],
-            name: user[:name],
+          course_service.rel(:teachers).post({
+            id: user['id'],
+            name: user['name'],
             description: {
               en: 'Some text',
-            }
-          )
+            },
+          })
           user
         end
       end
@@ -213,10 +215,10 @@ module Steps
       context.assign :teacher_group_members, context.fetch(:users)[0..2]
       context.with :teacher_group_members, :course do |teachers, course|
         teachers.map do |teacher|
-          Server[:account].api.rel(:memberships).post(
+          Server[:account].api.rel(:memberships).post({
             group: ['course', course['course_code'], 'teachers'].join('.'),
-            user: teacher['id']
-          ).value!
+            user: teacher['id'],
+          }).value!
         end
       end
     end
@@ -225,7 +227,7 @@ module Steps
       context.with :course do |course|
         Server[:course].api.rel(:course).put(
           {records_released: true},
-          {id: course.id}
+          params: {id: course['id']}
         ).value!
       end
     end

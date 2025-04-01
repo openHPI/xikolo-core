@@ -63,7 +63,7 @@ describe 'Courses: List', type: :request do
     end
 
     it 'does not include restricted course' do
-      expect(resource.map(&:id)).to eq [courses[0].id]
+      expect(resource.map { it['id'] }).to eq [courses[0].id]
     end
 
     context 'with user_id filter' do
@@ -76,7 +76,7 @@ describe 'Courses: List', type: :request do
       end
 
       it 'includes restricted courses the user is enrolled' do
-        expect(resource.map(&:id)).to contain_exactly(courses[0].id, courses[1].id)
+        expect(resource.map { it['id'] }).to contain_exactly(courses[0].id, courses[1].id)
       end
     end
 
@@ -104,7 +104,7 @@ describe 'Courses: List', type: :request do
       end
 
       it 'includes restricted courses the user is not enrolled but allowed to see' do
-        expect(resource.map(&:id)).to contain_exactly(courses[1].id, courses[3].id)
+        expect(resource.map { it['id'] }).to contain_exactly(courses[1].id, courses[3].id)
       end
     end
   end

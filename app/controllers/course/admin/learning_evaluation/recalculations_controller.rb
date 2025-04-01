@@ -13,7 +13,7 @@ module Course::Admin::LearningEvaluation
       if course.recalculation_allowed?
         Xikolo.api(:course).value!
           .rel(:course_learning_evaluation)
-          .post({}, {course_id: params[:course_id]})
+          .post({}, params: {course_id: params[:course_id]})
           .value!
 
         add_flash_message :success, t(:'flash.success.recalculation_triggered')

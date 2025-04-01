@@ -3,12 +3,12 @@
 require 'spec_helper'
 
 RSpec.describe 'Quiz: Update', type: :request do
-  subject(:modification) { api.rel(:quiz).patch(params, id: quiz.id).value! }
+  subject(:modification) { api.rel(:quiz).patch(payload, params: {id: quiz.id}).value! }
 
   let(:api) { Restify.new(:test).get.value! }
   let(:quiz) { create(:quiz, time_limit_seconds: 60) }
   let(:qid) { UUID4(quiz.id).to_s(format: :base62) }
-  let(:params) { {time_limit_seconds: 4242} }
+  let(:payload) { {time_limit_seconds: 4242} }
 
   it { is_expected.to respond_with :no_content }
 
@@ -18,7 +18,7 @@ RSpec.describe 'Quiz: Update', type: :request do
 
   context 'instructions with file upload references' do
     let(:instructions) { 'upload://b5f99337-224f-40f5-aa82-44ee8b272579/foo.jpg' }
-    let(:params) { super().merge instructions: }
+    let(:payload) { super().merge instructions: }
 
     it 'stores valid upload and updates quiz' do
       stub_request(

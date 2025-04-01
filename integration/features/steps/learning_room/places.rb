@@ -31,10 +31,6 @@ module Steps
         visit collab_space_path
       end
 
-      Given 'I am on the collab space forum page' do
-        visit collab_space_forum_path
-      end
-
       When 'I visit the collab space page' do
         send :'Given I am on the collab space page'
       end
@@ -45,11 +41,6 @@ module Steps
 
       Given 'I am on the collab space administration page' do
         visit collab_space_edit_path
-      end
-
-      Then 'I should be on a collab space topic page' do
-        # we do not know the topic id, just make sure it is present
-        expect(page).to have_current_path %r{#{collab_space_path}/question/[\w-]+}
       end
     end
   end

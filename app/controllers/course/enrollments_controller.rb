@@ -10,7 +10,7 @@ class Course::EnrollmentsController < Abstract::FrontendController
   def create
     enrollment = course_api
       .rel(:enrollments)
-      .get(course_id: course['id'], user_id: current_user.id)
+      .get({course_id: course['id'], user_id: current_user.id})
       .value!
 
     return redirect_to course_resume_path course['course_code'] if enrollment.present?
@@ -20,7 +20,7 @@ class Course::EnrollmentsController < Abstract::FrontendController
       return redirect_to course_path course['course_code']
     end
 
-    course_api.rel(:enrollments).post(user_id: current_user.id, course_id: course['id']).value!
+    course_api.rel(:enrollments).post({user_id: current_user.id, course_id: course['id']}).value!
 
     add_flash_message :notice, t(:'flash.notice.enrollment_successful_short', course: course['title'])
     redirect_to course_path course['course_code']
@@ -51,7 +51,7 @@ class Course::EnrollmentsController < Abstract::FrontendController
   private
 
   def course
-    @course ||= course_api.rel(:course).get(id: params.require(:course_id)).value!
+    @course ||= course_api.rel(:course).get({id: params.require(:course_id)}).value!
   rescue Restify::NotFound
     raise Status::NotFound
   end
@@ -60,7 +60,7 @@ class Course::EnrollmentsController < Abstract::FrontendController
     @enrollment ||= begin
       raise Status::NotFound unless params[:id]
 
-      course_api.rel(:enrollment).get(id: UUID(params[:id]).to_s).value!
+      course_api.rel(:enrollment).get({id: UUID(params[:id]).to_s}).value!
     end
   end
 

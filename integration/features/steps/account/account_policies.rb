@@ -5,13 +5,13 @@ module Steps
     module Policies
       Given 'there is a policy' do
         Server[:account].api.rel(:policies)
-          .post(version: 4, url: {en: 'https://google.com'})
+          .post({version: 4, url: {en: 'https://google.com'}})
           .value!
       end
 
       Given 'I have accepted current policy' do
         Server[:account].api.rel(:user)
-          .patch({accepted_policy_version: 4}, {id: context.fetch(:user)[:id]})
+          .patch({accepted_policy_version: 4}, params: {id: context.fetch(:user)['id']})
           .value!
       end
 

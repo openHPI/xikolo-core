@@ -9,7 +9,6 @@
  * Bootstrap-Import..............Required import for BS component
  * Panels-Base...................Base styles for all components
  * Teacher-Accordion.............Teacher collapse component
- * Info-box......................Info box concept
  */
 
 /*------------------------------------*\
@@ -123,70 +122,6 @@ $panel-body-padding: 15px;
 
     .teacher-text {
       padding: $panel-body-padding;
-    }
-  }
-}
-
-/*------------------------------------*\
-    $Info-box
-\*------------------------------------*/
-.info-box {
-  display: table-row;
-
-  .indicator {
-    display: table-cell;
-
-    height: 100%;
-    padding: 0px 10px 0px 10px;
-    background-color: rgba($blue, 0.8);
-
-    color: $white;
-    vertical-align: middle;
-
-    &.warning {
-      background-color: $information-500;
-    }
-
-    &.error {
-      background-color: $error-500;
-    }
-
-    &.success {
-      background-color: $success-500;
-    }
-  }
-
-  .text {
-    display: table-cell;
-
-    width: 100%;
-    padding: 10px;
-    background-color: lighten($gray-100, 5%);
-    vertical-align: top;
-    //border: 1px solid $blue;
-  }
-
-  .close-box {
-    display: table-cell;
-    padding: 10px;
-    background-color: lighten($gray-100, 5%);
-
-    .close-link {
-      color: inherit;
-      opacity: 0.2;
-      text-shadow: 0 1px 0 $white;
-
-      &:before {
-        content: "\02715";
-      }
-
-      &:hover,
-      &:focus {
-        color: $black;
-        cursor: pointer;
-        opacity: 0.5;
-        text-decoration: none;
-      }
     }
   }
 }

@@ -7,7 +7,7 @@ RSpec.describe 'Posts: Delete', type: :request do
 
   let(:service) { Restify.new(:test).get.value! }
 
-  let(:post_resource) { service.rel(:post).get(id: post_id).value! }
+  let(:post_resource) { service.rel(:post).get({id: post_id}).value! }
 
   let!(:question) { create(:question) }
   let!(:answer) { create(:answer) }

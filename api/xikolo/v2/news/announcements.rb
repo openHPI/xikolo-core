@@ -77,19 +77,19 @@ module Xikolo
 
       member do
         get 'Retrieve announcement details' do
-          Xikolo.api(:news).value!.rel(:news).get(id:).value!
+          Xikolo.api(:news).value!.rel(:news).get({id:}).value!
         end
 
         patch 'Change article information' do |entity|
           authenticate!
 
           news_service = Xikolo.api(:news).value!
-          announcement = news_service.rel(:news).get(id:).value!
+          announcement = news_service.rel(:news).get({id:}).value!
 
           if entity.to_resource['read']
             announcement.rel(:user_visit).patch(
               {},
-              {user_id: current_user.id}
+              params: {user_id: current_user.id}
             ).value!
           end
 

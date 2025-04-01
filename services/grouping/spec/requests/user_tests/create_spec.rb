@@ -3,10 +3,10 @@
 require 'spec_helper'
 
 RSpec.describe 'User Tests: Create', type: :request do
-  subject(:post_request) { api.rel(:user_tests).post(params).value! }
+  subject(:post_request) { api.rel(:user_tests).post(payload).value! }
 
   let(:api) { Restify.new(:test).get.value! }
-  let(:params) do
+  let(:payload) do
     attributes_for(:user_test, identifier: 'user_test').merge(test_groups: [
       {name: 'Control', description: 'The control group', flippers: []},
       {name: 'Alternative', description: 'These should make more posts', flippers: ['new_pinboard']},
@@ -86,7 +86,7 @@ RSpec.describe 'User Tests: Create', type: :request do
   end
 
   context 'with metrics' do
-    let(:params) { super().merge(metrics: metrics_attributes) }
+    let(:payload) { super().merge(metrics: metrics_attributes) }
     let(:metrics_attributes) do
       [
         {'type' => 'CoursePoints', 'wait_interval' => 0},
@@ -105,7 +105,7 @@ RSpec.describe 'User Tests: Create', type: :request do
   end
 
   context 'with filters' do
-    let(:params) { super().merge(filter_strings: ['enrollments < 2', 'gender == female']) }
+    let(:payload) { super().merge(filter_strings: ['enrollments < 2', 'gender == female']) }
 
     it 'creates the correct number of filters' do
       expect { post_request }.to change(Filter, :count).by(2)
@@ -121,8 +121,8 @@ RSpec.describe 'User Tests: Create', type: :request do
     end
   end
 
-  context 'with invalid params' do
-    let(:params) { {name: nil} }
+  context 'with invalid payload' do
+    let(:payload) { {name: nil} }
 
     it 'responds with 400 Bad Request' do
       expect { post_request }.to raise_error(Restify::BadRequest)

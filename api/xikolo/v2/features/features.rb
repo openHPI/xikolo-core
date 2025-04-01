@@ -19,9 +19,9 @@ module Xikolo
         get 'Get global features' do
           authenticate!
 
-          Xikolo.api(:account).value!.rel(:user).get(
-            id: current_user.id
-          ).value!.rel(:features).get.value!
+          Xikolo.api(:account).value!.rel(:user).get({
+            id: current_user.id,
+          }).value!.rel(:features).get.value!
         end
       end
     end

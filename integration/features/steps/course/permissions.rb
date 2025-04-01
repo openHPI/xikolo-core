@@ -17,7 +17,10 @@ module Steps
 
       When 'I add the additional user to the teacher group' do
         user = context.fetch :additional_user
-        tom_select user.email[0..10], search: true, css: '#group-teachers'
+        email = user.fetch('email')
+        expect(email).to be_present
+
+        tom_select email[0..10], search: true, css: '#group-teachers'
         within '#group-teachers' do
           click_on 'Add user'
         end

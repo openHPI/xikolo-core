@@ -3,7 +3,7 @@
 module Steps
   module AccountPasswordReset
     step 'I request a password reset with my email address' do
-      fill_in 'e-mail address', with: context.fetch(:user)[:email]
+      fill_in 'e-mail address', with: context.fetch(:user).fetch('email')
       click_on 'Request password reset'
     end
 
@@ -14,10 +14,10 @@ module Steps
 
     When 'I assign a new password' do
       user = context.fetch(:user)
-      user[:password] = 'far_more_secret'
+      user['password'] = 'far_more_secret'
 
-      fill_in 'New password', with: user[:password], match: :prefer_exact
-      fill_in 'Confirm password', with: user[:password], match: :prefer_exact
+      fill_in 'New password', with: user['password'], match: :prefer_exact
+      fill_in 'Confirm password', with: user['password'], match: :prefer_exact
 
       click_on 'Set new password'
 
@@ -26,9 +26,9 @@ module Steps
 
     When 'I assign two different passwords' do
       user = context.fetch(:user)
-      user[:password] = 'far_more_secret'
+      user['password'] = 'far_more_secret'
 
-      fill_in 'New password', with: user[:password], match: :prefer_exact
+      fill_in 'New password', with: user['password'], match: :prefer_exact
       fill_in 'Confirm password', with: '__wrong__', match: :prefer_exact
 
       click_on 'Set new password'
@@ -36,7 +36,7 @@ module Steps
 
     When 'I assign a new empty password' do
       user = context.fetch(:user)
-      user[:password] = 'far_more_secret'
+      user['password'] = 'far_more_secret'
 
       # Otherwise the browser wont even let me submit them
       page.execute_script("$('[type=password]').attr('required', false)")
@@ -60,7 +60,7 @@ module Steps
     end
 
     Then 'I see a password reset notice' do
-      expect(page).to have_notice "We have sent a password reset e-mail to #{context.fetch(:user)[:email]}."
+      expect(page).to have_notice "We have sent a password reset e-mail to #{context.fetch(:user).fetch('email')}."
     end
 
     Then 'I receive a password reset email' do
@@ -74,8 +74,8 @@ module Steps
       visit '/'
       click_on 'Log in'
 
-      fill_in_email user[:email]
-      fill_in_password user[:password]
+      fill_in_email user.fetch('email')
+      fill_in_password user.fetch('password')
 
       send :'When I submit my credentials'
       send :'Then I am logged in into my profile'

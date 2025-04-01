@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Free Text Questions: Delete', type: :request do
-  subject(:deletion) { api.rel(:free_text_question).delete(id: question.id).value! }
+  subject(:deletion) { api.rel(:free_text_question).delete({id: question.id}).value! }
 
   let(:api) { Restify.new(:test).get.value! }
   let!(:question) { create(:free_text_question, text:, explanation:) }

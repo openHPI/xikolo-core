@@ -32,7 +32,7 @@ describe Proctoring::CourseContext do
     end
 
     context 'w/o any quiz item (exam)' do
-      it { is_expected.to be_upgrade_possible }
+      it { is_expected.not_to be_upgrade_possible }
     end
 
     context 'w/ exactly one quiz item (exam)' do
@@ -47,21 +47,7 @@ describe Proctoring::CourseContext do
         }]
       end
 
-      context 'w/ quiz item available (not submitted nor deadline passed)' do
-        it { is_expected.to be_upgrade_possible }
-      end
-
-      context 'w/ quiz item submitted' do
-        let(:item_user_state) { 'submitted' }
-
-        it { is_expected.not_to be_upgrade_possible }
-      end
-
-      context 'w/ quiz item missed' do
-        let(:submission_deadline) { 1.day.ago }
-
-        it { is_expected.not_to be_upgrade_possible }
-      end
+      it { is_expected.not_to be_upgrade_possible }
     end
 
     context 'w/ multiple quiz items (exams)' do
@@ -83,59 +69,7 @@ describe Proctoring::CourseContext do
         }]
       end
 
-      context 'w/ quiz items available' do
-        it { is_expected.to be_upgrade_possible }
-      end
-
-      context 'w/ proctoring upgrading deadline close' do
-        let(:submission_deadline) { 2.days.from_now }
-        let(:submission_deadline_2) { 3.days.from_now }
-
-        it { is_expected.to be_upgrade_possible }
-      end
-
-      context 'w/ proctoring upgrading deadline missed' do
-        let(:submission_deadline) { 1.day.from_now }
-        let(:submission_deadline_2) { 2.days.from_now }
-
-        it { is_expected.not_to be_upgrade_possible }
-      end
-
-      context 'w/ one quiz item missed only' do
-        let(:submission_deadline) { 1.week.ago }
-
-        it { is_expected.to be_upgrade_possible }
-      end
-
-      context 'w/ one item missed but another upcoming' do
-        let(:submission_deadline) { 1.day.ago }
-        let(:submission_deadline_2) { 10.days.from_now }
-        let(:start_date) { 1.week.ago }
-        let(:start_date_2) { 5.days.from_now }
-
-        it { is_expected.to be_upgrade_possible }
-      end
-
-      context 'w/ more than one quiz item missed' do
-        let(:submission_deadline) { 7.days.ago }
-        let(:submission_deadline_2) { 5.days.ago }
-
-        it { is_expected.not_to be_upgrade_possible }
-      end
-
-      context 'w/ more than one quiz item submitted' do
-        let(:item_user_state) { 'graded' }
-        let(:item_user_state_2) { 'submitted' }
-
-        it { is_expected.not_to be_upgrade_possible }
-      end
-
-      context 'w/ more than one quiz item missed or submitted' do
-        let(:submission_deadline) { 1.week.ago }
-        let(:item_user_state_2) { 'submitted' }
-
-        it { is_expected.not_to be_upgrade_possible }
-      end
+      it { is_expected.not_to be_upgrade_possible }
 
       context 'for a self-paced course' do
         let(:course) do
@@ -144,7 +78,7 @@ describe Proctoring::CourseContext do
           )
         end
 
-        it { is_expected.to be_upgrade_possible }
+        it { is_expected.not_to be_upgrade_possible }
       end
 
       context 'for an upcoming course' do
@@ -154,7 +88,7 @@ describe Proctoring::CourseContext do
           )
         end
 
-        it { is_expected.to be_upgrade_possible }
+        it { is_expected.not_to be_upgrade_possible }
       end
 
       context 'for an archived course offering both proctoring and reactivation' do
@@ -184,22 +118,7 @@ describe Proctoring::CourseContext do
             create(:enrollment, :reactivated, course:, user_id:)
           end
 
-          context 'with no submissions' do
-            it { is_expected.to be_upgrade_possible }
-          end
-
-          context 'w/ only one submission' do
-            let(:item_user_state) { 'submitted' }
-
-            it { is_expected.to be_upgrade_possible }
-          end
-
-          context 'w/ more than one submission' do
-            let(:item_user_state) { 'submitted' }
-            let(:item_user_state2) { 'submitted' }
-
-            it { is_expected.not_to be_upgrade_possible }
-          end
+          it { is_expected.not_to be_upgrade_possible }
         end
       end
     end

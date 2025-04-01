@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Posts: Show', type: :request do
-  subject(:resource) { service.rel(:post).get(id: post_id).value! }
+  subject(:resource) { service.rel(:post).get({id: post_id}).value! }
 
   let(:service) { Restify.new(:test).get.value! }
 

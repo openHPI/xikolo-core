@@ -17,9 +17,9 @@ module Resources
     end
 
     def merge!(values)
-      @user.rel(:preferences).put(
-        properties: @properties.merge(values)
-      ).value!
+      @user.rel(:preferences).put({
+        properties: @properties.merge(values),
+      }).value!
     end
 
     private

@@ -276,7 +276,6 @@ fr:
       submission_converted: Soumission a été convertie avec succès à partir de maintenant!
       subscription_canceled: J'ai réussi à supprimer le sujet.
       proctoring:
-        already_registered_smowl: Vous avez déjà calibré votre image avec notre partenaire.
         certificate_booked: Vous avez réservé avec succès le certificat pour ce cours.
       lti_provider_created: Le fournisseur LTI a été créé avec succès.
       lti_provider_updated: Le fournisseur LTI a été sauvegardé avec succès.
@@ -879,8 +878,6 @@ fr:
           passed: Proctoring réussi
           passed_with_issues: Proctoring réussi avec quelques problèmes
           failed: Proctoring échoué
-          exclude: Exclude from proctoring
-          exclude_confirm: Are you sure you want to exclude the submission from proctoring?
         actions: Actions
         submission: Submission
         submissions: Submissions
@@ -1390,27 +1387,6 @@ fr:
         multiple_answer_question: Multi Select Question
         free_text_question: Free Text Question
         essay_question: Essay
-      proctoring:
-        book_certificate: Réserver le certificat
-        certificate_booked:
-          title: Vous avez réservé avec succès votre certificat
-          instructions: "Veuillez vous assurer de respecter les règles (<a href='https://smowl.net/en/faqs-proctoring-smowl/camera-monitoring/' target='_blank' rel='noopener'>FAQ</a> | <a href='/pages/proctoring_guidelines' target='_blank'>guide</a>). En cas d'infraction, nous ne pourrons pas délivrer de certificat. N'oubliez jamais :"
-          exclusion_criteria:
-            <ul><li>Vous devez être <strong>la seule personne</strong> devant la caméra. Si aucune personne, plusieurs personnes ou une autre personne que celle qui est enregistrée n'est visible, la surveillance échouera.</li>
-            <li>Choisissez une période d'examen où vous <strong>ne serez pas dérangé(e)</strong> et où vous ne devrez pas quitter votre place pendant l'examen.</li>
-            <li>Assurez-vous que <strong>les conditions d'éclairage sont adéquates</strong> et que votre visage est clairement visible. Une source de lumière à l'arrière peut faire apparaître votre visage trop sombre dans la caméra.</li>
-            <li>N'utilisez rien qui couvre votre tête ou votre visage (chapeau, lunettes de soleil, ...). Les lunettes de lecture sont autorisées.</li>
-            </ul>
-            <p>Conseils techniques :</p>
-            <ul><li>Assurez-vous que votre caméra est allumée et entièrement fonctionnelle. Retirez le couvercle de votre webcam.</li>
-            <li>Fermez toutes les autres applications qui accèdent à la caméra.</li>
-            <li>Pendant l'examen, assurez-vous que l'onglet  des tâches est le seul onglet ouvert dans votre navigateur.</li></ul>
-        deadline_passed: La période d'inscription pour le certificat est terminée. Vous pouvez encore obtenir une attestation de réussite en complétant les quiz notés.
-        upgrade_not_possible: Vous avez déjà soumis trop de devoirs hebdomadaires et ne pouvez donc plus réserver le Certificat. Vous pouvez encore obtenir une attestation de réussite en remplissant les quiz notés.
-        upgrade_information:
-          title: Voulez-vous réserver un certificat ?
-          info: Vous pouvez encore vous inscrire pour le certificat jusqu'au <strong>%{deadline}</strong>. Le certificat est un complément payant. Vous pouvez toujours gagner une attestation de réussite gratuit en remplissant les quiz notés.
-          registration_periods_info: <b>Périodes d'inscription :</b> Vous pouvez vous inscrire au certificat uniquement avant la date limite de soumission du deuxième devoir noté. Si la date limite de soumission du deuxième devoir est dépassée, il n'est plus possible de s'inscrire à l'examen surveillé.
 
     lti:
       allowed_attempts: Allowed attempts
@@ -1993,8 +1969,6 @@ fr:
       main: Envoyez mes réponses finales
       survey: Envoyez des commentaires
     proctoring:
-      sidebar_title: la surveillance d'examens
-      instrumented_info: The online proctoring functionality is temporary disabled because you are masqueraded as the user.
       no_issues: No issues detected
       data_currently_unavailable: The proctoring data is still being processed.
       feature_tooltip: Violations will be accumulated
@@ -2238,27 +2212,7 @@ fr:
       total: Total
 
   proctoring:
-    register_with_smowl: Calibrer votre image
-    calibration_missing_callout: Vous devez calibrer votre image avant de passer l'examen.
-    calibration_missing_text: Vous ne pourrez pas passer l'examen tant que vous n'aurez pas commencé le processus d'étalonnage.
-    calibration_missing_action: Aller à la page des détails de l'étalonnage
-    calibration_pending_title: Calibrage en cours
-    calibration_pending_text: Votre image est en cours d'étalonnage. Ce processus peut prendre quelques heures. Veuillez revenir ici plus tard pour passer l'examen.
     service_unavailable: Le service de surveillance est actuellement indisponible. Veuillez réessayer plus tard.
-    book_certificate: Réserver un certificat
-
-    registration_details:
-      title: Étalonnage pour le certificat
-      headline_steps: Prendre une photo pour la vérification
-      steps_introduction: "Si vous avez opté pour le Certificat, nous avons besoin de trois photos de vous pour la reconnaissance automatique du visage. Procédez comme suit pour activer la fonction de reconnaissance faciale :"
-      step_1: Assurez-vous que vous utilisez un <a href='https://smowl.net/en/faqs-proctoring-smowl/requirements/' target='_blank' rel='noopener'> navigateur compatible</a>.
-      step_2: Cliquez sur "Calibrer votre image" à la fin de cette page.
-      step_3: Prenez 3 photos de vous avec votre webcam. La deuxième photo apparaîtra sur votre certificat.
-      step_4: Confirmez les photos ou prenez-en une nouvelle série après les avoir rejetées.
-      callout_title: Calibrez votre image dès que possible
-      callout_text: Le processus d'étalonnage peut prendre <strong>jusqu'à 48 heures</strong>. Pendant cette période, l'accès aux quiz corrigés et à tous les exercices pertinents est bloqué.
-      verification_lifetime_headline: Durée de vie de la vérification
-      verification_lifetime_text: Le calibrage est effectué par participant, et non par cours, c'est-à-dire qu'il n'est pas nécessaire de répéter l'ensemble du processus pour chaque cours. Dans les cours suivants, il sera vérifié si l'apparence a tellement changé qu'un nouvel étalonnage est nécessaire. Si tel est le cas, il vous sera demandé de le faire dans le cours.
 
   time_effort:
     seconds: secondes

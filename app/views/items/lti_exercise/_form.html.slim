@@ -10,7 +10,7 @@
       group_method: :last,
       label_method: :name,
       value_method: :id,
-      hint: lti_exercise.deleted_provider? ? render('items/lti_exercise/deleted_provider_hint') : false
+      hint: lti_exercise.deleted_provider? ? render(Global::Callout.new(t(:'items.lti.provider_deleted'), type: :error)) : false
     = f.input :title, as: :string, label: t(:'items.lti.exercise_title')
     = f.input :custom_fields, as: :string,
       label: t(:'items.lti.custom_exercise_fields'),

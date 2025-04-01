@@ -52,9 +52,10 @@ module Locale
 
     # Update logged in users language preference
     if current_user.logged_in?
-      Xikolo.api(:account).value!.rel(:user).patch({
-        language: locale,
-      }, {id: current_user.id}).value!
+      Xikolo.api(:account).value!.rel(:user).patch(
+        {language: locale},
+        params: {id: current_user.id}
+      ).value!
     end
 
     locale

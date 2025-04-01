@@ -28,12 +28,12 @@ module Steps::Forum::Content
   end
 
   def vote(votable, votable_type, user, value)
-    Server[:pinboard].api.rel(:votes).post(
+    Server[:pinboard].api.rel(:votes).post({
       value:,
       votable_id: votable['id'],
       votable_type:,
-      user_id: user['id']
-    )
+      user_id: user['id'],
+    })
   end
 
   def post_topic(author, section = nil, item = nil)
@@ -41,18 +41,18 @@ module Steps::Forum::Content
     context.assign :forum_topic_author, author
     implicit_tags = nil
     if section
-      implicit_tags = [Server[:pinboard].api.rel(:implicit_tag).get(
+      implicit_tags = [Server[:pinboard].api.rel(:implicit_tag).get({
         name: section['id'],
         course_id: course['id'],
-        referenced_resource: 'Xikolo::Course::Section'
-      ).value![0]['id']]
+        referenced_resource: 'Xikolo::Course::Section',
+      }).value![0]['id']]
     end
     if item
-      implicit_tags << Server[:pinboard].api.rel(:implicit_tag).get(
+      implicit_tags << Server[:pinboard].api.rel(:implicit_tag).get({
         name: item['id'],
         course_id: course['id'],
-        referenced_resource: 'Xikolo::Course::Item'
-      ).value![0]['id']
+        referenced_resource: 'Xikolo::Course::Item',
+      }).value![0]['id']
     end
 
     topic = create_forum_topic(user_id: author['id'], implicit_tags:).value!
@@ -80,8 +80,8 @@ module Steps::Forum::Content
 
   def update_topic(data)
     topic = context.fetch :forum_topic
-    params = {id: topic[:id], text: topic[:text]}
-    Server[:pinboard].api.rel(:question).patch(data, params)
+    params = {id: topic['id'], text: topic['text']}
+    Server[:pinboard].api.rel(:question).patch(data, params:)
   end
 
   Given 'a topic is posted in the general forum' do

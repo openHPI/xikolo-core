@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe '[API v2] Course: Show', type: :request do
-  subject(:resource) { api.rel(:course).get(get_params).value! }
+  subject(:resource) { api.rel(:course).get(params).value! }
 
   before do
     Stub.service(
@@ -48,7 +48,7 @@ describe '[API v2] Course: Show', type: :request do
   let(:user) { {} }
   let(:user_id) { generate(:user_id) }
   let(:permissions) { ['course.course.show'] }
-  let(:get_params) { {id: course.id} }
+  let(:params) { {id: course.id} }
 
   let!(:course) { create(:course, course_attrs) }
   let(:course_attrs) { {} }
@@ -70,10 +70,10 @@ describe '[API v2] Course: Show', type: :request do
   end
 
   shared_examples 'a basic API v2 course' do
-    its('id') { is_expected.to eq course.id }
-    its('course_code') { is_expected.to eq course.course_code }
-    its('title') { is_expected.to eq course.title }
-    its('abstract') { is_expected.to eq course.abstract }
+    its(['id']) { is_expected.to eq course.id }
+    its(['course_code']) { is_expected.to eq course.course_code }
+    its(['title']) { is_expected.to eq course.title }
+    its(['abstract']) { is_expected.to eq course.abstract }
 
     it 'has an empty teachers without teachers or alternative teacher text' do
       expect(resource['teachers']).to eq ''
@@ -98,17 +98,17 @@ describe '[API v2] Course: Show', type: :request do
       end
     end
 
-    its('language') { is_expected.to eq 'se' }
+    its(['language']) { is_expected.to eq 'se' }
 
     context 'without channel' do
-      its('channel_code') { is_expected.to be_nil } # we have no channel at the moment
+      its(['channel_code']) { is_expected.to be_nil } # we have no channel at the moment
     end
 
     context 'with channel' do
       let(:channel) { create(:channel, code: 'important-group') }
       let(:course_attrs) { super().merge channel: }
 
-      its('channel_code') { is_expected.to eq 'important-group' }
+      its(['channel_code']) { is_expected.to eq 'important-group' }
     end
 
     # classifiers: classifiers,
@@ -118,55 +118,55 @@ describe '[API v2] Course: Show', type: :request do
     context 'for a announced course' do
       let(:course_attrs) { super().merge start_date: 2.days.from_now }
 
-      its('state') { is_expected.to eq 'announced' }
+      its(['state']) { is_expected.to eq 'announced' }
     end
 
     context 'for a preview course' do
       let(:course_attrs) { super().merge start_date: 2.days.ago, display_start_date: 2.days.from_now, end_date: 3.weeks.from_now }
 
-      its('state') { is_expected.to eq 'preview' }
+      its(['state']) { is_expected.to eq 'preview' }
     end
 
     context 'for a active course' do
       let(:course_attrs) { super().merge start_date: 2.days.ago, display_start_date: 2.days.ago, end_date: 3.weeks.from_now }
 
-      its('state') { is_expected.to eq 'active' }
+      its(['state']) { is_expected.to eq 'active' }
     end
 
     context 'for a self-paced course' do
       let(:course_attrs) { super().merge start_date: 2.days.ago, display_start_date: 2.days.ago, end_date: 1.day.ago }
 
-      its('state') { is_expected.to eq 'self-paced' }
+      its(['state']) { is_expected.to eq 'self-paced' }
     end
 
     context 'without start date' do
       let(:course_attrs) { super().merge start_date: nil, display_start_date: nil }
 
-      its('start_date') { is_expected.to be_nil }
+      its(['start_date']) { is_expected.to be_nil }
     end
 
     context 'without display_start_date but start_date' do
       let(:course_attrs) { super().merge display_start_date: nil }
 
-      its('start_date') { is_expected.to eq course.start_date.iso8601(3) }
+      its(['start_date']) { is_expected.to eq course.start_date.iso8601(3) }
     end
 
     context 'with display_start_date' do
       let(:course_attrs) { super().merge display_start_date: 2.days.ago }
 
-      its('start_date') { is_expected.to eq course.display_start_date.iso8601(3) }
+      its(['start_date']) { is_expected.to eq course.display_start_date.iso8601(3) }
     end
 
     context 'without end date' do
       let(:course_attrs) { super().merge end_date: nil }
 
-      its('end_date') { is_expected.to be_nil }
+      its(['end_date']) { is_expected.to be_nil }
     end
 
     context 'with end date' do
       let(:course_attrs) { super().merge end_date: 3.days.from_now }
 
-      its('end_date') { is_expected.to eq course.end_date.iso8601(3) }
+      its(['end_date']) { is_expected.to eq course.end_date.iso8601(3) }
     end
   end
 
@@ -312,17 +312,17 @@ describe '[API v2] Course: Show', type: :request do
     end
 
     it 'finds course by id' do
-      request = api.rel(:course).get(id: course.id).value!
+      request = api.rel(:course).get({id: course.id}).value!
       expect(request.response.status).to eq :ok
     end
 
     it 'finds course by short UUID' do
-      request = api.rel(:course).get(id: UUID4(course.id).to_str(format: :base62)).value!
+      request = api.rel(:course).get({id: UUID4(course.id).to_str(format: :base62)}).value!
       expect(request.response.status).to eq :ok
     end
 
     it 'finds course by course_code' do
-      request = api.rel(:course).get(id: course.course_code).value!
+      request = api.rel(:course).get({id: course.course_code}).value!
       expect(request.response.status).to eq :ok
     end
 
@@ -330,7 +330,7 @@ describe '[API v2] Course: Show', type: :request do
       let(:course_attrs) { super().merge(course_code: 'javaeinstieg2015') }
 
       it 'finds course by course_code' do
-        request = api.rel(:course).get(id: course.course_code).value!
+        request = api.rel(:course).get({id: course.course_code}).value!
         expect(request.response.status).to eq :ok
       end
     end
@@ -345,7 +345,7 @@ describe '[API v2] Course: Show', type: :request do
       end
 
       context 'if description is wanted' do
-        let(:get_params) { super().merge(embed: 'description') }
+        let(:params) { super().merge(embed: 'description') }
 
         it { is_expected.to have_key 'description' }
 
@@ -369,11 +369,11 @@ describe '[API v2] Course: Show', type: :request do
       end
 
       context 'and requested enrollment info' do
-        let(:get_params) { super().merge embed: 'enrollment' }
+        let(:params) { super().merge embed: 'enrollment' }
 
         it_behaves_like 'a basic API v2 course'
 
-        its('enrollment') do
+        its(['enrollment']) do
           is_expected.to eq(
             'id' => enrollment.id,
             'user_id' => enrollment.user_id,
@@ -412,7 +412,7 @@ describe '[API v2] Course: Show', type: :request do
       end
 
       context 'if description is wanted' do
-        let(:get_params) { super().merge(embed: 'description') }
+        let(:params) { super().merge(embed: 'description') }
 
         it { is_expected.to have_key 'description' }
 
@@ -432,17 +432,17 @@ describe '[API v2] Course: Show', type: :request do
       end
 
       context 'and requested enrollment info' do
-        let(:get_params) { super().merge embed: 'enrollment' }
+        let(:params) { super().merge embed: 'enrollment' }
 
         it_behaves_like 'a basic API v2 course'
 
-        its('enrollment') { is_expected.to be_nil }
+        its(['enrollment']) { is_expected.to be_nil }
       end
 
       context 'for a external course' do
         let(:course_attrs) { super().merge external_course_url: 'https://example.org/test' }
 
-        its('state') { is_expected.to eq 'external' }
+        its(['state']) { is_expected.to eq 'external' }
         its(['external_course_url']) { is_expected.to eq 'https://example.org/test' }
       end
     end

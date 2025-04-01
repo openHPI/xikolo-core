@@ -9,8 +9,8 @@ namespace :xikolo do
 
     # Tell the frontend to start uploading to S3
     Xikolo.api(:account).value!
-      .rel(:group).get(id: 'all').value!
-      .rel(:features).patch('collabspace_files_s3' => true).value!
+      .rel(:group).get({id: 'all'}).value!
+      .rel(:features).patch({collabspace_files_s3: true}).value!
 
     file_root = Xikolo.api(:file).value!
     bucket = Xikolo::S3.bucket_for(:collabspace)

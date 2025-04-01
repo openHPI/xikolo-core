@@ -9,7 +9,7 @@ describe 'Grants: Show', type: :request do
   let(:role)  { create(:role) }
 
   let(:api)   { Restify.new(:test).get.value! }
-  let(:grant) { api.rel(:grants).post(group: group.to_param, role: role.to_param, context: 'root').value! }
+  let(:grant) { api.rel(:grants).post({group: group.to_param, role: role.to_param, context: 'root'}).value! }
 
   it 'responds with :ok' do
     expect(resource).to respond_with :ok

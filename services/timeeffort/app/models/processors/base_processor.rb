@@ -26,7 +26,7 @@ module Processors
 
         Xikolo.api(:course).value!
           .rel(:item)
-          .patch({time_effort: item.reload.time_effort}, {id: item.id})
+          .patch({time_effort: item.reload.time_effort}, params: {id: item.id})
           .value!
       end
     rescue Restify::ClientError => e

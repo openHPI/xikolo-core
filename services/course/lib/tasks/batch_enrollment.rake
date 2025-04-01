@@ -16,10 +16,10 @@ namespace :users_csv do
       account_service = Xikolo.api(:account).value!
 
       begin
-        response = account_service.rel(:email).get(id: email).value!
+        response = account_service.rel(:email).get({id: email}).value!
         known_emails << {
-          user_id: response[:user_id],
-          address: response[:address],
+          user_id: response.fetch('user_id'),
+          address: response.fetch('address'),
         }
       rescue Restify::NotFound
         unknown_emails << email
@@ -63,7 +63,7 @@ namespace :users_csv do
 
     csv_table.each do |row|
       begin
-        user = account_service.rel(:user).get(id: row['User ID']).value!
+        user = account_service.rel(:user).get({id: row['User ID']}).value!
       rescue Restify::NotFound
         users_failed << row.to_a
         puts "User #{row.to_a} could not be found."
@@ -71,13 +71,13 @@ namespace :users_csv do
       end
 
       # Ensure the user account has been confirmed.
-      unless user['confirmed']
+      unless user.fetch('confirmed')
         users_failed << row.to_a
         puts "User #{row.to_a} has not yet been confirmed."
         next
       end
 
-      enrollment = Enrollment::Create.call(user['id'], course)
+      enrollment = Enrollment::Create.call(user.fetch('id'), course)
 
       if enrollment.persisted?
         puts "Enrolled user #{row.to_a} to course #{course.course_code}."

@@ -45,9 +45,9 @@ module Gamification
         end
 
         def attended_previous_section?
-          course_section_ids = Xikolo.api(:course).value!.rel(:sections).get(
-            course_id: @payload.fetch(:course_id)
-          ).value!.pluck('id')
+          course_section_ids = Xikolo.api(:course).value!.rel(:sections).get({
+            course_id: @payload.fetch(:course_id),
+          }).value!.pluck('id')
 
           scores = Gamification::Score.where(
             user_id: receiver,

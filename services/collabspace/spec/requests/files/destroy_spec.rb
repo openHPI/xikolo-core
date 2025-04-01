@@ -4,7 +4,7 @@ require 'spec_helper'
 
 RSpec.describe 'Collab Space: Files: Destroy', type: :request do
   subject(:destroy_file) do
-    api.rel(:file).delete(id: file_id).value!
+    api.rel(:file).delete({id: file_id}).value!
   end
 
   let(:api) { Restify.new(:test).get.value! }

@@ -3,10 +3,10 @@
 require 'spec_helper'
 
 RSpec.describe 'Quiz: Create', type: :request do
-  subject(:creation) { api.rel(:quizzes).post(params).value! }
+  subject(:creation) { api.rel(:quizzes).post(payload).value! }
 
   let(:api) { Restify.new(:test).get.value! }
-  let(:params) { attributes_for(:quiz) }
+  let(:payload) { attributes_for(:quiz) }
 
   it { is_expected.to respond_with :created }
 
@@ -16,7 +16,7 @@ RSpec.describe 'Quiz: Create', type: :request do
 
   context 'instructions with file upload references' do
     let(:instructions) { 'upload://b5f99337-224f-40f5-aa82-44ee8b272579/foo.jpg' }
-    let(:params) { super().merge instructions: }
+    let(:payload) { super().merge instructions: }
 
     it 'stores valid upload and creates a new resource' do
       stub_request(

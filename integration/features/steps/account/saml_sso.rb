@@ -16,7 +16,7 @@ module Steps
 
     Given 'there is an account with my work e-mail and SSO connection' do
       old_user = create_user(email: 'lassie@company.com', full_name: 'Lassie Fairy')
-      data = Factory.create(:authorization, {user_id: old_user.id, info: {email: 'lassie@company.com'}})
+      data = Factory.create(:authorization, {user_id: old_user.fetch('id'), info: {email: 'lassie@company.com'}})
       Server[:account].api.rel(:authorizations).post(data).value!
     end
 

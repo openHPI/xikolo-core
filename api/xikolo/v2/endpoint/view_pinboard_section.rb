@@ -9,7 +9,7 @@ module Xikolo
           authenticate!
 
           uuid = UUID params.id
-          section = Xikolo.api(:course).value!.rel(:section).get(id: uuid.uuid)
+          section = Xikolo.api(:course).value!.rel(:section).get({id: uuid.uuid})
 
           present :section, section.value!, with: Xikolo::Entities::Section
         end

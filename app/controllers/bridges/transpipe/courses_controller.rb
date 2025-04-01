@@ -27,7 +27,7 @@ module Bridges
 
       def courses
         @courses ||= course_api.rel(:courses)
-          .get(exclude_external: true, latest_first: true, page:)
+          .get({exclude_external: true, latest_first: true, page:})
           .value!
       end
 
@@ -36,19 +36,19 @@ module Bridges
       end
 
       def course
-        @course ||= course_api.rel(:course).get(id: params[:id]).value!
+        @course ||= course_api.rel(:course).get({id: params[:id]}).value!
       end
 
       def sections
-        @sections ||= course_api.rel(:sections).get(course_id: params[:id]).value!
+        @sections ||= course_api.rel(:sections).get({course_id: params[:id]}).value!
       end
 
       def videos
-        @videos ||= course_api.rel(:items).get(course_id: params[:id], content_type: 'video').value!
+        @videos ||= course_api.rel(:items).get({course_id: params[:id], content_type: 'video'}).value!
       end
 
       def teachers
-        @teachers ||= course_api.rel(:teachers).get(course: params[:id]).value!
+        @teachers ||= course_api.rel(:teachers).get({course: params[:id]}).value!
       end
 
       def external_course?

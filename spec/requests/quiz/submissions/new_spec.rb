@@ -180,43 +180,13 @@ describe 'Quiz: Submissions: New', type: :request do
         submission_deadline:)
     end
 
-    before do
-      stub_request(:post, 'https://results-api.smowltech.net/index.php/Restv1/ConfirmRegistration')
-        .to_return smowl_response
-    end
+    it 'does not create a submission and redirects back to the quiz intro page' do
+      new_submission
 
-    context 'when the user has registered with SMOWL' do
-      let(:smowl_response) { Stub.json({ConfirmRegistrationResponse: {ack: 0}}) }
+      expect(create_submission_stub).not_to have_been_requested
 
-      it 'starts a new quiz submission with webcam-based proctoring via SMOWL' do
-        new_submission
-
-        expect(
-          create_submission_stub.with(body: {
-            course_id: course.id,
-            quiz_id:,
-            user_id:,
-            vendor_data: {proctoring: 'smowl_v2'},
-          })
-        ).to have_been_requested
-
-        expect(page).to have_text 'Online proctoring'
-        expect(page).to have_css 'iframe[src^="https://swl.smowltech.net/monitor/controller.php"]'
-        expect(page).to have_link 'Send my final answers'
-      end
-    end
-
-    context 'when contacting SMOWL fails' do
-      let(:smowl_response) { Stub.response(status: 500) }
-
-      it 'does not create a submission and redirects back to the quiz intro page' do
-        new_submission
-
-        expect(create_submission_stub).not_to have_been_requested
-
-        expect(response).to redirect_to "/courses/the_course/items/#{short_uuid(item.id)}"
-        expect(flash[:error].first).to eq 'The proctored exam could not be started. Please try again later.'
-      end
+      expect(response).to redirect_to "/courses/the_course/items/#{short_uuid(item.id)}"
+      expect(flash[:error].first).to eq 'The proctored exam could not be started. Please try again later.'
     end
   end
 end

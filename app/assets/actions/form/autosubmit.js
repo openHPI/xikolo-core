@@ -11,15 +11,16 @@
 import ready from 'util/ready';
 
 ready(() => {
-  const els = document.querySelectorAll('form[data-autosubmit]');
+  const forms = document.querySelectorAll('form[data-autosubmit]');
 
-  if (__MODE__ !== 'production' && els.length > 1) {
+  if (__MODE__ !== 'production' && forms.length > 1) {
     console.warn(
       'Multiple form[data-autosubmit] found. Only first will be submitted in production',
     );
   }
 
-  if (els.length > 0) {
-    els[0].submit();
+  if (forms.length > 0) {
+    const form = forms[0];
+    form.submit();
   }
 });

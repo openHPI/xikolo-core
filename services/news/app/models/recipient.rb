@@ -35,7 +35,7 @@ class Recipient
   class User < Recipient
     def each(&)
       Enumerator.new do |yielder|
-        yielder << account_service.rel(:user).get(id:).value!
+        yielder << account_service.rel(:user).get({id:}).value!
       end.each(&)
     end
 
@@ -57,7 +57,7 @@ class Recipient
 
     def each(&)
       Enumerator.new do |yielder|
-        group = account_service.rel(:group).get(id:).value!
+        group = account_service.rel(:group).get({id:}).value!
         page = group.rel(:members).get.value!
 
         loop do
@@ -95,10 +95,10 @@ class Recipient
           expires_in: 5.minutes,
           race_condition_ttl: 5.seconds
         ) do
-          user_ids = account_service.rel(:group).get(id: group_name).then do |group|
+          user_ids = account_service.rel(:group).get({id: group_name}).then do |group|
             ids = Set.new
             Xikolo.paginate(
-              group.rel(:memberships).get(per_page: 10_000)
+              group.rel(:memberships).get({per_page: 10_000})
             ) do |membership|
               ids.add membership['user']
             end

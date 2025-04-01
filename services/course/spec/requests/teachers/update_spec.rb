@@ -3,13 +3,13 @@
 require 'spec_helper'
 
 describe 'Teacher: Update', type: :request do
-  subject(:update_action) { api.rel(:teacher).patch(params, id: teacher.id).value! }
+  subject(:update_action) { api.rel(:teacher).patch(data, params: {id: teacher.id}).value! }
 
   let(:api) { Restify.new(:test).get.value }
   let(:teacher) { create(:teacher) }
 
   context 'change name' do
-    let(:params) { {'name' => 'Hans Otto'} }
+    let(:data) { {'name' => 'Hans Otto'} }
 
     it 'updates the database' do
       expect { update_action }.to change { teacher.reload.name }.from(teacher.name).to('Hans Otto')
@@ -20,7 +20,7 @@ describe 'Teacher: Update', type: :request do
     let!(:teacher) { create(:teacher, :connected_to_user) }
 
     context 'user_id not given' do
-      let(:params) { {} }
+      let(:data) { {} }
 
       it 'does not change the user_id' do
         expect { update_action }.not_to change { teacher.reload.user_id }
@@ -28,7 +28,7 @@ describe 'Teacher: Update', type: :request do
     end
 
     context 'user_id given' do
-      let(:params) { {'user_id' => generate(:user_id)} }
+      let(:data) { {'user_id' => generate(:user_id)} }
 
       it 'does not change the user_id' do
         expect { update_action }.not_to change { teacher.reload.user_id }
@@ -38,7 +38,7 @@ describe 'Teacher: Update', type: :request do
 
   context 'change description' do
     let(:description) { {'en' => 'asdf', 'de' => 'Deutsch!'} }
-    let(:params) { {'description' => description} }
+    let(:data) { {'description' => description} }
 
     it 'updates the database' do
       expect(teacher.description.keys).to match_array %w[en de]

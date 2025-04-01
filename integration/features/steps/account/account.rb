@@ -8,7 +8,7 @@ module Steps
       data = Factory.create(:user, attrs)
 
       user = Server[:account].api.rel(:users).post(data).value!
-      user[:password] = data[:password]
+      user['password'] = data[:password]
       user
     end
 
@@ -18,11 +18,11 @@ module Steps
     end
 
     def create_and_assign_consent(attrs = {})
-      user = context.fetch :user
-      treatment = context.fetch :treatment
+      user = context.fetch(:user)
+      treatment = context.fetch(:treatment)
       data = [attrs.merge(name: treatment['name'], consented: true)]
       Server[:account].api
-        .rel(:user).get(id: user.id).value!
+        .rel(:user).get({id: user.fetch('id')}).value!
         .rel(:consents).patch(data).value!
     end
 
@@ -31,14 +31,14 @@ module Steps
     end
 
     def create_authorization(attrs = {})
-      user = context.fetch :user
-      data = Factory.create(:authorization, attrs.merge(user_id: user.id))
+      user = context.fetch(:user)
+      data = Factory.create(:authorization, attrs.merge(user_id: user.fetch('id')))
       Server[:account].api.rel(:authorizations).post(data).value!
     end
 
     def enable_feature(name)
-      user = context.fetch :user
-      user.rel(:features).patch(name => true).value!
+      user = context.fetch(:user)
+      user.rel(:features).patch({name => true}).value!
     end
 
     Given(/I have the feature (.*) enabled/) do |name|
@@ -69,16 +69,16 @@ module Steps
     end
 
     Given 'I am logged in' do
-      user = context.fetch :user
+      user = context.fetch(:user)
 
       # Make sure we're logged out
       Capybara.reset_sessions!
 
       # Set session ID to be stored in xikolo-web session
-      session = Server[:account].api.rel(:sessions).post(user: user['id']).value!
+      session = Server[:account].api.rel(:sessions).post({user: user['id']}).value!
 
       page.visit('/__session__')
-      page.fill_in('session_id', with: session[:id])
+      page.fill_in('session_id', with: session['id'])
       page.click_on('Save')
       expect(page).to have_content('Session ID changed')
     end
@@ -99,10 +99,10 @@ module Steps
     end
 
     def submit_my_login_credentials(user = nil)
-      user ||= context.fetch :user
+      user ||= context.fetch(:user)
       within '#login-form' do
-        fill_in 'E-mail', with: user[:email]
-        fill_in 'Password', with: user[:password]
+        fill_in 'E-mail', with: user.fetch('email')
+        fill_in 'Password', with: user.fetch('password')
         click_on 'Log in'
       end
       sleep 0.1
@@ -119,7 +119,7 @@ module Steps
 
     Given 'I am logged in as another user' do
       send :'Given there exists an additional user'
-      user = context.fetch :additional_user
+      user = context.fetch(:additional_user)
       context.assign :user, user, force: true # if another user is already logged in this fails without force
       enroll
       send :'Given I am logged in'
@@ -172,21 +172,11 @@ module Steps
       send :'Given I am logged in'
     end
 
-    When 'I am logged in as a team member' do
-      context.with :team_member do |user|
-        context.assign :user, user, force: true
-        enroll
-        send :'Given I am logged in'
-      end
-    end
-
-    When 'I am logged in as another team member', :'When I am logged in as a team member'
-
     Given(/the (.*) group exists/) do |group|
-      Server[:account].api.rel(:groups).post(
+      Server[:account].api.rel(:groups).post({
         name: group,
-        description: "The #{group} group"
-      ).value!
+        description: "The #{group} group",
+      }).value!
     end
   end
 end

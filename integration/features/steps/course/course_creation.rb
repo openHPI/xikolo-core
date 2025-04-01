@@ -35,7 +35,7 @@ module Steps
       # Does not work - tom_select/JavaScript
 
       # teachers = context.fetch :teachers
-      # tom_select teachers[2][:name], from: 'Teachers'
+      # tom_select teachers[2]['name'], from: 'Teachers'
     end
 
     When 'I assign some categories' do

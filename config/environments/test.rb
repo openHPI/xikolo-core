@@ -63,9 +63,4 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions.
   config.action_controller.raise_on_missing_callback_actions = true
-
-  # Restify: Do not wrap hashes with object-like accessors
-  #
-  # TODO: Move this to config/application.rb when occurrences are fixed everywhere
-  Restify::Processors::Json.indifferent_access = false
 end

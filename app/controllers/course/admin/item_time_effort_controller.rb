@@ -17,7 +17,7 @@ class Course::Admin::ItemTimeEffortController < Abstract::AjaxController
     authorize! 'course.content.edit'
     time_effort_item
       .rel(:overwritten_time_effort)
-      .put(time_effort: params.fetch(:time_effort))
+      .put({time_effort: params.fetch(:time_effort)})
       .value!
 
     head :no_content
@@ -42,7 +42,7 @@ class Course::Admin::ItemTimeEffortController < Abstract::AjaxController
   def time_effort_item
     @time_effort_item ||= Xikolo.api(:timeeffort).value!
       .rel(:item)
-      .get(id: item_id)
+      .get({id: item_id})
       .value!
   end
 
@@ -63,6 +63,6 @@ class Course::Admin::ItemTimeEffortController < Abstract::AjaxController
   end
 
   def course
-    @course ||= Xikolo.api(:course).value!.rel(:course).get(id: params[:course_id]).value!
+    @course ||= Xikolo.api(:course).value!.rel(:course).get({id: params[:course_id]}).value!
   end
 end

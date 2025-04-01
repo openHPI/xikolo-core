@@ -10,7 +10,7 @@ class Admin::PermissionsController < Abstract::FrontendController
   def create
     authorize! 'account.permissions.manage'
     begin
-      Xikolo.api(:account).value!.rel(:memberships).post(group: group_name, user: params[:id]).value!
+      Xikolo.api(:account).value!.rel(:memberships).post({group: group_name, user: params[:id]}).value!
     rescue Restify::ClientError
       add_flash_message :error, t(:'flash.error.user_required')
     end
@@ -19,7 +19,7 @@ class Admin::PermissionsController < Abstract::FrontendController
 
   def destroy
     authorize! 'account.permissions.manage'
-    Xikolo.api(:account).value!.rel(:memberships).delete(group: group_name, user: params[:id]).value!
+    Xikolo.api(:account).value!.rel(:memberships).delete({group: group_name, user: params[:id]}).value!
     redirect_to permissions_path
   end
 

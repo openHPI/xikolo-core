@@ -13,7 +13,7 @@ class PermissionsPresenter
   def members!
     @members = Xikolo.config.global_permission_groups.map do |group|
       group_name = "xikolo.#{group}"
-      data = account_service.rel(:group).get(id: group_name).then do |res|
+      data = account_service.rel(:group).get({id: group_name}).then do |res|
         [res.rel(:members).get, res.rel(:grants).get]
       end
       GroupPresenter.new name: group, data:

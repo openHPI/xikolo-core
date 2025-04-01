@@ -13,8 +13,8 @@ module Bridges
 
       def achievements
         @achievements ||= course.rel(:achievements).get(
-          {user_id: @user_id},
-          {headers: {'Accept-Language' => request.headers['Accept-Language']}}
+          params: {user_id: @user_id},
+          headers: {'Accept-Language' => request.headers['Accept-Language']}
         ).value!
       end
 
@@ -35,7 +35,7 @@ module Bridges
       end
 
       def course
-        @course ||= course_api.rel(:course).get(id: params[:id]).value!
+        @course ||= course_api.rel(:course).get({id: params[:id]}).value!
       end
     end
   end

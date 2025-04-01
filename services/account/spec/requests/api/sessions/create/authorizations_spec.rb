@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'Sessions: Create with User ID', type: :request do
-  subject(:resource) { api.rel(:sessions).post(**payload).value! }
+  subject(:resource) { api.rel(:sessions).post(payload).value! }
 
   let(:api) { Restify.new(:test).get.value! }
   let(:user) { create(:user) }

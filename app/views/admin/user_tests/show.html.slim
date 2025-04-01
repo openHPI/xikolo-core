@@ -3,9 +3,6 @@
     - if @user_test.active?
       - c.with_pill t(:'admin.user_tests.show.active'), color: :note, size: :small
 
-= javascript_include_tag '/js/highcharts.js'
-= javascript_include_tag '/js/highcharts-more.js'
-
 .container
   .row.mt10
     .col-md-8
@@ -122,8 +119,3 @@
                   - if test_group.required_participants && test_group.required_participants[metric.id]
                     span class=(test_group.required_participants[metric.id] <= test_group.total_count ? 'text-success' : 'text-danger')
                       = test_group.required_participants[metric.id]
-
-        - unless metric.distribution == 'binomial'
-          .row.mt10
-            .col-md-12
-              .box-plot data-chart-data="#{@user_test.box_plot_data(metric.id)}" style="height: 400px; margin: auto; min-width: 310px; max-width: 600px"

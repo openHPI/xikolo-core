@@ -51,7 +51,7 @@ shared_examples 'does not create' do |error_details|
 end
 
 describe 'Teachers: Create with picture', type: :request do
-  subject(:create_teacher) { api.rel(:teachers).post(create_params).value! }
+  subject(:create_teacher) { api.rel(:teachers).post(data).value! }
 
   let(:api) { Restify.new(:test).get.value }
   let(:upload_id) { 'f13d30d3-6369-4816-9695-af5318c8ac15' }
@@ -60,7 +60,7 @@ describe 'Teachers: Create with picture', type: :request do
   let(:store_stub_url) { %r{https://s3.xikolo.de/xikolo-public/teachers/[0-9a-zA-Z]+/[0-9a-zA-Z]+/#{file_name}} }
 
   context 'with picture_upload_id' do
-    let(:create_params) do
+    let(:data) do
       {
         id: generate(:user_id),
         name: 'This is a text',
@@ -138,7 +138,7 @@ describe 'Teachers: Create with picture', type: :request do
   end
 
   context 'with picture_uri' do
-    let(:create_params) do
+    let(:data) do
       {
         id: generate(:user_id),
         name: 'This is a text',

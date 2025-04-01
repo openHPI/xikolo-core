@@ -35,7 +35,7 @@ class TopicContext
     # the topic's context, and return that context.
     def establish!(topic, section_id: nil, item_id: nil)
       if item_id
-        section_id = Xikolo.api(:course).value!.rel(:item).get(id: item_id).value!['section_id']
+        section_id = Xikolo.api(:course).value!.rel(:item).get({id: item_id}).value!['section_id']
 
         begin
           topic.implicit_tags = [
@@ -70,7 +70,7 @@ class TopicContext
     private
 
     def course
-      @course ||= Xikolo.api(:course).value!.rel(:course).get(id: @course_id).value!
+      @course ||= Xikolo.api(:course).value!.rel(:course).get({id: @course_id}).value!
     end
   end
 
@@ -86,7 +86,7 @@ class TopicContext
     private
 
     def section
-      @section ||= Xikolo.api(:course).value!.rel(:section).get(id: @section_id).value!
+      @section ||= Xikolo.api(:course).value!.rel(:section).get({id: @section_id}).value!
     end
   end
 

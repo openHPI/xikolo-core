@@ -58,8 +58,9 @@ module Steps
 
     When 'I assign the additional user to the course as a teacher' do
       user = context.fetch :additional_user
-      tom_select user[:name], from: 'Teachers'
+      tom_select user.fetch('name'), from: 'Teachers'
       click_on 'Update course'
+      expect(page).to have_content('The course has been updated.')
     end
 
     When 'I toggle the reactivation' do

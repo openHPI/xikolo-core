@@ -116,25 +116,25 @@ class QuestionController < Abstract::FrontendController
   def all_implicit_tags
     implicit_tags = []
 
-    sections = course_api.rel(:sections).get(
+    sections = course_api.rel(:sections).get({
       course_id: the_course.id,
-      include_alternatives: true
-    ).value!
+      include_alternatives: true,
+    }).value!
     sections.map do |section|
-      pinboard_api.rel(:implicit_tags).get(
+      pinboard_api.rel(:implicit_tags).get({
         name: section['id'],
         course_id: the_course.id,
-        referenced_resource: 'Xikolo::Course::Section'
-      ).then do |t|
+        referenced_resource: 'Xikolo::Course::Section',
+      }).then do |t|
         implicit_tags << [section['title'], t.first['id']]
       end
     end.map(&:value!)
 
     unless Xikolo.config.disable_technical_issues_section
-      pinboard_api.rel(:implicit_tags).get(
+      pinboard_api.rel(:implicit_tags).get({
         name: 'Technical Issues',
-        course_id: the_course.id
-      ).then do |tags|
+        course_id: the_course.id,
+      }).then do |tags|
         implicit_tags.unshift [t(:'pinboard.filters.technical_issues'), tags.first['id']]
       end.value
     end

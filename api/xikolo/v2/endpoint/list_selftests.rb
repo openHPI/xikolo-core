@@ -15,12 +15,12 @@ module Xikolo
 
           all_questions = courses.map do |course|
             # Fetch all course questions
-            questions = get_paged! quiz_api.rel(:questions).get(selftests: true, course_id: course['id']).value!
+            questions = get_paged! quiz_api.rel(:questions).get({selftests: true, course_id: course['id']}).value!
 
             Restify::Promise.new(
               questions.map do |question|
                 # Fetch the corresponding course items (in parallel!) to enhance the questions with the reference link
-                course_api.rel(:items).get(content_id: question['quiz_id']).then do |items|
+                course_api.rel(:items).get({content_id: question['quiz_id']}).then do |items|
                   question['course_id'] = course['id']
                   question['reference_link'] = Xikolo::V2::URL.course_item_url(course_id: course['id'], id: items.first['id']) if items.first.present?
 

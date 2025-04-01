@@ -50,9 +50,9 @@ class Course::Admin::EnrollmentsController < Abstract::FrontendController
       return redirect_to action: :index
     end
 
-    enrollments = course_api.rel(:enrollments).get(user_id: params[:user_id], course_id: the_course.id).value!
+    enrollments = course_api.rel(:enrollments).get({user_id: params[:user_id], course_id: the_course.id}).value!
     if enrollments.empty?
-      course_api.rel(:enrollments).post(user_id: params[:user_id], course_id: the_course.id).value!
+      course_api.rel(:enrollments).post({user_id: params[:user_id], course_id: the_course.id}).value!
       add_flash_message :notice, t(:'flash.notice.user_successfully_enrolled')
     else
       add_flash_message :notice, t(:'flash.notice.enrollment_already_present')
@@ -66,7 +66,7 @@ class Course::Admin::EnrollmentsController < Abstract::FrontendController
 
     enrollments = course_api
       .rel(:enrollments)
-      .get(user_id: params[:user_id], course_id: params[:course_id])
+      .get({user_id: params[:user_id], course_id: params[:course_id]})
       .value!
 
     if enrollments.any?

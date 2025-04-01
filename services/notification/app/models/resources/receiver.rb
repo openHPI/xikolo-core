@@ -4,7 +4,7 @@ module Resources
   class Receiver
     def self.load_by_id(id)
       @account_api ||= Xikolo.api(:account).value!
-      new @account_api.rel(:user).get(id:).value!
+      new @account_api.rel(:user).get({id:}).value!
     end
 
     def initialize(resource)

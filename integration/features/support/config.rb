@@ -34,7 +34,7 @@ Gurke.configure do |c|
         # Assign a feature flipper to all platform users
         when /^feature:(.+)$/
           Server[:account].api
-            .rel(:group).get(id: 'all').value!
+            .rel(:group).get({id: 'all'}).value!
             .rel(:features).patch({Regexp.last_match(1) => true}).value!
 
         when /recaptcha_v3/

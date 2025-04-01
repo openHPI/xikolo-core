@@ -20,11 +20,11 @@ class Course::DocumentsController < Abstract::FrontendController
         language: params[:language],
       }.compact
     ).value!
-    @course_documents = course_api.rel(:documents).get(course_id: the_course.id).value!
+    @course_documents = course_api.rel(:documents).get({course_id: the_course.id}).value!
   end
 
   def show
-    @document = course_api.rel(:document).get(id: params[:id], embed: 'course_ids').value!
+    @document = course_api.rel(:document).get({id: params[:id], embed: 'course_ids'}).value!
   end
 
   private

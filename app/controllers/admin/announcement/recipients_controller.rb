@@ -11,7 +11,7 @@ class Admin::Announcement::RecipientsController < Abstract::AjaxController
       expires_in: 30.minutes,
       race_condition_ttl: 10.seconds
     ) do
-      account_service.rel(:users).get(query: params[:q]).value!
+      account_service.rel(:users).get({query: params[:q]}).value!
     end
 
     user_recipients = users.map do |user|
@@ -27,11 +27,11 @@ class Admin::Announcement::RecipientsController < Abstract::AjaxController
       expires_in: 1.hour,
       race_condition_ttl: 10.seconds
     ) do
-      Xikolo.api(:course).value!.rel(:courses).get(
+      Xikolo.api(:course).value!.rel(:courses).get({
         groups: 'any',
         autocomplete: params[:q],
-        limit: 100
-      ).value!
+        limit: 100,
+      }).value!
     end
 
     course_recipients = courses.map do |course|
@@ -48,7 +48,7 @@ class Admin::Announcement::RecipientsController < Abstract::AjaxController
       expires_in: 1.hour,
       race_condition_ttl: 10.seconds
     ) do
-      account_service.rel(:groups).get(tag: 'access').value!
+      account_service.rel(:groups).get({tag: 'access'}).value!
     end
 
     access_groups = groups.map do |group|
@@ -64,7 +64,7 @@ class Admin::Announcement::RecipientsController < Abstract::AjaxController
       expires_in: 30.minutes,
       race_condition_ttl: 10.seconds
     ) do
-      account_service.rel(:groups).get(prefix: "course.#{params[:q]}", tag: 'content_test').value!
+      account_service.rel(:groups).get({prefix: "course.#{params[:q]}", tag: 'content_test'}).value!
     end
 
     content_test_groups = content_test_groups.map do |group|
@@ -80,7 +80,7 @@ class Admin::Announcement::RecipientsController < Abstract::AjaxController
       expires_in: 30.minutes,
       race_condition_ttl: 10.seconds
     ) do
-      account_service.rel(:groups).get(tag: 'custom_recipients').value!
+      account_service.rel(:groups).get({tag: 'custom_recipients'}).value!
     end
 
     custom_recipients_groups = custom_recipients_groups.map do |group|

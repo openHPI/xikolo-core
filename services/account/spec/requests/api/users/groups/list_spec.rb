@@ -6,7 +6,7 @@ describe 'List user groups', type: :request do
   subject(:resource) { base.rel(:groups).get.value! }
 
   let(:api) { Restify.new(:test).get.value! }
-  let(:base) { api.rel(:user).get(id: user).value! }
+  let(:base) { api.rel(:user).get({id: user}).value! }
   let(:user) { create(:user) }
 
   let(:groups) { create_list(:group, 2) }

@@ -40,13 +40,13 @@ class VoucherPresenter < PrivatePresenter
 
   def load_claimant!
     @claimant = if @voucher.claimant_id
-                  Xikolo.api(:account).value!.rel(:user).get(id: @voucher.claimant_id).value!
+                  Xikolo.api(:account).value!.rel(:user).get({id: @voucher.claimant_id}).value!
                 end
   end
 
   def load_course!
     @course = if @voucher.course_id
-                Xikolo.api(:course).value!.rel(:course).get(id: @voucher.course_id).value!
+                Xikolo.api(:course).value!.rel(:course).get({id: @voucher.course_id}).value!
               end
   end
 end

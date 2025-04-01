@@ -1,16 +1,6 @@
 #quiz-sidebar-wrapper.full-width
   .quiz-sidebar#quiz-sidebar
     .quiz-sidebar-content
-      - if submission.enable_proctoring_iframes?
-        .bar-title
-          h3 = t(:'quiz_submission.proctoring.sidebar_title')
-        .bar-content
-          - if current_user.instrumented?
-            = render Global::Callout.new(t(:'quiz_submission.proctoring.instrumented_info'), type: :warning)
-          - else
-            .smowl_in_quiz_iframe
-              iframe src=submission.proctoring_cam_iframe allow="microphone; camera" sandbox="allow-top-navigation allow-scripts allow-modals allow-same-origin" width="200" height="260" frameborder="0" allowfullscreen=true scrolling="no"
-
       .bar-title
         h3 = t(:'quiz_submission.quiz_sidebar_title')
 

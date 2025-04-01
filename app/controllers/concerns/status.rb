@@ -33,7 +33,7 @@ module Status
   # Example:
   #
   #   def course
-  #     Xikolo.api(:course).value!.rel(:course).get(id: id_from_http).value!
+  #     Xikolo.api(:course).value!.rel(:course).get({id: id_from_http}).value!
   #   rescue Restify::NotFound
   #     raise Status::Redirect.new 'a reason for the log', courses_path
   #   end

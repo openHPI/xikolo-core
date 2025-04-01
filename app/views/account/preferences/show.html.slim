@@ -43,9 +43,9 @@
         tbody
           - @pinboard_subscriptions.each do |sub|
             tr
-              td = link_to sub.question_title, question_path(course_id: sub.course_id, id: sub.question_id)
-              td = t :'account.preferences.show.subscription.ago', timeago: time_ago_in_words(sub.question_updated_at)
-              td = link_to t(:'account.preferences.show.subscription.unsubscribe'), unsubscribe_path(question_id: sub.question_id), method: 'post', class: 'btn btn-primary btn-xs'
+              td = link_to sub['question_title'], question_path(course_id: sub['course_id'], id: sub['question_id'])
+              td = t :'account.preferences.show.subscription.ago', timeago: time_ago_in_words(sub['question_updated_at'])
+              td = link_to t(:'account.preferences.show.subscription.unsubscribe'), unsubscribe_path(question_id: sub['question_id']), method: 'post', class: 'btn btn-primary btn-xs'
       = will_paginate @subscription_list.pagination, renderer: PaginationRenderer
     - else
       = render State::Empty.new(t(:'account.preferences.show.subscription.empty_state'), size: :small)

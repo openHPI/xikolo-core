@@ -100,49 +100,28 @@ class QuestionsController < ApplicationController
 
   def create
     params[:question] = params[:application] if params[:application].present? # workaround for sdtrange
-    @question = Question.new question_params.slice(:course_id)
-    @question.id = SecureRandom.uuid
 
-    @question.tags = [].tap do |tags|
-      tags.concat find_or_create_tags(tag_names) unless tag_names.empty?
-      tags.concat find_implicit_tags(question_implicit_tags) unless question_implicit_tags.empty?
-    end
+    Question.transaction(requires_new: true) do
+      @question = Question.new(question_params.slice(:course_id))
 
-    @question.ensure_open_context!
-
-    @question = Commentable::Store.call @question, question_params
-    raise ActiveRecord::RecordInvalid.new @question if @question.errors.any?
-
-    unless @question.blocked?
-      user = Xikolo.api(:account).value.rel(:user).get(id: @question.user_id)
-
-      course = Xikolo.api(:course).value.rel(:course).get(id: @question.course_id).value!
-
-      collab_space = {}
-      if @question.learning_room_id.present?
-        collab_space = Xikolo.api(:collabspace).value.rel(:collab_space).get(id: @question.learning_room_id).value!
+      @question.tags = [].tap do |tags|
+        tags.concat find_or_create_tags(tag_names) unless tag_names.empty?
+        tags.concat find_implicit_tags(question_implicit_tags) unless question_implicit_tags.empty?
       end
 
-      Xikolo.api(:notification).value.rel(:events).post(
-        key: @question.discussion_flag ? 'pinboard.discussion.new' : 'pinboard.question.new',
-        payload: {
-          user_id: @question.user_id,
-          username: user.value!['name'],
-          question_id: @question.id,
-          title: @question.title,
-          thread_title: @question.title,
-          text: @question.text,
-          course_code: course['course_code'],
-          course_name: course['title'],
-          learning_room_name: collab_space['name'],
-        },
-        public: @question.learning_room_id.blank?,
-        course_id: @question.course_id,
-        learning_room_id: @question.learning_room_id,
-        link: expand_question_url(@question),
-        subscribers: @question.subscriptions.pluck(:user_id)
-      ).value!
+      @question.ensure_open_context!
+      Commentable::Store.call(@question, question_params)
+
+      raise ActiveRecord::RecordInvalid.new(@question) if @question.errors.any?
+
+      unless @question.blocked?
+        QuestionNotifyJob.perform_later(
+          @question,
+          expand_question_url(@question)
+        )
+      end
     end
+
     respond_with(@question)
   rescue ActiveRecord::RecordNotUnique
     @question.errors.add(:base, 'Question already exists.')

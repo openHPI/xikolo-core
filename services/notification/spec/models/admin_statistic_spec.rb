@@ -10,41 +10,56 @@ describe AdminStatistic, type: :model do
   let(:statistic) { AdminStatistic.new }
 
   let(:course_statistic) do
-    {
+    CourseStats.verify({
       id: '00d6833d-d75c-4f64-813f-5d312bd7e686',
       course_code: 'hidden',
-      course_name: 'Company X Course',
       course_id: '00000001-3300-4444-9999-000000000007',
       course_status: 'active',
-      total_enrollments: 100,
-      no_shows: 0.0,
-      current_enrollments: 0,
-      enrollments_last_24h: 0,
-      enrollments_at_course: 0,
-      enrollments_at_course_middle_incl_unenrollments: 0,
-      enrollments_at_course_middle: 0,
-      enrollments_at_course_end: nil,
-      questions: 500,
-      questions_last_24h: 50,
-      answers: 0,
-      answers_last_24h: 0,
-      comments_on_answers: 0,
-      comments_on_answers_last_24h: 0,
-      comments_on_questions: 0,
-      comments_on_questions_last_24h: 0,
-      roa_count: 99,
-      helpdesk_tickets: 0,
-      helpdesk_tickets_last_24h: 0,
-      start_date: '2017-06-15T00:00:00.000Z',
+      hidden: true,
       end_date: '2017-08-16T00:00:00.000Z',
-      new_users: 0,
+      start_date: '2017-06-15T00:00:00.000Z',
       created_at: '2016-09-14T09:11:53.781Z',
       updated_at: '2016-09-14T11:29:57.596Z',
+
+      active_users_last_7days: nil,
+      active_users_last_day: nil,
+      badge_downloads: nil,
+      badge_issues: nil,
+      badge_shares: nil,
       completion_rate: 0.0,
       consumption_rate: 0.0,
+      cop_count: nil,
+      current_enrollments: 0,
+      days_since_coursestart: nil,
+      enrollments_at_course_end_netto: nil,
+      enrollments_at_course_end: nil,
+      enrollments_at_course_middle_netto: nil,
+      enrollments_at_course_middle: 0,
+      enrollments_at_course_start_netto: nil,
+      enrollments_at_course_start: nil,
+      enrollments_last_day: 0,
       enrollments_per_day: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      hidden: true,
-    }
+      helpdesk_tickets_last_day: 0,
+      helpdesk_tickets: 0,
+      new_users: 0,
+      no_shows_at_end: nil,
+      no_shows_at_middle: nil,
+      no_shows: 0.0,
+      posts_in_collab_spaces: nil,
+      posts_last_day_in_collab_spaces: nil,
+      posts_last_day: nil,
+      posts: nil,
+      qc_count: nil,
+      roa_count: 99,
+      shows_at_end: nil,
+      shows_at_middle: nil,
+      shows: nil,
+      threads_in_collab_spaces: nil,
+      threads_last_day_in_collab_spaces: nil,
+      threads_last_day: nil,
+      threads: nil,
+      total_enrollments: 100,
+    })
   end
 
   before do
@@ -167,46 +182,8 @@ describe AdminStatistic, type: :model do
     expect(statistic.course_stats.length).to eq(2)
 
     course_info = statistic.course_stats.first
-
-    expect(course_info).to be_a(Restify::Resource)
-    expect(course_info.keys).to match_array %w[
-      id
-      course_code
-      course_name
-      course_id
-      course_status
-      total_enrollments
-      no_shows
-      current_enrollments
-      enrollments_last_24h
-      enrollments_at_course
-      enrollments_at_course_middle_incl_unenrollments
-      enrollments_at_course_middle
-      enrollments_at_course_end
-      questions
-      questions_last_24h
-      answers
-      answers_last_24h
-      comments_on_answers
-      comments_on_answers_last_24h
-      comments_on_questions
-      comments_on_questions_last_24h
-      roa_count
-      helpdesk_tickets
-      helpdesk_tickets_last_24h
-      start_date
-      end_date
-      new_users
-      created_at
-      updated_at
-      completion_rate
-      consumption_rate
-      enrollments_per_day
-      hidden
-    ]
-
+    expect(course_info).to be_a(CourseStats)
     expect(course_info.course_id).to eq(course_id2)
-    expect(course_info.course_name).to eq('Company X Course')
   end
 
   it 'has general course statistics' do
@@ -217,8 +194,6 @@ describe AdminStatistic, type: :model do
     course_statistic = statistic.course_stats.first
     expect(course_statistic.course_id).to eq(course_id2)
     expect(course_statistic.total_enrollments).to eq(100)
-    expect(course_statistic.questions).to eq(500)
-    expect(course_statistic.questions_last_24h).to eq(50)
     expect(course_statistic.roa_count).to eq(99)
   end
 

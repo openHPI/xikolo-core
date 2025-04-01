@@ -62,7 +62,7 @@ module Collabspace
 
       updated_event = collabspace_api
         .rel(:calendar_event)
-        .patch(form.to_resource, id:)
+        .patch(form.to_resource, params: {id:})
         .value!
       @event = CalendarEventPresenter.create(updated_event, view_context)
 
@@ -75,14 +75,14 @@ module Collabspace
 
     def destroy
       id = params.require(:id)
-      collabspace_api.rel(:calendar_event).delete(id:).value!
+      collabspace_api.rel(:calendar_event).delete({id:}).value!
       render :confirmation
     end
 
     private
 
     def load_event!(id)
-      collabspace_api.rel(:calendar_event).get(id:).value!
+      collabspace_api.rel(:calendar_event).get({id:}).value!
     end
 
     def persist_form(form, id)
@@ -103,7 +103,7 @@ module Collabspace
     def ensure_owner_or_admin
       ownership = collabspace_api
         .rel(:calendar_event)
-        .get(id: params[:id])
+        .get({id: params[:id]})
         .value!&.fetch('user_id')
 
       return if ownership == current_user.id || privileged?

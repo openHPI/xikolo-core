@@ -25,7 +25,7 @@ class Account::ConsentsController < Abstract::AjaxController
   end
 
   def user
-    @user ||= account_api.rel(:user).get(id: current_user.id).value!
+    @user ||= account_api.rel(:user).get({id: current_user.id}).value!
   end
 
   def account_api

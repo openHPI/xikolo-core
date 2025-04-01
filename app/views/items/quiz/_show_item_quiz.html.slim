@@ -2,12 +2,6 @@
   .course-area-main data-lanalytics-context={course_id: item.course_id}.to_json
     = render 'items/header', item:
 
-    - if item.enable_proctoring_quiz_iframes? && item.attempts_left?
-      - if current_user.instrumented?
-        = render Global::Callout.new(t(:'quiz_submission.proctoring.instrumented_info'), type: :warning)
-      - else
-        iframe src=item.proctoring_cam_check_iframe allow="microphone; camera" width="100%" height="350" frameborder="0" allowfullscreen=true scrolling="no"
-
     h3
       = t(:'quiz_submission.instruction')
       ':
@@ -22,17 +16,8 @@
     - if item.submission_deadline_passed? && current_user.instrumented?
       = render Global::Callout.new(t(:'quiz_submission.masq_warning'), type: :error)
 
-    - if item.show_proctoring_intro?
-      hr.divider.slim.alternative
-      = render 'items/quiz/proctoring_intro', item:
-
     div data-lanalytics-resource={type: 'quiz', uuid: item.id}.to_json
-      - if item.smowl_registration_required?
-        = render Global::Callout.new(t('proctoring.calibration_missing_text'), title: t('proctoring.calibration_missing_callout'), type: :warning) do
-          = link_to t('proctoring.calibration_missing_action'), proctoring_registration_details_path(course_id: item.course_code), class: 'btn btn-default'
-      - elsif item.smowl_registration_pending?
-        = render Global::Callout.new(t('proctoring.calibration_pending_text'), title: t('proctoring.calibration_pending_title'))
-      - elsif item.proctored_quiz_unavailable?
+      - if item.proctored_quiz_unavailable?
         = render Global::Callout.new(t('proctoring.service_unavailable'), type: :error)
       - elsif item.quiz_taken?
         - if item.allow_retake_or_view_results?

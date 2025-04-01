@@ -74,9 +74,6 @@ module Xikolo::NewsService
       )
     end
 
-    # Restify: Do not wrap hashes with object-like accessors
-    Restify::Processors::Json.indifferent_access = false
-
     config.generators do |generator|
       generator.orm :active_record, primary_key_type: :uuid
     end

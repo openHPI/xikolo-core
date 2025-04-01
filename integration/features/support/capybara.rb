@@ -63,23 +63,37 @@ Capybara.register_driver :firefox do |app|
 end
 
 Capybara.register_driver :chrome do |app|
-  options = Selenium::WebDriver::Chrome::Options.new.tap do |opts|
-    if headless?
-      opts.add_argument('headless=new')
-      opts.add_argument('disable-gpu') if Gem.win_platform?
-      opts.add_argument('--no-sandbox') if ENV.key?('CI')
-    end
+  options = Selenium::WebDriver::Chrome::Options.new
 
-    opts.add_argument('disable-search-engine-choice-screen')
+  # Use BiDi mode since that reports a few more errors in much better
+  # ways, such as aborted concurrent navigation issues.
+  options.web_socket_url = true
 
-    # Workaround https://bugs.chromium.org/p/chromedriver/issues/detail?id=2650&q=load&sort=-id&colspec=ID%20Status%20Pri%20Owner%20Summary
-    opts.add_argument('disable-site-isolation-trials')
+  # TODO: Chrome 129 and later does not wait on all navigational events
+  # which break some assertion and assumptions and breaks navigation
+  # without assertions between:
+  #
+  #   * https://github.com/teamcapybara/capybara/issues/2800
+  #
+  options.browser_version = '128'
 
-    opts.add_preference('download.default_directory', CapybaraDownloads.download_directory.to_s)
-    opts.add_preference('download.prompt_for_download', false)
-    opts.add_preference('intl.accept_languages', 'en')
-    opts.add_preference('plugins.plugins_disabled', ['Chrome PDF Viewer'])
+  # Chrome for Testing (CfT) cannot run a user-based sandbox on modern
+  # systems, locally as well as headless CI servers.
+  options.add_argument('--no-sandbox')
+  options.add_argument('--disable-gpu')
+
+  if headless?
+    options.add_argument('--headless=new')
   end
+
+  options.add_argument('--disable-search-engine-choice-screen')
+  options.add_argument('--disable-site-isolation-trials')
+  options.add_argument('--window-size=1280,1024')
+
+  options.add_preference('download.default_directory', CapybaraDownloads.download_directory.to_s)
+  options.add_preference('download.prompt_for_download', false)
+  options.add_preference('intl.accept_languages', 'en')
+  options.add_preference('plugins.plugins_disabled', ['Chrome PDF Viewer'])
 
   Capybara::Selenium::Driver.new(app, browser: :chrome, options:)
 end
@@ -123,6 +137,19 @@ Gurke.configure do |c|
     visit '/' if current_host != BASE_URI.to_s
 
     Capybara.reset_sessions!
+
+    # Workaround for "Node with given id does not belong to the
+    # document". See
+    # https://github.com/teamcapybara/capybara/issues/2800#issuecomment-2728801284.
+    #
+    # Try handling these unknown errors (can't filter on the message
+    # too) as if the element were stale, which means that capybara will
+    # look up the selector again, e.g. on the new page that is now
+    # loaded.
+    if page.driver.respond_to?(:invalid_element_errors) &&
+       page.driver.invalid_element_errors.exclude?(Selenium::WebDriver::Error::UnknownError)
+      page.driver.invalid_element_errors << Selenium::WebDriver::Error::UnknownError
+    end
   end
 
   # At the time of writing, this only works in Chrome.

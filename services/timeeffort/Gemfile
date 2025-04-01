@@ -20,7 +20,7 @@ gem 'rails-rfc6570', '~> 3.0'
 gem 'responders', '~> 3.0'
 
 gem 'msgr', '~> 1.5'
-gem 'restify', '~> 1.15'
+gem 'restify', '~> 2.0'
 gem 'uuid4', '~> 1.4'
 
 # Data storage
@@ -36,9 +36,9 @@ gem 'xikolo-sidekiq', path: './gems/xikolo-sidekiq'
 
 gem 'concurrent-ruby', '~> 1.0'
 gem 'mnemosyne-ruby', '~> 2.0'
-gem 'sentry-rails', '~> 5.22.0'
-gem 'sentry-ruby', '~> 5.22.0'
-gem 'sentry-sidekiq', '~> 5.22.0'
+gem 'sentry-rails', '~> 5.23.0'
+gem 'sentry-ruby', '~> 5.23.0'
+gem 'sentry-sidekiq', '~> 5.23.0'
 gem 'telegraf', '~> 3.0'
 
 gem 'activejob-cancel', '~> 0.3'

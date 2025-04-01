@@ -152,62 +152,12 @@ class QuizItemPresenter < ItemPresenter
     props
   end
 
-  def show_proctoring_intro?
-    @user.feature?('proctoring') &&
-      exam? &&
-      (proctoring_context.enabled? || proctoring_context.can_enable?)
-  end
-
-  def user_booked_proctoring?
-    @user.feature?('proctoring') &&
-      proctoring_context.enabled?
-  end
-
-  def proctoring_upgrade_possible?
-    @user.feature?('proctoring') &&
-      proctoring_context.can_enable? &&
-      proctoring_context.upgrade_possible?
-  end
-
-  def proctoring_upgrading_deadline
-    proctoring_context.upgrading_deadline.presence
-  end
-
-  def proctoring_upgrading_deadline_passed?
-    proctoring_context.upgrading_deadline.past?
-  end
-
-  # Only on quiz intro page
-  def enable_proctoring_quiz_iframes?
-    @user.feature?('proctoring') &&
-      proctoring_context.enabled? &&
-      proctoring_vendor_registration.complete?
-  end
-
-  # Only on quiz intro page
-  def smowl_registration_pending?
-    @user.feature?('proctoring') &&
-      proctoring_context.enabled? &&
-      proctoring_vendor_registration.pending?
-  end
-
-  # Only on quiz intro page
-  def smowl_registration_required?
-    @user.feature?('proctoring') &&
-      proctoring_context.enabled? &&
-      proctoring_vendor_registration.required?
-  end
-
   # Only called on quiz intro page
   def proctored_quiz_unavailable?
     @user.feature?('proctoring') &&
       proctoring_context.enabled? &&
       !proctoring_service_available? &&
       !user_instrumented?
-  end
-
-  def proctoring_cam_check_iframe
-    course_proctoring.cam_preview_url
   end
 
   def highest_score?
@@ -219,7 +169,7 @@ class QuizItemPresenter < ItemPresenter
   # Only called when viewing the submission
   def quiz_submittable?
     # Do not allow to submit a quiz if proctoring is enabled but the service is
-    # unavailable
+    # unavailable.
     !@user.feature?('proctoring') ||
       (@user.feature?('proctoring') && !proctoring_context.enabled?) ||
       (@user.feature?('proctoring') && proctoring_context.enabled? && proctoring_service_available?) ||
@@ -306,12 +256,9 @@ class QuizItemPresenter < ItemPresenter
     user_instrumented? || @user.allowed?('course.content.access')
   end
 
-  def proctoring_vendor_registration
-    @proctoring_vendor_registration ||= enrollment_proctoring.vendor_registration
-  end
-
+  # Temporary: Proctoring is not offered anymore.
   def proctoring_service_available?
-    proctoring_vendor_registration.available?
+    false
   end
 
   def proctoring_context

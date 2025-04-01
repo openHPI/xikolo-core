@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'Results: Show', type: :request do
-  subject(:action) { api.rel(:result).get(id: result.id).value! }
+  subject(:action) { api.rel(:result).get({id: result.id}).value! }
 
   let(:api) { Restify.new(:test).get.value! }
   let!(:result) { create(:result, dpoints: 34) }

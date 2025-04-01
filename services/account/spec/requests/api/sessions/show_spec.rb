@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'Sessions: Show', type: :request do
-  subject(:resource) { api.rel(:session).get(id: session).value! }
+  subject(:resource) { api.rel(:session).get({id: session}).value! }
 
   let(:api) { Restify.new(:test, **config).get.value! }
   let(:config) { {} }
@@ -106,19 +106,19 @@ describe 'Sessions: Show', type: :request do
   describe 'invalid session ID' do
     it 'responds with 404 Not Found (I)' do
       expect do
-        api.rel(:session).get(id: 'token=abc').value!
+        api.rel(:session).get({id: 'token=abc'}).value!
       end.to raise_error Restify::NotFound
     end
 
     it 'responds with 404 Not Found (II)' do
       expect do
-        api.rel(:session).get(id: '1').value!
+        api.rel(:session).get({id: '1'}).value!
       end.to raise_error Restify::NotFound
     end
   end
 
   describe 'anonymous' do
-    subject(:resource) { api.rel(:session).get(id: 'anonymous').value! }
+    subject(:resource) { api.rel(:session).get({id: 'anonymous'}).value! }
 
     it 'responds with anonymous session' do
       expect(resource).to eq \
@@ -138,7 +138,7 @@ describe 'Sessions: Show', type: :request do
     context 'with embedded permissions and features' do
       subject(:resource) do
         api.rel(:session)
-          .get(id: 'anonymous', embed: 'features,permissions')
+          .get({id: 'anonymous', embed: 'features,permissions'})
           .value!
       end
 
@@ -150,7 +150,7 @@ describe 'Sessions: Show', type: :request do
   describe '?embed' do
     context 'user' do
       subject(:resource) do
-        api.rel(:session).get(id: session, embed: 'user').value!
+        api.rel(:session).get({id: session, embed: 'user'}).value!
       end
 
       it { is_expected.to respond_with :ok }
@@ -169,7 +169,7 @@ describe 'Sessions: Show', type: :request do
 
     context 'features' do
       subject(:resource) do
-        api.rel(:session).get(id: session, embed: 'features').value!
+        api.rel(:session).get({id: session, embed: 'features'}).value!
       end
 
       let(:groups) { create_list(:group, 5) }
@@ -204,7 +204,7 @@ describe 'Sessions: Show', type: :request do
 
     context 'permissions' do
       subject(:resource) do
-        api.rel(:session).get(id: session, embed: 'permissions').value!
+        api.rel(:session).get({id: session, embed: 'permissions'}).value!
       end
 
       it { is_expected.to respond_with :ok }
@@ -217,7 +217,7 @@ describe 'Sessions: Show', type: :request do
 
         let(:resource) do
           api.rel(:session)
-            .get(id: session, embed: 'permissions', context: request_context)
+            .get({id: session, embed: 'permissions', context: request_context})
             .value!
         end
 
@@ -231,7 +231,7 @@ describe 'Sessions: Show', type: :request do
   describe '?context' do
     subject(:resource) do
       api.rel(:session)
-        .get(id: session, embed: 'permissions', context:)
+        .get({id: session, embed: 'permissions', context:})
         .value!
     end
 
@@ -260,7 +260,7 @@ describe 'Sessions: Show', type: :request do
     context 'with root context' do
       subject(:resource) do
         api.rel(:session)
-          .get(id: session, embed: 'permissions', context: 'root')
+          .get({id: session, embed: 'permissions', context: 'root'})
           .value!
       end
 

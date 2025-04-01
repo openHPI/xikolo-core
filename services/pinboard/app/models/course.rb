@@ -10,7 +10,7 @@ class Course
 
   def admins
     Xikolo.api(:account).value!
-      .rel(:group).get(id: "course.#{code}.admins").value!
+      .rel(:group).get({id: "course.#{code}.admins"}).value!
       .rel(:members).get.value!
   end
 
@@ -27,7 +27,7 @@ class Course
 
     def fetch(id)
       Rails.cache.fetch("pinboard/v1/course/#{id}", expires_in: 1.day) do
-        Xikolo.api(:course).value!.rel(:course).get(id:).value!.data
+        Xikolo.api(:course).value!.rel(:course).get({id:}).value!.data
       end
     rescue Restify::NotFound
       raise NotFound
