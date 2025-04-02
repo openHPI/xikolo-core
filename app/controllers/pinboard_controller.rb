@@ -73,7 +73,7 @@ class PinboardController < Abstract::FrontendController
     # collabspace pinboards.
     {
       tags: available_tags,
-    }.tap { _1[:sections] = available_sections if @collabspace.blank? }
+    }.tap { it[:sections] = available_sections if @collabspace.blank? }
   end
 
   def available_tags

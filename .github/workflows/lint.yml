@@ -65,3 +65,23 @@ jobs:
       - name: actionlint
         id: actionlint
         uses: raven-actions/actionlint@v2
+
+  complete:
+    if: always()
+
+    needs:
+      - actionlint
+      - css
+      - editorconfig
+      - format
+      - js
+      - markdown
+      - rubocop
+      - slim
+
+    runs-on: ubuntu-24.04
+
+    steps:
+      - uses: re-actors/alls-green@release/v1
+        with:
+          jobs: ${{ toJSON(needs) }}

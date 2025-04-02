@@ -214,7 +214,7 @@ module Navigation
       return if component.blank?
       return if component['items'].blank?
 
-      items = component['items'].map { resolve(_1) }.compact
+      items = component['items'].map { resolve(it) }.compact
 
       Navigation::Item.new(
         text: Translations.new(component.fetch('text')), type: component['type'].presence || 'hide-first'

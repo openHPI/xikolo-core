@@ -47,6 +47,9 @@ describe 'Quiz: Submissions: Show', type: :request do
       quiz_submission_question_id: submission_question['id'],
       quiz_answer_id: quiz_answer['id'])
   end
+  let(:visit_stub) do
+    Stub.request(:course, :post, "/items/#{item.id}/users/#{user_id}/visit")
+  end
 
   before do
     stub_user_request id: user_id,
@@ -107,6 +110,7 @@ describe 'Quiz: Submissions: Show', type: :request do
       :quiz, :get, '/quiz_submission_answers',
       query: hash_including(quiz_submission_question_id: submission_question['id'])
     ).to_return Stub.json([submission_answer])
+    visit_stub
   end
 
   describe 'proctored submission' do
@@ -128,6 +132,11 @@ describe 'Quiz: Submissions: Show', type: :request do
         expect(response.body).to include 'Online proctoring results'
         expect(response.body).to include 'No issues detected'
       end
+
+      it 'creates a visit' do
+        show
+        expect(visit_stub).to have_been_requested
+      end
     end
 
     context 'user passed proctoring (SMOWL v2)' do
@@ -137,6 +146,11 @@ describe 'Quiz: Submissions: Show', type: :request do
         show
         expect(response.body).to include 'Online proctoring results'
         expect(response.body).to include 'No issues detected'
+      end
+
+      it 'creates a visit' do
+        show
+        expect(visit_stub).to have_been_requested
       end
     end
 
@@ -148,6 +162,11 @@ describe 'Quiz: Submissions: Show', type: :request do
         expect(response.body).to include 'Online proctoring results'
         expect(response.body).to include 'There have been some minor issues during the proctoring for this assignment.'
       end
+
+      it 'creates a visit' do
+        show
+        expect(visit_stub).to have_been_requested
+      end
     end
 
     context 'user passed proctoring (SMOWL v2) with a few violations' do
@@ -157,6 +176,11 @@ describe 'Quiz: Submissions: Show', type: :request do
         show
         expect(response.body).to include 'Online proctoring results'
         expect(response.body).to include 'There have been some minor issues during the proctoring for this assignment.'
+      end
+
+      it 'creates a visit' do
+        show
+        expect(visit_stub).to have_been_requested
       end
     end
 
@@ -168,6 +192,11 @@ describe 'Quiz: Submissions: Show', type: :request do
         expect(response.body).to include 'Online proctoring results'
         expect(response.body).to include 'There have been issues during the proctoring for this assignment. A certificate will not be issued.'
       end
+
+      it 'creates a visit' do
+        show
+        expect(visit_stub).to have_been_requested
+      end
     end
 
     context 'user failed proctoring (SMOWL v2) b/c of too many violations' do
@@ -178,6 +207,11 @@ describe 'Quiz: Submissions: Show', type: :request do
         expect(response.body).to include 'Online proctoring results'
         expect(response.body).to include 'There have been issues during the proctoring for this assignment. A certificate will not be issued.'
       end
+
+      it 'creates a visit' do
+        show
+        expect(visit_stub).to have_been_requested
+      end
     end
 
     context 'proctoring results have not yet been processed' do
@@ -187,6 +221,11 @@ describe 'Quiz: Submissions: Show', type: :request do
         show
         expect(response.body).to include 'Online proctoring results'
         expect(response.body).to include 'The proctoring data is still being processed.'
+      end
+
+      it 'creates a visit' do
+        show
+        expect(visit_stub).to have_been_requested
       end
     end
   end
@@ -212,6 +251,11 @@ describe 'Quiz: Submissions: Show', type: :request do
         expect(response).to be_successful
         expect(Capybara.string(response.body)).to have_content '5.0 of 10.0 points achieved'
       end
+
+      it 'creates a visit' do
+        show
+        expect(visit_stub).to have_been_requested
+      end
     end
 
     context 'when the requested submission does not belong to the current user' do
@@ -222,6 +266,11 @@ describe 'Quiz: Submissions: Show', type: :request do
         expect(flash['error'].first).to eq 'You do not have sufficient permissions for this action.'
         expect(response).to redirect_to root_url
       end
+
+      it 'does not create a visit' do
+        show
+        expect(visit_stub).not_to have_been_requested
+      end
     end
   end
 
@@ -230,6 +279,7 @@ describe 'Quiz: Submissions: Show', type: :request do
 
     it 'responds with 404 Not Found' do
       expect { show }.to raise_error Status::NotFound
+      expect(visit_stub).not_to have_been_requested
     end
   end
 end

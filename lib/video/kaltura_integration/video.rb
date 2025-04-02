@@ -140,7 +140,7 @@ module Video
       def formats
         @formats ||= Xikolo.config.kaltura['flavors']
           .symbolize_keys
-          .transform_values { Array.wrap(_1) }
+          .transform_values { Array.wrap(it) }
       end
     end
   end

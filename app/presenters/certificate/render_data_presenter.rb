@@ -247,7 +247,7 @@ module Certificate
       return unless @template.certificate_type == ::Certificate::Record::TOR
 
       prerequisite_status['prerequisites']
-        .filter_map { _1['score'].to_f if _1['required_certificate'] == 'roa' }
+        .filter_map { it['score'].to_f if it['required_certificate'] == 'roa' }
         .then {|scores| scores.sum.fdiv(scores.count) }
     end
 

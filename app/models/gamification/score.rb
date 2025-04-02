@@ -40,7 +40,7 @@ module Gamification
     end
 
     def ensure_badge_for_level!(name, levels, count, course_id = nil)
-      highest_threshold = levels.values.select { count >= _1 }.max
+      highest_threshold = levels.values.select { count >= it }.max
       return if highest_threshold.nil?
 
       begin

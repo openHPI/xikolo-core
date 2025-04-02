@@ -1,0 +1,165 @@
+---
+name: test
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  assets:
+    runs-on: ubuntu-24.04
+
+    env:
+      RAILS_ENV: production
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-node
+      - uses: ./.github/actions/setup-ruby
+
+      - uses: actions/cache@v4
+        with:
+          path: .cache/webpack
+          key: ${{ runner.os }}-webpack-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-webpack-${{ hashFiles('yarn.lock') }}
+
+      - run: make -j4
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: assets
+          path: public/assets
+          include-hidden-files: true
+
+  rspec:
+    runs-on: ubuntu-24.04
+
+    needs:
+      - assets
+
+    env:
+      BUNDLE_WITHOUT: development
+      DATABASE_URL: postgresql://localhost:5432
+      MALLOC_ARENA_MAX: 2
+      RAILS_ENV: test
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-ruby
+
+      - name: Download pre-compiled web assets
+        uses: actions/download-artifact@v4
+        with:
+          name: assets
+          path: public/assets
+
+      - name: Start required services
+        uses: hoverkraft-tech/compose-action@v2
+        with:
+          compose-file: ./docker-compose.yml
+          up-flags: --wait --wait-timeout 300
+
+      - name: Set up database
+        run: bundle exec rake db:create:all db:setup
+
+      - name: Execute rspec unit tests
+        run: bundle exec rspec --tty --backtrace --color --format RSpec::Github::Formatter --format documentation --tag ~type:system
+
+  rspec-system:
+    name: rspec:system
+    runs-on: ubuntu-24.04
+
+    needs:
+      - assets
+
+    env:
+      BUNDLE_WITHOUT: development
+      DATABASE_URL: postgresql://localhost:5432
+      MALLOC_ARENA_MAX: 2
+      RAILS_ENV: test
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-ruby
+
+      - name: Download pre-compiled web assets
+        uses: actions/download-artifact@v4
+        with:
+          name: assets
+          path: public/assets
+
+      - name: Start required services
+        uses: hoverkraft-tech/compose-action@v2
+        with:
+          compose-file: ./docker-compose.yml
+
+      - name: Set up database
+        run: bundle exec rake db:create:all db:setup
+
+      - name: Execute rspec unit tests
+        run: bundle exec rspec --tty --backtrace --color --format RSpec::Github::Formatter --format documentation --tag type:system
+
+  service:
+    name: ${{ matrix.service }}:rspec
+    runs-on: ubuntu-24.04
+
+    strategy:
+      fail-fast: false
+      matrix:
+        service:
+          - account
+          - collabspace
+          - course
+          - grouping
+          - news
+          - notification
+          - pinboard
+          - quiz
+          - timeeffort
+
+    defaults:
+      run:
+        # Does ONLY apply run `run` steps below
+        working-directory: ./services/${{ matrix.service }}
+
+    env:
+      BUNDLE_WITHOUT: development
+      DATABASE_URL: postgresql://localhost:5432
+      MALLOC_ARENA_MAX: 2
+      RAILS_ENV: test
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-ruby
+        with:
+          working-directory: ./services/${{ matrix.service }}
+
+      - name: Start required services
+        uses: hoverkraft-tech/compose-action@v2
+        with:
+          compose-file: ./docker-compose.yml
+          up-flags: --wait --wait-timeout 300
+
+      - name: Set up database
+        run: bundle exec rake db:create:all db:setup
+
+      - name: Execute rspec unit tests
+        run: bundle exec rspec --tty --backtrace --color --format RSpec::Github::Formatter --format documentation
+
+  complete:
+    if: always()
+
+    needs:
+      - assets
+      - rspec
+      - rspec-system
+      - service
+
+    runs-on: ubuntu-24.04
+
+    steps:
+      - uses: re-actors/alls-green@release/v1
+        with:
+          jobs: ${{ toJSON(needs) }}

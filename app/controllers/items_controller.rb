@@ -49,12 +49,11 @@ class ItemsController < Abstract::FrontendController
   def show
     Acfs.run
 
-    if current_user.authenticated?
-      store_progress
-    end
-
     return render('error') if @item_presenter.error
     return @item_presenter.redirect(self) if @item_presenter.redirect?
+
+    # The QuizSubmissionController takes care of creating visits for quizzes
+    create_visit! unless @item_presenter.content_type == 'quiz'
 
     meta = @item_presenter.meta_tags
     set_page_title(*meta.delete(:title))
@@ -408,15 +407,6 @@ class ItemsController < Abstract::FrontendController
   end
 
   private
-
-  def store_progress
-    return if @in_app
-    return if current_user.instrumented?
-    return if @item_presenter.required_items.present?
-
-    Xikolo::Course::Visit.create user_id: current_user.id,
-      item_id: the_item.id
-  end
 
   def check_course_eligibility
     return super unless params[:action] == 'show'

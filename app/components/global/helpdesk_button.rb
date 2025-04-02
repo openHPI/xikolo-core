@@ -27,8 +27,8 @@ module Global
 
     def chatbot
       @chatbot ||= CHATBOT_VERSION.keys
-        .detect { @user.feature? _1 }
-        .then { CHATBOT_VERSION[_1] }
+        .detect { @user.feature? it }
+        .then { CHATBOT_VERSION[it] }
     end
   end
 end

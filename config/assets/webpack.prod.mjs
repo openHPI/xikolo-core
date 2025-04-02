@@ -1,6 +1,3 @@
-/* eslint-disable import/extensions */
-/* eslint-disable import/no-extraneous-dependencies */
-
 import { merge } from 'webpack-merge';
 
 import CompressionPlugin from 'compression-webpack-plugin';

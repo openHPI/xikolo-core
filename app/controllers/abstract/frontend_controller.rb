@@ -117,7 +117,7 @@ module Abstract
 
     def sanitize_params
       params.reject! do |_k, value|
-        value.is_a?(String) && NULL_BYTE_CHARS.any? { value.include? _1 }
+        value.is_a?(String) && NULL_BYTE_CHARS.any? { value.include? it }
       end
     end
   end

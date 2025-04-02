@@ -1,4 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies */
+/* global process */
 
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import { merge } from 'webpack-merge';

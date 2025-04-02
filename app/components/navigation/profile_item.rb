@@ -22,7 +22,7 @@ module Navigation
     end
 
     def active?
-      submenu.any? { _1[:active] }
+      submenu.any? { it[:active] }
     end
 
     def active_class

@@ -18,7 +18,7 @@ module Bridges
         def serialize(courses)
           @course_visuals = load_visuals!(courses)
 
-          courses.map { serialize_resource(_1) }
+          courses.map { serialize_resource(it) }
         end
 
         private

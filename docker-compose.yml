@@ -1,7 +1,7 @@
 ---
 # ### DEVELOPMENT ###
 #
-# Runs all needed external services via docker on localhost bound ports
+# Runs all needed external services via docker on locally bound ports.
 #
 
 services:
@@ -30,12 +30,12 @@ services:
     ports:
       - 127.0.0.1:9000:9000
     environment:
-      MINIO_ACCESS_KEY: xikolo
-      MINIO_SECRET_KEY: password
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
 
-  # RabbitMQ and Redis are explicitly started without persistent storage.
-  # Restarting the stack purges all still pending background jobs or queued
-  # messages.
+  # RabbitMQ and Redis are explicitly started without persistent
+  # storage. Restarting the stack purges all still pending background
+  # jobs or queued messages.
 
   rabbitmq:
     image: rabbitmq:3.9-management-alpine

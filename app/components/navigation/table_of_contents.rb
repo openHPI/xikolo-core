@@ -36,13 +36,13 @@ module Navigation
           # 2. Add all public (visible) sections, including alternative sections.
           published_sections.each do |section|
             SectionToc.new(context: self, course: @course, section:)
-              .build { toc.with_section(**_1) }
+              .build { toc.with_section(**it) }
 
             next unless section.section_choices?
 
             section.section_choices.each do |alternative|
               SectionToc.new(context: self, course: @course, section: alternative)
-                .build { toc.with_section(**_1) }
+                .build { toc.with_section(**it) }
             end
           end
         end

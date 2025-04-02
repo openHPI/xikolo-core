@@ -109,7 +109,7 @@ class Admin::CourseForm < XUI::Form
 
   def classifiers_uniqueness
     classifiers.each do |cluster, cls|
-      next if cls.map(&:downcase).then { _1.uniq.length == _1.length }
+      next if cls.map(&:downcase).then { it.uniq.length == it.length }
 
       errors.add :"classifiers_#{cluster}",
         I18n.t(:'.errors.messages.course.classifiers.not_unique')

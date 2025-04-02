@@ -1,0 +1,17 @@
+build-essential
+coreutils
+curl
+ffmpeg
+git
+libcurl4
+libffi-dev
+libgirepository1.0-dev
+libidn11-dev
+libpq-dev
+librsvg2-dev
+libsodium23
+libyaml-dev
+pkg-config
+python3
+shared-mime-info
+tzdata

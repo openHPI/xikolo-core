@@ -5,7 +5,7 @@
 #
 # * Compile and bundle web assets
 #
-FROM timbru31/ruby-node:3.4-slim-22@sha256:953e6dfe8d4974304aa832eee92828f62a2740dc620e3c53f508c4f4b0f687bf AS assets
+FROM timbru31/ruby-node:3.4-slim-22@sha256:c1d9ad4b7e31673e2dd39e96753939697cddc4a0012fd465dfaa86436a20bf64 AS assets
 
 ARG BRAND=xikolo
 ARG TARGETARCH
@@ -69,7 +69,7 @@ EOF
 # * Collect required native dependencies for gems
 # * Clean up application directory
 #
-FROM ruby:3.4.2-slim@sha256:cdc00623487445d99f3de3923b97463a15e2ce9045ea679f224f361eec7512c1 AS build
+FROM ruby:3.4.2-slim@sha256:98e208daf93d40485edf2f5e1a1527202ae0824cdc1619b6659674a84aa197ba AS build
 
 ARG BRAND=xikolo
 ARG TARGETARCH
@@ -140,7 +140,7 @@ EOF
 #
 # Runtime image
 #
-FROM docker.io/ruby:3.4.2-slim@sha256:cdc00623487445d99f3de3923b97463a15e2ce9045ea679f224f361eec7512c1
+FROM docker.io/ruby:3.4.2-slim@sha256:98e208daf93d40485edf2f5e1a1527202ae0824cdc1619b6659674a84aa197ba
 
 ARG BRAND=xikolo
 ARG BUILD_REF_NAME

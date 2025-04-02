@@ -12,19 +12,19 @@ csp:
   enabled: false
 s3:
   connect_info:
-    endpoint: http://127.0.0.1:8099
+    endpoint: http://127.0.0.1:9000
     region: default
     access_key_id: minioadmin
     secret_access_key: minioadmin
     force_path_style: true
   buckets:
-    avatars: xikolo-public
-    banners: xikolo-public
-    certificate: xikolo-certificate
-    course: xikolo-public
-    news: xikolo-public
-    pinboard: xikolo-pinboard
-    quiz: xikolo-quiz
-    scientist: xikolo-scientist
-    uploads: xikolo-uploads
-    video: xikolo-video
+    avatars: ci-xikolo-public
+    banners: ci-xikolo-public
+    certificate: ci-xikolo-certificate
+    course: ci-xikolo-public
+    news: ci-xikolo-public
+    pinboard: ci-xikolo-pinboard
+    quiz: ci-xikolo-quiz
+    scientist: ci-xikolo-scientist
+    uploads: ci-xikolo-uploads
+    video: ci-xikolo-video

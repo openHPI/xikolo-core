@@ -115,6 +115,7 @@ describe 'Course: Items: Show', type: :request do
 
         it 'responds with 404 Not Found' do
           expect { show_item }.to raise_error(Status::NotFound)
+          expect(visit_stub).not_to have_been_requested
         end
       end
 
@@ -124,6 +125,11 @@ describe 'Course: Items: Show', type: :request do
         it 'shows the item' do
           show_item
           expect(response).to have_http_status(:ok)
+        end
+
+        it 'creates a visit' do
+          show_item
+          expect(visit_stub).to have_been_requested
         end
       end
     end
@@ -160,6 +166,10 @@ describe 'Course: Items: Show', type: :request do
           show_item
           expect(response.body).to include item_resource['title']
           expect(response.body).not_to include 'Requirements not met'
+        end
+
+        it 'creates a visit' do
+          show_item
           expect(visit_stub).to have_been_requested
         end
       end
@@ -211,6 +221,11 @@ describe 'Course: Items: Show', type: :request do
             expect(response.body).to include 'Requirements not met'
           end
 
+          it 'does not create a visit' do
+            show_item
+            expect(visit_stub).not_to have_been_requested
+          end
+
           it 'does not show an enrollment notice' do
             show_item
             expect(response.body).to include 'The quiz item'
@@ -228,6 +243,11 @@ describe 'Course: Items: Show', type: :request do
               expect(response.body).to include 'The quiz item'
               expect(response.body).to include 'Start quiz now'
               expect(response.body).not_to include 'Requirements not met'
+            end
+
+            it 'does not create a visit' do
+              show_item
+              expect(visit_stub).not_to have_been_requested
             end
           end
         end
@@ -250,6 +270,11 @@ describe 'Course: Items: Show', type: :request do
             expect(response.body).not_to include 'Requirements not met'
             expect(response).to be_redirect
             expect(response.location).to include '/quiz_submission/new'
+          end
+
+          it 'does not create a visit' do
+            show_item
+            expect(visit_stub).not_to have_been_requested
           end
         end
       end
@@ -301,6 +326,11 @@ describe 'Course: Items: Show', type: :request do
             expect(response.body).to include 'Requirements not met'
           end
 
+          it 'does not create a visit' do
+            show_item
+            expect(visit_stub).not_to have_been_requested
+          end
+
           it 'does not show an enrollment notice' do
             show_item
             expect(response.body).to include 'The exam'
@@ -318,6 +348,11 @@ describe 'Course: Items: Show', type: :request do
               expect(response.body).to include 'The exam'
               expect(response.body).to include 'Start quiz now'
               expect(response.body).not_to include 'Requirements not met'
+            end
+
+            it 'does not create a visit' do
+              show_item
+              expect(visit_stub).not_to have_been_requested
             end
           end
         end
@@ -340,6 +375,11 @@ describe 'Course: Items: Show', type: :request do
             expect(response.body).to include 'The exam'
             expect(response.body).to include 'Start quiz now'
             expect(response.body).not_to include 'Requirements not met'
+          end
+
+          it 'does not create a visit' do
+            show_item
+            expect(visit_stub).not_to have_been_requested
           end
         end
       end
@@ -368,6 +408,11 @@ describe 'Course: Items: Show', type: :request do
           show_item
           expect(response).not_to be_redirect
           expect(response.body).to include('The Richtext Item')
+        end
+
+        it 'creates a visit' do
+          show_item
+          expect(visit_stub).to have_been_requested
         end
 
         context 'item navigation' do

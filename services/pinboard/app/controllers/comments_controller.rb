@@ -61,7 +61,7 @@ class CommentsController < ApplicationController
     @comment = Comment::Store.call @comment, comment_params.slice(:text)
 
     # check for previous errors directly, as `.valid?` would clear all previously errors:
-    if @comment.errors.empty? && (params[:notification] && params[:notification][:notify]) && !@comment.blocked?
+    if @comment.errors.empty? && params[:notification] && params[:notification][:notify] && !@comment.blocked?
       notify_subscribers commentable, @comment, params[:notification]
     end
 

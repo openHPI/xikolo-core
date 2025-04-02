@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import Extract from 'mini-css-extract-plugin';
 
 import cssnano from 'cssnano';

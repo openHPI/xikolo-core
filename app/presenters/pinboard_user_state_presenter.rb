@@ -29,7 +29,7 @@ class PinboardUserStatePresenter
   end
 
   def level_for(user_id)
-    gamification_levels.find { _1.enough?(score_for(user_id)) }
+    gamification_levels.find { it.enough?(score_for(user_id)) }
   end
 
   def score_for(user_id)

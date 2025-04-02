@@ -26,6 +26,9 @@ describe 'Quiz: Submissions: New', type: :request do
   let(:quiz_id) { generate(:quiz_id) }
   let(:quiz_question) { build(:'quiz:question', :free_text, quiz_id:) }
   let(:submission_deadline) { 1.hour.from_now }
+  let(:visit_stub) do
+    Stub.request(:course, :post, "/items/#{item.id}/users/#{user_id}/visit")
+  end
   let(:create_submission_stub) do
     Stub.request(
       :quiz, :post, '/quiz_submissions'
@@ -105,6 +108,7 @@ describe 'Quiz: Submissions: New', type: :request do
       attempts: 0,
     })
     create_submission_stub
+    visit_stub
   end
 
   it 'displays all questions' do
@@ -118,6 +122,11 @@ describe 'Quiz: Submissions: New', type: :request do
 
     # The service returned a new quiz submission
     expect(page).to have_no_content 'There is still an active quiz running.'
+  end
+
+  it 'creates a visit' do
+    new_submission
+    expect(visit_stub).to have_been_requested
   end
 
   it 'creates a new quiz submission' do
@@ -146,6 +155,11 @@ describe 'Quiz: Submissions: New', type: :request do
 
       expect(page).to have_content 'There is still an active quiz running.'
     end
+
+    it 'creates a visit' do
+      new_submission
+      expect(visit_stub).to have_been_requested
+    end
   end
 
   context 'if deadline passed' do
@@ -153,6 +167,11 @@ describe 'Quiz: Submissions: New', type: :request do
 
     it 'redirects to course item page' do
       expect(new_submission).to redirect_to "/courses/the_course/items/#{short_uuid(item.id)}"
+    end
+
+    it 'does not create a visit' do
+      new_submission
+      expect(visit_stub).not_to have_been_requested
     end
   end
 
@@ -166,6 +185,11 @@ describe 'Quiz: Submissions: New', type: :request do
 
     it 'redirects to course item page' do
       expect(new_submission).to redirect_to "/courses/the_course/items/#{short_uuid(item.id)}"
+    end
+
+    it 'does not create a visit' do
+      new_submission
+      expect(visit_stub).not_to have_been_requested
     end
   end
 
@@ -187,6 +211,11 @@ describe 'Quiz: Submissions: New', type: :request do
 
       expect(response).to redirect_to "/courses/the_course/items/#{short_uuid(item.id)}"
       expect(flash[:error].first).to eq 'The proctored exam could not be started. Please try again later.'
+    end
+
+    it 'does not create a visit' do
+      new_submission
+      expect(visit_stub).not_to have_been_requested
     end
   end
 end

@@ -12,7 +12,7 @@ class HelpdeskController < Abstract::FrontendController
     @recaptcha = Xi::Recaptcha::Integration.new(request: request, params: params, action: 'helpdesk')
     unless @recaptcha.verified?
       @recaptcha.require_manual_verification!
-      @ticket = Helpdesk::TicketForm.new(ticket_params).tap { annotate_with_metadata _1 }
+      @ticket = Helpdesk::TicketForm.new(ticket_params).tap { annotate_with_metadata it }
 
       if helpdesk_layout
         return render action: :show
@@ -29,7 +29,7 @@ class HelpdeskController < Abstract::FrontendController
 
   def show
     @recaptcha = Xi::Recaptcha::Integration.new(request: request, params: params, action: 'helpdesk')
-    @ticket = Helpdesk::TicketForm.new(ticket_params).tap { annotate_with_metadata _1 }
+    @ticket = Helpdesk::TicketForm.new(ticket_params).tap { annotate_with_metadata it }
   end
 
   private

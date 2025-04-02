@@ -19,9 +19,9 @@ module Gamification
       @by_course ||= @user.gamification_scores
         .where(rule: CATEGORIES.values.flatten).where('points > 0')
         .group(:course_id, :rule).total
-        .then { sum_per_category(_1) }
-        .then { sum_total_per_category(_1) }
-        .then { load_courses(_1) }
+        .then { sum_per_category(it) }
+        .then { sum_total_per_category(it) }
+        .then { load_courses(it) }
     end
 
     private
@@ -47,7 +47,7 @@ module Gamification
     def sum_total_per_category(result)
       result.merge(
         total: columns.index_with do |category|
-          result.values.sum { _1[category] }
+          result.values.sum { it[category] }
         end
       )
     end

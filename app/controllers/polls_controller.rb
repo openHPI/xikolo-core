@@ -6,7 +6,7 @@ class PollsController < Abstract::FrontendController
 
   def archive
     @polls = Poll::Poll.includes(:options).started.latest_first.take(20)
-      .map { PollArchivePresenter.new(_1, current_user) }
+      .map { PollArchivePresenter.new(it, current_user) }
   end
 
   def next

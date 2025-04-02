@@ -39,14 +39,14 @@ module Course
     end
 
     def each
-      deadlines.each { yield _1 }
+      deadlines.each { yield it }
     end
 
     private
 
     def deadlines
       @deadlines ||= if @promise&.value
-                       @promise.value.map { Deadline.new _1 }
+                       @promise.value.map { Deadline.new it }
                      else
                        []
                      end

@@ -11,7 +11,7 @@
       class: 'form-control',
       lang: lang
     - if show_solution
-      - correct_answer = answer.correct && (user_submission && user_submission.points == question.points)
+      - correct_answer = answer.correct && user_submission && user_submission.points == question.points
       = render 'quiz_submission/partials/quiz_free_text_answer_solution', user_answer_text: submitted_answer, correct_answer: correct_answer
   .ml15
     = render 'quiz_submission/question/answer_comment', answer: answer, show_solution: show_solution, lang: lang

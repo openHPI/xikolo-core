@@ -216,7 +216,7 @@ module Catalog
           learning_evaluation: true,
           per_page: 1000,
         }).value!.then do |enrollments|
-          enrollments.select { _1['completed'] }.pluck('course_id')
+          enrollments.select { it['completed'] }.pluck('course_id')
         end
       rescue Restify::ResponseError
         []

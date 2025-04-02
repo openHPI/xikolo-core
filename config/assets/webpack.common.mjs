@@ -125,6 +125,7 @@ export default async (settings) => {
         statsFilename: `.stats.${brand}.json`,
       }),
     ],
+
     optimization: {
       // Always do tree shaking to avoid issues in production only and to be
       // able to analyze module usage while in development environment.
@@ -138,6 +139,11 @@ export default async (settings) => {
       // page we want a single runtime chunk to be loaded first, instead of
       // having one runtime embedded in each bundle.
       runtimeChunk: 'single',
+    },
+
+    cache: {
+      type: 'filesystem',
+      cacheDirectory: join(root, '.cache', 'webpack', brand),
     },
   };
 };

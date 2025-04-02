@@ -37,6 +37,8 @@ class QuizSubmissionController < Abstract::FrontendController
       return redirect_to root_url
     end
 
+    create_visit!
+
     # This query returns a limited list of 50 results
     @submissions = Xikolo::Submission::QuizSubmission.where(
       quiz_id: the_quiz.id, user_id: current_user.id, highest_score: highest_score?, newest_first: newest_first?
@@ -146,6 +148,8 @@ class QuizSubmissionController < Abstract::FrontendController
       add_flash_message :error, t(:'flash.error.quiz_submission_time_up')
       return redirect_to course_item_quiz_submission_path id: short_uuid(@submission.id)
     end
+
+    create_visit!
 
     if submission.response.status != :created && @item_presenter.graded? && !@in_app
       add_flash_message :notice, t(:'flash.notice.quiz_submission_still_active')

@@ -9,7 +9,8 @@ Bundler.require
 ENV['RAILS_ENV'] ||= 'development'
 
 BASE = Dir.pwd
-require "#{Dir.pwd}/features/support/applications"
+require_relative 'features/support/applications'
+require_relative 'features/support/minio'
 
 # require 'gurke/rake/task'
 require 'teamcity'
@@ -74,7 +75,7 @@ namespace :reset do
     Xikolo::Config.add_config_location File.expand_path('~/.xikolo.development.yml') if ENV.key? 'HOME'
 
     # Remove all buckets
-    MinioProcess.delete_all
+    Minio.delete_all
     puts 'Successfully cleared all buckets'
 
     # And configure them again
@@ -256,8 +257,8 @@ end
 namespace :s3 do
   desc 'Create needed buckets and setup their policies ...'
   task(:configure) do
-    # Copy default configuration to ~/.xikolo.development.yml (if it does not
-    # already exist)
+    # Copy default configuration to ~/.xikolo.development.yml (if it
+    # does not already exist)
     if !File.exist? File.expand_path('~/.xikolo.development.yml')
       FileUtils.copy_file(
         'features/support/lib/xikolo.development.yml',
@@ -290,7 +291,8 @@ namespace :s3 do
     Xikolo::Config.add_config_location File.expand_path('~/.xikolo.development.yml') if ENV.key? 'HOME'
 
     # Create buckets with needed policies:
-    MinioProcess.setup
+    Minio.setup
+
     puts 'Successfully set up minio'
   end
 end
