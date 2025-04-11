@@ -1804,13 +1804,13 @@ de:
         back: Zurück zum Kurseditor
 
     certificates:
-      intro_title: Was finde ich hier?
-      intro_text: Auf dieser Seite sehen Sie, welche Zertifikate Sie in diesem Kurs erreichen können, was Sie bereits erreicht haben und ob die Leistungsnachweise bereits zum Download verfügbar sind.
-      intro_guidelines_html: Weitere Informationen finden Sie in den <a href="/pages/roa_guidelines">Richtlinien für Leistungsnachweise</a>.
+      title: Meine Kurszertifikate
       requirements: Anforderungen
       achieved_state: Erreicht
       in_progress_state: Noch nicht erreicht
       in_progress_button: Fortschritt überprüfen
+      guideline_link: "Weitere Informationen finden Sie in den <a href='%{url}'>Richtlinien für Leistungsnachweise</a>."
+      show_open_badge: Open Badge anzeigen
 
   certificate:
     template:

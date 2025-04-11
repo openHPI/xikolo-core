@@ -1,6 +1,6 @@
 .fudge
   = form_tag(add_fudge_points_path(course_id: course.id), method: :post) do
-    input name="fudge_points" type="number" value=submission.fudge_points step="0.1" required="required"
-    input name="id" type="hidden" value=submission.id
+    input name="fudge_points" type="number" value=submission['fudge_points'] step="0.1" required="required"
+    input name="id" type="hidden" value=submission['id']
     = submit_tag t(:'quiz_submission.submit_fudge_points'), class: 'btn btn-primary btn-xs'
     = button_tag 'x', type: 'button', class: 'btn btn-default btn-xs js-cancel-fudge'

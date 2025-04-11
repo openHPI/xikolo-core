@@ -6,7 +6,7 @@ For a more elegant, DRY, and easy-to-maintain CSS code, we use the popular prepr
 ## SCSS Architecture
 
 Besides the global main entry point `main.scss`,
-the majority of our CSS [is located here](https://lab.xikolo.de/xikolo/web/-/tree/master/app/assets/stylesheets).
+the majority of our CSS [is located here](https://gitlab.hpi.de/openhpi/xikolo/web/-/tree/master/app/assets/stylesheets).
 
 It includes the following files and folders:
 

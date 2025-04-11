@@ -22,7 +22,7 @@ authors = authors.lines.to_h do |line|
 end
 
 page = Restify.new(
-  'https://lab.xikolo.de/api/v4/users',
+  'https://gitlab.hpi.de/api/v4/users',
   headers: {
     'Private-Token' => ACCESS_TOKEN,
     'Accept' => 'application/json',

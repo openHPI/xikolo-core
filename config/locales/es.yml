@@ -1516,13 +1516,13 @@ es:
         back: Volver al editor de curso
 
     certificates:
-      intro_title: ¿Qué puedo encontrar aquí?
-      intro_text: Esta página enumera su rendimiento personal en este curso. ¡Vea lo que puede lograr, qué rendimiento ha logrado y cuándo los certificados estarán disponibles para ser descargados!
-      intro_guidelines_html: Para más información consulte la <a href="/pages/roa_guidelines">Guía de certificados</a>.
+      title: Certificados de mis cursos
       requirements: Requisitos
       achieved_state: Logrado
       in_progress_state: En Progreso
       in_progress_button: Comprobar mi progreso
+      guideline_link: "Para más información consulte la <a href='%{url}'>Guía de certificados</a>."
+      show_open_badge: Mostrar Open Badge
 
   certificate:
     template:

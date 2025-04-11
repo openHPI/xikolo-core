@@ -34,5 +34,6 @@ services/*/config/initializers/integration*
 !LICENSE*
 !Makefile
 !package.json
+!packages.txt
 !Rakefile
 !yarn.lock

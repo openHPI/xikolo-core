@@ -5,10 +5,10 @@ module ItemStats
     def initialize(item)
       super
 
-      @stats_promise = lanalytics_api.rel(:metric).get(
+      @stats_promise = lanalytics_api.rel(:metric).get({
         name: 'video_statistics',
-        item_id: item['id']
-      )
+        item_id: item['id'],
+      })
     end
 
     def facts

@@ -7,10 +7,10 @@ This guide will help you set up everything you need for running `xikolo` and sta
 
 ### Repository
 
-If you are part of the Xikolo core team at the HPI, you will need access to the project repository and [GitLab](https://lab.xikolo.de).
+If you are part of the Xikolo core team at the HPI, you will need access to the project repository and [GitLab](https://gitlab.hpi.de/groups/openhpi/).
 
 - You need at least read access for the `xikolo` group or direct (read) access to the `web` repository.
-- Ensure that you have created an SSH key pair (*ed25519* is highly recommended), and add your public key to your GitLab [profile](https://lab.xikolo.de/-/profile/keys).
+- Ensure that you have created an SSH key pair (*ed25519* is highly recommended), and add your public key to your GitLab [profile](https://gitlab.hpi.de/-/profile/keys).
 
 === "Mac"
 

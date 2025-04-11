@@ -12,7 +12,7 @@ To indicate the start of the review process in the corresponding ticket, please 
 Do good work and talk about it! There are multiple levels of escalation to let others know about your new MR:
 
 1. Many developers already watch our repositories, so they will get (email) notifications about new MRs automatically.
-2. Ensure you selected a relevant milestone (if applicable) so that your MR appears in [this handy list](https://lab.xikolo.de/groups/xikolo/-/merge_requests?scope=all&state=opened&milestone_title=%23started).
+2. Ensure you selected a relevant milestone (if applicable) so that your MR appears in [this handy list](https://gitlab.hpi.de/groups/openhpi/xikolo/-/merge_requests?scope=all&state=opened&milestone_title=%23started).
 3. Additionally, keep track that your MR is up-to-date:
     - When the next working phase starts and your MR is part of it, please don't forget to adjust the milestone in GitLab.
     - If the milestone does not yet exist, you can create it yourself for the Xikolo group in GitLab.
@@ -61,8 +61,8 @@ Make this a regular habit, so that we move forward quickly, and work in progress
 
     This maintains a healthy balance.
     If possible, schedule a dedicated slot for reviewing other MRs every day.
-    [This is an overview of all open MRs](https://lab.xikolo.de/groups/xikolo/-/merge_requests).
-    You can also [search for the current milestone](https://lab.xikolo.de/groups/xikolo/-/merge_requests?scope=all&state=opened&milestone_title=%23started) to focus on getting current tasks done.
+    [This is an overview of all open MRs](https://gitlab.hpi.de/groups/openhpi/xikolo/-/merge_requests).
+    You can also [search for the current milestone](https://gitlab.hpi.de/groups/openhpi/xikolo/-/merge_requests?scope=all&state=opened&milestone_title=%23started) to focus on getting current tasks done.
 
 Reviews are not only a requirement for getting code merged (and therefore moving forward), but they are also a great chance to distribute knowledge and grow! Don't be afraid to take a look at code you haven't touched before.
 

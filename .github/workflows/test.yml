@@ -67,6 +67,15 @@ jobs:
       - name: Execute rspec unit tests
         run: bundle exec rspec --tty --backtrace --color --format RSpec::Github::Formatter --format documentation --tag ~type:system
 
+      - name: Upload log files
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs
+          path: |
+            log/*.log
+          include-hidden-files: true
+        if: success() || failure()
+
   rspec-system:
     name: rspec:system
     runs-on: ubuntu-24.04
@@ -100,6 +109,15 @@ jobs:
 
       - name: Execute rspec unit tests
         run: bundle exec rspec --tty --backtrace --color --format RSpec::Github::Formatter --format documentation --tag type:system
+
+      - name: Upload log files
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs
+          path: |
+            log/*.log
+          include-hidden-files: true
+        if: success() || failure()
 
   service:
     name: ${{ matrix.service }}:rspec
@@ -147,6 +165,15 @@ jobs:
 
       - name: Execute rspec unit tests
         run: bundle exec rspec --tty --backtrace --color --format RSpec::Github::Formatter --format documentation
+
+      - name: Upload log files
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs
+          path: |
+            log/*.log
+          include-hidden-files: true
+        if: success() || failure()
 
   complete:
     if: always()

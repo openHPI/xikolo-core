@@ -2561,13 +2561,13 @@ en:
           certificate: Certificate
           complete: Complete
     certificates:
-      intro_title: What can I find here?
-      intro_text: This page lists your personal achievements in this course. See what you can achieve, what you have achieved and when the records will become available for download!
-      intro_guidelines_html: Find out more in the <a href="/pages/roa_guidelines">certificate guidelines</a>.
+      title: My course certificates
+      guideline_link: "Find out more on the <a href='%{url}'>the certificate guidelines page</a>."
       requirements: Requirements
       achieved_state: Achieved
       in_progress_state: In Progress
       in_progress_button: Check my progress
+      show_open_badge: Show Open Badge
 
   certificate:
     template:

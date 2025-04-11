@@ -107,10 +107,10 @@ module Collabspace
 
     def prevent_removing_last_admin?(membership, collabspace)
       # Only continue when an admin is about to be removed.
-      return false unless membership.status == 'admin'
+      return false unless membership['status'] == 'admin'
 
       # No need to block the operation if there are other admins remaining.
-      remaining_admins = collabspace.rel(:memberships).get(status: 'admin').value!
+      remaining_admins = collabspace.rel(:memberships).get({status: 'admin'}).value!
       return false if (remaining_admins.count - 1).positive?
 
       true

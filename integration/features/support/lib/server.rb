@@ -6,6 +6,7 @@ require 'active_support'
 require 'active_support/core_ext'
 require 'restify'
 require 'mkmf'
+require 'erb'
 require 'net/http'
 require 'aws-sdk-s3'
 
@@ -241,18 +242,14 @@ class Server < MultiProcess::Process
     end
 
     def config_s3
-      conf = YAML.load_file(Gurke.root.join('support/lib/xikolo.yml').to_s)
+      conf = Xikolo.config.parse_file(Gurke.root.join('support/lib/xikolo.yml').to_s)
       conf['domain'] = BASE_URI.host
       conf['domain'] += ":#{BASE_URI.port}" if BASE_URI.port
       conf['base_url'] = BASE_URI.to_s
 
-      if ENV['S3_CONFIG_FILE']
-        s3_config = YAML.safe_load_file(ENV['S3_CONFIG_FILE'])
-        Xikolo.config['s3'] = s3_config['web']
-        # already build resource object (the credentials might be
-        # overwritten later on)
-        Xikolo::S3.resource
-      end
+      # Merge integration defaults into current S3 config so that S3
+      # buckets can be set up:
+      Xikolo.config.merge(conf)
 
       # Create buckets with needed policies
       Minio.setup
@@ -260,10 +257,6 @@ class Server < MultiProcess::Process
       Server.each :config do |app|
         dest = app.file('config', 'xikolo.integration.yml')
         dest.unlink if dest.exist?
-        if s3_config
-          conf.delete('s3')
-          conf['s3'] = s3_config[app.id.to_s] if s3_config.key? app.id.to_s
-        end
         dest.write YAML.dump conf
       end
     end

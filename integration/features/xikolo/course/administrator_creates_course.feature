@@ -8,6 +8,7 @@ Feature: Administrator creates course
     And I am logged in
     And there exist some users
     And there exist some teachers
+    And a public channel was created
     And I am on the course creation page
 
   Scenario: Create a course

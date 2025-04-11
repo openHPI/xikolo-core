@@ -1620,13 +1620,13 @@ nl:
         # EN-fallback edit: Edit visuals
         # EN-fallback back: Back to course editor
     certificates:
-      intro_title: Wat kan ik hier vinden?
-      intro_text: Op deze pagina staan uw persoonlijke prestaties in deze cursus. Kijk wat je kunt bereiken, wat je hebt bereikt en wanneer de records beschikbaar komen om te downloaden!
-      intro_guidelines_html: Lees meer in de <a href="/pages/roa_guidelines">certificaatrichtlijnen</a>.
+      title: Mijn cursuscertificaten
       requirements: Voorwaarden
       achieved_state: Bereikt
       in_progress_state: Bezig
       in_progress_button: Controleer mijn vooruitgang
+      guideline_link: "Lees meer in de <a href='%{url}'>certificaatrichtlijnen</a>."
+      show_open_badge: Toon Open Badge
 
   certificate:
     template:

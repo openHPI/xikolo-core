@@ -4,11 +4,11 @@ This CSS Styleguide contains a set of standards and rules on how to write CSS co
 
 ## Linter
 
-A CSS Linter is a tool that does basic syntax checking and applies a set of rules to help you write more efficient code. The rules we use in Xikolo are defined in the [stylelint standard config](https://github.com/stylelint/stylelint-config-standard) and extended by [these rules in the stylelint config](https://lab.xikolo.de/xikolo/web/blob/master/.stylelintrc.js).
+A CSS Linter is a tool that does basic syntax checking and applies a set of rules to help you write more efficient code. The rules we use in Xikolo are defined in the [stylelint standard config](https://github.com/stylelint/stylelint-config-standard) and extended by [these rules in the stylelint config](https://gitlab.hpi.de/openhpi/xikolo/web/blob/master/.stylelintrc.js).
 
-At the moment, we choose to [ignore all files](https://lab.xikolo.de/xikolo/web/blob/master/.stylelintignore) that were created prior to defining this style guideline. Newly created files have to follow these rules and old code has to be refactored in the future and removed from the ignore list.
+At the moment, we choose to [ignore all files](https://gitlab.hpi.de/openhpi/xikolo/web/blob/master/.stylelintignore) that were created prior to defining this style guideline. Newly created files have to follow these rules and old code has to be refactored in the future and removed from the ignore list.
 
-For the [video-player project](https://lab.xikolo.de/xikolo/video-player), we want to stick to the same linter rules. With the [exceptions](https://lab.xikolo.de/xikolo/video-player/blob/master/.eslintrc.json), we have to take into account to make sure the linter does not collide with the stencil tool we are using. The same project rules apply.
+For the [video-player project](https://gitlab.hpi.de/openhpi/xikolo/video-player), we want to stick to the same linter rules. With the [exceptions](https://gitlab.hpi.de/openhpi/xikolo/video-player/blob/master/.eslintrc.json), we have to take into account to make sure the linter does not collide with the stencil tool we are using. The same project rules apply.
 
 ## Project rules
 

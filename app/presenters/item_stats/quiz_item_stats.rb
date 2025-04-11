@@ -6,11 +6,11 @@ module ItemStats
       super
 
       @item = item
-      @quiz_promise = quiz_api.rel(:quiz).get(id: item['content_id'])
-      @stats_promise = quiz_api.rel(:submission_statistic).get(
+      @quiz_promise = quiz_api.rel(:quiz).get({id: item['content_id']})
+      @stats_promise = quiz_api.rel(:submission_statistic).get({
         id: item['content_id'],
-        embed: 'avg_submit_duration'
-      )
+        embed: 'avg_submit_duration',
+      })
     end
 
     def facts
@@ -76,9 +76,9 @@ module ItemStats
 
     def questions
       @questions ||= quiz_api.rel(:questions)
-        .get(quiz_id: quiz['id'], per_page: 250).value!
+        .get({quiz_id: quiz['id'], per_page: 250}).value!
         .map do |q|
-          base_stats = questions_base_stats.find {|stats| stats['id'] == q.id }
+          base_stats = questions_base_stats.find {|stats| stats['id'] == q['id'] }
           TYPE_CLASS_MAPPING
             .fetch(q['type'], AnyQuestion)
             .new(q, @item, base_stats)
@@ -88,10 +88,10 @@ module ItemStats
     private
 
     def questions_base_stats
-      @questions_base_stats ||= quiz_api.rel(:submission_statistic).get(
+      @questions_base_stats ||= quiz_api.rel(:submission_statistic).get({
         id: quiz_id,
-        only: 'questions_base_stats'
-      ).then {|stats| stats['questions_base_stats'] }.value!
+        only: 'questions_base_stats',
+      }).then {|stats| stats['questions_base_stats'] }.value!
     end
 
     def stats

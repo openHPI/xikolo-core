@@ -1,0 +1,79 @@
+.achievement {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  padding: 20px;
+  background-color: $gray-100;
+  box-shadow: $box-shadow-xs;
+  gap: 10px;
+
+  &__title {
+    display: flex;
+    min-height: 28px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+
+    h3 {
+      margin: 0;
+      font-weight: normal;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    margin-top: 5px;
+    gap: 10px;
+  }
+
+  &__description {
+    margin: 0;
+  }
+
+  &__requirements {
+    h4 {
+      @include font-s;
+      margin-bottom: 5px;
+    }
+
+    ul {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+
+      .xi-icon {
+        @include font-sm;
+      }
+
+      &.requirement--achieved {
+        .xi-icon {
+          color: $success-500;
+        }
+      }
+
+      &.requirement--missing {
+        .xi-icon {
+          color: $error-500;
+        }
+      }
+
+      .achievement--in-progress &.requirement--missing {
+        .xi-icon {
+          color: $information-500;
+        }
+      }
+    }
+  }
+
+  // Reset callout styles to match the achievement styles
+  .callout {
+    margin: 0;
+  }
+}

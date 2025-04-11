@@ -379,8 +379,8 @@ module Xikolo
               Rails.cache.fetch("statistics/course/#{params[:course_id]}/forum/", expires_in: 1.hour, race_condition_ttl: 10.seconds) do
                 Restify::Promise.new(
                   pinboard_api.rel(:statistic).get({id: params[:course_id]}),
-                  fetch_metric({name: 'forum_activity', course_id: params[:course_id]}),
-                  fetch_metric({name: 'forum_write_activity', course_id: params[:course_id]})
+                  fetch_metric(name: 'forum_activity', course_id: params[:course_id]),
+                  fetch_metric(name: 'forum_write_activity', course_id: params[:course_id])
                 ) do |forum_statistics, forum_activity, forum_write_activity|
                   {
                     forum_statistics:,

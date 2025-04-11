@@ -79,7 +79,7 @@ class CourseStats
 
   def initialize(resource)
     FIELDS.each do |field|
-      if DATE_FIELDS.include?(field)
+      if DATE_FIELDS.include?(field) && resource[field].present?
         # Info: Lanalytics does *NOT* consistently return ISO 8601
         value = Time.zone.parse(resource[field])
       else

@@ -27,8 +27,6 @@ Sentry.init do |config|
   # Far too many exception when sidekiq workers are just reconnecting
   config.excluded_exceptions += %w[Redis::CannotConnectError RedisClient::CannotConnectError]
 
-  config.release = ENV['DEB_VERSION'] if ENV['DEB_VERSION']
-
   # Do not send full list of gems with each event
   config.send_modules = false
 

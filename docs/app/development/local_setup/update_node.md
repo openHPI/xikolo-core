@@ -31,16 +31,12 @@ updated to the new NodeJS version.
 
 Similarly, the file `.nvmrc` needs to be updated to the new NodeJS version.
 
-### Update `debian/control`
-
-Update the `nodejs` constraint for the NodeJS version being installed on production systems.
-
 ### Update `.gitlab-ci.yml`
 
 The `.gitlab-ci.yml` file needs to be updated to the new NodeJS version. The `image` line specifies the Docker image to
 use for the respective job in the CI pipeline.
 
-The line consists of the image name (`node`), the NodeJS version and image flavour (`22-slim`), and a digest  (`sha256: <...>`).
+The line consists of the image name (`node`), the NodeJS version and image flavor (`22-slim`), and a digest (`sha256: <...>`).
 
 ```yaml
 # .gitlab-ci.yml

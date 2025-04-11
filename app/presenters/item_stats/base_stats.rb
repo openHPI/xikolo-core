@@ -4,10 +4,10 @@ module ItemStats
   class BaseStats
     def initialize(item)
       @item = item
-      @base_stats_promise = lanalytics_api.rel(:metric).get(
+      @base_stats_promise = lanalytics_api.rel(:metric).get({
         name: 'item_visits',
-        resource_id: item['id']
-      )
+        resource_id: item['id'],
+      })
     end
 
     def base_facts
@@ -56,7 +56,7 @@ module ItemStats
     protected
 
     def course
-      @course ||= course_api.rel(:course).get(id: @item['course_id']).value!
+      @course ||= course_api.rel(:course).get({id: @item['course_id']}).value!
     end
 
     def base_stats

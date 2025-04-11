@@ -11,6 +11,10 @@ module Steps
       set_xikolo_config('access_groups', 'company.partner': 'Partners')
     end
 
+    Given 'a public channel was created' do
+      context.assign :channel, create_channel(public: true)
+    end
+
     When 'I filter for courses in preparation' do
       select('Preparation', from: 'Status')
     end
@@ -36,6 +40,10 @@ module Steps
 
       # teachers = context.fetch :teachers
       # tom_select teachers[2]['name'], from: 'Teachers'
+    end
+
+    When 'I assign a channel' do
+      select 'Enterprise Channel', from: 'Channel'
     end
 
     When 'I assign some categories' do
@@ -77,6 +85,7 @@ module Steps
       send :'When I fill in course abstract'
       send :'When I fill in course description'
       send :'When I appoint some teachers'
+      send :'When I assign a channel'
       send :'When I assign some categories'
       send :'When I set a start date'
       send :'When I set an end date'

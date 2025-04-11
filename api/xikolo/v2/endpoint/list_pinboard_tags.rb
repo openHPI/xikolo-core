@@ -21,8 +21,8 @@ module Xikolo
 
             # Load sections and items
             context = {
-              sections: Array.wrap(sections).to_h {|i| [i.id, i.title] },
-              items: Array.wrap(items).to_h {|i| [i.id, i.title] },
+              sections: Array.wrap(sections).to_h {|i| [i['id'], i['title']] },
+              items: Array.wrap(items).to_h {|i| [i['id'], i['title']] },
             }
 
             tags = get_paged! pinboard_service.value!.rel(:tags).get({course_id: course['id']}).value!

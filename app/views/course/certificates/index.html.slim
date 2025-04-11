@@ -1,13 +1,7 @@
-.col-md-4
+.course-certificates.col-md-12
+  h2 = t(:'course.certificates.title')
+  .course-certificates__achievements
+    - @achievements.each do |achievement|
+      = render Course::Achievement.new(achievement, @documents)
 
-  .PageIntro
-    h2.PageIntro-title
-      = t(:'course.certificates.intro_title')
-    .PageIntro-lead
-      p = t(:'course.certificates.intro_text')
-      p = t(:'course.certificates.intro_guidelines_html')
-
-.col-md-8
-  .CourseAchievementsList
-    - @index.each do |achievement|
-      = render Course::Achievement.new(achievement)
+  p.mt20 = t(:'course.certificates.guideline_link', url: '/pages/roa_guidelines')

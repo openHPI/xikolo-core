@@ -3,7 +3,7 @@
 _First, briefly describe what this merge request does._
 
 _Then, describe the changes in more detail._
-_Make sure potential reviewers have enough information to quickly dive in and understand the changes. Check our [documentation](<https://xikolo.pages.xikolo.de/web/development/workflows/review/>) for more details._
+_Make sure potential reviewers have enough information to quickly dive in and understand the changes. Check our [documentation](<https://openhpi.pages.gitlab.hpi.de/xikolo/web/development/workflows/review/>) for more details._
 
 ## Decisions / Choices I made
 
@@ -20,7 +20,7 @@ Finally, feel free to @tag other developers to ask them to review your work. Alw
 ## Release Notes
 
 ```text
-- Add a bullet point for customer-facing release notes as described in https://lab.xikolo.de/xikolo/release-notes or "N/A"
+- Add a bullet point for customer-facing release notes as described in https://gitlab.hpi.de/openhpi/xikolo/release-notes or "N/A"
 ```
 
 ## Checklist

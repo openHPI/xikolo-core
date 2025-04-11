@@ -12,8 +12,14 @@ module Xikolo
   config_accessor :site, :brand, :base_url
 
   class Configuration < ActiveSupport::Configurable::Configuration
-    def load_file(filename)
-      merge YAML.safe_load ERB.new(::File.read(filename)).result
+    def load_file(path)
+      if (data = parse_file(path))
+        merge(data)
+      end
+    end
+
+    def parse_file(path)
+      YAML.safe_load(ERB.new(::File.read(path)).result)
     end
 
     def merge(opts)

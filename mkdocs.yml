@@ -1,6 +1,6 @@
 site_name: Xikolo Platform
-site_url: https://xikolo.pages.xikolo.de/web/
-repo_url: https://lab.xikolo.de/xikolo/web
+site_url: https://openhpi.pages.gitlab.hpi.de/xikolo/web/
+repo_url: https://gitlab.hpi.de/openhpi/xikolo/web
 repo_name: xikolo/web
 edit_uri: -/edit/master/docs/app/
 docs_dir: docs/app

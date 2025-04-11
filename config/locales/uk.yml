@@ -1628,13 +1628,13 @@ uk:
         # EN-fallback edit: Edit visuals
         # EN-fallback back: Back to course editor
     certificates:
-      intro_title: Що я можу тут знайти?
-      intro_text: На цій сторінці наведені ваші особисті досягнення в цьому курсі. Подивіться, чого ви можете досягти, чого ви досягли і коли відомості будуть доступні для завантаження!
-      intro_guidelines_html: Для отримання додаткової інформації див. <a href="/pages/roa_guidelines">інструкцію з отримання сертифіката</a>.
+      title: Мої сертифікати про проходження курсу
       requirements: Вимоги
       achieved_state: Досягнуто
       in_progress_state: У ході виконання
       in_progress_button: Перевірте мій прогрес
+      guideline_link: "Для отримання додаткової інформації див. <a href='%{url}'>інструкцію з отримання сертифіката</a>."
+      show_open_badge: Показати Open Badge
 
   certificate:
     template:

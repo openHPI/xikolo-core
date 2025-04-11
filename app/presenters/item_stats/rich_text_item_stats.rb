@@ -5,11 +5,11 @@ module ItemStats
     def initialize(item)
       super
 
-      @stats_promise = lanalytics_api.rel(:metric).get(
+      @stats_promise = lanalytics_api.rel(:metric).get({
         name: 'rich_text_link_click_count',
         course_id: item['course_id'],
-        item_id: item['id']
-      )
+        item_id: item['id'],
+      })
     end
 
     def facts

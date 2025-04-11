@@ -47,7 +47,7 @@ module Xikolo
                       end.value!
 
           statistics = news_list.map do |news|
-            mail_log_stats.get({news_id: news.id}).then do |stats|
+            mail_log_stats.get({news_id: news['id']}).then do |stats|
               state = if stats['count'].positive? && (stats['count'] >= news['receivers'] - 10)
                         'sent'
                       elsif stats['count'].positive? && stats['newest'] < 10.minutes.ago

@@ -1129,13 +1129,13 @@ fr:
         # EN-fallback back: Back to course editor
 
     certificates:
-      intro_title: Que puis-je trouver ici?
-      intro_text: Cette page répertorie vos résultats personnels de ce cours. Vous y trouverez ce que vous pouvez accomplir, ce que vous avez accompli et à quel moment vos points pourront être téléchargés!
-      intro_guidelines_html: Pour plus d'informations, consultez <a href="/pages/roa_guidelines">les directives en matière de certificat</a>.
+      title: Mes certificats de cours
       requirements: Critères
       achieved_state: Atteint
       in_progress_state: En Cours
       in_progress_button: Vérifier mes progrès
+      guideline_link: "Pour plus d'informations, consultez <a href='%{url}'>les directives en matière de certificat</a>."
+      show_open_badge: Afficher Open Badge
 
   certificate:
     template:

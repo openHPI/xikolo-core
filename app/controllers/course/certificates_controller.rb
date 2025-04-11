@@ -17,11 +17,13 @@ class Course::CertificatesController < Abstract::FrontendController
     Acfs.run
 
     Acfs.on the_course do |course|
-      @index = Restify.new(course['achievements_url']).get(
+      @achievements = Restify.new(course['achievements_url']).get(
         params: {user_id: current_user.id},
         headers: {'Accept-Language' => I18n.locale}
       ).value!
     end
+
+    @documents = Course::DocumentsPresenter.new(user_id: current_user.id, course: the_course, current_user:)
 
     Acfs.run
   end

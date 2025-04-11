@@ -7,6 +7,10 @@ require 'selenium-webdriver'
 
 require_relative 'capybara_downloads'
 
+logger = Selenium::WebDriver.logger
+logger.level = :debug
+logger.output = 'log/selenium.log'
+
 def headless?
   if ENV.key?('HEADLESS')
     %w[0 off false no].exclude?(ENV['HEADLESS'])
@@ -165,5 +169,11 @@ Gurke.configure do |c|
         end
       end
     end
+  end
+
+  c.after(:scenario) do |ctx|
+    next unless ctx.failed?
+
+    page.save_screenshot("tmp/screenshots/#{ctx.state}__#{ctx.id.gsub(/[^\w-]+/, '__')}.png") # rubocop:disable Lint/Debugger
   end
 end

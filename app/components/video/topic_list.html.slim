@@ -12,7 +12,7 @@
         - c.with_item do
           = render Video::Topic.new(topic.abstract, topic.title,
             timestamp: {raw: topic.timestamp, formatted: topic.formatted_timestamp},
-            tags: topic.tags.to_a.map(&:name),
+            tags: topic.tags.to_a.map {|t| t['name'] },
             replies_count: topic.reply_count,
             url: topic_url(topic))
 

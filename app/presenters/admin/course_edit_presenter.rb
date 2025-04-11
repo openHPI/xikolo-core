@@ -57,7 +57,9 @@ class Admin::CourseEditPresenter
   end
 
   def channels
-    @channels.value!
+    @channels.value!.map do |channel|
+      [channel['name'], channel['id']]
+    end
   end
 
   def course_image

@@ -26,7 +26,9 @@ if Rails.env.integration?
 
   WebMock.enable!
   WebMock.disable_net_connect!(
-    allow: /s3\.openhpicloud\.de/,
+    # Allow connecting to minio service container in GitLab CI/CD since
+    # that is not running on "localhost".
+    allow: ->(uri) { %w[minio minio-minio].include?(uri.host) },
     allow_localhost: true,
     net_http_connect_on_start: true
   )

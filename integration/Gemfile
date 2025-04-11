@@ -17,7 +17,7 @@ gem 'xikolo-config', path: './gems/xikolo-config'
 gem 'xikolo-s3', path: './gems/xikolo-s3'
 
 # Test frameworks
-gem 'gurke', '~> 3.4'
+gem 'gurke', '~> 3.6'
 gem 'rspec', '~> 3.10'
 
 gem 'capybara', '~> 3.36'

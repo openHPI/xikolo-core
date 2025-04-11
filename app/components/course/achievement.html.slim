@@ -1,23 +1,24 @@
-.Achievement class=css_classes
-  h3.Achievement-Title
-    = @achievement['name']
-    - if pill
-      span.Achievement-State
-        = render pill[:icon]
-        = pill[:text]
-  p.Achievement-Description = @achievement['description']
-  - if requirements.any?
-    .Achievement-Requirements
-      strong = t(:'course.certificates.requirements')
+article.achievement class=css_classes
+  .achievement__title
+    h3
+      = render Global::FaIcon.new('medal', css_classes: 'mr5')
+      = title
+    - if show_pill?
+      = render Global::Pill.new(pill[:text], color: pill[:color])
+
+  p.achievement__description = description
+
+  - if show_requirements?
+    .achievement__requirements
+      h4 = t(:'course.certificates.requirements')
       ul
         - requirements.each do |requirement|
-          li class=requirement.css_classes
-            = render requirement.icon
-            = requirement.description
-  - if action
-    .Achievement-Actions
-      = render action.button
-      - if action.text
-        p
-          = render Global::FaIcon.new('triangle-exclamation', style: :solid)
-          = action.text
+          = requirement
+
+  - if actions.present?
+    .achievement__actions
+      - actions.each do |action|
+        .achievement__action
+          = action
+
+  = render Global::Callout.new(callout_text)

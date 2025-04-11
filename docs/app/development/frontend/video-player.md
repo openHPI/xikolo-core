@@ -34,21 +34,21 @@ Add the label `[Feature]`, `[Maintenance]`, `[Bugfix]` or `[Task]` in front of e
 
 ## Restore git history
 
-We used to integrate the video player as a dependency from our [internal GitLab](https://lab.xikolo.de/xikolo/video-player).
+We used to integrate the video player as a dependency from our [internal GitLab](https://gitlab.hpi.de/openhpi/xikolo/video-player).
 As part of open sourcing, we decided to remove the git history in order not to disclose sensitive information.
-The history can still be read in the [archived repository](https://lab.xikolo.de/xikolo/video-player).
+The history can still be read in the [archived repository](https://gitlab.hpi.de/openhpi/xikolo/video-player).
 
 More convenient for local development is to include the history locally via [`git replace`](https://git-scm.com/book/en/v2/Git-Tools-Replace).
 This has to be just set up once.
 
-In a nutshell, it tells git to refer to the [last commit in the GitLab project](https://lab.xikolo.de/xikolo/video-player/-/commit/0b68b95b50f0cb7cf7adc23242b7eb8c35f527d7) every time you have a look at the [first commit on GitHub](https://github.com/openHPI/xikolo-video-player/commit/d73ff6ae4e25bcc164513104af0e52f3b4644501).
+In a nutshell, it tells git to refer to the [last commit in the GitLab project](https://gitlab.hpi.de/openhpi/xikolo/video-player/-/commit/0b68b95b50f0cb7cf7adc23242b7eb8c35f527d7) every time you have a look at the [first commit on GitHub](https://github.com/openHPI/xikolo-video-player/commit/d73ff6ae4e25bcc164513104af0e52f3b4644501).
 
 1. Add the archived GitLab repo as remote
 
     Go to where the video-player repository is located in your setup and enter the following command. You can choose any name instead of `origin-gitlab`.
 
     ```bash
-    git remote add origin-gitlab git@lab.xikolo.de:xikolo/video-player.git
+    git remote add origin-gitlab git@gitlab.hpi.de:openhpi/xikolo/video-player.git
     ```
 
 2. Replace the first commit from GitHub with the last on GitLab

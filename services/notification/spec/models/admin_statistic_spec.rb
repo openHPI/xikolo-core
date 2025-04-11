@@ -3,12 +3,13 @@
 require 'spec_helper'
 
 describe AdminStatistic, type: :model do
+  subject(:statistic) { described_class.new }
+
   let(:course_id) { '00000001-3300-4444-9999-000000000006' }
   let(:course_id2) { '00000001-3300-4444-9999-000000000007' }
   let(:course_id3) { '00000001-3300-4444-9999-000000000008' }
 
-  let(:statistic) { AdminStatistic.new }
-
+  let(:end_date) { '2017-08-16T00:00:00.000Z' }
   let(:course_statistic) do
     CourseStats.verify({
       id: '00d6833d-d75c-4f64-813f-5d312bd7e686',
@@ -16,8 +17,8 @@ describe AdminStatistic, type: :model do
       course_id: '00000001-3300-4444-9999-000000000007',
       course_status: 'active',
       hidden: true,
-      end_date: '2017-08-16T00:00:00.000Z',
-      start_date: '2017-06-15T00:00:00.000Z',
+      end_date:,
+      start_date: nil,
       created_at: '2016-09-14T09:11:53.781Z',
       updated_at: '2016-09-14T11:29:57.596Z',
 
@@ -200,5 +201,13 @@ describe AdminStatistic, type: :model do
   it 'counts helpdesk tickets (total and per day)' do
     expect(statistic.helpdesk.ticket_count).to eq 10
     expect(statistic.helpdesk.ticket_count_last_day).to eq 5
+  end
+
+  context 'without an end date' do
+    let(:end_date) { nil }
+
+    it 'does not raise an error' do
+      expect { statistic }.not_to raise_error
+    end
   end
 end

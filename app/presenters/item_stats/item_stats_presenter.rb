@@ -22,17 +22,17 @@ module ItemStats
 
       sections = []
       Xikolo.paginate(
-        course_api.rel(:sections).get(
+        course_api.rel(:sections).get({
           course_id: course['id'],
-          include_alternatives: true
-        )
+          include_alternatives: true,
+        })
       ) do |section|
         sections << section
       end
 
       items = []
       Xikolo.paginate(
-        course_api.rel(:items).get(course_id: course['id'])
+        course_api.rel(:items).get({course_id: course['id']})
       ) do |i|
         section = sections.find {|s| s['id'] == i['section_id'] }
 

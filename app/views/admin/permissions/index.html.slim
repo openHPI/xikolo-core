@@ -24,13 +24,13 @@
           tbody
             - group.each_member do |member|
               tr
-                td = member.full_name
-                td = member.display_name
-                td = member.email
-                td = t(:"permissions.confirmed_#{member.confirmed?}")
+                td = member['full_name']
+                td = member['display_name']
+                td = member['email']
+                td = t(:"permissions.confirmed_#{member['confirmed']}")
                 td
-                  = link_to t(:'permissions.details'), user_path(id: member.id), class: 'btn btn-primary btn-xs mr10'
-                  = link_to t(:'permissions.remove'), group_member_path(group_id: group.name, id: member.id), method: 'delete', class: 'btn btn-primary btn-xs'
+                  = link_to t(:'permissions.details'), user_path(id: member['id']), class: 'btn btn-primary btn-xs mr10'
+                  = link_to t(:'permissions.remove'), group_member_path(group_id: group.name, id: member['id']), method: 'delete', class: 'btn btn-primary btn-xs'
       .custom-select-group.pb20
         = form_tag action: :create, group_id: group.name do
           = select_tag :id, :id,

@@ -2,6 +2,10 @@
 
 require 'capybara/rspec'
 
+logger = Selenium::WebDriver.logger
+logger.level = :debug
+logger.output = 'log/selenium.log'
+
 def headless?
   %w[0 n no off false].exclude?(ENV.fetch('HEADLESS', '1').downcase)
 end
@@ -34,10 +38,11 @@ Capybara.register_driver :chrome do |app|
   # Chrome for Testing (CfT) cannot run a user-based sandbox on modern
   # systems, locally as well as headless CI servers.
   options.add_argument('--no-sandbox')
+  options.add_argument('--disable-dev-shm-usage')
+  options.add_argument('--disable-gpu')
 
   if headless?
     options.add_argument('--headless=new')
-    options.add_argument('--disable-gpu') if Gem.win_platform?
   end
 
   options.add_argument('--disable-search-engine-choice-screen')
