@@ -118,7 +118,7 @@ GEM
       public_suffix (>= 2.0.2, < 7.0)
     amq-protocol (2.3.3)
     aws-eventstream (1.3.2)
-    aws-partitions (1.1083.0)
+    aws-partitions (1.1086.0)
     aws-sdk-core (3.222.1)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
@@ -258,7 +258,7 @@ GEM
     puma (6.6.0)
       nio4r (~> 2.0)
     racc (1.8.1)
-    rack (3.1.12)
+    rack (3.1.13)
     rack-link_headers (2.4.1)
       rack
     rack-remote (1.1.0)
@@ -358,8 +358,8 @@ GEM
       rspec-mocks (~> 3.13)
       rspec-support (~> 3.13)
     rspec-support (3.13.2)
-    rspec-teamcity (1.0.0)
-      rspec (>= 2.99, >= 2.14.2, < 4)
+    rspec_junit_formatter (0.6.0)
+      rspec-core (>= 2, < 4, != 2.12.0)
     ruby2_keywords (0.0.5)
     scenic (1.8.0)
       activerecord (>= 4.0.0)
@@ -385,13 +385,15 @@ GEM
       docile (~> 1.1)
       simplecov-html (~> 0.11)
       simplecov_json_formatter (~> 0.1)
+    simplecov-cobertura (2.1.0)
+      rexml
+      simplecov (~> 0.19)
     simplecov-html (0.13.1)
-    simplecov-teamcity-summary (1.0.0)
-      simplecov
     simplecov_json_formatter (0.1.4)
     sorted_set (1.0.3)
       rbtree
       set (~> 1.0)
+    stackprof (0.2.27)
     stringio (3.1.6)
     syslog (0.3.0)
       logger
@@ -451,13 +453,14 @@ DEPENDENCIES
   rspec-collection_matchers
   rspec-github (~> 3.0)
   rspec-rails (~> 7.0)
-  rspec-teamcity (~> 1.0)
+  rspec_junit_formatter (~> 0.6.0)
   scenic (~> 1.5)
   sentry-rails (~> 5.23.0)
   sentry-ruby (~> 5.23.0)
   sentry-sidekiq (~> 5.23.0)
   simplecov
-  simplecov-teamcity-summary
+  simplecov-cobertura
+  stackprof
   syslog
   telegraf (~> 3.0)
   thruster

@@ -4,7 +4,7 @@ include:
   - path: compose.init.yml
 
 x-grouping: &grouping
-  image: registry.xikolo.de/xikolo/web/xikolo-grouping:latest
+  image: xikolo-grouping:latest
   build:
     context: ..
     dockerfile: docker/files/grouping.Dockerfile
@@ -13,8 +13,8 @@ x-grouping: &grouping
   networks:
     - xikolo
   volumes:
-    - ./config/xikolo.yml:/etc/xikolo.yml:ro
-    - ./config/xikolo/grouping.yml:/app/config/xikolo.yml:ro
+    - ./config/xikolo.yml:/local/xikolo.yml:ro
+    - ./config/xikolo/grouping.yml:/local/config/xikolo.yml:ro
   restart: always
   depends_on:
     init-database:

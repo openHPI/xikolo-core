@@ -138,6 +138,7 @@ gem 'mnemosyne-ruby', '~> 2.1'
 gem 'sentry-rails', '~> 5.23.0'
 gem 'sentry-ruby', '~> 5.23.0'
 gem 'sentry-sidekiq', '~> 5.23.0'
+gem 'stackprof'
 gem 'telegraf', '~> 3.0'
 
 # Open Badges
@@ -166,13 +167,8 @@ group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri windows], require: 'debug/prelude'
 
-  gem 'brakeman'
   gem 'letter_opener'
   gem 'listen', '~> 3.9.0'
-  gem 'rspec', '~> 3.10'
-  gem 'rspec-collection_matchers'
-  gem 'rspec-its'
-  gem 'rspec-rails', '~> 7.0'
   gem 'rubocop', '~> 1.75.0'
   gem 'rubocop-capybara', '~> 2.22.0'
   gem 'rubocop-factory_bot', '~> 2.27.0'
@@ -184,14 +180,13 @@ group :development, :test do
 end
 
 group :development, :integration do
-  gem 'better_errors', require: (ENV['TEAMCITY_VERSION'] ? false : 'better_errors')
-  gem 'binding_of_caller'
+  gem 'better_errors', require: !ENV.key?('CI')
+  gem 'binding_of_caller', require: !ENV.key?('CI')
 end
 
 group :test do
   gem 'accept_values_for'
   gem 'capybara', '~> 3.36'
-  # https://github.com/thoughtbot/factory_bot_rails/pull/432
   gem 'factory_bot_rails', '~> 6.0'
   gem 'json_spec'
   gem 'pdf-inspector', require: 'pdf/inspector'
@@ -201,22 +196,17 @@ group :test do
   gem 'webmock'
   gem 'webrick'
 
+  gem 'rspec', '~> 3.10'
+  gem 'rspec-collection_matchers'
   gem 'rspec-github', '~> 3.0', require: false
-  gem 'rspec-teamcity', '~> 1.0', require: false
+  gem 'rspec-its'
+  gem 'rspec_junit_formatter', '~> 0.6.0', require: false
+  gem 'rspec-rails', '~> 7.0'
 end
 
 group :test, :integration do
   gem 'database_cleaner', '~> 2.0'
-  gem 'simplecov', require: false
-  gem 'simplecov-teamcity-summary', require: false
-end
-
-group :integration do
-  gem 'childprocess', '~> 5.0'
-  gem 'gurke', '~> 3.3'
-  gem 'headless'
-  gem 'mail', '~> 2.6'
-  gem 'midi-smtp-server', '~> 3.1', '>= 3.1.2'
-  gem 'multi_process', '~> 1.0'
   gem 'rack-remote'
+  gem 'simplecov', require: false
+  gem 'simplecov-cobertura', require: false
 end

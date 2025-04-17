@@ -52,7 +52,7 @@ Here is how the *types* we use are defined (some with *type*-specific *scopes* i
 
 - `build`: Changes that affect the build system or external dependencies (`docker`, `npm`, `assets`, `S3`)
 - `chore`: Routine tasks like running linters manually, updating dependencies etc. (`lint`, `prettier`, `deps`)
-- `ci`: Changes to our CI configuration files and scripts (`teamcity`, `github`)
+- `ci`: Changes to our CI configuration files and scripts
 - `docs`: Documentation changes only
 - `feat`: A new **user-facing** feature
   - This includes not just platform-users like students and teachers. E.g., when adding seeds for local development is the feature, the developers would be considered as users.
@@ -132,6 +132,6 @@ Not every code change is trivial or a piece of cake. You can start the review pr
 
 When submitting code changes, our Continuous Integration (CI) pipeline will run a suite of tools on your changes. These tools run a variety of tests, which need to pass before the code can be merged.
 
-**Unit tests** for each service and **full-stack integration tests** are run partially on GitLab CI, and partially on TeamCity. Furthermore, we try to automate the parts of code review that can be automated, e.g. by running **linters**. These tools help enforce a consistent code style (and in some cases, best practices) and free reviewers to focus on the more valuable, higher-level parts of code review.
+**Unit tests** for each service and **full-stack integration tests** are run on GitLab CI. Furthermore, we try to automate the parts of code review that can be automated, e.g. by running **linters**. These tools help enforce a consistent code style (and in some cases, best practices) and free reviewers to focus on the more valuable, higher-level parts of code review.
 
 GitLab will notify you when any of these tools fail and displays it prominently in the merge request status widget. It also features links to the build jobs, which usually contain detailed logs that explain what's wrong. Most tools can also easily be run locally, so you should be able to reproduce the failures on your machine. (Do this before submitting the MR to save time.) This is part of the review process that most heavily depends on you, so try to fix these problems as soon as possible.

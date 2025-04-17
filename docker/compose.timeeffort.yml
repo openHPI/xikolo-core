@@ -4,7 +4,7 @@ include:
   - path: compose.init.yml
 
 x-timeeffort: &timeeffort
-  image: registry.xikolo.de/xikolo/web/xikolo-timeeffort:latest
+  image: xikolo-timeeffort:latest
   build:
     context: ..
     dockerfile: docker/files/timeeffort.Dockerfile
@@ -13,8 +13,8 @@ x-timeeffort: &timeeffort
   networks:
     - xikolo
   volumes:
-    - ./config/xikolo.yml:/etc/xikolo.yml:ro
-    - ./config/xikolo/timeeffort.yml:/app/config/xikolo.yml:ro
+    - ./config/xikolo.yml:/local/xikolo.yml:ro
+    - ./config/xikolo/timeeffort.yml:/local/config/xikolo.yml:ro
   restart: always
   depends_on:
     init-database:

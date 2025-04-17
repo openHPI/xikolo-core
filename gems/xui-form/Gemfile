@@ -11,5 +11,7 @@ group :development, :test do
   gem 'rake'
   gem 'restify', '~> 2.0'
   gem 'rspec', '~> 3.10'
-  gem 'simplecov'
+  gem 'rspec_junit_formatter', '~> 0.6.0', require: false
+  gem 'simplecov', require: false
+  gem 'simplecov-cobertura', require: false
 end

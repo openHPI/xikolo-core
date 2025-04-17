@@ -24,6 +24,9 @@ require 'telegraf/rails'
 
 module Xikolo::QuizService
   class Application < Rails::Application
+    include Xikolo::Common::Secrets
+    include Xikolo::Common::Nomad
+
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.2
 

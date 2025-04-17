@@ -3,14 +3,12 @@
 ENV['RAILS_ENV'] ||= 'test'
 
 require 'simplecov'
-require 'simplecov-teamcity-summary'
+require 'simplecov-cobertura'
 
-if ENV['TEAMCITY_VERSION']
-  SimpleCov.formatters = [
-    SimpleCov::Formatter::HTMLFormatter,
-    SimpleCov::Formatter::TeamcitySummaryFormatter,
-  ]
-end
+SimpleCov.formatters = [
+  SimpleCov::Formatter::HTMLFormatter,
+  SimpleCov::Formatter::CoberturaFormatter,
+]
 
 if (brand = ENV.fetch('BRAND', nil))
   SimpleCov.command_name "RSpec-#{brand}"

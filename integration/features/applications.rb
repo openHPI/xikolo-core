@@ -3,7 +3,7 @@
 Server.base = ENV['SERVICES_DIR'] if ENV.key? 'SERVICES_DIR'
 
 # When running integration tests, only start the services we need.
-Server.required_roles << :integration if ENV.key?('GURKE') || ENV.key?('TEAMCITY_VERSION')
+Server.required_roles << :integration if ENV.key?('GURKE')
 
 ##
 # CONFIGURE ALL SERVICES

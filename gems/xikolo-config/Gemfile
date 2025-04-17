@@ -8,8 +8,10 @@ group :development, :test do
   gem 'activesupport'
   gem 'rake'
   gem 'rspec', '~> 3.13'
+  gem 'rspec_junit_formatter', '~> 0.6.0', require: false
 end
 
 group :test do
   gem 'simplecov', require: false
+  gem 'simplecov-cobertura', require: false
 end

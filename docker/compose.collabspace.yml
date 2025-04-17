@@ -4,7 +4,7 @@ include:
   - path: compose.init.yml
 
 x-collabspace: &collabspace
-  image: registry.xikolo.de/xikolo/web/xikolo-collabspace:latest
+  image: xikolo-collabspace:latest
   build:
     context: ..
     dockerfile: docker/files/collabspace.Dockerfile
@@ -13,8 +13,8 @@ x-collabspace: &collabspace
   networks:
     - xikolo
   volumes:
-    - ./config/xikolo.yml:/etc/xikolo.yml:ro
-    - ./config/xikolo/collabspace.yml:/app/config/xikolo.yml:ro
+    - ./config/xikolo.yml:/local/xikolo.yml:ro
+    - ./config/xikolo/collabspace.yml:/local/config/xikolo.yml:ro
   restart: always
   depends_on:
     init-database:

@@ -13,7 +13,6 @@ require_relative 'features/support/applications'
 require_relative 'features/support/minio'
 
 # require 'gurke/rake/task'
-require 'teamcity'
 require 'fileutils'
 require 'yaml'
 require 'timeout'
@@ -30,11 +29,7 @@ end
 
 desc 'Execute cumumber tests with gurke'
 task :spec do
-  if ENV['TEAMCITY_VERSION']
-    exec 'bundle', 'exec', 'gurke', '--formatter', 'team_city'
-  else
-    exec 'bundle', 'exec', 'gurke'
-  end
+  exec 'bundle', 'exec', 'gurke'
 end
 
 ## ## ## ## ---------------------------------------------------------

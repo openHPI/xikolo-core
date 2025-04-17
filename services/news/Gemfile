@@ -21,6 +21,7 @@ gem 'mnemosyne-ruby', '~> 2.0'
 gem 'sentry-rails', '~> 5.23.0'
 gem 'sentry-ruby', '~> 5.23.0'
 gem 'sentry-sidekiq', '~> 5.23.0'
+gem 'stackprof'
 gem 'telegraf', '~> 3.0'
 
 # API
@@ -68,26 +69,24 @@ group :development, :test do
 
   gem 'letter_opener'
   gem 'listen', '~> 3.9.0'
-  gem 'rspec', '~> 3.10'
-  gem 'rspec-rails', '~> 7.0'
 end
 
 group :test do
   gem 'accept_values_for'
-  # https://github.com/thoughtbot/factory_bot_rails/pull/432
   gem 'factory_bot_rails', '~> 6.0'
-  # Needed for Restify request specs
   gem 'typhoeus', '~> 1.0'
   gem 'webmock'
 
+  gem 'rspec', '~> 3.10'
   gem 'rspec-github', '~> 3.0', require: false
-  gem 'rspec-teamcity', '~> 1.0', require: false
+  gem 'rspec_junit_formatter', '~> 0.6.0', require: false
+  gem 'rspec-rails', '~> 7.0'
 end
 
 group :test, :integration do
   gem 'database_cleaner', '~> 2.0'
   gem 'simplecov', require: false
-  gem 'simplecov-teamcity-summary', require: false
+  gem 'simplecov-cobertura', require: false
 end
 
 group :integration do

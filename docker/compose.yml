@@ -14,7 +14,7 @@ include:
 
 services:
   nginx:
-    image: registry.xikolo.de/xikolo/web/xikolo-nginx:latest
+    image: xikolo-nginx:latest
     volumes:
       - ./config/support/server.conf:/etc/nginx/templates/nginx.conf.template:ro
     environment:

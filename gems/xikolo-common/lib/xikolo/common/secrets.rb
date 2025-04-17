@@ -18,10 +18,6 @@ module Xikolo
           secrets = ActiveSupport::OrderedOptions.new
           files = config.paths['config/secrets'].existent
           secrets.merge! _load_secrets(files, env: Rails.env)
-
-          # Fallback to config.secret_key_base if secrets.secret_key_base isn't set
-          secrets.secret_key_base ||= config.secret_key_base
-
           secrets
         end
       end
@@ -42,14 +38,10 @@ module Xikolo
       module Configuration
         def secret_key_base
           @secret_key_base || begin
-            self.secret_key_base = begin
-              if generate_local_secret?
-                generate_local_secret
-              else
-                ENV['SECRET_KEY_BASE'] ||
-                  Rails.application.credentials.secret_key_base ||
-                  Rails.application.secrets.secret_key_base
-              end
+            if (secret = Rails.application.secrets.secret_key_base).present?
+              self.secret_key_base = secret
+            else
+              super
             end
           end
         end

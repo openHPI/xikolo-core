@@ -9,6 +9,7 @@ Feature: Partner course only visble for partners
     And I have the feature course.access-group enabled
     And I am logged in
     And there is a configuration for access_groups
+    And a public channel was created
     And I am on the course creation page
     When I fill in the course data
     And I select the partner group restriction

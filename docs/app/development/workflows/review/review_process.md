@@ -42,8 +42,7 @@ They can still be squashed before merging the MR.
 
 !!! warning "Do not push every single change you made based on the discussion to your feature branch!"
 
-    This starts an unnecessary number of TeamCity builds and leads to many more email notifications.
-    Instead, make the changes in individual commits locally and push them to your feature branch at once.
+    This starts an unnecessary number of CI builds and leads to many more email notifications. Instead, make the changes in individual commits locally and push them to your feature branch at once.
 
 Once a discussion item has been addressed (e.g., it has been resolved or a follow-up task has been created), resolve it so others can better track the state of the MR. Ping a person if there has been no reaction to a question or discussion for two or more days.
 

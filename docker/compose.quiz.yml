@@ -4,7 +4,7 @@ include:
   - path: compose.init.yml
 
 x-quiz: &quiz
-  image: registry.xikolo.de/xikolo/web/xikolo-quiz:latest
+  image: xikolo-quiz:latest
   build:
     context: ..
     dockerfile: docker/files/quiz.Dockerfile
@@ -13,8 +13,8 @@ x-quiz: &quiz
   networks:
     - xikolo
   volumes:
-    - ./config/xikolo.yml:/etc/xikolo.yml:ro
-    - ./config/xikolo/quiz.yml:/app/config/xikolo.yml:ro
+    - ./config/xikolo.yml:/local/xikolo.yml:ro
+    - ./config/xikolo/quiz.yml:/local/config/xikolo.yml:ro
   restart: always
   depends_on:
     init-database:

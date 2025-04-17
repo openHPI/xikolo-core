@@ -12,7 +12,7 @@ module Minio
   end
 
   def self.setup
-    uploads = Xikolo::S3.bucket_for('uploads')
+    uploads = Xikolo::S3.resource.bucket 'xikolo-uploads'
     uploads.create unless uploads.exists?
     uploads.policy.put policy: JSON.dump(YAML.safe_load(<<~POLICY))
       Id: uploads

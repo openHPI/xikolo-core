@@ -77,11 +77,11 @@ The top-level keys are merged, the last file containing a key wins:
 
 1. Gem
 2. `app/xikolo.yml`
-3. `/etc/xikolo.yml`
-4. `~/.xikolo.yml`
-5. `config/xikolo.yml`
-6. Gem environment specific defaults
-7. `/etc/xikolo.#{Rails.env}.yml`
+3. `~/.xikolo.yml`
+4. `/local/xikolo.yml` (container deployment optimized)
+5. `/local/config/xikolo.yml` (container deployment optimized)
+6. `config/xikolo.yml`
+7. Gem environment specific defaults
 8. `~/.xikolo.#{Rails.env}.yml`
 9. `config/xikolo.#{Rails.env}.yml`
 

@@ -7,6 +7,7 @@ module Xikolo
     require 'xikolo/common/api'
     require 'xikolo/common/metrics'
     require 'xikolo/common/secrets'
+    require 'xikolo/common/nomad'
     require 'xikolo/common/railtie' if defined? Rails
     require 'xikolo/common/restify'
 

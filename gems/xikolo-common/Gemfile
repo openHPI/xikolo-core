@@ -8,9 +8,11 @@ group :development, :test do
   gem 'rake'
   gem 'rspec'
   gem 'rspec-its'
+  gem 'rspec_junit_formatter', '~> 0.6.0', require: false
 end
 
 group :test do
-  gem 'simplecov'
+  gem 'simplecov', require: false
+  gem 'simplecov-cobertura', require: false
   gem 'webmock'
 end

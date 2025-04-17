@@ -1,12 +1,13 @@
 # syntax = docker/dockerfile:1.14@sha256:4c68376a702446fc3c79af22de146a148bc3367e73c25a5803d453b6b3f722fb
 
-FROM docker.io/ruby:3.4.2-slim@sha256:98e208daf93d40485edf2f5e1a1527202ae0824cdc1619b6659674a84aa197ba AS build
+FROM docker.io/ruby:3.4.2-slim@sha256:342bfeb04d3660045ceba063197d22baafec6b163f019714ddf8fc83c59aabee AS build
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 ENV BRAND=${BRAND}
 ENV MALLOC_ARENA_MAX=2
 ENV RAILS_ENV=production
+ENV SECRET_KEY_BASE_DUMMY=true
 
 RUN mkdir --parents /app/
 WORKDIR /app/
@@ -63,7 +64,7 @@ EOF
 #
 # Runtime image
 #
-FROM docker.io/ruby:3.4.2-slim@sha256:98e208daf93d40485edf2f5e1a1527202ae0824cdc1619b6659674a84aa197ba
+FROM docker.io/ruby:3.4.2-slim@sha256:342bfeb04d3660045ceba063197d22baafec6b163f019714ddf8fc83c59aabee
 
 ARG BRAND=xikolo
 ARG BUILD_REF_NAME
@@ -76,7 +77,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ENV BRAND=${BRAND}
 ENV MALLOC_ARENA_MAX=2
 ENV RAILS_ENV=production
-ENV RAILS_LOG_TO_STDOUT=1
+ENV SECRET_KEY_BASE_DUMMY=true
 
 ENV BUILD_REF_NAME=$BUILD_REF_NAME
 ENV BUILD_COMMIT_SHA=$BUILD_COMMIT_SHA
@@ -110,6 +111,12 @@ EOF
 
 # Copy application files from build stage
 COPY --from=build /app/ /app/
+
+# Ensure temp directory is writable
+RUN <<EOF
+  mkdir -p /app/tmp/
+  chown 1000:1000 /app/tmp/
+EOF
 
 USER 1000:1000
 

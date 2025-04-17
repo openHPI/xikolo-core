@@ -183,7 +183,7 @@ GEM
     awesome_nested_set (3.8.0)
       activerecord (>= 4.0.0, < 8.1)
     aws-eventstream (1.3.2)
-    aws-partitions (1.1083.0)
+    aws-partitions (1.1086.0)
     aws-sdk-core (3.222.1)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
@@ -209,13 +209,11 @@ GEM
       rack (>= 0.9.0)
       rouge (>= 1.0.0)
     bigdecimal (3.1.9)
-    bindata (2.5.0)
+    bindata (2.5.1)
     binding_of_caller (1.0.1)
       debug_inspector (>= 1.2.0)
     bootsnap (1.18.4)
       msgpack (~> 1.2)
-    brakeman (7.0.2)
-      racc
     browser (6.2.0)
     builder (3.3.0)
     bunny (2.24.0)
@@ -233,7 +231,6 @@ GEM
     childprocess (5.1.0)
       logger (~> 1.5)
     chunky_png (1.4.0)
-    colorize (1.1.0)
     concurrent-ruby (1.3.5)
     connection_pool (2.5.0)
     countries (7.1.1)
@@ -247,7 +244,7 @@ GEM
       unicode (>= 0.4.4.5)
     css_parser (1.21.1)
       addressable
-    csv (3.3.3)
+    csv (3.3.4)
     dartsass-sprockets (3.2.1)
       railties (>= 4.0.0)
       sassc-embedded (~> 1.80.1)
@@ -339,8 +336,6 @@ GEM
     fx (0.9.0)
       activerecord (>= 7.0)
       railties (>= 7.0)
-    gherkin (2.12.2)
-      multi_json (~> 1.3)
     glob (0.4.1)
     globalid (1.2.1)
       activesupport (>= 6.1)
@@ -366,14 +361,9 @@ GEM
       multi_json (>= 1.3.2)
     groupdate (6.5.1)
       activesupport (>= 7)
-    gurke (3.4.0)
-      colorize
-      gherkin (~> 2.0)
-      optimist (~> 3.0)
     hashdiff (1.1.2)
     hashery (2.1.2)
     hashie (5.0.0)
-    headless (2.3.1)
     hitimes (3.1.0)
     htmlbeautifier (1.4.3)
     htmlentities (4.3.4)
@@ -388,8 +378,10 @@ GEM
       i18n
     i18n_data (1.1.0)
       simple_po_parser (~> 1.1)
-    icalendar (2.10.3)
+    icalendar (2.11.0)
+      base64
       ice_cube (~> 0.16)
+      logger
       ostruct
     ice_cube (0.17.0)
     idn-ruby (0.1.5)
@@ -476,7 +468,6 @@ GEM
     meta-tags (2.22.1)
       actionpack (>= 6.0.0, < 8.1)
     method_source (1.1.0)
-    midi-smtp-server (3.2.1)
     mime-types (3.6.2)
       logger
       mime-types-data (~> 3.2015)
@@ -495,9 +486,6 @@ GEM
       bunny (>= 1.4, < 3.0)
       logger
     multi_json (1.15.0)
-    multi_process (1.3.0)
-      childprocess
-      nio4r (~> 2.0)
     multi_xml (0.7.1)
       bigdecimal (~> 3.1)
     mustermann (3.0.3)
@@ -565,7 +553,6 @@ GEM
     opentelemetry-api (1.5.0)
     opentelemetry-common (0.22.0)
       opentelemetry-api (~> 1.0)
-    optimist (3.2.1)
     ostruct (0.6.1)
     paginate-responder (2.1.0)
       rack-link_headers (>= 2.2)
@@ -573,7 +560,7 @@ GEM
       activerecord (>= 6.1)
       request_store (~> 1.4)
     parallel (1.26.3)
-    parser (3.3.7.4)
+    parser (3.3.8.0)
       ast (~> 2.4.1)
       racc
     paseto (0.4.1)
@@ -625,7 +612,7 @@ GEM
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.8.1)
-    rack (3.1.12)
+    rack (3.1.13)
     rack-attack (6.7.0)
       rack (>= 1.0, < 4)
     rack-cors (2.0.2)
@@ -769,8 +756,8 @@ GEM
       rspec-mocks (~> 3.13)
       rspec-support (~> 3.13)
     rspec-support (3.13.2)
-    rspec-teamcity (1.0.0)
-      rspec (>= 2.99, >= 2.14.2, < 4)
+    rspec_junit_formatter (0.6.0)
+      rspec-core (>= 2, < 4, != 2.12.0)
     rubocop (1.75.2)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
@@ -782,7 +769,7 @@ GEM
       rubocop-ast (>= 1.44.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 4.0)
-    rubocop-ast (1.44.0)
+    rubocop-ast (1.44.1)
       parser (>= 3.3.7.2)
       prism (~> 1.4)
     rubocop-capybara (2.22.1)
@@ -865,9 +852,10 @@ GEM
       docile (~> 1.1)
       simplecov-html (~> 0.11)
       simplecov_json_formatter (~> 0.1)
+    simplecov-cobertura (2.1.0)
+      rexml
+      simplecov (~> 0.19)
     simplecov-html (0.13.1)
-    simplecov-teamcity-summary (1.0.0)
-      simplecov
     simplecov_json_formatter (0.1.4)
     slim (5.2.1)
       temple (~> 0.10.0)
@@ -889,6 +877,7 @@ GEM
       actionpack (>= 6.1)
       activesupport (>= 6.1)
       sprockets (>= 3.0.0)
+    stackprof (0.2.27)
     streamio-ffmpeg (3.0.2)
       multi_json (~> 1.8)
     stringio (3.1.6)
@@ -974,10 +963,8 @@ DEPENDENCIES
   bigdecimal
   binding_of_caller
   bootsnap
-  brakeman
   browser (~> 6.0)
   capybara (~> 3.36)
-  childprocess (~> 5.0)
   chunky_png
   countries (~> 7.0)
   csv
@@ -994,8 +981,6 @@ DEPENDENCIES
   grape (~> 2.2, < 2.3)
   grape-entity
   groupdate (~> 6.0)
-  gurke (~> 3.3)
-  headless
   http_accept_language
   i18n-js (~> 4.2, >= 4.2.3)
   i18n_data
@@ -1015,15 +1000,12 @@ DEPENDENCIES
   listen (~> 3.9.0)
   lookbook (~> 2.0)
   m3u8 (~> 0.8.2)
-  mail (~> 2.6)
   matrix (~> 0.4)
   maxminddb (~> 0.1)
   meta-tags (~> 2.0)
-  midi-smtp-server (~> 3.1, >= 3.1.2)
   mnemosyne-ruby (~> 2.1)
   momentjs-rails
   msgr (~> 1.5)
-  multi_process (~> 1.0)
   mutex_m
   oauth2
   oj
@@ -1063,7 +1045,7 @@ DEPENDENCIES
   rspec-github (~> 3.0)
   rspec-its
   rspec-rails (~> 7.0)
-  rspec-teamcity (~> 1.0)
+  rspec_junit_formatter (~> 0.6.0)
   rubocop (~> 1.75.0)
   rubocop-capybara (~> 2.22.0)
   rubocop-factory_bot (~> 2.27.0)
@@ -1082,11 +1064,12 @@ DEPENDENCIES
   sidekiq-cron (~> 2.0)
   simple_form (~> 5.0)
   simplecov
-  simplecov-teamcity-summary
+  simplecov-cobertura
   slim
   slim_lint
   sprockets (~> 4.2)
   sprockets-rails (~> 3.5)
+  stackprof
   streamio-ffmpeg
   syslog
   telegraf (~> 3.0)

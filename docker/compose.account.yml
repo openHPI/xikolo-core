@@ -4,7 +4,7 @@ include:
   - path: compose.init.yml
 
 x-account: &account
-  image: registry.xikolo.de/xikolo/web/xikolo-account:latest
+  image: xikolo-account:latest
   command: server
   build:
     context: ..
@@ -14,8 +14,8 @@ x-account: &account
   networks:
     - xikolo
   volumes:
-    - ./config/xikolo.yml:/etc/xikolo.yml:ro
-    - ./config/xikolo/account.yml:/app/config/xikolo.yml:ro
+    - ./config/xikolo.yml:/local/xikolo.yml:ro
+    - ./config/xikolo/account.yml:/local/config/xikolo.yml:ro
   restart: always
   depends_on:
     init-database:

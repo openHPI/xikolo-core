@@ -49,15 +49,19 @@ gem 'mnemosyne-ruby', '~> 2.0'
 gem 'sentry-rails', '~> 5.23.0'
 gem 'sentry-ruby', '~> 5.23.0'
 gem 'sentry-sidekiq', '~> 5.23.0'
+gem 'stackprof'
 gem 'telegraf', '~> 3.0'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri windows], require: 'debug/prelude'
-
-  gem 'brakeman'
   gem 'listen', '~> 3.9.0'
+end
+
+group :test do
   gem 'rspec', '~> 3.10'
+  gem 'rspec-github', '~> 3.0', require: false
+  gem 'rspec_junit_formatter', '~> 0.6.0', require: false
   gem 'rspec-rails', '~> 7.0'
 end
 
@@ -67,10 +71,7 @@ group :test, :integration do
   gem 'factory_bot_rails', '~> 6.0'
   gem 'rack-remote'
   gem 'simplecov', require: false
-  gem 'simplecov-teamcity-summary', require: false
+  gem 'simplecov-cobertura', require: false
   gem 'timecop'
   gem 'webmock', require: false
-
-  gem 'rspec-github', '~> 3.0', require: false
-  gem 'rspec-teamcity', '~> 1.0', require: false
 end

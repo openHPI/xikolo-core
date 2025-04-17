@@ -19,6 +19,7 @@ module Xikolo
     end
 
     def parse_file(path)
+      $stdout.puts "[xikolo.config] Load file: #{path}" if ENV['RAILS_ENV'] == 'production'
       YAML.safe_load(ERB.new(::File.read(path)).result)
     end
 

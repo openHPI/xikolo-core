@@ -11,4 +11,5 @@ group :development do
   gem 'activemodel'
   gem 'rake'
   gem 'rspec', '~> 3.10'
+  gem 'rspec_junit_formatter', '~> 0.6.0', require: false
 end

@@ -30,8 +30,9 @@ class Server < MultiProcess::Process
 
     dir = ::File.join(Server.base, opts.fetch(:subpath))
     env = {
-      'RAILS_ENV' => 'integration',
       'GURKE' => 'true',
+      'RAILS_ENV' => 'integration',
+      'SECRET_KEY_BASE_DUMMY' => '1',
     }
 
     super(dir:, env:, title: id.to_s)
@@ -172,7 +173,6 @@ class Server < MultiProcess::Process
         opts = opts.merge receiver: MultiProcess::Logger.new($stdout, $stderr,
           sys: opts.fetch(:sys, true))
       end
-      opts = opts.merge partition: 2 if ENV['TEAMCITY_VERSION'] && !opts[:partition]
 
       timout = opts.delete(:timeout) || 240
 
@@ -182,17 +182,10 @@ class Server < MultiProcess::Process
     end
 
     def start
-      if ENV['TEAMCITY_VERSION']
-        group.start delay: 0.5
-        delayed_group.start delay: 0.5
-        sidekiq_group.start delay: 0.5
-        group.available! timeout: 240
-      else
-        group.start delay: 0.1
-        delayed_group.start delay: 0.1
-        sidekiq_group.start delay: 0.1
-        group.available! # default timeout
-      end
+      group.start delay: 0.1
+      delayed_group.start delay: 0.1
+      sidekiq_group.start delay: 0.1
+      group.available! # default timeout
     end
 
     def config_all
@@ -203,9 +196,6 @@ class Server < MultiProcess::Process
       config_services
       config_service_urls
       config_s3
-
-      # Adjust simplecov coverage results from unit tests to have correct file names
-      adjust_coverage_results if ENV['TEAMCITY_VERSION']
     end
 
     def config_initializers
@@ -258,18 +248,6 @@ class Server < MultiProcess::Process
         dest = app.file('config', 'xikolo.integration.yml')
         dest.unlink if dest.exist?
         dest.write YAML.dump conf
-      end
-    end
-
-    def adjust_coverage_results
-      Server.each do |app|
-        resultfile = app.file('coverage', '.resultset.json')
-        next unless resultfile.exist?
-
-        system 'sed',
-          '--in-place',
-          "--expression=s|/var/lib/teamcity-agent/work/[^/]*/|#{File.realpath(app.dir)}/|",
-          app.file('coverage', '.resultset.json').to_s
       end
     end
 

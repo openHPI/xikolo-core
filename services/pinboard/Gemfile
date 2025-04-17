@@ -46,6 +46,7 @@ gem 'mnemosyne-ruby', '~> 2.0'
 gem 'sentry-rails', '~> 5.23.0'
 gem 'sentry-ruby', '~> 5.23.0'
 gem 'sentry-sidekiq', '~> 5.23.0'
+gem 'stackprof'
 gem 'telegraf', '~> 3.0'
 
 # App servers
@@ -55,12 +56,7 @@ gem 'thruster'
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri windows], require: 'debug/prelude'
-
   gem 'listen', '~> 3.9.0'
-  gem 'rspec', '~> 3.10'
-  gem 'rspec-collection_matchers'
-  gem 'rspec-its'
-  gem 'rspec-rails', '~> 7.0'
 end
 
 group :test do
@@ -69,14 +65,18 @@ group :test do
   gem 'timecop'
   gem 'webmock'
 
+  gem 'rspec', '~> 3.10'
+  gem 'rspec-collection_matchers'
   gem 'rspec-github', '~> 3.0', require: false
-  gem 'rspec-teamcity', '~> 1.0', require: false
+  gem 'rspec-its'
+  gem 'rspec_junit_formatter', '~> 0.6.0', require: false
+  gem 'rspec-rails', '~> 7.0'
 end
 
 group :test, :integration do
   gem 'database_cleaner', '~> 2.0'
   gem 'simplecov', require: false
-  gem 'simplecov-teamcity-summary', require: false
+  gem 'simplecov-cobertura', require: false
 end
 
 group :integration do

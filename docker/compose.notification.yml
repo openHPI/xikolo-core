@@ -4,7 +4,7 @@ include:
   - path: compose.init.yml
 
 x-notification: &notification
-  image: registry.xikolo.de/xikolo/web/xikolo-notification:latest
+  image: xikolo-notification:latest
   build:
     context: ..
     dockerfile: docker/files/notification.Dockerfile
@@ -13,8 +13,8 @@ x-notification: &notification
   networks:
     - xikolo
   volumes:
-    - ./config/xikolo.yml:/etc/xikolo.yml:ro
-    - ./config/xikolo/notification.yml:/app/config/xikolo.yml:ro
+    - ./config/xikolo.yml:/local/xikolo.yml:ro
+    - ./config/xikolo/notification.yml:/local/config/xikolo.yml:ro
   restart: always
   depends_on:
     init-database:

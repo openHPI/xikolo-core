@@ -4,7 +4,7 @@ include:
   - path: compose.init.yml
 
 x-web: &web
-  image: registry.xikolo.de/xikolo/web/xikolo-web:latest
+  image: xikolo-web:latest
   build:
     context: ..
     dockerfile: docker/files/web.Dockerfile
@@ -13,8 +13,8 @@ x-web: &web
   networks:
     - xikolo
   volumes:
-    - ./config/xikolo.yml:/etc/xikolo.yml:ro
-    - ./config/xikolo/web.yml:/app/config/xikolo.yml:ro
+    - ./config/xikolo.yml:/local/xikolo.yml:ro
+    - ./config/xikolo/web.yml:/local/config/xikolo.yml:ro
   restart: always
   depends_on:
     init-database:

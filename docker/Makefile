@@ -3,11 +3,9 @@
 CI_COMMIT_SHA ?= $(shell git rev-parse HEAD)
 export CI_COMMIT_SHA
 
-CI_REGISTRY_IMAGE ?= registry.xikolo.de/xikolo/web
-export CI_REGISTRY_IMAGE
-
-REGISTRY ?= ${CI_REGISTRY_IMAGE}/
-export REGISTRY
+ifdef CI_REGISTRY_IMAGE
+	export REGISTRY ?= ${CI_REGISTRY_IMAGE}/
+endif
 
 APPLICATIONS := $(basename $(notdir $(wildcard ./files/*.Dockerfile)))
 

@@ -18,13 +18,13 @@ s3:
     secret_access_key: <%= ENV.fetch('XIKOLO_S3_SECRET_KEY', 'minioadmin') %>
     force_path_style: true
   buckets:
-    avatars: ci-xikolo-public
-    banners: ci-xikolo-public
-    certificate: ci-xikolo-certificate
-    course: ci-xikolo-public
-    news: ci-xikolo-public
-    pinboard: ci-xikolo-pinboard
-    quiz: ci-xikolo-quiz
-    scientist: ci-xikolo-scientist
-    uploads: ci-xikolo-uploads
-    video: ci-xikolo-video
+    avatars: xikolo-public
+    banners: xikolo-public
+    certificate: xikolo-certificate
+    course: xikolo-public
+    news: xikolo-public
+    pinboard: xikolo-pinboard
+    quiz: xikolo-quiz
+    scientist: xikolo-scientist
+    uploads: xikolo-uploads
+    video: xikolo-video

@@ -23,8 +23,8 @@ gem 'rspec', '~> 3.10'
 gem 'capybara', '~> 3.36'
 gem 'selenium-webdriver', '~> 4.11'
 
-gem 'simplecov'
-gem 'simplecov-teamcity-summary'
+gem 'simplecov', require: false
+gem 'simplecov-cobertura', require: false
 
 # Test utilities
 gem 'childprocess', '~> 5.1.0'
