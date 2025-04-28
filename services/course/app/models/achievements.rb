@@ -60,15 +60,4 @@ class Achievements
 
     @enrollment.user_dpoints.to_f / @enrollment.maximal_dpoints * 100
   end
-
-  def roa_points_difference
-    return '' if @enrollment.blank? || @enrollment.maximal_dpoints.zero?
-
-    max_dpoints = @enrollment.maximal_dpoints
-    user_dpoints = @enrollment.user_dpoints
-    target_dpoints = (max_dpoints.to_f / 100) * course.roa_threshold_percentage
-    difference_dpoints = [target_dpoints - user_dpoints, 0].max
-
-    I18n.t('achievements.points_difference', count: (difference_dpoints / 10.0).round(1).to_f)
-  end
 end

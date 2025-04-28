@@ -28,7 +28,3 @@ fr:
           completion: Obtenez %{course_percentage}% de la note finale dans les devoirs cotés.
         download:
           not_released: Une fois que l'attestation sera octroyé, vous pourrez le télécharger ici.
-    points_difference:
-      zero: ~
-      one: Vous avez besoin d'un point supplémentaire pour obtenir votre attestation.
-      other: "Vous avez besoin de %{count} de points supplémentaires pour obtenir votre attestation."

@@ -105,7 +105,7 @@ describe 'Achievements: Index', type: :request do
       it_behaves_like 'download unavailable'
 
       it 'returns correct completion information' do
-        expect(achievement['description']).to eq('You completed 0% of all available learning units in this course. You need to complete at least 50% more learning units to achieve your confirmation.')
+        expect(achievement['description']).to eq('You did not yet complete enough learning units to achieve your confirmation for this course.')
         expect(achievement['visits']).to match hash_including('achieved' => 0, 'total' => 0, 'percentage' => 0)
       end
     end
@@ -117,7 +117,7 @@ describe 'Achievements: Index', type: :request do
         let(:course_params) { {cop_enabled: false} }
 
         it 'returns correct completion information' do
-          expect(achievement['description']).to eq('The confirmation is not offered for this course.')
+          expect(achievement['description']).to eq('A confirmation is not offered for this course.')
           expect(achievement['requirements']).to be_blank
           expect(achievement['visits']).to match hash_including('achieved' => 0, 'total' => 1, 'percentage' => 0)
         end
@@ -133,7 +133,7 @@ describe 'Achievements: Index', type: :request do
           let(:course_params) { super().merge(records_released: false) }
 
           it 'returns correct completion information' do
-            expect(achievement['description']).to eq('Congratulations! You achieved a confirmation for this course by completing 100% of all learning units. Once the confirmation is released by the teaching team, you can download it here. This can take up to 2 weeks after the course ends.')
+            expect(achievement['description']).to eq('Congratulations on achieving a confirmation for this course! Once the confirmation is released by the teaching team, you can download it here.')
             expect(achievement['visits']).to match hash_including('achieved' => 1, 'total' => 1, 'percentage' => 100)
           end
 
@@ -146,7 +146,7 @@ describe 'Achievements: Index', type: :request do
           let(:course_params) { super().merge(records_released: true) }
 
           it 'returns correct completion information' do
-            expect(achievement['description']).to eq('Congratulations! You achieved a confirmation for this course by completing 100% of all learning units.')
+            expect(achievement['description']).to eq('Congratulations! You achieved a confirmation for this course.')
             expect(achievement['visits']).to match hash_including('achieved' => 1, 'total' => 1, 'percentage' => 100)
           end
 
@@ -157,7 +157,7 @@ describe 'Achievements: Index', type: :request do
       end
 
       describe 'and requirements for CoP are not fulfilled' do
-        it { expect(achievement['description']).to eq('You completed 0% of all available learning units in this course. You need to complete at least 50% more learning units to achieve your confirmation.') }
+        it { expect(achievement['description']).to eq('You did not yet complete enough learning units to achieve your confirmation for this course.') }
 
         it_behaves_like 'achievable'
         it_behaves_like 'requirements not achieved', 'Complete at least 50% of the learning units.'
@@ -167,7 +167,7 @@ describe 'Achievements: Index', type: :request do
           let(:course_params) { super().merge(status: 'archive', start_date: 2.weeks.ago, end_date: 1.week.ago) }
 
           it 'returns correct completion information' do
-            expect(achievement['description']).to eq('You completed 0% of all available learning units in this course. You need to complete at least 50% more learning units to achieve your confirmation.')
+            expect(achievement['description']).to eq('You did not yet complete enough learning units to achieve your confirmation for this course.')
             expect(achievement['visits']).to match hash_including('achieved' => 0, 'total' => 1, 'percentage' => 0)
           end
 
@@ -192,7 +192,7 @@ describe 'Achievements: Index', type: :request do
       let(:course_params) { super().merge(roa_enabled: false) }
 
       it 'returns correct completion information' do
-        expect(achievement['description']).to eq('The certificate is not offered for this course.')
+        expect(achievement['description']).to eq('A certificate is not offered for this course.')
         expect(achievement['requirements']).to be_blank
         expect(achievement['points']).to match hash_including('achieved' => 0, 'total' => 1.0, 'percentage' => 0)
       end
@@ -210,7 +210,7 @@ describe 'Achievements: Index', type: :request do
         let(:course_params) { super().merge(records_released: false) }
 
         it 'returns correct completion information' do
-          expect(achievement['description']).to eq('Congratulations! You achieved a certificate for this course by scoring 80% in the graded assignments. Once the certificate is released by the teaching team you can download it here. This can take up to 2 weeks after the course ends.')
+          expect(achievement['description']).to eq('Congratulations on achieving a certificate for this course! Once the certificate is released by the teaching team you can download it here.')
           expect(achievement['points']).to match hash_including('achieved' => 0.8, 'total' => 1.0, 'percentage' => 80)
         end
 
@@ -222,7 +222,7 @@ describe 'Achievements: Index', type: :request do
           let(:dpoints) { 5 }
 
           it 'returns correct completion information' do
-            expect(achievement['description']).to eq('Congratulations! You achieved a certificate for this course by scoring 50% in the graded assignments. Once the certificate is released by the teaching team you can download it here. This can take up to 2 weeks after the course ends.')
+            expect(achievement['description']).to eq('Congratulations on achieving a certificate for this course! Once the certificate is released by the teaching team you can download it here.')
             expect(achievement['points']).to match hash_including('achieved' => 0.5, 'total' => 1.0, 'percentage' => 50)
           end
 
@@ -236,7 +236,7 @@ describe 'Achievements: Index', type: :request do
         let(:course_params) { super().merge(records_released: true) }
 
         it 'returns correct completion information' do
-          expect(achievement['description']).to eq('Congratulations! You achieved a certificate for this course by scoring 80% in the graded assignments.')
+          expect(achievement['description']).to eq('Congratulations! You achieved a certificate for this course by scoring high enough in the graded assignments.')
           expect(achievement['points']).to match hash_including('achieved' => 0.8, 'total' => 1.0, 'percentage' => 80)
         end
 
@@ -248,7 +248,7 @@ describe 'Achievements: Index', type: :request do
 
     context 'and requirements for the RoA are not fulfilled' do
       it 'returns correct completion information' do
-        expect(achievement['description']).to eq('You scored 0% in graded exams by now. You need 0.5 more points to achieve your certificate.')
+        expect(achievement['description']).to eq('You did not score enough points in graded exams, yet.')
         expect(achievement['points']).to match hash_including('achieved' => 0.0, 'total' => 1.0, 'percentage' => 0)
       end
 
@@ -260,7 +260,7 @@ describe 'Achievements: Index', type: :request do
         before { create(:result, item:, user_id:, dpoints: 2) }
 
         it 'returns correct completion information' do
-          expect(achievement['description']).to eq('You scored 20% in graded exams by now. You need 0.3 more points to achieve your certificate.')
+          expect(achievement['description']).to eq('You did not score enough points in graded exams, yet.')
           expect(achievement['points']).to match hash_including('achieved' => 0.2, 'total' => 1.0, 'percentage' => 20)
         end
 
@@ -280,7 +280,7 @@ describe 'Achievements: Index', type: :request do
         end
 
         it 'returns correct completion information with low precision' do
-          expect(achievement['description']).to eq('You scored 13% in graded exams by now. You need 18.5 more points to achieve your certificate.')
+          expect(achievement['description']).to eq('You did not score enough points in graded exams, yet.')
           expect(achievement['points']).to match hash_including('achieved' => 7.0, 'total' => 51.0, 'percentage' => 13)
         end
 
@@ -293,7 +293,7 @@ describe 'Achievements: Index', type: :request do
         let(:course_params) { super().merge(status: 'archive', end_date: 1.week.ago) }
 
         it 'returns correct completion information' do
-          expect(achievement['description']).to eq('The regular course period has already ended. You could only achieve the certificate for this course while it was running. Please watch out for a possible repeat.')
+          expect(achievement['description']).to eq('This course has ended. Certificates were only available during the active course period.')
           expect(achievement['points']).to match hash_including('achieved' => 0.0, 'total' => 1.0, 'percentage' => 0)
         end
 
@@ -305,7 +305,7 @@ describe 'Achievements: Index', type: :request do
           let(:course_params) { super().merge(on_demand: true) }
 
           it 'returns correct completion information' do
-            expect(achievement['description']).to eq('The regular course period has already ended. If you still would like to achieve a certificate for this course, you can reactivate it now.')
+            expect(achievement['description']).to eq('This course has ended. If you still would like to achieve a certificate for this course, you can reactivate it now.')
             expect(achievement['points']).to match hash_including('achieved' => 0.0, 'total' => 1.0, 'percentage' => 0)
           end
 
@@ -322,7 +322,7 @@ describe 'Achievements: Index', type: :request do
         before { item }
 
         it 'returns correct completion information' do
-          expect(achievement['description']).to eq('You scored 0% in graded exams by now. You need 0.5 more points to achieve your certificate.')
+          expect(achievement['description']).to eq('You did not score enough points in graded exams, yet.')
           expect(achievement['points']).to match hash_including('achieved' => 0.0, 'total' => 1.0, 'percentage' => 0)
         end
 
@@ -336,7 +336,7 @@ describe 'Achievements: Index', type: :request do
       before { Enrollment.destroy_all }
 
       it 'returns correct completion information' do
-        expect(achievement['description']).to eq('You scored 0% in graded exams by now.')
+        expect(achievement['description']).to eq('You did not score enough points in graded exams, yet.')
         expect(achievement['points']).to match hash_including('achieved' => 0.0, 'total' => 0.0, 'percentage' => 0)
       end
 

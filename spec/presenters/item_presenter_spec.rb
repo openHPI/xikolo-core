@@ -3,16 +3,19 @@
 require 'spec_helper'
 
 describe ItemPresenter, type: :presenter do
-  subject { presenter }
+  subject(:presenter) do
+    described_class.new item: item_resource, course: course_resource, section: section_resource, user: current_user
+  end
 
-  let(:presenter) { described_class.new item:, course:, section:, user: current_user }
-  let(:item) { Xikolo::Course::Item.new item_params }
-  let(:item_id) { SecureRandom.uuid }
-  let(:item_params) { {id: item_id} }
-  let(:course) { Xikolo::Course::Course.new course_params }
-  let(:course_params) { {id: SecureRandom.uuid, course_code: 'test'} }
-  let(:section) { Xikolo::Course::Section.new section_params }
-  let(:section_params) { {id: SecureRandom.uuid, course_id: course.id} }
+  let(:item) { create(:item, section_id: section.id) }
+  let(:item_resource) { Xikolo::Course::Item.new(id: item.id, content_type: item.content_type, open_mode: item.open_mode, **additional_item_params) }
+  let(:additional_item_params) { {} }
+  let(:course) { create(:course, course_code: 'test') }
+  let(:course_resource) { Xikolo::Course::Course.new(id: course.id, course_code: course.course_code, **additional_course_params) }
+  let(:additional_course_params) { {} }
+  let(:section) { create(:section, course:) }
+  let(:section_resource) { Xikolo::Course::Section.new(id: section.id, course: section.course_id, **additional_section_params) }
+  let(:additional_section_params) { {} }
   let(:anonymous) { Xikolo::Common::Auth::CurrentUser.from_session({}) }
   let(:permissions) { ['course.content.access.available'] }
   let(:user) do
@@ -26,192 +29,200 @@ describe ItemPresenter, type: :presenter do
   let(:current_user) { user }
 
   describe '#path' do
-    subject { super().path }
+    subject { presenter.path }
 
-    it { is_expected.to eq "/courses/test/items/#{short_uuid(item_id)}" }
+    it { is_expected.to eq "/courses/test/items/#{short_uuid(item.id)}" }
   end
 
-  context 'css_classes' do
-    subject { super().css_classes.split }
+  describe '#css_classes' do
+    subject(:css_classes) { presenter.css_classes }
 
-    let(:item_params) { super().merge content_type: 'video' }
+    let(:item) { create(:item, :video, section_id: section.id) }
 
-    context 'without visit or active item' do
-      it { is_expected.to eq ['video'] }
+    context 'when the item is neither active nor visited' do
+      it 'contains only the content type' do
+        expect(css_classes).to eq 'video'
+      end
     end
 
-    context 'with visited item' do
-      let(:item_params) { super().merge user_state: 'visited' }
+    context 'when the item was visited' do
+      let(:additional_item_params) { {user_state: 'visited'} }
 
-      it { is_expected.to match_array(%w[video visited]) }
+      it 'contains the content type and the visited status' do
+        expect(css_classes.split).to contain_exactly 'video', 'visited'
+      end
     end
 
-    context 'with active item' do
-      let(:item_params) { super().merge user_state: 'visited' }
+    context 'with an active visited item' do
+      let(:additional_item_params) { {user_state: 'visited'} }
 
       before do
         presenter.active!
       end
 
-      it { is_expected.to match_array(%w[video visited active]) }
+      it 'contains the content type and the locked and visited status' do
+        expect(css_classes.split).to contain_exactly 'video', 'visited', 'active'
+      end
     end
 
-    context 'anonymous user' do
+    context 'with an anonymous user' do
       let(:current_user) { anonymous }
 
-      context 'video item with open mode' do
-        let(:item_params) { {id: item_id, content_type: 'video', open_mode: true} }
+      context 'when the item is in open mode' do
+        let(:item) { create(:item, :video, section_id: section.id, open_mode: true) }
 
-        it { is_expected.to contain_exactly('video') }
+        it 'contains only the content type' do
+          expect(css_classes).to eq 'video'
+        end
       end
 
-      context 'video_item without open mode' do
-        let(:item_params) { {id: item_id, content_type: 'video', open_mode: false} }
+      context 'when the item is not in open mode' do
+        let(:item) { create(:item, :video, section_id: section.id, open_mode: false) }
 
-        it { is_expected.to match_array(%w[video locked]) }
+        it 'contains the content type and the locked status' do
+          expect(css_classes.split).to contain_exactly 'video', 'locked'
+        end
       end
     end
 
-    context 'non-enrolled user' do
+    context 'with a non-enrolled user' do
       let(:permissions) { {} }
 
-      context 'video item with open mode' do
-        let(:item_params) { {id: item_id, content_type: 'video', open_mode: true} }
+      context 'when the item is in open mode' do
+        let(:item) { create(:item, :video, section_id: section.id, open_mode: true) }
 
-        it { is_expected.to contain_exactly('video') }
+        it 'contains only the content type' do
+          expect(css_classes).to eq 'video'
+        end
       end
 
-      context 'video_item without open mode' do
-        let(:item_params) { {id: item_id, content_type: 'video', open_mode: false} }
+      context 'when the item is not in open mode' do
+        let(:item) { create(:item, :video, section_id: section.id, open_mode: false) }
 
-        it { is_expected.to match_array(%w[video locked]) }
+        it 'contains the content type and the locked status' do
+          expect(css_classes.split).to contain_exactly 'video', 'locked'
+        end
       end
     end
   end
 
-  context 'visited?' do
-    context 'without user_state' do
+  describe '#visited?' do
+    context 'without a user_state' do
       it { is_expected.not_to be_visited }
     end
 
-    context 'with nil user_state' do
-      let(:item_params) { super().merge user_state: nil }
-
-      it { is_expected.not_to be_visited }
-    end
-
-    context 'with new user_state' do
-      let(:item_params) { super().merge user_state: 'new' }
+    context 'when the user_state is nil' do
+      let(:additional_item_params) { {user_state: nil} }
 
       it { is_expected.not_to be_visited }
     end
 
-    context 'with visited user_state' do
-      let(:item_params) { super().merge user_state: 'visited' }
+    context "when the user_state is 'new'" do
+      let(:additional_item_params) { {user_state: 'new'} }
+
+      it { is_expected.not_to be_visited }
+    end
+
+    context "when the user_state is 'visited'" do
+      let(:additional_item_params) { {user_state: 'visited'} }
 
       it { is_expected.to be_visited }
     end
 
-    context 'with submitted user_state' do
-      let(:item_params) { super().merge user_state: 'submitted' }
+    context "when the user_state is 'submitted'" do
+      let(:additional_item_params) { {user_state: 'submitted'} }
 
       it { is_expected.to be_visited }
     end
 
-    context 'with graded user_state' do
-      let(:item_params) { super().merge user_state: 'graded' }
+    context "when the user_state is 'graded'" do
+      let(:additional_item_params) { {user_state: 'graded'} }
 
       it { is_expected.to be_visited }
     end
   end
 
-  context 'active?' do
-    context 'by default' do
-      it { is_expected.not_to be_active }
+  describe '#active?' do
+    it 'is not active by default' do
+      expect(presenter).not_to be_active
     end
 
-    context 'after it was activated' do
+    context 'when it was activated' do
       before { presenter.active! }
 
       it { is_expected.to be_active }
     end
   end
 
-  context 'main_exercise?' do
-    context 'with exercise_type is nil' do
-      let(:item_params) { super().merge exercise_type: nil }
-
+  describe '#main_exercise?' do
+    context 'when the exercise_type is nil' do
       it { is_expected.not_to be_main_exercise }
     end
 
-    context 'with exercise_type is main' do
-      let(:item_params) { super().merge exercise_type: 'main' }
+    context "when the exercise_type is 'main'" do
+      let(:additional_item_params) { {exercise_type: 'main'} }
 
       it { is_expected.to be_main_exercise }
     end
 
-    context 'with exercise_type is bonus' do
-      let(:item_params) { super().merge exercise_type: 'bonus' }
+    context "when the exercise_type is 'bonus'" do
+      let(:additional_item_params) { {exercise_type: 'bonus'} }
 
       it { is_expected.not_to be_main_exercise }
     end
   end
 
-  context 'bonus_exercise?' do
-    context 'with exercise_type is nil' do
-      let(:item_params) { super().merge exercise_type: nil }
+  describe '#bonus_exercise?' do
+    context 'when the exercise_type is nil' do
+      it { is_expected.not_to be_bonus_exercise }
+    end
+
+    context "when the exercise_type is 'main'" do
+      let(:additional_item_params) { {exercise_type: 'main'} }
 
       it { is_expected.not_to be_bonus_exercise }
     end
 
-    context 'with exercise_type is main' do
-      let(:item_params) { super().merge exercise_type: 'main' }
-
-      it { is_expected.not_to be_bonus_exercise }
-    end
-
-    context 'with exercise_type is bonus' do
-      let(:item_params) { super().merge exercise_type: 'bonus' }
+    context "when the exercise_type is 'bonus'" do
+      let(:additional_item_params) { {exercise_type: 'bonus'} }
 
       it { is_expected.to be_bonus_exercise }
     end
   end
 
-  context 'section_pinboard_closed?' do
-    context 'by default' do
+  describe '#section_pinboard_closed?' do
+    it 'has an unlocked section forum by default' do
+      expect(presenter).not_to be_section_pinboard_closed
+    end
+
+    context 'with an unlocked section forum' do
+      let(:additional_section_params) { {pinboard_closed: false} }
+
       it { is_expected.not_to be_section_pinboard_closed }
     end
 
-    context 'with unlocked section forum' do
-      let(:section_params) { super().merge pinboard_closed: false }
-
-      it { is_expected.not_to be_section_pinboard_closed }
-    end
-
-    context 'with locked section forum' do
-      let(:section_params) { super().merge pinboard_closed: true }
+    context 'with a locked section forum' do
+      let(:additional_section_params) { {pinboard_closed: true} }
 
       it { is_expected.to be_section_pinboard_closed }
     end
   end
 
-  context 'course_pinboard_closed?' do
-    subject { presenter.course_pinboard_closed? }
-
-    context 'by default' do
-      it { is_expected.to be_nil }
+  describe '#course_pinboard_closed?' do
+    it 'has an unlocked course forum by default' do
+      expect(presenter).not_to be_course_pinboard_closed
     end
 
-    context 'with unlocked course forum' do
-      let(:course_params) { super().merge forum_is_locked: false }
+    context 'with an unlocked course forum' do
+      let(:additional_course_params) { {forum_is_locked: false} }
 
-      it { is_expected.to be_falsy }
+      it { is_expected.not_to be_course_pinboard_closed }
     end
 
-    context 'with locked course forum' do
-      let(:course_params) { super().merge forum_is_locked: true }
+    context 'with a locked course forum' do
+      let(:additional_course_params) { {forum_is_locked: true} }
 
-      it { is_expected.to be_truthy }
+      it { is_expected.to be_course_pinboard_closed }
     end
   end
 
@@ -220,8 +231,8 @@ describe ItemPresenter, type: :presenter do
       expect(presenter).to be_course_pinboard
     end
 
-    context 'with disabled pinboard' do
-      let(:course_params) { super().merge(pinboard_enabled: false) }
+    context 'with a disabled pinboard' do
+      let(:additional_course_params) { {pinboard_enabled: false} }
 
       it 'is disabled' do
         expect(presenter).not_to be_course_pinboard
@@ -229,62 +240,72 @@ describe ItemPresenter, type: :presenter do
     end
   end
 
-  context 'time_effort?' do
-    subject { presenter.time_effort? }
+  describe '#time_effort?' do
+    context 'with a default time effort' do
+      let(:additional_item_params) { {time_effort: 20} }
 
-    context 'w/ default time effort' do
-      let(:item_params) { super().merge(time_effort: 20) }
-
-      it { is_expected.to be true }
+      it { is_expected.to be_time_effort }
     end
 
-    context 'w/o default time effort' do
-      it { is_expected.to be false }
+    context 'without a default time effort' do
+      it { is_expected.not_to be_time_effort }
     end
   end
 
-  context 'formatted_time_effort' do
-    subject { presenter.formatted_time_effort }
+  describe '#formatted_time_effort' do
+    subject(:formatted_time_effort) { presenter.formatted_time_effort }
 
-    context 'w/ default time effort' do
-      context 'less than one minute' do
-        let(:item_params) { super().merge(time_effort: 45) }
+    context 'with a default time effort' do
+      context 'with less than one minute' do
+        let(:additional_item_params) { {time_effort: 45} }
 
-        it { is_expected.to eq '1 minute' }
+        it 'does not use pluralization' do
+          expect(formatted_time_effort).to eq '1 minute'
+        end
       end
 
-      context 'more than one minute (pluralization)' do
-        let(:item_params) { super().merge(time_effort: 110) }
+      context 'with more than one minute' do
+        let(:additional_item_params) { {time_effort: 110} }
 
-        it { is_expected.to eq '2 minutes' }
+        it 'uses pluralization' do
+          expect(formatted_time_effort).to eq '2 minutes'
+        end
       end
 
-      context 'exactly one hour' do
-        let(:item_params) { super().merge(time_effort: 3600) }
+      context 'with exactly one hour' do
+        let(:additional_item_params) { {time_effort: 3600} }
 
-        it { is_expected.to eq '1 hour' }
+        it 'does not use pluralization' do
+          expect(formatted_time_effort).to eq '1 hour'
+        end
       end
 
-      context 'exactly two hours' do
-        let(:item_params) { super().merge(time_effort: 7200) }
+      context 'with exactly two hours' do
+        let(:additional_item_params) { {time_effort: 7200} }
 
-        it { is_expected.to eq '2 hours' }
+        it 'uses pluralization' do
+          expect(formatted_time_effort).to eq '2 hours'
+        end
       end
 
-      context 'more than one hour' do
-        let(:item_params) { super().merge(time_effort: 3620) }
+      context 'with one hour and a minute' do
+        let(:additional_item_params) { {time_effort: 3620} }
 
-        it { is_expected.to eq '1 hour 1 minute' }
+        it 'does not use pluralization' do
+          expect(formatted_time_effort).to eq '1 hour 1 minute'
+        end
       end
 
-      context 'more than one hour (pluralization)' do
-        let(:item_params) { super().merge(time_effort: 7280) }
+      context 'with several hours and several minutes' do
+        let(:additional_item_params) { {time_effort: 7280} }
 
-        it { is_expected.to eq '2 hours 2 minutes' }
+        it 'uses pluralization' do
+          expect(formatted_time_effort).to eq '2 hours 2 minutes'
+        end
       end
     end
 
-    context 'w/o default time effort' do
+    context 'without a default time effort' do
       it { is_expected.to be_nil }
     end
   end

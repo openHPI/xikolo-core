@@ -28,7 +28,3 @@ nl:
           completion: Behaal %{course_percentage}% van de algehele score in beoordeelde opdrachten.
         download:
           not_released: Zodra het certificaat is vrijgegeven, kunt u het hier downloaden.
-    points_difference:
-      zero: ~
-      one: Je hebt nog één punt nodig om je certificaat te behalen.
-      other: "Je hebt nog %{count} punten nodig om je certificaat te behalen."

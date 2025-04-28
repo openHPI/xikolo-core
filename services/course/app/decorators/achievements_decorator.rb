@@ -35,10 +35,7 @@ class AchievementsDecorator < ApplicationDecorator
       name: I18n.t(:'achievements.certificates.confirmation.name'),
       achieved: model.cop.achieved?,
       achievable: model.cop.achievable?,
-      description: I18n.t(
-        :"achievements.certificates.confirmation.state.#{model.cop_state}",
-        **confirmation_params
-      ),
+      description: I18n.t(:"achievements.certificates.confirmation.state.#{model.cop_state}"),
       requirements: confirmation_requirements,
       download: confirmation_download.presence || progress(model.cop).presence,
       visits:,
@@ -51,29 +48,10 @@ class AchievementsDecorator < ApplicationDecorator
       name: I18n.t(:'achievements.certificates.achievement.name'),
       achieved: model.roa.achieved?,
       achievable: model.roa.achievable?,
-      description: I18n.t(
-        :"achievements.certificates.achievement.state.#{model.roa_state}",
-        **achievement_params
-      ).strip,
+      description: I18n.t(:"achievements.certificates.achievement.state.#{model.roa_state}"),
       requirements: achievement_requirements,
       download: achievement_download.presence || progress(model.roa).presence,
       points:,
-    }
-  end
-
-  def confirmation_params
-    {
-      user_percentage: model.user_visit_percentage.to_i,
-      course_percentage: model.course.cop_threshold_percentage.to_i,
-      difference: model.cop_percentage_difference,
-    }
-  end
-
-  def achievement_params
-    {
-      user_percentage: model.user_completion_percentage.to_i,
-      course_percentage: model.course.roa_threshold_percentage.to_i,
-      difference: model.roa_points_difference,
     }
   end
 
@@ -86,7 +64,7 @@ class AchievementsDecorator < ApplicationDecorator
         achieved: model.cop.achieved?,
         description: I18n.t(
           :'achievements.certificates.confirmation.requirements.progress',
-          **confirmation_params
+          course_percentage: model.course.cop_threshold_percentage.to_i
         ),
       },
     ]
@@ -101,7 +79,7 @@ class AchievementsDecorator < ApplicationDecorator
         achieved: model.roa.achieved?,
         description: I18n.t(
           :'achievements.certificates.achievement.requirements.completion',
-          **achievement_params
+          course_percentage: model.course.roa_threshold_percentage.to_i
         ),
       },
     ]

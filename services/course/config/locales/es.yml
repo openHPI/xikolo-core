@@ -2,33 +2,29 @@ es:
   achievements:
     certificates:
       confirmation:
-        name: Confirmación de participación
+        name: Confirmación de Participación
         state:
-          unavailable: Este curso no otorga confirmación de participación.
-          no_longer_achievable: El periodo regular de este curso ya concluyó. La confirmación de participación de este curso solamente se puede obtener cuando se está dictando. Esté atento para una próxima edición.
-          reactivatable: El periodo regular de este curso ya concluyó. Si desea obtener la confirmación de participación de este curso, puede retomar el curso ahora.
-          not_achieved: Usted ha completado un %{user_percentage}% de todas las unidades de aprendizaje de este curso. Usted necesita completar al menos %{difference}% más de unidades de aprendizaje para obtener su confirmación de participación.
-          not_released: ¡Felicidades! Usted obtuvo una confirmación de participación para este curso por haber completado un %{user_percentage}% de todas las unidades de aprendizaje. Una vez que el equipo de enseñanza emita la confirmación, podrá descargarla aquí. Esto puede tomar hasta 2 semana después de finalizado el curso.
-          released: ¡Felicidades! Usted obtuvo una confirmación de participación para este curso por haber completado un %{user_percentage}% de todas las unidades de aprendizaje.
-          achieved_via_roa: ¡Felicidades! Has conseguido la Confirmación de participación para este curso al obtener el Certificado de logro.
+          unavailable: No se ofrece una confirmación para este curso.
+          no_longer_achievable: Este curso ha finalizado. Las confirmaciones solo estaban disponibles durante el período activo del curso.
+          reactivatable: Este curso ha finalizado. Si aún desea obtener una confirmación para este curso, puede reactivarlo ahora.
+          not_achieved: Aún no has completado suficientes unidades de aprendizaje para obtener tu confirmación para este curso.
+          not_released: ¡Felicidades por lograr la confirmación para este curso! Una vez que el equipo docente la libere, podrás descargarla aquí.
+          released: ¡Felicidades! Has logrado una confirmación para este curso.
+          achieved_via_roa: ¡Felicidades! Has obtenido la Confirmación de Participación en este curso al obtener el Certificado de Logro.
         requirements:
-          progress: Completar al menos %{course_percentage}% de las unidades de aprendizaje.
+          progress: Completa al menos el %{course_percentage}% de las unidades de aprendizaje.
         download:
-          not_released: Una vez se emita la confirmación de participación, podrá descargarla aquí.
+          not_released: Una vez que se libere el certificado, podrás descargarlo aquí.
       achievement:
-        name: Certificado de logro
+        name: Certificado de Logro
         state:
-          unavailable: Este curso no otorga certificado de logro.
-          no_longer_achievable: El periodo regular de este curso ya concluyó. El certificado de este curso solamente se puede obtener cuando se está dictando. Esté atento para una próxima edición.
-          reactivatable: El periodo regular de este curso ya concluyó. Si desea obtener el certificado de este curso, puede retomar el curso ahora.
-          not_achieved: Usted obtuvo %{user_percentage}% en los exámenes calificados por ahora. %{difference}
-          not_released: ¡Felicidades! Usted obtuvo un certificado de logro para este curso al obtener un %{user_percentage}% en las tareas calificadas. Una vez que el equipo de enseñanza emita el certificado, podrá descargarlo aquí. Esto puede tomar hasta 2 semana después de finalizado el curso.
-          released: ¡Felicidades! Usted obtuvo un certificado de logro para este curso al obtener un %{user_percentage}% en las tareas calificadas.
+          unavailable: No se ofrece un certificado para este curso.
+          no_longer_achievable: Este curso ha finalizado. Los certificados solo estaban disponibles durante el período activo del curso.
+          reactivatable: Este curso ha finalizado. Si aún desea obtener un certificado para este curso, puede reactivarlo ahora.
+          not_achieved: Aún no has obtenido suficientes puntos en exámenes calificados.
+          not_released: ¡Felicidades por lograr un certificado para este curso! Una vez que el equipo docente lo libere, podrás descargarlo aquí.
+          released: ¡Felicidades! Has obtenido un certificado para este curso al obtener suficientes puntos en las tareas evaluadas.
         requirements:
-          completion: Obtener %{course_percentage}% del puntaje total en las tareas calificadas.
+          completion: Logra al menos el %{course_percentage}% del puntaje total en las tareas evaluadas.
         download:
-          not_released: Una vez se emita el certificado de logro, podrá descargarlo aquí.
-    points_difference:
-      zero: ~
-      one: Necesitas un punto más para conseguir tu certificado.
-      other: "Necesitas %{count} más puntos para conseguir tu certificado."
+          not_released: Una vez que se libere el certificado, podrás descargarlo aquí.
