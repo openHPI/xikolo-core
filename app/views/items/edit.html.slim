@@ -16,7 +16,7 @@
             = t(:'.quiz_info')
           = t(:'.questions')
           =< @question_count
-          -if @quiz_total_points
+          - if @quiz_total_points
             br
             = t(:'.quiz_total_points')
             =< @quiz_total_points

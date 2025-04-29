@@ -33,7 +33,7 @@ module ItemStats
       if @item['exercise_type'] != 'survey'
         percentage_avg = format(
           '%.2f',
-          (stats['avg_points'] / stats['max_points'] * 100)
+          stats['avg_points'] / stats['max_points'] * 100
         )
 
         facts << I18n.t(
@@ -151,7 +151,7 @@ module ItemStats
 
         format(
           '%.2f',
-          (@base_stats['avg_points'] / @base_stats['max_points'] * 100)
+          @base_stats['avg_points'] / @base_stats['max_points'] * 100
         )
       end
 

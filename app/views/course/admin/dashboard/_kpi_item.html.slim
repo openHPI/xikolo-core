@@ -6,7 +6,7 @@
       data-selector key=quota_key
         counter-basic.quota suffix=('%' unless local_assigns[:quota_hide_suffix]) hide-spinner="true"
   .col-xs-8.text-right
-    -if local_assigns[:sec_data_key].present? && local_assigns[:sec_name].present?
+    - if local_assigns[:sec_data_key].present? && local_assigns[:sec_name].present?
       = "#{name} ("
       data-selector key=local_assigns[:sec_data_key]
         counter-basic

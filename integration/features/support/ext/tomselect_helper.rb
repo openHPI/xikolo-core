@@ -16,7 +16,7 @@ module TomSelectHelper
       label = find(:label, text: from)
       container = label.find(:xpath, '..')
     else
-      container = find((css || 'form'))
+      container = find(css || 'form')
     end
 
     within(container) do

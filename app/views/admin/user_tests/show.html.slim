@@ -102,7 +102,7 @@
                     - unless test_group.confidence.empty?
                       - if test_group.confidence[metric.id]
                         span class=(test_group.confidence[metric.id] > 0.95 ? 'text-success' : 'text-danger')
-                          = format('%.2f%%', (test_group.confidence[metric.id] * 100))
+                          = format('%.2f%%', test_group.confidence[metric.id] * 100)
                       - else
                         span class='text-danger'
                           = t(:'.confidence_error')

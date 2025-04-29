@@ -13,7 +13,7 @@ module ItemStats
     def facts
       percentage_avg = format(
         '%.2f',
-        (stats['avg_points'] / stats['max_points'] * 100)
+        stats['avg_points'] / stats['max_points'] * 100
       )
 
       facts = [

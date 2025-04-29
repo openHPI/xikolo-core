@@ -372,6 +372,8 @@ Rails.application.routes.draw do
   # mount Rack based API app
   mount Xikolo::API => '/api'
 
+  get 'app/quiz-recap', to: 'quiz_recap#show'
+
   namespace :admin do
     resources :clusters, only: %i[index show edit update] do
       resources :classifiers, only: %i[new create edit update destroy] do

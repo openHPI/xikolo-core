@@ -17,7 +17,6 @@ module Xikolo
 
       mount CourseAPI
       mount PreferenceAPI
-      mount QuizAPI
       mount StatisticsAPI
       mount PinboardAPI
       mount NewsStatisticAPI

@@ -1,6 +1,6 @@
 import renderQuizRecap, {
-  Data,
   AnswerType,
+  Data,
   QuestionType,
   QuizType,
 } from '@openhpi/quiz-recap';
@@ -20,16 +20,8 @@ type XiQuestion = {
   text: string;
   courseId: string;
   quizId: string;
-  answers: string[];
-};
-
-type XiQuizData = {
-  questions: XiQuestion[];
-  answers: {
-    id: string;
-    correct: boolean;
-    text: string;
-  }[];
+  referenceLink: string;
+  answers: AnswerType[];
 };
 
 /**
@@ -43,34 +35,17 @@ const mapQuestionType = (type: string): string => {
   return 'single-choice';
 };
 
-const mapAnswersToQuestions = (data: XiQuizData): Data => {
-  const { questions, answers } = data;
-  const mappedAnswers: { [key: string]: AnswerType } = {};
+const mapAnswersToQuestions = (data: XiQuestion[]): Data => {
+  const mappedQuestions = data.map((question: XiQuestion): QuestionType => {
+    const questionType = mapQuestionType(question.type);
 
-  questions.forEach((question: XiQuestion) => {
-    question.answers.forEach((answerId: string) => {
-      const answer = answers.find((a: AnswerType) => a.id === answerId);
-      if (answer) {
-        mappedAnswers[answerId] = answer;
-      }
-    });
+    const qu: QuestionType = {
+      ...question,
+      type: questionType as QuizType,
+    };
+
+    return qu;
   });
-
-  const mappedQuestions = questions.map(
-    (question: XiQuestion): QuestionType => {
-      const questionType = mapQuestionType(question.type);
-
-      const qu: QuestionType = {
-        ...question,
-        type: questionType as QuizType,
-        answers: question.answers.map(
-          (answerId: string) => mappedAnswers[answerId],
-        ),
-      };
-
-      return qu;
-    },
-  );
 
   return mappedQuestions;
 };
@@ -97,12 +72,11 @@ ready(async () => {
 
   try {
     const courseId = gon.course_id;
-    const url = `api/v2/questions?course_id=${courseId}`;
+    const url = `app/quiz-recap?course_id=${courseId}`;
 
     const response = await fetch(url, {});
     const data = await response.json();
-
-    const questions = mapAnswersToQuestions(data as XiQuizData);
+    const questions = data.questions as XiQuestion[];
 
     if (questions.length === 0) {
       showEmptyState();
@@ -110,7 +84,7 @@ ready(async () => {
       const bestLang = isLangSupported(I18n.locale)
         ? I18n.locale
         : fallbackLang;
-      renderQuizRecap('quiz-recap', questions, bestLang);
+      renderQuizRecap('quiz-recap', mapAnswersToQuestions(questions), bestLang);
     }
   } catch (error) {
     handleError(I18n.t('errors.server.generic_message'), error);

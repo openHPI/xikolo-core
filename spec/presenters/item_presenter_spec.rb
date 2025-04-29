@@ -28,6 +28,40 @@ describe ItemPresenter, type: :presenter do
   end
   let(:current_user) { user }
 
+  describe '#unlocked?' do
+    context 'without start and end dates' do
+      let(:additional_item_params) { {effective_start_date: nil, end_date: nil, effective_end_date: nil} }
+
+      it { is_expected.to be_unlocked }
+    end
+
+    context 'with a start date in the future' do
+      let(:additional_item_params) { {effective_start_date: 2.days.from_now.iso8601(3)} }
+
+      it { is_expected.not_to be_unlocked }
+    end
+
+    context 'with a start date in the past' do
+      let(:additional_item_params) { {effective_start_date: 2.days.ago.iso8601(3)} }
+
+      context 'without an end date' do
+        it { is_expected.to be_unlocked }
+      end
+
+      context 'with an end date in the future' do
+        let(:additional_item_params) { super().merge(effective_end_date: 4.days.from_now.iso8601(3)) }
+
+        it { is_expected.to be_unlocked }
+      end
+
+      context 'with an end date in the past' do
+        let(:additional_item_params) { super().merge(effective_end_date: 1.day.ago.iso8601(3)) }
+
+        it { is_expected.not_to be_unlocked }
+      end
+    end
+  end
+
   describe '#path' do
     subject { presenter.path }
 

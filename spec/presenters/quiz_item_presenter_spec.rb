@@ -4,17 +4,23 @@ require 'spec_helper'
 
 describe QuizItemPresenter, type: :presenter do
   subject(:presenter) do
-    described_class.new item:, course:, user:, quiz:,
+    described_class.new item: item_resource, course: course_resource, user:, quiz: quiz_resource,
       enrollment: Xikolo::Course::Enrollment.new(enrollment.attributes)
   end
 
-  let(:item_id) { generate(:uuid) }
-  let(:user_id) { generate(:user_id) }
-  let(:item_params) { {id: item_id} }
-  let(:item) { Xikolo::Course::Item.new item_params.merge content_type: 'quiz' }
-  let(:course) { Xikolo::Course::Course.new id: generate(:course_id), course_code: 'test' }
+  let(:course) { create(:course, :active, :offers_proctoring, course_code: 'test') }
+  let(:course_resource) { Xikolo::Course::Course.new(id: course.id, course_code: course.course_code) }
+  let(:item) { create(:item, content_type: 'quiz', content_id: quiz_resource.id) }
+  let(:item_resource) do
+    Xikolo::Course::Item.new(id: item.id, content_type: item.content_type, content_id: item.content_id, **additional_item_params)
+  end
+  let(:additional_item_params) { {} }
+  let(:quiz_resource) { Xikolo::Quiz::Quiz.new quiz_params }
+  let(:quiz_params) { {id: generate(:quiz_id), current_allowed_attempts: 1} }
+
   let(:features) { {} }
   let(:masqueraded) { false }
+  let(:user_id) { generate(:user_id) }
   let(:user) do
     Xikolo::Common::Auth::CurrentUser.from_session(
       'permissions' => %w[course.content.access.available],
@@ -23,53 +29,48 @@ describe QuizItemPresenter, type: :presenter do
       'user' => {'anonymous' => false}
     )
   end
-  let(:quiz_params) { {id: generate(:quiz_id), current_allowed_attempts: 1} }
-  let(:quiz) { Xikolo::Quiz::Quiz.new quiz_params }
   let(:proctoring_context) { instance_double(Proctoring::ItemContext) }
-  let(:enrollment) do
-    db_course = create(:course, :active, :offers_proctoring, id: course.id, course_code: 'test')
-    create(:enrollment, :proctored, course: db_course, user_id:)
-  end
+  let(:enrollment) { create(:enrollment, :proctored, course:, user_id:) }
 
   before do
     allow(Proctoring::ItemContext).to receive(:new).and_return(proctoring_context)
   end
 
   describe '#survey?' do
-    context 'with exercise_type nil' do
-      let(:item_params) { super().merge exercise_type: nil }
+    context 'without an exercise_type' do
+      let(:additional_item_params) { {exercise_type: nil} }
 
       it { is_expected.to be_survey }
     end
 
-    context 'with exercise_type main' do
-      let(:item_params) { super().merge exercise_type: 'main' }
+    context "when the exercise_type is 'main'" do
+      let(:additional_item_params) { {exercise_type: 'main'} }
 
       it { is_expected.not_to be_survey }
     end
 
-    context 'with exercise_type bonus' do
-      let(:item_params) { super().merge exercise_type: 'bonus' }
+    context "when the exercise_type is 'bonus'" do
+      let(:additional_item_params) { {exercise_type: 'bonus'} }
 
       it { is_expected.not_to be_survey }
     end
   end
 
   describe '#graded?' do
-    context 'with exercise_type nil' do
-      let(:item_params) { super().merge exercise_type: nil }
+    context 'without an exercise_type' do
+      let(:additional_item_params) { {exercise_type: nil} }
 
       it { is_expected.not_to be_graded }
     end
 
-    context 'with exercise_type main' do
-      let(:item_params) { super().merge exercise_type: 'main' }
+    context "when the exercise_type is 'main'" do
+      let(:additional_item_params) { {exercise_type: 'main'} }
 
       it { is_expected.to be_graded }
     end
 
-    context 'with exercise_type bonus' do
-      let(:item_params) { super().merge exercise_type: 'bonus' }
+    context "when the exercise_type is 'bonus'" do
+      let(:additional_item_params) { {exercise_type: 'bonus'} }
 
       it { is_expected.to be_graded }
     end
@@ -78,27 +79,25 @@ describe QuizItemPresenter, type: :presenter do
   describe '#icon_class' do
     subject { presenter.icon_class }
 
-    context 'as self-test' do
-      let(:item_params) { super().merge exercise_type: 'selftest' }
+    context "when the exercise_type is 'selftest'" do
+      let(:additional_item_params) { {exercise_type: 'selftest'} }
 
       it { is_expected.to eq 'lightbulb-on' }
     end
 
-    context 'as main exercise' do
-      let(:item_params) { super().merge exercise_type: 'main' }
+    context "when the exercise_type is 'main'" do
+      let(:additional_item_params) { {exercise_type: 'main'} }
 
       it { is_expected.to eq 'money-check-pen' }
     end
 
-    context 'as bonus exercise' do
-      let(:item_params) { super().merge exercise_type: 'bonus' }
+    context "when the exercise_type is 'bonus'" do
+      let(:additional_item_params) { {exercise_type: 'bonus'} }
 
       it { is_expected.to eq 'lightbulb-on+circle-star' }
     end
 
-    context 'without exercise' do
-      let(:item_params) { super().merge exercise_type: nil }
-
+    context 'without an exercise_type' do
       it { is_expected.to eq 'clipboard-list-check' }
     end
   end
@@ -106,14 +105,14 @@ describe QuizItemPresenter, type: :presenter do
   describe '#quiz_submittable?' do
     subject { presenter.quiz_submittable? }
 
-    context 'with disabled proctoring feature' do
+    context 'with the proctoring feature being disabled' do
       it { is_expected.to be true }
     end
 
-    context 'with enabled proctoring feature' do
+    context 'with the proctoring feature being enabled' do
       let(:features) { {'proctoring' => true} }
 
-      context 'user instrumented' do
+      context 'when the user is instrumented' do
         let(:masqueraded) { true }
 
         before do
@@ -123,7 +122,8 @@ describe QuizItemPresenter, type: :presenter do
         it { is_expected.to be true }
       end
 
-      context 'with proctoring (item) context disabled (not configured, enrollment not proctored, ...)' do
+      context 'when the proctoring context for the item is disabled' do
+        # ItemContext not configured, enrollment not proctored, ...
         before do
           allow(proctoring_context).to receive(:enabled?).and_return(false)
         end
@@ -131,7 +131,7 @@ describe QuizItemPresenter, type: :presenter do
         it { is_expected.to be true }
       end
 
-      context 'with proctoring (item) context enabled' do
+      context 'when the proctoring context for the item is enabled' do
         before do
           allow(proctoring_context).to receive(:enabled?).and_return(true)
         end
@@ -146,79 +146,73 @@ describe QuizItemPresenter, type: :presenter do
   describe '#user_instrumented?' do
     subject { presenter.send(:user_instrumented?) }
 
-    context 'with not instrumented user' do
+    context 'when the user is not instrumented' do
       it { is_expected.to be false }
     end
 
-    context 'with instrumented user' do
+    context 'with an instrumented user' do
       let(:masqueraded) { true }
 
       it { is_expected.to be true }
     end
   end
 
-  describe 'basic_quiz_properties' do
+  describe '#basic_quiz_properties' do
     subject(:quiz_properties) { presenter.send(:basic_quiz_properties) }
 
     let(:item_params) { super().merge content_type: quiz.id }
 
-    context 'exercise type' do
-      context 'main exercise' do
-        let(:item_params) { super().merge exercise_type: 'main' }
+    context "when the exercise_type is 'main'" do
+      let(:additional_item_params) { {exercise_type: 'main'} }
 
-        it 'has the homework property' do
-          expect(quiz_properties).to include(name: 'homework', icon_class: 'money-check-pen')
-        end
-      end
-
-      context 'bonus exercise' do
-        let(:item_params) { super().merge exercise_type: 'bonus' }
-
-        it 'has the bonus property' do
-          expect(quiz_properties).to include(name: 'bonus', icon_class: 'lightbulb-on+circle-star')
-        end
-      end
-
-      context 'selftest' do
-        let(:item_params) { super().merge exercise_type: 'selftest' }
-
-        it 'has the selftest property' do
-          expect(quiz_properties).to include(name: 'selftest', icon_class: 'lightbulb-on')
-        end
+      it 'has the homework property' do
+        expect(quiz_properties).to include(name: 'homework', icon_class: 'money-check-pen')
       end
     end
 
-    context 'time limit' do
-      context 'with unlimited time' do
-        let(:quiz_params) { super().merge current_unlimited_time: true }
+    context "when the exercise_type is 'bonus'" do
+      let(:additional_item_params) { {exercise_type: 'bonus'} }
 
-        it 'has unlimited time' do
-          expect(quiz_properties).to include(name: 'unlimited_time', icon_class: 'timer')
-        end
-      end
-
-      context 'with time limit' do
-        let(:quiz_params) { super().merge current_time_limit_seconds: 60 }
-
-        it 'has 1 minute time limit' do
-          expect(quiz_properties).to include(name: 'time_limit', icon_class: 'timer', opts: {limit: 1})
-        end
+      it 'has the bonus property' do
+        expect(quiz_properties).to include(name: 'bonus', icon_class: 'lightbulb-on+circle-star')
       end
     end
 
-    context 'attempts' do
-      context 'with unlimited attempts' do
-        let(:quiz_params) { super().merge current_unlimited_attempts: true }
+    context "when the exercise_type is 'selftest'" do
+      let(:additional_item_params) { {exercise_type: 'selftest'} }
 
-        it 'has unlimited attempts' do
-          expect(quiz_properties).to include(name: 'unlimited_attempts', icon_class: 'ban')
-        end
+      it 'has the selftest property' do
+        expect(quiz_properties).to include(name: 'selftest', icon_class: 'lightbulb-on')
       end
+    end
 
-      context 'with limited attempts' do
-        it 'has one attempt' do
-          expect(quiz_properties).to include(name: 'allowed_attempts', icon_class: 'ban', opts: {count: 1})
-        end
+    context 'with unlimited time' do
+      let(:quiz_params) { super().merge current_unlimited_time: true }
+
+      it 'has unlimited time' do
+        expect(quiz_properties).to include(name: 'unlimited_time', icon_class: 'timer')
+      end
+    end
+
+    context 'with a time limit' do
+      let(:quiz_params) { super().merge current_time_limit_seconds: 60 }
+
+      it 'has 1 minute time limit' do
+        expect(quiz_properties).to include(name: 'time_limit', icon_class: 'timer', opts: {limit: 1})
+      end
+    end
+
+    context 'with unlimited attempts' do
+      let(:quiz_params) { super().merge current_unlimited_attempts: true }
+
+      it 'has unlimited attempts' do
+        expect(quiz_properties).to include(name: 'unlimited_attempts', icon_class: 'ban')
+      end
+    end
+
+    context 'with limited attempts' do
+      it 'has one attempt' do
+        expect(quiz_properties).to include(name: 'allowed_attempts', icon_class: 'ban', opts: {count: 1})
       end
     end
   end
