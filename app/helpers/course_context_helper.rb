@@ -87,10 +87,11 @@ module CourseContextHelper
 
   # the current item
   def the_item
-    promises[:item] ||= request_item.tap do |promise|
-      Acfs.on(promise) do |item|
-        next if !item || item.available? || (item.featured && item.published?)
-
+    promises[:item] ||= request_item.then do |promise|
+      promise.tap do |item|
+        if item.blank? || item_available?(item) || (item['featured'] && item['published'])
+          next
+        end
         unless current_user.allowed?('course.content.access')
           # this will redirect to the last visited item or to the first public or to the course info
           raise Status::Redirect.new 'Item not available', course_resume_path(the_course.id)
@@ -100,7 +101,7 @@ module CourseContextHelper
   end
 
   def request_item
-    dummy_resource_delegator nil
+    nil
   end
 
   def load_section_nav
@@ -109,7 +110,20 @@ module CourseContextHelper
       view_context:,
       course: the_course,
       section: the_section,
-      item: the_item
+      item: the_item&.value!
     )
+  end
+
+  private
+
+  def item_available?(item)
+    item_unlocked?(item) && item['published']
+  end
+
+  def item_unlocked?(item)
+    start_date = item['effective_start_date']
+    end_date = item['course_archived'] ? item['end_date'] : item['effective_end_date']
+
+    (start_date.nil? || start_date <= Time.zone.now) && (end_date.nil? || end_date >= Time.zone.now)
   end
 end

@@ -8,7 +8,7 @@ describe ItemPresenter, type: :presenter do
   end
 
   let(:item) { create(:item, section_id: section.id) }
-  let(:item_resource) { Xikolo::Course::Item.new(id: item.id, content_type: item.content_type, open_mode: item.open_mode, **additional_item_params) }
+  let(:item_resource) { build(:'course:item', id: item.id, content_type: item.content_type, open_mode: item.open_mode, **additional_item_params) }
   let(:additional_item_params) { {} }
   let(:course) { create(:course, course_code: 'test') }
   let(:course_resource) { Xikolo::Course::Course.new(id: course.id, course_code: course.course_code, **additional_course_params) }

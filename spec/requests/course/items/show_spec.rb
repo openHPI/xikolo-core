@@ -34,10 +34,8 @@ describe 'Course: Items: Show', type: :request do
 
     Stub.request(:course, :get, '/courses/example')
       .to_return Stub.json(course_resource)
-    Stub.request(
-      :course, :get, "/items/#{item.id}",
-      query: {user_id:}
-    ).to_return Stub.json(item_resource)
+    Stub.request(:course, :get, "/items/#{item.id}", query: {user_id:})
+      .to_return Stub.json(item_resource)
   end
 
   context 'for anonymous user' do
@@ -97,12 +95,12 @@ describe 'Course: Items: Show', type: :request do
         Stub.request(
           :course, :get, '/items',
           query: {published: true, section_id: section.id, state_for: user_id}
-        ).to_return Stub.json(item_resource)
+        ).to_return Stub.json([item_resource])
 
         Stub.request(
           :course, :get, '/items',
           query: {section_id: section.id, state_for: ''}
-        ).to_return Stub.json(item_resource)
+        ).to_return Stub.json([item_resource])
 
         Stub.request(
           :course, :get, '/sections',
@@ -390,7 +388,7 @@ describe 'Course: Items: Show', type: :request do
 
       context 'unpublished item' do
         let(:published) { false }
-        let(:quiz) { build(:'course:item', section_id: section.id, content_type: 'quiz', title: 'The Quiz Item', open_mode: false, published: true, effective_start_date: 1.day.from_now) }
+        let(:quiz) { build(:'course:item', section_id: section.id, content_type: 'quiz', title: 'The Quiz Item', open_mode: false, published: true, effective_start_date: 1.day.from_now.iso8601(3)) }
 
         before do
           Stub.request(

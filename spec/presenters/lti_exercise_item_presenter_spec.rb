@@ -9,7 +9,7 @@ describe LtiExerciseItemPresenter, type: :presenter do
   let(:gradebook) { create(:lti_gradebook, exercise:, user_id:) }
 
   let(:presenter) { described_class.new item:, course:, section:, user: }
-  let(:item) { Xikolo::Course::Item.new item_params }
+  let(:item) { build(:'course:item', **item_params) }
   let(:item_id) { SecureRandom.uuid }
   let(:item_params) { {id: item_id, content_id: exercise.id, max_points: 5.0} }
   let(:course) { Xikolo::Course::Course.new course_params }

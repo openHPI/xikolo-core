@@ -8,7 +8,7 @@ class LtiExerciseItemPresenter < ItemPresenter
   end
 
   def lti_grades
-    @lti_grades ||= if @item.exercise_type == 'survey' || exercise.nil?
+    @lti_grades ||= if exercise_type == 'survey' || exercise.nil?
                       nil
                     else
                       exercise.gradebooks.where(user_id: @user.id).first&.grades&.order(value: :desc)
@@ -16,7 +16,7 @@ class LtiExerciseItemPresenter < ItemPresenter
   end
 
   def score
-    @score ||= lti_grades.present? ? (lti_grades.first.score * @item.max_points).round(2) : nil
+    @score ||= lti_grades.present? ? (lti_grades.first.score * max_points).round(2) : nil
   end
 
   def percentage
@@ -92,7 +92,7 @@ class LtiExerciseItemPresenter < ItemPresenter
   private
 
   def exercise
-    @exercise ||= Lti::Exercise.find(@item.content_id)
+    @exercise ||= Lti::Exercise.find(content_id)
   end
 
   def provider

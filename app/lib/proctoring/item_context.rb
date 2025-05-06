@@ -22,7 +22,7 @@ module Proctoring
     private
 
     def item_proctored?
-      !@item.nil? && @item.proctored
+      @item.present? && @item['proctored']
     end
   end
 end

@@ -8,7 +8,7 @@ describe VideoItemPresenter, type: :presenter do
   let(:request_params) do
     {'controller' => 'items', 'action' => 'show', 'course_id' => course.id, 'id' => video.id}
   end
-  let(:item) { Xikolo::Course::Item.new item_params }
+  let(:item) { build(:'course:item', **item_params) }
   let(:item_params) { {id: generate(:item_id), content_id: video.id} }
   let(:course) { Xikolo::Course::Course.new course_params }
   let(:course_params) { {id: generate(:course_id), course_code: 'test'} }

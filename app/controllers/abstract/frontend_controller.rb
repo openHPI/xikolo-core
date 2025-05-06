@@ -93,14 +93,12 @@ module Abstract
       end
 
       if promises.key?(:course) && defined? the_item
-        Acfs.add_callback the_item do |item|
-          if item.respond_to?(:id)
-            gon.item_id = item.id
+        the_item.then do |item|
+          if item.present?
+            gon.item_id = item['id']
+            gon.section_id = item['section_id']
           end
-          if item.respond_to?(:section_id)
-            gon.section_id = item.section_id
-          end
-        end
+        end&.value!
       end
     end
 

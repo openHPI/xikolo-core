@@ -31,6 +31,7 @@ class ItemDecorator < ApplicationDecorator
       time_effort:,
       required_item_ids:,
     }.tap do |attrs|
+      attrs[:user_state] = model.user_state if model.user_state?
       unless context[:collection]
         attrs[:next_item_id] = model.higher_item_id(user_id: context[:user_id])
         attrs[:prev_item_id] = model.lower_item_id(user_id: context[:user_id])
@@ -60,6 +61,7 @@ class ItemDecorator < ApplicationDecorator
   end
 
   private
+
   def urls
     urls = {
       section_url: h.section_url(model.section_id),

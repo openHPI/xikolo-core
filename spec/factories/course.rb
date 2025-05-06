@@ -158,11 +158,11 @@ FactoryBot.define do
     sequence(:title) {|i| "Item #{i}" }
     published { true }
     course_archived { false }
-    effective_start_date { 2.days.ago }
+    effective_start_date { 2.days.ago.iso8601(3) }
 
     trait :exam do
       exercise_type { 'main' }
-      submission_deadline { 2.days.from_now }
+      submission_deadline { 2.days.from_now.iso8601(3) }
     end
 
     trait :quiz do

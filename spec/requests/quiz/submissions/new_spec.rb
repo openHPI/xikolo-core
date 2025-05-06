@@ -25,7 +25,7 @@ describe 'Quiz: Submissions: New', type: :request do
 
   let(:quiz_id) { generate(:quiz_id) }
   let(:quiz_question) { build(:'quiz:question', :free_text, quiz_id:) }
-  let(:submission_deadline) { 1.hour.from_now }
+  let(:submission_deadline) { 1.hour.from_now.iso8601(3) }
   let(:visit_stub) do
     Stub.request(:course, :post, "/items/#{item.id}/users/#{user_id}/visit")
   end
@@ -163,7 +163,7 @@ describe 'Quiz: Submissions: New', type: :request do
   end
 
   context 'if deadline passed' do
-    let(:submission_deadline) { 1.hour.ago }
+    let(:submission_deadline) { 1.hour.ago.iso8601(3) }
 
     it 'redirects to course item page' do
       expect(new_submission).to redirect_to "/courses/the_course/items/#{short_uuid(item.id)}"

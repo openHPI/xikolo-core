@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe 'Quiz: Submissions: Create', type: :request do
   subject(:create_submission) do
-    post "/courses/the_course/items/#{item['id']}/quiz_submission",
+    post "/courses/the_course/items/#{item.id}/quiz_submission",
       headers: {Authorization: "Xikolo-Session session_id=#{stub_session_id}"},
       params:
   end
@@ -13,14 +13,17 @@ describe 'Quiz: Submissions: Create', type: :request do
   let(:request_context_id) { course.context_id }
   let!(:course) { create(:course, :active, course_code: 'the_course') }
   let!(:my_enrollment) { create(:enrollment, course:, user_id:) }
-  let(:section) { build(:'course:section', course_id: course.id) }
-  let(:item) do
+  let(:section) { create(:section, course:) }
+  let(:section_resource) { build(:'course:section', id: section.id, course_id: course.id) }
+  let(:item) { create(:item, section_id: section.id) }
+  let(:item_resource) do
     build(:'course:item', :quiz, :exam,
-      section_id: section['id'],
+      id: item.id,
+      section_id: section.id,
       course_id: course.id,
       content_id: quiz['id'])
   end
-  let(:short_item_id) { UUID4.new(item['id']).to_s(format: :base62) }
+  let(:short_item_id) { UUID4.new(item.id).to_s(format: :base62) }
   let(:quiz) { build(:'quiz:quiz', :exam) }
   let(:quiz_question) { build(:'quiz:question', quiz_id: quiz['id']) }
   let(:quiz_answer) do
@@ -69,13 +72,13 @@ describe 'Quiz: Submissions: Create', type: :request do
     Stub.request(:course, :get, '/enrollments', query: {course_id: course.id, user_id:})
       .to_return Stub.json([my_enrollment.as_json])
     Stub.request(:course, :get, '/sections', query: hash_including(course_id: course.id))
-      .to_return Stub.json([section])
-    Stub.request(:course, :get, "/sections/#{section['id']}")
-      .to_return Stub.json(section)
-    Stub.request(:course, :get, '/items', query: hash_including(section_id: section['id']))
-      .to_return Stub.json([item])
-    Stub.request(:course, :get, "/items/#{item['id']}", query: hash_including({}))
-      .to_return Stub.json(item)
+      .to_return Stub.json([section_resource])
+    Stub.request(:course, :get, "/sections/#{section.id}")
+      .to_return Stub.json(section_resource)
+    Stub.request(:course, :get, '/items', query: hash_including(section_id: section.id))
+      .to_return Stub.json([item_resource])
+    Stub.request(:course, :get, "/items/#{item.id}", query: hash_including({}))
+      .to_return Stub.json(item_resource)
 
     Stub.request(:quiz, :get, "/quizzes/#{quiz['id']}")
       .to_return Stub.json(quiz)

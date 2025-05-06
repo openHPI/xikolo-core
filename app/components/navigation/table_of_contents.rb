@@ -57,7 +57,7 @@ module Navigation
       end
 
       def active_item?(item)
-        !@current_item.nil? && (@current_item.id == item.id)
+        @current_item.present? && @current_item['id'] == item.id
       end
 
       def course_accessible?

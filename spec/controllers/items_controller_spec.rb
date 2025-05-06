@@ -80,7 +80,7 @@ describe ItemsController, type: :controller do
   describe 'GET #show' do
     subject(:action) { get :show, params: {id: item.id, course_id: course.id, section_id: section.id} }
 
-    let(:permissions) { ['course.content.access.available'] }
+    let(:permissions) { %w[course.content.access.available] }
 
     before do
       Stub.request(:course, :get, "/items/#{item.id}", query: {user_id:})
@@ -88,12 +88,27 @@ describe ItemsController, type: :controller do
     end
 
     context 'with an unpublished item' do
-      let(:item) { create(:item, section:, published: false) }
+      let(:item) { create(:item, :lti_exercise, section:, published: false) }
       let(:item_resource) do
         build(:'course:item',
           id: item.id,
           section_id: section.id,
+          content_type: item.content_type,
+          content_id: item.content_id,
           published: item.published)
+      end
+
+      before do
+        Stub.request(:course, :get, '/items', query: {
+          published: false,
+          section_id: section.id,
+          state_for: user_id,
+        }).to_return Stub.json([item_resource])
+        Stub.request(:course, :get, '/items', query: {
+          published: true,
+          section_id: section.id,
+          state_for: user_id,
+        }).to_return Stub.json([])
       end
 
       it 'redirects' do

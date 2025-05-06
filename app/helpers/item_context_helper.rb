@@ -30,13 +30,13 @@ module ItemContextHelper
   end
 
   def create_position_presenter!
-    Acfs.on the_item, the_course do |item, course|
+    Acfs.on the_course do |course|
       @inner_course_position = Course::PositionPresenter.build item, course, current_user
     end
   end
 
   def create_item_presenter!
-    Acfs.on the_item, the_section, the_course do |item, section, course|
+    Acfs.on the_section, the_course do |section, course|
       presenter_class = ItemPresenter.lookup(item)
       @item_presenter = presenter_class.build item, section, course, current_user, params:
     end
@@ -46,6 +46,10 @@ module ItemContextHelper
     return if current_user.masqueraded? || !current_user.authenticated?
     return if @in_app || @item_presenter.required_items.present?
 
-    Xikolo::Course::Visit.create user_id: current_user.id, item_id: the_item.id
+    Xikolo::Course::Visit.create user_id: current_user.id, item_id: item['id']
+  end
+
+  def item
+    @item ||= the_item.value!
   end
 end

@@ -23,13 +23,16 @@ class Course::PositionPresenter < PrivatePresenter
   # rubocop:enable Naming/MemoizedInstanceVariableName
 
   def items!(user)
-    Xikolo::Course::Item.where section_id: @item.section_id, state_for: user.id, published: true do |items|
-      @items = items.map do |item|
-        ItemPresenter.for(item, course:, user:).tap do |presenter|
-          presenter.active! if presenter.id == @item.id
+    @item.then do |current_item|
+      course_api.rel(:items).get({section_id: current_item['section_id'], state_for: user.id,
+published: true}).then do |items|
+        @items = items.map do |item|
+          ItemPresenter.for(item, course:, user:).tap do |presenter|
+            presenter.active! if presenter.id == current_item['id']
+          end
         end
       end
-    end
+    end.value!
   end
 
   def prev_item
@@ -43,10 +46,14 @@ class Course::PositionPresenter < PrivatePresenter
   protected
 
   def find_prev_item
-    items.find {|e| e.id == @item.prev_item_id }
+    items.find {|e| e.id == @item['prev_item_id'] }
   end
 
   def find_next_item
-    items.find {|e| e.id == @item.next_item_id }
+    items.find {|e| e.id == @item['next_item_id'] }
+  end
+
+  def course_api
+    @course_api ||= Xikolo.api(:course).value!
   end
 end

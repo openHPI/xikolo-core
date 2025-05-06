@@ -37,8 +37,8 @@ describe Proctoring::CourseContext do
 
     context 'w/ exactly one quiz item (exam)' do
       let(:item_user_state) { 'new' }
-      let(:submission_deadline) { 1.week.from_now }
-      let(:start_date) { 1.week.ago }
+      let(:submission_deadline) { 1.week.from_now.iso8601(3) }
+      let(:start_date) { 1.week.ago.iso8601(3) }
       let(:items) do
         [{
           user_state: item_user_state,
@@ -52,11 +52,11 @@ describe Proctoring::CourseContext do
 
     context 'w/ multiple quiz items (exams)' do
       let(:item_user_state) { 'new' }
-      let(:submission_deadline) { 1.week.from_now }
-      let(:start_date) { 2.weeks.ago }
+      let(:submission_deadline) { 1.week.from_now.iso8601(3) }
+      let(:start_date) { 2.weeks.ago.iso8601(3) }
       let(:item_user_state_2) { 'new' }
-      let(:submission_deadline_2) { 2.weeks.from_now }
-      let(:start_date_2) { 1.week.ago }
+      let(:submission_deadline_2) { 2.weeks.from_now.iso8601(3) }
+      let(:start_date_2) { 1.week.ago.iso8601(3) }
       let(:items) do
         [{
           user_state: item_user_state,
@@ -97,12 +97,12 @@ describe Proctoring::CourseContext do
         let(:items) do
           [{
             user_state: item_user_state,
-            submission_deadline: 1.week.ago,
+            submission_deadline: 1.week.ago.iso8601(3),
             start_date:,
           },
            {
              user_state: item_user_state2,
-             submission_deadline: 1.week.ago,
+             submission_deadline: 1.week.ago.iso8601(3),
              start_date:,
            }]
         end

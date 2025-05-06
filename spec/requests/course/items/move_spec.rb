@@ -3,17 +3,10 @@
 require 'spec_helper'
 
 describe 'Course: Items: Move', type: :request do
-  subject(:move_item) do
-    post "/courses/#{course['course_code']}/sections/#{section['id']}/items/#{item['id']}/move",
-      headers:,
-      params:
-  end
-
   let(:user_id) { generate(:user_id) }
-  let(:db_course) { create(:course_legacy) }
-  let(:course) { build(:'course:course', id: db_course.id, course_code: db_course.course_code) }
-  let(:section) { build(:'course:section', course_id: course['id']) }
-  let(:item) { build(:'course:item', content_type: 'rich_text', open_mode: false) }
+  let(:course_resource) { build(:'course:course', id: course.id, course_code: course.course_code) }
+  let(:section_resource) { build(:'course:section', id: section.id, course_id: course.id) }
+
   let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
   let(:permissions) { %w[course.content.access course.content.edit] }
   let(:params) { {} }
@@ -21,41 +14,44 @@ describe 'Course: Items: Move', type: :request do
   before do
     stub_user_request(id: user_id, permissions:)
     Stub.service(:course, build(:'course:root'))
-    Stub.request(
-      :course, :get, '/enrollments',
-      query: {course_id: course['id'], user_id:}
-    ).to_return Stub.json([])
-    Stub.request(
-      :course, :get, '/next_dates',
-      query: hash_including(course_id: course['id'])
-    ).to_return Stub.json([])
-    Stub.request(
-      :course, :get, "/sections/#{section['id']}"
-    ).to_return Stub.json(section)
-    Stub.request(
-      :course, :get, '/sections',
-      query: {course_id: course['id']}
-    ).to_return Stub.json([section])
-    Stub.request(:course, :get, "/courses/#{course['course_code']}")
-      .to_return Stub.json(course)
-    Stub.request(:course, :get, "/items/#{item['id']}")
-      .to_return Stub.json(item)
-    Stub.request(
-      :course, :get, '/items',
-      query: hash_including(section_id: section['id'])
-    ).to_return Stub.json([])
+    Stub.request(:course, :get, '/enrollments', query: {course_id: course.id, user_id:})
+      .to_return Stub.json([])
+    Stub.request(:course, :get, '/next_dates', query: hash_including(course_id: course.id))
+      .to_return Stub.json([])
+    Stub.request(:course, :get, "/sections/#{section.id}")
+      .to_return Stub.json(section_resource)
+    Stub.request(:course, :get, '/sections', query: {course_id: course.id})
+      .to_return Stub.json([section_resource])
+    Stub.request(:course, :get, "/courses/#{course.course_code}")
+      .to_return Stub.json(course_resource)
   end
 
   context 'legacy courses' do
+    subject(:move_item) do
+      post "/courses/#{course['course_code']}/sections/#{section['id']}/items/#{item_resource['id']}/move",
+        headers:,
+        params:
+    end
+
+    let(:course) { create(:course_legacy) }
+    let(:section) { create(:section_legacy, course:) }
+    let(:item_resource) { build(:'course:item', content_type: 'rich_text', open_mode: false) }
+
+    before do
+      Stub.request(:course, :get, "/items/#{item_resource['id']}").to_return Stub.json(item_resource)
+      Stub.request(:course, :get, '/items', query: hash_including(section_id: section.id))
+        .to_return Stub.json([])
+    end
+
     describe 'when an item is moved' do
       let(:params) { {position: 5} }
       let!(:item_update_request) do
         Stub.request(
-          :course, :put, "/items/#{item['id']}",
+          :course, :put, "/items/#{item_resource['id']}",
           # Add one as client items are indexed starting at zero while
           # service starts at one
           body: hash_including(position: 6)
-        ).to_return Stub.json({id: item['id']}, status: 201)
+        ).to_return Stub.json({id: item_resource['id']}, status: 201)
       end
 
       it 'requests the corresponding position' do
@@ -67,20 +63,23 @@ describe 'Course: Items: Move', type: :request do
 
   context 'courses with nodes' do
     subject(:move_item) do
-      post "/courses/#{db_course.id}/sections/#{section.id}/items/#{item_2.id}/move",
+      post "/courses/#{course.id}/sections/#{section.id}/items/#{item_2.id}/move",
         headers:,
         params:
     end
 
-    let(:db_course) { create(:course) }
-    let(:section) { create(:section, course: db_course) }
+    let(:course) { create(:course) }
+    let(:section) { create(:section, course: course) }
     let!(:item_1) { create(:item, section:) }
     let!(:item_2) { create(:item, section:) }
     let!(:item_3) { create(:item, section:) }
+    let(:item) { item_2 }
+    let(:item_resource) { build(:'course:item', id: item_2.id, section_id: section.id, course_id: course.id) }
 
     before do
-      Stub.request(:course, :get, "/courses/#{db_course.id}")
-        .to_return Stub.json(course)
+      Stub.request(:course, :get, "/items/#{item.id}").to_return Stub.json(item_resource)
+      Stub.request(:course, :get, '/items', query: {section_id: section.id}).to_return Stub.json([])
+      Stub.request(:course, :get, "/courses/#{course.id}").to_return Stub.json(course_resource)
     end
 
     describe 'when an item is moved within its section' do
@@ -104,11 +103,12 @@ describe 'Course: Items: Move', type: :request do
 
       describe 'and placed between other items' do
         subject(:move_item) do
-          post "/courses/#{db_course.id}/sections/#{section.id}/items/#{item_1.id}/move",
+          post "/courses/#{course.id}/sections/#{section.id}/items/#{item_1.id}/move",
             headers:,
             params:
         end
 
+        let(:item) { item_1 }
         let(:params) { {left_sibling: item_2.node.id, right_sibling: item_3.node.id} }
 
         it 'updates its position accordingly' do
@@ -119,7 +119,7 @@ describe 'Course: Items: Move', type: :request do
     end
 
     describe 'when an item is moved to a new section' do
-      let(:new_section) { create(:section, course: db_course) }
+      let(:new_section) { create(:section, course: course) }
 
       describe 'and the section is empty' do
         let(:params) { {left_sibling: nil, right_sibling: nil, new_section_node_id: new_section.node.id} }

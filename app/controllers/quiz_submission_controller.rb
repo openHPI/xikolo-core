@@ -13,12 +13,12 @@ class QuizSubmissionController < Abstract::FrontendController
   respond_to :json
 
   def request_section
+    section_id = item['section_id']
     promise, fulfiller = create_promise(Xikolo::Course::Section.new)
-    Acfs.on the_item do |item|
-      Xikolo::Course::Section.find item.section_id do |section|
-        fulfiller.fulfill section
-      end
+    Xikolo::Course::Section.find section_id do |section|
+      fulfiller.fulfill section
     end
+
     promise
   end
 
@@ -26,7 +26,7 @@ class QuizSubmissionController < Abstract::FrontendController
     the_quiz
     Acfs.run # Load shared promises
 
-    raise TypeError unless the_item.content_type == 'quiz'
+    raise TypeError unless item['content_type'] == 'quiz'
     raise Status::NotFound if (uuid = UUID4.try_convert(params[:id])).nil?
 
     # Retrieve the submission from the url
@@ -52,13 +52,11 @@ class QuizSubmissionController < Abstract::FrontendController
         submission.enqueue_acfs_request_for_quiz_submissions_questions do |submission_questions|
           submission_questions.each(&:enqueue_acfs_request_for_quiz_submissions_answers)
         end
-        @item = Xikolo::Course::Item.find UUID(params[:item_id]) do |item|
-          @quiz = Xikolo::Quiz::Quiz.find item.content_id do |quiz|
-            quiz.enqueue_acfs_request_for_questions do |questions|
-              questions.each(&:enqueue_acfs_request_for_answers)
-            end
-            @attempts = Xikolo::Submission::UserQuizAttempts.find user_id: current_user.id, quiz_id: quiz.id
+        @quiz = Xikolo::Quiz::Quiz.find item['content_id'] do |quiz|
+          quiz.enqueue_acfs_request_for_questions do |questions|
+            questions.each(&:enqueue_acfs_request_for_answers)
           end
+          @attempts = Xikolo::Submission::UserQuizAttempts.find user_id: current_user.id, quiz_id: quiz.id
         end
       end
     end
@@ -82,7 +80,7 @@ class QuizSubmissionController < Abstract::FrontendController
 
     shuffle_answers @quiz, @submission.id.to_i
 
-    set_page_title the_course.title, the_item.title
+    set_page_title the_course.title, item['title']
   end
 
   def new
@@ -91,21 +89,19 @@ class QuizSubmissionController < Abstract::FrontendController
     # Load course, quiz and other main resources
     Acfs.run
 
-    raise TypeError unless the_item.content_type == 'quiz'
-    raise TypeError unless the_quiz && (the_item.content_id == the_quiz.id)
+    raise TypeError unless item['content_type'] == 'quiz'
+    raise TypeError unless the_quiz && (item['content_id'] == the_quiz.id)
 
-    if the_item.submission_deadline_passed? &&
-       !current_user.instrumented? &&
-       !current_user.allowed?('quiz.submission.manage')
+    if item['submission_deadline'].present? && item['submission_deadline'] < ::Time.zone.now
       add_flash_message :error, t(:'flash.error.quiz_submissions_submission_deadline_passed')
-      return redirect_to course_item_path id: short_uuid(the_item.id)
+      return redirect_to course_item_path id: short_uuid(item['id'])
     end
 
     # Temporary: We do not offer proctoring anymore, so do no allow starting
     # the quiz.
     if proctoring?
       add_flash_message :error, t(:'flash.error.quiz_submission_proctoring_unavailable')
-      return redirect_to course_item_path id: short_uuid(the_item.id)
+      return redirect_to course_item_path id: short_uuid(item['id'])
     end
 
     nowts = DateTime.now.in_time_zone.to_i
@@ -125,7 +121,7 @@ class QuizSubmissionController < Abstract::FrontendController
       @submission.loaded!
     rescue Restify::UnprocessableEntity
       add_flash_message :error, t(:'flash.error.quiz_submissions_maximum_reached')
-      return redirect_to course_item_path id: short_uuid(the_item.id)
+      return redirect_to course_item_path id: short_uuid(item['id'])
     end
 
     if @submission['snapshot_id']
@@ -156,8 +152,10 @@ class QuizSubmissionController < Abstract::FrontendController
     end
 
     # Adjust counter_end_time if deadline would exceed current_time_limit and current_user is not masqueraded
-    if the_item.submission_deadline && !current_user.instrumented? && !current_user.allowed?('course.content.access')
-      submission_deadline = the_item.submission_deadline.to_i
+    if item['submission_deadline'] &&
+       !current_user.instrumented? &&
+       !current_user.allowed?('course.content.access')
+      submission_deadline = item['submission_deadline'].to_i
     else
       submission_deadline = nil
     end
@@ -169,7 +167,7 @@ class QuizSubmissionController < Abstract::FrontendController
     @counter_init_timestamp = nowts
     shuffle_answers @quiz, @submission.id.to_i
 
-    set_page_title the_course.title, the_item.title
+    set_page_title the_course.title, item['title']
   end
 
   def create
@@ -252,20 +250,16 @@ class QuizSubmissionController < Abstract::FrontendController
   private
 
   def request_item
-    if params[:item_id]
-      Xikolo::Course::Item.find(
-        UUID(params[:item_id]),
-        params: {}.tap do |p|
-          # Authorized users (e.g., course admins) can always access items, but
-          # for regular learners the user-specific access is verified.
-          p[:user_id] = current_user.id unless current_user.allowed? 'course.content.access'
+    return nil unless params[:item_id]
 
-          p[:for_user] = current_user.id if current_user.feature? 'course.reactivated'
-        end
-      )
-    else
-      dummy_resource_delegator nil
+    get_params = {id: UUID4(params[:item_id]).to_s}.tap do |p|
+      # Authorized users (e.g., course admins) can always access items, but
+      # for regular learners the user-specific access is verified.
+      p[:user_id] = current_user.id unless current_user.allowed? 'course.content.access'
+      p[:for_user] = current_user.id if current_user.feature? 'course.reactivated'
     end
+
+    course_api.rel(:item).get(get_params)
   end
 
   def auth_context
@@ -273,7 +267,7 @@ class QuizSubmissionController < Abstract::FrontendController
   end
 
   def create_item_presenter!
-    Acfs.on the_item, the_section, the_course, the_quiz do |item, section, course, quiz|
+    Acfs.on the_section, the_course, the_quiz do |section, course, quiz|
       presenter_class = ItemPresenter.lookup(item)
       @item_presenter = presenter_class.build item, section, course, current_user, quiz
     end
@@ -309,7 +303,7 @@ class QuizSubmissionController < Abstract::FrontendController
   end
 
   def redirect_depending_on_quiz_type(quiz, submission)
-    if the_item.skip_quiz_instructions?
+    if skip_quiz_instructions?
       redirect_to course_item_quiz_submission_path id: short_uuid(submission.id)
     elsif quiz.current_unlimited_attempts || further_quiz_attempt?(quiz)
       redirect_to course_item_path id: short_uuid(params[:item_id])
@@ -332,16 +326,18 @@ class QuizSubmissionController < Abstract::FrontendController
     @quiz_api ||= Xikolo.api(:quiz).value!
   end
 
+  def course_api
+    @course_api ||= Xikolo.api(:course).value!
+  end
+
   def the_quiz
     promises[:quiz] ||= begin
       promise, fulfiller = create_promise(Xikolo::Quiz::Quiz.new)
-      Acfs.on the_item do |item|
-        Xikolo::Quiz::Quiz.find UUID(item.content_id) do |quiz|
-          quiz.enqueue_acfs_request_for_questions do |questions|
-            questions.each(&:enqueue_acfs_request_for_answers)
-          end
-          fulfiller.fulfill quiz
+      Xikolo::Quiz::Quiz.find UUID(item['content_id']) do |quiz|
+        quiz.enqueue_acfs_request_for_questions do |questions|
+          questions.each(&:enqueue_acfs_request_for_answers)
         end
+        fulfiller.fulfill quiz
       end
 
       promise
@@ -357,6 +353,10 @@ class QuizSubmissionController < Abstract::FrontendController
   end
 
   def proctoring_context
-    @proctoring_context ||= Proctoring::ItemContext.new(the_course, the_item, enrollment)
+    @proctoring_context ||= Proctoring::ItemContext.new(the_course, item, enrollment)
+  end
+
+  def skip_quiz_instructions?
+    %w[selftest survey].include?(item['exercise_type'])
   end
 end

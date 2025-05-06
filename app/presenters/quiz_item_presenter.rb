@@ -7,7 +7,6 @@ class QuizItemPresenter < ItemPresenter
   include UUIDHelper
 
   # TODO: remove it -> generate urls without section
-  def_delegator :@item, :section_id
   def_delegators :@quiz, :current_unlimited_attempts, :max_points,
     :current_allowed_attempts, :current_time_limit_seconds,
     :current_unlimited_time
@@ -17,7 +16,7 @@ class QuizItemPresenter < ItemPresenter
 
   def self.build(item, section, course, user, quiz = nil, **) # rubocop:disable Metrics/ParameterLists
     if quiz.nil?
-      quiz = Xikolo::Quiz::Quiz.find UUID(item.content_id), &:enqueue_acfs_request_for_questions
+      quiz = Xikolo::Quiz::Quiz.find UUID(item['content_id']), &:enqueue_acfs_request_for_questions
     end
     Acfs.run
     Acfs.run
@@ -53,27 +52,27 @@ class QuizItemPresenter < ItemPresenter
 
           # Do not redirect if deadline has passsed and no prior submission
           # exists
-          if !@item.submission_deadline_passed? || !@submission.nil?
-            if @item.skip_quiz_instructions? && @item.required_item_ids.empty?
+          if !submission_deadline_passed? || @submission.present?
+            if skip_quiz_instructions? && required_item_ids.empty?
               if !quiz_taken? && (attempts.attempts_for_quiz_remaining?(quiz) || quiz.current_unlimited_attempts)
-                @redirect = new_course_item_quiz_submission_path @course.course_code, short_uuid(@item.id)
+                @redirect = new_course_item_quiz_submission_path @course.course_code, short_uuid(id)
               else
                 @redirect = course_item_quiz_submission_path(
                   @course.course_code,
-                  short_uuid(@item.id),
+                  short_uuid(id),
                   short_uuid(@submission.id)
                 )
               end
             elsif quiz_taken? && (!@submission.submitted || user_instrumented_or_access_allowed?)
               @redirect = course_item_quiz_submission_path(
                 @course.course_code,
-                short_uuid(@item.id),
+                short_uuid(id),
                 short_uuid(@submission.id)
               )
             elsif quiz_taken? && (no_further_submission_possible? || user_instrumented_or_access_allowed?)
               @redirect = course_item_quiz_submission_path(
                 @course.course_code,
-                short_uuid(@item.id),
+                short_uuid(id),
                 short_uuid(@submission.id),
                 highest_score: highest_score?
               )
@@ -93,7 +92,7 @@ class QuizItemPresenter < ItemPresenter
   end
 
   def partial_name
-    if @item.submission_deadline_passed? && !user_instrumented?
+    if submission_deadline_passed? && !user_instrumented?
       'items/quiz/quiz_submission_deadline_passed'
     else
       super
@@ -111,7 +110,7 @@ class QuizItemPresenter < ItemPresenter
   end
 
   def survey?
-    @item.exercise_type.blank? || @item.exercise_type == 'survey'
+    exercise_type.blank? || exercise_type == 'survey'
   end
 
   def graded?
@@ -186,8 +185,8 @@ class QuizItemPresenter < ItemPresenter
 
   def show_quiz_results?
     quiz_results_published? ||
-      @item.submission_deadline.nil? ||
-      @item.submission_publishing_date.nil? ||
+      submission_deadline.nil? ||
+      submission_publishing_date.nil? ||
       user_instrumented_or_access_allowed?
   end
 
@@ -211,15 +210,15 @@ class QuizItemPresenter < ItemPresenter
   end
 
   def allow_retake_quiz?
-    attempts_left? && (!@item.submission_deadline_passed? || user_instrumented?)
+    attempts_left? && (!submission_deadline_passed? || user_instrumented?)
   end
 
   def allow_retake_or_view_results?
     attempts_left? &&
-      (@item.submission_deadline.nil? ||
-        (Time.zone.now < @item.submission_deadline &&
-          (@item.submission_publishing_date.nil? ||
-             Time.zone.now > @item.submission_publishing_date
+      (submission_deadline.nil? ||
+        (Time.zone.now < submission_deadline &&
+          (submission_publishing_date.nil? ||
+             Time.zone.now > submission_publishing_date
           )
         )
       )
@@ -229,23 +228,31 @@ class QuizItemPresenter < ItemPresenter
     graded?
   end
 
+  def submission_deadline_passed?
+    submission_deadline.present? && submission_deadline < Time.zone.now
+  end
+
   private
 
   def exam?
-    @item.exercise_type == 'main'
+    exercise_type == 'main'
   end
 
   def bonus?
-    @item.exercise_type == 'bonus'
+    exercise_type == 'bonus'
   end
 
   def no_further_submission_possible?
-    @item.submission_deadline_passed? || !attempts_left?
+    submission_deadline_passed? || !attempts_left?
+  end
+
+  def skip_quiz_instructions?
+    %w[selftest survey].include?(exercise_type)
   end
 
   def quiz_results_published?
-    @item.submission_publishing_date.present? &&
-      (DateTime.now.in_time_zone.to_i > @item.submission_publishing_date.to_i)
+    submission_publishing_date.present? &&
+      (Time.zone.now > submission_publishing_date)
   end
 
   def user_instrumented?

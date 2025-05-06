@@ -35,7 +35,13 @@ describe 'Course: Items: Destroy', type: :request do
     let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
     let(:delete_item_stub) { Stub.request(:course, :delete, "/items/#{item.id}").to_return(status: 200) }
 
-    before { stub_user_request(id: user_id, permissions:) }
+    before do
+      stub_user_request(id: user_id, permissions:)
+      Stub.request(:course, :get, "/items/#{item.id}")
+        .to_return Stub.json([])
+      Stub.request(:course, :get, "/items/#{item.id}", query: {user_id:})
+        .to_return Stub.json([])
+    end
 
     it 'is forbidden without proper permissions' do
       action

@@ -1,16 +1,13 @@
 # frozen_string_literal: true
 
 class ItemPresenter < PrivatePresenter
-  def_delegators :@item, :id, :content_id, :title,
-    :published?, :unlocked?, :was_available?,
+  def_restify_delegators :@item, :id, :content_id, :title,
     :max_points,
-    :submission_deadline,
-    :submission_deadline_passed?,
-    :submission_publishing_date,
-    :optional, :exclude_from_recap, :position,
+    :optional, :position,
     :section_id, :featured, :public_description,
     :open_mode, :time_effort,
-    :required_item_ids
+    :required_item_ids, :published,
+    :content_type, :exercise_type
   def_delegator :@course, :id, :course_id
   def_delegator :@course, :course_code, :course_code
   def_delegator :@course, :title, :course_title
@@ -21,7 +18,7 @@ class ItemPresenter < PrivatePresenter
 
   class << self
     def lookup(item)
-      "#{item.content_type}_item_presenter".camelize.constantize
+      "#{item['content_type']}_item_presenter".camelize.constantize
     rescue NameError
       UnsupportedItemPresenter
     end
@@ -48,12 +45,11 @@ class ItemPresenter < PrivatePresenter
     nil
   end
 
-  def content_type
-    @item['content_type']
-  end
+  def unlocked?
+    ending = @item['course_archived'] ? end_date : effective_end_date
 
-  def exercise_type
-    @item['exercise_type']
+    (effective_start_date.nil? || effective_start_date <= Time.zone.now) &&
+      (ending.nil? || ending >= Time.zone.now)
   end
 
   def redirect(controller)
@@ -65,7 +61,7 @@ class ItemPresenter < PrivatePresenter
   end
 
   def show_in_side_nav?
-    @item.show_in_nav && @item.published?
+    @item['show_in_nav'] && published
   end
 
   def to_param
@@ -184,7 +180,7 @@ class ItemPresenter < PrivatePresenter
   end
 
   def previewable?
-    item_previewable = open_mode && @item.content_type == 'video'
+    item_previewable = open_mode && content_type == 'video'
 
     # We check this, because @user can be an instance of either
     # Xikolo::Common::Auth::CurrentUser or Xikolo::Account::User
@@ -208,7 +204,7 @@ class ItemPresenter < PrivatePresenter
   end
 
   def visited?
-    (@item.user_state || 'new') != 'new'
+    (@item['user_state'] || 'new') != 'new'
   end
 
   def active?
@@ -228,7 +224,7 @@ class ItemPresenter < PrivatePresenter
   end
 
   def meta_tags
-    {title: [@course.title, @item['title']]}
+    {title: [@course.title, title]}
   end
 
   def selftest?
@@ -254,14 +250,14 @@ class ItemPresenter < PrivatePresenter
   end
 
   def time_effort?
-    @item.time_effort.present? && @item.time_effort > 0
+    time_effort.present? && time_effort > 0
   end
 
   def formatted_time_effort
     return unless time_effort?
 
     # Ceil to minutes
-    minutes = (@item.time_effort.to_f / 60).ceil
+    minutes = (time_effort.to_f / 60).ceil
 
     # Format time effort
     if minutes >= 60
@@ -274,5 +270,31 @@ class ItemPresenter < PrivatePresenter
     end
 
     I18n.t(:'time_effort.minutes', count: minutes)
+  end
+
+  def submission_publishing_date
+    DateTime.parse(@item['submission_publishing_date']) if @item['submission_publishing_date'].present?
+  end
+
+  def submission_deadline
+    DateTime.parse(@item['submission_deadline']) if @item['submission_deadline'].present?
+  end
+
+  def start_date
+    DateTime.parse(@item['start_date']) if @item['start_date'].present?
+  end
+
+  def end_date
+    DateTime.parse(@item['end_date']) if @item['end_date'].present?
+  end
+
+  private
+
+  def effective_start_date
+    DateTime.parse(@item['effective_start_date']) if @item['effective_start_date'].present?
+  end
+
+  def effective_end_date
+    DateTime.parse(@item['effective_end_date']) if @item['effective_end_date'].present?
   end
 end

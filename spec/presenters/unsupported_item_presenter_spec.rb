@@ -10,7 +10,7 @@ describe UnsupportedItemPresenter, type: :presenter do
   let(:item_id) { generate(:uuid) }
   let(:user_id) { generate(:user_id) }
   let(:item_params) { {id: item_id} }
-  let(:item) { Xikolo::Course::Item.new item_params.merge(content_type: 'unsupported_type') }
+  let(:item) { build(:'course:item', **item_params, content_type: 'unsupported_type') }
   let(:course) { Xikolo::Course::Course.new id: generate(:course_id), course_code: 'test' }
   let(:section) { Xikolo::Course::Section.new id: generate(:section_id), course: course }
   let(:features) { {} }

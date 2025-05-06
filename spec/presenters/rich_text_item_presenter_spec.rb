@@ -5,7 +5,7 @@ describe RichTextItemPresenter, type: :presenter do
   subject { presenter }
 
   let(:presenter) { described_class.new item:, course:, section:, user: current_user }
-  let(:item) { Xikolo::Course::Item.new item_params }
+  let(:item) { build(:'course:item', **item_params) }
   let(:item_id) { SecureRandom.uuid }
   let(:item_params) { {id: item_id} }
   let(:course) { Xikolo::Course::Course.new course_params }

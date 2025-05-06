@@ -8,7 +8,7 @@ class VideoItemPresenter < ItemPresenter
 
   class << self
     def build(item, section, course, user, params: {})
-      video = Video::Video.find item.content_id
+      video = Video::Video.find item['content_id']
 
       video_presenter = VideoPresenter.new(
         video:, user:, embed_resources: true, course:
@@ -29,13 +29,13 @@ class VideoItemPresenter < ItemPresenter
     super.merge(
       og: {
         # mandatory:
-        title: @item.title,
+        title:,
         type: 'video',
         image: @video.pip_stream&.poster,
         url: Xikolo.base_url.join(
           course_item_path(
             course_id: @course.course_code,
-            id: UUID(@item.id).to_param
+            id: UUID(id).to_param
           )
         ),
         # optional
@@ -54,8 +54,8 @@ class VideoItemPresenter < ItemPresenter
 
   def implicit_tag_identifier
     {
-      'Xikolo::Course::Section' => @item.section_id,
-      'Xikolo::Course::Item' => @item.id,
+      'Xikolo::Course::Section' => section_id,
+      'Xikolo::Course::Item' => id,
     }
   end
 end

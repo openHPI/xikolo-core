@@ -1,11 +1,11 @@
-# syntax = docker/dockerfile:1.15-labs@sha256:8378c88c56f2a6c038705487ce1e447c61c48557cd6a76aea4d53e255304260a
+# syntax = docker/dockerfile:1.15-labs@sha256:94edd5b349df43675bd6f542e2b9a24e7177432dec45fe3066bfcf2ab14c4355
 
 #
 # Assets build environment (with NodeJS)
 #
 # * Compile and bundle web assets
 #
-FROM timbru31/ruby-node:3.4-slim-22@sha256:57e337e08dedb6c1882f2b0002a3f6c2bbea18e8577789d3847d6dc5cf510a4a AS assets
+FROM timbru31/ruby-node:3.4-slim-22@sha256:f81f759260d14e3dba7d8cff8426326405f55a29b7bb6a606814dd85ba8ec906 AS assets
 
 ARG BRAND=xikolo
 ARG TARGETARCH

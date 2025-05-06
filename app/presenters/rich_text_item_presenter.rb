@@ -4,7 +4,7 @@ class RichTextItemPresenter < ItemPresenter
   include MarkdownHelper
 
   def self.build(item, section, course, user, **)
-    richtext = Course::Richtext.find(item.content_id)
+    richtext = Course::Richtext.find(item['content_id'])
     new item:, richtext:, course:, section:, user:
   end
 

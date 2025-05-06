@@ -12,7 +12,7 @@ describe QuizItemPresenter, type: :presenter do
   let(:course_resource) { Xikolo::Course::Course.new(id: course.id, course_code: course.course_code) }
   let(:item) { create(:item, content_type: 'quiz', content_id: quiz_resource.id) }
   let(:item_resource) do
-    Xikolo::Course::Item.new(id: item.id, content_type: item.content_type, content_id: item.content_id, **additional_item_params)
+    build(:'course:item', id: item.id, content_type: item.content_type, content_id: item.content_id, **additional_item_params)
   end
   let(:additional_item_params) { {} }
   let(:quiz_resource) { Xikolo::Quiz::Quiz.new quiz_params }
@@ -214,6 +214,26 @@ describe QuizItemPresenter, type: :presenter do
       it 'has one attempt' do
         expect(quiz_properties).to include(name: 'allowed_attempts', icon_class: 'ban', opts: {count: 1})
       end
+    end
+  end
+
+  describe '#quiz_results_published?' do
+    subject { presenter.send(:quiz_results_published?) }
+
+    context 'without a submission_publishing_date' do
+      it { is_expected.to be false }
+    end
+
+    context 'with a submission_publishing_date in the future' do
+      let(:additional_item_params) { {submission_publishing_date: 2.days.from_now.iso8601(3)} }
+
+      it { is_expected.to be false }
+    end
+
+    context 'with a submission_publishing_date in the past' do
+      let(:additional_item_params) { {submission_publishing_date: 2.days.ago.iso8601(3)} }
+
+      it { is_expected.to be true }
     end
   end
 end

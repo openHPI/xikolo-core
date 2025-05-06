@@ -12,17 +12,16 @@ class ItemsController < Abstract::FrontendController
 
   inside_course
   inside_item only: :show
-  before_action :load_section_nav
+  before_action :load_section_nav, except: :destroy
 
   respond_to :json, :xml
 
   def request_section
     if params[:action] == 'show'
       promise, fulfiller = create_promise(Xikolo::Course::Section.new)
-      Acfs.on the_item do |item|
-        Xikolo::Course::Section.find item.section_id do |section|
-          fulfiller.fulfill section
-        end
+
+      Xikolo::Course::Section.find item['section_id'] do |section|
+        fulfiller.fulfill section
       end
       promise
     else
@@ -31,19 +30,17 @@ class ItemsController < Abstract::FrontendController
   end
 
   def request_item
-    return dummy_resource_delegator nil unless params[:id]
+    return nil unless params[:id]
     raise Status::NotFound if (uuid = UUID4.try_convert(params[:id])).nil?
 
-    Xikolo::Course::Item.find(
-      uuid,
-      params: {}.tap do |p|
-        # Authorized users (e.g., course admins) can always access items, but
-        # for regular learners the user-specific access is verified.
-        p[:user_id] = current_user.id unless current_user.allowed? 'course.content.access'
+    get_params = {id: uuid.to_s}.tap do |p|
+      # Authorized users (e.g., course admins) can always access items, but
+      # for regular learners the user-specific access is verified.
+      p[:user_id] = current_user.id unless current_user.allowed? 'course.content.access'
+      p[:for_user] = current_user.id if current_user.feature? 'course.reactivated'
+    end
 
-        p[:for_user] = current_user.id if current_user.feature? 'course.reactivated'
-      end
-    )
+    course_api.rel(:item).get(get_params)
   end
 
   def show
@@ -368,32 +365,32 @@ class ItemsController < Abstract::FrontendController
   end
 
   def destroy
-    item = Xikolo::Course::Item.find params[:id] do |resource|
-      case resource.content_type
+    item = course_api.rel(:item).get({id: UUID4(params[:id]).to_s}).then do |resource|
+      case resource['content_type']
         when 'quiz'
-          Xikolo::Quiz::Quiz.find(resource.content_id, &:delete!)
+          Xikolo.api(:quiz).value!.rel(:quiz).delete({id: resource['content_id']})
           @notice = I18n.t('items.deleted_quiz')
         when 'rich_text'
-          @content = Course::Richtext.find(resource.content_id)
+          @content = Course::Richtext.find(resource['content_id'])
         when 'lti_exercise'
-          @content = Lti::Exercise.find(resource.content_id)
+          @content = Lti::Exercise.find(resource['content_id'])
         when 'video'
-          @content = Video::Video.find(resource.content_id)
+          @content = Video::Video.find(resource['content_id'])
         else
           @notice = I18n.t('items.deleted_item')
       end
-    end
-    Acfs.run
+      resource
+    end.value!
 
     # Destroy the item via `xi-course` (ItemsController#destroy) to
     # trigger callbacks on destroy that are only available in the
-    # service model. Once, `xi-quiz` are part of the monolith, we can
+    # service model. Once, `xi-quiz` is part of the monolith, we can
     # destroy the `Course::Item` record in `xi-web`, which also triggers
     # the destruction of the content.
-    item.delete!
+    course_api.rel(:item).delete({id: item['id']}).value!
 
     # Quizzes are destroyed by `xi-quiz`.
-    unless %w[quiz].include?(item.content_type)
+    unless %w[quiz].include?(item['content_type'])
       @content.destroy!
       @notice = I18n.t('items.deleted_item')
     end
@@ -411,10 +408,10 @@ class ItemsController < Abstract::FrontendController
   def check_course_eligibility
     return super unless params[:action] == 'show'
 
-    Acfs.on the_item do |item|
-      # TODO: we restrict open mode to video items for now; this restriction will have to be removed later
-      super unless item.open_mode
-    end
+    # TODO: we restrict open mode to video items for now; this restriction will have to be removed later
+    the_item.then do |item|
+      super unless item['open_mode']
+    end&.value!
   end
 
   def multi_language_zip?(file)

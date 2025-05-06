@@ -8,9 +8,9 @@ module Course
     # @param user [Account::User] the user to determine requirements fulfillment for
     # @return [Array<Course::Item>] a list of required items, or nil if all requirements are fulfilled
     def self.requirements_for(item, user)
-      return if item.required_item_ids.blank?
+      return if item['required_item_ids'].blank?
 
-      required_items = ::Course::Item.where(id: item.required_item_ids).map do |req_item|
+      required_items = ::Course::Item.where(id: item['required_item_ids']).map do |req_item|
         new(req_item, user)
       end
 
@@ -39,7 +39,7 @@ module Course
     def hint
       return if fulfilled?
 
-      return I18n.t(:'items.requirements.visit_requirement') if %w[rich_text video].include? @item.content_type
+      return I18n.t(:'items.requirements.visit_requirement') if %w[rich_text video].include? @item['content_type']
 
       I18n.t(
         :'items.requirements.result_requirement',
@@ -48,11 +48,11 @@ module Course
     end
 
     def id
-      @item.id
+      @item['id']
     end
 
     def title
-      @item.title
+      @item['title']
     end
 
     def course_code

@@ -3,32 +3,21 @@
 require 'spec_helper'
 
 describe Course::PositionPresenter do
-  subject(:presenter) do
-    described_class.build(item, course, user).tap do
-      Acfs.run
-    end
-  end
+  subject(:presenter) { described_class.build(item_resources[1], course, user) }
 
-  let(:section_id) { SecureRandom.uuid }
   let(:user) { Xikolo::Account::User.new id: SecureRandom.uuid }
   let(:course) { Xikolo::Course::Course.new id: SecureRandom.uuid }
-  let(:item) { Xikolo::Course::Item.new id: SecureRandom.uuid, section_id: }
+  let(:section) { create(:section) }
+  let(:section_resource) { build(:'course:section', id: section.id) }
+  let(:items) { create_list(:item, 2, :quiz, section_id: section.id) }
+  let(:item_resources) { build_list(:'course:item', 2, :quiz, section_id: section.id) }
 
   before do
     Stub.service(:course, build(:'course:root'))
-    Stub.request(
-      :course, :get, '/sections',
-      query: {course_id: course.id}
-    ).to_return Stub.json([
-      {id: section_id, course_id: course.id},
-    ])
-    Stub.request(
-      :course, :get, '/items',
-      query: {section_id:, published: 'true', state_for: user.id}
-    ).to_return Stub.json([
-      {id: SecureRandom.uuid},
-      item.attributes,
-    ])
+    Stub.request(:course, :get, '/sections', query: {course_id: course.id})
+      .to_return Stub.json([{id: section.id, course_id: course.id}])
+    Stub.request(:course, :get, '/items',
+      query: {section_id: section.id, published: 'true', state_for: user.id}).to_return Stub.json(item_resources)
   end
 
   describe '#course' do
