@@ -68,7 +68,7 @@ class Account::ProfilesController < Abstract::FrontendController
   def unsuspend_primary_email
     user  = Xikolo.api(:account).value!.rel(:user).get({id: current_user.id}).value!
     email = user.rel(:emails).get.value!
-      .find {|e| e[:primary] }
+      .find {|e| e['primary'] }
     email.rel(:suspension).delete.value!
 
     add_flash_message :success, t(:'flash.success.primary_email_unsuspended')

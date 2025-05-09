@@ -124,6 +124,7 @@ FactoryBot.define do
     user_id { generate(:user_id) }
     sequence(:address) {|n| "eMail#{n}@openhpi.de" }
     self_url { stub_url(:account, "/users/#{user_id}/emails/#{id}") }
+    suspension_url { stub_url(:account, "users/#{user_id}/emails/#{id}/suspension") }
 
     initialize_with { attributes.as_json }
   end

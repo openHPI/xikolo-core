@@ -127,7 +127,7 @@ GEM
     childprocess (5.1.0)
       logger (~> 1.5)
     concurrent-ruby (1.3.5)
-    connection_pool (2.5.1)
+    connection_pool (2.5.3)
     crack (1.0.0)
       bigdecimal
       rexml
@@ -166,7 +166,7 @@ GEM
       railties (>= 5.0.0)
     ffi (1.17.2)
     ffi (1.17.2-x86_64-linux-gnu)
-    fiddle (1.1.6)
+    fiddle (1.1.8)
     foundation_emails (2.2.1.0)
     fx (0.9.0)
       activerecord (>= 7.0)
@@ -197,7 +197,7 @@ GEM
       pp (>= 0.6.0)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
-    json (2.10.2)
+    json (2.11.3)
     launchy (3.1.1)
       addressable (~> 2.8)
       childprocess (~> 5.0)
@@ -236,7 +236,7 @@ GEM
     multi_json (1.15.0)
     mutex_m (0.3.0)
     native-package-installer (1.1.9)
-    net-imap (0.5.7)
+    net-imap (0.5.8)
       date
       net-protocol
     net-pop (0.1.2)
@@ -257,7 +257,7 @@ GEM
     paginate-responder (2.1.0)
       rack-link_headers (>= 2.2)
     pg (1.5.9)
-    pkg-config (1.6.1)
+    pkg-config (1.6.2)
     pp (0.6.2)
       prettyprint
     premailer (1.27.0)
@@ -269,10 +269,10 @@ GEM
       net-smtp
       premailer (~> 1.7, >= 1.7.9)
     prettyprint (0.2.0)
-    psych (5.2.3)
+    psych (5.2.4)
       date
       stringio
-    public_suffix (6.0.1)
+    public_suffix (6.0.2)
     puma (6.6.0)
       nio4r (~> 2.0)
     racc (1.8.1)
@@ -366,7 +366,7 @@ GEM
       rspec-expectations (>= 2.99.0.beta1)
     rspec-core (3.13.3)
       rspec-support (~> 3.13.0)
-    rspec-expectations (3.13.3)
+    rspec-expectations (3.13.4)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
     rspec-github (3.0.0)
@@ -374,7 +374,7 @@ GEM
     rspec-its (2.0.0)
       rspec-core (>= 3.13.0)
       rspec-expectations (>= 3.13.0)
-    rspec-mocks (3.13.2)
+    rspec-mocks (3.13.3)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
     rspec-rails (7.1.1)
@@ -385,7 +385,7 @@ GEM
       rspec-expectations (~> 3.13)
       rspec-mocks (~> 3.13)
       rspec-support (~> 3.13)
-    rspec-support (3.13.2)
+    rspec-support (3.13.3)
     rspec_junit_formatter (0.6.0)
       rspec-core (>= 2, < 4, != 2.12.0)
     rsvg2 (4.2.9)
