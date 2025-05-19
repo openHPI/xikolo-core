@@ -180,7 +180,7 @@ describe Course::DocumentsPresenter do
       create(:certificate_template, :certificate, course:)
     end
 
-    include_examples 'correct proctoring and user cert validation',
+    it_behaves_like 'correct proctoring and user cert validation',
       result_proctoring_passed: true,
       result_proctoring_failed: false
   end

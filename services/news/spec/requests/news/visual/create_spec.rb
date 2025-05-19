@@ -85,7 +85,7 @@ RSpec.describe 'News: Create with visual', type: :request do
     end
 
     context 'when upload is successful' do
-      include_examples 'creates with visual'
+      it_behaves_like 'creates with visual'
     end
 
     context 'when upload was rejected' do
@@ -101,7 +101,7 @@ RSpec.describe 'News: Create with visual', type: :request do
       end
 
       error_details = {'visual_upload_id' => ['invalid upload']}
-      include_examples 'does not create', error_details
+      it_behaves_like 'does not create', error_details
     end
 
     context 'without access permission' do
@@ -110,7 +110,7 @@ RSpec.describe 'News: Create with visual', type: :request do
       end
 
       error_details = {'visual_upload_id' => ['could not process file upload']}
-      include_examples 'does not create', error_details
+      it_behaves_like 'does not create', error_details
     end
 
     context 'when saving to destination is forbidden' do
@@ -127,7 +127,7 @@ RSpec.describe 'News: Create with visual', type: :request do
       end
 
       error_details = {'visual_upload_id' => ['could not process file upload']}
-      include_examples 'does not create', error_details
+      it_behaves_like 'does not create', error_details
     end
   end
 
@@ -145,7 +145,7 @@ RSpec.describe 'News: Create with visual', type: :request do
     end
 
     context 'when upload is successful' do
-      include_examples 'creates with visual'
+      it_behaves_like 'creates with visual'
     end
 
     context 'when upload was rejected' do
@@ -162,7 +162,7 @@ RSpec.describe 'News: Create with visual', type: :request do
 
       error_details = {'visual_uri' => ['Upload not valid - ' \
                                         'either file upload was rejected or access to it is forbidden.']}
-      include_examples 'does not create', error_details
+      it_behaves_like 'does not create', error_details
     end
 
     context 'without access permission' do
@@ -172,7 +172,7 @@ RSpec.describe 'News: Create with visual', type: :request do
 
       error_details = {'visual_uri' => ['Upload not valid - ' \
                                         'either file upload was rejected or access to it is forbidden.']}
-      include_examples 'does not create', error_details
+      it_behaves_like 'does not create', error_details
     end
 
     context 'when saving to destination is forbidden' do
@@ -190,7 +190,7 @@ RSpec.describe 'News: Create with visual', type: :request do
 
       error_details = {'visual_uri' => ['Could not save file - ' \
                                         'access to destination is forbidden.']}
-      include_examples 'does not create', error_details
+      it_behaves_like 'does not create', error_details
     end
   end
 end

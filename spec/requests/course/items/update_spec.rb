@@ -159,7 +159,7 @@ describe 'Course: Items: Update', type: :request do
 
         # Description: Your file upload could not be stored.
         specific_error = 'At least one of these streams is required. Please add a pip, a lecturer or a slides stream.'
-        include_examples 'displays generic and specific error messages', specific_error
+        it_behaves_like 'displays generic and specific error messages', specific_error
 
         it 'does not update the video item' do
           action
@@ -253,7 +253,7 @@ describe 'Course: Items: Update', type: :request do
           end
 
           specific_error = 'Your file upload has been rejected due to policy violations.'
-          include_examples 'displays generic and specific error messages', specific_error
+          it_behaves_like 'displays generic and specific error messages', specific_error
 
           it 'does not update the description' do
             action
@@ -286,7 +286,7 @@ describe 'Course: Items: Update', type: :request do
           end
 
           specific_error = 'Your file upload could not be stored.'
-          include_examples 'displays generic and specific error messages', specific_error
+          it_behaves_like 'displays generic and specific error messages', specific_error
 
           it 'does not update the description' do
             action

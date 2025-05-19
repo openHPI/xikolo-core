@@ -102,7 +102,7 @@ describe 'User\'s avatar upload', type: :request do
             )
           end
 
-          include_examples 'updates the avatar'
+          it_behaves_like 'updates the avatar'
         end
 
         context 'when upload was rejected' do
@@ -118,7 +118,7 @@ describe 'User\'s avatar upload', type: :request do
           end
 
           error_details = {'avatar_upload_id' => ['invalid upload']}
-          include_examples 'does not update the avatar', error_details
+          it_behaves_like 'does not update the avatar', error_details
         end
 
         context 'without access permission' do
@@ -127,7 +127,7 @@ describe 'User\'s avatar upload', type: :request do
           end
 
           error_details = {'avatar_upload_id' => ['could not process file upload']}
-          include_examples 'does not update the avatar', error_details
+          it_behaves_like 'does not update the avatar', error_details
         end
 
         context 'when saving to destination is forbidden' do
@@ -144,7 +144,7 @@ describe 'User\'s avatar upload', type: :request do
           end
 
           error_details = {'avatar_upload_id' => ['could not process file upload']}
-          include_examples 'does not update the avatar', error_details
+          it_behaves_like 'does not update the avatar', error_details
         end
       end
 
@@ -161,7 +161,7 @@ describe 'User\'s avatar upload', type: :request do
         end
 
         context 'when upload is successful' do
-          include_examples 'updates the avatar'
+          it_behaves_like 'updates the avatar'
         end
 
         context 'when upload was rejected' do
@@ -177,7 +177,7 @@ describe 'User\'s avatar upload', type: :request do
           end
 
           error_details = {'avatar_uri' => ['Upload not valid - either file upload was rejected or access to it is forbidden.']}
-          include_examples 'does not update the avatar', error_details
+          it_behaves_like 'does not update the avatar', error_details
         end
 
         context 'without access permission' do
@@ -186,7 +186,7 @@ describe 'User\'s avatar upload', type: :request do
           end
 
           error_details = {'avatar_uri' => ['Upload not valid - either file upload was rejected or access to it is forbidden.']}
-          include_examples 'does not update the avatar', error_details
+          it_behaves_like 'does not update the avatar', error_details
         end
 
         context 'when saving to destination is forbidden' do
@@ -203,7 +203,7 @@ describe 'User\'s avatar upload', type: :request do
           end
 
           error_details = {'avatar_uri' => ['Could not save file - access to destination is forbidden.']}
-          include_examples 'does not update the avatar', error_details
+          it_behaves_like 'does not update the avatar', error_details
         end
       end
     end
@@ -214,11 +214,28 @@ describe 'User\'s avatar upload', type: :request do
       let(:store_stub_url) { %r{http://s3.xikolo.de/xikolo-public/avatars/[0-9a-zA-Z]+/avatar_v2.jpg} }
       let(:old_store_stub_url) { 'http://s3.xikolo.de/xikolo-public/avatars/3/avatar_v1.jpg' }
 
+      before do
+        stub_request(:put, store_stub_url).to_return(status: 200, body: '<xml></xml>')
+
+        stub_request(:head, file_url).to_return(
+          status: 200,
+          headers: {
+            'Content-Type' => 'inode/x-empty',
+            'X-Amz-Meta-Xikolo-Purpose' => 'account_user_avatar',
+            'X-Amz-Meta-Xikolo-State' => 'accepted',
+          }
+        )
+      end
+
       context 'with upload_id' do
         let(:data) { {avatar_upload_id: upload_id} }
+        let(:upload_id) { 'f13d30d3-6369-4816-9695-af5318c8ac15' }
+        let(:file_url) do
+          "http://s3.xikolo.de/xikolo-uploads/uploads/#{upload_id}/profil.jpg"
+        end
 
         context 'when upload is successful' do
-          include_examples 'updates the avatar'
+          it_behaves_like 'updates the avatar'
           it 'schedules the removal of the old avatar image' do
             expect { update_avatar }.to have_enqueued_job(FileDeletionJob).with(old_avatar_uri)
           end
@@ -237,7 +254,7 @@ describe 'User\'s avatar upload', type: :request do
           end
 
           error_details = {'avatar_upload_id' => ['invalid upload']}
-          include_examples 'does not update the avatar', error_details
+          it_behaves_like 'does not update the avatar', error_details
         end
 
         context 'without access permission' do
@@ -246,7 +263,7 @@ describe 'User\'s avatar upload', type: :request do
           end
 
           error_details = {'avatar_upload_id' => ['could not process file upload']}
-          include_examples 'does not update the avatar', error_details
+          it_behaves_like 'does not update the avatar', error_details
         end
 
         context 'when saving to destination is forbidden' do
@@ -263,7 +280,7 @@ describe 'User\'s avatar upload', type: :request do
           end
 
           error_details = {'avatar_upload_id' => ['could not process file upload']}
-          include_examples 'does not update the avatar', error_details
+          it_behaves_like 'does not update the avatar', error_details
         end
       end
 
@@ -275,7 +292,7 @@ describe 'User\'s avatar upload', type: :request do
         end
 
         context 'when upload is successful' do
-          include_examples 'updates the avatar'
+          it_behaves_like 'updates the avatar'
           it 'schedules the removal of the old avatar image' do
             expect { update_avatar }.to have_enqueued_job(FileDeletionJob).with(old_avatar_uri)
           end
@@ -294,7 +311,7 @@ describe 'User\'s avatar upload', type: :request do
           end
 
           error_details = {'avatar_uri' => ['Upload not valid - either file upload was rejected or access to it is forbidden.']}
-          include_examples 'does not update the avatar', error_details
+          it_behaves_like 'does not update the avatar', error_details
         end
 
         context 'without access permission' do
@@ -303,7 +320,7 @@ describe 'User\'s avatar upload', type: :request do
           end
 
           error_details = {'avatar_uri' => ['Upload not valid - either file upload was rejected or access to it is forbidden.']}
-          include_examples 'does not update the avatar', error_details
+          it_behaves_like 'does not update the avatar', error_details
         end
 
         context 'when saving to destination is forbidden' do
@@ -320,7 +337,7 @@ describe 'User\'s avatar upload', type: :request do
           end
 
           error_details = {'avatar_uri' => ['Could not save file - access to destination is forbidden.']}
-          include_examples 'does not update the avatar', error_details
+          it_behaves_like 'does not update the avatar', error_details
         end
       end
 

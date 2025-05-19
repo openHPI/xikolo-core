@@ -67,7 +67,7 @@
     "sass-loader": "^16.0.0",
     "stylelint": "^16.0.0",
     "stylelint-config-idiomatic-order": "10.0.0",
-    "stylelint-config-recommended-scss": "14.1.0",
+    "stylelint-config-recommended-scss": "15.0.0",
     "stylelint-config-two-dash-bem": "^1.0.0",
     "terser-webpack-plugin": "^5.3.10",
     "typescript": "^5.5.4",

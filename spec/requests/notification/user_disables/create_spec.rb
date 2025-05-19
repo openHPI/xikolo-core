@@ -83,23 +83,23 @@ RSpec.describe 'Notifications: UserDisables: Create', type: :request do
     end
 
     describe '(notification types)' do
-      shared_examples 'disables notification setting' do |settings_key|
-        let!(:disable_stub) do
-          Stub.request(:account, :patch, "/user/#{user_id}/preferences")
-            .with(body: {properties: {settings_key => false}})
-            .to_return Stub.json({})
-        end
+      let(:disable_stub) do
+        Stub.request(:account, :patch, "/user/#{user_id}/preferences")
+          .with(body: {properties: {settings_key => false}})
+          .to_return Stub.json({})
+      end
 
-        before { disable_notification }
-
-        it { expect(disable_stub).to have_been_requested }
+      before do
+        disable_stub
       end
 
       context 'for (global) announcements' do
         let(:notification_key) { 'announcement' }
+        let(:settings_key) { 'notification.email.news.announcement' }
 
-        include_examples 'disables notification setting',
-          'notification.email.news.announcement'
+        before { disable_notification }
+
+        it { expect(disable_stub).to have_been_requested }
 
         it 'informs the user about the disabled setting' do
           expect(flash[:success].first).to start_with \
@@ -108,17 +108,21 @@ RSpec.describe 'Notifications: UserDisables: Create', type: :request do
 
         context 'for key with trailing special character' do
           let(:notification_key) { 'announcement.' }
+          let(:settings_key) { 'notification.email.news.announcement' }
 
-          include_examples 'disables notification setting',
-            'notification.email.news.announcement'
+          before { disable_notification }
+
+          it { expect(disable_stub).to have_been_requested }
         end
       end
 
       context 'for course announcements' do
         let(:notification_key) { 'course_announcement' }
+        let(:settings_key) { 'notification.email.course.announcement' }
 
-        include_examples 'disables notification setting',
-          'notification.email.course.announcement'
+        before { disable_notification }
+
+        it { expect(disable_stub).to have_been_requested }
 
         it 'informs the user about the disabled setting' do
           expect(flash[:success].first).to start_with \
@@ -128,9 +132,11 @@ RSpec.describe 'Notifications: UserDisables: Create', type: :request do
 
       context 'for global (= all) email notifications' do
         let(:notification_key) { 'global' }
+        let(:settings_key) { 'notification.email.global' }
 
-        include_examples 'disables notification setting',
-          'notification.email.global'
+        before { disable_notification }
+
+        it { expect(disable_stub).to have_been_requested }
 
         it 'informs the user about the disabled setting' do
           expect(flash[:success].first).to start_with \
@@ -140,9 +146,11 @@ RSpec.describe 'Notifications: UserDisables: Create', type: :request do
 
       context 'for pinboard notifications' do
         let(:notification_key) { 'pinboard' }
+        let(:settings_key) { 'notification.email.pinboard.new_answer' }
 
-        include_examples 'disables notification setting',
-          'notification.email.pinboard.new_answer'
+        before { disable_notification }
+
+        it { expect(disable_stub).to have_been_requested }
 
         it 'informs the user about the disabled setting' do
           expect(flash[:success].first).to start_with \

@@ -92,7 +92,7 @@ RSpec.describe 'News: Update with visual', type: :request do
       let(:payload) { {visual_upload_id: upload_id} }
 
       context 'when upload is successful' do
-        include_examples 'updates with visual'
+        it_behaves_like 'updates with visual'
       end
 
       context 'when upload was rejected' do
@@ -108,7 +108,7 @@ RSpec.describe 'News: Update with visual', type: :request do
         end
 
         error_details = {'visual_upload_id' => ['invalid upload']}
-        include_examples 'does not update the visual', error_details
+        it_behaves_like 'does not update the visual', error_details
       end
 
       context 'without access permission' do
@@ -117,7 +117,7 @@ RSpec.describe 'News: Update with visual', type: :request do
         end
 
         error_details = {'visual_upload_id' => ['could not process file upload']}
-        include_examples 'does not update the visual', error_details
+        it_behaves_like 'does not update the visual', error_details
       end
 
       context 'when saving to destination is forbidden' do
@@ -134,7 +134,7 @@ RSpec.describe 'News: Update with visual', type: :request do
         end
 
         error_details = {'visual_upload_id' => ['could not process file upload']}
-        include_examples 'does not update the visual', error_details
+        it_behaves_like 'does not update the visual', error_details
       end
     end
 
@@ -146,7 +146,7 @@ RSpec.describe 'News: Update with visual', type: :request do
       end
 
       context 'when upload is successful' do
-        include_examples 'updates with visual'
+        it_behaves_like 'updates with visual'
       end
 
       context 'when upload was rejected' do
@@ -163,7 +163,7 @@ RSpec.describe 'News: Update with visual', type: :request do
 
         error_details = {'visual_uri' => ['Upload not valid - ' \
                                           'either file upload was rejected or access to it is forbidden.']}
-        include_examples 'does not update the visual', error_details
+        it_behaves_like 'does not update the visual', error_details
       end
 
       context 'without access permission' do
@@ -173,7 +173,7 @@ RSpec.describe 'News: Update with visual', type: :request do
 
         error_details = {'visual_uri' => ['Upload not valid - ' \
                                           'either file upload was rejected or access to it is forbidden.']}
-        include_examples 'does not update the visual', error_details
+        it_behaves_like 'does not update the visual', error_details
       end
 
       context 'when saving to destination is forbidden' do
@@ -191,7 +191,7 @@ RSpec.describe 'News: Update with visual', type: :request do
 
         error_details = {'visual_uri' => ['Could not save file - ' \
                                           'access to destination is forbidden.']}
-        include_examples 'does not update the visual', error_details
+        it_behaves_like 'does not update the visual', error_details
       end
     end
   end
@@ -207,11 +207,24 @@ RSpec.describe 'News: Update with visual', type: :request do
         .to_return(status: 200)
     end
 
+    before do
+      store_stub
+      stub_request(:head, file_url).to_return(
+        status: 200,
+        headers: {
+          'Content-Type' => 'inode/x-empty',
+          'X-Amz-Meta-Xikolo-Purpose' => 'news_visual',
+          'X-Amz-Meta-Xikolo-State' => 'accepted',
+        }
+      )
+    end
+
     context 'with upload_visual_id' do
       let(:payload) { {visual_upload_id: upload_id} }
+      let(:store_stub) { stub_request(:put, store_stub_url).to_return(status: 200, body: '<xml></xml>') }
 
       context 'when upload is successful' do
-        include_examples 'updates with visual'
+        it_behaves_like 'updates with visual'
         it 'deletes the old announcement visual' do
           update_announcement
           expect(delete_old).to have_been_requested
@@ -231,8 +244,8 @@ RSpec.describe 'News: Update with visual', type: :request do
         end
 
         error_details = {'visual_upload_id' => ['invalid upload']}
-        include_examples 'does not update the visual', error_details
-        include_examples 'does not delete the old visual'
+        it_behaves_like 'does not update the visual', error_details
+        it_behaves_like 'does not delete the old visual'
       end
 
       context 'without access permission' do
@@ -241,8 +254,8 @@ RSpec.describe 'News: Update with visual', type: :request do
         end
 
         error_details = {'visual_upload_id' => ['could not process file upload']}
-        include_examples 'does not update the visual', error_details
-        include_examples 'does not delete the old visual'
+        it_behaves_like 'does not update the visual', error_details
+        it_behaves_like 'does not delete the old visual'
       end
 
       context 'when saving to destination is forbidden' do
@@ -259,20 +272,22 @@ RSpec.describe 'News: Update with visual', type: :request do
         end
 
         error_details = {'visual_upload_id' => ['could not process file upload']}
-        include_examples 'does not update the visual', error_details
-        include_examples 'does not delete the old visual'
+        it_behaves_like 'does not update the visual', error_details
+        it_behaves_like 'does not delete the old visual'
       end
     end
 
     context 'with visual_uri' do
       let(:payload) { {visual_uri: "upload://#{upload_id}/visual.png"} }
+      let(:store_stub) { stub_request(:put, store_stub_url).to_return(status: 200, body: '<xml></xml>') }
 
       before do
+        store_stub
         stub_request(:head, store_stub_url).and_return(status: 404)
       end
 
       context 'when upload is successful' do
-        include_examples 'updates with visual'
+        it_behaves_like 'updates with visual'
         it 'deletes the old announcement visual' do
           update_announcement
           expect(delete_old).to have_been_requested
@@ -293,8 +308,8 @@ RSpec.describe 'News: Update with visual', type: :request do
 
         error_details = {'visual_uri' => ['Upload not valid - ' \
                                           'either file upload was rejected or access to it is forbidden.']}
-        include_examples 'does not update the visual', error_details
-        include_examples 'does not delete the old visual'
+        it_behaves_like 'does not update the visual', error_details
+        it_behaves_like 'does not delete the old visual'
       end
 
       context 'without access permission' do
@@ -304,8 +319,8 @@ RSpec.describe 'News: Update with visual', type: :request do
 
         error_details = {'visual_uri' => ['Upload not valid - ' \
                                           'either file upload was rejected or access to it is forbidden.']}
-        include_examples 'does not update the visual', error_details
-        include_examples 'does not delete the old visual'
+        it_behaves_like 'does not update the visual', error_details
+        it_behaves_like 'does not delete the old visual'
       end
 
       context 'when saving to destination is forbidden' do
@@ -323,8 +338,8 @@ RSpec.describe 'News: Update with visual', type: :request do
 
         error_details = {'visual_uri' => ['Could not save file - ' \
                                           'access to destination is forbidden.']}
-        include_examples 'does not update the visual', error_details
-        include_examples 'does not delete the old visual'
+        it_behaves_like 'does not update the visual', error_details
+        it_behaves_like 'does not delete the old visual'
       end
     end
   end

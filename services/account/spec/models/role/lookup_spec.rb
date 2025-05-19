@@ -44,7 +44,7 @@ describe Role, '.lookup', type: :model do
         expect(results).to match_array granted_roles
       end
 
-      include_examples 'context:inheritance'
+      it_behaves_like 'context:inheritance'
     end
 
     context 'with user principal' do
@@ -60,7 +60,7 @@ describe Role, '.lookup', type: :model do
         expect(results).to match_array granted_roles
       end
 
-      include_examples 'context:inheritance'
+      it_behaves_like 'context:inheritance'
 
       context 'with group membership' do
         let(:groups) { create_list(:group, 4) }
@@ -73,7 +73,7 @@ describe Role, '.lookup', type: :model do
           principal.groups << groups[1]
         end
 
-        include_examples 'context:inheritance'
+        it_behaves_like 'context:inheritance'
       end
 
       context 'with multiple group memberships' do
@@ -90,7 +90,7 @@ describe Role, '.lookup', type: :model do
           principal.groups << groups[2]
         end
 
-        include_examples 'context:inheritance'
+        it_behaves_like 'context:inheritance'
       end
 
       context 'with multiple group memberships on different' do
@@ -107,7 +107,7 @@ describe Role, '.lookup', type: :model do
           principal.groups << groups[2]
         end
 
-        include_examples 'context:inheritance'
+        it_behaves_like 'context:inheritance'
       end
 
       context 'with special group grant' do
@@ -121,19 +121,19 @@ describe Role, '.lookup', type: :model do
         context 'all users group' do
           let(:group) { Group.all_users }
 
-          include_examples 'context:inheritance'
+          it_behaves_like 'context:inheritance'
         end
 
         context 'active users group' do
           let(:group) { Group.active_users }
 
-          include_examples 'context:inheritance'
+          it_behaves_like 'context:inheritance'
         end
 
         context 'confirmed users group' do
           let(:group) { Group.confirmed_users }
 
-          include_examples 'context:inheritance'
+          it_behaves_like 'context:inheritance'
         end
 
         context 'unconfirmed users group' do
@@ -143,7 +143,7 @@ describe Role, '.lookup', type: :model do
             principal.update! confirmed: false
           end
 
-          include_examples 'context:inheritance'
+          it_behaves_like 'context:inheritance'
         end
 
         context 'archived users group' do
@@ -153,7 +153,7 @@ describe Role, '.lookup', type: :model do
             principal.update! archived: true
           end
 
-          include_examples 'context:inheritance'
+          it_behaves_like 'context:inheritance'
         end
       end
     end

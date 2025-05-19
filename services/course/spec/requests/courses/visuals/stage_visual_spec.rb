@@ -127,7 +127,7 @@ RSpec.describe 'Courses: Update with stage visual', type: :request do
       end
 
       context 'when upload is successful' do
-        include_examples 'updates with stage visual'
+        it_behaves_like 'updates with stage visual'
       end
 
       context 'when upload was rejected' do
@@ -143,7 +143,7 @@ RSpec.describe 'Courses: Update with stage visual', type: :request do
         end
 
         error_details = {'stage_visual_upload_id' => ['invalid upload']}
-        include_examples 'does not update the stage visual', error_details
+        it_behaves_like 'does not update the stage visual', error_details
       end
 
       context 'without access permission' do
@@ -152,7 +152,7 @@ RSpec.describe 'Courses: Update with stage visual', type: :request do
         end
 
         error_details = {'stage_visual_upload_id' => ['could not process file upload']}
-        include_examples 'does not update the stage visual', error_details
+        it_behaves_like 'does not update the stage visual', error_details
       end
 
       context 'when saving to destination is forbidden' do
@@ -169,7 +169,7 @@ RSpec.describe 'Courses: Update with stage visual', type: :request do
         end
 
         error_details = {'stage_visual_upload_id' => ['could not process file upload']}
-        include_examples 'does not update the stage visual', error_details
+        it_behaves_like 'does not update the stage visual', error_details
       end
     end
 
@@ -190,7 +190,7 @@ RSpec.describe 'Courses: Update with stage visual', type: :request do
       end
 
       context 'when upload is successful' do
-        include_examples 'updates with stage visual'
+        it_behaves_like 'updates with stage visual'
       end
 
       context 'when upload was rejected' do
@@ -206,7 +206,7 @@ RSpec.describe 'Courses: Update with stage visual', type: :request do
         end
 
         error_details = {'stage_visual_uri' => ['Upload not valid - either file upload was rejected or access to it is forbidden.']}
-        include_examples 'does not update the stage visual', error_details
+        it_behaves_like 'does not update the stage visual', error_details
       end
 
       context 'without access permission' do
@@ -215,7 +215,7 @@ RSpec.describe 'Courses: Update with stage visual', type: :request do
         end
 
         error_details = {'stage_visual_uri' => ['Upload not valid - either file upload was rejected or access to it is forbidden.']}
-        include_examples 'does not update the stage visual', error_details
+        it_behaves_like 'does not update the stage visual', error_details
       end
 
       context 'when saving to destination is forbidden' do
@@ -232,7 +232,7 @@ RSpec.describe 'Courses: Update with stage visual', type: :request do
         end
 
         error_details = {'stage_visual_uri' => ['Could not save file - access to destination is forbidden.']}
-        include_examples 'does not update the stage visual', error_details
+        it_behaves_like 'does not update the stage visual', error_details
       end
     end
   end
@@ -269,7 +269,21 @@ RSpec.describe 'Courses: Update with stage visual', type: :request do
       end
 
       context 'when upload is successful' do
-        include_examples 'updates with stage visual'
+        let(:store_stub) { stub_request(:put, store_stub_url).to_return(status: 200, body: '<xml></xml>') }
+
+        before do
+          store_stub
+          stub_request(:head, file_url).to_return(
+            status: 200,
+            headers: {
+              'Content-Type' => 'inode/x-empty',
+              'X-Amz-Meta-Xikolo-Purpose' => 'course_course_stage_visual',
+              'X-Amz-Meta-Xikolo-State' => 'accepted',
+            }
+          )
+        end
+
+        it_behaves_like 'updates with stage visual'
         it 'schedules the removal of the old stage visual' do
           update_course
           expect(FileDeletionWorker.jobs.last['args']).to eq [old_stage_visual_uri]
@@ -289,8 +303,8 @@ RSpec.describe 'Courses: Update with stage visual', type: :request do
         end
 
         error_details = {'stage_visual_upload_id' => ['invalid upload']}
-        include_examples 'does not update the stage visual', error_details
-        include_examples 'does not delete the old stage visual'
+        it_behaves_like 'does not update the stage visual', error_details
+        it_behaves_like 'does not delete the old stage visual'
       end
 
       context 'without access permission' do
@@ -299,8 +313,8 @@ RSpec.describe 'Courses: Update with stage visual', type: :request do
         end
 
         error_details = {'stage_visual_upload_id' => ['could not process file upload']}
-        include_examples 'does not update the stage visual', error_details
-        include_examples 'does not delete the old stage visual'
+        it_behaves_like 'does not update the stage visual', error_details
+        it_behaves_like 'does not delete the old stage visual'
       end
 
       context 'when saving to destination is forbidden' do
@@ -317,20 +331,30 @@ RSpec.describe 'Courses: Update with stage visual', type: :request do
         end
 
         error_details = {'stage_visual_upload_id' => ['could not process file upload']}
-        include_examples 'does not update the stage visual', error_details
-        include_examples 'does not delete the old stage visual'
+        it_behaves_like 'does not update the stage visual', error_details
+        it_behaves_like 'does not delete the old stage visual'
       end
     end
 
     context 'with stage_visual_uri' do
       let(:data) { {stage_visual_upload_id: upload_id, stage_visual_uri: "upload://#{upload_id}/#{new_file}"} }
+      let(:store_stub) { stub_request(:put, store_stub_url).to_return(status: 200, body: '<xml></xml>') }
 
       before do
+        store_stub
+        stub_request(:head, file_url).to_return(
+          status: 200,
+          headers: {
+            'Content-Type' => 'inode/x-empty',
+            'X-Amz-Meta-Xikolo-Purpose' => 'course_course_stage_visual',
+            'X-Amz-Meta-Xikolo-State' => 'accepted',
+          }
+        )
         stub_request(:head, store_stub_url).and_return(status: 404)
       end
 
       context 'when upload is successful' do
-        include_examples 'updates with stage visual'
+        it_behaves_like 'updates with stage visual'
         it 'schedules the removal of the old stage visual' do
           update_course
           expect(FileDeletionWorker.jobs.last['args']).to eq [old_stage_visual_uri]
@@ -350,8 +374,8 @@ RSpec.describe 'Courses: Update with stage visual', type: :request do
         end
 
         error_details = {'stage_visual_uri' => ['Upload not valid - either file upload was rejected or access to it is forbidden.']}
-        include_examples 'does not update the stage visual', error_details
-        include_examples 'does not delete the old stage visual'
+        it_behaves_like 'does not update the stage visual', error_details
+        it_behaves_like 'does not delete the old stage visual'
       end
 
       context 'without access permission' do
@@ -360,8 +384,8 @@ RSpec.describe 'Courses: Update with stage visual', type: :request do
         end
 
         error_details = {'stage_visual_uri' => ['Upload not valid - either file upload was rejected or access to it is forbidden.']}
-        include_examples 'does not update the stage visual', error_details
-        include_examples 'does not delete the old stage visual'
+        it_behaves_like 'does not update the stage visual', error_details
+        it_behaves_like 'does not delete the old stage visual'
       end
 
       context 'when saving to destination is forbidden' do
@@ -378,14 +402,14 @@ RSpec.describe 'Courses: Update with stage visual', type: :request do
         end
 
         error_details = {'stage_visual_uri' => ['Could not save file - access to destination is forbidden.']}
-        include_examples 'does not update the stage visual', error_details
-        include_examples 'does not delete the old stage visual'
+        it_behaves_like 'does not update the stage visual', error_details
+        it_behaves_like 'does not delete the old stage visual'
       end
 
       context 'when the stage_visual_uri is nil' do
         let(:data) { {stage_visual_upload_id: upload_id, stage_visual_uri: nil} }
 
-        include_examples 'deletes the stage visual'
+        it_behaves_like 'deletes the stage visual'
       end
     end
   end

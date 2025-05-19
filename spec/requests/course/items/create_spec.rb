@@ -528,7 +528,7 @@ describe 'Course: Items: Create', type: :request do
         it_behaves_like 'failing content resource creation'
       end
 
-      include_examples 'failing item resource creation'
+      it_behaves_like 'failing item resource creation'
     end
 
     context 'for LTI exercise items' do

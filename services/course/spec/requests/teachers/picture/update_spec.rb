@@ -88,7 +88,7 @@ RSpec.describe 'Teachers: Update with picture', type: :request do
       end
 
       context 'when upload is successful' do
-        include_examples 'updates with picture'
+        it_behaves_like 'updates with picture'
       end
 
       context 'when upload was rejected' do
@@ -104,7 +104,7 @@ RSpec.describe 'Teachers: Update with picture', type: :request do
         end
 
         error_details = {'picture_upload_id' => ['invalid upload']}
-        include_examples 'does not update the picture', error_details
+        it_behaves_like 'does not update the picture', error_details
       end
 
       context 'without access permission' do
@@ -113,7 +113,7 @@ RSpec.describe 'Teachers: Update with picture', type: :request do
         end
 
         error_details = {'picture_upload_id' => ['could not process file upload']}
-        include_examples 'does not update the picture', error_details
+        it_behaves_like 'does not update the picture', error_details
       end
 
       context 'when saving to destination is forbidden' do
@@ -130,7 +130,7 @@ RSpec.describe 'Teachers: Update with picture', type: :request do
         end
 
         error_details = {'picture_upload_id' => ['could not process file upload']}
-        include_examples 'does not update the picture', error_details
+        it_behaves_like 'does not update the picture', error_details
       end
     end
 
@@ -142,7 +142,7 @@ RSpec.describe 'Teachers: Update with picture', type: :request do
       end
 
       context 'when upload is successful' do
-        include_examples 'updates with picture'
+        it_behaves_like 'updates with picture'
       end
 
       context 'when upload was rejected' do
@@ -158,7 +158,7 @@ RSpec.describe 'Teachers: Update with picture', type: :request do
         end
 
         error_details = {'picture_uri' => ['Upload not valid - either file upload was rejected or access to it is forbidden.']}
-        include_examples 'does not update the picture', error_details
+        it_behaves_like 'does not update the picture', error_details
       end
 
       context 'without access permission' do
@@ -167,7 +167,7 @@ RSpec.describe 'Teachers: Update with picture', type: :request do
         end
 
         error_details = {'picture_uri' => ['Upload not valid - either file upload was rejected or access to it is forbidden.']}
-        include_examples 'does not update the picture', error_details
+        it_behaves_like 'does not update the picture', error_details
       end
 
       context 'when saving to destination is forbidden' do
@@ -184,7 +184,7 @@ RSpec.describe 'Teachers: Update with picture', type: :request do
         end
 
         error_details = {'picture_uri' => ['Could not save file - access to destination is forbidden.']}
-        include_examples 'does not update the picture', error_details
+        it_behaves_like 'does not update the picture', error_details
       end
     end
   end
@@ -221,7 +221,21 @@ RSpec.describe 'Teachers: Update with picture', type: :request do
       end
 
       context 'when upload is successful' do
-        include_examples 'updates with picture'
+        let(:store_stub) { stub_request(:put, store_stub_url).to_return(status: 200, body: '<xml></xml>') }
+
+        before do
+          store_stub
+          stub_request(:head, file_url).to_return(
+            status: 200,
+            headers: {
+              'Content-Type' => 'inode/x-empty',
+              'X-Amz-Meta-Xikolo-Purpose' => 'course_teacher_picture',
+              'X-Amz-Meta-Xikolo-State' => 'accepted',
+            }
+          )
+        end
+
+        it_behaves_like 'updates with picture'
         it 'schedules the removal of the old picture' do
           update_teacher
           expect(FileDeletionWorker.jobs.last['args']).to eq [old_picture_uri]
@@ -241,7 +255,7 @@ RSpec.describe 'Teachers: Update with picture', type: :request do
         end
 
         error_details = {'picture_upload_id' => ['invalid upload']}
-        include_examples 'does not update the picture', error_details
+        it_behaves_like 'does not update the picture', error_details
       end
 
       context 'without access permission' do
@@ -250,7 +264,7 @@ RSpec.describe 'Teachers: Update with picture', type: :request do
         end
 
         error_details = {'picture_upload_id' => ['could not process file upload']}
-        include_examples 'does not update the picture', error_details
+        it_behaves_like 'does not update the picture', error_details
       end
 
       context 'when saving to destination is forbidden' do
@@ -267,7 +281,7 @@ RSpec.describe 'Teachers: Update with picture', type: :request do
         end
 
         error_details = {'picture_upload_id' => ['could not process file upload']}
-        include_examples 'does not update the picture', error_details
+        it_behaves_like 'does not update the picture', error_details
       end
     end
 
@@ -279,7 +293,21 @@ RSpec.describe 'Teachers: Update with picture', type: :request do
       end
 
       context 'when upload is successful' do
-        include_examples 'updates with picture'
+        let(:store_stub) { stub_request(:put, store_stub_url).to_return(status: 200, body: '<xml></xml>') }
+
+        before do
+          store_stub
+          stub_request(:head, file_url).to_return(
+            status: 200,
+            headers: {
+              'Content-Type' => 'inode/x-empty',
+              'X-Amz-Meta-Xikolo-Purpose' => 'course_teacher_picture',
+              'X-Amz-Meta-Xikolo-State' => 'accepted',
+            }
+          )
+        end
+
+        it_behaves_like 'updates with picture'
         it 'schedules the removal of the old picture' do
           update_teacher
           expect(FileDeletionWorker.jobs.last['args']).to eq [old_picture_uri]
@@ -299,7 +327,7 @@ RSpec.describe 'Teachers: Update with picture', type: :request do
         end
 
         error_details = {'picture_uri' => ['Upload not valid - either file upload was rejected or access to it is forbidden.']}
-        include_examples 'does not update the picture', error_details
+        it_behaves_like 'does not update the picture', error_details
       end
 
       context 'without access permission' do
@@ -308,7 +336,7 @@ RSpec.describe 'Teachers: Update with picture', type: :request do
         end
 
         error_details = {'picture_uri' => ['Upload not valid - either file upload was rejected or access to it is forbidden.']}
-        include_examples 'does not update the picture', error_details
+        it_behaves_like 'does not update the picture', error_details
       end
 
       context 'when saving to destination is forbidden' do
@@ -325,7 +353,7 @@ RSpec.describe 'Teachers: Update with picture', type: :request do
         end
 
         error_details = {'picture_uri' => ['Could not save file - access to destination is forbidden.']}
-        include_examples 'does not update the picture', error_details
+        it_behaves_like 'does not update the picture', error_details
       end
     end
   end

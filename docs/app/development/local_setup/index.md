@@ -43,18 +43,18 @@ Install RVM as described in
 - [Basic installation guide](https://rvm.io/)
 - [Full installation guide](https://rvm.io/rvm/install/)
 
-**Ruby 3.2**: The programming language for most of our services
+**Ruby 3.4**: The programming language for most of our services
 
 === "Debian / Ubuntu"
 
     ```console
-    rvm install 3.4.2
+    rvm install 3.4.3
     ```
 
 === "Mac"
 
     ```console
-    rvm install 3.4.2
+    rvm install 3.4.3
     ```
 
 **Bundler**: Ruby's dependency manager

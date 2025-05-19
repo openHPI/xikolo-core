@@ -223,7 +223,7 @@ describe 'Sessions: Show', type: :request do
 
         let(:user) { session.user }
 
-        include_examples 'shared:permissions'
+        it_behaves_like 'shared:permissions'
       end
     end
   end

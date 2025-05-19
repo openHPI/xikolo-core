@@ -108,7 +108,7 @@ GEM
       tzinfo (~> 2.0, >= 2.0.5)
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
-    amq-protocol (2.3.3)
+    amq-protocol (2.3.4)
     base64 (0.2.0)
     benchmark (0.4.0)
     bigdecimal (3.1.9)
@@ -124,7 +124,7 @@ GEM
     crass (1.0.6)
     database_cleaner (2.1.0)
       database_cleaner-active_record (>= 2, < 3)
-    database_cleaner-active_record (2.2.0)
+    database_cleaner-active_record (2.2.1)
       activerecord (>= 5.a)
       database_cleaner-core (~> 2.0.0)
     database_cleaner-core (2.0.1)
@@ -135,7 +135,7 @@ GEM
     decorate-responder (2.1.0)
       responders (>= 2, < 4)
     descriptive_statistics (2.5.1)
-    diff-lcs (1.6.1)
+    diff-lcs (1.6.2)
     distribution (0.8.0)
     docile (1.4.1)
     draper (4.0.4)
@@ -162,8 +162,8 @@ GEM
       railties (>= 7.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    groupdate (6.5.1)
-      activesupport (>= 7)
+    groupdate (6.6.0)
+      activesupport (>= 7.1)
     hashdiff (1.1.2)
     hitimes (3.1.0)
     i18n (1.14.7)
@@ -173,7 +173,7 @@ GEM
       pp (>= 0.6.0)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
-    json (2.11.3)
+    json (2.12.0)
     listen (3.9.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -182,7 +182,7 @@ GEM
     logging (2.4.0)
       little-plugger (~> 1.1)
       multi_json (~> 1.14)
-    loofah (2.24.0)
+    loofah (2.24.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
     mail (2.8.1)
@@ -192,7 +192,7 @@ GEM
       net-smtp
     marcel (1.0.4)
     mini_mime (1.1.5)
-    mini_portile2 (2.8.8)
+    mini_portile2 (2.8.9)
     minitest (5.25.5)
     mnemosyne-ruby (2.1.2)
       activesupport (>= 6.1)
@@ -227,20 +227,20 @@ GEM
     prime (0.1.3)
       forwardable
       singleton
-    psych (5.2.4)
+    psych (5.2.6)
       date
       stringio
     public_suffix (6.0.2)
     puma (6.6.0)
       nio4r (~> 2.0)
     racc (1.8.1)
-    rack (3.1.13)
+    rack (3.1.15)
     rack-link_headers (2.4.1)
       rack
     rack-remote (1.1.0)
       multi_json
       rack
-    rack-session (2.1.0)
+    rack-session (2.1.1)
       base64 (>= 0.1.0)
       rack (>= 3.0.0)
     rack-test (2.2.0)
@@ -297,7 +297,7 @@ GEM
     responders (3.1.1)
       actionpack (>= 5.2)
       railties (>= 5.2)
-    restify (2.0.1)
+    restify (2.0.2)
       activesupport
       addressable (~> 2.3)
       concurrent-ruby (~> 1.0)
@@ -323,7 +323,7 @@ GEM
     rspec-its (2.0.0)
       rspec-core (>= 3.13.0)
       rspec-expectations (>= 3.13.0)
-    rspec-mocks (3.13.3)
+    rspec-mocks (3.13.4)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
     rspec-rails (7.1.1)
@@ -351,7 +351,7 @@ GEM
     sentry-sidekiq (5.23.0)
       sentry-ruby (~> 5.23.0)
       sidekiq (>= 3.0)
-    set (1.1.1)
+    set (1.1.2)
     sidekiq (7.3.9)
       base64
       connection_pool (>= 2.3.0)
@@ -455,7 +455,7 @@ DEPENDENCIES
   xikolo-sidekiq!
 
 RUBY VERSION
-   ruby 3.4.2p28
+   ruby 3.4.3p32
 
 BUNDLED WITH
-   2.6.3
+   2.6.8

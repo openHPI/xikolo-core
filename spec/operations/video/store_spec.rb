@@ -172,7 +172,7 @@ RSpec.describe Video::Store do
             )
           end
 
-          include_examples 'does not update the attachment', :reading_material_uri
+          it_behaves_like 'does not update the attachment', :reading_material_uri
         end
 
         context 'without access permission' do
@@ -180,7 +180,7 @@ RSpec.describe Video::Store do
             stub_request(:head, file_url).to_return(status: 403)
           end
 
-          include_examples 'does not update the attachment', :reading_material_uri
+          it_behaves_like 'does not update the attachment', :reading_material_uri
         end
 
         context 'when saving to destination is forbidden' do
@@ -197,7 +197,7 @@ RSpec.describe Video::Store do
               .to_return(status: 403)
           end
 
-          include_examples 'does not update the attachment', :reading_material_uri
+          it_behaves_like 'does not update the attachment', :reading_material_uri
         end
       end
 
@@ -276,14 +276,14 @@ RSpec.describe Video::Store do
       context 'via id' do
         let(:update_params) { super().merge reading_material_upload_id: upload_id }
 
-        include_examples 'backward-compatible S3-upload'
+        it_behaves_like 'backward-compatible S3-upload'
       end
 
       context 'via uri' do
         let(:new_uri) { "upload://#{upload_id}/#{file_name}" }
         let(:update_params) { super().merge reading_material_uri: new_uri }
 
-        include_examples 'backward-compatible S3-upload'
+        it_behaves_like 'backward-compatible S3-upload'
       end
     end
   end
@@ -377,7 +377,7 @@ RSpec.describe Video::Store do
             )
           end
 
-          include_examples 'does not update the attachment', :slides_uri
+          it_behaves_like 'does not update the attachment', :slides_uri
         end
 
         context 'without access permission' do
@@ -385,7 +385,7 @@ RSpec.describe Video::Store do
             stub_request(:head, file_url).to_return(status: 403)
           end
 
-          include_examples 'does not update the attachment', :slides_uri
+          it_behaves_like 'does not update the attachment', :slides_uri
         end
 
         context 'when saving to destination is forbidden' do
@@ -402,7 +402,7 @@ RSpec.describe Video::Store do
               .to_return(status: 403)
           end
 
-          include_examples 'does not update the attachment', :slides_uri
+          it_behaves_like 'does not update the attachment', :slides_uri
         end
       end
 
@@ -482,14 +482,14 @@ RSpec.describe Video::Store do
       context 'via ID' do
         let(:update_params) { super().merge slides_upload_id: upload_id }
 
-        include_examples 'backward-compatible S3-upload'
+        it_behaves_like 'backward-compatible S3-upload'
       end
 
       context 'via URI' do
         let(:new_uri) { "upload://#{upload_id}/#{file_name}" }
         let(:update_params) { super().merge slides_uri: new_uri }
 
-        include_examples 'backward-compatible S3-upload'
+        it_behaves_like 'backward-compatible S3-upload'
       end
     end
   end
@@ -555,7 +555,7 @@ RSpec.describe Video::Store do
           store_stub
         end
 
-        include_examples 'backward-compatible S3-upload'
+        it_behaves_like 'backward-compatible S3-upload'
 
         it 'updates the transcript_uri on the video' do
           store_video
@@ -581,7 +581,7 @@ RSpec.describe Video::Store do
             )
           end
 
-          include_examples 'does not update the attachment', :transcript_uri
+          it_behaves_like 'does not update the attachment', :transcript_uri
         end
 
         context 'without access permission' do
@@ -589,7 +589,7 @@ RSpec.describe Video::Store do
             stub_request(:head, file_url).to_return(status: 403)
           end
 
-          include_examples 'does not update the attachment', :transcript_uri
+          it_behaves_like 'does not update the attachment', :transcript_uri
         end
 
         context 'when saving to destination is forbidden' do
@@ -606,7 +606,7 @@ RSpec.describe Video::Store do
               .to_return(status: 403)
           end
 
-          include_examples 'does not update the attachment', :transcript_uri
+          it_behaves_like 'does not update the attachment', :transcript_uri
         end
       end
 
@@ -685,14 +685,14 @@ RSpec.describe Video::Store do
       context 'via id' do
         let(:update_params) { super().merge transcript_upload_id: upload_id }
 
-        include_examples 'backward-compatible S3-upload'
+        it_behaves_like 'backward-compatible S3-upload'
       end
 
       context 'via uri' do
         let(:new_uri) { "upload://#{upload_id}/#{file_name}" }
         let(:update_params) { super().merge transcript_uri: new_uri }
 
-        include_examples 'backward-compatible S3-upload'
+        it_behaves_like 'backward-compatible S3-upload'
       end
     end
   end

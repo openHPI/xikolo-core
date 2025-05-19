@@ -26,7 +26,7 @@ describe EnrollmentsController, type: :controller do
       YML
     end
 
-    around {|example| Sidekiq::Testing.inline!(&example) } # rubocop:disable RSpec/ScatteredSetup
+    around {|example| Sidekiq::Testing.inline!(&example) }
   end
 
   variant 'Computed evaluation' do
@@ -46,7 +46,7 @@ describe EnrollmentsController, type: :controller do
       YML
     end
 
-    around {|example| Sidekiq::Testing.inline!(&example) } # rubocop:disable RSpec/ScatteredSetup
+    around {|example| Sidekiq::Testing.inline!(&example) }
   end
 
   variant 'Computed evaluation (with silent comparison to persisted evaluation)' do
@@ -65,14 +65,14 @@ describe EnrollmentsController, type: :controller do
         .to_return(status: 200)
     end
 
-    around {|example| Sidekiq::Testing.inline!(&example) } # rubocop:disable RSpec/ScatteredSetup
+    around {|example| Sidekiq::Testing.inline!(&example) }
 
     # We'd typically want to raise if Scientist detects mismatches.
     # Here, we have one narrowly-defined edge case that should not affect end users.
     # Also, these are *comparison* specs aimed at ensuring the user-visible behavior
     # is the same (which is the case because only the control variant is exposed).
     # Thus, we keep mismatches to ourselves here.
-    around do |example| # rubocop:disable RSpec/ScatteredSetup
+    around do |example|
       original = Experiment.raise_on_mismatches?
       Experiment.raise_on_mismatches = false
       example.run

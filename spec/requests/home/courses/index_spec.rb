@@ -80,7 +80,7 @@ describe 'Home: Courses: Index', type: :request do
       super().merge(features: {'course_list' => 'true'})
     end
 
-    include_examples 'ajax request'
+    it_behaves_like 'ajax request'
 
     it 'lists all public courses' do
       request
@@ -124,7 +124,7 @@ describe 'Home: Courses: Index', type: :request do
 
     before { user }
 
-    include_examples 'ajax request'
+    it_behaves_like 'ajax request'
 
     it 'lists all public courses' do
       request

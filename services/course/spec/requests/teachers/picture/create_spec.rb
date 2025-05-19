@@ -91,7 +91,7 @@ describe 'Teachers: Create with picture', type: :request do
     end
 
     context 'when upload is successful' do
-      include_examples 'creates with picture'
+      it_behaves_like 'creates with picture'
     end
 
     context 'when upload was rejected' do
@@ -107,7 +107,7 @@ describe 'Teachers: Create with picture', type: :request do
       end
 
       error_details = {'picture_upload_id' => ['invalid upload']}
-      include_examples 'does not create', error_details
+      it_behaves_like 'does not create', error_details
     end
 
     context 'without access permission' do
@@ -116,7 +116,7 @@ describe 'Teachers: Create with picture', type: :request do
       end
 
       error_details = {'picture_upload_id' => ['could not process file upload']}
-      include_examples 'does not create', error_details
+      it_behaves_like 'does not create', error_details
     end
 
     context 'when saving to destination is forbidden' do
@@ -133,7 +133,7 @@ describe 'Teachers: Create with picture', type: :request do
       end
 
       error_details = {'picture_upload_id' => ['could not process file upload']}
-      include_examples 'does not create', error_details
+      it_behaves_like 'does not create', error_details
     end
   end
 
@@ -152,7 +152,7 @@ describe 'Teachers: Create with picture', type: :request do
     end
 
     context 'when upload is successful' do
-      include_examples 'creates with picture'
+      it_behaves_like 'creates with picture'
     end
 
     context 'when upload was rejected' do
@@ -168,7 +168,7 @@ describe 'Teachers: Create with picture', type: :request do
       end
 
       error_details = {'picture_uri' => ['Upload not valid - either file upload was rejected or access to it is forbidden.']}
-      include_examples 'does not create', error_details
+      it_behaves_like 'does not create', error_details
     end
 
     context 'without access permission' do
@@ -177,7 +177,7 @@ describe 'Teachers: Create with picture', type: :request do
       end
 
       error_details = {'picture_uri' => ['Upload not valid - either file upload was rejected or access to it is forbidden.']}
-      include_examples 'does not create', error_details
+      it_behaves_like 'does not create', error_details
     end
 
     context 'when saving to destination is forbidden' do
@@ -194,7 +194,7 @@ describe 'Teachers: Create with picture', type: :request do
       end
 
       error_details = {'picture_uri' => ['Could not save file - access to destination is forbidden.']}
-      include_examples 'does not create', error_details
+      it_behaves_like 'does not create', error_details
     end
   end
 end

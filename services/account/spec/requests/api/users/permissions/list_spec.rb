@@ -17,6 +17,6 @@ describe 'List user permissions', type: :request do
   context '[permissions]' do
     subject { base.rel(:permissions).get({context: request_context}).value! }
 
-    include_examples 'shared:permissions'
+    it_behaves_like 'shared:permissions'
   end
 end

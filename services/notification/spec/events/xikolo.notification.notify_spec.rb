@@ -220,14 +220,14 @@ describe 'xikolo.notification.notify', type: :event do
           end
         end
 
-        include_examples 'external URLs'
+        it_behaves_like 'external URLs'
 
         it 'appends tracking parameters to internal URLs retaining the protocol' do
           expect(email.text).to include 'https://xikolo.de/news?tracking_'
           expect(email.html).to include 'https://xikolo.de/news?tracking_'
         end
 
-        include_examples 'unsubscribe links'
+        it_behaves_like 'unsubscribe links'
 
         context 'with http protocol for internal URLs' do
           let(:payload) do
@@ -244,14 +244,14 @@ describe 'xikolo.notification.notify', type: :event do
             )
           end
 
-          include_examples 'external URLs'
+          it_behaves_like 'external URLs'
 
           it 'appends tracking parameters to internal URLs retaining the protocol' do
             expect(email.text).to include 'http://xikolo.de/news?tracking_'
             expect(email.html).to include 'http://xikolo.de/news?tracking_'
           end
 
-          include_examples 'unsubscribe links'
+          it_behaves_like 'unsubscribe links'
         end
       end
     end
