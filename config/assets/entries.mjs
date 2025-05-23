@@ -15,7 +15,6 @@ export default async function entries() {
     modal: ['modal.js'],
 
     admin: 'admin/admin.js',
-    'collabspace/calendar': 'collabspace/calendar.js',
     course: 'course/course.js',
     home: 'home/home.js',
     teacher: 'teacher/teacher.js',

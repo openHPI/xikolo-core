@@ -5,7 +5,6 @@ class QuestionController < Abstract::FrontendController
 
   include CourseContextHelper
   include PinboardRoutesHelper
-  include Collabspace::CollabspacesIntegrationHelper
 
   inside_course
 
@@ -17,7 +16,6 @@ class QuestionController < Abstract::FrontendController
     ensure_has_edit_rights
   end
   before_action :load_section_nav
-  before_action :ensure_collabspace_membership
 
   helper_method :can_edit?
   helper_method :can_delete?
@@ -84,8 +82,7 @@ class QuestionController < Abstract::FrontendController
     @pinboard = PinboardPresenter.new(
       course: the_course,
       section: @section,
-      technical_issues: @question.technical?,
-      collab_space: @collabspace
+      technical_issues: @question.technical?
     )
 
     if @question.deleted == true && !current_user.allowed?('pinboard.entity.delete')

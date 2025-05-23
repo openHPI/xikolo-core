@@ -821,7 +821,7 @@ uk:
         headline: Підтвердьте свій обліковий запис
         message: За кілька хвилин ви отримаєте електронного листа із підтвердженням.
         confirmation_period: Посилання на підтвердження буде дійсним протягом трьох днів.
-        notice: Перевірте папку зі спамом, якщо ви не отримали листа з підтвердженням.
+        notice: Якщо ви не отримали листа з підтвердженням, перевірте, будь ласка, папку «Спам», а якщо не отримаєте його протягом наступних 15 хвилин, зверніться до <a href='https://open.hpi.de/helpdesk?locale=uk' target='_blank' rel='noopener'>служби підтримки</a>.
     shared:
       consent:
         required: "Для продовження ви повинні погодитися з необхідними умовами."
@@ -1389,7 +1389,6 @@ uk:
       knowledge_documents: Документи
       discussions: Обговорення
       announcements: Оголошення
-      learning_rooms: Простір для співпраці
       teacher:
         administration: Адміністрація курсу
         # EN-fallback welcome: Welcome, teacher!
@@ -2435,7 +2434,6 @@ uk:
     breadcrumbs:
       label: "Ви тут:"
       all: Усі дискусії
-      collabspace: "Collab Space: %{name}"
     general: Усі дискусії (загальні)
     no_results_search: На жаль, для вашого пошуку не знайдено жодних елементів
     no_results: Вибачте, тут поки що нічого.
@@ -2649,103 +2647,6 @@ uk:
       text: Ви не відповіли на всі запитання. Ви впевнені, що хочете надіслати свої відповіді?
       btn_submit: Надіслати відповіді
       btn_cancel: Скасувати
-
-  learning_rooms:
-    name: Ім'я
-    calendar:
-      loading_events: Завантаження подій
-      new_event: Нова подія
-      edit_event: Редагувати подію
-      delete_event: Видалити
-      close: Закрити
-      permissions: Ви не маєте дозволу редагувати цю подію
-      categories:
-        available: Доступно
-        unavailable: Недоступно
-        meeting: Зустріч
-        milestone: Стадія
-        other: Інше
-    nav:
-      dashboard: Переглянути останні дії
-      discussions: Обговорити зі своєю командою
-      etherpad: Співпрацювати над текстами
-      files: Поділитися файлами
-      tpa: "Подати свою командну роботу та оцінити своїх однокурсників (%{title})"
-      administration: Керувати своїм простором співпраці
-      calendar: Організувати події
-    files:
-      headline: Поділитися файлами
-      empty: Наразі не завантажено жодного файлу.
-      dropzone:
-        upload_files: Завантажити файли
-        hint: "Дозволені типи документів pdf, txt, xml, jpg, png, gif, docx, pptx, xlsx, odt, odp, ods, csv. Макс. розмір: %{maxFileSize} MB."
-      file:
-        title: Назва
-        last_modified: Востаннє змінено
-        size: Розмір
-      details: Деталі
-      download: Завантажити
-      delete: Видалити
-      confirm_delete: Ви дійсно хочете видалити цей файл із сервера?
-    list: Список Collab Space
-    my_rooms: Мої Collab Space
-    my_rooms_empty_state: Ви ще не приєдналися до навчального простору.
-    list_empty_state: Для цього курсу ще немає навчальних просторів.
-    create: Створити Collab Space
-    create_button: Створити Collab Space
-    update_button: Оновити Collab Space
-    go: Увійти у Collab Space
-    pending: Членство в очікуванні
-    pending_text: Наразі ви очікуєте підтвердження вашого статусу членства.
-    join: Приєднатися до Collab Space
-    request: Запит на членство
-    quit_membership: Відмовитися від членства
-    quit_membership_confirm: Ви дійсно хочете відмовитися від членства в цьому Collab Space?
-    is_open: "Це <i>відкритий</i> Collab Space. Будь-хто може приєднатися."
-    is_closed: "Це <i>закритий</i> Collab Space. Запити на членство мають бути затверджені адміністратором Collab Space."
-    team_name: "Команда: %{name}"
-    member_list: Список учасників
-    teacher_information: "<i>Для вашої інформації:</i> Викладачі курсів та асистенти можуть отримати доступ до вашого Collab Space без необхідності бути учасником.<br />Це стосується як відкритих, так і закритих Collab Space."
-    open: відкритий
-    closed: закритий
-    admin:
-      name: Ім'я
-      headline: Керування Collab Space
-      delete: Видалити Collab Space
-      delete_confirm: Ви дійсно бажаєте видалити цей Collab Space?
-      delete_warning: "Використовуйте цю кнопку, лише якщо знаєте, що робите!"
-      description: Опис
-      description_hint: "Будь ласка, надайте короткий та змістовний опис мети цього Collab Space. Символів залишилося: "
-      details: Деталі
-      details_hint: Ви можете додати детальний внутрішній опис для Collab Space тут.
-      member_management: Управління членством
-      properties: Властивості Collab Space
-      member_name: Ім'я учасника
-      membership_type: Тип членства
-      actions: Дії
-      add_user: Додати користувача
-      kick_member: Видалити члена
-      kick_member_confirm: Ви дійсно хочете видалити цього користувача із Collab Space?
-      accept_member: Прийняти членство
-      promote_member: Підвищити учасника до адміністратора
-      promote_member_confirm: Ви дійсно хочете зробити цього учасника адміністратором цього Collab Space?
-      promote_member_mentor: Підвищити члена до куратора
-      promote_member_mentor_confirm: Ви дійсно хочете зробити цього учасника куратором цього Collab Space?
-      demote_member: Понизити члена до звичайного члена
-      demote_member_confirm: Ви дійсно хочете позбавити адміністративних привілеїв цього члена Collab Space?
-      is_open: Цей Collab Space відкритий
-      mail_to_member: Написати листа учаснику
-      mail: Дорогий(а) %{recipient}, З найкращими побажаннями %{sender}
-    flash_messages:
-      success:
-        delete_room: Collab Space було успішно видалено.
-      notice:
-        status_pending: "Ви подали запит на приєднання до Collab Space %{learning_room}. Ваш запит очікує схвалення."
-        status_joined: "Ви щойно приєдналися до Collab Space %{learning_room}! Будьте ввічливим!"
-      error:
-        membership_exists: Ця людина вже приєднана до цього Collab Space.
-        membership_elsewhere: Цей учень вже приєднаний до іншого Collab Space. Вилучіть учня звідти та спробуйте ще раз.
-        delete_space: Collab Space не може бути видалений.
 
   users:
     list:
@@ -3019,11 +2920,6 @@ uk:
       certificate:
         admin:
           name: "<b>Адміністрування сертифікатів:</b> додавання, зміна та видалення шаблонів сертифікатів, попередній перегляд сертифікатів"
-      collabspace:
-        admin:
-          name: "<b>Адміністрування простору для співпраці:</b> доступ, керування, закриття та видалення просторів для співпраці, керування учасниками простору для співпраці"
-        mentor:
-          name: "<b>Наставництво у просторі для співпраці:</b> доступ до просторів для співпраці"
       file:
         admin:
           name: "<b>Адміністрування файлів:</b> список та видалення завантажених файлів"

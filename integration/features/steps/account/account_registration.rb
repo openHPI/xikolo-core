@@ -5,6 +5,7 @@ module Steps
     def account_details
       {
         'email' => 'john@xikolo.de',
+        'date_of_birth' => '1990-01-20',
         'password' => 'secret123',
         'full_name' => 'John Smith',
       }
@@ -15,6 +16,8 @@ module Steps
       context.assign :user, data
 
       fill_in 'Name', with: data['full_name']
+      page.execute_script(%{document.querySelector(
+        '[data-birthday="true"]')._flatpickr.setDate('#{data['date_of_birth']}');})
       fill_in 'E-mail address', with: data['email']
       fill_in 'Password', with: data['password'], match: :prefer_exact
       fill_in 'Repeat password', with: data['password']
@@ -26,6 +29,8 @@ module Steps
       context.assign :user, data
 
       fill_in 'Ihr Name', with: data['full_name']
+      page.execute_script(%{document.querySelector(
+        '[data-birthday="true"]')._flatpickr.setDate('#{data['date_of_birth']}');})
       fill_in 'Ihre E-Mail-Adresse', with: data['email']
       fill_in 'Passwort', with: data['password'], match: :prefer_exact
       fill_in 'Passwort (Wiederholung)', with: data['password']

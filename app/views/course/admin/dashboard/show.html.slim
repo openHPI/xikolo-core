@@ -117,20 +117,6 @@
               data-selector key='forum_statistics'
                 = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.forum.threads_last_day'), data_key: 'threads_last_day', prefix: '+', icon: 'fa fa-comment-dots'}
 
-            - if @course.has_collab_space
-              .kpi-item
-                data-selector key='forum_statistics'
-                  = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.forum.posts_in_collab_spaces'), data_key: 'posts_in_collab_spaces', icon: 'fa fa-users'}
-              .kpi-item
-                data-selector key='forum_statistics'
-                  = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.forum.posts_last_day_in_collab_spaces'), data_key: 'posts_last_day_in_collab_spaces', prefix: '+', icon: 'fa fa-users'}
-              .kpi-item
-                data-selector key='forum_statistics'
-                  = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.forum.threads_in_collab_spaces'), data_key: 'threads_in_collab_spaces', icon: 'fa fa-users'}
-              .kpi-item
-                data-selector key='forum_statistics'
-                  = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.forum.threads_last_day_in_collab_spaces'), data_key: 'threads_last_day_in_collab_spaces', prefix: '+', icon: 'fa fa-users'}
-
             .kpi-item
               data-selector key='forum_activity'
                 = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.forum.forum_activity'), data_key: 'user', icon: 'fa fa-mouse-pointer'}

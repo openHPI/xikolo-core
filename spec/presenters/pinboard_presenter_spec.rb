@@ -12,8 +12,6 @@ describe PinboardPresenter, type: :presenter do
   let(:section_id) { '81e01000-3300-4444-a002-000000000001' }
   let(:short_section_id) { '3X4peCYbbcr6QSYXoifvl7' } # base62 form of above UUID
   let(:section) { Xikolo::Course::Section.new(id: section_id, title: 'Week 3') }
-  let(:collab_space_id) { '81e01000-4800-4444-a001-000000000001' }
-  let(:collab_space) { {'id' => collab_space_id, 'name' => 'Space to Collab'} }
   let(:thread_id) { '81e01000-3500-4444-a001-000000000001' }
   let(:thread) { Xikolo::Pinboard::Question.new(id: thread_id, title: 'What can I ask?') }
 
@@ -45,17 +43,6 @@ describe PinboardPresenter, type: :presenter do
           expect {|b| crumbs.each_level(&b) }.to yield_successive_args(
             ['/courses/the_course/pinboard', 'All discussions'],
             ['/courses/the_course/sections/technical_issues/pinboard', 'Technical Issues']
-          )
-        end
-      end
-
-      context 'in a collab space' do
-        let(:context) { super().merge(collab_space:) }
-
-        it 'yields the collab space and all discussions' do
-          expect {|b| crumbs.each_level(&b) }.to yield_successive_args(
-            ["/courses/the_course/learning_rooms/#{collab_space_id}", 'Collab Space: Space to Collab'],
-            ["/courses/the_course/learning_rooms/#{collab_space_id}/pinboard", 'All discussions']
           )
         end
       end
@@ -91,18 +78,6 @@ describe PinboardPresenter, type: :presenter do
             ['/courses/the_course/pinboard', 'All discussions'],
             ['/courses/the_course/sections/technical_issues/pinboard', 'Technical Issues'],
             ["/courses/the_course/sections/technical_issues/question/#{thread_id}", 'What can I ask?']
-          )
-        end
-      end
-
-      context 'in a collab space' do
-        let(:context) { super().merge(collab_space:) }
-
-        it 'yields the collab space, all discussions and the thread' do
-          expect {|b| crumbs.each_level(&b) }.to yield_successive_args(
-            ["/courses/the_course/learning_rooms/#{collab_space_id}", 'Collab Space: Space to Collab'],
-            ["/courses/the_course/learning_rooms/#{collab_space_id}/pinboard", 'All discussions'],
-            ["/courses/the_course/learning_rooms/#{collab_space_id}/question/#{thread_id}", 'What can I ask?']
           )
         end
       end
@@ -171,22 +146,6 @@ describe PinboardPresenter, type: :presenter do
       end
 
       # "Technical issues" can not be locked on its own
-    end
-
-    context 'in a collab space' do
-      let(:context) { super().merge(collab_space:) }
-
-      it 'allows posting by default' do
-        expect(presenter.open?).to be true
-        expect(presenter.lock_reason).to be_nil
-      end
-
-      it 'does not allow posting when the course pinboard was locked' do
-        course.forum_is_locked = true
-
-        expect(presenter.open?).to be false
-        expect(presenter.lock_reason).to include 'The discussions for this course are read-only.'
-      end
     end
   end
 

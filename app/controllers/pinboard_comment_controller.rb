@@ -3,10 +3,8 @@
 class PinboardCommentController < Abstract::FrontendController
   include CourseContextHelper
   include PinboardRoutesHelper
-  include Collabspace::CollabspacesIntegrationHelper
 
   before_action :check_course_eligibility
-  before_action :ensure_collabspace_membership
 
   def edit
     @comment = Xikolo::Pinboard::Comment.find(

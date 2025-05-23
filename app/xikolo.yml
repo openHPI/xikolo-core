@@ -125,9 +125,6 @@ course_languages: [de, en, es, fr, uk]
 # custom field, e.g. 'gender'.
 dashboard_chart_custom_fields: []
 
-# RFC 6570 template for generating URLs to an Etherpad instance, for use in collab spaces
-etherpad_host_template: "https://etherpad.xikolo.de/p/{id}"
-
 # When should single-select questions in surveys be rendered as dropdown?
 # If the number of answers to the question is larger than or equal this threshold, the UI will
 # change from radio buttons to a dropdown widget.

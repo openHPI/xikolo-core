@@ -47,6 +47,8 @@ de:
           complete: Kurs & Zertifikat
 
     labels:
+      account:
+        date_of_birth: "Geburtsdatum"
       announcement:
         title: Titel
         visual_upload_id: Visual
@@ -112,7 +114,6 @@ de:
         cop_enabled: "Teilnahmebestätigung"
         roa_threshold_percentage: "Leistungsnachweis-Schwellwert"
         cop_threshold_percentage: "Teilnahmebestätigung-Schwellwert"
-        has_collab_space: "Lernräume"
         pinboard_enabled: Diskussionsforum
         records_released: "Leistungsnachweise freischalten"
         forum_is_locked: "Forum schließen"
@@ -186,6 +187,8 @@ de:
         move_to: Verschieben nach
 
     hints:
+      account:
+        date_of_birth: Mit Ihren Angaben ermöglichen Sie uns die Erstellung anonymer Statistiken, durch die wir unser Angebot verbessern und auch künftig kostenlos anbieten können.
       announcement_email:
         consents: "Wählen Sie alle Einwilligungen aus, denen die Empfänger zugestimmt haben müssen, um die Ankündigung zu erhalten. Sollten Sie keine Einwilligungen auswählen, wird die Ankündigung an alle Empfänger versendet. Um rechtskonform zu bleiben, sollten Sie im Zweifelsfall Ihren Datenschutzexperten zu Rate ziehen."
       channel:
@@ -223,7 +226,6 @@ de:
         records_released: Aktivieren Sie diese Option, um den Download von Leistungsnachweisen freizuschalten.
         show_syllabus: Eine Seite im Kursbereich, die das gesamte freigeschaltete Lernmaterial anzeigt.
         enable_video_download: Erlaubt Teilnehmern den Download von Video- und Audio-Versionen der Kursvideos, um offline zu lernen.
-        has_collab_space: Teilnehmer können öffentliche oder private Lernräume erstellen, um gemeinsam zu lernen, zusammen zu arbeiten oder Dateien auszutauschen.
         pinboard_enabled: Deaktiviert vollständig die Diskussionsfunktion für diesen Kurs. Die Benutzer können auf keine Diskussionen zugreifen. Eventuelle Diskussionsforen in Lernräumen sind davon nicht betroffen.
         forum_is_locked: Diskussionen werden in einen schreibgeschützten Zustand gesetzt. Dies geschieht in der Regel nach dem Ende der Kurslaufzeit.
         visual_creation: Nachdem Sie den Kurs erstellt haben, können Sie Visuals in den Kurseinstellungen hinzufügen.

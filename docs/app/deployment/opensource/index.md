@@ -19,8 +19,6 @@ These are divided into necessary and optional services:
 |------------------------------------|------------------------------------------------------------------------------------|
 | **account-api**                    | Enables user login and management.                                                 |
 | **account-sidekiq**                | Background job processing with Sidekiq for the account service.                    |
-| **collabspace-api**                | Provides a shared space within courses.                                            |
-| **collabspace-sidekiq**            | Background job processing with Sidekiq for the collabspace service.                |
 | **course-api**                     | Lists all courses and allows managing them.                                        |
 | **course-msgr**                    | Asynchronous messaging service for the course service.                             |
 | **course-sidekiq**                 | Background job processing with Sidekiq for the course service.                     |

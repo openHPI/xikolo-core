@@ -4,7 +4,6 @@ class PinboardController < Abstract::FrontendController
   include CourseContextHelper
   include PinboardRoutesHelper
   include PinboardHelper
-  include Collabspace::CollabspacesIntegrationHelper
 
   before_action :set_no_cache_headers
   before_action :ensure_logged_in
@@ -13,15 +12,14 @@ class PinboardController < Abstract::FrontendController
   before_action :ensure_pinboard_enabled, only: :index
   before_action :load_section_nav, only: :index
   before_action :restrict_technical_issues_section, only: :index
-  before_action :ensure_collabspace_membership
 
   def index
     # This prepares some variables for the new question form
-    course = the_course
+    @course = the_course
 
     tags = [*params[:tags]]
     if params[:section_id] == 'technical_issues'
-      Xikolo::Pinboard::ImplicitTag.find_by name: 'Technical Issues', course_id: course.id do |tag|
+      Xikolo::Pinboard::ImplicitTag.find_by name: 'Technical Issues', course_id: @course.id do |tag|
         tags << tag.id
         @implicit_tags = tags.join ','
       end
@@ -42,7 +40,6 @@ class PinboardController < Abstract::FrontendController
       course: the_course,
       section: @section,
       technical_issues: params[:section_id] == 'technical_issues',
-      collab_space: @collabspace,
       filters:
     )
     pinboard_api.rel(:questions).get(question_params).then do |topics|
@@ -73,7 +70,7 @@ class PinboardController < Abstract::FrontendController
     # collabspace pinboards.
     {
       tags: available_tags,
-    }.tap { it[:sections] = available_sections if @collabspace.blank? }
+    }.tap { it[:sections] = available_sections }
   end
 
   def available_tags

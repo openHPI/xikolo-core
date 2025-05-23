@@ -471,8 +471,6 @@ module Xikolo
                     active_users_last_7days: stats['active_users_last_7days'],
                     posts: stats['posts'],
                     threads: stats['threads'],
-                    posts_in_collab_spaces: stats['posts_in_collab_spaces'],
-                    threads_in_collab_spaces: stats['threads_in_collab_spaces'],
                     helpdesk_tickets: stats['helpdesk_tickets'],
                   }
                 end

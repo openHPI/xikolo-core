@@ -28,6 +28,7 @@ describe 'Account: Accounts: Create', type: :request do
       password: 'secret',
       password_confirmation: 'secret',
       language: 'en',
+      born_at: '1990-01-20',
     }
   end
   let(:policies) { [] }
@@ -54,6 +55,7 @@ describe 'Account: Accounts: Create', type: :request do
             password: 'secret',
             password_confirmation: 'secret',
             language: 'en',
+            born_at: '1990-01-20',
           })
         ).to have_been_requested
       end

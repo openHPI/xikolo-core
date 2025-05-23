@@ -46,21 +46,6 @@ module Minio
     certificates = Xikolo::S3.resource.bucket 'xikolo-certificate'
     certificates.create unless certificates.exists?
 
-    collab = Xikolo::S3.resource.bucket 'xikolo-collabspace'
-    collab.create unless collab.exists?
-    collab.policy.put policy: JSON.dump(YAML.safe_load(<<~POLICY))
-      Id: collabspace
-      Version: '2012-10-17'
-      Statement:
-        - Sid: content
-          Action:
-            - 's3:GetObject'
-          Effect: Allow
-          Resource:
-            - 'arn:aws:s3:::#{collab.name}/collabspaces/*'
-          Principal: {'AWS': '*'}
-    POLICY
-
     pinboard = Xikolo::S3.resource.bucket 'xikolo-pinboard'
     pinboard.create unless pinboard.exists?
     pinboard.policy.put policy: JSON.dump(YAML.safe_load(<<~POLICY))

@@ -21,7 +21,6 @@ module Xikolo
             blocked: current_user.allowed?('pinboard.entity.block'),
           }
 
-          apiparams[:learning_room_id] = params[:learning_room_id]
           apiparams[:search] = params[:q] if params[:q].present?
           apiparams[:tags] = Array.wrap(params[:tags]).join(',') if params[:tags].present?
 

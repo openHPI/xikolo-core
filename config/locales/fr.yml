@@ -961,7 +961,6 @@ fr:
       discussions: Discussions
       knowledge_documents: Documents
       announcements: Annonces
-      learning_rooms: Espace de collaboration
       teacher:
         administration: Administration de cours
         # EN-fallback welcome: Welcome, teacher!
@@ -1849,7 +1848,6 @@ fr:
     breadcrumbs:
       label: "Vous êtes ici :"
       all: Toutes les discussions
-      collabspace: "Espace de collaboration : %{name}"
     general: Toutes les discussions (Général)
     no_results_search: Désolé, aucun article trouvé pour votre recherche
     no_results: Désolé, rien ici encore..
@@ -2047,81 +2045,6 @@ fr:
       btn_submit: Envoyer réponses
       btn_cancel: Annuler
 
-  learning_rooms:
-    nav:
-      dashboard: Afficher l'activité récente
-      discussions: Discuter avec votre équipe
-      etherpad: Collaborer sur les contenus texte
-      files: Partager des fichiers
-      tpa: "Soumettre des tâches à votre équipe et évaluer les autres apprenants (%{title})"
-      administration: Gérer votre espace de collaboration
-    files:
-      headline: Partager des fichiers
-      empty: Pas de fichiers ont été téléchargés jusqu'à présent.
-      dropzone:
-        upload_files: Télécharger des fichiers
-        hint: "Les types de documents autorisés sont les suivants : pdf, txt, xml, jpg, png, gif, docx, pptx, xlsx, odt, odp, ods, csv. Taille maximale: %{maxFileSize} MB."
-      file:
-        title: Nom de fichier
-        # EN-fallback last_modified: Last Modified
-        size: Taille
-      details: Détails
-      download: Télécharger
-      delete: Delete
-      confirm_delete: Do you really want to delete this file from the server?
-    list: Liste d'espaces de collaboration
-    my_rooms: Mes espaces de collaboration
-    my_rooms_empty_state: Vous n'avez pas encore rejoint un espace d'apprentissage.
-    list_empty_state: Il n'y a pas encore de salle d'étude pour ce cours.
-    memberships_empty_state: Aucun membre n'a encore rejoint l'espace d'apprentissage.
-    create: Créer un nouvel espace de collaboration
-    create_button: Créer un espace de collaboration
-    update_button: Soumettre
-    go: Entrez dans un espace de collaboration
-    pending: Participation en attendant
-    pending_text: Vous êtes actuellement en attente de votre affiliation à être approuvé.
-    join: Rejoignez l'espace de collaboration
-    request: Demandez l'affiliation
-    quit_membership: Quittez ma participation
-    quit_membership_confirm: Voulez-vous vraiment quitter votre affiliation à cet espace de collaboration?
-    is_open: "Ceci est un espace de collaboration <i>ouvert</i>. Tout le monde peut partager."
-    is_closed: "Ceci est un espace de collaboration <i>fermé</i>. Demande d'affiliation doit être approuvée par un administrateur de l'espace de collaboration."
-    team_name: "Equipe: %{name}"
-    member_list: Liste des membres
-    teacher_information: "<i>Pour votre information:</i> les enseignants de cours et assistants pédagogiques peuvent accéder à votre espace de collaboration sans la nécessité d'être un membre.<br /> Cela vaut pour les espaces de collaboration ouverts ainsi que pour les espaces fermés."
-    open: ouvert
-    closed: fermé
-    admin:
-      headline: Administration d'espace de collaboration
-      delete: Effacer l'espace de collaboration
-      delete_confirm: "Voulez-vous vraiment supprimer cet espace de collaboration?"
-      delete_warning: "Utilisez seulement ce bouton, si vous savez ce que vous faites!"
-      member_management: Gestion d'affiliation
-      properties: Propriétés d'espace de collaboration
-      member_name: Nom de membre
-      membership_type: Type d'affiliation
-      actions: Actions
-      add_user: Ajouter un utilisateur
-      kick_member: Supprimer l'utilisateur
-      kick_member_confirm: Voulez-vous vraiment supprimer cet utilisateur de l'espace de collaboration?
-      accept_member: Acceptez affiliation
-      promote_member: Avancez ce membre comme administrateur
-      promote_member_confirm: Voulez-vous vraiment faire ce membre un administrateur de cet espace de collaboration?
-      promote_member_mentor: Avancez ce membre comme mentor
-      promote_member_mentor_confirm: Voulez-vous vraiment avancer ce membre comme mentor de cet espace de collaboration?
-      demote_member: Rétrogradez membre comme membre régulier
-      demote_member_confirm: Etes-vous sûr de retirer ses privilèges administratifs? Voulez-vous vraiment retirer les privilèges administratifs de ce membre de l'espace de collab?
-      is_open: Cet espace de collaboration est ouvert
-      mail_to_member: Write a mail to member
-      mail: Dear Sir/Madam %{recipient}, Best regards %{sender}
-    flash_messages:
-      success:
-        # EN-fallback delete_room: The Collab Space has been successfully deleted.
-      notice:
-        status_pending: "You have requested to join the Collab Space %{learning_room}. Your request is awaiting approval."
-        status_joined: "You just joined the Collab Space %{learning_room}! Be nice!"
-      error:
-        # EN-fallback delete_space: The Collab Space cannot be deleted.
   time:
     am: AM
     pm: PM
@@ -2291,11 +2214,6 @@ fr:
       certificate:
         admin:
           name: "<b>Certificate administration:</b> add, edit and delete certificate templates, preview certificates"
-      collabspace:
-        admin:
-          name: "<b>Collab space administration:</b> access, manage, close and delete collab spaces, manage collab space members"
-        mentor:
-          name: "<b>Collab space mentoring:</b> access team collab spaces"
       file:
         admin:
           name: "<b>File administration:</b> list and delete uploaded files"

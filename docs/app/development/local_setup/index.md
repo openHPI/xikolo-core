@@ -48,13 +48,13 @@ Install RVM as described in
 === "Debian / Ubuntu"
 
     ```console
-    rvm install 3.4.3
+    rvm install 3.4.4
     ```
 
 === "Mac"
 
     ```console
-    rvm install 3.4.3
+    rvm install 3.4.4
     ```
 
 **Bundler**: Ruby's dependency manager
@@ -546,7 +546,7 @@ overmind start -l account,course,web
 Whenever you need additional services, you can add it to this list. When you don't know which services you need, you'll get an error message with the specific port. Just take a look at the 'Procfile'. An overview of all ports is available in `config/services.yml`.
 
 ```console
-overmind start -l pinboard,collabspace,lti,account,course,news,web,video,quiz
+overmind start -l pinboard,lti,account,course,news,web,video,quiz
 ```
 
 Start the project with a different brand than default:

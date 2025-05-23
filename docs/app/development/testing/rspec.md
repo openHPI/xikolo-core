@@ -118,4 +118,4 @@ If you are not familiar with RSpec and its DSL syntax, you might want to study t
 - [Better Specs](https://www.betterspecs.org/)
 - [Effective Testing With RSpec 3 by Myron Marston & Ian Dees](https://pragprog.com/titles/rspec3/effective-testing-with-rspec-3/)
 - [Rspec style guide by Rubocop](https://github.com/rubocop/rspec-style-guide)
-- Some good example descriptions can be found [here](https://www.tomdalling.com/blog/mentoring/write-detailed-rspec-example-descriptions/).
+- [Some good example descriptions can be found here](https://www.tomdalling.com/blog/mentoring/write-detailed-rspec-example-descriptions/).

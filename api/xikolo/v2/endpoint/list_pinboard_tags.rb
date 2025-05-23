@@ -26,8 +26,6 @@ module Xikolo
             }
 
             tags = get_paged! pinboard_service.value!.rel(:tags).get({course_id: course['id']}).value!
-          elsif params[:collab_space]
-            tags = get_paged! Xikolo.api(:pinboard).value!.rel(:explicit_tags).get({learning_room_id: params[:collab_space]}).value!
           else
             tags = []
           end

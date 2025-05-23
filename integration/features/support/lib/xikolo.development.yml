@@ -9,7 +9,6 @@ s3:
     avatars: xikolo-public
     banners: xikolo-public
     certificate: xikolo-certificate
-    collabspace: xikolo-collabspace
     course: xikolo-public
     lti: xikolo-public
     news: xikolo-public

@@ -40,7 +40,6 @@ module Xikolo::Course
     attribute :show_syllabus, :boolean, default: true
     attribute :invite_only, :boolean, default: false
     attribute :on_demand, :boolean, default: true
-    attribute :has_collab_space, :boolean, default: true
     attribute :pinboard_enabled, :boolean, default: true
     attribute :policy_url, :dict
     attribute :roa_threshold_percentage, :integer

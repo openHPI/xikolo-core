@@ -57,22 +57,6 @@ See below for explanations on [managing feature flippers](#manage-feature-flippe
 
     *Scope:* `Group.all_users`, `Context.root`
 
-`collabspace_calendar`
-
-:   Enable calendars in collaboration spaces.
-
-    *Scope:* `Group.all_users`, `Context.root`
-
-`collabspace_calendar.all_day_events`
-
-:   Display the "all-day event" toggle button in the collaboration space calendar event form.
-
-    *Scope:* `Group.all_users`, `Context.root`
-
-    !!! info
-
-        This feature must be used in conjunction with the `collabspace_calendar` feature.
-
 `course.access-group`
 
 :   Allow courses that are only accessible for certain user groups, usually coupled with SSO.

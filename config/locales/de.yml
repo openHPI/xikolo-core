@@ -880,7 +880,7 @@ de:
         headline: Bitte aktivieren Sie Ihr Benutzerkonto
         message: Zur Bestätigung Ihrer E-Mail-Adresse werden Sie zeitnah eine E-Mail erhalten.
         confirmation_period: Der Bestätigungslink in der E-Mail ist drei Tage gültig.
-        notice: Bitte überprüfen Sie auch Ihren Spam-Ordner.
+        notice: Bitte überprüfen Sie auch Ihren Spam-Ordner. Wenn Sie die E-Mail nicht innerhalb der nächsten 15 Minuten erhalten, wenden Sie sich bitte an das <a href='https://open.hpi.de/helpdesk?locale=de' target='_blank' rel='noopener'>Helpdesk</a>.
     shared:
       consent:
         required: "Verpflichtende Einwilligungen werden zum Fortfahren benötigt."
@@ -1514,7 +1514,6 @@ de:
       info: Kursdetails
       discussions: Diskussionen
       announcements: Ankündigungen
-      learning_rooms: Lernräume
       knowledge_documents: Dokumente
       teacher:
         administration: Kursadministration
@@ -2622,7 +2621,6 @@ de:
     breadcrumbs:
       label: "Sie sind hier:"
       all: Alle Diskussionen
-      collabspace: "Lernraum: %{name}"
     general: Alle Diskussionen (Allgemein)
     no_results_search: Keine Suchergebnisse gefunden
     no_results: Keine Einträge gefunden
@@ -2830,106 +2828,6 @@ de:
       text: Sie haben nicht alle Fragen beantwortet. Möchten Sie Ihre Antworten dennoch abschicken?
       btn_submit: Antworten abschicken
       btn_cancel: Abbrechen
-
-  learning_rooms:
-    name: Name
-    calendar:
-      loading_events: Events werden geladen
-      new_event: Event hinzufügen
-      edit_event: Event bearbeiten
-      create_event: Event anlegen
-      delete_event: Löschen
-      close: Schließen
-      permissions: Sie verfügen nicht über die Berechtigungen, um dieses Ereignis zu bearbeiten
-      categories:
-        available: Anwesend
-        unavailable: Abwesend
-        meeting: Besprechung
-        milestone: Meilenstein
-        other: Sonstiges
-    nav:
-      dashboard: Letzte Aktivitäten ansehen
-      discussions: Mit der Gruppe diskutieren
-      etherpad: Gemeinsam Texte bearbeiten
-      files: Dateien teilen
-      tpa: "Teamarbeit abgeben und Arbeiten anderer Teams bewerten (%{title})"
-      administration: Lernraum verwalten
-      calendar: Termine planen
-    files:
-      headline: Dateien teilen
-      empty: Bisher wurden noch keine Dateien hochgeladen
-      dropzone:
-        upload_files: Dateien hochladen
-        hint: "Erlaubte Dokumenttypen sind pdf, txt, xml, jpg, png, gif, docx, pptx, xlsx, odt, odp, ods, csv. Maximale Größe: %{maxFileSize} MB."
-      file:
-        title: Titel
-        last_modified: Letzte Änderung
-        size: Größe
-      details: Details
-      download: Herunterladen
-      delete: Löschen
-      confirm_delete: Möchten Sie diese Datei wirklich vom Server löschen?
-    list: Liste der Lernräume
-    my_rooms: Meine Lernräume
-    my_rooms_empty_state: Sie sind noch keinem Lernraum beigetreten.
-    list_empty_state: Für diesen Kurs gibt es noch keine Lernräume.
-    memberships_empty_state: Dem Lernraum sind noch keine Mitglieder beigetreten.
-    create: Neuen Lernraum anlegen
-    create_button: Lernraum anlegen
-    update_button: Lernraum aktualisieren
-    go: Zum Lernraum
-    pending: Mitgliedschaft beantragt
-    pending_text: Sie warten momentan auf die Bestätigung Ihrer Mitgliedschaft in dieser Gruppe.
-    join: Lernraum beitreten
-    request: Mitgliedschaft beantragen
-    quit_membership: Mitgliedschaft beenden
-    quit_membership_confirm: Wollen Sie wirklich Ihre Mitgliedschaft in diesem Lernraum beenden?
-    is_open: "Dieser Lernraum ist <i>öffentlich</i>. Jeder Kursteilnehmer kann beitreten."
-    is_closed: "Dieser Lernraum ist <i>geschlossen</i>. Mitgliedschaftsanfragen müssen von einem Gruppenadministrator bestätigt werden."
-    team_name: "Team: %{name}"
-    member_list: Liste der Mitglieder
-    teacher_information: "<i>Zu Ihrer Information:</i> Dozenten des Kurses und deren Team können den Lernraum betreten, ohne eine Mitgliedschaft zu benötigen.<br />Dies gilt sowohl für offene als auch für geschlossene Lernräume."
-    open: offnen
-    closed: geschlossen
-    admin:
-      name: Name
-      headline: Lernraum-Administration
-      description: Beschreibung
-      description_hint: "Bitte geben Sie eine kurze, aussagekräftige Beschreibung für den Zweck dieses Lernraums an. Zeichen übrig: "
-      details: Details
-      details_hint: Hier können Sie eine detaillierte Beschreibung für diesen Lernraum anlegen.
-      delete: Lernraum löschen
-      delete_confirm: Möchten Sie diesen Lernraum tatsächlich löschen?
-      delete_warning: Bitte benutzen Sie diesen Button nur dann, wenn Sie wissen, was Sie tun!
-      member_management: Mitgliedschaften verwalten
-      properties: Eigenschaften der Lernräume
-      member_name: Mitgliedsname
-      membership_type: Art der Mitgliedschaft
-      actions: Aktionen
-      add_user: Mitglied hinzufügen
-      kick_member: Mitglied entfernen
-      kick_member_confirm: Möchtest du dieses Mitglied wirklich aus der Gruppe entfernen?
-      accept_member: Mitgliedschaft bestätigen
-      promote_member: Mitglied zu Admin machen
-      promote_member_confirm: Möchtest du dieses Mitglied wirklich zu einem Administrator dieser Gruppe machen?
-      promote_member_mentor: Mitglied zu Mentor machen
-      promote_member_mentor_confirm: Möchtest du dieses Mitglied wirklich zu einem Mentor dieser Gruppe machen?
-      demote_member: Mitglied zu regulärem Gruppenmitglied machen
-      demote_member_confirm: Möchten Sie wirklich diesem Nutzer seine administrativen Privilegien entziehen?
-      is_open: Dieser Lernraum ist offen
-      mail_to_member: E-Mail an Mitglied schreiben
-      mail: Sehr geehrte/r Frau/Herr %{recipient}, Viele Grüße %{sender}
-    flash_messages:
-      success:
-        delete_room: Der Lernraum wurde erfolgreich gelöscht.
-      notice:
-        status_pending: "Sie haben die Mitgliedschaft im Lernraum: %{learning_room} beantragt. Ihr Antrag muss noch bestätigt werden."
-        status_joined: "Sie sind soeben dem Lernraum: %{learning_room} beigetreten! Seien Sie nett zueinander!"
-      error:
-        membership_exists: Die Person ist bereits Mitglied dieser Gruppe.
-        membership_elsewhere: Diese Person ist bereits Mitglied einer anderen Gruppe. Entfernen Sie sie aus der anderen und versuchen Sie es erneut.
-        membership_last_admin: Der Admin-Status des letzten Admins kann nicht entfernt werden.
-        delete_space: Der Lernraum kann nicht gelöscht werden.
 
   users:
     list:
@@ -3216,11 +3114,6 @@ de:
       certificate:
         admin:
           name: "<b>Zertifikatsadministration:</b> Anlegen, Bearbeiten und Löschen von Zertifikatstemplates, Zertifikatvorschau"
-      collabspace:
-        admin:
-          name: "<b>Collab Space-Administration:</b> Zugreifen, Verwalten, Löschen und Schließen von Collab Spaces, Verwalten der Mitglieder"
-        mentor:
-          name: "<b>Collab Space-Mentoring:</b> Zugriff auf Team Collab Spaces"
       file:
         admin:
           name: "<b>Dateiadministration:</b> Anzeigen und Löschen von hochgeladenen Dateien"

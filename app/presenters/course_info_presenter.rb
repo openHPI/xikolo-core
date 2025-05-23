@@ -17,7 +17,6 @@ class CourseInfoPresenter < PrivatePresenter
     :external_course_url,
     :hidden,
     :fullstate,
-    :has_collab_space,
     :pinboard_enabled,
     :rating_stars,
     :rating_votes,

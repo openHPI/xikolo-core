@@ -24,6 +24,8 @@ es:
           # EN-fallback TranscriptOfRecords: Transcript of Records
 
     labels:
+      account:
+        date_for_birth: Fecha de nacimiento
       certificate_template:
         certificate_type: Tipo de certificado
         file: Archivo
@@ -67,7 +69,6 @@ es:
         cop_enabled: "Ofrecer confirmación de partipación"
         roa_threshold_percentage: "Umbral del certificado de estudios"
         cop_threshold_percentage: "Umbral de la confirmación de partipación"
-        collab_space: "Habilitar espacio de colaboración"
         records_released: "Publicar certificados"
         forum_is_locked: "El foro está bloqueado"
         external_course_url: "URL del curso externo"
@@ -121,6 +122,8 @@ es:
         attachment: Archivo adjunto
 
     hints:
+      account:
+        date_of_birth: Al facilitarnos sus datos, nos permite elaborar estadísticas anónimas que podemos utilizar para mejorar nuestros servicios y seguir ofreciéndolos gratuitamente en el futuro.
       channel:
         code: "El código del canal solo debe incluir letras minúsculas y el signo menos ('-')."
         logo_upload_id: "El logo del canal se mostrará con una altura máxima de 60 px y el fondo debe ser transparente. Ajuste el diseño y el tamaño de su logo según corresponda."

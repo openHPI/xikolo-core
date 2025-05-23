@@ -1388,7 +1388,6 @@ nl:
       knowledge_documents: Documenten
       discussions: Discussies
       announcements: Aankondigingen
-      learning_rooms: Samenwerkingsruimte
       teacher:
         administration: Cursusbeheer
         welcome: Welkom, docent!
@@ -2417,7 +2416,6 @@ nl:
     breadcrumbs:
       label: "Je bevindt je hier:"
       all: Alle discussies
-      collabspace: "Samenwerkingsruimte: %{name}"
     general: Alle discussies (Algemeen)
     no_results_search: Sorry, geen items gevonden voor uw zoekopdracht
     no_results: Sorry, hier nog niets.
@@ -2621,104 +2619,6 @@ nl:
       text: U heeft niet alle vragen beantwoord. Weet u zeker dat u uw antwoorden wilt indienen?
       btn_submit: Lever antwoorden in
       btn_cancel: Annuleren
-
-  learning_rooms:
-    name: Naam
-    calendar:
-      loading_events: Evenementen laden
-      new_event: Nieuw evenement
-      edit_event: Evenement bewerken
-      delete_event: Verwijderen
-      close: Sluiten
-      permissions: Je bent niet gemachtigd om dit evenement te bewerken
-      categories:
-        available: Beschikbaar
-        unavailable: Niet beschikbaar
-        meeting: Ontmoeting
-        milestone: Mijlpaal
-        other: Ander
-    nav:
-      dashboard: Recente activiteit bekijken
-      discussions: Bespreek met je team
-      etherpad: Samenwerken aan teksten
-      files: Deel bestanden
-      tpa: "Dien uw teamwerk in en evalueer uw peers (%{title})"
-      administration: Beheer uw samenwerkingsruimte
-      calendar: Evenementen organiseren
-    files:
-      headline: Deel bestanden
-      empty: Er zijn tot nu toe geen bestanden geüpload.
-      dropzone:
-        upload_files: Upload bestanden
-        hint: "Toegestane documenttypen zijn pdf, txt, xml, jpg, png, gif, docx, pptx, xlsx, odt, odp, ods, csv. Max. grootte: %{maxFileSize} MB."
-      file:
-        title: Titel
-        last_modified: Laatst gewijzigd
-        size: Maat
-      details: Details
-      download: Downloaden
-      delete: Verwijderen
-      confirm_delete: Wilt u dit bestand echt van de server verwijderen?
-    list: Lijst met samenwerkingsruimten
-    my_rooms: Mijn samenwerkingsruimten
-    my_rooms_empty_state: Je hebt je nog niet aangesloten bij een leerruimte.
-    list_empty_state: Er zijn nog geen leerplekken voor deze cursus.
-    memberships_empty_state: Er zijn nog geen leden lid geworden van de leerruimte.
-    create: Nieuwe samenwerkingsruimte maken
-    create_button: Samenwerkingsruimte maken
-    update_button: Werk samenwerkruimte bij
-    go: Voer een samenwerkingsruimte in
-    pending: Lidmaatschap in behandeling
-    pending_text: U wacht momenteel op goedkeuring van uw lidmaatschapsstatus.
-    join: Word lid van een samenwerkingsruimte
-    request: Lidmaatschap aanvragen
-    quit_membership: Mijn lidmaatschap opzeggen
-    quit_membership_confirm: Wil je echt je lidmaatschap van deze samenwerkingsruimte opzeggen?
-    is_open: "Dit is een <i>open</i> samenwerkingruimte. Iedereen kan meedoen."
-    is_closed: "Dit is een <i>gesloten</i> samenwerkingruimte. Lidmaatschapsverzoeken moeten worden goedgekeurd door een samenwerkingruimte-beheerder."
-    team_name: "Team: %{name}"
-    member_list: Ledenlijst
-    teacher_information: "<i>Ter informatie:</i> cursusdocenten en onderwijsassistenten hebben toegang tot uw samenwerkingruimte zonder dat ze lid hoeven te zijn.<br />Dit geldt zowel voor open samenwerkingruimte als voor gesloten."
-    open: open
-    closed: gesloten
-    admin:
-      name: Naam
-      headline: Samenwerkingruimte beheer
-      delete: samenwerkingruimte verwijderen
-      delete_confirm: Wil je samenwerkingruimte echt verwijderen?
-      delete_warning: "Gebruik deze knop alleen als je weet wat je doet!"
-      description: Beschrijving
-      description_hint: "Geef a.u.b. een korte en betekenisvolle beschrijving voor deze samenwerkingsruimte. Karakters over: "
-      details: Details
-      details_hint: U kunt hier een gedetailleerde interne beschrijving voor de samenwerkingsruimte toevoegen.
-      member_management: Ledenbeheer
-      properties: Eigenschappen van samenwerkingsruimte
-      member_name: Naam lid
-      membership_type: Soort lidmaatschap
-      actions: Acties
-      add_user: Een gebruiker toevoegen
-      kick_member: Verwijderen lid
-      kick_member_confirm: Wil je deze gebruiker echt uit de samenwerkingsruimte verwijderen?
-      accept_member: Lidmaatschap accepteren
-      promote_member: Lid promoten tot beheerder
-      promote_member_confirm: Wil je dit lid echt een beheerder van deze samenwerkingsruimte maken?
-      promote_member_mentor: Bevorder lid tot mentor
-      promote_member_mentor_confirm: Wil je dit lid echt mentor maken van deze samenwerkingsruimte?
-      demote_member: Lid degraderen tot gewoon lid
-      demote_member_confirm: Wil je echt de beheerdersrechten van dit samenwerkingsruimte-lid wegnemen?
-      is_open: Deze samenwerkingsruimte is open
-      mail_to_member: Schrijf een e-mail naar lid
-      mail: Beste %{recipient}, Met vriendelijke groet %{sender}
-    flash_messages:
-      success:
-        delete_room: De samenwerkingsruimte is succesvol verwijderd.
-      notice:
-        status_pending: "Je hebt verzocht om lid te worden van de samenwerkingsruimte %{learning_room}. Je verzoek wacht op goedkeuring."
-        status_joined: "Je bent net lid geworden van de samenwerkingsruimte %{learning_room}! Wees aardig!"
-      error:
-        membership_exists: De persoon is al toegewezen aan deze samenwerkingsruimte.
-        membership_elsewhere: Deze leerling is al toegewezen aan een andere samenwerkingsruimte. Verwijder de leerling van de andere en probeer het opnieuw.
-        delete_space: De samenwerkingsruimte kan niet worden verwijderd.
 
   users:
     list:
@@ -2988,11 +2888,6 @@ nl:
       certificate:
         admin:
           name: "<b>Certificaatbeheer:</b> certificaatsjablonen toevoegen, bewerken en verwijderen, voorbeeldcertificaten bekijken"
-      collabspace:
-        admin:
-          name: "<b>Beheer van samenwerkingsruimte:</b> open, beheer, sluit en verwijder samenwerkingsruimten, beheer leden van samenwerkingsruimten"
-        mentor:
-          name: "<b>Samenwerkingsruimte mentoring:</b> krijg toegang tot teamsamenwerkingsruimten"
       file:
         admin:
           name: "<b>Bestandsbeheer:</b> lijst en verwijder geüploade bestanden"

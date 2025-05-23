@@ -3,7 +3,6 @@ import '../actions/focus-target';
 import '../components/course/countdown';
 import '../components/course/item-navigation';
 import './certificate';
-import './collabspace/files';
 import './items/quiz';
 import './items/sort';
 import './items/toggle-navigation';

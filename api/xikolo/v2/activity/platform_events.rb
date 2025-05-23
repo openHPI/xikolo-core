@@ -44,18 +44,10 @@ module Xikolo
           foreign_key 'course_id'
         }
 
-        has_one('collab_space', Xikolo::V2::CollabSpace::CollabSpaces) {
-          foreign_key 'learning_room_id'
-        }
-
         link('html') {|event|
           # Create links manually for some events so we dont have to store too much UI related data in the service
           if %w[pinboard.discussion.new pinboard.question.new].include? event['key']
-            if event['learning_room_id']
-              "/courses/#{event['payload']['course_code']}/learning_rooms/#{event['learning_room_id']}/question/#{event['payload']['question_id']}"
-            else
-              "/courses/#{event['payload']['course_code']}/question/#{event['payload']['question_id']}"
-            end
+            "/courses/#{event['payload']['course_code']}/question/#{event['payload']['question_id']}"
           else
             event['link'] || event['payload']['link']
           end
@@ -66,20 +58,12 @@ module Xikolo
         optional('course') {
           alias_for 'course_id'
         }
-
-        optional('collab_space') {
-          alias_for 'learning_room_id'
-        }
-
-        optional('only_collab_space_related') {
-          alias_for 'only_learning_room_related'
-        }
       end
 
       paginate!
 
       collection do
-        get 'Returns events for the user, can be filtered to course or learning room context' do
+        get 'Returns events for the user, can be filtered to course' do
           authenticate!
 
           Xikolo.api(:notification).value.rel(:events).get(

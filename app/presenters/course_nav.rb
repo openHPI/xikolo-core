@@ -15,9 +15,8 @@ class CourseNav < MenuWithPermissions
     active: lambda {|request|
       controller_name = request.filtered_parameters['controller']
       pinboard_controller = %w[pinboard question answer pinboard_comment].include? controller_name
-      in_collab_spaces = request.fullpath.match %r{courses/.+/learning_rooms}
 
-      pinboard_controller && !in_collab_spaces
+      pinboard_controller
     },
     route: :course_pinboard_index
 
@@ -29,12 +28,6 @@ class CourseNav < MenuWithPermissions
   item 'courses.nav.certificates', 'medal',
     if: ->(user, _course) { user.feature?('course.certificates_tab') },
     route: :course_certificates
-
-  # Collab Space, former Learning Rooms
-  item 'courses.nav.learning_rooms', 'users',
-    if: ->(_user, course) { course.has_collab_space },
-    active: ->(request) { request.fullpath.match %r{courses/.+/learning_rooms} },
-    route: :course_learning_rooms
 
   # Course Details
   item 'courses.nav.info', 'circle-info',

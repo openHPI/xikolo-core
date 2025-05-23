@@ -101,7 +101,6 @@ nl:
         cop_enabled: "Bied bevestiging van deelname aan"
         roa_threshold_percentage: "Record van Prestatiedrempel"
         cop_threshold_percentage: "Bevestiging deelnamedrempel"
-        collab_space: "Schakel samenwerkingsruimte in"
         records_released: "Verslagen vrijgeven"
         forum_is_locked: "Forum is vergrendeld"
         external_course_url: "Externe cursus-URL"
@@ -306,8 +305,6 @@ nl:
       xikolo_course_section:
         create: Sectie maken
         update: Sectie bijwerken
-      xikolo_collabspace_membership:
-        create: Lidmaatschap aanmaken
       xikolo_lti_lti_provider:
         create: Provider maken
         update: Provider Bijwerken

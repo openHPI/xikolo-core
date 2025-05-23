@@ -61,14 +61,6 @@ class Course::DashboardPresenter
           I18n.t(:'admin.course_management.dashboard.stats_over_time.forum.topics'),
         ],
         [
-          'posts_in_collab_spaces',
-          I18n.t(:'admin.course_management.dashboard.stats_over_time.forum.posts_in_collab_spaces'),
-        ],
-        [
-          'threads_in_collab_spaces',
-          I18n.t(:'admin.course_management.dashboard.stats_over_time.forum.topics_in_collab_spaces'),
-        ],
-        [
           'helpdesk_tickets',
           I18n.t(:'admin.course_management.dashboard.stats_over_time.forum.helpdesk_tickets'),
         ],

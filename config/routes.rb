@@ -266,13 +266,6 @@ Rails.application.routes.draw do
     resources :learning_rooms, only: [] do
       pinboard_routes
     end
-    resources :learning_rooms, controller: :collabspaces, module: :collabspace do
-      resource :calendar, only: %i[show]
-      resources :calendar_events, only: %i[index update], controller: 'ajax/calendar_events', constraints: ->(r) { r.xhr? }
-      resources :calendar_events, only: %i[new create edit update destroy]
-      resources :files, only: %i[index create destroy]
-      resources :memberships, only: %i[create destroy update]
-    end
   end
 
   scope '/courses/:course_id/items/:id' do

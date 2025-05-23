@@ -28,11 +28,7 @@
         = render 'shared/course_item_toggle_nav'
 
         / Left hand Navigation
-        - if respond_to?(:in_learning_room_context?) && in_learning_room_context?
-          - if @collabspace_presenter.present?
-            #sectionnav.col-md-12
-              = render @collabspace_presenter.table_of_contents
-        - elsif the_section_nav.table_of_contents.present?
+        - if the_section_nav.table_of_contents.present?
           .col-md-12#sectionnav
             = render the_section_nav.table_of_contents
 

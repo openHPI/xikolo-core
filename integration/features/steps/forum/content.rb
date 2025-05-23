@@ -92,37 +92,12 @@ module Steps::Forum::Content
     post_topic create_user
   end
 
-  Given 'a topic is posted in the collab space' do
-    context.with :learning_room do |learning_room|
-      context.assign(
-        :forum_topic,
-        create_forum_topic(
-          user_id: create_user['id'],
-          learning_room_id: learning_room['id']
-        ).value!
-      )
-    end
-  end
-
   Given 'a topic is posted in the section\'s forum' do
     post_topic create_user, context.fetch(:section)
   end
 
   Given 'I posted a topic in the general forum' do
     post_topic context.fetch :user
-  end
-
-  Given 'I posted a topic in the collab space' do
-    context.with :user, :learning_room do |user, learning_room|
-      context.assign(
-        :forum_topic,
-        create_forum_topic(
-          user_id: user['id'],
-          learning_room_id: learning_room['id'],
-          course_id: nil
-        ).value!
-      )
-    end
   end
 
   Given 'I posted a topic in the section\'s forum' do

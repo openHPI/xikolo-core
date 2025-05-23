@@ -8,10 +8,6 @@ module Navigation
       def for_course(...)
         CourseToc.new(...).build
       end
-
-      def for_collabspace(...)
-        CollabspaceToc.new(...).build
-      end
     end
 
     class CourseToc
@@ -181,78 +177,6 @@ module Navigation
             active: @context.active_page?(course_section_pinboard_index_path(@course.course_code, @section)),
           }
         end
-      end
-    end
-
-    class CollabspaceToc
-      include Rails.application.routes.url_helpers
-
-      def initialize(context:, request:)
-        @context = context
-        @request = request
-      end
-
-      def build
-        ::Navigation::TableOfContents.new.tap do |toc|
-          # 1. Add general collabspace links.
-          toc.with_section(
-            text: I18n.t(:'learning_rooms.nav.dashboard'),
-            link: {href: course_learning_room_path(@context.course_code, @context.collabspace_id)},
-            tooltip: 'Dashboard',
-            active: @context.current_page?(course_learning_room_path(@context.course_code, @context.collabspace_id))
-          )
-          toc.with_section(
-            text: I18n.t(:'learning_rooms.nav.discussions'),
-            link: {href: course_learning_room_pinboard_index_path(@context.course_code, @context.collabspace_id)},
-            tooltip: 'Team Forum',
-            active: @request.fullpath.include?(course_learning_room_pinboard_index_path(@context.course_code,
-              @context.collabspace_id)) ||
-              @request.fullpath.include?(course_learning_room_question_index_path(@context.course_code,
-                @context.collabspace_id))
-          )
-          toc.with_section(
-            text: I18n.t(:'learning_rooms.nav.etherpad'),
-            link: {href: etherpad_url, target: '_blank'},
-            tooltip: 'Etherpad',
-            active: false
-          )
-          toc.with_section(
-            text: I18n.t(:'learning_rooms.nav.files'),
-            link: {href: course_learning_room_files_path(@context.course_code, @context.collabspace_id)},
-            tooltip: 'Files',
-            active: @context.current_page?(course_learning_room_files_path(@context.course_code,
-              @context.collabspace_id))
-          )
-
-          # 2. Add calender link if enabled.
-          if @context.include_calendar
-            toc.with_section(
-              text: I18n.t(:'learning_rooms.nav.calendar'),
-              link: {href: course_learning_room_calendar_path(@context.course_code, @context.collabspace_id)},
-              tooltip: 'Calendar',
-              active: @context.current_page?(course_learning_room_calendar_path(@context.course_code,
-                @context.collabspace_id))
-            )
-          end
-
-          # 4. Add collabspace membership management links if the user is a
-          # collabspace mentor or admin.
-          if %w[admin mentor].include?(@context.membership.try(:[], 'status')) || @context.super_privileged
-            toc.with_section(
-              text: I18n.t(:'learning_rooms.nav.administration'),
-              link: {href: edit_course_learning_room_path(@context.course_code, @context.collabspace_id)},
-              tooltip: 'Administration',
-              active: @context.current_page?(edit_course_learning_room_path(@context.course_code,
-                @context.collabspace_id))
-            )
-          end
-        end
-      end
-      private
-
-      def etherpad_url
-        template = Addressable::Template.new(Xikolo.config.etherpad_host_template)
-        template.expand(id: Digest::MD5.hexdigest(@context.collabspace_id)).to_s
       end
     end
   end

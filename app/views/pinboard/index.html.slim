@@ -28,7 +28,7 @@
           options_for_select(@pinboard.section_filter, selected: @pinboard.current_section),
           data: {change: 'redirect'}
     div data-hide-on-submit='#pinboard__content' data-show-on-submit='#pinboard__loading'
-      = render Course::Pinboard::FilterBar.new(tags: @pinboard.tags_filter, within_collabspace: @pinboard.collabspace_pinboard?)
+      = render Course::Pinboard::FilterBar.new(tags: @pinboard.tags_filter)
 
       #pinboard__loading[hidden]
         = render State::Loading.new(t(:'pinboard.index.loading'))

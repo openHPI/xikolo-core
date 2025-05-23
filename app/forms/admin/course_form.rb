@@ -36,7 +36,6 @@ class Admin::CourseForm < XUI::Form
   attribute :welcome_mail, :markup
   attribute :external_course_url, :uri
 
-  attribute :has_collab_space, :boolean, default: true
   attribute :pinboard_enabled, :boolean, default: true
   attribute :forum_is_locked, :boolean
   attribute :groups, :list, subtype: :single_line_string, default: []

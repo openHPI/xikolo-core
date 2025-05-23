@@ -972,7 +972,7 @@ en:
         headline: Please verify your account
         message: You will receive an email for verification in the next few minutes.
         confirmation_period: The verification link will be valid for three days.
-        notice: Please check your spam folder if you did not receive the confirmation email.
+        notice: Please check your spam folder if you did not receive the confirmation email, and if you do not receive one within the next 15 minutes, please contact the <a href='https://open.hpi.de/helpdesk?locale=en' target='_blank' rel='noopener'>helpdesk</a>.
     shared:
       consent:
         marketing:
@@ -1351,10 +1351,6 @@ en:
             threads: Topics # Do not translate
             posts_last_day: Posts (last 24 hours) # Do not translate
             threads_last_day: Topics (last 24 hours) # Do not translate
-            posts_in_collab_spaces: Posts in Collab Spaces # Do not translate
-            threads_in_collab_spaces: Topics in Collab Spaces # Do not translate
-            posts_last_day_in_collab_spaces: Posts in Collab Spaces (last 24 hours) # Do not translate
-            threads_last_day_in_collab_spaces: Topics in Collab Spaces (last 24 hours) # Do not translate
             forum_activity: Learners used the Forum # Do not translate
             forum_write_activity: Learners posted in Forum # Do not translate
           certificates: # Do not translate
@@ -1426,8 +1422,6 @@ en:
             title: Forum and Helpdesk # Do not translate
             posts: Posts # Do not translate
             topics: Topics # Do not translate
-            posts_in_collab_spaces: Posts in collab spaces # Do not translate
-            topics_in_collab_spaces: Topics in collab spaces # Do not translate
             helpdesk_tickets: Helpdesk tickets # Do not translate
         geo: # Do not translate
           title: User Locations # Do not translate
@@ -2225,7 +2219,6 @@ en:
       knowledge_documents: Documents
       discussions: Discussions
       announcements: Announcements
-      learning_rooms: Collab Space
       teacher:
         administration: Course Administration
         welcome: Welcome, teacher!
@@ -3383,7 +3376,6 @@ en:
     breadcrumbs:
       label: "You are here:"
       all: All discussions
-      collabspace: "Collab Space: %{name}"
     general: All discussions (General)
     no_results_search: Sorry, no items found for your search
     no_results: Sorry, nothing here yet.
@@ -3589,105 +3581,6 @@ en:
       text: You have not answered all of the questions. Are you sure you want to submit your answers?
       btn_submit: Submit answers
       btn_cancel: Cancel
-
-  learning_rooms:
-    name: Name
-    calendar:
-      loading_events: Loading Events
-      new_event: New Event
-      edit_event: Edit Event
-      delete_event: Delete
-      close: Close
-      permissions: You do not have the permissions to edit this event
-      categories:
-        available: Available
-        unavailable: Unavailable
-        meeting: Meeting
-        milestone: Milestone
-        other: Other
-    nav:
-      dashboard: View recent activity
-      discussions: Discuss with your team
-      etherpad: Collaborate on texts
-      files: Share files
-      tpa: "Submit your team work and evaluate your peers (%{title})"
-      administration: Manage your Collab Space
-      calendar: Organize events
-    files:
-      headline: Share files
-      empty: No files have been uploaded so far.
-      dropzone:
-        upload_files: Upload files
-        hint: "Allowed document types are pdf, txt, xml, jpg, png, gif, docx, pptx, xlsx, odt, odp, ods, csv. Max. size: %{maxFileSize} MB."
-      file:
-        title: Title
-        last_modified: Last Modified
-        size: Size
-      details: Details
-      download: Download
-      delete: Delete
-      confirm_delete: Do you really want to delete this file from the server?
-    list: List of Collab Spaces
-    my_rooms: My Collab Spaces
-    my_rooms_empty_state: You have not joined a Collab Space yet.
-    list_empty_state: There are no Collab Spaces for this course yet.
-    memberships_empty_state: No members have joined the Collab Space yet.
-    create: Create new Collab Space
-    create_button: Create Collab Space
-    update_button: Update Collab Space
-    go: Enter Collab Space
-    pending: Membership pending
-    pending_text: You are currently waiting for your membership status to be approved.
-    join: Join Collab Space
-    request: Request membership
-    quit_membership: Quit my membership
-    quit_membership_confirm: Do you really want to quit your membership in this Collab Space?
-    is_open: "This is an <i>open</i> Collab Space. Anyone can join."
-    is_closed: "This is a <i>closed</i> Collab Space. Membership requests must be approved by a Collab Space administrator."
-    team_name: "Team: %{name}"
-    member_list: Member list
-    teacher_information: "<i>For your information:</i> course teachers and teaching assistants may access your Collab Space without the need to be a member.<br />This applies for open Collab Spaces as well as for closed ones."
-    open: open
-    closed: closed
-    admin:
-      name: Name
-      headline: Collab Space Administration
-      delete: Delete Collab Space
-      delete_confirm: Do you really want to delete this Collab Space?
-      delete_warning: "Only use this button, if you know what you are doing!"
-      description: Description
-      description_hint: "Please provide a short and meaningful description for the purpose of this collab space. Characters left: "
-      details: Details
-      details_hint: You can add a detailed internal description for the collab space here.
-      member_management: Membership management
-      properties: Collab Space properties
-      member_name: Member name
-      membership_type: Membership type
-      actions: Actions
-      add_user: Add a user
-      kick_member: Remove member
-      kick_member_confirm: Do you really want to remove this user from the Collab Space?
-      accept_member: Accept membership
-      promote_member: Promote member to admin
-      promote_member_confirm: Do you really want to make this member an admin of this Collab Space?
-      promote_member_mentor: Promote member to mentor
-      promote_member_mentor_confirm: Do you really want to make this member a mentor of this Collab Space?
-      demote_member: Demote member to regular member
-      demote_member_confirm: Do you really want to take away adminstrative privileges of this Collab Space member?
-      is_open: This Collab Space is open
-      mail_to_member: Write a mail to member
-      mail: Dear %{recipient}, Best regards %{sender}
-    flash_messages:
-      success:
-        delete_room: The Collab Space has been successfully deleted.
-      notice:
-        status_pending: "You have requested to join the Collab Space %{learning_room}. Your request is awaiting approval."
-        status_joined: "You just joined the Collab Space %{learning_room}! Be nice!"
-      error:
-        membership_exists: The person is already assigned to this Collab Space.
-        membership_elsewhere: This learner is already assigned to another Collab Space. Remove the learner from the other one and try again.
-        membership_last_admin: The admin status of the last remaining admin cannot be removed.
-        delete_space: The Collab Space cannot be deleted.
 
   users:
     list:
@@ -3976,11 +3869,6 @@ en:
       certificate:
         admin:
           name: "<b>Certificate administration:</b> add, edit and delete certificate templates, preview certificates"
-      collabspace:
-        admin:
-          name: "<b>Collab space administration:</b> access, manage, close and delete collab spaces, manage collab space members"
-        mentor:
-          name: "<b>Collab space mentoring:</b> access team collab spaces"
       file:
         admin:
           name: "<b>File administration:</b> list and delete uploaded files"

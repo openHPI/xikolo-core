@@ -3,19 +3,14 @@
 module Course
   module Pinboard
     class FilterBar < ApplicationComponent
-      def initialize(tags: nil, within_collabspace: false)
+      def initialize(tags: nil)
         @tags = tags
-        @within_collabspace = within_collabspace
       end
 
       private
 
       def action
-        if @within_collabspace
-          course_learning_room_pinboard_index_path(params[:course_id], params[:learning_room_id])
-        else
-          course_pinboard_index_path(params[:course_id])
-        end
+        course_pinboard_index_path(params[:course_id])
       end
 
       def filters

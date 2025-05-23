@@ -761,7 +761,8 @@ es:
         headline: Verifique su cuenta
         message: Recibirá un correo electrónico para la verificación en los próximos minutos.
         confirmation_period: El enlace de verificación será válido durante tres días.
-        notice: Por favor, compruebe su carpeta de spam si no ha recibido el correo electrónico de confirmación.
+        notice: Si no ha recibido el correo electrónico de confirmación, compruebe su carpeta de correo no deseado y, si no lo recibe en los próximos 15 minutos, póngase en contacto con el <a href='https://open.hpi.de/helpdesk?locale=es' target='_blank' rel='noopener'>servicio de asistencia</a>.
+
     shared:
       consent:
         required: "Para continuar debe aceptar las condiciones obligatorias."
@@ -1279,7 +1280,6 @@ es:
       knowledge_documents: Documentos
       discussions: Debates
       announcements: Anuncios
-      learning_rooms: Espacio de colaboración
       teacher:
         administration: Administración del curso
         # EN-fallback welcome: Welcome, teacher!
@@ -2294,7 +2294,6 @@ es:
     breadcrumbs:
       label: "Usted está aquí:"
       all: Todos los debates
-      collabspace: "Espacio de colaboración: %{name}"
     general: Todos los debates(General)
     no_results_search: Lo sentimos, no hemos encontrado elementos para su búsqueda
     no_results: Lo sentimos, todavía no hay nada.
@@ -2498,91 +2497,6 @@ es:
       text: No ha contestado todas las preguntas. ¿Seguro que quiere entregar sus respuestas?
       btn_submit: Entregar respuestas
       btn_cancel: Cancelar
-
-  learning_rooms:
-    name: Nombre
-    nav:
-      dashboard: Ver actividad reciente
-      discussions: Debatir con su equipo
-      etherpad: Colaborar en los textos
-      files: Compartir archivos
-      tpa: "Entregar su trabajo en equipo y evaluar a sus pares(%{title})"
-      administration: Administrar su espacio de colaboración
-    files:
-      headline: Compartir archivos
-      empty: No se ha cargado ningún archivo hasta ahora.
-      dropzone:
-        upload_files: Cargar archivos
-        hint: "Los tipos de documentos permitidos son pdf, txt, xml, jpg, png, gif, docx, pptx, xlsx, odt, odp, ods, csv. Tamaño máximo del archivo: %{maxFileSize} MB."
-      file:
-        title: Nombre del archivo
-        # EN-fallback last_modified: Last Modified
-        size: Tamaño
-      details: Información
-      download: Descargar
-      delete: Eliminar
-      confirm_delete: ¿De verdad quiere eliminar este archivo del servidor?
-    list: Lista de espacios de colaboración
-    my_rooms: Mis espacios de colaboración
-    my_rooms_empty_state: Aún no te has unido a un espacio de colaboración.
-    list_empty_state: Aún no hay espacios de colaboración para este curso.
-    memberships_empty_state: Ningún miembro se ha unido aún al espacio de colaboración.
-    create: Crear un nuevo espacio de colaboración
-    create_button: Crear espacio de colaboración
-    update_button: Actualizar espacio de colaboración
-    go: Introducir espacio de colaboración
-    pending: Pendiente de convertirse en miembro
-    pending_text: En este momento está esperando a que se apruebe su condición de miembro.
-    join: Unirse al espacio de colaboración
-    request: Solicitar hacerse miembro
-    quit_membership: Dejar de ser miembro
-    quit_membership_confirm: ¿De verdad quiere dejar de ser miembro de este espacio de colaboración?
-    is_open: "Este es un espacio de colaboración <i>abierto</i>. Cualquiera puede unirse."
-    is_closed: "Este es un espacio de colaboración <i>cerrado</i>. Las solicitudes para unirse como miembro deben ser aprobadas por un administrador del espacio de colaboración."
-    team_name: "Equipo: %{name}"
-    member_list: Lista de miembros
-    teacher_information: "<i>Para su información:</i> los profesores del curso y sus ayudantes pueden acceder a su espacio de colaboración sin tener que ser miembros.<br />Esto es así tanto para los espacios de colaboración abiertos como los cerrados."
-    open: abierto
-    closed: cerrado
-    admin:
-      name: Nombre
-      headline: Administración del espacio de colaboración
-      delete: Eliminar espacio de colaboración
-      delete_confirm: ¿De verdad quiere eliminar este espacio de colaboración?
-      delete_warning: "¡Solo use este botón si sabe lo que está haciendo!"
-      description: Descripción
-      description_hint: "Por favor, introduzca una descripción breve y coherente del propósito de este espacio de colaboración: "
-      details: Información
-      details_hint: Puede añadir una descripción interna detallada para el espacio de colaboración aquí.
-      member_management: Gestión de los miembros
-      properties: Propiedades del espacio de colaboración
-      member_name: Nombre del miembro
-      membership_type: Tipo de miembro
-      actions: Acciones
-      add_user: Añadir un usuario
-      kick_member: Echar a un miembro
-      kick_member_confirm: ¿De verdad quiere echar este usuario del espacio de colaboración?
-      accept_member: Aceptar como miembro
-      promote_member: Ascender a un miembro a administrador
-      promote_member_confirm: ¿De verdad quiere convertir a este miembro en administrador de este espacio de colaboración?
-      promote_member_mentor: Ascender a este miembro a mentor
-      promote_member_mentor_confirm: ¿De verdad quiere convertir a este miembro en mentor de este espacio de colaboración?
-      demote_member: Degradar a un miembro a miembro normal
-      demote_member_confirm: ¿De verdad quiere quitarle privilegios de administador a este miembro del espacio de colaboración?
-      is_open: Este es un espacio de colaboración abierto
-      mail_to_member: Escribir un correo a un miembro
-      mail: Estimado %{recipient}, Saludos cordiales %{sender}
-
-    flash_messages:
-      success:
-        delete_room: "Espacio de colaboración eliminado correctamente."
-      notice:
-        status_pending: "Ha solicitado unirse al espacio de colaboración %{learning_room}. Su solicitud está pendiente de aprobación."
-        status_joined: "¡Acaba de unirse al Espacio de colaboración %{learning_room}! ¡Sea simpático!"
-      error:
-        membership_exists: Esta persona ya está asignada a este espacio de colaboración .
-        membership_elsewhere: Este alumno ya está asignado a este espacio de colaboración. Elimine al alumno del otro y vuelva a intentarlo.
-        # EN-fallback delete_space: The Collab Space cannot be deleted.
 
   users:
     list:
@@ -2849,11 +2763,6 @@ es:
       certificate:
         admin:
           name: "<b>Administración de certificados:</b> añadir, editar y eliminar plantillas de certificados, previsualizar certificados"
-      collabspace:
-        admin:
-          name: "<b>Administración de espacios de colaboración:</b> acceder, gestionar, cerrar y eliminar espacios de colaboración, gestionar a los miembros de los espacios de colaboración"
-        mentor:
-          name: "<b>Guía de los espacios de colaboración:</b> acceder a los espacios de colaboración de los equipos"
       file:
         admin:
           name: "<b>Administración de archivos:</b> hacer listas y eliminar archivos cargados"

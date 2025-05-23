@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
 class PinboardPresenter
-  def initialize(course:, section: nil, technical_issues: false, collab_space: nil, filters: nil)
+  def initialize(course:, section: nil, technical_issues: false, filters: nil)
     @course = course
     @section = section
     @technical_issues = technical_issues
-    @collab_space = collab_space
     @filters = filters
   end
 
@@ -52,10 +51,6 @@ class PinboardPresenter
     section_filter.find {|s| s.first == section_title }&.last
   end
 
-  def collabspace_pinboard?
-    @collab_space.present?
-  end
-
   private
 
   def context
@@ -63,8 +58,6 @@ class PinboardPresenter
                    TechnicalIssuesContext.new(@course)
                  elsif @section
                    SectionContext.new(@course, @section)
-                 elsif @collab_space
-                   CollabSpaceContext.new(@course, @collab_space)
                  else
                    CourseContext.new(@course)
                  end
@@ -144,42 +137,6 @@ class PinboardPresenter
 
     def section_id
       UUID4(@section['id']).to_param
-    end
-
-    include Rails.application.routes.url_helpers
-  end
-
-  class CollabSpaceContext
-    def initialize(course, collab_space)
-      @course = course
-      @collab_space = collab_space
-    end
-
-    def lock_reason
-      I18n.t(:'pinboard.locked_msg') if @course.forum_is_locked
-    end
-
-    def make_breadcrumbs
-      PinboardBreadcrumbsPresenter.new(breadcrumbs_for_list) do |crumbs, thread|
-        crumbs.with_level(
-          course_learning_room_question_path(@course.course_code, @collab_space['id'], thread.id),
-          thread.title
-        )
-      end
-    end
-
-    private
-
-    def breadcrumbs_for_list
-      Breadcrumbs.new
-        .with_level(
-          course_learning_room_path(@course.course_code, @collab_space['id']),
-          I18n.t('pinboard.breadcrumbs.collabspace', name: @collab_space['name'])
-        )
-        .with_level(
-          course_learning_room_pinboard_index_path(@course.course_code, @collab_space['id']),
-          I18n.t('pinboard.breadcrumbs.all')
-        )
     end
 
     include Rails.application.routes.url_helpers

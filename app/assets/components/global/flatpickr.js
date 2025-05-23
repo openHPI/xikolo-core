@@ -57,12 +57,26 @@ ready(() => {
         config.parseDate = parseDate;
         config.formatDate = formatDate;
         config.onReady = (_, __, instance) => {
-          if (!instance.input.placeholder) {
+          if (
+            !instance.input.placeholder &&
+            datepicker.dataset.birthday !== 'true'
+          ) {
             instance.input.placeholder = 'YYYY-MM-DDThh:mm:ssZ';
           }
         };
       }
+      if (datepicker.dataset.birthday) {
+        const formatDate = (date) =>
+          DateTime.fromJSDate(date).toFormat('yyyy-LL-dd');
 
+        config.enableTime = false;
+        config.time_24hr = false;
+        config.plugins = false;
+        config.dateFormat = 'd-m-Y';
+        config.altFormat = 'd-m-Y';
+        config.allowInput = false;
+        config.formatDate = formatDate;
+      }
       flatpickr(datepicker, config);
     });
 });

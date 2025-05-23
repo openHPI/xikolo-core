@@ -3,7 +3,6 @@
 class AnswerController < Abstract::FrontendController
   include CourseContextHelper
   include PinboardRoutesHelper
-  include Collabspace::CollabspacesIntegrationHelper
 
   def edit
     @answer = Xikolo::Pinboard::Answer.find(

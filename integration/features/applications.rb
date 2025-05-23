@@ -31,9 +31,6 @@ Server.add :web,                name: 'web',
 Server.add :account,            name: 'account',
   roles: %i[rails db account srv config integration],
   subpath: 'services/account'
-Server.add :collabspace,        name: 'collabspace',
-  roles: %i[rails db srv msgr sidekiq integration],
-  subpath: 'services/collabspace'
 Server.add :course,             name: 'course',
   roles: %i[rails db srv msgr sidekiq config integration],
   subpath: 'services/course'

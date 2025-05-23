@@ -25,7 +25,6 @@ module PinboardRoutesHelper
     return unless base_controller.respond_to? :helper_method
 
     base_controller.helper_method(*public_instance_methods(false))
-    base_controller.before_action :set_collabspace_variables
   end
 
   # there is a method in CollabspacesControllerCommon (which all full fledged)

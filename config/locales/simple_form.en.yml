@@ -48,6 +48,8 @@ en:
           unprotected: unprotected - The LTI provider will receive personal data
 
     labels:
+      account:
+        date_of_birth: "Date of birth"
       announcement_email:
         subject: Subject
         content: Content
@@ -118,7 +120,6 @@ en:
         cop_enabled: "Confirmation of Participation"
         roa_threshold_percentage: "Record of achievement threshold"
         cop_threshold_percentage: "Confirmation of Participation threshold"
-        has_collab_space: "Collab spaces"
         pinboard_enabled: Discussion forum
         records_released: "Release records"
         forum_is_locked: "Lock forum"
@@ -205,6 +206,8 @@ en:
         move_to: Move to
 
     hints:
+      account:
+        date_of_birth: By providing your details, you enable us to compile anonymous statistics, which we can use to improve our services and continue to offer them free of charge in the future.
       announcement_email:
         consents: "Only recipients who have given the selected consents will receive the announcement. If none are selected, all recipients will receive the announcement. To stay legally compliant, consult your data protection expert in case of doubt."
       channel:
@@ -244,7 +247,6 @@ en:
         records_released: Enable this when the course has ended, to let participants download their certificates.
         show_syllabus: Show an overview of all published course content in the learning area.
         enable_video_download: Let participants download video or audio versions of video items for offline consumption.
-        has_collab_space: Participants can create public or private Collab Spaces (learning rooms) to learn together, collaborate and share files.
         pinboard_enabled: Completely disables the discussions feature for this course. Users won't be able to access any discussions. Discussion forums in Collab Spaces are not affected, if those are enabled.
         forum_is_locked: Set the discussions to read-only. This is usually done after the course has ended.
         visual_creation: After creating the course, you may add visuals in the course properties.
@@ -375,8 +377,6 @@ en:
       xikolo_course_section:
         create: Create Section
         update: Update Section
-      xikolo_collabspace_membership:
-        create: Create Membership
       xikolo_lti_lti_provider:
         create: Create Provider
         update: Update Provider
