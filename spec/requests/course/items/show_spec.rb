@@ -425,5 +425,22 @@ describe 'Course: Items: Show', type: :request do
         end
       end
     end
+
+    context 'with an item from another branch' do
+      subject(:show_item) { get "/courses/example/items/#{unaccessible_item_id}", headers: }
+
+      let(:unaccessible_item_id) { generate(:item_id) }
+
+      before do
+        Stub.request(:course, :get, "/items/#{unaccessible_item_id}")
+          .to_return Stub.json([])
+        Stub.request(:course, :get, "/items/#{unaccessible_item_id}", query: {user_id:})
+          .to_return status: 404, headers: {}
+      end
+
+      it 'redirects to resume' do
+        expect(show_item).to redirect_to course_resume_path course.id
+      end
+    end
   end
 end

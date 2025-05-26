@@ -51,5 +51,8 @@ module ItemContextHelper
 
   def item
     @item ||= the_item.value!
+  rescue Restify::NotFound
+    # This will redirect to the last visited item or to the first public or to the course info
+    raise Status::Redirect.new 'Item not available', course_resume_path(the_course.id)
   end
 end

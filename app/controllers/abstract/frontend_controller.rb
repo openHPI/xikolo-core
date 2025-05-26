@@ -98,7 +98,7 @@ module Abstract
             gon.item_id = item['id']
             gon.section_id = item['section_id']
           end
-        end&.value!
+        end&.value
       end
     end
 
