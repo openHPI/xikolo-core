@@ -62,7 +62,7 @@ describe 'Course: Items: Update', type: :request do
       ).to_return Stub.json([section])
       Stub.request(
         :course, :get, "/sections/#{section['id']}"
-      ).to_return Stub.json([section])
+      ).to_return Stub.json(section)
       update_stub
     end
 

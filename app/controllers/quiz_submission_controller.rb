@@ -13,13 +13,7 @@ class QuizSubmissionController < Abstract::FrontendController
   respond_to :json
 
   def request_section
-    section_id = item['section_id']
-    promise, fulfiller = create_promise(Xikolo::Course::Section.new)
-    Xikolo::Course::Section.find section_id do |section|
-      fulfiller.fulfill section
-    end
-
-    promise
+    course_api.rel(:section).get({id: UUID(item['section_id'])})
   end
 
   def show
@@ -267,9 +261,9 @@ class QuizSubmissionController < Abstract::FrontendController
   end
 
   def create_item_presenter!
-    Acfs.on the_section, the_course, the_quiz do |section, course, quiz|
+    Acfs.on the_course, the_quiz do |course, quiz|
       presenter_class = ItemPresenter.lookup(item)
-      @item_presenter = presenter_class.build item, section, course, current_user, quiz
+      @item_presenter = presenter_class.build item, course, current_user, quiz
     end
   end
 

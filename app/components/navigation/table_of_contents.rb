@@ -37,7 +37,7 @@ module Navigation
             next unless section.section_choices?
 
             section.section_choices.each do |alternative|
-              SectionToc.new(context: self, course: @course, section: alternative)
+              SectionToc.new(context: self, course: @course, section: SectionPresenter.new(section: alternative))
                 .build { toc.with_section(**it) }
             end
           end
@@ -49,7 +49,7 @@ module Navigation
       end
 
       def active_section?(section)
-        !@current_section.nil? && (@current_section.id == section.id)
+        !@current_section.nil? && (@current_section['id'] == section.id)
       end
 
       def active_item?(item)

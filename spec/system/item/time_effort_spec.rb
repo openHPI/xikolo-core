@@ -5,21 +5,20 @@ require 'spec_helper'
 describe 'Item: Time Effort', type: :system do
   let(:user_id) { generate(:user_id) }
   let(:features) { {} }
-  let(:course) do
-    build(:'course:course',
-      course_code: 'the_course',
-      title: 'Proctored course',
-      proctored: true)
+  let(:course) { create(:course, course_code: 'the_course', title: 'Proctored course', proctored: true) }
+  let(:course_resource) do
+    build(:'course:course', **course_params, id: course.id, course_code: course.course_code, title: course.title,
+      proctored: course.proctored)
   end
-  let(:section) do
-    build(:'course:section', course_id: course['id'], title: 'Week 1')
-  end
+  let(:course_params) { {} }
+  let(:section) { create(:section, course:, title: 'Week 1') }
+  let(:section_resource) { build(:'course:section', id: section.id, course_id: course.id, title: section.title) }
   let(:video) { create(:video) }
   let(:item) { build(:'course:item', :video, item_params) }
   let(:item_params) do
     {
-      course_id: course['id'],
-      section_id: section['id'],
+      course_id: course.id,
+      section_id: section.id,
       content_id: video.id,
       title: 'Awesome video',
       time_effort: 180,
@@ -38,25 +37,25 @@ describe 'Item: Time Effort', type: :system do
       .and_return Stub.json({properties: {}})
 
     Stub.request(:course, :get, '/courses/the_course')
-      .to_return Stub.json(course)
+      .to_return Stub.json(course_resource)
     Stub.request(
       :course, :get, '/enrollments',
-      query: {course_id: course['id'], user_id:}
+      query: {course_id: course.id, user_id:}
     ).to_return Stub.json([{}])
     Stub.request(
       :course, :get, '/items',
-      query: hash_including(section_id: section['id'])
+      query: hash_including(section_id: section.id)
     ).to_return Stub.json([item])
     Stub.request(
       :course, :get, "/items/#{item['id']}",
       query: {user_id:}
     ).to_return Stub.json(item)
-    Stub.request(:course, :get, "/sections/#{section['id']}")
-      .to_return Stub.json(section)
+    Stub.request(:course, :get, "/sections/#{section.id}")
+      .to_return Stub.json(section_resource)
     Stub.request(
       :course, :get, '/sections',
-      query: {course_id: course['id']}
-    ).to_return Stub.json([section])
+      query: {course_id: course.id}
+    ).to_return Stub.json([section_resource])
     Stub.request(
       :course, :get, '/next_dates',
       query: hash_including({})
@@ -79,7 +78,7 @@ describe 'Item: Time Effort', type: :system do
 
     context 'without time effort being enabled' do
       it 'does not add the time effort information' do
-        visit "/courses/the_course/sections/#{section['id']}/items/#{item['id']}"
+        visit "/courses/the_course/sections/#{section.id}/items/#{item['id']}"
 
         expect(page.find('li.video > a')['data-tooltip']).not_to include '"item-info":"(Video, \u0026sim;3 minutes)"'
         expect(page).to have_no_content 'Time effort: approx. 3 minutes'
@@ -90,7 +89,7 @@ describe 'Item: Time Effort', type: :system do
       let(:features) { super().merge('time_effort' => 'true') }
 
       it 'adds the time effort information to the item header and tooltip' do
-        visit "/courses/the_course/sections/#{section['id']}/items/#{item['id']}"
+        visit "/courses/the_course/sections/#{section.id}/items/#{item['id']}"
 
         expect(page).to have_content 'Time effort: approx. 3 minutes'
         expect(page.find('li.video > a')['data-tooltip']).to include '"item-info":"(Video, \u0026sim;3 minutes)"'
@@ -102,7 +101,7 @@ describe 'Item: Time Effort', type: :system do
         end
 
         it 'does not add the time effort information' do
-          visit "/courses/the_course/sections/#{section['id']}/items/#{item['id']}"
+          visit "/courses/the_course/sections/#{section.id}/items/#{item['id']}"
 
           expect(page.find('li.video > a')['data-tooltip']).not_to include '"item-info":"(Video, \u0026sim;3 minutes)"'
           expect(page).to have_no_content 'Time effort: approx. 3 minutes'
@@ -114,7 +113,7 @@ describe 'Item: Time Effort', type: :system do
       let(:features) { super().merge('time_effort.video_only' => 'true') }
 
       it 'adds the time effort information to the item header and tooltip' do
-        visit "/courses/the_course/sections/#{section['id']}/items/#{item['id']}"
+        visit "/courses/the_course/sections/#{section.id}/items/#{item['id']}"
 
         expect(page).to have_content 'Time effort: approx. 3 minutes'
         expect(page.find("[aria-label='Awesome video (Video)']")['data-tooltip']).to include '"item-info":"(Video, \u0026sim;3 minutes)"'
@@ -158,7 +157,7 @@ describe 'Item: Time Effort', type: :system do
       let(:features) { super().merge('time_effort' => 'true') }
 
       it 'adds the time effort information to the item header and tooltip' do
-        visit "/courses/the_course/sections/#{section['id']}/items/#{item['id']}"
+        visit "/courses/the_course/sections/#{section.id}/items/#{item['id']}"
 
         expect(page).to have_content 'Time effort: approx. 4 minutes'
         expect(page.find('li.quiz > a')['data-tooltip']).to include '"item-info":"(Graded Test, \u0026sim;4 minutes)"'
@@ -169,7 +168,7 @@ describe 'Item: Time Effort', type: :system do
       let(:features) { super().merge('time_effort.video_only' => 'true') }
 
       it 'does not add the time effort information' do
-        visit "/courses/the_course/sections/#{section['id']}/items/#{item['id']}"
+        visit "/courses/the_course/sections/#{section.id}/items/#{item['id']}"
 
         expect(page.find('li.quiz > a')['data-tooltip']).not_to include '"item-info":"(Graded Test, \u0026sim;4 minutes)"'
         expect(page).to have_no_content 'Time effort: approx. 4 minutes'

@@ -74,7 +74,7 @@ describe 'Course: Items: Destroy', type: :request do
         ).to_return Stub.json([section])
         Stub.request(
           :course, :get, "/sections/#{section['id']}"
-        ).to_return Stub.json([section])
+        ).to_return Stub.json(section)
         delete_item_stub
       end
 

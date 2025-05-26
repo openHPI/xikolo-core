@@ -13,9 +13,8 @@ describe ItemPresenter, type: :presenter do
   let(:course) { create(:course, course_code: 'test') }
   let(:course_resource) { Xikolo::Course::Course.new(id: course.id, course_code: course.course_code, **additional_course_params) }
   let(:additional_course_params) { {} }
+  let(:section_resource) { build(:'course:section', id: section.id, course: section.course_id) }
   let(:section) { create(:section, course:) }
-  let(:section_resource) { Xikolo::Course::Section.new(id: section.id, course: section.course_id, **additional_section_params) }
-  let(:additional_section_params) { {} }
   let(:anonymous) { Xikolo::Common::Auth::CurrentUser.from_session({}) }
   let(:permissions) { ['course.content.access.available'] }
   let(:user) do
@@ -221,24 +220,6 @@ describe ItemPresenter, type: :presenter do
       let(:additional_item_params) { {exercise_type: 'bonus'} }
 
       it { is_expected.to be_bonus_exercise }
-    end
-  end
-
-  describe '#section_pinboard_closed?' do
-    it 'has an unlocked section forum by default' do
-      expect(presenter).not_to be_section_pinboard_closed
-    end
-
-    context 'with an unlocked section forum' do
-      let(:additional_section_params) { {pinboard_closed: false} }
-
-      it { is_expected.not_to be_section_pinboard_closed }
-    end
-
-    context 'with a locked section forum' do
-      let(:additional_section_params) { {pinboard_closed: true} }
-
-      it { is_expected.to be_section_pinboard_closed }
     end
   end
 

@@ -3,10 +3,11 @@
 require 'spec_helper'
 
 RSpec.describe Item::Create do
-  subject(:create_item) { described_class.call(item:, content: video, section:) }
+  subject(:create_item) { described_class.call(item:, content: video, section: section_resource) }
 
   let(:course) { create(:course) }
   let(:section) { create(:section, course:) }
+  let(:section_resource) { build(:'course:section', id: section.id, course_id: course.id) }
   let(:item) { build(:item) }
   # The tags_create_stub is needed for successful item creation and actually
   # loaded in before actions for scenarios requiring it
@@ -18,6 +19,9 @@ RSpec.describe Item::Create do
   end
 
   before do
+    Stub.service(:course, build(:'course:root'))
+    Stub.request(:course, :get,
+      "/sections/#{section.id}").to_return Stub.json(section_resource)
     Stub.service(:pinboard, build(:'pinboard:root'))
   end
 

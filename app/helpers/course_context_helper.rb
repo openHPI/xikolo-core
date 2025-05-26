@@ -5,11 +5,11 @@ module CourseContextHelper
     @course_layout ||= Course::LayoutPresenter.new(the_course, current_user)
   end
 
-  def the_section_nav
-    if promises.key? :section_nav
-      promises[:section_nav]
+  def the_table_of_content
+    if promises.key? :table_of_content
+      promises[:table_of_content]
     else
-      raise 'Section nav not loaded!'
+      raise 'Table of content not loaded!'
     end
   end
 
@@ -64,9 +64,9 @@ module CourseContextHelper
 
   # the current section
   def the_section
-    promises[:section] ||= request_section.tap do |promise|
-      Acfs.on(promise) do |section|
-        next if section.nil? || section.was_available?
+    promises[:section] ||= request_section.then do |promise|
+      promise.tap do |section|
+        next if section.nil? || section_was_available?(section)
 
         unless current_user.allowed?('course.content.access')
           # this will redirect to the last visited item or to the first public or to the course info
@@ -78,10 +78,7 @@ module CourseContextHelper
 
   def request_section
     if params[:section_id] && params[:section_id] != 'technical_issues'
-      Xikolo::Course::Section.find UUID(params[:section_id])
-    else
-      # no section:
-      dummy_resource_delegator nil
+      Xikolo.api(:course).value!.rel(:section).get({id: UUID(params[:section_id])})
     end
   end
 
@@ -105,12 +102,17 @@ module CourseContextHelper
   end
 
   def load_section_nav
-    promises[:section_nav] = SectionNavPresenter.new(
+    sections = the_course.sections
+    Acfs.run
+    return if sections.nil?
+
+    promises[:table_of_content] = Navigation::TableOfContents.for_course(
+      context: view_context,
       user: current_user,
-      view_context:,
       course: the_course,
-      section: the_section,
-      item: the_item&.value!
+      sections:,
+      current_section: the_section&.value!,
+      current_item: the_item&.value!
     )
   end
 
@@ -125,5 +127,17 @@ module CourseContextHelper
     end_date = item['course_archived'] ? item['end_date'] : item['effective_end_date']
 
     (start_date.nil? || start_date <= Time.zone.now) && (end_date.nil? || end_date >= Time.zone.now)
+  end
+
+  def section_was_available?(section_resource)
+    section_was_unlocked?(section_resource) && section_resource['published']
+  end
+
+  def section_was_unlocked?(section_resource)
+    section_resource['effective_start_date'].nil? || section_resource['effective_start_date'] <= Time.zone.now
+  end
+
+  def section
+    @section ||= the_section.value!
   end
 end

@@ -7,18 +7,18 @@ class VideoItemPresenter < ItemPresenter
   attr_accessor :new_question, :implicit_tags
 
   class << self
-    def build(item, section, course, user, params: {})
+    def build(item, course, user, params: {})
       video = Video::Video.find item['content_id']
 
       video_presenter = VideoPresenter.new(
         video:, user:, embed_resources: true, course:
       )
-      new item:, video: video_presenter, course:, section:, user:, params:
+      new item:, video: video_presenter, course:, user:, params:
     end
   end
 
   def forum_locked?
-    course_pinboard_closed? || section_pinboard_closed?
+    course_pinboard_closed? || Course::Section.find(@item['section_id']).pinboard_closed
   end
 
   def featured_image

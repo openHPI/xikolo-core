@@ -34,31 +34,24 @@ class SectionsController < Abstract::FrontendController
 
   # redirects to the first item in the section or to decision page for alternative sections
   def show
-    Acfs.add_callback the_section do |section|
-      section.items do |items|
-        first_item = items.find do |item|
-          item.available? && (current_user.authenticated? || item.open_mode)
-        end
-
-        # allow course preview
-        if !first_item && current_user.allowed?('course.content.access')
-          first_item = items.min_by(&:position)
-          # TODO: also allow course preview for alternative sections
-        end
-        if first_item
-          return redirect_to course_item_path id: UUID(first_item.id).to_param
-        elsif section.alternatives?
-          Acfs.on section.enqueue_section_choices(current_user.id), section.alternatives do
-            @section_presenter = SectionPresenter.new(section:)
-            render(layout: @section_presenter.respond_to?(:layout) ? @section_presenter.layout : 'course_area_two_cols')
-          end
-        else
-          # TODO: the redirect should differentiate between logged in and anonymous users
-          return redirect_to course_resume_path id: UUID4(section.course_id).to_param
-        end
-      end
+    section_items = Course::Item.where(section_id: section['id'])
+    first_item = section_items.find do |item|
+      item.available? && (current_user.authenticated? || item.open_mode)
     end
-    Acfs.run
+    # allow course preview
+    if !first_item && current_user.allowed?('course.content.access')
+      first_item = section_items.min_by(&:position)
+      # TODO: also allow course preview for alternative sections
+    end
+    if first_item
+      redirect_to course_item_path id: UUID(first_item.id).to_param
+    elsif section['alternative_state'] == 'parent'
+      @section_presenter = SectionPresenter.new(section:)
+      render(layout: @section_presenter.respond_to?(:layout) ? @section_presenter.layout : 'course_area_two_cols')
+    else
+      # TODO: the redirect should differentiate between logged in and anonymous users
+      redirect_to course_resume_path id: UUID4(section['course_id']).to_param
+    end
   end
 
   def create
@@ -116,7 +109,7 @@ class SectionsController < Abstract::FrontendController
 
     raise ActionController::Forbidden unless section.destroyable?
 
-    course_service.rel(:section).delete({id: section.id}).value!
+    course_api.rel(:section).delete({id: section.id}).value!
 
     redirect_to course_sections_url, notice: t(:'flash.notice.section_deleted')
   end
@@ -160,7 +153,7 @@ class SectionsController < Abstract::FrontendController
   end
 
   def request_section
-    Xikolo::Course::Section.find UUID(params[:id])
+    course_api.rel(:section).get({id: UUID(params[:id])})
   rescue TypeError
     raise Status::NotFound
   end
@@ -181,7 +174,7 @@ class SectionsController < Abstract::FrontendController
     end
   end
 
-  def course_service
-    @course_service ||= Xikolo.api(:course).value!
+  def course_api
+    @course_api ||= Xikolo.api(:course).value!
   end
 end

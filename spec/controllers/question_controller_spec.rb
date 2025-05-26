@@ -235,6 +235,10 @@ describe QuestionController, type: :controller do
         before do
           Stub.request(:course, :get, "/courses/#{other_course_id}")
             .to_return Stub.json(course_params.merge(id: other_course_id))
+          Stub.request(
+            :course, :get, '/sections',
+            query: {course_id: other_course_id}
+          ).to_return Stub.json([])
         end
 
         it 'does not find the question' do

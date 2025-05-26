@@ -146,7 +146,7 @@ FactoryBot.define do
     course_id
     sequence(:title) {|i| "Section #{i}" }
     published { true }
-    effective_start_date { 4.days.ago }
+    effective_start_date { 4.days.ago.iso8601(3) }
 
     initialize_with { attributes.as_json }
   end

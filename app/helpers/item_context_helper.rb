@@ -22,8 +22,8 @@ module ItemContextHelper
 
   def check_course_path
     # Ensure that the requested item belongs to the given course
-    Acfs.on the_course, the_section do |course, section|
-      if section.course_id != course.id
+    Acfs.on the_course do |course|
+      if the_section.value!['course_id'] != course.id
         raise Status::NotFound
       end
     end
@@ -36,9 +36,9 @@ module ItemContextHelper
   end
 
   def create_item_presenter!
-    Acfs.on the_section, the_course do |section, course|
+    Acfs.on the_course do |course|
       presenter_class = ItemPresenter.lookup(item)
-      @item_presenter = presenter_class.build item, section, course, current_user, params:
+      @item_presenter = presenter_class.build item, course, current_user, params:
     end
   end
 

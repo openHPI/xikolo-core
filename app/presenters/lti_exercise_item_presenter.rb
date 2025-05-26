@@ -3,8 +3,8 @@
 class LtiExerciseItemPresenter < ItemPresenter
   include MarkdownHelper
 
-  def self.build(item, section, course, user, params:)
-    new(course:, section:, item:, user:, initial_click: !params[:lti])
+  def self.build(item, course, user, params:)
+    new(course:, item:, user:, initial_click: !params[:lti])
   end
 
   def lti_grades

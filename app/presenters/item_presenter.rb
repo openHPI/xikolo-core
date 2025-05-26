@@ -13,7 +13,6 @@ class ItemPresenter < PrivatePresenter
   def_delegator :@course, :title, :course_title
   def_delegator :@course, :pinboard_enabled, :course_pinboard?
   def_delegator :@course, :forum_is_locked, :course_pinboard_closed?
-  def_delegator :@section, :pinboard_closed, :section_pinboard_closed?
   def_delegator :@course, :lang, :lang
 
   class << self

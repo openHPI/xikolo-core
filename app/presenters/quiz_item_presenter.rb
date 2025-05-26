@@ -14,14 +14,14 @@ class QuizItemPresenter < ItemPresenter
 
   attr_reader :course, :submission, :error
 
-  def self.build(item, section, course, user, quiz = nil, **) # rubocop:disable Metrics/ParameterLists
+  def self.build(item, course, user, quiz = nil, **)
     if quiz.nil?
       quiz = Xikolo::Quiz::Quiz.find UUID(item['content_id']), &:enqueue_acfs_request_for_questions
     end
     Acfs.run
     Acfs.run
 
-    presenter = new(item:, quiz:, course:, section:, user:)
+    presenter = new(item:, quiz:, course:, user:)
     presenter.enrollment!
     presenter.submission!
     presenter

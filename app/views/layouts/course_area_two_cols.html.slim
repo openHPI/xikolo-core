@@ -28,8 +28,8 @@
         = render 'shared/course_item_toggle_nav'
 
         / Left hand Navigation
-        - if the_section_nav.table_of_contents.present?
+        - if the_table_of_content.present?
           .col-md-12#sectionnav
-            = render the_section_nav.table_of_contents
+            = render the_table_of_content
 
 = render template: 'layouts/course_area'

@@ -64,6 +64,10 @@ describe 'Course: Items: Show', type: :request do
       ).to_return Stub.json(item_resource)
 
       Stub.request(
+        :course, :get, "/items?section_id=#{section.id}"
+      ).to_return Stub.json([item_resource])
+
+      Stub.request(
         :course, :get, '/sections',
         query: {course_id: course.id}
       ).to_return Stub.json([section_resource])

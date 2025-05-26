@@ -11,7 +11,7 @@ describe PinboardPresenter, type: :presenter do
   let(:course) { Xikolo::Course::Course.new(id: course_id, course_code: 'the_course') }
   let(:section_id) { '81e01000-3300-4444-a002-000000000001' }
   let(:short_section_id) { '3X4peCYbbcr6QSYXoifvl7' } # base62 form of above UUID
-  let(:section) { Xikolo::Course::Section.new(id: section_id, title: 'Week 3') }
+  let(:section) { build(:'course:section', id: section_id, title: 'Week 3') }
   let(:thread_id) { '81e01000-3500-4444-a001-000000000001' }
   let(:thread) { Xikolo::Pinboard::Question.new(id: thread_id, title: 'What can I ask?') }
 
@@ -115,7 +115,7 @@ describe PinboardPresenter, type: :presenter do
       end
 
       it 'does not allow posting when the section pinboard was locked' do
-        section.pinboard_closed = true
+        section['pinboard_closed'] = true
 
         expect(presenter.open?).to be false
         expect(presenter.lock_reason).to include 'The discussions for the section "Week 3" are read-only.'
@@ -123,7 +123,7 @@ describe PinboardPresenter, type: :presenter do
 
       it 'does not allow posting when both the course and section pinboards were locked' do
         course.forum_is_locked = true
-        section.pinboard_closed = true
+        section['pinboard_closed'] = true
 
         expect(presenter.open?).to be false
         expect(presenter.lock_reason).to include 'The discussions for this course are read-only.'

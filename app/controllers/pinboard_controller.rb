@@ -24,18 +24,16 @@ class PinboardController < Abstract::FrontendController
         @implicit_tags = tags.join ','
       end
     elsif params[:section_id]
-      Acfs.add_callback the_section do |section|
-        section && section.enqueue_implicit_tags do |tag| # rubocop:disable Style/SafeNavigation
-          tags << tag.id
-          @implicit_tags = tags.join ','
-        end
+      SectionPresenter.new(section:).enqueue_implicit_tags do |tag|
+        tags << tag.id
+        @implicit_tags = tags.join ','
       end
     end
 
     @new_question = Xikolo::Pinboard::Question.new
     Acfs.run
 
-    @section = the_section if params[:section_id]
+    @section = section if params[:section_id] && params[:section_id] != 'technical_issues'
     @pinboard = PinboardPresenter.new(
       course: the_course,
       section: @section,

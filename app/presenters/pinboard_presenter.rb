@@ -41,7 +41,7 @@ class PinboardPresenter
     return if section_filter.blank?
 
     if @section.present?
-      section_title = @section.title
+      section_title = @section['title']
     elsif @technical_issues.present?
       section_title = I18n.t(:'pinboard.filters.technical_issues')
     else

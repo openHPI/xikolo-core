@@ -7,18 +7,17 @@ describe 'Item: Section Navigation', type: :system do
   let(:user) { build(:'account:user', id: user_id, permissions:) }
   let(:permissions) { %w[course.content.access.available course.content.access] }
   let(:course) { create(:course, course_params) }
-  let(:course_resource) { build(:'course:course', **course_params, id: course.id) }
-  let(:richtext) { create(:richtext, id: item['content_id'], course:) }
+  let(:course_resource) { build(:'course:course', **course_params, id: course.id, course_code: course.course_code) }
   let(:course_params) { {} }
-  let(:section) do
-    build(:'course:section', course_id: course.id, title: 'Week 1')
-  end
+  let(:section) { create(:section, course:, title: 'Week 1') }
+  let(:section_resource) { build(:'course:section', id: section.id, course_id: course.id, title: section.title) }
+  let(:richtext) { create(:richtext, id: item['content_id'], course:) }
   let(:item) do
     build(:'course:item',
       title: 'Regular course item',
       content_type: 'rich_text',
       course_id: course.id,
-      section_id: section['id'],
+      section_id: section.id,
       content_id: generate(:uuid),
       show_in_nav: true)
   end
@@ -26,7 +25,7 @@ describe 'Item: Section Navigation', type: :system do
     build(:'course:item', :video,
       title: 'Open mode item',
       course_id: course.id,
-      section_id: section['id'],
+      section_id: section.id,
       content_id: video.id,
       show_in_nav: true,
       open_mode: true)
@@ -38,7 +37,7 @@ describe 'Item: Section Navigation', type: :system do
   end
 
   def visit_item_page(item_id)
-    visit "/courses/#{course.course_code}/sections/#{section['id']}/items/#{item_id}"
+    visit "/courses/#{course.course_code}/sections/#{section.id}/items/#{item_id}"
   end
 
   before do
@@ -59,7 +58,7 @@ describe 'Item: Section Navigation', type: :system do
 
     Stub.request(
       :course, :get, '/items',
-      query: hash_including(section_id: section['id'])
+      query: hash_including(section_id: section.id)
     ).to_return Stub.json([item, open_mode_item])
     Stub.request(
       :course, :get, "/items/#{item['id']}"
@@ -68,12 +67,12 @@ describe 'Item: Section Navigation', type: :system do
       :course, :get, "/items/#{open_mode_item['id']}",
       query: hash_including({})
     ).to_return Stub.json(open_mode_item)
-    Stub.request(:course, :get, "/sections/#{section['id']}")
-      .to_return Stub.json(section)
+    Stub.request(:course, :get, "/sections/#{section.id}")
+      .to_return Stub.json(section_resource)
     Stub.request(
       :course, :get, '/sections',
       query: {course_id: course.id}
-    ).to_return Stub.json([section])
+    ).to_return Stub.json([section_resource])
     Stub.request(
       :course, :get, '/next_dates',
       query: hash_including({})

@@ -4,15 +4,16 @@ require 'spec_helper'
 
 describe UnsupportedItemPresenter, type: :presenter do
   subject(:presenter) do
-    described_class.new item:, section:, course:, user:
+    described_class.new item:, course:, user:
   end
 
-  let(:item_id) { generate(:uuid) }
   let(:user_id) { generate(:user_id) }
-  let(:item_params) { {id: item_id} }
-  let(:item) { build(:'course:item', **item_params, content_type: 'unsupported_type') }
-  let(:course) { Xikolo::Course::Course.new id: generate(:course_id), course_code: 'test' }
-  let(:section) { Xikolo::Course::Section.new id: generate(:section_id), course: course }
+  let(:course) { create(:course) }
+  let(:course_resource) { Xikolo::Course::Course.new id: course.id, course_code: course.course_code }
+  let(:section) { create(:section, course:) }
+  let(:section_resource) { build(:'course:section', id: section.id, course_id: course.id) }
+  let(:item_params) { {id: generate(:uuid)} }
+  let(:item) { Xikolo::Course::Item.new item_params.merge(content_type: 'unsupported_type') }
   let(:features) { {} }
   let(:masqueraded) { false }
   let(:user) do

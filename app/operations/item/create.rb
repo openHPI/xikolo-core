@@ -13,7 +13,7 @@ class Item::Create < ApplicationOperation
     # Ensure the content resource is valid.
     raise ContentCreationError.new({base: ['invalid']}) unless @content.valid?
     # The section ID needs to be set for the item; abort early if it is missing.
-    raise ArgumentError.new('section_required') if @section&.id.blank?
+    raise ArgumentError.new('section_required') if @section['id'].blank?
 
     # Create the content resource; will raise a ContentCreationError
     # if it cannot be created.
@@ -24,7 +24,7 @@ class Item::Create < ApplicationOperation
     # if it cannot be created. In case of an Acfs::InvalidResource
     # the content resource will be deleted right away.
     @item.content_id = @content.id
-    @item.section_id = @section.id
+    @item.section_id = @section['id']
     create_item_resource!
 
     # Create implicit tags for the item
@@ -78,7 +78,7 @@ class Item::Create < ApplicationOperation
   def create_pinboard_tags!
     Xikolo::Pinboard::ImplicitTag.create(
       name: @item.id,
-      course_id: @section.course_id,
+      course_id: @section['course_id'],
       referenced_resource: 'Xikolo::Course::Item'
     )
     Acfs.run

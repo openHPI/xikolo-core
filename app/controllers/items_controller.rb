@@ -18,12 +18,7 @@ class ItemsController < Abstract::FrontendController
 
   def request_section
     if params[:action] == 'show'
-      promise, fulfiller = create_promise(Xikolo::Course::Section.new)
-
-      Xikolo::Course::Section.find item['section_id'] do |section|
-        fulfiller.fulfill section
-      end
-      promise
+      course_api.rel(:section).get({id: UUID(item['section_id'])})
     else
       super
     end
@@ -180,16 +175,15 @@ class ItemsController < Abstract::FrontendController
         @content = @lti_exercise = Lti::Exercise::Store.call(Lti::Exercise.new, content_lti_params)
     end
 
-    # Make sure both the course and section are loaded
+    # Make sure the course is loaded
     the_course
-    the_section
     Acfs.run
 
     # Persist the item and the corresponding content resource.
     # The content resource may already be persisted depending on the content type.
     # I.e. video and lti exercise items are already persisted at this point.
     begin
-      item = Item::Create.call(item: @item, content: @content, section: the_section)
+      item = Item::Create.call(item: @item, content: @content, section:)
     rescue Item::Create::ContentCreationError => e
       e.errors.each do |msg|
         msg[1].each do |m|

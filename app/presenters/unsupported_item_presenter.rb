@@ -3,8 +3,8 @@
 require 'addressable'
 
 class UnsupportedItemPresenter < ItemPresenter
-  def self.build(item, section, course, user, **)
-    new(item:, section:, user:, course:)
+  def self.build(item, course, user, **)
+    new(item:, user:, course:)
   end
 
   def partial_name
