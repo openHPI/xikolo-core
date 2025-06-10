@@ -92,6 +92,12 @@ export default async (settings) => {
         filename: '[name].[contenthash].css',
       }),
 
+      // Ignore source maps from third party libraries
+      new webpack.IgnorePlugin({
+        resourceRegExp: /\.js\.map$/,
+        contextRegExp: /node_modules/,
+      }),
+
       // Generate a manifest JSON file.
       //
       // This file is used by Rails to generate correct script and stylesheet

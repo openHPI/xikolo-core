@@ -196,11 +196,11 @@ module Steps
     end
 
     Then 'I should see the video in the Xikolo dual stream player' do
-      expect(page).to have_xpath '//xm-player'
+      expect(page).to have_xpath '//xm-player[contains(@class, "hydrated")]'
     end
 
     Then 'the video is rendered in the video player' do
-      expect(page).to have_xpath '//xm-player'
+      expect(page).to have_xpath '//xm-player[contains(@class, "hydrated")]'
     end
 
     Then "I should see the video's description" do

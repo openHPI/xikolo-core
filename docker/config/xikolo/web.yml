@@ -4,7 +4,6 @@ s3:
     avatars: bucket-public
     banners: bucket-public
     certificate: bucket-certificate
-    collabspace: bucket-collabspace
     course: bucket-public
     lti: bucket-public
     news: bucket-public

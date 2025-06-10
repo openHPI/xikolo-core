@@ -28,7 +28,6 @@ target build {
   matrix = {
     app = [
       "account",
-      "collabspace",
       "course",
       "grouping",
       "news",
