@@ -190,13 +190,9 @@ module Bridges
           # Since this is an approximation for the MOOCHub API, and
           # resembles the informal description of e.g. a 2W or 4W course,
           # we only return an approximation in weeks.
-          (+'P').tap do |s|
-            if weeks > 0
-              s << "#{weeks}W"
-            else
-              s << "#{days}D"
-            end
-          end
+          duration = "P#{weeks == 0 ? "#{days.abs}D" : "#{weeks.abs}W"}"
+          duration = "-#{duration}" if weeks.negative? || days.negative?
+          duration
         end
 
         def skills_for(course)

@@ -14,10 +14,6 @@ module Xikolo
       namespace 'next_dates' do
         mount Endpoint::ListNextDates
       end
-
-      namespace 'classifiers' do
-        mount Endpoint::ListClassifiers
-      end
     end
   end
 end

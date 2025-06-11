@@ -5,7 +5,7 @@ require 'spec_helper'
 describe Certificate::RenderDataPresenter, type: :presenter do
   subject(:render_data) { described_class.new record, template }
 
-  let(:course) { create(:course, records_released: true, lang: 'en') }
+  let(:course) { create(:course, records_released: true, lang: 'en', end_date: Date.new(2012, 12, 21)) }
   let(:record) { create(:roa, user:, course:, template:) }
   let(:template) do
     create(:certificate_template, :roa,

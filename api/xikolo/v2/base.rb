@@ -18,7 +18,6 @@ module Xikolo
       mount CourseAPI
       mount PreferenceAPI
       mount StatisticsAPI
-      mount PinboardAPI
       mount NewsStatisticAPI
       mount LearningInsightsAPI
 
@@ -36,7 +35,6 @@ module Xikolo
 
       mount_json_api_endpoint 'announcements', V2::News::Announcements
       mount_json_api_endpoint 'channels', V2::Courses::Channels
-      mount_json_api_endpoint 'clusters', V2::Classifiers::Clusters
       mount_json_api_endpoint 'courses', V2::Courses::Courses
       mount_json_api_endpoint 'course-dates', V2::Courses::Dates
       mount_json_api_endpoint 'course-features', V2::Features::CourseFeatures
@@ -49,7 +47,6 @@ module Xikolo
       mount_json_api_endpoint 'features', V2::Features::Features
       mount_json_api_endpoint 'last-visits', V2::Courses::LastVisits
       mount_json_api_endpoint 'lti-exercises', V2::CourseItems::LtiExercises
-      mount_json_api_endpoint 'pinboard-topics', V2::Pinboard::Topics
       mount_json_api_endpoint 'platform-events', V2::Activity::PlatformEvents
       mount_json_api_endpoint 'quizzes', V2::Quiz::Quizzes
       mount_json_api_endpoint 'quiz-questions', V2::Quiz::Questions

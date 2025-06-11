@@ -7,7 +7,7 @@ describe PersistRankingTasksController, type: :controller do
 
   let(:json) { JSON.parse response.body }
   let(:default_params) { {format: 'json'} }
-  let(:course) { create(:course, end_date: 1.day.ago) }
+  let(:course) { create(:course, start_date: 5.days.ago, end_date: 1.day.ago) }
   let(:section) { create(:section, course:) }
   let(:item) do
     create(:item, section:, content_type: :quiz,

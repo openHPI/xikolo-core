@@ -306,11 +306,11 @@ describe CoursesController, type: :controller do
 
       context 'by active after' do
         let(:params) { {active_after: '2018-04-07'} }
-        let!(:not_filtered_course) { create(:course, end_date: 2.years.ago) }
-        let!(:another_not_filtered_course) { create(:course, end_date: 1.year.ago) }
+        let!(:not_filtered_course) { create(:course, start_date: 3.years.ago, end_date: 2.years.ago) }
+        let!(:another_not_filtered_course) { create(:course, start_date: 2.years.ago, end_date: 1.year.ago) }
         let!(:course_without_end_date) { create(:course, end_date: nil) }
 
-        before { create_list(:course, 3, end_date: 4.years.ago) }
+        before { create_list(:course, 3, start_date: 5.years.ago, end_date: 4.years.ago) }
 
         around do |example|
           date = Date.new(2021, 4, 7)

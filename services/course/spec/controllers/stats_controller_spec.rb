@@ -9,7 +9,7 @@ describe StatsController, type: :controller do
   let(:params) { {key: 'enrollments', course_id: course.id} }
 
   let(:course) { create(:course, course_params) }
-  let(:course_params) { {} }
+  let(:course_params) { {start_date: 7.weeks.ago, end_date: 3.days.ago} }
 
   before do
     create(:course)

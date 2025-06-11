@@ -24,6 +24,12 @@ describe Course, type: :model do
     end.to raise_error(ActiveRecord::RecordInvalid, /Course code has already been taken/)
   end
 
+  it 'does not allow a start_date being later than the end date' do
+    expect do
+      create(:course, start_date: Time.zone.now, end_date: 7.days.ago)
+    end.to raise_error(ActiveRecord::RecordInvalid, /The start date cannot be later than the end date/)
+  end
+
   # Tip: Recreate the classifier object here, otherwise you will see type mismatch errors.
   it { is_expected.to accept_values_for(:classifiers, {}, {category: ['somecat']}, create(:classifier)) }
 

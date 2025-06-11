@@ -116,7 +116,7 @@ describe '[API v2] Course: Show', type: :request do
     # invite_only: object.invite_only,
 
     context 'for a announced course' do
-      let(:course_attrs) { super().merge start_date: 2.days.from_now }
+      let(:course_attrs) { super().merge start_date: 2.days.from_now, end_date: 3.days.from_now }
 
       its(['state']) { is_expected.to eq 'announced' }
     end

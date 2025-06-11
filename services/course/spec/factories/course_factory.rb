@@ -12,8 +12,8 @@ FactoryBot.define do
     status { 'preparation' }
     context_id
     description { 'Some course ...' }
-    start_date { Time.new(2012, 11, 5, 9, 0, 0).utc }
-    end_date { Time.new(2012, 12, 21, 20, 0, 0).utc }
+    start_date { Time.zone.now }
+    end_date { 6.weeks.from_now }
     lang { 'en' }
     middle_of_course { nil }
     classifiers { {create(:cluster).id => %w[pro-track databases]} }

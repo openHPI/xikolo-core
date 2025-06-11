@@ -8,7 +8,7 @@ export default function loadClassifiers(element) {
     valueField: 'id',
     async load(query, callback) {
       try {
-        const url = `/api/v2/classifiers?q=${encodeURIComponent(
+        const url = `/app/classifiers?q=${encodeURIComponent(
           query,
         )}&cluster=${element.dataset.cluster}`;
         const response = await fetch(url);

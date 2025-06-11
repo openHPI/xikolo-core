@@ -89,7 +89,7 @@ describe EnrollmentsController, type: :controller do
   let(:completed) { nil }
 
   # Course content
-  let(:course_opts) { {records_released:} }
+  let(:course_opts) { {records_released:, start_date: 6.weeks.ago, end_date: Time.zone.now} }
   let(:course) { create(:course, course_opts) }
   let(:records_released) { false }
 

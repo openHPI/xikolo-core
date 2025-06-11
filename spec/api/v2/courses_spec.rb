@@ -76,7 +76,6 @@ describe Xikolo::V2::Courses::Courses, type: :request do
       it { is_expected.to have_attribute 'description' }
       it { is_expected.to have_attribute 'language' }
       it { is_expected.to have_attribute 'status' }
-      it { is_expected.to have_attribute 'classifiers' }
       it { is_expected.to have_attribute 'teachers' }
       it { is_expected.to have_attribute 'accessible' }
       it { is_expected.to have_attribute 'enrollable' }

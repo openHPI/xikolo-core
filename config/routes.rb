@@ -366,6 +366,7 @@ Rails.application.routes.draw do
   mount Xikolo::API => '/api'
 
   get 'app/quiz-recap', to: 'quiz_recap#show'
+  get 'app/classifiers', to: 'classifiers#show'
 
   namespace :admin do
     resources :clusters, only: %i[index show edit update] do

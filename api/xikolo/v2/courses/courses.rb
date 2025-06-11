@@ -86,11 +86,6 @@ module Xikolo
           type :string
         }
 
-        attribute('classifiers') {
-          description 'A hash of classifiers for this course (used for categorization), mapping from names to arrays of assigned groups in these categories.'
-          type :hash
-        }
-
         attribute('teachers') {
           description 'A string, listing the names of teachers or a short title for the teaching team'
           type :string

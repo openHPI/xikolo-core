@@ -64,6 +64,8 @@ class Course < ApplicationRecord
 
   validates :title, :status, :description, presence: true
 
+  validate :start_date_before_end_date
+
   validates :status, inclusion: {
     in: STATES,
     message: '%{value} is not a valid course state',
@@ -375,6 +377,14 @@ class Course < ApplicationRecord
   end
 
   private
+
+  def start_date_before_end_date
+    return if start_date.blank? || end_date.blank?
+
+    if start_date > end_date
+      errors.add(:start_date, 'The start date cannot be later than the end date.')
+    end
+  end
 
   def update_enrollments
     return unless deleted

@@ -373,8 +373,8 @@ FactoryBot.define do
     sequence(:course_code) {|n| "course_#{n}" }
     sequence(:title) {|n| "MOOC on topic #{n}" }
     context_id
-    start_date { Time.new(2012, 11, 5, 9, 0, 0).utc }
-    end_date { Time.new(2012, 12, 21, 20, 0, 0).utc }
+    start_date { Time.zone.now }
+    end_date { 6.weeks.from_now }
     lang { 'en' }
     abstract { 'Abstract text' }
     show_on_list { true }

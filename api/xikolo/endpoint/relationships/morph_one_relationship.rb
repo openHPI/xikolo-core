@@ -46,7 +46,7 @@ module Xikolo
         end
 
         def instance_for(resource)
-          if resource[foreign_key]
+          if resource[foreign_key] && resource[foreign_type] != 'peer_assessment'
             morph_type = ensure_type! resource[foreign_type]
             RelationshipInstance.new self, morph_type, resource[foreign_key]
           else
