@@ -143,6 +143,7 @@ Rails.application.routes.draw do
       resources :streams, only: :index
       get '/find_courses', to: 'courses#index', constraints: ->(r) { r.xhr? }
       get '/find_users', to: 'users#index', constraints: ->(r) { r.xhr? }
+      get '/find_classifiers', to: 'classifiers#index'
     end
     resources :polls, except: %i[show] do
       resources :options, only: %i[create destroy], controller: 'poll_options'
@@ -366,7 +367,6 @@ Rails.application.routes.draw do
   mount Xikolo::API => '/api'
 
   get 'app/quiz-recap', to: 'quiz_recap#show'
-  get 'app/classifiers', to: 'classifiers#show'
 
   namespace :admin do
     resources :clusters, only: %i[index show edit update] do

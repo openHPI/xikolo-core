@@ -20,11 +20,10 @@ describe Channel, type: :model do
   it { is_expected.to accept_values_for(:description, 'Some description', 'another description!', '') }
 
   it 'allows assigning multiple courses to a channel' do
-    course1 = create(:course, start_date: DateTime.new(2020, 10, 10), end_date: DateTime.new(2020, 12, 12), channel:)
-    course2 = create(:course, start_date: DateTime.new(2020, 10, 10), end_date: DateTime.new(2020, 12, 12), channel:)
+    course1 = create(:course, channel:)
+    course2 = create(:course, channel:)
 
-    expect(channel.courses).to all be_a Course
-    expect(channel.courses).to eq [course1, course2]
+    expect(channel.courses).to contain_exactly(course1, course2)
   end
 
   it { is_expected.to accept_values_for(:highlight, true, false) }

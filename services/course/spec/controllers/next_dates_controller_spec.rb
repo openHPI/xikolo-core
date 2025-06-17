@@ -451,7 +451,7 @@ describe NextDatesController, type: :controller do
         let(:other_enrollment) { create(:enrollment, user_id:, course: other_course) }
         let(:third_enrollment) { create(:enrollment, user_id:, course: third_course) }
 
-        let(:third_course) { create(:course, status: 'active', start_date: 2.months.ago, end_date: 1.month.ago) }
+        let(:third_course) { create(:course, status: 'active') }
         let(:third_section) { create(:section, course: third_course, start_date: dates[2]) }
         let(:third_other_section) { create(:section, course: third_course, start_date: nil) }
         let(:third_item) { create(:item, section: third_other_section, submission_publishing_date: dates[3]) }

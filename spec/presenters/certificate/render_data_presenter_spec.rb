@@ -5,7 +5,7 @@ require 'spec_helper'
 describe Certificate::RenderDataPresenter, type: :presenter do
   subject(:render_data) { described_class.new record, template }
 
-  let(:course) { create(:course, records_released: true, lang: 'en', end_date: Date.new(2012, 12, 21)) }
+  let(:course) { create(:course, records_released: true, lang: 'en') }
   let(:record) { create(:roa, user:, course:, template:) }
   let(:template) do
     create(:certificate_template, :roa,
@@ -292,7 +292,7 @@ describe Certificate::RenderDataPresenter, type: :presenter do
       let(:completed_at) { nil }
 
       it 'is the course end date' do
-        expect(render_data.issue_date).to eq Date.new(2012, 12, 21)
+        expect(render_data.issue_date).to eq course.end_date&.to_date
       end
     end
 

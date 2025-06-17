@@ -89,8 +89,8 @@ describe EnrollmentsController, type: :controller do
   let(:completed) { nil }
 
   # Course content
-  let(:course_opts) { {records_released:, start_date: 6.weeks.ago, end_date: Time.zone.now} }
-  let(:course) { create(:course, course_opts) }
+  let(:course_opts) { {records_released:} }
+  let(:course) { create(:course, **course_opts) }
   let(:records_released) { false }
 
   let(:section1_params) { {start_date: 10.days.ago.iso8601} }
@@ -460,7 +460,9 @@ describe EnrollmentsController, type: :controller do
           end
 
           context 'in an still active course' do
-            let(:course_opts) { super().merge end_date: 2.days.ago, status: 'active', auto_archive: false }
+            let(:course_opts) do
+              super().merge end_date: 2.days.ago, status: 'active', auto_archive: false
+            end
 
             it_behaves_like 'overridable bool with default to', true
           end
