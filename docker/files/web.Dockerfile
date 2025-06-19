@@ -70,7 +70,7 @@ EOF
 # * Collect required native dependencies for gems
 # * Clean up application directory
 #
-FROM ruby:3.4.3-slim@sha256:bf1ae63808063b7c3ba614d7e2e290011812ebffb7fd773f5ac4081d0c88538a AS build
+FROM ruby:3.4.4-slim@sha256:5d7149ee7eda2420d1b2bc3af78798de9eac3098e910c44a3ddd93da2a4130ca AS build
 
 ARG BRAND=xikolo
 ARG TARGETARCH
@@ -142,7 +142,7 @@ EOF
 #
 # Runtime image
 #
-FROM docker.io/ruby:3.4.3-slim@sha256:bf1ae63808063b7c3ba614d7e2e290011812ebffb7fd773f5ac4081d0c88538a
+FROM docker.io/ruby:3.4.4-slim@sha256:5d7149ee7eda2420d1b2bc3af78798de9eac3098e910c44a3ddd93da2a4130ca
 
 ARG BRAND=xikolo
 ARG BUILD_REF_NAME

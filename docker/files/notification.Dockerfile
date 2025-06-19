@@ -1,6 +1,6 @@
 # syntax = docker/dockerfile:1.15@sha256:9857836c9ee4268391bb5b09f9f157f3c91bb15821bb77969642813b0d00518d
 
-FROM docker.io/ruby:3.4.3-slim@sha256:bf1ae63808063b7c3ba614d7e2e290011812ebffb7fd773f5ac4081d0c88538a AS build
+FROM docker.io/ruby:3.4.4-slim@sha256:5d7149ee7eda2420d1b2bc3af78798de9eac3098e910c44a3ddd93da2a4130ca AS build
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -69,7 +69,7 @@ EOF
 #
 # Runtime image
 #
-FROM docker.io/ruby:3.4.3-slim@sha256:bf1ae63808063b7c3ba614d7e2e290011812ebffb7fd773f5ac4081d0c88538a
+FROM docker.io/ruby:3.4.4-slim@sha256:5d7149ee7eda2420d1b2bc3af78798de9eac3098e910c44a3ddd93da2a4130ca
 
 ARG BRAND=xikolo
 ARG BUILD_REF_NAME
