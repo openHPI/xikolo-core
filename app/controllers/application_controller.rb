@@ -5,7 +5,6 @@ class ApplicationController < ActionController::Base
   helper FeatureTogglesHelper
   include FeatureTogglesHelper
 
-  include UserTestsHelper
   include Login
 
   protect_from_forgery with: :exception

@@ -270,9 +270,6 @@ fr:
       course_announcement_mails_disabled: "Votre compte %{mail} ne recevra plus les nouvelles d'un cours. Vous pouvez réactiver cela à tout moment dans vos paramètres de profil."
       pinboard_mails_disabled: "Votre compte %{mail} ne recevra plus les nouvelles de votre mur. Vous pouvez réactiver cela à tout moment dans vos paramètres de profil."
       global_mails_disabled: "Votre compte %{mail} ne recevoir plus des notifications par e-mail. Vous pouvez réactiver cela à tout moment dans vos paramètres de profil."
-      user_test_created: Le test de l'utilisateur a été créé.
-      user_test_updated: Le test de l'utilisateur a été mis à jour.
-      user_test_deleted: Le test de l'utilisateur a été supprimé.
       submission_converted: Soumission a été convertie avec succès à partir de maintenant!
       subscription_canceled: J'ai réussi à supprimer le sujet.
       proctoring:
@@ -344,8 +341,6 @@ fr:
           valid_formats: "Les types de documents admis sont pdf, xml, txt, jpg, png and gif. Max. taille: 8 MB."
       email_hash_invalid: Le lien fourni semble être invalide.
       unfulfilled_prerequisites: Vous n'avez pas achevé les conditions requises pour participer au cours.
-      user_test_not_updated: Le test de l'utilisateur ne pouvait pas être mis à jour.
-      user_test_not_deleted: Le test de l'utilisateur ne peut pas être supprimé.
       params_missing_learn_review: Params for quiz_id and course_id are missing!
       switch_question_to_mcq: Les questions à choix unique ne doivent avoir qu'une seule réponse correcte ! Veuillez revoir la question.
       document:
@@ -475,7 +470,6 @@ fr:
         certificates: Enregistrements
         knowledge_documents: Documents
         reports: Reports
-        user_tests: User Tests
         lti_providers: Prestataires LTI
 
       masquerade:
@@ -810,7 +804,6 @@ fr:
             quiz: "Quiz"
             text: "Text"
             lti_exercise: "External exercise tool"
-            peer_assessment: Evaluation par les pairs
           exercise_type_selector:
             selftest: Self test
             main: Main
@@ -981,7 +974,6 @@ fr:
         # EN-fallback referrers: Referrers
         content: Structure du cours et contenu
         # EN-fallback lti: LTI providers
-        peer_assessment: Evaluation par les pairs
         transpipe: Sous-titres (en TransPipe)
         settings: Propriétés de cours
         # EN-fallback permissions: Course Permissions
@@ -1258,7 +1250,6 @@ fr:
         video: Vidéo
         quiz: Quiz
         lti_exercise: Exercice
-        peer_assessment: Evaluation par les pairs
       clone_course:
         button: Clonez course
         placeholder: Code de cours du clone
@@ -1422,8 +1413,6 @@ fr:
     type_label:
       video: Vidéo
       rich_text: Texte
-      peer_assessment: Évaluation par les pairs
-      bonus_peer_assessment: Évaluation par les pairs (bonus)
       self_test: Test d'auto-évaluation
       graded_test: Test gradué
       bonus_test: Test (bonus)
@@ -2217,11 +2206,6 @@ fr:
       file:
         admin:
           name: "<b>File administration:</b> list and delete uploaded files"
-      grouping:
-        admin:
-          name: "<b>User tests administration:</b> create and manage user tests"
-        inspector:
-          name: "<b>User tests:</b> work with user test results"
       lanalytics:
         alert:
           admin:

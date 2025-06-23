@@ -43,7 +43,6 @@ module Xikolo
       mount_json_api_endpoint 'course-sections', V2::Courses::Sections
       mount_json_api_endpoint 'documents', V2::Documents::Documents
       mount_json_api_endpoint 'enrollments', V2::Courses::Enrollments
-      mount_json_api_endpoint 'experiment-assignments', V2::Features::ExperimentAssignments
       mount_json_api_endpoint 'features', V2::Features::Features
       mount_json_api_endpoint 'last-visits', V2::Courses::LastVisits
       mount_json_api_endpoint 'lti-exercises', V2::CourseItems::LtiExercises

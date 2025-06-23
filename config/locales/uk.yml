@@ -296,9 +296,6 @@ uk:
       course_announcement_mails_disabled: "Ваш обліковий запис %{mail} більше не отримуватиме новини курсу. Ви можете повторно активувати це будь-коли в налаштуваннях свого профілю."
       pinboard_mails_disabled: "Ваш обліковий запис %{mail} більше не отримуватиме новини з дошки оголошень. Ви можете повторно активувати це будь-коли в налаштуваннях свого профілю."
       global_mails_disabled: "Ваш обліковий запис %{mail} більше не отримуватиме повідомлення електронною поштою. Ви можете повторно активувати це будь-коли в налаштуваннях свого профілю."
-      user_test_created: "Тест користувача створений."
-      user_test_updated: "Тест користувача оновлений."
-      user_test_deleted: Тест користувача видалений.
       submission_converted: Робота була успішно конвертована з наявного знімка!
       reactivate_course: "Ви повторно активували цей курс до %{date}"
       proctoring:
@@ -398,9 +395,6 @@ uk:
           valid_formats: "Допустимі типи документів: pdf, xml, txt, jpg, png та gif. Макс. розмір: 8 МБ."
       email_hash_invalid: Надане посилання виглядає недійсним.
       unfulfilled_prerequisites: Ви не виконали передумови для участі в курсі.
-      user_test_not_created: Не вдалося створити тест користувача.
-      user_test_not_updated: Не вдалося оновити тест користувача.
-      user_test_not_deleted: Не вдалося видалити тест користувача.
       params_missing_learn_review: Параметри для quiz_id та course_id відсутні!
       switch_question_to_mcq: Питання з одним вибором повинні мати лише 1 правильну відповідь! Перегляньте питання.
       user_required: Не вказано жодного користувача.
@@ -567,7 +561,6 @@ uk:
         announcements: Оголошення
         polls: Опитування
         reports: Звіти
-        user_tests: Тести користувача
         vouchers: Ваучери
         lti_providers: Постачальники LTI
       masquerade:
@@ -1014,7 +1007,6 @@ uk:
             quiz: "Короткий тест"
             text: "Текст"
             lti_exercise: "Зовнішній інструмент для вправ"
-            peer_assessment: Колегіальна оцінка
           exercise_type_selector:
             selftest: Самоперевірка
             main: Основний
@@ -1156,63 +1148,6 @@ uk:
         confirmed: Підтверджено
       new:
         create_user: Створити користувача
-    user_tests:
-      index:
-        user_tests: Тести користувача
-        details: Подробиці
-        edit: Редагувати
-        name: Ім’я
-        start_date: Дата початку
-        end_date: Дата закінчення
-        course: Курс
-      show:
-        back_to_list: Назад до списку
-        details: Подробиці
-        start_date: Дата початку
-        end_date: Дата закінчення
-        course: Курс
-        alternative: Альтернатива
-        control: "\_(Контроль)"
-        name: Ім’я
-        participants: Учасники
-        required_participants: Потрібні учасники
-        required_participants_hint: (для розміру ефекту 0,5 і потужності 0,8)
-        non-finished: Не закінчено
-        waiting: Очікування
-        mean: Середнє
-        effect: Оцінюваний ефект
-        confidence: Достовірність
-        total: Разом
-        metric: Показник
-        filters: Фільтри
-        identifier: Ідентифікатор
-        max_participants: Макс. учасники
-        active: активний
-        confidence_error: Помилка у розрахунку достовірності
-        edit: Редагувати
-        download: Експорт результатів у CSV
-        delete: Видалити
-      new:
-        new_user_test: Новий тест користувача
-        none: немає
-      create:
-        new: Новий тест користувача
-      form:
-        label:
-          start_date: Дата початку
-          end_date: Дата закінчення
-          max_participants: Максимум учасників
-        add_metric: Додати показник
-        test_groups: Тестові групи
-        test_group_name: Тестові групи %{number}
-        add_test_group: Додати тестову групу
-        day_of_week_effects_hint: Враховуйте впливи днів тижня. Найкраще провести тест на кілька повних тижнів.
-        test_groups_hint: Розділений комами список імен груп
-        filter_hint: 'Приклади: "стать == жіноча", "число зарахувань < 2". Підтримувані поля: всі поля профілю та зарахування, вчитель та адміністратор. Підтримувані оператори ==, !=, в, <, >, <=, >=, << (між), <=<=. Введіть кілька фільтрів через кому. Значення можуть бути рядками, цілими числами або списками, розділеними комами, залежно від оператора.'
-      metric:
-        metric_wait_interval_hint: Інтервал часу, протягом якого оцінюється показник.
-      edit:
-        edit_user_test: Редагувати тест користувача
     teachers:
       index:
         title: Вчителі
@@ -1409,7 +1344,6 @@ uk:
         # EN-fallback referrers: Referrers
         content: Структура та зміст курсу
         lti: Постачальники LTI
-        peer_assessment: Колегіальні оцінки
         transpipe: Субтитри (у TransPipe)
         settings: Властивості курсу
         permissions: Дозволи курсу
@@ -1761,7 +1695,6 @@ uk:
         video: Відео
         quiz: Короткий тест
         lti_exercise: Вправа
-        peer_assessment: Колегіальна оцінка
       clone_course:
         button: Клонувати курс
         placeholder: Код клону курсу
@@ -1970,8 +1903,6 @@ uk:
     type_label:
       video: Відео
       rich_text: Текст
-      peer_assessment: Колегіальна оцінка
-      bonus_peer_assessment: Бонусна колегіальна оцінка
       self_test: Самоперевірка
       graded_test: Оцінюваний тест
       bonus_test: Бонусний тест
@@ -2869,8 +2800,6 @@ uk:
       students: Студенти
       partners: Партнер
       content_editors: Редактори контенту
-      pa_content_experts: Експерти з контенту для колегіального оцінювання
-      pa_jury: Журі колегіального оцінювання
       stakeholders: Учасники курсу
       global:
         gdpr_admins: Адміністратори платформи (GDPR)
@@ -2923,11 +2852,6 @@ uk:
       file:
         admin:
           name: "<b>Адміністрування файлів:</b> список та видалення завантажених файлів"
-      grouping:
-        admin:
-          name: "<b>Адміністрування тестів користувача:</b> створення власних тестів і управління ними"
-        inspector:
-          name: "<b>Тести користувача:</b> робота з результатами тестів користувача"
       lanalytics:
         alert:
           admin:

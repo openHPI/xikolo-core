@@ -352,8 +352,6 @@ Rails.application.routes.draw do
 
   resource :notification_user_disables, path: '/notification_user_settings/disable', only: %i[show create]
 
-  resources :user_tests, module: 'admin'
-
   get '/learn', to: 'learning_mode#index'
   get '/learn/review', to: 'learning_mode#review'
 

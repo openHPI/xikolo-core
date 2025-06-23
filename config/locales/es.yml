@@ -302,9 +302,6 @@ es:
       course_announcement_mails_disabled: "Ya no recibirá más noticias del curso en su cuenta %{mail}. Puede volver a activar esta opción en cualquier momento en las opciones de configuración de su perfil."
       pinboard_mails_disabled: "Ya no recibirá más noticias del tablón de anuncios en su cuenta %{mail}. Puede volver a activar esta opción en cualquier momento en las opciones de configuración de su perfil."
       global_mails_disabled: "Ya no recibirá más notificaciones mediante correo electrónico en su cuenta %{mail}. Puede volver a activar esta opción en cualquier momento en las opciones de configuración de su perfil."
-      user_test_created: "La prueba de usuario ha sido creada."
-      user_test_updated: "La prueba de usuario ha sido actualizada."
-      user_test_deleted: La prueba de usuario ha sido eliminada.
       submission_converted: ¡La entrega se ha realizado correctamente a partir de la foto existente!
       subscription_canceled: He conseguido dejar de seguir el tema.
       reactivate_course: "Ha reactivado este curso hasta %{date}"
@@ -402,9 +399,6 @@ es:
           valid_formats: "Los tipos de documentos permitidos son pdf, ppt, pptx, odp, doc, docx, odt, xls, xlsx, ods, jpg, png y gif. amaño máximo: 8 MB."
       email_hash_invalid: Parece que el enlace proporcionado no es válido.
       unfulfilled_prerequisites: No ha cumplido los requisitos previos para participar en el curso.
-      user_test_not_created: La prueba de usuario no ha podido crearse.
-      user_test_not_updated: La prueba de usuario no ha podido actualizarse.
-      user_test_not_deleted: La prueba de usuario no ha podido eliminarse.
       params_missing_learn_review: ¡Faltan los parámetros para quiz_id y course_id!
       switch_question_to_mcq: Las preguntas de selección única sólo deben tener una respuesta correcta. Por favor, revise la pregunta.
       user_required: No se ha asignado el usuario.
@@ -564,7 +558,6 @@ es:
         channels: Canales
         polls: Encuestas
         reports: Informes
-        user_tests: Pruebas del usuario
         vouchers: Vales promocionales
         lti_providers: Proveedores de LTI
 
@@ -902,7 +895,6 @@ es:
             quiz: "Cuestionario"
             text: "Texto"
             lti_exercise: "Herramienta de ejercicios externa"
-            peer_assessment: Evaluación entre pares
           exercise_type_selector:
             selftest: Prueba de autoevaluación
             main: Principal
@@ -1044,63 +1036,6 @@ es:
         confirmed: Confirmado
       new:
         create_user: Crear un usuario
-    user_tests:
-      index:
-        user_tests: Pruebas de usuario
-        details: Información
-        edit: Editar
-        name: Nombre
-        start_date: Fecha de inicio
-        end_date: Fecha de fin
-        course: Curso
-      show:
-        back_to_list: Volver a la lista
-        details: Información
-        start_date: Fecha de inicio
-        end_date: Fecha de fin
-        course: Curso
-        alternative: Alternativa
-        control: "\xA0(Control)"
-        name: Nombre
-        participants: Participantes
-        required_participants: Participantes necesarios
-        required_participants_hint: (para tamaño de efecto de 0,5 y potencia de 0,8)
-        non-finished: No terminado
-        waiting: Esperando
-        mean: Media
-        effect: Efecto estimado
-        confidence: Confianza
-        total: Total
-        metric: Métrica
-        filters: Filtros
-        identifier: Identificador
-        max_participants: Máximo de participantes
-        active: active
-        confidence_error: Error en el cálculo de confianza
-        edit: Editar
-        download: Exportar los resultados a un archivo CSV
-        delete: Eliminar
-      new:
-        new_user_test: Nueva prueba de usuario
-        none: ninguna
-      create:
-        new: Nueva prueba de usuario
-      form:
-        label:
-          start_date: Fecha de inicio
-          end_date: Fecha de fin
-          max_participants: Máximo de participantes
-        add_metric: Añadir métrica
-        test_groups: Grupos de prueba
-        test_group_name: Grupo de prueba %{number}
-        add_test_group: Añadir grupo de prueba
-        day_of_week_effects_hint: Tenga en cuenta cómo afecta el día de la semana. Es mejor realizar la prueba durante varias semanas.
-        test_groups_hint: Lista de nombres de grupos separados por comas
-        filter_hint: 'Ejemplos: "sexo == femenino", "matriculaciones < 2". Los campos compatibles son todos los campos del perfil y las matriculaciones, el profesor y el administrador. Los operadores compatibles son ==, !=, en, <, >, <=, >=, << (entre), <=<=. Introduzca varios filtros separados por comas. Los valores pueden ser cadenas de caracteres, números enteros o listas separadas por comas, dependiendo del operador.'
-      metric:
-        metric_wait_interval_hint: Intervalo de tiempo en el que se evalúa la métrica.
-      edit:
-        edit_user_test: Editar prueba de usuario
     teachers:
       index:
         title: Profesores
@@ -1300,7 +1235,6 @@ es:
         # EN-fallback referrers: Referrers
         content: Estructura y contenido del curso
         lti: Proveedores LTI
-        peer_assessment: Evaluaciones entre pares
         transpipe: Subtítulos (en TransPipe)
         settings: Propiedades del curso
         permissions: Permisos del curso
@@ -1648,7 +1582,6 @@ es:
         video: Vídeo
         quiz: Cuestionario
         lti_exercise: Ejercicio
-        peer_assessment: Evaluación entre pares
       clone_course:
         button: Clonar curso
         placeholder: Código del curso clonado
@@ -1836,8 +1769,6 @@ es:
     type_label:
       video: Vídeo
       rich_text: Texto
-      peer_assessment: Evaluación entre pares
-      bonus_peer_assessment: Evaluación entre pares (bonus)
       self_test: Prueba de autoevaluación
       graded_test: Prueba evaluada
       bonus_test: Prueba (bonus)
@@ -2713,8 +2644,6 @@ es:
       students: Estudiantes
       partners: Socio
       content_editors: Editores de contenido
-      pa_content_experts: Expertos de contenido para las evaluaciones entre pares
-      pa_jury: Jurado para las evaluaciones entre pares
       stakeholders: Grupos de interés para los cursos
       global:
         gdpr_admins: Administradores de la plataforma (RGPD)
@@ -2766,11 +2695,6 @@ es:
       file:
         admin:
           name: "<b>Administración de archivos:</b> hacer listas y eliminar archivos cargados"
-      grouping:
-        admin:
-          name: "<b>Administración de pruebas de los usuarios:</b> crear y gestionar pruebas de usuarios"
-        inspector:
-          name: "<b>Pruebas de usuarios:</b> trabajar con los resultados de las pruebas de los usuarios"
       lanalytics:
         alert:
           admin:

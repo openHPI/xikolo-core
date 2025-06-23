@@ -297,9 +297,6 @@ nl:
       course_announcement_mails_disabled: "Je account %{mail} zal geen cursusnieuws meer ontvangen. Je kunt dit op elk moment opnieuw activeren in je profielinstellingen."
       pinboard_mails_disabled: "Uw account %{mail} zal geen prikbordnieuws meer ontvangen. U kunt dit op elk moment opnieuw activeren in uw profielinstellingen."
       global_mails_disabled: "Uw account %{mail} ontvangt geen meldingen meer via e-mail. U kunt dit op elk moment opnieuw activeren in uw profielinstellingen."
-      user_test_created: "De gebruikerstest is gemaakt."
-      user_test_updated: "De gebruikerstest is bijgewerkt."
-      user_test_deleted: De gebruikerstest is verwijderd.
       submission_converted: De inzending is met succes geconverteerd vanuit een bestaande momentopname!
       reactivate_course: "Je hebt deze cursus opnieuw geactiveerd tot %{date}"
       proctoring:
@@ -402,9 +399,6 @@ nl:
           valid_formats: "Toegestane documenttypen zijn pdf, xml, txt, jpg, png en gif. Max. grootte: 8 MB."
       email_hash_invalid: De opgegeven link lijkt ongeldig te zijn.
       unfulfilled_prerequisites: Je hebt niet voldaan aan de voorwaarden voor deelname aan de cursus.
-      user_test_not_created: De gebruikerstest kan niet worden gemaakt.
-      user_test_not_updated: De gebruikerstest kan niet worden bijgewerkt.
-      user_test_not_deleted: De gebruikerstest kan niet worden verwijderd.
       params_missing_learn_review: Params voor quiz_id en course_id ontbreken!
       switch_question_to_mcq: Single Select Questions mogen maar 1 juist antwoord hebben! Bekijk de vraag.
       user_required: Geen gebruiker opgegeven.
@@ -570,7 +564,6 @@ nl:
         announcements: Aankondigingen
         polls: Peilingen
         reports: Rapporten
-        user_tests: Gebruikerstests
         vouchers: Waardebonnen
         lti_providers: LTI-providers
       masquerade:
@@ -1010,7 +1003,6 @@ nl:
             quiz: "Quiz"
             text: "Tekst"
             lti_exercise: "Externe oefentool"
-            peer_assessment: Peer-evaluatie
           exercise_type_selector:
             selftest: Zelftest
             main: Hoofd
@@ -1152,63 +1144,6 @@ nl:
         confirmed: Bevestigd
       new:
         create_user: Maak een gebruiker aan
-    user_tests:
-      index:
-        user_tests: Gebruikerstests
-        details: Details
-        edit: Bewerk
-        name: Naam
-        start_date: Startdatum
-        end_date: Einddatum
-        course: Cursus
-      show:
-        back_to_list: Terug naar lijst
-        details: Details
-        start_date: Startdatum
-        end_date: Einddatum
-        course: Cursus
-        alternative: Alternatief
-        control: "\xA0(Besturing)"
-        name: Naam
-        participants: Deelnemers
-        required_participants: Vereiste deelnemers
-        required_participants_hint: (voor effectgrootte 0,5 en kracht 0,8)
-        non-finished: Niet-afgewerkt
-        waiting: Aan het wachten
-        mean: Gemeen
-        effect: Geschat effect
-        confidence: Vertrouwen
-        total: Totaal
-        metric: Metriek
-        filters: Filters
-        identifier: Identifier
-        max_participants: Maximaal Deelnemers
-        active: actief
-        confidence_error: Fout in betrouwbaarheidsberekening
-        edit: Bewerk
-        download: Resultaten exporteren naar CSV
-        delete: Verwijderen
-      new:
-        new_user_test: Nieuwe gebruikerstest
-        none: geen
-      create:
-        new: Nieuwe gebruikerstest
-      form:
-        label:
-          start_date: Startdatum
-          end_date: Einddatum
-          max_participants: Maximaal aantal deelnemers
-        add_metric: Metriek toevoegen
-        test_groups: Testgroepen
-        test_group_name: Testgroep %{number}
-        add_test_group: Testgroep toevoegen
-        day_of_week_effects_hint: Pas op voor dag van week effecten. Het is beter om een test uit te voeren voor een veelvoud van volledige weken.
-        test_groups_hint: Door kommas gescheiden lijst met groepsnamen
-        filter_hint: 'Voorbeelden: "geslacht == vrouw", "inschrijvingen < 2". Ondersteunde velden zijn alle profielvelden en inschrijvingen, docent en beheerder. Ondersteunde operatoren zijn ==, !=, in, <, >, <=, >=, << (tussen), <=<=. Voer verschillende filters in, gescheiden door kommas. De waarden kunnen strings, integers of door kommas gescheiden lijsten zijn, afhankelijk van de operator.'
-      metric:
-        metric_wait_interval_hint: Tijdsinterval waarin de metriek wordt geëvalueerd.
-      edit:
-        edit_user_test: Gebruikerstest bewerken
     teachers:
       index:
         title: Leraren
@@ -1407,7 +1342,6 @@ nl:
         referrers: Verwijzers
         content: Structuur en inhoud
         lti: LTI providers
-        peer_assessment: Peer assessments
         transpipe: Ondertiteling (in TransPipe)
         settings: Instellingen
         permissions: Rechten
@@ -1753,7 +1687,6 @@ nl:
         video: Video
         quiz: Quiz
         lti_exercise: Oefening
-        peer_assessment: Peer-evaluatie
       clone_course:
         button: kloon cursus
         placeholder: Cursuscode van de kloon
@@ -1954,8 +1887,6 @@ nl:
     type_label:
       video: Video
       rich_text: Tekst
-      peer_assessment: Peer-evaluatie
-      bonus_peer_assessment: Bonusbeoordeling door peer's
       self_test: Zelftest
       graded_test: Beoordelingstoets
       bonus_test: Bonustest
@@ -2837,8 +2768,6 @@ nl:
       students: studenten
       partners: Partner
       content_editors: Inhoudseditors
-      pa_content_experts: Inhoudsdeskundigen peer assessment
-      pa_jury: Peer-beoordelingsjury
       stakeholders: Cursus belanghebbenden
       global:
         gdpr_admins: Platformbeheerders (GDPR)
@@ -2891,11 +2820,6 @@ nl:
       file:
         admin:
           name: "<b>Bestandsbeheer:</b> lijst en verwijder geüploade bestanden"
-      grouping:
-        admin:
-          name: "<b>Beheer van gebruikerstests:</b> maak en beheer gebruikerstests"
-        inspector:
-          name: "<b>Gebruikerstests:</b> werk met gebruikerstestresultaten"
       lanalytics:
         alert:
           admin:

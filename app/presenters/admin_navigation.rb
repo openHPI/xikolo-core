@@ -55,13 +55,6 @@ class AdminNavigation < MenuWithPermissions
     if: ->(user, _course) { user.allowed?('helpdesk.polls.manage', context: :root) },
     route: :admin_polls
 
-  item 'header.navigation.admin.user_tests', 'flask',
-    if: lambda {|user, _course|
-      user.allowed?('grouping.user_test.index', context: :root) &&
-        Xikolo.config.beta_features['show_user_tests']
-    },
-    route: :user_tests
-
   item 'header.navigation.admin.reports', 'file-zipper',
     if: ->(user, _course) { user.allowed?('lanalytics.report.create', context: :root) },
     route: :reports

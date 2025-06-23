@@ -313,9 +313,6 @@ de:
       pinboard_mails_disabled: "Der Empfang von Pinboard News für die E-Mailadresse %{mail} wurde deaktiviert. Sie können diese Einstellung in Ihrem Profil jederzeit wieder aktivieren."
       global_mails_disabled: "Der Empfang von Nachrichten per E-Mail für die E-Mailadresse %{mail} wurde deaktiviert. Sie können diese Einstellung in Ihrem Profil jederzeit wieder aktivieren."
       user_banned: Der Benutzer wurde erfolgreich gesperrt.
-      user_test_created: "Der Nutzertest wurde erstellt."
-      user_test_updated: "Der Nutzertest wurde aktualisiert."
-      user_test_deleted: Der Nutzertest wurde gelöscht.
       submission_converted: Quiz-Abgabe wurde erfolgreich konvertiert!
       subscription_canceled: Dem Thema wurde erfolgreich entfolgt.
       reactivate_course: "Sie haben diesen Kurs bis %{date} reaktiviert."
@@ -437,9 +434,6 @@ de:
           valid_formats: "Erlaubte Formate sind pdf, xml, txt, jpg, png und gif. Max. Größe: 8 MB."
       email_hash_invalid: Der angegebene Link scheint ungültig zu sein.
       unfulfilled_prerequisites: Sie haben die Voraussetzungen für die Teilnahme an diesem Kurs noch nicht erfüllt.
-      user_test_not_created: Der Nutzertest konnte nicht erstellt werden.
-      user_test_not_updated: Der Nutzertest konnte nicht aktualisiert werden.
-      user_test_not_deleted: Der Nutzertest konnte nicht gelöscht werden.
       params_missing_learn_review: Parameter für quiz_id und course_id fehlen!
       switch_question_to_mcq: Single Select Fragen sollten nur 1 korrekte Antwort haben! Bitte überprüfen Sie die Frage.
       user_not_banned: Der Benutzer konnte nicht gesperrt werden.
@@ -621,7 +615,6 @@ de:
         channels: Channels
         polls: Umfragen
         reports: Berichte
-        user_tests: Nutzertests
         vouchers: Vouchers
         lti_providers: LTI-Anbieter
       masquerade:
@@ -1092,7 +1085,6 @@ de:
             quiz: "Quiz"
             text: "Text"
             lti_exercise: "Externes Übungstool"
-            peer_assessment: Peer Assessment
           exercise_type_selector:
             selftest: Selbsttest
             main: Benotet
@@ -1272,62 +1264,6 @@ de:
         confirmed: "Bestätigt?"
       new:
         create_user: Nutzer anlegen
-
-    user_tests:
-      index:
-        user_tests: Nutzertests
-        details: Details
-        edit: Bearbeiten
-        name: Name
-        start_date: Startdatum
-        end_date: Enddatum
-        course: Kurs
-      show:
-        back_to_list: Zurück zur Liste
-        details: Details
-        start_date: Startdatum
-        end_date: Enddatum
-        course: Kurs
-        alternative: Alternative
-        control: "\xA0(Control)"
-        name: Name
-        participants: Teilnehmer
-        non-finished: Nicht abgeschlossen
-        waiting: Wartend
-        mean: Durchschnitt
-        effect: Voraussichtlicher Effekt
-        confidence: Konfidenz
-        total: Total
-        metric: Metrik
-        filters: Filter
-        identifier: Bezeichner
-        max_participants: Max. Teilnehmer
-        active: aktiv
-        confidence_error: Fehler in der Konfidenzberechnung
-        edit: Bearbeiten
-        download: Ergebnisse als CSV exportieren
-        delete: Löschen
-      new:
-        new_user_test: Neuer Nutzertest
-        none: keiner
-      create:
-        new: Neuer Nutzertest
-      form:
-        label:
-          start_date: Startdatum
-          end_date: Enddatum
-          max_participants: Maximale Anzahl an Teilnehmern
-        add_metric: Metrik hinzufügen
-        test_groups: Testgruppen
-        test_group_name: Testgruppe %{number}
-        add_test_group: Testgruppe hinzufügen
-        day_of_week_effects_hint: "Beachten Sie den Einfluss des Wochentags. Es ist besser, einen Test für ein Vielfaches von ganzen Wochen laufen zu lassen."
-        test_groups_hint: Durch Kommata getrennte Liste der Gruppennamen
-        filter_hint: 'Beispiel: "gender == female", "enrollments < 2". Erlaubt sind alle Felder von Profilen, enrollments, teacher und admin. Folgende Operatoren sind erlaubt: ==, !=, in, <, >, <=, >=, << (zwischen), <=<=. Mehrere Filter müssen durch Kommata getrennt werden. Abhängig vom Operator können die Werte entweder Zeichenketten, Zahlen oder durch Kommata getrennte Listen sein.'
-      metric:
-        metric_wait_interval_hint: "Zeitraum, in welchem die Metrik ausgewertet wird."
-      edit:
-        edit_user_test: Nutzertest bearbeiten
     teachers:
       index:
         title: Dozenten
@@ -1535,7 +1471,6 @@ de:
         referrers: Traffic-Quellen
         content: Struktur & Inhalt
         lti: LTI-Provider
-        peer_assessment: Peer-Assessments
         transpipe: Untertitel (in TransPipe)
         settings: Einstellungen
         permissions: Berechtigungen
@@ -1941,7 +1876,6 @@ de:
         video: Video
         quiz: Quiz
         lti_exercise: Übung
-        peer_assessment: Peer Assessment
       clone_course:
         button: Kurs klonen
         placeholder: Course Code des Klons
@@ -2145,8 +2079,6 @@ de:
     type_label:
       video: Video
       rich_text: Text
-      peer_assessment: Peer-Assessment
-      bonus_peer_assessment: Bonus-Peer-Assessment
       self_test: Selbsttest
       graded_test: Benoteter Test
       bonus_test: Bonus-Test
@@ -3064,8 +2996,6 @@ de:
       students: Studierende
       partners: Partner
       content_editors: Kurseditoren
-      pa_content_experts: Peer Assessment Inhaltsexperten
-      pa_jury: Peer Assessment Jury
       stakeholders: Course Stakeholders
       global:
         gdpr_admins: Plattformadministratoren (DSGVO)
@@ -3117,11 +3047,6 @@ de:
       file:
         admin:
           name: "<b>Dateiadministration:</b> Anzeigen und Löschen von hochgeladenen Dateien"
-      grouping:
-        admin:
-          name: "<b>User Tests-Administration:</b> Anlegen und Verwalten von User Tests"
-        inspector:
-          name: "<b>User Tests:</b> Export von User Test-Ergebnissen"
       lanalytics:
         alert:
           admin:

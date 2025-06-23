@@ -13,6 +13,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Removed
 
+## [4.11] - 2025-06-18
+
+### Removed
+
+- `experiment-assignments` endpoint without replacement
+
 ## [4.10] - 2024-03-14
 
 ### Added

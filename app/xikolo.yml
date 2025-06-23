@@ -26,8 +26,6 @@ piwik: ~
 beta_features:
   # File management with versions and tags
   documents: false
-  # A/B tests and experiments
-  show_user_tests: false
   # Statistics about teaching team pinboard usage in the course dashboard
   teaching_team_pinboard_activity: false
 

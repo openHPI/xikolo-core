@@ -402,9 +402,6 @@ en:
       pinboard_mails_disabled: "Your account %{mail} will not receive any more pinboard news. You can reactivate this at any time in your profile settings."
       global_mails_disabled: "Your account %{mail} will not receive any more notifications via email. You can reactivate this at any time in your profile settings."
       user_banned: The user was banned successfully.
-      user_test_created: The user test has been created.
-      user_test_updated: The user test has been updated.
-      user_test_deleted: The user test has been deleted.
       submission_converted: Submission was successfully converted from existing snapshot!
       reactivate_course: "You have reactivated this course until %{date}"
       proctoring:
@@ -526,9 +523,6 @@ en:
           invalid_mime_type: "{{fileext}} is not a valid document file. Allowed document types are %{allowed}."
           valid_formats: "Allowed document types are pdf, xml, txt, jpg, png and gif. Max. size: 8 MB."
       email_hash_invalid: The provided link seems to be invalid.
-      user_test_not_created: The user test could not be created.
-      user_test_not_updated: The user test could not be updated.
-      user_test_not_deleted: The user test could not be deleted.
       params_missing_learn_review: Params for quiz_id and course_id are missing!
       switch_question_to_mcq: Single Select Questions should only have 1 correct answer! Please review the question.
       user_not_banned: The user could not be banned.
@@ -716,7 +710,6 @@ en:
         announcements: Announcements
         polls: Polls
         reports: Reports
-        user_tests: User Tests
         vouchers: Vouchers
         lti_providers: LTI Providers
       masquerade:
@@ -1213,7 +1206,6 @@ en:
             quiz: "Quiz"
             text: "Text"
             lti_exercise: "External exercise tool"
-            peer_assessment: Peer Assessment
           exercise_type_selector:
             selftest: Self test
             main: Main
@@ -1975,63 +1967,6 @@ en:
         confirmed: Confirmed
       new:
         create_user: Create a user
-    user_tests:
-      index:
-        user_tests: User Tests
-        details: Details
-        edit: Edit
-        name: Name
-        start_date: Start Date
-        end_date: End Date
-        course: Course
-      show:
-        back_to_list: Back to list
-        details: Details
-        start_date: Start Date
-        end_date: End Date
-        course: Course
-        alternative: Alternative
-        control: "\xA0(Control)"
-        name: Name
-        participants: Participants
-        required_participants: Required participants
-        required_participants_hint: (for effect size 0.5 and power 0.8)
-        non-finished: Non-Finished
-        waiting: Waiting
-        mean: Mean
-        effect: Estimated Effect
-        confidence: Confidence
-        total: Total
-        metric: Metric
-        filters: Filters
-        identifier: Identifier
-        max_participants: Max. Participants
-        active: active
-        confidence_error: Error in confidence calculation
-        edit: Edit
-        download: Export results to CSV
-        delete: Delete
-      new:
-        new_user_test: New User Test
-        none: none
-      create:
-        new: New User Test
-      form:
-        label:
-          start_date: Start Date
-          end_date: End Date
-          max_participants: Maximum of Participants
-        add_metric: Add metric
-        test_groups: Test Groups
-        test_group_name: Test Group %{number}
-        add_test_group: Add test group
-        day_of_week_effects_hint: Beware of day of week effects. It's better to run a test for a multiple of full weeks.
-        test_groups_hint: Comma-separated list of group names
-        filter_hint: 'Examples: "gender == female", "enrollments < 2". Supported fields are all profile fields and enrollments, teacher and admin. Supported operators are ==, !=, in, <, >, <=, >=, << (between), <=<=. Enter several filters comma-separated. The values can either be strings, integers or comma-separated lists, depending on the operator.'
-      metric:
-        metric_wait_interval_hint: Time interval in which the metric is evaluated.
-      edit:
-        edit_user_test: Edit User Test
     teachers:
       index:
         title: Teachers
@@ -2239,7 +2174,6 @@ en:
         referrers: Referrers
         content: Structure & Content
         lti: LTI providers
-        peer_assessment: Peer assessments
         transpipe: Subtitles (in TransPipe)
         settings: Settings
         permissions: Permissions
@@ -2695,7 +2629,6 @@ en:
         video: Video
         quiz: Quiz
         lti_exercise: Exercise
-        peer_assessment: Peer Assessment
       clone_course:
         button: Clone course
         placeholder: Course code of the clone
@@ -2910,8 +2843,6 @@ en:
     type_label:
       video: Video
       rich_text: Text
-      peer_assessment: Peer Assessment
-      bonus_peer_assessment: Bonus Peer Assessment
       self_test: Self-test
       graded_test: Graded Test
       bonus_test: Bonus Test
@@ -3818,8 +3749,6 @@ en:
       students: Students
       partners: Partner
       content_editors: Content editors
-      pa_content_experts: Peer assessment content experts
-      pa_jury: Peer assessment jury
       stakeholders: Course stakeholders
       global:
         gdpr_admins: Platform administrators (GDPR)
@@ -3872,11 +3801,6 @@ en:
       file:
         admin:
           name: "<b>File administration:</b> list and delete uploaded files"
-      grouping:
-        admin:
-          name: "<b>User tests administration:</b> create and manage user tests"
-        inspector:
-          name: "<b>User tests:</b> work with user test results"
       lanalytics:
         alert:
           admin:
