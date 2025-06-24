@@ -1201,16 +1201,11 @@ de:
     dashboard:
       nav:
         title: Statistiken
-        activity: Aktivität
-        courses: Kurse
-        dashboard: Dashboard
-        geo: Geographie
         news: Ankündigungen
-        referrer: Traffic-Quellen
-        social: Social Media
       statistics:
         courses:
           title: Kursübersicht
+          dashboard: Dashboard
           empty_state: Hier erscheint eine Übersicht der Kurse mit dem Tag "Dashboard" in der Kategorie "Reporting".
           table:
             course_title: Kurstitel

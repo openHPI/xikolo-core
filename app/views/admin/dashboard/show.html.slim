@@ -18,28 +18,17 @@
         .kpi-container
           = render partial: 'admin/shared/kpi_score_card', locals: {name: (t '.kpis.enrollments.total_course_enrollments'), data_key: 'total_enrollments', icon: 'fa fa-graduation-cap', css_class: 'kpi-item'}
           = render partial: 'admin/shared/kpi_score_card', locals: {name: (t '.kpis.enrollments.total_course_enrollments_last_24h'), data_key: 'total_enrollments_last_day', icon: 'fa fa-graduation-cap', css_class: 'kpi-item'}
-          = render partial: 'admin/shared/kpi_score_card', locals: {name: (t '.kpis.enrollments.total_course_enrollments_unique_learners'), data_key: 'unique_enrollments_last_day', icon: 'fa fa-graduation-cap', css_class: 'kpi-item'}
-          = render partial: 'admin/shared/kpi_score_card', locals: {name: (t '.kpis.enrollments.total_course_enrollments_last_7days'), data_key: 'total_enrollments_last_7days', icon: 'fa fa-graduation-cap', css_class: 'kpi-item'}
-          = render partial: 'admin/shared/kpi_score_card', locals: {name: (t '.kpis.enrollments.total_course_unenrollments'), data_key: 'unenrollments', icon: 'fa fa-user-times', css_class: 'kpi-item'}
-          = render partial: 'admin/shared/kpi_score_card', locals: {name: (t '.kpis.enrollments.total_course_custom_completions'), data_key: 'custom_completed', icon: 'fa fa-check', css_class: 'kpi-item'}
-          = render partial: 'admin/shared/kpi_score_card', locals: {name: (t '.kpis.enrollments.courses_per_learner'), data_key: 'courses_per_learner', icon: 'fa fa-graduation-cap', css_class: 'kpi-item', decimals: 2}
 
         h3
           = t(:'.kpis.learners.title')
         .kpi-container
           = render partial: 'admin/shared/kpi_score_card', locals: {name: (t '.kpis.learners.total_unique_learner_registration'), data_key: 'confirmed_users', icon: 'fa fa-user', css_class: 'kpi-item'}
-          = render partial: 'admin/shared/kpi_score_card', locals: {name: (t '.kpis.learners.total_unique_learner_registration_last_24h'), data_key: 'confirmed_users_last_day', icon: 'fa fa-user-plus', css_class: 'kpi-item'}
-          = render partial: 'admin/shared/kpi_score_card', locals: {name: (t '.kpis.learners.total_unique_learner_registration_last_7days'), data_key: 'confirmed_users_last_7days', icon: 'fa fa-user-plus', css_class: 'kpi-item'}
           = render partial: 'admin/shared/kpi_score_card', locals: {name: (t '.kpis.learners.total_deleted_learners'), data_key: 'deleted_users', icon: 'fa fa-user-times', css_class: 'kpi-item'}
-          = render partial: 'admin/shared/kpi_score_card', locals: {name: (t '.kpis.learners.incomplete_registrations'), data_key: 'unconfirmed_users', icon: 'fa fa-user', css_class: 'kpi-item'}
-          = render partial: 'admin/shared/kpi_score_card', locals: {name: (t '.kpis.learners.incomplete_registrations_last_24h'), data_key: 'unconfirmed_users_last_day', icon: 'fa fa-user', css_class: 'kpi-item'}
-          = render partial: 'admin/shared/kpi_score_card', locals: {name: (t '.kpis.learners.users_with_suspended_email'), data_key: 'users_with_suspended_email', icon: 'fa fa-envelope', css_class: 'kpi-item'}
 
       h3
         = t(:'.kpis.activity.title')
       ajax-wrapper data-url='/api/v2/statistics/platform_dashboard/activity.json' lazy-load='true'
         .kpi-container
-          = render partial: 'admin/shared/kpi_score_card', locals: {name: (t '.kpis.activity.active_learners_last_hour'), data_key: 'count_1h', icon: 'far fa-clock', css_class: 'kpi-item'}
           = render partial: 'admin/shared/kpi_score_card', locals: {name: (t '.kpis.activity.active_learners_last_24h'), data_key: 'count_24h', icon: 'far fa-clock', css_class: 'kpi-item'}
           = render partial: 'admin/shared/kpi_score_card', locals: {name: (t '.kpis.activity.active_learners_last_7days'), data_key: 'count_7days', icon: 'far fa-calendar-alt', css_class: 'kpi-item'}
 
@@ -51,64 +40,8 @@
             = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.certificates.roa'), data_key: 'roa_count', icon: 'fa fa-file-contract'}
           .kpi-item
             = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.certificates.cop'), data_key: 'cop_count', icon: 'fa fa-file'}
-          - if feature?('proctoring') && Proctoring.enabled?
-            .kpi-item
-              = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.certificates.qc'), data_key: 'qc_count', icon: 'fa fa-camera'}
-
-      - if Xikolo.config.open_badges['enabled']
-        h3
-          = t(:'admin.course_management.dashboard.kpis.open_badges.title')
-        ajax-wrapper data-url="/api/v2/statistics/platform_dashboard/open_badges.json" lazy-load='true'
-          .kpi-container
-            .kpi-item
-              = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.open_badges.badge_issues'), data_key: 'badge_issues', icon: 'fa fa-certificate'}
-            .kpi-item
-              = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.open_badges.badge_downloads'), data_key: 'badge_downloads', icon: 'fa fa-download'}
-            .kpi-item
-              = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.open_badges.badge_shares'), data_key: 'badge_shares', icon: 'fa fa-share-alt'}
-
-      h3
-        = t(:'admin.course_management.dashboard.kpis.helpdesk.title')
-      ajax-wrapper data-url='/api/v2/statistics/platform_dashboard/tickets.json' lazy-load='true'
-        .kpi-container
-          .kpi-item
-            = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.helpdesk.ticket_count'), data_key: 'ticket_count', icon: 'fa fa-exclamation-circle'}
-          .kpi-item
-            = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.helpdesk.ticket_count_last_day'), data_key: 'ticket_count_last_day', icon: 'fa fa-exclamation-circle'}
-          .kpi-item
-            = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.helpdesk.avg_tickets_per_day_last_year'), data_key: 'avg_tickets_per_day_last_year', icon: 'fa fa-exclamation-circle', decimals: 2}
-
-      h3
-        = t(:'.kpis.misc.title')
-      .kpi-container
-        ajax-wrapper.kpi-item data-url='/api/v2/statistics/platform_dashboard/social_shares.json' lazy-load='true'
-          = render partial: 'admin/shared/kpi_score_card', locals: {name: (t '.kpis.misc.course_social_shares'), data_key: 'course_social_shares', icon: 'fa fa-share-alt', link: admin_statistics_social_path, link_text: (t '.more_details')}
 
   .row
-    .col-md-12.chart-container.geo
-      = render Global::HeadlineTooltip.new(t(:'.geo.title'), t(:'admin.statistics.geo.location_tooltip'), level: 2)
-      ajax-wrapper data-url='/api/v2/statistics/details/geo/countries.json' error-text=t(:'.request_error_message') lazy-load='true'
-        loading-spinner
-          fallback-text empty-data-text=t(:'.no_data_message')
-            schema-transformer mappings='[{"locations": {"type": "collect", "sourceKey": "country_code_iso3"}, "z": {"type": "collect", "sourceKey": "distinct_users"}}]'
-              worldmap-basic.chart
-      = link_to admin_statistics_geo_path, class: 'detail-link' do
-        = render Global::FaIcon.new('circle-arrow-right', style: :solid)
-        = t(:'.more_details')
-
-  .row
-    .col-md-4.chart-container.weekday-activity
-      h2
-        = t(:'.weekday_activity.title')
-      ajax-wrapper data-url='/api/v2/statistics/dashboard/weekday_activity.json' error-text=t(:'.request_error_message') lazy-load='true'
-        loading-spinner
-          fallback-text empty-data-text=t(:'.no_data_message')
-            schema-transformer no-merge='true' mappings='[{"x": {"type": "collect", "sourceKey": "day_of_week"}, "y": {"type": "collect", "sourceKey": "hour"}, "value": {"type": "collect", "sourceKey": "avg_users"}}]'
-              activitychart-basic.chart cell-width="30" cell-height="10" cell-spacing="3" axis-labels-text-size="11" y-label-frequency="2" sort-y-values="asc" x-title=t(:'.weekday_activity.axis_title_day') y-title=t(:'.weekday_activity.axis_title_hour')
-      = link_to admin_statistics_activity_path, class: 'detail-link' do
-        = render Global::FaIcon.new('circle-arrow-right', style: :solid)
-        = t(:'.more_details')
-
     .col-md-4.chart-container.age
       h2
         = t(:'.age.title')

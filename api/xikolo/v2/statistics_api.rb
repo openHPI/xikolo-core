@@ -123,21 +123,11 @@ module Xikolo
                   {
                     confirmed_users:,
                     confirmed_users_last_day:     account_stats['confirmed_users_last_day'],
-                    confirmed_users_last_7days:   account_stats['confirmed_users_last_7days'],
-                    unconfirmed_users:            account_stats['unconfirmed_users'],
-                    unconfirmed_users_last_day:   account_stats['unconfirmed_users_last_day'],
                     deleted_users:                account_stats['users_deleted'],
-                    users_with_suspended_email:   account_stats['users_with_suspended_email'],
 
                     total_enrollments:,
                     total_enrollments_last_day:   course_stats['platform_last_day_enrollments'],
-                    total_enrollments_last_7days: course_stats['platform_last_7days_enrollments'],
-                    unique_enrollments_last_day:  course_stats['platform_last_day_unique_enrollments'],
-                    unenrollments:                course_stats['unenrollments'],
-                    custom_completed:             course_stats['platform_custom_completed'],
                     courses_count:                course_stats['courses_count'],
-
-                    courses_per_learner:          total_enrollments.to_f / confirmed_users,
                   }
                 end.value!
               end
@@ -158,12 +148,10 @@ module Xikolo
 
               Rails.cache.fetch('statistics/platform/activity/', expires_in: 30.minutes, race_condition_ttl: 1.minute) do
                 Restify::Promise.new([
-                  fetch_active_users.call(1.hour.ago, Time.zone.now),
                   fetch_active_users.call(24.hours.ago, Time.zone.now),
                   fetch_active_users.call(7.days.ago, Time.zone.now),
-                ]) do |active_users_1h, active_users_24h, active_users_7days|
+                ]) do |active_users_24h, active_users_7days|
                   {
-                    count_1h: active_users_1h,
                     count_24h: active_users_24h,
                     count_7days: active_users_7days,
                   }
@@ -181,53 +169,7 @@ module Xikolo
                 {
                   roa_count: certificates['record_of_achievement'],
                   cop_count: certificates['confirmation_of_participation'],
-                  qc_count: certificates['qualified_certificate'],
                 }
-              end
-            end
-          end
-
-          namespace 'open_badges' do
-            get do
-              global_dashboard_permission!
-
-              Rails.cache.fetch('statistics/platform/open_badges/', expires_in: 1.hour, race_condition_ttl: 10.seconds) do
-                Restify::Promise.new(
-                  fetch_metric(name: 'badge_download_count'),
-                  fetch_metric(name: 'badge_share_count')
-                ) do |badge_downloads, badge_shares|
-                  {
-                    badge_issues: Certificate::OpenBadge.issue_count,
-                    badge_downloads: badge_downloads['count'].to_i,
-                    badge_shares: badge_shares['count'].to_i,
-                  }
-                end.value!
-              end
-            end
-          end
-
-          namespace 'tickets' do
-            get do
-              global_dashboard_permission!
-
-              Rails.cache.fetch('statistics/platform/tickets/', expires_in: 1.hour, race_condition_ttl: 10.seconds) do
-                tickets = ::Helpdesk::Ticket
-                {
-                  ticket_count: tickets.count,
-                  ticket_count_last_day: tickets.created_last_day.count,
-                  avg_tickets_per_day_last_year: tickets.created_last_year.count / 365.to_f,
-                }
-              end
-            end
-          end
-
-          namespace 'social_shares' do
-            get do
-              global_dashboard_permission!
-
-              Rails.cache.fetch('statistics/platform/social_shares/', expires_in: 1.hour, race_condition_ttl: 10.seconds) do
-                course_social_shares = fetch_metric(name: 'share_button_click_count').value!
-                {course_social_shares: course_social_shares&.dig('count')}
               end
             end
           end

@@ -1439,13 +1439,8 @@ en:
     dashboard:
       nav:
         title: Statistics
-        activity: Activity
-        courses: Courses
         dashboard: Dashboard
-        geo: Geographic
         news: News
-        referrer: Referrer
-        social: Social Shares
       show: # Do not translate
         title: Platform Dashboard # Do not translate
         more_details: More details # Do not translate
@@ -1457,24 +1452,12 @@ en:
             title: Enrollments # Do not translate
             total_course_enrollments: Total Course Enrollments # Do not translate
             total_course_enrollments_last_24h: Total Course Enrollments (last 24 hours) # Do not translate
-            total_course_enrollments_unique_learners: Total Course Enrollments from Unique Learners (last 24 hours) # Do not translate
-            total_course_enrollments_last_7days: Total Course Enrollments (last 7 days) # Do not translate
-            total_course_unenrollments: Total Course Unenrollments # Do not translate
-            total_course_custom_completions: Total Course Custom Completions # Do not translate
-            courses_per_learner: Course Enrollments per Learner # Do not translate
           learners: # Do not translate
             title: Learners # Do not translate
             total_unique_learner_registration: Total Unique Learner Registration # Do not translate
-            total_unique_learner_registration_last_24h: Total Unique Learner Registration (last 24 hours) # Do not translate
-            total_unique_learner_registration_last_7days: Total Unique Learner Registration (last 7 days) # Do not translate
             total_deleted_learners: Total Deleted Learners # Do not translate
-            incomplete_registrations: Incomplete Registrations # Do not translate
-            incomplete_registrations_last_24h: Incomplete Registrations (last 24 hours) # Do not translate
-            users_with_suspended_email: Learners with Suspended Email Address # Do not translate
           activity: # Do not translate
             title: Activity # Do not translate
-            learner_activity_last_hour: Learner Activity (last hour) # Do not translate
-            active_learners_last_hour: Active Learners (last hour) # Do not translate
             active_learners_last_24h: Active Learners (last 24 hours) # Do not translate
             active_learners_last_7days: Active Learners (last 7 days) # Do not translate
           misc: # Do not translate
@@ -1510,7 +1493,6 @@ en:
           active_users_tooltip: active users on average # Do not translate
     statistics: # Do not translate
       no_data_message: No data available # Do not translate
-      request_error_message: Could not load data! # Do not translate
       activity: # Do not translate
         title: Activity Statistics # Do not translate
         daily_activity: # Do not translate
@@ -1518,33 +1500,6 @@ en:
           axis_title_day: Day # Do not translate
           axis_title_hour: Hour # Do not translate
           active_users_tooltip: active users # Do not translate
-      courses:
-        title: Course Dashboard
-        empty_state: An overview of courses with the "dashboard" tag in the "reporting" category will appear here.
-        table:
-          course_title: Course Title
-          course_code: Course Code
-          start_date: Start Date
-          attendance: Attendance
-          enrollments:
-            zero: No enrollments
-            one: 1 enrollment
-            other: "%{count} enrollments"
-          certificates: Certificates
-          completion_rate: Completion Rate (RoAs/shows)
-          shows:
-            zero: No shows
-            one: 1 show at middle
-            other: "%{count} shows at middle"
-            nil: N/A
-          roa:
-            zero: No RoAs
-            one: 1 RoA
-            other: "%{count} RoAs"
-          cop:
-            zero: No CoPs
-            one: 1 CoP
-            other: "%{count} CoPs"
       item_visits: # Do not translate
         title: Item Visits # Do not translate
         per_item_title: Per Item # Do not translate
