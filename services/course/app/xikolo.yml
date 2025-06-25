@@ -32,10 +32,6 @@ course_groups:
         context: root
       - role: certificate.admin
         context: course
-      - role: collabspace.admin
-        context: course
-      - role: collabspace.mentor
-        context: course
       - role: course.manager
         context: course
       - role: course.manager.global
@@ -67,8 +63,6 @@ course_groups:
     grants:
       - role: account.tracer
         context: root
-      - role: collabspace.mentor
-        context: course
       - role: course.previewer
         context: course
       - role: news.announcement.previewer
