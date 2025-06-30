@@ -92,6 +92,8 @@ module Certificate
     end
 
     def issue_date
+      return Time.zone.now.to_date if @record.type == 'ConfirmationOfParticipation'
+
       if @record.enrollment['completed_at'].blank?
         @record.course.end_date&.to_date || Time.zone.today
       else

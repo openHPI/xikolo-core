@@ -308,6 +308,22 @@ describe Certificate::RenderDataPresenter, type: :presenter do
         expect(render_data.issue_date).to eq Time.zone.today
       end
     end
+
+    context 'with a Confirmation of Participation' do
+      let(:record) { create(:cop, user:, course:, template:) }
+      let(:template) do
+        create(:certificate_template, :cop,
+          course:,
+          file_uri:,
+          dynamic_content:,
+          qrcode_x: 200,
+          qrcode_y: 100)
+      end
+
+      it 'shows todays date as the issue date' do
+        expect(render_data.issue_date).to eq Time.zone.now.to_date
+      end
+    end
   end
 
   describe '#transcript_of_records' do
