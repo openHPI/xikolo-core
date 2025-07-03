@@ -9,5 +9,7 @@
         = f.input :attachment, as: :upload,
             hint: I18n.t('flash.error.files.document.valid_formats'),
             value: attachment_upload
+        .mb10
+          = t(:'pinboard.rule_hint')
         = f.hidden_field :question_id, value: question.id, required: true
         = f.button :submit, answer.new_record? ? t(:'helpers.submit.xikolo_pinboard_answer.create') : t(:'helpers.submit.xikolo_pinboard_answer.update'), class: 'btn btn-primary'

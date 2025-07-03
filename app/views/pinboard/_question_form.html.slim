@@ -29,6 +29,8 @@
       = f.hidden_field :course_id, value: params[:course_id]
       = f.hidden_field :learning_room_id, value: params[:learning_room_id]
       = f.hidden_field :implicit_tags, value: @implicit_tags
+      .mb10
+        = t(:'pinboard.rule_hint')
 
       .row
         .col-lg-2.col-md-2

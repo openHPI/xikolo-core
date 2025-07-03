@@ -2215,6 +2215,7 @@ es:
 
   pinboard:
     ask_question: Empezar un tema nuevo
+    rule_hint: "<b>Nota</b>: Con nuestros <a href='https://open.hpi.de/pages/common_values' target='_blank' rel='noopener'>valores comunes</a> creamos un espacio respetuoso para todos - por favor lee y considera antes de publicar."
     submit_question: Publicar un tema nuevo
     update_question: Guardar cambios
     locked_msg: Los debates de este curso son solo de lectura. No pueden crearse elementos o comentarios nuevos.

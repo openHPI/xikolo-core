@@ -17,6 +17,9 @@
     = f.hidden_field :commentable_id, value: commentable.id
     = f.hidden_field :commentable_type, value: commentable_type
 
+    .mb10
+      = t(:'pinboard.rule_hint')
+
     = button_tag(type: 'submit', class: 'btn btn-primary mb5 mr10', id: 'question_form_submit_button') do
       = t :'.create_comment'
     = button_tag(type: 'button', class: 'btn btn-default mb5 js-toggle-comment', data: {toggle_selector: "#comment-form-placeholder-#{commentable_type}-#{commentable.id}, #comment-form-#{commentable_type}-#{commentable.id}"}) do
