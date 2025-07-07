@@ -1102,10 +1102,6 @@ fr:
 
       show:
         empty_msg: "Il n'y a pas d'objets encore, donc nous ne pouvons pas vous montrer tout progrès maintenant. Revenez plus tard."
-      records:
-        documents_headline: Mes documents de cours
-        documents_intro: Dès que le cours est terminé (et le personnel de l'enseignement publie les résultats de l'examination), vous pouvez télécharger vos documents ici.
-        certificates_tab_info: Dès que le cours est terminé (et le personnel de l'enseignement publie les résultats de l'examination), vous pouvez <a href='./certificates'>télécharger vos documents sur la nouvelle page des certificats</a>.
       overview:
         open_mode:
           message: "Les unités d'apprentissage listées appartiennent au cours <b>%{title}</b>. Voulez-vous accéder à l'ensemble du contenu du cours ?"

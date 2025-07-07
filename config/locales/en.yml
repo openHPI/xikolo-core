@@ -2306,10 +2306,6 @@ en:
 
       show:
         empty_msg: "There are no items yet, so we cannot show you any progress now. Come back later."
-      records:
-        documents_headline: My course certificates
-        documents_intro: As soon as the course has finished (and the teaching staff have published the final results), you can download your certificates here.
-        certificates_tab_info: As soon as the course has finished (and the teaching staff have published the final results), you can <a href='./certificates'>download your certificates on the new certificate page</a>.
       overview:
         open_mode:
           message: "The listed learning units belong to the course <b>%{title}</b>. Do you want to access all course content?"

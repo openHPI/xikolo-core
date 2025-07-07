@@ -6,9 +6,10 @@ For convenience, a rake task can be used to configure a banner for certain perio
 
 !!! tip
 
-    Use the following command to list all avaiable `rake` tasks:
-    ```bash
-    xikolo-web rake -T
+    [Using Nomads web UI, connect to `xi-web`](https://nomad.adm.production.openhpi.xi.xopic.de/ui/exec/xikolo/web-app/server) (don't forget to press Enter here) and
+    use the following command to list all available `rake` tasks:
+    ```shell title="xi-web:/app$"
+    rake -T
     ```
 
 ## Create a new banner
@@ -33,8 +34,8 @@ To create a new banner for the course list, follow the instructions below.
 3. SSH to the platform's `web-*` VM.
 4. Run the `banner:create` rake task. The task will guide you through the process.
 
-    ```bash
-    xikolo-web rake banner:create
+    ```shell title="xi-web:/app$"
+    rake banner:create
     ```
 
     ```bash title="Sample rake task execution"
@@ -67,11 +68,11 @@ So don't panic if the banner does not show up immediately (assuming the rake tas
 
 You can speed up showing / removing a banner by deleting the corresponding Rails cache key.
 
-1. SSH to the platform's `task` or `web-*` VM.
-2. Start the Rails console.
+1. [Using Nomads web UI, connect to `xi-web`](https://nomad.adm.production.openhpi.xi.xopic.de/ui/exec/xikolo/web-app/server) (don't forget to press Enter here)
+2. Start the Rails console:
 
-    ```bash
-    xikolo-web rails c
+    ```shell title="xi-web:/app$"
+    rails c
     ```
 
 3. Delete the caching key for the course list banner.

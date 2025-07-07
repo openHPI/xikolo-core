@@ -276,8 +276,6 @@ User.find_each(&:update_profile_completion!)
   account.registration
   announcements
   certificate_requirements
-  collabspace_calendar
-  course.certificates_tab
   course_details.learning_goals
   course_list
   course_reactivation

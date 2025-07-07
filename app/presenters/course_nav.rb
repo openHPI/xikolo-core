@@ -26,7 +26,6 @@ class CourseNav < MenuWithPermissions
 
   # Certificates
   item 'courses.nav.certificates', 'medal',
-    if: ->(user, _course) { user.feature?('course.certificates_tab') },
     route: :course_certificates
 
   # Course Details

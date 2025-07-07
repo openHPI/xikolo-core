@@ -10,7 +10,3 @@
     .progress-card
       .card-container
         p = t(:'.empty_msg')
-
-  - if course.certificates_enabled?
-    .pb10#progress_documents
-      = render partial: 'records', locals: {documents: @course_documents, course:}

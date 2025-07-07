@@ -8,68 +8,78 @@ commands that
 - (1) dump all grants in xi-account and
 - (2) ensure that all necessary roles are created and their grants are re-created.
 
-The regrant script is part of `xi-course` and can be found at `db/regrant.rb`.
-
 ## Regrant script
 
-1. Login to a `tasks` VM:
+1. Copy the regranting script from [web/services/course/db/regrant.rb](https://gitlab.hpi.de/openhpi/xikolo/web/-/blob/main/services/course/db/regrant.rb) to your clip-board
 
-   ```shell title="localhost:~#"
-   ssh root@tasks.production.[brand].xi.xopic.de
-   ```
+2. Using Nomads web UI, connect to `xi-course`:
+    - <https://nomad.adm.production.openhpi.xi.xopic.de/ui/exec/xikolo/course-api/server?namespace=default>
+    - Don't forget to press Enter here!
 
-2. Create the regranting SQL code:
+3. Create a temporary script:
 
-   ```shell title="tasks:~#"
-   xikolo-course rails r /usr/lib/xikolo-course/db/regrant.rb > ~/regrant.sql
-   ```
+    ```shell title="xi-course:/app$"
+    cat > tmp/regrant.rb
+    ```
 
-3. Copy the SQL script to your local machine:
+    - Paste the script's content from your clip-board
+    - Press CTRL-D
 
-   ```shell title="localhost:~%"
-   scp root@tasks.production.[brand].xi.xopic.de:~/regrant.sql .
-   ```
+4. Create the regranting SQL code:
 
-4. Remove the safety belt (the `ROLLBACK;` in the last line of the SQL script):
+    ```shell title="xi-course:/app$"
+    rails r tmp/regrant.rb > tmp/regrant.sql
+    ```
 
-   ```shell
-   sed -i '$ d' ~/regrant.sql # Linux
-   sed -i '' -e '$ d' ~/regrant.sql # Mac
-   ```
+5. Copy the SQL script to your local machine:
+    - You can directly pipe it to your clipboard (Linux: `cat tmp/regrant.sql | xclip`) or print and then manually select and copy it:
 
-5. Copy the SQL script to the database server:
+    ```shell title="xi-course:/app$"
+    cat tmp/regrant.sql
+    ```
 
-   ```shell title="localhost:~#"
-   scp regrant.sql root@db.production.[brand].xi.xopic.de:/tmp
-   ```
+6. Remove the safety belt (the `ROLLBACK;` in the last line of the SQL script):
 
-6. Login to the `db` VM:
+    ```shell title="localhost:~#"
+    sed -i '$ d' [path-to-file]/regrant.sql # Linux
+    sed -i '' -e '$ d' [path-to-file]/regrant.sql # Mac
+    ```
 
-   ```shell title="localhost:~#"
-   ssh root@db.production.[brand].xi.xopic.de
-   ```
+7. Copy the SQL script to the database server:
 
-7. Execute the SQL script in the `xi-account` database:
+    ```shell title="localhost:~#"
+    scp [path-to-file]/regrant.sql root@db.production.openhpi.xi.xopic.de:/tmp
+    ```
 
-   ```shell title="db:~#"
-   sudo -u postgres psql web
-   ```
+8. Login to the `db` VM:
 
-8. Load the script in the psql console:
+    ```shell title="localhost:~#"
+    ssh root@db.production.openhpi.xi.xopic.de
+    ```
 
-   ```shell title="web=#"
-   \i /tmp/regrant.sql
-   ```
+9. Execute the SQL script in the database:
 
-9. If the script runs without errors, apply the changes:
+    ```shell title="db:~#"
+    sudo -u postgres psql web
+    ```
 
-   ```shell title="account=#"
-   COMMIT;
-   ```
+10. Load the script in the psql console:
 
-10. Delete the regrant script from the database VM.
-11. You're done (or can continue with the next instance if applicable).
-12. Don't forget to remove the regrant script(s) from your local machine as soon as you're done completely.
+    ```shell title="web=#"
+    \i /tmp/regrant.sql
+    ```
+
+11. If the script runs without errors, apply the changes:
+
+    ```shell title="web=#"
+    COMMIT;
+    ```
+
+12. Delete the regrant script from the database VM.
+
+13. You're done (or can continue with the next instance if applicable).
+
+14. Don't forget to remove the regrant script(s) from your local machine and `xi-course` as soon as you're done completely.
 
 !!! note
 

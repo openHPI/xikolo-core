@@ -1,10 +1,12 @@
 # Reporting permission
 
 The reporting role must be assigned to users manually. There is no UI for it as this concerns access to sensitive data and is also a policy issue for some stakeholders.
-It can be granted or revoked on the production systems via the Rails console:
+It can be granted or revoked on the production systems via the Rails console of `xi-account`:
 
-```console
-xikolo-account rails c
+[Using Nomads web UI, connect to `xi-account`](https://nomad.adm.production.openhpi.xi.xopic.de/ui/exec/xikolo/account-api/server) (don't forget to press Enter here)
+
+```shell title="xi-account:/app$"
+rails c
 ```
 
 ## Grant the reporting role

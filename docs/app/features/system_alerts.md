@@ -22,9 +22,14 @@ Users must actively dismiss the popover to hide it.
 
 ## Configuration and localization
 
-Alerts can be created via the Rails console:
+Alerts can be created via the Rails console of `xi-web`:
+[Using Nomads web UI, connect to `xi-web`](https://nomad.adm.production.openhpi.xi.xopic.de/ui/exec/xikolo/web-app/server) (don't forget to press Enter here) and run
 
-``` ruby
+```shell title="xi-web:/app$"
+rails c
+```
+
+```ruby
 Alert.create!(
   publish_at: 1.hour.ago,
   publish_until: 2.hours.from_now,

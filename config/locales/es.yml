@@ -1391,10 +1391,6 @@ es:
 
       show:
         empty_msg: "Todavía no hay ningún elemento, así que ahora no podemos mostrarle la evolución. Vuelva más tarde."
-      records:
-        documents_headline: Mis certificados del curso
-        documents_intro: Tan pronto como el curso haya terminado (y el personal docente haya publicado los resultados finales), podrá descargarse sus certificados aquí.
-        certificates_tab_info: Tan pronto como el curso haya terminado (y el personal docente haya publicado los resultados finales), podrá <a href='./certificates'>descargar sus certificados en la nueva página de certificados</a>.
       overview:
         open_mode:
           message: "Las unidades de aprendizaje listadas pertenecen al curso <b>%{title}</b>. ¿Desea acceder a todo el contenido del curso?"

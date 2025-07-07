@@ -63,12 +63,6 @@ See below for explanations on [managing feature flippers](#manage-feature-flippe
 
     *Scope:* `Group.all_users`, `Context.root`
 
-`course.certificates_tab` :material-test-tube:
-
-:   Enable the separate certificates tab for courses, adding it to the course navigation.
-
-    *Scope:* `Group.all_users`, `Context.root`
-
 `course.reactivated` :material-code-tags-check:
 
 :   This user has purchased a course reactivation for a specific course; items are fetched for this user (thus: overriding caching), in order to apply enforced submission deadlines.

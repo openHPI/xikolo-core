@@ -1503,10 +1503,6 @@ nl:
 
       show:
         quizzes_taken: "%{taken} van %{count} genomen"
-      records:
-        documents_headline: Mijn cursuscertificaten
-        documents_intro: Zodra de cursus is afgelopen (en de docenten de eindresultaten hebben gepubliceerd), kun je hier je certificaten downloaden.
-        certificates_tab_info: Zodra de cursus is afgelopen (en het onderwijzend personeel de definitieve resultaten heeft gepubliceerd), kunt u <a href='./certificates'>uw certificaten downloaden op de nieuwe certificaatpagina</a>.
       overview:
         open_mode:
           message: "De vermelde leereenheden horen bij de cursus <b>%{title}</b>. Wil je toegang tot alle cursusinhoud?"

@@ -7,11 +7,6 @@ class Course::CertificatesController < Abstract::FrontendController
   inside_course except: :verify
 
   before_action :ensure_logged_in, except: :verify
-  before_action(only: :index) do
-    next if current_user.feature?('course.certificates_tab')
-
-    raise AbstractController::ActionNotFound
-  end
 
   def index
     Acfs.run

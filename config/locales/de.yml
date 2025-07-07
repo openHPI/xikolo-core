@@ -1638,10 +1638,6 @@ de:
 
       show:
         empty_msg: Es gibt noch keine Inhalte in diesem Kurs, daher auch noch keine Fortschrittsanzeige.
-      records:
-        documents_headline: Meine Leistungsnachweise
-        documents_intro: Sobald ein Kurs beendet ist (und der Lehrkörper die Abschlussergebnisse veröffentlicht hat), können Sie Ihre Leistungsnachweise hier herunterladen.
-        certificates_tab_info: Sobald ein Kurs beendet ist (und der Lehrkörper die Abschlussergebnisse veröffentlicht hat), können Sie Ihre <a href='./certificates'>Leistungsnachweise auf der neuen Zertifikatübersicht herunterladen</a>.
       overview:
         open_mode:
           message: "Die Lerneinheiten in dieser Liste gehören zum Kurs <b>%{title}</b>. Möchten Sie auf den gesamten Kursinhalt zugreifen?"
