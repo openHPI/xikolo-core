@@ -62,10 +62,10 @@ $xi-font-nav-tabs: $corporatefont, sans-serif !default;
 /*------------------------------------*\
     $Bootstrap-Import
 \*------------------------------------*/
-@import "bootstrap-sass/assets/stylesheets/bootstrap/mixins/text-emphasis";
-@import "bootstrap-sass/assets/stylesheets/bootstrap/mixins/text-overflow";
-@import "bootstrap-sass/assets/stylesheets/bootstrap/mixins/background-variant";
-@import "bootstrap-sass/assets/stylesheets/bootstrap/type";
+@import "/vendor/assets/stylesheets/bootstrap/mixins/text-emphasis";
+@import "/vendor/assets/stylesheets/bootstrap/mixins/text-overflow";
+@import "/vendor/assets/stylesheets/bootstrap/mixins/background-variant";
+@import "/vendor/assets/stylesheets/bootstrap/type";
 
 /*------------------------------------*\
     $Fonts

@@ -24,8 +24,8 @@ $xi-filter-dropdown-items-height: 20px !default;
 /*------------------------------------*\
     $Bootstrap-Import
 \*------------------------------------*/
-@import "bootstrap-sass/assets/stylesheets/bootstrap/mixins/border-radius";
-@import "bootstrap-sass/assets/stylesheets/bootstrap/navs";
+@import "/vendor/assets/stylesheets/bootstrap/mixins/border-radius";
+@import "/vendor/assets/stylesheets/bootstrap/navs";
 
 /*------------------------------------*\
     $Filter

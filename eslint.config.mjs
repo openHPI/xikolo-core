@@ -25,6 +25,7 @@ export default [
   {
     ignores: [
       'app/assets/javascripts', // Ignore legacy assets
+      'vendor/assets/javascripts', // Ignore vendor assets
     ],
   },
 ];

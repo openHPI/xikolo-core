@@ -3481,13 +3481,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bootstrap-sass@npm:3.4.3":
-  version: 3.4.3
-  resolution: "bootstrap-sass@npm:3.4.3"
-  checksum: 10/4e22d8ac986f61a2bc444bbb0b04a2b426f7962ee0a68b5b72225923a1ad79915494352ea8f92a01dc5a12cbf377828c057e7ed7dd0b05912e3213b8d0ef9f76
-  languageName: node
-  linkType: hard
-
 "boxen@npm:^4.2.0":
   version: 4.2.0
   resolution: "boxen@npm:4.2.0"
@@ -10184,12 +10177,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:3.6.0":
-  version: 3.6.0
-  resolution: "prettier@npm:3.6.0"
+"prettier@npm:3.6.2":
+  version: 3.6.2
+  resolution: "prettier@npm:3.6.2"
   bin:
     prettier: bin/prettier.cjs
-  checksum: 10/5c0db5a8e32d2ac9824d8bc652990dfd534bc7a7c6f26d99d50c9146a2d9befb3cd1cc86c4aee71caf6b264d421a4b4b5961e31a62dda3790b8fec2521a76eef
+  checksum: 10/1213691706bcef1371d16ef72773c8111106c3533b660b1cc8ec158bd109cdf1462804125f87f981f23c4a3dba053b6efafda30ab0114cc5b4a725606bb9ff26
   languageName: node
   linkType: hard
 
@@ -10755,7 +10748,6 @@ __metadata:
     "@types/luxon": "npm:^3.4.2"
     "@types/markdown-it": "npm:^14.0.1"
     babel-loader: "npm:^10.0.0"
-    bootstrap-sass: "npm:3.4.3"
     browserslist: "npm:^4.23.2"
     compression-webpack-plugin: "npm:^11.1.0"
     core-js: "npm:^3.4.5"
@@ -10786,7 +10778,7 @@ __metadata:
     postcss-loader: "npm:^8.1.1"
     postcss-preset-env: "npm:^10.0.0"
     postcss-scss: "npm:^4.0.9"
-    prettier: "npm:3.6.0"
+    prettier: "npm:3.6.2"
     sass-embedded: "npm:^1.77.8"
     sass-loader: "npm:^16.0.0"
     stylelint: "npm:^16.0.0"

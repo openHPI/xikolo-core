@@ -2,36 +2,35 @@
     $Bootstrap-Imports
 \*------------------------------------*/
 // Core variables and mixins
-@import "bootstrap-sass/assets/stylesheets/bootstrap/variables";
-@import "bootstrap-sass/assets/stylesheets/bootstrap/mixins";
+@import "/vendor/assets/stylesheets/bootstrap/variables";
+@import "/vendor/assets/stylesheets/bootstrap/mixins";
 
 // Reset and dependencies
-@import "bootstrap-sass/assets/stylesheets/bootstrap/normalize";
+@import "/vendor/assets/stylesheets/bootstrap/normalize";
 
 // Core CSS
-@import "bootstrap-sass/assets/stylesheets/bootstrap/scaffolding";
-@import "bootstrap-sass/assets/stylesheets/bootstrap/code";
-@import "bootstrap-sass/assets/stylesheets/bootstrap/grid";
-@import "bootstrap-sass/assets/stylesheets/bootstrap/tables";
-@import "bootstrap-sass/assets/stylesheets/bootstrap/forms";
+@import "/vendor/assets/stylesheets/bootstrap/scaffolding";
+@import "/vendor/assets/stylesheets/bootstrap/code";
+@import "/vendor/assets/stylesheets/bootstrap/grid";
+@import "/vendor/assets/stylesheets/bootstrap/tables";
+@import "/vendor/assets/stylesheets/bootstrap/forms";
 
 // Components
-@import "bootstrap-sass/assets/stylesheets/bootstrap/component-animations";
-@import "bootstrap-sass/assets/stylesheets/bootstrap/button-groups";
-@import "bootstrap-sass/assets/stylesheets/bootstrap/input-groups";
-@import "bootstrap-sass/assets/stylesheets/bootstrap/navbar";
-@import "bootstrap-sass/assets/stylesheets/bootstrap/badges";
-@import "bootstrap-sass/assets/stylesheets/bootstrap/media";
-@import "bootstrap-sass/assets/stylesheets/bootstrap/list-group";
-@import "bootstrap-sass/assets/stylesheets/bootstrap/wells";
-@import "bootstrap-sass/assets/stylesheets/bootstrap/close";
+@import "/vendor/assets/stylesheets/bootstrap/component-animations";
+@import "/vendor/assets/stylesheets/bootstrap/button-groups";
+@import "/vendor/assets/stylesheets/bootstrap/input-groups";
+@import "/vendor/assets/stylesheets/bootstrap/navbar";
+@import "/vendor/assets/stylesheets/bootstrap/badges";
+@import "/vendor/assets/stylesheets/bootstrap/list-group";
+@import "/vendor/assets/stylesheets/bootstrap/wells";
+@import "/vendor/assets/stylesheets/bootstrap/close";
 
 // Components w/ JavaScript
-@import "bootstrap-sass/assets/stylesheets/bootstrap/modals";
+@import "/vendor/assets/stylesheets/bootstrap/modals";
 
 // Utility classes
-@import "bootstrap-sass/assets/stylesheets/bootstrap/utilities";
-@import "bootstrap-sass/assets/stylesheets/bootstrap/responsive-utilities";
+@import "/vendor/assets/stylesheets/bootstrap/utilities";
+@import "/vendor/assets/stylesheets/bootstrap/responsive-utilities";
 
 /*------------------------------------*
     $Third-Party-CSS

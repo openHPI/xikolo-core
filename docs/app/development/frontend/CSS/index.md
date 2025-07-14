@@ -21,7 +21,7 @@ It includes the following files and folders:
 ### Styles
 
 - `components`: For a maintainable SCSS code base, styles should be scoped to components if possible
-- `partials`: Prior to transitioning to a component-based system, all individual SCSS partials for platform components were stored in this location.
+- `partials`: Prior to transitioning to a component-based system, all individual SCSS partials for platform components were stored in this location (legacy).
 - `bs-variables`: We aim to progressively reduce our dependence on Bootstrap. This file contains the necessary variables we extract from Bootstrap.
 
 - `theme/`
@@ -37,22 +37,40 @@ It includes the following files and folders:
 - `controllers`: Legacy SASS styles for controllers
 
 !!!note
-    This architecture was inspired by [this guide](https://thesassway.com/how-to-structure-a-sass-project/)
+    This architecture was inspired by [this guide](https://web.archive.org/web/20240128141859/https://thesassway.com/how-to-structure-a-sass-project/).
 
 ## Bootstrap Integration
 
-The gem `bootstrap-sass` integrates Bootstrap 3 in our application.
+We used to integrate Bootstrap 3 in our application using the [gem `bootstrap-sass`](https://github.com/twbs/bootstrap-sass).
+This gem is no longer maintained and Bootstrap 3 is heavily outdated.
 
-It provides all the individual bootstrap components, mixins, modules, etc.
-In `app/assets/bootstrap-custom.scss` we import the parts that we need for the application.
-It is build in a separate module and included in the layouts.
+Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+So in the near future, we need to [remove the `@import` directive from all our stylesheets](https://sass-lang.com/documentation/breaking-changes/import/).
 
-!!!note
-    We import the assets again in the corresponding SASS partial where they are used.
-    E.g `@import "bootstrap/dropdowns"` is called again in `app/assets/stylesheets/partials/_dropdown.scss`.
-    This double import has developed over time and is not something we consider good architecture.
+Even the [up-to-date versions of Bootstrap makes it impossible to adapt SCSS modules](https://github.com/twbs/bootstrap/issues/29853).
+An update to a future Bootstrap version seems not feasible due to the large number of breaking changes
+and the fact that we have already started migrating to a self-made component-based SCSS architecture.
 
-## File Anatomy
+In conclusion, we want to use SCSS modules for our components, we are in the process of removing the dependency on Bootstrap.
+
+### Phased Migration Approach
+
+1) Audit all views to identify which Bootstrap components you actually use (done)
+2) Create replacements for only those components, remove all unused Bootstrap components (done)
+3) Rewrite existing components to use the new replacements (planned)
+
+### Current Status
+
+- `app/assets/stylesheets/components` is already "clean" and does not depend on Bootstrap. Do not add new Bootstrap code to it.
+- `app/assets/stylesheets/partials` still contains a lot of Bootstrap code, and is considered legacy code. We can still adapt this code for fixes, but we should not add new Bootstrap code to it.
+- New UI should always be implemented in the `components` folder, using the new component-based architecture.
+
+### Future Considerations
+
+For an upcoming redesign of the platform, we should migrate more towards the component-based architecture and eventually remove all Bootstrap code from the `partials` folder.
+**Note**: As we have a compontent-based architecture, we can also consider using other CSS frameworks, such as [Tailwind CSS](https://tailwindcss.com/).
+
+## File Anatomy for partials (legacy)
 
 Almost all SASS partials follow the following template, which slightly varies depending on whether Bootstrap components are included.
 
@@ -86,7 +104,7 @@ Otherwise the override would not take effect.
   //------------------------------------
   // $Bootstrap-Import
   //------------------------------------
-  @import "twitter/bootstrap/COMPONENT";
+  @import "bootstrap/COMPONENT";
   //------------------------------------
 ```
 

@@ -27,8 +27,8 @@ $pagination-disabled-color: $white;
 /*------------------------------------*\
     $Bootstrap-Import
 \*------------------------------------*/
-@import "bootstrap-sass/assets/stylesheets/bootstrap/mixins/pagination";
-@import "bootstrap-sass/assets/stylesheets/bootstrap/pagination";
+@import "/vendor/assets/stylesheets/bootstrap/mixins/pagination";
+@import "/vendor/assets/stylesheets/bootstrap/pagination";
 
 /*------------------------------------*\
     $Pagination-Base

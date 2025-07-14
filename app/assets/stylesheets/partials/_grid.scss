@@ -22,10 +22,10 @@ $container-sm: 100%;
 /*------------------------------------*\
     $Bootstrap-Import
 \*------------------------------------*/
-@import "bootstrap-sass/assets/stylesheets/bootstrap/mixins/clearfix";
-@import "bootstrap-sass/assets/stylesheets/bootstrap/mixins/grid-framework";
-@import "bootstrap-sass/assets/stylesheets/bootstrap/mixins/grid";
-@import "bootstrap-sass/assets/stylesheets/bootstrap/grid";
+@import "/vendor/assets/stylesheets/bootstrap/mixins/clearfix";
+@import "/vendor/assets/stylesheets/bootstrap/mixins/grid-framework";
+@import "/vendor/assets/stylesheets/bootstrap/mixins/grid";
+@import "/vendor/assets/stylesheets/bootstrap/grid";
 
 /*------------------------------------*\
     $Grid-Styles

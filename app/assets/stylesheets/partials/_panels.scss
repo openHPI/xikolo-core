@@ -23,8 +23,8 @@ $panel-body-padding: 15px;
 /*------------------------------------*\
     $Bootstrap-Import
 \*------------------------------------*/
-@import "bootstrap-sass/assets/stylesheets/bootstrap/mixins/panels";
-@import "bootstrap-sass/assets/stylesheets/bootstrap/panels";
+@import "/vendor/assets/stylesheets/bootstrap/mixins/panels";
+@import "/vendor/assets/stylesheets/bootstrap/panels";
 
 /*------------------------------------*\
     $Panels-Base
