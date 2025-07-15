@@ -4,7 +4,7 @@
       h2 = t(:'.title')
       .login-box#registration-form
         p = t(:'.text')
-        p = t(:'.privacy', link: '/pages/privacy')
+        p = t(:'.privacy', link: '/pages/data-protection')
 
         = simple_form_for @account, url: account_path, wrapper: :compact do |f|
           = f.error_notification
