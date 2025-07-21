@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_02_25_101640) do
+ActiveRecord::Schema[7.2].define(version: 2025_07_11_082454) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "pg_trgm"
@@ -179,20 +179,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_25_101640) do
     t.index ["group_id"], name: "index_branches_on_group_id"
   end
 
-  create_table "calendar_events", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "collab_space_id"
-    t.string "title", null: false
-    t.text "description"
-    t.datetime "start_time", precision: nil, null: false
-    t.datetime "end_time", precision: nil, null: false
-    t.string "category"
-    t.uuid "user_id", null: false
-    t.boolean "all_day", default: false, null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.index ["collab_space_id"], name: "index_calendar_events_on_collab_space_id"
-  end
-
   create_table "channels", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.string "code", null: false
     t.string "name", null: false
@@ -241,25 +227,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_25_101640) do
     t.boolean "visible", default: true, null: false
     t.jsonb "translations", default: {}, null: false
     t.enum "sort_mode", default: "automatic", null: false, enum_type: "sort_mode"
-  end
-
-  create_table "collab_space_memberships", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "collab_space_id"
-    t.uuid "user_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.string "status"
-  end
-
-  create_table "collab_spaces", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.boolean "is_open"
-    t.uuid "course_id"
-    t.string "kind", default: "group", null: false
-    t.text "description"
-    t.text "details"
   end
 
   create_table "comments", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
@@ -416,7 +383,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_25_101640) do
     t.boolean "show_on_stage", default: false, null: false
     t.text "stage_statement"
     t.uuid "channel_id"
-    t.boolean "has_collab_space", default: true
     t.hstore "policy_url"
     t.integer "roa_threshold_percentage"
     t.integer "cop_threshold_percentage"
@@ -579,31 +545,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_25_101640) do
     t.datetime "expire_at", precision: nil
     t.uuid "course_id"
     t.uuid "context_id"
-    t.uuid "collab_space_id"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.string "link"
     t.index ["public"], name: "index_events_on_public"
-  end
-
-  create_table "file_versions", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "file_id", null: false
-    t.string "original_filename", null: false
-    t.string "blob_uri"
-    t.integer "size", null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.index ["file_id"], name: "index_file_versions_on_file_id"
-  end
-
-  create_table "files", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "collab_space_id", null: false
-    t.uuid "creator_id", null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.string "title", null: false
-    t.text "description"
-    t.index ["collab_space_id"], name: "index_files_on_collab_space_id"
   end
 
   create_table "filters", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
@@ -1096,7 +1041,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_25_101640) do
     t.uuid "accepted_answer_id"
     t.uuid "course_id"
     t.boolean "discussion_flag", default: false
-    t.uuid "learning_room_id"
     t.uuid "file_id"
     t.boolean "sticky", default: false
     t.boolean "deleted", default: false, null: false
@@ -1111,8 +1055,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_25_101640) do
     t.tsvector "tsv"
     t.string "language"
     t.index ["accepted_answer_id"], name: "index_questions_on_accepted_answer_id"
-    t.index ["course_id", "user_id", "title", "text_hash"], name: "course_double_posting_index", unique: true, where: "(learning_room_id IS NULL)"
-    t.index ["learning_room_id", "user_id", "title", "text_hash"], name: "learning_room_double_posting_index", unique: true
+    t.index ["course_id", "user_id", "title", "text_hash"], name: "course_double_posting_index", unique: true
     t.index ["tsv"], name: "index_questions_on_tsv", using: :gin
   end
 
@@ -1467,11 +1410,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_25_101640) do
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.uuid "course_id"
-    t.uuid "learning_room_id"
     t.string "referenced_resource"
     t.string "type"
-    t.index "course_id, lower((name)::text)", name: "course_duplicate_tags_index", unique: true, where: "(learning_room_id IS NULL)"
-    t.index "learning_room_id, lower((name)::text)", name: "learning_room_duplicate_tags_index", unique: true, where: "(course_id IS NULL)"
+    t.index "course_id, lower((name)::text)", name: "course_duplicate_tags_index", unique: true
     t.index ["id", "type"], name: "index_tags_on_id_and_type"
     t.index ["type", "referenced_resource"], name: "index_tags_on_type_and_referenced_resource"
   end
@@ -1731,7 +1672,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_25_101640) do
   add_foreign_key "authorizations", "users"
   add_foreign_key "branches", "forks"
   add_foreign_key "branches", "groups"
-  add_foreign_key "calendar_events", "collab_spaces"
   add_foreign_key "classifiers", "clusters", on_delete: :cascade
   add_foreign_key "classifiers_courses", "classifiers", on_delete: :cascade
   add_foreign_key "classifiers_courses", "courses", on_delete: :cascade
@@ -1746,8 +1686,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_25_101640) do
   add_foreign_key "course_set_relations", "course_sets", column: "target_set_id", on_update: :cascade, on_delete: :restrict
   add_foreign_key "dates", "courses"
   add_foreign_key "deliveries", "messages"
-  add_foreign_key "file_versions", "files"
-  add_foreign_key "files", "collab_spaces"
   add_foreign_key "forks", "content_tests"
   add_foreign_key "forks", "sections"
   add_foreign_key "messages", "announcements"
@@ -1809,7 +1747,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_25_101640) do
       show_on_stage,
       stage_statement,
       channel_id,
-      has_collab_space,
       policy_url,
       roa_threshold_percentage,
       cop_threshold_percentage,

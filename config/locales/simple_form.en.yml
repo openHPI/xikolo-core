@@ -247,7 +247,7 @@ en:
         records_released: Enable this when the course has ended, to let participants download their certificates.
         show_syllabus: Show an overview of all published course content in the learning area.
         enable_video_download: Let participants download video or audio versions of video items for offline consumption.
-        pinboard_enabled: Completely disables the discussions feature for this course. Users won't be able to access any discussions. Discussion forums in Collab Spaces are not affected, if those are enabled.
+        pinboard_enabled: Completely disables the discussions feature for this course. Users won't be able to access any discussions.
         forum_is_locked: Set the discussions to read-only. This is usually done after the course has ended.
         visual_creation: After creating the course, you may add visuals in the course properties.
       course_offer:

@@ -15,7 +15,7 @@
       input_html: {multiple: true,
         class: 'full-width',
         data: {behavior: 'custom-select',
-          auto_completion_url: pinboard_tags_path(course_id: params[:course_id], learning_room_id: params[:learning_room_id]),
+          auto_completion_url: pinboard_tags_path(course_id: params[:course_id]),
           preload: true,
           create: true}}
   - if current_user.allowed?('pinboard.question.sticky')

@@ -8,7 +8,6 @@ class TagDecorator < Draper::Decorator
       id:,
         name:,
         course_id:,
-        learning_room_id:,
         type: "Xikolo::Pinboard::#{type}",
     }.as_json(opts)
   end

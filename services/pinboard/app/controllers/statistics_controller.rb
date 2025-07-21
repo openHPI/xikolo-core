@@ -49,10 +49,10 @@ class StatisticsController < ApplicationController
     end
     sql = <<~SQL.squish
       SELECT user_id, COUNT(user_id) AS count FROM
-        (SELECT user_id FROM questions WHERE course_id = :course_id AND learning_room_id IS NULL
-        UNION ALL SELECT a.user_id FROM answers a JOIN questions q ON a.question_id = q.id WHERE q.course_id = :course_id AND q.learning_room_id IS NULL
-        UNION ALL SELECT c.user_id FROM comments c JOIN questions q ON c.commentable_id = q.id WHERE c.commentable_type = 'Question' AND q.course_id = :course_id AND q.learning_room_id IS NULL
-        UNION ALL SELECT c.user_id FROM comments c JOIN answers a ON c.commentable_id = a.id JOIN questions q ON a.question_id = q.id WHERE c.commentable_type = 'Answer' AND q.course_id = :course_id AND q.learning_room_id IS NULL) x
+        (SELECT user_id FROM questions WHERE course_id = :course_id
+        UNION ALL SELECT a.user_id FROM answers a JOIN questions q ON a.question_id = q.id WHERE q.course_id = :course_id
+        UNION ALL SELECT c.user_id FROM comments c JOIN questions q ON c.commentable_id = q.id WHERE c.commentable_type = 'Question' AND q.course_id = :course_id
+        UNION ALL SELECT c.user_id FROM comments c JOIN answers a ON c.commentable_id = a.id JOIN questions q ON a.question_id = q.id WHERE c.commentable_type = 'Answer' AND q.course_id = :course_id) x
         GROUP BY user_id ORDER BY count DESC LIMIT :cnt;
     SQL
 

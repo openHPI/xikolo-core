@@ -14,7 +14,6 @@ end
 
 ActiveSupport::Inflector.inflections do |inflect|
   inflect.acronym 'API'
-  inflect.acronym 'EGovCampus'
   inflect.acronym 'HPI'
   inflect.acronym 'ID'
   inflect.acronym 'IP'

@@ -304,7 +304,6 @@ task server: %w[config] do
     file: 4000,
     log: 4200,
     news: 4300,
-    learning_room: 4800,
     progress: 4900,
     game: 5100,
     grouping: 5600,

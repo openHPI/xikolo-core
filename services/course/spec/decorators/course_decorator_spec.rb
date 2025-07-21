@@ -59,7 +59,6 @@ describe CourseDecorator do
         middle_of_course
         middle_of_course_is_auto
         on_demand
-        has_collab_space
         pinboard_enabled
         proctored
         records_released

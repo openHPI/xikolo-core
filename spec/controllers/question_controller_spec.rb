@@ -21,7 +21,6 @@ describe QuestionController, type: :controller do
       user_id:,
       accepted_answer_id: nil,
       course_id:,
-      learning_room_id: nil,
       created_at: nil,
       updated_at: nil,
       votes: nil,

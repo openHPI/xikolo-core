@@ -8,7 +8,6 @@ class ExplicitTagDecorator < Draper::Decorator
       id:,
         name:,
         course_id:,
-        learning_room_id:,
         type: 'Xikolo::Pinboard::ExplicitTag',
     }.as_json(opts)
   end

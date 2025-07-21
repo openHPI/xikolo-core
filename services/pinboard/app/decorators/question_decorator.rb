@@ -13,7 +13,6 @@ class QuestionDecorator < Draper::Decorator
       user_id:,
       accepted_answer_id:,
       course_id:,
-      learning_room_id:,
       discussion_flag:,
       created_at: created_at.iso8601,
       updated_at: updated_at.iso8601,

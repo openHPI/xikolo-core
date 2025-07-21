@@ -20,12 +20,12 @@
                 .downvote.cpointer data-votable-type='answer' data-votable-id="#{answer.id}"
                   = render Global::FaIcon.new('chevron-down', style: :solid, css_classes: 'em1-2 mb5 mt5')
                 - if accepted_answer && question.accepted_answer_id != answer.id && can_edit?(question)
-                  .accept data-answer-id="#{answer.id}" data-question-id="#{question.id}" data-course-id="#{params[:course_id]}" data-learning-room-id="#{params[:learning_room_id]}"
+                  .accept data-answer-id="#{answer.id}" data-question-id="#{question.id}" data-course-id="#{params[:course_id]}"
                     = render Global::FaIcon.new('check', style: :solid, css_classes: 'em1-5')
 
             td.qa-details
               - if !accepted_answer && question.accepted_answer_id != answer.id && can_edit?(question) && !answer.blocked?
-                a.accept-hint.accept data-answer-id="#{answer.id}" data-question-id="#{question.id}" data-course-id="#{params[:course_id]}" data-learning-room-id="#{params[:learning_room_id]}" href="#"
+                a.accept-hint.accept data-answer-id="#{answer.id}" data-question-id="#{question.id}" data-course-id="#{params[:course_id]}" href="#"
                   = render Global::FaIcon.new('check', style: :solid, css_classes: 'em1-2 vmiddle mr5')
                   = t :'pinboard.question.accept_hint'
 

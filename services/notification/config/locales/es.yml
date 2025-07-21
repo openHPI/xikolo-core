@@ -18,16 +18,6 @@ es:
     reporting_finished:
       title: "El informe %{type} %{annotation} ha terminado con el resultado: %{state}."
       text: ""
-    learning_room:
-      new_file:
-        title: "Nuevo archivo cargado"
-        text: "%{uploader_name} ha cargado %{filename}"
-      new_membership:
-        title: "Se ha unido un nuevo miembro"
-        text: "%{new_member_name} se ha unido a su espacio de colaboración"
-      quit_membership:
-        title: "Un miembro se ha ido"
-        text: "%{ex_member_name} se ha marchado de su espacio de colaboración"
     type:
       news:
         announcement:
@@ -208,7 +198,5 @@ es:
       col_attr_right: "últimas 24 horas"
       posts: "Comentarios publicados"
       threads: "Temas"
-      posts_collab_spaces: "Comentarios en el espacio colaborativo"
-      threads_collab_spaces: "Comentarios en el espacio colaborativo"
     archive_courses: "Cursos terminados recientemente"
     upcoming_courses: "Próximos cursos"

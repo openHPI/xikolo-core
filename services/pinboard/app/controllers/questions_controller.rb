@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class QuestionsController < ApplicationController
-  include LearningRoomIntegrationHelper
   responders Responders::DecorateResponder,
     Responders::HttpCacheResponder,
     Responders::PaginateResponder
@@ -182,7 +181,8 @@ class QuestionsController < ApplicationController
   def find_or_create_tags(tag_names)
     tag_names.map do |tag_name|
       # TODO: Make this case insensitive
-      ExplicitTag.create_with(belonging_resource_hash).find_or_create_by! name: tag_name.strip
+      course_id = params[:course_id].nil? ? params[:question][:course_id] : params[:course_id]
+      ExplicitTag.create_with({course_id:}).find_or_create_by! name: tag_name.strip
     end
   rescue ActiveRecord::RecordNotUnique
     retry
@@ -195,10 +195,8 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    # if we want to have questions attached to only the learning_room not the
-    # courses, then we can not require there to be a course_id
     params.permit(:id, :title, :text, :video_timestamp, :video_id, :user_id,
-      :accepted_answer_id, :course_id, :learning_room_id, :created_at,
+      :accepted_answer_id, :course_id, :created_at,
       :updated_at, :discussion_flag, :attachment_upload_id, :sticky, :deleted,
       :closed)
   end
@@ -214,9 +212,7 @@ class QuestionsController < ApplicationController
   def question_index_params
     # taglist can't be in the list here, since you can't whitelist a whole
     # hash (unfortunately)
-    p = params.permit(:course_id, :learning_room_id).transform_values {|v| v.empty? ? nil : v }
-    p[:learning_room_id] = nil unless p.key? 'learning_room_id'
-    p
+    params.permit(:course_id).transform_values {|v| v.empty? ? nil : v }
   end
 
   def order_questions(questions)

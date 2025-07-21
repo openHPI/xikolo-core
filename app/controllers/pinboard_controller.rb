@@ -64,8 +64,7 @@ class PinboardController < Abstract::FrontendController
   private
 
   def filters
-    # The section filter is only available for the global pinboard, not for
-    # collabspace pinboards.
+    # The section filter is only available for the global pinboard.
     {
       tags: available_tags,
     }.tap { it[:sections] = available_sections }
@@ -73,11 +72,7 @@ class PinboardController < Abstract::FrontendController
 
   def available_tags
     resource_params = {per_page: 150}
-    if in_learning_room_context?
-      resource_params[:learning_room_id] = params[:learning_room_id]
-    else
-      resource_params[:course_id] = the_course.id
-    end
+    resource_params[:course_id] = the_course.id
     tags = Xikolo::Pinboard::ExplicitTag.where resource_params
     Acfs.run
     tags
@@ -125,7 +120,6 @@ class PinboardController < Abstract::FrontendController
       per_page: params[:per_page] || 25,
     }.tap do |h|
       h[:section_id] = section_id if params[:section_id].present?
-      h[:learning_room_id] = params[:learning_room_id] if params[:learning_room_id].present?
       h[:search] = params[:q] if params[:q].present?
       if params[:tags].present?
         h[:tags] = params[:tags].is_a?(Array) ? params[:tags].join(',') : params[:tags]
@@ -148,8 +142,6 @@ class PinboardController < Abstract::FrontendController
   ##
   # The pinboard shall not be accessible if it has been disabled for the course.
   def ensure_pinboard_enabled
-    return if in_learning_room_context?
-
     raise AbstractController::ActionNotFound unless the_course.pinboard_enabled
   end
 

@@ -47,16 +47,6 @@ describe QuestionsController, type: :controller do
           expect(response).to be_successful
         end
       end
-
-      context 'when learning room questions exist' do
-        before { create(:learning_room_question) }
-
-        it 'does not include the learning room question' do
-          index
-          expect(json.size).to eq 1
-          expect(json.first['id']).to eq question.id
-        end
-      end
     end
 
     describe 'querying for a tag' do
@@ -96,37 +86,6 @@ describe QuestionsController, type: :controller do
         create(:question, tags: [tag])
         index
         expect(json.size).to eq(2)
-      end
-    end
-
-    describe 'for a learning room' do
-      subject(:index) { get :index, params: {learning_room_id: question.learning_room_id} }
-
-      let(:question) { create(:learning_room_question) }
-
-      it 'is succesful' do
-        index
-        expect(response).to be_successful
-      end
-
-      it 'has one item' do
-        index
-        expect(json.size).to eq(1)
-      end
-
-      it 'has the right learning_room_id' do
-        index
-        expect(json.first['learning_room_id']).to eq question.learning_room_id
-      end
-
-      context 'when questions in the course pinboard exist' do
-        before { create(:question) }
-
-        it 'does not include the course question' do
-          index
-          expect(json.size).to eq 1
-          expect(json.first['id']).to eq question.id
-        end
       end
     end
 
@@ -907,76 +866,7 @@ describe QuestionsController, type: :controller do
       expect(json['text']).to eq(attributes_for(:question)[:text])
     end
 
-    context 'with a supplied learning_room_id' do
-      let(:learning_room_id) { '00000001-ffff-4444-9999-000000000003' }
-      let(:question_params) { super().merge(learning_room_id:) }
-
-      before do
-        Stub.service(
-          :collabspace,
-          collab_space_url: '/collab_spaces/{id}'
-        )
-
-        Stub.request(
-          :collabspace, :get, "/collab_spaces/#{learning_room_id}"
-        ).to_return Stub.json({
-          id: learning_room_id,
-          name: 'My own collab space',
-        })
-      end
-
-      it 'sets the course_id' do
-        creation
-        expect(json['course_id']).to eq question_params[:course_id]
-      end
-
-      it 'sets the learning_room_id' do
-        creation
-        expect(json['learning_room_id']).to eq '00000001-ffff-4444-9999-000000000003'
-      end
-
-      context 'with image references' do
-        let(:question) { nil }
-        let(:text) { 'upload://b5f99337-224f-40f5-aa82-44ee8b272579/foo.jpg' }
-        let(:question_params) { super().merge text: }
-        let(:cid) { UUID4(question_params[:course_id]).to_s(format: :base62) }
-        let(:lid) { UUID4(learning_room_id).to_s(format: :base62) }
-
-        it 'stores valid upload and creates a new richtext' do
-          stub_request(
-            :head,
-            'https://s3.xikolo.de/xikolo-uploads/' \
-            'uploads/b5f99337-224f-40f5-aa82-44ee8b272579/foo.jpg'
-          ).and_return(
-            status: 200,
-            headers: {
-              'X-Amz-Meta-Xikolo-Purpose' => 'pinboard_commentable_text',
-              'X-Amz-Meta-Xikolo-State' => 'accepted',
-            }
-          )
-          store_regex = %r{https://s3.xikolo.de/xikolo-pinboard
-                           /courses/#{cid}/collabspaces/#{lid}
-                           /topics/[0-9a-zA-Z]+/[0-9a-zA-Z]+/foo.jpg}x
-          stub_request(:head, store_regex).and_return(status: 404)
-          stub_request(:put, store_regex).and_return(status: 200, body: '<xml></xml>')
-          expect { creation }.to change(Question, :count).from(0).to(1)
-          expect(Question.first.text).to include 's3://xikolo-pinboard'
-        end
-      end
-    end
-
-    # learning_room_id is an empty string if you just put it into forms
-    # as a hidden field if it's not in the learning_room context
-    context 'if the learning_room_id is an empty string' do
-      let(:question_params) { super().merge(learning_room_id: '') }
-
-      it 'sets the course_id' do
-        creation
-        expect(json['course_id']).to eq question_params[:course_id]
-      end
-    end
-
-    context 'with an empty string as learning_room_id and tags' do
+    context 'with tags' do
       # data from real app data
       let(:params) do
         {
@@ -986,7 +876,6 @@ describe QuestionsController, type: :controller do
           user_id: '00000001-3100-4444-9999-000000000001',
           course_id: '00000001-3300-4444-9999-000000000003',
           discussion_flag: '0',
-          learning_room_id: '',
         }
       end
 

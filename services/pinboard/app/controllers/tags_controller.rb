@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class TagsController < ApplicationController
-  include LearningRoomIntegrationHelper
-
   responders Responders::DecorateResponder,
     Responders::HttpCacheResponder,
     Responders::PaginateResponder
@@ -18,7 +16,7 @@ class TagsController < ApplicationController
              else
                Question.find(params[:question_id]).tags.order('name')
              end
-           elsif params[:course_id] || params[:learning_room_id]
+           elsif params[:course_id]
              if (params[:type] == 'ImplicitTag') && (params[:referenced_resource] || params[:name])
                find_or_create_implicit_tag
              elsif (params[:type] == 'ExplicitTag') && params[:name]
@@ -56,31 +54,26 @@ class TagsController < ApplicationController
   private
 
   def tag_params
-    my_params = params.permit(:name, :course_id, :learning_room_id, :type, :referenced_resource)
-    my_params[:course_id] = nil if my_params[:learning_room_id]
-    my_params
+    params.permit(:name, :course_id, :type, :referenced_resource)
   end
 
   def tags_belonging_to_pinboard_resource
-    belonging_resource = belonging_resource_hash
     if params[:name]
-      Tag.by_name(params[:name]).where(belonging_resource)
+      Tag.by_name(params[:name]).where(course_id:)
     else
       offset = params['offset'] || 0
       if params['q'].nil?
-        Tag.where(belonging_resource).offset(offset).order('name')
+        Tag.where(course_id:).offset(offset).order('name')
       else
-        search_tag_by_name_like belonging_resource, offset
+        search_tag_by_name_like(offset)
       end
     end
   end
 
-  def search_tag_by_name_like(belonging_resource, offset)
-    resource_key   = belonging_resource.first[0]
-    resource_value = belonging_resource.first[1]
+  def search_tag_by_name_like(offset)
     ExplicitTag
       .where('name ILIKE ?', "%#{params[:q]}%")
-      .where(resource_key => resource_value)
+      .where(course_id:)
       .offset(offset)
   end
 
@@ -88,17 +81,17 @@ class TagsController < ApplicationController
     tag = begin
       ExplicitTag
         .by_name(params[:name])
-        .where(belonging_resource_hash)
+        .where(course_id:)
         .first_or_create!(name: params[:name])
     rescue ActiveRecord::RecordNotUnique
-      ExplicitTag.by_name(params[:name]).find_by(belonging_resource_hash)
+      ExplicitTag.by_name(params[:name]).find_by(course_id:)
     end
 
     ExplicitTagDecorator.decorate_collection([tag])
   end
 
   def find_or_create_implicit_tag
-    conditions = belonging_resource_hash
+    conditions = {course_id:}
     conditions = conditions.merge(referenced_resource: params[:referenced_resource]) if params[:referenced_resource]
 
     tag = begin
@@ -115,5 +108,9 @@ class TagsController < ApplicationController
 
   def type_to_render
     params['type'] == 'ExplicitTag'
+  end
+
+  def course_id
+    params[:course_id].nil? ? params[:question][:course_id] : params[:course_id]
   end
 end

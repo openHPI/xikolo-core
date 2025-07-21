@@ -7,7 +7,6 @@ module Xikolo::Pinboard
     attribute :id, :uuid
     attribute :name, :string
     attribute :course_id, :uuid
-    attribute :learning_room_id, :uuid
     attribute :referenced_resource, :string
     attribute :type, :string
   end

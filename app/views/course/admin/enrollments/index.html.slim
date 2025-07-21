@@ -34,7 +34,7 @@
                 = link_to t(:'admin.course_management.enrollments.details'), user_path(enrollment[:user].id)
               .submissions
                 = link_to t(:'admin.course_management.enrollments.submissions'), course_submissions_path(user_id: enrollment[:user].id, id: params[:course_id])
-              div data-modal-inline="true" data-modal-title="#{enrollment[:user].full_name} (#{enrollment[:user].email})"
+              div
                 = link_to t(:'admin.course_management.enrollments.progress'), course_progress_path(user_id: enrollment[:user].id)
           td
             = render Global::ActionsDropdown.new(menu_side: 'right') do |c|
@@ -55,24 +55,3 @@
       p.red = t(:'admin.course_management.enrollments.user_not_confirmed')
       button.btn.btn-primary disabled=true type='button'
         = t(:'admin.course_management.enrollments.enroll_user')
-
-#progress-modal.modal.fade.bs-example-modal-lg tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-  .modal-dialog.modal-lg role="document"
-    .modal-content
-      .modal-header
-        h4.modal-title
-      .modal-body
-
-javascript:
-  ready(function() {
-    $('[data-modal-inline] a').click(function (event) {
-      event.preventDefault();
-
-      $('#progress-modal .modal-body').html('...');
-      $('#progress-modal').modal('show');
-      var url = $(this).attr('href');
-      var title = $(this).closest('[data-modal-inline]').data('modal-title');
-      $('#progress-modal .modal-title').html(title);
-      $('#progress-modal .modal-body').load(url);
-    });
-  });

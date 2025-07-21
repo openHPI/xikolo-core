@@ -38,14 +38,5 @@ RSpec.configure do |config|
       progresses_url: 'http://localhost:3300/progresses',
       stats_url: 'http://localhost:3300/stats'
     )
-
-    Stub.service(
-      :collabspace,
-      collab_space_url: 'http://localhost:4800/collab_spaces/{id}',
-      memberships_url: 'http://localhost:4800/memberships',
-      membership_url: 'http://localhost:4800/memberships/{id}',
-      system_info_url: 'http://localhost:4800/system_info/{id}',
-      root_url: 'http://localhost:4800/'
-    )
   end
 end

@@ -7,6 +7,5 @@ class Xikolo::Pinboard::Tag < Acfs::Resource
   attribute :name, :string
   attribute :course_id, :uuid
   attribute :render, :boolean
-  attribute :learning_room_id, :uuid
   attribute :tag, :string
 end

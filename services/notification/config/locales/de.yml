@@ -57,16 +57,6 @@ de:
     reporting_finished:
       title: "The %{type} %{annotation} report is finished with state: %{state}."
       text: ""
-    learning_room:
-      new_file:
-        title: "Neue Datei hochgeladen"
-        text: "%{uploader_name} hat %{filename} hochgeladen"
-      new_membership:
-        title: "Neuer Teilnehmer im Lernraum"
-        text: "%{new_member_name} ist dem Lernraum beigetreten"
-      quit_membership:
-        title: "Mitgliedschaft beendet"
-        text: "%{ex_member_name} hat die Teilnahme am Lernraum beendet"
     type:
       news:
         announcement:
@@ -247,7 +237,5 @@ de:
       col_attr_right: "last 24 h"
       posts: "Posts"
       threads: "Topics"
-      posts_collab_spaces: "Collab Space Posts"
-      threads_collab_spaces: "Collab Space Topics"
     archive_courses: "Courses recently ended"
     upcoming_courses: "Upcoming courses"

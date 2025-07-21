@@ -67,12 +67,7 @@ class Comment::Store < ApplicationOperation
   def key_prefix
     cid = UUID4(comment.commentable.question.course_id).to_str(format: :base62)
     qid = UUID4(comment.commentable.question.id).to_str(format: :base62)
-    if comment.commentable.question.learning_room_id?
-      lid = UUID4(comment.commentable.question.learning_room_id).to_str(format: :base62)
-      "courses/#{cid}/collabspaces/#{lid}/topics/#{qid}"
-    else
-      "courses/#{cid}/topics/#{qid}"
-    end
+    "courses/#{cid}/topics/#{qid}"
   end
 
   # rubocop:disable Rails/SkipsModelValidations

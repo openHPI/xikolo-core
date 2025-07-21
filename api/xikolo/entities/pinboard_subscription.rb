@@ -36,8 +36,7 @@ module Xikolo
         question_path(
           id: object['question_id'],
           course_id: short_id(object['course_id']),
-          section_id:,
-          learning_room_id: object['learning_room_id']
+          section_id:
         )
       end
 
@@ -50,10 +49,6 @@ module Xikolo
       end
 
       private
-
-      def in_learning_room_context?
-        object['learning_room_id'].present?
-      end
 
       def in_section_context?
         @section_id.present?

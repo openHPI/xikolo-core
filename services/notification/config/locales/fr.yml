@@ -17,16 +17,6 @@ fr:
     reporting_finished:
       title: "The %{type} %{annotation} report is finished with state: %{state}."
       text: ""
-    learning_room:
-      new_file:
-        title: "Nouveau fichier téléchargé"
-        text: "%{uploader_name} téléchargé %{filename}"
-      new_membership:
-        title: "Nouveau membre"
-        text: "%{new_member_name} s’est joint à l’espace de collaboration"
-      quit_membership:
-        title: "Le membre a quitté"
-        text: "%{ex_member_name} a quitté votre espace de collaboration"
     type:
       news:
         announcement:
@@ -203,7 +193,5 @@ fr:
       col_attr_right: "last 24 h"
       posts: "Posts"
       threads: "Topics"
-      posts_collab_spaces: "Collab Space Posts"
-      threads_collab_spaces: "Collab Space Topics"
     archive_courses: "Courses recently ended"
     upcoming_courses: "Upcoming courses"

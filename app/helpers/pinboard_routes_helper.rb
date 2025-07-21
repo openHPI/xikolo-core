@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 # Helps with the integration of pinboards that is meant for courses
-# into other resources . This module defines new methods for getting routes that
-# have no special indication of whether they are for a course or a collabspace
-# when these methods are called they figure out in which context they were
-# called e.g. if there is a learning_room_id in params then it's the
-# collabspace context otherwise the course context.
+# into other resources. This module defines new methods for getting routes that
+# have no special indication of whether they are for a course or a section.
+# When these methods are called they figure out in which context they were
+# called e.g. if there is a section_id in params then it's the
+# section context otherwise the course context.
 # Then they call the correct route helper to return the right route for the
 # current context.
 #
@@ -14,7 +14,7 @@
 # is routed to:
 # - course_question_index_path
 # or
-# - course_learning_room_question_index_path
+# - course_section_question_index_path
 #
 # these routes still have to be defined in routes.rb.
 # This is just kind of a proxy method call.
@@ -25,13 +25,6 @@ module PinboardRoutesHelper
     return unless base_controller.respond_to? :helper_method
 
     base_controller.helper_method(*public_instance_methods(false))
-  end
-
-  # there is a method in CollabspacesControllerCommon (which all full fledged)
-  # collabspace controllers include, that defines this as simply true
-  # duck typing FTW
-  def in_learning_room_context?
-    params[:learning_room_id].present?
   end
 
   def in_section_context?
@@ -63,7 +56,7 @@ module PinboardRoutesHelper
   end
 
   # this handles specifically designated action routes e.g. member do post :comment end
-  # so comment_question_path then gets to be comment_course_question_path (or a learning_room inbetween)
+  # so comment_question_path then gets to be comment_course_question_path
   def self.define_dynamic_action_routes
     [
       %i[comment_ question],
@@ -151,7 +144,6 @@ module PinboardRoutesHelper
 
   def contextual_resource_route_from(artificial_route)
     my_route = artificial_route.dup # mutability bites!
-    my_route = "learning_room_#{my_route}" if in_learning_room_context?
     my_route = "section_#{my_route}" if in_section_context?
     "course_#{my_route}"
   end

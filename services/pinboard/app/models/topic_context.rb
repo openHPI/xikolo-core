@@ -2,7 +2,7 @@
 
 # This class represents the context in which a topic was posted,
 # and all information associated to it. This can be things like
-# courses, sections (course weeks) and collab spaces.
+# courses and sections (course weeks).
 #
 # Depending on the type of context, the base class instantiates a
 # subclass that implements certain checks, such as whether the

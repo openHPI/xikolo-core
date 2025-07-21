@@ -116,22 +116,5 @@ describe TagsController, type: :controller do
       expect(json['name']).not_to be_nil
       expect(json['name']).to eq attributes_for(:definition_tag)[:name]
     end
-
-    describe 'learning room' do
-      let(:learning_room_id) { '00000001-3500-4444-9999-000000000001' }
-
-      before do
-        post :create, params: attributes_for(:definition_tag)
-          .merge(learning_room_id:)
-      end
-
-      it 'does not set the course_id' do
-        expect(json['course_id']).to be_nil
-      end
-
-      it 'sets the learning_room_id' do
-        expect(json['learning_room_id']).to eq learning_room_id
-      end
-    end
   end
 end

@@ -143,7 +143,7 @@ gem 'telegraf', '~> 3.0'
 
 # Open Badges
 gem 'chunky_png'
-gem 'jwt'
+gem 'jwt', '~> 2.0' # 3.0 requires a longer RSA key length
 
 # Assets
 gem 'rails-assets-manifest', '~> 3.0', '>= 3.0.1'

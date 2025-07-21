@@ -18,16 +18,6 @@ nl:
     reporting_finished:
       title: "Het %{type} %{annotation} rapport is klaar met status: %{state}."
       text: ""
-    learning_room:
-      new_file:
-        title: "Nieuw bestand geüpload"
-        text: "%{uploader_name} heeft %{filename} geüpload"
-      new_membership:
-        title: "Nieuw lid lid geworden"
-        text: "%{new_member_name} is lid geworden van uw Samenwerkingsruimte"
-      quit_membership:
-        title: "Lid is vertrokken"
-        text: "%{ex_member_name} heeft je Samenwerkingsruimte verlaten"
     type:
       news:
         announcement:

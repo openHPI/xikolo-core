@@ -14,13 +14,12 @@ const loadAnswerForm = (el: HTMLElement) => {
 };
 
 const acceptAnswer = async (el: HTMLElement) => {
-  const { questionId, answerId, courseId, learningRoomId } = el.dataset;
+  const { questionId, answerId, courseId } = el.dataset;
   el.remove();
 
   const data = new FormData();
   appendAnswerFormData(data, 'accepted_answer_id', answerId!);
   appendAnswerFormData(data, 'course_id', courseId!);
-  appendAnswerFormData(data, 'learning_room_id', learningRoomId!);
 
   try {
     await fetch(`${questionId}/accept_answer`, {

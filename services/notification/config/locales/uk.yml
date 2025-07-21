@@ -18,16 +18,6 @@ uk:
     reporting_finished:
       title: "Скаргу %{type} %{annotation} завершено зі станом: %{state}."
       text: ""
-    learning_room:
-      new_file:
-        title: "Новий файл завантажено"
-        text: "%{uploader_name} завантажив %{filename}"
-      new_membership:
-        title: "Приєднався новий учасник"
-        text: "%{new_member_name} приєднаввся до вашого Collab Space"
-      quit_membership:
-        title: "Учасник пішов"
-        text: "%{ex_member_name} покинув ваш Collab Space"
     type:
       news:
         announcement:

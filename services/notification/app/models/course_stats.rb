@@ -53,10 +53,6 @@ class CourseStats
     'threads_last_day',
     'posts',
     'posts_last_day',
-    'threads_in_collab_spaces',
-    'threads_last_day_in_collab_spaces',
-    'posts_in_collab_spaces',
-    'posts_last_day_in_collab_spaces',
 
     # helpdesk
     'helpdesk_tickets',

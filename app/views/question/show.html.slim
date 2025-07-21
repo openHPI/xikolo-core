@@ -12,7 +12,7 @@
   .responsive-images
     .question-wrapper
       / Asked Question
-      = render 'question_detail', question: @question, subscription: @subscription, new_comment: @new_comment, course_id: @course_id, user_state: @pinboard_user_state
+      = render 'question_detail', question: @question, subscription: @subscription, new_comment: @new_comment, user_state: @pinboard_user_state
       / All answers
       .mt30
         = render 'answers', question: @question, new_comment: @new_comment, comment_path: @comment_path, course_id: @course_id, user_state: @pinboard_user_state

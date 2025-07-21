@@ -39,7 +39,6 @@ poll2.options.create!(text: 'Discussion forum', position: 3)
 poll2.options.create!(text: 'Quiz recap', position: 4)
 poll2.options.create!(text: 'Reading material', position: 5)
 poll2.options.create!(text: 'Slides', position: 6)
-poll2.options.create!(text: 'Collab spaces', position: 7)
 
 poll3 = Poll::Poll.create!(
   question: 'Who killed Mr. Burns?',

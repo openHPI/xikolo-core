@@ -17,6 +17,4 @@ describe EventDecorator, type: :decorator do
   it { is_expected.to include('link') }
   it { is_expected.to include('course_id') }
   it { is_expected.to include('course_name') }
-  it { is_expected.to include('collab_space_id') }
-  it { is_expected.to include('collab_space_name') }
 end

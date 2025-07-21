@@ -40,17 +40,6 @@ describe Pinboard::Topic, type: :component do
       expect(component.url).to eq "/courses/course-123/question/#{topic['id']}"
     end
 
-    context 'when it belongs to the pinboard of a learning room' do
-      let(:topic) { super().merge('learning_room_id' => generate(:uuid)) }
-
-      it 'returns the URL of the topic in the learning room pinboard' do
-        render_inline(component)
-
-        learning_room_id_hash = UUID(topic['learning_room_id']).to_s(format: :base62)
-        expect(component.url).to eq "/courses/course-123/question/#{topic['id']}?learning_room_id=#{learning_room_id_hash}"
-      end
-    end
-
     context 'when it belongs to the pinboard of a section' do
       let(:topic) { super().merge('section_id' => section['id']) }
 

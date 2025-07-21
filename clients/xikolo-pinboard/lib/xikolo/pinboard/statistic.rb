@@ -17,14 +17,6 @@ module Xikolo::Pinboard
     attribute :comments_on_answers_last_day, :integer
     attribute :comments_on_questions, :integer
     attribute :comments_on_questions_last_day, :integer
-    attribute :questions_in_learning_rooms, :integer
-    attribute :questions_last_day_in_learning_rooms, :integer
-    attribute :answers_in_learning_rooms, :integer
-    attribute :answers_last_day_in_learning_rooms, :integer
-    attribute :comments_on_answers_in_learning_rooms, :integer
-    attribute :comments_on_answers_last_day_in_learning_rooms, :integer
-    attribute :comments_on_questions_in_learning_rooms, :integer
-    attribute :comments_on_questions_last_day_in_learning_rooms, :integer
     attribute :user, :dict
   end
 end

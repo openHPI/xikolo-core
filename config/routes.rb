@@ -264,9 +264,6 @@ Rails.application.routes.draw do
       end
     end
     pinboard_routes
-    resources :learning_rooms, only: [] do
-      pinboard_routes
-    end
   end
 
   scope '/courses/:course_id/items/:id' do

@@ -36,26 +36,6 @@ describe EventsController, type: :controller do
       end
     end
 
-    describe 'collab space' do
-      before { create(:event, collab_space_id: 'bb88f2f8-d1a5-40de-be18-496c6b576fe2') }
-
-      context 'no param' do
-        it 'shows all items' do
-          action
-          expect(json).to have(2).items
-        end
-      end
-
-      context 'with param' do
-        let(:params) { super().merge(only_collab_space_related: 'true') }
-
-        it 'has only one item' do
-          action
-          expect(json).to have(1).items
-        end
-      end
-    end
-
     context 'for a user' do
       let!(:event) { create(:event, :with_notifications, notify_user: [user_id]) }
       let(:params) { super().merge(user_id:) }
@@ -116,7 +96,6 @@ describe EventsController, type: :controller do
         payload: {foo: 'bar'},
         public: true,
         course_id: SecureRandom.uuid,
-        collab_space_id: SecureRandom.uuid,
         link: 'http',
       }
     end

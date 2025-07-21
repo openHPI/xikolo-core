@@ -9,10 +9,6 @@ FactoryBot.define do
     course_id { '00000001-3300-4444-9999-000000000001' }
     deleted { false }
 
-    trait :learning_room do
-      learning_room_id { '00000001-ffff-4444-9999-000000000003' }
-    end
-
     trait :with_subscriptions do
       transient do
         subscription_count { 5 }
@@ -60,8 +56,6 @@ FactoryBot.define do
     factory :deleted_question do
       deleted { true }
     end
-
-    factory :learning_room_question, traits: [:learning_room]
 
     factory :question_with_vote do
       after(:create) do |question|

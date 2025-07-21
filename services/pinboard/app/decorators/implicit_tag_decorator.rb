@@ -8,7 +8,6 @@ class ImplicitTagDecorator < Draper::Decorator
       id:,
         name:,
         course_id:,
-        learning_room_id:,
         type: 'Xikolo::Pinboard::ImplicitTag',
         referenced_resource:,
     }.as_json(opts)

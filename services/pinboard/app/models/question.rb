@@ -187,9 +187,7 @@ class Question < ApplicationRecord
     if String.try_convert(ary.first)
       begin
         ary = ary.map do |t|
-          ExplicitTag.create_with(
-            learning_room_id ? {learning_room_id:} : {course_id:}
-          ).find_or_create_by! name: t.strip
+          ExplicitTag.create_with({course_id:}).find_or_create_by! name: t.strip
         end
       rescue ActiveRecord::RecordNotUnique
         retry

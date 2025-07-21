@@ -13,7 +13,6 @@ class Xikolo::Pinboard::Question < Acfs::Resource
   attribute :user_id, :uuid
   attribute :accepted_answer_id, :uuid
   attribute :course_id, :uuid
-  attribute :learning_room_id, :uuid
   attribute :discussion_flag, :boolean
   attribute :created_at, :string
   attribute :updated_at, :string

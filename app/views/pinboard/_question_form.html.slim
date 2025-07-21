@@ -20,14 +20,13 @@
           input_html: {multiple: true,
             class: 'full-width',
             data: {behavior: 'custom-select',
-              auto_completion_url: pinboard_tags_path(course_id: params[:course_id], learning_room_id: params[:learning_room_id]),
+              auto_completion_url: pinboard_tags_path(course_id: params[:course_id]),
               preload: true,
               create: true,
             },
           }
       = f.input :sticky, label: t(:'pinboard.sticky'), as: :toggle_switch if current_user.allowed? 'pinboard.question.sticky'
       = f.hidden_field :course_id, value: params[:course_id]
-      = f.hidden_field :learning_room_id, value: params[:learning_room_id]
       = f.hidden_field :implicit_tags, value: @implicit_tags
       .mb10
         = t(:'pinboard.rule_hint')

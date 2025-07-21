@@ -66,8 +66,7 @@ module Xikolo
         question_path(
           id: object.id,
           course_id: options[:course_code],
-          section_id: options[:section_id],
-          learning_room_id: object.learning_room_id
+          section_id: options[:section_id]
         )
       end
 
@@ -83,10 +82,6 @@ module Xikolo
         object.implicit_tags.filter_map {|implicit_tag|
           options[:tags].find {|tag| tag.name == implicit_tag['name'] }
         }.map(&:id)
-      end
-
-      def in_learning_room_context?
-        object.learning_room_id.present?
       end
 
       def in_section_context?

@@ -62,12 +62,6 @@ class QuestionController < Abstract::FrontendController
     Acfs.run
     read_question
 
-    if @question.learning_room_id
-      @course_id = the_course.id
-    else
-      @course_id = @question.course_id
-    end
-
     # Lanalytics
     gon.question_id = @question.id
 
@@ -310,8 +304,7 @@ class QuestionController < Abstract::FrontendController
     # params that are not present (e.g. section_id) are ignored
     question_url_rfc6570.partial_expand(
       course_id: params[:course_id],
-      section_id: params[:section_id],
-      learning_room_id: params[:learning_room_id]
+      section_id: params[:section_id]
     ).to_s
   end
 
@@ -329,7 +322,6 @@ class QuestionController < Abstract::FrontendController
       :closed,
       :course_id,
       :implicit_tags,
-      :learning_room_id,
       :sticky,
       :text,
       :title,
@@ -386,8 +378,6 @@ class QuestionController < Abstract::FrontendController
   end
 
   def ensure_pinboard_enabled
-    return if in_learning_room_context?
-
     raise AbstractController::ActionNotFound unless the_course.pinboard_enabled
   end
 

@@ -192,7 +192,7 @@ class Account::SessionsController < Abstract::FrontendController
     if @in_app
       handle_mobile_application!
     else
-      target = if current_user.logged_in? && session[:saml_provider] != 'egovcampus'
+      target = if current_user.logged_in?
                  target_url(fallback: dashboard_profile_url)
                else
                  target_url

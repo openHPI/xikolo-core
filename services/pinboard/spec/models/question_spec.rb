@@ -9,21 +9,11 @@ describe Question, type: :model do
     expect(question).to be_valid
   end
 
-  it 'has a valid learning_room_question factory' do
-    expect(build(:learning_room_question)).to be_valid
-  end
-
   it 'has a valid question_with_accepted_answer factory' do
     expect(build(:question_with_accepted_answer)).to be_valid
   end
 
-  it 'is invalid with just a learning_room_id and no course_id' do
-    question.course_id = nil
-    question.learning_room_id = '00000001-ffff-4444-9999-000000000003'
-    expect(question).not_to be_valid
-  end
-
-  it 'is invalid with no course_id and no learning_room id' do
+  it 'is invalid with no course_id' do
     question.course_id = nil
     expect(question).not_to be_valid
   end
@@ -77,7 +67,6 @@ describe Question, type: :model do
             user_id: question.user_id,
             accepted_answer_id: question.accepted_answer_id,
             course_id: question.course_id,
-            learning_room_id: question.learning_room_id,
             discussion_flag: question.discussion_flag,
             votes: question.votes_sum,
             views: question.watch_count,
@@ -127,7 +116,6 @@ describe Question, type: :model do
             accepted_answer_id: accepted_answer.id,
             accepted_answer_user_id: accepted_answer.user_id,
             course_id: question.course_id,
-            learning_room_id: question.learning_room_id,
             discussion_flag: question.discussion_flag,
             created_at: question.created_at.iso8601,
             updated_at: question.updated_at.iso8601,
@@ -385,12 +373,6 @@ describe Question, type: :model do
       let(:question) { create(:question, course_id:) }
 
       it { is_expected.to eq question.course_id }
-    end
-
-    context 'with learning_room_id' do
-      let(:question) { create(:question, :learning_room, course_id:) }
-
-      it { is_expected.to eq course_id }
     end
   end
 

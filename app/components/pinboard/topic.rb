@@ -74,7 +74,6 @@ module Pinboard
       {
         course_id: @course_code, id: @topic['id']
       }.tap do |h|
-        h[:learning_room_id] = @topic['learning_room_id'] if @topic['learning_room_id'].present?
         h[:section_id] = @topic['section_id'] if @topic['section_id'].present?
       end
     end

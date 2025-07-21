@@ -43,7 +43,7 @@ const appendVoteFormData = (
   data.append(key, value);
 };
 
-type AnswerFields = 'accepted_answer_id' | 'course_id' | 'learning_room_id';
+type AnswerFields = 'accepted_answer_id' | 'course_id';
 
 const appendAnswerFormData = (
   data: FormData,

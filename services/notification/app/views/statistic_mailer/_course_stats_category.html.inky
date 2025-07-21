@@ -100,18 +100,6 @@
                       <td><%= cs.threads %></td>
                       <td><%= cs.threads_last_day %></td>
                     </tr>
-                    <% if @admin_statistic.course(cs.course_id)['has_collab_space'] %>
-                      <tr>
-                        <td><%= t('statistic_mail.course_info.posts_collab_spaces') %></td>
-                        <td><%= cs.posts_in_collab_spaces %></td>
-                        <td><%= cs.posts_last_day_in_collab_spaces %></td>
-                      </tr>
-                      <tr>
-                        <td><%= t('statistic_mail.course_info.threads_collab_spaces') %></td>
-                        <td><%= cs.threads_in_collab_spaces %></td>
-                        <td><%= cs.threads_last_day_in_collab_spaces %></td>
-                      </tr>
-                    <% end %>
                   </table>
                 <% end %>
               </columns>

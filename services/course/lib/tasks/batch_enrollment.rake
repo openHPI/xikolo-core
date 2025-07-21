@@ -91,11 +91,6 @@ namespace :users_csv do
     users_failed.each do |row|
       puts "Failed to enroll user #{row.to_a}"
     end
-
-    puts '------------------------------------------------------------'
-    puts 'To create collab spaces for users from csv file run:'
-    puts '------------------------------------------------------------'
-    puts 'xikolo-learning-room rake create_collabspaces CSV=/tmp/users.csv GROUP_SIZE=5'
   end
 end
 # rubocop:enable all

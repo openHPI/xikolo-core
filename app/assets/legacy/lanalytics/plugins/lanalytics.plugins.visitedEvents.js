@@ -55,10 +55,6 @@
           verb = 'visited_progress';
           resource = gon.course_id;
           resourceType = 'course';
-        } else if (/\/learning_rooms$/.test(path)) {
-          verb = 'visited_learning_rooms';
-          resource = gon.course_id;
-          resourceType = 'course';
         } else if (/\/announcements$/.test(path)) {
           verb = 'visited_announcements';
           resource = gon.course_id;

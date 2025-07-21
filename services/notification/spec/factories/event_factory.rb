@@ -4,7 +4,6 @@ FactoryBot.define do
   factory :event do
     key { 'news.announcement' }
     course_id
-    collab_space_id { nil }
     public { true }
     payload do
       {

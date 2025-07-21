@@ -98,7 +98,6 @@ class CourseDecorator < ApplicationDecorator
       show_on_stage:,
       stage_visual_url:,
       stage_statement:,
-      has_collab_space:,
       pinboard_enabled:,
       policy_url:,
       on_demand:,

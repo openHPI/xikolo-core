@@ -22,7 +22,6 @@ FactoryBot.define do
     invite_only { false }
     enrollment_delta { 0 }
     channel_id { nil }
-    has_collab_space { true }
     on_demand { true }
 
     trait :with_content_tree do
