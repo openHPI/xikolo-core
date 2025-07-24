@@ -2073,29 +2073,29 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@openhpi/quiz-recap@npm:^1.4.2":
-  version: 1.5.0
-  resolution: "@openhpi/quiz-recap@npm:1.5.0"
+"@openhpi/quiz-recap@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@openhpi/quiz-recap@npm:2.0.0"
   dependencies:
     "@fortawesome/fontawesome-svg-core": "npm:^6.5.2"
     "@fortawesome/free-regular-svg-icons": "npm:^6.5.2"
     "@fortawesome/free-solid-svg-icons": "npm:^6.5.2"
     "@fortawesome/react-fontawesome": "npm:^0.2.0"
-    react: "npm:^18.2.0"
-    react-dom: "npm:^18.2.0"
-  checksum: 10/7b16d2ad0aca1c795291c16b23bc7c5c095c7596e11a4704fbe59af650746cd83b6939923d07e99760cf7d545f9b1b53f5477027821701028d43262185f5b890
+  peerDependencies:
+    react: ^19.0.0
+    react-dom: ^19.0.0
+  checksum: 10/b2093bd85e7e75ca6bd260f0576a29536d89576da6967ee743d195c48d16732553224688d3c8b206141114c5cc22e0931dae92fa7926e9099e7a6ed2862c6af9
   languageName: node
   linkType: hard
 
-"@openhpi/xikolo-video-player@npm:^2.0.0":
-  version: 2.0.1
-  resolution: "@openhpi/xikolo-video-player@npm:2.0.1"
+"@openhpi/xikolo-video-player@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "@openhpi/xikolo-video-player@npm:2.0.2"
   dependencies:
     "@playkit-js/ovp-provider": "npm:^1.1.0"
-    "@playkit-js/playkit-js": "npm:^0.84.27"
+    "@playkit-js/playkit-js": "npm:^0.84.28"
     "@vimeo/player": "npm:2.27.1"
-    regenerator-runtime: "npm:^0.14.1"
-  checksum: 10/6b33329fc2d0ba081a8a784809a44264cb477781a6a3994cbd7487edb1f1d1d98bafe42d79fa1d58cf038dd530cc0add3ecd85514fb319e021cc0d96de6ba5d8
+  checksum: 10/3894d8d4ae67ca74e15c272e65a7486bd657c23f22baee1044e96e84d54e10c2a441df96b8ef556c33814b796c49872dda0ff3df7326dcf3ba9f28620a996ae4
   languageName: node
   linkType: hard
 
@@ -2141,14 +2141,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@playkit-js/playkit-js@npm:^0.84.27":
-  version: 0.84.28
-  resolution: "@playkit-js/playkit-js@npm:0.84.28"
+"@playkit-js/playkit-js@npm:^0.84.28":
+  version: 0.84.29
+  resolution: "@playkit-js/playkit-js@npm:0.84.29"
   dependencies:
     "@playkit-js/webpack-common": "npm:^1.0.3"
     js-logger: "npm:^1.6.0"
     ua-parser-js: "npm:^1.0.36"
-  checksum: 10/6f18a739038ab84f4a07584707630c35de3bc9d1156272b6801c0a08c036c82bf95b0bbfcf4cb6faeff1ed0176e74cacd311dc7dc673bc22fe5f410e312ed20c
+  checksum: 10/184bc1ff24db60d2702c6856fab43f429cc77e65ac281edaccfe0eeecb3cc66b5bc64777fe7cf2905dfc773c0643e9322220a06a293356df6a7e6b1f4c17b417
   languageName: node
   linkType: hard
 
@@ -2577,6 +2577,24 @@ __metadata:
   version: 1.2.7
   resolution: "@types/range-parser@npm:1.2.7"
   checksum: 10/95640233b689dfbd85b8c6ee268812a732cf36d5affead89e806fe30da9a430767af8ef2cd661024fd97e19d61f3dec75af2df5e80ec3bea000019ab7028629a
+  languageName: node
+  linkType: hard
+
+"@types/react-dom@npm:^19":
+  version: 19.1.6
+  resolution: "@types/react-dom@npm:19.1.6"
+  peerDependencies:
+    "@types/react": ^19.0.0
+  checksum: 10/b5b20b7f0797f34c5a11915b74dcf8b3b7a9da9fea90279975ce6f150ca5d31bb069dbb0838638a5e9e168098aa4bb4a6f61d078efa1bbb55d7f0bdfe47bb142
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:^19":
+  version: 19.1.8
+  resolution: "@types/react@npm:19.1.8"
+  dependencies:
+    csstype: "npm:^3.0.2"
+  checksum: 10/a3e6fe0f60f22828ef887f30993aa147b71532d7b1219dd00d246277eb7a9ca01ec533096237fa21ca1bccb3653373b4e8e59e5ae59f9c793058384bbc1f4d5c
   languageName: node
   linkType: hard
 
@@ -4444,6 +4462,13 @@ __metadata:
   dependencies:
     css-tree: "npm:~2.2.0"
   checksum: 10/4036fb2b9f8ed6b948349136b39e0b19ffb5edee934893a37b55e9a116186c4ae2a9d3ba66fbdbc07fa44a853fb478cd2d8733e4743473dcd364e7f21444ff34
+  languageName: node
+  linkType: hard
+
+"csstype@npm:^3.0.2":
+  version: 3.1.3
+  resolution: "csstype@npm:3.1.3"
+  checksum: 10/f593cce41ff5ade23f44e77521e3a1bcc2c64107041e1bf6c3c32adc5187d0d60983292fda326154d20b01079e24931aa5b08e4467cc488b60bb1e7f6d478ade
   languageName: node
   linkType: hard
 
@@ -7712,7 +7737,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"loose-envify@npm:^1.1.0, loose-envify@npm:^1.4.0":
+"loose-envify@npm:^1.4.0":
   version: 1.4.0
   resolution: "loose-envify@npm:1.4.0"
   dependencies:
@@ -10453,15 +10478,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:^18.2.0":
-  version: 18.3.1
-  resolution: "react-dom@npm:18.3.1"
+"react-dom@npm:^19.1.0":
+  version: 19.1.0
+  resolution: "react-dom@npm:19.1.0"
   dependencies:
-    loose-envify: "npm:^1.1.0"
-    scheduler: "npm:^0.23.2"
+    scheduler: "npm:^0.26.0"
   peerDependencies:
-    react: ^18.3.1
-  checksum: 10/3f4b73a3aa083091173b29812b10394dd06f4ac06aff410b74702cfb3aa29d7b0ced208aab92d5272919b612e5cda21aeb1d54191848cf6e46e9e354f3541f81
+    react: ^19.1.0
+  checksum: 10/c5b58605862c7b0bb044416b01c73647bb8e89717fb5d7a2c279b11815fb7b49b619fe685c404e59f55eb52c66831236cc565c25ee1c2d042739f4a2cc538aa2
   languageName: node
   linkType: hard
 
@@ -10472,12 +10496,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:^18.2.0":
-  version: 18.3.1
-  resolution: "react@npm:18.3.1"
-  dependencies:
-    loose-envify: "npm:^1.1.0"
-  checksum: 10/261137d3f3993eaa2368a83110466fc0e558bc2c7f7ae7ca52d94f03aac945f45146bd85e5f481044db1758a1dbb57879e2fcdd33924e2dde1bdc550ce73f7bf
+"react@npm:^19.1.0":
+  version: 19.1.0
+  resolution: "react@npm:19.1.0"
+  checksum: 10/d0180689826fd9de87e839c365f6f361c561daea397d61d724687cae88f432a307d1c0f53a0ee95ddbe3352c10dac41d7ff1ad85530fb24951b27a39e5398db4
   languageName: node
   linkType: hard
 
@@ -10538,13 +10560,6 @@ __metadata:
   version: 1.4.2
   resolution: "regenerate@npm:1.4.2"
   checksum: 10/dc6c95ae4b3ba6adbd7687cafac260eee4640318c7a95239d5ce847d9b9263979758389e862fe9c93d633b5792ea4ada5708df75885dc5aa05a309fa18140a87
-  languageName: node
-  linkType: hard
-
-"regenerator-runtime@npm:^0.14.1":
-  version: 0.14.1
-  resolution: "regenerator-runtime@npm:0.14.1"
-  checksum: 10/5db3161abb311eef8c45bcf6565f4f378f785900ed3945acf740a9888c792f75b98ecb77f0775f3bf95502ff423529d23e94f41d80c8256e8fa05ed4b07cf471
   languageName: node
   linkType: hard
 
@@ -10737,8 +10752,8 @@ __metadata:
     "@babel/runtime": "npm:^7.25.0"
     "@eslint/js": "npm:^9.17.0"
     "@github/relative-time-element": "npm:^4.4.5"
-    "@openhpi/quiz-recap": "npm:^1.4.2"
-    "@openhpi/xikolo-video-player": "npm:^2.0.0"
+    "@openhpi/quiz-recap": "npm:^2.0.0"
+    "@openhpi/xikolo-video-player": "npm:^2.0.2"
     "@rails/ujs": "npm:7.1.3-4"
     "@stoplight/cli": "npm:^6.0.2354"
     "@toast-ui/editor": "npm:^3.2.2"
@@ -10747,6 +10762,8 @@ __metadata:
     "@types/list.js": "npm:^2"
     "@types/luxon": "npm:^3.4.2"
     "@types/markdown-it": "npm:^14.0.1"
+    "@types/react": "npm:^19"
+    "@types/react-dom": "npm:^19"
     babel-loader: "npm:^10.0.0"
     browserslist: "npm:^4.23.2"
     compression-webpack-plugin: "npm:^11.1.0"
@@ -10779,6 +10796,8 @@ __metadata:
     postcss-preset-env: "npm:^10.0.0"
     postcss-scss: "npm:^4.0.9"
     prettier: "npm:3.6.2"
+    react: "npm:^19.1.0"
+    react-dom: "npm:^19.1.0"
     sass-embedded: "npm:^1.77.8"
     sass-loader: "npm:^16.0.0"
     stylelint: "npm:^16.0.0"
@@ -11079,12 +11098,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"scheduler@npm:^0.23.2":
-  version: 0.23.2
-  resolution: "scheduler@npm:0.23.2"
-  dependencies:
-    loose-envify: "npm:^1.1.0"
-  checksum: 10/e8d68b89d18d5b028223edf090092846868a765a591944760942b77ea1f69b17235f7e956696efbb62c8130ab90af7e0949bfb8eba7896335507317236966bc9
+"scheduler@npm:^0.26.0":
+  version: 0.26.0
+  resolution: "scheduler@npm:0.26.0"
+  checksum: 10/1ecf2e5d7de1a7a132796834afe14a2d589ba7e437615bd8c06f3e0786a3ac3434655e67aac8755d9b14e05754c177e49c064261de2673aaa3c926bc98caa002
   languageName: node
   linkType: hard
 
