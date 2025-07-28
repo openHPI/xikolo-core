@@ -89,7 +89,7 @@
                       = link_to t(:'pinboard.reporting.report'),
                           abuse_report_answer_path(id: answer.id),
                           method: 'post',
-                          data: {tooltip: t(:'pinboard.reporting.tooltip'), 'aria-label': t(:'pinboard.reporting.tooltip')},
+                          data: {confirm: t(:'pinboard.reporting.confirm'), tooltip: t(:'pinboard.reporting.tooltip'), 'aria-label': t(:'pinboard.reporting.tooltip')},
                           class: 'answer-report'
 
               .edit-post.hidden id="answer-edit-#{answer.id}"

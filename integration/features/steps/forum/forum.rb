@@ -330,14 +330,23 @@ module Steps
 
     When 'I report the topic' do
       page.find('.question-report').click
+      within_dialog do
+        click_on 'Yes, sure'
+      end
     end
 
     When 'I report the answer' do
       page.find('.answer-report').click
+      within_dialog do
+        click_on 'Yes, sure'
+      end
     end
 
     When 'I report the comment' do
       page.find('.comment-report').click
+      within_dialog do
+        click_on 'Yes, sure'
+      end
     end
 
     When 'I report the topic twice' do

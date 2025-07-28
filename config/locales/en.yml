@@ -3307,6 +3307,7 @@ en:
         other: "%{count} reports"
       unblock: review
       tooltip: Report inappropriate content
+      confirm: Are you sure you want to report this content?
       blocked: "[Blocked]"
       question_blocked: "[This post was blocked due to inappropriate content]"
       answer_blocked: "[This answer was blocked due to inappropriate content]"

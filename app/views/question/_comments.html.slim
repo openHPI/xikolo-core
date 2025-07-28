@@ -41,7 +41,7 @@
                 b.secondary-color =< "(#{t(:'pinboard.reporting.reports', count: comment.abuse_report_count)})"
 
           - elsif !comment.blocked?
-            = link_to abuse_report_comment_path(comment, commentable), method: 'post', data: {tooltip: t(:'pinboard.reporting.tooltip'), 'aria-label': t(:'pinboard.reporting.tooltip')}, class: 'comment-report' do
+            = link_to abuse_report_comment_path(comment, commentable), method: 'post', data: {confirm: t(:'pinboard.reporting.confirm'), tooltip: t(:'pinboard.reporting.tooltip'), 'aria-label': t(:'pinboard.reporting.tooltip')}, class: 'comment-report' do
               = render Global::FaIcon.new('flag', style: :solid)
               = t(:'pinboard.reporting.report')
 

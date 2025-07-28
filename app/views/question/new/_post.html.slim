@@ -28,7 +28,7 @@
       - unless post.reviewed?
         = link_to t(:'pinboard.reporting.unblock'), unblock_answer_path(id: post.id), method: 'post'
     - elsif !post.blocked?
-      = link_to t(:'pinboard.reporting.report'), abuse_report_answer_path(id: post.id), method: 'post', data: {tooltip: t(:'pinboard.reporting.tooltip'), 'aria-label': t(:'pinboard.reporting.tooltip')}
+      = link_to t(:'pinboard.reporting.report'), abuse_report_answer_path(id: post.id), method: 'post', data: {confirm: t(:'pinboard.reporting.confirm'), tooltip: t(:'pinboard.reporting.tooltip'), 'aria-label': t(:'pinboard.reporting.tooltip')}
 
   / TODO:
     - lanalytics events & context

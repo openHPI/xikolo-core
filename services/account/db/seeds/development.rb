@@ -12,7 +12,7 @@
 
 require 'xikolo/config'
 
-user_kevin_cool = User.create!(
+User.create!(
   id: '00000001-3100-4444-9999-000000000001',
   full_name: 'Kevin Cool Jr.',
   display_name: 'Kevin Cool',
@@ -284,23 +284,12 @@ User.find_each(&:update_profile_completion!)
   proctoring
   profile
   time_effort
-].each do |feature|
-  Feature.create!(
-    name: feature,
-    value: true,
-    owner: Group.all_users,
-    context: Context.root
-  )
-end
-
-# Feature Flippers for Kevin Cool
-%w[
   quiz_recap
 ].each do |feature|
   Feature.create!(
     name: feature,
     value: true,
-    owner: user_kevin_cool,
+    owner: Group.all_users,
     context: Context.root
   )
 end
