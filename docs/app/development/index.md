@@ -9,6 +9,7 @@ This section focuses on all aspects related to the development of the Xikolo pla
 - a guide on how to use [database migrations](best_practices/database_migrations.md),
 - our [testing best practices](testing/index.md) ,
 - the available [monitoring tools](monitoring/index.md),
+- information about [the application configuration](application_configuration/index.md)
 - and general workflows that apply to our development process, e.g. [code reviews](workflows/review/index.md).
 
 ## Staying up-to-date

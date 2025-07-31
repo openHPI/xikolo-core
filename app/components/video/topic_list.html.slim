@@ -44,6 +44,8 @@
         = f.input :title
         = f.input :text, as: :markdown
         = f.hidden_field :video_timestamp, value: 0
+        .mb10
+          = t(:'pinboard.rule_hint')
 
         = button_tag t(:'global.submit'), type: 'submit',
           class: 'btn btn-primary btn-sm mb15'
