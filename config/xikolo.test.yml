@@ -1,7 +1,7 @@
 csp:
   enabled: false
 locales:
-  available: [de, en, es, fr, nl, uk]
+  available: [de, en, fr, nl]
   default: en
 s3:
   buckets:

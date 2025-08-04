@@ -12,5 +12,4 @@ locales:
   available:
     - de
     - en
-    - es
   default: en

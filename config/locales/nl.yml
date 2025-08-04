@@ -2944,17 +2944,13 @@ nl:
       edit_translation:
         de: Bewerk Duitse vertaling "%{title}"
         en: Bewerk Engelse vertaling "%{title}"
-        es: Bewerk Spaanse vertaling "%{title}"
         fr: Bewerk Franse vertaling "%{title}"
         nl: Bewerk Vlaams vertaling "%{title}"
-        uk: Bewerk Oekraïens vertaling "%{title}"
       new_translation:
         de: Duitse vertaling toevoegen
         en: Engelse vertaling toevoegen
-        es: Spaanse vertaling toevoegen
         fr: Franse vertaling toevoegen
         nl: Vlaams vertaling toevoegen
-        uk: Oekraïens vertaling toevoegen
       last_changed: Deze pagina is voor het laatst gewijzigd op %{date}.
     not_found:
       message: Deze statische pagina is niet bekend. Controleer de URL / naam. Als de inhoud ontbreekt, kunt u nieuwe vertalingen maken.

@@ -2579,6 +2579,7 @@ de:
         tags:
           label: Tags
           placeholder: Tags auswählen
+          missing: Kursinhalt
         order: Sortieren nach
         sort:
           activity: Letzte Aktivität

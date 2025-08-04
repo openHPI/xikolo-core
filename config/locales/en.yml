@@ -3292,6 +3292,7 @@ en:
         tags:
           label: Tags
           placeholder: Select tags
+          missing: Course content
         order: Sort by
         sort:
           activity: Most recent activity
@@ -3909,17 +3910,13 @@ en:
       edit_translation:
         de: Edit German translation "%{title}"
         en: Edit English translation "%{title}"
-        es: Edit Spanish translation "%{title}"
         fr: Edit French translation "%{title}"
         nl: Edit Dutch translation "%{title}"
-        uk: Edit Ukrainian translation "%{title}"
       new_translation:
         de: Add German translation
         en: Add English translation
-        es: Add Spanish translation
         fr: Add French translation
         nl: Add Dutch translation
-        uk: Add Ukrainian translation
       last_changed: This page was last changed at %{date}.
     not_found:
       message: This static page is not known. Please check the URL / name. If the content is missing, you can create new translations.

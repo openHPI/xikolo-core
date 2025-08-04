@@ -17,7 +17,6 @@ describe 'Admin: Classifiers: Update', type: :request do
     attrs.merge(translations: {
       'en' => 'Classifier #1',
       'de' => 'Klassifikation #1',
-      'es' => 'Clasificador #1',
     })
   end
 
@@ -27,19 +26,19 @@ describe 'Admin: Classifiers: Update', type: :request do
     it 'updates the classifier and redirects to the cluster show view' do
       expect { update_classifier }.to change { classifier.reload.translations }
         .from(attrs[:translations])
-        .to({'en' => 'Classifier #1', 'de' => 'Klassifikation #1', 'es' => 'Clasificador #1'})
+        .to({'en' => 'Classifier #1', 'de' => 'Klassifikation #1'})
       expect(response).to redirect_to admin_cluster_path(classifier.cluster)
       expect(flash[:success].first).to eq 'The tag has been updated.'
     end
   end
 
   context 'when updating description translations' do
-    let(:params) { attrs.merge(descriptions: {'es' => 'Clasificador descripción #1'}) }
+    let(:params) { attrs.merge(descriptions: {'de' => 'Klassifikationsbeschreibung #1'}) }
 
     it 'updates the classifier and redirects to the cluster show view' do
       expect { update_classifier }.to change { classifier.reload.descriptions }
         .from(attrs[:descriptions])
-        .to({'es' => 'Clasificador descripción #1'})
+        .to({'de' => 'Klassifikationsbeschreibung #1'})
       expect(response).to redirect_to admin_cluster_path(classifier.cluster)
       expect(flash[:success].first).to eq 'The tag has been updated.'
     end
@@ -56,7 +55,7 @@ describe 'Admin: Classifiers: Update', type: :request do
   end
 
   context 'with a blank english translation' do
-    let(:params) { super().merge translations: {'de' => 'Klassifikation #1', 'es' => 'Clasificador #1'} }
+    let(:params) { super().merge translations: {'de' => 'Klassifikation #1'} }
 
     it 'displays an error message' do
       expect { update_classifier }.not_to change { classifier.reload.translations }

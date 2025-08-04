@@ -6,20 +6,20 @@ describe Translations do
   subject(:translations) { described_class.new hash }
 
   let(:hash) do
-    {de: 'Mikro-Lernen', es: 'Micro aprendizaje', en: 'Microlearning'}
+    {de: 'Mikro-Lernen', fr: 'Micro apprentissage', en: 'Microlearning'}
   end
 
   describe '#to_s' do
     subject(:string) { translations.to_s }
 
     it 'uses the current locale when the current locale is available' do
-      I18n.with_locale(:es) do
-        expect(string).to eq 'Micro aprendizaje'
+      I18n.with_locale(:fr) do
+        expect(string).to eq 'Micro apprentissage'
       end
     end
 
     it 'falls back to English when the current locale is not available' do
-      I18n.with_locale(:fr) do
+      I18n.with_locale(:nl) do
         expect(string).to eq 'Microlearning'
       end
     end
@@ -28,7 +28,7 @@ describe Translations do
       let(:hash) { super().except(:en) }
 
       it 'uses the first locale that can be found when the current locale is not available' do
-        I18n.with_locale(:fr) do
+        I18n.with_locale(:nl) do
           expect(string).to eq 'Mikro-Lernen'
         end
       end
@@ -54,23 +54,23 @@ describe Translations do
       let(:hash) { super().stringify_keys }
 
       it 'works like before' do
-        I18n.with_locale(:es) do
-          expect(string).to eq 'Micro aprendizaje'
+        I18n.with_locale(:fr) do
+          expect(string).to eq 'Micro apprentissage'
         end
       end
     end
 
     context 'with a specific locale preference' do
-      let(:translations) { described_class.new(hash, locale_preference: %w[de es]) }
+      let(:translations) { described_class.new(hash, locale_preference: %w[de en]) }
 
       it 'uses the defined locale preference even when the locale is available' do
-        I18n.with_locale(:es) do
+        I18n.with_locale(:fr) do
           expect(string).to eq 'Mikro-Lernen'
         end
       end
 
       it 'falls back to the first locale that can be found when the current locale is not available' do
-        I18n.with_locale(:fr) do
+        I18n.with_locale(:nl) do
           expect(string).to eq 'Mikro-Lernen'
         end
       end

@@ -35,9 +35,7 @@ export default async function entries() {
     // Locales
     'xikolo-locale-en': `i18n/translations/en.ts`,
     'xikolo-locale-de': `i18n/translations/de.ts`,
-    'xikolo-locale-es': `i18n/translations/es.ts`,
     'xikolo-locale-fr': `i18n/translations/fr.ts`,
     'xikolo-locale-nl': `i18n/translations/nl.ts`,
-    'xikolo-locale-uk': `i18n/translations/uk.ts`,
   };
 }

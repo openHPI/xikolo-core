@@ -12,9 +12,7 @@
 
 // Import locales
 import '@toast-ui/editor/dist/i18n/de-de';
-import '@toast-ui/editor/dist/i18n/es-es';
 import '@toast-ui/editor/dist/i18n/fr-fr';
-import '@toast-ui/editor/dist/i18n/uk-ua';
 
 import ToastUi from '@toast-ui/editor';
 import ToastUiType from '@toast-ui/editor/types/index';

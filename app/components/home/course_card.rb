@@ -190,8 +190,8 @@ module Home
 
       # Display the available languages in the desired format.
       # Example:
-      # - 4 or more languages: "DE, EN, ES, FR & 1 more"
-      # - Fewer languages: "DE, EN, ES"
+      # - 4 or more languages: "DE, EN, FR & 1 more"
+      # - Fewer languages: "DE, EN"
       subtitle_count = subtitle_languages.size
       if subtitle_count > 4
         I18n.t(

@@ -8,7 +8,7 @@ RSpec.describe 'Attribute Type: localized_attribute' do
     Class.new(XUI::Form) do
       self.form_name = 'test'
 
-      localized_attribute :s, :markup, locales: %i[en de es]
+      localized_attribute :s, :markup, locales: %i[en de]
     end
   end
 
@@ -37,7 +37,6 @@ RSpec.describe 'Attribute Type: localized_attribute' do
 
       expect(object.s_en).to be_nil
       expect(object.s_de).to be_nil
-      expect(object.s_es).to be_nil
       expect(object).to be_valid
     end
 
@@ -46,7 +45,6 @@ RSpec.describe 'Attribute Type: localized_attribute' do
 
       expect(object.s_en).to eq 'otto'
       expect(object.s_de).to eq 'hans'
-      expect(object.s_es).to be_nil
       expect(object).to be_valid
     end
   end
@@ -57,7 +55,6 @@ RSpec.describe 'Attribute Type: localized_attribute' do
 
       expect(object.s_en).to eq 'otto'
       expect(object.s_de).to eq 'hans'
-      expect(object.s_es).to be_nil
       expect(object).to be_valid
     end
 
@@ -66,7 +63,6 @@ RSpec.describe 'Attribute Type: localized_attribute' do
 
       expect(object.s_en).to be_nil
       expect(object.s_de).to be_nil
-      expect(object.s_es).to be_nil
       expect(object).to be_valid
     end
   end

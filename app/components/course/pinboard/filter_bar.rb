@@ -23,12 +23,23 @@ module Course
       def tags_filter
         return if @tags.blank?
 
-        tags = @tags.map do |tag|
-          [tag.name, tag.id]
+        Global::FilterBar::Filter.new(:tags, t(:'pinboard.index.filter.tags.label'), tags_options,
+          selected: params[:tags], multi_select: true, blank_option: t(:'pinboard.index.filter.tags.placeholder'))
+      end
+
+      def tags_options
+        tags = @tags.map {|tag| [tag.name, tag.id] }
+
+        # Add a fallback tag if they are specified in params
+        # We allow users to select tags that are not in the list
+        # by clicking on question info tags.
+        # See: app/assets/course/pinboard/filter.ts
+        missing_tag_ids = Array(params[:tags]) - @tags.map {|tag| tag.id.to_s }
+        missing_tag_ids.each do |missing_id|
+          tags << [t(:'pinboard.index.filter.tags.missing'), missing_id]
         end
 
-        Global::FilterBar::Filter.new(:tags, t(:'pinboard.index.filter.tags.label'), tags,
-          selected: params[:tags], multi_select: true, blank_option: t(:'pinboard.index.filter.tags.placeholder'))
+        tags
       end
 
       def order_filter

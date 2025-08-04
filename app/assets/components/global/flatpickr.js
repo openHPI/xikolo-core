@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
 import flatpickr from 'flatpickr';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { de, es, fr, nl, uk } from 'flatpickr/dist/l10n';
+import { de, fr, nl } from 'flatpickr/dist/l10n';
 import ready from 'util/ready';
 import getGMTOffset from '../../util/timeZoneOffset';
 import CustomButtonsPlugin from './flatpickr/customButtonsPlugin';

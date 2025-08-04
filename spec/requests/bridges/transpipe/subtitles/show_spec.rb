@@ -29,7 +29,7 @@ describe 'Transpipe API: Show subtitle', type: :request do
 
   describe 'authorization / error handling' do
     context 'when the video does not have the requested subtitle language' do
-      let(:language) { 'es' }
+      let(:language) { 'de' }
 
       it 'responds with 404 Not Found' do
         request

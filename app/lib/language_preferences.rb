@@ -112,13 +112,13 @@ class LanguagePreferences
     # The Accept-Language request HTTP header returns the language preferred by
     # the client. The http_accept_languages gem helps to parse the values and
     # returns an array of the user's preferred languages.
-    # Example: ["en-US", "en", "es-AR", "es", "de"]
+    # Example: ["en-US", "en", "de"]
     http_accept_languages = HttpAcceptLanguage::Parser.new(@request.env['HTTP_ACCEPT_LANGUAGE'])
 
     # Drop languages that are not available, e.g. via course subtitles.
     # If the language is a variant (e.g. "de-CH"), check for support for its
     # parent language (e.g., "de") before dropping it and removing duplicates.
-    # Result for the sample from above: ["en", "es", "de"]
+    # Result for the sample from above: ["en", "de"]
     compatible_languages_from(http_accept_languages.user_preferred_languages).uniq
   end
 

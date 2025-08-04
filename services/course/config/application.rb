@@ -54,7 +54,7 @@ module Xikolo::CourseService
     # Prepend all log lines with the following tags.
     config.log_tags = [:request_id]
 
-    config.i18n.available_locales = %i[de en es fr nl uk]
+    config.i18n.available_locales = %i[de en fr nl]
     config.i18n.default_locale = :en
     config.i18n.fallbacks = %i[en]
 

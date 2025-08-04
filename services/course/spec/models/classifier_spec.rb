@@ -20,20 +20,20 @@ describe Classifier, type: :model do
 
     it do
       expect(classifier).to accept_values_for :descriptions,
-        {en: 'Some description', es: 'Una descripción'},
-        {es: 'Sólo descripción en español'},
+        {en: 'Some description'},
         {}
     end
 
     it do
       expect(classifier).to accept_values_for :translations,
-        {en: 'English translation', es: 'Traducción español'}
+        {en: 'English translation'},
+        {en: 'English translation', de: 'Deutsche Übersetzung'}
     end
 
     it do
       expect(classifier).not_to accept_values_for :translations,
-        {},
-        {es: 'Sólo traducción al español'}
+        {de: 'Deutsche Übersetzung'},
+        {}
     end
   end
 

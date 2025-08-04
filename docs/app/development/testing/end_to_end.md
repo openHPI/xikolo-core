@@ -28,7 +28,7 @@ RAILS_ENV=production bundle exec rake assets:build
 RAILS_ENV=integration bundle exec rake db:prepare
 
 # Migrate permissions
-RAILS_ENV=integration bundle exec rake permissions:load
+SECRET_KEY_BASE_DUMMY=true RAILS_ENV=integration bundle exec rake permissions:load
 ```
 
 ### Run test scenarios

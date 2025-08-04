@@ -19,13 +19,13 @@ describe Cluster do
 
     it do
       expect(cluster).to accept_values_for :translations,
-        {en: 'English translation', es: 'Spanish translation'}
+        {en: 'English translation', de: 'Deutsche Übersetzung'}
     end
 
     it do
       expect(cluster).not_to accept_values_for :translations,
-        {},
-        {es: 'Spanish translation only'}
+        {de: 'Deutsche Übersetzung'},
+        {}
     end
   end
 

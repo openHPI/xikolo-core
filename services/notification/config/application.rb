@@ -68,7 +68,7 @@ module Xikolo::NotificationService
     # CSRF tokens on POST requests.
     config.action_controller.default_protect_from_forgery = false
 
-    config.i18n.available_locales = %i[de en es fr nl uk]
+    config.i18n.available_locales = %i[de en fr nl]
     config.i18n.default_locale = :en
     config.i18n.fallbacks = %i[en]
 
