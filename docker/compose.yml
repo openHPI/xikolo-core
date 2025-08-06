@@ -3,7 +3,6 @@ include:
   - path: compose.background.yml
   - path: compose.account.yml
   - path: compose.course.yml
-  - path: compose.grouping.yml
   - path: compose.news.yml
   - path: compose.notification.yml
   - path: compose.pinboard.yml

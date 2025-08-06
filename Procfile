@@ -1,6 +1,5 @@
 account: cd services/account && overmind start -p 3100
 course: cd services/course && overmind start -p 3300
-grouping: cd services/grouping && overmind start -p 5600
 news: cd services/news && overmind start -p 4300
 notification: cd services/notification && overmind start -p 3200
 pinboard: cd services/pinboard && overmind start -p 3500

@@ -29,7 +29,6 @@ target build {
     app = [
       "account",
       "course",
-      "grouping",
       "news",
       "nginx",
       "notification",

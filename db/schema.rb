@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_07_11_082454) do
+ActiveRecord::Schema[7.2].define(version: 2025_07_22_104501) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "pg_trgm"
@@ -128,13 +128,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_11_082454) do
     t.float "unhelpful_answer_score"
     t.string "attachment_uri"
     t.index ["question_id"], name: "index_answers_on_question_id"
-  end
-
-  create_table "assignment_rules", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "type"
-    t.uuid "user_test_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
   end
 
   create_table "authorizations", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
@@ -551,21 +544,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_11_082454) do
     t.index ["public"], name: "index_events_on_public"
   end
 
-  create_table "filters", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "field_name"
-    t.string "field_value"
-    t.string "operator"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-  end
-
-  create_table "filters_user_tests", primary_key: ["filter_id", "user_test_id"], force: :cascade do |t|
-    t.uuid "filter_id", null: false
-    t.uuid "user_test_id", null: false
-    t.index ["filter_id"], name: "index_filters_user_tests_on_filter_id"
-    t.index ["user_test_id"], name: "index_filters_user_tests_on_user_test_id"
-  end
-
   create_table "fixed_learning_evaluations", primary_key: ["user_id", "course_id"], force: :cascade do |t|
     t.uuid "user_id", null: false
     t.uuid "course_id", null: false
@@ -759,23 +737,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_11_082454) do
     t.datetime "updated_at", null: false
     t.index ["course_id", "name", "version"], name: "index_metadata_on_course_id_and_name_and_version", unique: true
     t.index ["course_id"], name: "index_metadata_on_course_id"
-  end
-
-  create_table "metrics", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "name"
-    t.boolean "wait", default: false
-    t.integer "wait_interval", default: 0
-    t.string "type"
-    t.string "distribution"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-  end
-
-  create_table "metrics_user_tests", primary_key: ["metric_id", "user_test_id"], force: :cascade do |t|
-    t.uuid "metric_id", null: false
-    t.uuid "user_test_id", null: false
-    t.index ["metric_id"], name: "index_metrics_user_tests_on_metric_id"
-    t.index ["user_test_id"], name: "index_metrics_user_tests_on_user_test_id"
   end
 
   create_table "news", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
@@ -1438,29 +1399,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_11_082454) do
     t.index ["course_id", "certificate_type"], name: "index_templates_on_course_id_and_certificate_type", unique: true
   end
 
-  create_table "test_groups", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "name"
-    t.float "ratio"
-    t.integer "index"
-    t.uuid "group_id"
-    t.uuid "user_test_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.text "confidence"
-    t.text "box_plot_data"
-    t.boolean "invalidated_flipper", default: false
-    t.integer "trials_count", default: 0
-    t.text "waiting_count"
-    t.text "mean"
-    t.text "change"
-    t.text "effect"
-    t.text "required_participants"
-    t.text "description", default: "", null: false
-    t.string "flippers", default: [], null: false, array: true
-    t.index ["group_id"], name: "index_test_groups_on_group_id"
-    t.index ["user_test_id"], name: "index_test_groups_on_user_test_id"
-  end
-
   create_table "thumbnails", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.string "file_uri"
     t.integer "start_time"
@@ -1520,26 +1458,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_11_082454) do
     t.index ["name"], name: "index_treatments_on_name", unique: true
   end
 
-  create_table "trial_results", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "trial_id"
-    t.uuid "metric_id"
-    t.boolean "waiting", default: false
-    t.float "result"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-  end
-
-  create_table "trials", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "user_id"
-    t.boolean "finished", default: false
-    t.uuid "user_test_id"
-    t.uuid "test_group_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.datetime "finish_time", precision: nil
-    t.index ["user_test_id", "user_id"], name: "index_trials_on_user_test_id_and_user_id", unique: true
-  end
-
   create_table "user_statuses", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
     t.uuid "context_id", null: false
@@ -1547,20 +1465,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_11_082454) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.index ["user_id", "context_id"], name: "index_user_statuses_on_user_id_and_context_id", unique: true
-  end
-
-  create_table "user_tests", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "name"
-    t.string "identifier"
-    t.text "description"
-    t.datetime "start_date", precision: nil
-    t.datetime "end_date", precision: nil
-    t.integer "max_participants"
-    t.uuid "course_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.integer "round_robin_counter", default: 0
-    t.boolean "round_robin", default: false
   end
 
   create_table "users", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|

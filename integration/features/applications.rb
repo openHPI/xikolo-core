@@ -34,9 +34,6 @@ Server.add :account,            name: 'account',
 Server.add :course,             name: 'course',
   roles: %i[rails db srv msgr sidekiq config integration],
   subpath: 'services/course'
-Server.add :grouping,           name: 'grouping',
-  roles: %i[rails db srv],
-  subpath: 'services/grouping'
 Server.add :news,               name: 'news',
   roles: %i[rails db srv msgr sidekiq config integration],
   subpath: 'services/news'

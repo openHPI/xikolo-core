@@ -2,7 +2,6 @@ production:
   services:
     account: <%= ENV['XIKOLO_SERVICE_ACCOUNT'] || 'http://localhost:3100' %>
     course: <%= ENV['XIKOLO_SERVICE_COURSE'] || 'http://localhost:3300' %>
-    grouping: <%= ENV['XIKOLO_SERVICE_GROUPING'] || 'http://localhost:5600' %>
     learnanalytics: <%= ENV['XIKOLO_SERVICE_LANALYTICS'] || 'http://localhost:5900' %>
     news: <%= ENV['XIKOLO_SERVICE_NEWS'] || 'http://localhost:4300' %>
     notification: <%= ENV['XIKOLO_SERVICE_NOTIFICATION'] || 'http://localhost:3200' %>
@@ -12,7 +11,6 @@ development:
   services:
     account: <%= ENV['XIKOLO_SERVICE_ACCOUNT'] || 'http://localhost:3100' %>
     course: <%= ENV['XIKOLO_SERVICE_COURSE'] || 'http://localhost:3300' %>
-    grouping: <%= ENV['XIKOLO_SERVICE_GROUPING'] || 'http://localhost:5600' %>
     learnanalytics: <%= ENV['XIKOLO_SERVICE_LANALYTICS'] || 'http://localhost:5900' %>
     news: <%= ENV['XIKOLO_SERVICE_NEWS'] || 'http://localhost:4300' %>
     notification: <%= ENV['XIKOLO_SERVICE_NOTIFICATION'] || 'http://localhost:3200' %>
@@ -22,7 +20,6 @@ test:
   services:
     account: http://localhost:3100
     course: http://localhost:3300
-    grouping: http://localhost:5600
     learnanalytics: http://localhost:5900
     news: http://localhost:4300
     notification: http://notification.xikolo.tld/

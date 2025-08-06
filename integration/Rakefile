@@ -300,13 +300,7 @@ task server: %w[config] do
     course: 3300,
     pinboard: 3500,
     quiz: 3800,
-    submission: 3900,
-    file: 4000,
-    log: 4200,
     news: 4300,
-    progress: 4900,
-    game: 5100,
-    grouping: 5600,
   }
 
   logger = MultiProcess::Logger.new $stdout, sys: true, collapse: false

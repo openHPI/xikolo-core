@@ -129,7 +129,6 @@ jobs:
         service:
           - account
           - course
-          - grouping
           - news
           - notification
           - pinboard

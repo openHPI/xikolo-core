@@ -22,8 +22,6 @@ These are divided into necessary and optional services:
 | **course-api**                     | Lists all courses and allows managing them.                                        |
 | **course-msgr**                    | Asynchronous messaging service for the course service.                             |
 | **course-sidekiq**                 | Background job processing with Sidekiq for the course service.                     |
-| **grouping-api**                   | Manages user groups (e.g., for A/B tests).                                         |
-| **grouping-sidekiq**               | Background job processing with Sidekiq for the grouping service.                   |
 | **lanalytics-api**                 | Provides detailed platform reports and statistics.                                 |
 | **lanalytics-msgr**                | Asynchronous messaging service for the lanalytics service.                         |
 | **lanalytics-sidekiq**             | Background job processing with Sidekiq for the lanalytics service.                 |
