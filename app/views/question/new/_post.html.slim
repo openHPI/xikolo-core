@@ -28,7 +28,7 @@
       - unless post.reviewed?
         = link_to t(:'pinboard.reporting.unblock'), unblock_answer_path(id: post.id), method: 'post'
     - elsif !post.blocked?
-      = link_to t(:'pinboard.reporting.report'), abuse_report_answer_path(id: post.id), method: 'post', data: {confirm: t(:'pinboard.reporting.confirm'), tooltip: t(:'pinboard.reporting.tooltip'), 'aria-label': t(:'pinboard.reporting.tooltip')}
+      = render Pinboard::ReportButton.new(path: abuse_report_answer_path(id: post.id), test_id: 'post-report')
 
   / TODO:
     - lanalytics events & context

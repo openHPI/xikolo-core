@@ -84,13 +84,7 @@
                         b.secondary-color =< "(#{t(:'pinboard.reporting.reports', count: answer.abuse_report_count)})"
 
                   - elsif !answer.blocked?
-                    span.action
-                      = render Global::FaIcon.new('flag', style: :solid)
-                      = link_to t(:'pinboard.reporting.report'),
-                          abuse_report_answer_path(id: answer.id),
-                          method: 'post',
-                          data: {confirm: t(:'pinboard.reporting.confirm'), tooltip: t(:'pinboard.reporting.tooltip'), 'aria-label': t(:'pinboard.reporting.tooltip')},
-                          class: 'answer-report'
+                    = render Pinboard::ReportButton.new(path: abuse_report_answer_path(id: answer.id), test_id: 'answer-report')
 
               .edit-post.hidden id="answer-edit-#{answer.id}"
 

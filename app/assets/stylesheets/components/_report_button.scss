@@ -1,0 +1,21 @@
+.report-button {
+  display: inline-flex;
+  align-items: baseline;
+  color: $gray-600;
+  cursor: pointer;
+
+  .report-button__icon {
+    margin-right: 3px;
+    color: $gray-500;
+  }
+
+  &.report-button:hover,
+  &.report-button:focus {
+    color: $gray-900;
+    text-decoration: none;
+
+    .report-button__icon {
+      color: $gray-900;
+    }
+  }
+}
