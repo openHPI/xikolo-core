@@ -30,10 +30,6 @@
                     = t(:'admin.announcements.index.created_on', date: draft.created_at)
                 td
                   .announcement__actions
-                    => link_to t(:'admin.announcements.index.publish_site'),
-                      '#',
-                      class: 'btn btn-default btn-xs',
-                      onclick: "alert('Coming soon')"
                     => link_to t(:'admin.announcements.index.publish_email'),
                       draft.email_create_path,
                       class: 'btn btn-default btn-xs'
@@ -60,21 +56,16 @@
                       = t(:'admin.announcements.index.published_site')
                     span
                       = link_to t(:'admin.announcements.index.view_post'), announcement.blog_path
-                  - else
-                    => link_to t(:'admin.announcements.index.publish_site'),
-                      '#',
-                      class: 'btn btn-default btn-xs',
-                      onclick: "alert('Coming soon')"
                 td
                   - if announcement.email?
                     span.announcement__status__text
                       = announcement.email_status
-                    span
+                    span.announcement__actions
                       = link_to t(:'admin.announcements.index.view_statistics'), announcement.email_stats_path
                   - else
                     => link_to t(:'admin.announcements.index.publish_email'),
                       announcement.email_create_path,
-                      class: 'btn btn-default btn-xs'
+                      class: 'announcement__actions btn btn-default btn-xs'
 
         / Uncomment when xi-news endpoint filters are implemented and used
         /= will_paginate @published.pagination, renderer: PaginationRenderer

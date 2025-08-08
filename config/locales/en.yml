@@ -1000,7 +1000,6 @@ en:
         published: Published
         published_empty: No announcement has been published so far.
         created_on: "created on %{date}"
-        publish_site: Publish on site
         publish_email: Publish via email
         published_site: Published on site.
         view_post: View post
