@@ -27,8 +27,4 @@ class Account::ConsentsController < Abstract::AjaxController
   def user
     @user ||= account_api.rel(:user).get({id: current_user.id}).value!
   end
-
-  def account_api
-    @account_api ||= Xikolo.api(:account).value!
-  end
 end

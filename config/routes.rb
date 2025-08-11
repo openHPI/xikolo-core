@@ -140,6 +140,10 @@ Rails.application.routes.draw do
   resources :courses, only: %i[create update new edit destroy], module: 'admin'
   namespace :admin do
     scope module: :ajax do
+      get 'platform_statistics/learners_and_enrollments', to: 'platform_statistics#learners_and_enrollments'
+      get 'platform_statistics/activity', to: 'platform_statistics#activity'
+      get 'platform_statistics/certificates', to: 'platform_statistics#certificates'
+
       resources :streams, only: :index
       get '/find_courses', to: 'courses#index', constraints: ->(r) { r.xhr? }
       get '/find_users', to: 'users#index', constraints: ->(r) { r.xhr? }
@@ -154,12 +158,7 @@ Rails.application.routes.draw do
   post 'polls/:id/vote', to: 'polls#vote', as: :vote_poll
 
   scope path: 'admin/statistics', module: 'admin', as: :admin_statistics do
-    get 'activity', to: 'statistics#activity', as: :activity
-    get 'courses', to: 'statistics#courses', as: :courses
-    get 'geo', to: 'statistics#geo', as: :geo
     get 'news', to: 'statistics#news', as: :news
-    get 'referrer', to: 'statistics#referrer', as: :referrer
-    get 'social', to: 'statistics#social', as: :social
   end
   scope '/courses/:course_id/statistics', module: 'course/admin', as: :course_statistics do
     get 'activity', to: 'statistics#activity', as: :activity

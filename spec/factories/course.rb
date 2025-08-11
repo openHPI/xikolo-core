@@ -320,6 +320,66 @@ FactoryBot.define do
     initialize_with { attributes.as_json }
   end
 
+  factory 'course:activity:statistics', class: Hash do
+    activity do
+      {'name' => 'active_user_count',
+      'available' => true,
+      'datasources' => ['exp_events_elastic'],
+      'description' => 'The number of distinct active users. The default time range is 30 minutes.',
+      'required_params' => [],
+      'optional_params' => %w[start_date end_date course_id resource_id]}
+    end
+    initialize_with { attributes.as_json }
+  end
+
+  factory 'course:cerfiticate:statistics', class: Hash do
+    certificates do
+      {'name' => 'certificates',
+      'available' => true,
+      'datasources' => ['exp_events_elastic'],
+      'description' => 'Returns the number of gained certificates.',
+      'required_params' => [],
+      'optional_params' => %w[course_id start_date end_date]}
+    end
+
+    certificate_amounts do
+      {'record_of_achievement' => 0, 'confirmation_of_participation' => 0, 'qualified_certificate' => 0}
+    end
+    initialize_with { attributes.as_json }
+  end
+
+  factory 'course:enrollment:statistics', class: Hash do
+    account do
+      {
+        'confirmed_users' => 217,
+      'confirmed_users_last_day' => 0,
+      'confirmed_users_last_7days' => 0,
+      'unconfirmed_users' => 3,
+      'unconfirmed_users_last_day' => 0,
+      'users_deleted' => 0,
+      'users_with_suspended_email' => 0,
+      }
+    end
+
+    course do
+      {
+        'platform_current_enrollments' => 217,
+      'platform_last_day_enrollments' => 0,
+      'platform_enrollments' => 217,
+      'platform_last_7days_enrollments' => 0,
+      'platform_last_day_unique_enrollments' => 0,
+      'platform_enrollment_delta_sum' => 0,
+      'platform_total_certificates' => 0,
+      'unenrollments' => 0,
+      'platform_custom_completed' => 0,
+      'courses_count' => 0,
+      'certificates_count' => 0,
+      'quantile_count' => 0,
+      }
+    end
+    initialize_with { attributes.as_json }
+  end
+
   factory :course_legacy, class: 'Course::Course' do
     sequence(:course_code) {|n| "course_legacy_#{n}" }
   end

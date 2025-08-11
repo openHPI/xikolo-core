@@ -15,12 +15,6 @@ module Admin
 
         render json: users.map {|u| {id: u['id'], text: "#{u['name']} (#{u['email']})"} }
       end
-
-      private
-
-      def account_api
-        @account_api ||= Xikolo.api(:account).value!
-      end
     end
   end
 end

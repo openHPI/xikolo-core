@@ -12,7 +12,7 @@
     .col-md-12
       h2 = t(:'.kpis.title')
 
-      ajax-wrapper data-url='/api/v2/statistics/platform_dashboard/learners_and_enrollments.json' lazy-load='true'
+      ajax-wrapper data-url='/admin/platform_statistics/learners_and_enrollments' lazy-load='true'
         h3
           = t(:'.kpis.enrollments.title')
         .kpi-container
@@ -27,14 +27,14 @@
 
       h3
         = t(:'.kpis.activity.title')
-      ajax-wrapper data-url='/api/v2/statistics/platform_dashboard/activity.json' lazy-load='true'
+      ajax-wrapper data-url='/admin/platform_statistics/activity' lazy-load='true'
         .kpi-container
           = render partial: 'admin/shared/kpi_score_card', locals: {name: (t '.kpis.activity.active_learners_last_24h'), data_key: 'count_24h', icon: 'far fa-clock', css_class: 'kpi-item'}
           = render partial: 'admin/shared/kpi_score_card', locals: {name: (t '.kpis.activity.active_learners_last_7days'), data_key: 'count_7days', icon: 'far fa-calendar-alt', css_class: 'kpi-item'}
 
       h3
         = t(:'admin.course_management.dashboard.kpis.certificates.title')
-      ajax-wrapper data-url="/api/v2/statistics/platform_dashboard/certificates.json" lazy-load='true'
+      ajax-wrapper data-url='/admin/platform_statistics/certificates' lazy-load='true'
         .kpi-container
           .kpi-item
             = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.certificates.roa'), data_key: 'roa_count', icon: 'fa fa-file-contract'}

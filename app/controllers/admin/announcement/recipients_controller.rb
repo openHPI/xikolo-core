@@ -11,7 +11,7 @@ class Admin::Announcement::RecipientsController < Abstract::AjaxController
       expires_in: 30.minutes,
       race_condition_ttl: 10.seconds
     ) do
-      account_service.rel(:users).get({query: params[:q]}).value!
+      account_api.rel(:users).get({query: params[:q]}).value!
     end
 
     user_recipients = users.map do |user|
@@ -48,7 +48,7 @@ class Admin::Announcement::RecipientsController < Abstract::AjaxController
       expires_in: 1.hour,
       race_condition_ttl: 10.seconds
     ) do
-      account_service.rel(:groups).get({tag: 'access'}).value!
+      account_api.rel(:groups).get({tag: 'access'}).value!
     end
 
     access_groups = groups.map do |group|
@@ -64,7 +64,7 @@ class Admin::Announcement::RecipientsController < Abstract::AjaxController
       expires_in: 30.minutes,
       race_condition_ttl: 10.seconds
     ) do
-      account_service.rel(:groups).get({prefix: "course.#{params[:q]}", tag: 'content_test'}).value!
+      account_api.rel(:groups).get({prefix: "course.#{params[:q]}", tag: 'content_test'}).value!
     end
 
     content_test_groups = content_test_groups.map do |group|
@@ -80,7 +80,7 @@ class Admin::Announcement::RecipientsController < Abstract::AjaxController
       expires_in: 30.minutes,
       race_condition_ttl: 10.seconds
     ) do
-      account_service.rel(:groups).get({tag: 'custom_recipients'}).value!
+      account_api.rel(:groups).get({tag: 'custom_recipients'}).value!
     end
 
     custom_recipients_groups = custom_recipients_groups.map do |group|
@@ -93,11 +93,5 @@ class Admin::Announcement::RecipientsController < Abstract::AjaxController
 
     render json: [access_groups, course_recipients, user_recipients, content_test_groups,
                   custom_recipients_groups].flatten
-  end
-
-  private
-
-  def account_service
-    @account_service ||= Xikolo.api(:account).value!
   end
 end

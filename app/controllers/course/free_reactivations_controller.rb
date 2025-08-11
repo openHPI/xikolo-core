@@ -40,8 +40,4 @@ class Course::FreeReactivationsController < Abstract::AjaxController
       submission_date: CourseReactivation.config('period').weeks.from_now.iso8601,
     }).value!
   end
-
-  def course_api
-    @course_api ||= Xikolo.api(:course).value!
-  end
 end

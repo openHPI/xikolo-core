@@ -18,12 +18,6 @@ module Admin
 
         render json: courses.map {|c| {id: c['id'], text: "#{c['title']} (#{c['course_code']})"} }
       end
-
-      private
-
-      def course_api
-        @course_api ||= Xikolo.api(:course).value!
-      end
     end
   end
 end

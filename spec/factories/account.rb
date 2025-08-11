@@ -75,6 +75,8 @@ FactoryBot.define do
 
     policies_url { '/policies' }
 
+    statistics_url { '/statistics' }
+
     authorizations_url { '/authorizations' }
 
     group_url { '/groups/{id}' }
