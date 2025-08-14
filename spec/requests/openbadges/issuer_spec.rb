@@ -72,10 +72,12 @@ RSpec.describe 'OpenBadge: Issuer', type: :request do
 
         context 'with a default locale without existing translation' do
           before do
+            I18n.available_locales += [:it]
+
             xi_config <<~YML
               locales:
-                available: ['de', 'fr']
-                default: fr
+                available: ['de', 'it']
+                default: it
             YML
           end
 

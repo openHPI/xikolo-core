@@ -4,7 +4,7 @@
 
 # Overridden until XI-4438 is fixed
 locales:
-  available: [de, en, fr, nl]
+  available: [de, en]
   default: en
 
 # The SMTP server where outgoing emails should be delivered
@@ -27,7 +27,7 @@ beta_features:
   # File management with versions and tags
   documents: false
   # Statistics about teaching team pinboard usage in the course dashboard
-  teaching_team_pinboard_activity: false
+  teaching_team_pinboard_activity: true
 
 # Configurable Cookie Consents.
 # The application will display a banner requesting for user permission to setup a cookie for each of the
@@ -116,7 +116,7 @@ course_details:
 # Which languages can be selected for course content? These will also be
 # available for filtering in the course list.
 # NOTE: Platform locales are not automatically part of this list.
-course_languages: [de, en, fr]
+course_languages: [de, en]
 
 # List of custom fields for which the statistics should be shown on
 # the course dashboard. The values must be the names of the

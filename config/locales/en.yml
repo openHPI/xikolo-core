@@ -1340,9 +1340,6 @@ en:
             title: Forum # Do not translate
             posts: Posts # Do not translate
             threads: Topics # Do not translate
-            posts_last_day: Posts (last 24 hours) # Do not translate
-            threads_last_day: Topics (last 24 hours) # Do not translate
-            forum_activity: Learners used the Forum # Do not translate
             forum_write_activity: Learners posted in Forum # Do not translate
           certificates: # Do not translate
             title: Certificates # Do not translate
@@ -1357,15 +1354,6 @@ en:
             consumption_rate_at_end_explanation: ratio based on shows at end # Do not translate
             consumption_rate_after_end_explanation: ratio based on shows after end # Do not translate
             consumption_rate_current_explanation: ratio based on all shows # Do not translate
-          open_badges: # Do not translate
-            title: Open Badges # Do not translate
-            badge_issues: Issued Badges # Do not translate
-            badge_downloads: Downloaded Badges # Do not translate
-            badge_shares: Shared Badges # Do not translate
-          bookings: # Do not translate
-            title: Bookings # Do not translate
-            proctorings: Proctorings # Do not translate
-            reactivations: Reactivations # Do not translate
           helpdesk: # Do not translate
             title: Helpdesk # Do not translate
             ticket_count: Total Tickets # Do not translate
@@ -1380,22 +1368,8 @@ en:
             shows_at_middle_rate_explanation: ratio based on enrollments at middle # Do not translate
             shows_at_end_rate_explanation: ratio based on enrollments at end # Do not translate
           misc: # Do not translate
-            title: Miscellaneous # Do not translate
             item_visits: Item Visits # Do not translate
             video_plays: Videos Played by Users # Do not translate
-            downloads: Video Asset Downloads # Do not translate
-            rich_text_link_clicks: Link Clicks in Text Items # Do not translate
-            recent_news_progress: # Do not translate
-              name: Recent News Progress # Do not translate
-              state_text: # Do not translate
-                text_sending: sending # Do not translate
-                text_preparing: preparing # Do not translate
-                text_success: success # Do not translate
-                text_disabled: disabled # Do not translate
-                text_error: error # Do not translate
-                text_sent: sent # Do not translate
-                text_failed: failed # Do not translate
-            course_social_shares: Course Social Shares # Do not translate
         stats_over_time: # Do not translate
           title: Historic Data # Do not translate
           start_date: "Course started at %{start_date}, which is marked as a dashed vertical line in the following charts." # Do not translate
@@ -1414,25 +1388,16 @@ en:
             posts: Posts # Do not translate
             topics: Topics # Do not translate
             helpdesk_tickets: Helpdesk tickets # Do not translate
-        geo: # Do not translate
-          title: User Locations # Do not translate
         client_usage: # Do not translate
           title: Client Usage # Do not translate
           learners_tooltip: Users # Do not translate
           label_desktop_web: Desktop Web # Do not translate
           label_mobile_web: Mobile Web # Do not translate
           label_mobile_app: App # Do not translate
-        referrers: # Do not translate
-          title: Top Traffic Sources # Do not translate
         age: # Do not translate
           title: Age Distribution # Do not translate
           course: Course # Do not translate
           platform: Platform # Do not translate
-        weekday_activity: # Do not translate
-          title: Users by Hour of Weekday # Do not translate
-          axis_title_day: Weekday # Do not translate
-          axis_title_hour: Hour # Do not translate
-          active_users_tooltip: active users on average # Do not translate
       policy_url: Policy URL
 
     dashboard:
@@ -1460,7 +1425,6 @@ en:
             active_learners_last_24h: Active Learners (last 24 hours) # Do not translate
             active_learners_last_7days: Active Learners (last 7 days) # Do not translate
           misc: # Do not translate
-            title: Miscellaneous # Do not translate
             recent_news_progress: # Do not translate
               global_news_name: Recent Global News Progress # Do not translate
               course_news_name: Recent Course News Progress # Do not translate
@@ -1472,7 +1436,6 @@ en:
                 text_error: error # Do not translate
                 text_sent: sent # Do not translate
                 text_failed: failed # Do not translate
-            course_social_shares: Course Social Shares # Do not translate
         geo: # Do not translate
           title: User Locations (Last Month) # Do not translate
         client_usage: # Do not translate
@@ -1485,11 +1448,6 @@ en:
           title: Top Traffic Sources # Do not translate
         age: # Do not translate
           title: Age Distribution # Do not translate
-        weekday_activity: # Do not translate
-          title: Users by Hour of Weekday (Last Month) # Do not translate
-          axis_title_day: Weekday # Do not translate
-          axis_title_hour: Hour # Do not translate
-          active_users_tooltip: active users on average # Do not translate
     statistics: # Do not translate
       no_data_message: No data available # Do not translate
       activity: # Do not translate
@@ -1501,7 +1459,6 @@ en:
           active_users_tooltip: active users # Do not translate
       item_visits: # Do not translate
         title: Item Visits # Do not translate
-        per_item_title: Per Item # Do not translate
         per_type_title: Per Type # Do not translate
         item_title_header: Item # Do not translate
         position_header: Position # Do not translate
@@ -1539,18 +1496,6 @@ en:
         transcript_downloads_header: Transcript Downloads (by Unique Users) # Do not translate
         actions_header: Actions # Do not translate
         copy_id: Copy ID # Do not translate
-      rich_texts: # Do not translate
-        title: Text Items # Do not translate
-        link_clicks: Link Clicks # Do not translate
-        item_title_header: Item # Do not translate
-        position_header: Position # Do not translate
-        total_clicks_header: Total Clicks # Do not translate
-        total_clicks_unique_users_header: By Unique Users # Do not translate
-        earliest_timestamp_header: Earliest Click # Do not translate
-        latest_timestamp_header: Latest Click # Do not translate
-        actions_header: Actions # Do not translate
-        copy_id: Copy ID # Do not translate
-        link_header: Link # Do not translate
       quiz: # Do not translate
         title: Quiz Statistics # Do not translate
         graded: Graded Quizzes # Do not translate
@@ -1866,28 +1811,11 @@ en:
         title: Announcement Statistics # Do not translate
       pinboard: # Do not translate
         title: Forum Statistics # Do not translate
-        teaching_team: # Do not translate
-          title: Teaching team activity # Do not translate
         most_active: # Do not translate
           title: Most active users # Do not translate
         member_header: Member # Do not translate
         posts_header: Posts # Do not translate
         threads_header: Topics # Do not translate
-      referrer: # Do not translate
-        title: Referrer Statistics # Do not translate
-        site_header: Traffic Source (Referrer URL) # Do not translate
-        count_header: Count # Do not translate
-      social: # Do not translate
-        title: Social Shares # Do not translate
-        course_shares: # Do not translate
-          7days: # Do not translate
-            title: Course Shares (Last 7 Days, Top 25) # Do not translate
-          30days: # Do not translate
-            title: Course Shares (Last 30 Days, Top 25) # Do not translate
-          total: # Do not translate
-            title: Course Shares (Total, Top 25) # Do not translate
-          service_header: Service # Do not translate
-          count_header: Count # Do not translate
       tooltip: # Do not translate
         position_column: "The 'Position' column is composed of the position of the (a) section in the course and (b) item in the section, separated by a point (a.b)." # Do not translate
         hls_column: "'HLS Video Downloads' are only available in the native mobile apps." # Do not translate
@@ -2117,15 +2045,10 @@ en:
         item_visits: Item visits
         videos: Videos
         downloads: Downloads
-        rich_texts: Text items
-        quizzes: Quizzes
         item_details: Item details
         forum_stats: Forum
-        activity: Activity
         geo: Geographic
         announcements: Announcements
-        social: Social shares
-        referrers: Referrers
         content: Structure & Content
         lti: LTI providers
         transpipe: Subtitles (in TransPipe)
@@ -3909,13 +3832,9 @@ en:
       edit_translation:
         de: Edit German translation "%{title}"
         en: Edit English translation "%{title}"
-        fr: Edit French translation "%{title}"
-        nl: Edit Dutch translation "%{title}"
       new_translation:
         de: Add German translation
         en: Add English translation
-        fr: Add French translation
-        nl: Add Dutch translation
       last_changed: This page was last changed at %{date}.
     not_found:
       message: This static page is not known. Please check the URL / name. If the content is missing, you can create new translations.

@@ -36,12 +36,12 @@ RSpec.describe Locale, type: :controller do
   before do
     # This specs depend on some locales been available
     # Do sanity check here and abort if they are missing.
-    expect(Xikolo.config.locales['available']).to include('en', 'de', 'fr')
+    expect(Xikolo.config.locales['available']).to include('en', 'de')
 
     # We also expect a few locales to *not* be available
     # to test for negative matches. These must be changed if the
     # locale becomes available.
-    expect(Xikolo.config.locales['available']).not_to include('fi')
+    expect(Xikolo.config.locales['available']).not_to include('fi', 'fr', 'nl', 'es', 'uk', 'it')
 
     # Inject HTTP header for contention negotiation
     request.env['HTTP_ACCEPT_LANGUAGE'] = accept_language
@@ -64,7 +64,7 @@ RSpec.describe Locale, type: :controller do
         xi_config <<~YML
           locales:
             default: de
-            available: [de, en, fr]
+            available: [de, en]
         YML
       end
 
@@ -150,7 +150,7 @@ RSpec.describe Locale, type: :controller do
           end
         end
 
-        let(:params) { {locale: 'fr', lang: 'de'} }
+        let(:params) { {locale: 'it', lang: 'de'} }
 
         it { is_expected.to eq 'de' }
       end

@@ -15,8 +15,8 @@ class LanguagePreferences
   #
   # Example:
   # - Preferred languages: ["en", "de"]
-  # - Available languages: ["en", "de", "fr"]
-  # - Output: ["en", "de", "fr"]
+  # - Available languages: ["en", "de"]
+  # - Output: ["en", "de"]
   #
   # @return [Array<String>] A list of available languages sorted with user-preferred languages first.
   def sort
@@ -35,13 +35,11 @@ class LanguagePreferences
   #
   # Example:
   # - Preferred languages: ["en", "de"]
-  # - Available languages: ["en", "de", "fr"]
+  # - Available languages: ["en", "de"]
   # - Output:
   #   [
   #     "English (English)",
-  #     "German (Deutsch)",
-  #     "---",
-  #     "French (Français)"
+  #     "German (Deutsch)"
   #   ]
   #
   # Notes:
@@ -88,7 +86,7 @@ class LanguagePreferences
   # Example:
   # - User's preferred language: "en"
   # - HTTP `Accept-Language`: ["en-US", "en", "de"]
-  # - Available languages: ["en", "de", "fr"]
+  # - Available languages: ["en", "de"]
   #
   # Result: ["en", "en-US", "de"]
   #

@@ -95,10 +95,6 @@ RSpec.describe 'Page: Show', type: :request do
       expect(response.body).to include('English Text')
       expect(response.body).to include('last changed')
 
-      # "Add" for missing translations
-      expect(response.body).to include 'Add French translation'
-      expect(response.body).to include 'Add Dutch translation'
-
       # "Edit" for existing translations
       expect(response.body).to include 'Edit German translation "Deutscher Titel"'
       expect(response.body).to include 'Edit English translation "English Title"'
@@ -115,18 +111,14 @@ RSpec.describe 'Page: Show', type: :request do
       # "Add" for missing translations
       expect(response.body).to include 'Add German translation'
       expect(response.body).to include 'Add English translation'
-      expect(response.body).to include 'Add French translation'
-      expect(response.body).to include 'Add Dutch translation'
     end
 
     it 'shows the oldest translation with the correct buttons when only non-default translations exist' do
       create(:page, name: 'imprint', locale: 'de', title: 'German Title', created_at: 1.day.ago)
-      create(:page, name: 'imprint', locale: 'fr', title: 'French Title', created_at: 3.days.ago)
-      create(:page, name: 'imprint', locale: 'nl', title: 'Dutch Title', created_at: 2.days.ago)
 
       get('/pages/imprint', headers:)
 
-      expect(response.body).to include '<title>French Title'
+      expect(response.body).to include '<title>German Title'
       expect(response.body).to include 'last changed'
 
       expect(response.body).not_to include 'We are sorry, but the page you are looking for could not be found'
@@ -137,8 +129,6 @@ RSpec.describe 'Page: Show', type: :request do
 
       # "Edit" for existing translations
       expect(response.body).to include 'Edit German translation "German Title"'
-      expect(response.body).to include 'Edit Dutch translation "Dutch Title"'
-      expect(response.body).to include 'Edit French translation "French Title"'
     end
   end
 end

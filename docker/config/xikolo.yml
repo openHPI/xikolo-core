@@ -38,7 +38,7 @@ s3:
     # http_continue_timeout: 0
 
 locales:
-  available: [de, en, fr, nl]
+  available: [de, en]
   default: en
 
 course_details:

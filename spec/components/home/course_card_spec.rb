@@ -494,14 +494,13 @@ describe Home::CourseCard, type: :component do
         video_item
         video.subtitles << create(:video_subtitle, lang: 'en')
         video.subtitles << create(:video_subtitle, lang: 'de')
-        video.subtitles << create(:video_subtitle, lang: 'fr')
       end
 
       it 'displays the course language and the number of subtitles available' do
         render_inline(component)
 
         expect(page).to have_css "[aria-label='Course language']", text: 'en'
-        expect(page).to have_css "[aria-label='Available subtitles']", text: 'de, en, fr'
+        expect(page).to have_css "[aria-label='Available subtitles']", text: 'de, en'
       end
 
       context 'with more than four subtitles' do
@@ -517,7 +516,7 @@ describe Home::CourseCard, type: :component do
           render_inline(component)
 
           expect(page).to have_css "[aria-label='Course language']", text: 'en'
-          expect(page).to have_css "[aria-label='Available subtitles']", text: 'cn, de, en, es + 2 more'
+          expect(page).to have_css "[aria-label='Available subtitles']", text: 'cn, de, en, es + 1 more'
         end
       end
     end

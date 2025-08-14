@@ -20,7 +20,6 @@ module Steps
 
       expect(page).to have_content 'Example blurb english'
       expect(page).to have_content 'Example blurb deutsch'
-      expect(page).to have_content 'Example blurb francais'
 
       Capybara.enable_aria_label = false
     end

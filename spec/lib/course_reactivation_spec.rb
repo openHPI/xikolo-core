@@ -64,7 +64,7 @@ describe CourseReactivation do
           course_reactivation:
             store_url:
               en: https://www.shop.com
-              fr: https://www.shop.fr
+              de: https://www.shop.de
         YML
       end
 
@@ -73,13 +73,14 @@ describe CourseReactivation do
       end
 
       it 'returns the configured URL for other languages' do
-        I18n.with_locale(:fr) do
-          expect(url).to eq 'https://www.shop.fr'
+        I18n.with_locale(:de) do
+          expect(url).to eq 'https://www.shop.de'
         end
       end
 
       it 'falls back to English for un-configured languages' do
-        I18n.with_locale(:de) do
+        I18n.available_locales += [:it]
+        I18n.with_locale(:it) do
           expect(url).to eq 'https://www.shop.com'
         end
       end

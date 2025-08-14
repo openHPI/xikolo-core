@@ -4,6 +4,6 @@ base_url: https://xikolo.de/
 mailsender: ""
 site_name: Xikolo
 locales:
-  available: [de, en, fr]
+  available: [de, en]
   default: en
 ui_primary_color: "#FFC04A"

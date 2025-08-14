@@ -90,10 +90,6 @@
           = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.misc.item_visits'), data_key: 'count', icon: 'far fa-eye', link: course_statistics_item_visits_path(course_id: params[:id]), link_text: (t 'admin.course_management.dashboard.more_details')}
         ajax-wrapper.kpi-item data-url="/api/v2/statistics/course_dashboard/video_plays.json?course_id=#{@course.id}" lazy-load='true'
           = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.misc.video_plays'), data_key: 'count', icon: 'fa fa-video', link: course_statistics_videos_path(course_id: params[:id]), link_text: (t 'admin.course_management.dashboard.more_details')}
-        ajax-wrapper.kpi-item data-url="/api/v2/statistics/course_dashboard/downloads.json?course_id=#{@course.id}" lazy-load='true'
-          = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.misc.downloads'), data_key: 'count', icon: 'fa fa-download', link: course_statistics_downloads_path(course_id: params[:id]), link_text: (t 'admin.course_management.dashboard.more_details')}
-        ajax-wrapper.kpi-item data-url="/api/v2/statistics/course_dashboard/rich_text_link_clicks.json?course_id=#{@course.id}" lazy-load='true'
-          = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.misc.rich_text_link_clicks'), data_key: 'count', icon: 'fa fa-file-alt', link: course_statistics_rich_texts_path(course_id: params[:id]), link_text: (t 'admin.course_management.dashboard.more_details')}
         ajax-wrapper.kpi-item.quiz-performance data-url="/api/v2/statistics/course_dashboard/total_quiz_performance.json?course_id=#{@course.id}&type=graded" lazy-load='true'
           = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.items.graded_quiz'), data_key: nil, icon: 'fa fa-user-edit', link: course_statistics_quiz_path(course_id: params[:id]), link_text: (t 'admin.course_management.dashboard.more_details')}
         ajax-wrapper.kpi-item.quiz-performance data-url="/api/v2/statistics/course_dashboard/total_quiz_performance.json?course_id=#{@course.id}&type=selftest" lazy-load='true'
@@ -109,51 +105,10 @@
                 = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.forum.posts'), data_key: 'posts', icon: 'fa fa-comments'}
             .kpi-item
               data-selector key='forum_statistics'
-                = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.forum.posts_last_day'), data_key: 'posts_last_day', prefix: '+', icon: 'fa fa-comments'}
-            .kpi-item
-              data-selector key='forum_statistics'
                 = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.forum.threads'), data_key: 'threads', icon: 'fa fa-comment-dots'}
-            .kpi-item
-              data-selector key='forum_statistics'
-                = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.forum.threads_last_day'), data_key: 'threads_last_day', prefix: '+', icon: 'fa fa-comment-dots'}
-
-            .kpi-item
-              data-selector key='forum_activity'
-                = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.forum.forum_activity'), data_key: 'user', icon: 'fa fa-mouse-pointer'}
             .kpi-item
               data-selector key='forum_write_activity'
                 = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.forum.forum_write_activity'), data_key: 'user', icon: 'fa fa-pencil-alt'}
-
-      - if Xikolo.config.open_badges['enabled']
-        h3
-          = t(:'admin.course_management.dashboard.kpis.open_badges.title')
-        ajax-wrapper data-url="/api/v2/statistics/course_dashboard/open_badges.json?course_id=#{@course.id}" lazy-load='true'
-          .kpi-container
-            .kpi-item
-              = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.open_badges.badge_issues'), data_key: 'badge_issues', icon: 'fa fa-certificate'}
-            .kpi-item
-              = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.open_badges.badge_downloads'), data_key: 'badge_downloads', icon: 'fa fa-download'}
-            .kpi-item
-              = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.open_badges.badge_shares'), data_key: 'badge_shares', icon: 'fa fa-share-alt'}
-
-      - if @course.proctored? || @course.offers_reactivation?
-        h3
-          = t(:'admin.course_management.dashboard.kpis.bookings.title')
-        ajax-wrapper data-url="/api/v2/statistics/course_dashboard/bookings.json?course_id=#{@course.id}" lazy-load='true'
-          .kpi-container
-            - if @course.proctored?
-              .kpi-item
-                = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.bookings.proctorings'), data_key: 'proctorings', icon: 'fa fa-camera'}
-            - if @course.offers_reactivation?
-              .kpi-item
-                = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.bookings.reactivations'), data_key: 'reactivations', icon: 'fa fa-unlock'}
-
-      h3
-        = t(:'admin.course_management.dashboard.kpis.misc.title')
-      .kpi-container
-        ajax-wrapper.kpi-item data-url="/api/v2/statistics/course_dashboard/social_shares.json?course_id=#{@course.id}" lazy-load='true'
-          = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.misc.course_social_shares'), data_key: 'course_social_shares', icon: 'fa fa-share-alt', link: course_statistics_social_path(course_id: params[:id]), link_text: (t 'admin.course_management.dashboard.more_details')}
-
   .row
     .col-md-12.chart-container.time-series
       h2 = t(:'admin.course_management.dashboard.stats_over_time.title')
@@ -169,42 +124,7 @@
                 data-filter.chart active-series='["#{t(:'admin.course_management.dashboard.stats_over_time.enrollments.total_enrollments')}"]'
                   linechart-basic height="300" highlight-latest="true" v-lines=Course::DashboardPresenter.historic_v_lines(@course)
 
-        .col-md-12
-          h3 = t(:'admin.course_management.dashboard.stats_over_time.forum.title')
-          loading-spinner
-            fallback-text empty-data-text=t(:'admin.course_management.dashboard.no_data_message')
-              schema-transformer mappings=Course::DashboardPresenter.forum_stats_data_transformer
-                data-filter.chart active-series='["#{t(:'admin.course_management.dashboard.stats_over_time.forum.posts')}"]'
-                  linechart-basic height="300" highlight-latest="true" v-lines=Course::DashboardPresenter.historic_v_lines(@course)
-          - if Xikolo.config.beta_features['teaching_team_pinboard_activity']
-            = link_to course_statistics_pinboard_path(course_id: params[:id]), class: 'detail-link' do
-              = render Global::FaIcon.new('arrow-circle-right')
-              = t(:'admin.course_management.dashboard.more_details')
-
   .row
-    .col-md-12.chart-container.geo
-      = render Global::HeadlineTooltip.new(t(:'admin.course_management.dashboard.geo.title'), t(:'admin.statistics.geo.location_tooltip'), level: 2)
-      ajax-wrapper data-url='/api/v2/statistics/details/geo/countries.json?course_id=#{@course.id}&start_date=#{@course.start_date || @course.created_at}&end_date=#{@course.end_date || Time.zone.today}' error-text=t(:'admin.course_management.dashboard.request_error_message') lazy-load='true'
-        loading-spinner
-          fallback-text empty-data-text=t(:'admin.course_management.dashboard.no_data_message')
-            schema-transformer mappings='[{"locations": {"type": "collect", "sourceKey": "country_code_iso3"}, "z": {"type": "collect", "sourceKey": "distinct_users"}}]'
-              worldmap-basic.chart
-      = link_to course_statistics_geo_path(course_id: params[:id]), class: 'detail-link' do
-        = render Global::FaIcon.new('arrow-circle-right')
-        = t(:'admin.course_management.dashboard.more_details')
-
-  .row
-    .col-md-4.chart-container.weekday-activity
-      h2 = t(:'admin.course_management.dashboard.weekday_activity.title')
-      ajax-wrapper data-url='/api/v2/statistics/dashboard/weekday_activity.json?course_id=#{@course.id}' error-text=t(:'admin.course_management.dashboard.request_error_message') lazy-load='true'
-        loading-spinner
-          fallback-text empty-data-text=t(:'admin.course_management.dashboard.no_data_message')
-            schema-transformer no-merge='true' mappings='[{"x": {"type": "collect", "sourceKey": "day_of_week"}, "y": {"type": "collect", "sourceKey": "hour"}, "value": {"type": "collect", "sourceKey": "avg_users"}}]'
-              activitychart-basic.chart cell-width="30" cell-height="10" cell-spacing="3" axis-labels-text-size="11" y-label-frequency="2" sort-y-values="asc" x-title=t(:'admin.course_management.dashboard.weekday_activity.axis_title_day') y-title=t(:'admin.course_management.dashboard.weekday_activity.axis_title_hour')
-        = link_to course_statistics_activity_path(course_id: params[:id]), class: 'detail-link' do
-          = render Global::FaIcon.new('arrow-circle-right')
-          = t(:'admin.course_management.dashboard.more_details')
-
     .col-md-4.chart-container.age
       h2 = t(:'admin.course_management.dashboard.age.title')
       ajax-wrapper data-url='/api/v2/statistics/dashboard/age_distribution.json?course_id=#{@course.id}' error-text=t(:'admin.course_management.dashboard.request_error_message') lazy-load='true'

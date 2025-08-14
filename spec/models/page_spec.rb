@@ -32,7 +32,6 @@ describe Page, type: :model do
       before do
         create(:page, :english, name: 'foo', created_at: 1.day.ago)
         create(:page, :german, name: 'foo', created_at: 2.days.ago)
-        create(:page, locale: 'fr', name: 'foo', created_at: 3.days.ago)
         create_list(:page, 2, :english, created_at: 4.days.ago)
       end
 
@@ -42,7 +41,6 @@ describe Page, type: :model do
           have_attributes(locale: 'en'),
           have_attributes(locale: 'en'),
           have_attributes(locale: 'de'),
-          have_attributes(locale: 'fr'),
         ]
 
         expect(described_class.preferred_locales('de', 'en')).to match [
@@ -50,15 +48,13 @@ describe Page, type: :model do
           have_attributes(locale: 'en'),
           have_attributes(locale: 'en'),
           have_attributes(locale: 'en'),
-          have_attributes(locale: 'fr'),
         ]
       end
 
       it 'orders non-matching translations by creation date, oldest first' do
-        expect(described_class.preferred_locales('nl')).to match [
+        expect(described_class.preferred_locales('it', 'pt')).to match [
           have_attributes(locale: 'en'),
           have_attributes(locale: 'en'),
-          have_attributes(locale: 'fr'),
           have_attributes(locale: 'de'),
           have_attributes(locale: 'en'),
         ]

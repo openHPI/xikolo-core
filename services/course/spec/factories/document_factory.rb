@@ -15,9 +15,7 @@ FactoryBot.define do
         document.localizations <<
           FactoryBot.create(:document_localization, document_id: document.id, title: 'first', language: 'de')
         document.localizations <<
-          FactoryBot.create(:document_localization, document_id: document.id, title: 'second', language: 'fr')
-        document.localizations <<
-          FactoryBot.create(:document_localization, document_id: document.id, title: 'third', language: 'en')
+          FactoryBot.create(:document_localization, document_id: document.id, title: 'second', language: 'en')
       end
     end
 

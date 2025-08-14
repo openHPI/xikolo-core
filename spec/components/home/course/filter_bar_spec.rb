@@ -11,7 +11,7 @@ describe Home::Course::FilterBar, type: :component do
 
   before do
     xi_config <<~YML
-      course_languages: [de, en, fr]
+      course_languages: [de, en]
     YML
   end
 
@@ -19,17 +19,17 @@ describe Home::Course::FilterBar, type: :component do
     context 'with no signed in user' do
       context 'with no http accept languages' do
         it 'shows all available course languages sorted alphabetically' do
-          expect(rendered).to have_select 'Language', text: "All\nEnglish (English)\nFrench (Français)\nGerman (Deutsch)"
+          expect(rendered).to have_select 'Language', text: "All\nEnglish (English)\nGerman (Deutsch)"
         end
       end
 
       context 'with http accept languages' do
         before do
-          vc_test_request.env['HTTP_ACCEPT_LANGUAGE'] = 'ru, fr'
+          vc_test_request.env['HTTP_ACCEPT_LANGUAGE'] = 'ru, de'
         end
 
         it 'brings the http accept languages to the top of the select before a line separator' do
-          expect(rendered).to have_select 'Language', text: "All\nFrench (Français)\n──────────\nEnglish (English)\nGerman (Deutsch)"
+          expect(rendered).to have_select 'Language', text: "All\nGerman (Deutsch)\n──────────\nEnglish (English)"
         end
 
         it 'does not display http accept languages that are not course languages' do
@@ -43,11 +43,11 @@ describe Home::Course::FilterBar, type: :component do
 
       context 'with regional http accept languages' do
         before do
-          vc_test_request.env['HTTP_ACCEPT_LANGUAGE'] = 'de-LI, ru, fr'
+          vc_test_request.env['HTTP_ACCEPT_LANGUAGE'] = 'de-LI, ru'
         end
 
         it 'brings the available parent language to the top of the select' do
-          expect(rendered).to have_select 'Language', text: "All\nGerman (Deutsch)\nFrench (Français)\n──────────\nEnglish (English)"
+          expect(rendered).to have_select 'Language', text: "All\nGerman (Deutsch)\n──────────\nEnglish (English)"
         end
       end
     end
@@ -62,7 +62,7 @@ describe Home::Course::FilterBar, type: :component do
 
       context 'with no http accept languages' do
         it 'brings the user preferred language to the first position' do
-          expect(rendered).to have_select 'Language', text: "All\nGerman (Deutsch)\n──────────\nEnglish (English)\nFrench (Français)"
+          expect(rendered).to have_select 'Language', text: "All\nGerman (Deutsch)\n──────────\nEnglish (English)"
         end
       end
 
@@ -72,7 +72,7 @@ describe Home::Course::FilterBar, type: :component do
         end
 
         it 'puts the available http accept languages right after the user preferred language' do
-          expect(rendered).to have_select 'Language', text: "All\nGerman (Deutsch)\nFrench (Français)\n──────────\nEnglish (English)"
+          expect(rendered).to have_select 'Language', text: "All\nGerman (Deutsch)\n──────────\nEnglish (English)"
         end
 
         it 'does not display the user preferred language twice if it is also in the accept header' do
@@ -81,7 +81,7 @@ describe Home::Course::FilterBar, type: :component do
 
         context 'with all course languages as preferred by the user' do
           before do
-            vc_test_request.env['HTTP_ACCEPT_LANGUAGE'] = 'de, en, fr'
+            vc_test_request.env['HTTP_ACCEPT_LANGUAGE'] = 'de, en'
           end
 
           it 'does not display a line separator' do

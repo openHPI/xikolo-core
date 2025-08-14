@@ -165,11 +165,11 @@ describe Navigation::Bar, type: :component do
                 text: {en: 'Course catalogues'}
               courses:
                 href: '/courses'
-                text: {en: 'All courses', fr: 'Tous les cours'}
+                text: {en: 'All courses', de: 'Alle Kurse'}
           header:
             visible: true
             primary:
-              - text: {en: 'Courses', fr: 'Cours'}
+              - text: {en: 'Courses', de: 'Kurse'}
                 items:
                   - ref:courses
                   - ref:catalogues
@@ -232,14 +232,14 @@ describe Navigation::Bar, type: :component do
               ref:
                 catalogues:
                   href: '/pages/catalogues'
-                  text: {en: 'Course catalogues'}
+                  text: {en: 'Course catalogues', de: 'Kurskataloge'}
                 courses:
                   href: '/courses'
-                  text: {en: 'All courses', fr: 'Tous les cours'}
+                  text: {en: 'All courses', de: 'Alle Kurse'}
             header:
               visible: true
               primary:
-                - text: {en: 'Courses', fr: 'Cours'}
+                - text: {en: 'Courses', de: 'Kurse'}
           YML
         end
 
@@ -279,20 +279,18 @@ describe Navigation::Bar, type: :component do
       render_inline(component)
 
       # The language chooser is rendered twice, once for small and once for larger screens
-      expect(page).to have_css('a', count: 8)
+      expect(page).to have_css('a', count: 4)
       expect(page).to have_link 'Deutsch', count: 2, href: '/helpdesk?locale=de'
       expect(page).to have_link 'English', count: 2, href: '/helpdesk?locale=en'
-      expect(page).to have_link 'Français', count: 2, href: '/helpdesk?locale=fr'
-      expect(page).to have_link 'Nederlands', count: 2, href: '/helpdesk?locale=nl'
 
       expect(page).to have_css 'a[aria-current]', text: 'English', count: 2
     end
 
     it 'marks the currently active locale as active' do
-      I18n.with_locale(:fr) do
+      I18n.with_locale(:de) do
         render_inline(component)
 
-        expect(page).to have_css 'a[aria-current]', text: 'Français', count: 2
+        expect(page).to have_css 'a[aria-current]', text: 'Deutsch', count: 2
       end
     end
 

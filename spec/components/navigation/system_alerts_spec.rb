@@ -96,7 +96,8 @@ describe Navigation::SystemAlerts, type: :component do
 
       context 'when requesting only a language that is not available' do
         it 'returns the platform default locale content everywhere' do
-          I18n.with_locale(:fr) do
+          I18n.available_locales += [:it]
+          I18n.with_locale(:it) do
             render_inline(component)
 
             expect(page).to have_content 'Published recent alert'

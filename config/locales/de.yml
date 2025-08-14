@@ -1455,15 +1455,10 @@ de:
         item_visits: Besuchte Items
         videos: Videos
         downloads: Downloads
-        rich_texts: Text-Items
-        quizzes: Quizze
         item_details: Item-Details
         forum_stats: Forum
-        activity: Aktivität
         geo: Geographie
         announcements: Ankündigungen
-        social: Social Media
-        referrers: Traffic-Quellen
         content: Struktur & Inhalt
         lti: LTI-Provider
         transpipe: Untertitel (in TransPipe)

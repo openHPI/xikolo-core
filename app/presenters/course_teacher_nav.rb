@@ -18,14 +18,6 @@ class CourseTeacherNav < MenuWithPermissions
       if: ->(user, _course) { user.allowed? 'course.dashboard.view' },
       route: :course_statistics_downloads
 
-    item 'courses.nav.teacher.rich_texts', '',
-      if: ->(user, _course) { user.allowed? 'course.dashboard.view' },
-      route: :course_statistics_rich_texts
-
-    item 'courses.nav.teacher.quizzes', '',
-      if: ->(user, _course) { user.allowed? 'course.dashboard.view' },
-      route: :course_statistics_quiz
-
     item 'courses.nav.teacher.item_details', '',
       if: ->(user, _course) { user.allowed? 'course.item_stats.show' },
       route: :course_statistics_item_details
@@ -37,10 +29,6 @@ class CourseTeacherNav < MenuWithPermissions
       },
       route: :course_statistics_pinboard
 
-    item 'courses.nav.teacher.activity', '',
-      if: ->(user, _course) { user.allowed? 'course.dashboard.view' },
-      route: :course_statistics_activity
-
     item 'courses.nav.teacher.geo', '',
       if: ->(user, _course) { user.allowed? 'course.dashboard.view' },
       route: :course_statistics_geo
@@ -48,14 +36,6 @@ class CourseTeacherNav < MenuWithPermissions
     item 'courses.nav.teacher.announcements', '',
       if: ->(user, _course) { user.allowed? 'course.dashboard.view' },
       route: :course_statistics_news
-
-    item 'courses.nav.teacher.social', '',
-      if: ->(user, _course) { user.allowed? 'course.dashboard.view' },
-      route: :course_statistics_social
-
-    item 'courses.nav.teacher.referrers', '',
-      if: ->(user, _course) { user.allowed? 'course.dashboard.view' },
-      route: :course_statistics_referrer
   end
 
   item(

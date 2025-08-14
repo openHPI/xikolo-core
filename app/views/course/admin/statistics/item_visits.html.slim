@@ -16,9 +16,5 @@
 ]
   .row
     .col-md-12
-      = render Global::HeadlineTooltip.new(t(:'admin.statistics.item_visits.per_item_title'), t(:'admin.statistics.tooltip.position_column'), level: 3)
-      = render partial: 'shared/statistics_table', locals: {id: 'top-items-table', attr: {'data-course-id': @course['id'], 'data-course-code': @course['course_code']}}
-
-    .col-md-12
       h3 = t(:'admin.statistics.item_visits.per_type_title')
       = render partial: 'shared/statistics_table', locals: {id: 'top-types-table', attr: {'data-course-id': @course['id']}}
