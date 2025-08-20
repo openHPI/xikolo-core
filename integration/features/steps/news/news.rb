@@ -113,7 +113,7 @@ module Steps
 
     Then 'I see a button to publish the new announcement via email' do
       expect(page).to have_content 'Join our new course on MOOCs!'
-      expect(page).to have_content 'Publish via email'
+      expect(page).to have_content 'Edit for publishing'
     end
 
     Given 'there is a marketing treatment' do
@@ -124,8 +124,8 @@ module Steps
       create_and_assign_consent
     end
 
-    When 'I publish the announcement via email' do
-      click_on 'Publish via email'
+    When 'I edit the announcement for publishing via email' do
+      click_on 'Edit for publishing'
     end
 
     When 'I select a user as the recipient' do
@@ -142,17 +142,19 @@ module Steps
 
     When 'I require users to consent to marketing' do
       context.with :treatment do |treatment|
-        check treatment['name']
+        tom_select treatment['name'], from: 'Consents'
       end
     end
 
     When 'I publish the announcement' do
       click_on 'Send announcement email'
+      click_on 'Yes, sure'
     end
 
     When 'I publish the announcement as test email' do
-      page.find('label', text: 'Send as test email?').click
+      page.find('label', text: 'Send as test email').click
       click_on 'Send announcement email'
+      click_on 'Yes, sure'
     end
 
     Then 'all users should receive a targeted announcement email' do

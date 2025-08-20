@@ -104,12 +104,13 @@ describe 'Admin: Announcement: Create Email', type: :system do
     tom_select 'Affiliated users', from: 'Recipients', search: true
     tom_select 'with-game', from: 'Recipients', search: 'cloud2013'
     tom_select 'announcement.recipients.custom', from: 'Recipients', search: 'custom'
-    check 'marketing'
+    tom_select 'marketing', from: 'Consents'
 
     send_announcement = Stub.request(:news, :post, "/announcements/#{announcement_id}/messages")
       .to_return(status: 201)
 
     click_link_or_button 'Send announcement email'
+    click_link_or_button 'Yes, sure'
 
     # Since there is no flash message when an announcement has been
     # created, we check that the new announcement is visible on the page
@@ -182,12 +183,13 @@ describe 'Admin: Announcement: Create Email', type: :system do
         fill_markdown_editor 'Content', with: 'Dear users, please check it out!'
       end
       tom_select 'some-course', from: 'Recipients', search: true
-      check 'marketing'
+      tom_select 'marketing', from: 'Consents'
 
       send_announcement = Stub.request(:news, :post, "/announcements/#{announcement_id}/messages")
         .to_return(status: 201)
 
       click_link_or_button 'Send announcement email'
+      click_link_or_button 'Yes, sure'
 
       # Since there is no flash message when an announcement has been
       # sent out, we check that the (original) announcement is still visible
@@ -228,12 +230,13 @@ describe 'Admin: Announcement: Create Email', type: :system do
     end
 
     tom_select 'Some User', from: 'Recipients', search: true
-    find('label', text: 'Send as test email?').click
+    find('label', text: 'Send as test email').click
 
     send_announcement = Stub.request(:news, :post, "/announcements/#{announcement_id}/messages")
       .to_return(status: 201)
 
     click_link_or_button 'Send announcement email'
+    click_link_or_button 'Yes, sure'
 
     # Since there is no flash message when a test announcement has been
     # sent out, we check that the announcement is visible on the page

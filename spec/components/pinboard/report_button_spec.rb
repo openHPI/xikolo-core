@@ -15,7 +15,7 @@ describe Pinboard::ReportButton, type: :component do
     end
 
     it 'includes the data-confirm attribute with I18n default' do
-      expect(page).to have_css("a[data-confirm='Are you sure you want to report this content?']")
+      expect(page).to have_css("a[data-confirm='Are you sure you want to report this content as inappropriate?']")
     end
 
     it 'includes the I18n default tooltip in the data-tooltip attribute' do

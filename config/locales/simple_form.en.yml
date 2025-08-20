@@ -54,7 +54,7 @@ en:
         subject: Subject
         content: Content
         recipients: Recipients
-        test: Send as test email?
+        test: Send as test email
       announcement:
         title: Title
         visual_upload_id: Visual

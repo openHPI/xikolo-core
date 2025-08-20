@@ -1000,11 +1000,12 @@ en:
         published: Published
         published_empty: No announcement has been published so far.
         created_on: "created on %{date}"
-        publish_email: Publish via email
+        publish_email: Edit for publishing
         published_site: Published on site.
         view_post: View post
         view_statistics: View statistics
         new_announcement: Draft new announcement
+        information: To send an announcement via email, create a draft first. Then you select the recipients in "Edit for publishing" to send it.
       show:
         headline: Announcements
         num_deliveries: "to %{num} recipients"
@@ -1020,7 +1021,8 @@ en:
         note_estimation: "Note: This is a rough estimate. The numbers might be skewed by email clients not embedding images."
       new:
         new_announcement: Draft new announcement
-        new_email: Publish announcement via email
+        new_email: Publish announcement
+        send_confirmation: Are you sure you want to publish the announcement?
       edit:
         headline: Edit announcement
       form:
@@ -3230,7 +3232,7 @@ en:
         other: "%{count} reports"
       unblock: review
       tooltip: Report inappropriate content
-      confirm: Are you sure you want to report this content?
+      confirm: Are you sure you want to report this content as inappropriate?
       blocked: "[Blocked]"
       question_blocked: "[This post was blocked due to inappropriate content]"
       answer_blocked: "[This answer was blocked due to inappropriate content]"

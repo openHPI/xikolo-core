@@ -22,17 +22,16 @@
 
   = f.input :consents,
     collection: announcement_email.consents_collection,
-    as: :check_boxes,
-    input_html: {multiple: true}
+    input_html: {multiple: true, 'data-behavior': 'custom-select'}
 
-  = f.input :test
   = f.input :language,
     as: :hidden
 
   h2 = t(:'admin.announcements.form.translations')
-  .alert.alert-info
-    = t(:'admin.announcements.form.translation_hint')
+  = render Global::Callout.new(t(:'admin.announcements.form.translation_hint'))
+
   - announcement_email.all_translations.each do |translation|
     = render 'admin/announcements/translation', translation: translation
 
-  = f.button :submit
+  = f.input :test
+  = f.button :submit, data: {confirm: t(:'admin.announcements.new.send_confirmation')}

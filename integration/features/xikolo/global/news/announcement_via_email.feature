@@ -21,7 +21,7 @@ Feature: Publish an announcement via email
     Given there exists an additional user
     And a targeted announcement was created
     And I am on the admin announcements list
-    When I publish the announcement via email
+    When I edit the announcement for publishing via email
     And I select a user as the recipient
     And I publish the announcement as test email
     Then I should receive a test email with the content inherited from the announcement
@@ -34,7 +34,7 @@ Feature: Publish an announcement via email
     And the additional user is enrolled
     And a targeted announcement was created
     And I am on the admin announcements list
-    When I publish the announcement via email
+    When I edit the announcement for publishing via email
     And I select course students as the recipients
     And I publish the announcement
     Then all users should receive a targeted announcement email
@@ -47,7 +47,7 @@ Feature: Publish an announcement via email
     And the additional user is enrolled
     And a targeted announcement was created
     And I am on the admin announcements list
-    When I publish the announcement via email
+    When I edit the announcement for publishing via email
     And I select course students as the recipients
     And I require users to consent to marketing
     And I publish the announcement

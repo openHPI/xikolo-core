@@ -2590,7 +2590,7 @@ de:
         other: "%{count} Meldungen"
       unblock: Sichten
       tooltip: "Unangemessene Inhalte melden"
-      confirm: Sind Sie sicher, dass Sie diesen Inhalt melden möchten?
+      confirm: Sind Sie sicher, dass Sie diesen Inhalt als unangemessen melden möchten?
       blocked: "[Gesperrt]"
       question_blocked: "[Dieser Beitrag wurde aufgrund unangemessenen Inhalts gesperrt]"
       answer_blocked: "[Diese Antwort wurde aufgrund unangemessenen Inhalts gesperrt]"

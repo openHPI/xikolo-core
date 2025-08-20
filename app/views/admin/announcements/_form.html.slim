@@ -15,8 +15,8 @@
     as: :hidden
 
   h2 = t(:'admin.announcements.form.translations')
-  .alert.alert-info
-    = t(:'admin.announcements.form.translation_hint')
+  = render Global::Callout.new(t(:'admin.announcements.form.translation_hint'))
+
   - announcement.all_translations.each do |translation|
     = render 'admin/announcements/translation', translation: translation
 
