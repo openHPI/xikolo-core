@@ -7,7 +7,7 @@ class Course < ApplicationRecord
   has_one :node, class_name: '::Structure::Root', foreign_key: :course_id, dependent: :destroy # rubocop:disable Rails/RedundantForeignKey
   has_one :visual, class_name: '::Duplicated::Visual', dependent: :destroy
 
-  has_many :sections, -> { order('position ASC') }, inverse_of: :course
+  has_many :sections, -> { order(:position) }, inverse_of: :course
   has_many :items, through: :sections
   belongs_to :channel, optional: true
   has_and_belongs_to_many :classifiers

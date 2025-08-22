@@ -5,7 +5,7 @@ class Question < ApplicationRecord
 
   delegate :url_helpers, to: 'Rails.application.routes'
 
-  default_scope { order('position ASC') }
+  default_scope { order(:position) }
   has_many :answers, dependent: :destroy
   has_one :statistics, class_name: 'QuestionStatistics'
   belongs_to :quiz

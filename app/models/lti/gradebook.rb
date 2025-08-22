@@ -25,7 +25,7 @@ module Lti
       inverse_of: :gradebook
 
     def highest_grade
-      grades.order('value DESC').first
+      grades.order(value: :desc).first
     end
 
     ##

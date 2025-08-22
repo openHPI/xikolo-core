@@ -12,9 +12,9 @@ class TagsController < ApplicationController
   def index
     tags = if params[:question_id] && Question.exists?(params[:question_id])
              if params[:type]
-               Question.find(params[:question_id]).tags.order('name').where type: params[:type]
+               Question.find(params[:question_id]).tags.order(:name).where type: params[:type]
              else
-               Question.find(params[:question_id]).tags.order('name')
+               Question.find(params[:question_id]).tags.order(:name)
              end
            elsif params[:course_id]
              if (params[:type] == 'ImplicitTag') && (params[:referenced_resource] || params[:name])
@@ -63,7 +63,7 @@ class TagsController < ApplicationController
     else
       offset = params['offset'] || 0
       if params['q'].nil?
-        Tag.where(course_id:).offset(offset).order('name')
+        Tag.where(course_id:).offset(offset).order(:name)
       else
         search_tag_by_name_like(offset)
       end

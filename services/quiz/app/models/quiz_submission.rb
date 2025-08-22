@@ -5,7 +5,7 @@ class QuizSubmission < ApplicationRecord
   has_one :quiz_submission_snapshot, dependent: :destroy
   belongs_to :quiz
 
-  default_scope -> { order('created_at ASC') }
+  default_scope -> { order(:created_at) }
 
   class << self
     # FIXME: After call of this scope, model will be loaded!

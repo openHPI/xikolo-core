@@ -149,8 +149,8 @@
           = render Global::FaIcon.new('check', style: :solid, css_classes: 'check check--editable')
 
 - content_for :sidebar
-  - if current_user.feature?('account.login')
-    = render 'account/profiles/change_password', user: @profile.user
   - if @profile.consents.any?
     = render 'account/profiles/consents', consents: @profile.consents
+  - if current_user.feature?('account.login')
+    = render 'account/profiles/change_password', user: @profile.user
   = render 'account/profiles/delete_account', user_id: @profile.user.id

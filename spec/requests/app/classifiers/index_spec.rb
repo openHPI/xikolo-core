@@ -48,7 +48,7 @@ describe 'Admin: Ajax: Classifiers: Index', type: :request do
         request
         expect(response).to have_http_status :ok
         expect(json.size).to eq(2)
-        expect(json.map {|c| c['id'] }).to contain_exactly(classifier1.id, classifier2.id)
+        expect(json.pluck('id')).to contain_exactly(classifier1.id, classifier2.id)
       end
 
       context 'with cluster filter' do

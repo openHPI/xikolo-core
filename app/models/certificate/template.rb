@@ -18,7 +18,7 @@ module Certificate
       inverse_of: :template,
       dependent: :destroy
 
-    default_scope { order('updated_at DESC') }
+    default_scope { order(updated_at: :desc) }
 
     after_commit :delete_s3_object!, on: :destroy
 

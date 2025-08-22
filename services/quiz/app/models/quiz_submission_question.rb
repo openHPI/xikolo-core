@@ -6,7 +6,7 @@ class QuizSubmissionQuestion < ApplicationRecord
 
   validates :quiz_question_id, uniqueness: {scope: :quiz_submission_id}
 
-  default_scope -> { order('created_at ASC') }
+  default_scope -> { order(:created_at) }
 
   def points
     if (original_points = read_attribute(:points))

@@ -39,7 +39,7 @@ module Voucher
           .where.not(course_id: nil)
           .joins(:course)
           .group(:course_id)
-          .order('count_all DESC'),
+          .order(count_all: :desc),
         transform_keys: lambda do |ids|
           ::Course::Course.find(ids).pluck(:id, :course_code).to_h
         end

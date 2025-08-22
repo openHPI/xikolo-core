@@ -9,7 +9,7 @@ class TimeEffortJob < ApplicationRecord
   scope :active_for,
     ->(item) { where(item_id: item, status: %w[started waiting]) }
 
-  default_scope { order('updated_at DESC') }
+  default_scope { order(updated_at: :desc) }
 
   before_create ->(job) { TimeEffortJob.cancel_active_jobs(job.item_id) }
 

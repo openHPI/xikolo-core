@@ -3,5 +3,5 @@
 class AdditionalQuizAttempt < ApplicationRecord
   validates :user_id, uniqueness: {scope: :quiz_id}
 
-  default_scope -> { order('created_at ASC') }
+  default_scope -> { order(:created_at) }
 end

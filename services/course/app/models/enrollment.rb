@@ -128,7 +128,7 @@ class Enrollment < ApplicationRecord
     graded_items = course.items.graded
     last_graded_item_date = nil
     result = Result.where(user_id:, item_id: graded_items.map(&:id))
-      .order('created_at DESC').first
+      .order(created_at: :desc).first
     last_graded_item_date = result.created_at unless result.nil?
     last_graded_item_date
   end

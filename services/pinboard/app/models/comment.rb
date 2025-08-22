@@ -56,7 +56,7 @@ class Comment < ApplicationRecord
   has_many :votes, as: :votable
   has_many :abuse_reports, as: :reportable
 
-  scope :default_order, -> { order 'created_at ASC' }
+  scope :default_order, -> { order :created_at }
   scope :unblocked, -> { where.not(comments: {workflow_state: %i[blocked auto_blocked]}) }
   scope :undeleted, -> { where.not(comments: {deleted: true}) }
   scope :for_user, ->(user_id) { user_id ? where(user_id:) : all }

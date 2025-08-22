@@ -5,7 +5,7 @@ class Answer < ApplicationRecord
 
   delegate :url_helpers, to: 'Rails.application.routes'
 
-  default_scope { order('position ASC') }
+  default_scope { order(:position) }
   belongs_to :question
   acts_as_list scope: :question
   has_paper_trail

@@ -24,7 +24,7 @@ class Section < ApplicationRecord
 
   has_one :node, class_name: '::Structure::Section', foreign_key: :section_id, dependent: :destroy # rubocop:disable Rails/RedundantForeignKey
 
-  has_many :items, -> { order('position ASC') }, inverse_of: :section
+  has_many :items, -> { order(:position) }, inverse_of: :section
   has_many :forks, inverse_of: :section
   has_many :section_progresses, dependent: :destroy
   belongs_to :course
