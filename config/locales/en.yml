@@ -1973,6 +1973,7 @@ en:
     see_older: See older announcements
     older: Older announcements
     title: News
+    confirm_delete: Are you sure you want to delete the announcement?
 
   teachers:
     show: Show teacher information

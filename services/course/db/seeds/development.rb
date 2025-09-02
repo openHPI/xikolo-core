@@ -1264,7 +1264,7 @@ DocumentLocalization.create!(
   id: '00000001-3800-5555-9997-000000000002',
   document: document1,
   file_id: '00000001-4000-4444-9999-000000000008',
-  language: 'it',
+  language: 'en',
   revision: '1'
 )
 

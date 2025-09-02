@@ -14,7 +14,7 @@ describe 'Portal API: Patch user', type: :request do
   let(:email) { build(:'account:email', user_id: user['id']) }
   let(:authorization) { build(:'account:authorization', user_id: user['id']) }
   let(:auth_id) { authorization['uid'] }
-  let(:user_attributes) { {language: 'it'} }
+  let(:user_attributes) { {language: 'en'} }
 
   before do
     Stub.service(:account, build(:'account:root'))
@@ -191,7 +191,7 @@ describe 'Portal API: Patch user', type: :request do
               'display_name' => user['display_name'],
               'email' => user['email'],
               'born_at' => nil,
-              'language' => 'it',
+              'language' => 'en',
               'avatar' => user['avatar_url']
             )
           end
@@ -225,7 +225,7 @@ describe 'Portal API: Patch user', type: :request do
       end
 
       context 'when both the user email address and other user attributes are sent on the request' do
-        let(:body) { {email: 'foo@bar.com', language: 'it'} }
+        let(:body) { {email: 'foo@bar.com', language: 'en'} }
 
         context 'and both the email address replacement and user attributes update succeed' do
           it_behaves_like 'a successful request'
@@ -240,7 +240,7 @@ describe 'Portal API: Patch user', type: :request do
               'display_name' => user['display_name'],
               'email' => 'foo@bar.com',
               'born_at' => nil,
-              'language' => 'it',
+              'language' => 'en',
               'avatar' => user['avatar_url']
             )
           end
@@ -273,7 +273,7 @@ describe 'Portal API: Patch user', type: :request do
         end
 
         context 'and the email address replacement update fails' do
-          let(:body) { {email: 'invalid-email', language: 'it'} }
+          let(:body) { {email: 'invalid-email', language: 'en'} }
 
           let!(:replace_emails_stub) do
             Stub.request(:account, :put, "/users/#{user['id']}/emails",

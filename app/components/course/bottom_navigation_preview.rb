@@ -25,7 +25,9 @@ module Course
     private
 
     def course
-      @course ||= Course.find_by(course_code: 'content-ab')
+      return @course if defined?(@course)
+
+      @course = Course.find_by(course_code: 'content-ab')
     end
 
     MockQuizItemPresenter = Struct.new(:id, :course_id, :section_id)

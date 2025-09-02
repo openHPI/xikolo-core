@@ -163,6 +163,8 @@ class Admin::CourseEditPresenter
   end
 
   def visual
-    @visual ||= Course::Visual.find_by(course_id: @course.id)
+    return @visual if defined?(@visual)
+
+    @visual = Course::Visual.find_by(course_id: @course.id)
   end
 end

@@ -41,6 +41,8 @@ class Treatment < ApplicationRecord
   end
 
   def group
-    @group ||= Group.find_by(name: "treatment.#{name}")
+    return @group if defined?(@group)
+
+    @group = Group.find_by(name: "treatment.#{name}")
   end
 end

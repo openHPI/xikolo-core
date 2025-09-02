@@ -93,7 +93,9 @@ module OpenBadges
       end
 
       def badge_template
-        @badge_template ||= Certificate::OpenBadgeTemplate.find_by(course_id: course.id)
+        return @badge_template if defined?(@badge_template)
+
+        @badge_template = Certificate::OpenBadgeTemplate.find_by(course_id: course.id)
       end
 
       def badge_name

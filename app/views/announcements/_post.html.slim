@@ -2,37 +2,40 @@ a.news__anchor id="post_#{post.id}"
 .news_item
   h3 dir='auto'
     = post.title
-  - if post.publish_at < DateTime.now
-    p.small
-      = render Util::RelativeTimeTag.new(post.publish_at, limit: 'P10D')
-  - else
-    p
-      span.label.label-warning.mr10
-        = t(:'course.courses.announcements.unpublished')
-      span.small
-        ' in #{distance_of_time_in_words(post.publish_at, DateTime.now)}
+  .news_item__actions
+    - if post.publish_at < DateTime.now
+      p.small
+        = render Util::RelativeTimeTag.new(post.publish_at, limit: 'P10D')
+    - else
+      p
+        span.label.label-warning.mr10
+          = t(:'course.courses.announcements.unpublished')
+        span.small
+          ' in #{distance_of_time_in_words(post.publish_at, DateTime.now)}
+    div
+      - if current_user.allowed?('news.announcement.update')
+        - if course.present?
+          = link_to t(:'announcements.operations.edit'),
+            edit_course_announcement_path(course_id: course.course_code, id: post.id),
+            class: 'btn btn-xs btn-default mr5'
+        - else
+          = link_to t(:'announcements.operations.edit'),
+            edit_announcement_path(id: post.id),
+            class: 'btn btn-xs btn-default mr5'
+      - if current_user.allowed?('news.announcement.delete')
+        - if course.present?
+          = link_to t(:'announcements.operations.delete'),
+            course_announcement_path(course_id: course.course_code, id: post.id),
+            method: :delete,
+            data: {confirm: t(:'announcements.confirm_delete')},
+            class: 'btn btn-xs btn-danger'
+        - else
+          = link_to t(:'announcements.operations.delete'),
+            announcement_path(id: post.id),
+            method: :delete,
+            data: {confirm: t(:'announcements.confirm_delete')},
+            class: 'btn btn-xs btn-danger'
   hr.divider
   .postcontent
     .RenderedMarkdown dir='auto'
       == render_markdown(post.text, allow_tables: true)
-
-    - if current_user.allowed?('news.announcement.update')
-      - if course.present?
-        = link_to t(:'announcements.operations.edit'),
-          edit_course_announcement_path(course_id: course.course_code, id: post.id),
-          class: 'btn btn-xs btn-default mr5'
-      - else
-        = link_to t(:'announcements.operations.edit'),
-          edit_announcement_path(id: post.id),
-          class: 'btn btn-xs btn-default mr5'
-    - if current_user.allowed?('news.announcement.delete')
-      - if course.present?
-        = link_to t(:'announcements.operations.delete'),
-          course_announcement_path(course_id: course.course_code, id: post.id),
-          method: :delete,
-          class: 'btn btn-xs btn-default'
-      - else
-        = link_to t(:'announcements.operations.delete'),
-          announcement_path(id: post.id),
-          method: :delete,
-          class: 'btn btn-xs btn-default'

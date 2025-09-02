@@ -27,7 +27,9 @@ class NextDate::OnDemandExpiresSyncWorker
   private
 
   def enrollment
-    @enrollment ||= Enrollment.active.find_by(course_id: @course_id,
+    return @enrollment if defined?(@enrollment)
+
+    @enrollment = Enrollment.active.find_by(course_id: @course_id,
       user_id: @user_id)
   end
 

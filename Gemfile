@@ -76,7 +76,7 @@ gem 'xui-form', path: 'gems/xui-form'
 
 gem 'icalendar'
 
-gem 'countries', '~> 7.0' # ISO country codes
+gem 'countries', '~> 8.0' # ISO country codes
 gem 'i18n_data'
 gem 'maxminddb', '~> 0.1' # Location tracking
 
@@ -201,7 +201,7 @@ group :test do
   gem 'rspec-github', '~> 3.0', require: false
   gem 'rspec-its'
   gem 'rspec_junit_formatter', '~> 0.6.0', require: false
-  gem 'rspec-rails', '~> 7.0'
+  gem 'rspec-rails', '~> 8.0'
 end
 
 group :test, :integration do

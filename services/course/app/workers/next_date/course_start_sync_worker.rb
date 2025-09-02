@@ -24,7 +24,9 @@ class NextDate::CourseStartSyncWorker
   private
 
   def course
-    @course ||= Course.find_by(id: @course_id)
+    return @course if defined?(@course)
+
+    @course = Course.find_by(id: @course_id)
   end
 
   def applicable?

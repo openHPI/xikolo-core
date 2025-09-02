@@ -78,5 +78,11 @@ $xi-news-background-color: $white !default;
     th {
       border-bottom: 2px solid $black;
     }
+
+    &__actions {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    }
   }
 }

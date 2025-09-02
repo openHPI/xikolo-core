@@ -11,7 +11,7 @@ class SubscriptionDecorator < Draper::Decorator
         question_title: model.question&.title,
         question_updated_at: model.question&.updated_at,
         course_id: model.question&.course_id,
-        implicit_tags: (model.question&.implicit_tags.to_a || []).map do |tag|
+        implicit_tags: model.question&.implicit_tags.to_a.map do |tag|
                          {name: tag.name,
                           referenced_resource: tag.referenced_resource}
                        end

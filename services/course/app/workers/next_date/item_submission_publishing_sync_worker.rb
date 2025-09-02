@@ -27,7 +27,9 @@ class NextDate::ItemSubmissionPublishingSyncWorker
   private
 
   def item
-    @item ||= Item.where(published: true).find_by(id: @item_id)
+    return @item if defined?(@item)
+
+    @item = Item.where(published: true).find_by(id: @item_id)
   end
 
   def applicable?

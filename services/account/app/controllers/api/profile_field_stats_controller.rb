@@ -25,6 +25,8 @@ class API::ProfileFieldStatsController < API::BaseController
   end
 
   def field
-    @field ||= CustomField.find_by name: params[:id]
+    return @field if defined?(@field)
+
+    @field = CustomField.find_by name: params[:id]
   end
 end

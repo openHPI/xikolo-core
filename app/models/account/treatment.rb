@@ -14,7 +14,9 @@ module Account
     end
 
     def group
-      @group ||= Account::Group.find_by(name: "treatment.#{name}")
+      return @group if defined?(@group)
+
+      @group = Account::Group.find_by(name: "treatment.#{name}")
     end
   end
 end

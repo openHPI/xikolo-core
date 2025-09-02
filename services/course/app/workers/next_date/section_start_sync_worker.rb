@@ -24,7 +24,9 @@ class NextDate::SectionStartSyncWorker
   private
 
   def section
-    @section ||= Section.published.find_by(id: @section_id)
+    return @section if defined?(@section)
+
+    @section = Section.published.find_by(id: @section_id)
   end
 
   def applicable?
