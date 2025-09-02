@@ -291,7 +291,7 @@ module Catalog
       fixed_classifiers
         .select {|classifier| classifier['cluster_id'] == cluster_name }
         .map do |c|
-          Translations.new(JSON.parse(c['translations'])).to_s.presence || c['title'].titelize
+          Translations.new(JSON.parse(c['translations'])).to_s.presence || c['title'].titleize
         end
     end
   end
