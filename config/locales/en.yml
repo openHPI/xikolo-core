@@ -312,6 +312,7 @@ en:
     read_more: Read more
     read_less: Read less
     close: Close
+    no_data_message: No data available
 
   errors:
     not_found:
@@ -3258,6 +3259,8 @@ en:
     errors:
       loading: An error occurred while loading.
       already_voted: You can only vote once.
+    subscribe: Follow discussion forum
+    unsubscribe: Unfollow discussion forum
   pinboard_comment:
     update: Save changes
 
@@ -3266,8 +3269,8 @@ en:
     unanswered: Answer now
     show:
       back: Back to overview
-      subscribe: Follow
-      unsubscribe: Unfollow
+      subscribe: Follow topic
+      unsubscribe: Unfollow topic
       destroy: Delete
       confirm_delete: Delete this topic?
       close: Close
@@ -3277,8 +3280,8 @@ en:
       closed_msg: The entry was closed and is now read-only. No new answers or comments can be created.
       section_locked_msg: The discussions for the section "%{section}" are read-only. No new topics or replies can be created.
     question_detail:
-      subscribe: Follow
-      unsubscribe: Unfollow
+      subscribe: Follow topic
+      unsubscribe: Unfollow topic
       edit: edit
       add_reply: Add reply
     comment_form:

@@ -8,10 +8,19 @@
             = link_to text, url
       / Thread buttons
       - if @pinboard.open?
-        .col-sm-4.pt10
-          button.btn.btn-primary.full-width id='new-topic-button' type='button' data-show-on-click='#question_form' data-hide-on-click='#new-topic-button' data-track='form-toggle'
+        .col-sm-4.pt10#pinboard-actions
+          button.btn.btn-primary.full-width id='new-topic-button' type='button' data-show-on-click='#question_form' data-hide-on-click='#pinboard-actions' data-track='form-toggle'
             = render Global::FaIcon.new('comments', css_classes: 'fa-lg mr5')
             = t(:'pinboard.ask_question')
+          .mt10.text-right
+            - if @course_subscription.present?
+              = link_to course_subscription_path(@course_subscription['id'], course_id: @course.id), method: :delete, disable_with: '...' do
+                = render Global::FaIcon.new('star', style: :solid, css_classes: 'xi-icon')
+                = t(:'pinboard.unsubscribe')
+            - else
+              = link_to course_subscriptions_path(course_id: @course.id), method: :post, disable_with: '...' do
+                = render Global::FaIcon.new('star', css_classes: 'xi-icon')
+                = t(:'pinboard.subscribe')
       - else
         .col-sm-12
           = render Global::Callout.new(@pinboard.lock_reason, type: :warning, icon: Global::FaIcon.new('lock'))
@@ -21,14 +30,16 @@
     = render partial: 'question_form'
 
   .col-md-12
-    - if @pinboard.section_filter
-      label.pinboard__section-select
-        = t(:'pinboard.filters.discussions_in')
-        = select_tag 'pinboard_section',
-          options_for_select(@pinboard.section_filter, selected: @pinboard.current_section),
-          data: {change: 'redirect'}
-    div data-hide-on-submit='#pinboard__content' data-show-on-submit='#pinboard__loading'
-      = render Course::Pinboard::FilterBar.new(tags: @pinboard.tags_filter)
+    .row.mb20
+      .col-md-12
+        - if @pinboard.section_filter
+          label.pinboard__section-select
+            = t(:'pinboard.filters.discussions_in')
+            = select_tag 'pinboard_section',
+              options_for_select(@pinboard.section_filter, selected: @pinboard.current_section),
+              data: {change: 'redirect'}
+        div data-hide-on-submit='#pinboard__content' data-show-on-submit='#pinboard__loading'
+          = render Course::Pinboard::FilterBar.new(tags: @pinboard.tags_filter)
 
       #pinboard__loading[hidden]
         = render State::Loading.new(t(:'pinboard.index.loading'))

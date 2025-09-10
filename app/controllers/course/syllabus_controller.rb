@@ -4,6 +4,7 @@ class Course::SyllabusController < Abstract::FrontendController
   include Interruptible
 
   include CourseContextHelper
+
   inside_course
 
   before_action :set_no_cache_headers

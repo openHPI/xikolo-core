@@ -1,3 +1,5 @@
+@use "sass:map";
+
 $head-hero-claim-width: (
   "mobile": 70%,
   "desktop": 45%,
@@ -92,13 +94,13 @@ $head-hero-background-large: hsl(0, 0%, 96%) right top / auto 100% no-repeat !de
 
   &__heading {
     @include font-m;
-    width: map-get($head-hero-claim-width, "mobile");
+    width: map.get($head-hero-claim-width, "mobile");
     margin-bottom: 45px;
     font-weight: normal;
 
     @include small {
       @include font-xl;
-      width: map-get($head-hero-claim-width, "desktop");
+      width: map.get($head-hero-claim-width, "desktop");
     }
   }
 

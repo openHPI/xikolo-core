@@ -15,4 +15,13 @@
       padding: vertical-spacing-m(true);
     }
   }
+
+  &--compact {
+    padding: 0;
+    @include font-sm;
+  }
+
+  &--left {
+    text-align: left;
+  }
 }

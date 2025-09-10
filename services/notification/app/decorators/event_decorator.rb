@@ -2,6 +2,7 @@
 
 class EventDecorator < Draper::Decorator
   include MailerHelper
+
   delegate_all
 
   def as_json(_opts = {})

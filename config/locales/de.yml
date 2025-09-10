@@ -224,6 +224,7 @@ de:
     read_more: Mehr anzeigen
     read_less: Weniger anzeigen
     close: Schließen
+    no_data_message: Keine Daten verfügbar
 
   errors:
     not_found:
@@ -2616,6 +2617,8 @@ de:
     errors:
       loading: Es ist ein Fehler beim Laden aufgetreten.
       already_voted: Sie können nur einmal abstimmen.
+    subscribe: Diskussionsforum folgen
+    unsubscribe: Diskussionsforum nicht mehr folgen
 
   pinboard_comment:
     update: Änderungen speichern
@@ -2626,8 +2629,8 @@ de:
     unanswered: Jetzt beantworten
     show:
       back: Zur Übersicht
-      subscribe: Folgen
-      unsubscribe: Nicht mehr folgen
+      subscribe: Thema folgen
+      unsubscribe: Thema nicht mehr folgen
       destroy: Löschen
       confirm_delete: Dieses Thema löschen?
       close: Schließen
@@ -2637,8 +2640,8 @@ de:
       closed_msg: Dieses Thema wurde geschlossen und steht nur noch im Lesemodus zur Verfügung. Es können keine neuen Antworten mehr erstellt werden.
       section_locked_msg: Der Diskussionsbereich im Abschnitt "%{section}" steht nur noch im Lesemodus zur Verfügung. Es können keine neuen Themen und Antworten mehr erstellt werden.
     question_detail:
-      subscribe: Folgen
-      unsubscribe: Nicht mehr folgen
+      subscribe: Thema folgen
+      unsubscribe: Thema nicht mehr folgen
       edit: Ändern
       add_reply: Neue Antwort
     comment_form:

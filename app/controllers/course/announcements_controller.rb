@@ -4,6 +4,7 @@ class Course::AnnouncementsController < Abstract::FrontendController
   include Interruptible
 
   include CourseContextHelper
+
   inside_course
 
   def index

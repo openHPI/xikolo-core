@@ -32,6 +32,9 @@ export default async () => {
     loader: 'sass-loader',
     options: {
       sourceMap: true,
+      sassOptions: {
+        quietDeps: true,
+      },
     },
   };
 

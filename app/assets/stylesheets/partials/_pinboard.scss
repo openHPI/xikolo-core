@@ -1,3 +1,5 @@
+@use "sass:color";
+
 /*------------------------------------*\
     $CONTENTS
 
@@ -71,7 +73,7 @@ $xi-pinboard-comment-avatar-connector-width: 2px;
   padding-top: 20px;
 
   span {
-    color: darken($text-color, 20%);
+    color: color.adjust($text-color, $lightness: -20%, $space: hsl);
   }
 
   a {
@@ -91,7 +93,7 @@ $xi-pinboard-comment-avatar-connector-width: 2px;
     }
 
     &:last-of-type {
-      color: lighten($text-color, 20%);
+      color: color.adjust($text-color, $lightness: 20%, $space: hsl);
     }
   }
 }
@@ -297,7 +299,7 @@ $xi-pinboard-comment-avatar-connector-width: 2px;
   overflow: hidden;
   max-width: 250px;
   margin-right: 10px;
-  background-color: darken($gray, 10%);
+  background-color: color.adjust($gray, $lightness: -10%, $space: hsl);
   color: $white;
   cursor: pointer;
   text-overflow: ellipsis;
@@ -503,7 +505,7 @@ $xi-pinboard-comment-avatar-connector-width: 2px;
 
     tr.accepted {
       padding-right: 10px;
-      background-color: darken($gray-100, 2%);
+      background-color: color.adjust($gray-100, $lightness: -2%, $space: hsl);
     }
 
     .vote-column {
@@ -565,7 +567,11 @@ $xi-pinboard-comment-avatar-connector-width: 2px;
 
         border: 1px solid $success-500;
         margin-bottom: 10px;
-        background-color: lighten($success-500, 40%);
+        background-color: color.adjust(
+          $success-500,
+          $lightness: 40%,
+          $space: hsl
+        );
         color: $gray-600;
         font-weight: bold;
 
@@ -574,8 +580,12 @@ $xi-pinboard-comment-avatar-connector-width: 2px;
         &:hover,
         &:active,
         &:focus {
-          background-color: lighten($success-500, 30%);
-          color: darken($success-500, 20%);
+          background-color: color.adjust(
+            $success-500,
+            $lightness: 30%,
+            $space: hsl
+          );
+          color: color.adjust($success-500, $lightness: -20%, $space: hsl);
           text-decoration: none;
         }
       }
@@ -621,7 +631,7 @@ $xi-pinboard-comment-avatar-connector-width: 2px;
       }
 
       .timestamp {
-        color: darken($gray, 10%);
+        color: color.adjust($gray, $lightness: -10%, $space: hsl);
         font-style: italic;
       }
     }

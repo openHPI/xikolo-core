@@ -2,6 +2,7 @@
 
 class Account::PreferencesController < Abstract::FrontendController
   include Xikolo::Account
+
   layout 'dashboard'
 
   before_action :ensure_logged_in

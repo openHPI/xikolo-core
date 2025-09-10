@@ -1,3 +1,5 @@
+@use "sass:color";
+
 /*------------------------------------*\
     $CONTENTS
 
@@ -13,7 +15,7 @@
 \*------------------------------------*/
 //Variables and overrides here
 
-$link-color-hover: darken($link-color, 8%);
+$link-color-hover: color.adjust($link-color, $lightness: -8%, $space: hsl);
 
 /*------------------------------------*\
     Anchor-Variations

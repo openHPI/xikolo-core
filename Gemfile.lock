@@ -617,8 +617,9 @@ GEM
     rack (3.1.16)
     rack-attack (6.7.0)
       rack (>= 1.0, < 4)
-    rack-cors (2.0.2)
-      rack (>= 2.0.0)
+    rack-cors (3.0.0)
+      logger
+      rack (>= 3.0.14)
     rack-link_headers (2.4.1)
       rack
     rack-oauth2 (2.2.1)
@@ -826,14 +827,14 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
-    sentry-rails (5.23.0)
+    sentry-rails (5.26.0)
       railties (>= 5.0)
-      sentry-ruby (~> 5.23.0)
-    sentry-ruby (5.23.0)
+      sentry-ruby (~> 5.26.0)
+    sentry-ruby (5.26.0)
       bigdecimal
       concurrent-ruby (~> 1.0, >= 1.0.2)
-    sentry-sidekiq (5.23.0)
-      sentry-ruby (~> 5.23.0)
+    sentry-sidekiq (5.26.0)
+      sentry-ruby (~> 5.26.0)
       sidekiq (>= 3.0)
     set (1.1.2)
     sidekiq (7.3.9)
@@ -1031,7 +1032,7 @@ DEPENDENCIES
   puma
   rack (~> 3.1.0)
   rack-attack
-  rack-cors (~> 2.0)
+  rack-cors (~> 3.0)
   rack-link_headers (~> 2.2)
   rack-remote
   rails (~> 7.2.0)
@@ -1063,9 +1064,9 @@ DEPENDENCIES
   sanitize
   scenic (~> 1.5)
   selenium-webdriver (~> 4.11)
-  sentry-rails (~> 5.23.0)
-  sentry-ruby (~> 5.23.0)
-  sentry-sidekiq (~> 5.23.0)
+  sentry-rails (~> 5.26.0)
+  sentry-ruby (~> 5.26.0)
+  sentry-sidekiq (~> 5.26.0)
   sidekiq-cron (~> 2.0)
   simple_form (~> 5.0)
   simplecov

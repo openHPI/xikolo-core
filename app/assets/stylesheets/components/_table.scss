@@ -1,0 +1,51 @@
+/*----------------------------------------------------*\
+    $CONTENTS
+
+    Table Component
+\*----------------------------------------------------*/
+/**
+ * Base Styles..........Core table styling and layout
+ * Container............Responsive container wrapper
+ **/
+
+/*----------------------------------------------------*\
+    $Base Styles
+\*----------------------------------------------------*/
+
+.xi-table {
+  width: auto;
+  min-width: 100%;
+
+  & .table__header,
+  & .table__cell {
+    padding: $spacing-steps;
+    line-height: $line-height-s;
+    white-space: nowrap;
+  }
+
+  & .table__header {
+    border-bottom: 2px solid $gray-250;
+    text-align: left;
+  }
+
+  & .table__cell {
+    border-top: 1px solid $gray-250;
+  }
+
+  & .table__body .table__row:last-child .table__cell {
+    border-bottom: none;
+  }
+
+  & .table__body .table__row:nth-child(odd) {
+    background-color: $gray-50;
+  }
+}
+
+/*----------------------------------------------------*\
+    $Container
+\*----------------------------------------------------*/
+
+.xi-table-container {
+  -webkit-overflow-scrolling: touch;
+  overflow-x: auto;
+}

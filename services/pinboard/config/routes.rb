@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     resources :implicit_tags, controller: 'tags', type: 'ImplicitTag', only: %i[index show create]
     resources :subscriptions, except: %i[new edit]
     get '/subscriptions/:user_id/:question_id', to: 'subscriptions#show'
+    resources :course_subscriptions, except: %i[new edit]
     resources :statistics, only: %i[index show]
     resources :abuse_reports, only: %i[index show create]
     get '/user_statistics/:user_id', to: 'user_statistics#show'

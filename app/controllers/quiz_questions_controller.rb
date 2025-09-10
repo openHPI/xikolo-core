@@ -2,6 +2,7 @@
 
 class QuizQuestionsController < Abstract::FrontendController
   include CourseContextHelper
+
   respond_to :json
   before_action :ensure_content_editor
   before_action :set_no_cache_headers

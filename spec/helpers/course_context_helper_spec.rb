@@ -4,6 +4,7 @@ require 'spec_helper'
 
 class SimpleApplicationController
   include CourseContextHelper
+
   def promises
     @promises ||= {}
   end

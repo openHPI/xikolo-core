@@ -2,6 +2,7 @@
 
 class SectionsController < Abstract::FrontendController
   include CourseContextHelper
+
   before_action :ensure_content_editor, only: %i[index create destroy move update]
   before_action :load_section_nav, only: [:show]
   before_action :set_no_cache_headers

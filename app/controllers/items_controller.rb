@@ -7,6 +7,7 @@ class ItemsController < Abstract::FrontendController
   before_action :set_no_cache_headers
 
   include Interruptible
+
   before_action :ensure_content_editor, except: :show
   before_action :load_user_preferences, only: :show, if: proc {|_| current_user.authenticated? }
 

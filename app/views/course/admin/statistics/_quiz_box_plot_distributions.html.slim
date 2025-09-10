@@ -1,9 +1,0 @@
-= javascript_include_tag 'm.e.i.n.e.l'
-
-- if current_user.feature?('quiz_box_plot_distributions_query')
-  ajax-wrapper data-url="/api/v2/statistics/details/quiz?embed=box_plot_distributions&type=#{type}&course_id=#{course_id}"
-    - if current_user.feature?('quiz_box_plot_distributions_chart')
-      loading-spinner
-        fallback-text empty-data-text=t(:'admin.statistics.no_data_message')
-          schema-transformer no-merge='true' mappings='[{"name": {"type": "collect", "sourceKey": "title"}, "y": {"type": "collect", "sourceKey": "box_plot_values"}}]'
-            boxplot-basic.chart height="400" primarycolor=Xikolo.config.ui_primary_color x-title=t(:'admin.statistics.quiz.submission_perf_dist')

@@ -2,6 +2,7 @@
 
 class UsersController < Abstract::FrontendController
   include SessionHelper
+
   before_action :ensure_logged_in
 
   def show

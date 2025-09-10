@@ -2,13 +2,20 @@
 
 module State
   class Empty < ApplicationComponent
-    def initialize(text, size: nil)
+    SIZES = %i[small compact].freeze
+    POSITIONS = %i[left].freeze
+
+    def initialize(text, size: nil, align: nil)
       @text = text
       @size = size
+      @align = align
     end
 
     def css_modifiers
-      "empty-state--#{@size}" if @size == :small
+      modifiers = []
+      modifiers << "empty-state--#{@size}" if SIZES.include?(@size)
+      modifiers << "empty-state--#{@align}" if POSITIONS.include?(@align)
+      modifiers.join(' ')
     end
   end
 end

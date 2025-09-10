@@ -2,13 +2,17 @@
 
 module State
   class EmptyPreview < ViewComponent::Preview
-    # @!group Default and small size
+    # @!group Size variants
     def default_size
       render State::Empty.new('No courses found')
     end
 
     def small_size
       render State::Empty.new('No courses found', size: :small)
+    end
+
+    def compact_size
+      render State::Empty.new('No courses found', size: :compact)
     end
 
     # @!endgroup

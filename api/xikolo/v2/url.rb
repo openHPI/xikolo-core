@@ -25,6 +25,7 @@ module Xikolo
       include Sprockets::Rails::Helper
 
       extend Forwardable
+
       def_delegators ActionView::Base, *VIEW_ACCESSORS
 
       def default_url_options

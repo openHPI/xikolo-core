@@ -32,6 +32,8 @@ describe 'Pinboard: Create Topic', type: :system do
       .to_return Stub.json([])
     Stub.request(:pinboard, :get, '/explicit_tags', query: hash_including(course_id: course['id']))
       .to_return Stub.json([])
+    Stub.request(:pinboard, :get, '/course_subscriptions', query: {user_id: user['id'], course_id: course['id']})
+      .to_return Stub.json([])
   end
 
   around(&With(:csrf_protection, true))
@@ -82,6 +84,9 @@ describe 'Pinboard: Create Topic', type: :system do
     let(:other_permissions) { %w[course.content.access.available] }
 
     before do
+      Stub.request(:pinboard, :get, '/course_subscriptions',
+        query: hash_including(user_id: other_user['id'], course_id: course['id']))
+        .to_return Stub.json([])
       Stub.request(:course, :get, '/courses', query: hash_including({}))
         .and_return Stub.json([])
       Stub.request(:course, :get, '/enrollments', query: hash_including({}))

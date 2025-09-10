@@ -7,6 +7,7 @@ module DocumentHelper
     include ActiveModel::Validations
     include ActiveModel::Conversion
     extend ActiveModel::Naming
+
     def persisted?
       true
     end
@@ -20,6 +21,7 @@ module DocumentHelper
     include ActiveModel::Validations
     include ActiveModel::Conversion
     extend ActiveModel::Naming
+
     def persisted?
       true
     end

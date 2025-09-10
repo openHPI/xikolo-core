@@ -144,6 +144,12 @@ Rails.application.routes.draw do
       get 'platform_statistics/activity', to: 'platform_statistics#activity'
       get 'platform_statistics/certificates', to: 'platform_statistics#certificates'
 
+      get 'detail_statistics/countries', to: 'detail_statistics#countries'
+      get 'detail_statistics/cities', to: 'detail_statistics#cities'
+      get 'detail_statistics/top_item_types', to: 'detail_statistics#top_item_types'
+      get 'detail_statistics/videos', to: 'detail_statistics#videos'
+      get 'detail_statistics/most_active', to: 'detail_statistics#most_active'
+
       resources :streams, only: :index
       get '/find_courses', to: 'courses#index', constraints: ->(r) { r.xhr? }
       get '/find_users', to: 'users#index', constraints: ->(r) { r.xhr? }
@@ -345,6 +351,7 @@ Rails.application.routes.draw do
   post '/subscriptions/toggle_subscription/:question_id', to: 'subscriptions#toggle_subscription', as: :toggle_subscription
   post '/subscriptions/unsubscribe/:question_id', to: 'user/subscriptions#destroy', as: :unsubscribe
   get '/subscriptions/subscription_count_text', to: 'subscriptions#subscription_count_text', as: :subscription_count_text
+  resources :course_subscriptions, only: %i[create destroy]
 
   resource :notification_user_disables, path: '/notification_user_settings/disable', only: %i[show create]
 

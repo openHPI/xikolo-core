@@ -7,6 +7,10 @@ class QuestionNotifyJob < ApplicationJob
     user = Xikolo.api(:account).value.rel(:user).get({id: question.user_id})
     course = Xikolo.api(:course).value.rel(:course).get({id: question.course_id}).value!
 
+    thread_subscribers = question.subscriptions.pluck(:user_id)
+    course_subscribers = CourseSubscription.where(course_id: question.course_id).pluck(:user_id)
+    subscribers = (thread_subscribers + course_subscribers).uniq
+
     Xikolo.api(:notification).value.rel(:events).post({
       key: question.discussion_flag ? 'pinboard.discussion.new' : 'pinboard.question.new',
       payload: {
@@ -22,7 +26,7 @@ class QuestionNotifyJob < ApplicationJob
       public: true,
       course_id: question.course_id,
       link: question_url,
-      subscribers: question.subscriptions.pluck(:user_id),
+      subscribers: subscribers,
     }).value!
   end
 end

@@ -21,6 +21,7 @@ class FeaturedItemPresenter
     end
 
     extend Forwardable
+
     def_delegators :@item, :id, :title
     def_delegators :@course, :course_code
   end

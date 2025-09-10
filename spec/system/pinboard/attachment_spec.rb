@@ -38,6 +38,8 @@ describe 'Pinboard: Attachment Specs', type: :system do
       .to_return Stub.json([])
     Stub.request(:pinboard, :get, '/explicit_tags', query: hash_including(course_id: course['id']))
       .to_return Stub.json([])
+    Stub.request(:pinboard, :get, '/course_subscriptions', query: {user_id:, course_id: course['id']})
+      .to_return Stub.json([])
     Stub.request(:pinboard, :get, "/questions/#{question['id']}")
       .to_return Stub.json(question)
   end

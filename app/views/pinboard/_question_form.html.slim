@@ -37,7 +37,7 @@
           = button_tag(type: 'submit', class: 'btn btn-primary mr10', id: 'question_form_submit_button') do
             = render Global::FaIcon.new('comments', css_classes: 'fa-lg mr5')
             = t :'pinboard.submit_question'
-          = button_tag(type: 'button', class: 'btn btn-default', data: {'hide-on-click': '#question_form', 'show-on-click': '#new-topic-button', track: 'form-toggle'}) do
+          = button_tag(type: 'button', class: 'btn btn-default', data: {'hide-on-click': '#question_form', 'show-on-click': '#pinboard-actions', track: 'form-toggle'}) do
             = t :'pinboard.cancel'
 
     hr.divider.strong

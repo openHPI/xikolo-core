@@ -2,6 +2,7 @@
 
 class Admin::CourseEditPresenter
   extend Forwardable
+
   def_delegators :@form,
     :new_record?,
     :persisted?,

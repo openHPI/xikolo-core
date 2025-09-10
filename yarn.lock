@@ -7307,10 +7307,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"js-cookie@npm:^2.2.1":
-  version: 2.2.1
-  resolution: "js-cookie@npm:2.2.1"
-  checksum: 10/4387f5f5691cb96ca9ff8852c589d3012b53f484fda68630a39e20cabc6c5b740f09225e23233ba56cd9de6ebe300a23d20b2c7315f10c309ad5a89fd8c4990b
+"js-cookie@npm:^3.0.0":
+  version: 3.0.5
+  resolution: "js-cookie@npm:3.0.5"
+  checksum: 10/366494b1630b9fb8abaef3659748db5dfd52c58c6fc3459b9f0a03b492593bc1b01c6dfcc066b46f6413c28edb3a00cc68fb61ea8cdf6991bedf1f100f8a389d
   languageName: node
   linkType: hard
 
@@ -10726,7 +10726,7 @@ __metadata:
     i18n-js: "npm:^4.5.0"
     image-webpack-loader: "npm:^8.1.0"
     jquery: "npm:^2.2.4"
-    js-cookie: "npm:^2.2.1"
+    js-cookie: "npm:^3.0.0"
     lint-staged: "npm:^16.0.0"
     list.js: "npm:^2.3.1"
     luxon: "npm:^3.2.1"

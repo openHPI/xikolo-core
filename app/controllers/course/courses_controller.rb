@@ -4,6 +4,7 @@ class Course::CoursesController < Abstract::FrontendController
   include Interruptible
 
   include CourseContextHelper
+
   inside_course
 
   before_action :ensure_canonical_course_url, only: %i[show]

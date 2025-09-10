@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_07_22_104501) do
+ActiveRecord::Schema[7.2].define(version: 2025_08_12_130000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "pg_trgm"
@@ -332,6 +332,14 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_22_104501) do
     t.string "name"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+  end
+
+  create_table "course_subscriptions", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.uuid "course_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "course_id"], name: "index_course_subscriptions_on_user_id_and_course_id", unique: true
   end
 
   create_table "course_visuals", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
@@ -1588,6 +1596,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_22_104501) do
   add_foreign_key "course_set_entries", "courses", on_update: :cascade, on_delete: :restrict
   add_foreign_key "course_set_relations", "course_sets", column: "source_set_id", on_update: :cascade, on_delete: :restrict
   add_foreign_key "course_set_relations", "course_sets", column: "target_set_id", on_update: :cascade, on_delete: :restrict
+  add_foreign_key "course_subscriptions", "courses"
+  add_foreign_key "course_subscriptions", "users"
   add_foreign_key "dates", "courses"
   add_foreign_key "deliveries", "messages"
   add_foreign_key "forks", "content_tests"

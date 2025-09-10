@@ -1,3 +1,5 @@
+@use "sass:color";
+
 /*------------------------------------------------*\
     $CONTENTS
 
@@ -12,7 +14,7 @@
     $Variables
 \*--------------------------------------------*/
 
-$xi-transcript-highlighted-background-color: scale-color(
+$xi-transcript-highlighted-background-color: color.scale(
   $primary-color,
   $lightness: 80%
 ) !default;

@@ -1,3 +1,5 @@
+@use "sass:list";
+
 $tiles-group-colors: $primary-color, $secondary-color, $tertiary-color !default;
 
 .tiles-group {
@@ -31,11 +33,11 @@ $tiles-group-colors: $primary-color, $secondary-color, $tertiary-color !default;
     }
   }
 
-  @for $i from 1 through length($tiles-group-colors) {
-    .tile-container:nth-child(#{length($tiles-group-colors)}n + #{$i})
+  @for $i from 1 through list.length($tiles-group-colors) {
+    .tile-container:nth-child(#{list.length($tiles-group-colors)}n + #{$i})
       .tile--with-decoration
       .tile__title {
-      border-left: 4px solid nth($tiles-group-colors, $i);
+      border-left: 4px solid list.nth($tiles-group-colors, $i);
     }
   }
 }

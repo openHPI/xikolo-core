@@ -1,3 +1,5 @@
+@use "sass:color";
+
 /*------------------------------------*\
     Xikolo Button Styles
 
@@ -41,12 +43,12 @@
     border-color: if(
       $highlight-border,
       $highlight-border,
-      darken($border, 25%)
+      color.adjust($border, $lightness: -25%, $space: hsl)
     );
     background-color: if(
       $highlight-background,
       $highlight-background,
-      darken($background, 10%)
+      color.adjust($background, $lightness: -10%, $space: hsl)
     );
     color: if($highlight-color, $highlight-color, $color);
   }
@@ -54,12 +56,12 @@
     border-color: if(
       $highlight-border,
       $highlight-border,
-      darken($border, 12%)
+      color.adjust($border, $lightness: -12%, $space: hsl)
     );
     background-color: if(
       $highlight-background,
       $highlight-background,
-      darken($background, 10%)
+      color.adjust($background, $lightness: -10%, $space: hsl)
     );
     color: if($highlight-color, $highlight-color, $color);
   }
@@ -69,12 +71,12 @@
     border-color: if(
       $highlight-border,
       $highlight-border,
-      darken($border, 12%)
+      color.adjust($border, $lightness: -12%, $space: hsl)
     );
     background-color: if(
       $highlight-background,
       $highlight-background,
-      darken($background, 10%)
+      color.adjust($background, $lightness: -10%, $space: hsl)
     );
     background-image: none;
     color: if($highlight-color, $highlight-color, $color);
@@ -84,12 +86,12 @@
       border-color: if(
         $highlight-border,
         $highlight-border,
-        darken($border, 12%)
+        color.adjust($border, $lightness: -12%, $space: hsl)
       );
       background-color: if(
         $highlight-background,
         $highlight-background,
-        darken($background, 17%)
+        color.adjust($background, $lightness: -17%, $space: hsl)
       );
       color: if($highlight-color, $highlight-color, $color);
     }
@@ -297,7 +299,11 @@ a.btn {
   @include btn-variant($white, $gray-800, $white);
 }
 .btn-lighter-default {
-  @include btn-variant($white, lighten($gray-800, 20%), $white);
+  @include btn-variant(
+    $white,
+    color.adjust($gray-800, $lightness: 20%, $space: hsl),
+    $white
+  );
 }
 .btn-as-text {
   padding: 0;
@@ -403,7 +409,11 @@ a.btn {
   }
 
   &.inactive {
-    background-color: lighten($primary-color, 20%);
+    background-color: color.adjust(
+      $primary-color,
+      $lightness: 20%,
+      $space: hsl
+    );
     cursor: not-allowed;
   }
 }

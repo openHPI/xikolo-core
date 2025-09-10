@@ -6,6 +6,8 @@ FactoryBot.define do
     questions_url { '/questions' }
     tags_url { '/tags{?type,course_id,name}' }
     topics_url { '/topics' }
+    course_subscriptions_url { '/course_subscriptions{?user_id,course_id}' }
+    course_subscription_url { '/course_subscriptions/{id}' }
 
     initialize_with { attributes.as_json }
   end

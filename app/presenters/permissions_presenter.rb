@@ -2,6 +2,7 @@
 
 class PermissionsPresenter
   extend Forwardable
+
   def_delegator :@members, :each, :each_group
 
   def initialize

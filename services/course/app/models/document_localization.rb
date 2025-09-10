@@ -2,6 +2,7 @@
 
 class DocumentLocalization < ApplicationRecord
   include FileReference
+
   has_paper_trail
 
   validates :title, presence: true

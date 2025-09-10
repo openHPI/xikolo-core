@@ -1,3 +1,5 @@
+@use "sass:color";
+
 .xui-upload-target {
   // Highlight the dropzone when dragging something over it,
   // to signal readiness for accepting drop input.
@@ -75,7 +77,11 @@
     width: 100%;
 
     border-radius: 2px;
-    background-color: lighten($primary-color, 50%);
+    background-color: color.adjust(
+      $primary-color,
+      $lightness: 50%,
+      $space: hsl
+    );
     opacity: 0;
 
     & > div {

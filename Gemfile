@@ -41,7 +41,7 @@ gem 'msgr', '~> 1.5' # Connecting to RabbitMQ
 gem 'oj'
 gem 'rack', '~> 3.1.0'
 gem 'rack-attack'
-gem 'rack-cors', '~> 2.0'
+gem 'rack-cors', '~> 3.0'
 gem 'restify', '~> 2.0'
 
 gem 'decorate-responder', '~> 2.0'
@@ -135,9 +135,9 @@ gem 'prawn-templates', '~> 0.1.0'
 
 # Monitoring
 gem 'mnemosyne-ruby', '~> 2.1'
-gem 'sentry-rails', '~> 5.23.0'
-gem 'sentry-ruby', '~> 5.23.0'
-gem 'sentry-sidekiq', '~> 5.23.0'
+gem 'sentry-rails', '~> 5.26.0'
+gem 'sentry-ruby', '~> 5.26.0'
+gem 'sentry-sidekiq', '~> 5.26.0'
 gem 'stackprof'
 gem 'telegraf', '~> 3.0'
 

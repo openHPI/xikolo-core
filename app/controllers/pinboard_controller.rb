@@ -17,6 +17,11 @@ class PinboardController < Abstract::FrontendController
     # This prepares some variables for the new question form
     @course = the_course
 
+    @course_subscription = Xikolo.api(:pinboard).value!
+      .rel(:course_subscriptions)
+      .get({user_id: current_user.id, course_id: @course.id}).value!
+      &.first
+
     tags = [*params[:tags]]
     if params[:section_id] == 'technical_issues'
       Xikolo::Pinboard::ImplicitTag.find_by name: 'Technical Issues', course_id: @course.id do |tag|

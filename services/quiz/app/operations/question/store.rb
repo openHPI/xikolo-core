@@ -2,6 +2,7 @@
 
 class Question::Store < ApplicationOperation
   include PointsProcessor
+
   attr_reader :question
 
   def initialize(question, params)

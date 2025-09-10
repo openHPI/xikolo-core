@@ -4,6 +4,7 @@ class Course::CertificatesController < Abstract::FrontendController
   include Interruptible
 
   include CourseContextHelper
+
   inside_course except: :verify
 
   before_action :ensure_logged_in, except: :verify

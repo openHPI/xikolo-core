@@ -1,0 +1,18 @@
+- if title.present?
+  h3 = title
+
+- if data.any?
+  .xi-table-container
+    table.xi-table aria-label=title
+        thead.table__head
+          tr.table__row
+            - headers.each do |header|
+              th.table__header scope="col" = header
+
+        tbody.table__body
+          - data.each do |row|
+            tr.table__row
+              - row.each_value do |cell|
+                td.table__cell = sanitize(cell.to_s)
+- else
+  = render State::Empty.new(t('global.no_data_message'), size: :compact, align: :left)

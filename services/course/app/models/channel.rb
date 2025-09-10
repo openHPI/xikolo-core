@@ -2,6 +2,7 @@
 
 class Channel < ApplicationRecord
   include FileReference
+
   has_many :courses, dependent: :nullify
 
   validates :code, presence: true, uniqueness: true

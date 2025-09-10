@@ -203,6 +203,7 @@ module Xikolo
 
         # Delegate the request-global methods to the decorated context object
         extend Forwardable
+
         def_delegators :@context,
           :request, :document, :remote_addr, :current_user, :in_context,
           :authenticate!, :authenticate_as!, :permission!, :any_permission!,

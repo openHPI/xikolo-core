@@ -32,6 +32,9 @@ describe 'Course: Pinboard: List', type: :request do
       :course, :get, '/sections',
       query: {course_id: course.id, include_alternatives: true, published: true, available: true}
     ).to_return Stub.json(sections)
+    Stub.request(:pinboard, :get, '/course_subscriptions',
+      query: hash_including(course_id: course.id))
+      .to_return Stub.json([])
     Stub.request(:pinboard, :get, '/explicit_tags',
       query: hash_including(course_id: course.id))
       .to_return Stub.json([])

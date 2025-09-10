@@ -2,6 +2,7 @@
 
 class PersistRankingWorker
   include Sidekiq::Job
+
   def perform(course_id)
     enrollments = Enrollment.where(course_id:)
     # 1. Clear all previous quantiles:

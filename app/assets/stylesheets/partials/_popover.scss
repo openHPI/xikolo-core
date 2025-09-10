@@ -1,3 +1,5 @@
+@use "sass:color";
+
 @import "/vendor/assets/stylesheets/bootstrap/popovers";
 
 $popover-title-color: $tertiary-900 !default;
@@ -21,7 +23,7 @@ $popover-title-color: $tertiary-900 !default;
 .popover-title-wrapper {
   padding: 8px 14px;
   border-radius: ($border-radius-large - 1) ($border-radius-large - 1) 0 0;
-  border-bottom: 1px solid darken($gray-100, 5%);
+  border-bottom: 1px solid color.adjust($gray-100, $lightness: -5%, $space: hsl);
   margin: 0; // reset heading margin
   background-color: $tertiary-color;
 

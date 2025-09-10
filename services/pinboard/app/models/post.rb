@@ -21,6 +21,7 @@ class Post
   end
 
   extend Forwardable
+
   def_delegators :@wrapped,
     :id, :created_at, :text, :blocked?, :votes, :destroy
 

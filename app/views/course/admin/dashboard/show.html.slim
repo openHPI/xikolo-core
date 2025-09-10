@@ -91,9 +91,9 @@
         ajax-wrapper.kpi-item data-url="/api/v2/statistics/course_dashboard/video_plays.json?course_id=#{@course.id}" lazy-load='true'
           = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.misc.video_plays'), data_key: 'count', icon: 'fa fa-video', link: course_statistics_videos_path(course_id: params[:id]), link_text: (t 'admin.course_management.dashboard.more_details')}
         ajax-wrapper.kpi-item.quiz-performance data-url="/api/v2/statistics/course_dashboard/total_quiz_performance.json?course_id=#{@course.id}&type=graded" lazy-load='true'
-          = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.items.graded_quiz'), data_key: nil, icon: 'fa fa-user-edit', link: course_statistics_quiz_path(course_id: params[:id]), link_text: (t 'admin.course_management.dashboard.more_details')}
+          = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.items.graded_quiz'), data_key: nil, icon: 'fa fa-user-edit'}
         ajax-wrapper.kpi-item.quiz-performance data-url="/api/v2/statistics/course_dashboard/total_quiz_performance.json?course_id=#{@course.id}&type=selftest" lazy-load='true'
-          = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.items.ungraded_quiz'), data_key: nil, icon: 'fa fa-lightbulb', link: course_statistics_quiz_path(course_id: params[:id]), link_text: (t 'admin.course_management.dashboard.more_details')}
+          = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.items.ungraded_quiz'), data_key: nil, icon: 'fa fa-lightbulb'}
 
       - if @course.pinboard_enabled
         h3
