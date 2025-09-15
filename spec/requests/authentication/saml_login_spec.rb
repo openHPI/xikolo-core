@@ -73,6 +73,7 @@ RSpec.describe 'Authentication: Authenticate with SAML', type: :request do
           secret: 'def',
         }
       )
+      set_session({provider: 'test_saml', saml_uid: '1', saml_session_index: SecureRandom.uuid})
 
       Stub.request(:account, :post, '/authorizations')
         .to_return authorization_response
@@ -93,11 +94,11 @@ RSpec.describe 'Authentication: Authenticate with SAML', type: :request do
           expect(create_session_request).to have_been_requested
         end
 
-        # In the end, the auth_connect view is rendered to ask the user to either create a new account or connect the
+        # In the end, the auth_connect template is rendered to ask the user to either create a new account or connect the
         # authorization to an existing one
-        it 'redirects to the login page' do
+        it 'redirects to the new session page' do
           saml_callback
-          expect(response).to redirect_to login_url(authorization: authorization_id)
+          expect(response).to redirect_to new_session_url
         end
       end
 

@@ -4,9 +4,9 @@ require 'spec_helper'
 
 describe SessionHelper, type: :helper do
   subject(:ctx) do
-    Struct.new(:session, :current_user) do
+    Struct.new(:session, :current_user, :request) do
       include SessionHelper
-    end.new(session, current_user)
+    end.new(session, current_user, request)
   end
 
   let(:current_user) { nil }
@@ -24,6 +24,7 @@ describe SessionHelper, type: :helper do
 
     before do
       allow(current_user).to receive(:session_id).and_return(1)
+      allow(request).to receive(:env).and_return({})
     end
 
     it 'removes the session resource' do

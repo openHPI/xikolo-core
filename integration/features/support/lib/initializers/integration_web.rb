@@ -22,7 +22,7 @@ if Rails.env.integration?
       email: 'lassie@company.com',
     },
     credentials: {},
-    extra: {}
+    extra: {session_index: '1122334455'}
 
   WebMock.enable!
   WebMock.disable_net_connect!(

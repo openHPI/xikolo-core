@@ -48,9 +48,13 @@ module SessionHelper
   end
 
   def preserve_saml_session
-    saml_uid = session[:saml_uid]
-    saml_session_index = session[:saml_session_index]
-    saml_provider = session[:saml_provider]
+    # If available, the SAML response data is restored from the env rack session.
+    # For integration testing, the omniauth gem offers to mock `request.env["omniauth.auth"]`, but the SAML response
+    # data is saved to the rack session by the omniauth-saml gem, for which no mocking option exists.
+    # Thus, the SAML response data can only be retrieved from the omniauth auth_hash during testings.
+    saml_uid = session[:saml_uid] || request.env.dig('omniauth.auth', 'uid')
+    saml_session_index = session[:saml_session_index] || request.env.dig('omniauth.auth', 'extra', 'session_index')
+    saml_provider = session[:saml_provider] || request.env.dig('omniauth.auth', 'provider')
 
     yield if block_given?
 
@@ -58,10 +62,7 @@ module SessionHelper
     if saml_uid.present? && saml_session_index.present?
       session[:saml_uid] = saml_uid
       session[:saml_session_index] = saml_session_index
-
-      # If available, we restore the SAML provider previously stored in the cookie.
-      # Otherwise, we use the provider information as added through the `omniauth` gem.
-      session[:saml_provider] = saml_provider || request.env.dig('omniauth.auth', 'provider')
+      session[:saml_provider] = saml_provider
     end
   end
 

@@ -51,19 +51,43 @@ describe Account::SessionsController, type: :controller do
       end
     end
 
-    context 'with authorization' do
-      let(:params) { {authorization: auth_id} }
+    context 'with an authorization' do
       let(:auth_id) { SecureRandom.uuid }
+      let(:saml_uid) { SecureRandom.uuid }
+      let(:authorization_resource) { build(:'account:authorization', id: auth_id, user_id: nil) }
 
       before do
-        Stub.request(
-          :account, :get, "/authorizations/#{auth_id}"
-        ).to_return Stub.json({id: auth_id})
+        session[:saml_uid] = saml_uid
+        Stub.request(:account, :get, '/authorizations', query: {uid: saml_uid})
+          .to_return Stub.json([authorization_resource])
       end
 
-      it 'renders login form' do
+      it 'renders the authorization connection template' do
         action.call
         expect(response).to render_template(:auth_connect)
+      end
+
+      context 'when the authorization is already connected to an account' do
+        # When there is an active not-anonymous session, a redirect would already have happened.
+        # If the authorization is already connected to an account, this might be a forgery attempt.
+        let(:authorization_resource) { build(:'account:authorization', id: auth_id, user_id: SecureRandom.uuid) }
+
+        it 'renders the login form' do
+          action.call
+          expect(response).to render_template(:new)
+        end
+      end
+
+      context 'when the unconnected authorization was not created during this session' do
+        # The authorization was created in another session, so this may be a forgery attempt.
+        before do
+          session.clear
+        end
+
+        it 'renders the login form' do
+          action.call
+          expect(response).to render_template(:new)
+        end
       end
     end
 

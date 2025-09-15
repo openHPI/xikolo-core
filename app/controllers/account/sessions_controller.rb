@@ -31,11 +31,12 @@ class Account::SessionsController < Abstract::FrontendController
       @connect_auth_id = params[:connect_auth_id]
     end
 
-    if params[:authorization]
-      @authorization = Authorization.find params[:authorization]
+    if session[:saml_uid] && request.get?
+      @authorization = Authorization.find_by(uid: session[:saml_uid])
       Acfs.run
 
-      render 'auth_connect' if @authorization
+      # Do not offer to connect an already connected authorization!
+      render 'auth_connect' if @authorization&.user_id.blank?
     end
   end
 
@@ -211,10 +212,13 @@ class Account::SessionsController < Abstract::FrontendController
   def handle_failure!
     if @handler.user_creation_required?
       # For SLO support, the name of the authorization provider is copied to the user's cookie.
+      # Additionally, preserving the SAML session allows to identify the authorization based on the SAML uid later on
+      # without exposing the authorization ID anymore.
       preserve_saml_session
-      # This is the case where users connect a new authorization to an existing account.
-      # The controller will render the 'auth_connect' template.
-      redirect_to new_session_url(authorization: @handler.authorization)
+      # This is the case where users connect a new authorization to either an existing account (where the email address
+      # differs from the email address the SAML provider passed on) or to a new account that still needs to be created.
+      # The controller will render the 'auth_connect' template to let user decide between these two connection options.
+      redirect_to new_session_url
     else
       count_failed_login_attempt!
       session[:login_failed] = true
