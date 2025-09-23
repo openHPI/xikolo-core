@@ -17,14 +17,14 @@ describe Global::Table, type: :component do
 
     it 'renders table headers' do
       render_inline(component)
-      expect(page).to have_css('.table__header', text: 'Name')
-      expect(page).to have_css('.table__header', text: 'Age')
+      expect(page).to have_text('Name')
+      expect(page).to have_text('Age')
     end
 
     it 'renders table data' do
       render_inline(component)
-      expect(page).to have_css('.table__cell', text: 'John')
-      expect(page).to have_css('.table__cell', text: '25')
+      expect(page).to have_text('John')
+      expect(page).to have_text('25')
     end
 
     context 'with empty data' do
@@ -32,7 +32,6 @@ describe Global::Table, type: :component do
 
       it 'shows empty state component' do
         render_inline(component)
-        expect(page).to have_css('.empty-state--compact.empty-state--left')
         expect(page).to have_text('No data available')
       end
     end

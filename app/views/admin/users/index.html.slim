@@ -7,14 +7,14 @@
       .filter.mb10.white-bg.p10
         = form_tag(users_path, method: :get)
           => label(:user_filter, :query, t(:'admin.users.index.filter'))
-          => search_field_tag('q', params[:q], id: 'user_filter_query')
-          = submit_tag t(:'admin.users.index.search')
+          => search_field_tag('q', params[:q], id: 'user_filter_query', class: 'px-2 py-1 border rounded')
+          = submit_tag t(:'admin.users.index.search'), class: 'bg-gray-600 ml10 px-2 py-1 rounded text-white hover:bg-gray-800'
       - if current_user.feature? 'users.search_by_auth_uid'
         .filter.mb10.white-bg.p10
           = form_tag(users_path, method: :get)
             => label(:auth_uid, :query, t(:'admin.users.index.search_by_auth_uid'))
-            => search_field_tag('uid_query', params[:uid_query], id: 'auth_uid')
-            = submit_tag t(:'admin.users.index.go')
+            => search_field_tag('uid_query', params[:uid_query], id: 'auth_uid', class: 'px-2 py-1 border rounded')
+            = submit_tag t(:'admin.users.index.go'), class: 'bg-gray-600 ml10 px-2 py-1 rounded text-white hover:bg-gray-800'
     .col-md-2
       - if current_user.allowed? 'account.user.create'
         = link_to t(:'admin.users.create.new'), new_user_path, class: 'btn btn-primary mt10 pull-right'

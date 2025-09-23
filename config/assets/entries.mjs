@@ -12,6 +12,7 @@ export default async function entries() {
     styles: ['main.scss'],
     bootstrap: ['bootstrap-custom.scss'],
     fontawesome: ['fontawesome.scss'],
+    tailwind: ['tailwind/output.css'],
 
     admin: 'admin/admin.js',
     course: 'course/course.js',

@@ -1,5 +1,3 @@
-import moment from 'moment';
-
 export function registerNewsProgressKpiFormatter(element, i18nPrefix) {
   if (!element) return;
 
@@ -25,24 +23,6 @@ export function registerQuizPerformanceKpiFormatter(element) {
 
   element.valueFormatter = function (value) {
     return (value * 100).toFixed(2) + '%';
-  };
-}
-
-export function registerWeekdayActivityFormatters(element, i18nPrefix) {
-  if (!element) return;
-
-  element.xLabelFormatter = function (label) {
-    return moment.weekdaysShort(label);
-  };
-  element.yLabelFormatter = function (label) {
-    return moment(0).hours(label).format('LT');
-  };
-  element.cellLabelFormatter = function (data) {
-    return (
-      data.value.toLocaleString('en-US', { maximumFractionDigits: 2 }) +
-      ' ' +
-      I18n.t(i18nPrefix + '.weekday_activity.active_users_tooltip')
-    );
   };
 }
 

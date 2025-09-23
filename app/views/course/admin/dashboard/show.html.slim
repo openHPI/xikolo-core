@@ -127,7 +127,7 @@
   .row
     .col-md-4.chart-container.age
       h2 = t(:'admin.course_management.dashboard.age.title')
-      ajax-wrapper data-url='/api/v2/statistics/dashboard/age_distribution.json?course_id=#{@course.id}' error-text=t(:'admin.course_management.dashboard.request_error_message') lazy-load='true'
+      ajax-wrapper data-url='/admin/dashboard_statistics/age_distribution?course_id=#{@course.id}' error-text=t(:'admin.course_management.dashboard.request_error_message') lazy-load='true'
         loading-spinner
           fallback-text empty-data-text=t(:'admin.course_management.dashboard.no_data_message')
             schema-transformer mappings='[{"name": {"type": "constant", "value": "#{t(:'admin.course_management.dashboard.age.course')}"}, "x": {"type": "collect", "sourceKey": "age_group"}, "y": {"type": "collect", "sourceKey": "course_share"}}, {"name": {"type": "constant", "value": "#{t(:'admin.course_management.dashboard.age.platform')}"}, "x": {"type": "collect", "sourceKey": "age_group"}, "y": {"type": "collect", "sourceKey": "global_share"}}]'
@@ -135,13 +135,8 @@
 
     .col-md-4.chart-container.client-usage
       h2 = t(:'admin.course_management.dashboard.client_usage.title')
-      ajax-wrapper data-url='/api/v2/statistics/dashboard/client_usage.json?course_id=#{@course.id}&start_date=#{@course.start_date || @course.created_at}&end_date=#{@course.end_date || Time.zone.today}' error-text=t(:'admin.course_management.dashboard.request_error_message') lazy-load='true'
+      ajax-wrapper data-url='/admin/dashboard_statistics/client_usage?course_id=#{@course.id}&start_date=#{@course.start_date || @course.created_at}&end_date=#{@course.end_date || Time.zone.today}' error-text=t(:'admin.course_management.dashboard.request_error_message') lazy-load='true'
         loading-spinner
           fallback-text empty-data-text=t(:'admin.course_management.dashboard.no_data_message')
             schema-transformer no-merge='true' mappings='[{"sets": {"type": "collect", "sourceKey": "client_types"}, "size": {"type": "collect", "sourceKey": "total_users"}, "label": {"type": "collect", "sourceKey": "client_types"}}]'
               vennchart-basic.chart height="350" hide-intersection-labels='true'
-
-  .row
-    - Xikolo.config.dashboard_chart_custom_fields.each do |field|
-      .col-md-4.chart-container
-        = render Statistics::CustomFieldChart.new(field:, course_id: @course.id)

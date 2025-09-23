@@ -55,6 +55,7 @@ examples.txt
 
 # Auto-generated assets
 /public/assets*
+/app/assets/tailwind/output.css
 
 # Auto-generated API documentation
 /doc/api

@@ -45,7 +45,7 @@
     .col-md-4.chart-container.age
       h2
         = t(:'.age.title')
-      ajax-wrapper data-url='/api/v2/statistics/dashboard/age_distribution.json' error-text=t(:'.request_error_message') lazy-load='true'
+      ajax-wrapper data-url='/admin/dashboard_statistics/age_distribution' error-text=t(:'.request_error_message') lazy-load='true'
         loading-spinner
           fallback-text empty-data-text=t(:'.no_data_message')
             schema-transformer mappings='[{"x": {"type": "collect", "sourceKey": "age_group"}, "y": {"type": "collect", "sourceKey": "global_share"}}]'
@@ -54,7 +54,7 @@
     .col-md-4.chart-container.client-usage
       h2
         = t(:'.client_usage.title')
-      ajax-wrapper data-url='/api/v2/statistics/dashboard/client_usage.json' error-text=t(:'.request_error_message') lazy-load='true'
+      ajax-wrapper data-url='/admin/dashboard_statistics/client_usage' error-text=t(:'.request_error_message') lazy-load='true'
         loading-spinner
           fallback-text empty-data-text=t(:'.no_data_message')
             schema-transformer no-merge='true' mappings='[{"sets": {"type": "collect", "sourceKey": "client_types"}, "size": {"type": "collect", "sourceKey": "total_users"}, "label": {"type": "collect", "sourceKey": "client_types"}}]'

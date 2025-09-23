@@ -9,8 +9,8 @@
           = link_to t(:'admin.video_providers.title'), admin_video_providers_path, class: 'mr10'
         = form_tag videos_path, method: :get
           => label :video_filter, :prefix, t(:'admin.videos.index.filter_videos')
-          => search_field_tag 'prefix', params[:prefix], id: 'video_filter_prefix'
-          = submit_tag t(:'admin.videos.index.search')
+          => search_field_tag 'prefix', params[:prefix], id: 'video_filter_prefix', class: 'px-2 py-1 border rounded'
+          = submit_tag t(:'admin.videos.index.search'), class: 'bg-gray-600 px-2 py-1 rounded text-white hover:bg-gray-800 focus:bg-gray-800'
       table.table.table-striped.table-condensed.table-hover#video-list
         tr
           th = t(:'admin.videos.index.provider')

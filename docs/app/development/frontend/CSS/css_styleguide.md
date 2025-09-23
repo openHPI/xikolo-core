@@ -2,6 +2,17 @@
 
 This CSS Styleguide contains a set of standards and rules on how to write CSS code in Xikolo. Its purpose is to develop a more consistent and maintainable project.
 
+## Tailwind
+
+[Tailwind](https://tailwindcss.com) is introduced to speed up UI implementation, reduce one-off SCSS, and converge on a shared design token system.
+It co-exists with legacy SCSS and Bootstrap during migration.
+
+### Migration notes
+
+- New UI: default to Tailwind utilities.
+- Do not mass-convert stable SCSS without benefit.
+- Prefer removing obsolete SCSS rules when equivalent utilities cover them.
+
 ## Linter
 
 A CSS Linter is a tool that does basic syntax checking and applies a set of rules to help you write more efficient code. The rules we use in Xikolo are defined in the [stylelint standard config](https://github.com/stylelint/stylelint-config-standard) and extended by [these rules in the stylelint config](https://gitlab.hpi.de/openhpi/xikolo/web/blob/master/.stylelintrc.js).
@@ -10,9 +21,13 @@ At the moment, we choose to [ignore all files](https://gitlab.hpi.de/openhpi/xik
 
 For the [video-player project](https://gitlab.hpi.de/openhpi/xikolo/video-player), we want to stick to the same linter rules. With the [exceptions](https://gitlab.hpi.de/openhpi/xikolo/video-player/blob/master/.eslintrc.json), we have to take into account to make sure the linter does not collide with the stencil tool we are using. The same project rules apply.
 
-## Project rules
+## Project rules for legacy CSS
 
 Rules listed here cannot be enforced by a linter. Nevertheless, these rules should always be applied.  If an exception is required, the reason should be commented on in the code.
+
+### Bootstrap is deprecated
+
+As mentioned above, use Tailwind for new UI.
 
 ### Use BEM notation
 

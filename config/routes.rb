@@ -149,6 +149,8 @@ Rails.application.routes.draw do
       get 'detail_statistics/top_item_types', to: 'detail_statistics#top_item_types'
       get 'detail_statistics/videos', to: 'detail_statistics#videos'
       get 'detail_statistics/most_active', to: 'detail_statistics#most_active'
+      get 'dashboard_statistics/age_distribution', to: 'dashboard_statistics#age_distribution'
+      get 'dashboard_statistics/client_usage', to: 'dashboard_statistics#client_usage'
 
       resources :streams, only: :index
       get '/find_courses', to: 'courses#index', constraints: ->(r) { r.xhr? }

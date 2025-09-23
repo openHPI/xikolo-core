@@ -2,6 +2,10 @@
   padding: 10px;
   background-color: $gray-50;
 
+  summary {
+    display: block;
+  }
+
   &--light {
     padding: 10px 10px 0 0;
     background-color: transparent;

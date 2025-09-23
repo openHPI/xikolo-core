@@ -1,9 +1,0 @@
-h2 = headline
-ajax-wrapper data-url=data_path error-text=t(:'admin.course_management.dashboard.request_error_message') lazy-load='true'
-  loading-spinner
-    fallback-text empty-data-text=t(:'admin.course_management.dashboard.no_data_message')
-      schema-transformer mappings='\
-        [\
-          {"name": {"type": "constant", "value": "#{legend_value}"}, "x": {"type": "collect", "sourceKey": "field_value"}, "y": {"type": "collect", "sourceKey": "value_count"}}\
-        ]'
-        barchart-basic.chart height="350" primarycolor=Xikolo.config.ui_primary_color
