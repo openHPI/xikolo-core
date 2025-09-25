@@ -81,8 +81,8 @@ class ProgressDecorator < ApplicationDecorator
       total_exercises: result.total_exercises,
       graded_exercises: result.graded_exercises,
       submitted_exercises: result.submitted_exercises,
-      next_publishing_date: result.next_publishing_date,
-      last_publishing_date: result.last_publishing_date,
+      next_publishing_date: result.next_publishing_date&.iso8601,
+      last_publishing_date: result.last_publishing_date&.iso8601,
       items: decorate_items(model.items_for(result)),
     }
   end

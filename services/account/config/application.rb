@@ -58,8 +58,6 @@ module Xikolo::Account
 
     config.session_store :cookie_store, key: '_xaccount'
 
-    config.active_support.time_precision = 0
-
     # Prepend all log lines with the following tags.
     config.log_tags = [:request_id]
 

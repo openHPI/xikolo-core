@@ -135,10 +135,10 @@ gem 'prawn-templates', '~> 0.1.0'
 
 # Monitoring
 gem 'mnemosyne-ruby', '~> 2.1'
-gem 'sentry-rails', '~> 5.26.0'
+gem 'stackprof'                 # stackprof must be required before Sentry
+gem 'sentry-rails', '~> 5.26.0' # rubocop:disable Bundler/OrderedGems
 gem 'sentry-ruby', '~> 5.26.0'
 gem 'sentry-sidekiq', '~> 5.26.0'
-gem 'stackprof'
 gem 'telegraf', '~> 3.0'
 
 # Open Badges

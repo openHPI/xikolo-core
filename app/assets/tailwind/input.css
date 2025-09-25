@@ -59,3 +59,9 @@
   --color-note-500: hsl(208deg, 56%, 53%);
   --color-note-100: hsl(208deg, 56%, 90%);
 }
+
+@layer components {
+  .xi-date-field {
+    @apply block py-3 px-4 pr-10 w-full text-sm placeholder-gray-400 text-gray-900 bg-white border border-gray-250 appearance-none disabled:text-gray-500 disabled:bg-gray-100 disabled:cursor-not-allowed inset-shadow-xs;
+  }
+}

@@ -42,20 +42,8 @@
             = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.certificates.cop'), data_key: 'cop_count', icon: 'fa fa-file'}
 
   .row
-    .col-md-4.chart-container.age
-      h2
-        = t(:'.age.title')
-      ajax-wrapper data-url='/admin/dashboard_statistics/age_distribution' error-text=t(:'.request_error_message') lazy-load='true'
-        loading-spinner
-          fallback-text empty-data-text=t(:'.no_data_message')
-            schema-transformer mappings='[{"x": {"type": "collect", "sourceKey": "age_group"}, "y": {"type": "collect", "sourceKey": "global_share"}}]'
-              barchart-basic.chart height="350" primarycolor=Xikolo.config.ui_primary_color
+    .col-md-6.mb15
+      = render Global::Table.new(data: @age_distribution_table_rows, headers: @age_distribution_table_headers, title: t(:'admin.dashboard.show.age.title'))
 
-    .col-md-4.chart-container.client-usage
-      h2
-        = t(:'.client_usage.title')
-      ajax-wrapper data-url='/admin/dashboard_statistics/client_usage' error-text=t(:'.request_error_message') lazy-load='true'
-        loading-spinner
-          fallback-text empty-data-text=t(:'.no_data_message')
-            schema-transformer no-merge='true' mappings='[{"sets": {"type": "collect", "sourceKey": "client_types"}, "size": {"type": "collect", "sourceKey": "total_users"}, "label": {"type": "collect", "sourceKey": "client_types"}}]'
-              vennchart-basic.chart height="350" hide-intersection-labels='true'
+    .col-md-6.mb15
+      = render Global::Table.new(data: @client_usage_table_rows, headers: @client_usage_table_headers, title: t(:'admin.dashboard.show.client_usage.title'))

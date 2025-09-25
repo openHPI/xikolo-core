@@ -25,6 +25,18 @@ describe 'Course: Admin: Dashboard: Show', type: :request do
       .to_return Stub.json(course_resource)
     Stub.request(:course, :get, '/next_dates', query: hash_including({}))
       .to_return Stub.json([])
+
+    allow(Admin::Statistics::AgeDistribution).to receive(:call).and_return([])
+
+    Stub.service(:learnanalytics, build(:'lanalytics:root'))
+    Stub.request(:learnanalytics, :get, '/metrics')
+      .to_return Stub.json([
+        {'name' => 'client_combination_usage', 'available' => true},
+      ])
+    Stub.request(
+      :learnanalytics, :get, '/metrics/client_combination_usage',
+      query: hash_including({})
+    ).to_return Stub.json([])
   end
 
   context 'as anonymous user' do
@@ -60,6 +72,13 @@ describe 'Course: Admin: Dashboard: Show', type: :request do
           expect(response.body).to include 'CoPs until course end'
           expect(response.body).to include 'CoPs after course end'
         end
+      end
+
+      it 'renders age distribution and client usage tables' do
+        show_course_dashboard
+        expect(response).to render_template :show
+        expect(response.body).to include 'Age Distribution'
+        expect(response.body).to include 'Client Usage'
       end
     end
   end

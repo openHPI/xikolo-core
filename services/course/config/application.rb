@@ -58,8 +58,6 @@ module Xikolo::CourseService
     config.i18n.default_locale = :en
     config.i18n.fallbacks = %i[en]
 
-    ActiveSupport::JSON::Encoding.time_precision = 0
-
     # Configure Telegraf event collection
     config.telegraf.connect = ENV.fetch('TELEGRAF_CONNECT', nil)
     config.telegraf.tags = {application: 'course'}

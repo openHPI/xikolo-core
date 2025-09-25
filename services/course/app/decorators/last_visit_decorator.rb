@@ -6,7 +6,7 @@ class LastVisitDecorator < ApplicationDecorator
   def fields
     {
       item_id:,
-      visit_date: last_visited,
+      visit_date: last_visited&.iso8601,
     }
   end
 

@@ -7,11 +7,11 @@ class EnrollmentDecorator < ApplicationDecorator
       id:,
       user_id:,
       course_id:,
-      created_at: created_at.try(:iso8601, 3),
-      updated_at: updated_at.try(:iso8601, 3),
+      created_at: created_at&.iso8601,
+      updated_at: updated_at&.iso8601,
       proctored:,
       deleted:,
-      forced_submission_date:,
+      forced_submission_date: forced_submission_date&.iso8601,
     }
     if %i[user_dpoints maximal_dpoints]
         .map {|method| model.has_attribute? method }.all? # learning evaluation

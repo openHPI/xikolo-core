@@ -1393,14 +1393,18 @@ en:
             helpdesk_tickets: Helpdesk tickets # Do not translate
         client_usage: # Do not translate
           title: Client Usage # Do not translate
-          learners_tooltip: Users # Do not translate
-          label_desktop_web: Desktop Web # Do not translate
-          label_mobile_web: Mobile Web # Do not translate
-          label_mobile_app: App # Do not translate
+          table:
+            client_types: Client Types # Do not translate
+            users: Users # Do not translate
+            share: Share # Do not translate
         age: # Do not translate
           title: Age Distribution # Do not translate
-          course: Course # Do not translate
-          platform: Platform # Do not translate
+          table:
+            age_group: Age Group # Do not translate
+            course_count: Course Count # Do not translate
+            course_share: Course Share # Do not translate
+            global_count: Global Count # Do not translate
+            global_share: Global Share # Do not translate
       policy_url: Policy URL
 
     dashboard:
@@ -1443,14 +1447,18 @@ en:
           title: User Locations (Last Month) # Do not translate
         client_usage: # Do not translate
           title: Client Usage (Last Month) # Do not translate
-          learners_tooltip: Users # Do not translate
-          label_desktop_web: Desktop Web # Do not translate
-          label_mobile_web: Mobile Web # Do not translate
-          label_mobile_app: App # Do not translate
+          table:
+            client_types: Client Types # Do not translate
+            users: Users # Do not translate
+            share: Share # Do not translate
         referrers: # Do not translate
           title: Top Traffic Sources # Do not translate
         age: # Do not translate
           title: Age Distribution # Do not translate
+          table:
+            age_group: Age Group # Do not translate
+            global_count: Global Count # Do not translate
+            global_share: Global Share # Do not translate
     statistics: # Do not translate
       no_data_message: No data available # Do not translate
       activity: # Do not translate

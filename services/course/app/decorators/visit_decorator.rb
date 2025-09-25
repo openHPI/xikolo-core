@@ -8,8 +8,8 @@ class VisitDecorator < ApplicationDecorator
       id:,
       item_id:,
       user_id:,
-      created_at:,
-      updated_at:,
+      created_at: created_at.iso8601,
+      updated_at: updated_at.iso8601,
     }
   end
 

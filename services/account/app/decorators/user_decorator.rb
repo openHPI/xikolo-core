@@ -45,6 +45,18 @@ class UserDecorator < ApplicationDecorator
     consents_url
   ].freeze
 
+  def born_at
+    super&.iso8601
+  end
+
+  def created_at
+    super.iso8601
+  end
+
+  def updated_at
+    super.iso8601
+  end
+
   def as_json(opts = {})
     export DEFAULT, LINKS, **opts
   end

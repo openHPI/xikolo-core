@@ -101,8 +101,7 @@ $kpi-font: $xi-font-data !default;
     font-size: 14px;
     text-overflow: ellipsis;
   }
-  .info-box-text {
-  }
+
   .info-box-more {
     display: block;
   }
@@ -158,17 +157,10 @@ a.detail-link {
     }
 
     &.daytime-activity,
-    &.age,
-    &.client-usage,
     &.referrers {
       .chart {
         margin-top: 20px;
       }
-    }
-
-    &.client-usage .chart svg text {
-      font-size: 14px;
-      font-weight: normal;
     }
   }
 }
@@ -260,17 +252,10 @@ a.detail-link {
     }
 
     &.daytime-activity,
-    &.age,
-    &.client-usage,
     &.referrers {
       .chart {
         margin-top: 20px;
       }
-    }
-
-    &.client-usage .chart svg text {
-      font-size: 14px;
-      font-weight: normal;
     }
   }
 }

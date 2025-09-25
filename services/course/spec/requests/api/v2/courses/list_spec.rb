@@ -386,8 +386,8 @@ describe '[API v2] Course: List', type: :request do
         expect(course_data['description']).to eq 'Course Characteristics --------------- ...'
       end
 
-      its(['start_date']) { is_expected.to eq course.display_start_date.iso8601(3) }
-      its(['end_date']) { is_expected.to eq course.end_date.iso8601(3) }
+      its(['start_date']) { is_expected.to eq course.display_start_date.iso8601 }
+      its(['end_date']) { is_expected.to eq course.end_date.iso8601 }
 
       it 'includes enrollment info if wanted' do
         data = api.rel(:courses).get({embed: 'enrollment'}).value[0]

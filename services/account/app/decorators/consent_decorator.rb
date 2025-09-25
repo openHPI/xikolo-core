@@ -19,6 +19,10 @@ class ConsentDecorator < ApplicationDecorator
 
   delegate :id, :name, :required, to: :'model.treatment'
 
+  def consented_at
+    super.iso8601
+  end
+
   def optional_fields
     [].tap do |fields|
       fields << :consented_at unless consented.nil?

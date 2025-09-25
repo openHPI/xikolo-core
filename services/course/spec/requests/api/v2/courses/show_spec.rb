@@ -148,13 +148,13 @@ describe '[API v2] Course: Show', type: :request do
     context 'without display_start_date but start_date' do
       let(:course_attrs) { super().merge display_start_date: nil }
 
-      its(['start_date']) { is_expected.to eq course.start_date.iso8601(3) }
+      its(['start_date']) { is_expected.to eq course.start_date.iso8601 }
     end
 
     context 'with display_start_date' do
       let(:course_attrs) { super().merge display_start_date: 2.days.ago }
 
-      its(['start_date']) { is_expected.to eq course.display_start_date.iso8601(3) }
+      its(['start_date']) { is_expected.to eq course.display_start_date.iso8601 }
     end
 
     context 'without end date' do
@@ -166,7 +166,7 @@ describe '[API v2] Course: Show', type: :request do
     context 'with end date' do
       let(:course_attrs) { super().merge end_date: 3.days.from_now }
 
-      its(['end_date']) { is_expected.to eq course.end_date.iso8601(3) }
+      its(['end_date']) { is_expected.to eq course.end_date.iso8601 }
     end
   end
 

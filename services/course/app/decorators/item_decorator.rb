@@ -6,8 +6,8 @@ class ItemDecorator < ApplicationDecorator
     {
       id:,
       title:,
-      start_date: start_date.try(:iso8601, 3),
-      end_date: end_date.try(:iso8601, 3),
+      start_date: start_date&.iso8601,
+      end_date: end_date&.iso8601,
       content_type:,
       content_id:,
       exercise_type: model.exercise_type,
