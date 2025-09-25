@@ -30,6 +30,12 @@ class UserDecorator < ApplicationDecorator
 
     created_at
     updated_at
+
+    country
+    state
+    city
+    gender
+    status
   ].freeze
 
   LINKS = %i[

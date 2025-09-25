@@ -9,7 +9,7 @@
         = simple_form_for @account, url: account_path, wrapper: :compact do |f|
           = f.error_notification
           = f.input :full_name
-          = f.input :born_at, as: :date, label: t(:'simple_form.labels.account.date_of_birth'), input_html: {'data-birthday': true}, hint: t(:'simple_form.hints.account.date_of_birth')
+          = f.input :born_at, as: :date, html5: true, label: t(:'simple_form.labels.account.date_of_birth'), required: true, hint: t(:'simple_form.hints.account.date_of_birth')
           = f.input :email
           = f.input :password
           = f.input :password_confirmation

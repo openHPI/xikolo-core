@@ -79,6 +79,18 @@ module PlaceSteps
     expect(page).to have_current_path '/dashboard/profile'
   end
 
+  Then 'I am on the profile edit page' do
+    expect(page).to have_current_path '/dashboard/profile/edit'
+  end
+
+  Then 'I am on the profile picture edit page' do
+    expect(page).to have_current_path '/dashboard/profile/edit_avatar'
+  end
+
+  Then 'I am on the profile edit email page' do
+    expect(page).to have_current_path '/dashboard/profile/edit_email'
+  end
+
   Then 'I should be on the profile settings page' do
     expect(page).to have_current_path '/preferences'
   end

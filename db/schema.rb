@@ -19,6 +19,13 @@ ActiveRecord::Schema[7.2].define(version: 2025_08_12_130000) do
   enable_extension "unaccent"
   enable_extension "uuid-ossp"
 
+  create_enum :gender, [
+    "male",
+    "female",
+    "diverse",
+    "undisclosed",
+  ], force: :cascade
+
   create_enum :link_target, [
     "self",
     "blank",
@@ -52,6 +59,32 @@ ActiveRecord::Schema[7.2].define(version: 2025_08_12_130000) do
   create_enum :sort_mode, [
     "automatic",
     "manual",
+  ], force: :cascade
+
+  create_enum :state, [
+    "BW",
+    "BY",
+    "BE",
+    "BB",
+    "HB",
+    "HH",
+    "HE",
+    "MV",
+    "NI",
+    "NW",
+    "RP",
+    "SL",
+    "SN",
+    "ST",
+    "SH",
+    "TH",
+  ], force: :cascade
+
+  create_enum :user_category, [
+    "school_student",
+    "university_student",
+    "teacher",
+    "other",
   ], force: :cascade
 
   create_function :uuid_generate_v7ms, sql_definition: <<-'SQL'
@@ -1493,6 +1526,11 @@ ActiveRecord::Schema[7.2].define(version: 2025_08_12_130000) do
     t.string "avatar_uri"
     t.string "full_name", null: false
     t.date "last_access"
+    t.string "country"
+    t.enum "state", enum_type: "state"
+    t.string "city"
+    t.enum "gender", enum_type: "gender"
+    t.enum "status", enum_type: "user_category"
     t.index ["archived"], name: "index_users_on_archived"
     t.index ["confirmed"], name: "index_users_on_confirmed"
     t.index ["created_at", "id"], name: "index_users_pagination"

@@ -25,6 +25,11 @@ describe UserDecorator, type: :decorator do
         archived
         accepted_policy_version
         policy_accepted
+        status
+        gender
+        country
+        state
+        city
 
         name
         full_name

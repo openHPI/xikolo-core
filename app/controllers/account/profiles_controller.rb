@@ -3,66 +3,78 @@
 class Account::ProfilesController < Abstract::FrontendController
   include Xikolo::Account
 
+  require 'marcel'
   require_feature 'profile'
   before_action :ensure_logged_in
   include Interruptible
 
-  USER_KEYS = %i[full_name display_name born_at].freeze
-
   def show
-    user = find_user
-    @profile = Account::ProfilePresenter.new(user, native_login: current_user.feature?('account.login'))
+    @profile = Account::ProfilePresenter.new(find_user, native_login: current_user.feature?('account.login'))
     Acfs.run
 
     set_page_title t(:'header.navigation.profile')
     render layout: 'dashboard'
   end
 
-  def update
-    if user_params.any?
-      update_user
-    elsif params[:email].present?
-      update_email
-    elsif params.key?(:name) && params.key?(:value)
-      update_profile
-    end
-  rescue Acfs::InvalidResource => e
-    # This is an ACFS error object, not Rails:
-    # rubocop:disable Rails/DeprecatedActiveModelErrorsMethods
-    render status: :unprocessable_entity, plain: e.errors.values.flatten.join(', ')
-    # rubocop:enable Rails/DeprecatedActiveModelErrorsMethods
+  def edit
+    @user ||= find_user
+    @profile = Account::ProfilePresenter.new(@user, native_login: current_user.feature?('account.login'))
+
+    Acfs.run
+
+    set_page_title t(:'header.navigation.profile')
+    render layout: 'dashboard'
   end
 
-  def update_user
-    user = find_user
+  def edit_email
+    @profile = Account::ProfilePresenter.new(find_user, native_login: current_user.feature?('account.login'))
+    @email = Email.new
 
-    user.update_attributes!(user_params)
+    Acfs.run
 
-    render json: {
-      status: 'ok',
-      user: {
-        full_name: user.full_name,
-        name: user.name,
-        display_name: user.display_name,
-        born_at: user.born_at,
-      }.transform_values {|val| ERB::Util.html_escape(val) },
-    }
+    set_page_title t(:'header.navigation.profile')
+    render layout: 'dashboard'
+  end
+
+  def edit_avatar
+    @user = find_user
+
+    set_page_title t(:'header.navigation.profile')
+    render layout: 'dashboard'
+  end
+
+  def update
+    @user = find_user
+
+    if @user.update_attributes(user_params)
+      add_flash_message :success, t(:'flash.success.profile_updated')
+      redirect_to dashboard_profile_path
+    else
+      add_flash_message :error, t(:'flash.error.profile_not_updated')
+      @profile = Account::ProfilePresenter.new(@user, native_login: current_user.feature?('account.login'))
+      render 'edit', layout: 'dashboard'
+      nil
+    end
   end
 
   def update_email
-    email = Email.create! user_id: current_user.id, address: params[:email]
+    email = Email.create(user_id: current_user.id, address: email_params[:address])
 
-    verifier = ::Account::ConfirmationsController.verifier
-    payload = verifier.generate(email.id.to_s)
+    if email.errors.present?
+      add_flash_message :error, t(:"flash.error.email_error_#{email.errors.first.type}")
+    else
+      verifier = ::Account::ConfirmationsController.verifier
+      payload = verifier.generate(email.id.to_s)
 
-    Msgr.publish({
-      user_id: current_user.id,
-      id: email.id,
-      url: account_confirmation_url(payload),
-    }, to: 'xikolo.account.email.confirm')
+      Msgr.publish({
+        user_id: current_user.id,
+        id: email.id,
+        url: account_confirmation_url(payload),
+      }, to: 'xikolo.account.email.confirm')
 
-    add_flash_message :notice, t(:'flash.notice.confirmation_email_required', email: email.address)
-    render json: {status: 'ok', email: current_user.email}
+      add_flash_message :notice, t(:'flash.notice.confirmation_email_required', email: email.address)
+    end
+    redirect_to profile_edit_email_path
   end
 
   def unsuspend_primary_email
@@ -90,7 +102,7 @@ class Account::ProfilesController < Abstract::FrontendController
   end
 
   def delete_email
-    email = Email.find params[:id], params: {user_id: current_user.id}
+    email = Email.find(params[:id], params: {user_id: current_user.id})
     begin
       Acfs.run
     rescue Acfs::ResourceNotFound
@@ -100,59 +112,43 @@ class Account::ProfilesController < Abstract::FrontendController
 
     email.delete
 
+    add_flash_message :success, t(:'flash.success.email_deleted')
     redirect_to profile_path
   end
 
   def change_primary_email
-    Email.find params[:id], params: {user_id: current_user.id} do |e|
-      e.update_attributes({primary: true})
-    end
-
+    mail = Email.find(params[:id], params: {user_id: current_user.id})
     Acfs.run
+    email = account_api.rel(:email).get({id: mail.address}).value!
+    email.rel(:self).patch({primary: true}).value!
 
     redirect_to profile_path
   end
 
-  def update_profile
-    profile = Profile.find user_id: current_user.id
-    Acfs.run
-
-    if params[:value].is_a?(Array)
-      profile.fields[params[:name]].values = params[:value]
-    else
-      profile.fields[params[:name]].value = params[:value]
-    end
-    profile.save!
-
-    render json: {status: 'ok', params[:name] => profile.fields[params[:name]].value}
-  end
-
   def update_visual
-    if params[:visual]
-      uuid = UUID4.new.to_s
-      filename = params[:visual].original_filename.gsub(/[^-a-zA-Z0-9_.]+/, '_')
-      bucket = Xikolo::S3.bucket_for(:uploads)
-      bucket.put_object(
-        key: "uploads/#{uuid}/#{filename}",
-        body: params[:visual],
-        acl: 'private',
-        metadata: {
-          'xikolo-purpose' => 'account_user_avatar',
-          'xikolo-state' => 'accepted',
-        }
-      )
+    if params[:xikolo_account_user].present?
+      @user = find_user
 
-      user = find_user
-      user.update_attributes!({avatar_upload_id: uuid})
+      if avatar_params[:avatar_upload_id].present?
+        @user.update_attributes({avatar_upload_id: avatar_params[:avatar_upload_id]})
+
+        if @user.errors.present?
+          add_flash_message :error, t(:"flash.error.upload_#{@user.errors.first.type}")
+        else
+          add_flash_message :success, t(:'flash.success.profile_picture_uploaded')
+        end
+      else
+        @user.update_attributes({avatar_uri: nil})
+
+        if @user.errors.present?
+          add_flash_message :error, t(:'flash.error.profile_picture_not_deleted')
+        else
+          add_flash_message :success, t(:'flash.success.profile_picture_deleted')
+        end
+      end
     end
 
     redirect_to dashboard_profile_path
-  rescue => e
-    ::Mnemosyne.attach_error(e)
-    ::Sentry.capture_exception(e)
-
-    redirect_to dashboard_profile_path,
-      error: t(:'flash.error.picture_not_uploaded')
   end
 
   def change_my_password
@@ -169,14 +165,24 @@ class Account::ProfilesController < Abstract::FrontendController
   private
 
   def user_params
-    params.permit(*USER_KEYS).to_h.tap do |p|
-      p[:full_name] = p[:full_name].squish if p[:full_name]
-      p[:display_name] = p[:display_name].squish if p[:display_name]
-    end
+    params.require(:xikolo_account_user).permit(:full_name, :display_name, :born_at, :status, :country, :state,
+      :city, :gender).transform_values(&:presence)
+  end
+
+  def avatar_params
+    params.require(:xikolo_account_user).permit(:avatar_upload_id)
+  end
+
+  def email_params
+    params.require(:xikolo_account_email).permit(:address)
   end
 
   def password_params
-    params.require(:xikolo_account_user).permit :old_password, :new_password, :password_confirmation
+    params.require(:xikolo_account_user).permit(:old_password, :new_password, :password_confirmation)
+  end
+
+  def account_api
+    @account_api ||= Xikolo.api(:account).value!
   end
 
   def find_user

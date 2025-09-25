@@ -6,3 +6,4 @@
 
 import './settings/preferences';
 import './profile/consents';
+import './profile/states';

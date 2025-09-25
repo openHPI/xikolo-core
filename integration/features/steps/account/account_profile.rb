@@ -10,43 +10,67 @@ module Steps
       end
     end
 
+    Given 'I am on the profile edit page' do
+      visit '/dashboard/profile/edit'
+    end
+
+    Given 'I am on the profile edit email page' do
+      visit '/dashboard/profile/edit_email'
+    end
+
+    Given 'I am on the avatar edit page' do
+      visit '/dashboard/profile/edit_avatar'
+    end
+
     Given 'there are mandatory profile fields' do
       Rack::Remote.invoke :account, :test_mandatory_profile
     end
 
+    When 'I delete the secondary email' do
+      click_link 'Delete'
+
+      within_dialog do
+        click_on 'Yes, sure'
+      end
+
+      expect(page).to have_content('Your secondary e-mail has successfully been deleted')
+    end
+
+    When 'I add a new email address' do
+      fill_in 'Add a new e-mail address', with: 'john@example.com'
+      click_button 'Save'
+
+      expect(page).to have_content('We sent you a confirmation e-mail to john@example.com.')
+    end
+
     When 'I upload a profile image' do
-      page.execute_script("$('#user_visual_upload').removeClass('hide')")
-      attach_file 'user_visual_upload', asset_path('profile_image.jpg')
+      attach_file 'xikolo_account_user_avatar', asset_path('profile_image.jpg')
+
+      click_button 'Save'
     end
 
     When 'I fill out the date of birth' do
-      find('a[data-name=born_at]').click
+      date_input = find('input[name="xikolo_account_user[born_at]"]', visible: false)
+      page.execute_script("arguments[0].value = '2000-08-31'", date_input)
+      click_button 'Save'
 
-      within '.editable-container .month' do
-        find("option[value='9']").click
-      end
-
-      within '.editable-container .day' do
-        find("option[value='1']").click
-      end
-
-      within '.editable-container .year' do
-        find("option[value='1998']").click
-      end
-
-      find('.editable-container button[type="submit"]').click
-
-      # Wait for inline-edit to be successful
-      expect(page).to have_selector '.editable-updated'
+      expect(page).to have_content 'The profile has been updated'
     end
 
-    When 'I fill out the mandatory profile' do
-      find('a[data-name=profession]').click
-      find('.editable-container input[type="text"]').set 'Master of Disaster'
-      find('.editable-container button[type="submit"]').click
+    When 'I fill out the profile form' do
+      fill_in 'Name', with: 'John Doe'
+      fill_in 'Display name', with: 'John Doe'
 
-      # Wait for inline-edit to be successful
-      expect(page).to have_selector '.editable-updated'
+      select 'Teacher', from: 'Status'
+      select 'Female', from: 'Gender'
+
+      select 'Germany', from: 'Country', match: :first
+      select 'Brandenburg', from: 'State'
+      fill_in 'City', with: 'Potsdam'
+
+      click_button 'Save'
+
+      expect(page).to have_content 'The profile has been updated'
     end
 
     Then 'I see my profile' do
@@ -54,7 +78,7 @@ module Steps
     end
 
     Then 'I see the new profile image' do
-      expect(page).to have_xpath "//input[contains(@src, 'avatar')]"
+      expect(page).to have_css("div[style*='avatar']")
     end
 
     Then "I see the additional user's primary email address" do
@@ -82,7 +106,7 @@ module Steps
     end
 
     Then 'I see the new birthday date' do
-      expect(page).to have_text 'October 1, 1998'
+      expect(page).to have_content '31.08.2000'
     end
   end
 end

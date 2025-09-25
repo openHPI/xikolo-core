@@ -300,6 +300,7 @@ de:
       poll_created: Die Umfrage wurde angelegt.
       poll_updated: Die Umfrage wurde gespeichert.
       poll_deleted: Die Umfrage wurde gelöscht.
+      profile_updated: Das Profil wurde geändert.
       quiz_submitted: Ihre Lösung für das Quiz wurde erfolgreich übermittelt.
       section_updated: "Die Section %{section_title} wurde geändert."
       sync_initiated: Die Synchronisierung wurde gestartet.
@@ -331,6 +332,9 @@ de:
       fudge_points_added: Die Bewertung wurde aktualisiert.
       video_provider_deleted: Der Video-Provider wurde gelöscht.
       video_stream_deleted: Der Videostream wurde gelöscht.
+      profile_picture_deleted: Ihr Profilbild wurde erfolgreich gelöscht.
+      profile_picture_uploaded: Ihr Profilbild wurde erfolgreich hochgeladen.
+      email_deleted: Ihre sekündäre E-Mail wurde erfolgreich gelöscht.
 
     error:
       single_video_sync_failed: Das Video konnte nicht synchronisiert werden.
@@ -354,6 +358,7 @@ de:
       offer_not_created: Das Angebot wurde nicht erstellt.
       offer_not_updated: Das Angebot wurde nicht geändert.
       offer_not_deleted: Das Angebot wurde nicht gelöscht.
+      profile_not_updated: Ihr Profil wurde nicht geändert.
       open_badge_template_not_created: Das Open Badge Template wurde nicht erstellt.
       open_badge_template_not_updated: Das Open Badge Template wurde nicht geändert.
       open_badge_template_not_uploaded: Die Open Badge Template-Datei wurde nicht hochgeladen.
@@ -466,6 +471,8 @@ de:
       fudge_points_failed: Die Bewertung konnte nicht aktualisiert werden.
       video_provider_not_deleted: Der Video-Provider konnte nicht gelöscht werden, da zugehörige Videostreams noch verwendet werden.
       video_stream_not_deleted: Der Videostream konnte nicht gelöscht werden, da er noch in Lerneinheiten verwendet wird.
+      email_error_is invalid: Ihre Eingabe enthält ungültige Zeichen.
+      email_error_has already been taken: Die gewählte E-Mail-Adresse ist bereits vergeben.
 
   interrupts:
     mandatory_profile_fields: Bitte helfen Sie uns dabei, Ihre Lernerfahrung weiter zu verbessern. Füllen Sie dafür die erforderlichen Felder aus, bevor Sie mit Ihren Kursen fortfahren.
@@ -2131,6 +2138,7 @@ de:
     started: Gestartet
     profile:
       my_profile: Mein Profil
+      edit_profile: Meine Profilinformationen bearbeiten
       service_unavailable: Der Dienst ist momentan nicht verfügbar. Bitte versuchen Sie es zu einem späteren Zeitpunkt noch einmal.
       error_message: Die Daten konnten leider nicht gespeichert werden. Ihre Eingabe ist vermutlich ungültig. Bitte überprüfen Sie Ihre Eingabe und versuchen Sie es anschließend erneut.
       email_already_taken: Die eingegebene E-Mail-Adresse wird bereits verwendet.
@@ -2163,6 +2171,7 @@ de:
       professional_life: Berufserfahrung
       position: Position
       country: Land
+      state: Bundesland
       city: Stadt
       change_password: Passwort ändern
       change_password_text: Zum Ändern Ihres Passwortes müssen Sie auch Ihr altes Passwort angeben. Sollten Sie dieses nicht mehr kennen, melden Sie sich bitte ab und nutzen die <i>Passwort vergessen</i>-Funktion im Login-Formular.
@@ -2173,13 +2182,16 @@ de:
       password_confirmation: "Passwort bestätigen"
       birthdate: "Geburtsdatum"
       select_birthdate: "Bitte wählen"
-      show_birthdate_on_record: "Sie können in Ihren <a href='%{url}'>Zertifikatseite</a> angeben, ob Ihr Geburtsdatum auf Ihren Leistungsnachweisen angezeigt werden soll."
+      show_birthdate_on_record: Sie können in Ihrer <a href='%{url}'>Zertifikatseite</a> angeben, ob Ihr Geburtsdatum auf Ihren Leistungsnachweisen angezeigt werden soll.
       combodate_format: "YYYY-MM-DD"
       combodate_viewformat: "D. MMMM YYYY"
       combodate_template: "DD. MMMM YYYY"
       not_set: "Keine Angabe"
       current_email: "Ihre aktuelle primäre E-Mail-Adresse lautet <i>%{email}</i>."
-      add_email: "Neue E-Mail-Adresse hinzufügen"
+      add_email: Neue E-Mail hinzufügen
+      edit_email: Meine E-Mail-Adresse(n) bearbeiten
+      edit_avatar: Mein Profilbild bearbeiten
+      avatar: Profilbild
       pending_email_change: "Es gibt eine unbestätigte E-Mail-Adresse"
       unconfirmed_mails_present: "Sie haben eine E-Mail-Änderung angefordert. Bitte folgen Sie den Anweisungen in der Bestätigungsmail welche an die neue Adresse versandt wurde."
       unconfirmed_mail_resend: "Bestätigungsmail erneut senden"
@@ -2512,6 +2524,36 @@ de:
       relation: Relation
       gamification:
         badges: Abzeichen
+      status: Status
+      statuses:
+        school_student: Schüler:in
+        university_student: Student:in
+        teacher: Lehrkraft
+        other: Andere
+      genders:
+        male: Männlich
+        female: Weiblich
+        diverse: Divers
+        undisclosed: Keine Angabe
+      empty_state: Nicht angegeben
+      german_states:
+        BW: Baden-Württemberg
+        BY: Bayern
+        BE: Berlin
+        BB: Brandenburg
+        HB: Bremen
+        HH: Hamburg
+        HE: Hessen
+        MV: Mecklenburg-Vorpommern
+        NI: Niedersachsen
+        NW: Nordrhein-Westfalen
+        RP: Rheinland-Pfalz
+        SL: Saarland
+        SN: Sachsen
+        ST: Sachsen-Anhalt
+        SH: Schleswig-Holstein
+        TH: Thüringen
+      select_state: Bundesland auswählen
 
     documents:
       my_documents: Meine Leistungsnachweise

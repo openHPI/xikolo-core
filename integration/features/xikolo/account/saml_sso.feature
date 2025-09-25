@@ -47,7 +47,6 @@ Feature: Sign up with SAML Single Sign-On (SSO)
     And I am on the dashboard page
     And I see an account connection success notice
     And Provider "SAML" is shown on my profile page
-    And I have my work e-mail as secondary e-mail address
 
   Scenario: Try to connect SAML SSO to existing account with private e-mail address I am logged in with but SSO is already connected to an old account
     Given I am casual Lassie
@@ -66,4 +65,3 @@ Feature: Sign up with SAML Single Sign-On (SSO)
     Then I am on the profile page
     And I see an account connection success notice
     And Provider "SAML" is shown on my profile page
-    And I have my work e-mail as secondary e-mail address

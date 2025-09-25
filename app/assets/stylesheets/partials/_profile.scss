@@ -21,49 +21,16 @@
   }
 }
 
-.editable-click {
-  // Override border-bottom style from bootstrap
-  border-bottom: none !important;
-  line-height: 2em;
-
-  &.editable-updated {
-    border-bottom: dashed 1px green;
-    color: green;
-    &:not(.editable-open) + .check--editable {
-      display: inline-block;
-    }
-  }
+.profile-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
 }
 
-.check.check--editable {
-  display: none;
-  margin-left: 0.2em;
-  color: green;
-}
-
-.editable-label {
-  line-height: 2em;
-  vertical-align: top;
-}
-
-.editableform {
-  .form-group.has-error {
-    display: block;
-    * {
-      border-color: red;
-    }
-  }
-  .editable-error-block {
-    color: red;
-  }
-}
-
-.editableform-loading {
-  min-width: 25px;
-  background: url("images/loading.gif");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 25px 25px;
+.visual-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
 }
 
 .user-visual {
@@ -71,6 +38,7 @@
   max-width: 200px;
   height: 100%;
   border: 1px solid $gray;
+  border-radius: 50%;
 }
 
 .user-avatar {

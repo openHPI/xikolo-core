@@ -3,7 +3,7 @@ Feature: Change profile image
 
   Background:
     Given I am logged in as a confirmed user
-    And I am on the profile page
+    And I am on the avatar edit page
 
   Scenario:
     When I upload a profile image

@@ -235,6 +235,8 @@ GEM
     connection_pool (2.5.3)
     countries (8.0.3)
       unaccent (~> 0.3)
+    country_select (11.0.0)
+      countries (> 6.0, < 9.0)
     crack (1.0.0)
       bigdecimal
       rexml
@@ -973,6 +975,7 @@ DEPENDENCIES
   capybara (~> 3.36)
   chunky_png
   countries (~> 8.0)
+  country_select (~> 11.0)
   csv
   dartsass-sprockets
   database_cleaner (~> 2.0)

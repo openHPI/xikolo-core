@@ -388,6 +388,7 @@ en:
       poll_created: The poll has been created.
       poll_updated: The poll has been updated.
       poll_deleted: The poll has been deleted.
+      profile_updated: The profile has been updated.
       quiz_submitted: Your quiz solution has been submitted successfully.
       section_updated: "The section %{section_title} has been updated."
       subscription_canceled: Succesfully unfollowed the topic.
@@ -419,6 +420,9 @@ en:
       fudge_points_added: The grading was updated.
       video_provider_deleted: The video provider has been deleted.
       video_stream_deleted: The video stream has been deleted.
+      profile_picture_deleted: Your profile picture was succesfully deleted.
+      profile_picture_uploaded: Your profile picture has been succesfully uploaded.
+      email_deleted: Your secondary e-mail has successfully been deleted.
 
     error:
       single_video_sync_failed: The video could not be synced.
@@ -470,6 +474,7 @@ en:
       poll_not_created: The poll has not been created.
       poll_not_updated: The poll has not been updated.
       poll_not_deleted: The poll has not been deleted.
+      profile_not_updated: The profile has not been updated.
       sync_recently_triggered: The sync has been recently triggered.
       subscription_not_canceled: The topic could not be unfollowed.
       confirmation_failed_no_email: "This e-mail address was not found."
@@ -556,6 +561,11 @@ en:
       fudge_points_failed: The grading could not be updated.
       video_provider_not_deleted: The video provider could not be deleted as corresponding streams are still referenced.
       video_stream_not_deleted: The video stream could not be deleted as it is still used in learning units.
+      upload_type: The file type is not valid.
+      upload_size: The file size is too large.
+      upload_extension: The file extension is not supported.
+      email_error_is invalid: Your input contains invalid characters.
+      email_error_has already been taken: The choosen email is already taken.
 
   interrupts:
     mandatory_profile_fields: To help us improve your learning experience, please fill out the required fields before proceeding on to your courses.
@@ -2782,6 +2792,7 @@ en:
     started: Started
     profile:
       my_profile: My profile
+      edit_profile: Edit my profile information
       service_unavailable: The service is currently unavailable. Please try again later.
       error_message: Unfortunately, the data could not be saved. Your input might be invalid. Please check your input and try again.
       email_already_taken: The appointed e-mail address is already in use.
@@ -2814,6 +2825,7 @@ en:
       professional_life: Professional life
       position: Position
       country: Country
+      state: State
       city: City
       change_password: Change password
       change_password_text: "To change your password, you must also enter your old password. If you don't remember that please log out and use the <i>Forgot password</i> button in the login form."
@@ -2828,9 +2840,12 @@ en:
       combodate_format: "YYYY-MM-DD"
       combodate_viewformat: "MMMM D, YYYY"
       combodate_template: "MMMM DD, YYYY"
-      not_set: "Not set."
+      not_set: "Not set"
       current_email: "Your current primary e-mail address is <i>%{email}</i>."
-      add_email: "Add a new e-mail address"
+      add_email: Add a new e-mail address
+      edit_email: Edit my e-mail adress(es)
+      edit_avatar: Edit my profile picture
+      avatar: Profile picture
       pending_email_change: "There is a pending e-mail change request!"
       unconfirmed_mails_present: "You requested to change your e-mail. Please confirm the new mail by following the instructions in the confirmation mail that was send to you."
       unconfirmed_mail_resend: "Resend confirmation mail"
@@ -3163,6 +3178,36 @@ en:
           <<: *countries
       gamification:
         badges: Badges
+      status: Status
+      statuses:
+        school_student: School student
+        university_student: University student
+        teacher: Teacher
+        other: Other
+      genders:
+        male: Male
+        female: Female
+        diverse: Diverse
+        undisclosed: Undisclosed
+      empty_state: No information
+      german_states:
+        BW: Baden-Württemberg
+        BY: Bavaria
+        BE: Berlin
+        BB: Brandenburg
+        HB: Bremen
+        HH: Hamburg
+        HE: Hesse
+        MV: Mecklenburg-Western Pomerania
+        NI: Lower Saxony
+        NW: North Rhine-Westphalia
+        RP: Rhineland-Palatinate
+        SL: Saarland
+        SN: Saxony
+        ST: Saxony-Anhalt
+        SH: Schleswig-Holstein
+        TH: Thuringia
+      select_state: Select State
 
     documents:
       my_documents: My certificates

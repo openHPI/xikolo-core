@@ -284,6 +284,9 @@ en:
         start_date: Defining a start date will lock this section for all course participants until the date is reached.
       video:
         subtitles: "Either a WebVTT file containing subtitles or a ZIP archive with multiple WebVTT files. All WebVTT file names must end with a delimiter (either '_' or '-') followed by their two or three-letter language code (e.g., 'en' for English). Example: 'subtitles_en.vtt'."
+      user:
+        full_name: This is how your name will be shown on the Record of Achievement.
+        display_name: This is how your name will be shown on the platform.
 
     placeholders:
       announcement_email:

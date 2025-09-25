@@ -16,8 +16,7 @@ module Steps
       context.assign :user, data
 
       fill_in 'Name', with: data['full_name']
-      page.execute_script(%{document.querySelector(
-        '[data-birthday="true"]')._flatpickr.setDate('#{data['date_of_birth']}');})
+      fill_in 'Date of birth', with: data['date_of_birth'].to_s
       fill_in 'E-mail address', with: data['email']
       fill_in 'Password', with: data['password'], match: :prefer_exact
       fill_in 'Repeat password', with: data['password']
@@ -29,8 +28,7 @@ module Steps
       context.assign :user, data
 
       fill_in 'Ihr Name', with: data['full_name']
-      page.execute_script(%{document.querySelector(
-        '[data-birthday="true"]')._flatpickr.setDate('#{data['date_of_birth']}');})
+      fill_in 'Geburtsdatum', with: data['date_of_birth'].to_s
       fill_in 'Ihre E-Mail-Adresse', with: data['email']
       fill_in 'Passwort', with: data['password'], match: :prefer_exact
       fill_in 'Passwort (Wiederholung)', with: data['password']
@@ -58,12 +56,25 @@ module Steps
       open_email email
     end
 
+    def visit_emails_view
+      email = fetch_emails(to: 'john@example.com').last
+
+      open_email email
+    end
+
     Then 'I receive a welcome email in English with a link to confirm my email address' do
       visit_email_view
 
       expect(page).to have_content 'Welcome to Xikolo'
       expect(page).to have_content 'please confirm your e-mail address'
       expect(page).to have_content 'Enroll for a course that interests you'
+    end
+
+    Then 'I receive a welcome email in English with a link to confirm my new email address' do
+      visit_emails_view
+
+      expect(page).to have_content 'Confirm your e-mail'
+      expect(page).to have_content 'you have added a new email address to your account on Xikolo'
     end
 
     Then 'I receive a welcome email in German with a link to confirm my email address' do

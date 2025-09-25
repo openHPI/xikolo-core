@@ -9,13 +9,14 @@ RSpec.describe 'Dashboard: Profile: Show', type: :request do
   let(:user_id) { generate(:user_id) }
   let(:email) { 'jon.doe@internet.org' }
   let(:features) { {} }
-  let(:user) { build(:'account:user', id: user_id, email:) }
+  let(:user_resource) { build(:'account:user', id: user.id, email:) }
+  let(:user) { create(:user, :with_email, id: user_id) }
 
   before do
     stub_user_request(id: user_id, features:)
 
     Stub.request(:account, :get, "/users/#{user_id}")
-      .to_return Stub.json(user)
+      .to_return Stub.json(user_resource)
     Stub.request(:account, :get, "/users/#{user_id}/emails")
       .to_return Stub.json([build(:'account:email', user_id:, address: email)])
     Stub.request(:account, :get, "/users/#{user_id}/profile")

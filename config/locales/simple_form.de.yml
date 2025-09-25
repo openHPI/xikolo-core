@@ -261,6 +261,9 @@ de:
         start_date: Wenn ein Startdatum angegeben wurde, wird diese Section für alle Teilnehmenden gesperrt, bis das Datum erreicht wurde.
       video:
         subtitles: "Entweder eine Untertiteldatei im WebVTT-Format oder ein ZIP-Archiv mit mehreren WebVTT-Dateien. Die Dateinamen aller WebVTT-Dateien müssen dabei nach einem Trennzeichen (entweder '_' oder '-') mit dem zwei oder drei Buchstaben langen Sprachcode (z.B. 'de' für Deutsch) enden. Beispiel: 'subtitles_de.vtt'"
+      user:
+        full_name: Dieser Name wird für die Ausstellung der Leistungsnachweise genutzt.
+        display_name: Unter diesem Namen treten Sie auf der Lernplattform auf.
 
     placeholders:
       announcement_email:

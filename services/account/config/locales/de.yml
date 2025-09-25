@@ -1,0 +1,10 @@
+de:
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            full_name:
+              invalid: Ihre Eingabe enthält ungültige Zeichen.
+            display_name:
+              invalid: Ihre Eingabe enthält ungültige Zeichen.

@@ -79,11 +79,11 @@ class User::Update < ApplicationOperation
 
     upload_object = upload.accepted_file!
     original_filename = File.basename upload_object.key
-    extname = File.extname original_filename
+    File.extname original_filename
     bucket = Xikolo::S3.bucket_for(:avatars)
     uid = UUID4(@user.id).to_str(format: :base62)
-    revision = revision(@user.avatar_uri)
-    object = bucket.object("avatars/#{uid}/avatar_v#{revision}#{extname}")
+    revision(@user.avatar_uri)
+    object = bucket.object("avatars/#{uid}/#{upload_object.unique_sanitized_name}")
 
     # Save upload to xi-avatars bucket
     object.copy_from(
@@ -92,7 +92,7 @@ class User::Update < ApplicationOperation
       acl: 'public-read',
       cache_control: 'public, max-age=7776000',
       content_type: upload_object.content_type,
-      content_disposition: "inline; filename=\"#{original_filename}\""
+      content_disposition: "inline; filename=\"#{upload_object.sanitized_name}\""
     )
     @replaced_uri = @user.avatar_uri
     @user.avatar_uri = object.storage_uri
@@ -106,31 +106,35 @@ class User::Update < ApplicationOperation
 
   def upload_via_uri
     # Validate upload
-    upload = Xikolo::S3::UploadByUri.new \
+    upload = Xikolo::S3::UploadByUri.new(
       uri: @params[:avatar_uri],
       purpose: 'account_user_avatar'
+    )
+
     unless upload.valid?
-      @upload_error = 'Upload not valid - ' \
-                      'either file upload was rejected or access to it is forbidden.'
+      @upload_error = 'Upload not valid - either file upload was rejected or access to it is forbidden.'
       return
     end
 
     # Save upload to xi-avatars bucket
     uid = UUID4(@user.id).to_str(format: :base62)
-    revision = revision(@user.avatar_uri)
-    result = upload.save \
+    key = "avatars/#{uid}/#{upload.sanitized_name}"
+
+    result = upload.save(
       bucket: :avatars,
-      key: "avatars/#{uid}/avatar_v#{revision}#{upload.extname}",
+      key: key,
       metadata_directive: 'REPLACE',
       acl: 'public-read',
       cache_control: 'public, max-age=7776000',
       content_type: upload.content_type,
       content_disposition: "inline; filename=\"#{upload.sanitized_name}\""
+    )
+
     if result.is_a?(Symbol)
-      @upload_error = 'Could not save file - ' \
-                      'access to destination is forbidden.'
+      @upload_error = 'Could not save file - access to destination is forbidden.'
       return
     end
+
     @replaced_uri = @user.avatar_uri
     @user.avatar_uri = result.storage_uri
   end

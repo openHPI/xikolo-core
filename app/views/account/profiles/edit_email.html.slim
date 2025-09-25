@@ -1,0 +1,48 @@
+h2.category-title.mb20
+  = t :'dashboard.profile.edit_email'
+h4.pt5
+  = t(:'global.email')
+- if @profile.unconfirmed_emails?
+  p
+    = t(:'dashboard.profile.current_email', email: @profile.email)
+  p
+    = t(:'dashboard.profile.unconfirmed_mails_present')
+  ul
+  - @profile.unconfirmed_emails.each do |mail|
+    li.mb5
+      = mail.address
+    span.ml5 = link_to t(:'dashboard.profile.unconfirmed_mail_resend'),
+                        account_confirmations_path(request: Account::ConfirmationsController.verifier.generate(mail.address)),
+                        method: :post, class: 'btn btn-xs btn-default'
+    span.ml5 = link_to t(:'dashboard.profile.unconfirmed_mail_cancel_request'),
+                        delete_email_path(id: mail.id),
+                        method: :delete, class: 'btn btn-xs btn-default'
+- else
+  p
+    = @profile.email
+    span.small.ml5
+      em = t(:'dashboard.profile.primary_email')
+    #secondary-emails-list
+      ul
+      - @profile.secondary_emails.each do |mail|
+        li.mb5
+          => mail.address
+          span.ml5 = link_to t(:'dashboard.profile.secondary_emails.promote'),
+                              change_primary_email_path(id: mail.id),
+                              method: :patch,
+                              class: 'btn btn-xs btn-default',
+                              data: {confirm: t(:'dashboard.profile.secondary_emails.confirm_promote')}
+          span.ml5 = link_to t(:'dashboard.profile.secondary_emails.delete'),
+                              delete_email_path(id: mail.id),
+                              method: :delete,
+                              class: 'btn btn-xs btn-default',
+                              data: {confirm: t(:'dashboard.profile.secondary_emails.confirm_delete')}
+    br
+      = simple_form_for @email, url: profile_edit_email_path do |f|
+        .form-inputs
+          = f.input :address, label: t(:'dashboard.profile.add_email'), required: true
+          = f.button :submit
+          = link_to t(:'global.cancel'), dashboard_profile_path, class: 'btn btn-default ml10'
+  - if current_user.feature?('primary_email_suspended')
+    = render Global::Callout.new(t(:'dashboard.profile.primary_email_suspended'), type: :warning) do
+      = link_to(t(:'dashboard.profile.reactivate'), unsuspend_primary_email_path, class: 'btn btn-outline btn-default btn-xs')

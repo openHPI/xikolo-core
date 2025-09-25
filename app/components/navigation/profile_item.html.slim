@@ -16,7 +16,7 @@ li class=css_classes
         li.navigation-profile-item__points.navigation-profile-item__points--mobile
           = [gamification_score, t(:'gamification.points')].join(' ')
 
-      = render Navigation::Item.new(text: component[:text], link: {href: component[:href]}, icon: {code: component[:icon]}, active: current_page?(component[:href]))
+      = render Navigation::Item.new(text: component[:text], link: {href: component[:href]}, icon: {code: component[:icon]}, active: component[:active])
 
     li.navigation-item
       = link_to logout_path,

@@ -176,6 +176,11 @@ class API::UsersController < API::RESTController
       language
       password
       password_digest
+      gender
+      status
+      country
+      state
+      city
     ]
   end
 end

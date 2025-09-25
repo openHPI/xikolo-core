@@ -12,6 +12,11 @@ module Steps
       user
     end
 
+    def create_email(attrs = {})
+      user = context.fetch(:user)
+      user.rel(:emails).post(attrs).value!
+    end
+
     def create_treatment(attrs = {})
       data = Factory.create(:treatment, attrs)
       Server[:account].api.rel(:treatments).post(data).value!
@@ -81,6 +86,10 @@ module Steps
       page.fill_in('session_id', with: session['id'])
       page.click_on('Save')
       expect(page).to have_content('Session ID changed')
+    end
+
+    Given 'the user has an additional confirmed email' do
+      context.assign :email, create_email({address: 'example@example.com', confirmed: true})
     end
 
     Then 'I am logged in' do

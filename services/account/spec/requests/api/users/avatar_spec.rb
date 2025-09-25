@@ -81,7 +81,7 @@ describe 'User\'s avatar upload', type: :request do
     end
 
     context 'user with new (not existing) avatar' do
-      let(:store_stub_url) { %r{http://s3.xikolo.de/xikolo-public/avatars/[0-9a-zA-Z]+/avatar_v1.jpg} }
+      let(:store_stub_url) { %r{http://s3\.xikolo\.de/xikolo-public/avatars/[0-9A-Za-z]+/[0-9A-Za-z]+/profil\.jpg} }
       let(:store_stub) do
         stub_request(:put, store_stub_url).to_return(status: 200)
       end
@@ -135,7 +135,8 @@ describe 'User\'s avatar upload', type: :request do
             stub_request(:head, file_url).to_return(
               status: 200,
               headers: {
-                'Content-Type' => 'inode/x-empty',
+                'Content-Type' => 'image/jpeg',
+                'Content-Length' => '1000',
                 'X-Amz-Meta-Xikolo-Purpose' => 'account_user_avatar',
                 'X-Amz-Meta-Xikolo-State' => 'accepted',
               }
@@ -155,9 +156,14 @@ describe 'User\'s avatar upload', type: :request do
             avatar_uri: "upload://#{upload_id}/profil.jpg",
           }
         end
+        let(:store_stub_url) { %r{http://s3\.xikolo\.de/xikolo-public/avatars/[0-9A-Za-z]+/profil\.jpg} }
 
         before do
+          stub_request(:head, store_stub_url)
+            .to_return(status: 200)
           stub_request(:head, store_stub_url).and_return(status: 404)
+          stub_request(:put, store_stub_url)
+            .to_return(status: 200, body: '<xml></xml>')
         end
 
         context 'when upload is successful' do
@@ -211,7 +217,7 @@ describe 'User\'s avatar upload', type: :request do
     context 'with existing avatar' do
       let(:old_avatar_uri) { 's3://xikolo-public/avatars/3/avatar_v1.jpg' }
       let(:user) { create(:user, avatar_uri: old_avatar_uri) }
-      let(:store_stub_url) { %r{http://s3.xikolo.de/xikolo-public/avatars/[0-9a-zA-Z]+/avatar_v2.jpg} }
+      let(:store_stub_url) { %r{http://s3\.xikolo\.de/xikolo-public/avatars/[0-9A-Za-z]+/[0-9A-Za-z]+/profil\.jpg} }
       let(:old_store_stub_url) { 'http://s3.xikolo.de/xikolo-public/avatars/3/avatar_v1.jpg' }
 
       before do
@@ -285,6 +291,7 @@ describe 'User\'s avatar upload', type: :request do
       end
 
       context 'with avatar_uri' do
+        let(:store_stub_url) { %r{http://s3\.xikolo\.de/xikolo-public/avatars/[0-9A-Za-z]+/profil\.jpg} }
         let(:data) { {avatar_upload_id: upload_id, avatar_uri: "upload://#{upload_id}/profil.jpg"} }
 
         before do

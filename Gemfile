@@ -77,6 +77,7 @@ gem 'xui-form', path: 'gems/xui-form'
 gem 'icalendar'
 
 gem 'countries', '~> 8.0' # ISO country codes
+gem 'country_select', '~> 11.0'
 gem 'i18n_data'
 gem 'maxminddb', '~> 0.1' # Location tracking
 

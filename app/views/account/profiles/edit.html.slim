@@ -1,0 +1,30 @@
+= javascript_include_tag 'user', crossorigin: 'anonymous', integrity: true, debug: false
+
+h2.category-title.mb20
+  = t(:'dashboard.profile.edit_profile')
+
+= simple_form_for @user, url: dashboard_profile_path, method: :patch do |f|
+  .form-inputs
+    = f.input :full_name, label: t(:'dashboard.profile.name'), required: true, hint: t(:'simple_form.hints.user.full_name')
+    = f.input :display_name, label: t(:'dashboard.profile.display_name'), hint: t(:'simple_form.hints.user.display_name')
+    = f.input :born_at, as: :date, html5: true, label: t(:'simple_form.labels.account.date_of_birth'), required: true, hint: t(:'simple_form.hints.account.date_of_birth')
+    = f.input :status,
+              collection: @profile.status_collection,
+              label: t(:'dashboard.profile.status')
+
+    = f.input :gender,
+              collection: @profile.gender_collection,
+              label: t(:'dashboard.profile.gender')
+
+    = f.input :country, as: :country, priority: ['DE'],
+      label: t(:'dashboard.profile.country'), input_html: {class: 'form-control'}
+    #state-field-wrapper[hidden]
+      = f.input :state,
+      label: t(:'dashboard.profile.state'),
+      collection: @profile.state_collection,
+      input_html: {id: 'state-select',
+          'data-selected': @user.state,
+          'data-placeholder': t(:'dashboard.profile.select_state')}
+    = f.input :city, label: t(:'dashboard.profile.city')
+    = f.button :submit
+    = link_to t(:'global.cancel'), dashboard_profile_path, class: 'btn btn-default ml10'

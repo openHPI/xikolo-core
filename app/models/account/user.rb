@@ -24,12 +24,56 @@ module Account
       class_name: '::Certificate::Record',
       dependent: :destroy
 
+    enum :gender, {
+      male: 'male',
+      female: 'female',
+      diverse: 'diverse',
+      undisclosed: 'undisclosed',
+    }, prefix: true
+
+    enum :status, {
+      school_student: 'school_student',
+      university_student: 'university_student',
+      teacher: 'teacher',
+      other: 'other',
+    }, prefix: true
+
+    # Get all ISO alpha-2 country codes from the countries gem
+    COUNTRY_CODES = ISO3166::Country.all.map(&:alpha2)
+
+    # Build a hash like { US: 'US', DE: 'DE', FR: 'FR', ... }
+    enum :country, COUNTRY_CODES.index_by(&:to_sym), prefix: :country
+
+    enum :state, {
+      BW: 'BW',
+      BY: 'BY',
+      BE: 'BE',
+      BB: 'BB',
+      HB: 'HB',
+      HH: 'HH',
+      HE: 'HE',
+      MV: 'MV',
+      NI: 'NI',
+      NW: 'NW',
+      RP: 'RP',
+      SL: 'SL',
+      SN: 'SN',
+      ST: 'ST',
+      SH: 'SH',
+      TH: 'TH',
+    }, prefix: :state
+
     def self.with_authorization(uid)
       joins(:authorizations).where(authorizations: {uid:})
     end
 
     def email
       primary_email&.address
+    end
+
+    def consents
+      consents = Account::Consent.where(user_id: id)
+      consents.map {|c| ConsentPresenter.new(c) }
     end
   end
 end

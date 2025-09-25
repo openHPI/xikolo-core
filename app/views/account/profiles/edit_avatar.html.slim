@@ -1,0 +1,20 @@
+- content_for :head_assets
+  = javascript_include_tag 'admin', crossorigin: 'anonymous', integrity: true, async: true, debug: false
+
+h2.visual-heading.mb20
+  .heading.mb20
+    = t(:'dashboard.profile.edit_avatar')
+  = render Global::UserAvatar.new(@user.id, size: 'x-large', type: 'rounded')
+= simple_form_for @user, url: dashboard_profile_visual_path, method: :patch, html: {multipart: true} do |f|
+  .form-section--large
+    .hidden data-behavior='remove-on-save-hint'
+      = render Global::Callout.new(t(:'simple_form.upload_remove_hint'))
+    = f.input :avatar,
+      as: :image_upload,
+      value: FileUpload.new(purpose: :account_user_avatar, content_type: 'image/*'),
+      label: t(:'dashboard.profile.avatar'),
+      required: true,
+      input_html: {accept: 'image/png,image/jpeg,image/gif'}
+  .btn-group
+    = f.button :submit, class: 'mr10 mb10'
+    = link_to t(:'global.cancel'), dashboard_profile_path, class: 'btn btn-default mr10'

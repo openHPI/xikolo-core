@@ -4,6 +4,11 @@ class Xikolo::Account::User < Acfs::Resource
   service Xikolo::Account::Client, path: 'users'
 
   attribute :id, :string
+  attribute :status, :string
+  attribute :gender, :string
+  attribute :country, :string
+  attribute :state, :string
+  attribute :city, :string
   attribute :name, :string
   attribute :email, :string
   attribute :full_name, :string

@@ -25,6 +25,7 @@ describe 'Account: Register new Account', type: :system do
 
       fill_in 'Name', with: 'Jane Doe'
       fill_in 'E-mail address', with: 'doe@plattner.de'
+      fill_in 'Date of birth', with: '01.01.2000'
       fill_in 'Password', with: 'secret'
       fill_in 'Repeat password', with: 'wrong_secret'
 

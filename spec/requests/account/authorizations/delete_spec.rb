@@ -6,14 +6,15 @@ describe 'Account: Authorizations: Delete', type: :request do
   subject(:request) { get '/dashboard/profile', headers: }
 
   let(:headers) { {Authorization: "Xikolo-Session session_id=#{stub_session_id}"} }
-  let(:user) { build(:'account:user') }
+  let(:user_resource) { build(:'account:user', id: user.id) }
+  let(:user) { create(:user) }
   let(:features) { {'profile' => true} }
   let(:user_authorizations) { [] }
   let(:authorization) do
     build(
       :'account:authorization',
       id: '81e01000-0000-4444-a000-000000000001',
-      user_id: user['id'],
+      user_id: user_resource['id'],
       provider: 'saml'
     )
   end
@@ -21,25 +22,25 @@ describe 'Account: Authorizations: Delete', type: :request do
     build(
       :'account:authorization',
       id: '81e01000-0000-4444-a000-000000000002',
-      user_id: user['id'],
+      user_id: user_resource['id'],
       provider: 'saml'
     )
   end
   let(:page) { Capybara.string(response.body) }
 
   before do
-    stub_user_request(id: user['id'], features:)
-    Stub.request(:account, :get, "/users/#{user['id']}")
-      .and_return Stub.json(user)
-    Stub.request(:account, :get, "/users/#{user['id']}/emails")
+    stub_user_request(id: user_resource['id'], features:)
+    Stub.request(:account, :get, "/users/#{user_resource['id']}")
+      .and_return Stub.json(user_resource)
+    Stub.request(:account, :get, "/users/#{user_resource['id']}/emails")
       .and_return Stub.json([
-        build(:'account:email', user_id: user['id'], address: user['email']),
+        build(:'account:email', user_id: user_resource['id'], address: user_resource['email']),
       ])
-    Stub.request(:account, :get, "/users/#{user['id']}/profile")
-      .and_return Stub.json(build(:'account:profile', user_id: user['id']))
-    Stub.request(:account, :get, "/users/#{user['id']}/consents")
+    Stub.request(:account, :get, "/users/#{user_resource['id']}/profile")
+      .and_return Stub.json(build(:'account:profile', user_id: user_resource['id']))
+    Stub.request(:account, :get, "/users/#{user_resource['id']}/consents")
       .and_return Stub.json([])
-    Stub.request(:account, :get, "/authorizations?user=#{user['id']}")
+    Stub.request(:account, :get, "/authorizations?user=#{user_resource['id']}")
       .and_return Stub.json(user_authorizations)
     Stub.request(:account, :get, "/authorizations/#{authorization['id']}")
       .and_return Stub.json(authorization)

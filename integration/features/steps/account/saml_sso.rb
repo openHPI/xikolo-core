@@ -34,12 +34,6 @@ module Steps
       find('.another-profile').click_on provider.to_s
     end
 
-    Then 'I have my work e-mail as secondary e-mail address' do
-      find('#secondary-emails-show-button').click
-      expect(page).to have_css('#secondary-emails-list')
-      expect(page).to have_text('lassie@company.com')
-    end
-
     Then 'Provider "SAML" is shown on my profile page twice' do
       click_on 'Profile'
       expect(page).to have_selector('[data-provider=saml]', count: 2)

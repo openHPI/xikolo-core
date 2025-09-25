@@ -9,9 +9,10 @@ describe 'Interrupts: Redirect targets / messages', type: :request do
     }
   end
 
-  let!(:user) do
+  let(:user) { create(:user, id: '2611b7f0-b0dc-43d3-96be-81d810ba2535') }
+  let!(:user_resource) do
     stub_user_request(
-      id: '2611b7f0-b0dc-43d3-96be-81d810ba2535',
+      id: user.id,
       features: {'profile' => 'true'},
       interrupts:
     )
@@ -31,17 +32,17 @@ describe 'Interrupts: Redirect targets / messages', type: :request do
     let(:page) { '/dashboard/profile' }
 
     before do
-      Stub.request(:account, :get, "/users/#{user[:id]}")
-        .to_return Stub.json(user)
-      Stub.request(:account, :get, "/users/#{user[:id]}/emails")
+      Stub.request(:account, :get, "/users/#{user_resource[:id]}")
+        .to_return Stub.json(user_resource)
+      Stub.request(:account, :get, "/users/#{user_resource[:id]}/emails")
         .to_return Stub.json([])
-      Stub.request(:account, :get, "/users/#{user[:id]}/consents")
+      Stub.request(:account, :get, "/users/#{user_resource[:id]}/consents")
         .to_return Stub.json([])
-      Stub.request(:account, :get, "/users/#{user[:id]}/profile")
+      Stub.request(:account, :get, "/users/#{user_resource[:id]}/profile")
         .to_return Stub.json({fields: []})
       Stub.request(
         :account, :get, '/authorizations',
-        query: {user: user[:id]}
+        query: {user: user_resource[:id]}
       ).to_return Stub.json([])
     end
 

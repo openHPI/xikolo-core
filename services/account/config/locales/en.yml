@@ -1,0 +1,10 @@
+en:
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            full_name:
+              invalid: Your input contains invalid characters.
+            display_name:
+              invalid: Your input contains invalid characters.

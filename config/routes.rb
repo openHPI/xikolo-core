@@ -73,12 +73,17 @@ Rails.application.routes.draw do
     post 'treatments', to: 'treatments#consent', as: :consent_treatments
 
     scope path: :dashboard do
-      get 'profile' => 'profiles#show', as: :dashboard_profile
-      post 'profile' => 'profiles#update'
+      get 'profile/edit', to: 'profiles#edit'
+      patch 'profile', to: 'profiles#update'
+      get 'profile/edit_avatar', to: 'profiles#edit_avatar'
+      get 'profile/edit_email', to: 'profiles#edit_email'
+      post 'profile/edit_email', to: 'profiles#update_email'
+      get 'profile', to: 'profiles#show', as: :dashboard_profile
+      post 'profile', to: 'profiles#update'
       scope path: :profile do
         delete 'emails/:id', to: 'profiles#delete_email', as: :delete_email
         patch 'change_primary_email/:id', to: 'profiles#change_primary_email', as: :change_primary_email
-        post 'visual', to: 'profiles#update_visual', as: :dashboard_profile_visual
+        patch 'visual', to: 'profiles#update_visual', as: :dashboard_profile_visual
         post 'password', to: 'profiles#change_my_password', as: :change_my_password
         delete 'auth/:id', to: 'profiles#delete_authorization', as: :auth_delete
         get 'unsuspend_primary_email', to: 'profiles#unsuspend_primary_email', as: :unsuspend_primary_email

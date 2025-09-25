@@ -121,7 +121,7 @@ end
 SimpleForm::FormBuilder.map_type :boolean, to: ToggleSwitchInput
 SimpleForm::FormBuilder.map_type :markup, to: MarkdownInput
 SimpleForm::FormBuilder.map_type :xikolo_s3_markup, to: MarkdownInput
-SimpleForm::FormBuilder.map_type :date, :datetime, to: DatepickerInput
+SimpleForm::FormBuilder.map_type :datetime, to: DatepickerInput
 SimpleForm::FormBuilder.map_type :single_line_string, to: SimpleForm::Inputs::StringInput
 SimpleForm::FormBuilder.map_type :uri, to: SimpleForm::Inputs::StringInput
 SimpleForm::FormBuilder.map_type :upload, to: UploadInput

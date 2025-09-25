@@ -22,8 +22,19 @@ class User < ApplicationRecord
     end
   end
 
+  before_validation do
+    self.state = nil if country != 'DE'
+  end
+
+  validates :country, length: {maximum: 100}, allow_nil: true
+  validates :state, length: {maximum: 100}, allow_nil: true
+  validates :city, length: {maximum: 100}, allow_nil: true
+
   validates :full_name, presence: true, length: {maximum: 200}
   validates :full_name, :display_name, format: %r{\A[^"/]*\z}i
+
+  normalizes :full_name, with: ->(email) { email&.strip }
+  normalizes :display_name, with: ->(display_name) { display_name&.strip }
 
   validate :unique_anonymous, if: :anonymous?
   validates :language, inclusion: {in: Xikolo.config.locales['available'], message: 'not_available', allow_nil: true}

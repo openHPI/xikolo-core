@@ -6,7 +6,16 @@ class UserAccountNavigation < MenuWithPermissions
 
   item 'header.navigation.profile', 'user',
     if: ->(user, _course) { user.feature?('profile') },
-    route: :dashboard_profile
+    route: :dashboard_profile do
+    item 'header.navigation.profile.edit', 'user',
+      route: :profile_edit
+
+    item 'header.navigation.profile.edit.email', 'user',
+      route: :profile_edit_email
+
+    item 'header.navigation.profile.edit.avatar', 'user',
+      route: :profile_edit_avatar
+  end
 
   item 'header.navigation.documents', 'medal',
     route: :dashboard_documents
