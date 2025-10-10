@@ -32,11 +32,7 @@ describe Course::Destroy, type: :operation do
   end
 
   before do
-    Stub.service(
-      :account,
-      group_url: 'http://account.xikolo.tld/groups/{id}',
-      context_url: 'http://account.xikolo.tld/contexts/{id}'
-    )
+    Stub.service(:account, build(:'account:root'))
   end
 
   it 'soft-deletes the course' do

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Section < ApplicationRecord
+  self.table_name = :sections
+
   default_scope { order(position: :asc) }
   after_initialize :default_values
 

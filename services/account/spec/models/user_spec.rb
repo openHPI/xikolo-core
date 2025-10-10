@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe User, type: :model do
-  subject(:user) { create(:user, attributes) }
+  subject(:user) { create(:'account_service/user', attributes) }
 
   let(:attributes) { {} }
 
@@ -45,7 +45,7 @@ describe User, type: :model do
   describe '#anonymous' do
     before { User.anonymous }
 
-    let(:anon) { build(:user, anonymous: true) }
+    let(:anon) { build(:'account_service/user', anonymous: true) }
 
     it 'allows only one record' do
       expect(anon).not_to be_valid
@@ -77,7 +77,7 @@ describe User, type: :model do
       before { Xikolo.config.locales['available'] = %w[en de] }
 
       it 'sanitizes the language when the user is fetched' do
-        user = build(:user, language: 'zh')
+        user = build(:'account_service/user', language: 'zh')
         user.save!(validate: false)
 
         expect(User.find(user.id).language).to be_nil
@@ -197,8 +197,8 @@ describe User, type: :model do
 
   describe '#created_last_day' do
     before do
-      create(:user)
-      create(:user, created_at: 2.days.ago)
+      create(:'account_service/user')
+      create(:'account_service/user', created_at: 2.days.ago)
     end
 
     it 'filters old users' do
@@ -208,9 +208,9 @@ describe User, type: :model do
 
   describe '#created_last_7days' do
     before do
-      create(:user)
-      create(:user, created_at: 2.days.ago)
-      create(:user, created_at: 8.days.ago)
+      create(:'account_service/user')
+      create(:'account_service/user', created_at: 2.days.ago)
+      create(:'account_service/user', created_at: 8.days.ago)
     end
 
     it 'filters old users' do
@@ -222,8 +222,8 @@ describe User, type: :model do
     describe 'event notify' do
       subject(:user) do
         ActiveRecord::Base.transaction do
-          create(:user).tap do |user|
-            create(:email, user:)
+          create(:'account_service/user').tap do |user|
+            create(:'account_service/email', user:)
           end
         end
       end
@@ -268,7 +268,7 @@ describe User, type: :model do
         user.primary_email.reload
       end
 
-      let!(:new_email) { create(:email, :confirmed, user:) }
+      let!(:new_email) { create(:'account_service/email', :confirmed, user:) }
 
       before { expect(user.email).not_to eq new_email.address }
 
@@ -314,7 +314,7 @@ describe User, type: :model do
     end
 
     context 'with policy' do
-      let!(:policy) { create(:policy) }
+      let!(:policy) { create(:'account_service/policy') }
 
       it { is_expected.to be_falsy }
 
@@ -330,7 +330,7 @@ describe User, type: :model do
     subject(:resource) { records[4] }
 
     let!(:users) do
-      create_list(:user, 10)
+      create_list(:'account_service/user', 10)
     end
 
     let(:user) { users[4] }
@@ -350,7 +350,7 @@ describe User, type: :model do
     end
 
     context 'with new policy' do
-      before { create(:policy) }
+      before { create(:'account_service/policy') }
 
       it 'included a policy flag' do
         expect(resource[:policy_accepted]).to be false
@@ -372,15 +372,15 @@ describe User, type: :model do
     subject(:action) { -> { user.update_profile_completion! } }
 
     let!(:field1) do
-      create(:custom_text_field, name: 'fn1', required: true)
+      create(:'account_service/custom_text_field', name: 'fn1', required: true)
     end
 
     let!(:field2) do
-      create(:custom_text_field, name: 'fn2', required: true)
+      create(:'account_service/custom_text_field', name: 'fn2', required: true)
     end
 
     before do
-      create(:custom_text_field, name: 'fn3', required: false)
+      create(:'account_service/custom_text_field', name: 'fn3', required: false)
     end
 
     context 'with required fields filled' do
@@ -449,7 +449,7 @@ describe User, type: :model do
     end
 
     context 'unconfirmed user' do
-      let(:user) { create(:user, :unconfirmed, attributes) }
+      let(:user) { create(:'account_service/user', :unconfirmed, attributes) }
 
       before do
         expect(user).not_to be_confirmed

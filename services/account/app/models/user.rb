@@ -2,6 +2,7 @@
 
 class User < ApplicationRecord
   include NotifyOutbox
+  self.table_name = :users
 
   delegate :url_helpers, to: 'Rails.application.routes'
 

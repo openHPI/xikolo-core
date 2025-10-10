@@ -7,12 +7,7 @@ describe 'Course: Update', type: :request do
     create(:cluster, id: 'category')
     create(:cluster, id: 'topic')
 
-    Stub.service(
-      :account,
-      group_url: '/groups/{id}',
-      grant_url: '/grants/{id}',
-      grants_url: '/grants{?role,context}'
-    )
+    Stub.service(:account, build(:'account:root'))
   end
 
   let(:api) { Restify.new(:test).get.value! }

@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe Context, type: :model do
-  let(:context) { create(:context) }
+  let(:context) { create(:'account_service/context') }
 
   describe '.resolve' do
     subject(:resolved) { Context.resolve param }
@@ -22,13 +22,13 @@ describe Context, type: :model do
   end
 
   describe '#ascent' do
-    let!(:context0) { create(:context) }
-    let!(:context1) { create(:context, parent: context0) }
-    let!(:context2) { create(:context, parent: context1) }
+    let!(:context0) { create(:'account_service/context') }
+    let!(:context1) { create(:'account_service/context', parent: context0) }
+    let!(:context2) { create(:'account_service/context', parent: context1) }
 
     before do
-      create(:context)
-      create(:context, parent: context1)
+      create(:'account_service/context')
+      create(:'account_service/context', parent: context1)
     end
 
     context 'without block' do
@@ -46,13 +46,13 @@ describe Context, type: :model do
   end
 
   describe '#ancestors' do
-    let!(:context0) { create(:context, reference_uri: 'urn:0') }
-    let!(:context1) { create(:context, parent: context0, reference_uri: 'urn:1') }
-    let!(:context2) { create(:context, parent: context1, reference_uri: 'urn:2') }
+    let!(:context0) { create(:'account_service/context', reference_uri: 'urn:0') }
+    let!(:context1) { create(:'account_service/context', parent: context0, reference_uri: 'urn:1') }
+    let!(:context2) { create(:'account_service/context', parent: context1, reference_uri: 'urn:2') }
 
     before do
-      create(:context)
-      create(:context, parent: context1)
+      create(:'account_service/context')
+      create(:'account_service/context', parent: context1)
     end
 
     context 'without block' do

@@ -30,7 +30,7 @@ RSpec.describe 'Item: clear_overwritten_time_effort', type: :request do
     let(:patch_item_status) { 204 }
 
     let!(:course_item_stub) do
-      Stub.service(:course, item_url: 'http://course.xikolo.tld/items/{id}')
+      Stub.service(:course, build(:'course:root'))
       Stub.request(:course, :patch, "/items/#{item.id}",
         body: hash_including(time_effort: item.calculated_time_effort))
         .to_return Stub.response(status: patch_item_status)

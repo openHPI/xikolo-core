@@ -4,19 +4,13 @@
 - content_for :page_header_slim
   = render Global::PageHeader.new(t(:'reports.headline'), subtitle: t(:'admin.page_header'), type: :slim)
 
-.container
+.bs-container
   .reports-list.mt10
     - if @reports.any?
-      #accordion.panel-group aria-multiselectable='true' role='tablist'
+      = render Global::Accordion.new(headline: 'Headline', variant: 'slim') do |accordion|
         - @reports.each do |report|
-          .panel.panel-default.report
-            .panel-heading id="heading-#{report.type}" role='tab'
-              h4.panel-title
-                a class=('collapsed' unless report.prefill?) aria-controls="collapse-#{report.type}" aria-expanded="#{report.prefill?}" data-parent='#accordion' data-toggle='collapse' href="#collapse-#{report.type}" role='button'
-                  = report.name
-            .panel-collapse.collapse id="collapse-#{report.type}" class=('in' if report.prefill?) aria-expanded="#{report.prefill?}" aria-labelledby="heading-#{report.type}" role='tabpanel'
-              .panel-body
-                = render Report::Form.new(report)
+          - accordion.with_section(report.name, report.name, expanded: report.prefill?) do
+            = render Report::Form.new(report)
     - else
       = render State::Empty.new(t(:'reports.no_reports_configured'), size: :small)
 

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Enrollment < ApplicationRecord
+  self.table_name = :enrollments
+
   belongs_to :course
 
   has_one :fixed_learning_evaluation,

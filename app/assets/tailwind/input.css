@@ -1,9 +1,5 @@
 @import 'tailwindcss' source(none);
 
-/* Do not create CSS for classes that override Bootstrap styles */
-@source not inline("container");
-@source not inline("collapse");
-
 @source '../../../app/views/';
 @source '../../../app/components/';
 @source '../../../brand/';

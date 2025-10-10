@@ -39,10 +39,7 @@ RSpec.describe 'Recap: Load questions for recap', type: :request do
   end
 
   before do
-    Stub.service(
-      :course,
-      items_url: 'http://course.xikolo.tld/items'
-    )
+    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, '/items',
       query: item_params

@@ -69,10 +69,7 @@ RSpec.configure do |config|
   end
 
   config.before do
-    Stub.service(
-      :course,
-      enrollments_url: 'http://course.xikolo.tld/enrollments{?course_id,user_id,role,learning_evaluation,deleted,current_course,per_page,proctored}'
-    )
+    Stub.service(:course, build(:'course:root'))
   end
 end
 

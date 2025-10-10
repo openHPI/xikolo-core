@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class SectionProgress < ApplicationRecord
+  self.table_name = :section_progresses
   self.primary_key = %i[section_id user_id]
 
   belongs_to :section

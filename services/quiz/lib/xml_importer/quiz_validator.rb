@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module XMLImporter
+module XmlImporter
   ##
   # Handle domain-specific quiz XML validation logic:
   # Validate quizzes for required parameters and existing course sections.
@@ -18,7 +18,7 @@ module XMLImporter
       end
       errors.compact!
 
-      raise ::XMLImporter::ParameterError.new(errors) if errors.any?
+      raise ::XmlImporter::ParameterError.new(errors) if errors.any?
     end
 
     private

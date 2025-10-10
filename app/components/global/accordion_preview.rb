@@ -9,5 +9,9 @@ module Global
     def expanded
       render_with_template
     end
+
+    def slim
+      render_with_template
+    end
   end
 end

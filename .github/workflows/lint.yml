@@ -44,6 +44,13 @@ jobs:
       - uses: ./.github/actions/setup-node
       - run: yarn run lint:format
 
+  herb:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-node
+      - run: yarn run lint:herb
+
   rubocop:
     runs-on: ubuntu-24.04
     steps:
@@ -74,6 +81,7 @@ jobs:
       - css
       - editorconfig
       - format
+      - herb
       - js
       - markdown
       - rubocop

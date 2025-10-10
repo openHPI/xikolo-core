@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module XMLImporter
+module XmlImporter
   require 'xml_importer/course'
   require 'xml_importer/quiz'
   require 'xml_importer/quiz_persistence'

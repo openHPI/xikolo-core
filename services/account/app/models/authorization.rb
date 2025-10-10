@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Authorization < ApplicationRecord
+  self.table_name = :authorizations
+
   belongs_to :user, optional: true
   serialize :info, coder: YAML
 

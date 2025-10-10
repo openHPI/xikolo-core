@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe Group, type: :model do
-  subject(:group) { create(:group, name: 'with.game') }
+  subject(:group) { create(:'account_service/group', name: 'with.game') }
 
   describe 'validations' do
     describe '#allowed_tags' do

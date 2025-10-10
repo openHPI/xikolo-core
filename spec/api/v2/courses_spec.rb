@@ -5,10 +5,7 @@ require 'spec_helper'
 describe Xikolo::V2::Courses::Courses, type: :request do
   before do
     Stub.service(:course, build(:'course:root'))
-    Stub.service(
-      :account,
-      session_url: 'http://localhost:3100/sessions/{id}{?embed,context}'
-    )
+    Stub.service(:account, build(:'account:root'))
   end
 
   describe 'GET courses' do

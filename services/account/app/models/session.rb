@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Session < ApplicationRecord
+  self.table_name = :sessions
+
   include SessionInterrupt
 
   belongs_to :user

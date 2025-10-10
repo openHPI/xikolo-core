@@ -45,10 +45,7 @@ describe 'Global Announcement Mail', type: :feature do
       preferences_url: '/users/00000001-3100-4444-9999-000000000002/preferences',
     })
 
-    Stub.service(
-      :news,
-      news_url: '/news/{id}'
-    )
+    Stub.service(:news, build(:'news:root'))
 
     # find article text
     Stub.request(

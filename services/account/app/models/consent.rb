@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Consent < ApplicationRecord
+  self.table_name = :consents
+
   belongs_to :user
   belongs_to :treatment
 

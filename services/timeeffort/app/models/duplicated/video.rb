@@ -2,6 +2,8 @@
 
 module Duplicated
   class Video < ApplicationRecord
+    self.table_name = :videos
+
     belongs_to :pip_stream, class_name: '::Duplicated::Stream', optional: true
     belongs_to :lecturer_stream, class_name: '::Duplicated::Stream', optional: true
     belongs_to :slides_stream, class_name: '::Duplicated::Stream', optional: true

@@ -24,7 +24,7 @@ describe 'Course: Announcements: Index', type: :request do
       :course, :get, '/courses/my-course'
     ).to_return Stub.json(course)
 
-    Stub.service(:news, news_index_url: '/news')
+    Stub.service(:news, build(:'news:root'))
     announcements_stub
   end
 

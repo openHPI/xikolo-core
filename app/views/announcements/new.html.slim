@@ -1,7 +1,7 @@
 - content_for :page_header_slim
   = render Global::PageHeader.new(t(:'announcements.new.headline'), subtitle: t(:'admin.page_header'), type: :slim)
 
-.container
+.bs-container
   .row
     .col-md-12
       == render 'form', announcement: @announcement

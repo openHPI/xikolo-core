@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class QuizSubmission < ApplicationRecord
+  self.table_name = :quiz_submissions
+
   has_many :quiz_submission_questions, dependent: :destroy
   has_one :quiz_submission_snapshot, dependent: :destroy
   belongs_to :quiz

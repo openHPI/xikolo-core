@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe User, '#avatar_url', type: :model do
-  subject(:user) { create(:user, attributes) }
+  subject(:user) { create(:'account_service/user', attributes) }
 
   let(:attributes) { {} }
 

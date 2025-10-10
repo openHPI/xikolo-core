@@ -5,9 +5,9 @@ require 'spec_helper'
 describe 'List users', type: :request do
   subject(:resource) { api.rel(:users).get(params).value! }
 
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(account_service_url).get.value! }
   let(:params) { {} }
-  let!(:user) { create(:user) }
+  let!(:user) { create(:'account_service/user') }
 
   it 'responds with 200 Ok' do
     expect(resource).to respond_with :ok
@@ -32,9 +32,9 @@ describe 'List users', type: :request do
   describe 'pagination' do
     before do
       User.anonymous
-      create_list(:user, 25) # rubocop:disable FactoryBot/ExcessiveCreateList
-      create_list(:user, 2, :admin)
-      create_list(:user, 5, :archived)
+      create_list(:'account_service/user', 25) # rubocop:disable FactoryBot/ExcessiveCreateList
+      create_list(:'account_service/user', 2, :admin)
+      create_list(:'account_service/user', 5, :archived)
     end
 
     let(:users) { User.active.to_a }
@@ -49,19 +49,19 @@ describe 'List users', type: :request do
       res = resource
 
       expect(res.size).to eq 10
-      expect(res.as_json.to_struct.map(&:id)).to eq users[0, 10].map(&:id)
+      expect(res.as_json.map { it['id'] }).to eq users[0, 10].map(&:id)
       expect(res.response.headers['X_TOTAL_COUNT']).to eq '28'
 
       res = res.rel(:next).get.value!
 
       expect(res.size).to eq 10
-      expect(res.as_json.to_struct.map(&:id)).to eq users[10, 10].map(&:id)
+      expect(res.as_json.map { it['id'] }).to eq users[10, 10].map(&:id)
       expect(res.response.headers['X_TOTAL_COUNT']).to eq '28'
 
       res = res.rel(:next).get.value!
 
       expect(res.size).to eq 8
-      expect(res.as_json.to_struct.map(&:id)).to eq users[20, 8].map(&:id)
+      expect(res.as_json.map { it['id'] }).to eq users[20, 8].map(&:id)
       expect(res.response.headers['X_TOTAL_COUNT']).to eq '28'
     end
 
@@ -72,13 +72,13 @@ describe 'List users', type: :request do
         res = resource
 
         expect(res.size).to eq 10
-        expect(res.as_json.to_struct.map(&:id)).to eq users[10, 10].map(&:id)
+        expect(res.as_json.map { it['id'] }).to eq users[10, 10].map(&:id)
         expect(res.response.headers['X_TOTAL_COUNT']).to eq '28'
 
         res = res.rel(:next).get.value!
 
         expect(res.size).to eq 8
-        expect(res.as_json.to_struct.map(&:id)).to eq users[20, 8].map(&:id)
+        expect(res.as_json.map { it['id'] }).to eq users[20, 8].map(&:id)
         expect(res.response.headers['X_TOTAL_COUNT']).to eq '28'
       end
     end
@@ -90,19 +90,19 @@ describe 'List users', type: :request do
         res = resource
 
         expect(res.size).to eq 10
-        expect(res.as_json.to_struct.map(&:id)).to eq users[0, 10].map(&:id)
+        expect(res.as_json.map { it['id'] }).to eq users[0, 10].map(&:id)
         expect(res.response.headers['X_TOTAL_COUNT']).to eq '28'
 
         res = api.rel(:users).get({**params, page: 2}).value!
 
         expect(res.size).to eq 10
-        expect(res.as_json.to_struct.map(&:id)).to eq users[10, 10].map(&:id)
+        expect(res.as_json.map { it['id'] }).to eq users[10, 10].map(&:id)
         expect(res.response.headers['X_TOTAL_COUNT']).to eq '28'
 
         res = api.rel(:users).get({**params, page: 3}).value!
 
         expect(res.size).to eq 8
-        expect(res.as_json.to_struct.map(&:id)).to eq users[20, 8].map(&:id)
+        expect(res.as_json.map { it['id'] }).to eq users[20, 8].map(&:id)
         expect(res.response.headers['X_TOTAL_COUNT']).to eq '28'
       end
     end
@@ -110,19 +110,19 @@ describe 'List users', type: :request do
 
   describe '?permission' do
     let(:permissions) { %w[permission0 permission1 permission2] }
-    let(:role) { create(:role, permissions:) }
+    let(:role) { create(:'account_service/role', permissions:) }
     let(:permission) { 'permission1' }
     let(:params) { {permission:} }
-    let(:user) { create(:user) }
+    let(:user) { create(:'account_service/user') }
 
     before do
-      create_list(:user, 4)
-      create_list(:role, 5)
+      create_list(:'account_service/user', 4)
+      create_list(:'account_service/role', 5)
     end
 
     context 'with user grant' do
       before do
-        create(:grant, principal: user, role:)
+        create(:'account_service/grant', principal: user, role:)
       end
 
       it 'responds with 200 Ok' do
@@ -135,11 +135,11 @@ describe 'List users', type: :request do
     end
 
     context 'with group grant' do
-      let(:group) { create(:group) }
+      let(:group) { create(:'account_service/group') }
 
       before do
-        create(:membership, user:, group:)
-        create(:grant, principal: group, role:)
+        create(:'account_service/membership', user:, group:)
+        create(:'account_service/grant', principal: group, role:)
       end
 
       it 'responds with 200 Ok' do
@@ -152,15 +152,15 @@ describe 'List users', type: :request do
     end
 
     context 'with context' do
-      let(:parent_context) { create(:context) }
-      let(:other_context) { create(:context, parent: parent_context) }
-      let(:context) { create(:context, parent: parent_context) }
+      let(:parent_context) { create(:'account_service/context') }
+      let(:other_context) { create(:'account_service/context', parent: parent_context) }
+      let(:context) { create(:'account_service/context', parent: parent_context) }
       let(:params) { {permission:, context:} }
 
       context 'with user grant' do
         context 'on given context' do
           before do
-            create(:grant, principal: user, role:, context:)
+            create(:'account_service/grant', principal: user, role:, context:)
           end
 
           it 'responds with 200 Ok' do
@@ -174,7 +174,7 @@ describe 'List users', type: :request do
 
         context 'on parent context' do
           before do
-            create(:grant, principal: user, role:, context: parent_context)
+            create(:'account_service/grant', principal: user, role:, context: parent_context)
           end
 
           it 'responds with 200 Ok' do
@@ -188,7 +188,7 @@ describe 'List users', type: :request do
 
         context 'on another context' do
           before do
-            create(:grant, principal: user, role:, context: other_context)
+            create(:'account_service/grant', principal: user, role:, context: other_context)
           end
 
           it 'responds with 200 Ok' do
@@ -202,15 +202,15 @@ describe 'List users', type: :request do
       end
 
       context 'with group grant' do
-        let(:group) { create(:group) }
+        let(:group) { create(:'account_service/group') }
 
         before do
-          create(:membership, user:, group:)
+          create(:'account_service/membership', user:, group:)
         end
 
         context 'on given context' do
           before do
-            create(:grant, principal: group, role:, context:)
+            create(:'account_service/grant', principal: group, role:, context:)
           end
 
           it 'responds with 200 Ok' do
@@ -224,7 +224,7 @@ describe 'List users', type: :request do
 
         context 'on parent context' do
           before do
-            create(:grant, principal: group, role:, context: parent_context)
+            create(:'account_service/grant', principal: group, role:, context: parent_context)
           end
 
           it 'responds with 200 Ok' do
@@ -238,7 +238,7 @@ describe 'List users', type: :request do
 
         context 'on another context' do
           before do
-            create(:grant, principal: group, role:, context: other_context)
+            create(:'account_service/grant', principal: group, role:, context: other_context)
           end
 
           it 'responds with 200 Ok' do

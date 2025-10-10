@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Watch < ApplicationRecord
+  self.table_name = :watches
+
   # includes a question and the user who has seen this question
   belongs_to :question
   validates :user_id, presence: true

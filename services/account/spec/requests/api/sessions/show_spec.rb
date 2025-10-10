@@ -5,10 +5,10 @@ require 'spec_helper'
 describe 'Sessions: Show', type: :request do
   subject(:resource) { api.rel(:session).get({id: session}).value! }
 
-  let(:api) { Restify.new(:test, **config).get.value! }
+  let(:api) { Restify.new(account_service_url, **config).get.value! }
   let(:config) { {} }
-  let(:session) { create(:session, access_at: Time.zone.yesterday) }
-  let(:masqueraded_user) { create(:user) }
+  let(:session) { create(:'account_service/session', access_at: Time.zone.yesterday) }
+  let(:masqueraded_user) { create(:'account_service/user') }
 
   let(:session_resource) do
     {
@@ -18,10 +18,10 @@ describe 'Sessions: Show', type: :request do
       'masqueraded' => false,
       'interrupt' => false,
       'interrupts' => [],
-      'self_url' => session_url(session),
-      'user_url' => user_url(session.user),
-      'masquerade_url' => session_masquerade_url(session),
-      'tokens_url' => tokens_url(user_id: session.user.id),
+      'self_url' => account_service.session_url(session),
+      'user_url' => account_service.user_url(session.user),
+      'masquerade_url' => account_service.session_masquerade_url(session),
+      'tokens_url' => account_service.tokens_url(user_id: session.user.id),
     }
   end
 
@@ -61,18 +61,18 @@ describe 'Sessions: Show', type: :request do
     end
 
     context 'treatment/consent interrupt' do
-      let!(:treatments) { create_list(:treatment, 2) }
+      let!(:treatments) { create_list(:'account_service/treatment', 2) }
 
       before do
-        create(:consent, user: session.user, treatment: treatments[0])
-        create(:consent, user: session.user, treatment: treatments[1], value: false)
+        create(:'account_service/consent', user: session.user, treatment: treatments[0])
+        create(:'account_service/consent', user: session.user, treatment: treatments[1], value: false)
       end
 
       it { expect(resource['interrupt']).to be false }
       it { expect(resource['interrupts']).to eq [] }
 
       context 'with new treatment' do
-        before { create(:treatment) }
+        before { create(:'account_service/treatment') }
 
         it { expect(resource['interrupt']).to be true }
         it { expect(resource['interrupts']).to eq ['new_consents'] }
@@ -81,7 +81,7 @@ describe 'Sessions: Show', type: :request do
 
     context 'policy interrupt' do
       context 'with new policy' do
-        before { create(:policy) }
+        before { create(:'account_service/policy') }
 
         it { expect(resource['interrupt']).to be true }
         it { expect(resource['interrupts']).to eq ['new_policy'] }
@@ -89,7 +89,7 @@ describe 'Sessions: Show', type: :request do
     end
 
     context 'with incomplete profile' do
-      let(:session) { create(:session, user: create(:user, completed_profile: false)) }
+      let(:session) { create(:'account_service/session', user: create(:'account_service/user', completed_profile: false)) }
 
       it { expect(resource['interrupt']).to be true }
       it { expect(resource['interrupts']).to eq ['mandatory_profile_fields'] }
@@ -128,8 +128,8 @@ describe 'Sessions: Show', type: :request do
         'masqueraded' => false,
         'interrupt' => false,
         'interrupts' => [],
-        'self_url' => session_url('anonymous'),
-        'user_url' => user_url(User.anonymous)
+        'self_url' => account_service.session_url('anonymous'),
+        'user_url' => account_service.user_url(User.anonymous)
     end
 
     it { is_expected.to include_header 'Cache-Control' => 'max-age=60, public' }
@@ -172,10 +172,10 @@ describe 'Sessions: Show', type: :request do
         api.rel(:session).get({id: session, embed: 'features'}).value!
       end
 
-      let(:groups) { create_list(:group, 5) }
+      let(:groups) { create_list(:'account_service/group', 5) }
 
       before do
-        groups.map {|group| create_list(:feature, 4, owner: group) }.flatten
+        groups.map {|group| create_list(:'account_service/feature', 4, owner: group) }.flatten
 
         session.user.memberships.create! group: groups[2]
         session.user.memberships.create! group: groups[3]
@@ -235,17 +235,17 @@ describe 'Sessions: Show', type: :request do
         .value!
     end
 
-    let(:roles) { create_list(:role, 2) }
-    let(:group) { create(:group) }
-    let(:context) { create(:context) }
+    let(:roles) { create_list(:'account_service/role', 2) }
+    let(:group) { create(:'account_service/group') }
+    let(:context) { create(:'account_service/context') }
 
     before do
       session.user.groups << group
 
-      create(:grant,
+      create(:'account_service/grant',
         principal: group, role: roles[0], context:)
 
-      create(:grant,
+      create(:'account_service/grant',
         principal: session.user, role: roles[1], context: Context.root)
     end
 

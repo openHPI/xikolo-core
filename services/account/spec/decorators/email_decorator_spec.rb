@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe EmailDecorator, type: :decorator do
-  let(:email) { create(:email, :confirmed) }
+  let(:email) { create(:'account_service/email', :confirmed) }
   let(:decorator) { described_class.new email }
 
   describe '#as_json' do
@@ -32,8 +32,8 @@ describe EmailDecorator, type: :decorator do
     it { is_expected.to include 'confirmed_at' => email.confirmed_at.iso8601 }
     it { is_expected.to include 'created_at' => email.created_at.iso8601 }
 
-    it { is_expected.to include 'user_url' => user_url(email.user_id) }
-    it { is_expected.to include 'suspension_url' => user_email_suspension_url(email.user_id, email.uuid) }
-    it { is_expected.to include 'self_url' => user_email_url(email.user_id, email.uuid) }
+    it { is_expected.to include 'user_url' => h.account_service.user_url(email.user_id) }
+    it { is_expected.to include 'suspension_url' => h.account_service.user_email_suspension_url(email.user_id, email.uuid) }
+    it { is_expected.to include 'self_url' => h.account_service.user_email_url(email.user_id, email.uuid) }
   end
 end

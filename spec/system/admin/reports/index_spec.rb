@@ -74,7 +74,7 @@ describe 'Admin: Reports: Index', type: :system do
   it 'expands and prefills the course report form based on query parameters' do
     visit "/reports?report_type=course_report&report_scope=#{course['id']}&include_profile=true"
 
-    within '.panel-collapse[aria-expanded="true"]' do
+    within '[data-controller="accordion"]' do
       # the correct panel is expanded
       expect(page).to have_content 'This report includes data about each enrollment of a course.'
 
@@ -89,7 +89,7 @@ describe 'Admin: Reports: Index', type: :system do
   it 'expands and prefills the submission report form based on query parameters' do
     visit '/reports?report_type=submission_report&report_scope=123-456'
 
-    within '.panel-collapse[aria-expanded="true"]' do
+    within '[data-controller="accordion"]' do
       # the correct panel is expanded
       expect(page).to have_content 'This report includes data about each submission of a quiz.'
 
@@ -101,7 +101,7 @@ describe 'Admin: Reports: Index', type: :system do
   it 'expands and prefills the enrollment statistics report form based on query parameters' do
     visit '/reports?report_type=enrollment_statistics_report&window_size=12&window_unit=months&first_date=2020-01-01'
 
-    within '.panel-collapse[aria-expanded="true"]' do
+    within '[data-controller="accordion"]' do
       # the correct panel is expanded
       expect(page).to have_content 'This report includes the total enrollments count and unique enrolled users count for a given timeframe.'
 

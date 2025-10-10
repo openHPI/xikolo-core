@@ -4,7 +4,7 @@ require 'spec_helper'
 
 RSpec.describe Course, type: :model do
   before do
-    Stub.service(:course, course_url: '/courses/{id}')
+    Stub.service(:course, build(:'course:root'))
     course_stub
   end
 

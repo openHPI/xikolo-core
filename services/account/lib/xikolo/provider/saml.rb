@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Xikolo::Provider
-  class Saml < Base
+  class SAML < Base
     def data
       {
         email: info['email'],

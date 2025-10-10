@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module XMLImporter
+module XmlImporter
   ##
   # Handle the entire process of importing quizzes from an XML string.
   # Responsibilities include validating the XML schema, preprocessing quizzes
@@ -15,7 +15,7 @@ module XMLImporter
     end
 
     def preprocess!
-      XMLValidator.new(@xml_string).validate!
+      XmlValidator.new(@xml_string).validate!
 
       quizzes_hash = Hash.from_trusted_xml(@xml_string)
       quizzes = Array.wrap(quizzes_hash['quizzes']['quiz'])

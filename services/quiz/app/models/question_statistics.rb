@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class QuestionStatistics < ApplicationRecord
+  self.table_name = :question_statistics
+
   belongs_to :question
 
   validates :question_id, uniqueness: true

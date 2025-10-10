@@ -10,7 +10,7 @@ describe PinboardSearchCourseConsumer, type: :consumer do
   end
 
   let!(:course_stub) do
-    Stub.service(:course, course_url: '/courses/{id}')
+    Stub.service(:course, build(:'course:root'))
 
     Stub.request(:course, :get, "/courses/#{course_id}")
       .to_return Stub.json({id: course_id, course_code: 'code2019', lang: 'en'})

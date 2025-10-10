@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class News < ApplicationRecord
+  self.table_name = :news
+
   validates :author_id, presence: true
   validate :no_audience, if: :course_id
 

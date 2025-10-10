@@ -12,12 +12,7 @@ describe Account::PasswordResetsController, type: :controller do
   end
 
   before do
-    Stub.service(
-      :account,
-      session_url: '/sessions/{id}',
-      password_reset_url: '/password_resets/{id}',
-      password_resets_url: '/password_resets'
-    )
+    Stub.service(:account, build(:'account:root'))
   end
 
   describe '#create' do

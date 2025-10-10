@@ -5,8 +5,8 @@ require 'spec_helper'
 describe 'Sessions: Create with Credentials', type: :request do
   subject(:resource) { api.rel(:sessions).post(payload).value! }
 
-  let(:api) { Restify.new(:test).get.value! }
-  let(:user) { create(:user, password: 'secret123') }
+  let(:api) { Restify.new(account_service_url).get.value! }
+  let(:user) { create(:'account_service/user', password: 'secret123') }
 
   let(:response) do
     resource.response
@@ -60,7 +60,7 @@ describe 'Sessions: Create with Credentials', type: :request do
     end
 
     context 'with non-primary email address' do
-      let!(:secondary_email) { user.emails.create! attributes_for :email }
+      let!(:secondary_email) { user.emails.create! attributes_for :'account_service/email' }
 
       let(:payload) do
         {

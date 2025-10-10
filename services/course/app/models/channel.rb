@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Channel < ApplicationRecord
+  self.table_name = :channels
+
   include FileReference
 
   has_many :courses, dependent: :nullify

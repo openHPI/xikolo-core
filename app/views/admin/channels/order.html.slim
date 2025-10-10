@@ -1,7 +1,7 @@
 - content_for :page_header_slim
   = render Global::PageHeader.new(t(:'admin.channels.sort.title'), subtitle: t(:'admin.page_header'), type: :slim)
 
-.container
+.bs-container
   - if @channels.present?
     = render Global::Callout.new(t(:'admin.channels.sort.info'))
     = render partial: 'admin/channels/form_order', locals: {channels: @channels}

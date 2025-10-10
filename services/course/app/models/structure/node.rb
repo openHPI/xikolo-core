@@ -2,6 +2,8 @@
 
 module Structure
   class Node < ::ApplicationRecord
+    self.table_name = :nodes
+
     # Map "type" column values to concrete subclasses.
     # NOTE: This can be used to map obsolete values to newer classes, or when
     # renaming models.

@@ -35,6 +35,8 @@
     "@babel/preset-env": "^7.25.0",
     "@babel/preset-typescript": "^7.24.7",
     "@eslint/js": "^9.17.0",
+    "@herb-tools/formatter": "^0.7.3",
+    "@herb-tools/linter": "^0.7.3",
     "@stoplight/cli": "^6.0.2354",
     "@tailwindcss/cli": "^4.1.12",
     "@types/d3": "^3",
@@ -89,9 +91,12 @@
     "tsc:check": "tsc --noEmit --skipLibCheck",
     "lint:css": "stylelint --allow-empty-input app/assets/**/*.{css,scss} brand/*/assets/**/*.{css,scss}",
     "lint:format": "prettier --check .",
+    "lint:herb": "herb-lint '**/*.html.erb'",
     "lint:js": "eslint app/assets",
     "lint:md": "markdownlint '**/*.{md,md.erb}' .",
-    "postinstall": "husky"
+    "postinstall": "husky",
+    "herb:format": "herb-format",
+    "herb:format:check": "herb-format --check"
   },
   "lint-staged": {
     "*": [
@@ -99,6 +104,7 @@
       "editorconfig-checker"
     ],
     "*.rb": "bundle exec rubocop --force-exclusion --autocorrect",
+    "*.html.erb": "yarn lint:herb",
     "*.slim": "bundle exec slim-lint",
     "*.{js,ts,jsx,tsx,mjs}": "eslint --fix",
     "*.{css,scss,sass}": "stylelint --fix --allow-empty-input",

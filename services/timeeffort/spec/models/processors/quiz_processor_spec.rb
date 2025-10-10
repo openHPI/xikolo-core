@@ -54,11 +54,8 @@ RSpec.describe Processors::QuizProcessor, type: :model do
     end
 
     before do
-      Stub.service(:course, item_url: 'http://course.xikolo.tld/items/{id}')
-      Stub.service(:quiz,
-        quiz_url: 'http://quiz.xikolo.tld/quizzes/{id}',
-        questions_url: 'http://quiz.xikolo.tld/questions',
-        answers_url: 'http://quiz.xikolo.tld/answers')
+      Stub.service(:course, build(:'course:root'))
+      Stub.service(:quiz, build(:'quiz:root'))
       course_item_stub
       quiz_stub
       questions_stub

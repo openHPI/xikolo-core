@@ -30,6 +30,7 @@ RUN <<EOF
 EOF
 
 COPY ./gems /app/gems
+COPY ./engines /app/engines
 COPY services/quiz/Gemfile* /app/
 
 RUN <<EOF

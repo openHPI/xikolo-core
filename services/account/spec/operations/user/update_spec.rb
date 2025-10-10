@@ -5,7 +5,7 @@ require 'spec_helper'
 describe User::Update, type: :operation do
   subject(:operation) { described_class.new(user, attributes) }
 
-  let!(:user) { create(:user) }
+  let!(:user) { create(:'account_service/user') }
   let(:attributes) { {} }
 
   describe '(external avatar URL)' do
@@ -21,7 +21,7 @@ describe User::Update, type: :operation do
 
     context 'deleting an existing avatar' do
       let(:user) do
-        create(:user, avatar_uri: 'https://external.example.com/profil_old.jpg')
+        create(:'account_service/user', avatar_uri: 'https://external.example.com/profil_old.jpg')
       end
       let(:attributes) { {avatar_uri: nil} }
 
@@ -34,7 +34,7 @@ describe User::Update, type: :operation do
 
     context 'with no user avatar params provided at all' do
       let(:user) do
-        create(:user, avatar_uri: 'https://external.example.com/profil_old.jpg')
+        create(:'account_service/user', avatar_uri: 'https://external.example.com/profil_old.jpg')
       end
       let(:attributes) { {display_name: 'Jane Doe'} }
 

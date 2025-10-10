@@ -1,7 +1,7 @@
 - content_for :page_header_slim
   = render Global::PageHeader.new(t(:'vouchers.headline'), subtitle: t(:'admin.page_header'), type: :slim)
 
-.container
+.bs-container
   .col-md-12
     = render 'shared/voucher_admin_nav'
   .col-md-12.mb20

@@ -20,11 +20,6 @@ describe Course::CourseVisual, type: :component do
       expect(page).to have_css 'img[alt="CSS Course"]'
     end
 
-    it 'applies default CSS' do
-      render_inline(component)
-      expect(page).to have_css 'img[class="img-responsive"]'
-    end
-
     context 'with specific width requirement' do
       before do
         allow(Imagecrop).to receive(:enabled?).and_return(true)
@@ -59,7 +54,7 @@ describe Course::CourseVisual, type: :component do
 
     it 'applies custom CSS' do
       render_inline(component)
-      expect(page).to have_css 'img[class="custom-class img-responsive"]'
+      expect(page).to have_css 'img[class="custom-class"]'
     end
   end
 end

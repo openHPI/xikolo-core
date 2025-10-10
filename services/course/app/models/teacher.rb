@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Teacher < ApplicationRecord
+  self.table_name = :teachers
+
   validates :name, presence: true
   validate :description_not_empty
   after_commit :remove_replaced_picture

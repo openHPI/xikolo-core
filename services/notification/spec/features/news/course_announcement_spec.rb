@@ -30,10 +30,7 @@ describe 'Course Announcement Mail', type: :feature do
   before do
     Msgr.client.start
 
-    Stub.service(
-      :news,
-      news_url: '/news/{id}'
-    )
+    Stub.service(:news, build(:'news:root'))
 
     Stub.request(
       :news, :get, "/news/#{announcement_id}",

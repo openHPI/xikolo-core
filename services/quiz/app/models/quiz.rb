@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Quiz < ApplicationRecord
+  self.table_name = :quizzes
+
   has_paper_trail
   has_many :questions, dependent: :destroy
   has_many :submissions, class_name: 'QuizSubmission', dependent: :destroy

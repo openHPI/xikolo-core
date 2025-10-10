@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe ProfileCompletion::UpdateJob, type: :job do
-  let!(:user) { create(:user, completed_profile: false) }
+  let!(:user) { create(:'account_service/user', completed_profile: false) }
 
   describe '#perform' do
     before do

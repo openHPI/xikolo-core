@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe Treatment, type: :model do
-  subject(:treatment) { create(:treatment) }
+  subject(:treatment) { create(:'account_service/treatment') }
 
   it do
     expect(treatment).to accept_values_for :name,
@@ -22,7 +22,7 @@ RSpec.describe Treatment, type: :model do
   describe '#name' do
     it 'is unique' do
       expect do
-        create(:treatment, name: treatment.name)
+        create(:'account_service/treatment', name: treatment.name)
       end.to raise_error(ActiveRecord::RecordInvalid, /Name exists/)
     end
   end

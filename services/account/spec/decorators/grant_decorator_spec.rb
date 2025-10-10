@@ -3,9 +3,9 @@
 require 'spec_helper'
 
 describe GrantDecorator, type: :decorator do
-  let(:group) { create(:group) }
-  let(:role) { create(:role) }
-  let(:grant) { create(:grant, role:, principal: group, context: Context.root) }
+  let(:group) { create(:'account_service/group') }
+  let(:role) { create(:'account_service/role') }
+  let(:grant) { create(:'account_service/grant', role:, principal: group, context: Context.root) }
   let(:decorator) { described_class.new grant }
 
   describe '#as_json' do
@@ -16,7 +16,7 @@ describe GrantDecorator, type: :decorator do
         'group' => group.name,
         'role' => role.id,
         'role_name' => role.name,
-        'self_url' => h.grant_url(grant.id),
+        'self_url' => h.account_service.grant_url(grant.id),
         'context' => Context.root_id,
         'context_name' => 'root'
     end

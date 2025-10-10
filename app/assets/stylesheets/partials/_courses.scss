@@ -172,7 +172,6 @@ body.in_app .course-action {
 \*------------------------------------*/
 .course-details--section-title {
   padding-bottom: 10px;
-  @include light-bar(border-bottom);
 }
 
 .course-details__section-list {

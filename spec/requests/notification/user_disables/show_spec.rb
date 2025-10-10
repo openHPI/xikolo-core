@@ -10,11 +10,7 @@ RSpec.describe 'Notifications: UserDisables: Show', type: :request do
   end
 
   before do
-    Stub.service(
-      :account,
-      email_url: '/emails/{id}',
-      session_url: '/sessions/{id}'
-    )
+    Stub.service(:account, build(:'account:root'))
   end
 
   context 'without the required params' do

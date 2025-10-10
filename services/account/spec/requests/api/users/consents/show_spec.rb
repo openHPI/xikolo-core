@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Show user consents', type: :request do
   subject(:resource) { base.rel(:self).get.value! }
 
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(account_service_url).get.value! }
 
   let(:base) do
     api
@@ -13,7 +13,7 @@ describe 'Show user consents', type: :request do
       .rel(:consents).get.value!.first
   end
 
-  let!(:consent) { create(:consent) }
+  let!(:consent) { create(:'account_service/consent') }
   let(:user) { consent.user }
   let(:treatment) { consent.treatment }
 
@@ -27,6 +27,6 @@ describe 'Show user consents', type: :request do
       'required' => treatment.required,
       'consented' => true,
       'consented_at' => consent.consented_at.iso8601(0),
-      'self_url' => user_consent_url(user, treatment)
+      'self_url' => account_service.user_consent_url(user, treatment)
   end
 end

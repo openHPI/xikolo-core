@@ -112,7 +112,7 @@ html lang="#{I18n.locale}" data-default-locale="#{I18n.default_locale}" data-bra
       - if content_for? :pre_main
         = yield :pre_main
 
-      .container
+      .bs-container
         - if browser_support.unsupported? && !hide_browser_warning?
           .alert.alert-danger data-browser-warning='alert'
             h4.bold

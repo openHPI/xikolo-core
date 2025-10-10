@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe Grant, type: :model do
-  let(:grant) { create(:grant) }
+  let(:grant) { create(:'account_service/grant') }
 
   describe '.for' do
     subject(:grants) { Grant.for(**kwargs) }
@@ -12,7 +12,7 @@ describe Grant, type: :model do
 
     context 'with principal not set and type not set' do
       before do
-        create_list(:grant, 5)
+        create_list(:'account_service/grant', 5)
       end
 
       it 'returns nothing' do
@@ -23,10 +23,10 @@ describe Grant, type: :model do
     context 'with principal not set but type set' do
       let(:kwargs) { {type: Group} }
 
-      let!(:matches) { create_list(:grant, 2, principal: create(:group)) }
+      let!(:matches) { create_list(:'account_service/grant', 2, principal: create(:'account_service/group')) }
 
       before do
-        create_list(:grant, 2)
+        create_list(:'account_service/grant', 2)
       end
 
       it 'contains only group grants' do
@@ -36,13 +36,13 @@ describe Grant, type: :model do
 
     context 'with principal set but type not' do
       let(:kwargs)    { {principal:} }
-      let(:principal) { create(:user) }
+      let(:principal) { create(:'account_service/user') }
 
-      let!(:matches) { create_list(:grant, 2, principal:) }
+      let!(:matches) { create_list(:'account_service/grant', 2, principal:) }
 
       before do
-        create(:grant, principal: create(:user))
-        create(:grant, principal: create(:group))
+        create(:'account_service/grant', principal: create(:'account_service/user'))
+        create(:'account_service/grant', principal: create(:'account_service/group'))
       end
 
       it 'contains only matching user grants' do
@@ -52,13 +52,13 @@ describe Grant, type: :model do
 
     context 'with principal set and type set' do
       let(:kwargs)    { {principal: principal.id, type: User} }
-      let(:principal) { create(:user) }
+      let(:principal) { create(:'account_service/user') }
 
-      let!(:matches) { create_list(:grant, 2, principal:) }
+      let!(:matches) { create_list(:'account_service/grant', 2, principal:) }
 
       before do
-        create(:grant, principal: create(:user))
-        create(:grant, principal: create(:group))
+        create(:'account_service/grant', principal: create(:'account_service/user'))
+        create(:'account_service/grant', principal: create(:'account_service/group'))
       end
 
       it 'contains only matching grants' do
@@ -67,16 +67,16 @@ describe Grant, type: :model do
     end
 
     context 'with context' do
-      let(:parent_context) { create(:context) }
-      let(:other_context) { create(:context, parent: parent_context) }
-      let(:context) { create(:context, parent: parent_context) }
+      let(:parent_context) { create(:'account_service/context') }
+      let(:other_context) { create(:'account_service/context', parent: parent_context) }
+      let(:context) { create(:'account_service/context', parent: parent_context) }
 
       context 'with principal not set and type not set' do
         before do
-          create(:grant)
-          create(:grant, context:)
-          create(:grant, context: other_context)
-          create(:grant, context: parent_context)
+          create(:'account_service/grant')
+          create(:'account_service/grant', context:)
+          create(:'account_service/grant', context: other_context)
+          create(:'account_service/grant', context: parent_context)
         end
 
         it 'returns nothing' do
@@ -89,15 +89,15 @@ describe Grant, type: :model do
 
         context 'and type set to USER' do
           let(:type) { User }
-          let(:user) { create(:user) }
+          let(:user) { create(:'account_service/user') }
           let(:kwargs) { {**super(), context:} }
 
-          let!(:grant1) { create(:grant, principal: user) }
-          let!(:grant2) { create(:grant, principal: user, context:) }
-          let!(:grant3) { create(:grant, principal: user, context: parent_context) }
+          let!(:grant1) { create(:'account_service/grant', principal: user) }
+          let!(:grant2) { create(:'account_service/grant', principal: user, context:) }
+          let!(:grant3) { create(:'account_service/grant', principal: user, context: parent_context) }
 
           before do
-            create(:grant, principal: user, context: other_context)
+            create(:'account_service/grant', principal: user, context: other_context)
           end
 
           it 'returns matches' do
@@ -107,15 +107,15 @@ describe Grant, type: :model do
 
         context 'and type set to GROUP' do
           let(:type) { Group }
-          let(:group) { create(:group) }
+          let(:group) { create(:'account_service/group') }
           let(:kwargs) { {**super(), context:} }
 
-          let!(:grant1) { create(:grant, principal: group) }
-          let!(:grant2) { create(:grant, principal: group, context:) }
-          let!(:grant3) { create(:grant, principal: group, context: parent_context) }
+          let!(:grant1) { create(:'account_service/grant', principal: group) }
+          let!(:grant2) { create(:'account_service/grant', principal: group, context:) }
+          let!(:grant3) { create(:'account_service/grant', principal: group, context: parent_context) }
 
           before do
-            create(:grant, principal: group, context: other_context)
+            create(:'account_service/grant', principal: group, context: other_context)
           end
 
           it 'returns matches' do
@@ -128,19 +128,19 @@ describe Grant, type: :model do
         let(:kwargs) { {**super(), principal:} }
 
         context 'and principal being a User' do
-          let(:principal) { create(:user) }
+          let(:principal) { create(:'account_service/user') }
           let(:kwargs) { {**super(), context:} }
 
-          let!(:grant1) { create(:grant, principal:) }
-          let!(:grant2) { create(:grant, principal:, context:) }
-          let!(:grant3) { create(:grant, principal:, context: parent_context) }
+          let!(:grant1) { create(:'account_service/grant', principal:) }
+          let!(:grant2) { create(:'account_service/grant', principal:, context:) }
+          let!(:grant3) { create(:'account_service/grant', principal:, context: parent_context) }
 
           before do # create non matching elements
-            create(:grant, principal: create(:user))
-            create(:grant, principal: create(:user), context:)
-            create(:grant, principal: create(:group), context:)
+            create(:'account_service/grant', principal: create(:'account_service/user'))
+            create(:'account_service/grant', principal: create(:'account_service/user'), context:)
+            create(:'account_service/grant', principal: create(:'account_service/group'), context:)
 
-            create(:grant, principal:, context: other_context)
+            create(:'account_service/grant', principal:, context: other_context)
           end
 
           it 'returns matches' do
@@ -149,19 +149,19 @@ describe Grant, type: :model do
         end
 
         context 'and principal being a Group' do
-          let(:principal) { create(:group) }
+          let(:principal) { create(:'account_service/group') }
           let(:kwargs) { {**super(), context:} }
 
-          let!(:grant1) { create(:grant, principal:) }
-          let!(:grant2) { create(:grant, principal:, context:) }
-          let!(:grant3) { create(:grant, principal:, context: parent_context) }
+          let!(:grant1) { create(:'account_service/grant', principal:) }
+          let!(:grant2) { create(:'account_service/grant', principal:, context:) }
+          let!(:grant3) { create(:'account_service/grant', principal:, context: parent_context) }
 
           before do # create non matching elements
-            create(:grant, principal: create(:user))
-            create(:grant, principal: create(:user), context:)
-            create(:grant, principal: create(:group), context:)
+            create(:'account_service/grant', principal: create(:'account_service/user'))
+            create(:'account_service/grant', principal: create(:'account_service/user'), context:)
+            create(:'account_service/grant', principal: create(:'account_service/group'), context:)
 
-            create(:grant, principal:, context: other_context)
+            create(:'account_service/grant', principal:, context: other_context)
           end
 
           it 'returns matches' do

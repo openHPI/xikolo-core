@@ -1,4 +1,9 @@
 PATH
+  remote: engines/notification_service
+  specs:
+    notification_service (0.0.1)
+
+PATH
   remote: gems/xikolo-common
   specs:
     xikolo-common (2.18.0)
@@ -314,7 +319,7 @@ GEM
     rails-i18n (7.0.10)
       i18n (>= 0.7, < 2)
       railties (>= 6.0.0, < 8)
-    rails-rfc6570 (3.4.0)
+    rails-rfc6570 (3.5.1)
       actionpack (>= 4.2, < 8.1)
       addressable (~> 2.3)
     railties (7.2.2.1)
@@ -502,6 +507,7 @@ DEPENDENCIES
   mnemosyne-ruby (~> 2.0)
   msgr (~> 1.5)
   mutex_m
+  notification_service!
   paginate-responder (~> 2.0)
   pg
   premailer-rails

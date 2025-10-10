@@ -15,19 +15,8 @@ describe ItemsController, type: :controller do
   let(:request_context_id) { course_context_id }
 
   before do
-    Stub.service(
-      :account,
-      session_url: '/sessions/{id}'
-    )
-    Stub.service(
-      :course,
-      course_url: '/courses/{id}',
-      enrollments_url: '/enrollments',
-      section_url: '/sections/{id}',
-      sections_url: '/sections',
-      item_url: '/items/{id}',
-      items_url: '/items'
-    )
+    Stub.service(:account, build(:'account:root'))
+    Stub.service(:course, build(:'course:root'))
 
     Stub.request(:account, :get, "/users/#{user_id}/preferences")
       .to_return Stub.json({properties: {}})

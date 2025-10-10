@@ -8,7 +8,7 @@
       - c.with_pill(t(:"items.show.coursestate.#{course_layout.fullstate}"), size: :small, color: :note)
       = render(partial: 'course/shared/course_admin_action', locals: {course: course_layout, in_teacher_context: true})
 
-.container.white-bg.statistics-page
+.bs-container.white-bg.statistics-page
   .row
     .col-md-12
       = render partial: 'course/admin/item_stats/nav', locals: {nav: @item_stats_nav}

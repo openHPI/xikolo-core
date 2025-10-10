@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Role: Update', type: :request do
   subject(:resource) { api.rel(:role).put(data, params: {id: data[:name]}).value! }
 
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(account_service_url).get.value! }
   let(:data) do
     {
       name: 'account.admins',
@@ -27,7 +27,7 @@ describe 'Role: Update', type: :request do
   end
 
   it 'has location to newly created resource' do
-    expect(resource.follow).to eq role_url Role.last
+    expect(resource.follow).to eq account_service.role_url Role.last
   end
 
   it 'returns created resource' do

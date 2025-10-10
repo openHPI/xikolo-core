@@ -9,7 +9,7 @@
       - c.with_pill(t(:"items.show.coursestate.#{course_layout.fullstate}"), size: :small, color: :note)
       = render(partial: 'course/shared/course_admin_action', locals: {course: course_layout, in_teacher_context: true})
 
-.container.white-bg.statistics-page[
+.bs-container.white-bg.statistics-page[
   data-lanalytics-visit='item_statistics'
   data-lanalytics-resource={type: 'item', uuid: @item_stats.item_id}.to_json
   data-lanalytics-context={course_id: @item_stats.course_id, content_type: @item_stats.content_type}.to_json

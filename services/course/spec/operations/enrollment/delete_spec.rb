@@ -18,11 +18,7 @@ describe Enrollment::Delete, type: :operation do
   end
 
   before do
-    Stub.service(
-      :account,
-      memberships_url: '/memberships',
-      group_url: '/groups/{id}'
-    )
+    Stub.service(:account, build(:'account:root'))
     membership_stub
   end
 

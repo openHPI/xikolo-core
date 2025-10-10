@@ -2,7 +2,7 @@
   = render Global::PageHeader.new(t(:'admin.clusters.show_headline'), subtitle: t(:'admin.page_header'), type: :slim) do |c|
     - c.with_pill @cluster.title, color: :note, size: :small
 
-.container
+.bs-container
   .mt20
     h2 = t(:'admin.clusters.name')
     table.mb15.mt15

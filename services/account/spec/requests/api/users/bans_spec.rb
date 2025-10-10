@@ -5,11 +5,11 @@ require 'spec_helper'
 describe 'Bans: Create', type: :request do
   subject(:ban_user) { api.rel(:user_ban).post({}, params: {user_id: user.id}).value! }
 
-  let(:api) { Restify.new(:test).get.value! }
-  let(:user) { create(:user) }
+  let(:api) { Restify.new(account_service_url).get.value! }
+  let(:user) { create(:'account_service/user') }
 
   describe 'POST /bans' do
-    before { create(:session, user:) }
+    before { create(:'account_service/session', user:) }
 
     it 'responds with 201 Created' do
       expect(ban_user).to respond_with :created

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Group < ApplicationRecord
+  self.table_name = :groups
+
   NAME_REGEXP = /\A\w+(\.(\w|-)+)+\z/
   ALLOWED_TAGS = %w[access custom_recipients].freeze
 

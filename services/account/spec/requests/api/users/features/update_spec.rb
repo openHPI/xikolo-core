@@ -5,10 +5,10 @@ require 'spec_helper'
 describe 'Users: Features: Merge', type: :request do
   subject(:resource) { base.rel(:features).patch(data).value! }
 
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(account_service_url).get.value! }
   let(:base) { api.rel(:user).get({id: user}).value! }
-  let(:user) { create(:user) }
-  let!(:feature) { create(:feature, owner: user) }
+  let(:user) { create(:'account_service/user') }
+  let!(:feature) { create(:'account_service/feature', owner: user) }
 
   context 'with new flipper' do
     let(:data) { {'new.flipper' => 'On Sale now!'} }
@@ -48,7 +48,7 @@ describe 'Users: Features: Merge', type: :request do
        'dr.flipps' => 'Astromedical'}
     end
 
-    before { create(:feature, owner: user) }
+    before { create(:'account_service/feature', owner: user) }
 
     it 'responds with 200 Ok' do
       expect(resource).to respond_with :ok

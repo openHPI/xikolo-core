@@ -29,21 +29,14 @@ describe 'Enrollment: Reactivations: Create', type: :request do
   end
 
   before do
-    Stub.service(
-      :account,
-      user_url: '/users/{id}',
-      group_url: '/groups/{id}'
-    )
+    Stub.service(:account, build(:'account:root'))
     Stub.request(
       :account, :get, "/users/#{record.user_id}"
     ).to_return Stub.json({
       features_url: "/users/#{record.user_id}/features",
     })
 
-    Stub.service(
-      :quiz,
-      user_quiz_attempts_url: '/user_quiz_attempts'
-    )
+    Stub.service(:quiz, build(:'quiz:root'))
   end
 
   it 'responds with 201 Created' do

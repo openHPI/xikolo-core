@@ -42,6 +42,8 @@ gem 'xikolo-config', path: './gems/xikolo-config'
 gem 'xikolo-s3', path: './gems/xikolo-s3'
 gem 'xikolo-sidekiq', path: './gems/xikolo-sidekiq'
 
+gem 'account_service', path: 'engines/account_service'
+
 gem 'restify', '~> 2.0'
 
 gem 'concurrent-ruby', '~> 1.0'

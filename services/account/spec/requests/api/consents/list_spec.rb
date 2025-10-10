@@ -5,10 +5,10 @@ require 'spec_helper'
 describe 'List consents', type: :request do
   subject(:resource) { user_resource.rel(:consents).get.value! }
 
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(account_service_url).get.value! }
   let(:user_resource) { api.rel(:user).get({id: user.id}).value! }
-  let(:user) { create(:user) }
-  let!(:consents) { create_list(:consent, 2, user:) }
+  let(:user) { create(:'account_service/user') }
+  let!(:consents) { create_list(:'account_service/consent', 2, user:) }
 
   it { is_expected.to respond_with :ok }
 
@@ -27,9 +27,9 @@ describe 'List consents', type: :request do
   end
 
   context 'with external consent' do
-    let(:treatment) { create(:treatment, :external, name: 'external_treatment') }
+    let(:treatment) { create(:'account_service/treatment', :external, name: 'external_treatment') }
 
-    before { create(:consent, user:, treatment:) }
+    before { create(:'account_service/consent', user:, treatment:) }
 
     it 'has an external consent url' do
       expect(resource).to include hash_including(

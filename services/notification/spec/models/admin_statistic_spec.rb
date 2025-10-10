@@ -62,15 +62,7 @@ describe AdminStatistic, type: :model do
   before do
     Sidekiq::Testing.fake!
 
-    Stub.service(
-      :learnanalytics,
-      root_url: '/',
-      course_statistics_url: '/course_statistics',
-      new_course_statistic_url: '/course_statistics/new',
-      edit_course_statistic_url: '/course_statistics/{id}/edit',
-      course_statistic_url: '/course_statistics/{id}',
-      metric_url: '/metric'
-    )
+    Stub.service(:learnanalytics, build(:'lanalytics:root'))
 
     Stub.request(:learnanalytics, :get, "/course_statistics/#{course_id}")
       .to_return Stub.json(course_statistic)
@@ -86,9 +78,7 @@ describe AdminStatistic, type: :model do
       query: {name: 'certificates'}
     )
 
-    Stub.service(:course,
-      courses_url: '/courses',
-      stats_url: '/stats')
+    Stub.service(:course, build(:'course:root'))
 
     Stub.request(
       :course, :get, '/courses',
@@ -148,10 +138,7 @@ describe AdminStatistic, type: :model do
       student_enrollments_by_day: {DateTime.now.iso8601 => 199},
     })
 
-    Stub.service(
-      :pinboard,
-      statistics_url: '/statistics'
-    )
+    Stub.service(:pinboard, build(:'pinboard:root'))
 
     Stub.request(
       :pinboard, :get, '/statistics'
@@ -160,10 +147,7 @@ describe AdminStatistic, type: :model do
       questions_last_day: 50,
     })
 
-    Stub.service(
-      :account,
-      statistics_url: '/statistics'
-    )
+    Stub.service(:account, build(:'account:root'))
 
     Stub.request(
       :account, :get, '/statistics'

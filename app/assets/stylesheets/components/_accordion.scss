@@ -110,4 +110,26 @@ $accordion-bg-expanded: $gray-100 !default;
       @include horizontal-page-padding;
     }
   }
+
+  &--slim {
+    .accordion__headline {
+      @include font-sm;
+      padding: $page-padding;
+      color: $text-color;
+      font-weight: 700;
+    }
+
+    .accordion__btn {
+      @include font-sm;
+      padding: 5px $page-padding;
+    }
+
+    .accordion__btn-content {
+      padding: 0;
+    }
+
+    .accordion__item {
+      @include font-s;
+    }
+  }
 }

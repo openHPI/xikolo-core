@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class CustomField < ApplicationRecord
+  self.table_name = :custom_fields
+
   has_many :custom_field_values, dependent: :delete_all
 
   scope :context, ->(ctx) { where context: ctx }

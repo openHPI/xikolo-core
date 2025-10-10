@@ -3,10 +3,10 @@
 require 'spec_helper'
 
 describe Feature, type: :model do
-  let(:feature) { create(:feature) }
-  let(:context) { create(:context) }
-  let(:groups)  { create_list(:group, 4) }
-  let(:user)    { create(:user) }
+  let(:feature) { create(:'account_service/feature') }
+  let(:context) { create(:'account_service/context') }
+  let(:groups)  { create_list(:'account_service/group', 4) }
+  let(:user)    { create(:'account_service/user') }
 
   before do
     user.groups << groups[1]
@@ -17,7 +17,7 @@ describe Feature, type: :model do
     subject { Feature.lookup owner: user, context: }
 
     context 'with no features' do
-      let(:user) { create(:user, completed_profile: false) }
+      let(:user) { create(:'account_service/user', completed_profile: false) }
 
       it { is_expected.to match_array [] }
     end
@@ -25,8 +25,8 @@ describe Feature, type: :model do
     context 'with user features' do
       let! :features do
         [
-          create(:feature, owner: user, context:),
-          create(:feature, owner: user, context: Context.root),
+          create(:'account_service/feature', owner: user, context:),
+          create(:'account_service/feature', owner: user, context: Context.root),
         ]
       end
 
@@ -36,8 +36,8 @@ describe Feature, type: :model do
     context 'with group features' do
       let! :features do
         [
-          create(:feature, owner: groups[1], context:),
-          create(:feature, owner: groups[2], context: Context.root),
+          create(:'account_service/feature', owner: groups[1], context:),
+          create(:'account_service/feature', owner: groups[2], context: Context.root),
         ]
       end
 
@@ -47,8 +47,8 @@ describe Feature, type: :model do
     context 'with special group feature' do
       let! :features do
         [
-          create(:feature, owner: Group.all_users, context:),
-          create(:feature, owner: Group.active_users, context: Context.root),
+          create(:'account_service/feature', owner: Group.all_users, context:),
+          create(:'account_service/feature', owner: Group.active_users, context: Context.root),
         ]
       end
 
@@ -139,11 +139,11 @@ describe Feature, type: :model do
     let(:owner) { user }
 
     let! :ctx_features do
-      create_list(:feature, 2, context:, owner:)
+      create_list(:'account_service/feature', 2, context:, owner:)
     end
 
     let! :root_features do
-      create_list(:feature, 2, context: Context.root, owner:)
+      create_list(:'account_service/feature', 2, context: Context.root, owner:)
     end
 
     it 'ignores inherited features' do
@@ -181,7 +181,7 @@ describe Feature, type: :model do
     context 'in different ctx' do
       subject(:operation) { Feature::Update.new(owner, other_context) }
 
-      let(:other_context) { create(:context) }
+      let(:other_context) { create(:'account_service/context') }
 
       it 'allows adding features with same name in different contexts' do
         expect do

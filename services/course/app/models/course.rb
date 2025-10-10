@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Course < ApplicationRecord
+  self.table_name = :courses
+
   include ForGroups
   include CourseProviderSync
 

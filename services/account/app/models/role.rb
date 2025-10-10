@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Role < ApplicationRecord
+  self.table_name = :roles
+
   NAME_REGEXP = /\A\w+([.-]\w+)+\z/
 
   has_many :grants, dependent: :destroy

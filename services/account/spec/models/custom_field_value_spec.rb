@@ -6,7 +6,7 @@ describe CustomFieldValue, type: :model do
   subject { value }
 
   let(:attrs) { {} }
-  let(:value) { create(:custom_field_value, attrs) }
+  let(:value) { create(:'account_service/custom_field_value', attrs) }
 
   describe '#values' do
     subject(:values) { value.values }
@@ -14,7 +14,7 @@ describe CustomFieldValue, type: :model do
     it { is_expected.to be_an Array }
 
     context 'for a select field' do
-      let(:attrs) { {custom_field: create(:custom_select_field), values: ['A']} }
+      let(:attrs) { {custom_field: create(:'account_service/custom_select_field'), values: ['A']} }
 
       context 'when allowed values were changed after the record was created' do
         before do
@@ -30,16 +30,16 @@ describe CustomFieldValue, type: :model do
   end
 
   describe '#histograms' do
-    let(:users) { create_list(:user, 10) }
+    let(:users) { create_list(:'account_service/user', 10) }
 
     let!(:select_fields) do
       [
-        create(:custom_select_field,
+        create(:'account_service/custom_select_field',
           name: :it,
           title: 'Background in IT',
           values: ['None', 'Up to 1 year', 'Up to 5 years', 'Up to 10 years', 'More than 10 years'],
           default_values: []),
-        create(:custom_select_field,
+        create(:'account_service/custom_select_field',
           name: :tech,
           title: 'Foreground in Tech',
           values: ['None', 'Up to 1 year', 'Up to 5 years', 'Up to 10 years', 'More than 10 years'],
@@ -47,12 +47,12 @@ describe CustomFieldValue, type: :model do
       ]
     end
     let!(:text_field) do
-      create(:custom_text_field,
+      create(:'account_service/custom_text_field',
         name: :affiliation,
         title: 'Affiliation')
     end
     let!(:multi_select_field) do
-      create(:custom_multi_select_field,
+      create(:'account_service/custom_multi_select_field',
         name: :interests,
         title: 'Interests',
         values: ['Cooking', 'Baking', 'Sports', 'Running around'])
@@ -100,7 +100,7 @@ describe CustomFieldValue, type: :model do
     end
 
     it 'can be restricted to users of a certain group' do
-      group = create(:group)
+      group = create(:'account_service/group')
 
       group.members << users[1..3]
       group.members << users[5..7]

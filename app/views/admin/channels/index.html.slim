@@ -1,7 +1,7 @@
 - content_for :page_header_slim
   = render Global::PageHeader.new(t(:'admin.channels.headline'), subtitle: t(:'admin.page_header'), type: :slim)
 
-.container
+.bs-container
   - if @channels.any?
     .mt10.mb10.pull-right
       - if current_user.allowed?('course.channel.edit') && @channels.size > 1

@@ -5,10 +5,10 @@ require 'spec_helper'
 describe 'Grants: Create', type: :request do
   subject(:resource) { api.rel(:grants).post(data).value! }
 
-  let(:api) { Restify.new(:test).get.value! }
-  let(:role) { create(:role, :with_name) }
-  let(:group) { create(:group) }
-  let(:context) { create(:context) }
+  let(:api) { Restify.new(account_service_url).get.value! }
+  let(:role) { create(:'account_service/role', :with_name) }
+  let(:group) { create(:'account_service/group') }
+  let(:context) { create(:'account_service/context') }
 
   context 'on groups globally' do
     let(:data) { {group: group.name, role: role.name, context: 'root'} }
@@ -18,7 +18,7 @@ describe 'Grants: Create', type: :request do
     end
 
     it 'responds with a follow location to created resource' do
-      expect(resource.follow).to eq grant_url(Grant.last)
+      expect(resource.follow).to eq account_service.grant_url(Grant.last)
     end
 
     it 'creates database record' do
@@ -35,7 +35,7 @@ describe 'Grants: Create', type: :request do
 
     context 'with previously created grant' do
       let!(:grant) do
-        create(:grant, principal: group, role:, context: Context.root)
+        create(:'account_service/grant', principal: group, role:, context: Context.root)
       end
 
       it 'responds normally' do
@@ -43,7 +43,7 @@ describe 'Grants: Create', type: :request do
       end
 
       it 'responds with a follow location to existing resource' do
-        expect(resource.follow).to eq grant_url(grant)
+        expect(resource.follow).to eq account_service.grant_url(grant)
       end
 
       it 'does not create a database record' do
@@ -61,7 +61,7 @@ describe 'Grants: Create', type: :request do
       end
 
       it 'responds with a follow location to created resource' do
-        expect(resource.follow).to eq grant_url(Grant.last)
+        expect(resource.follow).to eq account_service.grant_url(Grant.last)
       end
 
       it 'creates database record' do
@@ -90,7 +90,7 @@ describe 'Grants: Create', type: :request do
     end
 
     it 'responds with a follow location to created resource' do
-      expect(resource.follow).to eq grant_url(Grant.last)
+      expect(resource.follow).to eq account_service.grant_url(Grant.last)
     end
 
     it 'creates database record' do
@@ -107,7 +107,7 @@ describe 'Grants: Create', type: :request do
 
     context 'with previously created grant' do
       let!(:grant) do
-        create(:grant, principal: group, role:, context:)
+        create(:'account_service/grant', principal: group, role:, context:)
       end
 
       it 'responds normally' do
@@ -115,7 +115,7 @@ describe 'Grants: Create', type: :request do
       end
 
       it 'responds with a follow location to existing resource' do
-        expect(resource.follow).to eq grant_url(grant)
+        expect(resource.follow).to eq account_service.grant_url(grant)
       end
 
       it 'does not create a database record' do

@@ -3,6 +3,8 @@
 require 'digest'
 
 class Question < ApplicationRecord
+  self.table_name = :questions
+
   include VotesHelper
   include QuestionsHelper
   include PostHelper

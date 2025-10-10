@@ -21,7 +21,7 @@ RSpec.describe Processors::RichTextProcessor, type: :model do
     end
 
     before do
-      Stub.service(:course, richtext_url: 'http://course.xikolo.tld/richtexts/{id}')
+      Stub.service(:course, build(:'course:root'))
       rich_text_stub
     end
 

@@ -10,4 +10,4 @@ h3.course-details--section-title = t :'course.courses.show.featured_items.title'
       .item class="#{'active' if index == 0}"
         = link_to course_item_path(course_id: item.course_code, id: item.id) do
           p = item.title
-          = image_tag item.featured_image, class: 'img-responsive', alt: item.title
+          = image_tag item.featured_image, alt: item.title

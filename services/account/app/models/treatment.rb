@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Treatment < ApplicationRecord
+  self.table_name = :treatments
+
   has_many :consents, dependent: :destroy
 
   after_create do

@@ -3,12 +3,12 @@
 require 'spec_helper'
 
 describe 'Sessions: Show by token', type: :request do
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(account_service_url).get.value! }
 
   context 'user token' do
     subject { api.rel(:session).get({id: "token=#{token.token}"}).value! }
 
-    let(:token) { create(:token) }
+    let(:token) { create(:'account_service/token') }
 
     let(:expected_response) do
       {'id' => nil,
@@ -17,9 +17,9 @@ describe 'Sessions: Show by token', type: :request do
        'interrupt' => false,
        'interrupts' => [],
        'user_id' => token.user.id,
-       'user_url' => user_url(token.user),
-       'tokens_url' => tokens_url(user_id: token.user.id),
-       'self_url' => session_url("token=#{token.token}")}
+       'user_url' => account_service.user_url(token.user),
+       'tokens_url' => account_service.tokens_url(user_id: token.user.id),
+       'self_url' => account_service.session_url("token=#{token.token}")}
     end
 
     it { is_expected.to respond_with :ok }
@@ -40,11 +40,11 @@ describe 'Sessions: Show by token', type: :request do
   context 'client application token' do
     subject { api.rel(:session).get({id: "token=#{token.token}"}).value! }
 
-    let(:token) { create(:token, :with_client_application) }
+    let(:token) { create(:'account_service/token', :with_client_application) }
 
     let(:expected_response) do
       {'id' => nil,
-       'self_url' => session_url("token=#{token.token}")}
+       'self_url' => account_service.session_url("token=#{token.token}")}
     end
 
     it { is_expected.to respond_with :ok }

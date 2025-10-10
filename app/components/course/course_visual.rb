@@ -12,9 +12,7 @@ module Course
     private
 
     def css_classes
-      @css_classes.tap do |classes|
-        classes << 'img-responsive'
-      end.join(' ')
+      @css_classes.join(' ')
     end
 
     def url

@@ -5,12 +5,12 @@ require 'spec_helper'
 describe 'Groups Members: Listing', type: :request do
   subject(:resource) { base.rel(:members).get(params).value! }
 
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(account_service_url).get.value! }
   let(:base) { api.rel(:group).get({id: group}).value! }
 
   let(:params) { {} }
-  let(:group) { create(:group, name: 'owner.groupname') }
-  let(:users) { create_list(:user, 10) }
+  let(:group) { create(:'account_service/group', name: 'owner.groupname') }
+  let(:users) { create_list(:'account_service/user', 10) }
 
   # Overwritten in specific contexts
   # rubocop:disable RSpec/LetSetup
@@ -32,9 +32,9 @@ describe 'Groups Members: Listing', type: :request do
   context 'with archived user' do
     let(:users) do
       [
-        create(:user),
-        create(:user, :archived),
-        *create_list(:user, 10),
+        create(:'account_service/user'),
+        create(:'account_service/user', :archived),
+        *create_list(:'account_service/user', 10),
       ]
     end
 
@@ -55,12 +55,12 @@ describe 'Groups Members: Listing', type: :request do
     let!(:users) do
       [
         User.anonymous,
-        create(:user),
-        create(:user, :unconfirmed),
-        create(:user, archived: true),
-        create(:user),
-        create(:user, :unconfirmed),
-        create(:user, :unconfirmed, archived: true),
+        create(:'account_service/user'),
+        create(:'account_service/user', :unconfirmed),
+        create(:'account_service/user', archived: true),
+        create(:'account_service/user'),
+        create(:'account_service/user', :unconfirmed),
+        create(:'account_service/user', :unconfirmed, archived: true),
       ]
     end
 
@@ -72,7 +72,7 @@ describe 'Groups Members: Listing', type: :request do
 
       it 'contains all users' do
         expect(resource.size).to eq users.size
-        expect(resource.to_struct.map(&:id)).to match_array users.pluck(:id)
+        expect(resource.map { it['id'] }).to match_array users.pluck(:id)
       end
     end
 
@@ -84,7 +84,7 @@ describe 'Groups Members: Listing', type: :request do
 
       it 'contains only active users' do
         expect(resource.size).to eq 2
-        expect(resource.to_struct.map(&:id)).to match_array \
+        expect(resource.map { it['id'] }).to match_array \
           [users[1], users[4]].pluck(:id)
       end
     end
@@ -97,7 +97,7 @@ describe 'Groups Members: Listing', type: :request do
 
       it 'contains only confirmed users' do
         expect(resource.size).to eq 3
-        expect(resource.to_struct.map(&:id)).to match_array \
+        expect(resource.map { it['id'] }).to match_array \
           [users[1], users[3], users[4]].pluck(:id)
       end
     end
@@ -110,7 +110,7 @@ describe 'Groups Members: Listing', type: :request do
 
       it 'contains only unconfirmed users' do
         expect(resource.size).to eq 4
-        expect(resource.to_struct.map(&:id)).to match_array \
+        expect(resource.map { it['id'] }).to match_array \
           [users[0], users[2], users[5], users[6]].pluck(:id)
       end
     end
@@ -128,7 +128,7 @@ describe 'Groups Members: Listing', type: :request do
 
       it 'contains only archived users' do
         expect(resource.size).to eq 2
-        expect(resource.to_struct.map(&:id)).to match_array \
+        expect(resource.map { it['id'] }).to match_array \
           [users[3], users[6]].pluck(:id)
       end
     end
@@ -161,19 +161,19 @@ describe 'Groups Members: Listing', type: :request do
         res = resource
 
         expect(res.size).to eq 3
-        expect(res.as_json.to_struct.map(&:id)).to eq members[0, 3].map(&:id)
+        expect(res.as_json.map { it['id'] }).to eq members[0, 3].map(&:id)
         expect(res.response.headers['X_TOTAL_COUNT']).to eq '7'
 
         res = res.rel(:next).get.value!
 
         expect(res.size).to eq 3
-        expect(res.as_json.to_struct.map(&:id)).to eq members[3, 3].map(&:id)
+        expect(res.as_json.map { it['id'] }).to eq members[3, 3].map(&:id)
         expect(res.response.headers['X_TOTAL_COUNT']).to eq '7'
 
         res = res.rel(:next).get.value!
 
         expect(res.size).to eq 1
-        expect(res.as_json.to_struct.map(&:id)).to eq members[6, 1].map(&:id)
+        expect(res.as_json.map { it['id'] }).to eq members[6, 1].map(&:id)
         expect(res.response.headers['X_TOTAL_COUNT']).to eq '7'
       end
 
@@ -184,14 +184,14 @@ describe 'Groups Members: Listing', type: :request do
           res = resource
 
           expect(res.size).to eq 3
-          expect(res.as_json.to_struct.map(&:id)).to eq members[3, 3].map(&:id)
+          expect(res.as_json.map { it['id'] }).to eq members[3, 3].map(&:id)
 
           expect(res.response.headers['X_TOTAL_COUNT']).to eq '7'
 
           res = res.rel(:next).get.value!
 
           expect(res.size).to eq 1
-          expect(res.as_json.to_struct.map(&:id)).to eq members[6, 1].map(&:id)
+          expect(res.as_json.map { it['id'] }).to eq members[6, 1].map(&:id)
 
           expect(res.response.headers['X_TOTAL_COUNT']).to eq '7'
         end
@@ -204,19 +204,19 @@ describe 'Groups Members: Listing', type: :request do
           res = resource
 
           expect(res.size).to eq 3
-          expect(res.as_json.to_struct.map(&:id)).to eq members[0, 3].map(&:id)
+          expect(res.as_json.map { it['id'] }).to eq members[0, 3].map(&:id)
           expect(res.response.headers['X_TOTAL_COUNT']).to eq '7'
 
           res = base.rel(:members).get({**params, page: 2}).value!
 
           expect(res.size).to eq 3
-          expect(res.as_json.to_struct.map(&:id)).to eq members[3, 3].map(&:id)
+          expect(res.as_json.map { it['id'] }).to eq members[3, 3].map(&:id)
           expect(res.response.headers['X_TOTAL_COUNT']).to eq '7'
 
           res = base.rel(:members).get({**params, page: 3}).value!
 
           expect(res.size).to eq 1
-          expect(res.as_json.to_struct.map(&:id)).to eq members[6, 1].map(&:id)
+          expect(res.as_json.map { it['id'] }).to eq members[6, 1].map(&:id)
           expect(res.response.headers['X_TOTAL_COUNT']).to eq '7'
         end
       end

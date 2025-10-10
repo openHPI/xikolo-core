@@ -14,10 +14,7 @@ describe Admin::CoursesController, type: :controller do
   before do
     user
 
-    Stub.service(
-      :account,
-      session_url: '/sessions/{id}'
-    )
+    Stub.service(:account, build(:'account:root'))
 
     Stub.service(:course, build(:'course:root'))
     Stub.request(

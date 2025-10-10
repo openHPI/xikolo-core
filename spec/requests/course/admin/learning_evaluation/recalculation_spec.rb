@@ -16,10 +16,7 @@ RSpec.describe 'LearningEvaluation: Recalculations: Create', type: :request do
   before do
     stub_user_request(permissions:)
 
-    Stub.service(
-      :course,
-      course_learning_evaluation_url: '/courses/{course_id}/recalculations'
-    )
+    Stub.service(:course, build(:'course:root'))
 
     Stub.request(:course, :get, "/courses/#{course.course_code}")
       .to_return Stub.json(course_resource)
@@ -39,7 +36,7 @@ RSpec.describe 'LearningEvaluation: Recalculations: Create', type: :request do
 
   context 'with persisted learning evaluation enabled' do
     let(:recalculation_stub) do
-      Stub.request(:course, :post, "/courses/#{course.course_code}/recalculations")
+      Stub.request(:course, :post, "/courses/#{course.course_code}/learning_evaluation")
         .to_return Stub.response(status: 200)
     end
 
@@ -74,7 +71,7 @@ RSpec.describe 'LearningEvaluation: Recalculations: Create', type: :request do
 
       context 'with recalculation failing at the service' do
         let(:recalculation_stub) do
-          Stub.request(:course, :post, "/courses/#{course.course_code}/recalculations")
+          Stub.request(:course, :post, "/courses/#{course.course_code}/learning_evaluation")
             .to_return Stub.response(status: 422)
         end
 
@@ -109,7 +106,7 @@ RSpec.describe 'LearningEvaluation: Recalculations: Create', type: :request do
 
       context 'with recalculation failing at the service' do
         let(:recalculation_stub) do
-          Stub.request(:course, :post, "/courses/#{course.course_code}/recalculations")
+          Stub.request(:course, :post, "/courses/#{course.course_code}/learning_evaluation")
             .to_return Stub.response(status: 422)
         end
 

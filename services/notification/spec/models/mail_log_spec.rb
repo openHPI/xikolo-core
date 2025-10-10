@@ -77,7 +77,7 @@ describe MailLog, type: :model do
 
     context 'when there is a matching MailLog entry' do
       let!(:existing_log) do
-        create(:mail_log,
+        create(:'notification_service/mail_log',
           news_id:, user_id:, state:)
       end
 

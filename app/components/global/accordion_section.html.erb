@@ -1,0 +1,15 @@
+<button
+  class="accordion__btn"
+  type="button"
+  data-accordion-target="toggle-button"
+  aria-expanded="<%= expanded %>"
+  aria-controls="<%= @id %>"
+>
+  <span class="accordion__btn-content">
+    <%= @label %>
+    <span class="accordion__collapsed"><%= render Global::FaIcon.new('plus') %></span>
+    <span class="accordion__expanded"><%= render Global::FaIcon.new('minus') %></span>
+  </span>
+</button>
+
+<div class="accordion__item" id="<%= @id %>"><%= content %></div>

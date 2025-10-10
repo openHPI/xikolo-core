@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module XMLImporter
+module XmlImporter
   ##
   # Handle quiz, question, and answer creation.
   class QuizPersistence

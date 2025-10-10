@@ -125,8 +125,8 @@
 //
 // When a container is present, change the behavior of the header and collapse.
 
-.container,
-.container-fluid {
+.bs-container,
+.bs-container-fluid {
   > .navbar-header,
   > .navbar-collapse {
     margin-right: -$navbar-padding-horizontal;
@@ -176,8 +176,8 @@
   }
 
   @media (min-width: $grid-float-breakpoint) {
-    .navbar > .container &,
-    .navbar > .container-fluid & {
+    .navbar > .bs-container &,
+    .navbar > .bs-container-fluid & {
       margin-left: -$navbar-padding-horizontal;
     }
   }

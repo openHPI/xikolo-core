@@ -5,8 +5,8 @@ require 'spec_helper'
 describe 'Create treatments', type: :request do
   subject(:resource) { api.rel(:treatments).post(data).value! }
 
-  let(:api) { Restify.new(:test).get.value! }
-  let(:data) { attributes_for(:treatment) }
+  let(:api) { Restify.new(account_service_url).get.value! }
+  let(:data) { attributes_for(:'account_service/treatment') }
 
   it { is_expected.to respond_with :created }
 
@@ -22,7 +22,7 @@ describe 'Create treatments', type: :request do
         'name' => record.name,
         'required' => false,
         'consent_manager' => {},
-        'self_url' => treatment_url(record)
+        'self_url' => account_service.treatment_url(record)
       )
     end
   end

@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-module XMLImporter
+module XmlImporter
   ##
   # Handle general XML validation logic:
   # Validate the quiz XML against a predefined schema.
-  class XMLValidator
+  class XmlValidator
     QUIZ_XML_SCHEMA_FILE = 'app/assets/quiz_import_schema.xml'
 
     def initialize(xml_string)
@@ -14,7 +14,7 @@ module XMLImporter
 
     def validate!
       errors = @schema.validate(Nokogiri::XML(@xml_string))
-      raise ::XMLImporter::SchemaError.new(errors.collect(&:message)) if errors.any?
+      raise ::XmlImporter::SchemaError.new(errors.collect(&:message)) if errors.any?
     end
   end
 end

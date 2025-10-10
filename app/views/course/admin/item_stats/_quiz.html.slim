@@ -22,23 +22,15 @@
               schema-transformer mappings='[{"x": {"type": "keys"}, "y": {"type": "values"}}]'
                 linechart-basic height='250'
 
-    .panel-group.quiz role="tablist" aria-multiselectable="true"
+    = render Global::Accordion.new(variant: 'slim') do |accordion|
       - item_stats.questions.each do |question|
-        .panel.panel-default
-          .panel-heading id="heading-#{question.id}" role="tab"
-            h4.panel-title
-              - if question.submissions?
-                a href="#collapse-#{question.id}" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-#{question.id}"
-                  = question.title
-                span.pull-right.base_stats
-                  = question.base_stats
-              - else
-                = question.title
-                span.pull-right.base_stats
-                  = t(:'course.admin.item_stats.quiz.no_submission')
-          .panel-collapse.collapse id="collapse-#{question.id}" role="tabpanel" aria-labelledby="heading-#{question.id}"
-            .panel-body.ml10.mr10
-              = question.render(self)
+          - accordion.with_section(question.title, question.id)
+            - if question.submissions?
+              = question.base_stats
+            - else
+              = t(:'course.admin.item_stats.quiz.no_submission')
+
+            = question.render(self)
 
 - else
   .quiz.white-bg.mt5.mb15

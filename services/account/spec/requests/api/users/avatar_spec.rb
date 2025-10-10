@@ -5,9 +5,9 @@ require 'spec_helper'
 describe 'User\'s avatar upload', type: :request do
   subject(:update_avatar) { api.rel(:user).patch(data, params: {id: user.id}).value! }
 
-  let(:user) { create(:user) }
+  let(:user) { create(:'account_service/user') }
   let(:data) { {} }
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(account_service_url).get.value! }
 
   describe '(S3 avatar upload)' do
     shared_examples 'does not update the avatar' do |error_details|
@@ -216,7 +216,7 @@ describe 'User\'s avatar upload', type: :request do
 
     context 'with existing avatar' do
       let(:old_avatar_uri) { 's3://xikolo-public/avatars/3/avatar_v1.jpg' }
-      let(:user) { create(:user, avatar_uri: old_avatar_uri) }
+      let(:user) { create(:'account_service/user', avatar_uri: old_avatar_uri) }
       let(:store_stub_url) { %r{http://s3\.xikolo\.de/xikolo-public/avatars/[0-9A-Za-z]+/[0-9A-Za-z]+/profil\.jpg} }
       let(:old_store_stub_url) { 'http://s3.xikolo.de/xikolo-public/avatars/3/avatar_v1.jpg' }
 
@@ -366,7 +366,7 @@ describe 'User\'s avatar upload', type: :request do
 
   describe '(external avatar URL)' do
     let(:data) do
-      {avatar_uri: 'https://external.example.com/profil.jpg'}
+      {avatar_uri: 'http://external.example.com/profil.jpg'}
     end
     let(:json) { JSON.parse update_avatar.response.body }
 
@@ -375,7 +375,7 @@ describe 'User\'s avatar upload', type: :request do
     end
 
     describe 'remove avatar' do
-      let(:user) { create(:user, avatar_uri: 'https://external.example.com/profil.jpg') }
+      let(:user) { create(:'account_service/user', avatar_uri: 'https://external.example.com/profil.jpg') }
       let(:data) { super().merge(avatar_uri: nil) }
 
       it 'removes the external avatar URL of the user' do

@@ -32,7 +32,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-3" id="jump-navbar">
-        <ul class="nav nav-pills nav-stacked" role="nav">
+        <ul class="nav nav-pills nav-stacked" role="navigation">
           <% for (path, _) in endpoints %>
             <li>
               <a href="#endpoint-<%= path %>"><%= path %></a>
@@ -66,11 +66,11 @@
 
                         <% if attribute.type_schema %>
                           <button class="btn btn-default btn-xs btn-schema" type="button" data-toggle="collapse"
-                                  data-target=<%= "#schema-#{path}-#{attribute.name}" %> aria-expanded="false"
-                                  aria-controls=<%= "schema-#{path}-#{attribute.name}" %>>
+                                  data-target="<%= "#schema-#{path}-#{attribute.name}" %>" aria-expanded="false"
+                                  aria-controls="<%= "schema-#{path}-#{attribute.name}" %>">
                             Show schema
                           </button>
-                          <div class="collapse schema-body" id=<%= "schema-#{path}-#{attribute.name}" %>>
+                          <div class="collapse schema-body" id="<%= "schema-#{path}-#{attribute.name}" %>">
                             <pre><%= attribute.type_schema %></pre>
                           </div>
                         <% end %>
@@ -90,7 +90,7 @@
                         </div>
                       <% end %>
                     </div>
-                  <%end %>
+                  <% end %>
 
                   <h3 class="h4">Routes</h3>
                   <div class="list-group">

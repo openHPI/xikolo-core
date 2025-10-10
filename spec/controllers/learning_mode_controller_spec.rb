@@ -8,17 +8,8 @@ describe LearningModeController, type: :controller do
   let(:features) { {} }
 
   before do
-    Stub.service(
-      :account,
-      session_url: '/sessions/{id}'
-    )
-    Stub.service(
-      :course,
-      course_url: '/courses/{id}',
-      enrollments_url: '/enrollments',
-      item_url: '/items/{id}',
-      items_url: '/items'
-    )
+    Stub.service(:account, build(:'account:root'))
+    Stub.service(:course, build(:'course:root'))
 
     Stub.request(
       :course, :get, "/courses/#{course_id}"

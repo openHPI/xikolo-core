@@ -4,7 +4,7 @@
 - content_for :page_header_slim
   = render Global::PageHeader.new(t(:'knowledge_documents.documents'), subtitle: t(:'admin.page_header'), type: :slim)
 
-.container
+.bs-container
   = link_to t(:'knowledge_documents.new'), new_document_path, class: 'btn btn-primary mt20 full-width'
   = render 'filters', list: @document_list
 

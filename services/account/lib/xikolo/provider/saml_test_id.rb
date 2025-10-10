@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
 module Xikolo::Provider
-  class SamlTestId < Saml
+  class SAMLTestID < SAML
   end
 end

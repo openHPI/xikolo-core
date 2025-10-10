@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class CourseProvider < ApplicationRecord
+  self.table_name = :course_providers
+
   validates :name, presence: true, uniqueness: true
   validates :provider_type, presence: true
   validates :config, presence: true

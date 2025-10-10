@@ -17,12 +17,7 @@ describe '[API v2] Course: List', type: :request do
   let(:course_full) { Course.where(id: course.id).from('embed_courses AS courses').take! }
 
   before do
-    Stub.service(
-      :account,
-      session_url: '/sessions/{id}',
-      group_url: '/groups/{id}',
-      groups_url: '/groups'
-    )
+    Stub.service(:account, build(:'account:root'))
 
     Stub.request(
       :account,

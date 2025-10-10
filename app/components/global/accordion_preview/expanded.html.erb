@@ -1,0 +1,8 @@
+<%= render Global::Accordion.new(headline: 'Headline') do |accordion| %>
+  <% accordion.with_section('Item 1', 'ID1') do %>
+    <p>Some content</p>
+  <% end %>
+  <% accordion.with_section('Item 2', 'ID2', expanded: true) do %>
+    <p>I am expanded by default. Boom!</p>
+  <% end %>
+<% end %>

@@ -24,11 +24,11 @@
             .item class="#{'active' if i == 0}"
               = render partial: 'stage_item', locals: {stage_item: stage_item}
 
-        a.left.carousel-control.invisible-to-xs href='#channel-carousel' role='button' data-slide='prev'
+        a.left.carousel-control.invisible-to-xs.cpointer href='#channel-carousel' role='button' data-slide='prev'
           span.icon-prev aria-hidden='true'
           span.sr-only
             = t :'channels.show.previous'
-        a.right.carousel-control.invisible-to-xs href='#channel-carousel' role='button' data-slide='next'
+        a.right.carousel-control.invisible-to-xs.cpointer href='#channel-carousel' role='button' data-slide='next'
           span.icon-next aria-hidden="true"
           span.sr-only
             = t :'channels.show.next'

@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe UserDecorator, type: :decorator do
-  let(:user) { create(:user) }
+  let(:user) { create(:'account_service/user') }
   let(:decorator) { described_class.new(user) }
 
   describe '#as_json' do
@@ -74,13 +74,13 @@ describe UserDecorator, type: :decorator do
     it { is_expected.to include 'created_at' => user.created_at.iso8601 }
     it { is_expected.to include 'updated_at' => user.updated_at.iso8601 }
 
-    it { is_expected.to include 'self_url' => user_url(user) }
-    it { is_expected.to include 'groups_url' => groups_url(user:) }
-    it { is_expected.to include 'profile_url' => user_profile_url(user) }
-    it { is_expected.to include 'consents_url' => user_consents_url(user) }
+    it { is_expected.to include 'self_url' => h.account_service.user_url(user) }
+    it { is_expected.to include 'groups_url' => h.account_service.groups_url(user:) }
+    it { is_expected.to include 'profile_url' => h.account_service.user_profile_url(user) }
+    it { is_expected.to include 'consents_url' => h.account_service.user_consents_url(user) }
 
     context 'without preferred language' do
-      let(:user) { create(:user, language: nil) }
+      let(:user) { create(:'account_service/user', language: nil) }
 
       it { is_expected.to include 'language' => 'en' }
       it { is_expected.to include 'preferred_language' => nil }

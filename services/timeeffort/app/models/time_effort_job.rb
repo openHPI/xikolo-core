@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class TimeEffortJob < ApplicationRecord
+  self.table_name = :time_effort_jobs
+
   require 'errors'
   require 'operation'
 

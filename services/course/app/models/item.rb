@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Item < ApplicationRecord
+  self.table_name = :items
+
   default_scope { order('items.position ASC') }
 
   scope :published,     -> { where(published: true) }

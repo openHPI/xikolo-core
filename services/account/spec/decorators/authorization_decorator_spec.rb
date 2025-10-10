@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe AuthorizationDecorator, type: :decorator do
-  let(:record) { create(:authorization) }
+  let(:record) { create(:'account_service/authorization') }
   let(:decorator) { described_class.new record }
 
   describe '#as_json' do

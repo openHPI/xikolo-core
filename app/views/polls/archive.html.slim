@@ -1,7 +1,7 @@
 - content_for :page_header
   = render Global::PageHeader.new(t(:'polls.archive.headline'))
 
-.container.sticky-container
+.bs-container.sticky-container
   .row
     .col-md-8
       - @polls.each do |poll|

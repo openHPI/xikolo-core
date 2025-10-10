@@ -4,7 +4,6 @@ require 'spec_helper'
 
 describe SectionsController, type: :controller do
   let(:json) { JSON.parse response.body }
-  let(:data) { json.to_struct }
   let(:section) { create(:section) }
   let(:default_params) { {format: 'json'} }
 
@@ -43,13 +42,13 @@ describe SectionsController, type: :controller do
     end
 
     context 'with UUID' do
-      subject(:list_sections) { action.call && data }
-
       let!(:sections) { create_list(:section, 10) }
       let(:params) { {id: sections[2].id} }
 
+      before { action.call }
+
       it 'returns the correct section for UUID' do
-        expect(list_sections.map(&:id)).to contain_exactly(sections[2].id)
+        expect(json.map { it['id'] }).to contain_exactly(sections[2].id)
       end
     end
 

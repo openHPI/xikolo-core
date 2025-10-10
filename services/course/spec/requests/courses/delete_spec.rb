@@ -20,11 +20,7 @@ describe 'Course: Delete', type: :request do
   end
 
   before do
-    Stub.service(
-      :account,
-      group_url: 'http://account.xikolo.tld/groups/{id}',
-      context_url: 'http://account.xikolo.tld/contexts/{id}'
-    )
+    Stub.service(:account, build(:'account:root'))
 
     Stub.request(
       :account,

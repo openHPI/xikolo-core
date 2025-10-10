@@ -18,7 +18,7 @@
     = q.input :allowed_attempts, required: true, as: :integer, input_html: {type: 'number', min: '1', value: quiz.allowed_attempts || '1'}, label: t(:'items.quiz.allowed_attempts')
 
 - unless item.new_record?
-  template#quiz_questions_wrapper.container
+  template#quiz_questions_wrapper.bs-container
     - unless quiz.questions.nil?
       button#toggle_quiz_uuids.btn.btn-default.btn-sm.mb10
         span#show

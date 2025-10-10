@@ -15,7 +15,7 @@
   = render 'course/shared/teacher_nav', teacher_nav: course_layout.teacher_nav
 
 - content_for :main
-  .container.course-content
+  .bs-container.course-content
     / Top nav with chapters, ...
     .row
       - if @teacherview || hide_course_nav?

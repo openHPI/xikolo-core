@@ -5,9 +5,9 @@ require 'spec_helper'
 describe 'Groups: Listing', type: :request do
   subject(:resource) { api.rel(:groups).get(params).value! }
 
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(account_service_url).get.value! }
   let(:params) { {} }
-  let!(:groups) { create_list(:group, 5) }
+  let!(:groups) { create_list(:'account_service/group', 5) }
 
   it 'responds with 200 Ok' do
     expect(resource).to respond_with :ok
@@ -18,14 +18,14 @@ describe 'Groups: Listing', type: :request do
   end
 
   describe '?user' do
-    let(:user) { create(:user) }
+    let(:user) { create(:'account_service/user') }
     let(:params) { {user: user.id} }
 
     before do
       user.groups << groups[1]
       user.groups << groups[2]
 
-      other_user = create(:user)
+      other_user = create(:'account_service/user')
       other_user.groups << groups[1]
       other_user.groups << groups[3]
       other_user.groups << groups[4]

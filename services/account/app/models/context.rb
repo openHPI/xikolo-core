@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Context < ApplicationRecord
+  self.table_name = :contexts
+
   belongs_to :parent, class_name: 'Context', optional: true, inverse_of: false
 
   validates :parent_id, presence: {message: 'required'}

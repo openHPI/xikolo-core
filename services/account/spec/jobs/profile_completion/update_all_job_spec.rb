@@ -4,7 +4,7 @@ require 'spec_helper'
 
 RSpec.describe ProfileCompletion::UpdateAllJob, type: :job do
   let!(:users) do
-    create_list(:user, 10, completed_profile: false)
+    create_list(:'account_service/user', 10, completed_profile: false)
   end
 
   describe '#perform' do

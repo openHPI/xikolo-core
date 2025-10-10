@@ -5,11 +5,11 @@ require 'spec_helper'
 describe 'Group: Update', type: :request do
   subject(:resource) { api.rel(:group).patch(data, params: {id: data[:name]}).value! }
 
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(account_service_url).get.value! }
   let(:data) { {name: 'xikolo.group', description: 'Just for testing.'} }
 
   before do
-    create(:group, name: 'xikolo.group', description: 'Existing group.')
+    create(:'account_service/group', name: 'xikolo.group', description: 'Existing group.')
   end
 
   it 'responds with :ok' do
@@ -17,7 +17,7 @@ describe 'Group: Update', type: :request do
   end
 
   it 'has location to updated resource' do
-    expect(resource.follow).to eq group_url Group.last
+    expect(resource.follow).to eq account_service.group_url Group.last
   end
 
   it 'does not create new database record' do

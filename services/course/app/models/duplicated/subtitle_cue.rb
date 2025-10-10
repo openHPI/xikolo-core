@@ -2,6 +2,8 @@
 
 module Duplicated
   class SubtitleCue < ApplicationRecord
+    self.table_name = :subtitle_cues
+
     belongs_to :subtitle, class_name: '::Duplicated::Subtitle'
 
     # Use new interval type (default in Rails 7):

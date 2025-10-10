@@ -22,8 +22,7 @@ require 'webmock/rspec'
 require 'restify'
 require 'restify/adapter/typhoeus'
 
-Restify::Registry.store :test, 'http://test.host',
-  adapter: Restify::Adapter::Typhoeus.new(sync: true)
+Restify.adapter = Restify::Adapter::Typhoeus.new(sync: true)
 
 # Truncate log
 Rails.root.join('log', 'test.log').write('')

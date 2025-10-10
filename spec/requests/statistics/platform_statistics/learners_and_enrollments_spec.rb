@@ -20,7 +20,7 @@ describe 'Statistics: PlatformStatistics: learners_and_enrollments', type: :requ
 
     Stub.service(:account, build(:'account:root'))
     Stub.service(:course, build(:'course:root'))
-    Stub.request(:account, :get, '/statistics')
+    Stub.request(:account, :get, '/statistic')
       .to_return Stub.json(enrollment_statistics['account'])
     Stub.request(:course, :get, '/stats?key=global')
       .to_return Stub.json(enrollment_statistics['course'])

@@ -5,10 +5,10 @@ require 'spec_helper'
 describe 'Memberships: Creation', type: :request do
   subject(:resource) { api.rel(:memberships).post(data).value! }
 
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(account_service_url).get.value! }
   let(:data) { {user: user.to_param, group: 'test.group'} }
 
-  let(:user) { create(:user) }
+  let(:user) { create(:'account_service/user') }
 
   shared_examples 'membership creation' do
     it 'responds with a created resource' do
@@ -16,7 +16,7 @@ describe 'Memberships: Creation', type: :request do
     end
 
     it 'responds with a follow location to created membership' do
-      expect(resource.follow).to eq membership_url(Membership.last)
+      expect(resource.follow).to eq account_service.membership_url(Membership.last)
     end
 
     it 'creates a database record' do
@@ -49,14 +49,14 @@ describe 'Memberships: Creation', type: :request do
   end
 
   context 'with existing group' do
-    let(:group) { create(:group) }
+    let(:group) { create(:'account_service/group') }
     let(:data) { {user: user.to_param, group: group.to_param} }
 
     it_behaves_like 'membership creation'
 
     context 'with existing membership' do
       let!(:membership) do
-        create(:membership, user:, group:)
+        create(:'account_service/membership', user:, group:)
       end
 
       it 'responds with CREATED' do
@@ -64,7 +64,7 @@ describe 'Memberships: Creation', type: :request do
       end
 
       it 'points to existing membership resource' do
-        expect(resource.follow).to eq membership_url(membership)
+        expect(resource.follow).to eq account_service.membership_url(membership)
       end
 
       it 'does not create a second membership' do

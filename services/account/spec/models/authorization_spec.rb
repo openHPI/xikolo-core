@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe Authorization, type: :model do
-  subject(:authorization) { create(:authorization, attributes) }
+  subject(:authorization) { create(:'account_service/authorization', attributes) }
 
   let(:attributes) { {} }
 

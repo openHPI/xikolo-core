@@ -16,12 +16,7 @@ RSpec.describe 'Prevent brute force login attempts', type: :request do
     Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new
     Rack::Attack::Allow2Ban.reset('127.0.0.1', findtime: 1.minute)
 
-    Stub.service(
-      :account,
-      sessions_url: '/sessions',
-      session_url: '/sessions/{id}',
-      policies_url: '/policies'
-    )
+    Stub.service(:account, build(:'account:root'))
   end
 
   context 'with failed login attempts' do

@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Context: List', type: :request do
   subject(:resource) { api.rel(:contexts).get(params).value! }
 
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(account_service_url).get.value! }
   let(:params) { {} }
 
   before { Context.root }
@@ -19,10 +19,10 @@ describe 'Context: List', type: :request do
   end
 
   context '?ancestors' do
-    let!(:context1) { create(:context) }
-    let!(:context2) { create(:context, parent: context1) }
-    let!(:context3) { create(:context, parent: context2) }
-    let!(:context4) { create(:context, parent: context3) }
+    let!(:context1) { create(:'account_service/context') }
+    let!(:context2) { create(:'account_service/context', parent: context1) }
+    let!(:context3) { create(:'account_service/context', parent: context2) }
+    let!(:context4) { create(:'account_service/context', parent: context3) }
 
     context '=root' do
       let(:params) { {ancestors: 'root'} }
@@ -72,10 +72,10 @@ describe 'Context: List', type: :request do
   end
 
   context '?ascent' do
-    let!(:context1) { create(:context) }
-    let!(:context2) { create(:context, parent: context1) }
-    let!(:context3) { create(:context, parent: context2) }
-    let!(:context4) { create(:context, parent: context3) }
+    let!(:context1) { create(:'account_service/context') }
+    let!(:context2) { create(:'account_service/context', parent: context1) }
+    let!(:context3) { create(:'account_service/context', parent: context2) }
+    let!(:context4) { create(:'account_service/context', parent: context3) }
 
     context '=root' do
       let(:params) { {ascent: 'root'} }

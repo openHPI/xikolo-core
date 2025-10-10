@@ -6,16 +6,16 @@ describe CustomField, type: :model do
   subject { value }
 
   let(:attrs) { {} }
-  let(:field) { create(:custom_text_field, attrs) }
+  let(:field) { create(:'account_service/custom_text_field', attrs) }
 
   describe '#destroy' do
     subject(:destroy) { field.destroy! }
 
     context 'with values' do
       before do
-        field.update_values(create(:user), ['text'])
-        field.update_values(create(:user), ['text'])
-        field.update_values(create(:user), ['text'])
+        field.update_values(create(:'account_service/user'), ['text'])
+        field.update_values(create(:'account_service/user'), ['text'])
+        field.update_values(create(:'account_service/user'), ['text'])
       end
 
       it 'destroys value records' do

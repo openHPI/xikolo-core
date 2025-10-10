@@ -5,22 +5,22 @@ require 'spec_helper'
 describe 'Group Stats', type: :request do
   subject(:resource) { base.rel(:stats).get(params).value! }
 
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(account_service_url).get.value! }
   let(:base) { api.rel(:group).get({id: group}).value! }
   let(:params) { {} }
 
-  let(:group) { create(:group) }
-  let(:users) { create_list(:user, 10) }
+  let(:group) { create(:'account_service/group') }
+  let(:users) { create_list(:'account_service/user', 10) }
 
   let!(:fields) do
     [
-      create(:custom_select_field,
+      create(:'account_service/custom_select_field',
         name: :background,
         title: 'Background in IT',
         values: ['None', 'Up to 1 year', 'Up to 5 years',
                  'Up to 10 years', 'More than 10 years'],
         default_values: ['None']),
-      create(:custom_text_field,
+      create(:'account_service/custom_text_field',
         name: :affiliation,
         title: 'Affiliation'),
     ]

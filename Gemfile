@@ -89,7 +89,7 @@ gem 'xikolo-pinboard',        '~> 5.0',   path: 'clients/xikolo-pinboard'
 gem 'xikolo-quiz',            '~> 5.0',   path: 'clients/xikolo-quiz'
 gem 'xikolo-submission',      '~> 100.0', path: 'clients/xikolo-submission'
 
-gem 'delayed', '~> 0.4'
+gem 'delayed', '~> 1.0'
 gem 'sidekiq-cron', '~> 2.0'
 gem 'xikolo-common', path: './gems/xikolo-common'
 gem 'xikolo-config', path: './gems/xikolo-config'

@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe Email, type: :model do
-  subject(:email) { create(:email, attributes) }
+  subject(:email) { create(:'account_service/email', attributes) }
 
   let(:attributes) { {} }
 
@@ -26,14 +26,14 @@ describe Email, type: :model do
     email.update! address: 'John.Smith@example.org'
 
     expect do
-      Email.create! user: create(:user), address: 'john.Smith@example.org'
+      Email.create! user: create(:'account_service/user'), address: 'john.Smith@example.org'
     end.to raise_error(/Address has already been taken/)
   end
 
   describe '#address' do
     subject(:taken) { described_class.address("o'connor@AssassinsCreed.US").take }
 
-    let!(:email) { create(:email, address: "O'Connor@assassinscreed.us") }
+    let!(:email) { create(:'account_service/email', address: "O'Connor@assassinscreed.us") }
 
     it 'searches case-insensitive' do
       expect(taken).to eq email
@@ -60,7 +60,7 @@ describe Email, type: :model do
     end
 
     context 'with unconfirmed user' do
-      let(:user) { create(:user, :unconfirmed) }
+      let(:user) { create(:'account_service/user', :unconfirmed) }
       let(:attributes) { {confirmed: false, confirmed_at: nil, user:} }
 
       before do
@@ -91,7 +91,7 @@ describe Email, type: :model do
         expect(Msgr).to receive(:publish).with anything,
           hash_including(to: 'xikolo.account.user.confirmed')
 
-        create(:user)
+        create(:'account_service/user')
       end
     end
   end
@@ -100,11 +100,11 @@ describe Email, type: :model do
     let(:update) { email.update! primary: true }
 
     let!(:email) do
-      create(:email, address: "O'Connor@assassinscreed.us")
+      create(:'account_service/email', address: "O'Connor@assassinscreed.us")
     end
 
     let!(:other_email) do
-      create(:email, user: email.user, address: 'john@example.com', primary: true)
+      create(:'account_service/email', user: email.user, address: 'john@example.com', primary: true)
     end
 
     it 'makes updated email primary' do
@@ -119,8 +119,8 @@ describe Email, type: :model do
   describe '#suspend!' do
     subject(:suspend) { email.suspend! }
 
-    let(:user)   { create(:user, preferences: {'notification.email.global' => true}) }
-    let!(:email) { create(:email, address: 'p3k@example.de', user:) }
+    let(:user)   { create(:'account_service/user', preferences: {'notification.email.global' => true}) }
+    let!(:email) { create(:'account_service/email', address: 'p3k@example.de', user:) }
 
     it 'adds the feature "primary_email_suspended" for the user' do
       expect { suspend }.to change {

@@ -36,7 +36,7 @@ RSpec.describe ItemConsumer, type: :consumer do
     let(:time_effort_job) { instance_double(TimeEffortJob) }
 
     before do
-      Stub.service(:course, item_url: 'http://course.xikolo.tld/items/{id}')
+      Stub.service(:course, build(:'course:root'))
     end
 
     context 'w/ course item existing' do

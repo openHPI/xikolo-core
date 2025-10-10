@@ -2,6 +2,8 @@
 
 module Duplicated
   class LtiProvider < ApplicationRecord
+    self.table_name = :lti_providers
+
     has_many :lti_exercises, class_name: '::Duplicated::LtiExercise'
 
     attribute :privacy, :string, default: 'anonymized'

@@ -21,14 +21,11 @@ describe 'batch enrollment rake task' do
     end
 
     before do
-      Stub.service(
-        :account,
-        email_url: '/email/{id}'
-      )
+      Stub.service(:account, build(:'account:root'))
       unknown_email_list.each do |email|
-        Stub.request(:account, :get, "/email/#{email}").to_return(status: 404)
+        Stub.request(:account, :get, "/emails/#{email}").to_return(status: 404)
       end
-      Stub.request(:account, :get, "/email/#{known_email[:address]}").and_return Stub.json(known_email)
+      Stub.request(:account, :get, "/emails/#{known_email[:address]}").and_return Stub.json(known_email)
     end
 
     it 'takes csv file containing users email addresses and returns csv file with email addresses and user ids' do

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Message < ApplicationRecord
+  self.table_name = :messages
+
   belongs_to :announcement
   has_many :deliveries, dependent: :destroy
 

@@ -98,7 +98,7 @@ RSpec.describe 'Posts: Index', type: :request do
     let(:user_id) { generate(:user_id) }
 
     before do
-      Stub.service(:account, groups_url: '/groups', user_url: '/users/{id}')
+      Stub.service(:account, build(:'account:root'))
       Stub.request(:account, :get, '/groups', query: hash_including(user: user_id))
         .to_return Stub.json(user_groups)
       Stub.request(:account, :get, "/users/#{user_id}")

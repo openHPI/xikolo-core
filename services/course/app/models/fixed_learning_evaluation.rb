@@ -5,6 +5,7 @@
 # were created manually and can be considered read-only.
 #
 class FixedLearningEvaluation < ApplicationRecord
+  self.table_name = :fixed_learning_evaluations
   self.primary_key = %i[course_id user_id]
 
   belongs_to :course

@@ -9,12 +9,7 @@ describe QuizzesController, type: :controller do
   let(:default_params) { {format: 'json'} }
 
   before do
-    Stub.service(
-      :course,
-      items_url: 'http://course.xikolo.tld/items',
-      item_url: 'http://course.xikolo.tld/items/{id}',
-      sections_url: '/sections{?course_id}'
-    )
+    Stub.service(:course, build(:'course:root'))
   end
 
   describe '#index' do

@@ -9,7 +9,7 @@ if defined? FactoryBot
     end
   end
 
-  FactoryBot.define do
+  FactoryBot.define do # rubocop:disable Metrics/BlockLength
     xikolo_uuid_sequence(:user_id,     service: 3100, resource: 1)
     xikolo_uuid_sequence(:context_id,  service: 3100, resource: 2)
     xikolo_uuid_sequence(:group_id,    service: 3100, resource: 3)
@@ -25,5 +25,212 @@ if defined? FactoryBot
     xikolo_uuid_sequence(:question_id, service: 3800, resource: 2)
 
     xikolo_uuid_sequence(:file_id,     service: 4000, resource: 1)
+
+    factory 'account:root', class: Hash do
+      session_url	{ '/sessions/{id}{?embed,context}' }
+      sessions_url { '/sessions' }
+
+      treatment_url { '/treatments/{id}' }
+      treatments_url { '/treatments' }
+
+      user_url { '/users/{id}' }
+      user_ban_url { '/users/{user_id}/ban' }
+      users_url { '/users{?search,query,archived,confirmed,id,permission,context,auth_uid}' }
+
+      email_suspensions_url { '/emails/{address}/suspend' }
+      email_url { '/emails/{id}' }
+
+      password_reset_url { '/password_resets/{id}' }
+      password_resets_url { '/password_resets' }
+
+      policies_url { '/policies' }
+
+      statistics_url { '/statistic' }
+
+      authorization_url	{ '/authorizations/{id}' }
+      authorizations_url	{ '/authorizations{?provider,uid,user}' }
+
+      group_url { '/groups/{id}' }
+      groups_url { '/groups{?user,tag,prefix}' }
+
+      grants_url { '/grants{?role,context}' }
+
+      context_url { '/contexts/{id}' }
+      contexts_url { '/contexts{?ancestors,ascent}' }
+
+      membership_url { '/memberships/{id}' }
+      memberships_url { '/memberships' }
+
+      role_url { '/roles/{id}' }
+      roles_url { '/roles' }
+
+      system_info_url { '/system_info/{id}' }
+
+      token_url { '/tokens/{id}' }
+      tokens_url { '/tokens{?token}' }
+
+      initialize_with { attributes.as_json }
+    end
+
+    factory 'course:root', class: Hash do
+      items_current_url { '/items/current' }
+      item_user_visit_url { '/items/{item_id}/users/{user_id}/visit' }
+      item_user_results_url { '/items/{item_id}/users/{user_id}/results' }
+      item_results_url { '/items/{item_id}/results' }
+      items_url { '/items' }
+      item_url { '/items/{id}{?embed,user_id,version_at,for_user}' }
+      result_url { '/results/{id}' }
+      course_statistic_url { '/courses/{course_id}/statistic' }
+      course_persist_ranking_task_url { '/courses/{course_id}/persist_ranking_task' }
+      course_documents_url { '/courses/{course_id}/documents' }
+      course_learning_evaluation_url { '/courses/{course_id}/learning_evaluation' }
+      courses_url do
+        '/courses{?cat_id,user_id,status,id,lang,course_code,upcoming,per_page,current,' \
+          'finished,public,hidden,onlude_external,latest_first,alphabetic,promoted_for,' \
+          'not_enrolled,middle_of_course,document_id,autocomplete,active_after,sort}'
+      end
+      course_url { '/courses/{id}' }
+      documents_tags_url { '/documents_tags' }
+      document_document_localizations_url { '/documents/{document_id}/document_localizations{?document_id}' }
+      documents_url { '/documents{?course_id,item_id,language,tag}' }
+      document_url { '/documents/{id}' }
+      document_localizations_url { '/document_localizations{?document_id}' }
+      document_localization_url { '/document_localizations/{id}' }
+      channels_url { '/channels' }
+      channel_url { '/channels/{id}' }
+      next_dates_url { '/next_dates' }
+      classifiers_url { '/classifiers' }
+      classifier_url { '/classifiers/{id}' }
+      sections_url { '/sections' }
+      section_url { '/sections/{id}' }
+      section_choices_url { '/section_choices' }
+      enrollment_reactivations_url { '/enrollments/{enrollment_id}/reactivations' }
+      enrollments_url do
+        '/enrollments{?course_id,user_id,learning_evaluation,deleted,current_course,per_page,proctored}'
+      end
+      enrollment_url { '/enrollments/{id}' }
+      teachers_url { '/teachers{?course,query}' }
+      teacher_url { '/teachers/{id}' }
+      richtext_url { '/richtexts/{id}' }
+      system_info_url { '/system_info/{id}' }
+      last_visit_url { '/last_visits/{course_id}' }
+      prerequisite_status_url { '/courses/{id}/prerequisite_status{?user_id}' }
+      progresses_url { '/progresses' }
+      stats_url { '/stats' }
+      enrollment_stats_url { '/enrollment_stats{?start_date,end_date,classifier_id}' }
+      repetition_suggestions_url { '/repetition_suggestions' }
+      api_v2_course_root_url { '/api/v2/course' }
+      api_v2_course_courses_url { '/api/v2/course/courses{?embed,channel,document_id}' }
+      api_v2_course_course_url { '/api/v2/course/courses/{id}{?embed,raw}' }
+      initialize_with { attributes.as_json }
+    end
+
+    factory 'news:root', class: Hash do
+      announcement_email_url { '/announcements/{announcement_id}/email' }
+      announcement_messages_url { '/announcements/{announcement_id}/messages' }
+      announcement_user_visit_url { '/announcements/{announcement_id}/user_visits/{user_id}' }
+      announcements_url { '/announcements' }
+      announcement_url { '/announcements/{id}' }
+      message_url { '/messages/{id}' }
+      posts_url { '/posts' }
+      visits_url { '/visits' }
+      news_index_url { '/news' }
+      news_url { '/news/{id}' }
+      system_info_url { '/system_info/{id}' }
+      initialize_with { attributes.as_json }
+    end
+
+    factory 'notification:root', class: Hash do
+      events_url { '/events{?course_id,include_expired,locale,only_global,user_id}' }
+      mail_log_stats_url { '/mail_log_stats{?news_id}' }
+      system_info_url { '/system_info/{id}' }
+      initialize_with { attributes.as_json }
+    end
+
+    factory 'pinboard:root', class: Hash do
+      comments_url { '/comments' }
+      comment_url { '/comments/{id}' }
+      answers_url { '/answers' }
+      answer_url { '/answers/{id}' }
+      questions_url { '/questions' }
+      question_url { '/questions/{id}' }
+      votes_url { '/votes' }
+      vote_url { '/votes/{id}' }
+      topics_url { '/topics' }
+      topic_url { '/topics/{id}' }
+      post_user_vote_url { '/posts/{post_id}/user_votes/{id}' }
+      post_url { '/posts/{id}' }
+      tags_url { '/tags' }
+      tag_url { '/tags/{id}' }
+      explicit_tags_url { '/explicit_tags' }
+      explicit_tag_url { '/explicit_tags/{id}' }
+      implicit_tags_url { '/implicit_tags' }
+      implicit_tag_url { '/implicit_tags/{id}' }
+      subscriptions_url { '/subscriptions' }
+      subscription_url { '/subscriptions/{id}' }
+      course_subscriptions_url { '/course_subscriptions' }
+      course_subscription_url { '/course_subscriptions/{id}' }
+      statistics_url { '/statistics' }
+      statistic_url { '/statistics/{id}' }
+      abuse_reports_url { '/abuse_reports' }
+      abuse_report_url { '/abuse_reports/{id}' }
+      system_info_url { '/system_info/{id}' }
+      initialize_with { attributes.as_json }
+    end
+
+    factory 'quiz:root', class: Hash do
+      clone_quiz_url { '/quizzes/{id}/clone' }
+      quizzes_url { '/quizzes' }
+      quiz_url { '/quizzes/{id}' }
+      questions_url { '/questions' }
+      question_url { '/questions/{id}' }
+      multiple_answer_questions_url { '/multiple_answer_questions' }
+      multiple_answer_question_url { '/multiple_answer_questions/{id}' }
+      multiple_choice_questions_url { '/multiple_choice_questions' }
+      multiple_choice_question_url { '/multiple_choice_questions/{id}' }
+      free_text_questions_url { '/free_text_questions' }
+      free_text_question_url { '/free_text_questions/{id}' }
+      essay_questions_url { '/essay_questions' }
+      essay_question_url { '/essay_questions/{id}' }
+      answers_url { '/answers' }
+      answer_url { '/answers/{id}' }
+      text_answers_url { '/text_answers' }
+      text_answer_url { '/text_answers/{id}' }
+      free_text_answers_url { '/free_text_answers' }
+      free_text_answer_url { '/free_text_answers/{id}' }
+      quiz_submissions_url { '/quiz_submissions' }
+      quiz_submission_url { '/quiz_submissions/{id}' }
+      quiz_submission_questions_url { '/quiz_submission_questions' }
+      quiz_submission_free_text_answers_url { '/quiz_submission_free_text_answers' }
+      quiz_submission_answers_url { '/quiz_submission_answers' }
+      quiz_submission_selectable_answers_url { '/quiz_submission_selectable_answers' }
+      quiz_submission_snapshots_url { '/quiz_submission_snapshots' }
+      quiz_submission_snapshot_url { '/quiz_submission_snapshots/{id}' }
+      user_quiz_attempts_url { '/user_quiz_attempts' }
+      submission_statistic_url { '/submission_statistics/{id}' }
+      submission_question_statistic_url { '/submission_question_statistics/{id}' }
+      quiz_submission_statistic_url { '/quiz_submission_statistics/{id}' }
+      system_info_url { '/system_info/{id}' }
+      initialize_with { attributes.as_json }
+    end
+
+    factory 'timeeffort:root', class: Hash do
+      items_url { '/items{?section_id,course_id}' }
+      item_url { '/items/{id}' }
+      item_overwritten_time_effort_url { '/items/{item_id}/overwritten_time_effort' }
+      initialize_with { attributes.as_json }
+    end
+
+    factory 'lanalytics:root', class: Hash do
+      metric_url { '/metrics/{name}' }
+      metrics_url { '/metrics' }
+      report_jobs_url { '/report_jobs{?job_params,task_type,user_id,show_expired}' }
+      report_job_url { '/report_jobs/{id}' }
+      report_types_url { '/report_types' }
+      course_statistics_url { '/course_statistics' }
+      course_statistic_url { '/course_statistics/{id}' }
+      system_info_url { '/system_info/{id}' }
+      initialize_with { attributes.as_json }
+    end
   end
 end

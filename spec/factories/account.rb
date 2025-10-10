@@ -59,32 +59,6 @@ FactoryBot.define do
     user_id
   end
 
-  factory 'account:root', class: Hash do
-    session_url { '/sessions/{id}' }
-    sessions_url { '/sessions' }
-
-    treatments_url { '/treatments' }
-
-    user_url { '/users/{id}' }
-    user_ban_url { '/users/{user_id}/ban' }
-    users_url { '/users' }
-
-    email_url { '/emails/{id}' }
-
-    password_reset_url { '/password_resets/{id}' }
-
-    policies_url { '/policies' }
-
-    statistics_url { '/statistics' }
-
-    authorizations_url { '/authorizations' }
-
-    group_url { '/groups/{id}' }
-    groups_url { '/groups' }
-
-    initialize_with { attributes.as_json }
-  end
-
   factory 'account:session', class: Hash do
     id { generate(:uuid) }
 

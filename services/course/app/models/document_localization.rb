@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class DocumentLocalization < ApplicationRecord
+  self.table_name = :document_localizations
+
   include FileReference
 
   has_paper_trail

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module XMLImporter
+module XmlImporter
   ##
   # Encapsulate interaction with the course service for loading sections and
   # items or creating new (quiz) items respectively.

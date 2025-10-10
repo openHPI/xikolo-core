@@ -28,7 +28,7 @@ body {
   flex-direction: column;
 }
 
-.wrapper > .container {
+.wrapper > .bs-container {
   @include horizontal-page-padding;
 }
 

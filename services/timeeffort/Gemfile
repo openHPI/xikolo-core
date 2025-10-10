@@ -19,6 +19,8 @@ gem 'has_scope', '~> 0.8.0'
 gem 'rails-rfc6570', '~> 3.0'
 gem 'responders', '~> 3.0'
 
+gem 'timeeffort_service', path: 'engines/timeeffort_service'
+
 gem 'msgr', '~> 1.5'
 gem 'restify', '~> 2.0'
 gem 'uuid4', '~> 1.4'

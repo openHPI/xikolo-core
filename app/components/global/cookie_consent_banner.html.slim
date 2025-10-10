@@ -1,5 +1,5 @@
 .navbar-fixed-bottom.cookie-consent-banner aria-live='polite'
-  .container
+  .bs-container
     - # rubocop:disable Rails/OutputSafety
     = form_tag(cookie_consent_path, method: 'POST')
       p = text.html_safe

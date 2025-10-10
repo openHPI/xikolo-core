@@ -5,7 +5,7 @@ require 'spec_helper'
 describe EventDecorator, type: :decorator do
   subject { json }
 
-  let(:event) { create(:event) }
+  let(:event) { create(:'notification_service/event') }
   let(:decorator) { EventDecorator.new(event) }
   let(:json) { decorator.as_json(api_version: 1).stringify_keys }
 

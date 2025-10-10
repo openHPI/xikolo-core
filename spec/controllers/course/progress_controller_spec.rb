@@ -13,18 +13,8 @@ describe Course::ProgressController, type: :controller do
   let(:request_context_id) { course_context_id }
 
   before do
-    Stub.service(
-      :account,
-      session_url: '/sessions/{id}',
-      user_url: '/users/{id}'
-    )
-    Stub.service(
-      :course,
-      course_url: '/courses/{id}',
-      enrollments_url: '/enrollments',
-      sections_url: '/sections',
-      progresses_url: '/progresses'
-    )
+    Stub.service(:account, build(:'account:root'))
+    Stub.service(:course, build(:'course:root'))
 
     Stub.request(
       :course, :get, "/courses/#{course_id}"

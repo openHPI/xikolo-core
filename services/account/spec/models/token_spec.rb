@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe Token, type: :model do
-  let(:token) { create(:token) }
+  let(:token) { create(:'account_service/token') }
 
   describe '#Generate_token' do
     it 'generates a token' do

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Subscription < ApplicationRecord
+  self.table_name = :subscriptions
+
   belongs_to :question
 
   default_scope { order created_at: :desc }

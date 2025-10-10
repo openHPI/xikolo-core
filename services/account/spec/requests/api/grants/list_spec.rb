@@ -5,10 +5,10 @@ require 'spec_helper'
 describe 'Grants: List', type: :request do
   subject(:resource) { api.rel(:grants).get(params).value! }
 
-  let(:api)     { Restify.new(:test).get.value! }
+  let(:api)     { Restify.new(account_service_url).get.value! }
   let(:params)  { {} }
 
-  let!(:grants) { create_list(:grant, 5) }
+  let!(:grants) { create_list(:'account_service/grant', 5) }
 
   it 'responds with :ok' do
     expect(resource).to respond_with :ok
@@ -19,12 +19,12 @@ describe 'Grants: List', type: :request do
   end
 
   context 'with filter' do
-    let(:role)       { create(:role, name: 'the-role') }
+    let(:role)       { create(:'account_service/role', name: 'the-role') }
     let(:context_id) { SecureRandom.uuid }
-    let(:context)    { create(:context, id: context_id) }
+    let(:context)    { create(:'account_service/context', id: context_id) }
 
     describe 'by role' do
-      let!(:grants_with_role) { create(:grant, role:) }
+      let!(:grants_with_role) { create(:'account_service/grant', role:) }
       let(:params) { {role: 'the-role'} }
 
       it 'returns the filtered grant list' do
@@ -33,7 +33,7 @@ describe 'Grants: List', type: :request do
     end
 
     describe 'by context' do
-      let!(:grants_in_context) { create(:grant, context:) }
+      let!(:grants_in_context) { create(:'account_service/grant', context:) }
       let(:params) { {context: context_id} }
 
       it 'returns the filtered grant list' do
@@ -42,7 +42,7 @@ describe 'Grants: List', type: :request do
     end
 
     describe 'by role and context' do
-      let!(:grants_with_role_in_context) { create(:grant, role:, context:) }
+      let!(:grants_with_role_in_context) { create(:'account_service/grant', role:, context:) }
       let(:params) { {role: role.name, context: context_id} }
 
       it 'returns the filtered grant list' do

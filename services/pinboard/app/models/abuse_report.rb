@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class AbuseReport < ApplicationRecord
+  self.table_name = :abuse_reports
+
   belongs_to :reportable, polymorphic: true
 
   validates :reportable_type, :user_id, presence: true

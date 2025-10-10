@@ -160,12 +160,7 @@ describe QuizSubmissionsController, type: :controller do
     subject(:modification) { action_proc }
 
     before do
-      Stub.service(
-        :course,
-        result_url: 'http://course.xikolo.tld/results/{id}',
-        sections_url: 'http://course.xikolo.tld/sections',
-        items_url: 'http://course.xikolo.tld/items'
-      )
+      Stub.service(:course, build(:'course:root'))
 
       create(:multiple_answer_question,
         id: '00000000-0000-4444-9999-000000000001',

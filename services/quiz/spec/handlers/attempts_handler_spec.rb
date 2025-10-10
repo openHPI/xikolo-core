@@ -11,12 +11,7 @@ describe AttemptsHandler, type: :handler do
   let(:section_id) { SecureRandom.uuid }
 
   before do
-    Stub.service(
-      :course,
-      sections_url: '/sections',
-      section_url: '/sections/{id}',
-      items_url: '/items'
-    )
+    Stub.service(:course, build(:'course:root'))
 
     Stub.request(
       :course, :get, '/sections',

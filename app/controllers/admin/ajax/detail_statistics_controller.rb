@@ -78,7 +78,7 @@ module Admin
 
       def most_active
         if Xikolo.config.beta_features['teaching_team_pinboard_activity']
-          data = pinboard_api.rel(:statistics).get({
+          data = Xikolo.api(:pinboard).value!.rel(:statistics).get({
             most_active: 20,
             course_id: params[:course_id],
           }).value

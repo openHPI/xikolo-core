@@ -41,6 +41,8 @@ gem 'xikolo-config', path: './gems/xikolo-config'
 gem 'xikolo-s3', path: './gems/xikolo-s3'
 gem 'xikolo-sidekiq', path: './gems/xikolo-sidekiq'
 
+gem 'pinboard_service', path: 'engines/pinboard_service'
+
 gem 'concurrent-ruby', '~> 1.0'
 gem 'mnemosyne-ruby', '~> 2.0'
 gem 'stackprof'                 # stackprof must be required before Sentry

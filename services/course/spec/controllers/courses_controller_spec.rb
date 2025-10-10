@@ -568,10 +568,7 @@ describe CoursesController, type: :controller do
       create(:cluster, id: 'category')
       create(:cluster, id: 'topic')
 
-      Stub.service(:account,
-        contexts_url: '/contexts',
-        group_url: '/groups/{id}',
-        groups_url: '/groups')
+      Stub.service(:account, build(:'account:root'))
 
       stub_request(:get, %r{\Ahttp://richtext.xikolo.tld/rich_texts/[-0-9a-f]+\z})
         .and_return(Stub.json({markup: 'Empty'}))

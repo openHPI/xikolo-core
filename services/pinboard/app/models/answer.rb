@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Answer < ApplicationRecord
+  self.table_name = :answers
+
   include VotesHelper
   include PostHelper
   include WorkflowActiverecord

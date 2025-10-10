@@ -1,4 +1,4 @@
-.container.mt20
+.bs-container.mt20
   = simple_form_for(provider, url: provider.new_record? ? admin_video_providers_path : admin_video_provider_path) do |f|
     = f.input :provider_type, as: :hidden
     = f.input :name

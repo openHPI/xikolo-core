@@ -3,8 +3,8 @@
 require 'spec_helper'
 
 describe Role, '.lookup', type: :model do
-  let(:roles) { create_list(:role, 4) }
-  let(:context) { create(:context) }
+  let(:roles) { create_list(:'account_service/role', 4) }
+  let(:context) { create(:'account_service/context') }
   let(:request_context) { context }
   let(:grant_context) { context }
 
@@ -15,7 +15,7 @@ describe Role, '.lookup', type: :model do
 
     shared_examples 'context:inheritance' do
       context 'with requesting a child context' do
-        let(:request_context) { create(:context, parent: grant_context) }
+        let(:request_context) { create(:'account_service/context', parent: grant_context) }
 
         it 'contains exactly the granted roles' do
           expect(results).to match_array granted_roles
@@ -23,7 +23,7 @@ describe Role, '.lookup', type: :model do
       end
 
       context 'with requesting a parent context' do
-        let(:grant_context) { create(:context, parent: request_context) }
+        let(:grant_context) { create(:'account_service/context', parent: request_context) }
 
         it 'does not contain the granted roles' do
           expect(results).not_to include granted_roles
@@ -32,11 +32,11 @@ describe Role, '.lookup', type: :model do
     end
 
     context 'with group principal' do
-      let(:principal) { create(:group) }
+      let(:principal) { create(:'account_service/group') }
       let(:granted_roles) { roles.slice(1, 1) }
 
       before do
-        create(:grant,
+        create(:'account_service/grant',
           principal:, role: roles[1], context: grant_context)
       end
 
@@ -48,11 +48,11 @@ describe Role, '.lookup', type: :model do
     end
 
     context 'with user principal' do
-      let(:principal) { create(:user) }
+      let(:principal) { create(:'account_service/user') }
       let(:granted_roles) { roles.slice(1, 1) }
 
       before do
-        create(:grant,
+        create(:'account_service/grant',
           principal:, role: roles[1], context: grant_context)
       end
 
@@ -63,11 +63,11 @@ describe Role, '.lookup', type: :model do
       it_behaves_like 'context:inheritance'
 
       context 'with group membership' do
-        let(:groups) { create_list(:group, 4) }
+        let(:groups) { create_list(:'account_service/group', 4) }
         let(:granted_roles) { [roles[1], roles[2]] }
 
         before do
-          create(:grant,
+          create(:'account_service/grant',
             principal: groups[1], role: roles[2], context: grant_context)
 
           principal.groups << groups[1]
@@ -77,13 +77,13 @@ describe Role, '.lookup', type: :model do
       end
 
       context 'with multiple group memberships' do
-        let(:groups) { create_list(:group, 4) }
+        let(:groups) { create_list(:'account_service/group', 4) }
         let(:granted_roles) { [roles[1], roles[2], roles[3]] }
 
         before do
-          create(:grant,
+          create(:'account_service/grant',
             principal: groups[1], role: roles[2], context: grant_context)
-          create(:grant,
+          create(:'account_service/grant',
             principal: groups[2], role: roles[3], context: grant_context)
 
           principal.groups << groups[1]
@@ -94,13 +94,13 @@ describe Role, '.lookup', type: :model do
       end
 
       context 'with multiple group memberships on different' do
-        let(:groups) { create_list(:group, 4) }
+        let(:groups) { create_list(:'account_service/group', 4) }
         let(:granted_roles) { [roles[1], roles[2], roles[3]] }
 
         before do
-          create(:grant,
+          create(:'account_service/grant',
             principal: groups[1], role: roles[2], context: grant_context)
-          create(:grant,
+          create(:'account_service/grant',
             principal: groups[2], role: roles[3], context: Context.root)
 
           principal.groups << groups[1]
@@ -114,7 +114,7 @@ describe Role, '.lookup', type: :model do
         let(:granted_roles) { [roles[1], roles[2]] }
 
         before do
-          create(:grant,
+          create(:'account_service/grant',
             principal: group, role: roles[2], context: grant_context)
         end
 

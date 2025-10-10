@@ -5,11 +5,11 @@ require 'spec_helper'
 describe 'List user groups', type: :request do
   subject(:resource) { base.rel(:groups).get.value! }
 
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(account_service_url).get.value! }
   let(:base) { api.rel(:user).get({id: user}).value! }
-  let(:user) { create(:user) }
+  let(:user) { create(:'account_service/user') }
 
-  let(:groups) { create_list(:group, 2) }
+  let(:groups) { create_list(:'account_service/group', 2) }
 
   before do
     user.memberships.create! group: groups[1]

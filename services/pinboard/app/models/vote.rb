@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Vote < ApplicationRecord
+  self.table_name = :votes
+
   belongs_to :votable, polymorphic: true
 
   delegate :course_id, to: :votable, allow_nil: true

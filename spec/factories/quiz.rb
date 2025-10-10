@@ -1,21 +1,6 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory 'quiz:root', class: Hash do
-    quizzes_url { '/quizzes' }
-    quiz_url { '/quizzes/{id}' }
-    questions_url { '/questions' }
-    answers_url { '/answers' }
-
-    quiz_submissions_url { '/quiz_submissions' }
-    quiz_submission_url { '/quiz_submissions/{id}' }
-    quiz_submission_snapshots_url { '/quiz_submission_snapshots' }
-    quiz_submission_snapshot_url { '/quiz_submission_snapshots/{id}' }
-    user_quiz_attempts_url { '/user_quiz_attempts' }
-
-    initialize_with { attributes.as_json }
-  end
-
   factory 'quiz:quiz', class: Hash do
     id { generate(:quiz_id) }
     instructions { 'Please do not make mistakes, that helps.' }

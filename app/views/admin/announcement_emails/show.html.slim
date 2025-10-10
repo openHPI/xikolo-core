@@ -3,7 +3,7 @@
 - content_for :page_header_slim
   = render Global::PageHeader.new(t(:'admin.announcements.show.headline'), subtitle: t(:'admin.page_header'), type: :slim)
 
-.container
+.bs-container
   h2 = @email.subject
 
   ul

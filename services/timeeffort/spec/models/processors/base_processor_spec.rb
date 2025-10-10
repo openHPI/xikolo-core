@@ -20,7 +20,7 @@ RSpec.describe Processors::BaseProcessor, type: :model do
       let(:course_item_stub_status) { 200 }
 
       let!(:course_item_stub) do
-        Stub.service(:course, item_url: 'http://course.xikolo.tld/items/{id}')
+        Stub.service(:course, build(:'course:root'))
         Stub.request(
           :course, :patch, "/items/#{item.id}",
           body: hash_including(time_effort: item.time_effort)

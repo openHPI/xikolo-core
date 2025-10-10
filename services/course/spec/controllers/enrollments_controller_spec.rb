@@ -11,11 +11,7 @@ describe EnrollmentsController, type: :controller do
   let(:default_params) { {format: 'json'} }
 
   before do
-    Stub.service(
-      :account,
-      memberships_url: '/memberships',
-      group_url: '/groups/{id}'
-    )
+    Stub.service(:account, build(:'account:root'))
   end
 
   describe "GET 'index'" do

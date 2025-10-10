@@ -5,13 +5,13 @@ require 'spec_helper'
 describe 'Delete user consents', type: :request do
   subject(:resource) { base.rel(:self).delete.value! }
 
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(account_service_url).get.value! }
 
   let(:base) do
     api.rel(:user).get({id: user}).value!.rel(:consents).get.value!.first
   end
 
-  let!(:consent) { create(:consent) }
+  let!(:consent) { create(:'account_service/consent') }
   let(:user) { consent.user }
   let(:treatment) { consent.treatment }
 

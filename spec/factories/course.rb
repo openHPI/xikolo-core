@@ -1,45 +1,6 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory 'course:root', class: Hash do
-    channels_url { '/channels' }
-    channel_url { '/channels/{id}' }
-
-    classifiers_url { '/classifiers' }
-
-    courses_url { '/courses' }
-    course_url { '/courses/{id}' }
-
-    enrollments_url { '/enrollments{?course_id,user_id,learning_evaluation}' }
-    enrollment_url { '/enrollments/{id}' }
-
-    items_url { '/items' }
-    item_url { '/items/{id}' }
-
-    prerequisite_status_url { '/courses/{id}/prerequisite_status{?user_id}' }
-
-    progresses_url { '/progresses' }
-
-    result_url { '/results/{id}' }
-
-    richtexts_url { '/richtexts' }
-    richtext_url { '/richtexts/{id}' }
-
-    sections_url { '/sections' }
-    section_url { '/sections/{id}' }
-
-    teachers_url { '/teachers' }
-    teacher_url { '/teachers/{id}' }
-    stats_url { '/stats' }
-
-    next_dates_url { '/next_dates{?course_id,user_id,all,type}' }
-
-    api_v2_course_courses_url { '/api/v2/course/courses{?embed,raw}' }
-    api_v2_course_course_url { '/api/v2/course/courses/{id}{?embed,raw}' }
-
-    initialize_with { attributes.as_json }
-  end
-
   factory 'course:course', class: Hash do
     id { generate(:course_id) }
     sequence :title do |n|

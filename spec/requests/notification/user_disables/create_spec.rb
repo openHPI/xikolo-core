@@ -11,11 +11,7 @@ RSpec.describe 'Notifications: UserDisables: Create', type: :request do
   let(:user_id) { '11111111-2222-3333-4444-555555555555' }
 
   before do
-    Stub.service(
-      :account,
-      email_url: '/emails/{id}',
-      session_url: '/sessions/{id}'
-    )
+    Stub.service(:account, build(:'account:root'))
     Stub.request(
       :account, :get, "/user/#{user_id}"
     ).to_return Stub.json({

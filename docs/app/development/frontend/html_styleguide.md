@@ -1,7 +1,14 @@
 # HTML styleguide
 
-To write HTML, we use the [slim template language](https://github.com/slim-template/slim) in our project.
-There is currently no linter set up for it.
+## Slim (deprecated)
+
+To write HTML, we used to use the [slim template language](https://github.com/slim-template/slim) in our project.
+
+Over the years, we found that it is not very beginner-friendly and lacks dev-tooling support.
+It might have been a good choice earlier in the project, but nowadays, we use components with less complex views.
+Therefore, we decided to move away from it and use Rails-standard `*.html.erb` in our views.
+
+For new views, please use `*.html.erb` templates.
 
 ## Attribute order
 

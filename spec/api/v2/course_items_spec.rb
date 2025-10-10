@@ -54,18 +54,10 @@ describe Xikolo::V2::Courses::Items do
   end
 
   before do
-    Stub.service(
-      :account,
-      session_url: '/sessions/{id}'
-    )
+    Stub.service(:account, build(:'account:root'))
     api_stub_user(id: user_id, permissions:, features:, context_id:)
 
-    Stub.service(
-      :course,
-      course_url: '/courses/{id}',
-      item_url: '/items/{id}',
-      item_user_visit_url: '/items/{item_id}/user_visit/{user_id}'
-    )
+    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, "/courses/#{course[:id]}"
     ).to_return Stub.json(course)
@@ -160,7 +152,7 @@ describe Xikolo::V2::Courses::Items do
 
     let!(:create_user_visit) do
       Stub.request(
-        :course, :post, "/items/#{item[:id]}/user_visit/#{user_id}"
+        :course, :post, "/items/#{item[:id]}/users/#{user_id}/visit"
       ).to_return Stub.json({})
     end
 

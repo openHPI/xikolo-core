@@ -6,19 +6,19 @@ describe 'Group Memberships: List', type: :request do
   subject(:resource) { api.rel(:memberships).get(params).value! }
 
   let(:api) do
-    Restify.new(:test).get.value!.rel(:group).get({id: group.to_param}).value!
+    Restify.new(account_service_url).get.value!.rel(:group).get({id: group.to_param}).value!
   end
 
   let(:params) { {group_id: group.to_param} }
-  let(:group) { create(:group) }
+  let(:group) { create(:'account_service/group') }
 
   let!(:memberships) do
-    create_list(:membership, 5, group:)
+    create_list(:'account_service/membership', 5, group:)
   end
 
   before do
     # create some other memberships for different groups
-    create_list(:membership, 5)
+    create_list(:'account_service/membership', 5)
   end
 
   it 'responds with 200 Ok' do

@@ -1,4 +1,9 @@
 PATH
+  remote: engines/pinboard_service
+  specs:
+    pinboard_service (0.0.1)
+
+PATH
   remote: gems/xikolo-common
   specs:
     xikolo-common (2.18.0)
@@ -294,7 +299,7 @@ GEM
     rails-html-sanitizer (1.6.2)
       loofah (~> 2.21)
       nokogiri (>= 1.15.7, != 1.16.7, != 1.16.6, != 1.16.5, != 1.16.4, != 1.16.3, != 1.16.2, != 1.16.1, != 1.16.0.rc1, != 1.16.0)
-    rails-rfc6570 (3.4.0)
+    rails-rfc6570 (3.5.1)
       actionpack (>= 4.2, < 8.1)
       addressable (~> 2.3)
     railties (7.2.2.1)
@@ -455,6 +460,7 @@ DEPENDENCIES
   ostruct
   paginate-responder (~> 2.0)
   pg
+  pinboard_service!
   puma
   rack-remote
   rails (~> 7.2.0)

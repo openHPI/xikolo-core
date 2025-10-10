@@ -54,6 +54,8 @@ gem 'xikolo-common', path: './gems/xikolo-common'
 gem 'xikolo-config', path: './gems/xikolo-config'
 gem 'xikolo-sidekiq', path: './gems/xikolo-sidekiq'
 
+gem 'notification_service', path: 'engines/notification_service'
+
 gem 'addressable'
 gem 'uuid4', '~> 1.4'
 

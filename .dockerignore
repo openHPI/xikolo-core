@@ -10,6 +10,7 @@ config/initializers/integration*
 !db/
 !docker/bin/
 !gems/
+!engines/
 !lib/
 !public/
 public/assets*

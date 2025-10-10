@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :session do
-    user
+  factory :'account_service/session', class: 'Session' do
+    association :user, factory: :'account_service/user'
   end
 
-  factory :user do
+  factory :'account_service/user', class: 'User' do
     transient do
       completed_profile { true }
     end
@@ -25,7 +25,7 @@ FactoryBot.define do
         )
       end
 
-      create(:email, user:, primary: true, confirmed: true)
+      create(:'account_service/email', user:, primary: true, confirmed: true)
       user.primary_email.reload
     end
 
@@ -38,7 +38,7 @@ FactoryBot.define do
         field = CustomTextField.find_or_create_by(context: 'user', name: 'affiliation')
 
         if evaluator.affiliation
-          create(:custom_field_value, custom_field: field, context_id: user.id, context_type: 'user', values: [evaluator.affiliation])
+          create(:'account_service/custom_field_value', custom_field: field, context_id: user.id, context_type: 'user', values: [evaluator.affiliation])
         end
       end
     end
@@ -69,29 +69,29 @@ FactoryBot.define do
     end
   end
 
-  factory :group do
+  factory :'account_service/group', class: 'Group' do
     sequence(:name) {|n| "test.group#{n}" }
   end
 
-  factory :membership do
-    group
-    user
+  factory :'account_service/membership', class: 'Membership' do
+    association :group, factory: :'account_service/group'
+    association :user, factory: :'account_service/user'
   end
 
-  factory :feature do
+  factory :'account_service/feature', class: 'Feature' do
     sequence(:name) {|n| "flipper.nr#{n}" }
     value { 'true' }
     context_id { Context.root_id }
 
-    association :owner, factory: :group
+    association :owner, factory: :'account_service/group'
   end
 
-  factory :email do
+  factory :'account_service/email', class: 'Email' do
     sequence(:uuid) {|n| "00000001-3100-4444-9999-10000000#{1000 + n}" }
     confirmed { true }
     confirmed_at { nil }
     sequence(:address) {|n| "eMail#{n}@example.de" }
-    association :user
+    association :user, factory: :'account_service/user'
 
     trait :confirmed do
       confirmed { true }
@@ -99,26 +99,26 @@ FactoryBot.define do
     end
   end
 
-  factory :token do
-    user
+  factory :'account_service/token', class: 'Token' do
+    association :user, factory: :'account_service/user'
 
     trait :with_client_application do
       user { nil }
-      association :owner, factory: :client_application
+      association :owner, factory: :'account_service/client_application'
     end
 
     trait :with_user_polymorphic do
       user { nil }
-      association :owner, factory: :user
+      association :owner, factory: :'account_service/user'
     end
   end
 
-  factory :client_application do
+  factory :'account_service/client_application', class: 'ClientApplication' do
     sequence(:name) {|n| "Client App ##{n}" }
   end
 
-  factory :authorization do
-    user
+  factory :'account_service/authorization', class: 'Authorization' do
+    association :user, factory: :'account_service/user'
     provider { 'test' }
     sequence(:uid) {|n| String(n) }
     expires_at { 4.days.from_now }
@@ -152,7 +152,7 @@ FactoryBot.define do
     end
   end
 
-  factory :custom_field do
+  factory :'account_service/custom_field', class: 'CustomField' do
     name { 'fn' }
     context { 'user' }
 
@@ -161,44 +161,44 @@ FactoryBot.define do
     initialize_with { raise 'Use STI subclass' }
   end
 
-  factory :custom_text_field, class: 'CustomField', parent: :custom_field do
+  factory :'account_service/custom_text_field', parent: :'account_service/custom_field', class: 'CustomTextField' do
     values { [] }
     default_values { [] }
 
     initialize_with { CustomTextField.new }
   end
 
-  factory :custom_select_field, class: 'CustomField', parent: :custom_field do
+  factory :'account_service/custom_select_field', parent: :'account_service/custom_field', class: 'CustomSelectField' do
     values { %w[none A B C] }
     default_values { %w[none] }
 
     initialize_with { CustomSelectField.new }
   end
 
-  factory :custom_multi_select_field, class: 'CustomField', parent: :custom_field do
+  factory :'account_service/custom_multi_select_field', parent: :'account_service/custom_field', class: 'CustomMultiSelectField' do
     values { %w[A B C] }
     default_values { %w[] }
 
     initialize_with { CustomMultiSelectField.new }
   end
 
-  factory :custom_field_value do
-    association :custom_field, factory: :custom_text_field
+  factory :'account_service/custom_field_value', class: 'CustomFieldValue' do
+    association :custom_field, factory: :'account_service/custom_text_field'
   end
 
-  factory :password_reset do
-    user
+  factory :'account_service/password_reset', class: 'PasswordReset' do
+    association :user, factory: :'account_service/user'
   end
 
-  factory :context do
+  factory :'account_service/context', class: 'Context' do
     parent_id { Context.root_id }
   end
 
-  sequence :permission do |n|
+  sequence :permission, class: 'Permission' do |n|
     "xikolo.test.perm_#{n}"
   end
 
-  factory :role do
+  factory :'account_service/role', class: 'Role' do
     permissions { Array.new(5) { generate(:permission) } }
 
     trait :with_name do
@@ -206,20 +206,20 @@ FactoryBot.define do
     end
   end
 
-  factory :grant do
-    association :role
-    association :principal, factory: :user
+  factory :'account_service/grant', class: 'Grant' do
+    association :role, factory: :'account_service/role'
+    association :principal, factory: :'account_service/user'
 
     context_id { Context.root_id }
   end
 
-  factory :policy do
+  factory :'account_service/policy', class: 'Policy' do
     url_data = {en: 'http://www.example.com/about/legal/privacy.html'}
     version { 1 }
     url { url_data }
   end
 
-  factory :treatment do
+  factory :'account_service/treatment', class: 'Treatment' do
     sequence(:name) {|n| "treatment#{n}" }
 
     trait :external do
@@ -232,9 +232,9 @@ FactoryBot.define do
     end
   end
 
-  factory :consent do
-    association :treatment
-    association :user
+  factory :'account_service/consent', class: 'Consent' do
+    association :treatment, factory: :'account_service/treatment'
+    association :user, factory: :'account_service/user'
     value { true }
     created_at { 5.years.ago }
   end

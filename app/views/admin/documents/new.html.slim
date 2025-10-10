@@ -4,7 +4,7 @@
 - content_for :page_header_slim
   = render Global::PageHeader.new(t(:'knowledge_documents.create'), subtitle: t(:'admin.page_header'), type: :slim)
 
-.container
+.bs-container
   .row
     .col-md-9.mt20
       = simple_form_for(:document, url: {controller: 'documents', action: :create}, method: :post) do |f|

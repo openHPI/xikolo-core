@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class MailLog < ApplicationRecord
+  self.table_name = :mail_logs
+
   validates :state,
     presence: true,
     inclusion: {in: %w[success error disabled queued]}

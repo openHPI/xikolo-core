@@ -5,11 +5,11 @@ require 'spec_helper'
 describe 'Grants: Delete', type: :request do
   subject(:delete_grant) { resource.rel(:self).delete.value! }
 
-  let(:group)    { create(:group) }
-  let(:role)     { create(:role) }
-  let!(:grant)   { create(:grant, principal: group, role:) }
+  let(:group)    { create(:'account_service/group') }
+  let(:role)     { create(:'account_service/role') }
+  let!(:grant)   { create(:'account_service/grant', principal: group, role:) }
 
-  let(:api)      { Restify.new(:test).get.value! }
+  let(:api)      { Restify.new(account_service_url).get.value! }
   let(:resource) { api.rel(:grant).get({id: grant.id}).value! }
 
   it 'responds with :ok' do

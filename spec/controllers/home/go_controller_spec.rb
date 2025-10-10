@@ -5,10 +5,7 @@ require 'spec_helper'
 describe Home::GoController, type: :controller do
   describe 'links' do
     before do
-      Stub.service(
-        :account,
-        session_url: '/sessions/{id}'
-      )
+      Stub.service(:account, build(:'account:root'))
     end
 
     describe 'GET #redirect' do
@@ -39,11 +36,7 @@ describe Home::GoController, type: :controller do
     let(:params) { {id: item_id} }
 
     before do
-      Stub.service(
-        :course,
-        course_url: '/courses/{id}',
-        item_url: '/items/{id}'
-      )
+      Stub.service(:course, build(:'course:root'))
       Stub.request(
         :course, :get, "/items/#{item_id}"
       ).to_return Stub.json({
@@ -56,10 +49,7 @@ describe Home::GoController, type: :controller do
         id: course_id,
         course_code:,
       })
-      Stub.service(
-        :pinboard,
-        tags_url: '/tags{?type,course_id,name}'
-      )
+      Stub.service(:pinboard, build(:'pinboard:root'))
       Stub.request(
         :pinboard, :get, '/tags',
         query: {type: 'ImplicitTag', course_id:, name: item_id}

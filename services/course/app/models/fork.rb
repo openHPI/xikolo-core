@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Fork < ApplicationRecord
+  self.table_name = :forks
+
   belongs_to :content_test
   belongs_to :section
   has_many :branches, dependent: :destroy

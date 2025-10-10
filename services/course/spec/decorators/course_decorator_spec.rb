@@ -11,10 +11,7 @@ describe CourseDecorator do
     create(:cluster, id: 'category')
     create(:cluster, id: 'zzz')
 
-    Stub.service(
-      :account,
-      group_url: '/groups/{id}'
-    )
+    Stub.service(:account, build(:'account:root'))
   end
 
   context '(version 1)' do

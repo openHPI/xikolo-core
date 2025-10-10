@@ -11,11 +11,7 @@ RSpec.describe 'Free Text Questions: Create', type: :request do
   let(:quiz) { create(:quiz) }
 
   before do
-    Stub.service(
-      :course,
-      items_url: 'http://course.xikolo.tld/items',
-      item_url: 'http://course.xikolo.tld/items/{id}'
-    )
+    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, '/items',
       query: {content_id: payload[:quiz_id]}

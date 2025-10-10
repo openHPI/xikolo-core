@@ -62,8 +62,7 @@ RSpec.describe QuizConsumer, type: :consumer do
     let(:payload) { {question_id:} }
 
     before do
-      Stub.service(:quiz,
-        question_url: 'http://quiz.xikolo.tld/questions/{id}')
+      Stub.service(:quiz, build(:'quiz:root'))
     end
 
     context 'w/ existing question' do

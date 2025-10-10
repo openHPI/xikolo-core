@@ -5,9 +5,9 @@ require 'spec_helper'
 describe 'Groups: Deletion', type: :request do
   subject(:resource) { api.rel(:group).delete({id: group}).value! }
 
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(account_service_url).get.value! }
   let(:data) { {name: 'testowner.group_x'} }
-  let!(:group) { create(:group, data) }
+  let!(:group) { create(:'account_service/group', data) }
 
   it 'responds with a OK resource' do
     expect(resource).to respond_with :ok
@@ -23,8 +23,8 @@ describe 'Groups: Deletion', type: :request do
 
   context 'with memberships' do
     before do
-      create_list(:membership, 5, group:)
-      create_list(:membership, 5)
+      create_list(:'account_service/membership', 5, group:)
+      create_list(:'account_service/membership', 5)
     end
 
     it 'deletes membership records' do
@@ -38,8 +38,8 @@ describe 'Groups: Deletion', type: :request do
 
   context 'with grants' do
     before do
-      create_list(:grant, 5, principal: group)
-      create_list(:grant, 5)
+      create_list(:'account_service/grant', 5, principal: group)
+      create_list(:'account_service/grant', 5)
     end
 
     it 'deletes associated grants' do

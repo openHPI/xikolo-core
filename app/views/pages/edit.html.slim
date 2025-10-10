@@ -1,7 +1,7 @@
 - content_for :page_header
   = render Global::PageHeader.new(t(:'pages.edit.headline'))
 
-.container
+.bs-container
   .row.mt20
     .col-md-12
       = simple_form_for @page, method: :patch, url: page_path(locale: params[:locale]) do |f|

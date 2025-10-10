@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Visit < ApplicationRecord
+  self.table_name = :visits
   self.primary_key = %i[item_id user_id]
 
   validates :user_id, presence: true

@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 RSpec.shared_examples 'shared:permissions' do
-  let(:roles) { create_list(:role, 4) }
-  let(:groups) { create_list(:group, 4) }
+  let(:roles) { create_list(:'account_service/role', 4) }
+  let(:groups) { create_list(:'account_service/group', 4) }
 
-  let(:context) { create(:context) }
-  let(:child_context) { create(:context, parent: context) }
+  let(:context) { create(:'account_service/context') }
+  let(:child_context) { create(:'account_service/context', parent: context) }
   let(:request_context) { child_context }
 
   before do
@@ -15,7 +15,7 @@ RSpec.shared_examples 'shared:permissions' do
 
   context 'with user grant' do
     before do
-      create(:grant, principal: user, role: roles[1], context:)
+      create(:'account_service/grant', principal: user, role: roles[1], context:)
     end
 
     it 'matches permissions' do
@@ -24,7 +24,7 @@ RSpec.shared_examples 'shared:permissions' do
 
     context 'with context inheritance' do
       before do
-        create(:grant,
+        create(:'account_service/grant',
           principal: user, role: roles[2], context: child_context)
       end
 
@@ -37,7 +37,7 @@ RSpec.shared_examples 'shared:permissions' do
 
   describe 'group grants' do
     before do
-      create(:grant, principal: groups[1], role: roles[1], context:)
+      create(:'account_service/grant', principal: groups[1], role: roles[1], context:)
     end
 
     it 'responds with correct permissions' do
@@ -46,7 +46,7 @@ RSpec.shared_examples 'shared:permissions' do
 
     context 'with multiple groups' do
       before do
-        create(:grant,
+        create(:'account_service/grant',
           principal: groups[2], role: roles[2], context:)
       end
 
@@ -58,7 +58,7 @@ RSpec.shared_examples 'shared:permissions' do
 
     context 'with context inheritance' do
       before do
-        create(:grant,
+        create(:'account_service/grant',
           principal: groups[1], role: roles[2], context: child_context)
       end
 
@@ -71,7 +71,7 @@ RSpec.shared_examples 'shared:permissions' do
 
   describe 'all user grants' do
     before do
-      create(:grant, principal: Group.all_users, role: roles[3])
+      create(:'account_service/grant', principal: Group.all_users, role: roles[3])
     end
 
     it 'responds with correct permissions' do
@@ -81,7 +81,7 @@ RSpec.shared_examples 'shared:permissions' do
 
   describe 'active user grants' do
     before do
-      create(:grant, principal: Group.active_users, role: roles[3])
+      create(:'account_service/grant', principal: Group.active_users, role: roles[3])
     end
 
     it 'responds with correct permissions' do
@@ -91,7 +91,7 @@ RSpec.shared_examples 'shared:permissions' do
 
   describe 'confirmed user grants' do
     before do
-      create(:grant, principal: Group.confirmed_users, role: roles[3])
+      create(:'account_service/grant', principal: Group.confirmed_users, role: roles[3])
     end
 
     it 'responds with correct permissions' do

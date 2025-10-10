@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class CustomFieldValue < ApplicationRecord
+  self.table_name = :custom_field_values
+
   belongs_to :custom_field
   belongs_to :context, polymorphic: true, optional: true
 

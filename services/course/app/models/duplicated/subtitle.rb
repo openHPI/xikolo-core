@@ -2,6 +2,8 @@
 
 module Duplicated
   class Subtitle < ::ApplicationRecord
+    self.table_name = :subtitles
+
     belongs_to :video, class_name: '::Duplicated::Video'
     has_many :cues, class_name: '::Duplicated::SubtitleCue', dependent: :destroy
 

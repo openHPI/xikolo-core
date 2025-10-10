@@ -26,8 +26,8 @@ RSpec.describe 'Statistics: Index: most_active', type: :request do
     third_question = create(:question, user_id: second_user_id, course_id:)
     create(:answer, user_id: second_user_id, question_id: third_question.id)
 
-    Stub.service(:course, course_url: '/courses/{id}')
-    Stub.service(:account, user_url: '/users/{id}')
+    Stub.service(:course, build(:'course:root'))
+    Stub.service(:account, build(:'account:root'))
     Stub.request(:course, :get, "/courses/#{course_id}")
       .to_return Stub.json({id: course_id, special_groups: []})
     Stub.request(:account, :get, "/users/#{first_user_id}")

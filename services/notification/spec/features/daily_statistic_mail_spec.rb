@@ -16,12 +16,7 @@ describe 'Daily Statistic Mails', type: :feature do
     Msgr.client.start
 
     # Account service stubs
-    Stub.service(
-      :account,
-      user_url: 'http://localhost:3100/users/{id}',
-      group_url: 'http://localhost:3100/groups/{id}',
-      statistics_url: 'http://localhost:3100/statistic'
-    )
+    Stub.service(:account, build(:'account:root'))
 
     Stub.request(
       :account, :get, '/groups/course.futcode.admins'
@@ -78,11 +73,7 @@ describe 'Daily Statistic Mails', type: :feature do
     })
 
     # Course service stubs
-    Stub.service(
-      :course,
-      courses_url: 'http://localhost:3300/courses',
-      stats_url: 'http://localhost:3300/stats'
-    )
+    Stub.service(:course, build(:'course:root'))
 
     Stub.request(
       :course, :get, '/courses',
@@ -103,11 +94,7 @@ describe 'Daily Statistic Mails', type: :feature do
     })
 
     # Lanalytics stubs
-    Stub.service(
-      :learnanalytics,
-      course_statistic_url: 'http://localhost:5900/course_statistics/{id}',
-      metric_url: 'http://localhost:5900/metrics/{name}'
-    )
+    Stub.service(:learnanalytics, build(:'lanalytics:root'))
 
     Stub.request(
       :learnanalytics, :get, "/course_statistics/#{course_id1}"
@@ -263,7 +250,7 @@ describe 'Daily Statistic Mails', type: :feature do
       qualified_certificate: 0,
     })
 
-    Stub.service(:pinboard, {})
+    Stub.service(:pinboard, build(:'pinboard:root'))
 
     # Pinboard stubs
     Stub.request(

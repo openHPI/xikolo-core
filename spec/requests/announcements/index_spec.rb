@@ -16,7 +16,7 @@ RSpec.describe 'Posts: Index', type: :request do
   before do
     Stub.service(:account, build(:'account:root'))
 
-    Stub.service(:news, posts_url: '/posts')
+    Stub.service(:news, build(:'news:root'))
     posts_stub
   end
 

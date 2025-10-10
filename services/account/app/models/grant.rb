@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Grant < ApplicationRecord
+  self.table_name = :grants
+
   NULL = Object.new.freeze
 
   belongs_to :role

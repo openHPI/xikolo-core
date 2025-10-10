@@ -5,7 +5,7 @@ require 'spec_helper'
 describe User::Destroy, type: :operation do
   subject(:operation) { described_class.new }
 
-  let(:user) { create(:user) }
+  let(:user) { create(:'account_service/user') }
   let(:uid)  { UUID4(user.id).to_s(format: :base62) }
 
   let(:s3_avatar_index) do
@@ -28,13 +28,13 @@ describe User::Destroy, type: :operation do
   before do
     s3_avatar_index
 
-    create_list(:email, 3, user:)
+    create_list(:'account_service/email', 3, user:)
 
-    create(:session, user:)
-    create(:authorization, user:)
-    create(:custom_field_value, context: user)
-    create(:password_reset, user:)
-    create(:token, user:)
+    create(:'account_service/session', user:)
+    create(:'account_service/authorization', user:)
+    create(:'account_service/custom_field_value', context: user)
+    create(:'account_service/password_reset', user:)
+    create(:'account_service/token', user:)
   end
 
   describe '#call' do

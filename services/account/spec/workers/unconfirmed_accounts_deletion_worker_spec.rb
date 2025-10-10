@@ -5,13 +5,13 @@ require 'spec_helper'
 RSpec.describe UnconfirmedAccountsDeletionWorker do
   subject(:worker) { described_class.new.perform }
 
-  let!(:unconfirmed_user) { create(:user, :unconfirmed, created_at: 4.days.ago) }
+  let!(:unconfirmed_user) { create(:'account_service/user', :unconfirmed, created_at: 4.days.ago) }
 
   before do
-    create(:user, :unconfirmed, created_at: 2.days.ago)
-    create(:user, created_at: 4.days.ago)
-    create(:user)
-    create(:user, :archived, created_at: 20.days.ago)
+    create(:'account_service/user', :unconfirmed, created_at: 2.days.ago)
+    create(:'account_service/user', created_at: 4.days.ago)
+    create(:'account_service/user')
+    create(:'account_service/user', :archived, created_at: 20.days.ago)
   end
 
   it 'deletes user accounts after confirmation period has expired (3 days)' do

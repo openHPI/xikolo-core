@@ -11,9 +11,9 @@ describe 'EmailSuspensions: Create', type: :request do
   end
 
   let(:user_id) { SecureRandom.uuid }
-  let!(:user)   { create(:user, id: user_id) }
-  let!(:email)  { create(:email, user:, address: 'p.3/-k+fuu@example.de') }
-  let(:api)     { Restify.new(:test).get.value! }
+  let!(:user)   { create(:'account_service/user', id: user_id) }
+  let!(:email)  { create(:'account_service/email', user:, address: 'p.3/-k+fuu@example.de') }
+  let(:api)     { Restify.new(account_service_url).get.value! }
 
   it 'responds with a created status' do
     expect(resource).to respond_with :created
@@ -40,7 +40,7 @@ describe 'EmailSuspensions: Create', type: :request do
 
   it 'returns email resource url in Content-Location header' do
     expect(resource).to include_header \
-      'Content-Location' => user_email_url(user_id:, id: email.uuid)
+      'Content-Location' => account_service.user_email_url(user_id:, id: email.uuid)
   end
 
   context 'already suspended user' do
@@ -54,7 +54,7 @@ describe 'EmailSuspensions: Create', type: :request do
 
     it 'responds with Content-Location header' do
       expect(resource).to include_header \
-        'Content-Location' => user_email_url(user_id:, id: email.uuid)
+        'Content-Location' => account_service.user_email_url(user_id:, id: email.uuid)
     end
   end
 

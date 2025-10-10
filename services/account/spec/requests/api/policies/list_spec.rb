@@ -5,10 +5,10 @@ require 'spec_helper'
 describe 'Policy: List', type: :request do
   subject(:resource) { api.rel(:policies).get.value! }
 
-  let(:api) { Restify.new(:test).get.value! }
-  let!(:oldest_policy) { create(:policy, version: 1) }
-  let!(:latest_policy) { create(:policy, version: 5) }
-  let!(:older_policy) { create(:policy, version: 4) }
+  let(:api) { Restify.new(account_service_url).get.value! }
+  let!(:oldest_policy) { create(:'account_service/policy', version: 1) }
+  let!(:latest_policy) { create(:'account_service/policy', version: 5) }
+  let!(:older_policy) { create(:'account_service/policy', version: 4) }
 
   it 'responds with 200 Ok' do
     expect(resource).to respond_with :ok

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class CourseSet < ApplicationRecord
+  self.table_name = :course_sets
+
   has_many :course_set_entries, dependent: :delete_all
 
   has_many :courses,

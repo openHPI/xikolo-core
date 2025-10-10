@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe PreferencesDecorator, type: :decorator do
-  let(:user) { create(:user) }
+  let(:user) { create(:'account_service/user') }
   let(:decorator) { described_class.new user }
 
   describe '#as_json' do

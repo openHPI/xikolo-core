@@ -40,6 +40,8 @@ gem 'xikolo-config', path: './gems/xikolo-config'
 gem 'xikolo-s3', path: './gems/xikolo-s3'
 gem 'xikolo-sidekiq', path: './gems/xikolo-sidekiq'
 
+gem 'quiz_service', path: 'engines/quiz_service'
+
 # Messaging via RabbitMQ
 gem 'msgr', '~> 1.5'
 

@@ -49,7 +49,7 @@ describe User::Create, type: :operation do
   end
 
   context 'with email address conflict' do
-    before { create(:email, address: 'john@example.org') }
+    before { create(:'account_service/email', address: 'john@example.org') }
 
     it do
       expect { operation.call }.to raise_error do |err|

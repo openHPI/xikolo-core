@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe Event, type: :model do
-  subject(:event) { create(:event) }
+  subject(:event) { create(:'notification_service/event') }
 
   describe 'validations' do
     it { is_expected.to accept_values_for :course_id, nil }

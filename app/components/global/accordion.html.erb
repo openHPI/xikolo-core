@@ -1,0 +1,10 @@
+<div class="accordion <%= variant.present? ? " accordion--#{variant}" : "" %>" data-controller="accordion">
+  <% if @headline %>
+    <p class="accordion__headline"><%= @headline %></p>
+  <% end %>
+  <div class="accordion__sections">
+    <% sections.each do |section| %>
+      <%= section %>
+    <% end %>
+  </div>
+</div>

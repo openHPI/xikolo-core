@@ -8,7 +8,7 @@
       = render 'course/shared/course_admin_action', course: course_layout, in_teacher_context: false
 
 / Main Container
-.container
+.bs-container
   = render 'course_preview_large', course: @large_preview
 
   - if @course_presenter.prerequisites?
@@ -97,28 +97,15 @@
         p = t(:'course.courses.show.guidelines_link')
 
       - if @teacher_list_presenter.display?
-        / Teachers
-        h3.mt50.course-details--section-title = t(:'.teacher_title')
-
-        .panel-group.mt20.teacher-accordion#teachers role="tablist" aria-multiselectable="true"
+        = render Global::Accordion.new(headline: t(:'.teacher_title'), variant: 'slim') do |accordion|
           - @teacher_list_presenter.each do |teacher|
-            .panel.panel-default
-              .panel-heading role="tab" id="heading-#{teacher.id}"
-                h4.panel-title
-                  a data-parent="#teachers" data-toggle="collapse" href="##{teacher.id}" aria-expanded="true" aria-controls=teacher.id
-                    = teacher.name
-                    span.caret
+            - accordion.with_section(teacher.name, teacher.id, expanded: teacher.active?) do
+              - if teacher.picture?
+                = image_tag Imagecrop.transform(teacher.picture_url, width: 550), alt: ''
 
-              .panel-collapse.collapse class="#{teacher.active? ? 'in' : ''}" id="#{teacher.id}" role="tabpanel" aria-labelledby="heading-#{teacher.id}"
-                .panel-body
-
-                  - if teacher.picture?
-                    = image_tag Imagecrop.transform(teacher.picture_url, width: 550), alt: teacher.name
-
-                  - if teacher.description?
-                    .teacher-text
-                      .RenderedMarkdown
-                        == render_markdown teacher.description
+              - if teacher.description?
+                .RenderedMarkdown
+                  == render_markdown teacher.description
 
 - if @course_presenter.open_mode?
   = render Course::Popover.new(t(:'course.courses.show.open_mode.text'), 'popover-openmode', cookie_name: 'hide_openmode_hint')

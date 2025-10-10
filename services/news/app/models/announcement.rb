@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Announcement < ApplicationRecord
+  self.table_name = :announcements
+
   has_many :messages, dependent: :destroy
 
   validates :author_id, presence: true

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Branch < ApplicationRecord
+  self.table_name = :branches
+
   belongs_to :group, class_name: '::Duplicated::Group'
   belongs_to :fork
 

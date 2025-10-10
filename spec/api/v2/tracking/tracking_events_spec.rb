@@ -18,10 +18,7 @@ describe Xikolo::V2::Tracking::TrackingEvents do
   end
 
   before do
-    Stub.service(
-      :account,
-      session_url: '/sessions/{id}'
-    )
+    Stub.service(:account, build(:'account:root'))
 
     api_stub_user
   end

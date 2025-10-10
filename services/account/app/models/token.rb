@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Token < ApplicationRecord
+  self.table_name = :tokens
+
   belongs_to :user, optional: true
   belongs_to :owner, polymorphic: true
 

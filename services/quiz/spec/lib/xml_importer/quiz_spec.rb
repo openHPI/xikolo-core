@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe XMLImporter::Quiz do
+describe XmlImporter::Quiz do
   subject(:create_quizzes) { described_class.new(course_code, course_id, xml).create_quizzes! }
 
   let(:course_code) { 'a4h1' }
@@ -10,12 +10,7 @@ describe XMLImporter::Quiz do
   let(:section_id) { '00000000-0000-4444-9999-000000000001' }
 
   before do
-    Stub.service(
-      :course,
-      sections_url: '/sections{?course_id}',
-      items_url: '/items',
-      item_url: '/items/{id}'
-    )
+    Stub.service(:course, build(:'course:root'))
   end
 
   context 'with valid xml' do
@@ -110,7 +105,7 @@ describe XMLImporter::Quiz do
         let(:course_code) { 'a5h2' }
 
         it 'raises parameter error' do
-          expect { create_quizzes }.to raise_error(XMLImporter::ParameterError)
+          expect { create_quizzes }.to raise_error(XmlImporter::ParameterError)
         end
       end
 
@@ -157,7 +152,7 @@ describe XMLImporter::Quiz do
         end
 
         it 'raises parameter error' do
-          expect { create_quizzes }.to raise_error(XMLImporter::ParameterError)
+          expect { create_quizzes }.to raise_error(XmlImporter::ParameterError)
         end
       end
 
@@ -383,7 +378,7 @@ describe XMLImporter::Quiz do
         let(:course_code) { 'a5h2' }
 
         it 'raises parameter error' do
-          expect { create_quizzes }.to raise_error(XMLImporter::ParameterError)
+          expect { create_quizzes }.to raise_error(XmlImporter::ParameterError)
         end
       end
 
@@ -421,7 +416,7 @@ describe XMLImporter::Quiz do
     end
 
     it 'raises schema error' do
-      expect { create_quizzes }.to raise_error(XMLImporter::SchemaError)
+      expect { create_quizzes }.to raise_error(XmlImporter::SchemaError)
     end
   end
 end

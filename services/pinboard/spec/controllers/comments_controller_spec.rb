@@ -202,10 +202,7 @@ describe CommentsController, type: :controller do
     subject(:response) { post :create, params: }
 
     before do
-      Stub.service(
-        :course,
-        course_url: '/courses/{id}'
-      )
+      Stub.service(:course, build(:'course:root'))
       Stub.request(
         :course, :get, "/courses/#{question.course_id}"
       ).to_return Stub.json({
@@ -215,10 +212,7 @@ describe CommentsController, type: :controller do
         forum_is_locked: false,
       })
 
-      Stub.service(
-        :account,
-        user_url: '/users/{id}'
-      )
+      Stub.service(:account, build(:'account:root'))
       Stub.request(
         :account, :get, "/users/#{attributes[:user_id]}"
       ).to_return Stub.json({
@@ -319,10 +313,7 @@ describe CommentsController, type: :controller do
         let(:params) { super().merge(notification: {notify: 'true'}) }
 
         before do
-          Stub.service(
-            :notification,
-            events_url: '/events'
-          )
+          Stub.service(:notification, build(:'notification:root'))
           Stub.request(
             :notification, :post, '/events'
           ).to_return Stub.response(status: 201)

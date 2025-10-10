@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe SessionDecorator, type: :decorator do
-  let(:session) { create(:session) }
+  let(:session) { create(:'account_service/session') }
   let(:decorator) { described_class.new session }
 
   describe '#as_json' do

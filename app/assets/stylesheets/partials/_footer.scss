@@ -41,7 +41,7 @@ footer {
   color: $xi-footer-color;
   @include font-s;
 
-  .container {
+  .bs-container {
     @include horizontal-page-padding;
   }
 

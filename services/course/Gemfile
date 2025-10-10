@@ -51,6 +51,8 @@ gem 'xikolo-config', path: './gems/xikolo-config'
 gem 'xikolo-s3', path: './gems/xikolo-s3'
 gem 'xikolo-sidekiq', path: './gems/xikolo-sidekiq'
 
+gem 'course_service', path: 'engines/course_service'
+
 # Versioning of ActiveRecords
 gem 'paper_trail', '~> 16.0'
 

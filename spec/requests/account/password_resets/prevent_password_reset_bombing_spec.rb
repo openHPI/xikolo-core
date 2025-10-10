@@ -16,12 +16,7 @@ describe 'Prevent password reset bombing', type: :request do
     Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new
     Rack::Attack.reset!
 
-    Stub.service(
-      :account,
-      sessions_url: '/sessions',
-      session_url: '/sessions/{id}',
-      password_resets_url: '/password_resets'
-    )
+    Stub.service(:account, build(:'account:root'))
 
     Stub.request(
       :account, :post, '/password_resets',

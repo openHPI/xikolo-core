@@ -1,7 +1,7 @@
 - content_for :page_header_slim
   = render Global::PageHeader.new(t(:'admin.polls.edit_poll'), subtitle: t(:'admin.page_header'), type: :slim)
 
-.container
+.bs-container
   .row
     .col-md-12.mt20
       = render 'admin/polls/form', poll: @poll

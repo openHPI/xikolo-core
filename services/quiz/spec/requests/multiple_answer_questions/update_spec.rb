@@ -18,11 +18,7 @@ RSpec.describe 'Multiple Answer Questions: Update', type: :request do
   end
 
   before do
-    Stub.service(
-      :course,
-      items_url: 'http://course.xikolo.tld/items',
-      item_url: 'http://course.xikolo.tld/items/{id}'
-    )
+    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, '/items',
       query: {content_id: question.quiz_id}

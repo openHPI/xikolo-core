@@ -2,7 +2,7 @@
   = render Global::PageHeader.new(t(:'admin.classifiers.courses.sort.title'), subtitle: t(:'admin.page_header'), type: :slim) do |c|
     - c.with_pill @classifier.title, color: :note, size: :small
 
-.container
+.bs-container
   .mt20.mb10
     - if @classifier.courses.any?
       = render Global::Callout.new(t(:'admin.classifiers.courses.sort.info'))

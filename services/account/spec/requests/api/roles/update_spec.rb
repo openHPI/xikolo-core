@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Role: Update', type: :request do
   subject(:resource) { api.rel(:role).patch(data, params: {id: data[:name]}).value! }
 
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(account_service_url).get.value! }
   let(:data) do
     {
       name: 'account.admins',
@@ -13,14 +13,14 @@ describe 'Role: Update', type: :request do
     }
   end
 
-  let!(:role) { create(:role, name: 'account.admins', permissions: ['account.users.index']) }
+  let!(:role) { create(:'account_service/role', name: 'account.admins', permissions: ['account.users.index']) }
 
   it 'responds with 200 Ok' do
     expect(resource).to respond_with :ok
   end
 
   it 'has location to updated resource' do
-    expect(resource.follow).to eq role_url Role.last
+    expect(resource.follow).to eq account_service.role_url Role.last
   end
 
   it 'does not create new database record' do

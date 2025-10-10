@@ -3,8 +3,8 @@
 require 'spec_helper'
 
 describe 'Role: Show', type: :request do
-  let(:api) { Restify.new(:test).get.value! }
-  let!(:role) { create(:role) }
+  let(:api) { Restify.new(account_service_url).get.value! }
+  let!(:role) { create(:'account_service/role') }
 
   context 'by id' do
     subject(:resource) { api.rel(:role).get({id: role.id}).value! }
@@ -21,7 +21,7 @@ describe 'Role: Show', type: :request do
   context 'by name' do
     subject(:resource) { api.rel(:role).get({id: role.name}).value! }
 
-    let!(:role) { create(:role, name: 'account.admins') }
+    let!(:role) { create(:'account_service/role', name: 'account.admins') }
 
     it 'responds successful' do
       expect(resource).to respond_with :ok

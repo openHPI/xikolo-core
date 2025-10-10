@@ -5,15 +5,15 @@ require 'spec_helper'
 describe 'Group Profile Field Stats', type: :request do
   subject(:resource) { base.rel(:profile_field_stats).get({id: field_name}).value! }
 
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(account_service_url).get.value! }
   let(:base) { api.rel(:group).get({id: group}).value! }
   let(:field_name) { 'background' }
 
-  let(:group) { create(:group) }
-  let(:users) { create_list(:user, 10) }
+  let(:group) { create(:'account_service/group') }
+  let(:users) { create_list(:'account_service/user', 10) }
 
   let!(:field) do
-    create(:custom_select_field,
+    create(:'account_service/custom_select_field',
       name: :background,
       title: 'Background in IT',
       values: ['None', 'Up to 1 year', 'Up to 5 years',
@@ -57,7 +57,7 @@ describe 'Group Profile Field Stats', type: :request do
   context 'for a field without any submissions' do
     let(:field_name) { 'occupation' }
     let!(:empty_field) do
-      create(:custom_select_field,
+      create(:'account_service/custom_select_field',
         name: :occupation,
         title: 'Occupation',
         values: ['None', 'Busy Ness'],

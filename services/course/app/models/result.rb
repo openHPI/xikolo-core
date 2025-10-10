@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Result < ApplicationRecord
+  self.table_name = :results
+
   validates :user_id, presence: true
   validates :dpoints,
     numericality: {only_integer: true, message: 'invalid_format'}

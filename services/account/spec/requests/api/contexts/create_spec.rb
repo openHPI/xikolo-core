@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Context: Creation', type: :request do
   subject(:resource) { api.rel(:contexts).post(data).value! }
 
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(account_service_url).get.value! }
   let(:data) { {} }
 
   it 'responds with a created status' do
@@ -13,7 +13,7 @@ describe 'Context: Creation', type: :request do
   end
 
   it 'responds with a follow location to the created resource' do
-    expect(resource.follow).to eq context_url(Context.non_root.last)
+    expect(resource.follow).to eq account_service.context_url(Context.non_root.last)
   end
 
   it 'creates a database record' do

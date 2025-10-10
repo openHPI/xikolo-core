@@ -5,7 +5,7 @@ require 'spec_helper'
 describe Feature::Update, type: :operation do
   subject(:operation) { described_class.new(owner, context) }
 
-  let(:owner) { create(:group) }
+  let(:owner) { create(:'account_service/group') }
   let(:context) { Context.root }
   let(:features) do
     {
@@ -35,7 +35,7 @@ describe Feature::Update, type: :operation do
 
   context 'with one existing record' do
     let!(:existing) do
-      create(:feature, owner:, context:, name: 'feature.a', value: 0)
+      create(:'account_service/feature', owner:, context:, name: 'feature.a', value: 0)
     end
 
     it 'updates existing feature' do

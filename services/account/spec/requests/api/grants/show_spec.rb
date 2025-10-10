@@ -5,10 +5,10 @@ require 'spec_helper'
 describe 'Grants: Show', type: :request do
   subject(:resource) { grant.follow.get.value! }
 
-  let(:group) { create(:group) }
-  let(:role)  { create(:role) }
+  let(:group) { create(:'account_service/group') }
+  let(:role)  { create(:'account_service/role') }
 
-  let(:api)   { Restify.new(:test).get.value! }
+  let(:api)   { Restify.new(account_service_url).get.value! }
   let(:grant) { api.rel(:grants).post({group: group.to_param, role: role.to_param, context: 'root'}).value! }
 
   it 'responds with :ok' do

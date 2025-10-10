@@ -4,7 +4,7 @@
 - content_for :page_header_slim
   = render Global::PageHeader.new(t(:'admin.announcements.show.headline'), subtitle: t(:'admin.page_header'), type: :slim)
 
-.container
+.bs-container
   .row
     .col-md-10
       = render Global::Callout.new(t(:'admin.announcements.index.information'))

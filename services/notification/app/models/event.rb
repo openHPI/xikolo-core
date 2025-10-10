@@ -3,6 +3,8 @@
 require 'markdown_service'
 
 class Event < ApplicationRecord
+  self.table_name = :events
+
   has_many :notifications
 
   validates :key, presence: true

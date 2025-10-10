@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Email < ApplicationRecord
+  self.table_name = :emails
+
   delegate :url_helpers, to: 'Rails.application.routes'
 
   belongs_to :user

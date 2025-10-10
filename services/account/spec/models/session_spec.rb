@@ -3,10 +3,10 @@
 require 'spec_helper'
 
 describe Session, type: :model do
-  subject(:session) { create(:session, user:) }
+  subject(:session) { create(:'account_service/session', user:) }
 
   # User should be created before any spec to avoid catching it's events
-  let!(:user) { create(:user) }
+  let!(:user) { create(:'account_service/user') }
 
   describe '#create' do
     it 'publishes event' do

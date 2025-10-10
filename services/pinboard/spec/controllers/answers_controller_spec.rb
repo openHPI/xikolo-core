@@ -330,10 +330,7 @@ describe AnswersController, type: :controller do
     let(:answer) { attributes_for(:answer, question_id: question.id) }
 
     before do
-      Stub.service(
-        :course,
-        course_url: '/courses/{id}'
-      )
+      Stub.service(:course, build(:'course:root'))
       Stub.request(
         :course, :get, "/courses/#{question.course_id}"
       ).to_return Stub.json({

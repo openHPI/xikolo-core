@@ -1,7 +1,7 @@
 - content_for :page_header_slim
   = render Global::PageHeader.new(@document.title, subtitle: t(:'admin.page_header'), type: :slim)
 
-.container
+.bs-container
   .row
     .col-md-9
       h3 = t(:'knowledge_documents.internal.information')

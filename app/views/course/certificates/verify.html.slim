@@ -3,7 +3,7 @@
     = render Global::PageHeader.new(t(:'verify.headline'))
 
 - if @record.user_deleted?
-  .container
+  .bs-container
     .row
       .col-md-10
         = render Global::Callout.new(t(:'verify.user_deleted'), type: :error)
@@ -12,7 +12,7 @@
     - content_for :custom_meta_tags
       = tag.meta name: 'image', property: 'og:image', content: @open_badge.file_url
 
-  .container itemscope='' itemtype='http://schema.org/StructuredData'
+  .bs-container itemscope='' itemtype='http://schema.org/StructuredData'
     .row
       - if @record.purpose == :verify
         .col-md-10

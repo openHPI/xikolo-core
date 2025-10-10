@@ -1,15 +1,6 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory 'lanalytics:root', class: Hash do
-    report_types_url { '/report_types' }
-    report_jobs_url { '/report_jobs' }
-    metric_url { '/metrics/{name}' }
-    metrics_url { '/metrics' }
-
-    initialize_with { attributes.as_json }
-  end
-
   factory 'lanalytics:report_type', class: Hash do
     trait :course_report do
       type { 'course_report' }

@@ -6,11 +6,7 @@ describe '[API v2] Course: Show', type: :request do
   subject(:resource) { api.rel(:course).get(params).value! }
 
   before do
-    Stub.service(
-      :account,
-      session_url: '/sessions/{id}',
-      group_url: '/groups/{id}'
-    )
+    Stub.service(:account, build(:'account:root'))
   end
 
   let(:api) { Restify.new(:api, headers: session_headers).get.value }

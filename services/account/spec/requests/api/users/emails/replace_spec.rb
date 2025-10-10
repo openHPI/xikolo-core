@@ -5,12 +5,12 @@ require 'spec_helper'
 describe "Replace user's email addresses", type: :request do
   subject(:resource) { base.rel(:emails).put(emails).value! }
 
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(account_service_url).get.value! }
   let(:base) { api.rel(:user).get({id: user}).value! }
   let(:emails) { [] }
-  let(:user) { create(:user) }
+  let(:user) { create(:'account_service/user') }
   let!(:old_email) { user.primary_email }
-  let!(:secondary_email) { create(:email, user:, address: 'secondary@email.com', confirmed: true) }
+  let!(:secondary_email) { create(:'account_service/email', user:, address: 'secondary@email.com', confirmed: true) }
 
   context 'with a valid email address' do
     let(:emails) { [{address: 'new@email.com', primary: true, confirmed: true}] }

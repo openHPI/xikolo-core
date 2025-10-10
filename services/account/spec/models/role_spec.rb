@@ -3,9 +3,9 @@
 require 'spec_helper'
 
 describe Role, type: :model do
-  let(:role) { create(:role) }
-  let(:context) { create(:context) }
-  let(:principal) { create(:user) }
+  let(:role) { create(:'account_service/role') }
+  let(:context) { create(:'account_service/context') }
+  let(:principal) { create(:'account_service/user') }
 
   describe '.permissions' do
     subject { Role.permissions principal:, context: }
@@ -15,53 +15,53 @@ describe Role, type: :model do
     end
 
     context 'with multiple granted roles' do
-      let(:roles) { create_list(:role, 4) }
+      let(:roles) { create_list(:'account_service/role', 4) }
 
       before do
-        create(:grant, principal:, role: roles[1], context:)
-        create(:grant, principal:, role: roles[2], context: Context.root)
+        create(:'account_service/grant', principal:, role: roles[1], context:)
+        create(:'account_service/grant', principal:, role: roles[2], context: Context.root)
 
         # Create some other grants that should NOT be included
-        create(:grant, principal: create(:user), role: roles[0], context:)
-        create(:grant, principal: create(:user), role: roles[3], context: Context.root)
+        create(:'account_service/grant', principal: create(:'account_service/user'), role: roles[0], context:)
+        create(:'account_service/grant', principal: create(:'account_service/user'), role: roles[3], context: Context.root)
       end
 
       it { is_expected.to match_array roles[1].permissions + roles[2].permissions }
     end
 
     context 'with group' do
-      let(:role) { create(:role) }
-      let(:group) { create(:group) }
+      let(:role) { create(:'account_service/role') }
+      let(:group) { create(:'account_service/group') }
 
       before do
-        create(:membership, user: principal, group:)
-        create(:grant, principal: group, role:, context:)
+        create(:'account_service/membership', user: principal, group:)
+        create(:'account_service/grant', principal: group, role:, context:)
       end
 
       it { is_expected.to match_array role.permissions }
     end
 
     context 'with all users group' do
-      let(:role) { create(:role) }
+      let(:role) { create(:'account_service/role') }
 
       before do
-        create(:grant, principal: Group.all_users, role:, context:)
+        create(:'account_service/grant', principal: Group.all_users, role:, context:)
       end
 
       it { is_expected.to match_array role.permissions }
     end
 
     context 'with client application' do
-      let(:roles) { create_list(:role, 4) }
-      let(:principal) { create(:client_application) }
+      let(:roles) { create_list(:'account_service/role', 4) }
+      let(:principal) { create(:'account_service/client_application') }
 
       before do
-        create(:grant, principal:, role: roles[1], context:)
-        create(:grant, principal:, role: roles[2], context: Context.root)
+        create(:'account_service/grant', principal:, role: roles[1], context:)
+        create(:'account_service/grant', principal:, role: roles[2], context: Context.root)
 
         # Create some other grants that should NOT be included
-        create(:grant, principal: create(:client_application), role: roles[0], context:)
-        create(:grant, principal: create(:client_application), role: roles[3], context: Context.root)
+        create(:'account_service/grant', principal: create(:'account_service/client_application'), role: roles[0], context:)
+        create(:'account_service/grant', principal: create(:'account_service/client_application'), role: roles[3], context: Context.root)
       end
 
       it { is_expected.to match_array roles[1].permissions + roles[2].permissions }
@@ -76,10 +76,10 @@ describe Role, type: :model do
       let(:roles) { Role.all[1..2] }
 
       before do
-        create(:role)
-        create(:role, permissions: ['test.permission'])
-        create(:role, permissions: ['a', 'test.permission', 'b'])
-        create(:role)
+        create(:'account_service/role')
+        create(:'account_service/role', permissions: ['test.permission'])
+        create(:'account_service/role', permissions: ['a', 'test.permission', 'b'])
+        create(:'account_service/role')
       end
 
       it 'returns matching roles' do
@@ -92,11 +92,11 @@ describe Role, type: :model do
       let(:roles) { Role.all[3] }
 
       before do
-        create(:role)
-        create(:role, permissions: ['test.p1'])
-        create(:role, permissions: ['test.p2'])
-        create(:role, permissions: ['test.p1', 'test.p2'])
-        create(:role)
+        create(:'account_service/role')
+        create(:'account_service/role', permissions: ['test.p1'])
+        create(:'account_service/role', permissions: ['test.p2'])
+        create(:'account_service/role', permissions: ['test.p1', 'test.p2'])
+        create(:'account_service/role')
       end
 
       it 'returns matching roles' do

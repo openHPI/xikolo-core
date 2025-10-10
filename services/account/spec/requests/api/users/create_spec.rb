@@ -7,13 +7,13 @@ describe 'Create user', type: :request do
 
   let(:request) { api.rel(:users).post(data) }
 
-  let(:api) { Restify.new(:test).get.value! }
-  let(:data) { {**attributes_for(:user), email: 'root@localhost'} }
+  let(:api) { Restify.new(account_service_url).get.value! }
+  let(:data) { {**attributes_for(:'account_service/user'), email: 'root@localhost'} }
   let(:created_user) { User.find response['id'] }
 
   # test for side effects; we had an error declare ALL users as admin if
   # there exists an admin, so lets create one
-  before { create(:user, :admin) }
+  before { create(:'account_service/user', :admin) }
 
   it 'creates new user' do
     expect { request.value! }.to change(User, :count).from(1).to(2)
@@ -46,7 +46,7 @@ describe 'Create user', type: :request do
   describe '#headers' do
     subject { response.response.headers.to_h }
 
-    it { is_expected.to include 'LOCATION' => user_url(created_user) }
+    it { is_expected.to include 'LOCATION' => account_service.user_url(created_user) }
   end
 
   describe 'payload' do
@@ -62,7 +62,7 @@ describe 'Create user', type: :request do
   end
 
   context 'with already taken email' do
-    let!(:another_user) { create(:user) }
+    let!(:another_user) { create(:'account_service/user') }
 
     let(:data) { {**super(), email: another_user.email} }
 

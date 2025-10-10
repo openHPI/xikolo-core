@@ -11,7 +11,7 @@ RSpec.describe UserDestroyWorker do
   end
 
   let(:threshold) { nil }
-  let!(:user) { create(:user, :unconfirmed) }
+  let!(:user) { create(:'account_service/user', :unconfirmed) }
 
   it 'calls User::Destroy for the user' do
     expect(User::Destroy).to receive(:call).once.with(user)
@@ -20,7 +20,7 @@ RSpec.describe UserDestroyWorker do
 
   context 'with last access before threshold date' do
     let(:threshold) { '2024-07-26' }
-    let!(:user) { create(:user, :unconfirmed, last_access: '2024-07-25') }
+    let!(:user) { create(:'account_service/user', :unconfirmed, last_access: '2024-07-25') }
 
     it 'destroy the user record' do
       expect(User::Destroy).to receive(:call).once.with(user)
@@ -30,7 +30,7 @@ RSpec.describe UserDestroyWorker do
 
   context 'with last access after threshold date' do
     let(:threshold) { '2024-07-26' }
-    let(:user) { create(:user, :unconfirmed, last_access: '2024-07-26') }
+    let(:user) { create(:'account_service/user', :unconfirmed, last_access: '2024-07-26') }
 
     it 'does not destroy the user record' do
       expect(User::Destroy).not_to receive(:call)
@@ -40,7 +40,7 @@ RSpec.describe UserDestroyWorker do
 
   context 'without last access and a threshold date given' do
     let(:threshold) { '2024-07-26' }
-    let(:user) { create(:user, :unconfirmed) }
+    let(:user) { create(:'account_service/user', :unconfirmed) }
 
     it 'does not destroy the user record' do
       expect(User::Destroy).not_to receive(:call)

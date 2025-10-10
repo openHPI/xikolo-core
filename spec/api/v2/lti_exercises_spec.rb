@@ -22,10 +22,7 @@ describe Xikolo::V2::CourseItems::LtiExercises do
   end
 
   before do
-    Stub.service(
-      :account,
-      session_url: '/sessions/{id}'
-    )
+    Stub.service(:account, build(:'account:root'))
     api_stub_user
     api_stub_user permissions:, context_id: item.section.course.context_id
   end

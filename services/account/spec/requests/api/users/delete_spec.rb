@@ -5,11 +5,11 @@ require 'spec_helper'
 describe 'Delete user', type: :request do
   subject(:response) { request.value! }
 
-  let(:api)     { Restify.new(:test).get.value! }
+  let(:api)     { Restify.new(account_service_url).get.value! }
   let(:request) { api.rel(:user).delete(params) }
 
   let(:params) { {id: record.id} }
-  let(:record) { create(:user, avatar_uri: 's3://xikolo-public/avatars/1.png') }
+  let(:record) { create(:'account_service/user', avatar_uri: 's3://xikolo-public/avatars/1.png') }
   let(:uid)    { UUID4(record.id).to_str(format: :base62) }
 
   let(:s3_avatar_index) do
@@ -32,12 +32,12 @@ describe 'Delete user', type: :request do
   before do
     s3_avatar_index
 
-    create_list(:email, 3, user: record)
+    create_list(:'account_service/email', 3, user: record)
 
-    create(:session, user: record)
+    create(:'account_service/session', user: record)
 
     # Ensure authorization has a provider that does have an implementation
-    create(:authorization, user: record, provider: :saml)
+    create(:'account_service/authorization', user: record, provider: :saml)
   end
 
   it { is_expected.to respond_with :ok }

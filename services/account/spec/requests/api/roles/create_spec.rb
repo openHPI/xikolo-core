@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Role: Create', type: :request do
   subject(:resource) { api.rel(:roles).post(data).value! }
 
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(account_service_url).get.value! }
   let(:data) { {name: 'account.admins', permissions: ['account.users.create', 'account.users.update']} }
 
   it 'responds with a created resource' do
@@ -13,7 +13,7 @@ describe 'Role: Create', type: :request do
   end
 
   it 'responds with a follow location to created resource' do
-    expect(resource.follow.to_s).to eq role_url(Role.last)
+    expect(resource.follow.to_s).to eq account_service.role_url(Role.last)
   end
 
   it 'creates database record' do

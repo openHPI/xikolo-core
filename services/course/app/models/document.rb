@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Document < ApplicationRecord
+  self.table_name = :documents
+
   validates :title, :description, presence: true
   validates :title, uniqueness: {conditions: -> { not_deleted }}
   has_and_belongs_to_many :courses, -> { not_deleted }

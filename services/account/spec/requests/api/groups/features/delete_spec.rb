@@ -5,15 +5,15 @@ require 'spec_helper'
 describe 'Groups: Features: Delete', type: :request do
   subject(:resource) { base.rel(:features).delete({name: features[2].name}).value! }
 
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(account_service_url).get.value! }
   let(:base) { api.rel(:group).get({id: group}).value! }
-  let(:group) { create(:group) }
+  let(:group) { create(:'account_service/group') }
 
   let!(:features) do
     [
-      create_list(:feature, 2),
-      create_list(:feature, 2, owner: group),
-      create_list(:feature, 2),
+      create_list(:'account_service/feature', 2),
+      create_list(:'account_service/feature', 2, owner: group),
+      create_list(:'account_service/feature', 2),
     ].flatten
   end
 

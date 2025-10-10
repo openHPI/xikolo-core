@@ -5,8 +5,8 @@ require 'spec_helper'
 describe 'Sessions: Create with User ID', type: :request do
   subject(:resource) { api.rel(:sessions).post(payload).value! }
 
-  let(:api) { Restify.new(:test).get.value! }
-  let(:user) { create(:user) }
+  let(:api) { Restify.new(account_service_url).get.value! }
+  let(:user) { create(:'account_service/user') }
 
   let(:response) do
     resource.response
@@ -18,9 +18,9 @@ describe 'Sessions: Create with User ID', type: :request do
     let(:uid) { '1337' }
     let(:name) { 'John Doe' }
     let(:provider) { 'saml' }
-    let(:email) { attributes_for(:email)[:address] }
+    let(:email) { attributes_for(:'account_service/email')[:address] }
     let(:authorization) do
-      create(:authorization, user: nil, provider:, info:, uid:)
+      create(:'account_service/authorization', user: nil, provider:, info:, uid:)
     end
     let(:payload) { {authorization: authorization.id} }
 
@@ -36,7 +36,7 @@ describe 'Sessions: Create with User ID', type: :request do
       context '(welcome mail)' do
         context 'with user registration enabled' do
           before do
-            create(:feature, name: 'account.registration', owner: Group.all_users)
+            create(:'account_service/feature', name: 'account.registration', owner: Group.all_users)
           end
 
           it 'triggers a welcome mail' do

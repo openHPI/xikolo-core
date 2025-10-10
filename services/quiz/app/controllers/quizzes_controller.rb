@@ -41,14 +41,14 @@ class QuizzesController < ApplicationController
     xml_string = params[:xml].presence || params[:xml_string]
 
     if xml_string.present? && params[:course_id].present?
-      XMLImporter::Quiz.new(params[:course_code], params[:course_id], xml_string).create_quizzes!
+      XmlImporter::Quiz.new(params[:course_code], params[:course_id], xml_string).create_quizzes!
       head :no_content
     else
       quiz = Quiz.new id: UUID4.new
       respond_with Quiz::Store.call quiz, quiz_params
     end
-  rescue XMLImporter::SchemaError,
-         XMLImporter::ParameterError => e
+  rescue XmlImporter::SchemaError,
+         XmlImporter::ParameterError => e
     render json: {errors: e.errors}, status: :unprocessable_content
   rescue ActiveRecord::RecordInvalid => e
     render json: {errors: [e.message]}, status: :unprocessable_content
@@ -104,7 +104,7 @@ class QuizzesController < ApplicationController
       return render json: {errors:}, status: :unprocessable_content
     end
 
-    importer = XMLImporter::Quiz.new(params[:course_code], params[:course_id], params[:xml])
+    importer = XmlImporter::Quiz.new(params[:course_code], params[:course_id], params[:xml])
 
     quizzes = Array.wrap(importer.preprocess!['quizzes']['quiz']).map do |quiz|
       questions = Array.wrap(quiz.dig('questions', 'question'))
@@ -129,8 +129,8 @@ class QuizzesController < ApplicationController
       params: params.except(:format, :controller, :action),
       quizzes:,
     }
-  rescue XMLImporter::SchemaError,
-         XMLImporter::ParameterError => e
+  rescue XmlImporter::SchemaError,
+         XmlImporter::ParameterError => e
     render json: {errors: e.errors}, status: :unprocessable_content
   end
 

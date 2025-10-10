@@ -5,14 +5,14 @@ require 'spec_helper'
 describe 'List user consents', type: :request do
   subject(:resource) { base.rel(:consents).patch(data).value! }
 
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(account_service_url).get.value! }
   let(:base) { api.rel(:user).get({id: user}).value! }
 
-  let(:user) { create(:user) }
+  let(:user) { create(:'account_service/user') }
 
   let(:data) { {} }
-  let!(:treatments) { create_list(:treatment, 3) }
-  let!(:consent) { create(:consent, user:, treatment: treatments[1]) }
+  let!(:treatments) { create_list(:'account_service/treatment', 3) }
+  let!(:consent) { create(:'account_service/consent', user:, treatment: treatments[1]) }
 
   around {|e| Timecop.freeze(&e) }
 
@@ -27,20 +27,20 @@ describe 'List user consents', type: :request do
       'name' => treatments[0].name,
       'required' => treatments[0].required,
       'consented' => nil,
-      'self_url' => user_consent_url(user, treatments[0])
+      'self_url' => account_service.user_consent_url(user, treatments[0])
 
     expect(resource[1]).to match \
       'name' => treatments[1].name,
       'required' => treatments[1].required,
       'consented' => true,
       'consented_at' => consent.consented_at.iso8601(0),
-      'self_url' => user_consent_url(user, treatments[1])
+      'self_url' => account_service.user_consent_url(user, treatments[1])
 
     expect(resource[2]).to match \
       'name' => treatments[2].name,
       'required' => treatments[2].required,
       'consented' => nil,
-      'self_url' => user_consent_url(user, treatments[2])
+      'self_url' => account_service.user_consent_url(user, treatments[2])
   end
 
   context 'with ID-based list update' do
@@ -66,20 +66,20 @@ describe 'List user consents', type: :request do
         'required' => treatments[0].required,
         'consented' => true,
         'consented_at' => Time.now.utc.iso8601(0),
-        'self_url' => user_consent_url(user, treatments[0])
+        'self_url' => account_service.user_consent_url(user, treatments[0])
 
       expect(resource[1]).to match \
         'name' => treatments[1].name,
         'required' => treatments[1].required,
         'consented' => true,
         'consented_at' => consent.consented_at.iso8601(0),
-        'self_url' => user_consent_url(user, treatments[1])
+        'self_url' => account_service.user_consent_url(user, treatments[1])
 
       expect(resource[2]).to match \
         'name' => treatments[2].name,
         'required' => treatments[2].required,
         'consented' => nil,
-        'self_url' => user_consent_url(user, treatments[2])
+        'self_url' => account_service.user_consent_url(user, treatments[2])
     end
 
     it 'creates a membership for the feature group' do
@@ -111,20 +111,20 @@ describe 'List user consents', type: :request do
         'required' => treatments[0].required,
         'consented' => true,
         'consented_at' => Time.now.utc.iso8601(0),
-        'self_url' => user_consent_url(user, treatments[0])
+        'self_url' => account_service.user_consent_url(user, treatments[0])
 
       expect(resource[1]).to match \
         'name' => treatments[1].name,
         'required' => treatments[1].required,
         'consented' => true,
         'consented_at' => consent.consented_at.iso8601(0),
-        'self_url' => user_consent_url(user, treatments[1])
+        'self_url' => account_service.user_consent_url(user, treatments[1])
 
       expect(resource[2]).to match \
         'name' => treatments[2].name,
         'required' => treatments[2].required,
         'consented' => nil,
-        'self_url' => user_consent_url(user, treatments[2])
+        'self_url' => account_service.user_consent_url(user, treatments[2])
     end
 
     it 'creates a membership for the feature group' do
@@ -159,21 +159,21 @@ describe 'List user consents', type: :request do
         'required' => treatments[0].required,
         'consented' => true,
         'consented_at' => Time.now.utc.iso8601(0),
-        'self_url' => user_consent_url(user, treatments[0])
+        'self_url' => account_service.user_consent_url(user, treatments[0])
 
       expect(resource[1]).to match \
         'name' => treatments[1].name,
         'required' => treatments[1].required,
         'consented' => true,
         'consented_at' => consent.consented_at.iso8601(0),
-        'self_url' => user_consent_url(user, treatments[1])
+        'self_url' => account_service.user_consent_url(user, treatments[1])
 
       expect(resource[2]).to match \
         'name' => treatments[2].name,
         'required' => treatments[2].required,
         'consented' => true,
         'consented_at' => Time.now.utc.iso8601(0),
-        'self_url' => user_consent_url(user, treatments[2])
+        'self_url' => account_service.user_consent_url(user, treatments[2])
     end
 
     it 'creates a membership for the feature groups' do
@@ -206,20 +206,20 @@ describe 'List user consents', type: :request do
         'required' => treatments[0].required,
         'consented' => false,
         'consented_at' => Time.now.utc.iso8601(0),
-        'self_url' => user_consent_url(user, treatments[0])
+        'self_url' => account_service.user_consent_url(user, treatments[0])
 
       expect(resource[1]).to match \
         'name' => treatments[1].name,
         'required' => treatments[1].required,
         'consented' => true,
         'consented_at' => consent.consented_at.iso8601(0),
-        'self_url' => user_consent_url(user, treatments[1])
+        'self_url' => account_service.user_consent_url(user, treatments[1])
 
       expect(resource[2]).to match \
         'name' => treatments[2].name,
         'required' => treatments[2].required,
         'consented' => nil,
-        'self_url' => user_consent_url(user, treatments[2])
+        'self_url' => account_service.user_consent_url(user, treatments[2])
     end
 
     it 'does not create a membership for the feature group' do
@@ -244,20 +244,20 @@ describe 'List user consents', type: :request do
         'name' => treatments[0].name,
         'required' => treatments[0].required,
         'consented' => nil,
-        'self_url' => user_consent_url(user, treatments[0])
+        'self_url' => account_service.user_consent_url(user, treatments[0])
 
       expect(resource[1]).to match \
         'name' => treatments[1].name,
         'required' => treatments[1].required,
         'consented' => false,
         'consented_at' => consent.consented_at.iso8601(0),
-        'self_url' => user_consent_url(user, treatments[1])
+        'self_url' => account_service.user_consent_url(user, treatments[1])
 
       expect(resource[2]).to match \
         'name' => treatments[2].name,
         'required' => treatments[2].required,
         'consented' => nil,
-        'self_url' => user_consent_url(user, treatments[2])
+        'self_url' => account_service.user_consent_url(user, treatments[2])
     end
 
     it 'deletes the membership for the Treatment group' do

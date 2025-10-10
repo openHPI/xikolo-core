@@ -1,7 +1,7 @@
 - content_for :page_header_slim do
   = render Global::PageHeader.new(t(:'admin.video_providers.title'), subtitle: t(:'admin.page_header'), type: :slim)
 
-.container
+.bs-container
   .row.pt10
     .col-md-9
       table.table.table-striped.table-condensed.table-hover

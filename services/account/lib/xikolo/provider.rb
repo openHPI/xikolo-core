@@ -4,7 +4,7 @@ module Xikolo
   module Provider
     class << self
       def find(name)
-        Provider.const_get name.camelize
+        "Xikolo::Provider::#{name.camelize}".constantize
       rescue NameError
         nil
       end

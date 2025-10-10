@@ -269,11 +269,7 @@ describe Course, type: :model do
       let(:user_groups) { [] }
 
       before do
-        Stub.service(
-          :account,
-          group_url: '/groups/{id}',
-          groups_url: '/groups'
-        )
+        Stub.service(:account, build(:'account:root'))
 
         Stub.request(
           :account,

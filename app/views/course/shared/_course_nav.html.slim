@@ -16,7 +16,7 @@
       - if deadlines.show?
         - c.with_additional_item
           .dropdown.pull-right.course-deadlines
-            button.dropdown-toggle class="state-#{deadlines.state}" type="button" title=t(:'next_dates.deadline_widget.tooltip') data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
+            button.dropdown-toggle.cpointer class="state-#{deadlines.state}" type="button" title=t(:'next_dates.deadline_widget.tooltip') data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
               = render Global::FaIcon.new('alarm-clock')
               - if deadlines.any?
                 span.course-deadlines__bubble = deadlines.count

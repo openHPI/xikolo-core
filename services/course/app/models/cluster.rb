@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Cluster < ApplicationRecord
+  self.table_name = :clusters
+
   has_many :classifiers, -> { order(:title) },
     inverse_of: :cluster,
     dependent: :delete_all

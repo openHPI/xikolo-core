@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ContentTest < ApplicationRecord
+  self.table_name = :content_tests
+
   IDENTIFIER_REGEXP = /\A[[:alnum:]]+(-[[:alnum:]]+)*\z/
 
   belongs_to :course

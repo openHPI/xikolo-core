@@ -7,7 +7,7 @@ describe CreateNotificationsWorker, type: :worker do
 
   let(:worker) { CreateNotificationsWorker.new }
 
-  let(:event) { create(:event, key: 'pinboard.discussion.new') }
+  let(:event) { create(:'notification_service/event', key: 'pinboard.discussion.new') }
 
   let(:event_id) { event.id }
   let(:subscriber_ids) { [] }

@@ -6,7 +6,7 @@ describe Regrading::UpdateCourseResults, type: :model do
   subject(:update_results) { described_class.new(Logger.new(IO::NULL), quiz.id) }
 
   before do
-    Stub.service(:course, items_url: '/items', result_url: '/results/{id}')
+    Stub.service(:course, build(:'course:root'))
   end
 
   let!(:quiz) { create(:quiz) }

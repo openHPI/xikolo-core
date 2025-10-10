@@ -130,7 +130,7 @@ describe DashboardController, type: :controller do
         end
 
         before do
-          Stub.service(:course, course_url: '/courses/{id}')
+          Stub.service(:course, build(:'course:root'))
 
           Stub.request(
             :course, :get, '/enrollments',

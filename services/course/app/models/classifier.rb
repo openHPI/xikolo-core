@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Classifier < ApplicationRecord
+  self.table_name = :classifiers
+
   has_and_belongs_to_many :courses
   belongs_to :cluster
 

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :event do
+  factory :'notification_service/event', class: 'Event' do
     key { 'news.announcement' }
     course_id
     public { true }
