@@ -7,7 +7,7 @@ FactoryBot.define do
     UUID4(SecureRandom.uuid)
   end
 
-  factory :item do
+  factory :'timeeffort_service/item', class: 'Item' do
     id { '00000001-3300-4444-9999-000000000001' }
     content_id { '00000001-3800-4444-9999-000000000001' }
     content_type { 'quiz' }
@@ -22,8 +22,8 @@ FactoryBot.define do
     end
   end
 
-  factory :time_effort_job do
-    association :item
+  factory :'timeeffort_service/time_effort_job', class: 'TimeEffortJob' do
+    association :item, factory: :'timeeffort_service/item'
     job_id { nil }
     status { 'waiting' }
 
@@ -37,13 +37,13 @@ FactoryBot.define do
     end
   end
 
-  factory :video, class: 'Duplicated::Video' do
+  factory :'timeeffort_service/video', class: 'Duplicated::Video' do
     pip_stream_id { SecureRandom.uuid }
 
     trait :pip
   end
 
-  factory :stream, class: 'Duplicated::Stream' do
+  factory :'timeeffort_service/stream', class: 'Duplicated::Stream' do
     provider_video_id { '123456abcdef' }
     duration { 1800 }
   end

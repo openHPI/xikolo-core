@@ -11,7 +11,7 @@ RSpec.describe 'Item: overwrite_time_effort', type: :request do
   let(:item_id) { '00000001-3300-4444-9999-000000000001' }
   let(:old_time_effort) { 22 }
   let(:new_time_effort) { 55 }
-  let(:item) { create(:item, id: item_id, time_effort: old_time_effort) }
+  let(:item) { create(:'timeeffort_service/item', id: item_id, time_effort: old_time_effort) }
   let(:payload) { {time_effort: new_time_effort} }
   let(:overwrite_time_effort_operation) { instance_double(Operation) }
 

@@ -8,7 +8,7 @@ RSpec.describe Item, type: :model do
   let(:time_effort) { 20 }
   let(:calculated_time_effort) { 30 }
   let(:item) do
-    create(:item,
+    create(:'timeeffort_service/item',
       time_effort:, calculated_time_effort:)
   end
 
@@ -56,7 +56,7 @@ RSpec.describe Item, type: :model do
 
     context 'w/ time effort overwritten' do
       let(:item) do
-        create(:item, :time_effort_overwritten,
+        create(:'timeeffort_service/item', :time_effort_overwritten,
           time_effort:, calculated_time_effort:)
       end
       let(:new_time_effort) { 40 }
@@ -82,7 +82,7 @@ RSpec.describe Item, type: :model do
 
     let(:old_time_effort) { 22 }
     let(:new_time_effort) { 55 }
-    let(:item) { create(:item, time_effort: old_time_effort) }
+    let(:item) { create(:'timeeffort_service/item', time_effort: old_time_effort) }
 
     it 'sets the new time effort' do
       expect { overwrite_effort }.to change { item.reload.time_effort }.from(old_time_effort).to(new_time_effort)
@@ -100,7 +100,7 @@ RSpec.describe Item, type: :model do
     let(:calculated_time_effort) { 55 }
 
     let(:item) do
-      create(:item, :time_effort_overwritten,
+      create(:'timeeffort_service/item', :time_effort_overwritten,
         time_effort: old_time_effort, calculated_time_effort:)
     end
 
@@ -116,7 +116,7 @@ RSpec.describe Item, type: :model do
   describe '#processor' do
     subject(:processor) { item.processor }
 
-    let(:item) { create(:item, content_type:) }
+    let(:item) { create(:'timeeffort_service/item', content_type:) }
 
     context 'rich_text item' do
       let(:content_type) { 'rich_text' }

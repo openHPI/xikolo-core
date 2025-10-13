@@ -5,8 +5,8 @@ require 'rails_helper'
 RSpec.describe TimeEffortJob, type: :model do
   subject(:create_job) { time_effort_job }
 
-  let(:item) { create(:item) }
-  let(:time_effort_job) { create(:time_effort_job, item:) }
+  let(:item) { create(:'timeeffort_service/item') }
+  let(:time_effort_job) { create(:'timeeffort_service/time_effort_job', item:) }
 
   it 'creates a new item' do
     expect(create_job.id).not_to be_nil
@@ -15,7 +15,7 @@ RSpec.describe TimeEffortJob, type: :model do
   describe 'cancel_active_jobs callback' do
     it 'marks the existing job as canceled' do
       expect do
-        create(:time_effort_job, item:)
+        create(:'timeeffort_service/time_effort_job', item:)
       end.to change { time_effort_job.reload.status }.from('waiting').to('cancelled')
     end
   end
@@ -42,7 +42,7 @@ RSpec.describe TimeEffortJob, type: :model do
     end
 
     context 'w/ job cancelled' do
-      let(:time_effort_job) { create(:time_effort_job, :cancelled) }
+      let(:time_effort_job) { create(:'timeeffort_service/time_effort_job', :cancelled) }
 
       it 'does not mark the TimeEffortJob as started' do
         expect { start_job }.not_to change { time_effort_job.reload.status }
@@ -75,15 +75,15 @@ RSpec.describe TimeEffortJob, type: :model do
   describe '#calculation_processor' do
     subject(:processor) { time_effort_job.calculation_processor }
 
-    let(:item) { create(:item) }
-    let(:time_effort_job) { create(:time_effort_job, item:) }
+    let(:item) { create(:'timeeffort_service/item') }
+    let(:time_effort_job) { create(:'timeeffort_service/time_effort_job', item:) }
 
     it 'returns a processor' do
       expect(processor).to be_a(Processors::BaseProcessor)
     end
 
     context 'w/ richtext item' do
-      let(:item) { create(:item, content_type: 'rich_text') }
+      let(:item) { create(:'timeeffort_service/item', content_type: 'rich_text') }
 
       it 'returns the correct processor for rich texts' do
         expect(processor).to be_an_instance_of(Processors::RichTextProcessor)
@@ -91,7 +91,7 @@ RSpec.describe TimeEffortJob, type: :model do
     end
 
     context 'w/ video item' do
-      let(:item) { create(:item, content_type: 'video') }
+      let(:item) { create(:'timeeffort_service/item', content_type: 'video') }
 
       it 'returns the correct processor for rich texts' do
         expect(processor).to be_an_instance_of(Processors::VideoProcessor)
@@ -99,7 +99,7 @@ RSpec.describe TimeEffortJob, type: :model do
     end
 
     context 'w/ quiz item' do
-      let(:item) { create(:item, content_type: 'quiz') }
+      let(:item) { create(:'timeeffort_service/item', content_type: 'quiz') }
 
       it 'returns the correct processor for rich texts' do
         expect(processor).to be_an_instance_of(Processors::QuizProcessor)
@@ -110,7 +110,7 @@ RSpec.describe TimeEffortJob, type: :model do
   describe '#cancel_active_jobs' do
     subject(:cancel_jobs) { described_class.cancel_active_jobs time_effort_job.item_id }
 
-    let(:time_effort_job) { create(:time_effort_job, item:) }
+    let(:time_effort_job) { create(:'timeeffort_service/time_effort_job', item:) }
 
     context 'w/ job waiting' do
       it 'marks the waiting job as canceled' do
@@ -121,7 +121,7 @@ RSpec.describe TimeEffortJob, type: :model do
     end
 
     context 'w/ job started' do
-      let(:time_effort_job) { create(:time_effort_job, :started, item:) }
+      let(:time_effort_job) { create(:'timeeffort_service/time_effort_job', :started, item:) }
 
       it 'marks the started job as canceled' do
         expect do
@@ -131,7 +131,7 @@ RSpec.describe TimeEffortJob, type: :model do
     end
 
     context 'w/ job cancelled' do
-      let(:time_effort_job) { create(:time_effort_job, :cancelled, item:) }
+      let(:time_effort_job) { create(:'timeeffort_service/time_effort_job', :cancelled, item:) }
 
       it 'does not cancel the already cancelled job' do
         expect do

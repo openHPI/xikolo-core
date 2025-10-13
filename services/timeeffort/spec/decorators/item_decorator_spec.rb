@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe ItemDecorator, type: :decorator do
-  let(:item) { create(:item) }
+  let(:item) { create(:'timeeffort_service/item') }
   let(:decorator) { item.decorate }
 
   context 'as_json' do

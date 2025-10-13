@@ -110,7 +110,7 @@ RSpec.describe ItemConsumer, type: :consumer do
             course_id:,
           }
         end
-        let!(:item) { create(:item, item_params) }
+        let!(:item) { create(:'timeeffort_service/item', item_params) }
 
         it 'does not create a new Item' do
           expect { item_event }.not_to change(Item, :count)
@@ -196,7 +196,7 @@ RSpec.describe ItemConsumer, type: :consumer do
     let(:msgr_route) { 'xikolo.course.item.destroy' }
 
     context 'w/ existing item' do
-      let!(:item) { create(:item) }
+      let!(:item) { create(:'timeeffort_service/item') }
       let(:payload) { {id: item.id} }
 
       it 'destroys the Item' do
@@ -204,7 +204,7 @@ RSpec.describe ItemConsumer, type: :consumer do
       end
 
       context 'w/ active job' do
-        let(:existing_time_effort_job) { create(:time_effort_job, item_id: payload[:id]) }
+        let(:existing_time_effort_job) { create(:'timeeffort_service/time_effort_job', item_id: payload[:id]) }
 
         before do
           # Ensure the time effort job exists

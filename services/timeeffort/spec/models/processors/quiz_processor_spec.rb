@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Processors::QuizProcessor, type: :model do
   let(:content_type) { 'quiz' }
-  let(:item) { create(:item, content_type:) }
+  let(:item) { create(:'timeeffort_service/item', content_type:) }
   let(:processor) { described_class.new item }
   let(:quiz_instruction) { 'Some instructions' }
   let(:question_markup) { 'Some question?' }

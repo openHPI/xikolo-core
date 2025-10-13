@@ -5,8 +5,8 @@ require 'rails_helper'
 RSpec.describe CalculateTimeEffortJob, type: :job do
   subject(:execute_job) { perform_enqueued_jobs { enqueue_job } }
 
-  let(:item) { create(:item) }
-  let!(:time_effort_job) { create(:time_effort_job, item:) }
+  let(:item) { create(:'timeeffort_service/item') }
+  let!(:time_effort_job) { create(:'timeeffort_service/time_effort_job', item:) }
   let(:key) { time_effort_job.id }
   let(:calculation_processor) { instance_double(Processors::BaseProcessor) }
   let(:enqueue_job) { described_class.perform_later(key) }
@@ -65,7 +65,7 @@ RSpec.describe CalculateTimeEffortJob, type: :job do
     end
 
     context 'w/ job execution cancelled' do
-      let(:time_effort_job) { create(:time_effort_job, :cancelled, item:) }
+      let(:time_effort_job) { create(:'timeeffort_service/time_effort_job', :cancelled, item:) }
 
       it 'skips loading of resources' do
         expect(calculation_processor).not_to receive(:load_resources!)

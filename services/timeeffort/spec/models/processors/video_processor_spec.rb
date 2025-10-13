@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe Processors::VideoProcessor, type: :model do
-  let(:video) { create(:video, pip_stream:) }
-  let(:pip_stream) { create(:stream, duration: 1800) }
+  let(:video) { create(:'timeeffort_service/video', pip_stream:) }
+  let(:pip_stream) { create(:'timeeffort_service/stream', duration: 1800) }
   let(:content_type) { 'video' }
-  let(:item) { create(:item, content_type:, content_id: video.id) }
+  let(:item) { create(:'timeeffort_service/item', content_type:, content_id: video.id) }
   let(:processor) { described_class.new item }
 
   describe '#initialize' do

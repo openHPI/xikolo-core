@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Processors::BaseProcessor, type: :model do
   let(:time_effort) { 10 }
-  let(:item) { create(:item, time_effort:) }
+  let(:item) { create(:'timeeffort_service/item', time_effort:) }
   let(:processor) { described_class.new item }
 
   describe '#initialize' do
@@ -40,7 +40,7 @@ RSpec.describe Processors::BaseProcessor, type: :model do
         let(:set_calculated_time_effort_operation) { Operation.new }
 
         context 'w/ time effort overwritten' do
-          let(:item) { create(:item, :time_effort_overwritten, time_effort:) }
+          let(:item) { create(:'timeeffort_service/item', :time_effort_overwritten, time_effort:) }
 
           it 'does not patch the course item' do
             patch_items

@@ -9,7 +9,7 @@ RSpec.describe 'Item: clear_overwritten_time_effort', type: :request do
 
   let(:api) { Restify.new(:test).get.value! }
   let(:item_id) { '00000001-3300-4444-9999-000000000001' }
-  let(:item) { create(:item, id: item_id) }
+  let(:item) { create(:'timeeffort_service/item', id: item_id) }
 
   context 'w/o time effort_overwritten' do
     it 'responds with the unchanged item' do
@@ -26,7 +26,7 @@ RSpec.describe 'Item: clear_overwritten_time_effort', type: :request do
   end
 
   context 'w/ time effort overwritten' do
-    let(:item) { create(:item, :time_effort_overwritten, id: item_id) }
+    let(:item) { create(:'timeeffort_service/item', :time_effort_overwritten, id: item_id) }
     let(:patch_item_status) { 204 }
 
     let!(:course_item_stub) do

@@ -31,7 +31,7 @@ RSpec.describe QuizConsumer, type: :consumer do
           content_type: 'quiz',
         }
       end
-      let!(:item) { create(:item, item_params) }
+      let!(:item) { create(:'timeeffort_service/item', item_params) }
 
       it 'creates a TimeEffortJob for the item and schedules a new job' do
         expect(TimeEffortJob).to receive(:create!).once
@@ -78,7 +78,7 @@ RSpec.describe QuizConsumer, type: :consumer do
             content_type: 'quiz',
           }
         end
-        let!(:item) { create(:item, item_params) }
+        let!(:item) { create(:'timeeffort_service/item', item_params) }
 
         it 'creates a TimeEffortJob for the item and schedules a new job' do
           expect(TimeEffortJob).to receive(:create!).once

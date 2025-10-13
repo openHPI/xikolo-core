@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Processors::RichTextProcessor, type: :model do
   let(:content_type) { 'rich_text' }
-  let(:item) { create(:item, content_type:) }
+  let(:item) { create(:'timeeffort_service/item', content_type:) }
   let(:processor) { described_class.new item }
 
   describe '#initialize' do
