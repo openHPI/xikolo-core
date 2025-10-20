@@ -13,7 +13,7 @@
       data: {behavior: 'custom-select', 'auto-completion-url': admin_find_users_path, placeholder: t(:'global.email_or_name')}
 
     - if params[:user_id]
-      =< link_to t(:'.search_reset'), course_submissions_path
+      =< link_to t(:'.search_reset'), course_submissions_path, class: 'bs-a'
 
   - if @homework_submissions
     h2
@@ -87,7 +87,7 @@
                   value: submission['snapshot_id'],
                   button: t(:'.copy_id')
           td
-            = link_to @submission_users[submission['user_id']].name, course_submissions_path(user_id: submission['user_id'])
+            = link_to @submission_users[submission['user_id']].name, course_submissions_path(user_id: submission['user_id']), class: 'bs-a'
             br
             = link_to t(:'admin.course_management.submissions.profile'), user_path(submission['user_id']), class: 'btn btn-default btn-xs'
           td
@@ -120,7 +120,7 @@
                   = link_to t(:'quiz_submission.add_fudge_points'), '#', class: 'js-show-fudge', data: {submission: submission['id']}
               - if current_user.allowed?('quiz.submission.manage') && submission['snapshot_id'] && submission['question_count'] == 0
                 - c.with_action
-                  = link_to t(:'admin.course_management.submissions.convert_manually'), convert_submission_path(submission_id: submission['id'], snapshot_id: submission['snapshot_id']), method: :post
+                  = link_to t(:'admin.course_management.submissions.convert_manually'), convert_submission_path(submission_id: submission['id'], snapshot_id: submission['snapshot_id']), method: :post, class: 'bs-a'
 
     = will_paginate RestifyPaginationCollection.new(@submissions), renderer: PaginationRenderer
 

@@ -5,9 +5,9 @@ module Navigation
     # Use the `with_tab` slot to provide tab elements.
     def default
       render Navigation::Tabs.new do |c|
-        c.with_tab { '<a href=#>A link</a>'.html_safe }
-        c.with_tab { '<a href=#>A link</a>'.html_safe }
-        c.with_tab { '<a href=#>Another link</a>'.html_safe }
+        c.with_tab { '<a href=# class="bs-a">A link</a>'.html_safe }
+        c.with_tab { '<a href=# class="bs-a">A link</a>'.html_safe }
+        c.with_tab { '<a href=# class="bs-a">Another link</a>'.html_safe }
       end
     end
 
@@ -15,26 +15,26 @@ module Navigation
     # @label Active state
     def active
       render Navigation::Tabs.new do |c|
-        c.with_tab { '<a href=#>A link</a>'.html_safe }
-        c.with_tab(active: true) { '<a href=#>An active link</a>'.html_safe }
-        c.with_tab { '<a href=#>Another link</a>'.html_safe }
+        c.with_tab { '<a href=# class="bs-a">A link</a>'.html_safe }
+        c.with_tab(active: true) { '<a href=# class="bs-a">An active link</a>'.html_safe }
+        c.with_tab { '<a href=# class="bs-a">Another link</a>'.html_safe }
       end
     end
 
     # Use the `collapsible: true` config to enable the behavior.
     def collapsible
       render Navigation::Tabs.new(collapsible: true) do |c|
-        c.with_tab { '<a href=#>A link</a>'.html_safe }
-        c.with_tab { '<a href=#>A link</a>'.html_safe }
-        c.with_tab { '<a href=#>Another link</a>'.html_safe }
+        c.with_tab { '<a href=# class="bs-a">A link</a>'.html_safe }
+        c.with_tab { '<a href=# class="bs-a">A link</a>'.html_safe }
+        c.with_tab { '<a href=# class="bs-a">Another link</a>'.html_safe }
       end
     end
 
     # Use the slot `with_additional_content` to provide additional items.
     def additional_content
       render Navigation::Tabs.new(collapsible: true) do |c|
-        c.with_tab { '<a href=#>A link</a>'.html_safe }
-        c.with_tab { '<a href=#>A link</a>'.html_safe }
+        c.with_tab { '<a href=# class="bs-a">A link</a>'.html_safe }
+        c.with_tab { '<a href=# class="bs-a">A link</a>'.html_safe }
         c.with_additional_item { '<button class="btn btn-default" type="button">Button 1 </button>'.html_safe }
         c.with_additional_item { '<button class="btn btn-default" type="button">Button 2</button>'.html_safe }
         c.with_additional_item { '<button class="btn btn-default" type="button">Button 3</button>'.html_safe }

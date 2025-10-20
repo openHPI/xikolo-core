@@ -3,8 +3,8 @@
   .pinboard2-post--avatar
     = Global::UserAvatar.new(post.author.id, size: 'large')
   .pinboard2-post--meta
-    .author = link_to post.author.name, user_path(post.author.id)
-    .date = link_to t(:'pinboard.question.ago', timeago: time_ago_in_words(post.created_at)), anchor: post.id
+    .author = link_to post.author.name, user_path(post.author.id), class: 'bs-a'
+    .date = link_to t(:'pinboard.question.ago', timeago: time_ago_in_words(post.created_at)), class: 'bs-a', anchor: post.id
     .votes.downvotes data-votable-type='answer' data-votable-id=post.id
       / FIXME: This should be downvotes and should work for comments
       span.vote-count = post.try(:votes) || 0
@@ -19,14 +19,14 @@
     == render_markdown post.text
   .pinboard2-post--actions
     - if can_edit? post
-      = link_to t(:'question.answers.edit')
+      = link_to t(:'question.answers.edit'), class: 'bs-a'
     - if can_delete?
-      = link_to t(:'question.answers.delete'), answer_path(id: post.id), method: 'delete', data: {confirm: t(:'question.answers.sure'), disable_with: t(:'question.answers.deleting')}
+      = link_to t(:'question.answers.delete'), answer_path(id: post.id), class: 'bs-a', method: 'delete', data: {confirm: t(:'question.answers.sure'), disable_with: t(:'question.answers.deleting')}
     - if current_user.allowed? 'pinboard.entity.block'
       - unless post.blocked?
-        = link_to t(:'pinboard.reporting.block'), block_answer_path(id: post.id), method: 'post'
+        = link_to t(:'pinboard.reporting.block'), block_answer_path(id: post.id), class: 'bs-a', method: 'post'
       - unless post.reviewed?
-        = link_to t(:'pinboard.reporting.unblock'), unblock_answer_path(id: post.id), method: 'post'
+        = link_to t(:'pinboard.reporting.unblock'), unblock_answer_path(id: post.id), class: 'bs-a', method: 'post'
     - elsif !post.blocked?
       = render Pinboard::ReportButton.new(path: abuse_report_answer_path(id: post.id), test_id: 'post-report')
 

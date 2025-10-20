@@ -3,14 +3,14 @@ li
     = t(:"sections.index.label.#{item.content_type}")
   = item.title
   span.actions
-    = link_to course_item_path(id: short_uuid(item.id))
+    = link_to course_item_path(id: short_uuid(item.id)), class: 'bs-a'
       = render Global::FaIcon.new('eye', style: :solid)
-    = link_to edit_course_section_item_path section_id: section.id, id: item.id
+    = link_to edit_course_section_item_path section_id: section.id, id: item.id, class: 'bs-a'
       = render Global::FaIcon.new('pen-to-square', style: :solid)
-    = link_to course_section_item_path(section_id: section.id, id: item.id), data: {confirm: t(:'sections.item.delete')}, method: :delete
+    = link_to course_section_item_path(section_id: section.id, id: item.id), class: 'bs-a', data: {confirm: t(:'sections.item.delete')}, method: :delete
       = render Global::FaIcon.new('trash-can', style: :solid)
     - if current_user.allowed?('course.item_stats.show')
-      = link_to course_item_statistics_path(item_id: item.id)
+      = link_to course_item_statistics_path(item_id: item.id), class: 'bs-a'
         = render Global::FaIcon.new('chart-bar', style: :solid)
   span.labels.ml10
     - unless item.unlocked?

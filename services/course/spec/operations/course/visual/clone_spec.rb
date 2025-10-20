@@ -5,8 +5,8 @@ require 'spec_helper'
 describe Course::Visual::Clone do
   subject(:operation) { described_class.call(old_visual, course) }
 
-  let!(:course) { create(:course, :active) }
-  let!(:old_visual) { create(:visual, :with_video) }
+  let!(:course) { create(:'course_service/course', :active) }
+  let!(:old_visual) { create(:'course_service/visual', :with_video) }
   let!(:old_video) { old_visual&.video }
   let(:new_visual) { course.visual }
   let(:new_video) { new_visual.video }
@@ -44,9 +44,9 @@ describe Course::Visual::Clone do
     end
 
     context 'when the teaser video has subtitles' do
-      let!(:subtitle) { create(:subtitle, video: old_video) }
+      let!(:subtitle) { create(:'course_service/subtitle', video: old_video) }
       let!(:old_cue) do
-        create(:subtitle_cue, subtitle:, start: 10.seconds, stop: 20.seconds)
+        create(:'course_service/subtitle_cue', subtitle:, start: 10.seconds, stop: 20.seconds)
       end
       let(:new_subtitle) { new_video.subtitles.first }
       let(:new_cue) { new_subtitle.cues.first }
@@ -88,7 +88,7 @@ describe Course::Visual::Clone do
   end
 
   context 'with an image only' do
-    let(:old_visual) { create(:visual) }
+    let(:old_visual) { create(:'course_service/visual') }
     let(:old_video) { nil }
 
     it 'clones the visual' do
@@ -109,7 +109,7 @@ describe Course::Visual::Clone do
   end
 
   context 'with a teaser video only' do
-    let(:old_visual) { create(:visual, :with_video, image_uri: nil) }
+    let(:old_visual) { create(:'course_service/visual', :with_video, image_uri: nil) }
 
     it 'clones the visual' do
       expect { operation }.to change(Duplicated::Visual, :count).from(1).to(2)
@@ -176,7 +176,7 @@ describe Course::Visual::Clone do
       end
 
       context 'with image only' do
-        let(:old_visual) { create(:visual) }
+        let(:old_visual) { create(:'course_service/visual') }
         let(:old_video) { nil }
 
         it 'fails gracefully' do
@@ -207,8 +207,8 @@ describe Course::Visual::Clone do
 
         context 'when its existing video has subtitles' do
           before do
-            subtitle = create(:subtitle, video: old_video)
-            create(:subtitle_cue, subtitle:)
+            subtitle = create(:'course_service/subtitle', video: old_video)
+            create(:'course_service/subtitle_cue', subtitle:)
           end
 
           it 'fails gracefully' do
@@ -248,8 +248,8 @@ describe Course::Visual::Clone do
 
     context 'when an error occurs during the cloning of subtitles' do
       before do
-        subtitle = create(:subtitle, video: old_video)
-        create(:subtitle_cue, subtitle:)
+        subtitle = create(:'course_service/subtitle', video: old_video)
+        create(:'course_service/subtitle_cue', subtitle:)
         allow_any_instance_of(Duplicated::Subtitle)
           .to receive(:clone).and_raise ActiveRecord::RecordInvalid
       end

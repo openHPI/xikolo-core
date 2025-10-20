@@ -9,18 +9,18 @@ RSpec.describe LearningEvaluation::PersistForCourseWorker, type: :worker do
     end
   end
 
-  let(:course) { create(:course) }
-  let(:another_course) { create(:course) }
-  let(:section11) { create(:section, course:) }
-  let(:section12) { create(:section, course:) }
-  let(:section21) { create(:section, course: another_course) }
-  let(:section22) { create(:section, course: another_course) }
+  let(:course) { create(:'course_service/course') }
+  let(:another_course) { create(:'course_service/course') }
+  let(:section11) { create(:'course_service/section', course:) }
+  let(:section12) { create(:'course_service/section', course:) }
+  let(:section21) { create(:'course_service/section', course: another_course) }
+  let(:section22) { create(:'course_service/section', course: another_course) }
 
   before do
-    create(:item, section: section11)
-    create(:item, section: section12)
+    create(:'course_service/item', section: section11)
+    create(:'course_service/item', section: section12)
 
-    create(:item, section: section21)
+    create(:'course_service/item', section: section21)
     section22
   end
 
@@ -33,8 +33,8 @@ RSpec.describe LearningEvaluation::PersistForCourseWorker, type: :worker do
 
     context 'with enrollments for the courses' do
       before do
-        3.times { create(:enrollment, course_id: course.id, user_id: generate(:user_id)) }
-        2.times { create(:enrollment, course_id: another_course.id, user_id: generate(:user_id)) }
+        3.times { create(:'course_service/enrollment', course_id: course.id, user_id: generate(:user_id)) }
+        2.times { create(:'course_service/enrollment', course_id: another_course.id, user_id: generate(:user_id)) }
       end
 
       it 'generates all progresses' do
@@ -74,8 +74,8 @@ RSpec.describe LearningEvaluation::PersistForCourseWorker, type: :worker do
 
     context 'with enrollments for the courses' do
       before do
-        3.times { create(:enrollment, course_id: course.id, user_id: generate(:user_id)) }
-        2.times { create(:enrollment, course_id: another_course.id, user_id: generate(:user_id)) }
+        3.times { create(:'course_service/enrollment', course_id: course.id, user_id: generate(:user_id)) }
+        2.times { create(:'course_service/enrollment', course_id: another_course.id, user_id: generate(:user_id)) }
       end
 
       it 'generates all progresses' do

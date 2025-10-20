@@ -8,7 +8,7 @@ h1 = question.title
   .pinboard2-topic--details
     .tags
       - question.explicit_tags.each do |tag|
-        span.pinboard-tag-static.tag-button.pull-left = link_to tag.name, pinboard_index_path(tag_names: tag.name)
+        span.pinboard-tag-static.tag-button.pull-left = link_to tag.name, pinboard_index_path(tag_names: tag.name), class: 'bs-a'
       - if question.section
         span.pinboard-tag-static.pull-left = question.section.title
       - if question.item

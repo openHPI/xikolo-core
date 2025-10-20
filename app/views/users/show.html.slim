@@ -3,7 +3,7 @@
     .col-md-8
       - if current_user.allowed?('account.user.index')
         .pull-right
-          = link_to users_path do
+          = link_to users_path, class: 'bs-a' do
             = render Global::FaIcon.new('arrow-left', style: :solid, css_classes: 'mr5')
             = t(:'.back_to_list')
         .clearfix
@@ -107,7 +107,7 @@
               - enrolled_courses.each do |item|
                 tr
                   td = item.course.course_code
-                  td = link_to item.course.title, course_path(id: item.course.course_code)
+                  td = link_to item.course.title, course_path(id: item.course.course_code), class: 'bs-a'
                   - if current_user.allowed_any?('course.course.teaching_anywhere', 'quiz.submission.index')
                     / todo: check whether the current user is teacher specifically in this course and only show the link if this is the case.
                     td = t(:".completed_#{item.enrollment.completed}")

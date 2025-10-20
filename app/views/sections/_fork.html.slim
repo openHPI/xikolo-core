@@ -8,5 +8,5 @@
         ul.items
           - node.children.each do |child|
             = render partial: 'branch', locals: {section:, node: child, branch: child.branch}
-            hr
+            hr.bs-hr
         .mt10

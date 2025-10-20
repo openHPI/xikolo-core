@@ -6,6 +6,6 @@
   ul.dropdown-menu aria-labelledby="platform-dashboard-menu"
     - nav.items.each do |item|
       li class=(item.active?(request) ? 'active' : '')
-        = link_to item.link
+        = link_to item.link, class: 'bs-a'
           = render Global::FaIcon.new(item.icon_class, style: :solid, css_classes: 'dropdown-icon fa-fw')
           = item.text

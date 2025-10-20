@@ -8,7 +8,7 @@ describe 'Progresses: List', type: :request do
   let(:api) { Restify.new(:test).get.value }
   let(:params) { {} }
   let(:user_id) { generate(:user_id) }
-  let(:course) { create(:course) }
+  let(:course) { create(:'course_service/course') }
 
   context 'without valid course and user provided' do
     it 'responds with 404 Not Found' do
@@ -38,14 +38,14 @@ describe 'Progresses: List', type: :request do
     let(:params) do
       super().merge(user_id:, course_id: course.id)
     end
-    let(:section) { create(:section, course:, title: 'Week 1', start_date: 10.days.ago) }
+    let(:section) { create(:'course_service/section', course:, title: 'Week 1', start_date: 10.days.ago) }
 
     before do
       [
-        create(:item, :quiz, :with_max_points, section:, published: true, title: 'Quiz 1'),
-        create(:item, :quiz, :with_max_points, section:, published: true, title: 'Quiz 2'),
-        create(:item, :quiz, :with_max_points, section:, published: true, title: 'Quiz 3'),
-        create(:item, :quiz, :with_max_points, section:, published: true, title: 'Quiz 4'),
+        create(:'course_service/item', :quiz, :with_max_points, section:, published: true, title: 'Quiz 1'),
+        create(:'course_service/item', :quiz, :with_max_points, section:, published: true, title: 'Quiz 2'),
+        create(:'course_service/item', :quiz, :with_max_points, section:, published: true, title: 'Quiz 3'),
+        create(:'course_service/item', :quiz, :with_max_points, section:, published: true, title: 'Quiz 4'),
       ]
     end
 
@@ -62,12 +62,12 @@ describe 'Progresses: List', type: :request do
     end
 
     context 'with forks (and branches)' do
-      let(:course) { create(:course, :with_content_tree) }
-      let(:item1) { create(:item, section:, title: 'Item 1') }
-      let(:item2) { create(:item, section:, title: 'Item 2') }
-      let(:item3) { create(:item, section:, title: 'Item 3') }
-      let(:item4) { create(:item, section:, title: 'Item 4') }
-      let(:fork) { create(:fork, section:, course:, title: 'Fork') }
+      let(:course) { create(:'course_service/course', :with_content_tree) }
+      let(:item1) { create(:'course_service/item', section:, title: 'Item 1') }
+      let(:item2) { create(:'course_service/item', section:, title: 'Item 2') }
+      let(:item3) { create(:'course_service/item', section:, title: 'Item 3') }
+      let(:item4) { create(:'course_service/item', section:, title: 'Item 4') }
+      let(:fork) { create(:'course_service/fork', section:, course:, title: 'Fork') }
 
       # Create all the section children to store them in the desired order
       before do
@@ -104,7 +104,7 @@ describe 'Progresses: List', type: :request do
 
       context 'with an unpublished item' do
         before do
-          item5 = create(:item, section:, published: false, title: 'Item 5')
+          item5 = create(:'course_service/item', section:, published: false, title: 'Item 5')
           item5.node.move_to_child_of(fork.branches[0].node)
 
           # Reload section structure record to recalculate tree indices.
@@ -120,8 +120,8 @@ describe 'Progresses: List', type: :request do
 
       context 'with an unpublished section' do
         before do
-          section2 = create(:section, course:, published: false, title: 'Week Unpublished')
-          create(:item, section: section2, title: 'Item Section 2')
+          section2 = create(:'course_service/section', course:, published: false, title: 'Week Unpublished')
+          create(:'course_service/item', section: section2, title: 'Item Section 2')
 
           # Reload course structure record to recalculate tree indices.
           course.node.reload

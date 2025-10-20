@@ -1,5 +1,5 @@
 article.featured-course
-  = link_to course_path(@course.course_code), 'aria-hidden': 'true', tabindex: '-1' do
+  = link_to course_path(@course.course_code), class: 'bs-a', 'aria-hidden': 'true', tabindex: '-1' do
     = render course_visual
 
   div

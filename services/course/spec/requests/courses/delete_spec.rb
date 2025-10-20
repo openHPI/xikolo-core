@@ -7,7 +7,7 @@ describe 'Course: Delete', type: :request do
 
   let(:api) { Restify.new(:test).get.value! }
   let(:orig_course_code) { 'the-course-code' }
-  let(:course) { create(:course, course_code: orig_course_code) }
+  let(:course) { create(:'course_service/course', course_code: orig_course_code) }
 
   %w[students admins moderators teachers].each do |name|
     let!(:"group_#{name}_stub") do

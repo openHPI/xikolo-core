@@ -51,7 +51,7 @@
                         = user_state.user_state_for(answer.author.id)
                   div class="user-info__text #{'pl10' if user_state.available?(question.author.id)}"
                     .username
-                      span.author = link_to answer.author.name, user_path(answer.author.id)
+                      span.author = link_to answer.author.name, user_path(answer.author.id), class: 'bs-a'
                     .timestamp
                       = t(:'pinboard.question.ago', timeago: time_ago_in_words(answer.created_at))
 

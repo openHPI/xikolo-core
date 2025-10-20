@@ -26,7 +26,7 @@
                       i = subtitle.lang
                     - else
                       = subtitle.lang
-                    = link_to subtitle_path(subtitle.id), method: :delete
+                    = link_to subtitle_path(subtitle.id), class: 'bs-a', method: :delete
                       = render Global::FaIcon.new('xmark', style: :solid, css_classes: 'ml5 em1-5 vbottom')
             .col-lg-9.col-md-9.col-lg-offset-3.col-md-offset-3
               = link_to t(:'admin.courses.items.form.video_data.transpipe_link'),
@@ -43,7 +43,7 @@
                     i = subtitle.lang
                   - else
                     = subtitle.lang
-                  = link_to subtitle_path(subtitle[:id]), method: :delete
+                  = link_to subtitle_path(subtitle[:id]), class: 'bs-a', method: :delete
                     = render Global::FaIcon.new('xmark', style: :solid, css_classes: 'ml5 em1-5 vbottom')
 
     fieldset
@@ -53,7 +53,7 @@
         - if video.slides_url
           = File.basename video.slides_url
           item.span.actions
-            =< link_to video.slides_url
+            =< link_to video.slides_url, class: 'bs-a'
               = render Global::FaIcon.new('paperclip', style: :solid, css_classes: 'em1-2 vbottom')
           p
             = v.input_field :slides_url, as: :toggle_switch, value: false, checked_value: '', unchecked_value: false, toggle_label: t(:'admin.courses.items.form.additional_files.remove')
@@ -63,7 +63,7 @@
         - if video.transcript_url
           = File.basename video.transcript_url
           item.span.actions
-            =< link_to video.transcript_url
+            =< link_to video.transcript_url, class: 'bs-a'
               = render Global::FaIcon.new('paperclip', style: :solid, css_classes: 'em1-2 vbottom')
           p
             = v.input_field :transcript_url, as: :toggle_switch, value: false, checked_value: '', unchecked_value: false, toggle_label: t(:'admin.courses.items.form.additional_files.remove'), inline_label: ''
@@ -73,7 +73,7 @@
         - if video.reading_material_url
           = File.basename video.reading_material_url
           item.span.actions
-            =< link_to video.reading_material_url
+            =< link_to video.reading_material_url, class: 'bs-a'
               = render Global::FaIcon.new('paperclip', style: :solid, css_classes: 'em1-2 vbottom')
           p
             = v.input_field :reading_material_url, as: :toggle_switch, value: false, checked_value: '', unchecked_value: false, toggle_label: t(:'admin.courses.items.form.additional_files.remove')

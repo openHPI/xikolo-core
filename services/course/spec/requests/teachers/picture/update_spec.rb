@@ -53,7 +53,7 @@ RSpec.describe 'Teachers: Update with picture', type: :request do
   subject(:update_teacher) { api.rel(:teacher).patch(data, params: {id: teacher.id}).value! }
 
   let(:api) { Restify.new(:test).get.value }
-  let(:teacher) { create(:teacher, initial_params) }
+  let(:teacher) { create(:'course_service/teacher', initial_params) }
   let(:upload_id) { 'f13d30d3-6369-4816-9695-af5318c8ac15' }
   let(:file_name) { 'tux.jpg' }
   let(:file_url) { "https://s3.xikolo.de/xikolo-uploads/uploads/#{upload_id}/#{file_name}" }

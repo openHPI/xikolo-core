@@ -9,7 +9,7 @@ describe 'Enrollments: List', type: :request do
   let(:params) { {user_id:} }
 
   let(:user_id) { generate(:user_id) }
-  let!(:enrollment) { create(:enrollment, user_id:) }
+  let!(:enrollment) { create(:'course_service/enrollment', user_id:) }
 
   it { is_expected.to respond_with :ok }
   it { is_expected.to have(1).items }
@@ -23,7 +23,7 @@ describe 'Enrollments: List', type: :request do
           read: true
       YML
 
-      create(:course_progress, course: enrollment.course, user_id:,
+      create(:'course_service/course_progress', course: enrollment.course, user_id:,
         main_dpoints: 19_0,
         bonus_dpoints: 0,
         max_dpoints: 28_0,

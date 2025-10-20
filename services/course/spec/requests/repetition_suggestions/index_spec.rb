@@ -11,12 +11,12 @@ describe 'Repetition Suggestions: Index', type: :request do
   let(:user_id) { generate(:user_id) }
   let(:max_dpoints) { 100 }
   let(:course_id) { '00000001-3300-4444-9999-000000000001' }
-  let!(:course) { create(:course, id: course_id) }
-  let!(:section) { create(:section, course:) }
-  let!(:items) { create_list(:item, 5, :quiz, section:, max_dpoints:) }
-  let(:result_1) { create(:result, user_id:, item: items[0], dpoints: 10) }
-  let(:result_2) { create(:result, user_id:, item: items[1], dpoints: 60) }
-  let(:result_3) { create(:result, user_id:, item: items[2], dpoints: 50) }
+  let!(:course) { create(:'course_service/course', id: course_id) }
+  let!(:section) { create(:'course_service/section', course:) }
+  let!(:items) { create_list(:'course_service/item', 5, :quiz, section:, max_dpoints:) }
+  let(:result_1) { create(:'course_service/result', user_id:, item: items[0], dpoints: 10) }
+  let(:result_2) { create(:'course_service/result', user_id:, item: items[1], dpoints: 60) }
+  let(:result_3) { create(:'course_service/result', user_id:, item: items[2], dpoints: 50) }
   let(:params) { {} }
 
   before { result_1; result_2; result_3 }
@@ -66,8 +66,8 @@ describe 'Repetition Suggestions: Index', type: :request do
     end
 
     context 'with results better than threshold' do
-      let(:result_1) { create(:result, user_id:, item: items[0], dpoints: 80) }
-      let(:result_3) { create(:result, user_id:, item: items[2], dpoints: 90) }
+      let(:result_1) { create(:'course_service/result', user_id:, item: items[0], dpoints: 80) }
+      let(:result_3) { create(:'course_service/result', user_id:, item: items[2], dpoints: 90) }
 
       it 'returns only items with performance below the threshold' do
         expect(list.size).to eq 1
@@ -84,8 +84,8 @@ describe 'Repetition Suggestions: Index', type: :request do
 
     context 'with more than three results' do
       before do
-        create(:result, user_id:, item: items[3], dpoints: 65)
-        create(:result, user_id:, item: items[4], dpoints: 90)
+        create(:'course_service/result', user_id:, item: items[3], dpoints: 65)
+        create(:'course_service/result', user_id:, item: items[4], dpoints: 90)
       end
 
       it 'returns a maximum of three results' do
@@ -94,9 +94,9 @@ describe 'Repetition Suggestions: Index', type: :request do
     end
 
     context 'with results for other item/quiz types' do
-      let!(:homework) { create(:item, :homework, section:, max_dpoints:) }
+      let!(:homework) { create(:'course_service/item', :homework, section:, max_dpoints:) }
 
-      before { create(:result, user_id:, item: homework, dpoints: 5) }
+      before { create(:'course_service/result', user_id:, item: homework, dpoints: 5) }
 
       it 'does not include the item' do
         expect(list.pluck('id')).to eq [result_1, result_3, result_2].map {|r| r.item.id }
@@ -105,11 +105,11 @@ describe 'Repetition Suggestions: Index', type: :request do
 
     context 'with items of different courses' do
       let(:course_id_2) { '00000001-3300-4444-9999-000000000002' }
-      let!(:course_2) { create(:course, id: course_id_2) }
-      let!(:section_2) { create(:section, course: course_2) }
-      let!(:other_course_item) { create(:item, :quiz, section: section_2, max_dpoints:) }
+      let!(:course_2) { create(:'course_service/course', id: course_id_2) }
+      let!(:section_2) { create(:'course_service/section', course: course_2) }
+      let!(:other_course_item) { create(:'course_service/item', :quiz, section: section_2, max_dpoints:) }
 
-      before { create(:result, user_id:, item: other_course_item, dpoints: 5) }
+      before { create(:'course_service/result', user_id:, item: other_course_item, dpoints: 5) }
 
       it 'does not include the item' do
         expect(list.pluck('id')).to eq [result_1, result_3, result_2].map {|r| r.item.id }
@@ -117,7 +117,7 @@ describe 'Repetition Suggestions: Index', type: :request do
     end
 
     context 'with more than one result for an item' do
-      before { create(:result, user_id:, item: items[0], dpoints: 5) }
+      before { create(:'course_service/result', user_id:, item: items[0], dpoints: 5) }
 
       it 'does return the according item only once' do
         expect(list.pluck('id')).to eq [result_1, result_3, result_2].map {|r| r.item.id }
@@ -129,9 +129,9 @@ describe 'Repetition Suggestions: Index', type: :request do
     end
 
     context 'with item not available' do
-      let!(:item_unpublished) { create(:item, :quiz, section:, max_dpoints:, published: false) }
+      let!(:item_unpublished) { create(:'course_service/item', :quiz, section:, max_dpoints:, published: false) }
 
-      before { create(:result, user_id:, item: item_unpublished, dpoints: 5) }
+      before { create(:'course_service/result', user_id:, item: item_unpublished, dpoints: 5) }
 
       it 'does not return the unpublished item' do
         expect(list.pluck('id')).to eq [result_1, result_3, result_2].map {|r| r.item.id }

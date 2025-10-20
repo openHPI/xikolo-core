@@ -3,9 +3,9 @@
 require 'spec_helper'
 
 RSpec.describe NextDate::ItemSubmissionPublishingCreateWorker, type: :worker do
-  let(:course) { create(:course, status: 'active') }
-  let(:section) { create(:section, published: true, course:) }
-  let(:item) { create(:item, section:, published: true, submission_deadline: 1.day.from_now, submission_publishing_date:) }
+  let(:course) { create(:'course_service/course', status: 'active') }
+  let(:section) { create(:'course_service/section', published: true, course:) }
+  let(:item) { create(:'course_service/item', section:, published: true, submission_deadline: 1.day.from_now, submission_publishing_date:) }
   let(:submission_publishing_date) { nil }
   let(:user_id) { generate(:user_id) }
 

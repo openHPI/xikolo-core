@@ -4,7 +4,7 @@ require 'spec_helper'
 require 'xikolo/s3'
 
 describe Teacher do
-  subject(:teacher) { create(:teacher, attributes) }
+  subject(:teacher) { create(:'course_service/teacher', attributes) }
 
   let(:attributes) { {} }
 
@@ -33,7 +33,7 @@ describe Teacher do
   describe 'callbacks' do
     context 'with courses present' do
       before do
-        create_list(:course, 2, teacher_ids: [teacher.id])
+        create_list(:'course_service/course', 2, teacher_ids: [teacher.id])
       end
 
       context 'when name is updated' do

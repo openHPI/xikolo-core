@@ -4,12 +4,12 @@ require 'spec_helper'
 
 describe CourseDecorator do
   let(:decorator) { described_class.new(course) }
-  let(:course) { create(:course, **attrs) }
+  let(:course) { create(:'course_service/course', **attrs) }
   let(:attrs) { {} }
 
   before do
-    create(:cluster, id: 'category')
-    create(:cluster, id: 'zzz')
+    create(:'course_service/cluster', id: 'category')
+    create(:'course_service/cluster', id: 'zzz')
 
     Stub.service(:account, build(:'account:root'))
   end
@@ -109,7 +109,7 @@ describe CourseDecorator do
     context 'with custom course middle' do
       subject { json['middle_of_course_is_auto'] }
 
-      let(:course) { create(:course, :with_custom_middle_date) }
+      let(:course) { create(:'course_service/course', :with_custom_middle_date) }
 
       it { is_expected.to be false }
     end
@@ -117,15 +117,15 @@ describe CourseDecorator do
     context 'auto flag for course middle' do
       subject { json['middle_of_course_is_auto'] }
 
-      let(:course) { create(:course) }
+      let(:course) { create(:'course_service/course') }
 
       it { is_expected.to be true }
     end
 
     context 'with channel' do
       let(:channel_code) { 'mychannel' }
-      let(:channel) { create(:channel, code: channel_code, name: 'Disney Channel') }
-      let(:course) { create(:course, channel:) }
+      let(:channel) { create(:'course_service/channel', code: channel_code, name: 'Disney Channel') }
+      let(:course) { create(:'course_service/course', channel:) }
 
       it 'includes channel attributes' do
         expect(json['channel_code']).to eq channel_code

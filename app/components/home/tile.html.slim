@@ -8,6 +8,6 @@
         .tile__text == @text
       - if link
         .tile__link
-          = link_to link[:url]
+          = link_to link[:url], class: 'bs-a'
             span = link[:text]
             = render Global::FaIcon.new('arrow-right')

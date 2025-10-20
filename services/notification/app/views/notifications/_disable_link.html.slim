@@ -1,6 +1,6 @@
 row.settings
   columns
-    hr
+    hr.bs-hr
     - if @payload && (@payload.disable_link_global || @payload.disable_link_local)
       p
         = t :'.explanation.html', email: @receiver.email, site_name: Xikolo.config.site_name, type: t(type, count: 1)

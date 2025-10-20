@@ -19,13 +19,13 @@ describe Achievements::RecordOfAchievement, type: :model do
 
   subject(:roa) { described_class.new(course, evaluation) }
 
-  let(:course) { create(:course, :active, course_params) }
+  let(:course) { create(:'course_service/course', :active, course_params) }
   let(:course_params) { {cop_enabled: true, roa_enabled: true, on_demand: false} }
   let(:user_id) { enrollment.user_id }
-  let(:enrollment) { create(:enrollment, enrollment_params) }
+  let(:enrollment) { create(:'course_service/enrollment', enrollment_params) }
   let(:enrollment_params) { {course:} }
-  let!(:item) { create(:item, :homework, :with_max_points, item_params) }
-  let(:item_params) { {section: create(:section, course:)} }
+  let!(:item) { create(:'course_service/item', :homework, :with_max_points, item_params) }
+  let(:item_params) { {section: create(:'course_service/section', course:)} }
 
   around do |example|
     Sidekiq::Testing.inline!(&example)
@@ -42,7 +42,7 @@ describe Achievements::RecordOfAchievement, type: :model do
     context 'and the user has qualified for the RoA' do
       let(:dpoints) { 8 }
       let(:result) do
-        create(:result, item:, user_id:, dpoints:)
+        create(:'course_service/result', item:, user_id:, dpoints:)
       end
 
       before { result }
@@ -105,12 +105,12 @@ describe Achievements::RecordOfAchievement, type: :model do
       context 'with a self-test as the latest result' do
         let(:course_params) { super().merge(end_date: nil) }
         let(:result) do
-          create(:result, item:, user_id:, dpoints:, created_at: 1.day.ago)
+          create(:'course_service/result', item:, user_id:, dpoints:, created_at: 1.day.ago)
         end
 
         before do
-          selftest = create(:item, :quiz, :with_max_points)
-          create(:result, item: selftest, user_id:, dpoints: 8, created_at: 1.hour.ago)
+          selftest = create(:'course_service/item', :quiz, :with_max_points)
+          create(:'course_service/result', item: selftest, user_id:, dpoints: 8, created_at: 1.hour.ago)
         end
 
         it { is_expected.to be_achieved }
@@ -125,7 +125,7 @@ describe Achievements::RecordOfAchievement, type: :model do
       end
 
       context 'with existing course content tree' do
-        let(:course) { create(:course, :with_content_tree, :active, course_params) }
+        let(:course) { create(:'course_service/course', :with_content_tree, :active, course_params) }
 
         # Reload course structure record to recalculate tree indices.
         before { course.node.reload }
@@ -140,7 +140,7 @@ describe Achievements::RecordOfAchievement, type: :model do
       it { is_expected.to be_achievable }
 
       context 'with some points achieved' do
-        before { create(:result, item:, user_id:, dpoints: 2) }
+        before { create(:'course_service/result', item:, user_id:, dpoints: 2) }
 
         it { is_expected.not_to be_achieved }
         it { is_expected.to be_achievable }
@@ -172,14 +172,14 @@ describe Achievements::RecordOfAchievement, type: :model do
       context 'with sufficient visits for non-published items' do
         let(:item_params) { super().merge(published: false) }
 
-        before { create(:result, item:, user_id: generate(:user_id), dpoints: 8) }
+        before { create(:'course_service/result', item:, user_id: generate(:user_id), dpoints: 8) }
 
         it { is_expected.not_to be_achieved }
         it { is_expected.to be_achievable }
       end
 
       context 'with sufficient points by another user' do
-        before { create(:result, item:, user_id: generate(:user_id), dpoints: 8) }
+        before { create(:'course_service/result', item:, user_id: generate(:user_id), dpoints: 8) }
 
         it { is_expected.not_to be_achieved }
         it { is_expected.to be_achievable }

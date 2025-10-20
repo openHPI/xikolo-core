@@ -6,7 +6,7 @@
     .col-md-12.pt10
       .filter.mb20
         .mb10.pull-right
-          = link_to t(:'admin.video_providers.title'), admin_video_providers_path, class: 'mr10'
+          = link_to t(:'admin.video_providers.title'), admin_video_providers_path, class: 'bs-a mr10'
         = form_tag videos_path, method: :get
           => label :video_filter, :prefix, t(:'admin.videos.index.filter_videos')
           => search_field_tag 'prefix', params[:prefix], id: 'video_filter_prefix', class: 'px-2 py-1 border rounded'
@@ -55,11 +55,11 @@
                   button data-behavior='copy-to-clipboard' data-text=stream.id
                     = t(:'admin.videos.index.copy_id')
                 - c.with_action
-                  = link_to stream_sync_path(stream['id']), method: 'post', onclick: 'showLoading()'
+                  = link_to stream_sync_path(stream['id']), class: 'bs-a', method: 'post', onclick: 'showLoading()'
                     = t(:'admin.videos.index.sync')
                     = render Global::FaIcon.new('rotate')
                 - c.with_destructive_action
-                  = link_to video_path(stream.id), method: 'delete', data: {confirm: t(:'admin.videos.index.confirm'), disable_with: t(:'admin.videos.index.deleting')}
+                  = link_to video_path(stream.id), class: 'bs-a', method: 'delete', data: {confirm: t(:'admin.videos.index.confirm'), disable_with: t(:'admin.videos.index.deleting')}
                     = t(:'admin.videos.index.delete')
                     = render Global::FaIcon.new('trash-can')
       = will_paginate @streams

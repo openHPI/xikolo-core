@@ -8,11 +8,11 @@ describe 'Document Localizations for a Document: List', type: :request do
       .rel(:localizations).get.value!
   end
 
-  let!(:document1) { create(:document) }
-  let!(:document2) { create(:document) }
-  let!(:localization1) { create(:document_localization) }
-  let!(:localization2) { create(:document_localization) }
-  let!(:localization3) { create(:document_localization) }
+  let!(:document1) { create(:'course_service/document') }
+  let!(:document2) { create(:'course_service/document') }
+  let!(:localization1) { create(:'course_service/document_localization') }
+  let!(:localization2) { create(:'course_service/document_localization') }
+  let!(:localization3) { create(:'course_service/document_localization') }
 
   let(:api) { Restify.new(:test).get.value! }
 

@@ -5,7 +5,7 @@ require 'spec_helper'
 describe EnrollmentDecorator do
   subject(:json) { decorator.as_json(api_version: 1).stringify_keys }
 
-  let(:enrollment) { create(:enrollment) }
+  let(:enrollment) { create(:'course_service/enrollment') }
   let(:decorator) { described_class.new(enrollment) }
 
   it 'includes expected keys' do
@@ -50,7 +50,7 @@ describe EnrollmentDecorator do
 
   context 'with forced_submission_date' do
     let(:now) { Time.zone.now }
-    let(:enrollment) { create(:enrollment, forced_submission_date: now) }
+    let(:enrollment) { create(:'course_service/enrollment', forced_submission_date: now) }
 
     it 'has a forced_submission_date' do
       expect(json['forced_submission_date']).not_to be_nil

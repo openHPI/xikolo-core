@@ -3,11 +3,11 @@
 require 'spec_helper'
 
 describe Result do
-  subject(:result) { build(:result, item:) }
+  subject(:result) { build(:'course_service/result', item:) }
 
-  let!(:course) { create(:course, start_date: nil, end_date: nil, records_released: true) }
-  let!(:section) { create(:section, course:, published: true) }
-  let!(:item) { create(:item, :with_max_points, section:, published: true) }
+  let!(:course) { create(:'course_service/course', start_date: nil, end_date: nil, records_released: true) }
+  let!(:section) { create(:'course_service/section', course:, published: true) }
+  let!(:item) { create(:'course_service/item', :with_max_points, section:, published: true) }
 
   it 'has a valid factory' do
     expect(result).to be_valid

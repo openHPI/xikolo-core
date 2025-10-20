@@ -16,8 +16,8 @@ RSpec.describe '[API v2] Course: List: Limit access to groups', type: :request d
 
   let!(:courses) do
     [
-      create(:course, status: 'active'),
-      create(:course, status: 'active', groups: [group]),
+      create(:'course_service/course', status: 'active'),
+      create(:'course_service/course', status: 'active', groups: [group]),
     ]
   end
 

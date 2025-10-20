@@ -10,7 +10,7 @@ describe 'Item User Grade: Show', type: :request do
   let(:user_id) { generate(:user_id) }
 
   context 'a homework' do
-    let!(:item) { create(:item, :homework) }
+    let!(:item) { create(:'course_service/item', :homework) }
 
     context 'when the user has not yet submitted anything' do
       it 'responds with 404 Not Found' do
@@ -19,7 +19,7 @@ describe 'Item User Grade: Show', type: :request do
     end
 
     context 'when there are results for the user' do
-      before { create(:result, item:, user_id:, dpoints: 30) }
+      before { create(:'course_service/result', item:, user_id:, dpoints: 30) }
 
       it { is_expected.to respond_with :ok }
       it { is_expected.to eq('points' => 3.0) }
@@ -27,7 +27,7 @@ describe 'Item User Grade: Show', type: :request do
   end
 
   context 'a bonus exercise' do
-    let!(:item) { create(:item, :bonus) }
+    let!(:item) { create(:'course_service/item', :bonus) }
 
     context 'when the user has not yet submitted anything' do
       it 'responds with 404 Not Found' do
@@ -36,7 +36,7 @@ describe 'Item User Grade: Show', type: :request do
     end
 
     context 'when there are results for the user' do
-      before { create(:result, item:, user_id:, dpoints: 30) }
+      before { create(:'course_service/result', item:, user_id:, dpoints: 30) }
 
       it { is_expected.to respond_with :ok }
       it { is_expected.to eq('points' => 3.0) }

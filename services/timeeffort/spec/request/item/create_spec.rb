@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe 'Item: Create', type: :request do
   subject(:create_item) { api.rel(:items).post(payload).value! }
 
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(timeeffort_service_url).get.value! }
   let(:item_id) { SecureRandom.uuid }
   let(:content_id) { SecureRandom.uuid }
   let(:section_id) { SecureRandom.uuid }
@@ -25,7 +25,7 @@ RSpec.describe 'Item: Create', type: :request do
   end
 
   it 'responds without a follow location' do
-    expect(create_item.follow).to eq item_url(Item.last)
+    expect(create_item.follow).to eq timeeffort_service.item_url(Item.last)
   end
 
   it 'returns item resource' do

@@ -23,7 +23,7 @@
         - visual_presenter.teaser_subtitles.each do |subtitle|
           span.mr10
             = subtitle.lang
-            = link_to subtitle_path(subtitle.id), method: :delete
+            = link_to subtitle_path(subtitle.id), class: 'bs-a', method: :delete
               = render Global::FaIcon.new('xmark', style: :solid, css_classes: 'ml5 mr5')
   .btn-group
     = f.button :submit, class: 'mr10 mb10'

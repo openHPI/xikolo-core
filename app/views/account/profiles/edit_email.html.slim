@@ -7,7 +7,7 @@ h4.pt5
     = t(:'dashboard.profile.current_email', email: @profile.email)
   p
     = t(:'dashboard.profile.unconfirmed_mails_present')
-  ul
+  ul.list-disc
   - @profile.unconfirmed_emails.each do |mail|
     li.mb5
       = mail.address
@@ -23,7 +23,7 @@ h4.pt5
     span.small.ml5
       em = t(:'dashboard.profile.primary_email')
     #secondary-emails-list
-      ul
+      ul.list-disc
       - @profile.secondary_emails.each do |mail|
         li.mb5
           => mail.address

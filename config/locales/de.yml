@@ -577,7 +577,7 @@ de:
       omniauth:
         mein_bildungsraum: Mein Bildungsraum
         saml_test_id: SAMLtest ID
-        saml_test_id_notice: Sie wissen nicht, wie man SAML Test Single Sign-On verwendet? <a href='/pages/faq' target='_blank'>Erfahren Sie, wie es funktioniert.</a>
+        saml_test_id_notice: Sie wissen nicht, wie man SAML Test Single Sign-On verwendet? <a class='bs-a' href='/pages/faq' target='_blank'>Erfahren Sie, wie es funktioniert.</a>
 
     # Navigation
     navigation:
@@ -646,7 +646,7 @@ de:
     headline:
       brand: "%{brand} "
       remainder: Helpdesk
-    notice: "Haben Sie schon in <a href='/pages/faq' target='_blank' rel='noopener'>unseren FAQ</a> nach einer Antwort auf Ihre Frage gesucht?"
+    notice: "Haben Sie schon in <a class='bs-a' href='/pages/faq' target='_blank' rel='noopener'>unseren FAQ</a> nach einer Antwort auf Ihre Frage gesucht?"
     notice_title: Tipp
     text: Bitte beschreiben Sie Ihr Anliegen mit Hilfe des Formulars unten. Informationen über Ihren Browser und Ihre E-Mail-Adresse werden automatisch mit Ihrer Anfrage übermittelt.
     report_title: Titel für Ihre Anfrage
@@ -693,7 +693,7 @@ de:
   redirect:
     target_info: "Sie werden zu <b>%{name}</b> weitergeleitet (außerhalb von %{brand}). Dies kann bis zu <b>5 Sekunden</b> dauern."
     skip_in_future: Diese Meldung nicht mehr anzeigen.
-    manual_redirect: "Sollte die Weiterleitung zu lange dauern oder nicht funktionieren,<br /><a href='%{url}'>klicken Sie hier, um fortzufahren</a>."
+    manual_redirect: "Sollte die Weiterleitung zu lange dauern oder nicht funktionieren,<br /><a class='bs-a' href='%{url}'>klicken Sie hier, um fortzufahren</a>."
   account:
     confirmations:
       new:
@@ -732,11 +732,11 @@ de:
           text: Stellen Sie hier ein, ob andere Nutzer Sie anhand bestimmmter Informationen finden können.
         notification:
           headline: Meine Benachrichtigungseinstellungen
-          mail_info: Benachrichtigungen via E-Mail werden momentan an <em>%{email}</em> versendet. Sie können diese Adresse in Ihrem <a href='/dashboard/profile'>Nutzerprofil</a> ändern.
+          mail_info: Benachrichtigungen via E-Mail werden momentan an <em>%{email}</em> versendet. Sie können diese Adresse in Ihrem <a class='bs-a' href='/dashboard/profile'>Nutzerprofil</a> ändern.
           primary_email_suspended: >
             Ihre Benachrichtigungen per E-Mail wurden wegen eines Problems mit dem Versand an Ihre Mail-Adresse abgeschaltet.
             Bitte ersetzen Sie Ihre primäre E-Mail-Adresse oder reaktivieren Sie die bestehende in Ihrem
-            <a href='/dashboard/profile'>Nutzerprofil</a>.
+            <a class='bs-a' href='/dashboard/profile'>Nutzerprofil</a>.
           event_notifications: Benachrichtigungen für Ereignisse
           event: Ereignis
           headline_email: :'global.email'
@@ -789,7 +789,7 @@ de:
             %{provider}-Login verknüpfen.</b></p>
           btn_connect: Mit bestehendem Konto anmelden und verknüpfen
           btn_cancel: Mit neuem Konto fortfahren
-          mbr_hint: "Für %{provider} wird das Fortfahren mit einem neuen Benutzerkonto momentan nicht unterstützt. Bitte fügen Sie Ihren %{provider}-Login in Ihrem Profil hinzu, nachdem Sie <a href='%{url}'>ein neues Benutzerkonto erstellt haben</a>."
+          mbr_hint: "Für %{provider} wird das Fortfahren mit einem neuen Benutzerkonto momentan nicht unterstützt. Bitte fügen Sie Ihren %{provider}-Login in Ihrem Profil hinzu, nachdem Sie <a class='bs-a' href='%{url}'>ein neues Benutzerkonto erstellt haben</a>."
         text: Sie melden sich zum ersten Mal bei %{brand} mit diesem digitalen Identität an.
         text_create: Sind Sie neu bei %{brand}?
         btn_create: Neues Benutzerkonto erstellen
@@ -804,11 +804,11 @@ de:
         headline: Existierendes %{brand}-Benutzerkonto verbinden
         text: Bitte geben Sie die Zugangsdaten Ihres bestehenden %{brand}-Benutzerkontos ein. Das ist nur einmal notwendig. Zukünftig können Sie sich bei %{brand} mit %{provider} Single Sign-On anmelden.
         btn_cancel: Abbrechen
-        hint: Sie haben Ihr Passwort vergessen oder Ihr Passwort funktioniert nicht? Bitte wenden Sie sich an den <a href='/helpdesk'>Helpdesk</a>.
+        hint: Sie haben Ihr Passwort vergessen oder Ihr Passwort funktioniert nicht? Bitte wenden Sie sich an den <a class='bs-a' href='/helpdesk'>Helpdesk</a>.
     policies:
       show:
         headline: Datenschutzbestimmungen
-        instructions: "Bevor Sie fortfahren können, bestätigen Sie bitte, dass Sie unsere aktuellen <a href='%{link}' target='_blank'>Datenschutzbestimmungen</a> zur Nutzung von %{brand} gelesen haben (Erklärung öffnet in neuem Fenster)."
+        instructions: "Bevor Sie fortfahren können, bestätigen Sie bitte, dass Sie unsere aktuellen <a class='bs-a' href='%{link}' target='_blank'>Datenschutzbestimmungen</a> zur Nutzung von %{brand} gelesen haben (Erklärung öffnet in neuem Fenster)."
         label:
           submit: "Fortfahren"
     treatments:
@@ -875,13 +875,13 @@ de:
       new:
         title: Registrieren
         text: "Legen Sie Ihren eigenen Account bei %{brand} an. Dazu müssen Sie nur wenige Angaben machen.<br />Ihr Name wird später auf Ihrem %{brand}-Leistungsnachweis erscheinen."
-        privacy: "<b>Bitte beachten Sie:</b> Ihre personenbezogenen Daten werden auf %{brand} unter den Bedingungen unserer <a href='%{link}' target='_blank'>Datenschutzbestimmungen</a> verarbeitet. Mit der Registrierung eines Benutzerkontos auf %{brand} erkennen Sie diese <a href='%{link}' target='_blank'>Datenschutzbestimmungen</a> an."
+        privacy: "<b>Bitte beachten Sie:</b> Ihre personenbezogenen Daten werden auf %{brand} unter den Bedingungen unserer <a class='bs-a' href='%{link}' target='_blank'>Datenschutzbestimmungen</a> verarbeitet. Mit der Registrierung eines Benutzerkontos auf %{brand} erkennen Sie diese <a class='bs-a' href='%{link}' target='_blank'>Datenschutzbestimmungen</a> an."
         submit: "Für %{brand} registrieren"
       verify:
         headline: Bitte aktivieren Sie Ihr Benutzerkonto
         message: Zur Bestätigung Ihrer E-Mail-Adresse werden Sie zeitnah eine E-Mail erhalten.
         confirmation_period: Der Bestätigungslink in der E-Mail ist drei Tage gültig.
-        notice: Bitte überprüfen Sie auch Ihren Spam-Ordner. Wenn Sie die E-Mail nicht innerhalb der nächsten 15 Minuten erhalten, wenden Sie sich bitte an das <a href='https://open.hpi.de/helpdesk?locale=de' target='_blank' rel='noopener'>Helpdesk</a>.
+        notice: Bitte überprüfen Sie auch Ihren Spam-Ordner. Wenn Sie die E-Mail nicht innerhalb der nächsten 15 Minuten erhalten, wenden Sie sich bitte an das <a class='bs-a' href='https://open.hpi.de/helpdesk?locale=de' target='_blank' rel='noopener'>Helpdesk</a>.
     shared:
       consent:
         required: "Verpflichtende Einwilligungen werden zum Fortfahren benötigt."
@@ -894,7 +894,7 @@ de:
           consent_declined_at: "Sie haben diese Einwilligung am %{date} abgelehnt."
           required: Verpflichtend
           notice: "<p>Sie können optionale Einwilligungen jederzeit geben oder widerrufen.</p><p>Verpflichtende Einwilligungen werden von uns benötigt, um Ihnen die grundlegenden Dienste von %{brand} bereitstellen zu können. Diese können Sie nur widerrufen, indem Sie Ihr Benutzerkonto dauerhaft löschen.</p>"
-          external: "Diese Einwilligung wird mit einem zentralen Einwillingungskatalog (Consent Manager) verwaltet. Sie können Ihre Einstellungen jederzeit auf <a href=%{url} target='_blank' rel='noopener'>dieser Seite</a> einsehen oder ändern."
+          external: "Diese Einwilligung wird mit einem zentralen Einwillingungskatalog (Consent Manager) verwaltet. Sie können Ihre Einstellungen jederzeit auf <a class='bs-a' href=%{url} target='_blank' rel='noopener'>dieser Seite</a> einsehen oder ändern."
         external_notice: Diese Einwilligung wird mit einem zentralen Einwillingungskatalog (Consent Manager) verwaltet.
 
   admin:
@@ -1544,7 +1544,7 @@ de:
         current: Aktuelle Kurse
         upcoming: Zukünftige Kurse
         archive: Kurse im Selbststudium
-        reactivation_upsell_html: "Es ist nun möglich, auch für Kurse im Kursarchiv einen Leistungsnachweis zu erhalten. Informieren Sie sich jetzt über unsere <a href='/pages/course_reactivation' target='_blank'>Option zur Kursreaktivierung</a>."
+        reactivation_upsell_html: "Es ist nun möglich, auch für Kurse im Kursarchiv einen Leistungsnachweis zu erhalten. Informieren Sie sich jetzt über unsere <a class='bs-a' href='/pages/course_reactivation' target='_blank'>Option zur Kursreaktivierung</a>."
         load_more: Mehr Kurse laden
         error: Beim Laden zusätzlicher Kurse ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal.
 
@@ -1582,8 +1582,8 @@ de:
         cop_requirements: "Die <b>Teilnahmebestätigung</b> erhält, wer auf mindestens <b>%{cop_threshold}%</b> der Kursunterlagen zugegriffen hat."
         tor_requirements: "Das <b>Transcript of Records</b> erhält, wer alle Voraussetzungen für diesen Kurs erfüllt hat."
         open_badge_requirements: "Einen <b>Open Badge</b> erhalten Sie, indem Sie den Kurs abschließen."
-        guidelines_link: "Mehr Informationen finden Sie in den <a href='/pages/roa_guidelines'>Richtlinien für Leistungsnachweise</a>."
-        qc_guidelines_link: "Mehr Informationen finden Sie in den <a href='/pages/document_types'>Richtlinien für das Zertifikat</a>."
+        guidelines_link: "Mehr Informationen finden Sie in den <a href='/pages/roa_guidelines' class='bs-a'>Richtlinien für Leistungsnachweise</a>."
+        qc_guidelines_link: "Mehr Informationen finden Sie in den <a href='/pages/document_types' class='bs-a'>Richtlinien für das Zertifikat</a>."
         learning_goals: Was Teilnehmende lernen werden
         target_groups: Für wen dieser Kurs gedacht ist
 
@@ -1738,7 +1738,7 @@ de:
       achieved_state: Erreicht
       in_progress_state: Noch nicht erreicht
       in_progress_button: Fortschritt überprüfen
-      guideline_link: "Weitere Informationen finden Sie in den <a href='%{url}'>Richtlinien für Leistungsnachweise</a>."
+      guideline_link: "Weitere Informationen finden Sie in den <a class='bs-a' href='%{url}'>Richtlinien für Leistungsnachweise</a>."
       show_open_badge: Open Badge anzeigen
 
   certificate:
@@ -1876,7 +1876,7 @@ de:
         placeholder: Course Code des Klons
         course_code_empty: Der Course Code für den Klon darf nicht leer sein.
         new_course_not_empty: Der Zielkurs für das Klonen darf keine Inhalte (Sektionen) haben.
-        clone_started: "Klonen des Kurses gestartet. Sie finden den geklonten Kurse in der <a href='/admin/courses'>Kursübersicht</a>."
+        clone_started: "Klonen des Kurses gestartet. Sie finden den geklonten Kurse in der <a class='bs-a' href='/admin/courses'>Kursübersicht</a>."
       fork: Fork
       recalculate_learning_evaluation: Jetzt neu berechnen
       recalculate_title: Die Lernfortschritte für diesen Kurs müssen neu berechnet werden
@@ -2126,10 +2126,10 @@ de:
       current: Meine aktuellen Kurse
       upcoming: Meine zukünftigen Kurse
       completed: Meine abgeschlossenen Kurse
-    not_enrolled_upcoming: 'Sie sind für keinen zukünftigen Kurs eingeschrieben. Bitte besuchen Sie unsere <a href="/courses">Kursübersicht</a>.'
+    not_enrolled_upcoming: 'Sie sind für keinen zukünftigen Kurs eingeschrieben. Bitte besuchen Sie unsere <a class="bs-a" href="/courses">Kursübersicht</a>.'
     mark_completed: Als abgeschlossen markieren
     mark_completed_confirmation: Durch diese Option bewegen Sie den Kurs permanent von Ihren aktuellen Kursen zu Ihren abgeschlossenen Kursen. Von dort können Sie weiterhin auf den Kurs zugreifen.
-    more_courses: 'Tipp: Sie können immer alle abgeschlossenen Kurse, für die Sie noch nicht eingeschrieben sind, im <a href="/courses">Kursarchiv</a> finden und sich für ein Selbststudium (ohne Leistungsnachweis) anmelden.'
+    more_courses: 'Tipp: Sie können immer alle abgeschlossenen Kurse, für die Sie noch nicht eingeschrieben sind, im <a class="bs-a" href="/courses">Kursarchiv</a> finden und sich für ein Selbststudium (ohne Leistungsnachweis) anmelden.'
     sidebar:
       dates: Nächste Termine pro Kurs
       dates_empty: Es gibt keine bevorstehenden Termine.
@@ -2182,7 +2182,7 @@ de:
       password_confirmation: "Passwort bestätigen"
       birthdate: "Geburtsdatum"
       select_birthdate: "Bitte wählen"
-      show_birthdate_on_record: Sie können in Ihrer <a href='%{url}'>Zertifikatseite</a> angeben, ob Ihr Geburtsdatum auf Ihren Leistungsnachweisen angezeigt werden soll.
+      show_birthdate_on_record: Sie können in Ihrer <a class='bs-a' href='%{url}'>Zertifikatseite</a> angeben, ob Ihr Geburtsdatum auf Ihren Leistungsnachweisen angezeigt werden soll.
       combodate_format: "YYYY-MM-DD"
       combodate_viewformat: "D. MMMM YYYY"
       combodate_template: "DD. MMMM YYYY"
@@ -2557,12 +2557,12 @@ de:
 
     documents:
       my_documents: Meine Leistungsnachweise
-      text: "Hier finden Sie alle Leistungsnachweise aus Ihren Kursen gesammelt (Leistungsnachweise und Teilnahmebestätigungen). Sie qualifizieren Sich für einen benoteten <i>Leistungsnachweis</i>, wenn Sie mindestens %{roa_threshold}%% der Gesamtpunktzahl aus Hausaufgaben und Abschlussklausur erreichen. Sie können eine <i>Teilnahmebestätigung</i> herunterladen, wenn Sie mehr als %{cop_threshold}%% der Lernmaterialien eines Kurses bearbeitet haben. Weitere Informationen finden Sie bei den <a href='/pages/roa_guidelines'>Richtlinien für Leistungsnachweise</a>."
+      text: "Hier finden Sie alle Leistungsnachweise aus Ihren Kursen gesammelt (Leistungsnachweise und Teilnahmebestätigungen). Sie qualifizieren Sich für einen benoteten <i>Leistungsnachweis</i>, wenn Sie mindestens %{roa_threshold}%% der Gesamtpunktzahl aus Hausaufgaben und Abschlussklausur erreichen. Sie können eine <i>Teilnahmebestätigung</i> herunterladen, wenn Sie mehr als %{cop_threshold}%% der Lernmaterialien eines Kurses bearbeitet haben. Weitere Informationen finden Sie bei den <a class='bs-a' href='/pages/roa_guidelines'>Richtlinien für Leistungsnachweise</a>."
       show_birthdate: "Geburtsdatum auf meinen Leistungsnachweisen anzeigen"
       no_documents: Es sind noch keine Leistungsnachweise verfügbar.
       my_upcoming_courses: Meine zukünftigen Kurse
       proctoring_chart: Ergebnis der Online-Aufsicht
-      divergent_certificate_requirements: "Abweichende Anforderungen für Leistungsnachweise, siehe <a href='/courses/%{course_code}'>Kursdetails</a>."
+      divergent_certificate_requirements: "Abweichende Anforderungen für Leistungsnachweise, siehe <a class='bs-a' href='/courses/%{course_code}'>Kursdetails</a>."
       not_yet_published: Die Leistungsnachweise für diesen Kurs wurden noch nicht freigegeben. Sobald die Dokumente verfügbar sind, werden Sie per E-Mail informiert. Dies geschieht üblicherweise innerhalb einer Woche nach der Abgabefrist der Abschlussprüfung.
       transcript_of_records: "Ein <i>Transcript of Records</i> gibt es für Kurse, die einen zusammenfassenden, tabellarischen Leistungsnachweis für alle dort vorausgesetzten Kurse anbieten. Hierfür müssen alle Voraussetzungen erfüllt sein."
 
@@ -2918,14 +2918,14 @@ de:
       end_at: "Offen bis %{date}"
       vote: Abstimmen
       thanks: Vielen Dank für Ihre Stimme!
-      poll_archive_link: "Sie können die Ergebnisse nach Abschluss der Umfrage im <a href='%{link}'>Umfragenarchiv</a> ansehen."
-      not_enough_participants: "Sie können die Ergebnisse im <a href='%{link}'>Umfragenarchiv</a> ansehen, sobald eine ausreichende Anzahl an Stimmen abgegeben wurde."
+      poll_archive_link: "Sie können die Ergebnisse nach Abschluss der Umfrage im <a class='bs-a' href='%{link}'>Umfragenarchiv</a> ansehen."
+      not_enough_participants: "Sie können die Ergebnisse im <a class='bs-a' href='%{link}'>Umfragenarchiv</a> ansehen, sobald eine ausreichende Anzahl an Stimmen abgegeben wurde."
       next_poll: Nächste Frage
       recent_results: Aktuelle Umfrageergebnisse
       intermediate_results: "Zwischenergebnisse bei %{participants} Teilnehmern."
     archive:
       headline: Umfragearchiv
-      place_vote: "Diese Umfrage ist noch bis zum %{date} offen. Bitte <a href='%{link}'>stimmen Sie ab</a>!"
+      place_vote: "Diese Umfrage ist noch bis zum %{date} offen. Bitte <a class='bs-a' href='%{link}'>stimmen Sie ab</a>!"
       intermediate_results: "Zwischenergebnisse bei %{participants} Teilnehmern."
       final_results: "Diese Umfrage endete am %{date} mit %{participants} Teilnehmern."
       not_ended: "Diese Umfrage endet am %{date}. Die Resultate werden im Anschluss veröffentlicht."
@@ -2934,7 +2934,7 @@ de:
   verify:
     headline: Verifikation von Leistungsnachweisen
     headline_show: Details zum Leistungsnachweis
-    narrative: "%{brand} bestätigt, dass der Kandidat den Kurs  <a href='%{link}'>%{title}</a> erfolgreich abgeschlossen und die notwendigen Prüfungen für dieses Zertifikat bestanden hat."
+    narrative: "%{brand} bestätigt, dass der Kandidat den Kurs  <a class='bs-a' href='%{link}'>%{title}</a> erfolgreich abgeschlossen und die notwendigen Prüfungen für dieses Zertifikat bestanden hat."
     narrative_meta: "%{brand} bestätigt, dass der Kandidat den Kurs %{title} erfolgreich abgeschlossen und die notwendigen Prüfungen für dieses Zertifikat bestanden hat."
     valid: "Der Leistungsnachweis für den Verifikationscode <i>%{code}</i> ist valide."
     user_deleted: Der Account dieses Kandidaten wurde gelöscht. Aus diesem Grund können wir dieses Zertifikat nicht länger verifizieren.
@@ -3023,7 +3023,7 @@ de:
     remove: Entfernen
     add_user:
       button: Nutzer hinzufügen
-    enrollment_list: 'Mitglieder der Gruppe finden sich in der <a href="%{url}">Enrollment-Liste</a>.'
+    enrollment_list: 'Mitglieder der Gruppe finden sich in der <a class="bs-a" href="%{url}">Enrollment-Liste</a>.'
     group_names:
       admins: Kursadministratoren
       moderators: Kursmoderatoren

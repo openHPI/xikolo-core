@@ -23,7 +23,7 @@
             tr
               td = course['course_code']
               td = link_to_if current_user.allowed?('course.course.edit'),
-                      course['title'], course_path(course['course_code'])
+                      course['title'], course_path(course['course_code']), class: 'bs-a'
               td = course['status']
               td
                 - if current_user.allowed? 'course.course.edit'

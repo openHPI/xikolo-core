@@ -9,7 +9,7 @@ describe 'Channel: update of mobile visual', type: :request do
 
   let(:api) { Restify.new(:test).get.value }
   let(:channel) do
-    create(:channel,
+    create(:'course_service/channel',
       mobile_visual_uri: 's3://xikolo-public/channels/1/mobile_visual_v1.jpg')
   end
 

@@ -4,11 +4,11 @@ require 'spec_helper'
 
 RSpec.describe NextDate::SectionStartSyncWorker, type: :worker do
   let(:section) do
-    create(:section,
+    create(:'course_service/section',
       course:,
       start_date:)
   end
-  let(:course) { create(:course, status: 'active') }
+  let(:course) { create(:'course_service/course', status: 'active') }
   let(:designated_id) { UUIDTools::UUID.sha1_create(UUIDTools::UUID.parse(section.id), 'section_start').to_s }
   let(:attrs) do
     # gold-standard how the core event attributes should look like
@@ -41,7 +41,7 @@ RSpec.describe NextDate::SectionStartSyncWorker, type: :worker do
   end
 
   context 'for published section in not-started course' do
-    let(:course) { create(:course, display_start_date: course_start_date) }
+    let(:course) { create(:'course_service/course', display_start_date: course_start_date) }
     let(:course_start_date) { 2.days.from_now }
     let(:start_date) { 3.days.from_now }
 

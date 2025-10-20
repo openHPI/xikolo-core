@@ -12,7 +12,7 @@ describe 'Enrollment: Update', type: :request do
   end
 
   context 'updating proctored' do
-    let(:enrollment) { create(:enrollment, user_id:, proctored:) }
+    let(:enrollment) { create(:'course_service/enrollment', user_id:, proctored:) }
 
     context 'without paid proctored' do
       let(:proctored) { false }
@@ -41,24 +41,24 @@ describe 'Enrollment: Update', type: :request do
 
   context 'updating completed' do
     let(:enrollment) do
-      create(:enrollment,
+      create(:'course_service/enrollment',
         user_id:,
         completed:,
         course:)
     end
     let(:completed) { nil }
-    let(:course) { create(:course) }
+    let(:course) { create(:'course_service/course') }
     let(:fetch_learning_evaluation) do
       Enrollment.with_learning_evaluation(Enrollment.all).find(enrollment.id)
     end
 
     context 'with auto-state true' do
-      let(:course) { create(:course, records_released: true) }
-      let(:section) { create(:section, course:) }
-      let(:item) { create(:item, section:, exercise_type: 'main', content_type: 'quiz', max_dpoints: 50) }
+      let(:course) { create(:'course_service/course', records_released: true) }
+      let(:section) { create(:'course_service/section', course:) }
+      let(:item) { create(:'course_service/item', section:, exercise_type: 'main', content_type: 'quiz', max_dpoints: 50) }
 
       before do
-        create(:result, item:, user_id:, dpoints: 49)
+        create(:'course_service/result', item:, user_id:, dpoints: 49)
 
         e = fetch_learning_evaluation
         e.completed = nil
@@ -191,7 +191,7 @@ describe 'Enrollment: Update', type: :request do
 
   context 'with forced_submission_date' do
     let!(:now) { DateTime.now.midnight }
-    let(:enrollment) { create(:enrollment, user_id:, forced_submission_date: nil) }
+    let(:enrollment) { create(:'course_service/enrollment', user_id:, forced_submission_date: nil) }
 
     it 'cannot be set by UPDATE' do
       expect do

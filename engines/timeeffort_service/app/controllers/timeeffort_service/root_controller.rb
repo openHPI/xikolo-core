@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-class RootController < ApplicationController
+module TimeeffortService
+class RootController < ApplicationController # rubocop:disable Layout/IndentationWidth
   def index
     render json: {
       items_url: items_rfc6570,
@@ -8,4 +9,5 @@ class RootController < ApplicationController
       item_overwritten_time_effort_url: item_overwritten_time_effort_rfc6570,
     }
   end
+end
 end

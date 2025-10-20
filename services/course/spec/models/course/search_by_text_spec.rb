@@ -5,12 +5,12 @@ require 'spec_helper'
 describe Course, '.search_by_text', type: :model do
   subject(:scope) { described_class.search_by_text(query) }
 
-  let!(:teacher) { create(:teacher, name: 'Hans Otto') }
-  let!(:teacher2) { create(:teacher, name: 'Peter Koslovski') }
-  let!(:teacher3) { create(:teacher, name: 'Hannah Arendt') }
+  let!(:teacher) { create(:'course_service/teacher', name: 'Hans Otto') }
+  let!(:teacher2) { create(:'course_service/teacher', name: 'Peter Koslovski') }
+  let!(:teacher3) { create(:'course_service/teacher', name: 'Hannah Arendt') }
 
   let!(:course1) do
-    create(:course,
+    create(:'course_service/course',
       title: 'Special Course',
       status: 'active',
       abstract: 'Introduction into the trends in development',
@@ -21,7 +21,7 @@ describe Course, '.search_by_text', type: :model do
   end
 
   let!(:course2) do
-    create(:course,
+    create(:'course_service/course',
       title: 'Blockchain',
       status: 'active',
       abstract: 'another amazing course',
@@ -32,7 +32,7 @@ describe Course, '.search_by_text', type: :model do
   end
 
   let!(:course3) do
-    create(:course,
+    create(:'course_service/course',
       title: 'Computer Graphics',
       status: 'active',
       abstract: 'This lecture teaches concepts and techniques for drawing on screens',
@@ -42,10 +42,10 @@ describe Course, '.search_by_text', type: :model do
       teacher_ids: [teacher3.id])
   end
 
-  let(:cluster1) { create(:cluster, id: 'topic') }
-  let(:classifier1) { create(:classifier, title: 'Programming', cluster_id: cluster1.id) }
-  let(:classifier2) { create(:classifier, title: 'Finance', cluster_id: cluster1.id) }
-  let(:classifier3) { create(:classifier, title: 'DevOps', cluster_id: cluster1.id) }
+  let(:cluster1) { create(:'course_service/cluster', id: 'topic') }
+  let(:classifier1) { create(:'course_service/classifier', title: 'Programming', cluster_id: cluster1.id) }
+  let(:classifier2) { create(:'course_service/classifier', title: 'Finance', cluster_id: cluster1.id) }
+  let(:classifier3) { create(:'course_service/classifier', title: 'DevOps', cluster_id: cluster1.id) }
 
   before do
     Course.find_each(&:update_search_index)

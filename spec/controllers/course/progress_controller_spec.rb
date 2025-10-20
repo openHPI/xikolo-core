@@ -159,7 +159,7 @@ describe Course::ProgressController, type: :controller do
         expect(response.body).to include 'My learning progress'
 
         video_id = UUID4.try_convert(video['id']).to_s(format: :base62)
-        expect(response.body).to include "<a href=\"/courses/#{course_code}/items/#{video_id}\">"
+        expect(response.body).to include "<a class=\"bs-a\" href=\"/courses/#{course_code}/items/#{video_id}\">"
       end
     end
 

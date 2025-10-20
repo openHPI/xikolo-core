@@ -26,7 +26,7 @@
           include_blank: t(:'.please_select')
 
     .col-md-12
-      hr.hr
+      hr.hr.bs-hr
 
       = javascript_include_tag 'dimple.js', crossorigin: 'anonymous', integrity: true, defer: true, debug: false
 
@@ -145,4 +145,4 @@
           - total_avg = average.sum
           - total_percentage = total_avg.positive? ? (total_avg.fdiv(@stats_quizzes[stat[0]].max_points) * 100).round : 0
           = "#{total_avg.round(2)} (#{total_percentage}#{t(:'.percent_of')} #{@stats_quizzes[stat[0]].max_points} #{t(:'.total')})"
-        hr
+        hr.bs-hr

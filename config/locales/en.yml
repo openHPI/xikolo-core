@@ -674,7 +674,7 @@ en:
         mein_bildungsraum: Mein Bildungsraum
         saml: Single Sign-On (SAML)
         saml_test_id: SAMLtest ID
-        saml_test_id_notice: Don’t know how to use SAML Test Single Sign-On? <a href='/pages/faq' target='_blank'>Learn how it works.</a>
+        saml_test_id_notice: Don't know how to use SAML Test Single Sign-On? <a class='bs-a' href='/pages/faq' target='_blank'>Learn how it works.</a>
 
     # Navigation
     navigation:
@@ -744,7 +744,7 @@ en:
     headline:
       brand: "%{brand} "
       remainder: "Helpdesk"
-    notice: "Have you already <a href='/pages/faq' target='_blank' rel='noopener'>checked our FAQ</a> for an answer to your question?"
+    notice: "Have you already <a class='bs-a' href='/pages/faq' target='_blank' rel='noopener'>checked our FAQ</a> for an answer to your question?"
     notice_title: Hint
     text: Please describe your technical problem using the textbox below. Information about your browser and your e-mail address will be automatically submitted along with your issue report.
     report_title: Title of your issue
@@ -791,7 +791,7 @@ en:
   redirect:
     target_info: "You're being redirected to <b>%{name}</b>, which is outside of %{brand}. This can take up to <b>5 seconds.</b>"
     skip_in_future: Don't show this message again.
-    manual_redirect: "If this is taking too long or you're not being redirected,<br /><a href='%{url}'>click here to continue</a>."
+    manual_redirect: "If this is taking too long or you're not being redirected,<br /><a class='bs-a' href='%{url}'>click here to continue</a>."
 
   account:
     confirmations:
@@ -829,10 +829,10 @@ en:
           text: Here you can restrict the information needed for other users to find you.
         notification:
           headline: My notification settings
-          mail_info: Notifications via e-mail are currently sent to <em>%{email}</em>. You can change this address in your <a href='/dashboard/profile'>profile</a>.
+          mail_info: Notifications via e-mail are currently sent to <em>%{email}</em>. You can change this address in your <a class='bs-a' href='/dashboard/profile'>profile</a>.
           primary_email_suspended: >
             Your e-mail notifications have been disabled due to problems delivering to your primary e-mail address.
-            Please replace or reactivate your e-mail address in your <a href='/dashboard/profile'>profile</a>.
+            Please replace or reactivate your e-mail address in your <a class='bs-a' href='/dashboard/profile'>profile</a>.
           event_notifications: Event notifications
           event: Event
           default_settings: Reset to default settings
@@ -885,7 +885,7 @@ en:
             <b>unless you already have an account (with a different e-mail address) and want to connect it with your %{provider} login.</b></p>
           btn_connect: Login and connect to existing account
           btn_cancel: Continue with new account
-          mbr_hint: "For %{provider}, continuing with a new account is currently not supported. Please add your %{provider} login in your profile after <a href='%{url}'>creating a new account</a>."
+          mbr_hint: "For %{provider}, continuing with a new account is currently not supported. Please add your %{provider} login in your profile after <a class='bs-a' href='%{url}'>creating a new account</a>."
         text: This is the first time you are logging in to %{brand} with this digital identity.
         text_create: New to learning on %{brand}?
         btn_create: Create a new account
@@ -901,11 +901,11 @@ en:
         headline: Connect an existing %{brand} account
         text: Please enter the credentials of your existing %{brand} account. You only have to do this once. In future, you will be able to log in to %{brand} with %{provider} Single Sign-On.
         btn_cancel: Cancel
-        hint: Forgot your password or your password isn’t working? Please contact the <a href='/helpdesk'>helpdesk</a>.
+        hint: Forgot your password or your password isn't working? Please contact the <a class='bs-a' href='/helpdesk'>helpdesk</a>.
     policies:
       show:
         headline: Privacy Statement
-        instructions: "Before you continue, please read and accept our current <a href='%{link}' target='_blank'>privacy statement</a> in relation to the use of %{brand} (statement opens in external window)."
+        instructions: "Before you continue, please read and accept our current <a class='bs-a' href='%{link}' target='_blank'>privacy statement</a> in relation to the use of %{brand} (statement opens in external window)."
         label:
           submit: "Proceed"
     treatments:
@@ -953,7 +953,7 @@ en:
             </li>
             <li>
               <em>Please note that password reset links can only be used once.</em> You can
-              <a href="%{url}">request a new password reset link</a> or contact the helpdesk
+              <a class="bs-a" href="%{url}">request a new password reset link</a> or contact the helpdesk
               if the problem persists or you suspect someone else had access to your
               account or the reset link.
             </li>
@@ -970,13 +970,13 @@ en:
       new:
         title: "Welcome to %{brand}"
         text: "Create a new account on %{brand}. Just fill in your details.<br /><i>Notice:</i> Your name will be shown on your %{brand} Record of Achievement."
-        privacy: "<b>Please notice:</b> Your personal data will be processed on %{brand} in accordance with our <a href='%{link}' target='_blank'>privacy policy</a>. By creating a user account on %{brand}, you agree to the terms of our <a href='%{link}' target='_blank'>privacy policy</a>."
+        privacy: "<b>Please notice:</b> Your personal data will be processed on %{brand} in accordance with our <a class='bs-a' href='%{link}' target='_blank'>privacy policy</a>. By creating a user account on %{brand}, you agree to the terms of our <a class='bs-a' href='%{link}' target='_blank'>privacy policy</a>."
         submit: "Register for %{brand}"
       verify:
         headline: Please verify your account
         message: You will receive an email for verification in the next few minutes.
         confirmation_period: The verification link will be valid for three days.
-        notice: Please check your spam folder if you did not receive the confirmation email, and if you do not receive one within the next 15 minutes, please contact the <a href='https://open.hpi.de/helpdesk?locale=en' target='_blank' rel='noopener'>helpdesk</a>.
+        notice: Please check your spam folder if you did not receive the confirmation email, and if you do not receive one within the next 15 minutes, please contact the <a class='bs-a' href='https://open.hpi.de/helpdesk?locale=en' target='_blank' rel='noopener'>helpdesk</a>.
     shared:
       consent:
         marketing:
@@ -991,7 +991,7 @@ en:
           consent_declined_at: "You have declined this consent on %{date}."
           required: required
           notice: "<p>You can give or revoke optional consents at any time.</p><p>Required consents are necessary to provide you with the basic %{brand} services and can only be revoked by deleting your user account, which cannot be reverted.</p>"
-          external: "This consent is managed by a central consent catalog (Consent Manager). You can view or change your settings at any time on <a href=%{url} target='_blank' rel='noopener'>this page</a>."
+          external: "This consent is managed by a central consent catalog (Consent Manager). You can view or change your settings at any time on <a class='bs-a' href=%{url} target='_blank' rel='noopener'>this page</a>."
         external_notice: This consent is managed by a central consent catalog (Consent Manager).
 
   admin:
@@ -2145,7 +2145,7 @@ en:
         current: Current courses
         upcoming: Upcoming courses
         archive: Self-paced courses
-        reactivation_upsell_html: "You now have the opportunity to earn a Record of Achievement for many courses in self-paced mode. Learn more about our <a href='/pages/course_reactivation' target='_blank'> course reactivation option</a>."
+        reactivation_upsell_html: "You now have the opportunity to earn a Record of Achievement for many courses in self-paced mode. Learn more about our <a class='bs-a' href='/pages/course_reactivation' target='_blank'> course reactivation option</a>."
         load_more: Load more courses
         error: An error occurred while loading additional courses. Please try again later.
 
@@ -2171,7 +2171,7 @@ en:
         language: Language
         reactivate_course:
           headline: Reactivate this course
-          notice: "You can access all graded assignments and earn a Record of Achievement with the <a href='/pages/course_reactivation' target='_blank'>course reactivation option</a>. Learn more or "
+          notice: "You can access all graded assignments and earn a Record of Achievement with the <a class='bs-a' href='/pages/course_reactivation' target='_blank'>course reactivation option</a>. Learn more or "
           upgrade_now: reactivate now!
         open_mode:
           text: You can watch most of our course videos right away! No login required.
@@ -2182,8 +2182,8 @@ en:
         cop_requirements: "Gain a <b>Confirmation of Participation</b> by completing at least <b>%{cop_threshold}%</b> of the course material."
         tor_requirements: "Gain a <b>Transcript of Records</b> by fulfilling all requirements for this course."
         open_badge_requirements: "Gain an <b>Open Badge</b> by completing the course."
-        guidelines_link: "Find out more in the <a href='/pages/roa_guidelines'>certificate guidelines</a>."
-        qc_guidelines_link: "Find out more in the <a href='/pages/document_types'>certificate guidelines</a>."
+        guidelines_link: "Find out more in the <a href='/pages/roa_guidelines' class='bs-a'>certificate guidelines</a>."
+        qc_guidelines_link: "Find out more in the <a href='/pages/document_types' class='bs-a'>certificate guidelines</a>."
         learning_goals: What you'll learn
         target_groups: Who this course is for
 
@@ -2318,9 +2318,6 @@ en:
           farthest_watched: "watched till <span>%{farthest_watched}%</span> by all users on average" # Do not translate
           forward_seeks: "seeked <span>%{seeks}</span> times forward" # Do not translate
           backward_seeks: "seeked <span>%{seeks}</span> times backward" # Do not translate
-          user_interactions: User Interactions over the Video Duration # Do not translate
-          time_in_s: Time in Seconds # Do not translate
-          count: Event Count # Do not translate
         rich_text: # Do not translate
           link_clicks: Link Clicks # Do not translate
           total_clicks: "<span>%{clicks}</span> clicks on links by <span>%{users}</span> users" # Do not translate
@@ -2384,7 +2381,7 @@ en:
           complete: Complete
     certificates:
       title: My course certificates
-      guideline_link: "Find out more on the <a href='%{url}'>the certificate guidelines page</a>."
+      guideline_link: "Find out more on the <a class='bs-a' href='%{url}'>the certificate guidelines page</a>."
       requirements: Requirements
       achieved_state: Achieved
       in_progress_state: In Progress
@@ -2529,7 +2526,7 @@ en:
         placeholder: Course code of the clone
         course_code_empty: The course code for the clone cannot be empty.
         new_course_not_empty: The target course for the clone may not have content (sections).
-        clone_started: "Course cloning started. You can find the cloned course in the <a href='/admin/courses'>courses list</a>."
+        clone_started: "Course cloning started. You can find the cloned course in the <a class='bs-a' href='/admin/courses'>courses list</a>."
       fork: Fork
       recalculate_learning_evaluation: Recalculate now
       recalculate_title: The learner's progresses for this course need to be recalculated
@@ -2780,10 +2777,10 @@ en:
       current: My current courses
       upcoming: My upcoming courses
       completed: My completed courses
-    not_enrolled_upcoming: 'You are not enrolled in any upcoming courses. Explore our <a href="/courses">courses</a>.'
+    not_enrolled_upcoming: 'You are not enrolled in any upcoming courses. Explore our <a class="bs-a" href="/courses">courses</a>.'
     mark_completed: Mark as completed
     mark_completed_confirmation: By choosing this option, you move the course permanently from your current courses to your completed courses. You can still access the course from there.
-    more_courses: 'Hint: You can still find all other courses you are not yet enrolled for in <a href="/courses">the course archive</a> and register for self-study (without Record of Achievement).'
+    more_courses: 'Hint: You can still find all other courses you are not yet enrolled for in <a class="bs-a" href="/courses">the course archive</a> and register for self-study (without Record of Achievement).'
     sidebar:
       dates: Next dates per course
       dates_empty: You don't have any upcoming dates.
@@ -2836,7 +2833,7 @@ en:
       password_confirmation: "Confirm password"
       birthdate: "Date of birth"
       select_birthdate: "Please select"
-      show_birthdate_on_record: "You can decide in your <a href='%{url}'>certificates page</a> if you want your certificates to show your date of birth."
+      show_birthdate_on_record: "You can decide in your <a class='bs-a' href='%{url}'>certificates page</a> if you want your certificates to show your date of birth."
       combodate_format: "YYYY-MM-DD"
       combodate_viewformat: "MMMM D, YYYY"
       combodate_template: "MMMM DD, YYYY"
@@ -3211,12 +3208,12 @@ en:
 
     documents:
       my_documents: My certificates
-      text: "Here you can find all your certificates (records of achievement and confirmations of participation) in one place. You are qualified for a graded <i>Record of Achievement</i> if you score at least %{roa_threshold}%% of the overall maximum score from homework assignments and final examination of a course. You can download your <i>Confirmation of Participation</i>, if you work through at least %{cop_threshold}%% of the learning material of a course. See the <a href='/pages/roa_guidelines'>Certificate Guidelines</a> for more information."
+      text: "Here you can find all your certificates (records of achievement and confirmations of participation) in one place. You are qualified for a graded <i>Record of Achievement</i> if you score at least %{roa_threshold}%% of the overall maximum score from homework assignments and final examination of a course. You can download your <i>Confirmation of Participation</i>, if you work through at least %{cop_threshold}%% of the learning material of a course. See the <a class='bs-a' href='/pages/roa_guidelines'>Certificate Guidelines</a> for more information."
       show_birthdate: "Show date of birth on my certificates"
       no_documents: There are no certificates available yet.
       my_upcoming_courses: My upcoming courses
       proctoring_chart: Online proctoring results
-      divergent_certificate_requirements: "Divergent certificate requirements, see <a href='/courses/%{course_code}'>course details</a>."
+      divergent_certificate_requirements: "Divergent certificate requirements, see <a class='bs-a' href='/courses/%{course_code}'>course details</a>."
       not_yet_published: The certificates for this course are not yet published. As soon as they’re available, you’ll receive an email notification. This  usually happens within one week after the final exam due date.
       transcript_of_records: "A <i>Transcript of Records</i> is available for courses that offer a summarized, tabular record of achievement for all required courses. All requirements must be met to qualify for this."
 
@@ -3571,14 +3568,14 @@ en:
       end_at: "Open until %{date}"
       vote: Vote
       thanks: Thank you for voting!
-      poll_archive_link: "You can see the results in the <a href='%{link}'>poll archive</a> as soon as the poll ends."
-      not_enough_participants: "You can see the results in the <a href='%{link}'>poll archive</a> as soon it has a sufficient number of participants."
+      poll_archive_link: "You can see the results in the <a class='bs-a' href='%{link}'>poll archive</a> as soon as the poll ends."
+      not_enough_participants: "You can see the results in the <a class='bs-a' href='%{link}'>poll archive</a> as soon it has a sufficient number of participants."
       next_poll: Next poll
       recent_results: Recent poll results
       intermediate_results: "Intermediate results with %{participants} participants."
     archive:
       headline: Polls Archive
-      place_vote: "This poll is still open until %{date}. Please <a href='%{link}'>place your vote</a>!"
+      place_vote: "This poll is still open until %{date}. Please <a class='bs-a' href='%{link}'>place your vote</a>!"
       intermediate_results: "Intermediate results with %{participants} participants."
       final_results: "Poll ended on %{date} with %{participants} participants."
       not_ended: "This poll ends on %{date}. The results will be shown afterwards."
@@ -3589,7 +3586,7 @@ en:
     headline_show: Certificate Details
     valid: "The certificate for the verification code <i>%{code}</i> is valid."
     user_deleted: The account of this candidate has been deleted. For this reason, we can no longer verify this certificate.
-    narrative: "%{brand} verifies that the candidate completed the course <a href='%{link}'>%{title}</a> and passed the necessary exercises and exams to earn a course certificate."
+    narrative: "%{brand} verifies that the candidate completed the course <a class='bs-a' href='%{link}'>%{title}</a> and passed the necessary exercises and exams to earn a course certificate."
     narrative_meta: "%{brand} verifies that the candidate completed the course %{title} and passed the necessary exercises and exams to earn a course certificate."
     user_data: User Info
     issued_for: Issued for
@@ -3676,7 +3673,7 @@ en:
     remove: Remove
     add_user:
       button: Add user
-    enrollment_list: 'See the members of this group in the <a href="%{url}">enrollment list</a>.'
+    enrollment_list: 'See the members of this group in the <a class="bs-a" href="%{url}">enrollment list</a>.'
     group_names:
       admins: Course administrators
       moderators: Course moderators

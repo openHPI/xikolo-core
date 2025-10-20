@@ -13,7 +13,7 @@
             - if user_state.available?(comment.author.id)
               span.gamification-userstate.gamification-userstate-small
                 = user_state.user_state_for(comment.author.id)
-            = link_to comment.author.name, user_path(comment.author.id)
+            = link_to comment.author.name, user_path(comment.author.id), class: 'bs-a'
           span.timestamp = t(:'pinboard.question.ago', timeago: time_ago_in_words(comment.created_at))
 
         .comment-actions

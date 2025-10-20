@@ -8,8 +8,8 @@ describe 'Document Localizations: Create', type: :request do
       .rel(:localizations).post(data).value!
   end
 
-  let!(:document) { create(:document, :english) }
-  let(:data) { attributes_for(:document_localization) }
+  let!(:document) { create(:'course_service/document', :english) }
+  let(:data) { attributes_for(:'course_service/document_localization') }
   let(:api) { Restify.new(:test).get.value }
   let(:upload_id) { 'f13d30d3-6369-4816-9695-af5318c8ac15' }
   let(:file_url) do

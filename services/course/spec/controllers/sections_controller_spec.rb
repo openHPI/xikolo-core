@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe SectionsController, type: :controller do
   let(:json) { JSON.parse response.body }
-  let(:section) { create(:section) }
+  let(:section) { create(:'course_service/section') }
   let(:default_params) { {format: 'json'} }
 
   before { section }
@@ -28,21 +28,21 @@ describe SectionsController, type: :controller do
     end
 
     it 'returns a list with filter' do
-      create(:section)
+      create(:'course_service/section')
       get :index, params: {course_id: section.course_id}
       expect(json).to have(1).item
     end
 
     context 'with published filter' do
       it 'filters out unpublished sections' do
-        create(:section, published: false)
+        create(:'course_service/section', published: false)
         get :index, params: {published: true}
         expect(json).to have(1).item
       end
     end
 
     context 'with UUID' do
-      let!(:sections) { create_list(:section, 10) }
+      let!(:sections) { create_list(:'course_service/section', 10) }
       let(:params) { {id: sections[2].id} }
 
       before { action.call }
@@ -54,20 +54,20 @@ describe SectionsController, type: :controller do
 
     context 'alternative sections' do
       it 'returns a filtered list without alternative_sections' do
-        create(:section, alternative_state: 'child')
+        create(:'course_service/section', alternative_state: 'child')
         get :index
         expect(json).to have(1).item
       end
 
       it 'returns a complete list with alternative_section filter' do
-        create(:section, alternative_state: 'parent')
+        create(:'course_service/section', alternative_state: 'parent')
         get :index
         expect(json).to have(2).item
       end
 
       context 'with parent_id' do
         it 'returns a list of alternative_sections for that section' do
-          create_list(:section, 4, alternative_state: 'child', parent_id: section.id)
+          create_list(:'course_service/section', 4, alternative_state: 'child', parent_id: section.id)
           get :index, params: {parent_id: section.id}
           expect(json).to have(4).items
         end
@@ -75,7 +75,7 @@ describe SectionsController, type: :controller do
 
       context 'explicitly include_alternatives' do
         it 'returns all sections' do
-          create_list(:section, 4, alternative_state: 'child', parent_id: section.id)
+          create_list(:'course_service/section', 4, alternative_state: 'child', parent_id: section.id)
           get :index, params: {include_alternatives: true}
           expect(json).to have(5).items
         end
@@ -106,8 +106,8 @@ describe SectionsController, type: :controller do
   end
 
   describe 'POST \'create\'' do
-    let(:course) { create(:course) }
-    let(:params) { attributes_for(:section, course_id: course.id) }
+    let(:course) { create(:'course_service/course') }
+    let(:params) { attributes_for(:'course_service/section', course_id: course.id) }
 
     it 'returns http success' do
       post(:create, params:)
@@ -120,7 +120,7 @@ describe SectionsController, type: :controller do
 
     it 'answers with section' do
       post(:create, params:)
-      expect(json['title']).to eq attributes_for(:section)[:title]
+      expect(json['title']).to eq attributes_for(:'course_service/section')[:title]
     end
 
     context 'with parent_id' do
@@ -147,8 +147,8 @@ describe SectionsController, type: :controller do
 
     let(:action) { -> { patch :update, params: params.merge(id: section.id) } }
 
-    let(:course) { create(:course) }
-    let(:section) { create(:section, course:) }
+    let(:course) { create(:'course_service/course') }
+    let(:section) { create(:'course_service/section', course:) }
 
     let(:params) { {title: 'New Title'} }
 
@@ -159,7 +159,7 @@ describe SectionsController, type: :controller do
     context 'position update' do
       let(:sections) do
         (1..7).each_with_object([nil]) do |position, sections|
-          sections << create(:section, course:, position:)
+          sections << create(:'course_service/section', course:, position:)
         end
       end
 
@@ -237,7 +237,7 @@ describe SectionsController, type: :controller do
 
     context 'with items' do
       before do
-        create(:item, section:)
+        create(:'course_service/item', section:)
       end
 
       it 'does not change the section count' do
@@ -255,11 +255,11 @@ describe SectionsController, type: :controller do
     end
 
     context 'with forks' do
-      let(:course) { create(:course, :with_content_tree) }
-      let(:section) { create(:section, course:) }
+      let(:course) { create(:'course_service/course', :with_content_tree) }
+      let(:section) { create(:'course_service/section', course:) }
 
       before do
-        create(:fork, section:, course:)
+        create(:'course_service/fork', section:, course:)
       end
 
       it 'also does not change the amount of shown sections' do
@@ -274,13 +274,13 @@ describe SectionsController, type: :controller do
     end
 
     context 'parent with children' do
-      let(:section) { create(:section, :parent) }
+      let(:section) { create(:'course_service/section', :parent) }
 
       before do
-        create_list(:section, 5, :child, parent: section)
+        create_list(:'course_service/section', 5, :child, parent: section)
 
-        another_section = create(:section, :parent)
-        create_list(:section, 3, :child, parent: another_section)
+        another_section = create(:'course_service/section', :parent)
+        create_list(:'course_service/section', 3, :child, parent: another_section)
       end
 
       it 'removes the section and its child sections' do

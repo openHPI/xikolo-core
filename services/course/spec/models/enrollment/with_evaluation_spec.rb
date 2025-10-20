@@ -5,9 +5,9 @@ require 'spec_helper'
 describe Enrollment, '#with_evaluation', type: :model do
   subject(:evaluation) { Enrollment.all.with_evaluation }
 
-  let!(:enrollment1) { create(:enrollment) }
-  let!(:enrollment2) { create(:enrollment) }
-  let!(:enrollment3) { create(:enrollment) }
+  let!(:enrollment1) { create(:'course_service/enrollment') }
+  let!(:enrollment2) { create(:'course_service/enrollment') }
+  let!(:enrollment3) { create(:'course_service/enrollment') }
 
   context 'without any course progresses' do
     it { expect(evaluation.size).to eq 3 }
@@ -26,7 +26,7 @@ describe Enrollment, '#with_evaluation', type: :model do
 
   context 'with course progresses' do
     before do
-      create(:course_progress, course: enrollment1.course, user_id: enrollment1.user_id,
+      create(:'course_service/course_progress', course: enrollment1.course, user_id: enrollment1.user_id,
         visits: 10,
         main_dpoints: 50,
         bonus_dpoints: 20,
@@ -35,7 +35,7 @@ describe Enrollment, '#with_evaluation', type: :model do
         points_percentage_fpoints: 46_66,
         visits_percentage_fpoints: 33_33)
 
-      create(:course_progress, course: enrollment2.course, user_id: enrollment2.user_id,
+      create(:'course_service/course_progress', course: enrollment2.course, user_id: enrollment2.user_id,
         visits: 7,
         main_dpoints: 3,
         bonus_dpoints: 0,
@@ -44,7 +44,7 @@ describe Enrollment, '#with_evaluation', type: :model do
         points_percentage_fpoints: 30_00,
         visits_percentage_fpoints: 20_00)
 
-      create(:course_progress, course: enrollment3.course, user_id: enrollment3.user_id,
+      create(:'course_service/course_progress', course: enrollment3.course, user_id: enrollment3.user_id,
         visits: 50,
         main_dpoints: 50,
         bonus_dpoints: 10,

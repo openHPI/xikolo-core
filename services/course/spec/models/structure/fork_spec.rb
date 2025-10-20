@@ -33,15 +33,15 @@ describe Structure::Fork, type: :model do
     )
   end
 
-  let(:course) { create(:course, :with_content_tree) }
-  let(:fork) { create(:fork, section:, course:) }
-  let(:section) { create(:section, course:) }
+  let(:course) { create(:'course_service/course', :with_content_tree) }
+  let(:fork) { create(:'course_service/fork', section:, course:) }
+  let(:section) { create(:'course_service/section', course:) }
 
   let(:uuid) { '041f16f2-f484-4da2-8cbe-6f53aaeecee1' }
   let(:test_branch) { test_fork.branches[0] }
-  let(:test_fork) { create(:fork, section:, course:, content_test: fork.content_test) }
-  let(:test_item) { create(:item, section:) }
-  let(:test_section) { create(:section, course:) }
+  let(:test_fork) { create(:'course_service/fork', section:, course:, content_test: fork.content_test) }
+  let(:test_item) { create(:'course_service/item', section:) }
+  let(:test_section) { create(:'course_service/section', course:) }
 
   describe 'validation' do
     it { is_expected.to accept_values_for :parent, test_section.node }

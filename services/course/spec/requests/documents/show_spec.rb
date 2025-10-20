@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Documents: Show', type: :request do
   subject(:action) { api.rel(:document).get(params).value! }
 
-  let(:document) { create(:document, :with_localizations) }
+  let(:document) { create(:'course_service/document', :with_localizations) }
 
   let(:api) { Restify.new(:test).get.value }
 
@@ -48,7 +48,7 @@ describe 'Documents: Show', type: :request do
   end
 
   context 'with a non-existent ID' do
-    let!(:localization) { create(:document_localization) }
+    let!(:localization) { create(:'course_service/document_localization') }
     let(:params) { {id: localization.id} }
 
     it 'responds with 404 Not Found' do
@@ -59,7 +59,7 @@ describe 'Documents: Show', type: :request do
   end
 
   context 'deleted document' do
-    let(:document) { create(:document, deleted: true) }
+    let(:document) { create(:'course_service/document', deleted: true) }
 
     it 'responds with 404 Not Found' do
       expect { action }.to raise_error(Restify::ClientError) do |error|

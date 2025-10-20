@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe Cluster do
-  let(:cluster) { create(:cluster) }
+  let(:cluster) { create(:'course_service/cluster') }
 
   describe '(validations)' do
     it { expect(cluster).to accept_values_for :id, 'mycluster', 'mycluster-1', 'my-cluster', 'my_cluster' }
@@ -13,7 +13,7 @@ describe Cluster do
     it { expect(cluster).not_to accept_values_for :sort_mode, nil, '', 'invalid' }
 
     it do
-      create(:cluster, id: 'mycluster')
+      create(:'course_service/cluster', id: 'mycluster')
       expect(cluster).not_to accept_values_for :id, 'MyCluster'
     end
 
@@ -30,13 +30,13 @@ describe Cluster do
   end
 
   describe 'deletion' do
-    let(:cluster) { create(:cluster) }
+    let(:cluster) { create(:'course_service/cluster') }
 
     before do
-      create_list(:classifier, 3, cluster:)
+      create_list(:'course_service/classifier', 3, cluster:)
 
       # And a classifier in another cluster that should not be deleted
-      create(:classifier, cluster: create(:cluster))
+      create(:'course_service/classifier', cluster: create(:'course_service/cluster'))
     end
 
     it 'deletes all classifiers' do

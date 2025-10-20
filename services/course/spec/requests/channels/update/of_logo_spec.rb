@@ -9,7 +9,7 @@ describe 'Channel: update of logo', type: :request do
 
   let(:api) { Restify.new(:test).get.value }
   let(:channel) do
-    create(:channel,
+    create(:'course_service/channel',
       logo_uri: 's3://xikolo-public/channels/1/logo_v1.jpg')
   end
 

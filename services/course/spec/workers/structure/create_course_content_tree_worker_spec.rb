@@ -5,10 +5,10 @@ require 'spec_helper'
 RSpec.describe Structure::CreateCourseContentTreeWorker, type: :worker do
   subject(:perform) { described_class.new.perform(course.id) }
 
-  let(:course) { create(:course, course_code: 'the-course') }
+  let(:course) { create(:'course_service/course', course_code: 'the-course') }
 
   context 'with existing course content tree' do
-    let(:course) { create(:course, :with_content_tree, course_code: 'the-course') }
+    let(:course) { create(:'course_service/course', :with_content_tree, course_code: 'the-course') }
 
     it 'aborts as the course content tree would be overwritten' do
       expect { perform }.to raise_error RuntimeError
@@ -20,12 +20,12 @@ RSpec.describe Structure::CreateCourseContentTreeWorker, type: :worker do
   end
 
   context 'with sections and items' do
-    let(:s1) { create(:section, course:) }
-    let(:s2) { create(:section, course:) }
+    let(:s1) { create(:'course_service/section', course:) }
+    let(:s2) { create(:'course_service/section', course:) }
 
     before do
-      2.times {|i| create(:item, section: s1, title: "1.#{i}") }
-      3.times {|i| create(:item, section: s2, title: "2.#{i}") }
+      2.times {|i| create(:'course_service/item', section: s1, title: "1.#{i}") }
+      3.times {|i| create(:'course_service/item', section: s2, title: "2.#{i}") }
     end
 
     it 'creates the course node' do
@@ -53,7 +53,7 @@ RSpec.describe Structure::CreateCourseContentTreeWorker, type: :worker do
     end
 
     it 'does not affect other courses / their structure nodes' do
-      another_course = create(:course, course_code: 'another-course')
+      another_course = create(:'course_service/course', course_code: 'another-course')
 
       expect { perform }.not_to change { Structure::Root.where(course: another_course).count }
     end

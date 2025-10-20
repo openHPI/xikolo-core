@@ -13,6 +13,7 @@
                 - c.with_action do
                   = link_to t(:'dashboard.mark_completed'),
                     complete_enrollment_path(@enrollments[course.id]),
+                    class: 'bs-a',
                     method: :post,
                     data: {confirm: t(:'dashboard.mark_completed_confirmation')}
   = render Global::Callout.new(t(:'dashboard.more_courses'))

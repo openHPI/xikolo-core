@@ -66,12 +66,12 @@ end
 RSpec.describe 'Courses: Update with stage visual', type: :request do
   subject(:update_course) { api.rel(:course).patch(data, params: {id: course.id}).value! }
 
-  let!(:course) { create(:course, initial_params) }
+  let!(:course) { create(:'course_service/course', initial_params) }
   let(:api) { Restify.new(:test).get.value! }
   let(:upload_id) { '83aebd2a-f026-4d58-8a61-5ee4f1a7cbfa' }
   let(:file_name) { 'image.jpg' }
   let(:file_url) { "https://s3.xikolo.de/xikolo-uploads/uploads/#{upload_id}/#{file_name}" }
-  let(:cluster) { create(:cluster) }
+  let(:cluster) { create(:'course_service/cluster') }
   let(:classifiers) { {cluster.id => ['Internet Technology 2', 'Beginner', 'Cat3', 'Cat4']} }
 
   before do

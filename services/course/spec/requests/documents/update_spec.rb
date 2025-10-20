@@ -5,8 +5,8 @@ require 'spec_helper'
 describe 'Documents: Update', type: :request do
   subject(:action) { api.rel(:document).patch(data, params: {id: document.id}).value! }
 
-  let!(:document) { create(:document, :with_localizations) }
-  let!(:course) { create(:course, :full_blown) }
+  let!(:document) { create(:'course_service/document', :with_localizations) }
+  let!(:course) { create(:'course_service/course', :full_blown) }
 
   let(:api) { Restify.new(:test).get.value }
 

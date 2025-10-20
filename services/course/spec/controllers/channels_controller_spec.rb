@@ -3,9 +3,9 @@
 require 'spec_helper'
 
 describe ChannelsController, type: :controller do
-  let(:channel) { create(:channel) }
-  let(:archived_channel) { create(:channel, archived: true) }
-  let(:affiliated_channel) { create(:channel, affiliated: true) }
+  let(:channel) { create(:'course_service/channel') }
+  let(:archived_channel) { create(:'course_service/channel', archived: true) }
+  let(:affiliated_channel) { create(:'course_service/channel', affiliated: true) }
   let(:json) { JSON.parse response.body }
   let(:default_params) { {format: 'json'} }
   let(:params) { {} }
@@ -43,7 +43,7 @@ describe ChannelsController, type: :controller do
       let(:params) { {public: 'true'} }
 
       before do
-        create_list(:channel, 2, public: false)
+        create_list(:'course_service/channel', 2, public: false)
         action.call
       end
 
@@ -95,7 +95,7 @@ describe ChannelsController, type: :controller do
   end
 
   describe "POST 'create'" do
-    let(:params) { attributes_for(:channel) }
+    let(:params) { attributes_for(:'course_service/channel') }
     let(:action) { -> { post :create, params: } }
 
     it 'creates new channel' do
@@ -108,7 +108,7 @@ describe ChannelsController, type: :controller do
     end
 
     context 'full record' do
-      let!(:params) { attributes_for(:channel, :full_blown) }
+      let!(:params) { attributes_for(:'course_service/channel', :full_blown) }
 
       before { action.call }
 

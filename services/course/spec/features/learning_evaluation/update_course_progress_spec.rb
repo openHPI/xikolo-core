@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'Learning Evaluation: Update course progress', type: :feature do
-  let!(:homework) { create(:item, :homework, max_dpoints: 20) }
+  let!(:homework) { create(:'course_service/item', :homework, max_dpoints: 20) }
   let(:user_id) { generate(:user_id) }
 
   before do
@@ -18,7 +18,7 @@ describe 'Learning Evaluation: Update course progress', type: :feature do
     end
 
     it 'does not immediately update an existing course progress' do
-      create(:course_progress, course: homework.section.course, user_id:)
+      create(:'course_service/course_progress', course: homework.section.course, user_id:)
 
       expect { create_result }.not_to change(CourseProgress, :count)
     end
@@ -39,7 +39,7 @@ describe 'Learning Evaluation: Update course progress', type: :feature do
     end
 
     it '(asynchronously) updates an existing course progress' do
-      course_progress = create(:course_progress, course: homework.section.course, user_id:)
+      course_progress = create(:'course_service/course_progress', course: homework.section.course, user_id:)
 
       expect do
         Sidekiq::Testing.inline! { create_result }
@@ -59,14 +59,14 @@ describe 'Learning Evaluation: Update course progress', type: :feature do
   describe 'Updating a result' do
     subject(:update_result) { result.update!(dpoints: 20) }
 
-    let(:result) { create(:result, user_id:, item: homework) }
+    let(:result) { create(:'course_service/result', user_id:, item: homework) }
 
     it 'does not immediately create a new course progress' do
       expect { update_result }.not_to change(CourseProgress, :count)
     end
 
     it 'does not immediately update an existing course progress' do
-      create(:course_progress, course: homework.section.course, user_id:)
+      create(:'course_service/course_progress', course: homework.section.course, user_id:)
 
       expect { update_result }.not_to change(CourseProgress, :count)
     end
@@ -87,7 +87,7 @@ describe 'Learning Evaluation: Update course progress', type: :feature do
     end
 
     it '(asynchronously) updates an existing course progress' do
-      course_progress = create(:course_progress, course: homework.section.course, user_id:)
+      course_progress = create(:'course_service/course_progress', course: homework.section.course, user_id:)
 
       expect do
         Sidekiq::Testing.inline! { update_result }
@@ -107,14 +107,14 @@ describe 'Learning Evaluation: Update course progress', type: :feature do
   describe 'Creating a visit' do
     subject(:create_visit) { Visit.create! user_id:, item: video }
 
-    let!(:video) { create(:item) }
+    let!(:video) { create(:'course_service/item') }
 
     it 'does not immediately create a new course progress' do
       expect { create_visit }.not_to change(CourseProgress, :count)
     end
 
     it 'does not immediately update an existing course progress' do
-      create(:course_progress, course: video.section.course, user_id:)
+      create(:'course_service/course_progress', course: video.section.course, user_id:)
 
       expect { create_visit }.not_to change(CourseProgress, :count)
     end
@@ -128,7 +128,7 @@ describe 'Learning Evaluation: Update course progress', type: :feature do
     end
 
     it '(asynchronously) updates an existing course progress' do
-      course_progress = create(:course_progress, course: video.section.course, user_id:)
+      course_progress = create(:'course_service/course_progress', course: video.section.course, user_id:)
 
       expect do
         Sidekiq::Testing.inline! { create_visit }

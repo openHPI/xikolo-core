@@ -10,7 +10,7 @@
     = render Navigation::Tabs.new(collapsible: true) do |c|
       - nav.each do |item|
         - c.with_tab(active: item.active?(request))
-          = link_to item.link, data: {behavior: item.popover}
+          = link_to item.link, class: 'bs-a', data: {behavior: item.popover}
             = render Global::FaIcon.new(item.icon_class, css_classes: 'mr5')
             = item.text
       - if deadlines.show?

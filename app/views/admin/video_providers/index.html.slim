@@ -23,9 +23,9 @@
                     button data-behavior='copy-to-clipboard' data-text=provider.id
                       = t(:'.copy_id')
                   - c.with_action
-                    = link_to t(:'.edit'), edit_admin_video_provider_path(provider)
+                    = link_to t(:'.edit'), edit_admin_video_provider_path(provider), class: 'bs-a'
                   - c.with_destructive_action
-                    = link_to admin_video_provider_path(provider), method: :delete, data: {confirm: t(:'.confirm_delete'), disable_with: t(:'.deleting')}
+                    = link_to admin_video_provider_path(provider), class: 'bs-a', method: :delete, data: {confirm: t(:'.confirm_delete'), disable_with: t(:'.deleting')}
                       = t(:'.delete')
                       = render Global::FaIcon.new('trash-can')
       = render Global::Callout.new(t(:'admin.video_providers.index.synchronization.info'),
@@ -37,4 +37,4 @@
           span.caret
         ul.dropdown-menu
           - Video::Provider::VALID_PROVIDER_TYPES.each_key do |type|
-            li = link_to t(:"admin.videos.provider_type.#{type}"), new_admin_video_provider_path(type:)
+            li = link_to t(:"admin.videos.provider_type.#{type}"), new_admin_video_provider_path(type:), class: 'bs-a'

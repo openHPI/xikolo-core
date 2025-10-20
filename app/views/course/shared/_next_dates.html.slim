@@ -5,7 +5,7 @@ h3.course-details--section-title = t :'course.courses.show.dates_and_stats'
   .next-date
     = render Global::FaIcon.new('clock-rotate-left', css_classes: 'fa-flip-horizontal mr5')
     - if event.do_url.present?
-      = link_to event.do_url do
+      = link_to event.do_url, class: 'bs-a' do
         == event.description
         =< event_time_distance
     - else

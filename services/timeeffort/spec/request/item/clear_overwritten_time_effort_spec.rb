@@ -7,7 +7,7 @@ RSpec.describe 'Item: clear_overwritten_time_effort', type: :request do
     api.rel(:item_overwritten_time_effort).delete({item_id: item.id}).value!
   end
 
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(timeeffort_service_url).get.value! }
   let(:item_id) { '00000001-3300-4444-9999-000000000001' }
   let(:item) { create(:'timeeffort_service/item', id: item_id) }
 

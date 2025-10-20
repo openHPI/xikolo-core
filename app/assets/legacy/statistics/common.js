@@ -136,7 +136,13 @@ export function renderPinboardActivityTable(target, data) {
     },
     preprocessors: {
       user: function (cellData) {
-        return '<a href="/users/' + cellData.id + '">' + cellData.name + '</a>';
+        return (
+          '<a href="/users/' +
+          cellData.id +
+          '" class="bs-a">' +
+          cellData.name +
+          '</a>'
+        );
       },
       posts: function (cellData, row) {
         return row.posts;
@@ -218,7 +224,7 @@ export function renderTopItemsTable(target, data) {
           target.dataset.courseCode +
           '/items/' +
           row.item_id +
-          '" data-sort-value="' +
+          '" class="bs-a" data-sort-value="' +
           cellData +
           '">' +
           cellData +
@@ -286,7 +292,7 @@ export function renderVideoStatisticsTable(target, data) {
           target.dataset.courseCode +
           '/items/' +
           row.id +
-          '" data-sort-value="' +
+          '" class="bs-a" data-sort-value="' +
           row.title +
           '">' +
           row.title +
@@ -363,7 +369,7 @@ export function renderDownloadsTable(target, data) {
           target.dataset.courseCode +
           '/items/' +
           row.id +
-          '" data-sort-value="' +
+          '" class="bs-a" data-sort-value="' +
           row.title +
           '">' +
           row.title +
@@ -438,7 +444,7 @@ export function renderRichTextLinkClicksTable(target, data) {
           target.dataset.courseCode +
           '/items/' +
           row.id +
-          '" data-sort-value="' +
+          '" class="bs-a" data-sort-value="' +
           row.title +
           '">' +
           row.title +

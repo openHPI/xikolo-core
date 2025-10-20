@@ -11,7 +11,7 @@ describe 'Item User Results: Create', type: :request do
   end
 
   let(:api) { Restify.new(:test).get.value! }
-  let!(:item) { create(:item) }
+  let!(:item) { create(:'course_service/item') }
 
   let(:data) { {points: 2.3} }
   let(:user_id) { generate(:user_id) }
@@ -41,7 +41,7 @@ describe 'Item User Results: Create', type: :request do
   end
 
   context 'with previous result for same item and user' do
-    before { create(:result, item:, user_id:) }
+    before { create(:'course_service/result', item:, user_id:) }
 
     it 'creates another result object' do
       expect { creation }.to change(Result, :count).from(1).to(2)

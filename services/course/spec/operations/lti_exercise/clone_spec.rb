@@ -7,8 +7,8 @@ describe LtiExercise::Clone do
     described_class.call(lti_exercise, new_course_id)
   end
 
-  let!(:lti_exercise) { create(:lti_exercise, lti_provider:) }
-  let(:lti_provider) { create(:lti_provider) }
+  let!(:lti_exercise) { create(:'course_service/lti_exercise', lti_provider:) }
+  let(:lti_provider) { create(:'course_service/lti_provider') }
   let(:new_course_id) { generate(:course_id) }
 
   context 'with a referenced LTI provider' do
@@ -28,14 +28,14 @@ describe LtiExercise::Clone do
 
   context 'with an already cloned LTI provider' do
     it 'reuses the provider' do
-      new_provider = create(:lti_provider, name: lti_exercise.lti_provider.name, course_id: new_course_id)
+      new_provider = create(:'course_service/lti_provider', name: lti_exercise.lti_provider.name, course_id: new_course_id)
       expect { new_lti_exercise }.not_to change(Duplicated::LtiProvider, :count).from(2)
       expect(new_lti_exercise.lti_provider_id).to eq new_provider.id
     end
   end
 
   context 'with a global LTI provider' do
-    let(:lti_provider) { create(:lti_provider, :global) }
+    let(:lti_provider) { create(:'course_service/lti_provider', :global) }
 
     it 'reuses the global LTI provider' do
       expect { new_lti_exercise }.not_to change(Duplicated::LtiProvider, :count).from(1)
@@ -45,7 +45,7 @@ describe LtiExercise::Clone do
 
   context 'with LTI instructions' do
     let(:lti_exercise) do
-      create(:lti_exercise,
+      create(:'course_service/lti_exercise',
         lti_provider_id: lti_provider.id,
         instructions: "Test\ns3://xikolo-public/exercises/asfd/hans.jpg")
     end

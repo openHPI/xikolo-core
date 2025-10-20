@@ -8,7 +8,7 @@ describe 'Channel: update', type: :request do
   end
 
   let(:api) { Restify.new(:test).get.value }
-  let(:channel) { create(:channel) }
+  let(:channel) { create(:'course_service/channel') }
 
   context 'identified by ID' do
     let(:identifier) { channel.id }

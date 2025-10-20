@@ -8,7 +8,7 @@ describe 'Document Localizations: List', type: :request do
   let(:api) { Restify.new(:test).get.value! }
   let(:params) { {} }
 
-  before { create_list(:document_localization, 3) }
+  before { create_list(:'course_service/document_localization', 3) }
 
   it { is_expected.to respond_with :ok }
   it { is_expected.to have(3).items }

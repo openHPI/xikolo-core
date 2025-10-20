@@ -1,4 +1,5 @@
 @import 'tailwindcss' source(none);
+@import './theme/typography.css';
 
 @source '../../../app/views/';
 @source '../../../app/components/';

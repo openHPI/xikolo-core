@@ -21,13 +21,18 @@ $link-color-hover: color.adjust($link-color, $lightness: -8%, $space: hsl);
     Anchor-Variations
 \*------------------------------------*/
 
-a {
+.bs-a {
   color: $link-color;
+  text-decoration: none;
   word-wrap: break-word;
+  @include suppress-dotted-border();
+
   &:hover,
   &:focus,
   &:active {
     color: $link-color-hover;
+    text-decoration: $link-hover-decoration;
+    @include suppress-dotted-border();
   }
 }
 

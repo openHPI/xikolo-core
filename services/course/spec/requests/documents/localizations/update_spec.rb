@@ -6,7 +6,7 @@ describe 'Document Localization: Update', type: :request do
   subject(:action) { api.rel(:document_localization).patch(data, params: {id: localization.id}).value! }
 
   let!(:localization) do
-    create(:document_localization,
+    create(:'course_service/document_localization',
       file_uri: 's3://xikolo-public/documents/1/de_v1.pdf')
   end
   let(:upload_id) { 'f13d30d3-6369-4816-9695-af5318c8ac15' }

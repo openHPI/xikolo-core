@@ -10,8 +10,8 @@ describe 'Richtext: Show', type: :request do
   let(:service) { Restify.new(:test).get.value! }
   let(:params) { {id: richtext.id} }
   let(:text) { 'Some Text' }
-  let(:course) { create(:course, description: course_description) }
-  let(:richtext) { create(:richtext, text:, course:) }
+  let(:course) { create(:'course_service/course', description: course_description) }
+  let(:richtext) { create(:'course_service/richtext', text:, course:) }
   let(:course_description) { 'Headline!' }
 
   it { is_expected.to respond_with :ok }
@@ -36,8 +36,8 @@ describe 'Richtext: Show', type: :request do
         let(:course_description) { "Headline\ns3://xikolo-public/courses/34/rtfiles/1/desc.jpg" }
 
         before do
-          create(:richtext, course:, text: 'Stuff: s3://xikolo-public/courses/34/rtfiles/2/item.jpg')
-          create(:richtext, text: 'Stuff: s3://xikolo-public/courses/21/rtfiles/4/wrongCourse.jpg')
+          create(:'course_service/richtext', course:, text: 'Stuff: s3://xikolo-public/courses/34/rtfiles/2/item.jpg')
+          create(:'course_service/richtext', text: 'Stuff: s3://xikolo-public/courses/21/rtfiles/4/wrongCourse.jpg')
         end
 
         it 'returns existings file references of course description and other richtext items' do

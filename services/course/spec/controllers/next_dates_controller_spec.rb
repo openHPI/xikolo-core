@@ -14,9 +14,9 @@ describe NextDatesController, type: :controller do
 
   let(:course_params) { {start_date: nil, status: course_status, end_date: nil} }
   let(:course_status) { 'active' }
-  let(:section) { create(:section, {course:}.merge(section_params)) }
+  let(:section) { create(:'course_service/section', {course:}.merge(section_params)) }
   let(:section_params) { {start_date: nil, end_date: nil} }
-  let(:item) { create(:item, {section:}.merge(item_params)) }
+  let(:item) { create(:'course_service/item', {section:}.merge(item_params)) }
   let(:item_params) { {} }
 
   around do |example|
@@ -32,8 +32,8 @@ describe NextDatesController, type: :controller do
   end
 
   describe "GET 'index'" do
-    let(:course) { create(:course, course_params) }
-    let(:enrollment) { create(:enrollment, course:, user_id:) }
+    let(:course) { create(:'course_service/course', course_params) }
+    let(:enrollment) { create(:'course_service/enrollment', course:, user_id:) }
 
     context 'type "on demand expires"' do
       let(:course_params) { {start_date: 1.day.ago, status: 'archive'} }
@@ -186,7 +186,7 @@ describe NextDatesController, type: :controller do
         end
 
         context 'with additional course without enrollment' do
-          before { create(:course, status: 'active', start_date: 3.days.from_now) }
+          before { create(:'course_service/course', status: 'active', start_date: 3.days.from_now) }
 
           its(:size) { is_expected.to eq 1 }
         end
@@ -240,7 +240,7 @@ describe NextDatesController, type: :controller do
         its(:size) { is_expected.to eq 1 }
 
         context 'with deleted enrollment' do
-          let(:enrollment) { create(:deleted_enrollment, course:, user_id:) }
+          let(:enrollment) { create(:'course_service/deleted_enrollment', course:, user_id:) }
 
           its(:size) { is_expected.to eq 0 }
         end
@@ -334,13 +334,13 @@ describe NextDatesController, type: :controller do
         end
 
         context 'with submission' do
-          before { create(:result, item:, user_id:) }
+          before { create(:'course_service/result', item:, user_id:) }
 
           its(:size) { is_expected.to eq 0 }
         end
 
         context 'with submission by another user' do
-          before { create(:result, item:, user_id: other_user_id) }
+          before { create(:'course_service/result', item:, user_id: other_user_id) }
 
           its(:size) { is_expected.to eq 1 }
         end
@@ -351,7 +351,7 @@ describe NextDatesController, type: :controller do
       before { item; enrollment; result }
 
       let(:item_params) { {submission_publishing_date: publishing_date} }
-      let(:result) { create(:result, item:, user_id:) }
+      let(:result) { create(:'course_service/result', item:, user_id:) }
 
       context 'without deadline' do
         let(:publishing_date) { nil }
@@ -406,7 +406,7 @@ describe NextDatesController, type: :controller do
         end
 
         context 'with submission by another user' do
-          let(:result) { create(:result, item:, user_id: other_user_id) }
+          let(:result) { create(:'course_service/result', item:, user_id: other_user_id) }
 
           its(:size) { is_expected.to eq 0 }
         end
@@ -416,11 +416,11 @@ describe NextDatesController, type: :controller do
     context 'filters' do
       context 'course_id' do
         let(:params) { super().merge course_id: course.id }
-        let!(:course) { create(:course, start_date: DateTime.now + 1.day, status: 'active') }
+        let!(:course) { create(:'course_service/course', start_date: DateTime.now + 1.day, status: 'active') }
 
         before do
           enrollment
-          create(:course, start_date: DateTime.now + 3.days)
+          create(:'course_service/course', start_date: DateTime.now + 3.days)
         end
 
         its(:size) { is_expected.to eq 1 }
@@ -446,17 +446,17 @@ describe NextDatesController, type: :controller do
         end
 
         let(:dates) { (1..5).map {|i| Time.zone.now + i.days } }
-        let(:other_course) { create(:course, start_date: dates[4], status: 'active') }
+        let(:other_course) { create(:'course_service/course', start_date: dates[4], status: 'active') }
 
-        let(:other_enrollment) { create(:enrollment, user_id:, course: other_course) }
-        let(:third_enrollment) { create(:enrollment, user_id:, course: third_course) }
+        let(:other_enrollment) { create(:'course_service/enrollment', user_id:, course: other_course) }
+        let(:third_enrollment) { create(:'course_service/enrollment', user_id:, course: third_course) }
 
-        let(:third_course) { create(:course, status: 'active') }
-        let(:third_section) { create(:section, course: third_course, start_date: dates[2]) }
-        let(:third_other_section) { create(:section, course: third_course, start_date: nil) }
-        let(:third_item) { create(:item, section: third_other_section, submission_publishing_date: dates[3]) }
+        let(:third_course) { create(:'course_service/course', status: 'active') }
+        let(:third_section) { create(:'course_service/section', course: third_course, start_date: dates[2]) }
+        let(:third_other_section) { create(:'course_service/section', course: third_course, start_date: nil) }
+        let(:third_item) { create(:'course_service/item', section: third_other_section, submission_publishing_date: dates[3]) }
 
-        let(:other_section) { create(:section, course:, start_date: dates[1]) }
+        let(:other_section) { create(:'course_service/section', course:, start_date: dates[1]) }
         let(:item_params) { {submission_deadline: dates[0]} }
 
         before do
@@ -469,7 +469,7 @@ describe NextDatesController, type: :controller do
           other_section
           item
           third_item
-          create(:result, user_id:, item: third_item, dpoints: 304)
+          create(:'course_service/result', user_id:, item: third_item, dpoints: 304)
         end
 
         it 'is ordered by course position' do
@@ -491,17 +491,17 @@ describe NextDatesController, type: :controller do
     context 'order' do
       context 'by date within courses; and courses by their first date' do
         let(:dates) { (1..5).map {|i| Time.zone.now + i.days } }
-        let(:other_course) { create(:course, start_date: dates[4], status: 'active') }
+        let(:other_course) { create(:'course_service/course', start_date: dates[4], status: 'active') }
 
-        let(:other_enrollment) { create(:enrollment, user_id:, course: other_course) }
-        let(:third_enrollment) { create(:enrollment, user_id:, course: third_course) }
+        let(:other_enrollment) { create(:'course_service/enrollment', user_id:, course: other_course) }
+        let(:third_enrollment) { create(:'course_service/enrollment', user_id:, course: third_course) }
 
-        let(:third_course) { create(:course, status: 'active', start_date: 2.months.ago, end_date: 1.month.ago) }
-        let(:third_section) { create(:section, course: third_course, start_date: dates[2]) }
-        let(:third_other_section) { create(:section, course: third_course, start_date: nil) }
-        let(:third_item) { create(:item, section: third_other_section, submission_publishing_date: dates[3]) }
+        let(:third_course) { create(:'course_service/course', status: 'active', start_date: 2.months.ago, end_date: 1.month.ago) }
+        let(:third_section) { create(:'course_service/section', course: third_course, start_date: dates[2]) }
+        let(:third_other_section) { create(:'course_service/section', course: third_course, start_date: nil) }
+        let(:third_item) { create(:'course_service/item', section: third_other_section, submission_publishing_date: dates[3]) }
 
-        let(:other_section) { create(:section, course:, start_date: dates[1]) }
+        let(:other_section) { create(:'course_service/section', course:, start_date: dates[1]) }
         let(:item_params) { {submission_deadline: dates[0]} }
 
         before do
@@ -514,7 +514,7 @@ describe NextDatesController, type: :controller do
           other_section
           item
           third_item
-          create(:result, user_id:, item: third_item, dpoints: 304)
+          create(:'course_service/result', user_id:, item: third_item, dpoints: 304)
         end
 
         its(:size) { is_expected.to eq 5 }
@@ -577,10 +577,10 @@ describe NextDatesController, type: :controller do
         let(:date) { 1.day.from_now }
 
         let(:section_params) { super().merge position: 1 }
-        let(:other_section) { create(:section, course:, start_date: date, position: 3) }
-        let(:third_section) { create(:section, course:, start_date: date, position: 2) }
+        let(:other_section) { create(:'course_service/section', course:, start_date: date, position: 3) }
+        let(:third_section) { create(:'course_service/section', course:, start_date: date, position: 2) }
         let(:item_params) { {submission_deadline: date, position: 2} }
-        let(:third_item) { create(:item, section:, submission_publishing_date: date, position: 1) }
+        let(:third_item) { create(:'course_service/item', section:, submission_publishing_date: date, position: 1) }
 
         before do
           course
@@ -590,7 +590,7 @@ describe NextDatesController, type: :controller do
           item
           third_item
           enrollment
-          create(:result, user_id:, item: third_item, dpoints: 304)
+          create(:'course_service/result', user_id:, item: third_item, dpoints: 304)
         end
 
         it 'is ordered by course position' do

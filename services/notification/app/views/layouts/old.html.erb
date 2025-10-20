@@ -47,9 +47,9 @@
                   <tr>
                     <th class="first last large-12 small-12 columns receiver-info">
                       <% if  @receiver %>
-                          <hr class="condensed" > <%= I18n.t('notifications.mail_was_sent_to') %>
+                          <hr class="condensed bs-hr" > <%= I18n.t('notifications.mail_was_sent_to') %>
                           <%= @receiver.full_name %> (<%= @receiver.email %>)
-                          <hr class="condensed" >
+                          <hr class="condensed bs-hr" >
                       <% end %>
                     </th>
                     <th class="expander"></th>
@@ -81,7 +81,7 @@
                 <table class="row">
                   <tr>
                     <th class="first last large-12 small-12 columns">
-                      <hr>
+                      <hr class="bs-hr">
                       <%= render partial: 'notifications/disable_link', locals: {type: "notifications.type.#{@key}"} %>
                       <br>
                       <%= render partial: 'layouts/footer_v2' %>

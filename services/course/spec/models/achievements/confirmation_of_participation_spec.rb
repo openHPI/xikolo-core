@@ -19,13 +19,13 @@ describe Achievements::ConfirmationOfParticipation, type: :model do
 
   subject(:cop) { described_class.new(course, evaluation) }
 
-  let(:course) { create(:course, :active, course_params) }
+  let(:course) { create(:'course_service/course', :active, course_params) }
   let(:course_params) { {cop_enabled: true, roa_enabled: true} }
   let(:user_id) { enrollment.user_id }
-  let(:enrollment) { create(:enrollment, course:) }
-  let(:item_params) { {section: create(:section, course:), published: true, optional: false} }
+  let(:enrollment) { create(:'course_service/enrollment', course:) }
+  let(:item_params) { {section: create(:'course_service/section', course:), published: true, optional: false} }
 
-  before { create(:item, item_params) }
+  before { create(:'course_service/item', item_params) }
 
   around do |example|
     Sidekiq::Testing.inline!(&example)
@@ -41,13 +41,13 @@ describe Achievements::ConfirmationOfParticipation, type: :model do
     end
 
     context 'and the user has qualified for the CoP' do
-      let(:item4) { create(:item, item_params) }
-      let(:visit) { create(:visit, item: item4, user_id:, created_at: 5.minutes.ago) }
+      let(:item4) { create(:'course_service/item', item_params) }
+      let(:visit) { create(:'course_service/visit', item: item4, user_id:, created_at: 5.minutes.ago) }
 
       before do
-        create(:item, item_params)
-        item3 = create(:item, item_params)
-        create(:visit, item: item3, user_id:, created_at: 10.minutes.ago)
+        create(:'course_service/item', item_params)
+        item3 = create(:'course_service/item', item_params)
+        create(:'course_service/visit', item: item3, user_id:, created_at: 10.minutes.ago)
         item4
         visit
       end
@@ -83,7 +83,7 @@ describe Achievements::ConfirmationOfParticipation, type: :model do
       end
 
       context 'with existing course content tree' do
-        let(:course) { create(:course, :with_content_tree, :active, course_params) }
+        let(:course) { create(:'course_service/course', :with_content_tree, :active, course_params) }
 
         # Reload course structure record to recalculate tree indices.
         before { course.node.reload }
@@ -100,9 +100,9 @@ describe Achievements::ConfirmationOfParticipation, type: :model do
 
       context 'with some items visited' do
         before do
-          create_list(:item, 2, item_params)
-          item4 = create(:item, item_params)
-          create(:visit, item: item4, user_id:, created_at: 5.minutes.ago)
+          create_list(:'course_service/item', 2, item_params)
+          item4 = create(:'course_service/item', item_params)
+          create(:'course_service/visit', item: item4, user_id:, created_at: 5.minutes.ago)
         end
 
         it { is_expected.not_to be_achieved }
@@ -112,9 +112,9 @@ describe Achievements::ConfirmationOfParticipation, type: :model do
 
       context 'with sufficient visits for optional items' do
         before do
-          items = create_list(:item, 2, item_params.merge(optional: true))
+          items = create_list(:'course_service/item', 2, item_params.merge(optional: true))
           items.each do |item|
-            create(:visit, item:, user_id:, created_at: 5.minutes.ago)
+            create(:'course_service/visit', item:, user_id:, created_at: 5.minutes.ago)
           end
         end
 
@@ -125,9 +125,9 @@ describe Achievements::ConfirmationOfParticipation, type: :model do
 
       context 'with sufficient visits for non-published items' do
         before do
-          items = create_list(:item, 2, item_params.merge(published: false))
+          items = create_list(:'course_service/item', 2, item_params.merge(published: false))
           items.each do |item|
-            create(:visit, item:, user_id:, created_at: 5.minutes.ago)
+            create(:'course_service/visit', item:, user_id:, created_at: 5.minutes.ago)
           end
         end
 
@@ -138,11 +138,11 @@ describe Achievements::ConfirmationOfParticipation, type: :model do
 
       context 'with sufficient visits in optional sections' do
         before do
-          optional_section = create(:section, course:, optional_section: true)
+          optional_section = create(:'course_service/section', course:, optional_section: true)
 
-          items = create_list(:item, 2, item_params.merge(section: optional_section))
+          items = create_list(:'course_service/item', 2, item_params.merge(section: optional_section))
           items.each do |item|
-            create(:visit, item:, user_id:, created_at: 5.minutes.ago)
+            create(:'course_service/visit', item:, user_id:, created_at: 5.minutes.ago)
           end
         end
 
@@ -153,8 +153,8 @@ describe Achievements::ConfirmationOfParticipation, type: :model do
 
       context 'with sufficient visits by another user' do
         before do
-          item2 = create(:item, item_params)
-          create(:visit, item: item2, user_id: generate(:user_id), created_at: 5.minutes.ago)
+          item2 = create(:'course_service/item', item_params)
+          create(:'course_service/visit', item: item2, user_id: generate(:user_id), created_at: 5.minutes.ago)
         end
 
         it { is_expected.not_to be_achieved }
@@ -166,12 +166,12 @@ describe Achievements::ConfirmationOfParticipation, type: :model do
         # Ensure the course is running forever to set the latest result for the
         # achievement date of the RoA (instead of the course end date).
         let(:course_params) { super().merge(end_date: nil) }
-        let(:item4) { create(:item, :homework, :with_max_points, item_params) }
-        let(:visit) { create(:visit, item: item4, user_id:, created_at: 5.minutes.ago) }
-        let(:result) { create(:result, item: item4, user_id:, dpoints: 8, created_at: 2.minutes.ago) }
+        let(:item4) { create(:'course_service/item', :homework, :with_max_points, item_params) }
+        let(:visit) { create(:'course_service/visit', item: item4, user_id:, created_at: 5.minutes.ago) }
+        let(:result) { create(:'course_service/result', item: item4, user_id:, dpoints: 8, created_at: 2.minutes.ago) }
 
         before do
-          create_list(:item, 2, item_params)
+          create_list(:'course_service/item', 2, item_params)
           item4
           visit
           result

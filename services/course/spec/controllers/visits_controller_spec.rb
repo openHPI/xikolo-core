@@ -5,7 +5,7 @@ require 'spec_helper'
 describe VisitsController, type: :controller do
   let(:json) { JSON.parse response.body }
   let(:default_params) { {format: 'json'} }
-  let(:item) { create(:item) }
+  let(:item) { create(:'course_service/item') }
 
   describe '#create' do
     subject(:creation) { post :create, params: }
@@ -22,7 +22,7 @@ describe VisitsController, type: :controller do
       end
 
       context 'with visit already existing for course item' do
-        let(:visit) { create(:visit, item:, user_id: params[:user_id]) }
+        let(:visit) { create(:'course_service/visit', item:, user_id: params[:user_id]) }
         let(:create_time) { 10.minutes.ago }
         let(:recreate_time) { 10.minutes.from_now }
 

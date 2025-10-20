@@ -6,7 +6,7 @@ describe 'Items: List', type: :request do
   subject(:list) { api.rel(:items).get(params).value! }
 
   variant 'Without course content tree (traditional)' do
-    let(:course) { create(:course, course_code: 'the-course') }
+    let(:course) { create(:'course_service/course', course_code: 'the-course') }
     let(:variant_before) do
       # *After* other items exist, add a new item in front of them.
       # This lets us test the public "position" attribute.
@@ -15,11 +15,11 @@ describe 'Items: List', type: :request do
   end
 
   variant 'With course content tree' do
-    let(:course) { create(:course, :with_content_tree, course_code: 'the-course') }
+    let(:course) { create(:'course_service/course', :with_content_tree, course_code: 'the-course') }
     let(:params) { super().merge(section_id: section.id) }
     let(:variant_before) do
       # Create a corresponding course content tree:
-      fork = create(:fork, section:, course:, title: 'Fork')
+      fork = create(:'course_service/fork', section:, course:, title: 'Fork')
       items[1].node.move_to_child_of(fork.branches[0].node)
 
       # NOTE: When requesting items, the user will automatically be assigned
@@ -37,9 +37,9 @@ describe 'Items: List', type: :request do
 
   let(:api) { Restify.new(:test).get.value }
   let(:params) { {} }
-  let(:section) { create(:section, course:, title: 'Week 1') }
-  let!(:items) { create_list(:item, 2, :quiz, :with_max_points, section:) }
-  let(:late_item) { create(:item, :quiz, section:).tap {|i| items << i } }
+  let(:section) { create(:'course_service/section', course:, title: 'Week 1') }
+  let!(:items) { create_list(:'course_service/item', 2, :quiz, :with_max_points, section:) }
+  let(:late_item) { create(:'course_service/item', :quiz, section:).tap {|i| items << i } }
 
   before do
     # Specifying a native `before` blocks here and in variants leads to a
@@ -71,7 +71,7 @@ describe 'Items: List', type: :request do
       context 'with visit resource' do
         before do
           items.each do |item|
-            create(:visit, user_id:, item:)
+            create(:'course_service/visit', user_id:, item:)
           end
         end
 
@@ -80,7 +80,7 @@ describe 'Items: List', type: :request do
         context 'with result resource' do
           before do
             items.each do |item|
-              create(:result, user_id:, item:, dpoints: 3)
+              create(:'course_service/result', user_id:, item:, dpoints: 3)
             end
           end
 
@@ -90,8 +90,8 @@ describe 'Items: List', type: :request do
         context 'with multiple result resources for the same item' do
           before do
             items.each do |item|
-              create(:result, user_id:, item:, dpoints: 3)
-              create(:result, user_id:, item:, dpoints: 5)
+              create(:'course_service/result', user_id:, item:, dpoints: 3)
+              create(:'course_service/result', user_id:, item:, dpoints: 5)
             end
           end
 
@@ -102,7 +102,7 @@ describe 'Items: List', type: :request do
           before do
             items.each do |item|
               item.update!(submission_publishing_date: 1.day.ago)
-              create(:result, user_id:, item:, dpoints: 3)
+              create(:'course_service/result', user_id:, item:, dpoints: 3)
             end
           end
 
@@ -113,7 +113,7 @@ describe 'Items: List', type: :request do
           before do
             items.each do |item|
               item.update!(submission_publishing_date: 1.day.from_now)
-              create(:result, user_id:, item:, dpoints: 3)
+              create(:'course_service/result', user_id:, item:, dpoints: 3)
             end
           end
 

@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe Course::Clone do
   let(:course) do
-    create(:course, :full_blown, course_code: 'original-course', records_released: true)
+    create(:'course_service/course', :full_blown, course_code: 'original-course', records_released: true)
   end
   let(:context_id) { generate(:context_id) }
 
@@ -91,7 +91,7 @@ describe Course::Clone do
       end
 
       context 'when the original course is proctored' do
-        let(:course) { create(:course, proctored: true) }
+        let(:course) { create(:'course_service/course', proctored: true) }
 
         it 'disables proctoring for the new course' do
           expect(new_course.proctored).to be_falsey
@@ -158,7 +158,7 @@ describe Course::Clone do
 
         context 'with only images' do
           before do
-            create(:visual, course:)
+            create(:'course_service/visual', course:)
           end
 
           it 'clones the course visual' do
@@ -178,7 +178,7 @@ describe Course::Clone do
 
         context 'with a teaser video' do
           before do
-            create(:visual, :with_video, course:)
+            create(:'course_service/visual', :with_video, course:)
           end
 
           it 'clones the teaser video' do
@@ -197,7 +197,7 @@ describe Course::Clone do
         end
 
         before do
-          create(:visual, course:)
+          create(:'course_service/visual', course:)
         end
 
         it 'does not clone the course visual' do
@@ -252,9 +252,9 @@ describe Course::Clone do
           Richtext.destroy item.content_id
           item.delete
         end
-        rts = create_list(:richtext, 2, course_id: course.id, text: "Test\ns3://xikolo-public/courses/oldId/rtfiles/34/logo.jpg")
+        rts = create_list(:'course_service/richtext', 2, course_id: course.id, text: "Test\ns3://xikolo-public/courses/oldId/rtfiles/34/logo.jpg")
         rts.each do |richtext|
-          create(:item, section: course.sections.first, content_id: richtext.id, content_type: 'rich_text')
+          create(:'course_service/item', section: course.sections.first, content_id: richtext.id, content_type: 'rich_text')
         end
 
         copy_file = stub_request(
@@ -273,11 +273,11 @@ describe Course::Clone do
       end
 
       context 'with an LTI exercise' do
-        let(:lti_exercise) { create(:lti_exercise, lti_provider:) }
-        let(:lti_provider) { create(:lti_provider) }
+        let(:lti_exercise) { create(:'course_service/lti_exercise', lti_provider:) }
+        let(:lti_provider) { create(:'course_service/lti_provider') }
 
         before do
-          create(:item,
+          create(:'course_service/item',
             section: course.sections.first,
             title: 'LTI Exercise',
             content_type: 'lti_exercise',
@@ -306,7 +306,7 @@ describe Course::Clone do
         end
 
         context 'with a global provider' do
-          let(:lti_provider) { create(:lti_provider, :global) }
+          let(:lti_provider) { create(:'course_service/lti_provider', :global) }
 
           it 'does not copy the provider' do
             expect { new_course }.not_to change(Duplicated::LtiProvider, :count)
@@ -370,7 +370,7 @@ describe Course::Clone do
       Course.find_by course_code: 'existing-course'
     end
 
-    before { create(:course, course_code: 'existing-course', created_at: 2.months.ago) }
+    before { create(:'course_service/course', course_code: 'existing-course', created_at: 2.months.ago) }
 
     describe '(attributes)' do
       it 'does not overwrite course timestamps' do
@@ -386,7 +386,7 @@ describe Course::Clone do
       end
 
       describe 'when the original course is proctored' do
-        let(:course) { create(:course, proctored: true) }
+        let(:course) { create(:'course_service/course', proctored: true) }
 
         it 'disables proctoring for the course' do
           expect(existing_course.proctored).to be_falsey

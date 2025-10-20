@@ -5,7 +5,7 @@
         .pinboard-breadcrumbs
           span = t(:'pinboard.breadcrumbs.label')
           - @pinboard.breadcrumbs.for_list.each_level do |url, text|
-            = link_to text, url
+            = link_to text, url, class: 'bs-a'
       / Thread buttons
       - if @pinboard.open?
         .col-sm-4.pt10#pinboard-actions
@@ -14,11 +14,11 @@
             = t(:'pinboard.ask_question')
           .mt10.text-right
             - if @course_subscription.present?
-              = link_to course_subscription_path(@course_subscription['id'], course_id: @course.id), method: :delete, disable_with: '...' do
+              = link_to course_subscription_path(@course_subscription['id'], course_id: @course.id), method: :delete, disable_with: '...', class: 'bs-a' do
                 = render Global::FaIcon.new('star', style: :solid, css_classes: 'xi-icon')
                 = t(:'pinboard.unsubscribe')
             - else
-              = link_to course_subscriptions_path(course_id: @course.id), method: :post, disable_with: '...' do
+              = link_to course_subscriptions_path(course_id: @course.id), method: :post, disable_with: '...', class: 'bs-a' do
                 = render Global::FaIcon.new('star', css_classes: 'xi-icon')
                 = t(:'pinboard.subscribe')
       - else

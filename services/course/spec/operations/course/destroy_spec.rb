@@ -8,7 +8,7 @@ describe Course::Destroy, type: :operation do
   let(:code) { 'the-course-code' }
   let(:stage_visual_uri) { nil }
   let(:course) do
-    create(:course,
+    create(:'course_service/course',
       course_code: code,
       stage_visual_uri:)
   end

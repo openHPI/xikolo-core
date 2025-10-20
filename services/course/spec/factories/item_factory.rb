@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :item do
+  factory :'course_service/item', class: 'Item' do
     title { 'Introduction Speech' }
     start_date { 10.days.ago }
     end_date { 17.days.from_now }
@@ -9,7 +9,7 @@ FactoryBot.define do
     content_id { 'b2157ab3-454b-4777-bb31-976b99cb016f' }
     time_effort { 120 }
 
-    association(:section, strategy: :create)
+    association(:section, factory: :'course_service/section', strategy: :create)
 
     trait :quiz do
       title { 'A Quiz' }

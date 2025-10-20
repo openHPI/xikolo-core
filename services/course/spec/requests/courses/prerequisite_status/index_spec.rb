@@ -9,7 +9,7 @@ describe 'Course: Prerequisite Status: Index', type: :request do
   end
 
   let(:api) { Restify.new(:test).get.value! }
-  let(:course) { create(:course) }
+  let(:course) { create(:'course_service/course') }
   let(:user_id) { generate(:user_id) }
 
   context 'for a course without prerequisites' do
@@ -29,27 +29,27 @@ describe 'Course: Prerequisite Status: Index', type: :request do
   end
 
   context 'for a course with multiple prerequisites' do
-    let(:roa_course) { create(:course, :archived, start_date: 4.months.ago, records_released: true, roa_enabled: true) }
-    let(:cop_course) { create(:course, :archived, start_date: 5.months.ago, records_released: true, cop_enabled: true) }
+    let(:roa_course) { create(:'course_service/course', :archived, start_date: 4.months.ago, records_released: true, roa_enabled: true) }
+    let(:cop_course) { create(:'course_service/course', :archived, start_date: 5.months.ago, records_released: true, cop_enabled: true) }
 
     before do
-      track = create(:course_set)
+      track = create(:'course_service/course_set')
       track.courses << course
 
-      roa_requirement = create(:course_set)
+      roa_requirement = create(:'course_service/course_set')
       roa_requirement.courses << roa_course
 
-      create(:course_set_relation, source_set: track, target_set: roa_requirement, kind: 'requires_roa')
+      create(:'course_service/course_set_relation', source_set: track, target_set: roa_requirement, kind: 'requires_roa')
 
-      cop_requirement = create(:course_set)
+      cop_requirement = create(:'course_service/course_set')
       cop_requirement.courses << cop_course
 
-      create(:course_set_relation, source_set: track, target_set: cop_requirement, kind: 'requires_cop')
+      create(:'course_service/course_set_relation', source_set: track, target_set: cop_requirement, kind: 'requires_cop')
 
       # CoP requirement is fulfilled
-      cop_item = create(:item, section: create(:section, course: cop_course))
-      create(:enrollment, course: cop_course, user_id:)
-      create(:visit, item: cop_item, user_id:)
+      cop_item = create(:'course_service/item', section: create(:'course_service/section', course: cop_course))
+      create(:'course_service/enrollment', course: cop_course, user_id:)
+      create(:'course_service/visit', item: cop_item, user_id:)
 
       # Visual
       roa_course.create_visual!(image_uri: "s3://xikolo-public/courses/#{roa_course.id}/encodedUUUID/visual.jpg")
@@ -98,13 +98,13 @@ describe 'Course: Prerequisite Status: Index', type: :request do
     context 'when all the requirements are met' do
       before do
         # Ensure the RoA course is completed as well
-        roa_item = create(:item, :homework, :with_max_points, section: create(:section, course: roa_course))
-        create(:enrollment, course: roa_course, user_id:)
-        create(:result, item: roa_item, user_id:, dpoints: 8)
+        roa_item = create(:'course_service/item', :homework, :with_max_points, section: create(:'course_service/section', course: roa_course))
+        create(:'course_service/enrollment', course: roa_course, user_id:)
+        create(:'course_service/result', item: roa_item, user_id:, dpoints: 8)
       end
 
       context 'and the user is enrolled in the track' do
-        before { create(:enrollment, course:, user_id:) }
+        before { create(:'course_service/enrollment', course:, user_id:) }
 
         it 'responds with completely fulfilled prerequisites' do
           expect(index).to respond_with :ok
@@ -210,7 +210,7 @@ describe 'Course: Prerequisite Status: Index', type: :request do
       end
 
       context 'but the user has un-enrolled from the track' do
-        before { create(:enrollment, course:, user_id:, deleted: true) }
+        before { create(:'course_service/enrollment', course:, user_id:, deleted: true) }
 
         it 'responds with completely fulfilled prerequisites' do
           expect(index).to respond_with :ok

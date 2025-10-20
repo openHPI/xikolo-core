@@ -12,15 +12,15 @@ li.section class="#{'available' if section.available?}" data-id=section.id data-
       ul.dropdown-menu
         li.scroll_marker: a href='javascript:void(0)' data-show-on-click="#edit_section_form_#{section.id}"
           = t(:'sections.admin.edit')
-        li = link_to t(:'sections.admin.move_up'), move_course_section_path(position: :up, id: section.id), method: :post
-        li = link_to t(:'sections.admin.move_down'), move_course_section_path(position: :down, id: section.id), method: :post
-        li = link_to t(:'sections.admin.move_to_top'), move_course_section_path(position: :top, id: section.id), method: :post
-        li = link_to t(:'sections.admin.move_to_bottom'), move_course_section_path(position: :bottom, id: section.id), method: :post
+        li = link_to t(:'sections.admin.move_up'), move_course_section_path(position: :up, id: section.id), class: 'bs-a', method: :post
+        li = link_to t(:'sections.admin.move_down'), move_course_section_path(position: :down, id: section.id), class: 'bs-a', method: :post
+        li = link_to t(:'sections.admin.move_to_top'), move_course_section_path(position: :top, id: section.id), class: 'bs-a', method: :post
+        li = link_to t(:'sections.admin.move_to_bottom'), move_course_section_path(position: :bottom, id: section.id), class: 'bs-a', method: :post
         - if section.items.none?
-          li = link_to t(:'sections.admin.delete'), course_section_path(id: section.id), method: :delete,
+          li = link_to t(:'sections.admin.delete'), course_section_path(id: section.id), class: 'bs-a', method: :delete,
             data: {confirm: section.alternatives? ? t(:'sections.admin.delete_with_alternatives_confirm') : t(:'sections.admin.delete_confirm')}
         - else
-          li = link_to t(:'sections.admin.delete'), '#', data: {behavior: 'section-delete-forbidden-link'}
+          li = link_to t(:'sections.admin.delete'), '#', class: 'bs-a', data: {behavior: 'section-delete-forbidden-link'}
   .labels
     - if section.unlocked?
       span.label.label-success

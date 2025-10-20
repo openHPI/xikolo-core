@@ -6,7 +6,7 @@
 .bs-container
   h2 = @email.subject
 
-  ul
+  ul.list-disc
     li = t(:'admin.announcements.show.num_deliveries', num: @email.total_deliveries)
     li
       => t(:'admin.announcements.show.authored_by')

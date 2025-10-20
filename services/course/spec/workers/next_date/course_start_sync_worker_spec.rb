@@ -4,7 +4,7 @@ require 'spec_helper'
 
 RSpec.describe NextDate::CourseStartSyncWorker, type: :worker do
   let(:course) do
-    create(:course,
+    create(:'course_service/course',
       status: course_status,
       display_start_date:,
       start_date:)

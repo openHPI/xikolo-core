@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Items: Show', type: :request do
   subject(:resource) { api.rel(:item).get(params).value! }
 
-  let(:item) { create(:item) }
+  let(:item) { create(:'course_service/item') }
   let(:api) { Restify.new(:test).get.value }
   let(:params) { {id: item.id} }
 
@@ -18,7 +18,7 @@ describe 'Items: Show', type: :request do
     end
 
     context 'for graded items, i.e. quizzes' do
-      let(:item) { create(:item, :homework) }
+      let(:item) { create(:'course_service/item', :homework) }
 
       it { is_expected.to have_rel(:user_grade) }
     end
@@ -26,7 +26,7 @@ describe 'Items: Show', type: :request do
 
   describe '[open_mode]' do
     context 'with an item in open mode' do
-      let(:item) { create(:item, open_mode: true) }
+      let(:item) { create(:'course_service/item', open_mode: true) }
 
       it 'respects course visibility (the course is in preparation)' do
         expect(resource['open_mode']).to be false
@@ -59,7 +59,7 @@ describe 'Items: Show', type: :request do
       its(['user_visit']) { is_expected.to be_nil }
 
       context 'with a visit by the user' do
-        before { create(:visit, item:, user_id:) }
+        before { create(:'course_service/visit', item:, user_id:) }
 
         its(['user_visit']) { is_expected.to respond_to(:to_hash) }
       end
@@ -67,12 +67,12 @@ describe 'Items: Show', type: :request do
   end
 
   context 'with forks (and branches)' do
-    let(:course) { create(:course, :with_content_tree) }
-    let(:section) { create(:section, course:, title: 'Week 1') }
-    let(:regular_item) { create(:item, section:, title: 'Regular Item') }
-    let(:item_branch1) { create(:item, section:, title: 'Item in Branch 1') }
-    let(:item_branch2) { create(:item, section:, title: 'Item in Branch 2') }
-    let(:fork) { create(:fork, section:, course:, title: 'Fork') }
+    let(:course) { create(:'course_service/course', :with_content_tree) }
+    let(:section) { create(:'course_service/section', course:, title: 'Week 1') }
+    let(:regular_item) { create(:'course_service/item', section:, title: 'Regular Item') }
+    let(:item_branch1) { create(:'course_service/item', section:, title: 'Item in Branch 1') }
+    let(:item_branch2) { create(:'course_service/item', section:, title: 'Item in Branch 2') }
+    let(:fork) { create(:'course_service/fork', section:, course:, title: 'Fork') }
 
     let(:json) { JSON.parse resource.response.body }
 
@@ -170,11 +170,11 @@ describe 'Items: Show', type: :request do
 
     describe '(previous / next items)' do
       let(:user_id) { generate(:user_id) }
-      let(:regular_item2) { create(:item, section:, title: 'Regular Item 2') }
-      let(:regular_item3) { create(:item, section:, title: 'Regular Item 3') }
-      let(:item_branch21) { create(:item, section:, title: 'Item in Branch 2-1') }
-      let(:item_branch22) { create(:item, section:, title: 'Item in Branch 2-2') }
-      let(:fork2) { create(:fork, section:, course:, content_test: fork.content_test, title: 'Fork 2') }
+      let(:regular_item2) { create(:'course_service/item', section:, title: 'Regular Item 2') }
+      let(:regular_item3) { create(:'course_service/item', section:, title: 'Regular Item 3') }
+      let(:item_branch21) { create(:'course_service/item', section:, title: 'Item in Branch 2-1') }
+      let(:item_branch22) { create(:'course_service/item', section:, title: 'Item in Branch 2-2') }
+      let(:fork2) { create(:'course_service/fork', section:, course:, content_test: fork.content_test, title: 'Fork 2') }
 
       before do
         regular_item2

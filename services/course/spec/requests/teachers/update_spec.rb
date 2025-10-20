@@ -6,7 +6,7 @@ describe 'Teacher: Update', type: :request do
   subject(:update_action) { api.rel(:teacher).patch(data, params: {id: teacher.id}).value! }
 
   let(:api) { Restify.new(:test).get.value }
-  let(:teacher) { create(:teacher) }
+  let(:teacher) { create(:'course_service/teacher') }
 
   context 'change name' do
     let(:data) { {'name' => 'Hans Otto'} }
@@ -17,7 +17,7 @@ describe 'Teacher: Update', type: :request do
   end
 
   context 'change user_id' do
-    let!(:teacher) { create(:teacher, :connected_to_user) }
+    let!(:teacher) { create(:'course_service/teacher', :connected_to_user) }
 
     context 'user_id not given' do
       let(:data) { {} }

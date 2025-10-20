@@ -5,7 +5,7 @@ require 'spec_helper'
 describe Enrollment::Delete, type: :operation do
   subject(:operation) { handler.call enrollment }
 
-  let(:enrollment) { create(:enrollment) }
+  let(:enrollment) { create(:'course_service/enrollment') }
   let(:handler) { described_class }
   let(:membership_stub) do
     Stub.request(

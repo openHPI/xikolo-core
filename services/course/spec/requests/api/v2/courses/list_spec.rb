@@ -12,7 +12,7 @@ describe '[API v2] Course: List', type: :request do
   let(:user_id) { generate(:user_id) }
   let(:user) { {} }
   let(:permissions) { [] }
-  let!(:course) { create(:course, course_attrs) }
+  let!(:course) { create(:'course_service/course', course_attrs) }
   let(:course_attrs) { {} }
   let(:course_full) { Course.where(id: course.id).from('embed_courses AS courses').take! }
 
@@ -40,7 +40,7 @@ describe '[API v2] Course: List', type: :request do
     end
 
     it 'lists course (when enrollment)' do
-      create(:enrollment, user_id:, course_id: course.id)
+      create(:'course_service/enrollment', user_id:, course_id: course.id)
       expect(request).to eq json([course_full.decorate.as_json(api_version: 2)])
       expect(request[0]['id']).to eq course_full.id
     end
@@ -52,7 +52,7 @@ describe '[API v2] Course: List', type: :request do
     end
 
     it 'does not list course (when enrollment)' do
-      create(:enrollment, user_id:, course_id: course.id)
+      create(:'course_service/enrollment', user_id:, course_id: course.id)
       expect(request).to eq json([])
     end
   end
@@ -64,7 +64,7 @@ describe '[API v2] Course: List', type: :request do
     end
 
     it 'lists course (when enrollment)' do
-      create(:enrollment, user_id:, course_id: course.id)
+      create(:'course_service/enrollment', user_id:, course_id: course.id)
       expect(request).to eq json([course_full.decorate.as_json(api_version: 2)])
       expect(request[0]['id']).to eq course_full.id
     end
@@ -197,7 +197,7 @@ describe '[API v2] Course: List', type: :request do
   describe 'channel filter' do
     subject(:request) { api.rel(:courses).get(params).value }
 
-    let!(:channel_course) { create(:course, :with_channel, status: 'active') }
+    let!(:channel_course) { create(:'course_service/course', :with_channel, status: 'active') }
     let(:channel_course_full) { Course.where(id: channel_course.id).from('embed_courses AS courses').take! }
 
     context 'as student' do
@@ -319,7 +319,7 @@ describe '[API v2] Course: List', type: :request do
     end
 
     context 'with enrollment' do
-      let!(:enrollment) { create(:enrollment, user_id:, course_id: course.id) }
+      let!(:enrollment) { create(:'course_service/enrollment', user_id:, course_id: course.id) }
 
       its(['id']) { is_expected.to eq course.id }
 
@@ -395,11 +395,11 @@ describe '[API v2] Course: List', type: :request do
   describe 'document filter' do
     subject(:request) { api.rel(:courses).get(params).value }
 
-    let!(:document1) { create(:document) }
-    let!(:document2) { create(:document) }
-    let!(:course_a) { create(:course, :active) }
-    let!(:course_b) { create(:course, :active) }
-    let!(:course_c) { create(:course) }
+    let!(:document1) { create(:'course_service/document') }
+    let!(:document2) { create(:'course_service/document') }
+    let!(:course_a) { create(:'course_service/course', :active) }
+    let!(:course_b) { create(:'course_service/course', :active) }
+    let!(:course_c) { create(:'course_service/course') }
     let(:params) { {document_id: document1.id} }
 
     let(:permissions) { ['course.course.index'] }

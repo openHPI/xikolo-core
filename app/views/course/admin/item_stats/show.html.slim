@@ -39,4 +39,5 @@
           = t(:'course.admin.item_stats.show.show_item')
 
       .item-stats__custom
-        = @item_stats.render(self)
+        - if @item_stats.respond_to?(:render)
+          = @item_stats.render(self)

@@ -1,6 +1,6 @@
 .footer-logo-wrapper
   - if link?
-    = link_to @href, target: '_blank', rel: 'noopener' do
+    = link_to @href, class: 'bs-a', target: '_blank', rel: 'noopener' do
       = image_tag path, itemprop: 'image', alt: @alt
   - else
     = image_tag path, itemprop: 'image', alt: @alt

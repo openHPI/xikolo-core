@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-class RESTController < ApplicationController
+module TimeeffortService
+class RESTController < ApplicationController # rubocop:disable Layout/IndentationWidth
   module APIBehaviorFix
     def api_behavior
       raise MissingRenderer.new(format) unless has_renderer?
@@ -85,4 +86,5 @@ class RESTController < ApplicationController
   def format
     params[:format]
   end
+end
 end

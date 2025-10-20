@@ -3,9 +3,9 @@
 require 'spec_helper'
 
 RSpec.describe NextDate::OnDemandExpiresSyncWorker, type: :worker do
-  let(:course) { create(:course, status: 'active') }
-  let(:enrollment) { create(:enrollment, deleted:, course:, user_id:, forced_submission_date:) }
-  let(:other_enrollment) { create(:enrollment, course:) }
+  let(:course) { create(:'course_service/course', status: 'active') }
+  let(:enrollment) { create(:'course_service/enrollment', deleted:, course:, user_id:, forced_submission_date:) }
+  let(:other_enrollment) { create(:'course_service/enrollment', course:) }
   let(:forced_submission_date) { nil }
   let(:deleted) { false }
   let(:user_id) { generate(:user_id) }

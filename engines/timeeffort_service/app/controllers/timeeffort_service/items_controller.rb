@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-class ItemsController < RESTController
+module TimeeffortService
+class ItemsController < RESTController # rubocop:disable Layout/IndentationWidth
   respond_to :json
 
   has_scope :section_id do |_controller, scope, value|
@@ -92,4 +93,5 @@ class ItemsController < RESTController
       :time_effort,
       :time_effort_overwritten
   end
+end
 end

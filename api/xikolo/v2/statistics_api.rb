@@ -368,20 +368,6 @@ module Xikolo
             end
           end
 
-          namespace 'video_events' do
-            params do
-              requires :item_id, type: String, desc: 'The video item UUID'
-            end
-            get do
-              course_item_stats_permission! params[:item_id]
-
-              fetch_metric(
-                name: 'video_events_timeline',
-                item_id: params[:item_id]
-              ).value!
-            end
-          end
-
           namespace 'result_submissions_over_time' do
             params do
               requires :id, type: String, desc: 'The item UUID'

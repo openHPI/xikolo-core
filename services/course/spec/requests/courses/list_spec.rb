@@ -9,12 +9,12 @@ describe 'Courses: List', type: :request do
   let(:params) { {} }
 
   describe 'autocomplete filter' do
-    let!(:data_course) { create(:course, title: 'data things and more words') }
+    let!(:data_course) { create(:'course_service/course', title: 'data things and more words') }
     let(:params) { {autocomplete: 'things'} }
 
     before do
-      create(:course, title: 'nothing with the given search string')
-      create(:course, course_code: 'data_2017')
+      create(:'course_service/course', title: 'nothing with the given search string')
+      create(:'course_service/course', course_code: 'data_2017')
     end
 
     it 'filters courses by a given string' do
@@ -25,7 +25,7 @@ describe 'Courses: List', type: :request do
   context 'external registration URL' do
     let(:course_attrs) { {} }
 
-    before { create(:course, course_attrs) }
+    before { create(:'course_service/course', course_attrs) }
 
     describe 'invite-only course, with external registration' do
       let(:course_attrs) do
@@ -56,9 +56,9 @@ describe 'Courses: List', type: :request do
 
     let!(:courses) do
       [
-        create(:course, groups: []),
-        create(:course, groups: [group]),
-        create(:course, groups: [other_group]),
+        create(:'course_service/course', groups: []),
+        create(:'course_service/course', groups: [group]),
+        create(:'course_service/course', groups: [other_group]),
       ]
     end
 
@@ -71,8 +71,8 @@ describe 'Courses: List', type: :request do
       let(:user_id) { generate(:user_id) }
 
       before do
-        create(:enrollment, course: courses[0], user_id:)
-        create(:enrollment, course: courses[1], user_id:)
+        create(:'course_service/enrollment', course: courses[0], user_id:)
+        create(:'course_service/enrollment', course: courses[1], user_id:)
       end
 
       it 'includes restricted courses the user is enrolled' do
@@ -86,17 +86,17 @@ describe 'Courses: List', type: :request do
 
       let!(:courses) do
         [
-          create(:course, :active, groups: []),
-          create(:course, :active, groups: []),
-          create(:course, :active, groups: [group]),
-          create(:course, :active, groups: [group]),
-          create(:course, :active, groups: [other_group]),
+          create(:'course_service/course', :active, groups: []),
+          create(:'course_service/course', :active, groups: []),
+          create(:'course_service/course', :active, groups: [group]),
+          create(:'course_service/course', :active, groups: [group]),
+          create(:'course_service/course', :active, groups: [other_group]),
         ]
       end
 
       before do
-        create(:enrollment, course: courses[0], user_id:)
-        create(:enrollment, course: courses[2], user_id:)
+        create(:'course_service/enrollment', course: courses[0], user_id:)
+        create(:'course_service/enrollment', course: courses[2], user_id:)
 
         Stub.request(
           :account, :get, '/groups', query: {user: user_id, per_page: 1000}

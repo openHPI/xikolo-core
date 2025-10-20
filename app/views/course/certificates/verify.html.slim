@@ -78,7 +78,7 @@
 
       .col-md-3
         h3 = t(:'verify.course_data')
-        = link_to course_url(@record.course_code) do
+        = link_to course_url(@record.course_code), class: 'bs-a' do
           = render @record.course_visual
           h3.mt5 itemprop='name'
             = @record.course_title
@@ -92,7 +92,7 @@
         - if @record.learning_goals?
           p
             b = t(:'verify.course_learning_goals')
-          ul
+          ul.list-disc
             - @record.learning_goals.each do |goal|
               li = goal
 

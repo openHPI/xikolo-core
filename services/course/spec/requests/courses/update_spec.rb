@@ -4,14 +4,14 @@ require 'spec_helper'
 
 describe 'Course: Update', type: :request do
   before do
-    create(:cluster, id: 'category')
-    create(:cluster, id: 'topic')
+    create(:'course_service/cluster', id: 'category')
+    create(:'course_service/cluster', id: 'topic')
 
     Stub.service(:account, build(:'account:root'))
   end
 
   let(:api) { Restify.new(:test).get.value! }
-  let!(:course) { create(:course, initial_params) }
+  let!(:course) { create(:'course_service/course', initial_params) }
   let(:initial_params) { {classifiers: {category: %w[databases pro-track]}} }
   let(:classifiers) do
     {
@@ -89,7 +89,7 @@ describe 'Course: Update', type: :request do
   end
 
   context 'for richtext with valid uploads' do
-    let!(:course) { create(:course, initial_params) }
+    let!(:course) { create(:'course_service/course', initial_params) }
     let(:initial_params) { {id: '4290e188-6063-4721-95ea-c2b35bc95e86'} }
     let(:action) do
       api.rel(:course).patch({description: text}, params: {id: course.id}).value!
@@ -348,7 +348,7 @@ describe 'Course: Update', type: :request do
       }, params: {id: course.id}).value!
     end
 
-    let!(:course) { create(:course, groups: ['group.a']) }
+    let!(:course) { create(:'course_service/course', groups: ['group.a']) }
 
     it do
       expect { patch }

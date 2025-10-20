@@ -7,11 +7,11 @@ describe 'Item Results: List', type: :resource do
 
   let(:api) { Restify.new(:test).get.value! }
   let(:item_api) { api.rel(:item).get({id: item.id}).value! }
-  let!(:item) { create(:item) }
+  let!(:item) { create(:'course_service/item') }
 
   let(:params) { {} }
 
-  before { create_list(:result, 3, item:) }
+  before { create_list(:'course_service/result', 3, item:) }
 
   it { is_expected.to respond_with :ok }
   it { is_expected.to have(3).items }
@@ -29,8 +29,8 @@ describe 'Item Results: List', type: :resource do
 
     context 'with two more results, both for the same user' do
       let(:user_id) { generate(:user_id) }
-      let!(:good_result) { create(:result, item:, user_id:, dpoints: 300) }
-      let!(:bad_result) { create(:result, item:, user_id:, dpoints: 50) }
+      let!(:good_result) { create(:'course_service/result', item:, user_id:, dpoints: 300) }
+      let!(:bad_result) { create(:'course_service/result', item:, user_id:, dpoints: 50) }
 
       it { is_expected.to have(4).items }
 
@@ -46,8 +46,8 @@ describe 'Item Results: List', type: :resource do
     let(:params) { super().merge(user_id:) }
     let(:user_id) { generate(:user_id) }
 
-    let!(:good_result) { create(:result, item:, user_id:, dpoints: 300) }
-    let!(:bad_result) { create(:result, item:, user_id:, dpoints: 50) }
+    let!(:good_result) { create(:'course_service/result', item:, user_id:, dpoints: 300) }
+    let!(:bad_result) { create(:'course_service/result', item:, user_id:, dpoints: 50) }
 
     it "only returns the user's results" do
       ids = resource.pluck('id')

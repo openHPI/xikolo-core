@@ -65,7 +65,7 @@
 
     - if @channel.info_link?
       .show-more-link
-        = link_to @channel.info_link_url
+        = link_to @channel.info_link_url, class: 'bs-a'
           = @channel.info_link_label
           = render Global::FaIcon.new('circle-info')
 

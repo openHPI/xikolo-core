@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe ItemsController, type: :controller do
-  let(:item) { create(:item) }
+  let(:item) { create(:'course_service/item') }
   let(:json) { JSON.parse response.body }
 
   describe '#index' do
@@ -39,8 +39,8 @@ describe ItemsController, type: :controller do
 
     describe '^filter' do
       context 'with section_id param set' do
-        let(:section) { create(:section) }
-        let(:item) { create(:item, section:) }
+        let(:section) { create(:'course_service/section') }
+        let(:item) { create(:'course_service/item', section:) }
         let(:params) { {section_id: section.id} }
 
         before { item; action }
@@ -57,8 +57,8 @@ describe ItemsController, type: :controller do
       end
 
       context 'with section_id param set as array' do
-        let(:section) { create(:section) }
-        let(:item) { create(:item, section:) }
+        let(:section) { create(:'course_service/section') }
+        let(:item) { create(:'course_service/item', section:) }
         let(:params) { {section_id: ['6551282f-b22f-43dd-855c-2860f560f54e', section.id]} }
 
         before { item; action }
@@ -75,8 +75,8 @@ describe ItemsController, type: :controller do
       end
 
       context 'with item from all sections only' do
-        let(:section) { create(:section, published: true) }
-        let(:item) { create(:item, section:, published: true) }
+        let(:section) { create(:'course_service/section', published: true) }
+        let(:item) { create(:'course_service/item', section:, published: true) }
 
         let(:params) { {available: false, course_id: section.course_id} }
 
@@ -94,8 +94,8 @@ describe ItemsController, type: :controller do
       end
 
       context 'with item from available sections only' do
-        let(:section) { create(:section, published: true, start_date: 10.hours.ago.iso8601) }
-        let(:item) { create(:item, section:, published: true, start_date: 10.hours.ago.iso8601) }
+        let(:section) { create(:'course_service/section', published: true, start_date: 10.hours.ago.iso8601) }
+        let(:item) { create(:'course_service/item', section:, published: true, start_date: 10.hours.ago.iso8601) }
         let(:params) { {available: true, course_id: section.course_id} }
 
         before { item; action }
@@ -112,8 +112,8 @@ describe ItemsController, type: :controller do
       end
 
       context 'with item from unavailable sections only' do
-        let(:section) { create(:section, published: true) }
-        let(:item) { create(:item, section:, published: true) }
+        let(:section) { create(:'course_service/section', published: true) }
+        let(:item) { create(:'course_service/item', section:, published: true) }
         let(:params) { {available: true, course_id: section.course_id} }
 
         before { item; action }
@@ -126,11 +126,11 @@ describe ItemsController, type: :controller do
       end
 
       context 'with published item' do
-        let!(:item) { create(:item, published: true) }
+        let!(:item) { create(:'course_service/item', published: true) }
         let(:params) { {published: true} }
 
         # And an unpublished item for good measure
-        before { create(:item, published: false) }
+        before { create(:'course_service/item', published: false) }
 
         describe 'json' do
           it 'has one item' do
@@ -147,11 +147,11 @@ describe ItemsController, type: :controller do
 
       context 'with featured item' do
         context 'with published item' do
-          let!(:featured_item) { create(:item, featured: true, public_description: 'Lorem ipsum ...') }
+          let!(:featured_item) { create(:'course_service/item', featured: true, public_description: 'Lorem ipsum ...') }
           let(:params) { {featured: true} }
 
           before do
-            create(:item)
+            create(:'course_service/item')
             action
           end
 
@@ -169,13 +169,13 @@ describe ItemsController, type: :controller do
 
       context 'with open_mode' do
         let(:start_date) { 10.days.ago }
-        let(:course) { create(:course, start_date:) }
-        let(:section) { create(:section, course:, start_date: nil, end_date: nil) }
-        let!(:open_item) { create(:item, section:, open_mode: true, start_date: nil, end_date: nil) }
+        let(:course) { create(:'course_service/course', start_date:) }
+        let(:section) { create(:'course_service/section', course:, start_date: nil, end_date: nil) }
+        let!(:open_item) { create(:'course_service/item', section:, open_mode: true, start_date: nil, end_date: nil) }
 
         # And two closed items for good measure
         before do
-          create_list(:item, 2, section:, open_mode: false, start_date: nil, end_date: nil)
+          create_list(:'course_service/item', 2, section:, open_mode: false, start_date: nil, end_date: nil)
           action
         end
 
@@ -216,7 +216,7 @@ describe ItemsController, type: :controller do
       end
 
       context 'without unpublished item' do
-        let(:item) { create(:item, published: false) }
+        let(:item) { create(:'course_service/item', published: false) }
         let(:params) { {published: true} }
 
         before { item; action }
@@ -229,28 +229,28 @@ describe ItemsController, type: :controller do
       end
 
       context 'with available' do
-        let(:course) { create(:course) }
+        let(:course) { create(:'course_service/course') }
 
-        let(:available_section_1) { create(:section, course_id: course.id, published: true, start_date: DateTime.now - 1000, position: 1) }
-        let(:available_section_2) { create(:section, course_id: course.id, published: true, start_date: DateTime.now - 1000, position: 2) }
-        let(:available_section_3) { create(:section, course_id: course.id, published: true, start_date: DateTime.now - 1000, position: 3) }
+        let(:available_section_1) { create(:'course_service/section', course_id: course.id, published: true, start_date: DateTime.now - 1000, position: 1) }
+        let(:available_section_2) { create(:'course_service/section', course_id: course.id, published: true, start_date: DateTime.now - 1000, position: 2) }
+        let(:available_section_3) { create(:'course_service/section', course_id: course.id, published: true, start_date: DateTime.now - 1000, position: 3) }
 
-        let(:unavailable_section) { create(:section, course_id: course.id, published: true, end_date: DateTime.now + 1000, position: 4) }
+        let(:unavailable_section) { create(:'course_service/section', course_id: course.id, published: true, end_date: DateTime.now + 1000, position: 4) }
 
-        let(:available_item_in_unavailable_section) { create(:item, section_id: unavailable_section.id, published: true, position: 1) }
+        let(:available_item_in_unavailable_section) { create(:'course_service/item', section_id: unavailable_section.id, published: true, position: 1) }
 
-        let(:unavailable_item_1_in_available_section_1) { create(:item, section_id: available_section_1.id, published: false, position: 1) }
-        let(:available_item_2_in_available_section_1)   { create(:item, section_id: available_section_1.id, published: true, position: 2) }
-        let(:available_item_3_in_available_section_1)   { create(:item, section_id: available_section_1.id, published: true, position: 3) }
-        let(:available_item_4_in_available_section_1)   { create(:item, section_id: available_section_1.id, published: true, position: 4) }
+        let(:unavailable_item_1_in_available_section_1) { create(:'course_service/item', section_id: available_section_1.id, published: false, position: 1) }
+        let(:available_item_2_in_available_section_1)   { create(:'course_service/item', section_id: available_section_1.id, published: true, position: 2) }
+        let(:available_item_3_in_available_section_1)   { create(:'course_service/item', section_id: available_section_1.id, published: true, position: 3) }
+        let(:available_item_4_in_available_section_1)   { create(:'course_service/item', section_id: available_section_1.id, published: true, position: 4) }
 
-        let(:available_item_1_in_available_section_2)   { create(:item, section_id: available_section_2.id, published: true, position: 1) }
-        let(:available_item_2_in_available_section_2)   { create(:item, section_id: available_section_2.id, published: true, position: 2) }
-        let(:available_item_3_in_available_section_2)   { create(:item, section_id: available_section_2.id, published: true, position: 3) }
+        let(:available_item_1_in_available_section_2)   { create(:'course_service/item', section_id: available_section_2.id, published: true, position: 1) }
+        let(:available_item_2_in_available_section_2)   { create(:'course_service/item', section_id: available_section_2.id, published: true, position: 2) }
+        let(:available_item_3_in_available_section_2)   { create(:'course_service/item', section_id: available_section_2.id, published: true, position: 3) }
 
-        let(:available_item_1_in_available_section_3)   { create(:item, section_id: available_section_3.id, published: true, position: 1) }
-        let(:available_item_2_in_available_section_3)   { create(:item, section_id: available_section_3.id, published: true, position: 2) }
-        let(:available_item_3_in_available_section_3)   { create(:item, section_id: available_section_3.id, published: true, position: 3) }
+        let(:available_item_1_in_available_section_3)   { create(:'course_service/item', section_id: available_section_3.id, published: true, position: 1) }
+        let(:available_item_2_in_available_section_3)   { create(:'course_service/item', section_id: available_section_3.id, published: true, position: 2) }
+        let(:available_item_3_in_available_section_3)   { create(:'course_service/item', section_id: available_section_3.id, published: true, position: 3) }
 
         let(:params) { {course_id: course.id, available: true} }
 
@@ -301,18 +301,18 @@ describe ItemsController, type: :controller do
       end
 
       context 'with was_available' do
-        let(:course) { create(:course) }
+        let(:course) { create(:'course_service/course') }
 
-        let(:unavailable_section) { create(:section, course_id: course.id, published: true, start_date: 1.week.from_now) }
-        let(:available_section)   { create(:section, course_id: course.id, published: true, start_date: 1.week.ago) }
+        let(:unavailable_section) { create(:'course_service/section', course_id: course.id, published: true, start_date: 1.week.from_now) }
+        let(:available_section)   { create(:'course_service/section', course_id: course.id, published: true, start_date: 1.week.ago) }
 
-        let(:available_item_in_unavailable_section) { create(:item, section_id: unavailable_section.id, published: true) }
+        let(:available_item_in_unavailable_section) { create(:'course_service/item', section_id: unavailable_section.id, published: true) }
         let(:unavailable_item_in_available_section) do
-          create(:item, section_id: available_section.id, published: true, start_date: DateTime.now + 1000, position: 1)
+          create(:'course_service/item', section_id: available_section.id, published: true, start_date: DateTime.now + 1000, position: 1)
         end
-        let(:available_item_in_available_section_2)   { create(:item, section_id: available_section.id, published: true, position: 3) }
-        let(:available_item_in_available_section_3)   { create(:item, section_id: available_section.id, published: true, position: 4) }
-        let(:available_item_in_available_section_1)   { create(:item, section_id: available_section.id, published: true, position: 2) }
+        let(:available_item_in_available_section_2)   { create(:'course_service/item', section_id: available_section.id, published: true, position: 3) }
+        let(:available_item_in_available_section_3)   { create(:'course_service/item', section_id: available_section.id, published: true, position: 4) }
+        let(:available_item_in_available_section_1)   { create(:'course_service/item', section_id: available_section.id, published: true, position: 2) }
 
         let(:params) { {course_id: course.id, was_available: true} }
 
@@ -337,23 +337,23 @@ describe ItemsController, type: :controller do
       end
 
       context 'with course_id param set' do
-        let(:course)         { create(:course) }
-        let(:another_course) { create(:course) }
+        let(:course)         { create(:'course_service/course') }
+        let(:another_course) { create(:'course_service/course') }
         let(:sections_for_course) do
-          create_list(:section, 4, course_id: course.id)
+          create_list(:'course_service/section', 4, course_id: course.id)
         end
         let(:sections_for_another_course) do
-          create_list(:section, 4, course_id: another_course.id)
+          create_list(:'course_service/section', 4, course_id: another_course.id)
         end
         let(:items_for_course) do
           item_sections = sections_for_course.collect do |section|
-            create_list(:item, 5, section_id: section.id)
+            create_list(:'course_service/item', 5, section_id: section.id)
           end
           item_sections.flatten
         end
         let(:items_for_another_course) do
           item_sections = sections_for_another_course.collect do |section|
-            create_list(:item, 5, section_id: section.id)
+            create_list(:'course_service/item', 5, section_id: section.id)
           end
           item_sections.flatten
         end
@@ -389,8 +389,8 @@ describe ItemsController, type: :controller do
       end
 
       context 'with content type filter set' do
-        let(:quiz_items)  { create_list(:item, 3, :quiz) }
-        let(:video_items) { create_list(:item, 4, content_type: 'video') }
+        let(:quiz_items)  { create_list(:'course_service/item', 3, :quiz) }
+        let(:video_items) { create_list(:'course_service/item', 4, content_type: 'video') }
         let(:params) { {content_type: 'quiz'} }
 
         before { quiz_items; video_items; action }
@@ -408,13 +408,13 @@ describe ItemsController, type: :controller do
       end
 
       context 'with exercise type filter set' do
-        let!(:main_items) { create_list(:item, 2, content_type: 'quiz', exercise_type: 'main') }
+        let!(:main_items) { create_list(:'course_service/item', 2, content_type: 'quiz', exercise_type: 'main') }
         let(:params) { {exercise_type: 'main'} }
 
         # Plus a few bonus and video items that won't be included
         before do
-          create_list(:item, 3, content_type: 'quiz', exercise_type: 'bonus')
-          create(:item, content_type: 'video', exercise_type: nil)
+          create_list(:'course_service/item', 3, content_type: 'quiz', exercise_type: 'bonus')
+          create(:'course_service/item', content_type: 'video', exercise_type: nil)
         end
 
         it 'has only main items' do
@@ -429,12 +429,12 @@ describe ItemsController, type: :controller do
       end
 
       context 'with multiple exercise type filter set as array' do
-        let!(:main_items)  { create_list(:item, 2, content_type: 'quiz', exercise_type: 'main') }
-        let!(:bonus_items) { create_list(:item, 3, content_type: 'quiz', exercise_type: 'bonus') }
+        let!(:main_items)  { create_list(:'course_service/item', 2, content_type: 'quiz', exercise_type: 'main') }
+        let!(:bonus_items) { create_list(:'course_service/item', 3, content_type: 'quiz', exercise_type: 'bonus') }
         let(:params) { {exercise_type: %w[main bonus]} }
 
         # And another video item that won't be included
-        before { create(:item, content_type: 'video', exercise_type: nil) }
+        before { create(:'course_service/item', content_type: 'video', exercise_type: nil) }
 
         it 'has only main items' do
           action
@@ -448,12 +448,12 @@ describe ItemsController, type: :controller do
       end
 
       context 'with multiple exercise type filter set as comma-separated list' do
-        let!(:main_items)  { create_list(:item, 2, content_type: 'quiz', exercise_type: 'main') }
-        let!(:bonus_items) { create_list(:item, 3, content_type: 'quiz', exercise_type: 'bonus') }
+        let!(:main_items)  { create_list(:'course_service/item', 2, content_type: 'quiz', exercise_type: 'main') }
+        let!(:bonus_items) { create_list(:'course_service/item', 3, content_type: 'quiz', exercise_type: 'bonus') }
         let(:params) { {exercise_type: 'main,bonus'} }
 
         # And another video item that won't be included
-        before { create(:item, content_type: 'video', exercise_type: nil) }
+        before { create(:'course_service/item', content_type: 'video', exercise_type: nil) }
 
         it 'has only main items' do
           action
@@ -467,12 +467,12 @@ describe ItemsController, type: :controller do
       end
 
       context 'with multiple exercise type filter set' do
-        let!(:main_items)  { create_list(:item, 2, content_type: 'quiz', exercise_type: 'main') }
-        let!(:bonus_items) { create_list(:item, 3, content_type: 'quiz', exercise_type: 'bonus') }
+        let!(:main_items)  { create_list(:'course_service/item', 2, content_type: 'quiz', exercise_type: 'main') }
+        let!(:bonus_items) { create_list(:'course_service/item', 3, content_type: 'quiz', exercise_type: 'bonus') }
         let(:params) { {exercise_type: {'0' => 'main', '1' => 'bonus'}} }
 
         # And another video item that won't be included
-        before { create(:item, content_type: 'video', exercise_type: nil) }
+        before { create(:'course_service/item', content_type: 'video', exercise_type: nil) }
 
         it 'has only main items' do
           action
@@ -489,7 +489,7 @@ describe ItemsController, type: :controller do
     context 'with UUID' do
       before { action.call }
 
-      let(:video_items) { create_list(:item, 4, content_type: 'video') }
+      let(:video_items) { create_list(:'course_service/item', 4, content_type: 'video') }
       let(:params) { {id: video_items[2].id} }
       let(:action) { -> { get :index, params: } }
 
@@ -501,7 +501,7 @@ describe ItemsController, type: :controller do
     context 'with new_for' do
       let(:user_id) { generate(:user_id) }
       let(:params) { {new_for: user_id} }
-      let!(:items) { create_list(:item, 4) }
+      let!(:items) { create_list(:'course_service/item', 4) }
 
       before { item }
 
@@ -513,7 +513,7 @@ describe ItemsController, type: :controller do
       end
 
       context 'with visit' do
-        before { create(:visit, user_id:, item:) }
+        before { create(:'course_service/visit', user_id:, item:) }
 
         it 'has 4 items' do
           action
@@ -548,11 +548,11 @@ describe ItemsController, type: :controller do
     end
 
     context 'with user id' do
-      let(:item) { create(:item, submission_deadline: Time.zone.now.midnight - 1.day) }
+      let(:item) { create(:'course_service/item', submission_deadline: Time.zone.now.midnight - 1.day) }
       let(:user_id) { SecureRandom.uuid }
       let(:forced_submission_date) { Time.zone.now.midnight }
       let(:enrollment) do
-        create(:enrollment,
+        create(:'course_service/enrollment',
           user_id:,
           course: item.section.course,
           forced_submission_date:)
@@ -568,8 +568,8 @@ describe ItemsController, type: :controller do
   end
 
   describe '#create' do
-    let(:section) { create(:section) }
-    let(:params) { attributes_for(:item).merge(section_id: section.id) }
+    let(:section) { create(:'course_service/section') }
+    let(:params) { attributes_for(:'course_service/item').merge(section_id: section.id) }
     let(:action) { -> { post :create, params: } }
 
     it 'responses with a 200' do
@@ -642,7 +642,7 @@ describe ItemsController, type: :controller do
     context 'with required items' do
       subject(:item) { action.call; json }
 
-      let(:req_items) { create_list(:item, 2) }
+      let(:req_items) { create_list(:'course_service/item', 2) }
       let(:req_item_ids) { req_items.pluck(:id) }
       let(:params) { super().merge(required_item_ids: req_item_ids) }
 
@@ -675,8 +675,8 @@ describe ItemsController, type: :controller do
 
     let(:action) { -> { patch :update, params: params.merge(id: item.id) } }
 
-    let(:section) { create(:section) }
-    let(:item) { create(:item, section:, position: 1) }
+    let(:section) { create(:'course_service/section') }
+    let(:item) { create(:'course_service/item', section:, position: 1) }
 
     context 'with not round float value' do
       subject { action.call; response }
@@ -709,7 +709,7 @@ describe ItemsController, type: :controller do
     context 'position update' do
       let(:items) do
         (1..7).each_with_object([nil]) do |position, items|
-          items << create(:item, section:, position:)
+          items << create(:'course_service/item', section:, position:)
         end
       end
 
@@ -754,7 +754,7 @@ describe ItemsController, type: :controller do
   end
 
   describe 'with versioning', :versioning do
-    let(:item) { create(:item, title: 'Introduction') }
+    let(:item) { create(:'course_service/item', title: 'Introduction') }
     let(:update_title) { -> { put :update, params: {id: item.id, title: 'Welcome'} } }
 
     it 'returns one version at the beginning' do
@@ -797,22 +797,22 @@ describe ItemsController, type: :controller do
     subject { action; response }
 
     let(:user_id) { generate(:user_id) }
-    let(:enrollment) { create(:enrollment, user_id:, course:) }
-    let(:course) { create(:course) }
+    let(:enrollment) { create(:'course_service/enrollment', user_id:, course:) }
+    let(:course) { create(:'course_service/course') }
 
     let(:section1_params) { {} }
-    let(:section1) { create(:section, {course:, position: 1, start_date: 10.days.ago.iso8601}.merge(section1_params)) }
+    let(:section1) { create(:'course_service/section', {course:, position: 1, start_date: 10.days.ago.iso8601}.merge(section1_params)) }
     let(:item11_params) { {} }
-    let(:item11) { create(:item, {section: section1, position: 1}.merge(item11_params)) }
+    let(:item11) { create(:'course_service/item', {section: section1, position: 1}.merge(item11_params)) }
     let(:item12_params) { {} }
-    let(:item12) { create(:item, {section: section1, position: 2}.merge(item12_params)) }
+    let(:item12) { create(:'course_service/item', {section: section1, position: 2}.merge(item12_params)) }
 
     let(:section2_params) { {} }
-    let(:section2) { create(:section, {course:, position: 2, start_date: 10.days.ago.iso8601}.merge(section2_params)) }
+    let(:section2) { create(:'course_service/section', {course:, position: 2, start_date: 10.days.ago.iso8601}.merge(section2_params)) }
     let(:item21_params) { {} }
-    let(:item21) { create(:item, {section: section2, position: 1}.merge(item21_params)) }
+    let(:item21) { create(:'course_service/item', {section: section2, position: 1}.merge(item21_params)) }
     let(:item22_params) { {} }
-    let(:item22) { create(:item, {section: section2, position: 2}.merge(item22_params)) }
+    let(:item22) { create(:'course_service/item', {section: section2, position: 2}.merge(item22_params)) }
 
     let(:action) { get :current, params: {course: course.id, user: user_id} }
 
@@ -854,7 +854,7 @@ describe ItemsController, type: :controller do
         it_behaves_like 'a visitable item', :item21
 
         context 'with a visit for a later item' do
-          before { create(:visit, user_id:, item: item22) }
+          before { create(:'course_service/visit', user_id:, item: item22) }
 
           it_behaves_like 'a visitable item', :item22
         end
@@ -869,7 +869,7 @@ describe ItemsController, type: :controller do
           it_behaves_like 'a non-existing item'
 
           context 'with a progress item pointing on it' do
-            before { create(:visit, user_id:, item: item11) }
+            before { create(:'course_service/visit', user_id:, item: item11) }
 
             it_behaves_like 'a non-existing item'
             it_behaves_like 'a redirection to the following section/items'
@@ -903,7 +903,7 @@ describe ItemsController, type: :controller do
         before { section1; item11 }
 
         context 'with a visit for a later item' do
-          before { section2; item21; item22; create(:visit, user_id:, item: item22) }
+          before { section2; item21; item22; create(:'course_service/visit', user_id:, item: item22) }
 
           it_behaves_like 'a visitable item', :item22
         end
@@ -944,10 +944,10 @@ describe ItemsController, type: :controller do
     end
 
     context 'with forks (and branches)' do
-      let(:course) { create(:course, :with_content_tree) }
-      let(:item_branch1) { create(:item, section: section1, title: 'Item in Branch 1') }
-      let(:item_branch2) { create(:item, section: section1, title: 'Item in Branch 2') }
-      let(:fork) { create(:fork, section: section1, course:, title: 'Fork') }
+      let(:course) { create(:'course_service/course', :with_content_tree) }
+      let(:item_branch1) { create(:'course_service/item', section: section1, title: 'Item in Branch 1') }
+      let(:item_branch2) { create(:'course_service/item', section: section1, title: 'Item in Branch 2') }
+      let(:fork) { create(:'course_service/fork', section: section1, course:, title: 'Fork') }
 
       before do
         # Reload course structure record to recalculate tree indices.
@@ -974,7 +974,7 @@ describe ItemsController, type: :controller do
           it_behaves_like 'a visitable item', :item21
 
           context 'with a visit for a later item' do
-            before { create(:visit, user_id:, item: item22) }
+            before { create(:'course_service/visit', user_id:, item: item22) }
 
             it_behaves_like 'a visitable item', :item22
           end
@@ -989,7 +989,7 @@ describe ItemsController, type: :controller do
             it_behaves_like 'a non-existing item'
 
             context 'with a visit for the item' do
-              before { create(:visit, user_id:, item: item11) }
+              before { create(:'course_service/visit', user_id:, item: item11) }
 
               it_behaves_like 'a non-existing item'
               it_behaves_like 'a redirection to the following section/items'
@@ -1041,7 +1041,7 @@ describe ItemsController, type: :controller do
 
         context 'with a visit for a later item in the same section' do
           before do
-            create(:visit, user_id:, item: item12)
+            create(:'course_service/visit', user_id:, item: item12)
 
             items = Structure::UserItemsSelector.new(course.node, user_id).items
             expect(items).to eq [item_branch1, item12]
@@ -1053,7 +1053,7 @@ describe ItemsController, type: :controller do
         context 'with a visit for a later item in another section' do
           before do
             section2
-            create(:visit, user_id:, item: item22)
+            create(:'course_service/visit', user_id:, item: item22)
 
             # Reload course structure record to recalculate tree indices.
             course.node.reload
@@ -1069,7 +1069,7 @@ describe ItemsController, type: :controller do
           # This use case is a safe-guard, having a visit for such an item is
           # not a realistic use case. We want to make sure this item is ignored.
           before do
-            create(:visit, user_id:, item: item_branch2)
+            create(:'course_service/visit', user_id:, item: item_branch2)
           end
 
           # The user is automatically assigned to a group (branch 1) when requesting the item.

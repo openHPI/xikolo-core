@@ -3,7 +3,7 @@
     .form-section--large
       h1 = t(:'components.enrollment_form.title', course_title:)
       p = t(:'components.enrollment_form.text')
-      = link_to t(:'components.enrollment_form.link'), enrollment_policy_url, target: '_blank', rel: 'noopener'
+      = link_to t(:'components.enrollment_form.link'), enrollment_policy_url, class: 'bs-a', target: '_blank', rel: 'noopener'
       .enrollment-form__checkbox.mb10
         input type='checkbox' required=true id='enrollment_policy'
         label.ml10 for='enrollment_policy' = t(:'components.enrollment_form.accept')

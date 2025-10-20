@@ -17,17 +17,18 @@ body {
   color: $text-color;
 }
 
+html {
+  font-size: 10px;
+}
+
+body {
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+}
+
 /*------------------------------------*\
     App Mode
 \*------------------------------------*/
 body.in_app {
   margin-top: 0 !important;
-}
-
-// Remove Dotted outlines for all links
-a,
-a:hover,
-a:active,
-a:focus {
-  @include suppress-dotted-border();
 }

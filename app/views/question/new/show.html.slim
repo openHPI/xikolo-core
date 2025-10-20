@@ -4,7 +4,7 @@
     .pinboard-breadcrumbs
       span = t(:'pinboard.breadcrumbs.label')
       - @pinboard.breadcrumbs.for_thread(@question).each_level do |url, text|
-        = link_to text, url
+        = link_to text, url, class: 'bs-a'
   / Thread form
   - if @pinboard.open?
     .col-sm-8

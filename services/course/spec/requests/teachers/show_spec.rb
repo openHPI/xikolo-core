@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Teacher: Show', type: :request do
   subject(:action) { api.rel(:teacher).get({id: teacher.id}).value! }
 
-  let(:teacher) { create(:teacher) }
+  let(:teacher) { create(:'course_service/teacher') }
   let(:api) { Restify.new(:test).get.value }
 
   it 'is successful' do

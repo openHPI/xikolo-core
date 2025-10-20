@@ -6,7 +6,7 @@
           / This tag contains additional data tags needed by the LAnalytics Plugin StaticHtmlEventTracker
           - if button[:enabled]
             = link_to button[:path],
-                class: 'btn-sm',
+                class: 'btn-sm bs-a',
                 data: {'lanalytics-event' => {'verb' => button[:verb]}},
                 download: ''
               = render Global::FaIcon.new('download', style: :solid, css_classes: 'em1-2 mr20')

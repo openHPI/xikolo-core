@@ -6,7 +6,7 @@ describe 'Results: Update', type: :request do
   let(:api) { Restify.new(:test).get.value! }
   let(:result_id) { SecureRandom.uuid }
   let(:user_id) { generate(:user_id) }
-  let!(:item) { create(:item) }
+  let!(:item) { create(:'course_service/item') }
 
   describe '(via PATCH)' do
     subject(:update) { api.rel(:result).patch(data, params: {id: result_id}).value! }

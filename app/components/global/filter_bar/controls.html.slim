@@ -6,7 +6,7 @@
           span.filter-bar__overview-title
             = t(:'components.filter_bar.filter.results')
           = applied_filters
-        = link_to '#adjust-anchor', class: 'filter-bar__adjust' do
+        = link_to '#adjust-anchor', class: 'bs-a filter-bar__adjust' do
           = render Global::FaIcon.new('filter', css_classes: 'mr5')
           = t(:'components.filter_bar.filter.adjust')
 
@@ -14,6 +14,6 @@
       - if @results_count
         .filter-bar__results-count
           = render Global::Pill.new(results_count)
-      = link_to @path, data: {'hide-on-click': @content_id, 'show-on-click': @loading_indicator_id} do
+      = link_to @path, class: 'bs-a', data: {'hide-on-click': @content_id, 'show-on-click': @loading_indicator_id} do
         = render Global::FaIcon.new('undo', css_classes: 'mr5')
         = t(:'components.filter_bar.filter.reset')

@@ -5,9 +5,9 @@ require 'spec_helper'
 RSpec.describe Fork, type: :model do
   subject(:fork) { content_test.forks.build(section:, title: 'Course Introduction') }
 
-  let(:content_test) { create(:content_test, course:, identifier: 'gamification', groups: %w[plain game]) }
-  let(:course) { create(:course, :with_content_tree, course_code: 'games2021') }
-  let(:section) { create(:section, course:) }
+  let(:content_test) { create(:'course_service/content_test', course:, identifier: 'gamification', groups: %w[plain game]) }
+  let(:course) { create(:'course_service/course', :with_content_tree, course_code: 'games2021') }
+  let(:section) { create(:'course_service/section', course:) }
 
   describe 'creation' do
     it 'creates a node in the course content tree' do

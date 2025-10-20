@@ -13,17 +13,17 @@ describe Structure::UserItemsSelector, type: :model do
   end
 
   let(:node) { course.node }
-  let(:course) { create(:course, :with_content_tree) }
+  let(:course) { create(:'course_service/course', :with_content_tree) }
   let(:user_id) { generate(:user_id) }
 
   context 'with simple course content tree' do
-    let(:s1) { create(:section, course:) }
-    let(:s2) { create(:section, course:) }
+    let(:s1) { create(:'course_service/section', course:) }
+    let(:s2) { create(:'course_service/section', course:) }
 
-    let!(:item1) { create(:item, section: s1) }
-    let!(:item2) { create(:item, section: s1) }
-    let!(:item3) { create(:item, section: s2) }
-    let!(:item4) { create(:item, section: s2) }
+    let!(:item1) { create(:'course_service/item', section: s1) }
+    let!(:item2) { create(:'course_service/item', section: s1) }
+    let!(:item3) { create(:'course_service/item', section: s2) }
+    let!(:item4) { create(:'course_service/item', section: s2) }
 
     before do
       # Mini tweak to test sorting
@@ -44,24 +44,24 @@ describe Structure::UserItemsSelector, type: :model do
   end
 
   context 'with content test' do
-    let(:content_test) { create(:content_test, identifier: 'ct', course:) }
+    let(:content_test) { create(:'course_service/content_test', identifier: 'ct', course:) }
 
-    let(:s1) { create(:section, course:) }
-    let(:s2) { create(:section, course:) }
-    let(:f1) { create(:fork, section: s1, content_test:) }
-    let(:f2) { create(:fork, section: s2, content_test:) }
+    let(:s1) { create(:'course_service/section', course:) }
+    let(:s2) { create(:'course_service/section', course:) }
+    let(:f1) { create(:'course_service/fork', section: s1, content_test:) }
+    let(:f2) { create(:'course_service/fork', section: s2, content_test:) }
 
     # Assign titles to items to ease debugging. They describe where the items
     # should be placed and how they should be ordered.
-    let(:item1) { create(:item, section: s1, title: '1.1A') }
-    let(:item2) { create(:item, section: s1, title: '1.1B') }
-    let(:item3) { create(:item, section: s1, title: '1.2') }
-    let(:item4) { create(:item, section: s1, title: '1.3') }
-    let(:item5) { create(:item, section: s2, title: '2.1') }
-    let(:item6) { create(:item, section: s2, title: '2.2') }
-    let(:item7) { create(:item, section: s2, title: '2.3A') }
-    let(:item8) { create(:item, section: s2, title: '2.3B') }
-    let(:item9) { create(:item, section: s2, title: '2.4') }
+    let(:item1) { create(:'course_service/item', section: s1, title: '1.1A') }
+    let(:item2) { create(:'course_service/item', section: s1, title: '1.1B') }
+    let(:item3) { create(:'course_service/item', section: s1, title: '1.2') }
+    let(:item4) { create(:'course_service/item', section: s1, title: '1.3') }
+    let(:item5) { create(:'course_service/item', section: s2, title: '2.1') }
+    let(:item6) { create(:'course_service/item', section: s2, title: '2.2') }
+    let(:item7) { create(:'course_service/item', section: s2, title: '2.3A') }
+    let(:item8) { create(:'course_service/item', section: s2, title: '2.3B') }
+    let(:item9) { create(:'course_service/item', section: s2, title: '2.4') }
 
     # Create all the section children to store them in the desired order
     before do

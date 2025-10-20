@@ -5,7 +5,7 @@ require 'spec_helper'
 describe Item, '#accessible_for' do
   subject(:accessible_for) { item.accessible_for(user_id:) }
 
-  let(:item) { create(:item) }
+  let(:item) { create(:'course_service/item') }
 
   context 'for a legacy course' do
     context 'without a user ID' do
@@ -22,12 +22,12 @@ describe Item, '#accessible_for' do
   end
 
   context 'for a course with content tree' do
-    let(:course) { create(:course, :with_content_tree) }
-    let(:section) { create(:section, course:) }
-    let(:regular_item) { create(:item, section:) }
-    let(:item_branch1) { create(:item, section:) }
-    let(:item_branch2) { create(:item, section:) }
-    let(:fork) { create(:fork, section:, course:) }
+    let(:course) { create(:'course_service/course', :with_content_tree) }
+    let(:section) { create(:'course_service/section', course:) }
+    let(:regular_item) { create(:'course_service/item', section:) }
+    let(:item_branch1) { create(:'course_service/item', section:) }
+    let(:item_branch2) { create(:'course_service/item', section:) }
+    let(:fork) { create(:'course_service/fork', section:, course:) }
 
     # Create all the section children to store them in the desired order
     before do

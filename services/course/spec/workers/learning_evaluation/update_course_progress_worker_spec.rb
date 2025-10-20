@@ -9,7 +9,7 @@ RSpec.describe LearningEvaluation::UpdateCourseProgressWorker, type: :worker do
     end
   end
 
-  let(:course) { create(:course) }
+  let(:course) { create(:'course_service/course') }
   let(:user_id) { 'f03a00d1-bbad-40c9-972c-cb69e238af5c' }
 
   context 'without persisted_learning_evaluation config' do

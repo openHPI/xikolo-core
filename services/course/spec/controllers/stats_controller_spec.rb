@@ -8,14 +8,14 @@ describe StatsController, type: :controller do
   let(:request) { -> { get :show, params: } }
   let(:params) { {key: 'enrollments', course_id: course.id} }
 
-  let(:course) { create(:course, course_params) }
+  let(:course) { create(:'course_service/course', course_params) }
   let(:course_params) { {start_date: 7.weeks.ago, end_date: 3.days.ago} }
 
   before do
-    create(:course)
-    create(:fixed_learning_evaluation, course:)
-    create_list(:enrollment, 3, course_id: course.id, created_at: course.start_date - 1)
-    create_list(:enrollment, 2, course_id: course.id, created_at: course.end_date - 1)
+    create(:'course_service/course')
+    create(:'course_service/fixed_learning_evaluation', course:)
+    create_list(:'course_service/enrollment', 3, course_id: course.id, created_at: course.start_date - 1)
+    create_list(:'course_service/enrollment', 2, course_id: course.id, created_at: course.end_date - 1)
   end
 
   describe 'response' do
@@ -83,14 +83,14 @@ describe StatsController, type: :controller do
 
       context 'with end date in the past' do
         let(:course_params) { super().merge start_date: 2.weeks.ago, end_date: 1.week.ago }
-        let(:section) { create(:section, course_id: course.id) }
+        let(:section) { create(:'course_service/section', course_id: course.id) }
 
         before do
-          item = create(:item, section:)
-          enrollment = create(:enrollment, course:, created_at: 8.days.ago)
-          recent_enrollment = create(:enrollment, course:, created_at: 2.days.ago)
-          create(:visit, item:, user_id: enrollment.user_id, created_at: enrollment.created_at)
-          create(:visit, item:, user_id: recent_enrollment.user_id, created_at: recent_enrollment.created_at)
+          item = create(:'course_service/item', section:)
+          enrollment = create(:'course_service/enrollment', course:, created_at: 8.days.ago)
+          recent_enrollment = create(:'course_service/enrollment', course:, created_at: 2.days.ago)
+          create(:'course_service/visit', item:, user_id: enrollment.user_id, created_at: enrollment.created_at)
+          create(:'course_service/visit', item:, user_id: recent_enrollment.user_id, created_at: recent_enrollment.created_at)
         end
 
         its(['shows_at_end']) { is_expected.to be 1 }

@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe Document do
-  subject(:document) { build(:document) }
+  subject(:document) { build(:'course_service/document') }
 
   context '(sends data to Msgr)' do
     it 'publishes an event for newly created document' do

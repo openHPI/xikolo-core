@@ -5,12 +5,12 @@ require 'spec_helper'
 describe '#update_search_index', type: :model do
   context 'when creating a new course' do
     it 'runs the worker for updating the search index' do
-      expect { create(:course) }.to change { UpdateCourseSearchIndexWorker.jobs.count }.by(1)
+      expect { create(:'course_service/course') }.to change { UpdateCourseSearchIndexWorker.jobs.count }.by(1)
     end
   end
 
   context 'when updating a course' do
-    let!(:course) { create(:course, :with_teachers) }
+    let!(:course) { create(:'course_service/course', :with_teachers) }
 
     [
       {title: 'An amazing course title'},

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe SystemInfoController, type: :request do
+RSpec.describe TimeeffortService::SystemInfoController, type: :request do
   context 'GET /system_info/haproxy' do
     it 'returns a proper status code' do
       get '/system_info/haproxy'

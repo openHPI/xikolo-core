@@ -15,7 +15,7 @@
         = t('.add')
       #js-form-new-lti-provider.form_wrapper hidden=@new_lti_provider.errors.blank?
         = render(partial: 'form_lti_provider', locals: {lti_provider: @new_lti_provider})
-        hr
+        hr.bs-hr
       - if @lti_providers.present?
         ul.lti_providers
           - @lti_providers.each do |lti_provider|

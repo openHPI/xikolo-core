@@ -97,10 +97,13 @@ h2 {
     font-size: 0.9em;
   }
 
-  ol,
   ul {
-    margin-right: 2em;
-    margin-left: 2em;
+    list-style-position: inside;
+    list-style-type: disc;
+  }
+  ol {
+    list-style-position: inside;
+    list-style-type: decimal;
   }
 
   li {

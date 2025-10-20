@@ -7,12 +7,12 @@ describe LastVisitsController, type: :controller do
 
   let(:json) { JSON.parse response.body }
 
-  let!(:course) { create(:course) }
+  let!(:course) { create(:'course_service/course') }
   let(:user_id) { generate(:user_id) }
 
-  let(:section1) { create(:section, course:, position: 1, start_date: 10.days.ago.iso8601) }
-  let(:item11) { create(:item, section: section1, position: 1) }
-  let(:item12) { create(:item, section: section1, position: 2) }
+  let(:section1) { create(:'course_service/section', course:, position: 1, start_date: 10.days.ago.iso8601) }
+  let(:item11) { create(:'course_service/item', section: section1, position: 1) }
+  let(:item12) { create(:'course_service/item', section: section1, position: 2) }
 
   describe '#show' do
     context 'without user' do
@@ -30,7 +30,7 @@ describe LastVisitsController, type: :controller do
     context 'with enrollment' do
       let(:action) { get :show, params: {course_id: course.id, user_id:} }
 
-      before { create(:enrollment, user_id:, course:) }
+      before { create(:'course_service/enrollment', user_id:, course:) }
 
       its(:status) { is_expected.to eq 200 }
 
@@ -50,8 +50,8 @@ describe LastVisitsController, type: :controller do
 
         before do
           item11; item12
-          create(:visit, item: item11, user_id:, updated_at: visit11_date)
-          create(:visit, item: item12, user_id:, updated_at: visit12_date)
+          create(:'course_service/visit', item: item11, user_id:, updated_at: visit11_date)
+          create(:'course_service/visit', item: item12, user_id:, updated_at: visit12_date)
         end
 
         context 'json' do
@@ -69,7 +69,7 @@ describe LastVisitsController, type: :controller do
 
         before do
           item12
-          visit12 = create(:visit, item: item12, user_id:, updated_at: visit12_date)
+          visit12 = create(:'course_service/visit', item: item12, user_id:, updated_at: visit12_date)
           visit12.updated_at = visit12_date_update
           visit12.save
         end

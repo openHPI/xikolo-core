@@ -3,8 +3,8 @@
 require 'spec_helper'
 
 RSpec.describe EnrollmentCompletionWorker, type: :worker do
-  let(:course) { create(:course, records_released:) }
-  let!(:enrollments) { create_list(:enrollment, 3, course:) }
+  let(:course) { create(:'course_service/course', records_released:) }
+  let!(:enrollments) { create_list(:'course_service/enrollment', 3, course:) }
 
   context 'without records_released' do
     let(:records_released) { false }

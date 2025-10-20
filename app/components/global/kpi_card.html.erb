@@ -1,37 +1,37 @@
 <article class="flex flex-col w-full max-w-xl rounded-lg bg-gray-100 p-6 shadow-sm">
   <header class="flex items-center justify-center gap-5">
     <span aria-hidden="true">
-      <%= render Global::FaIcon.new(icon_class, style: :solid, css_classes: 'text-[30px]') %>
+      <%= render Global::FaIcon.new(icon_class, style: :solid, css_classes: 'text-3xl') %>
     </span>
-    <p class="!m-0 !text-[30px]"<% if heading_level.present? %> role="heading" aria-level="<%= heading_level %>"<% end %>><%= title %></p>
+    <p class="!m-0 text-3xl"<% if heading_level.present? %> role="heading" aria-level="<%= heading_level %>"<% end %>><%= title %></p>
   </header>
 
-  <hr class="!my-6 !border-gray-300">
+  <hr class="my-6 border-gray-300">
 
   <% if metrics.present? %>
     <dl class="grid grid-cols-[auto_1fr] gap-x-8 gap-y-4 !m-0">
       <% metrics.each do |metric| %>
         <dt class="flex flex-col text-right !font-normal">
-          <span class="text-[24px]"><%= metric[:counter] %></span>
+          <span class="text-2xl"><%= metric[:counter] %></span>
           <% if metric[:quota].present? %>
-            <span class="text-[12px] text-gray-600"><%= metric[:quota] %></span>
+            <span class="text-xs text-gray-600"><%= metric[:quota] %></span>
           <% end %>
         </dt>
         <dd class="flex flex-col justify-end text-left">
-          <div class="text-[16px] pb-1"><%= metric[:title] %></div>
+          <div class="text-base pb-1"><%= metric[:title] %></div>
           <% if metric[:quota_text].present? %>
-            <div class="text-[12px] text-gray-600"><%= metric[:quota_text] %></div>
+            <div class="text-xs text-gray-600"><%= metric[:quota_text] %></div>
           <% end %>
         </dd>
       <% end %>
     </dl>
   <% elsif empty_message.present? %>
     <div class="flex items-center justify-center text-center" role="status">
-      <p class="text-[14px] text-gray-600"><%= empty_message %></p>
+      <p class="text-sm text-gray-600"><%= empty_message %></p>
     </div>
   <% else %>
     <div class="flex items-center justify-center text-center" role="status">
-      <p class="text-[14px] text-gray-600"><%= t('global.no_data_message') %></p>
+      <p class="text-sm text-gray-600"><%= t('global.no_data_message') %></p>
     </div>
   <% end %>
 </article>

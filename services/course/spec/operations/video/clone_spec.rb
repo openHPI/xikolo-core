@@ -7,7 +7,7 @@ describe Video::Clone do
     described_class.call(video)
   end
 
-  let!(:video) { create(:video) }
+  let!(:video) { create(:'course_service/video') }
 
   it 'clones the video' do
     new_vid = nil
@@ -17,13 +17,13 @@ describe Video::Clone do
 
   context 'with subtitles' do
     it 'copies the subtitles' do
-      create(:subtitle, video:)
+      create(:'course_service/subtitle', video:)
       expect { new_video }.to change(Duplicated::Subtitle, :count).from(1).to(2)
     end
 
     context 'with subtitle cues' do
       it 'copies the related cues' do
-        create(:subtitle, :with_cues, video:)
+        create(:'course_service/subtitle', :with_cues, video:)
         expect { new_video }.to change(Duplicated::SubtitleCue, :count).from(1).to(2)
       end
     end
@@ -35,7 +35,7 @@ describe Video::Clone do
       let(:video_id) { SecureRandom.uuid }
 
       context 'with slides attached' do
-        let(:video) { create(:video, :with_slides, id: video_id, slides_uri: "s3://xikolo-video/videos/#{video_id}/slides_v1.pdf") }
+        let(:video) { create(:'course_service/video', :with_slides, id: video_id, slides_uri: "s3://xikolo-video/videos/#{video_id}/slides_v1.pdf") }
         let!(:copy_slides_stub) do
           stub_request(
             :put, %r{https://s3.xikolo.de/xikolo-video/videos/[a-zA-Z0-9]+/slides_v1.pdf}
@@ -65,7 +65,7 @@ describe Video::Clone do
       end
 
       context 'with a transcript attached' do
-        let(:video) { create(:video, :with_transcript, id: video_id, transcript_uri: "s3://xikolo-video/videos/#{video_id}/transcript_v1.pdf") }
+        let(:video) { create(:'course_service/video', :with_transcript, id: video_id, transcript_uri: "s3://xikolo-video/videos/#{video_id}/transcript_v1.pdf") }
         let!(:copy_transcript_stub) do
           stub_request(
             :put, %r{https://s3.xikolo.de/xikolo-video/videos/[a-zA-Z0-9]+/transcript_v1.pdf}
@@ -94,7 +94,7 @@ describe Video::Clone do
       end
 
       context 'with reading material attached' do
-        let(:video) { create(:video, :with_reading_material, id: video_id, reading_material_uri: "s3://xikolo-video/videos/#{video_id}/reading_material_v1.pdf") }
+        let(:video) { create(:'course_service/video', :with_reading_material, id: video_id, reading_material_uri: "s3://xikolo-video/videos/#{video_id}/reading_material_v1.pdf") }
         let!(:copy_reading_material_stub) do
           stub_request(
             :put, %r{https://s3.xikolo.de/xikolo-video/videos/[a-zA-Z0-9]+/reading_material_v1.pdf}
@@ -126,7 +126,7 @@ describe Video::Clone do
     # unique_sanitized_name(filename).pdf --> uuid/filename.pdf
     context 'with new file versioning schema' do
       context 'with slides attached' do
-        let!(:video) { create(:video, :with_slides) }
+        let!(:video) { create(:'course_service/video', :with_slides) }
         let!(:copy_slides_stub) do
           stub_request(
             :put, %r{https://s3.xikolo.de/xikolo-video/videos/[a-zA-z0-9]+/encodedUUUID/slides.pdf}
@@ -153,7 +153,7 @@ describe Video::Clone do
       end
 
       context 'with a transcript attached' do
-        let(:video) { create(:video, :with_transcript) }
+        let(:video) { create(:'course_service/video', :with_transcript) }
         let!(:copy_transcript_stub) do
           stub_request(
             :put, %r{https://s3.xikolo.de/xikolo-video/videos/[a-zA-Z0-9]+/encodedUUUID/transcript.pdf}
@@ -180,7 +180,7 @@ describe Video::Clone do
       end
 
       context 'with reading material attached' do
-        let(:video) { create(:video, :with_reading_material) }
+        let(:video) { create(:'course_service/video', :with_reading_material) }
         let!(:copy_reading_material_stub) do
           stub_request(
             :put, %r{https://s3.xikolo.de/xikolo-video/videos/[a-zA-Z0-9]+/encodedUUUID/reading_material.pdf}

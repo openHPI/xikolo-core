@@ -6,7 +6,7 @@ describe Channel, type: :model do
   subject { channel }
 
   let(:attributes) { {} }
-  let(:channel) { create(:channel, attributes) }
+  let(:channel) { create(:'course_service/channel', attributes) }
   let(:uuid) { SecureRandom.uuid }
 
   it { is_expected.not_to accept_values_for(:code, '') }
@@ -20,8 +20,8 @@ describe Channel, type: :model do
   it { is_expected.to accept_values_for(:description, 'Some description', 'another description!', '') }
 
   it 'allows assigning multiple courses to a channel' do
-    course1 = create(:course, channel:)
-    course2 = create(:course, channel:)
+    course1 = create(:'course_service/course', channel:)
+    course2 = create(:'course_service/course', channel:)
 
     expect(channel.courses).to contain_exactly(course1, course2)
   end
@@ -34,16 +34,16 @@ describe Channel, type: :model do
   it { is_expected.to accept_values_for(:position, 0, 1, 2, nil) }
 
   describe '#by_identifier' do
-    let!(:code_channel) { create(:channel, code: 'abc') }
-    let!(:uuid_channel) { create(:channel, id: '1b8a0864-7e37-4454-8fd4-065dadd6de62') }
-    let!(:java_channel) { create(:channel, code: 'javaeinstieg2015') }
+    let!(:code_channel) { create(:'course_service/channel', code: 'abc') }
+    let!(:uuid_channel) { create(:'course_service/channel', id: '1b8a0864-7e37-4454-8fd4-065dadd6de62') }
+    let!(:java_channel) { create(:'course_service/channel', code: 'javaeinstieg2015') }
 
     # The ID is the UUID from `javaeinstieg2015` which is a valid base62 encoded UUID.
-    let!(:javu_channel) { create(:channel, id: '00000000-2fa0-4226-87da-3909a7886973') }
+    let!(:javu_channel) { create(:'course_service/channel', id: '00000000-2fa0-4226-87da-3909a7886973') }
 
     before do
       # Some noise records to ensure they are not included.
-      create(:channel, id: '91f09c1f-c512-4998-92b6-95066dba6bd1')
+      create(:'course_service/channel', id: '91f09c1f-c512-4998-92b6-95066dba6bd1')
     end
 
     it 'matches channel code' do

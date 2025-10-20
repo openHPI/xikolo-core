@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :teacher do
+  factory :'course_service/teacher', class: 'Teacher' do
     sequence(:name) {|i| "Teacher #{i}" }
     description { {de: 'Deutsch', en: 'English'} }
     user_id { nil }

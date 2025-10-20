@@ -3,11 +3,11 @@
 require 'spec_helper'
 
 describe Visit do
-  subject(:visit) { build(:visit, item:) }
+  subject(:visit) { build(:'course_service/visit', item:) }
 
-  let!(:course) { create(:course, start_date: nil, end_date: nil, records_released: true) }
-  let!(:section) { create(:section, course:, published: true) }
-  let!(:item) { create(:item, section:, published: true) }
+  let!(:course) { create(:'course_service/course', start_date: nil, end_date: nil, records_released: true) }
+  let!(:section) { create(:'course_service/section', course:, published: true) }
+  let!(:item) { create(:'course_service/item', section:, published: true) }
 
   it 'has a valid factory' do
     expect(visit).to be_valid
@@ -16,15 +16,15 @@ describe Visit do
   describe '.latest_for' do
     subject(:latest_for) { Visit.latest_for(user: visit.user_id, items: [item, another_item]) }
 
-    let(:visit) { create(:visit, item:, updated_at: Time.current) }
-    let(:another_item) { create(:item, section:, published: true) }
+    let(:visit) { create(:'course_service/visit', item:, updated_at: Time.current) }
+    let(:another_item) { create(:'course_service/item', section:, published: true) }
 
     before do
       # The same user visits another item
-      create(:visit, user_id: visit.user_id, item: another_item, updated_at: 2.hours.ago)
+      create(:'course_service/visit', user_id: visit.user_id, item: another_item, updated_at: 2.hours.ago)
 
       # Another user visits the same item
-      create(:visit, item:, updated_at: 1.hour.ago)
+      create(:'course_service/visit', item:, updated_at: 1.hour.ago)
     end
 
     it 'returns the item with the latest visit' do
@@ -57,7 +57,7 @@ describe Visit do
     end
 
     describe 'touch visit' do
-      let!(:visit) { create(:visit, item:) }
+      let!(:visit) { create(:'course_service/visit', item:) }
 
       it 'publishes an event for the updated visit' do
         expect(Msgr).to receive(:publish) do |event, opts|

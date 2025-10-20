@@ -6,7 +6,7 @@ describe ResultDecorator do
   describe 'to_event' do
     subject(:json) { decorator.to_event.stringify_keys }
 
-    let(:result) { create(:result) }
+    let(:result) { create(:'course_service/result') }
     let(:decorator) { described_class.new result }
 
     it { is_expected.to include('course_id') }

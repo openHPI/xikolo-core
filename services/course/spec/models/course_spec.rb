@@ -3,9 +3,9 @@
 require 'spec_helper'
 
 describe Course, type: :model do
-  subject(:course) { create(:course, :with_sections) }
+  subject(:course) { create(:'course_service/course', :with_sections) }
 
-  before { create(:cluster, id: 'category') }
+  before { create(:'course_service/cluster', id: 'category') }
 
   it { is_expected.not_to accept_values_for(:title, '') }
   it { is_expected.to accept_values_for(:title, 'In-Memory Database Management', 'Internetworking mit TCP/IP', 'Semantic Web Technologies') }
@@ -17,24 +17,24 @@ describe Course, type: :model do
   it { is_expected.to accept_values_for(:course_code, 'course', '1234', 'my-course') }
 
   it 'does not allow duplicate course codes (case-insensitive)' do
-    create(:course, course_code: 'The-Course')
+    create(:'course_service/course', course_code: 'The-Course')
 
     expect do
-      create(:course, course_code: 'the-course')
+      create(:'course_service/course', course_code: 'the-course')
     end.to raise_error(ActiveRecord::RecordInvalid, /Course code has already been taken/)
   end
 
   it 'does not allow a start_date being later than the end date' do
     expect do
-      create(:course, start_date: Time.zone.now, end_date: 7.days.ago)
+      create(:'course_service/course', start_date: Time.zone.now, end_date: 7.days.ago)
     end.to raise_error(ActiveRecord::RecordInvalid, /The start date cannot be later than the end date/)
   end
 
   # Tip: Recreate the classifier object here, otherwise you will see type mismatch errors.
-  it { is_expected.to accept_values_for(:classifiers, {}, {category: ['somecat']}, create(:classifier)) }
+  it { is_expected.to accept_values_for(:classifiers, {}, {category: ['somecat']}, create(:'course_service/classifier')) }
 
   it 'creates a classifier with title and translations' do
-    course = create(:course)
+    course = create(:'course_service/course')
     course.update!(classifiers: {category: ['somecat']})
     expect(course.classifiers).to contain_exactly(an_object_having_attributes(title: 'somecat', translations: {'en' => 'somecat'}))
   end
@@ -44,7 +44,7 @@ describe Course, type: :model do
   end
 
   it 'allows assigning a course to a channel' do
-    course = create(:course, :with_channel)
+    course = create(:'course_service/course', :with_channel)
     expect(course.channel).to be_a Channel
   end
 
@@ -67,7 +67,7 @@ describe Course, type: :model do
   end
 
   context '(event publication)' do
-    subject(:course) { build(:course) }
+    subject(:course) { build(:'course_service/course') }
 
     it 'publishes an event for newly created course' do
       expect(Msgr).to receive(:publish).with(kind_of(Hash), hash_including(to: 'xikolo.course.course.create'))
@@ -99,7 +99,7 @@ describe Course, type: :model do
   end
 
   context '(enrollment completion worker)' do
-    subject(:course) { create(:course, records_released:) }
+    subject(:course) { create(:'course_service/course', records_released:) }
 
     let(:records_released) { false }
 
@@ -155,22 +155,22 @@ describe Course, type: :model do
   end
 
   context 'with items' do
-    let(:section) { create(:section, course:) }
-    let!(:items) { create_list(:item, 5, section:) }
+    let(:section) { create(:'course_service/section', course:) }
+    let!(:items) { create_list(:'course_service/item', 5, section:) }
 
     its(:items) { is_expected.to eq items }
   end
 
   context 'with homeworks' do
-    let(:section) { create(:section, course:) }
-    let!(:homeworks) { create_list(:item, 5, :homework, section:) }
+    let(:section) { create(:'course_service/section', course:) }
+    let!(:homeworks) { create_list(:'course_service/item', 5, :homework, section:) }
 
     its('items.homeworks') { is_expected.to eq homeworks }
   end
 
   context 'custom middle date is not set' do
     date = Time.zone.today
-    subject(:course) { create(:course, start_date: date - 3.days, end_date: date - 1.day, middle_of_course: nil) }
+    subject(:course) { create(:'course_service/course', start_date: date - 3.days, end_date: date - 1.day, middle_of_course: nil) }
 
     it 'has a correct course middle' do
       expect(course.middle_of_course).to eq date - 2.days
@@ -180,7 +180,7 @@ describe Course, type: :model do
 
   context 'custom middle date is set' do
     date = Time.zone.today
-    subject(:course) { create(:course, start_date: date - 5.days, end_date: date - 1.day, middle_of_course: date - 3.days) }
+    subject(:course) { create(:'course_service/course', start_date: date - 5.days, end_date: date - 1.day, middle_of_course: date - 3.days) }
 
     it 'has a correct course middle' do
       expect(course.middle_of_course).to eq date - 3.days
@@ -189,7 +189,7 @@ describe Course, type: :model do
   end
 
   context 'change state of course' do
-    subject(:course) { create(:course, auto_archive: true, status: 'active', start_date: 2.days.ago, end_date: 1.day.ago) }
+    subject(:course) { create(:'course_service/course', auto_archive: true, status: 'active', start_date: 2.days.ago, end_date: 1.day.ago) }
 
     it 'auto-archives' do
       expect(course.auto_archive).to be true
@@ -213,8 +213,8 @@ describe Course, type: :model do
     describe '#by_identifier' do
       subject { Course.by_identifier(identifier).take! }
 
-      let!(:uuid_course) { create(:course) }
-      let!(:slug_course) { create(:course, course_code: 'javaeinstieg2015') }
+      let!(:uuid_course) { create(:'course_service/course') }
+      let!(:slug_course) { create(:'course_service/course', course_code: 'javaeinstieg2015') }
 
       context 'with UUID' do
         let(:identifier) { uuid_course.id }
@@ -236,11 +236,11 @@ describe Course, type: :model do
         course
 
         # And two already ended courses (one of which is still marked active)
-        create(:course, :archived)
-        create(:course, :archived, status: 'active')
+        create(:'course_service/course', :archived)
+        create(:'course_service/course', :archived, status: 'active')
       end
 
-      let!(:course_active) { create(:course, :active) }
+      let!(:course_active) { create(:'course_service/course', :active) }
 
       it { is_expected.to eq [course_active.id] }
     end
@@ -248,10 +248,10 @@ describe Course, type: :model do
     describe 'for_user' do
       subject(:courses) { Course.for_user(current_user) }
 
-      let(:active_course) { create(:course, :active, attributes: {title: 'Active'}) }
-      let(:preparation_course) { create(:course, attributes: {title: 'Preparation', status: 'preparation'}) }
-      let(:hidden_course) { create(:course, attributes: {title: 'Hidden', status: 'active', hidden: true}) }
-      let(:partner_course) { create(:course, attributes: {title: 'Partner', status: 'active', groups: ['partners']}) }
+      let(:active_course) { create(:'course_service/course', :active, attributes: {title: 'Active'}) }
+      let(:preparation_course) { create(:'course_service/course', attributes: {title: 'Preparation', status: 'preparation'}) }
+      let(:hidden_course) { create(:'course_service/course', attributes: {title: 'Hidden', status: 'active', hidden: true}) }
+      let(:partner_course) { create(:'course_service/course', attributes: {title: 'Partner', status: 'active', groups: ['partners']}) }
 
       let(:current_user) do
         Xikolo::Common::Auth::CurrentUser.from_session(
@@ -321,7 +321,7 @@ describe Course, type: :model do
 
         context 'with enrollment' do
           context 'in hidden course' do
-            before { create(:enrollment, course: hidden_course, user_id:) }
+            before { create(:'course_service/enrollment', course: hidden_course, user_id:) }
 
             it 'contains active and partner course' do
               expect(courses).to contain_exactly(active_course, hidden_course)
@@ -329,7 +329,7 @@ describe Course, type: :model do
           end
 
           context 'in group restricted course' do
-            before { create(:enrollment, course: partner_course, user_id:) }
+            before { create(:'course_service/enrollment', course: partner_course, user_id:) }
 
             it 'contains active and partner course' do
               expect(courses).to contain_exactly(active_course, partner_course)
@@ -344,25 +344,25 @@ describe Course, type: :model do
     subject { course.accessible? }
 
     context 'for an active course' do
-      let(:course) { create(:course, :active) }
+      let(:course) { create(:'course_service/course', :active) }
 
       it { is_expected.to be true }
     end
 
     context 'for an archived course' do
-      let(:course) { create(:course, :archived) }
+      let(:course) { create(:'course_service/course', :archived) }
 
       it { is_expected.to be true }
     end
 
     context 'for a course without end date (self-paced)' do
-      let(:course) { create(:course, end_date: nil) }
+      let(:course) { create(:'course_service/course', end_date: nil) }
 
       it { is_expected.to be true }
     end
 
     context 'for a course that has not yet started' do
-      let(:course) { create(:course, :upcoming) }
+      let(:course) { create(:'course_service/course', :upcoming) }
 
       it { is_expected.to be false }
     end
@@ -374,20 +374,20 @@ describe Course, type: :model do
     it { is_expected.to be true }
 
     context 'for an external course' do
-      let(:course) { create(:course, :external) }
+      let(:course) { create(:'course_service/course', :external) }
 
       it { is_expected.to be false }
     end
 
     context 'for an invite-only course' do
-      let(:course) { create(:course, :invite_only) }
+      let(:course) { create(:'course_service/course', :invite_only) }
 
       it { is_expected.to be false }
     end
   end
 
   context 'enrollments' do
-    before { create_list(:enrollment, 5, course:) }
+    before { create_list(:'course_service/enrollment', 5, course:) }
 
     it 'has enrollments' do
       expect(course.enrollments.size).to eq 5
@@ -410,31 +410,31 @@ describe Course, type: :model do
     subject { course.alternative_teacher_text }
 
     context 'nil' do
-      let(:course) { create(:course, alternative_teacher_text: nil) }
+      let(:course) { create(:'course_service/course', alternative_teacher_text: nil) }
 
       it { is_expected.to be_nil }
     end
 
     context 'empty string' do
-      let(:course) { create(:course, alternative_teacher_text: '') }
+      let(:course) { create(:'course_service/course', alternative_teacher_text: '') }
 
       it { is_expected.to be_nil }
     end
 
     context 'only whitespaces' do
-      let(:course) { create(:course, alternative_teacher_text: '     ') }
+      let(:course) { create(:'course_service/course', alternative_teacher_text: '     ') }
 
       it { is_expected.to be_nil }
     end
 
     context 'real text' do
-      let(:course) { create(:course, alternative_teacher_text: 'Dr. Foo Bar') }
+      let(:course) { create(:'course_service/course', alternative_teacher_text: 'Dr. Foo Bar') }
 
       it { is_expected.to eq 'Dr. Foo Bar' }
     end
 
     context 'cleared by update' do
-      let(:course) { create(:course, alternative_teacher_text: 'Dr. Foo Bar') }
+      let(:course) { create(:'course_service/course', alternative_teacher_text: 'Dr. Foo Bar') }
 
       it do
         expect(course.alternative_teacher_text).to eq 'Dr. Foo Bar'
@@ -448,7 +448,7 @@ describe Course, type: :model do
     subject { course.public? }
 
     let(:attributes) { {status: 'active'} }
-    let(:course) { create(:course, attributes) }
+    let(:course) { create(:'course_service/course', attributes) }
 
     it { is_expected.to be true }
 
@@ -473,7 +473,7 @@ describe Course, type: :model do
 
   describe 'certificates' do
     let!(:course) do
-      create(:course,
+      create(:'course_service/course',
         records_released:,
         roa_enabled:,
         cop_enabled:,
@@ -481,7 +481,7 @@ describe Course, type: :model do
         cop_threshold_percentage:)
     end
     let(:user_id) { SecureRandom.uuid }
-    let!(:enrollment) { create(:enrollment, course:, user_id:, proctored: enrollment_proctored) }
+    let!(:enrollment) { create(:'course_service/enrollment', course:, user_id:, proctored: enrollment_proctored) }
     let(:records_released) { false }
     let(:enrollment_proctored) { false }
     let(:roa_enabled) { false }
@@ -724,12 +724,12 @@ describe Course, type: :model do
         end
 
         context 'with relation' do
-          let(:required_course) { create(:course, :active, records_released: true, roa_enabled: true) }
+          let(:required_course) { create(:'course_service/course', :active, records_released: true, roa_enabled: true) }
 
           before do
-            source = create(:course_set, courses: [course])
-            target = create(:course_set, courses: [required_course])
-            create(:course_set_relation, source_set: source, target_set: target, kind: 'requires_roa')
+            source = create(:'course_service/course_set', courses: [course])
+            target = create(:'course_service/course_set', courses: [required_course])
+            create(:'course_service/course_set_relation', source_set: source, target_set: target, kind: 'requires_roa')
           end
 
           it { is_expected.to be false }
@@ -738,15 +738,15 @@ describe Course, type: :model do
             let(:homework_id) { SecureRandom.uuid }
 
             before do
-              section = create(:section, course: required_course)
-              create(:item, :homework, :with_max_points, id: homework_id, section:)
-              create(:enrollment, course: required_course, user_id:)
+              section = create(:'course_service/section', course: required_course)
+              create(:'course_service/item', :homework, :with_max_points, id: homework_id, section:)
+              create(:'course_service/enrollment', course: required_course, user_id:)
             end
 
             it { is_expected.to be false }
 
             context '(fulfilled)' do
-              before { create(:result, user_id:, item_id: homework_id, dpoints: 10) }
+              before { create(:'course_service/result', user_id:, item_id: homework_id, dpoints: 10) }
 
               it { is_expected.to be true }
             end

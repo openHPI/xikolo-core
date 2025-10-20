@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :channel do
+  factory :'course_service/channel', class: 'Channel' do
     sequence(:code) {|n| "channel-#{n}" }
     sequence(:name) {|n| "Channel #{n}" }
 

@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe VisitDecorator do
-  let(:visit) { described_class.new create(:visit) }
+  let(:visit) { described_class.new create(:'course_service/visit') }
 
   context 'as_api_v1' do
     subject(:json) { visit.as_json(api_version: 1).stringify_keys }

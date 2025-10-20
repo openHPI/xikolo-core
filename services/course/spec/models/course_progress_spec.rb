@@ -5,7 +5,7 @@ require 'spec_helper'
 describe CourseProgress, type: :model do
   subject(:progress) { described_class.create(course:, user_id:) }
 
-  let!(:course) { create(:course) }
+  let!(:course) { create(:'course_service/course') }
   let(:user_id) { generate(:user_id) }
 
   describe '#points_percentage_fpoints' do
@@ -40,11 +40,11 @@ describe CourseProgress, type: :model do
     end
 
     context 'with progress in sections' do
-      let(:week1) { create(:section, course:) }
-      let(:week2) { create(:section, course:) }
-      let(:week3) { create(:section, course:) }
+      let(:week1) { create(:'course_service/section', course:) }
+      let(:week2) { create(:'course_service/section', course:) }
+      let(:week3) { create(:'course_service/section', course:) }
       let(:progress1) do
-        create(:section_progress, section: week1, user_id:,
+        create(:'course_service/section_progress', section: week1, user_id:,
           visits: 5,
           main_dpoints: 50,
           main_exercises: 1,
@@ -54,7 +54,7 @@ describe CourseProgress, type: :model do
           selftest_exercises: 2)
       end
       let(:progress2) do
-        create(:section_progress, section: week2, user_id:,
+        create(:'course_service/section_progress', section: week2, user_id:,
           visits: 4,
           main_dpoints: 0,
           main_exercises: 0,
@@ -65,27 +65,27 @@ describe CourseProgress, type: :model do
       end
 
       before do
-        create_list(:item, 5, section: week1)
-        create(:item, :homework, section: week1, max_dpoints: 50)
-        create(:item, :quiz, :bonus, section: week1, max_dpoints: 20)
-        create_list(:item, 2, :quiz, section: week1, max_dpoints: 10)
+        create_list(:'course_service/item', 5, section: week1)
+        create(:'course_service/item', :homework, section: week1, max_dpoints: 50)
+        create(:'course_service/item', :quiz, :bonus, section: week1, max_dpoints: 20)
+        create_list(:'course_service/item', 2, :quiz, section: week1, max_dpoints: 10)
 
-        create_list(:item, 5, section: week2)
-        create(:item, :homework, section: week2, max_dpoints: 50)
-        create(:item, :quiz, :bonus, section: week2, max_dpoints: 20)
-        create_list(:item, 2, :quiz, section: week2, max_dpoints: 10)
+        create_list(:'course_service/item', 5, section: week2)
+        create(:'course_service/item', :homework, section: week2, max_dpoints: 50)
+        create(:'course_service/item', :quiz, :bonus, section: week2, max_dpoints: 20)
+        create_list(:'course_service/item', 2, :quiz, section: week2, max_dpoints: 10)
 
-        create_list(:item, 5, section: week3)
-        create(:item, :homework, section: week3, max_dpoints: 50)
-        create(:item, :quiz, :bonus, section: week3, max_dpoints: 20)
-        create_list(:item, 2, :quiz, section: week3, max_dpoints: 10)
+        create_list(:'course_service/item', 5, section: week3)
+        create(:'course_service/item', :homework, section: week3, max_dpoints: 50)
+        create(:'course_service/item', :quiz, :bonus, section: week3, max_dpoints: 20)
+        create_list(:'course_service/item', 2, :quiz, section: week3, max_dpoints: 10)
 
         # The user has visited items in the first two weeks, but not in later ones
         progress1
         progress2
 
         # Another user has visited the third week
-        create(:section_progress, section: week3, visits: 2)
+        create(:'course_service/section_progress', section: week3, visits: 2)
       end
 
       it 'sums up visits, exercises and dpoints from all sections' do
@@ -106,7 +106,7 @@ describe CourseProgress, type: :model do
 
       context 'with perfect score including bonus points' do
         let(:progress2) do
-          create(:section_progress, section: week2, user_id:,
+          create(:'course_service/section_progress', section: week2, user_id:,
             visits: 5,
             main_dpoints: 50,
             main_exercises: 1,
@@ -117,7 +117,7 @@ describe CourseProgress, type: :model do
         end
 
         before do
-          create(:section_progress, section: week3, user_id:,
+          create(:'course_service/section_progress', section: week3, user_id:,
             visits: 5,
             main_dpoints: 50,
             main_exercises: 1,
@@ -134,16 +134,16 @@ describe CourseProgress, type: :model do
 
       context 'with complete visits including optional items' do
         let(:progress1) do
-          create(:section_progress, section: week1, user_id:,
+          create(:'course_service/section_progress', section: week1, user_id:,
             visits: 10)
         end
         let(:progress2) do
-          create(:section_progress, section: week2, user_id:,
+          create(:'course_service/section_progress', section: week2, user_id:,
             visits: 10)
         end
 
         before do
-          create(:section_progress, section: week3, user_id:,
+          create(:'course_service/section_progress', section: week3, user_id:,
             visits: 10)
         end
 
@@ -153,24 +153,24 @@ describe CourseProgress, type: :model do
       end
 
       context 'with alternative sections' do
-        let(:parent_section) { create(:section, :parent, course:) }
-        let(:alternative_section1) { create(:section, :child, course:, parent: parent_section) }
-        let(:alternative_section2) { create(:section, :child, course:, parent: parent_section) }
+        let(:parent_section) { create(:'course_service/section', :parent, course:) }
+        let(:alternative_section1) { create(:'course_service/section', :child, course:, parent: parent_section) }
+        let(:alternative_section2) { create(:'course_service/section', :child, course:, parent: parent_section) }
 
         before do
-          create(:item, :homework, section: alternative_section1, max_dpoints: 50)
-          create(:item, :quiz, :bonus, section: alternative_section1, max_dpoints: 30)
-          create(:item, :homework, section: alternative_section2, max_dpoints: 50)
-          create(:item, :homework, section: alternative_section2, max_dpoints: 10)
-          create(:item, :quiz, :bonus, section: alternative_section2, max_dpoints: 40)
+          create(:'course_service/item', :homework, section: alternative_section1, max_dpoints: 50)
+          create(:'course_service/item', :quiz, :bonus, section: alternative_section1, max_dpoints: 30)
+          create(:'course_service/item', :homework, section: alternative_section2, max_dpoints: 50)
+          create(:'course_service/item', :homework, section: alternative_section2, max_dpoints: 10)
+          create(:'course_service/item', :quiz, :bonus, section: alternative_section2, max_dpoints: 40)
 
-          create(:section_choice,
+          create(:'course_service/section_choice',
             section_id: parent_section.id,
             user_id:,
             choice_ids: [alternative_section1.id, alternative_section2.id])
 
           # Ignored alternative:
-          create(:section_progress, section: alternative_section1, user_id:,
+          create(:'course_service/section_progress', section: alternative_section1, user_id:,
             visits: 1,
             main_dpoints: 40,
             main_exercises: 1,
@@ -179,7 +179,7 @@ describe CourseProgress, type: :model do
             selftest_dpoints: 0,
             selftest_exercises: 0)
           # Graded alternative:
-          create(:section_progress, section: alternative_section2, user_id:,
+          create(:'course_service/section_progress', section: alternative_section2, user_id:,
             alternative_progress_for: parent_section.id,
             visits: 1,
             main_dpoints: 55,
@@ -210,7 +210,7 @@ describe CourseProgress, type: :model do
       context 'with fixed learning evaluation' do
         context 'with an empty fixed learning evaluation' do
           before do
-            create(:fixed_learning_evaluation, course:, user_id:,
+            create(:'course_service/fixed_learning_evaluation', course:, user_id:,
               maximal_dpoints: nil, user_dpoints: nil, visits_percentage: nil)
           end
 
@@ -233,7 +233,7 @@ describe CourseProgress, type: :model do
 
         context 'with a lower fixed learning evaluation' do
           before do
-            create(:fixed_learning_evaluation, course:, user_id:,
+            create(:'course_service/fixed_learning_evaluation', course:, user_id:,
               maximal_dpoints: 200, user_dpoints: 85, visits_percentage: 25.0)
           end
 
@@ -256,7 +256,7 @@ describe CourseProgress, type: :model do
 
         context 'with a greater fixed learning evaluation' do
           before do
-            create(:fixed_learning_evaluation, course:, user_id:,
+            create(:'course_service/fixed_learning_evaluation', course:, user_id:,
               maximal_dpoints: 200, user_dpoints: 150, visits_percentage: 62.5)
           end
 
@@ -279,19 +279,19 @@ describe CourseProgress, type: :model do
       end
 
       describe 'alternative section without published alternatives' do
-        let(:parent_section) { create(:section, :parent, course:) }
-        let(:alternative_section) { create(:section, :child, course:, parent: parent_section, published: false) }
+        let(:parent_section) { create(:'course_service/section', :parent, course:) }
+        let(:alternative_section) { create(:'course_service/section', :child, course:, parent: parent_section, published: false) }
 
         before do
-          create(:item, :homework, section: alternative_section, max_dpoints: 50)
-          create(:item, :quiz, :bonus, section: alternative_section, max_dpoints: 30)
+          create(:'course_service/item', :homework, section: alternative_section, max_dpoints: 50)
+          create(:'course_service/item', :quiz, :bonus, section: alternative_section, max_dpoints: 30)
 
-          create(:section_choice,
+          create(:'course_service/section_choice',
             section_id: parent_section.id,
             user_id:,
             choice_ids: [alternative_section.id])
 
-          create(:section_progress, section: alternative_section, user_id:,
+          create(:'course_service/section_progress', section: alternative_section, user_id:,
             visits: 1,
             main_dpoints: 40,
             main_exercises: 1,
@@ -320,13 +320,13 @@ describe CourseProgress, type: :model do
 
       describe 'unpublished section' do
         before do
-          unpublished_section = create(:section, course:, published: false)
-          create_list(:item, 5, section: unpublished_section)
-          create(:item, :homework, section: unpublished_section, max_dpoints: 50)
-          create(:item, :quiz, :bonus, section: unpublished_section, max_dpoints: 20)
-          create_list(:item, 2, :quiz, section: unpublished_section, max_dpoints: 10)
+          unpublished_section = create(:'course_service/section', course:, published: false)
+          create_list(:'course_service/item', 5, section: unpublished_section)
+          create(:'course_service/item', :homework, section: unpublished_section, max_dpoints: 50)
+          create(:'course_service/item', :quiz, :bonus, section: unpublished_section, max_dpoints: 20)
+          create_list(:'course_service/item', 2, :quiz, section: unpublished_section, max_dpoints: 10)
 
-          create(:section_progress, section: unpublished_section, user_id:,
+          create(:'course_service/section_progress', section: unpublished_section, user_id:,
             visits: 5,
             main_dpoints: 50,
             main_exercises: 1,

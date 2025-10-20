@@ -10,7 +10,7 @@
     => label(:user, :id, t(:'admin.course_management.enrollments.search_for_user'), class: 'mr10')
     => select_tag :user_id, nil, data: {behavior: 'custom-select', change: 'submit', 'auto-completion-url': admin_find_users_path, placeholder: t(:'global.email_or_name')}
     - if params[:user_id]
-      =< link_to t(:'admin.course_management.enrollments.reset_filter'), course_enrollments_path
+      =< link_to t(:'admin.course_management.enrollments.reset_filter'), course_enrollments_path, class: 'bs-a'
 
   - if @enrollments.present?
     table.table.table-striped.table-condensed.table-hover
@@ -31,18 +31,18 @@
           td
             .action-links
               .details
-                = link_to t(:'admin.course_management.enrollments.details'), user_path(enrollment[:user].id)
+                = link_to t(:'admin.course_management.enrollments.details'), user_path(enrollment[:user].id), class: 'bs-a'
               .submissions
-                = link_to t(:'admin.course_management.enrollments.submissions'), course_submissions_path(user_id: enrollment[:user].id, id: params[:course_id])
+                = link_to t(:'admin.course_management.enrollments.submissions'), course_submissions_path(user_id: enrollment[:user].id, id: params[:course_id]), class: 'bs-a'
               div
-                = link_to t(:'admin.course_management.enrollments.progress'), course_progress_path(user_id: enrollment[:user].id)
+                = link_to t(:'admin.course_management.enrollments.progress'), course_progress_path(user_id: enrollment[:user].id), class: 'bs-a'
           td
             = render Global::ActionsDropdown.new(menu_side: 'right') do |c|
               - c.with_action
                 button data-behavior='copy-to-clipboard' data-text=enrollment[:data].id
                   = t(:'admin.course_management.enrollments.copy_id')
               - c.with_destructive_action
-                = link_to t(:'admin.course_management.enrollments.unenroll_user'), teacher_destroy_enrollment_path(user_id: enrollment[:user].id), method: :delete, data: {confirm: t(:'admin.course_management.enrollments.unenroll_confirm')}
+                = link_to t(:'admin.course_management.enrollments.unenroll_user'), teacher_destroy_enrollment_path(user_id: enrollment[:user].id), class: 'bs-a', method: :delete, data: {confirm: t(:'admin.course_management.enrollments.unenroll_confirm')}
 
     = will_paginate @enrollments_pager, renderer: PaginationRenderer
 

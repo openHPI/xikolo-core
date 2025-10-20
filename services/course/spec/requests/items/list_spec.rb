@@ -7,14 +7,14 @@ describe 'Items: List', type: :request do
 
   let(:api) { Restify.new(:test).get.value }
   let(:params) { {} }
-  let(:course) { create(:course) }
-  let(:section) { create(:section, course:, title: 'Week 1') }
+  let(:course) { create(:'course_service/course') }
+  let(:section) { create(:'course_service/section', course:, title: 'Week 1') }
   let!(:items) do
     [
-      create(:item, :quiz, :with_max_points, section:, title: 'Quiz 1'),
-      create(:item, :quiz, :with_max_points, section:, title: 'Quiz 2'),
-      create(:item, :quiz, :with_max_points, section:, title: 'Quiz 3'),
-      create(:item, :quiz, :with_max_points, section:, title: 'Quiz 4'),
+      create(:'course_service/item', :quiz, :with_max_points, section:, title: 'Quiz 1'),
+      create(:'course_service/item', :quiz, :with_max_points, section:, title: 'Quiz 2'),
+      create(:'course_service/item', :quiz, :with_max_points, section:, title: 'Quiz 3'),
+      create(:'course_service/item', :quiz, :with_max_points, section:, title: 'Quiz 4'),
     ]
   end
 
@@ -23,12 +23,12 @@ describe 'Items: List', type: :request do
   it { is_expected.to all have_rel(:section) }
 
   shared_examples 'an item list with forks and branches' do
-    let(:course) { create(:course, :with_content_tree) }
-    let(:item1) { create(:item, section:, title: 'Item 1') }
-    let(:item2) { create(:item, section:, title: 'Item 2') }
-    let(:item3) { create(:item, section:, title: 'Item 3') }
-    let(:item4) { create(:item, section:, title: 'Item 4') }
-    let(:fork) { create(:fork, section:, course:, title: 'Fork') }
+    let(:course) { create(:'course_service/course', :with_content_tree) }
+    let(:item1) { create(:'course_service/item', section:, title: 'Item 1') }
+    let(:item2) { create(:'course_service/item', section:, title: 'Item 2') }
+    let(:item3) { create(:'course_service/item', section:, title: 'Item 3') }
+    let(:item4) { create(:'course_service/item', section:, title: 'Item 4') }
+    let(:fork) { create(:'course_service/fork', section:, course:, title: 'Fork') }
 
     # Create all the section children to store them in the desired order
     before do
@@ -117,8 +117,8 @@ describe 'Items: List', type: :request do
 
       context 'with visits by the user' do
         before do
-          create(:visit, item: items.first, user_id:)
-          create(:visit, item: items.second, user_id:)
+          create(:'course_service/visit', item: items.first, user_id:)
+          create(:'course_service/visit', item: items.second, user_id:)
         end
 
         it { is_expected.to respond_with :ok }
@@ -146,8 +146,8 @@ describe 'Items: List', type: :request do
         let(:other_user_id) { generate(:user_id) }
 
         before do
-          create(:visit, item: items.first, user_id: other_user_id)
-          create(:visit, item: items.second, user_id: other_user_id)
+          create(:'course_service/visit', item: items.first, user_id: other_user_id)
+          create(:'course_service/visit', item: items.second, user_id: other_user_id)
         end
 
         it { is_expected.to respond_with :ok }
@@ -197,10 +197,10 @@ describe 'Items: List', type: :request do
         end
 
         before do
-          create(:visit, item: items.first, user_id:)
-          create(:visit, item: items.second, user_id:)
-          create(:visit, item: items.first, user_id: other_user_id)
-          create(:visit, item: items.second, user_id: other_user_id)
+          create(:'course_service/visit', item: items.first, user_id:)
+          create(:'course_service/visit', item: items.second, user_id:)
+          create(:'course_service/visit', item: items.first, user_id: other_user_id)
+          create(:'course_service/visit', item: items.second, user_id: other_user_id)
         end
 
         it { is_expected.to respond_with :ok }
@@ -250,7 +250,7 @@ describe 'Items: List', type: :request do
 
   context 'without items with prerequisites' do
     let(:params) { super().merge required_items: 'none' }
-    let!(:item_with_requirements) { create(:item, required_item_ids: [Item.first.id]) }
+    let!(:item_with_requirements) { create(:'course_service/item', required_item_ids: [Item.first.id]) }
 
     it { is_expected.to have(4).items }
 

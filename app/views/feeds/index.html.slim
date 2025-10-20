@@ -5,6 +5,6 @@
   .row
     .col-md-12.pt30
       = t(:'feeds.txt')
-      ul.mt20
+      ul.mt20.list-disc
         li
-          = link_to t(:'feeds.course_feed_name'), courses_feed_path
+          = link_to t(:'feeds.course_feed_name'), courses_feed_path, class: 'bs-a'

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :cluster do
+  factory :'course_service/cluster', class: 'Cluster' do
     sequence(:id) {|n| "category-#{n}" } # rubocop:disable FactoryBot/IdSequence
     sequence(:translations) {|n| {'en' => "Category #{n}", 'de' => "Kategorie #{n}"} }
     sort_mode { 'automatic' }

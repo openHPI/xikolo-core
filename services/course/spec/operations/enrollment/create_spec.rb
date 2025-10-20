@@ -6,7 +6,7 @@ describe Enrollment::Create, type: :operation do
   subject(:operation) { described_class.call user_id, course, params }
 
   let(:user_id) { generate(:user_id) }
-  let(:course) { create(:course) }
+  let(:course) { create(:'course_service/course') }
   let(:params) { {} }
 
   let(:membership_stub) do
@@ -89,7 +89,7 @@ describe Enrollment::Create, type: :operation do
 
   context 'with group restrictions' do
     let(:group) { 'group.name' }
-    let(:course) { create(:course, groups: [group]) }
+    let(:course) { create(:'course_service/course', groups: [group]) }
 
     context 'with user in group' do
       before do

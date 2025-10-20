@@ -5,15 +5,15 @@ require 'spec_helper'
 describe 'Items: Destroy', type: :request do
   subject(:request) { api.rel(:item).delete({id: item.id}).value! }
 
-  let(:item) { create(:item) }
+  let(:item) { create(:'course_service/item') }
   let(:api) { Restify.new(:test).get.value }
 
   before do
     item
-    create_list(:visit, 3, item:)
-    create(:visit)
-    create_list(:result, 4, item:)
-    create(:result)
+    create_list(:'course_service/visit', 3, item:)
+    create(:'course_service/visit')
+    create_list(:'course_service/result', 4, item:)
+    create(:'course_service/result')
   end
 
   it { is_expected.to respond_with :no_content }

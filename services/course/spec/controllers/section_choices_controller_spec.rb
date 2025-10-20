@@ -6,7 +6,7 @@ describe SectionChoicesController, type: :controller do
   let(:json) { JSON.parse response.body }
   let(:data) { json.to_struct }
   let(:default_params) { {format: 'json'} }
-  let(:section_choice) { create(:section_choice) }
+  let(:section_choice) { create(:'course_service/section_choice') }
 
   before { section_choice }
 
@@ -30,13 +30,13 @@ describe SectionChoicesController, type: :controller do
 
     context 'with filter' do
       let(:user_id) { SecureRandom.uuid }
-      let(:section) { create(:section) }
+      let(:section) { create(:'course_service/section') }
 
       before do
-        create(:section_choice, user_id:)
-        create(:section_choice, user_id:, section:)
-        create(:section_choice, user_id: SecureRandom.uuid, section:)
-        create(:section_choice, user_id: SecureRandom.uuid, section:)
+        create(:'course_service/section_choice', user_id:)
+        create(:'course_service/section_choice', user_id:, section:)
+        create(:'course_service/section_choice', user_id: SecureRandom.uuid, section:)
+        create(:'course_service/section_choice', user_id: SecureRandom.uuid, section:)
       end
 
       it 'returns a list with user_id filter' do
@@ -59,7 +59,7 @@ describe SectionChoicesController, type: :controller do
   describe "POST 'create'" do
     let(:chosen_section_id) { SecureRandom.uuid }
     let(:new_user_id) { SecureRandom.uuid }
-    let(:section) { create(:section, :parent) }
+    let(:section) { create(:'course_service/section', :parent) }
     let(:params) { {section_id: section.id, user_id: new_user_id, chosen_section_id:} }
 
     it 'returns http success' do

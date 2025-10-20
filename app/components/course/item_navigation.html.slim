@@ -8,7 +8,7 @@ nav.course-item-navigation data-controller='slider course-item-nav'
     - @items.each do |item|
       - if accessible?(item)
         li class="course-nav-item #{item.css_classes}" data-id="#{item.id}" data-slider-target='item'
-          = link_to(item.path, data: {tooltip: item.item_tooltip.to_s}, 'aria-label': item.aria_label)
+          = link_to(item.path, class: 'bs-a', data: {tooltip: item.item_tooltip.to_s}, 'aria-label': item.aria_label)
             = render Global::FaIcon.new(item.icon_class)
       - else
         li class="course-nav-item locked #{item.css_classes}" data-id="#{item.id}" data-slider-target='item' data-tooltip=item.item_tooltip aria-label=item.aria_label

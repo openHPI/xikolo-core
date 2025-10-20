@@ -6,8 +6,8 @@ describe SectionProgress::Calculate, type: :operation do
   subject(:calculate) { described_class.call(section.id, user_id, **params) }
 
   let(:params) { {} }
-  let(:section) { create(:section) }
-  let(:item) { create(:item, :homework, :with_max_points, section:) }
+  let(:section) { create(:'course_service/section') }
+  let(:item) { create(:'course_service/item', :homework, :with_max_points, section:) }
   let(:user_id) { generate(:user_id) }
 
   before do
@@ -15,8 +15,8 @@ describe SectionProgress::Calculate, type: :operation do
       persisted_learning_evaluation: true
     YML
 
-    create(:visit, item:, user_id:)
-    create(:result, item:, user_id:, dpoints: 10)
+    create(:'course_service/visit', item:, user_id:)
+    create(:'course_service/result', item:, user_id:, dpoints: 10)
   end
 
   around {|example| Sidekiq::Testing.inline!(&example) }

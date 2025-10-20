@@ -61,5 +61,5 @@
         th = t(:'vouchers.stats.claimed')
       - @voucher_stats.by_course.each do |course, stats|
         tr
-          td = link_to course, course_path(course)
+          td = link_to course, course_path(course), class: 'bs-a'
           td = stats.claimed

@@ -11,7 +11,7 @@ RSpec.describe ContentTest, type: :model do
     described_class.new(identifier: 'a-content-test', course:, groups: %w[group-a group-b])
   end
 
-  let(:course) { create(:course, course_code: 'the-course') }
+  let(:course) { create(:'course_service/course', course_code: 'the-course') }
 
   describe 'validations' do
     it { is_expected.to be_valid }
@@ -34,7 +34,7 @@ RSpec.describe ContentTest, type: :model do
     end
 
     it 'rejects two tests with the same identifier for a course' do
-      create(:content_test, course:, identifier: 'media')
+      create(:'course_service/content_test', course:, identifier: 'media')
 
       expect(ContentTest.new(
         identifier: 'media',
@@ -44,7 +44,7 @@ RSpec.describe ContentTest, type: :model do
     end
 
     it 'accepts two tests with different identifiers for a course' do
-      create(:content_test, course:, identifier: 'media')
+      create(:'course_service/content_test', course:, identifier: 'media')
 
       expect(ContentTest.new(
         identifier: 'game',
@@ -54,7 +54,7 @@ RSpec.describe ContentTest, type: :model do
     end
 
     it 'accepts two tests with same identifiers for different courses' do
-      create(:content_test, identifier: 'media')
+      create(:'course_service/content_test', identifier: 'media')
 
       expect(ContentTest.new(
         identifier: 'media',

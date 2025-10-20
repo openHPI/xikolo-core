@@ -7,7 +7,7 @@ RSpec.describe 'Teachers: Delete the picture', type: :request do
 
   let(:api) { Restify.new(:test).get.value }
   let(:old_picture_uri) { 's3://xikolo-public/teachers/1/42/tux.jpg' }
-  let(:teacher) { create(:teacher, picture_uri: old_picture_uri) }
+  let(:teacher) { create(:'course_service/teacher', picture_uri: old_picture_uri) }
   let(:old_store_stub_url) { %r{https://s3.xikolo.de/xikolo-public/teachers/[0-9a-zA-Z]+/[0-9a-zA-Z]+/tux.jpg} }
   let(:data) { {picture_uri: nil} }
 

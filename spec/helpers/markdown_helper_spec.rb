@@ -9,43 +9,43 @@ describe MarkdownHelper, type: :helper do
 
   describe '#render_markdown' do
     it 'renders absolute link' do
-      expect(render_markdown("[][1]\r\n\r\n  [1]: https://mydomain.de")).to include('<a href="https://mydomain.de">https://mydomain.de</a>')
+      expect(render_markdown("[][1]\r\n\r\n  [1]: https://mydomain.de")).to include('<a class="bs-a" href="https://mydomain.de">https://mydomain.de</a>')
     end
 
     it 'renders relative link' do
-      expect(render_markdown("[courses][1]\r\n\r\n  [1]: /courses")).to include('<a href="/courses">courses</a>')
+      expect(render_markdown("[courses][1]\r\n\r\n  [1]: /courses")).to include('<a class="bs-a" href="/courses">courses</a>')
     end
 
     it 'renders anchor link' do
-      expect(render_markdown("[my anchor][1]\r\n\r\n  [1]: #my-anchor")).to include('<a href="#my-anchor">my anchor</a>')
+      expect(render_markdown("[my anchor][1]\r\n\r\n  [1]: #my-anchor")).to include('<a class="bs-a" href="#my-anchor">my anchor</a>')
     end
 
     it 'renders link with content' do
-      expect(render_markdown("[link][1]\r\n\r\n  [1]: https://mydomain.de")).to include('<a href="https://mydomain.de">link</a>')
+      expect(render_markdown("[link][1]\r\n\r\n  [1]: https://mydomain.de")).to include('<a class="bs-a" href="https://mydomain.de">link</a>')
     end
 
     it 'renders link with title' do
-      expect(render_markdown("[link][1]\r\n\r\n  [1]: https://mydomain.de \"mydomain\"")).to include('<a title="mydomain" href="https://mydomain.de">link</a>')
+      expect(render_markdown("[link][1]\r\n\r\n  [1]: https://mydomain.de \"mydomain\"")).to include('<a class="bs-a" title="mydomain" href="https://mydomain.de">link</a>')
     end
 
     it 'renders external link with target blank' do
-      expect(render_markdown("[link][1]\r\n\r\n  [1]: https://notmydomain.de")).to include('<a target="_blank" rel="noopener" href="https://notmydomain.de">link</a>')
+      expect(render_markdown("[link][1]\r\n\r\n  [1]: https://notmydomain.de")).to include('<a class="bs-a" target="_blank" rel="noopener" href="https://notmydomain.de">link</a>')
     end
 
     it 'renders absolute files link with target blank' do
-      expect(render_markdown("[link][1]\r\n\r\n  [1]: https://mydomain.de/files/123")).to include('<a target="_blank" rel="noopener" href="https://mydomain.de/files/123">link</a>')
+      expect(render_markdown("[link][1]\r\n\r\n  [1]: https://mydomain.de/files/123")).to include('<a class="bs-a" target="_blank" rel="noopener" href="https://mydomain.de/files/123">link</a>')
     end
 
     it 'renders relative files link with target blank' do
-      expect(render_markdown("[link][1]\r\n\r\n  [1]: /files/123")).to include('<a target="_blank" rel="noopener" href="/files/123">link</a>')
+      expect(render_markdown("[link][1]\r\n\r\n  [1]: /files/123")).to include('<a class="bs-a" target="_blank" rel="noopener" href="/files/123">link</a>')
     end
 
     it 'renders mailto link' do
-      expect(render_markdown("[mail][1]\r\n\r\n  [1]: mailto:admin@example.com")).to include('<a href="mailto:admin@example.com">mail</a>')
+      expect(render_markdown("[mail][1]\r\n\r\n  [1]: mailto:admin@example.com")).to include('<a class="bs-a" href="mailto:admin@example.com">mail</a>')
     end
 
     it 'strips links which it cannot understand' do
-      expect(render_markdown("[mail][1]\r\n\r\n  [1]: mailto://admin@example.com")).to include('<a>mail</a>')
+      expect(render_markdown("[mail][1]\r\n\r\n  [1]: mailto://admin@example.com")).to include('<a class="bs-a">mail</a>')
     end
 
     it 'renders backtick fenced code block' do
@@ -63,11 +63,11 @@ describe MarkdownHelper, type: :helper do
     end
 
     it 'escapes html' do
-      expect(render_markdown("[<script>evil</script>][1]\r\n\r\n  [1]: https://mydomain.de")).to include('<a href="https://mydomain.de">&lt;script&gt;evil&lt;/script&gt;</a>')
+      expect(render_markdown("[<script>evil</script>][1]\r\n\r\n  [1]: https://mydomain.de")).to include('<a class="bs-a" href="https://mydomain.de">&lt;script&gt;evil&lt;/script&gt;</a>')
     end
 
     it 'sanitizes javascript: href' do
-      expect(render_markdown("[click here](javascript:alert('xss'))")).to include('<a>click here</a>')
+      expect(render_markdown("[click here](javascript:alert('xss'))")).to include('<a class="bs-a">click here</a>')
     end
   end
 
@@ -79,7 +79,7 @@ describe MarkdownHelper, type: :helper do
 
       it 'renders internal link with tracking params' do
         expect(render_rich_text_item_markdown(item)).to include(
-          '<a href="https://mydomain.de?' \
+          '<a class="bs-a" href="https://mydomain.de?' \
           'tracking_course_id=b40245f4-de33-42c2-ac2c-916c8a61fa19&' \
           'tracking_id=6cb55cd8-dc58-476b-ab52-d625cbd6b5ad&' \
           'tracking_type=rich_text_item_link&' \
@@ -94,7 +94,7 @@ describe MarkdownHelper, type: :helper do
 
       it 'renders mail link without any tracking params' do
         expect(render_rich_text_item_markdown(item)).to include(
-          '<a href="mailto:email@example.com">email us!</a>'
+          '<a class="bs-a" href="mailto:email@example.com">email us!</a>'
         )
       end
     end
@@ -104,7 +104,7 @@ describe MarkdownHelper, type: :helper do
 
       it 'renders external link with tracking params' do
         expect(render_rich_text_item_markdown(item)).to include(
-          '<a target="_blank" rel="noopener" ' \
+          '<a class="bs-a" target="_blank" rel="noopener" ' \
           'href="https://mydomain.de/go/link?' \
           'url=https%3A%2F%2Fnotmydomain.de&checksum=c5e1b14&' \
           'tracking_type=rich_text_item_link&' \
@@ -120,7 +120,7 @@ describe MarkdownHelper, type: :helper do
 
       it 'is treated like an external link' do
         expect(render_rich_text_item_markdown(item)).to include(
-          '<a target="_blank" rel="noopener" ' \
+          '<a class="bs-a" target="_blank" rel="noopener" ' \
           'href="https://mydomain.de/go/link?' \
           'url=%2Ffiles%2F123&' \
           'checksum=48e9e01&' \
@@ -139,7 +139,7 @@ describe MarkdownHelper, type: :helper do
 
       it 'renders all links with correct tracking params' do
         expect(render_rich_text_item_markdown(item)).to include(
-          '<a href="' \
+          '<a class="bs-a" href="' \
           'https://mydomain.de/page42?' \
           'tracking_course_id=b40245f4-de33-42c2-ac2c-916c8a61fa19&' \
           'tracking_id=6cb55cd8-dc58-476b-ab52-d625cbd6b5ad&' \
@@ -149,7 +149,7 @@ describe MarkdownHelper, type: :helper do
         )
 
         expect(render_rich_text_item_markdown(item)).to include(
-          '<a target="_blank" rel="noopener" ' \
+          '<a class="bs-a" target="_blank" rel="noopener" ' \
           'href="https://mydomain.de/go/link?' \
           'url=http%3A%2F%2Fnotmydomain.de%2Froute57&' \
           'checksum=b82ec47&' \
@@ -166,7 +166,7 @@ describe MarkdownHelper, type: :helper do
 
       it 'is left as-is' do
         expect(render_rich_text_item_markdown(item)).to include(
-          '<a href="http://">HEAT</a>'
+          '<a class="bs-a" href="http://">HEAT</a>'
         )
       end
     end

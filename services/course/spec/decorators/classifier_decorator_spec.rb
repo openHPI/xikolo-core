@@ -5,7 +5,7 @@ require 'spec_helper'
 describe ClassifierDecorator do
   subject(:json) { decorator.as_json(api_version: 1).stringify_keys }
 
-  let(:classifier) { create(:classifier) }
+  let(:classifier) { create(:'course_service/classifier') }
   let(:decorator) { described_class.new(classifier) }
 
   it { is_expected.to include('id') }

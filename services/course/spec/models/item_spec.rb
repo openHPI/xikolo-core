@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe Item, type: :model do
-  subject(:item) { create(:item, item_params) }
+  subject(:item) { create(:'course_service/item', item_params) }
 
   let(:item_params) { {} }
 
@@ -12,26 +12,26 @@ describe Item, type: :model do
     it { is_expected.to accept_values_for(:submission_deadline, '', nil) }
 
     context 'for quizzes' do
-      subject(:item) { create(:item, :homework) }
+      subject(:item) { create(:'course_service/item', :homework) }
 
       it { is_expected.not_to accept_values_for(:exercise_type, '', nil) }
     end
 
     context 'for proctored items' do
-      subject(:item) { create(:item, :proctored) }
+      subject(:item) { create(:'course_service/item', :proctored) }
 
       it { is_expected.not_to accept_values_for(:submission_deadline, '', nil) }
     end
   end
 
   describe 'creation' do
-    let(:default_attrs) { attributes_for(:item) }
+    let(:default_attrs) { attributes_for(:'course_service/item') }
 
     describe 'course content tree' do
-      let(:section) { create(:section, course:) }
+      let(:section) { create(:'course_service/section', course:) }
 
       context 'for a legacy course' do
-        let(:course) { create(:course) }
+        let(:course) { create(:'course_service/course') }
 
         it 'does not create a node' do
           expect do
@@ -41,7 +41,7 @@ describe Item, type: :model do
       end
 
       context 'for a course with content tree' do
-        let(:course) { create(:course, :with_content_tree) }
+        let(:course) { create(:'course_service/course', :with_content_tree) }
 
         it 'creates a node' do
           item = section.items.create!(default_attrs)
@@ -58,9 +58,9 @@ describe Item, type: :model do
 
       context 'for a legacy course' do
         let(:course) do
-          create(:course, progress_calculated_at: 1.day.ago)
+          create(:'course_service/course', progress_calculated_at: 1.day.ago)
         end
-        let(:section) { create(:section, course:) }
+        let(:section) { create(:'course_service/section', course:) }
 
         before do
           # Ensure having a clean state (no recalculation needed).
@@ -91,7 +91,7 @@ describe Item, type: :model do
         end
 
         context 'without any previous progress calculation' do
-          let(:course) { create(:course) }
+          let(:course) { create(:'course_service/course') }
 
           it 'marks the section and course for recalculation' do
             create_item
@@ -102,7 +102,7 @@ describe Item, type: :model do
         end
 
         context 'in a non-published section' do
-          let(:section) { create(:section, course:, published: false) }
+          let(:section) { create(:'course_service/section', course:, published: false) }
 
           it 'does not mark the section nor the course for recalculation' do
             create_item
@@ -115,9 +115,9 @@ describe Item, type: :model do
 
       context 'for a course with content tree' do
         let(:course) do
-          create(:course, :with_content_tree, progress_calculated_at: 1.day.ago)
+          create(:'course_service/course', :with_content_tree, progress_calculated_at: 1.day.ago)
         end
-        let(:section) { create(:section, course:) }
+        let(:section) { create(:'course_service/section', course:) }
 
         before do
           # Ensure having a clean state (no recalculation needed).
@@ -148,7 +148,7 @@ describe Item, type: :model do
         end
 
         context 'without any previous progress calculation' do
-          let(:course) { create(:course, :with_content_tree) }
+          let(:course) { create(:'course_service/course', :with_content_tree) }
 
           it 'marks the section and course for recalculation' do
             create_item
@@ -159,7 +159,7 @@ describe Item, type: :model do
         end
 
         context 'in a non-published section' do
-          let(:section) { create(:section, course:, published: false) }
+          let(:section) { create(:'course_service/section', course:, published: false) }
 
           it 'does not mark the section nor the course for recalculation' do
             create_item
@@ -208,14 +208,14 @@ describe Item, type: :model do
 
       context 'for a legacy course' do
         let(:course) do
-          create(:course, progress_calculated_at: 1.day.ago)
+          create(:'course_service/course', progress_calculated_at: 1.day.ago)
         end
-        let(:section) { create(:section, course:, published: true) }
+        let(:section) { create(:'course_service/section', course:, published: true) }
         # NOTE: It is important to create the item (notice the bang) before
         # updating it, otherwise we would test the result of both the
         # item creation and update here.
         let!(:item) do # rubocop:disable RSpec/LetSetup
-          create(:item, :quiz, section:,
+          create(:'course_service/item', :quiz, section:,
             published: false,
             optional: false,
             max_dpoints: 44)
@@ -241,7 +241,7 @@ describe Item, type: :model do
         context 'unpublishing the item' do
           let(:update_params) { {published: false} }
           let!(:item) do # rubocop:disable RSpec/LetSetup
-            create(:item, :quiz, section:, published: true)
+            create(:'course_service/item', :quiz, section:, published: true)
           end
 
           it 'marks the section and course for recalculation' do
@@ -266,7 +266,7 @@ describe Item, type: :model do
         context 'setting the item to non-optional' do
           let(:update_params) { {optional: false} }
           let!(:item) do # rubocop:disable RSpec/LetSetup
-            create(:item, :quiz, section:, optional: true)
+            create(:'course_service/item', :quiz, section:, optional: true)
           end
 
           it 'marks the section and course for recalculation' do
@@ -290,7 +290,7 @@ describe Item, type: :model do
 
         context 'moving the item to another section' do
           let(:update_params) { {section_id: another_section.id} }
-          let(:another_section) { create(:section, course:, published: true) }
+          let(:another_section) { create(:'course_service/section', course:, published: true) }
 
           before do
             another_section.update!(progress_stale_at: 2.days.ago)
@@ -308,7 +308,7 @@ describe Item, type: :model do
 
           context 'when the item and both sections are published' do
             let!(:item) do # rubocop:disable RSpec/LetSetup
-              create(:item, :quiz, section:, published: true)
+              create(:'course_service/item', :quiz, section:, published: true)
             end
 
             it 'marks all affected sections and the course for recalculation' do
@@ -335,9 +335,9 @@ describe Item, type: :model do
           end
 
           context 'from a published to a non-published section' do
-            let(:another_section) { create(:section, course:, published: false) }
+            let(:another_section) { create(:'course_service/section', course:, published: false) }
             let!(:item) do # rubocop:disable RSpec/LetSetup
-              create(:item, :quiz, section:, published: true)
+              create(:'course_service/item', :quiz, section:, published: true)
             end
 
             it 'marks all affected sections and the course for recalculation' do
@@ -350,9 +350,9 @@ describe Item, type: :model do
           end
 
           context 'from a non-published to a published section' do
-            let(:section) { create(:section, course:, published: false) }
+            let(:section) { create(:'course_service/section', course:, published: false) }
             let!(:item) do # rubocop:disable RSpec/LetSetup
-              create(:item, :quiz, section:, published: true)
+              create(:'course_service/item', :quiz, section:, published: true)
             end
 
             it 'marks all affected sections and the course for recalculation' do
@@ -365,10 +365,10 @@ describe Item, type: :model do
           end
 
           context 'from a non-published to another non-published section' do
-            let(:section) { create(:section, course:, published: false) }
-            let(:another_section) { create(:section, course:, published: false) }
+            let(:section) { create(:'course_service/section', course:, published: false) }
+            let(:another_section) { create(:'course_service/section', course:, published: false) }
             let!(:item) do # rubocop:disable RSpec/LetSetup
-              create(:item, :quiz, section:, published: true)
+              create(:'course_service/item', :quiz, section:, published: true)
             end
 
             it 'does not mark any section nor the course for recalculation' do
@@ -384,9 +384,9 @@ describe Item, type: :model do
         context 'with the section and course already marked for recalculation' do
           let(:update_params) { {max_dpoints: 50} }
           let(:course) do
-            create(:course, progress_calculated_at: 1.week.ago)
+            create(:'course_service/course', progress_calculated_at: 1.week.ago)
           end
-          let(:another_section) { create(:section, course:) }
+          let(:another_section) { create(:'course_service/section', course:) }
 
           before do
             another_section.update!(progress_stale_at: 2.days.ago)
@@ -414,7 +414,7 @@ describe Item, type: :model do
 
         context 'without any previous progress calculation' do
           let(:update_params) { {max_dpoints: 50} }
-          let(:course) { create(:course) }
+          let(:course) { create(:'course_service/course') }
 
           it 'marks the section and course for recalculation' do
             update_item
@@ -426,7 +426,7 @@ describe Item, type: :model do
 
         context 'in a non-published section' do
           let(:update_params) { {max_dpoints: 50} }
-          let(:section) { create(:section, course:, published: false) }
+          let(:section) { create(:'course_service/section', course:, published: false) }
 
           it 'does not mark the section nor the course for recalculation' do
             update_item
@@ -439,14 +439,14 @@ describe Item, type: :model do
 
       context 'for a course with content tree' do
         let(:course) do
-          create(:course, :with_content_tree, progress_calculated_at: 1.day.ago)
+          create(:'course_service/course', :with_content_tree, progress_calculated_at: 1.day.ago)
         end
-        let(:section) { create(:section, course:, published: true) }
+        let(:section) { create(:'course_service/section', course:, published: true) }
         # NOTE: It is important to create the item (notice the bang) before
         # updating it, otherwise we would test the result of both the
         # item creation and update here.
         let!(:item) do # rubocop:disable RSpec/LetSetup
-          create(:item, :quiz, section:,
+          create(:'course_service/item', :quiz, section:,
             published: false,
             optional: false,
             max_dpoints: 44)
@@ -472,7 +472,7 @@ describe Item, type: :model do
         context 'unpublishing the item' do
           let(:update_params) { {published: false} }
           let!(:item) do # rubocop:disable RSpec/LetSetup
-            create(:item, :quiz, section:, published: true)
+            create(:'course_service/item', :quiz, section:, published: true)
           end
 
           it 'marks the section and course for recalculation' do
@@ -497,7 +497,7 @@ describe Item, type: :model do
         context 'setting the item to non-optional' do
           let(:update_params) { {optional: false} }
           let!(:item) do # rubocop:disable RSpec/LetSetup
-            create(:item, :quiz, section:, optional: true)
+            create(:'course_service/item', :quiz, section:, optional: true)
           end
 
           it 'marks the section and course for recalculation' do
@@ -521,7 +521,7 @@ describe Item, type: :model do
 
         context 'moving the item to another section' do
           let(:update_params) { {section_id: another_section.id} }
-          let(:another_section) { create(:section, course:, published: true) }
+          let(:another_section) { create(:'course_service/section', course:, published: true) }
 
           before do
             another_section.node.update!(progress_stale_at: 2.days.ago)
@@ -539,7 +539,7 @@ describe Item, type: :model do
 
           context 'when the item and both sections are published' do
             let!(:item) do # rubocop:disable RSpec/LetSetup
-              create(:item, :quiz, section:, published: true)
+              create(:'course_service/item', :quiz, section:, published: true)
             end
 
             it 'marks all affected sections and the course for recalculation' do
@@ -566,9 +566,9 @@ describe Item, type: :model do
           end
 
           context 'from a published to a non-published section' do
-            let(:another_section) { create(:section, course:, published: false) }
+            let(:another_section) { create(:'course_service/section', course:, published: false) }
             let!(:item) do # rubocop:disable RSpec/LetSetup
-              create(:item, :quiz, section:, published: true)
+              create(:'course_service/item', :quiz, section:, published: true)
             end
 
             it 'marks all affected sections and the course for recalculation' do
@@ -581,9 +581,9 @@ describe Item, type: :model do
           end
 
           context 'from a non-published to a published section' do
-            let(:section) { create(:section, course:, published: false) }
+            let(:section) { create(:'course_service/section', course:, published: false) }
             let!(:item) do # rubocop:disable RSpec/LetSetup
-              create(:item, :quiz, section:, published: true)
+              create(:'course_service/item', :quiz, section:, published: true)
             end
 
             it 'marks all affected sections and the course for recalculation' do
@@ -596,10 +596,10 @@ describe Item, type: :model do
           end
 
           context 'from a non-published to another non-published section' do
-            let(:section) { create(:section, course:, published: false) }
-            let(:another_section) { create(:section, course:, published: false) }
+            let(:section) { create(:'course_service/section', course:, published: false) }
+            let(:another_section) { create(:'course_service/section', course:, published: false) }
             let!(:item) do # rubocop:disable RSpec/LetSetup
-              create(:item, :quiz, section:, published: true)
+              create(:'course_service/item', :quiz, section:, published: true)
             end
 
             it 'does not mark any section nor the course for recalculation' do
@@ -615,9 +615,9 @@ describe Item, type: :model do
         context 'with the section and course already marked for recalculation' do
           let(:update_params) { {max_dpoints: 50} }
           let(:course) do
-            create(:course, :with_content_tree, progress_calculated_at: 1.week.ago)
+            create(:'course_service/course', :with_content_tree, progress_calculated_at: 1.week.ago)
           end
-          let(:another_section) { create(:section, course:) }
+          let(:another_section) { create(:'course_service/section', course:) }
 
           before do
             another_section.node.update!(progress_stale_at: 2.days.ago)
@@ -645,7 +645,7 @@ describe Item, type: :model do
 
         context 'without any previous progress calculation' do
           let(:update_params) { {max_dpoints: 50} }
-          let(:course) { create(:course, :with_content_tree) }
+          let(:course) { create(:'course_service/course', :with_content_tree) }
 
           it 'marks the section and course for recalculation' do
             update_item
@@ -657,7 +657,7 @@ describe Item, type: :model do
 
         context 'in a non-published section' do
           let(:update_params) { {max_dpoints: 50} }
-          let(:section) { create(:section, course:, published: false) }
+          let(:section) { create(:'course_service/section', course:, published: false) }
 
           it 'does not mark the section nor the course for recalculation' do
             update_item
@@ -674,13 +674,13 @@ describe Item, type: :model do
     describe 'learning evaluation' do
       context 'for a legacy course' do
         let(:course) do
-          create(:course, progress_calculated_at: 1.day.ago)
+          create(:'course_service/course', progress_calculated_at: 1.day.ago)
         end
-        let(:section) { create(:section, course:) }
+        let(:section) { create(:'course_service/section', course:) }
         # NOTE: It is important to create the item (notice the bang) before
         # destroying it, otherwise we would test the result of both the
         # item creation and destruction here.
-        let!(:item) { create(:item, section:) }
+        let!(:item) { create(:'course_service/item', section:) }
 
         before do
           # Ensure having a clean state (no recalculation needed).
@@ -690,7 +690,7 @@ describe Item, type: :model do
 
         context 'when the item is published' do
           let!(:item) do
-            create(:item, :quiz, section:, published: true)
+            create(:'course_service/item', :quiz, section:, published: true)
           end
 
           it 'marks the section and course for recalculation' do
@@ -703,7 +703,7 @@ describe Item, type: :model do
 
         context 'when the item is not published' do
           let!(:item) do
-            create(:item, :quiz, section:, published: false)
+            create(:'course_service/item', :quiz, section:, published: false)
           end
 
           it 'does not mark the section nor the course for recalculation' do
@@ -715,7 +715,7 @@ describe Item, type: :model do
         end
 
         context 'without any previous progress calculation' do
-          let(:course) { create(:course) }
+          let(:course) { create(:'course_service/course') }
 
           it 'marks the section and course for recalculation' do
             item.destroy!
@@ -726,7 +726,7 @@ describe Item, type: :model do
         end
 
         context 'in a non-published section' do
-          let(:section) { create(:section, course:, published: false) }
+          let(:section) { create(:'course_service/section', course:, published: false) }
 
           it 'does not mark the section nor the course for recalculation' do
             item.destroy!
@@ -739,13 +739,13 @@ describe Item, type: :model do
 
       context 'for a course with content tree' do
         let(:course) do
-          create(:course, :with_content_tree, progress_calculated_at: 1.day.ago)
+          create(:'course_service/course', :with_content_tree, progress_calculated_at: 1.day.ago)
         end
-        let(:section) { create(:section, course:) }
+        let(:section) { create(:'course_service/section', course:) }
         # NOTE: It is important to create the item (notice the bang) before
         # destroying it, otherwise we would test the result of both the
         # item creation and destruction here.
-        let!(:item) { create(:item, section:) }
+        let!(:item) { create(:'course_service/item', section:) }
 
         before do
           # Ensure having a clean state (no recalculation needed).
@@ -755,7 +755,7 @@ describe Item, type: :model do
 
         context 'when the item is published' do
           let!(:item) do
-            create(:item, :quiz, section:, published: true)
+            create(:'course_service/item', :quiz, section:, published: true)
           end
 
           it 'marks the section and course for recalculation' do
@@ -768,7 +768,7 @@ describe Item, type: :model do
 
         context 'when the item is not published' do
           let!(:item) do
-            create(:item, :quiz, section:, published: false)
+            create(:'course_service/item', :quiz, section:, published: false)
           end
 
           it 'does not mark the section nor the course for recalculation' do
@@ -780,7 +780,7 @@ describe Item, type: :model do
         end
 
         context 'without any previous progress calculation' do
-          let(:course) { create(:course, :with_content_tree) }
+          let(:course) { create(:'course_service/course', :with_content_tree) }
 
           it 'marks the section and course for recalculation' do
             item.destroy!
@@ -791,7 +791,7 @@ describe Item, type: :model do
         end
 
         context 'in a non-published section' do
-          let(:section) { create(:section, course:, published: false) }
+          let(:section) { create(:'course_service/section', course:, published: false) }
 
           it 'does not mark the section nor the course for recalculation' do
             item.destroy!
@@ -806,12 +806,12 @@ describe Item, type: :model do
 
   describe '#effective_published' do
     # we don't consider course start / end dates here
-    let!(:course) { create(:course, start_date: nil, end_date: nil) }
+    let!(:course) { create(:'course_service/course', start_date: nil, end_date: nil) }
 
     context 'published item in published section' do
-      subject(:item) { create(:item, section:, published: true) }
+      subject(:item) { create(:'course_service/item', section:, published: true) }
 
-      let!(:section) { create(:section, course:, published: true) }
+      let!(:section) { create(:'course_service/section', course:, published: true) }
 
       it 'is unpublished' do
         expect(item.effective_published).to be true
@@ -819,9 +819,9 @@ describe Item, type: :model do
     end
 
     context 'published item in unpublished section' do
-      subject(:item) { create(:item, section:, published: true) }
+      subject(:item) { create(:'course_service/item', section:, published: true) }
 
-      let!(:section) { create(:section, course:, published: false) }
+      let!(:section) { create(:'course_service/section', course:, published: false) }
 
       it 'is unpublished' do
         expect(item.effective_published).to be false
@@ -829,9 +829,9 @@ describe Item, type: :model do
     end
 
     context 'unpublished item in published section' do
-      subject(:item) { create(:item, section:, published: false) }
+      subject(:item) { create(:'course_service/item', section:, published: false) }
 
-      let!(:section) { create(:section, course:, published: true) }
+      let!(:section) { create(:'course_service/section', course:, published: true) }
 
       it 'is unpublished' do
         expect(item.effective_published).to be false
@@ -839,9 +839,9 @@ describe Item, type: :model do
     end
 
     context 'unpublished item in unpublished section' do
-      subject(:item) { create(:item, section:, published: false) }
+      subject(:item) { create(:'course_service/item', section:, published: false) }
 
-      let!(:section) { create(:section, course:, published: false) }
+      let!(:section) { create(:'course_service/section', course:, published: false) }
 
       it 'is unpublished' do
         expect(item.effective_published).to be false
@@ -867,7 +867,7 @@ describe Item, type: :model do
       let(:user_id) { generate(:user_id) }
       let(:enrollment_params) { {user_id:, course_id: item.section.course.id} }
 
-      before { create(:enrollment, enrollment_params) }
+      before { create(:'course_service/enrollment', enrollment_params) }
 
       it 'is the submission_deadline' do
         expect(deadline.iso8601).to eq('2000-01-01T00:00:01Z')
@@ -893,11 +893,11 @@ describe Item, type: :model do
 
   context 'in a section with start and end date' do
     # NOTE: We don't consider course start / end dates here.
-    let!(:course) { create(:course, start_date: nil, end_date: nil) }
-    let!(:section) { create(:section, course:) }
+    let!(:course) { create(:'course_service/course', start_date: nil, end_date: nil) }
+    let!(:section) { create(:'course_service/section', course:) }
 
     context 'no start_date, no end date' do
-      subject(:item) { create(:item, section:, start_date: nil, end_date: nil) }
+      subject(:item) { create(:'course_service/item', section:, start_date: nil, end_date: nil) }
 
       it 'has dates of section as effective dates' do
         expect(item.effective_start_date).to eq section.start_date
@@ -908,7 +908,7 @@ describe Item, type: :model do
     end
 
     context 'with start date before section start date' do
-      subject(:item) { create(:item, section:, start_date: section.start_date - 1.day, end_date: nil) }
+      subject(:item) { create(:'course_service/item', section:, start_date: section.start_date - 1.day, end_date: nil) }
 
       it 'has start date of section as effective start date' do
         expect(item.effective_start_date).to eq section.start_date
@@ -918,7 +918,7 @@ describe Item, type: :model do
     end
 
     context 'with start date after section start date' do
-      subject(:item) { create(:item, section:, start_date: section.start_date + 1.day, end_date: nil) }
+      subject(:item) { create(:'course_service/item', section:, start_date: section.start_date + 1.day, end_date: nil) }
 
       it 'has start date of item as effective start date' do
         expect(item.effective_start_date).to eq item.start_date
@@ -928,7 +928,7 @@ describe Item, type: :model do
     end
 
     context 'with end date before section end date' do
-      subject(:item) { create(:item, section:, start_date: nil, end_date: section.end_date - 1.day) }
+      subject(:item) { create(:'course_service/item', section:, start_date: nil, end_date: section.end_date - 1.day) }
 
       it 'has end date of item as effective end date' do
         expect(item.effective_end_date).to eq item.end_date
@@ -938,7 +938,7 @@ describe Item, type: :model do
     end
 
     context 'with end date after section end date' do
-      subject(:item) { create(:item, section:, start_date: nil, end_date: section.end_date + 1.day) }
+      subject(:item) { create(:'course_service/item', section:, start_date: nil, end_date: section.end_date + 1.day) }
 
       it 'has end date of section as effective end date' do
         expect(item.effective_end_date).to eq section.end_date
@@ -949,11 +949,11 @@ describe Item, type: :model do
   end
 
   context 'in a section without start and end date' do
-    let!(:course) { create(:course) }
-    let!(:section) { create(:section, course:, start_date: nil, end_date: nil) }
+    let!(:course) { create(:'course_service/course') }
+    let!(:section) { create(:'course_service/section', course:, start_date: nil, end_date: nil) }
 
     context 'no start date, no end date' do
-      subject(:item) { create(:item, section:, start_date: nil, end_date: nil) }
+      subject(:item) { create(:'course_service/item', section:, start_date: nil, end_date: nil) }
 
       it 'has course start date as effective start date' do
         expect(item.effective_start_date).to eq course.start_date
@@ -963,7 +963,7 @@ describe Item, type: :model do
     end
 
     context 'with start date before course start date' do
-      subject(:item) { create(:item, section:, start_date: course.start_date - 1.day, end_date: nil) }
+      subject(:item) { create(:'course_service/item', section:, start_date: course.start_date - 1.day, end_date: nil) }
 
       it 'has start date of course as effective start date' do
         expect(item.effective_start_date).to eq course.start_date
@@ -973,7 +973,7 @@ describe Item, type: :model do
     end
 
     context 'with start date after course start date' do
-      subject(:item) { create(:item, section:, start_date: course.start_date + 1.day, end_date: nil) }
+      subject(:item) { create(:'course_service/item', section:, start_date: course.start_date + 1.day, end_date: nil) }
 
       it 'has start date of item as effective start date' do
         expect(item.effective_start_date).to eq item.start_date
@@ -983,7 +983,7 @@ describe Item, type: :model do
     end
 
     context 'with end date before course end date' do
-      subject(:item) { create(:item, section:, start_date: nil, end_date: course.end_date - 1.day) }
+      subject(:item) { create(:'course_service/item', section:, start_date: nil, end_date: course.end_date - 1.day) }
 
       it 'has end date of item as effective end date' do
         expect(item.effective_end_date).to eq item.end_date
@@ -994,8 +994,8 @@ describe Item, type: :model do
 
     context '(event publication)' do
       # Ensure the course and section are created before saving the item.
-      let!(:section) { create(:section, course:) }
-      let!(:item) { build(:item, section:) }
+      let!(:section) { create(:'course_service/section', course:) }
+      let!(:item) { build(:'course_service/item', section:) }
 
       it 'publishes an event for newly created item' do
         # With a new item, the course structure is changed so the course is
@@ -1044,9 +1044,9 @@ describe Item, type: :model do
     let(:course_params) { {start_date: 2.days.ago, status: 'active'} }
     let(:content_type) { 'video' }
 
-    let(:course) { create(:course, course_params) }
-    let(:section) { create(:section, course:) }
-    let(:item) { create(:item, section:, open_mode:, content_type:) }
+    let(:course) { create(:'course_service/course', course_params) }
+    let(:section) { create(:'course_service/section', course:) }
+    let(:item) { create(:'course_service/item', section:, open_mode:, content_type:) }
 
     context 'in active public course with open mode' do
       it { is_expected.to be_truthy }

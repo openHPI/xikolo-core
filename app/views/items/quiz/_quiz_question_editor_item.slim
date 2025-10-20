@@ -16,27 +16,27 @@ li.quiz-question-editor data-id="#{quiz_question.id}" data-url=move_course_secti
 
       = render Global::ActionsDropdown.new(menu_side: 'right') do |c|
         - c.with_action do
-          = link_to '#', data: {behavior: 'edit-quiz-question', question_id: quiz_question.id} do
+          = link_to '#', class: 'bs-a', data: {behavior: 'edit-quiz-question', question_id: quiz_question.id} do
             = t(:'items.quiz.edit_question')
             = render Global::FaIcon.new('pen-to-square', style: :solid)
         - c.with_action do
-          = link_to move_course_section_item_quiz_question_path(position: :up, id: quiz_question.id, item_id: item.id), method: :post do
+          = link_to move_course_section_item_quiz_question_path(position: :up, id: quiz_question.id, item_id: item.id), class: 'bs-a', method: :post do
             = t(:'items.quiz.move_question_up')
             = render Global::FaIcon.new('up', style: :solid)
         - c.with_action do
-          = link_to move_course_section_item_quiz_question_path(position: :down, id: quiz_question.id, item_id: item.id), method: :post do
+          = link_to move_course_section_item_quiz_question_path(position: :down, id: quiz_question.id, item_id: item.id), class: 'bs-a', method: :post do
             = t(:'items.quiz.move_question_down')
             = render Global::FaIcon.new('down', style: :solid)
         - c.with_action do
-          = link_to move_course_section_item_quiz_question_path(position: :top, id: quiz_question.id, item_id: item.id), method: :post do
+          = link_to move_course_section_item_quiz_question_path(position: :top, id: quiz_question.id, item_id: item.id), class: 'bs-a', method: :post do
             = t(:'items.quiz.move_question_to_top')
             = render Global::FaIcon.new('arrow-up-to-line', style: :solid)
         - c.with_action do
-          = link_to move_course_section_item_quiz_question_path(position: :bottom, id: quiz_question.id, item_id: item.id), method: :post do
+          = link_to move_course_section_item_quiz_question_path(position: :bottom, id: quiz_question.id, item_id: item.id), class: 'bs-a', method: :post do
             = t(:'items.quiz.move_question_to_bottom')
             = render Global::FaIcon.new('arrow-down-to-line', style: :solid)
         - c.with_destructive_action do
-          = link_to course_section_item_quiz_question_path(id: quiz_question.id, item_id: item.id), method: :delete, data: {confirm: t(:'items.quiz.delete_question_confirm')} do
+          = link_to course_section_item_quiz_question_path(id: quiz_question.id, item_id: item.id), class: 'bs-a', method: :delete, data: {confirm: t(:'items.quiz.delete_question_confirm')} do
             = t(:'items.quiz.delete_question')
             = render Global::FaIcon.new('trash-can', style: :solid)
 

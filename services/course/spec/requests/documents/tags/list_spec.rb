@@ -6,8 +6,8 @@ describe 'Document Tags: List', type: :request do
   subject(:action) { api.rel(:documents_tags).get(params).value! }
 
   before do
-    create(:document, tags: %w[tag1 franz frafra])
-    create(:document, tags: %w[tag2 franz hihi])
+    create(:'course_service/document', tags: %w[tag1 franz frafra])
+    create(:'course_service/document', tags: %w[tag2 franz hihi])
   end
 
   let(:api) { Restify.new(:test).get.value! }

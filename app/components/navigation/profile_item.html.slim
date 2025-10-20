@@ -21,7 +21,7 @@ li class=css_classes
     li.navigation-item
       = link_to logout_path,
         method: :delete,
-        class: 'navigation-item__main navigation-item__main--link',
+        class: 'navigation-item__main navigation-item__main--link bs-a',
         title: t(:'header.navigation.tooltip.logout')
         .navigation-item__icon
           = render Global::FaIcon.new('arrow-right')
@@ -41,7 +41,7 @@ li class=css_classes
       = link_to t(:'header.navigation.masquerade.demasq'),
         user_masquerade_path(@user.id),
         method: :delete,
-        class: 'btn btn-xs btn-outline navigation-profile-item__demasq-btn'
+        class: 'btn btn-xs btn-outline navigation-profile-item__demasq-btn bs-a'
 
 - if gamification_score.present?
   li.navigation-profile-item__points.navigation-profile-item__points--desktop

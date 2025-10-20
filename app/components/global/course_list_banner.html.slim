@@ -1,6 +1,6 @@
 .course-list-banner
   - if link.present?
-    = link_to link, link_target_options do
+    = link_to link, class: 'bs-a', **link_target_options do
       = image_tag image_url, alt: alt_text
   - else
     = image_tag image_url, alt: alt_text

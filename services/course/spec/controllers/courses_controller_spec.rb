@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe CoursesController, type: :controller do
-  let(:course) { create(:course) }
+  let(:course) { create(:'course_service/course') }
   let(:json) { JSON.parse response.body }
   let(:default_params) { {format: 'json'} }
 
@@ -34,7 +34,7 @@ describe CoursesController, type: :controller do
 
       context 'latest first' do
         let(:params) { {latest_first: 'true'} }
-        let!(:records) { create_list(:course, 5, status: 'active') }
+        let!(:records) { create_list(:'course_service/course', 5, status: 'active') }
 
         describe 'json' do
           before { action.call }
@@ -48,11 +48,11 @@ describe CoursesController, type: :controller do
         let(:params) { {alphabetic: 'true'} }
 
         before do
-          create(:course, course_code: 'course-c')
-          create(:course, course_code: 'kurs-d')
-          create(:course, course_code: 'course-e')
-          create(:course, course_code: 'kurs-b')
-          create(:course, course_code: 'course-a')
+          create(:'course_service/course', course_code: 'course-c')
+          create(:'course_service/course', course_code: 'kurs-d')
+          create(:'course_service/course', course_code: 'course-e')
+          create(:'course_service/course', course_code: 'kurs-b')
+          create(:'course_service/course', course_code: 'course-a')
         end
 
         describe 'json' do
@@ -76,10 +76,10 @@ describe CoursesController, type: :controller do
 
       before do
         Timecop.freeze
-        create(:course, display_start_date: Time.current, start_date: 2.days.ago, title: 'A')
-        create(:course, display_start_date: nil, start_date: 1.day.ago, title: 'B')
-        create(:course, display_start_date: 2.days.ago, start_date: 2.days.ago, title: 'D')
-        create(:course, display_start_date: nil, start_date: 2.days.ago, title: 'C')
+        create(:'course_service/course', display_start_date: Time.current, start_date: 2.days.ago, title: 'A')
+        create(:'course_service/course', display_start_date: nil, start_date: 1.day.ago, title: 'B')
+        create(:'course_service/course', display_start_date: 2.days.ago, start_date: 2.days.ago, title: 'D')
+        create(:'course_service/course', display_start_date: nil, start_date: 2.days.ago, title: 'C')
       end
 
       context 'started recently first' do
@@ -121,11 +121,11 @@ describe CoursesController, type: :controller do
       let(:action) { -> { get :index, params: } }
 
       context 'by classifier' do
-        let(:classifier) { create(:classifier) }
-        let!(:records) { create_list(:course, 5, classifiers: classifier) }
+        let(:classifier) { create(:'course_service/classifier') }
+        let!(:records) { create_list(:'course_service/course', 5, classifiers: classifier) }
         let(:params) { {cat_id: classifier.id} }
 
-        before { create_list(:course, 10) }
+        before { create_list(:'course_service/course', 10) }
 
         describe 'json' do
           before { action.call }
@@ -136,14 +136,14 @@ describe CoursesController, type: :controller do
       end
 
       context 'by channel' do
-        let(:channel_a) { create(:channel, code: 'a') }
-        let(:channel_b) { create(:channel, code: 'b') }
-        let!(:channel_courses) { create_list(:course, 7, channel_id: channel_a.id) }
+        let(:channel_a) { create(:'course_service/channel', code: 'a') }
+        let(:channel_b) { create(:'course_service/channel', code: 'b') }
+        let!(:channel_courses) { create_list(:'course_service/course', 7, channel_id: channel_a.id) }
         let(:params) { {channel_id: channel_a} }
 
         before do
-          create_list(:course, 3, channel_id: nil)
-          create_list(:course, 1, channel_id: channel_b.id)
+          create_list(:'course_service/course', 3, channel_id: nil)
+          create_list(:'course_service/course', 1, channel_id: channel_b.id)
         end
 
         describe 'json' do
@@ -155,11 +155,11 @@ describe CoursesController, type: :controller do
       end
 
       context 'by document' do
-        let!(:document1) { create(:document) }
-        let!(:document2) { create(:document) }
-        let!(:course_a) { create(:course) }
-        let!(:course_b) { create(:course) }
-        let!(:course_c) { create(:course) }
+        let!(:document1) { create(:'course_service/document') }
+        let!(:document2) { create(:'course_service/document') }
+        let!(:course_a) { create(:'course_service/course') }
+        let!(:course_b) { create(:'course_service/course') }
+        let!(:course_c) { create(:'course_service/course') }
         let(:params) { {document_id: document1.id} }
 
         before do
@@ -174,10 +174,10 @@ describe CoursesController, type: :controller do
       end
 
       context 'by status' do
-        let!(:records) { create_list(:course, 3) }
+        let!(:records) { create_list(:'course_service/course', 3) }
         let(:params) { {status: 'preparation'} }
 
-        before { create_list(:course, 5, status: 'active') }
+        before { create_list(:'course_service/course', 5, status: 'active') }
 
         describe 'json' do
           before { action.call }
@@ -191,9 +191,9 @@ describe CoursesController, type: :controller do
         let(:params) { {upcoming: 'true'} }
 
         before do
-          create_list(:course, 5, status: 'active', start_date: 2.days.ago, end_date: 30.days.from_now)
-          create(:course, course_code: 'course-a', status: 'active', start_date: 1.week.from_now, end_date: 30.days.from_now)
-          create(:course, course_code: 'course-b', status: 'active', start_date: 2.days.from_now, end_date: 30.days.from_now)
+          create_list(:'course_service/course', 5, status: 'active', start_date: 2.days.ago, end_date: 30.days.from_now)
+          create(:'course_service/course', course_code: 'course-a', status: 'active', start_date: 1.week.from_now, end_date: 30.days.from_now)
+          create(:'course_service/course', course_code: 'course-b', status: 'active', start_date: 2.days.from_now, end_date: 30.days.from_now)
         end
 
         describe 'json' do
@@ -214,12 +214,12 @@ describe CoursesController, type: :controller do
         let(:params) { {upcoming: 'true'} }
 
         before do
-          create_list(:course, 5, status: 'active', end_date: 30.days.from_now)
+          create_list(:'course_service/course', 5, status: 'active', end_date: 30.days.from_now)
 
           two_weeks_from_now = 2.weeks.from_now
-          create(:course, course_code: 'course-a', status: 'active', start_date: 4.days.from_now, display_start_date: two_weeks_from_now, end_date: 20.days.from_now)
-          create(:course, course_code: 'course-b', status: 'active', start_date: 3.days.from_now, display_start_date: two_weeks_from_now, end_date: 20.days.from_now)
-          create(:course, course_code: 'course-c', status: 'active', start_date: 1.week.from_now, end_date: 20.days.from_now)
+          create(:'course_service/course', course_code: 'course-a', status: 'active', start_date: 4.days.from_now, display_start_date: two_weeks_from_now, end_date: 20.days.from_now)
+          create(:'course_service/course', course_code: 'course-b', status: 'active', start_date: 3.days.from_now, display_start_date: two_weeks_from_now, end_date: 20.days.from_now)
+          create(:'course_service/course', course_code: 'course-c', status: 'active', start_date: 1.week.from_now, end_date: 20.days.from_now)
         end
 
         describe 'json' do
@@ -239,13 +239,13 @@ describe CoursesController, type: :controller do
       end
 
       context 'by public' do
-        let!(:active_courses) { create_list(:course, 5, status: 'active') }
-        let!(:archive_courses) { create_list(:course, 7, status: 'archive') }
+        let!(:active_courses) { create_list(:'course_service/course', 5, status: 'active') }
+        let!(:archive_courses) { create_list(:'course_service/course', 7, status: 'archive') }
         let(:params) { {public: 'true'} }
 
         describe 'json' do
           before do
-            create_list(:course, 6, status: 'preparation')
+            create_list(:'course_service/course', 6, status: 'preparation')
             action.call
           end
 
@@ -254,10 +254,10 @@ describe CoursesController, type: :controller do
       end
 
       context 'by excluded external courses' do
-        let!(:public_courses) { create_list(:course, 7) }
+        let!(:public_courses) { create_list(:'course_service/course', 7) }
         let(:params) { {exclude_external: 'true'} }
 
-        before { create_list(:course, 3, external_course_url: 'http://somwhere.com') }
+        before { create_list(:'course_service/course', 3, external_course_url: 'http://somwhere.com') }
 
         describe 'json' do
           before { action.call }
@@ -267,10 +267,10 @@ describe CoursesController, type: :controller do
       end
 
       context 'by excluded hidden courses' do
-        let!(:public_courses) { create_list(:course, 7, hidden: 'false') }
+        let!(:public_courses) { create_list(:'course_service/course', 7, hidden: 'false') }
         let(:params) { {hidden: 'false'} }
 
-        before { create_list(:course, 3, hidden: 'true') }
+        before { create_list(:'course_service/course', 3, hidden: 'true') }
 
         describe 'json' do
           before { action.call }
@@ -280,8 +280,8 @@ describe CoursesController, type: :controller do
       end
 
       context 'by included hidden courses' do
-        let!(:hidden_courses) { create_list(:course, 3, hidden: 'true') }
-        let!(:public_courses) { create_list(:course, 7, hidden: 'false') }
+        let!(:hidden_courses) { create_list(:'course_service/course', 3, hidden: 'true') }
+        let!(:public_courses) { create_list(:'course_service/course', 7, hidden: 'false') }
         let(:params) { {} }
 
         describe 'json' do
@@ -292,10 +292,10 @@ describe CoursesController, type: :controller do
       end
 
       context 'by only hidden' do
-        let!(:hidden_courses) { create_list(:course, 3, hidden: 'true') }
+        let!(:hidden_courses) { create_list(:'course_service/course', 3, hidden: 'true') }
         let(:params) { {only_hidden: 'true'} }
 
-        before { create_list(:course, 7, hidden: 'false') }
+        before { create_list(:'course_service/course', 7, hidden: 'false') }
 
         describe 'json' do
           before { action.call }
@@ -306,11 +306,11 @@ describe CoursesController, type: :controller do
 
       context 'by active after' do
         let(:params) { {active_after: '2018-04-07'} }
-        let!(:not_filtered_course) { create(:course, start_date: 3.years.ago, end_date: 2.years.ago) }
-        let!(:another_not_filtered_course) { create(:course, start_date: 2.years.ago, end_date: 1.year.ago) }
-        let!(:course_without_end_date) { create(:course, end_date: nil) }
+        let!(:not_filtered_course) { create(:'course_service/course', start_date: 3.years.ago, end_date: 2.years.ago) }
+        let!(:another_not_filtered_course) { create(:'course_service/course', start_date: 2.years.ago, end_date: 1.year.ago) }
+        let!(:course_without_end_date) { create(:'course_service/course', end_date: nil) }
 
-        before { create_list(:course, 3, start_date: 5.years.ago, end_date: 4.years.ago) }
+        before { create_list(:'course_service/course', 3, start_date: 5.years.ago, end_date: 4.years.ago) }
 
         around do |example|
           date = Date.new(2021, 4, 7)
@@ -328,9 +328,9 @@ describe CoursesController, type: :controller do
 
       context 'by groups' do
         before do
-          create_list(:course, 4)
-          create_list(:course, 2, groups: ['partners'])
-          create_list(:course, 1, groups: ['avengers'])
+          create_list(:'course_service/course', 4)
+          create_list(:'course_service/course', 2, groups: ['partners'])
+          create_list(:'course_service/course', 1, groups: ['avengers'])
           action.call
         end
 
@@ -353,7 +353,7 @@ describe CoursesController, type: :controller do
         let(:user_id) { generate(:user_id) }
         let(:params) { {promoted_for: user_id} }
 
-        let!(:course) { create(:course, course_params) }
+        let!(:course) { create(:'course_service/course', course_params) }
         let(:course_params) { {start_date: DateTime.now + 3.days, end_date: DateTime.now + 7.days, status: 'active'} }
 
         before do
@@ -394,7 +394,7 @@ describe CoursesController, type: :controller do
         end
 
         context 'should exclude enrolled courses' do
-          before { create(:enrollment, course:, user_id:) }
+          before { create(:'course_service/enrollment', course:, user_id:) }
 
           its(:size) { is_expected.to eq 0 }
         end
@@ -430,7 +430,7 @@ describe CoursesController, type: :controller do
 
         context 'ordering' do
           let!(:second_course) do
-            create(:course, status: 'active',
+            create(:'course_service/course', status: 'active',
               start_date: second_start_date,
               display_start_date: second_display_date,
               end_date: DateTime.now + 5.days)
@@ -561,12 +561,12 @@ describe CoursesController, type: :controller do
 
   describe "POST 'create'" do
     let(:action) { -> { post :create, params: } }
-    let(:params) { attributes_for(:course) }
+    let(:params) { attributes_for(:'course_service/course') }
     let(:context_id) { generate(:context_id) }
 
     before do
-      create(:cluster, id: 'category')
-      create(:cluster, id: 'topic')
+      create(:'course_service/cluster', id: 'category')
+      create(:'course_service/cluster', id: 'topic')
 
       Stub.service(:account, build(:'account:root'))
 

@@ -7,7 +7,7 @@ describe 'Documents: Create', type: :request do
 
   let(:api) { Restify.new(:test).get.value }
 
-  let(:data) { attributes_for(:document) }
+  let(:data) { attributes_for(:'course_service/document') }
 
   it 'responds with :created' do
     expect(action).to respond_with :created
@@ -38,7 +38,7 @@ describe 'Documents: Create', type: :request do
   end
 
   context 'when title already exists' do
-    before { create(:document, title: data[:title]) }
+    before { create(:'course_service/document', title: data[:title]) }
 
     it 'responds with 422 Unprocessable Entity' do
       expect { action }.to raise_error(Restify::ClientError) do |error|
@@ -48,7 +48,7 @@ describe 'Documents: Create', type: :request do
   end
 
   context 'when title already exists, but in a deleted document' do
-    before { create(:document, title: data[:title], deleted: true) }
+    before { create(:'course_service/document', title: data[:title], deleted: true) }
 
     it 'responds with :created' do
       expect(action).to respond_with :created
@@ -60,7 +60,7 @@ describe 'Documents: Create', type: :request do
   end
 
   context 'with courses' do
-    let!(:course1) { create(:course) }
+    let!(:course1) { create(:'course_service/course') }
     let(:data) { super().merge(course_ids: [course1.id]) }
 
     it 'creates the new document' do

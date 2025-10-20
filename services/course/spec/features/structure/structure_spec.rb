@@ -3,28 +3,28 @@
 require 'spec_helper'
 
 describe 'Structure: ...', type: :feature do
-  let(:course) { create(:course, :with_content_tree) }
+  let(:course) { create(:'course_service/course', :with_content_tree) }
 
   before do
-    week1 = create(:section, course:, title: 'Week 1')
-    week2 = create(:section, course:, title: 'Week 2')
-    week3 = create(:section, course:, title: 'Week 3')
-    week4 = create(:section, course:, title: 'Week 4')
+    week1 = create(:'course_service/section', course:, title: 'Week 1')
+    week2 = create(:'course_service/section', course:, title: 'Week 2')
+    week3 = create(:'course_service/section', course:, title: 'Week 3')
+    week4 = create(:'course_service/section', course:, title: 'Week 4')
 
     5.times do |i|
-      create(:item, section: week1, title: "1/#{i + 1}")
+      create(:'course_service/item', section: week1, title: "1/#{i + 1}")
     end
 
     3.times do |i|
-      create(:item, section: week2, title: "2/#{i + 1}")
+      create(:'course_service/item', section: week2, title: "2/#{i + 1}")
     end
 
     2.times do |i|
-      create(:item, section: week3, title: "3/#{i + 1}")
+      create(:'course_service/item', section: week3, title: "3/#{i + 1}")
     end
 
     6.times do |i|
-      create(:item, section: week4, title: "4/#{i + 1}")
+      create(:'course_service/item', section: week4, title: "4/#{i + 1}")
     end
   end
 

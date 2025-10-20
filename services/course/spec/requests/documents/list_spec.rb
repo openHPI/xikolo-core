@@ -5,9 +5,9 @@ require 'spec_helper'
 describe 'Documents: List', type: :request do
   subject(:action) { api.rel(:documents).get(params).value! }
 
-  let!(:document1) { create(:document, :english, title: 'Document C') }
-  let!(:document2) { create(:document, :english, :german, title: 'Document B') }
-  let!(:document3) { create(:document, :german, title: 'Document A') }
+  let!(:document1) { create(:'course_service/document', :english, title: 'Document C') }
+  let!(:document2) { create(:'course_service/document', :english, :german, title: 'Document B') }
+  let!(:document3) { create(:'course_service/document', :german, title: 'Document A') }
 
   let(:api) { Restify.new(:test).get.value! }
 
@@ -58,8 +58,8 @@ describe 'Documents: List', type: :request do
 
     describe 'by course' do
       let(:params) { super().merge(course_id: course1.id) }
-      let!(:course1) { create(:course) }
-      let!(:course2) { create(:course) }
+      let!(:course1) { create(:'course_service/course') }
+      let!(:course2) { create(:'course_service/course') }
 
       before do
         document1.courses << course1
@@ -74,8 +74,8 @@ describe 'Documents: List', type: :request do
 
     describe 'by item' do
       let(:params) { super().merge(item_id: item1.id) }
-      let!(:item1) { create(:item) }
-      let!(:item2) { create(:item) }
+      let!(:item1) { create(:'course_service/item') }
+      let!(:item2) { create(:'course_service/item') }
 
       before do
         document1.items << item1
@@ -100,9 +100,9 @@ describe 'Documents: List', type: :request do
 
     describe 'by tag' do
       let(:params) { super().merge(tag: 'tag_a') }
-      let!(:document1) { create(:document, :with_tag_a) }
-      let!(:document2) { create(:document, :with_tag_a) }
-      let(:document3) { create(:document, :with_tag_b) }
+      let!(:document1) { create(:'course_service/document', :with_tag_a) }
+      let!(:document2) { create(:'course_service/document', :with_tag_a) }
+      let(:document3) { create(:'course_service/document', :with_tag_b) }
 
       it 'shows only the documents of Tag A' do
         expect(action.pluck('id')).to contain_exactly(document1.id, document2.id)

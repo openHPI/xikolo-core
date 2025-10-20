@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :document_localization do
+  factory :'course_service/document_localization', class: 'DocumentLocalization' do
     sequence(:title) do |i|
       "ein sinnvoller deutscher Titel mit der Nummer #{i}"
     end
@@ -12,7 +12,7 @@ FactoryBot.define do
 
     id { SecureRandom.uuid }
     file_id { SecureRandom.uuid }
-    document
+    association :document, factory: :'course_service/document'
 
     sequence(:revision) do |a|
       "#{a}.1"

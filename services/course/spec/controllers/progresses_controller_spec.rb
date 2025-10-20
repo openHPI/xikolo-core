@@ -10,36 +10,36 @@ describe ProgressesController, type: :controller do
 
   let(:action) { get :index, params: {course_id: course.id, user_id:} }
 
-  let!(:course) { create(:course) }
+  let!(:course) { create(:'course_service/course') }
   let(:user_id) { generate(:user_id) }
   let(:other_user_id) { generate(:user_id) }
 
   let(:section1_params) { {id: '00000002-3100-4444-9999-000000000001'} }
-  let(:section1) { create(:section, {course:, position: 1, start_date: 10.days.ago.iso8601}.merge(section1_params)) }
+  let(:section1) { create(:'course_service/section', {course:, position: 1, start_date: 10.days.ago.iso8601}.merge(section1_params)) }
   let(:item11_params) { {} }
-  let(:item11) { create(:item, {section: section1, position: 1}.merge(item11_params)) }
+  let(:item11) { create(:'course_service/item', {section: section1, position: 1}.merge(item11_params)) }
   let(:item12_params) { {} }
-  let(:item12) { create(:item, {section: section1, position: 2}.merge(item12_params)) }
+  let(:item12) { create(:'course_service/item', {section: section1, position: 2}.merge(item12_params)) }
   let(:item13_params) { {} }
-  let(:item13) { create(:item, {section: section1, position: 3}.merge(item13_params)) }
+  let(:item13) { create(:'course_service/item', {section: section1, position: 3}.merge(item13_params)) }
   let(:item14_params) { {} }
-  let(:item14) { create(:item, {section: section1, position: 4}.merge(item14_params)) }
+  let(:item14) { create(:'course_service/item', {section: section1, position: 4}.merge(item14_params)) }
   let(:item15_params) { {optional: true} }
-  let(:item15) { create(:item, {section: section1, position: 10}.merge(item15_params)) }
+  let(:item15) { create(:'course_service/item', {section: section1, position: 10}.merge(item15_params)) }
 
   let(:section2_params) { {id: '00000002-3100-4444-9999-000000000002'} }
-  let(:section2) { create(:section, {course:, position: 2, start_date: 10.days.ago.iso8601}.merge(section2_params)) }
+  let(:section2) { create(:'course_service/section', {course:, position: 2, start_date: 10.days.ago.iso8601}.merge(section2_params)) }
   let(:item21_params) { {} }
-  let(:item21) { create(:item, {section: section2, position: 1}.merge(item21_params)) }
+  let(:item21) { create(:'course_service/item', {section: section2, position: 1}.merge(item21_params)) }
   let(:item22_params) { {} }
-  let(:item22) { create(:item, :proctored, {section: section2, position: 2}.merge(item22_params)) }
+  let(:item22) { create(:'course_service/item', :proctored, {section: section2, position: 2}.merge(item22_params)) }
 
   let(:section3_params) { {id: '00000002-3100-4444-9999-000000000003'} }
-  let(:section3) { create(:section, {course:, position: 3, start_date: 10.days.ago.iso8601}.merge(section3_params)) }
+  let(:section3) { create(:'course_service/section', {course:, position: 3, start_date: 10.days.ago.iso8601}.merge(section3_params)) }
   let(:item31_params) { {} }
-  let(:item31) { create(:item, {section: section3, position: 1}.merge(item31_params)) }
+  let(:item31) { create(:'course_service/item', {section: section3, position: 1}.merge(item31_params)) }
   let(:item32_params) { {} }
-  let(:item32) { create(:item, {section: section3, position: 2}.merge(item32_params)) }
+  let(:item32) { create(:'course_service/item', {section: section3, position: 2}.merge(item32_params)) }
 
   shared_examples 'a course progress' do
     it 'is declared as course block' do
@@ -275,10 +275,10 @@ describe ProgressesController, type: :controller do
       ##############################
       before do
         item11; item12; item13; item14; item15
-        create(:visit, item: item11, user_id: other_user_id)
-        create(:visit, item: item12, user_id:)
-        create(:visit, item: item15, user_id:)
-        create(:visit, item: item21, user_id:)
+        create(:'course_service/visit', item: item11, user_id: other_user_id)
+        create(:'course_service/visit', item: item12, user_id:)
+        create(:'course_service/visit', item: item15, user_id:)
+        create(:'course_service/visit', item: item21, user_id:)
         item21; item22
       end
 
@@ -365,17 +365,17 @@ describe ProgressesController, type: :controller do
 
       before do
         item14; item13; item12; item11; item15
-        create(:visit, item: item14, user_id: other_user_id)
-        create(:result, item: item14, user_id: other_user_id, dpoints: 30)
-        create(:visit, item: item13, user_id:)
-        create(:result, item: item13, user_id:, dpoints: 80)
-        create(:visit, item: item12, user_id:)
-        create(:result, item: item12, user_id:, dpoints: 55)
+        create(:'course_service/visit', item: item14, user_id: other_user_id)
+        create(:'course_service/result', item: item14, user_id: other_user_id, dpoints: 30)
+        create(:'course_service/visit', item: item13, user_id:)
+        create(:'course_service/result', item: item13, user_id:, dpoints: 80)
+        create(:'course_service/visit', item: item12, user_id:)
+        create(:'course_service/result', item: item12, user_id:, dpoints: 55)
         item21; item22
-        create(:visit, item: item21, user_id:)
-        create(:visit, item: item22, user_id:)
-        create(:result, item: item22, user_id:, dpoints: 50)
-        create(:result, item: item22, user_id:, dpoints: 100)
+        create(:'course_service/visit', item: item21, user_id:)
+        create(:'course_service/visit', item: item22, user_id:)
+        create(:'course_service/result', item: item22, user_id:, dpoints: 50)
+        create(:'course_service/result', item: item22, user_id:, dpoints: 100)
       end
 
       its(:status) { is_expected.to eq 200 }
@@ -419,17 +419,17 @@ describe ProgressesController, type: :controller do
 
         context 'with alternative sections' do
           let!(:section_params) { {course:, start_date: 10.days.ago.iso8601} }
-          let!(:parent_section) { create(:section, {id: '00000002-3100-4444-9999-000000000004', alternative_state: 'parent', position: 1}.merge(section_params)) }
+          let!(:parent_section) { create(:'course_service/section', {id: '00000002-3100-4444-9999-000000000004', alternative_state: 'parent', position: 1}.merge(section_params)) }
           let!(:section_child_params) { {alternative_state: 'child', parent_id: parent_section.id}.merge(section_params) }
-          let!(:section1) { create(:section, section_child_params.merge(position: 2, id: '00000002-3100-4444-9999-000000000001')) }
-          let!(:section2) { create(:section, section_child_params.merge(position: 8, id: '00000002-3100-4444-9999-000000000002')) }
+          let!(:section1) { create(:'course_service/section', section_child_params.merge(position: 2, id: '00000002-3100-4444-9999-000000000001')) }
+          let!(:section2) { create(:'course_service/section', section_child_params.merge(position: 8, id: '00000002-3100-4444-9999-000000000002')) }
           let(:section3_params) { super().merge(position: 3) }
           let(:item31_params) { {content_type: 'quiz', exercise_type: 'selftest', max_dpoints: 80} }
 
           before do
             item31; item32
-            create(:visit, item: item31, user_id:)
-            create(:result, item: item31, user_id:, dpoints: 20)
+            create(:'course_service/visit', item: item31, user_id:)
+            create(:'course_service/result', item: item31, user_id:, dpoints: 20)
           end
 
           context 'with no section choice' do
@@ -471,7 +471,7 @@ describe ProgressesController, type: :controller do
 
           context 'with one section choice' do
             before do
-              create(:section_choice,
+              create(:'course_service/section_choice',
                 section_id: parent_section.id, user_id:, choice_ids: [section1.id])
             end
 
@@ -520,7 +520,7 @@ describe ProgressesController, type: :controller do
 
           context 'with two section choices' do
             before do
-              create(:section_choice,
+              create(:'course_service/section_choice',
                 section_id: parent_section.id, user_id:, choice_ids: [section1.id, section2.id])
             end
 
@@ -562,7 +562,7 @@ describe ProgressesController, type: :controller do
               subject { super()[4] }
 
               let(:learning_evaluation) do
-                create(:enrollment,
+                create(:'course_service/enrollment',
                   user_id:,
                   course_id: course.id)
 
@@ -575,7 +575,7 @@ describe ProgressesController, type: :controller do
               its(['visits']) { is_expected.to eq 'total' => 6, 'user' => 3, 'percentage' => 50 }
 
               it 'learning evaluation should arrive at the same results' do
-                create(:enrollment,
+                create(:'course_service/enrollment',
                   user_id:,
                   course_id: course.id)
 
@@ -630,17 +630,17 @@ describe ProgressesController, type: :controller do
 
       before do
         item11; item12; item13; item14; item15
-        create(:visit, item: item14, user_id: other_user_id)
-        create(:result, item: item14, user_id: other_user_id, dpoints: 30)
-        create(:visit, item: item12, user_id:)
-        create(:result, item: item12, user_id:, dpoints: 50)
-        create(:visit, item: item13, user_id:)
-        create(:result, item: item13, user_id:, dpoints: 82)
-        create(:visit, item: item14, user_id:)
-        create(:result, item: item14, user_id:, dpoints: 20)
+        create(:'course_service/visit', item: item14, user_id: other_user_id)
+        create(:'course_service/result', item: item14, user_id: other_user_id, dpoints: 30)
+        create(:'course_service/visit', item: item12, user_id:)
+        create(:'course_service/result', item: item12, user_id:, dpoints: 50)
+        create(:'course_service/visit', item: item13, user_id:)
+        create(:'course_service/result', item: item13, user_id:, dpoints: 82)
+        create(:'course_service/visit', item: item14, user_id:)
+        create(:'course_service/result', item: item14, user_id:, dpoints: 20)
         item21; item22
-        create(:visit, item: item21, user_id:)
-        create(:visit, item: item22, user_id:)
+        create(:'course_service/visit', item: item21, user_id:)
+        create(:'course_service/visit', item: item22, user_id:)
       end
 
       its(:status) { is_expected.to eq 200 }
@@ -799,21 +799,21 @@ describe ProgressesController, type: :controller do
 
       before do
         item11; item12; item13; item14; item15
-        create(:visit, item: item14, user_id: other_user_id)
-        create(:result, item: item14, user_id: other_user_id, dpoints: 3)
-        create(:visit, item: item12, user_id:)
-        create(:result, item: item12, user_id:, dpoints: 50)
-        create(:visit, item: item13, user_id:)
-        create(:result, item: item13, user_id:, dpoints: 82)
-        create(:visit, item: item14, user_id:)
-        create(:result, item: item14, user_id:, dpoints: 20)
+        create(:'course_service/visit', item: item14, user_id: other_user_id)
+        create(:'course_service/result', item: item14, user_id: other_user_id, dpoints: 3)
+        create(:'course_service/visit', item: item12, user_id:)
+        create(:'course_service/result', item: item12, user_id:, dpoints: 50)
+        create(:'course_service/visit', item: item13, user_id:)
+        create(:'course_service/result', item: item13, user_id:, dpoints: 82)
+        create(:'course_service/visit', item: item14, user_id:)
+        create(:'course_service/result', item: item14, user_id:, dpoints: 20)
         item21; item22
-        create(:visit, item: item21, user_id:)
-        create(:visit, item: item22, user_id:)
+        create(:'course_service/visit', item: item21, user_id:)
+        create(:'course_service/visit', item: item22, user_id:)
         item31; item32
-        create(:visit, item: item31, user_id:)
-        create(:visit, item: item32, user_id:)
-        create(:result, item: item32, user_id:, dpoints: 100)
+        create(:'course_service/visit', item: item31, user_id:)
+        create(:'course_service/visit', item: item32, user_id:)
+        create(:'course_service/result', item: item32, user_id:, dpoints: 100)
       end
 
       its(:status) { is_expected.to eq 200 }
@@ -986,21 +986,21 @@ describe ProgressesController, type: :controller do
 
       before do
         item11; item12; item13; item14; item15
-        create(:visit, item: item14, user_id: other_user_id)
-        create(:result, item: item14, user_id: other_user_id, dpoints: 3)
-        create(:visit, item: item12, user_id:)
-        create(:result, item: item12, user_id:, dpoints: 50)
-        create(:visit, item: item13, user_id:)
-        create(:result, item: item13, user_id:, dpoints: 82)
-        create(:visit, item: item14, user_id:)
-        create(:result, item: item14, user_id:, dpoints: 20)
+        create(:'course_service/visit', item: item14, user_id: other_user_id)
+        create(:'course_service/result', item: item14, user_id: other_user_id, dpoints: 3)
+        create(:'course_service/visit', item: item12, user_id:)
+        create(:'course_service/result', item: item12, user_id:, dpoints: 50)
+        create(:'course_service/visit', item: item13, user_id:)
+        create(:'course_service/result', item: item13, user_id:, dpoints: 82)
+        create(:'course_service/visit', item: item14, user_id:)
+        create(:'course_service/result', item: item14, user_id:, dpoints: 20)
         item21; item22
-        create(:visit, item: item21, user_id:)
-        create(:visit, item: item22, user_id:)
+        create(:'course_service/visit', item: item21, user_id:)
+        create(:'course_service/visit', item: item22, user_id:)
         item31; item32
-        create(:visit, item: item31, user_id:)
-        create(:visit, item: item32, user_id:)
-        create(:result, item: item32, user_id:, dpoints: 10)
+        create(:'course_service/visit', item: item31, user_id:)
+        create(:'course_service/visit', item: item32, user_id:)
+        create(:'course_service/result', item: item32, user_id:, dpoints: 10)
       end
 
       its(:status) { is_expected.to eq 200 }
@@ -1167,9 +1167,9 @@ describe ProgressesController, type: :controller do
                              max_dpoints: 80, submission_publishing_date: last_datetime}
       end
       let(:item15_params) { {content_type: 'quiz', exercise_type: 'selftest', max_dpoints: 89} }
-      let(:item15) { create(:item, {section: section1, position: 5}.merge(item15_params)) }
+      let(:item15) { create(:'course_service/item', {section: section1, position: 5}.merge(item15_params)) }
       let(:item16_params) { {content_type: 'video'} }
-      let(:item16) { create(:item, {section: section1, position: 6}.merge(item16_params)) }
+      let(:item16) { create(:'course_service/item', {section: section1, position: 6}.merge(item16_params)) }
 
       let(:item21_params) { {content_type: 'video'} }
       let(:item22_params) do
@@ -1182,30 +1182,30 @@ describe ProgressesController, type: :controller do
                              max_dpoints: 200}
       end
       let(:item33_params) { {content_type: 'quiz', exercise_type: 'selftest', max_dpoints: 45} }
-      let(:item33) { create(:item, {section: section3, position: 3}.merge(item33_params)) }
+      let(:item33) { create(:'course_service/item', {section: section3, position: 3}.merge(item33_params)) }
 
       before do
         item11; item12; item13; item14; item15; item16
-        create(:visit, item: item14, user_id: other_user_id)
-        create(:result, item: item14, user_id: other_user_id, dpoints: 3)
-        create(:visit, item: item12, user_id:)
-        create(:result, item: item12, user_id:, dpoints: 50)
-        create(:visit, item: item13, user_id:)
-        create(:result, item: item13, user_id:, dpoints: 82)
-        create(:visit, item: item14, user_id:)
-        create(:result, item: item14, user_id:, dpoints: 20)
-        create(:visit, item: item15, user_id:)
-        create(:result, item: item15, user_id:, dpoints: 33)
+        create(:'course_service/visit', item: item14, user_id: other_user_id)
+        create(:'course_service/result', item: item14, user_id: other_user_id, dpoints: 3)
+        create(:'course_service/visit', item: item12, user_id:)
+        create(:'course_service/result', item: item12, user_id:, dpoints: 50)
+        create(:'course_service/visit', item: item13, user_id:)
+        create(:'course_service/result', item: item13, user_id:, dpoints: 82)
+        create(:'course_service/visit', item: item14, user_id:)
+        create(:'course_service/result', item: item14, user_id:, dpoints: 20)
+        create(:'course_service/visit', item: item15, user_id:)
+        create(:'course_service/result', item: item15, user_id:, dpoints: 33)
         item21; item22
-        create(:visit, item: item22, user_id:)
-        create(:result, item: item22, user_id:, dpoints: 64)
+        create(:'course_service/visit', item: item22, user_id:)
+        create(:'course_service/result', item: item22, user_id:, dpoints: 64)
         item31; item32; item33
-        create(:visit, item: item31, user_id:)
-        create(:visit, item: item32, user_id:)
-        create(:result, item: item32, user_id:, dpoints: 150)
+        create(:'course_service/visit', item: item31, user_id:)
+        create(:'course_service/visit', item: item32, user_id:)
+        create(:'course_service/result', item: item32, user_id:, dpoints: 150)
 
-        create(:visit, item: item33, user_id:)
-        create(:result, item: item33, user_id:, dpoints: 21)
+        create(:'course_service/visit', item: item33, user_id:)
+        create(:'course_service/result', item: item33, user_id:, dpoints: 21)
       end
 
       its(:status) { is_expected.to eq 200 }

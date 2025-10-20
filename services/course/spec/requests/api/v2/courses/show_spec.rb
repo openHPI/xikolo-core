@@ -46,7 +46,7 @@ describe '[API v2] Course: Show', type: :request do
   let(:permissions) { ['course.course.show'] }
   let(:params) { {id: course.id} }
 
-  let!(:course) { create(:course, course_attrs) }
+  let!(:course) { create(:'course_service/course', course_attrs) }
   let(:course_attrs) { {} }
   let(:course_full) { Course.where(id: course.id).from('embed_courses AS courses').take! }
 
@@ -58,7 +58,7 @@ describe '[API v2] Course: Show', type: :request do
     end
 
     it 'does not show course (when enrollment)' do
-      create(:enrollment, user_id:, course_id: course.id)
+      create(:'course_service/enrollment', user_id:, course_id: course.id)
       expect { resource }.to raise_error(Restify::ClientError) do |error|
         expect(error.status).to eq :not_found
       end
@@ -76,7 +76,7 @@ describe '[API v2] Course: Show', type: :request do
     end
 
     context 'with teachers' do
-      let!(:teachers) { create_list(:teacher, 2) }
+      let!(:teachers) { create_list(:'course_service/teacher', 2) }
       let(:course_attrs) { super().merge teacher_ids: teachers.map(&:id) }
 
       context 'but alternative teacher text' do
@@ -101,7 +101,7 @@ describe '[API v2] Course: Show', type: :request do
     end
 
     context 'with channel' do
-      let(:channel) { create(:channel, code: 'important-group') }
+      let(:channel) { create(:'course_service/channel', code: 'important-group') }
       let(:course_attrs) { super().merge channel: }
 
       its(['channel_code']) { is_expected.to eq 'important-group' }
@@ -332,7 +332,7 @@ describe '[API v2] Course: Show', type: :request do
     end
 
     context 'with enrollment' do
-      let!(:enrollment) { create(:enrollment, user_id:, course_id: course.id) }
+      let!(:enrollment) { create(:'course_service/enrollment', user_id:, course_id: course.id) }
 
       it_behaves_like 'a basic API v2 course'
 

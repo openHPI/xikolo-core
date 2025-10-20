@@ -9,7 +9,7 @@ describe 'Enrollment: Reactivations: Create', type: :request do
   let(:enrollment) { api.rel(:enrollment).get({id: record}).value! }
 
   let(:submission_date) { 4.weeks.from_now }
-  let(:record) { create(:enrollment) }
+  let(:record) { create(:'course_service/enrollment') }
   let(:data) { {submission_date: submission_date.iso8601} }
 
   let!(:patch_feature_flipper) do
@@ -98,7 +98,7 @@ describe 'Enrollment: Reactivations: Create', type: :request do
   context 'with existing fixed learning evaluation' do
     before do
       create(
-        :fixed_learning_evaluation,
+        :'course_service/fixed_learning_evaluation',
         user_id: enrollment['user_id'],
         course_id: enrollment['course_id']
       )

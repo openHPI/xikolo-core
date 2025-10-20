@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe Item, '#user_grade' do
-  subject(:item) { create(:item, *item_traits) }
+  subject(:item) { create(:'course_service/item', *item_traits) }
 
   let(:item_traits) { [] }
   let(:user_id) { generate(:user_id) }

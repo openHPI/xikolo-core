@@ -5,9 +5,9 @@ require 'rails_helper'
 RSpec.describe 'Root', type: :request do
   let(:root) do
     {
-      items_url: items_rfc6570,
-      item_url: item_rfc6570,
-      item_overwritten_time_effort_url: item_overwritten_time_effort_rfc6570,
+      items_url: timeeffort_service.items_rfc6570,
+      item_url: timeeffort_service.item_rfc6570,
+      item_overwritten_time_effort_url: timeeffort_service.item_overwritten_time_effort_rfc6570,
     }.as_json
   end
 

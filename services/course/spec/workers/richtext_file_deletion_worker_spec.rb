@@ -34,7 +34,7 @@ RSpec.describe RichtextFileDeletionWorker, type: :worker do
     end
 
     it 'keeps object if referenced in a course description' do
-      create(:course, description: "Headline\n#{uri}")
+      create(:'course_service/course', description: "Headline\n#{uri}")
       deletion = stub_request(
         :delete,
         "https://s3.xikolo.de/xikolo-public/courses/#{encoded_course_id}/encodedUUUID/visual.jpg"
@@ -48,7 +48,7 @@ RSpec.describe RichtextFileDeletionWorker, type: :worker do
     end
 
     it 'keeps object if referenced in a richtext text' do
-      create(:richtext, text: "Headline\n#{uri}")
+      create(:'course_service/richtext', text: "Headline\n#{uri}")
       deletion = stub_request(
         :delete,
         "https://s3.xikolo.de/xikolo-public/courses/#{encoded_course_id}/encodedUUUID/visual.jpg"

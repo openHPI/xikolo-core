@@ -5,7 +5,7 @@ require 'spec_helper'
 describe Course, '#goals', type: :model do
   subject(:goals) { course.goals }
 
-  let(:course) { create(:course) }
+  let(:course) { create(:'course_service/course') }
 
   describe '#max_visits' do
     subject(:max_visits) { goals.max_visits }
@@ -16,7 +16,7 @@ describe Course, '#goals', type: :model do
 
     context 'with an empty section' do
       before do
-        create(:section, course:)
+        create(:'course_service/section', course:)
       end
 
       it 'ignores empty sections' do
@@ -26,8 +26,8 @@ describe Course, '#goals', type: :model do
 
     context 'with a section with three items' do
       before do
-        create(:section, course:).tap do |section|
-          create_list(:item, 3, section:)
+        create(:'course_service/section', course:).tap do |section|
+          create_list(:'course_service/item', 3, section:)
         end
       end
 
@@ -35,12 +35,12 @@ describe Course, '#goals', type: :model do
     end
 
     context 'with multiple sections with items' do
-      let(:section1) { create(:section, course:) }
+      let(:section1) { create(:'course_service/section', course:) }
 
       before do
-        create_list(:item, 2, section: section1)
-        create(:section, course:).tap do |section2|
-          create_list(:item, 3, section: section2)
+        create_list(:'course_service/item', 2, section: section1)
+        create(:'course_service/section', course:).tap do |section2|
+          create_list(:'course_service/item', 3, section: section2)
         end
       end
 
@@ -49,7 +49,7 @@ describe Course, '#goals', type: :model do
       end
 
       context 'with items in other courses' do
-        before { create(:item) }
+        before { create(:'course_service/item') }
 
         it 'ignores those other items' do
           expect(max_visits).to eq 5
@@ -73,7 +73,7 @@ describe Course, '#goals', type: :model do
       end
 
       context 'when a section has not been published' do
-        let(:section1) { create(:section, course:, published: false) }
+        let(:section1) { create(:'course_service/section', course:, published: false) }
 
         it 'does not care about visits to items in that section' do
           expect(max_visits).to eq 3
@@ -101,7 +101,7 @@ describe Course, '#goals', type: :model do
 
     context 'with an empty section' do
       before do
-        create(:section, course:)
+        create(:'course_service/section', course:)
       end
 
       it 'ignores empty sections' do
@@ -110,13 +110,13 @@ describe Course, '#goals', type: :model do
     end
 
     context 'with a section w/ video, selftest, homework and bonus task' do
-      let(:section) { create(:section, course:) }
+      let(:section) { create(:'course_service/section', course:) }
 
       before do
-        create(:item, section:)
-        create(:item, :quiz, section:, max_dpoints: 90)
-        create(:item, :homework, section:, max_dpoints: 300)
-        create(:item, :quiz, :bonus, section:, max_dpoints: 50)
+        create(:'course_service/item', section:)
+        create(:'course_service/item', :quiz, section:, max_dpoints: 90)
+        create(:'course_service/item', :homework, section:, max_dpoints: 300)
+        create(:'course_service/item', :quiz, :bonus, section:, max_dpoints: 50)
       end
 
       it 'only sums up points from homeworks' do
@@ -133,19 +133,19 @@ describe Course, '#goals', type: :model do
     end
 
     context 'with two sections w/ graded content' do
-      let(:section1) { create(:section, course:) }
-      let(:section2) { create(:section, course:) }
+      let(:section1) { create(:'course_service/section', course:) }
+      let(:section2) { create(:'course_service/section', course:) }
 
       before do
-        create(:item, section: section1)
-        create(:item, :quiz, section: section1, max_dpoints: 90)
-        create(:item, :homework, section: section1, max_dpoints: 300)
-        create(:item, :quiz, :bonus, section: section1, max_dpoints: 50)
+        create(:'course_service/item', section: section1)
+        create(:'course_service/item', :quiz, section: section1, max_dpoints: 90)
+        create(:'course_service/item', :homework, section: section1, max_dpoints: 300)
+        create(:'course_service/item', :quiz, :bonus, section: section1, max_dpoints: 50)
 
-        create(:item, section: section2)
-        create(:item, :quiz, section: section2, max_dpoints: 50)
-        create(:item, :homework, section: section2, max_dpoints: 600)
-        create(:item, :quiz, :bonus, section: section2, max_dpoints: 20)
+        create(:'course_service/item', section: section2)
+        create(:'course_service/item', :quiz, section: section2, max_dpoints: 50)
+        create(:'course_service/item', :homework, section: section2, max_dpoints: 600)
+        create(:'course_service/item', :quiz, :bonus, section: section2, max_dpoints: 20)
       end
 
       it 'sums up points from homeworks across all weeks' do
@@ -153,7 +153,7 @@ describe Course, '#goals', type: :model do
       end
 
       context 'when one of the sections has not been published' do
-        let(:section1) { create(:section, course:, published: false) }
+        let(:section1) { create(:'course_service/section', course:, published: false) }
 
         it 'ignores points from the unpublished one' do
           expect(max_dpoints).to eq 600

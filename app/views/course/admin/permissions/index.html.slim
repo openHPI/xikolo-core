@@ -12,7 +12,7 @@
         = t("permissions.group_names.#{group.name}")
       = t(:'permissions.grant_text')
       .pl20.mb15
-        ul
+        ul.list-disc
         - group.each_grant do |grant|
           li = t("permissions.role_names.#{grant['role_name']}.name")
 
@@ -47,7 +47,7 @@
       = t(:'permissions.group_names.students')
     = t(:'permissions.grant_text')
     .pl20.mb15
-      ul
+      ul.list-disc
       - @permissions.students.each_grant do |grant|
         li = t("permissions.role_names.#{grant.role_name}.name")
     p

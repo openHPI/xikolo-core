@@ -5,7 +5,7 @@ require 'spec_helper'
 describe ItemDecorator do
   subject(:json) { item.as_json(api_version: 1).stringify_keys }
 
-  let(:item) { described_class.new create :item }
+  let(:item) { described_class.new create :'course_service/item' }
   let(:attributes) do
     %w[
       id
@@ -50,7 +50,7 @@ describe ItemDecorator do
   end
 
   context 'as collection' do
-    let(:item) { described_class.new create(:item), context: {collection: true} }
+    let(:item) { described_class.new create(:'course_service/item'), context: {collection: true} }
 
     its(:keys) { is_expected.to match_array(attributes) }
   end

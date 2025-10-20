@@ -6,7 +6,7 @@ require 'spec_helper'
 # symbolic names for the subtypes of Node. These names can be more easily
 # mapped / changed to different classes. This functionality is tested here.
 describe 'Structure::Node: Single Table Inheritance', type: :model do
-  let(:course) { create(:course) }
+  let(:course) { create(:'course_service/course') }
 
   it "stores a symbolic name to identify a node's concrete type" do
     node = Structure::Root.create!(course:)

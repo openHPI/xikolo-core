@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Visit: Show', type: :request do
   subject(:action) { api.rel(:item_user_visit).get(params).value! }
 
-  let(:visit) { create(:visit) }
+  let(:visit) { create(:'course_service/visit') }
   let(:api) { Restify.new(:test).get.value }
   let(:params) { {item_id: visit.item_id, user_id: visit.user_id} }
 

@@ -5,7 +5,7 @@ require 'spec_helper'
 RSpec.describe Structure::Item, type: :model do
   subject(:node) { described_class.create!(course:, parent:, item:) }
 
-  let(:item) { create(:item) }
+  let(:item) { create(:'course_service/item') }
   let(:course) { section.course }
   let(:section) { item.section }
 

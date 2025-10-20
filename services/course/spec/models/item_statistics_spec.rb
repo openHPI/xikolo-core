@@ -9,42 +9,42 @@ describe ItemStatistics do
     user_1_id = generate(:user_id)
     user_2_id = generate(:user_id)
 
-    create(:result,
+    create(:'course_service/result',
       item_id: item.id,
       user_id: user_1_id,
       dpoints: 40,
       created_at: DateTime.new(2000, 1, 1, 10))
-    create(:result,
+    create(:'course_service/result',
       item_id: item.id,
       user_id: user_1_id,
       dpoints: 100,
       created_at: DateTime.new(2000, 1, 1, 11))
-    create(:result,
+    create(:'course_service/result',
       item_id: item.id,
       user_id: user_2_id,
       dpoints: 50,
       created_at: DateTime.new(2000, 1, 2, 12))
 
     # create another item with results that should be ignored
-    other_item = create(:item, :quiz, max_dpoints: 150)
-    create(:result,
+    other_item = create(:'course_service/item', :quiz, max_dpoints: 150)
+    create(:'course_service/result',
       item_id: other_item.id,
       user_id: user_1_id,
       dpoints: 60,
       created_at: DateTime.new(2000, 1, 1, 10))
-    create(:result,
+    create(:'course_service/result',
       item_id: other_item.id,
       user_id: user_1_id,
       dpoints: 150,
       created_at: DateTime.new(2000, 1, 1, 11))
-    create(:result,
+    create(:'course_service/result',
       item_id: other_item.id,
       user_id: user_2_id,
       dpoints: 75,
       created_at: DateTime.new(2000, 1, 2, 12))
   end
 
-  let(:item) { create(:item, :quiz, max_dpoints: 100) }
+  let(:item) { create(:'course_service/item', :quiz, max_dpoints: 100) }
   let(:stats) { item.stats }
 
   describe 'total_submissions' do
@@ -122,12 +122,12 @@ describe ItemStatistics do
       before do
         user_id = generate(:user_id)
 
-        create(:result,
+        create(:'course_service/result',
           item_id: item.id,
           user_id:,
           dpoints: 60,
           created_at: DateTime.new(2000, 1, 3, 10))
-        create(:result,
+        create(:'course_service/result',
           item_id: item.id,
           user_id:,
           dpoints: 75,

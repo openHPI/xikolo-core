@@ -4,10 +4,10 @@ require 'spec_helper'
 
 describe 'Achievements: Index', type: :request do
   let(:api) { Restify.new(:test).get.value! }
-  let(:course) { create(:course, :active, course_params) }
+  let(:course) { create(:'course_service/course', :active, course_params) }
   let(:course_params) { {cop_enabled: true, roa_enabled: true, on_demand: false} }
-  let!(:item) { create(:item, :homework, :with_max_points, item_params) }
-  let(:item_params) { {section: create(:section, course:)} }
+  let!(:item) { create(:'course_service/item', :homework, :with_max_points, item_params) }
+  let(:item_params) { {section: create(:'course_service/section', course:)} }
 
   let(:user_id) { generate(:user_id) }
   let(:params) { {user_id:} }
@@ -111,7 +111,7 @@ describe 'Achievements: Index', type: :request do
     end
 
     context 'when the user is enrolled' do
-      before { create(:enrollment, course:, user_id:) }
+      before { create(:'course_service/enrollment', course:, user_id:) }
 
       context 'and there is no CoP' do
         let(:course_params) { {cop_enabled: false} }
@@ -127,7 +127,7 @@ describe 'Achievements: Index', type: :request do
       end
 
       context 'and the user has qualified for the CoP' do
-        before { create(:visit, item:, user_id:) }
+        before { create(:'course_service/visit', item:, user_id:) }
 
         context '(not released yet)' do
           let(:course_params) { super().merge(records_released: false) }
@@ -184,7 +184,7 @@ describe 'Achievements: Index', type: :request do
       json.find {|achievement| achievement['type'] == 'record_of_achievement' }
     end
 
-    before { create(:enrollment, course:, user_id:) }
+    before { create(:'course_service/enrollment', course:, user_id:) }
 
     it { expect(achievement['name']).to eq('Record of Achievement') }
 
@@ -204,7 +204,7 @@ describe 'Achievements: Index', type: :request do
     context 'and the user has qualified for the RoA' do
       let(:dpoints) { 8 }
 
-      before { create(:result, item:, user_id:, dpoints:) }
+      before { create(:'course_service/result', item:, user_id:, dpoints:) }
 
       context '(not yet released)' do
         let(:course_params) { super().merge(records_released: false) }
@@ -257,7 +257,7 @@ describe 'Achievements: Index', type: :request do
       it_behaves_like 'progress available'
 
       context 'with some points achieved' do
-        before { create(:result, item:, user_id:, dpoints: 2) }
+        before { create(:'course_service/result', item:, user_id:, dpoints: 2) }
 
         it 'returns correct completion information' do
           expect(achievement['description']).to eq('You did not score enough points in graded exams, yet.')
@@ -270,13 +270,13 @@ describe 'Achievements: Index', type: :request do
       end
 
       context '(calculation precision)' do
-        let!(:item) { create(:item, :homework, item_params.merge(max_dpoints: 500)) }
+        let!(:item) { create(:'course_service/item', :homework, item_params.merge(max_dpoints: 500)) }
 
         before do
-          create(:result, item:, user_id:, dpoints: 50)
-          create(:item, :homework, item_params.merge(max_dpoints: 10))
-          bonus_item = create(:item, :quiz, :bonus, item_params.merge(max_dpoints: 20))
-          create(:result, item: bonus_item, user_id:, dpoints: 20)
+          create(:'course_service/result', item:, user_id:, dpoints: 50)
+          create(:'course_service/item', :homework, item_params.merge(max_dpoints: 10))
+          bonus_item = create(:'course_service/item', :quiz, :bonus, item_params.merge(max_dpoints: 20))
+          create(:'course_service/result', item: bonus_item, user_id:, dpoints: 20)
         end
 
         it 'returns correct completion information with low precision' do

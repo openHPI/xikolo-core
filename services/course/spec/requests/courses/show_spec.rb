@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe 'Course: Show', type: :request do
   let(:api) { Restify.new(:test).get.value! }
-  let(:course) { create(:course, course_params) }
+  let(:course) { create(:'course_service/course', course_params) }
   let(:desc_rt) { 'Headline\n--\n s3://xikolo-public/courses/34/rtfiles/3/hans.jpg' }
   let(:desc_rendered) { 'Headline\n--\n https://s3.xikolo.de/xikolo-public/courses/34/rtfiles/3/hans.jpg' }
   let(:course_params) { {description: desc_rt, groups: ['xikolo.admin']} }
@@ -12,7 +12,7 @@ describe 'Course: Show', type: :request do
   context 'with case-insensitive course code' do
     subject(:show) { api.rel(:course).get({id: 'CoUrSe-cOdE'}).value! }
 
-    let!(:course) { create(:course, course_code: 'course-code') }
+    let!(:course) { create(:'course_service/course', course_code: 'course-code') }
 
     it 'responds with 200 Ok' do
       expect(show).to respond_with :ok

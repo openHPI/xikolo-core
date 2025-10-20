@@ -5,19 +5,19 @@ require 'spec_helper'
 describe SectionProgress, type: :model do
   subject(:progress) { described_class.create(section:, user_id:) }
 
-  let(:section) { create(:section) }
+  let(:section) { create(:'course_service/section') }
   let(:user_id) { generate(:user_id) }
 
   let!(:videos) do
-    Array.new(2) {|i| create(:item, title: "Video #{i + 1}", section:) }
+    Array.new(2) {|i| create(:'course_service/item', title: "Video #{i + 1}", section:) }
   end
 
   let!(:selftests) do
-    Array.new(2) {|i| create(:item, :quiz, title: "Selftest #{i + 1}", section:, max_dpoints: 10) }
+    Array.new(2) {|i| create(:'course_service/item', :quiz, title: "Selftest #{i + 1}", section:, max_dpoints: 10) }
   end
 
-  let!(:homework) { create(:item, :homework, title: 'Homework 1', section:, max_dpoints: 50) }
-  let!(:bonus) { create(:item, :quiz, :bonus, title: 'Bonus 1', section:, max_dpoints: 20) }
+  let!(:homework) { create(:'course_service/item', :homework, title: 'Homework 1', section:, max_dpoints: 50) }
+  let!(:bonus) { create(:'course_service/item', :quiz, :bonus, title: 'Bonus 1', section:, max_dpoints: 20) }
 
   describe '#calculate!' do
     subject(:calculated) { progress.tap(&:calculate!) }
@@ -38,9 +38,9 @@ describe SectionProgress, type: :model do
 
     context 'with perfect score for each item' do
       before do
-        selftests.each {|selftest| create(:result, user_id:, item: selftest, dpoints: 10) }
-        create(:result, user_id:, item: homework, dpoints: 50)
-        create(:result, user_id:, item: bonus, dpoints: 20)
+        selftests.each {|selftest| create(:'course_service/result', user_id:, item: selftest, dpoints: 10) }
+        create(:'course_service/result', user_id:, item: homework, dpoints: 50)
+        create(:'course_service/result', user_id:, item: bonus, dpoints: 20)
       end
 
       it 'correctly sums up the scores' do
@@ -62,14 +62,14 @@ describe SectionProgress, type: :model do
       before do
         selftests.each do |selftest|
           selftest.update!(published: false)
-          create(:result, user_id:, item: selftest, dpoints: 10)
+          create(:'course_service/result', user_id:, item: selftest, dpoints: 10)
         end
 
         homework.update!(published: false)
-        create(:result, user_id:, item: homework, dpoints: 50)
+        create(:'course_service/result', user_id:, item: homework, dpoints: 50)
 
         bonus.update!(published: false)
-        create(:result, user_id:, item: bonus, dpoints: 20)
+        create(:'course_service/result', user_id:, item: bonus, dpoints: 20)
       end
 
       it 'ignores the unpublished ones' do
@@ -97,14 +97,14 @@ describe SectionProgress, type: :model do
       before do
         selftests.each do |selftest|
           selftest.update!(start_date: 10.days.from_now)
-          create(:result, user_id:, item: selftest, dpoints: 10)
+          create(:'course_service/result', user_id:, item: selftest, dpoints: 10)
         end
 
         homework.update!(start_date: 10.days.from_now)
-        create(:result, user_id:, item: homework, dpoints: 50)
+        create(:'course_service/result', user_id:, item: homework, dpoints: 50)
 
         bonus.update!(start_date: 10.days.from_now)
-        create(:result, user_id:, item: bonus, dpoints: 30)
+        create(:'course_service/result', user_id:, item: bonus, dpoints: 30)
       end
 
       it 'takes the upcoming items into account' do
@@ -122,10 +122,10 @@ describe SectionProgress, type: :model do
 
     context 'with multiple scores' do
       before do
-        create(:result, user_id:, item: homework, dpoints: 50, created_at: 2.days.ago)
-        create(:result, user_id:, item: homework, dpoints: 20, created_at: 1.day.ago)
-        create(:result, user_id:, item: bonus, dpoints: 20, created_at: 2.days.ago)
-        create(:result, user_id:, item: bonus, dpoints: 10, created_at: 1.day.ago)
+        create(:'course_service/result', user_id:, item: homework, dpoints: 50, created_at: 2.days.ago)
+        create(:'course_service/result', user_id:, item: homework, dpoints: 20, created_at: 1.day.ago)
+        create(:'course_service/result', user_id:, item: bonus, dpoints: 20, created_at: 2.days.ago)
+        create(:'course_service/result', user_id:, item: bonus, dpoints: 10, created_at: 1.day.ago)
       end
 
       context 'for a normal homework' do
@@ -143,7 +143,7 @@ describe SectionProgress, type: :model do
 
         context 'as a proctored user' do
           before do
-            create(:enrollment, course: section.course, user_id:, proctored: true)
+            create(:'course_service/enrollment', course: section.course, user_id:, proctored: true)
           end
 
           # WATCH OUT: The last result should only be used for items that are
@@ -182,7 +182,7 @@ describe SectionProgress, type: :model do
 
         context 'as a proctored user' do
           before do
-            create(:enrollment, course: section.course, user_id:, proctored: true)
+            create(:'course_service/enrollment', course: section.course, user_id:, proctored: true)
           end
 
           it 'returns the latest result for the user' do
@@ -202,10 +202,10 @@ describe SectionProgress, type: :model do
 
     context 'with visits' do
       before do
-        videos.each {|video| create(:visit, user_id:, item: video) }
-        selftests.each {|selftest| create(:visit, user_id:, item: selftest) }
-        create(:visit, user_id:, item: homework)
-        create(:visit, user_id:, item: bonus)
+        videos.each {|video| create(:'course_service/visit', user_id:, item: video) }
+        selftests.each {|selftest| create(:'course_service/visit', user_id:, item: selftest) }
+        create(:'course_service/visit', user_id:, item: homework)
+        create(:'course_service/visit', user_id:, item: bonus)
       end
 
       it 'correctly sums up the visits' do
@@ -223,8 +223,8 @@ describe SectionProgress, type: :model do
 
     context 'with visits for items in other sections' do
       before do
-        create(:visit, user_id:, item: videos.first)
-        create(:visit, user_id:)
+        create(:'course_service/visit', user_id:, item: videos.first)
+        create(:'course_service/visit', user_id:)
       end
 
       it "only counts visits for items in the user's section" do
@@ -243,10 +243,10 @@ describe SectionProgress, type: :model do
     context 'with visits for optional items' do
       # NOTE: Visits for optional items are always ignored.
       before do
-        create(:visit, user_id:, item: videos.first)
+        create(:'course_service/visit', user_id:, item: videos.first)
 
-        optional_item = create(:item, section:, optional: true)
-        create(:visit, user_id:, item: optional_item)
+        optional_item = create(:'course_service/item', section:, optional: true)
+        create(:'course_service/visit', user_id:, item: optional_item)
       end
 
       it 'only counts visits for required items' do
@@ -266,7 +266,7 @@ describe SectionProgress, type: :model do
       # NOTE: Visits for items in optional section are always ignored.
       before do
         section.update!(optional_section: true)
-        create(:visit, user_id:, item: videos.first)
+        create(:'course_service/visit', user_id:, item: videos.first)
       end
 
       it 'ignores visits in optional sections' do
@@ -284,10 +284,10 @@ describe SectionProgress, type: :model do
 
     context 'with visits for unpublished items' do
       before do
-        create(:visit, user_id:, item: videos.first)
+        create(:'course_service/visit', user_id:, item: videos.first)
 
-        unpublished_item = create(:item, section:, published: false)
-        create(:visit, user_id:, item: unpublished_item)
+        unpublished_item = create(:'course_service/item', section:, published: false)
+        create(:'course_service/visit', user_id:, item: unpublished_item)
       end
 
       it 'only counts visits for published items' do
@@ -304,7 +304,7 @@ describe SectionProgress, type: :model do
     end
 
     context 'for an alternative section' do
-      let(:section) { create(:section, :child) }
+      let(:section) { create(:'course_service/section', :child) }
 
       it 'sets the best alternative' do
         expect { calculated }.to change { progress.reload.alternative_progress_for }.from(nil).to(section.parent.id)
@@ -312,20 +312,20 @@ describe SectionProgress, type: :model do
     end
 
     context 'for a section with a fork' do
-      let(:section) { create(:section, course:) }
-      let(:course) { create(:course, :with_content_tree) }
-      let!(:b1_video) { create(:item, title: 'Video B1', section:) }
-      let!(:b1_selftest) { create(:item, :quiz, title: 'Selftest B1', section:, max_dpoints: 10) }
-      let!(:b1_homework) { create(:item, :homework, title: 'Homework B1', section:, max_dpoints: 40) }
-      let!(:b1_bonus) { create(:item, :quiz, :bonus, title: 'Bonus B1', section:, max_dpoints: 20) }
-      let!(:b2_video) { create(:item, title: 'Video B2', section:) }
-      let!(:b2_selftest) { create(:item, :quiz, title: 'Selftest B2', section:, max_dpoints: 10) }
-      let!(:b2_homework) { create(:item, :homework, title: 'Homework B2', section:, max_dpoints: 50) }
-      let!(:b2_bonus) { create(:item, :quiz, :bonus, title: 'Bonus B2', section:, max_dpoints: 30) }
+      let(:section) { create(:'course_service/section', course:) }
+      let(:course) { create(:'course_service/course', :with_content_tree) }
+      let!(:b1_video) { create(:'course_service/item', title: 'Video B1', section:) }
+      let!(:b1_selftest) { create(:'course_service/item', :quiz, title: 'Selftest B1', section:, max_dpoints: 10) }
+      let!(:b1_homework) { create(:'course_service/item', :homework, title: 'Homework B1', section:, max_dpoints: 40) }
+      let!(:b1_bonus) { create(:'course_service/item', :quiz, :bonus, title: 'Bonus B1', section:, max_dpoints: 20) }
+      let!(:b2_video) { create(:'course_service/item', title: 'Video B2', section:) }
+      let!(:b2_selftest) { create(:'course_service/item', :quiz, title: 'Selftest B2', section:, max_dpoints: 10) }
+      let!(:b2_homework) { create(:'course_service/item', :homework, title: 'Homework B2', section:, max_dpoints: 50) }
+      let!(:b2_bonus) { create(:'course_service/item', :quiz, :bonus, title: 'Bonus B2', section:, max_dpoints: 30) }
       let!(:another_user_id) { generate(:user_id) }
 
       before do
-        fork = create(:fork, section:, course:)
+        fork = create(:'course_service/fork', section:, course:)
 
         [b1_video, b1_selftest, b1_homework, b1_bonus].each do |item|
           item.node.move_to_child_of(fork.branches[0].node)
@@ -345,12 +345,12 @@ describe SectionProgress, type: :model do
       context "without results nor visits for items in the user's branch" do
         before do
           # To be included (an item available for all users):
-          create(:result, user_id:, item: homework, dpoints: 50)
-          create(:visit, user_id:, item: homework)
+          create(:'course_service/result', user_id:, item: homework, dpoints: 50)
+          create(:'course_service/visit', user_id:, item: homework)
 
           # Not to be included since the score / visit belongs to another user:
-          create(:result, user_id: another_user_id, item: bonus, dpoints: 20)
-          create(:visit, user_id: another_user_id, item: bonus)
+          create(:'course_service/result', user_id: another_user_id, item: bonus, dpoints: 20)
+          create(:'course_service/visit', user_id: another_user_id, item: bonus)
         end
 
         it 'correctly sums up the scores for items available for all users' do
@@ -369,25 +369,25 @@ describe SectionProgress, type: :model do
       context "with perfect score for each item in the user's branch" do
         before do
           # To be included as before:
-          create(:result, user_id:, item: homework, dpoints: 50)
-          create(:visit, user_id:, item: homework)
+          create(:'course_service/result', user_id:, item: homework, dpoints: 50)
+          create(:'course_service/visit', user_id:, item: homework)
 
           # To be included from the user's branch:
-          create(:result, user_id:, item: b1_selftest, dpoints: 10)
-          create(:result, user_id:, item: b1_homework, dpoints: 40)
-          create(:result, user_id:, item: b1_bonus, dpoints: 20)
-          create(:visit, user_id:, item: b1_selftest)
-          create(:visit, user_id:, item: b1_homework)
-          create(:visit, user_id:, item: b1_bonus)
-          create(:visit, user_id:, item: b1_video)
+          create(:'course_service/result', user_id:, item: b1_selftest, dpoints: 10)
+          create(:'course_service/result', user_id:, item: b1_homework, dpoints: 40)
+          create(:'course_service/result', user_id:, item: b1_bonus, dpoints: 20)
+          create(:'course_service/visit', user_id:, item: b1_selftest)
+          create(:'course_service/visit', user_id:, item: b1_homework)
+          create(:'course_service/visit', user_id:, item: b1_bonus)
+          create(:'course_service/visit', user_id:, item: b1_video)
 
           # Not included from another branch or user:
           # NOTE: Having results for items in other branches is not intended
           # as switching between branches is not allowed (yet).
-          create(:result, user_id:, item: b2_homework, dpoints: 50)
-          create(:visit, user_id:, item: b2_homework)
-          create(:result, user_id: another_user_id, item: b2_homework, dpoints: 50)
-          create(:visit, user_id: another_user_id, item: b2_homework)
+          create(:'course_service/result', user_id:, item: b2_homework, dpoints: 50)
+          create(:'course_service/visit', user_id:, item: b2_homework)
+          create(:'course_service/result', user_id: another_user_id, item: b2_homework, dpoints: 50)
+          create(:'course_service/visit', user_id: another_user_id, item: b2_homework)
         end
 
         it "sums up points and counts visits for the user's branch items only" do
@@ -405,17 +405,17 @@ describe SectionProgress, type: :model do
 
       context 'with optional items in a branch' do
         let!(:b1_selftest) do
-          create(:item, :quiz, section:, max_dpoints: 10, optional: true)
+          create(:'course_service/item', :quiz, section:, max_dpoints: 10, optional: true)
         end
 
         before do
           # To be included as before:
-          create(:result, user_id:, item: homework, dpoints: 50)
-          create(:visit, user_id:, item: homework)
+          create(:'course_service/result', user_id:, item: homework, dpoints: 50)
+          create(:'course_service/visit', user_id:, item: homework)
 
           # To be ignored (optional):
-          create(:result, user_id:, item: b1_selftest, dpoints: 10)
-          create(:visit, user_id:, item: b1_selftest)
+          create(:'course_service/result', user_id:, item: b1_selftest, dpoints: 10)
+          create(:'course_service/visit', user_id:, item: b1_selftest)
         end
 
         it 'only counts visits for required items' do
@@ -436,11 +436,11 @@ describe SectionProgress, type: :model do
       context 'with forks in optional sections' do
         before do
           section.update!(optional_section: true)
-          create(:result, user_id:, item: b1_homework, dpoints: 10)
-          create(:visit, user_id:, item: b1_homework)
+          create(:'course_service/result', user_id:, item: b1_homework, dpoints: 10)
+          create(:'course_service/visit', user_id:, item: b1_homework)
 
-          create(:result, user_id:, item: homework, dpoints: 10)
-          create(:visit, user_id:, item: homework)
+          create(:'course_service/result', user_id:, item: homework, dpoints: 10)
+          create(:'course_service/visit', user_id:, item: homework)
         end
 
         it 'ignores scores / visits for the fork' do
@@ -507,7 +507,7 @@ describe SectionProgress, type: :model do
 
     context 'with complete visits including an optional item' do
       before do
-        create(:item, section:, optional: true)
+        create(:'course_service/item', section:, optional: true)
         progress.update!(
           visits: 7,
           main_dpoints: 50,
@@ -547,7 +547,7 @@ describe SectionProgress, type: :model do
     it { expect(for_alternative).to be false }
 
     context 'for a child section' do
-      let(:section) { create(:section, :child) }
+      let(:section) { create(:'course_service/section', :child) }
 
       it { expect(for_alternative).to be true }
     end
@@ -557,7 +557,7 @@ describe SectionProgress, type: :model do
     subject(:destroy_progress) { section_progress.destroy }
 
     let(:section_progress) do
-      create(:section_progress, section:, user_id:)
+      create(:'course_service/section_progress', section:, user_id:)
     end
 
     it 'triggers the update of the corresponding course progress' do

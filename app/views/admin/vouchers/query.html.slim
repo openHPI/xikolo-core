@@ -28,7 +28,7 @@
         - if @voucher.claimant
           tr
             th scope="row" = @voucher.claimed? ? t(:'vouchers.query.claimant') : t(:'vouchers.query.restricted_claimant')
-            td = link_to @voucher.claimant['name'], user_path(@voucher.claimant['id'])
+            td = link_to @voucher.claimant['name'], user_path(@voucher.claimant['id']), class: 'bs-a'
         - if @voucher.claimed?
           tr
             th scope="row" = t(:'vouchers.query.claimed_at')
@@ -36,7 +36,7 @@
         - if @voucher.course
           tr
             th scope="row" = @voucher.claimed? ? t(:'vouchers.query.course') : t(:'vouchers.query.restricted_course')
-            td = link_to "#{@voucher.course['course_code']} (#{@voucher.course['title']})", course_path(@voucher.course['course_code'])
+            td = link_to "#{@voucher.course['course_code']} (#{@voucher.course['title']})", course_path(@voucher.course['course_code']), class: 'bs-a'
         - if @voucher.expires_at
           tr
             th scope="row" = t(:'vouchers.query.expiration_date')

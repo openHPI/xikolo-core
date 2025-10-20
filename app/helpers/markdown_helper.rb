@@ -137,7 +137,7 @@ module MarkdownHelper
     def link(link, title, content)
       return nil if link.blank?
 
-      output = '<a'
+      output = '<a class="bs-a"'
 
       if title
         output += " title=\"#{title}\""

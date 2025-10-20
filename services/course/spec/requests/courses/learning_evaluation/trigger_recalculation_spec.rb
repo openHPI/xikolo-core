@@ -8,7 +8,7 @@ describe 'Course: Learning Evaluation: Trigger Recalculation', type: :request do
   end
 
   let(:api) { Restify.new(:test).get.value! }
-  let(:course) { create(:course, :with_content_tree, progress_calculated_at: 1.week.ago) }
+  let(:course) { create(:'course_service/course', :with_content_tree, progress_calculated_at: 1.week.ago) }
 
   context 'with the course not requiring progress recalculation' do
     before { course.node.update!(progress_stale_at: 2.weeks.ago) }
@@ -37,7 +37,7 @@ describe 'Course: Learning Evaluation: Trigger Recalculation', type: :request do
   end
 
   context 'for a legacy course' do
-    let(:course) { create(:course) }
+    let(:course) { create(:'course_service/course') }
 
     it { is_expected.to respond_with :created }
 
@@ -54,7 +54,7 @@ describe 'Course: Learning Evaluation: Trigger Recalculation', type: :request do
 
   context 'with sections requiring progress recalculation' do
     before do
-      create_list(:section, 3, course:)
+      create_list(:'course_service/section', 3, course:)
       course.sections.first.node.update!(progress_stale_at: 1.day.ago)
       course.node.update!(progress_stale_at: 1.day.ago)
     end
@@ -74,7 +74,7 @@ describe 'Course: Learning Evaluation: Trigger Recalculation', type: :request do
   end
 
   context 'with the course recently recalculated' do
-    let(:course) { create(:course, :with_content_tree, progress_calculated_at: 50.minutes.ago) }
+    let(:course) { create(:'course_service/course', :with_content_tree, progress_calculated_at: 50.minutes.ago) }
 
     it 'does not trigger the recalculation' do
       expect { creation }.not_to change(LearningEvaluation::PersistForCourseWorker.jobs, :size)
@@ -82,7 +82,7 @@ describe 'Course: Learning Evaluation: Trigger Recalculation', type: :request do
   end
 
   context 'with the legacy course recently recalculated' do
-    let(:course) { create(:course, progress_calculated_at: 50.minutes.ago) }
+    let(:course) { create(:'course_service/course', progress_calculated_at: 50.minutes.ago) }
 
     it 'does not trigger the recalculation' do
       expect { creation }.not_to change(LearningEvaluation::PersistForCourseWorker.jobs, :size)

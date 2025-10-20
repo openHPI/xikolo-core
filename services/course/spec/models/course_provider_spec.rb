@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe CourseProvider, type: :model do
-  let(:course) { create(:course, :upcoming, attrs) }
+  let(:course) { create(:'course_service/course', :upcoming, attrs) }
   let(:attrs) { {} }
 
   describe '#self.sync?' do

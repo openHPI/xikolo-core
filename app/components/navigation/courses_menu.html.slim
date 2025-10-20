@@ -8,7 +8,7 @@ li.navigation-item.navigation-item--hide-last.courses-menu-item
           ul.courses-menu-item__courses
             - courses.each do |course|
               li.courses-menu-item__menu-item
-                = link_to course['title'], course_path(course['course_code'])
+                = link_to course['title'], course_path(course['course_code']), class: 'bs-a'
             li.courses-menu-item__menu-item.courses-menu-item__menu-item--more
-              = link_to t(:'channels.view_all'), courses_path
+              = link_to t(:'channels.view_all'), courses_path, class: 'bs-a'
               = render Global::FaIcon.new('chevron-right')

@@ -3,6 +3,6 @@
     = render Global::FaIcon.new('circle-exclamation', style: :solid, css_classes: 'mr5')
     = link.text
 - if (link = course.back_to_course_link(view_context: self, in_teacher_context:))&.display?
-  = link_to link.url
+  = link_to link.url, class: 'bs-a'
     = render Global::FaIcon.new('arrow-left', css_classes: 'mr5')
     = link.text

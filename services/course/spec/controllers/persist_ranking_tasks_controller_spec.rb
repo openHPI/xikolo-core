@@ -7,10 +7,10 @@ describe PersistRankingTasksController, type: :controller do
 
   let(:json) { JSON.parse response.body }
   let(:default_params) { {format: 'json'} }
-  let(:course) { create(:course, end_date: 1.day.ago) }
-  let(:section) { create(:section, course:) }
+  let(:course) { create(:'course_service/course', end_date: 1.day.ago) }
+  let(:section) { create(:'course_service/section', course:) }
   let(:item) do
-    create(:item, section:, content_type: :quiz,
+    create(:'course_service/item', section:, content_type: :quiz,
       exercise_type: 'main', max_dpoints: 100)
   end
   let(:start_quantile) { nil }
@@ -42,10 +42,10 @@ describe PersistRankingTasksController, type: :controller do
           results_and_quantils.map.with_index do |(point, _), i|
             user_id = generate(:user_id)
             unless point.nil?
-              create :result, dpoints: point,
+              create :'course_service/result', dpoints: point,
                 item:, user_id:
             end
-            create(:enrollment, course:,
+            create(:'course_service/enrollment', course:,
               user_id:,
               quantile: start_quantile,
               quantiled_user_dpoints: start_quantiled_user_dpoints,
@@ -122,7 +122,7 @@ describe PersistRankingTasksController, type: :controller do
 
       context 'a course without points' do
         let(:item) do
-          create(:item, section:, content_type: :quiz,
+          create(:'course_service/item', section:, content_type: :quiz,
             exercise_type: 'main', max_dpoints: 0)
         end
 

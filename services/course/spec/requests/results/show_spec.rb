@@ -6,7 +6,7 @@ describe 'Results: Show', type: :request do
   subject(:action) { api.rel(:result).get({id: result.id}).value! }
 
   let(:api) { Restify.new(:test).get.value! }
-  let!(:result) { create(:result, dpoints: 34) }
+  let!(:result) { create(:'course_service/result', dpoints: 34) }
 
   describe 'response' do
     it { is_expected.to respond_with :ok }

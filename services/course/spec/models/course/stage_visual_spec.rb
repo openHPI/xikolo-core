@@ -4,7 +4,7 @@ require 'spec_helper'
 require 'xikolo/s3'
 
 describe Course, '#stage_visual', type: :model do
-  subject(:course) { create(:course, attributes) }
+  subject(:course) { create(:'course_service/course', attributes) }
 
   let(:attributes) { {} }
 

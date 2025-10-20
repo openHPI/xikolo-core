@@ -5,7 +5,7 @@ require 'spec_helper'
 describe ChannelDecorator do
   subject(:json) { decorator.as_json(api_version: 1).stringify_keys }
 
-  let(:channel) { create(:channel, :full_blown) }
+  let(:channel) { create(:'course_service/channel', :full_blown) }
   let(:decorator) { described_class.new(channel) }
 
   it 'exports default fields' do

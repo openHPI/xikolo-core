@@ -1,0 +1,19 @@
+/* font-size
+Tailwind font-size scale for 10px legacy root, preserving 16px default proportions.
+https://tailwindcss.com/docs/font-size (v4.1)
+*/
+@theme {
+  --text-xs: 1.2rem;
+  --text-sm: 1.4rem;
+  --text-base: 1.6rem;
+  --text-lg: 1.8rem;
+  --text-xl: 2rem;
+  --text-2xl: 2.4rem;
+  --text-3xl: 3rem;
+  --text-4xl: 3.6rem;
+  --text-5xl: 4.8rem;
+  --text-6xl: 6rem;
+  --text-7xl: 7.2rem;
+  --text-8xl: 9.6rem;
+  --text-9xl: 12.8rem;
+}

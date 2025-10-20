@@ -7,7 +7,7 @@ RSpec.describe Structure::Section, type: :model do
     described_class.create!(course:, parent: root, section:)
   end
 
-  let(:section) { create(:section) }
+  let(:section) { create(:'course_service/section') }
   let(:course) { section.course }
 
   let(:root) { course.create_node! }

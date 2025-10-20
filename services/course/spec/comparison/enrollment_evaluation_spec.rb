@@ -85,51 +85,51 @@ describe EnrollmentsController, type: :controller do
   let(:default_params) { {format: 'json'} }
 
   let(:user_id) { generate(:user_id) }
-  let(:enrollment) { create(:enrollment, course:, user_id:, completed:) }
+  let(:enrollment) { create(:'course_service/enrollment', course:, user_id:, completed:) }
   let(:completed) { nil }
 
   # Course content
   let(:course_opts) { {records_released:} }
-  let(:course) { create(:course, **course_opts) }
+  let(:course) { create(:'course_service/course', **course_opts) }
   let(:records_released) { false }
 
   let(:section1_params) { {start_date: 10.days.ago.iso8601} }
-  let(:section1) { create(:section, {course:, position: 1}.merge(section1_params)) }
+  let(:section1) { create(:'course_service/section', {course:, position: 1}.merge(section1_params)) }
   let(:item11_params) { {} }
-  let!(:item11) { create(:item, {section: section1, position: 1}.merge(item11_params)) }
+  let!(:item11) { create(:'course_service/item', {section: section1, position: 1}.merge(item11_params)) }
   let(:item12_params) { {} }
-  let!(:item12) { create(:item, {section: section1, position: 2}.merge(item12_params)) }
+  let!(:item12) { create(:'course_service/item', {section: section1, position: 2}.merge(item12_params)) }
   let(:item13_params) { {content_type: 'quiz', exercise_type: 'main', max_dpoints: 50} }
-  let!(:item13) { create(:item, {section: section1, position: 3}.merge(item13_params)) }
+  let!(:item13) { create(:'course_service/item', {section: section1, position: 3}.merge(item13_params)) }
   let(:item14_params) { {content_type: 'quiz', exercise_type: 'bonus', max_dpoints: 70} }
-  let!(:item14) { create(:item, :proctored, {section: section1, position: 4}.merge(item14_params)) }
+  let!(:item14) { create(:'course_service/item', :proctored, {section: section1, position: 4}.merge(item14_params)) }
   let(:item15_params) { {content_type: 'quiz', exercise_type: 'main', max_dpoints: 70, published: false} }
 
   let(:section2_params) { {start_date: 10.days.ago.iso8601} }
-  let(:section2) { create(:section, {course:, position: 2}.merge(section2_params)) }
+  let(:section2) { create(:'course_service/section', {course:, position: 2}.merge(section2_params)) }
   let(:item21_params) { {content_type: 'quiz', exercise_type: 'main', max_dpoints: 100} }
-  let!(:item21) { create(:item, :proctored, {section: section2, position: 1}.merge(item21_params)) }
+  let!(:item21) { create(:'course_service/item', :proctored, {section: section2, position: 1}.merge(item21_params)) }
   let(:item22_params) { {content_type: 'lti', exercise_type: 'main', max_dpoints: 50} }
-  let!(:item22) { create(:item, {section: section2, position: 2}.merge(item22_params)) }
+  let!(:item22) { create(:'course_service/item', {section: section2, position: 2}.merge(item22_params)) }
   let(:item23_params) { {content_type: 'lti', exercise_type: 'selftest', max_dpoints: 70, published: false} }
   let(:item24_params) { {content_type: 'video', published: false} }
 
   let(:section3_params) { {start_date: 10.days.ago.iso8601} }
-  let(:section3) { create(:section, {course:, position: 3, published: false}.merge(section3_params)) }
+  let(:section3) { create(:'course_service/section', {course:, position: 3, published: false}.merge(section3_params)) }
   let(:item32_params) { {content_type: 'quiz', exercise_type: 'bonus', max_dpoints: 30} }
-  let!(:item32) { create(:item, {section: section3, position: 2}.merge(item32_params)) }
+  let!(:item32) { create(:'course_service/item', {section: section3, position: 2}.merge(item32_params)) }
   let(:item33_params) { {content_type: 'video'} }
-  let!(:item33) { create(:item, {section: section3, position: 3}.merge(item33_params)) }
+  let!(:item33) { create(:'course_service/item', {section: section3, position: 3}.merge(item33_params)) }
 
   before do
     # Specifying a native `before` blocks here and in variants leads to a
     # confusing execution order. Also, Rubocop will legitimately complain.
     variant_before
 
-    create(:item, {section: section1, position: 5}.merge(item15_params))
+    create(:'course_service/item', {section: section1, position: 5}.merge(item15_params))
 
-    create(:item, {section: section2, position: 3}.merge(item23_params))
-    create(:item, {section: section2, position: 4}.merge(item24_params))
+    create(:'course_service/item', {section: section2, position: 3}.merge(item23_params))
+    create(:'course_service/item', {section: section2, position: 4}.merge(item24_params))
   end
 
   with_all do
@@ -160,8 +160,8 @@ describe EnrollmentsController, type: :controller do
 
       context 'last graded item is main quiz' do
         before do
-          create(:result, item: item13, user_id:, dpoints: 50, created_at: (last_graded_item_date - 1.day))
-          create(:result, item: item21, user_id:, dpoints: 100, created_at: last_graded_item_date)
+          create(:'course_service/result', item: item13, user_id:, dpoints: 50, created_at: (last_graded_item_date - 1.day))
+          create(:'course_service/result', item: item21, user_id:, dpoints: 100, created_at: last_graded_item_date)
         end
 
         it 'is submission date of item21' do
@@ -171,8 +171,8 @@ describe EnrollmentsController, type: :controller do
 
       context 'last graded item is bonus quiz' do
         before do
-          create(:result, item: item13, user_id:, dpoints: 50, created_at: (last_graded_item_date - 1.day))
-          create(:result, item: item14, user_id:, dpoints: 100, created_at: last_graded_item_date)
+          create(:'course_service/result', item: item13, user_id:, dpoints: 50, created_at: (last_graded_item_date - 1.day))
+          create(:'course_service/result', item: item14, user_id:, dpoints: 100, created_at: last_graded_item_date)
         end
 
         it 'is submission date of item14' do
@@ -184,9 +184,9 @@ describe EnrollmentsController, type: :controller do
         let(:item11_params) { {content_type: 'quiz', exercise_type: 'selftest', max_dpoints: 10} }
 
         before do
-          create(:result, item: item13, user_id:, dpoints: 50, created_at: (last_graded_item_date - 1.day))
-          create(:result, item: item21, user_id:, dpoints: 100, created_at: last_graded_item_date)
-          create(:result, item: item11, user_id:, dpoints: 10, created_at: (last_graded_item_date + 1.day))
+          create(:'course_service/result', item: item13, user_id:, dpoints: 50, created_at: (last_graded_item_date - 1.day))
+          create(:'course_service/result', item: item21, user_id:, dpoints: 100, created_at: last_graded_item_date)
+          create(:'course_service/result', item: item11, user_id:, dpoints: 10, created_at: (last_graded_item_date + 1.day))
         end
 
         it 'is submission date of item21' do
@@ -198,8 +198,8 @@ describe EnrollmentsController, type: :controller do
         let(:item11_params) { {content_type: 'quiz', exercise_type: 'selftest', max_dpoints: 10} }
 
         before do
-          create(:result, item: item13, user_id:, dpoints: 50, created_at: (last_graded_item_date - 1.day))
-          create(:result, item: item22, user_id:, dpoints: 100, created_at: last_graded_item_date)
+          create(:'course_service/result', item: item13, user_id:, dpoints: 50, created_at: (last_graded_item_date - 1.day))
+          create(:'course_service/result', item: item22, user_id:, dpoints: 100, created_at: last_graded_item_date)
         end
 
         it 'is submission date of item22' do
@@ -228,17 +228,17 @@ describe EnrollmentsController, type: :controller do
 
           context 'with less than 50% of visited items' do
             before do
-              create(:visit, item: item13, user_id:)
-              create(:visit, item: item21, user_id:)
+              create(:'course_service/visit', item: item13, user_id:)
+              create(:'course_service/visit', item: item21, user_id:)
             end
 
             it { is_expected.to be false }
 
             context 'but record of achievement' do
               before do
-                create(:result, item: item13, user_id:, dpoints: 29)
-                create(:result, item: item21, user_id:, dpoints: 71)
-                create(:result, item: item21, user_id:, dpoints: 51)
+                create(:'course_service/result', item: item13, user_id:, dpoints: 29)
+                create(:'course_service/result', item: item21, user_id:, dpoints: 71)
+                create(:'course_service/result', item: item21, user_id:, dpoints: 51)
               end
 
               it { is_expected.to be true }
@@ -247,9 +247,9 @@ describe EnrollmentsController, type: :controller do
 
           context 'with 50% of visited items' do
             before do
-              create(:visit, item: item11, user_id:)
-              create(:visit, item: item13, user_id:)
-              create(:visit, item: item22, user_id:)
+              create(:'course_service/visit', item: item11, user_id:)
+              create(:'course_service/visit', item: item13, user_id:)
+              create(:'course_service/visit', item: item22, user_id:)
             end
 
             it { is_expected.to be true }
@@ -257,10 +257,10 @@ describe EnrollmentsController, type: :controller do
 
           context 'with more then 50% of visited items' do
             before do
-              create(:visit, item: item11, user_id:)
-              create(:visit, item: item13, user_id:)
-              create(:visit, item: item21, user_id:)
-              create(:visit, item: item22, user_id:)
+              create(:'course_service/visit', item: item11, user_id:)
+              create(:'course_service/visit', item: item13, user_id:)
+              create(:'course_service/visit', item: item21, user_id:)
+              create(:'course_service/visit', item: item22, user_id:)
             end
 
             it { is_expected.to be true }
@@ -271,8 +271,8 @@ describe EnrollmentsController, type: :controller do
 
             context 'with less than 50% of visited items' do
               before do
-                create(:visit, item: item13, user_id:)
-                create(:visit, item: item21, user_id:)
+                create(:'course_service/visit', item: item13, user_id:)
+                create(:'course_service/visit', item: item21, user_id:)
               end
 
               it { is_expected.to be false }
@@ -280,9 +280,9 @@ describe EnrollmentsController, type: :controller do
 
             context 'with 50% of visited items' do
               before do
-                create(:visit, item: item11, user_id:)
-                create(:visit, item: item13, user_id:)
-                create(:visit, item: item22, user_id:)
+                create(:'course_service/visit', item: item11, user_id:)
+                create(:'course_service/visit', item: item13, user_id:)
+                create(:'course_service/visit', item: item22, user_id:)
               end
 
               it { is_expected.to be true }
@@ -290,10 +290,10 @@ describe EnrollmentsController, type: :controller do
 
             context 'with more then 50% of visited items' do
               before do
-                create(:visit, item: item11, user_id:)
-                create(:visit, item: item13, user_id:)
-                create(:visit, item: item21, user_id:)
-                create(:visit, item: item22, user_id:)
+                create(:'course_service/visit', item: item11, user_id:)
+                create(:'course_service/visit', item: item13, user_id:)
+                create(:'course_service/visit', item: item21, user_id:)
+                create(:'course_service/visit', item: item22, user_id:)
               end
 
               it { is_expected.to be true }
@@ -301,10 +301,10 @@ describe EnrollmentsController, type: :controller do
 
             context 'with more then 50% of visited items (if optional items would be included)' do
               before do
-                create(:visit, item: item11, user_id:)
-                create(:visit, item: item13, user_id:)
-                create(:visit, item: item32, user_id:)
-                create(:visit, item: item33, user_id:)
+                create(:'course_service/visit', item: item11, user_id:)
+                create(:'course_service/visit', item: item13, user_id:)
+                create(:'course_service/visit', item: item32, user_id:)
+                create(:'course_service/visit', item: item33, user_id:)
               end
 
               it { is_expected.to be false }
@@ -316,8 +316,8 @@ describe EnrollmentsController, type: :controller do
 
             context 'with less than 50% of visited items' do
               before do
-                create(:visit, item: item21, user_id:)
-                create(:visit, item: item22, user_id:)
+                create(:'course_service/visit', item: item21, user_id:)
+                create(:'course_service/visit', item: item22, user_id:)
               end
 
               it { is_expected.to be false }
@@ -325,9 +325,9 @@ describe EnrollmentsController, type: :controller do
 
             context 'with less than 50% of visited items but optional item' do
               before do
-                create(:visit, item: item11, user_id:)
-                create(:visit, item: item21, user_id:)
-                create(:visit, item: item22, user_id:)
+                create(:'course_service/visit', item: item11, user_id:)
+                create(:'course_service/visit', item: item21, user_id:)
+                create(:'course_service/visit', item: item22, user_id:)
               end
 
               it { is_expected.to be false }
@@ -335,9 +335,9 @@ describe EnrollmentsController, type: :controller do
 
             context 'with 50% of visited items' do
               before do
-                create(:visit, item: item13, user_id:)
-                create(:visit, item: item21, user_id:)
-                create(:visit, item: item22, user_id:)
+                create(:'course_service/visit', item: item13, user_id:)
+                create(:'course_service/visit', item: item21, user_id:)
+                create(:'course_service/visit', item: item22, user_id:)
               end
 
               it { is_expected.to be true }
@@ -350,7 +350,7 @@ describe EnrollmentsController, type: :controller do
 
           context 'with less than 50% of archiveable points' do
             before do
-              create(:result, item: item21, user_id:, dpoints: 71)
+              create(:'course_service/result', item: item21, user_id:, dpoints: 71)
             end
 
             it { is_expected.to be false }
@@ -358,9 +358,9 @@ describe EnrollmentsController, type: :controller do
 
           context 'with less than 50% of archiveable points but additional bonus points' do
             before do
-              create(:result, item: item21, user_id:, dpoints: 71)
-              create(:result, item: item14, user_id:, dpoints: 29)
-              create(:result, item: item14, user_id:, dpoints: 15)
+              create(:'course_service/result', item: item21, user_id:, dpoints: 71)
+              create(:'course_service/result', item: item14, user_id:, dpoints: 29)
+              create(:'course_service/result', item: item14, user_id:, dpoints: 15)
             end
 
             it { is_expected.to be true }
@@ -368,9 +368,9 @@ describe EnrollmentsController, type: :controller do
 
           context 'with more then 50% archiveable points' do
             before do
-              create(:result, item: item21, user_id:, dpoints: 95)
-              create(:result, item: item22, user_id:, dpoints: 5)
-              create(:result, item: item22, user_id:, dpoints: 45)
+              create(:'course_service/result', item: item21, user_id:, dpoints: 95)
+              create(:'course_service/result', item: item22, user_id:, dpoints: 5)
+              create(:'course_service/result', item: item22, user_id:, dpoints: 45)
             end
 
             it { is_expected.to be true }
@@ -384,7 +384,7 @@ describe EnrollmentsController, type: :controller do
 
           context 'with less than 50% of archiveable points' do
             before do
-              create(:result, item: item21, user_id:, dpoints: 71)
+              create(:'course_service/result', item: item21, user_id:, dpoints: 71)
             end
 
             it { is_expected.to be false }
@@ -392,8 +392,8 @@ describe EnrollmentsController, type: :controller do
 
           context 'with less than 50% of archiveable points but additional bonus points' do
             before do
-              create(:result, item: item21, user_id:, dpoints: 71)
-              create(:result, item: item14, user_id:, dpoints: 29)
+              create(:'course_service/result', item: item21, user_id:, dpoints: 71)
+              create(:'course_service/result', item: item14, user_id:, dpoints: 29)
             end
 
             it { is_expected.to be false }
@@ -401,8 +401,8 @@ describe EnrollmentsController, type: :controller do
 
           context 'with more then 50% archiveable points' do
             before do
-              create(:result, item: item21, user_id:, dpoints: 95)
-              create(:result, item: item22, user_id:, dpoints: 45)
+              create(:'course_service/result', item: item21, user_id:, dpoints: 95)
+              create(:'course_service/result', item: item22, user_id:, dpoints: 45)
             end
 
             it { is_expected.to be false }
@@ -410,9 +410,9 @@ describe EnrollmentsController, type: :controller do
 
           context 'with all archiveable points' do
             before do
-              create(:result, item: item13, user_id:, dpoints: 50)
-              create(:result, item: item21, user_id:, dpoints: 100)
-              create(:result, item: item22, user_id:, dpoints: 50)
+              create(:'course_service/result', item: item13, user_id:, dpoints: 50)
+              create(:'course_service/result', item: item21, user_id:, dpoints: 100)
+              create(:'course_service/result', item: item22, user_id:, dpoints: 50)
             end
 
             it { is_expected.to be false }
@@ -446,8 +446,8 @@ describe EnrollmentsController, type: :controller do
 
       context 'with less than 50% of archiveable points but additional bonus points' do
         before do
-          create(:result, item: item21, user_id:, dpoints: 71)
-          create(:result, item: item14, user_id:, dpoints: 29)
+          create(:'course_service/result', item: item21, user_id:, dpoints: 71)
+          create(:'course_service/result', item: item14, user_id:, dpoints: 29)
         end
 
         context 'with records_released' do
@@ -489,7 +489,7 @@ describe EnrollmentsController, type: :controller do
 
       context 'with less then 50% of archiveable points' do
         before do
-          create(:result, item: item21, user_id:, dpoints: 71)
+          create(:'course_service/result', item: item21, user_id:, dpoints: 71)
         end
 
         context 'with records_released' do
@@ -508,10 +508,10 @@ describe EnrollmentsController, type: :controller do
           let(:records_released) { true }
 
           before do
-            create(:visit, item: item11, user_id:)
-            create(:visit, item: item13, user_id:)
-            create(:visit, item: item21, user_id:)
-            create(:visit, item: item22, user_id:)
+            create(:'course_service/visit', item: item11, user_id:)
+            create(:'course_service/visit', item: item13, user_id:)
+            create(:'course_service/visit', item: item21, user_id:)
+            create(:'course_service/visit', item: item22, user_id:)
           end
 
           context 'in an active course' do
@@ -550,7 +550,7 @@ describe EnrollmentsController, type: :controller do
 
       context 'with results but no bonus points' do
         before do
-          create(:result, item: item21, user_id:, dpoints: 71)
+          create(:'course_service/result', item: item21, user_id:, dpoints: 71)
         end
 
         it { is_expected.to eq 'achieved' => 7.1, 'maximal' => 20.0, 'percentage' => 35.5 }
@@ -558,8 +558,8 @@ describe EnrollmentsController, type: :controller do
 
       context 'with results and bonus points' do
         before do
-          create(:result, item: item14, user_id:, dpoints: 54)
-          create(:result, item: item21, user_id:, dpoints: 71)
+          create(:'course_service/result', item: item14, user_id:, dpoints: 54)
+          create(:'course_service/result', item: item21, user_id:, dpoints: 71)
         end
 
         it { is_expected.to eq 'achieved' => 12.5, 'maximal' => 20.0, 'percentage' => 62.5 }
@@ -567,33 +567,33 @@ describe EnrollmentsController, type: :controller do
 
       context 'with results and more bonus points then maximal points' do
         before do
-          create(:result, item: item14, user_id:, dpoints: 65)
-          create(:result, item: item21, user_id:, dpoints: 95)
-          create(:result, item: item22, user_id:, dpoints: 50)
+          create(:'course_service/result', item: item14, user_id:, dpoints: 65)
+          create(:'course_service/result', item: item21, user_id:, dpoints: 95)
+          create(:'course_service/result', item: item22, user_id:, dpoints: 50)
         end
 
         it { is_expected.to eq 'achieved' => 20.0, 'maximal' => 20.0, 'percentage' => 100.0 }
       end
 
       context 'with alternative sections' do
-        let!(:parent_section) { create(:section, alternative_state: 'parent', course:) }
+        let!(:parent_section) { create(:'course_service/section', alternative_state: 'parent', course:) }
         let!(:alternative_section1) do
-          create(:section, course:, alternative_state: 'child', parent_id: parent_section.id)
+          create(:'course_service/section', course:, alternative_state: 'child', parent_id: parent_section.id)
         end
         let(:item_a11_params) { {content_type: 'quiz', exercise_type: 'main', max_dpoints: 50} }
-        let!(:item_a11) { create(:item, {section: alternative_section1}.merge(item_a11_params)) }
+        let!(:item_a11) { create(:'course_service/item', {section: alternative_section1}.merge(item_a11_params)) }
         let(:item_a12_params) { {content_type: 'quiz', exercise_type: 'bonus', max_dpoints: 30} }
-        let!(:item_a12) { create(:item, {section: alternative_section1}.merge(item_a12_params)) }
+        let!(:item_a12) { create(:'course_service/item', {section: alternative_section1}.merge(item_a12_params)) }
         let!(:alternative_section2) do
-          create(:section, course:, alternative_state: 'child', parent_id: parent_section.id)
+          create(:'course_service/section', course:, alternative_state: 'child', parent_id: parent_section.id)
         end
         let(:item_a21_params) { {content_type: 'quiz', exercise_type: 'main', max_dpoints: 60} }
-        let!(:item_a21) { create(:item, {section: alternative_section2}.merge(item_a21_params)) }
+        let!(:item_a21) { create(:'course_service/item', {section: alternative_section2}.merge(item_a21_params)) }
         let(:item_a22_params) { {content_type: 'quiz', exercise_type: 'bonus', max_dpoints: 40} }
-        let!(:item_a22) { create(:item, {section: alternative_section2}.merge(item_a22_params)) }
+        let!(:item_a22) { create(:'course_service/item', {section: alternative_section2}.merge(item_a22_params)) }
 
         before do
-          create(:section_choice, section_id: parent_section.id,
+          create(:'course_service/section_choice', section_id: parent_section.id,
             user_id:, choice_ids: [alternative_section1.id, alternative_section2.id])
         end
 
@@ -605,8 +605,8 @@ describe EnrollmentsController, type: :controller do
 
         context 'with incomplete results and no bonus points' do
           before do
-            create(:result, item: item_a11, user_id:, dpoints: 50)
-            create(:result, item: item_a21, user_id:, dpoints: 50)
+            create(:'course_service/result', item: item_a11, user_id:, dpoints: 50)
+            create(:'course_service/result', item: item_a21, user_id:, dpoints: 50)
           end
 
           it 'only includes alternative section with highest graded percentage' do
@@ -616,8 +616,8 @@ describe EnrollmentsController, type: :controller do
 
         context 'with complete results but no bonus points' do
           before do
-            create(:result, item: item_a11, user_id:, dpoints: 50)
-            create(:result, item: item_a21, user_id:, dpoints: 60)
+            create(:'course_service/result', item: item_a11, user_id:, dpoints: 50)
+            create(:'course_service/result', item: item_a21, user_id:, dpoints: 60)
           end
 
           it 'only includes alternative section with highest max points' do
@@ -627,9 +627,9 @@ describe EnrollmentsController, type: :controller do
 
         context 'with incomplete results and bonus points in one alternative section' do
           before do
-            create(:result, item: item_a11, user_id:, dpoints: 20)
-            create(:result, item: item_a12, user_id:, dpoints: 30)
-            create(:result, item: item_a21, user_id:, dpoints: 50)
+            create(:'course_service/result', item: item_a11, user_id:, dpoints: 20)
+            create(:'course_service/result', item: item_a12, user_id:, dpoints: 30)
+            create(:'course_service/result', item: item_a21, user_id:, dpoints: 50)
           end
 
           it 'only includes alternative section with highest graded percentage' do
@@ -639,9 +639,9 @@ describe EnrollmentsController, type: :controller do
 
         context 'with complete results and bonus points in one alternative section' do
           before do
-            create(:result, item: item_a11, user_id:, dpoints: 50)
-            create(:result, item: item_a12, user_id:, dpoints: 30)
-            create(:result, item: item_a21, user_id:, dpoints: 50)
+            create(:'course_service/result', item: item_a11, user_id:, dpoints: 50)
+            create(:'course_service/result', item: item_a12, user_id:, dpoints: 30)
+            create(:'course_service/result', item: item_a21, user_id:, dpoints: 50)
           end
 
           it 'only includes alternative section with highest graded percentage' do
@@ -651,10 +651,10 @@ describe EnrollmentsController, type: :controller do
 
         context 'with complete results and bonus points' do
           before do
-            create(:result, item: item_a11, user_id:, dpoints: 50)
-            create(:result, item: item_a12, user_id:, dpoints: 30)
-            create(:result, item: item_a21, user_id:, dpoints: 60)
-            create(:result, item: item_a22, user_id:, dpoints: 40)
+            create(:'course_service/result', item: item_a11, user_id:, dpoints: 50)
+            create(:'course_service/result', item: item_a12, user_id:, dpoints: 30)
+            create(:'course_service/result', item: item_a21, user_id:, dpoints: 60)
+            create(:'course_service/result', item: item_a22, user_id:, dpoints: 40)
           end
 
           it 'only includes alternative section with highest max points' do
@@ -668,8 +668,8 @@ describe EnrollmentsController, type: :controller do
 
         context 'with results and bonus points' do
           before do
-            create(:result, item: item14, user_id:, dpoints: 54)
-            create(:result, item: item21, user_id:, dpoints: 71)
+            create(:'course_service/result', item: item14, user_id:, dpoints: 54)
+            create(:'course_service/result', item: item21, user_id:, dpoints: 71)
           end
 
           it { is_expected.to eq 'achieved' => 12.5, 'maximal' => 20.0, 'percentage' => 62.5 }
@@ -677,9 +677,9 @@ describe EnrollmentsController, type: :controller do
 
         context 'with results and bonus points in optional section' do
           before do
-            create(:result, item: item14, user_id:, dpoints: 54)
-            create(:result, item: item21, user_id:, dpoints: 71)
-            create(:result, item: item32, user_id:, dpoints: 13)
+            create(:'course_service/result', item: item14, user_id:, dpoints: 54)
+            create(:'course_service/result', item: item21, user_id:, dpoints: 71)
+            create(:'course_service/result', item: item32, user_id:, dpoints: 13)
           end
 
           it { is_expected.to eq 'achieved' => 13.8, 'maximal' => 20.0, 'percentage' => 69.0 }
@@ -698,7 +698,7 @@ describe EnrollmentsController, type: :controller do
 
       context 'with visits' do
         before do
-          create(:visit, item: item21, user_id:)
+          create(:'course_service/visit', item: item21, user_id:)
         end
 
         it { is_expected.to eq 'visited' => 1, 'total' => 5, 'percentage' => 20.0 }
@@ -706,8 +706,8 @@ describe EnrollmentsController, type: :controller do
 
       context 'with optional visit' do
         before do
-          create(:visit, item: item11, user_id:)
-          create(:visit, item: item21, user_id:)
+          create(:'course_service/visit', item: item11, user_id:)
+          create(:'course_service/visit', item: item21, user_id:)
         end
 
         it { is_expected.to eq 'visited' => 1, 'total' => 5, 'percentage' => 20.0 }
@@ -715,34 +715,34 @@ describe EnrollmentsController, type: :controller do
 
       context 'with all (include optional) visits' do
         before do
-          create(:visit, item: item11, user_id:)
-          create(:visit, item: item12, user_id:)
-          create(:visit, item: item13, user_id:)
-          create(:visit, item: item14, user_id:)
-          create(:visit, item: item21, user_id:)
-          create(:visit, item: item22, user_id:)
+          create(:'course_service/visit', item: item11, user_id:)
+          create(:'course_service/visit', item: item12, user_id:)
+          create(:'course_service/visit', item: item13, user_id:)
+          create(:'course_service/visit', item: item14, user_id:)
+          create(:'course_service/visit', item: item21, user_id:)
+          create(:'course_service/visit', item: item22, user_id:)
         end
 
         it { is_expected.to eq 'visited' => 5, 'total' => 5, 'percentage' => 100.0 }
       end
 
       context 'with alternative sections' do
-        let!(:parent_section) { create(:section, alternative_state: 'parent', course:) }
+        let!(:parent_section) { create(:'course_service/section', alternative_state: 'parent', course:) }
         let!(:alternative_section1) do
-          create(:section, course:, alternative_state: 'child', parent_id: parent_section.id)
+          create(:'course_service/section', course:, alternative_state: 'child', parent_id: parent_section.id)
         end
-        let!(:item_a11) { create(:item, section: alternative_section1) }
-        let!(:item_a12) { create(:item, section: alternative_section1) }
+        let!(:item_a11) { create(:'course_service/item', section: alternative_section1) }
+        let!(:item_a12) { create(:'course_service/item', section: alternative_section1) }
         let!(:alternative_section2) do
-          create(:section, course:, alternative_state: 'child', parent_id: parent_section.id)
+          create(:'course_service/section', course:, alternative_state: 'child', parent_id: parent_section.id)
         end
-        let!(:item_a21) { create(:item, section: alternative_section2) }
-        let!(:item_a22) { create(:item, section: alternative_section2) }
-        let!(:item_a23) { create(:item, section: alternative_section2) }
-        let!(:item_a24) { create(:item, section: alternative_section2) }
+        let!(:item_a21) { create(:'course_service/item', section: alternative_section2) }
+        let!(:item_a22) { create(:'course_service/item', section: alternative_section2) }
+        let!(:item_a23) { create(:'course_service/item', section: alternative_section2) }
+        let!(:item_a24) { create(:'course_service/item', section: alternative_section2) }
 
         before do
-          create(:section_choice, section_id: parent_section.id,
+          create(:'course_service/section_choice', section_id: parent_section.id,
             user_id:, choice_ids: [alternative_section1.id, alternative_section2.id])
         end
 
@@ -754,26 +754,26 @@ describe EnrollmentsController, type: :controller do
 
         context 'with different visit percentages' do
           it 'only includes alternative section with most visits (first one)' do
-            create(:visit, item: item_a11, user_id:)
-            create(:visit, item: item_a12, user_id:)
-            create(:visit, item: item_a21, user_id:)
+            create(:'course_service/visit', item: item_a11, user_id:)
+            create(:'course_service/visit', item: item_a12, user_id:)
+            create(:'course_service/visit', item: item_a21, user_id:)
             expect(visits).to eq 'visited' => 2, 'total' => 7, 'percentage' => 28.57
           end
 
           it 'only includes alternative section with most visits (second one)' do
-            create(:visit, item: item_a11, user_id:)
-            create(:visit, item: item_a21, user_id:)
-            create(:visit, item: item_a23, user_id:)
-            create(:visit, item: item_a24, user_id:)
+            create(:'course_service/visit', item: item_a11, user_id:)
+            create(:'course_service/visit', item: item_a21, user_id:)
+            create(:'course_service/visit', item: item_a23, user_id:)
+            create(:'course_service/visit', item: item_a24, user_id:)
             expect(visits).to eq 'visited' => 3, 'total' => 9, 'percentage' => 33.33
           end
         end
 
         context 'with equal visit percentage' do
           before do
-            create(:visit, item: item_a11, user_id:)
-            create(:visit, item: item_a21, user_id:)
-            create(:visit, item: item_a22, user_id:)
+            create(:'course_service/visit', item: item_a11, user_id:)
+            create(:'course_service/visit', item: item_a21, user_id:)
+            create(:'course_service/visit', item: item_a22, user_id:)
           end
 
           it 'only includes alternative section with most visits' do
@@ -787,8 +787,8 @@ describe EnrollmentsController, type: :controller do
 
         context 'with results and bonus points' do
           before do
-            create(:visit, item: item14, user_id:)
-            create(:visit, item: item21, user_id:)
+            create(:'course_service/visit', item: item14, user_id:)
+            create(:'course_service/visit', item: item21, user_id:)
           end
 
           it { is_expected.to eq 'visited' => 2, 'total' => 5, 'percentage' => 40.0 }
@@ -796,9 +796,9 @@ describe EnrollmentsController, type: :controller do
 
         context 'with results and bonus points in optional section' do
           before do
-            create(:visit, item: item14, user_id:)
-            create(:visit, item: item21, user_id:)
-            create(:visit, item: item32, user_id:)
+            create(:'course_service/visit', item: item14, user_id:)
+            create(:'course_service/visit', item: item21, user_id:)
+            create(:'course_service/visit', item: item32, user_id:)
           end
 
           it { is_expected.to eq 'visited' => 2, 'total' => 5, 'percentage' => 40.0 }
@@ -829,55 +829,55 @@ describe EnrollmentsController, type: :controller do
         end
 
         it 'is nil without enrollments with quantile' do
-          create(:enrollment, course:)
-          create(:enrollment, course:)
+          create(:'course_service/enrollment', course:)
+          create(:'course_service/enrollment', course:)
           expect(quantile).to be_nil
         end
 
         it 'is nil if we have not enough points for RoA' do
-          create(:result, item: item13, user_id:, dpoints: 24)
-          create(:result, item: item21, user_id:, dpoints: 75)
+          create(:'course_service/result', item: item13, user_id:, dpoints: 24)
+          create(:'course_service/result', item: item21, user_id:, dpoints: 75)
 
           expect(quantile).to be_nil
         end
 
         it 'is nil if our points are worse then all other quantiled points' do
           # we get 15P
-          create(:result, item: item13, user_id:, dpoints: 50)
-          create(:result, item: item21, user_id:, dpoints: 100)
+          create(:'course_service/result', item: item13, user_id:, dpoints: 50)
+          create(:'course_service/result', item: item21, user_id:, dpoints: 100)
           # other have 16P / 17P points
-          create(:enrollment, course:, quantiled_user_dpoints: 160, quantile: 0)
-          create(:enrollment, course:, quantiled_user_dpoints: 170, quantile: 1)
+          create(:'course_service/enrollment', course:, quantiled_user_dpoints: 160, quantile: 0)
+          create(:'course_service/enrollment', course:, quantiled_user_dpoints: 170, quantile: 1)
           expect(quantile).to be_nil
         end
 
         it 'gets quantile of a user with the same points' do
           # we get 15P
-          create(:result, item: item13, user_id:, dpoints: 50)
-          create(:result, item: item21, user_id:, dpoints: 100)
-          create(:enrollment, course:, quantiled_user_dpoints: 130, quantile: 0)
-          create(:enrollment, course:, quantiled_user_dpoints: 150, quantile: 0.7)
-          create(:enrollment, course:, quantiled_user_dpoints: 170, quantile: 1)
+          create(:'course_service/result', item: item13, user_id:, dpoints: 50)
+          create(:'course_service/result', item: item21, user_id:, dpoints: 100)
+          create(:'course_service/enrollment', course:, quantiled_user_dpoints: 130, quantile: 0)
+          create(:'course_service/enrollment', course:, quantiled_user_dpoints: 150, quantile: 0.7)
+          create(:'course_service/enrollment', course:, quantiled_user_dpoints: 170, quantile: 1)
           expect(quantile).to eq 0.7
         end
 
         it 'gets quantile of a the best user with lower points' do
           # we get 15P
-          create(:result, item: item13, user_id:, dpoints: 50)
-          create(:result, item: item21, user_id:, dpoints: 100)
-          create(:enrollment, course:, quantiled_user_dpoints: 130, quantile: 0)
-          create(:enrollment, course:, quantiled_user_dpoints: 149, quantile: 0.690)
-          create(:enrollment, course:, quantiled_user_dpoints: 170, quantile: 1)
+          create(:'course_service/result', item: item13, user_id:, dpoints: 50)
+          create(:'course_service/result', item: item21, user_id:, dpoints: 100)
+          create(:'course_service/enrollment', course:, quantiled_user_dpoints: 130, quantile: 0)
+          create(:'course_service/enrollment', course:, quantiled_user_dpoints: 149, quantile: 0.690)
+          create(:'course_service/enrollment', course:, quantiled_user_dpoints: 170, quantile: 1)
           expect(quantile).to eq 0.69
         end
 
         it 'gets quantile of a the best user with lower points (when we are the best)' do
           # we get 15P
-          create(:result, item: item13, user_id:, dpoints: 50)
-          create(:result, item: item21, user_id:, dpoints: 100)
-          create(:enrollment, course:, quantiled_user_dpoints: 130, quantile: 0)
-          create(:enrollment, course:, quantiled_user_dpoints: 149, quantile: 0.9)
-          create(:enrollment, course:, quantiled_user_dpoints: 120, quantile: 0.5)
+          create(:'course_service/result', item: item13, user_id:, dpoints: 50)
+          create(:'course_service/result', item: item21, user_id:, dpoints: 100)
+          create(:'course_service/enrollment', course:, quantiled_user_dpoints: 130, quantile: 0)
+          create(:'course_service/enrollment', course:, quantiled_user_dpoints: 149, quantile: 0.9)
+          create(:'course_service/enrollment', course:, quantiled_user_dpoints: 120, quantile: 0.5)
           expect(quantile).to eq 0.9
         end
       end
@@ -888,7 +888,7 @@ describe EnrollmentsController, type: :controller do
 
       context 'for the base case' do
         before do
-          create(:fixed_learning_evaluation, user_id:, course_id: course.id,
+          create(:'course_service/fixed_learning_evaluation', user_id:, course_id: course.id,
             user_dpoints: 234, maximal_dpoints: 400, visits_percentage: 83.94)
 
           # This needs to be manually triggered for the persisted learning evaluation
@@ -927,10 +927,10 @@ describe EnrollmentsController, type: :controller do
 
       context 'without 50% visits and points' do
         before do
-          create(:visit, item: item11, user_id:)
-          create(:visit, item: item13, user_id:)
+          create(:'course_service/visit', item: item11, user_id:)
+          create(:'course_service/visit', item: item13, user_id:)
 
-          create(:fixed_learning_evaluation, user_id:, course_id: course.id,
+          create(:'course_service/fixed_learning_evaluation', user_id:, course_id: course.id,
             user_dpoints: 134, maximal_dpoints: 400, visits_percentage: 49.94)
 
           # This needs to be manually triggered for the persisted learning evaluation
@@ -954,7 +954,7 @@ describe EnrollmentsController, type: :controller do
 
       context 'with 50% visits but without 50% of points' do
         before do
-          create(:fixed_learning_evaluation, user_id:, course_id: course.id,
+          create(:'course_service/fixed_learning_evaluation', user_id:, course_id: course.id,
             user_dpoints: 134, maximal_dpoints: 400, visits_percentage: 50.94)
 
           # This needs to be manually triggered for the persisted learning evaluation
@@ -978,12 +978,12 @@ describe EnrollmentsController, type: :controller do
 
       context 'with more visisted items than learning evaluation' do
         before do
-          create(:visit, item: item11, user_id:)
-          create(:visit, item: item13, user_id:)
-          create(:visit, item: item21, user_id:)
-          create(:visit, item: item22, user_id:)
+          create(:'course_service/visit', item: item11, user_id:)
+          create(:'course_service/visit', item: item13, user_id:)
+          create(:'course_service/visit', item: item21, user_id:)
+          create(:'course_service/visit', item: item22, user_id:)
 
-          create(:fixed_learning_evaluation, user_id:, course_id: course.id,
+          create(:'course_service/fixed_learning_evaluation', user_id:, course_id: course.id,
             user_dpoints: 134, maximal_dpoints: 400, visits_percentage: 1.25)
 
           # This needs to be manually triggered for the persisted learning evaluation
@@ -1007,7 +1007,7 @@ describe EnrollmentsController, type: :controller do
     end
 
     context 'without course content' do
-      let(:empty_course) { create(:course, records_released: true) }
+      let(:empty_course) { create(:'course_service/course', records_released: true) }
 
       before { enrollment.update!(course: empty_course) }
 
@@ -1032,14 +1032,14 @@ describe EnrollmentsController, type: :controller do
 
       context 'enought points' do
         before do
-          create(:visit, item: item11, user_id:)
-          create(:visit, item: item13, user_id:)
-          create(:visit, item: item21, user_id:)
-          create(:visit, item: item22, user_id:)
+          create(:'course_service/visit', item: item11, user_id:)
+          create(:'course_service/visit', item: item13, user_id:)
+          create(:'course_service/visit', item: item21, user_id:)
+          create(:'course_service/visit', item: item22, user_id:)
 
-          create(:result, item: item13, user_id:, dpoints: 29)
-          create(:result, item: item21, user_id:, dpoints: 71, created_at: 1.second.ago)
-          create(:result, item: item22, user_id:, dpoints: 71, created_at: 1.second.ago)
+          create(:'course_service/result', item: item13, user_id:, dpoints: 29)
+          create(:'course_service/result', item: item21, user_id:, dpoints: 71, created_at: 1.second.ago)
+          create(:'course_service/result', item: item22, user_id:, dpoints: 71, created_at: 1.second.ago)
         end
 
         it 'matches result' do
@@ -1066,14 +1066,14 @@ describe EnrollmentsController, type: :controller do
 
       context 'later more points' do
         before do
-          create(:visit, item: item11, user_id:)
-          create(:visit, item: item13, user_id:)
-          create(:visit, item: item21, user_id:)
-          create(:visit, item: item22, user_id:)
+          create(:'course_service/visit', item: item11, user_id:)
+          create(:'course_service/visit', item: item13, user_id:)
+          create(:'course_service/visit', item: item21, user_id:)
+          create(:'course_service/visit', item: item22, user_id:)
 
-          create(:result, item: item13, user_id:, dpoints: 29)
-          create(:result, item: item21, user_id:, dpoints: 5, created_at: 2.seconds.ago)
-          create(:result, item: item21, user_id:, dpoints: 76, created_at: 1.second.ago)
+          create(:'course_service/result', item: item13, user_id:, dpoints: 29)
+          create(:'course_service/result', item: item21, user_id:, dpoints: 5, created_at: 2.seconds.ago)
+          create(:'course_service/result', item: item21, user_id:, dpoints: 76, created_at: 1.second.ago)
         end
 
         it 'matches result' do
@@ -1100,14 +1100,14 @@ describe EnrollmentsController, type: :controller do
 
       context 'later less points' do
         before do
-          create(:visit, item: item11, user_id:)
-          create(:visit, item: item13, user_id:)
-          create(:visit, item: item21, user_id:)
-          create(:visit, item: item22, user_id:)
+          create(:'course_service/visit', item: item11, user_id:)
+          create(:'course_service/visit', item: item13, user_id:)
+          create(:'course_service/visit', item: item21, user_id:)
+          create(:'course_service/visit', item: item22, user_id:)
 
-          create(:result, item: item13, user_id:, dpoints: 29)
-          create(:result, item: item21, user_id:, dpoints: 73, created_at: 2.seconds.ago)
-          create(:result, item: item21, user_id:, dpoints: 5, created_at: 1.second.ago)
+          create(:'course_service/result', item: item13, user_id:, dpoints: 29)
+          create(:'course_service/result', item: item21, user_id:, dpoints: 73, created_at: 2.seconds.ago)
+          create(:'course_service/result', item: item21, user_id:, dpoints: 5, created_at: 1.second.ago)
         end
 
         it 'matches result' do

@@ -1,10 +1,10 @@
 = render Navigation::Tabs.new do |c|
   - c.with_tab(active: current_page?(vouchers_path) || @vouchers.present?)
-    = link_to vouchers_path
+    = link_to vouchers_path, class: 'bs-a'
       = t(:'vouchers.nav.create')
   - c.with_tab(active: current_page?(vouchers_stats_path))
-    = link_to vouchers_stats_path
+    = link_to vouchers_stats_path, class: 'bs-a'
       = t(:'vouchers.nav.stats')
   - c.with_tab(active: current_page?(vouchers_query_path))
-    = link_to vouchers_query_path
+    = link_to vouchers_query_path, class: 'bs-a'
       = t(:'vouchers.nav.query')

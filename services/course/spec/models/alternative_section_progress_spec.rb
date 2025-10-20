@@ -6,21 +6,21 @@ describe AlternativeSectionProgress, type: :model do
   subject(:alternative_progress) { described_class.new(parent: parent_section, user: user_id) }
 
   let(:user_id) { generate(:user_id) }
-  let!(:parent_section) { create(:section, :parent) }
-  let!(:alternative_section1) { create(:section, :child, parent: parent_section) }
-  let!(:alternative_section2) { create(:section, :child, parent: parent_section) }
-  let(:progress1) { create(:section_progress, section: alternative_section1, user_id:) }
-  let(:progress2) { create(:section_progress, section: alternative_section2, user_id:) }
+  let!(:parent_section) { create(:'course_service/section', :parent) }
+  let!(:alternative_section1) { create(:'course_service/section', :child, parent: parent_section) }
+  let!(:alternative_section2) { create(:'course_service/section', :child, parent: parent_section) }
+  let(:progress1) { create(:'course_service/section_progress', section: alternative_section1, user_id:) }
+  let(:progress2) { create(:'course_service/section_progress', section: alternative_section2, user_id:) }
 
   describe '#set_best_alternative!' do
     subject(:set_alternative) { alternative_progress.set_best_alternative! }
 
     describe '(points)' do
       before do
-        create(:item, :homework, section: alternative_section1, max_dpoints: 50)
-        create(:item, :quiz, :bonus, section: alternative_section1, max_dpoints: 30)
-        create(:item, :homework, section: alternative_section2, max_dpoints: 60)
-        create(:item, :quiz, :bonus, section: alternative_section2, max_dpoints: 40)
+        create(:'course_service/item', :homework, section: alternative_section1, max_dpoints: 50)
+        create(:'course_service/item', :quiz, :bonus, section: alternative_section1, max_dpoints: 30)
+        create(:'course_service/item', :homework, section: alternative_section2, max_dpoints: 60)
+        create(:'course_service/item', :quiz, :bonus, section: alternative_section2, max_dpoints: 40)
       end
 
       context 'without any results' do
@@ -160,12 +160,12 @@ describe AlternativeSectionProgress, type: :model do
 
     describe '(visits)' do
       before do
-        create(:item, section: alternative_section1)
-        create(:item, section: alternative_section1)
-        create(:item, section: alternative_section2)
-        create(:item, section: alternative_section2)
-        create(:item, section: alternative_section2)
-        create(:item, section: alternative_section2)
+        create(:'course_service/item', section: alternative_section1)
+        create(:'course_service/item', section: alternative_section1)
+        create(:'course_service/item', section: alternative_section2)
+        create(:'course_service/item', section: alternative_section2)
+        create(:'course_service/item', section: alternative_section2)
+        create(:'course_service/item', section: alternative_section2)
       end
 
       context 'without any visits' do

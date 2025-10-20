@@ -8,6 +8,6 @@ h3.course-details--section-title = t :'course.courses.show.featured_items.title'
   .carousel-inner
     - items.each_with_index do |item, index|
       .item class="#{'active' if index == 0}"
-        = link_to course_item_path(course_id: item.course_code, id: item.id) do
+        = link_to course_item_path(course_id: item.course_code, id: item.id), class: 'bs-a' do
           p = item.title
           = image_tag item.featured_image, alt: item.title

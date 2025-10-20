@@ -26,7 +26,7 @@
               tr
                 td
                   - if course.respond_to?(:title)
-                    = link_to course.title, course
+                    = link_to course.title, course, class: 'bs-a'
                   - else
                     = course
                 - @gamification.scores.columns.each do |column|

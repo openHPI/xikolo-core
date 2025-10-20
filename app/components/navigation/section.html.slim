@@ -1,5 +1,5 @@
 = render Navigation::Item.new(**@params) do
   - if segments?
-    ul
+    ul.list-disc
       - segments.each do |segment|
         = segment

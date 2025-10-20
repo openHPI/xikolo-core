@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Document Localizations: Show', type: :request do
   subject(:resource) { api.rel(:document_localization).get({id: localization_id}).value! }
 
-  let!(:document) { create(:document, :english) }
+  let!(:document) { create(:'course_service/document', :english) }
   let(:localization) { document.localizations.first }
   let(:localization_id) { localization.id }
 

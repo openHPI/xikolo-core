@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe DocumentLocalization do
-  subject(:localization) { build(:document_localization, attributes) }
+  subject(:localization) { build(:'course_service/document_localization', attributes) }
 
   let(:attributes) { {} }
 

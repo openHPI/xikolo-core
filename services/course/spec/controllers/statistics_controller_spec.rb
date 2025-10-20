@@ -10,12 +10,12 @@ describe StatisticsController, type: :controller do
     let(:default_params) { {format: 'json'} }
     let(:request) { -> { get :show, params: {course_id: students.first.course_id} } }
 
-    let(:course) { create(:course, enrollment_delta: 0) }
-    let(:students) { create_list(:enrollment, 5, course:) }
+    let(:course) { create(:'course_service/course', enrollment_delta: 0) }
+    let(:students) { create_list(:'course_service/enrollment', 5, course:) }
 
     before do
       # Create another course with five enrollments
-      create_list(:enrollment, 5, course: create(:course))
+      create_list(:'course_service/enrollment', 5, course: create(:'course_service/course'))
     end
 
     describe 'response' do
@@ -27,7 +27,7 @@ describe StatisticsController, type: :controller do
     describe 'filter enrollments of last day' do
       before do
         # Create an old enrollment
-        create(:enrollment, course:, created_at: 2.days.ago)
+        create(:'course_service/enrollment', course:, created_at: 2.days.ago)
       end
 
       its(['enrollments']) { is_expected.to be 6 }
@@ -37,8 +37,8 @@ describe StatisticsController, type: :controller do
     describe 'filter enrollments of last 7 days' do
       before do
         # Create an old and another, even older enrollment
-        create(:enrollment, course:, created_at: 2.days.ago)
-        create(:enrollment, course:, created_at: 9.days.ago)
+        create(:'course_service/enrollment', course:, created_at: 2.days.ago)
+        create(:'course_service/enrollment', course:, created_at: 9.days.ago)
       end
 
       its(['enrollments']) { is_expected.to be 7 }
@@ -47,7 +47,7 @@ describe StatisticsController, type: :controller do
     end
 
     describe 'with enrollment delta' do
-      let(:course) { create(:course, enrollment_delta: 100) }
+      let(:course) { create(:'course_service/course', enrollment_delta: 100) }
 
       its(['enrollments']) { is_expected.to be 105 }
       its(['last_day_enrollments']) { is_expected.to be 5 }
@@ -57,17 +57,17 @@ describe StatisticsController, type: :controller do
   describe "GET 'enrollment_stats'" do
     subject(:stats) { get :enrollment_stats, params: }
 
-    let!(:course) { create(:course, classifiers: nil) }
-    let(:category_cluster) { create(:cluster) }
-    let!(:course_with_classifier_1) { create(:course, classifiers: {category_cluster.id => %w[internet]}) }
-    let!(:course_with_classifier_2) { create(:course, classifiers: {category_cluster.id => %w[internet]}) }
+    let!(:course) { create(:'course_service/course', classifiers: nil) }
+    let(:category_cluster) { create(:'course_service/cluster') }
+    let!(:course_with_classifier_1) { create(:'course_service/course', classifiers: {category_cluster.id => %w[internet]}) }
+    let!(:course_with_classifier_2) { create(:'course_service/course', classifiers: {category_cluster.id => %w[internet]}) }
 
     before do
-      create_list(:enrollment, 5, course_id: course.id, created_at: 1.day.ago)
-      enrollments_1 = create_list(:enrollment, 5, course_id: course_with_classifier_1.id, created_at: 1.day.ago)
-      create_list(:enrollment, 5, course_id: course_with_classifier_2.id, created_at: 1.day.ago)
-      create(:enrollment, user_id: enrollments_1.first.user_id, course_id: course_with_classifier_2.id, created_at: 1.day.ago)
-      create(:enrollment, course_id: course_with_classifier_2.id, created_at: 3.days.ago)
+      create_list(:'course_service/enrollment', 5, course_id: course.id, created_at: 1.day.ago)
+      enrollments_1 = create_list(:'course_service/enrollment', 5, course_id: course_with_classifier_1.id, created_at: 1.day.ago)
+      create_list(:'course_service/enrollment', 5, course_id: course_with_classifier_2.id, created_at: 1.day.ago)
+      create(:'course_service/enrollment', user_id: enrollments_1.first.user_id, course_id: course_with_classifier_2.id, created_at: 1.day.ago)
+      create(:'course_service/enrollment', course_id: course_with_classifier_2.id, created_at: 3.days.ago)
     end
 
     context 'global stats' do

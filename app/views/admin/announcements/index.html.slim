@@ -56,7 +56,7 @@
                     span.announcement__status__text
                       = t(:'admin.announcements.index.published_site')
                     span
-                      = link_to t(:'admin.announcements.index.view_post'), announcement.blog_path
+                      = link_to t(:'admin.announcements.index.view_post'), announcement.blog_path, class: 'bs-a'
                 td
                   - if announcement.email?
                     span.announcement__status__text

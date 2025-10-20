@@ -36,29 +36,6 @@ module ItemStats
       'video'
     end
 
-    def render(ctx)
-      ctx.render('course/admin/item_stats/video', item_stats: self)
-    end
-
-    def event_mapping
-      %w[play pause seek_start change_speed].map do |verb|
-        {
-          x: {
-            type: 'collect',
-            sourceKey: 'time',
-          },
-          y: {
-            type: 'collect',
-            sourceKey: verb,
-          },
-          name: {
-            type: 'constant',
-            value: verb.titleize,
-          },
-        }
-      end.to_json
-    end
-
     private
 
     def stats

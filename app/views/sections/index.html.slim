@@ -50,14 +50,14 @@
 .col-md-12
   #add_section_form.form_wrapper hidden=true
     = render partial: 'admin/courses/form_section', locals: {section: @new_section, parent_section: nil}
-    hr
+    hr.bs-hr
   - if @sections.any?
     ul.sections data-behavior='sortable-sections'
       - @sections.each do |section|
         - if @legacy
           = render partial: 'section', object: section, locals: {parent_section_id: nil}
           - if section.alternatives?
-            ul
+            ul.list-disc
               - section.alternatives.each do |alternative|
                 = render partial: 'section', object: alternative, locals: {parent_section_id: section.id}
         - else

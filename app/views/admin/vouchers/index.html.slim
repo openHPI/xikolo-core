@@ -10,7 +10,7 @@
         = form_tag action: :create do
           - if @errors
             .error_notification
-              ul
+              ul.list-disc
                 - @errors.full_messages.each do |message|
                   li
                     = message

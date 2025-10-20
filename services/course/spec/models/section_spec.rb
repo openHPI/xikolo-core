@@ -4,11 +4,11 @@ require 'spec_helper'
 
 describe Section, type: :model do
   describe 'creation' do
-    let(:default_attrs) { attributes_for(:section) }
+    let(:default_attrs) { attributes_for(:'course_service/section') }
 
     describe 'course content tree' do
       context 'for legacy courses' do
-        let(:course) { create(:course) }
+        let(:course) { create(:'course_service/course') }
 
         it 'does not create a node' do
           expect do
@@ -18,7 +18,7 @@ describe Section, type: :model do
       end
 
       context 'for courses with content tree' do
-        let(:course) { create(:course, :with_content_tree) }
+        let(:course) { create(:'course_service/course', :with_content_tree) }
 
         it 'creates a node' do
           section = course.sections.create!(default_attrs)
@@ -37,13 +37,13 @@ describe Section, type: :model do
 
       context 'for a legacy course' do
         let(:course) do
-          create(:course, progress_calculated_at: 1.day.ago)
+          create(:'course_service/course', progress_calculated_at: 1.day.ago)
         end
         # NOTE: It is important to create the section (notice the bang) before
         # updating, otherwise we would test the result of both the item creation
         # and update here.
         let!(:section) do
-          create(:section, course:, published: false, optional_section: false)
+          create(:'course_service/section', course:, published: false, optional_section: false)
         end
 
         before do
@@ -66,7 +66,7 @@ describe Section, type: :model do
         context 'unpublishing the section' do
           let(:update_params) { {published: false} }
           let!(:section) do
-            create(:section, course:, published: true)
+            create(:'course_service/section', course:, published: true)
           end
 
           it 'marks the section and course for recalculation' do
@@ -91,7 +91,7 @@ describe Section, type: :model do
         context 'setting the section to non-optional' do
           let(:update_params) { {optional_section: false} }
           let!(:section) do
-            create(:section, course:, optional_section: true)
+            create(:'course_service/section', course:, optional_section: true)
           end
 
           it 'marks the section and course for recalculation' do
@@ -105,9 +105,9 @@ describe Section, type: :model do
         context 'with the section and course already marked for recalculation' do
           let(:update_params) { {optional_section: true} }
           let(:course) do
-            create(:course, progress_calculated_at: 1.week.ago)
+            create(:'course_service/course', progress_calculated_at: 1.week.ago)
           end
-          let(:another_section) { create(:section, course:) }
+          let(:another_section) { create(:'course_service/section', course:) }
 
           before do
             another_section.update!(progress_stale_at: 2.days.ago)
@@ -136,13 +136,13 @@ describe Section, type: :model do
 
       context 'for a course with content tree' do
         let(:course) do
-          create(:course, :with_content_tree, progress_calculated_at: 1.day.ago)
+          create(:'course_service/course', :with_content_tree, progress_calculated_at: 1.day.ago)
         end
         # NOTE: It is important to create the section (notice the bang) before
         # updating, otherwise we would test the result of both the item creation
         # and update here.
         let!(:section) do
-          create(:section, course:, published: false, optional_section: false)
+          create(:'course_service/section', course:, published: false, optional_section: false)
         end
 
         before do
@@ -165,7 +165,7 @@ describe Section, type: :model do
         context 'unpublishing the section' do
           let(:update_params) { {published: false} }
           let!(:section) do
-            create(:section, course:, published: true)
+            create(:'course_service/section', course:, published: true)
           end
 
           it 'marks the section and course for recalculation' do
@@ -190,7 +190,7 @@ describe Section, type: :model do
         context 'setting the section to non-optional' do
           let(:update_params) { {optional_section: false} }
           let!(:section) do
-            create(:section, course:, optional_section: true)
+            create(:'course_service/section', course:, optional_section: true)
           end
 
           it 'marks the section and course for recalculation' do
@@ -204,9 +204,9 @@ describe Section, type: :model do
         context 'with the section and course already marked for recalculation' do
           let(:update_params) { {optional_section: true} }
           let(:course) do
-            create(:course, :with_content_tree, progress_calculated_at: 1.week.ago)
+            create(:'course_service/course', :with_content_tree, progress_calculated_at: 1.week.ago)
           end
-          let(:another_section) { create(:section, course:) }
+          let(:another_section) { create(:'course_service/section', course:) }
 
           before do
             another_section.node.update!(progress_stale_at: 2.days.ago)
@@ -239,13 +239,13 @@ describe Section, type: :model do
     describe '#destroy' do
       subject(:destroy) { section.destroy; section.destroyed? }
 
-      let(:section) { create(:section) }
+      let(:section) { create(:'course_service/section') }
 
       it { is_expected.to be true }
 
       context 'with items' do
         before do
-          create(:item, section:)
+          create(:'course_service/item', section:)
         end
 
         it { is_expected.to be false }
@@ -253,11 +253,11 @@ describe Section, type: :model do
       end
 
       context 'with forks' do
-        let(:course) { create(:course, :with_content_tree) }
-        let(:section) { create(:section, course:) }
+        let(:course) { create(:'course_service/course', :with_content_tree) }
+        let(:section) { create(:'course_service/section', course:) }
 
         before do
-          create(:fork, section:, course:)
+          create(:'course_service/fork', section:, course:)
         end
 
         it { is_expected.to be false }
@@ -268,24 +268,24 @@ describe Section, type: :model do
     describe '#destroyable?' do
       subject { section.destroyable? }
 
-      let(:section) { create(:section) }
+      let(:section) { create(:'course_service/section') }
 
       it { is_expected.to be true }
 
       context 'with items' do
         before do
-          create(:item, section:)
+          create(:'course_service/item', section:)
         end
 
         it { is_expected.to be false }
       end
 
       context 'with forks' do
-        let(:course) { create(:course, :with_content_tree) }
-        let(:section) { create(:section, course:) }
+        let(:course) { create(:'course_service/course', :with_content_tree) }
+        let(:section) { create(:'course_service/section', course:) }
 
         before do
-          create(:fork, section:, course:)
+          create(:'course_service/fork', section:, course:)
         end
 
         it { is_expected.to be false }
@@ -295,12 +295,12 @@ describe Section, type: :model do
     describe 'learning evaluation' do
       context 'for a legacy course' do
         let(:course) do
-          create(:course, progress_calculated_at: 1.day.ago)
+          create(:'course_service/course', progress_calculated_at: 1.day.ago)
         end
         # NOTE: It is important to create the section (notice the bang) before
         # destroying it, otherwise we would test the result of both the
         # section creation and destruction here.
-        let!(:section) { create(:section, course:) }
+        let!(:section) { create(:'course_service/section', course:) }
 
         before do
           # Ensure having a clean state (no recalculation needed).
@@ -309,7 +309,7 @@ describe Section, type: :model do
         end
 
         context 'when the section is published' do
-          let!(:section) { create(:section, course:, published: true) }
+          let!(:section) { create(:'course_service/section', course:, published: true) }
 
           it 'marks the course for recalculation' do
             expect do
@@ -319,7 +319,7 @@ describe Section, type: :model do
         end
 
         context 'when the section is not published' do
-          let!(:section) { create(:section, course:, published: false) }
+          let!(:section) { create(:'course_service/section', course:, published: false) }
 
           it 'does not mark the course for recalculation' do
             expect do
@@ -329,7 +329,7 @@ describe Section, type: :model do
         end
 
         context 'without any previous progress calculation' do
-          let(:course) { create(:course) }
+          let(:course) { create(:'course_service/course') }
 
           it 'marks the course for recalculation' do
             section.destroy!
@@ -341,12 +341,12 @@ describe Section, type: :model do
 
       context 'for a course with content tree' do
         let(:course) do
-          create(:course, :with_content_tree, progress_calculated_at: 1.day.ago)
+          create(:'course_service/course', :with_content_tree, progress_calculated_at: 1.day.ago)
         end
         # NOTE: It is important to create the section (notice the bang) before
         # destroying it, otherwise we would test the result of both the
         # section creation and destruction here.
-        let!(:section) { create(:section, course:) }
+        let!(:section) { create(:'course_service/section', course:) }
 
         before do
           # Ensure having a clean state (no recalculation needed).
@@ -355,7 +355,7 @@ describe Section, type: :model do
         end
 
         context 'when the section is published' do
-          let!(:section) { create(:section, course:, published: true) }
+          let!(:section) { create(:'course_service/section', course:, published: true) }
 
           it 'marks the course for recalculation' do
             expect do
@@ -365,7 +365,7 @@ describe Section, type: :model do
         end
 
         context 'when the section is not published' do
-          let!(:section) { create(:section, course:, published: false) }
+          let!(:section) { create(:'course_service/section', course:, published: false) }
 
           it 'does not mark the course for recalculation' do
             expect do
@@ -375,7 +375,7 @@ describe Section, type: :model do
         end
 
         context 'without any previous progress calculation' do
-          let(:course) { create(:course, :with_content_tree) }
+          let(:course) { create(:'course_service/course', :with_content_tree) }
 
           it 'marks the course for recalculation' do
             section.destroy!
@@ -388,10 +388,10 @@ describe Section, type: :model do
   end
 
   context 'in a course with start and end date' do
-    let(:course) { create(:course) }
+    let(:course) { create(:'course_service/course') }
 
     context 'no start_date, no end date' do
-      subject(:section) { create(:section, course:, start_date: nil, end_date: nil) }
+      subject(:section) { create(:'course_service/section', course:, start_date: nil, end_date: nil) }
 
       it 'has start date of course as effective start date' do
         expect(section.effective_start_date).to eq course.start_date
@@ -401,7 +401,7 @@ describe Section, type: :model do
     end
 
     context 'with start date before section start date' do
-      subject(:section) { create(:section, course:, start_date: course.start_date - 1.day, end_date: nil) }
+      subject(:section) { create(:'course_service/section', course:, start_date: course.start_date - 1.day, end_date: nil) }
 
       it 'has start date of course as effective start date' do
         expect(section.effective_start_date).to eq course.start_date
@@ -411,7 +411,7 @@ describe Section, type: :model do
     end
 
     context 'with start date after course start date' do
-      subject(:section) { create(:section, course:, start_date: course.start_date + 1.day, end_date: nil) }
+      subject(:section) { create(:'course_service/section', course:, start_date: course.start_date + 1.day, end_date: nil) }
 
       it 'has start date of section as effective start date' do
         expect(section.effective_start_date).to eq section.start_date
@@ -421,7 +421,7 @@ describe Section, type: :model do
     end
 
     context 'with end date before course end date' do
-      subject(:section) { create(:section, course:, start_date: nil, end_date: course.end_date - 1.day) }
+      subject(:section) { create(:'course_service/section', course:, start_date: nil, end_date: course.end_date - 1.day) }
 
       it 'has end date of section as effective end date' do
         expect(section.effective_end_date).to eq section.end_date
@@ -431,10 +431,10 @@ describe Section, type: :model do
   end
 
   context 'in course without start and end date' do
-    let(:course) { create(:course, start_date: nil, end_date: nil) }
+    let(:course) { create(:'course_service/course', start_date: nil, end_date: nil) }
 
     context 'no start_date, no end date' do
-      subject(:section) { create(:section, course:, start_date: nil, end_date: nil) }
+      subject(:section) { create(:'course_service/section', course:, start_date: nil, end_date: nil) }
 
       it 'has course dates as effective dates' do
         expect(section.effective_start_date).to be_nil
@@ -443,7 +443,7 @@ describe Section, type: :model do
     end
 
     context 'with start date and end date' do
-      subject(:section) { create(:section, course:) }
+      subject(:section) { create(:'course_service/section', course:) }
 
       it 'has start date of course as effective start date' do
         expect(section.effective_start_date).to eq section.start_date
@@ -455,7 +455,7 @@ describe Section, type: :model do
   end
 
   context 'with alternative_state' do
-    subject(:section) { create(:section) }
+    subject(:section) { create(:'course_service/section') }
 
     it "has alternative_state set to 'none'" do
       expect(section.alternative_state).to eq 'none'
@@ -466,7 +466,7 @@ describe Section, type: :model do
     end
 
     context 'as alternative parent section' do
-      subject(:section) { create(:section, alternative_state: 'parent') }
+      subject(:section) { create(:'course_service/section', alternative_state: 'parent') }
 
       it 'acts as a parent section' do
         expect(section.alternative_state).to eq 'parent'
@@ -475,7 +475,7 @@ describe Section, type: :model do
     end
 
     context 'as child section' do
-      subject(:section) { create(:section, alternative_state: 'child') }
+      subject(:section) { create(:'course_service/section', alternative_state: 'child') }
 
       it 'does not act as a parent section' do
         expect(section.alternative_state).to eq 'child'

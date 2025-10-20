@@ -12,7 +12,8 @@ li.lti_provider data-id=lti_provider.id
           = link_to t(:'lti_providers.lti_provider.delete'),
             course_lti_provider_path(id: lti_provider.id),
             data: {confirm: t(:'lti_providers.lti_provider.confirm_delete')},
-            method: :delete
+            method: :delete,
+            class: 'bs-a'
   .labels
     span.row
       span.col-sm-2

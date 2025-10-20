@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe 'Items: Position', type: :request do
   variant 'Without course content tree (traditional)' do
-    let(:course) { create(:course, course_code: 'the-course') }
+    let(:course) { create(:'course_service/course', course_code: 'the-course') }
     let(:variant_before) do
       # *After* other items exist, add a new item in front of them.
       # This lets us test the public "position" attribute.
@@ -13,10 +13,10 @@ describe 'Items: Position', type: :request do
   end
 
   variant 'With course content tree' do
-    let(:course) { create(:course, :with_content_tree, course_code: 'the-course') }
+    let(:course) { create(:'course_service/course', :with_content_tree, course_code: 'the-course') }
     let(:variant_before) do
       # Create a corresponding course content tree:
-      fork = create(:fork, section:, course:, title: 'Fork')
+      fork = create(:'course_service/fork', section:, course:, title: 'Fork')
       items[1].node.move_to_child_of(fork.branches[0].node)
 
       # NOTE: When requesting items, the user will automatically be assigned
@@ -33,9 +33,9 @@ describe 'Items: Position', type: :request do
   end
 
   let(:api) { Restify.new(:test).get.value }
-  let(:section) { create(:section, course:, title: 'Week 1') }
-  let!(:items) { create_list(:item, 2, :quiz, :with_max_points, section:) }
-  let(:late_item) { create(:item, :quiz, section:).tap {|i| items << i } }
+  let(:section) { create(:'course_service/section', course:, title: 'Week 1') }
+  let!(:items) { create_list(:'course_service/item', 2, :quiz, :with_max_points, section:) }
+  let(:late_item) { create(:'course_service/item', :quiz, section:).tap {|i| items << i } }
   let(:user_id) { generate(:user_id) }
 
   before do

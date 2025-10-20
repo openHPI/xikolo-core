@@ -28,7 +28,7 @@ module Home
     # @label With actions
     def with_actions
       render Home::CourseCard.new(active_course, user: registered_user) do |c|
-        c.with_action { '<a href=#>Extra button</a>'.html_safe }
+        c.with_action { '<a href=# class="bs-a">Extra button</a>'.html_safe }
       end
     end
 
@@ -48,7 +48,7 @@ module Home
     # @label Compact with actions
     def compact_with_actions
       render Home::CourseCard.new(active_course, user: registered_user, type: 'compact') do |c|
-        c.with_action { '<a href=#>Extra button</a>'.html_safe }
+        c.with_action { '<a href=# class="bs-a">Extra button</a>'.html_safe }
       end
     end
 

@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe Classifier, type: :model do
-  subject(:classifier) { create(:classifier) }
+  subject(:classifier) { create(:'course_service/classifier') }
 
   describe '(validations)' do
     it do
@@ -47,7 +47,7 @@ describe Classifier, type: :model do
 
     context 'with courses present' do
       before do
-        create_list(:course, 2, classifiers: [classifier])
+        create_list(:'course_service/course', 2, classifiers: [classifier])
       end
 
       context 'when updating a classifier' do

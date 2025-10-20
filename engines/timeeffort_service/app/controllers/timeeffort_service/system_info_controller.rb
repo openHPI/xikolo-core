@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-class SystemInfoController < ApplicationController
+module TimeeffortService
+class SystemInfoController < ApplicationController # rubocop:disable Layout/IndentationWidth
   respond_to :json
 
   def show
@@ -8,4 +9,5 @@ class SystemInfoController < ApplicationController
       running: true,
       hostname: Socket.gethostname
   end
+end
 end

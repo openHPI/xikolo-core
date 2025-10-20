@@ -5,7 +5,7 @@ require 'spec_helper'
 describe SectionDecorator do
   subject(:json) { section.as_json(api_version: 1).stringify_keys }
 
-  let(:section) { described_class.new create(:section) }
+  let(:section) { described_class.new create(:'course_service/section') }
 
   context 'as_api_v1' do
     it { is_expected.to include('id') }

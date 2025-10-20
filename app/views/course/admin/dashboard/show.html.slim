@@ -26,7 +26,7 @@
                 = render Global::FaIcon.new('graduation-cap', style: :solid, css_classes: 'fa-2x vm')
                 span.title
                   = t(:'admin.course_management.dashboard.kpis.enrollments.title')
-            hr.hr-dark
+            hr.bs-hr.hr-dark
             - if @course.end_date.blank? || @course.end_date > DateTime.now
               = render partial: 'kpi_item', locals: {name: (t 'admin.course_management.dashboard.kpis.enrollments.total'), data_key: 'enrollments', sec_name: t(:'admin.course_management.dashboard.kpis.enrollments.non_deleted'), sec_data_key: 'enrollments_netto'}
             - else
@@ -46,7 +46,7 @@
                 = render Global::FaIcon.new('users', style: :solid, css_classes: 'fa-2x vm')
                 span.title
                   = t(:'admin.course_management.dashboard.kpis.activity.title')
-            hr.hr-dark
+            hr.bs-hr.hr-dark
               = render partial: 'kpi_item', locals: {name: (t 'admin.course_management.dashboard.kpis.activity.shows'), data_key: 'shows', quota_name: (t 'admin.course_management.dashboard.kpis.activity.show_rate_explanation'), quota_key: 'show_quota'}
               - if @course.middle_of_course && @course.middle_of_course < DateTime.now
                 = render partial: 'kpi_item', locals: {name: (t 'admin.course_management.dashboard.kpis.activity.shows_at_middle'), data_key: 'shows_at_middle', quota_name: (t 'admin.course_management.dashboard.kpis.activity.shows_at_middle_rate_explanation'), quota_key: 'show_quota_at_middle'}
@@ -60,7 +60,7 @@
                 = render Global::FaIcon.new('file-contract', style: :solid, css_classes: 'fa-2x vm')
                 span.title
                   = t(:'admin.course_management.dashboard.kpis.certificates.title')
-            hr.hr-dark
+            hr.bs-hr.hr-dark
             - if @course.records_released
               - if @course.roa_enabled?
                 = render partial: 'kpi_item', locals: {name: (t 'admin.course_management.dashboard.kpis.certificates.roa'), data_key: 'roa_count', quota_name: (t 'admin.course_management.dashboard.kpis.certificates.completion_rate_explanation'), quota_key: 'completion_rate'}

@@ -3,32 +3,32 @@
 require 'spec_helper'
 
 describe Enrollment do
-  subject(:enrollment) { create(:enrollment) }
+  subject(:enrollment) { create(:'course_service/enrollment') }
 
   context 'validation' do
     let(:user_id) { SecureRandom.uuid }
-    let(:course) { create(:course) }
+    let(:course) { create(:'course_service/course') }
 
     it 'does not allow duplicate user and course combinations' do
-      create(:enrollment, user_id:, course:)
+      create(:'course_service/enrollment', user_id:, course:)
       expect do
-        create(:enrollment, user_id:, course:)
+        create(:'course_service/enrollment', user_id:, course:)
       end.to raise_error ActiveRecord::RecordInvalid
     end
 
     context 'with external course' do
-      let(:course) { create(:course, :external) }
+      let(:course) { create(:'course_service/course', :external) }
 
       it 'does not create an enrollment' do
         expect do
-          create(:enrollment, user_id:, course:)
+          create(:'course_service/enrollment', user_id:, course:)
         end.to raise_error ActiveRecord::RecordInvalid
       end
     end
   end
 
   context '(event publication)' do
-    subject(:enrollment) { build(:enrollment) }
+    subject(:enrollment) { build(:'course_service/enrollment') }
 
     it 'publishes an event when updating an enrollment' do
       enrollment.save
@@ -42,7 +42,7 @@ describe Enrollment do
   end
 
   context '(update course progress worker)' do
-    subject(:enrollment) { build(:enrollment) }
+    subject(:enrollment) { build(:'course_service/enrollment') }
 
     it 'starts worker for a newly created enrollment to determine the user\'s course goals (max visits and points)' do
       expect { enrollment.save }.to change(LearningEvaluation::UpdateCourseProgressWorker.jobs, :size).from(0).to(1)
@@ -57,12 +57,12 @@ describe Enrollment do
         enrollment
 
         # Two other enrollments in courses that have ended
-        create(:enrollment, course: create(:course, :archived))
-        create(:enrollment, course: create(:course, :archived, status: 'active'))
+        create(:'course_service/enrollment', course: create(:'course_service/course', :archived))
+        create(:'course_service/enrollment', course: create(:'course_service/course', :archived, status: 'active'))
       end
 
       let!(:enrollment_course_active) do
-        create(:enrollment, course: create(:course, :active))
+        create(:'course_service/enrollment', course: create(:'course_service/course', :active))
       end
 
       it { is_expected.to eq [enrollment_course_active.id] }
@@ -72,11 +72,11 @@ describe Enrollment do
   describe 'last visit' do
     subject { enrollment.last_visit }
 
-    let(:section1) { create(:section, course: enrollment.course, position: 1, start_date: 10.days.ago.iso8601) }
-    let(:item11) { create(:item, section: section1, position: 1) }
-    let(:item12) { create(:item, section: section1, position: 2) }
-    let(:visit11) { create(:visit, item: item11, user_id: enrollment.user_id, updated_at: 2.days.ago.iso8601) }
-    let(:visit12) { create(:visit, item: item12, user_id: enrollment.user_id, updated_at: 1.day.ago.iso8601) }
+    let(:section1) { create(:'course_service/section', course: enrollment.course, position: 1, start_date: 10.days.ago.iso8601) }
+    let(:item11) { create(:'course_service/item', section: section1, position: 1) }
+    let(:item12) { create(:'course_service/item', section: section1, position: 2) }
+    let(:visit11) { create(:'course_service/visit', item: item11, user_id: enrollment.user_id, updated_at: 2.days.ago.iso8601) }
+    let(:visit12) { create(:'course_service/visit', item: item12, user_id: enrollment.user_id, updated_at: 1.day.ago.iso8601) }
 
     context 'without item visits' do
       it { is_expected.to be_nil }

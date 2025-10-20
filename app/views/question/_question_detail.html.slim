@@ -15,7 +15,7 @@
         tr
           td.tags
             - question.explicit_tags.each do |tag|
-              span.pinboard-tag-static.tag-button.pull-left = link_to tag.name, pinboard_index_path(tags: tag.id)
+              span.pinboard-tag-static.tag-button.pull-left = link_to tag.name, pinboard_index_path(tags: tag.id), class: 'bs-a'
             - if question.item
               span.pinboard-tag-static.pull-left = question.item.title
 
@@ -63,7 +63,7 @@
                   = user_state.user_state_for(question.author.id)
             div class="user-info__text #{'pl10' if user_state.available?(question.author.id)}"
               .username
-                span.author = link_to question.author.name, user_path(question.author.id)
+                span.author = link_to question.author.name, user_path(question.author.id), class: 'bs-a'
               .timestamp
                 = t(:'pinboard.question.ago', timeago: time_ago_in_words(question.created_at))
 

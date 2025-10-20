@@ -5,7 +5,7 @@ require 'spec_helper'
 describe Section, '#goals', type: :model do
   subject(:goals) { section.goals(generate(:user_id)) }
 
-  let(:section) { create(:section) }
+  let(:section) { create(:'course_service/section') }
 
   describe '#max_visits' do
     subject(:max_visits) { goals.max_visits }
@@ -16,13 +16,13 @@ describe Section, '#goals', type: :model do
 
     context 'with three items' do
       before do
-        create_list(:item, 3, section:)
+        create_list(:'course_service/item', 3, section:)
       end
 
       it { is_expected.to eq 3 }
 
       context 'with items in other sections' do
-        before { create_list(:item, 2) }
+        before { create_list(:'course_service/item', 2) }
 
         it 'ignores those other items' do
           expect(max_visits).to eq 3
@@ -58,10 +58,10 @@ describe Section, '#goals', type: :model do
 
     context 'with a video, selftest, homework and bonus task' do
       before do
-        create(:item, section:)
-        create(:item, :quiz, section:, max_dpoints: 90)
-        create(:item, :homework, section:, max_dpoints: 300)
-        create(:item, :quiz, :bonus, section:, max_dpoints: 50)
+        create(:'course_service/item', section:)
+        create(:'course_service/item', :quiz, section:, max_dpoints: 90)
+        create(:'course_service/item', :homework, section:, max_dpoints: 300)
+        create(:'course_service/item', :quiz, :bonus, section:, max_dpoints: 50)
       end
 
       it 'only sums up points from homeworks' do
@@ -69,7 +69,7 @@ describe Section, '#goals', type: :model do
       end
 
       context 'with items in other sections' do
-        before { create_list(:item, 2, :homework, max_dpoints: 100) }
+        before { create_list(:'course_service/item', 2, :homework, max_dpoints: 100) }
 
         it 'ignores those other items' do
           expect(max_dpoints).to eq 300

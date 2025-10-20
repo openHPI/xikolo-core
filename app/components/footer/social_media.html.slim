@@ -5,5 +5,5 @@
     ul.footer-socialmedia__icons
       - media_links.each do |link|
         li
-          = link_to link.href, target: '_blank', rel: 'noopener' do
+          = link_to link.href, class: 'bs-a', target: '_blank', rel: 'noopener' do
             = render Global::FaIcon.new(link.type, style: :brands, title: link.text)

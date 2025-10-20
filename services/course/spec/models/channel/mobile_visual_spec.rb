@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe Channel, '#mobile_visual', type: :model do
-  subject(:channel) { create(:channel, attributes) }
+  subject(:channel) { create(:'course_service/channel', attributes) }
 
   let(:attributes) { {} }
 

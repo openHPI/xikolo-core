@@ -13,7 +13,7 @@
               ul.dropdown-menu
                 - filter.each_value do |value, url, selected|
                   li class="#{selected ? 'active' : 'inactive'}"
-                    = link_to value, url
+                    = link_to value, url, class: 'bs-a'
 
           li.help = t(:'knowledge_documents.or_course')
 
@@ -27,6 +27,6 @@
 
           li.controls
             - if list.filtered?
-              = link_to documents_path, class: 'reset-filter'
+              = link_to documents_path, class: 'bs-a reset-filter'
                 = render Global::FaIcon.new('xmark')
                 = t(:'knowledge_documents.reset_filter')
