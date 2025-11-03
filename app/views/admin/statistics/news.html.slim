@@ -9,9 +9,9 @@
 .bs-container.white-bg.statistics-page
   .row
     .col-md-12
-      h3 = t(:'admin.statistics.news.global.title')
+      h3.h3 = t(:'admin.statistics.news.global.title')
       = render partial: 'shared/statistics_table', locals: {id: 'global-news-table'}
 
     .col-md-12
-      h3 = t(:'admin.statistics.news.course.title')
+      h3.h3 = t(:'admin.statistics.news.course.title')
       = render partial: 'shared/statistics_table', locals: {id: 'course-news-table'}

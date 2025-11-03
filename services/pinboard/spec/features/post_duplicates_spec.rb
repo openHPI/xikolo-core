@@ -11,7 +11,7 @@ describe 'Posting duplicate questions', type: :request do
     }
   end
 
-  let(:action) { ->(params) { create(:question, params) } }
+  let(:action) { ->(params) { create(:'pinboard_service/question', params) } }
 
   context 'across multiple courses' do
     it 'allows identical questions' do

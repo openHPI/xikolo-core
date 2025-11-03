@@ -27,47 +27,47 @@ if defined? FactoryBot
     xikolo_uuid_sequence(:file_id,     service: 4000, resource: 1)
 
     factory 'account:root', class: Hash do
-      session_url	{ '/sessions/{id}{?embed,context}' }
-      sessions_url { '/sessions' }
+      session_url	{ '/account_service/sessions/{id}{?embed,context}' }
+      sessions_url { '/account_service/sessions' }
 
-      treatment_url { '/treatments/{id}' }
-      treatments_url { '/treatments' }
+      treatment_url { '/account_service/treatments/{id}' }
+      treatments_url { '/account_service/treatments' }
 
-      user_url { '/users/{id}' }
-      user_ban_url { '/users/{user_id}/ban' }
-      users_url { '/users{?search,query,archived,confirmed,id,permission,context,auth_uid}' }
+      user_url { '/account_service/users/{id}' }
+      user_ban_url { '/account_service/users/{user_id}/ban' }
+      users_url { '/account_service/users{?search,query,archived,confirmed,id,permission,context,auth_uid}' }
 
-      email_suspensions_url { '/emails/{address}/suspend' }
-      email_url { '/emails/{id}' }
+      email_suspensions_url { '/account_service/emails/{address}/suspend' }
+      email_url { '/account_service/emails/{id}' }
 
-      password_reset_url { '/password_resets/{id}' }
-      password_resets_url { '/password_resets' }
+      password_reset_url { '/account_service/password_resets/{id}' }
+      password_resets_url { '/account_service/password_resets' }
 
-      policies_url { '/policies' }
+      policies_url { '/account_service/policies' }
 
-      statistics_url { '/statistic' }
+      statistics_url { '/account_service/statistic' }
 
-      authorization_url	{ '/authorizations/{id}' }
-      authorizations_url	{ '/authorizations{?provider,uid,user}' }
+      authorization_url	{ '/account_service/authorizations/{id}' }
+      authorizations_url	{ '/account_service/authorizations{?provider,uid,user}' }
 
-      group_url { '/groups/{id}' }
-      groups_url { '/groups{?user,tag,prefix}' }
+      group_url { '/account_service/groups/{id}' }
+      groups_url { '/account_service/groups{?user,tag,prefix}' }
 
-      grants_url { '/grants{?role,context}' }
+      grants_url { '/account_service/grants{?role,context}' }
 
-      context_url { '/contexts/{id}' }
-      contexts_url { '/contexts{?ancestors,ascent}' }
+      context_url { '/account_service/contexts/{id}' }
+      contexts_url { '/account_service/contexts{?ancestors,ascent}' }
 
-      membership_url { '/memberships/{id}' }
-      memberships_url { '/memberships' }
+      membership_url { '/account_service/memberships/{id}' }
+      memberships_url { '/account_service/memberships' }
 
-      role_url { '/roles/{id}' }
-      roles_url { '/roles' }
+      role_url { '/account_service/roles/{id}' }
+      roles_url { '/account_service/roles' }
 
-      system_info_url { '/system_info/{id}' }
+      system_info_url { '/account_service/system_info/{id}' }
 
-      token_url { '/tokens/{id}' }
-      tokens_url { '/tokens{?token}' }
+      token_url { '/account_service/tokens/{id}' }
+      tokens_url { '/account_service/tokens{?token}' }
 
       initialize_with { attributes.as_json }
     end

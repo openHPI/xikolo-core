@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 def stub_url(service, path)
-  Addressable::URI.parse(Xikolo::Common::API.services[service]).join(path)
+  Addressable::URI.parse("#{Xikolo::Common::API.services[service]}/#{path}".gsub('//', '/'))
 end
 
 def api_stub_user(**)
@@ -45,7 +45,7 @@ def real_stub_user(session_id, **opts)
     preferred_language: I18n.locale
   ).merge(opts)
 
-  user_attributes[:preferences_url] = "/users/#{user_attributes[:id]}/preferences"
+  user_attributes[:preferences_url] = "/account_service/users/#{user_attributes[:id]}/preferences"
   user_attributes[:permissions_url] = stub_url(:account, "/users/#{user_attributes[:id]}/permissions?user_id=#{user_attributes[:id]}")
   user_attributes[:consents_url] = stub_url(:account, "/users/#{user_attributes[:id]}/consents")
 

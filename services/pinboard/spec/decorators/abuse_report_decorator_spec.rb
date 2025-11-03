@@ -5,7 +5,7 @@ require 'spec_helper'
 describe AbuseReportDecorator, type: :decorator do
   subject { json }
 
-  let(:abuse_report) { create(:abuse_report) }
+  let(:abuse_report) { create(:'pinboard_service/abuse_report') }
   let(:decorator) { AbuseReportDecorator.new abuse_report }
   let(:json) { decorator.as_json.stringify_keys }
 

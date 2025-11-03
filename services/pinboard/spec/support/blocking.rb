@@ -28,7 +28,7 @@ shared_examples 'a reportable' do |reportable_class|
         Stub.service(:account, build(:'account:root'))
         Stub.request(
           :account, :get, '/groups/course.the_course.admins'
-        ).to_return Stub.json({members_url: '/groups/course.the_course.admins/members'})
+        ).to_return Stub.json({members_url: '/account_service/groups/course.the_course.admins/members'})
         Stub.request(
           :account, :get, '/groups/course.the_course.admins/members'
         ).to_return Stub.json([
@@ -47,7 +47,7 @@ shared_examples 'a reportable' do |reportable_class|
         allow(Msgr).to receive(:publish)
 
         3.times do
-          create(:abuse_report, reportable:)
+          create(:'pinboard_service/abuse_report', reportable:)
         end
       end
 
@@ -64,7 +64,7 @@ shared_examples 'a reportable' do |reportable_class|
   end
 
   describe 'abuse_reports.count' do
-    before { create(:abuse_report, reportable:) }
+    before { create(:'pinboard_service/abuse_report', reportable:) }
     subject { reportable.abuse_reports.count }
 
     it { is_expected.to eq 1 }

@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe Vote, type: :model do
-  subject(:vote) { build(:vote) }
+  subject(:vote) { build(:'pinboard_service/vote') }
 
   it 'has a valid factory' do
     expect(vote).to be_valid
@@ -12,7 +12,7 @@ describe Vote, type: :model do
   describe 'create' do
     it 'publishes an event for newly created vote' do
       # Avoid publication of the question
-      question = create(:question)
+      question = create(:'pinboard_service/question')
       vote.votable = question
 
       expect(Msgr).to receive(:publish) do |event, opts|

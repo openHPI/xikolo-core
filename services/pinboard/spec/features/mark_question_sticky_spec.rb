@@ -5,10 +5,10 @@ require 'spec_helper'
 describe 'Marking a question sticky', type: :request do
   let(:course_id) { '00000001-3300-4444-9999-000000000001' }
 
-  let!(:question1) { create(:question, course_id:, updated_at: 1.day.ago) }
-  let!(:question2) { create(:question, course_id:, updated_at: 2.days.ago) }
-  let!(:question3) { create(:question, course_id:, updated_at: 3.days.ago) }
-  let!(:question4) { create(:question, course_id:, updated_at: 4.days.ago) }
+  let!(:question1) { create(:'pinboard_service/question', course_id:, updated_at: 1.day.ago) }
+  let!(:question2) { create(:'pinboard_service/question', course_id:, updated_at: 2.days.ago) }
+  let!(:question3) { create(:'pinboard_service/question', course_id:, updated_at: 3.days.ago) }
+  let!(:question4) { create(:'pinboard_service/question', course_id:, updated_at: 4.days.ago) }
 
   let(:old_order) { [question1.id, question2.id, question3.id, question4.id] }
   let(:new_order) { [question3.id, question1.id, question2.id, question4.id] }

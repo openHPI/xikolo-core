@@ -1,7 +1,7 @@
 .enrollment-form
   = simple_form_for(:course, url: enrollments_path(course_id: course_code), method: :post) do |form|
     .form-section--large
-      h1 = t(:'components.enrollment_form.title', course_title:)
+      h1.h1 = t(:'components.enrollment_form.title', course_title:)
       p = t(:'components.enrollment_form.text')
       = link_to t(:'components.enrollment_form.link'), enrollment_policy_url, class: 'bs-a', target: '_blank', rel: 'noopener'
       .enrollment-form__checkbox.mb10

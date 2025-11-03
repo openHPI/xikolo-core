@@ -5,13 +5,13 @@ require 'spec_helper'
 describe Subscription, type: :model do
   context '(event publication)' do
     subject(:subscription) do
-      build(:subscription, question_id: question.id)
+      build(:'pinboard_service/subscription', question_id: question.id)
     end
 
     # Always create question before the spec to avoid leaking
     # `Msgr.publish` calls from creating the question into
     # the expectations for subscriptions.
-    let!(:question) { create(:question) }
+    let!(:question) { create(:'pinboard_service/question') }
 
     describe '#create' do
       it 'publishes an event to create route' do

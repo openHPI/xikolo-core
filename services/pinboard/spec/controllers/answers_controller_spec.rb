@@ -6,15 +6,15 @@ describe AnswersController, type: :controller do
   let(:json) { JSON.parse response.body }
   let(:default_params) { {format: 'json'} }
   let(:user_id) { SecureRandom.uuid }
-  let(:question) { create(:question) }
-  let(:other_question) { create(:question) }
+  let(:question) { create(:'pinboard_service/question') }
+  let(:other_question) { create(:'pinboard_service/question') }
   let(:answer) do
-    create(:answer, question_id: question.id, user_id:)
+    create(:'pinboard_service/answer', question_id: question.id, user_id:)
   end
 
   before do
     answer
-    create_list(:answer, 2, question: other_question)
+    create_list(:'pinboard_service/answer', 2, question: other_question)
   end
 
   describe 'GET index' do
@@ -58,14 +58,14 @@ describe AnswersController, type: :controller do
 
     describe 'sorting' do
       let(:params) { {question_id: question.id} }
-      let!(:answer2) { create(:answer, question:, created_at: 3.days.ago) }
-      let!(:answer3) { create(:answer, question:, created_at: 2.days.ago) }
-      let!(:answer4) { create(:answer, question:, created_at: 1.day.ago) }
+      let!(:answer2) { create(:'pinboard_service/answer', question:, created_at: 3.days.ago) }
+      let!(:answer3) { create(:'pinboard_service/answer', question:, created_at: 2.days.ago) }
+      let!(:answer4) { create(:'pinboard_service/answer', question:, created_at: 1.day.ago) }
 
       before do
-        create_list(:vote, 3, :for_answer, votable: answer)
-        create_list(:vote, 2, :for_answer, votable: answer2)
-        create_list(:vote, 1, :for_answer, votable: answer4)
+        create_list(:'pinboard_service/vote', 3, :for_answer, votable: answer)
+        create_list(:'pinboard_service/vote', 2, :for_answer, votable: answer2)
+        create_list(:'pinboard_service/vote', 1, :for_answer, votable: answer4)
       end
 
       context 'default' do
@@ -113,11 +113,11 @@ describe AnswersController, type: :controller do
       end
 
       context 'user is watching' do
-        before { create(:watch, question_id: question.id, user_id: question.user_id) }
+        before { create(:'pinboard_service/watch', question_id: question.id, user_id: question.user_id) }
 
         context 'a new answer was created' do
           before do
-            create(:answer, text: "I'm the new answer", question_id: question.id)
+            create(:'pinboard_service/answer', text: "I'm the new answer", question_id: question.id)
             action.call # refresh response.body
           end
 
@@ -148,16 +148,16 @@ describe AnswersController, type: :controller do
       let(:vote_value) { 1 }
       let(:params) { super().merge! vote_value_for_user_id: requested_user_id }
 
-      let!(:answer_with_other_vote) { create(:answer, question:) }
-      let!(:answer_voted_by_user) { create(:answer, question:) }
+      let!(:answer_with_other_vote) { create(:'pinboard_service/answer', question:) }
+      let!(:answer_voted_by_user) { create(:'pinboard_service/answer', question:) }
 
       before do
-        create(:vote, votable_id: answer_voted_by_user.id,
+        create(:'pinboard_service/vote', votable_id: answer_voted_by_user.id,
           value: vote_value,
           user_id: requested_user_id,
           votable_type: 'Answer')
 
-        create(:vote, votable_id: answer_with_other_vote.id,
+        create(:'pinboard_service/vote', votable_id: answer_with_other_vote.id,
           value: vote_value,
           user_id: other_user_id,
           votable_type: 'Answer')
@@ -200,7 +200,7 @@ describe AnswersController, type: :controller do
 
     context 'with deleted comments' do
       before do
-        create(:answer, deleted: true)
+        create(:'pinboard_service/answer', deleted: true)
 
         action.call
       end
@@ -232,7 +232,7 @@ describe AnswersController, type: :controller do
 
     describe 'text' do
       let(:markup) { "Headline\ns3://xikolo-pinboard/courses/1/thread/1/1/hans.jpg" }
-      let(:answer) { create(:answer, question_id: question.id, text: markup) }
+      let(:answer) { create(:'pinboard_service/answer', question_id: question.id, text: markup) }
 
       let(:params) { {id: answer.id} }
 
@@ -268,16 +268,16 @@ describe AnswersController, type: :controller do
       let(:vote_value) { 1 }
       let(:params) { default_params.merge(vote_value_for_user_id: requested_user_id) }
 
-      let!(:answer_with_other_vote) { create(:answer, question:) }
-      let!(:answer_voted_by_user) { create(:answer, question:) }
+      let!(:answer_with_other_vote) { create(:'pinboard_service/answer', question:) }
+      let!(:answer_voted_by_user) { create(:'pinboard_service/answer', question:) }
 
       before do
-        create(:vote, votable_id: answer_voted_by_user.id,
+        create(:'pinboard_service/vote', votable_id: answer_voted_by_user.id,
           value: vote_value,
           user_id: requested_user_id,
           votable_type: 'Answer')
 
-        create(:vote, votable_id: answer_with_other_vote.id,
+        create(:'pinboard_service/vote', votable_id: answer_with_other_vote.id,
           value: vote_value,
           user_id: other_user_id,
           votable_type: 'Answer')
@@ -327,7 +327,7 @@ describe AnswersController, type: :controller do
     subject(:creation) { post :create, params: }
 
     let(:params) { answer }
-    let(:answer) { attributes_for(:answer, question_id: question.id) }
+    let(:answer) { attributes_for(:'pinboard_service/answer', question_id: question.id) }
 
     before do
       Stub.service(:course, build(:'course:root'))
@@ -351,7 +351,7 @@ describe AnswersController, type: :controller do
       creation
 
       expect(json['text']).not_to be_nil
-      expect(json['text']).to eq(attributes_for(:answer)[:text])
+      expect(json['text']).to eq(attributes_for(:'pinboard_service/answer')[:text])
     end
 
     context 'with image references' do
@@ -531,8 +531,8 @@ describe AnswersController, type: :controller do
   describe 'PUT update' do
     subject { answer; request; answer.reload }
 
-    let(:answer) { create(:answer) }
-    let(:attributes) { attributes_for(:answer) }
+    let(:answer) { create(:'pinboard_service/answer') }
+    let(:attributes) { attributes_for(:'pinboard_service/answer') }
     let(:additional_params) { {text: 'test'} }
     let(:request) { put :update, params: attributes.merge(additional_params).merge(id: answer.id) }
 

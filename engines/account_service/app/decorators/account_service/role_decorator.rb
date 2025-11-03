@@ -1,0 +1,15 @@
+# frozen_string_literal: true
+
+module AccountService
+class RoleDecorator < ApplicationDecorator # rubocop:disable Layout/IndentationWidth
+  delegate_all
+
+  def as_json(opts = {})
+    {
+      id: model.id,
+      name: model.name,
+      permissions: model.permissions,
+    }.as_json(opts)
+  end
+end
+end

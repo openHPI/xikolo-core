@@ -12,7 +12,7 @@
   .row
 
     .col-md-12
-      h2
+      h2.h2
         = t(:'.title')
 
     .col-md-12
@@ -38,7 +38,7 @@
          });
        });
       - @stats_titles.each do |stat|
-        h4 = t(:'.submissions')
+        h4.h4 = t(:'.submissions')
         p
           => t(:'.total_submissions')
           = @stats[stat[0]]['total_submissions']
@@ -63,7 +63,7 @@
               });
             - # rubocop:enable Rails/OutputSafety
           - @stats_quizzes[stat[0]].questions.each do |question|
-            h4 = question.text[0..80]
+            h4.h4 = question.text[0..80]
             - i = @stats[stat[0]]['questions'].find {|k, _v| k.first.first == question.id }
             - correct_answers = {}
             - false_answers = {}
@@ -133,7 +133,7 @@
                   = "#{t(:'.correct')} (#{share_correct.round(2)}, #{number_correct} #{t(:'.total')})"
                   =< "#{t(:'.wrong')} (#{(1 - share_correct).round(2)}, #{number_false} #{t(:'.total')})"
 
-        h4 = t(:'.student_performance')
+        h4.h4 = t(:'.student_performance')
         p
           => t(:'.average_time')
           - begin

@@ -31,7 +31,7 @@
             .mt10
               = submit_tag t(:'vouchers.create.button'), {class: 'btn btn-primary'}
       - if @vouchers.present?
-        h3 = t :'vouchers.create.codes'
+        h3.h3 = t :'vouchers.create.codes'
         pre
           - @vouchers.each do |voucher|
             = voucher.id

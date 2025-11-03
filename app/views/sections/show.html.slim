@@ -2,6 +2,6 @@
   = render 'shared/course_item_nav', position: @inner_course_position
 
 .col-md-12.course-area-main
-  h2.mb20 = @section_presenter.title
+  h2.h2.mb20 = @section_presenter.title
   - if @section_presenter.alternatives?
     = render partial: 'alternatives'

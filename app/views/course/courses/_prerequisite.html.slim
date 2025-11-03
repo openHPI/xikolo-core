@@ -3,7 +3,7 @@
 
   a href=course_url
     = image_tag image_url, width: '100%'
-    h5.prerequisite-course--title = course['title']
+    h5.h5.prerequisite-course--title = course['title']
 
   .prerequisite-course--status
     - prerequisite.facts.each do |fact|

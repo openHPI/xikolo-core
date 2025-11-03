@@ -14,7 +14,7 @@
   = f.input :language,
     as: :hidden
 
-  h2 = t(:'admin.announcements.form.translations')
+  h2.h2 = t(:'admin.announcements.form.translations')
   = render Global::Callout.new(t(:'admin.announcements.form.translation_hint'))
 
   - announcement.all_translations.each do |translation|

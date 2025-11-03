@@ -40,9 +40,9 @@ describe 'Global Announcement Mail', type: :feature do
       name: 'A. Admin',
       email: 'admin@example.com',
       language: 'en',
-      emails_url: '/users/00000001-3100-4444-9999-000000000002/emails',
-      features_url: '/users/00000001-3100-4444-9999-000000000002/features',
-      preferences_url: '/users/00000001-3100-4444-9999-000000000002/preferences',
+      emails_url: '/account_service/users/00000001-3100-4444-9999-000000000002/emails',
+      features_url: '/account_service/users/00000001-3100-4444-9999-000000000002/features',
+      preferences_url: '/account_service/users/00000001-3100-4444-9999-000000000002/preferences',
     })
 
     Stub.service(:news, build(:'news:root'))
@@ -76,7 +76,7 @@ describe 'Global Announcement Mail', type: :feature do
     ).to_return Stub.json(
       users[0..2].map {|id| {id:} },
       links: {
-        next: 'http://localhost:3100/users/secondpage',
+        next: 'http://localhost:3000/account_service/users/secondpage',
       }
     )
     # Second page of users
@@ -95,9 +95,9 @@ describe 'Global Announcement Mail', type: :feature do
       email: 'kevin.cool@example.com',
       language: user_kevin_language,
       archived: false,
-      emails_url: '/users/00000001-3100-4444-9999-000000000001/emails',
-      features_url: '/users/00000001-3100-4444-9999-000000000001/features',
-      preferences_url: '/users/00000001-3100-4444-9999-000000000001/preferences',
+      emails_url: '/account_service/users/00000001-3100-4444-9999-000000000001/emails',
+      features_url: '/account_service/users/00000001-3100-4444-9999-000000000001/features',
+      preferences_url: '/account_service/users/00000001-3100-4444-9999-000000000001/preferences',
     })
     Stub.request(
       :account, :get, '/users/00000001-3100-4444-9999-000000000003'
@@ -107,9 +107,9 @@ describe 'Global Announcement Mail', type: :feature do
       email: 'tom@example.com',
       language: 'en',
       archived: false,
-      emails_url: '/users/00000001-3100-4444-9999-000000000003/emails',
-      features_url: '/users/00000001-3100-4444-9999-000000000003/features',
-      preferences_url: '/users/00000001-3100-4444-9999-000000000003/preferences',
+      emails_url: '/account_service/users/00000001-3100-4444-9999-000000000003/emails',
+      features_url: '/account_service/users/00000001-3100-4444-9999-000000000003/features',
+      preferences_url: '/account_service/users/00000001-3100-4444-9999-000000000003/preferences',
     })
     Stub.request(
       :account, :get, '/users/00000001-3100-4444-9999-000000000101'
@@ -119,9 +119,9 @@ describe 'Global Announcement Mail', type: :feature do
       email: 'john.smith1@example.com',
       language: 'en',
       archived: false,
-      emails_url: '/users/00000001-3100-4444-9999-000000000101/emails',
-      features_url: '/users/00000001-3100-4444-9999-000000000101/features',
-      preferences_url: '/users/00000001-3100-4444-9999-000000000101/preferences',
+      emails_url: '/account_service/users/00000001-3100-4444-9999-000000000101/emails',
+      features_url: '/account_service/users/00000001-3100-4444-9999-000000000101/features',
+      preferences_url: '/account_service/users/00000001-3100-4444-9999-000000000101/preferences',
     })
 
     Stub.request(
@@ -255,9 +255,9 @@ describe 'Global Announcement Mail', type: :feature do
         email: nil,
         language: 'de',
         archived: true,
-        emails_url: '/users/00000001-3100-4444-9999-000000000404/emails',
-        features_url: '/users/00000001-3100-4444-9999-000000000404/features',
-        preferences_url: '/users/00000001-3100-4444-9999-000000000404/preferences',
+        emails_url: '/account_service/users/00000001-3100-4444-9999-000000000404/emails',
+        features_url: '/account_service/users/00000001-3100-4444-9999-000000000404/features',
+        preferences_url: '/account_service/users/00000001-3100-4444-9999-000000000404/preferences',
       })
       Stub.request(
         :account, :get, '/users/00000001-3100-4444-9999-000000000404/preferences'
@@ -428,9 +428,9 @@ describe 'Global Announcement Mail', type: :feature do
           email: 'adam@example.org',
           language: 'en',
           archived: false,
-          emails_url: "/users/#{author_id}/emails",
-          features_url: "/users/#{author_id}/features",
-          preferences_url: "/users/#{author_id}/preferences",
+          emails_url: "/account_service/users/#{author_id}/emails",
+          features_url: "/account_service/users/#{author_id}/features",
+          preferences_url: "/account_service/users/#{author_id}/preferences",
         })
       end
 
@@ -459,9 +459,9 @@ describe 'Global Announcement Mail', type: :feature do
           email: 'robert@example.org',
           language: 'en',
           archived: false,
-          emails_url: "/users/#{other_user_id}/emails",
-          features_url: "/users/#{other_user_id}/features",
-          preferences_url: "/users/#{other_user_id}/preferences",
+          emails_url: "/account_service/users/#{other_user_id}/emails",
+          features_url: "/account_service/users/#{other_user_id}/features",
+          preferences_url: "/account_service/users/#{other_user_id}/preferences",
         })
       end
 

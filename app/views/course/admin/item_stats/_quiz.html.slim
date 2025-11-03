@@ -14,7 +14,7 @@
 
   - else
     .quiz.white-bg.mt5.mb15
-      h3 = t(:'course.admin.item_stats.quiz.submissions_over_time')
+      h3.h3 = t(:'course.admin.item_stats.quiz.submissions_over_time')
       ajax-wrapper data-url="/api/v2/statistics/item_details/quiz_submissions_over_time.json?id=#{item_stats.quiz_id}" lazy-load='true'
         loading-spinner
           data-selector key='submissions_over_time'

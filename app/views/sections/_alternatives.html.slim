@@ -1,11 +1,11 @@
 hr.divider.slim.alternative
-h5
+h5.h5
   = t(:'sections.alternative.decision_heading')
 .row
   - @section_presenter.alternatives.each do |alternative|
     .col-md-6.col-lg-6
       .alternative-section-description
-        h2 = alternative.title
+        h2.h2 = alternative.title
         .mt10.wmd-output
           p = alternative.description
       .alternative-section-btn

@@ -11,7 +11,7 @@ class API::GroupMembersController < API::RESTController # rubocop:disable Layout
   def pagination_adapter_init(responder)
     return unless responder.resource.respond_to?(:paginate)
 
-    Xikolo::Paginator.new responder, :created_at
+    Paginator.new responder, :created_at
   end
 
   def per_page

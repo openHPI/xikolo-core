@@ -2,7 +2,7 @@
   .quiz-sidebar#quiz-sidebar
     .quiz-sidebar-content
       .bar-title
-        h3 = t(:'quiz_submission.quiz_sidebar_title')
+        h3.h3 = t(:'quiz_submission.quiz_sidebar_title')
 
       .bar-content
         em = t(:'quiz_submission.question_count', count: @quiz.questions.size)

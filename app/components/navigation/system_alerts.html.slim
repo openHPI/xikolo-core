@@ -8,5 +8,5 @@
         = render Global::FaIcon.new('xmark')
     - alerts.each do |alert|
       li.navigation-system-alert role=(alert[:new?] ? 'status' : nil) tabindex=0
-        h6.navigation-system-alert__title = alert[:title]
+        h6.h6.navigation-system-alert__title = alert[:title]
         .RenderedMarkdown == helpers.render_markdown(alert[:text])

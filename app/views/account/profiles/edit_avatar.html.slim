@@ -1,7 +1,7 @@
 - content_for :head_assets
   = javascript_include_tag 'admin', crossorigin: 'anonymous', integrity: true, async: true, debug: false
 
-h2.visual-heading.mb20
+h2.h2.visual-heading.mb20
   .heading.mb20
     = t(:'dashboard.profile.edit_avatar')
   = render Global::UserAvatar.new(@user.id, size: 'x-large', type: 'rounded')

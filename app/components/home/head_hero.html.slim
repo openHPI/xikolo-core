@@ -2,6 +2,6 @@ section class="head-hero #{css_modifiers}"
   .head-hero__claim
     - if image
       = image_tag image[:url], data: {id: js_hook}, class: 'head-hero__image', alt: image[:alt]
-    h1.head-hero__heading = @text
+    h1.h1.head-hero__heading = @text
     - if @call_to_action.present?
       = link_to @call_to_action[:text], @call_to_action[:link], class: 'button btn btn-primary'

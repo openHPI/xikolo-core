@@ -80,10 +80,10 @@
 
   .row
     .col-md-12
-      h2
+      h2.h2
         = t(:'admin.course_management.dashboard.kpis.title')
 
-      h3
+      h3.h3
         = t(:'admin.course_management.dashboard.kpis.items.title')
       .kpi-container
         ajax-wrapper.kpi-item data-url="/api/v2/statistics/course_dashboard/item_visits.json?course_id=#{@course.id}" lazy-load='true'
@@ -96,7 +96,7 @@
           = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.items.ungraded_quiz'), data_key: nil, icon: 'fa fa-lightbulb'}
 
       - if @course.pinboard_enabled
-        h3
+        h3.h3
           = t(:'admin.course_management.dashboard.kpis.forum.title')
         ajax-wrapper data-url="/api/v2/statistics/course_dashboard/forum.json?course_id=#{@course.id}" lazy-load='true'
           .kpi-container
@@ -110,23 +110,11 @@
               data-selector key='forum_write_activity'
                 = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.forum.forum_write_activity'), data_key: 'user', icon: 'fa fa-pencil-alt'}
   .row
-    .col-md-12.chart-container.time-series
-      h2 = t(:'admin.course_management.dashboard.stats_over_time.title')
-      ajax-wrapper data-url="/api/v2/statistics/course_dashboard/historic_data.json?course_id=#{@course.id}" error-text=t(:'admin.course_management.dashboard.request_error_message') lazy-load='true'
-
-        = Course::DashboardPresenter.date_labels(@course)
-
-        .col-md-12
-          h3 = t(:'admin.course_management.dashboard.stats_over_time.enrollments.title')
-          loading-spinner
-            fallback-text empty-data-text=t(:'admin.course_management.dashboard.no_data_message')
-              schema-transformer mappings=Course::DashboardPresenter.enrollment_stats_data_transformer
-                data-filter.chart active-series='["#{t(:'admin.course_management.dashboard.stats_over_time.enrollments.total_enrollments')}"]'
-                  linechart-basic height="300" highlight-latest="true" v-lines=Course::DashboardPresenter.historic_v_lines(@course)
-
+    .col-md-12.mb15
+      = render Global::Table.new(rows: @historic_data_table_rows, headers: @historic_data_table_headers, title: t(:'admin.course_management.dashboard.age.title'))
   .row
     .col-md-6.mb15
-      = render Global::Table.new(data: @age_distribution_table_rows, headers: @age_distribution_table_headers, title: t(:'admin.course_management.dashboard.age.title'))
+      = render Global::Table.new(rows: @age_distribution_table_rows, headers: @age_distribution_table_headers, title: t(:'admin.course_management.dashboard.age.title'))
 
     .col-md-6.mb15
-      = render Global::Table.new(data: @client_usage_table_rows, headers: @client_usage_table_headers, title: t(:'admin.course_management.dashboard.client_usage.title'))
+      = render Global::Table.new(rows: @client_usage_table_rows, headers: @client_usage_table_headers, title: t(:'admin.course_management.dashboard.client_usage.title'))

@@ -6,7 +6,7 @@ describe PinboardSearchCourseConsumer, type: :consumer do
   let(:course_id) { generate(:course_id) }
 
   let!(:questions) do
-    create_list(:question, 2, course_id:)
+    create_list(:'pinboard_service/question', 2, course_id:)
   end
 
   let!(:course_stub) do
@@ -19,7 +19,7 @@ describe PinboardSearchCourseConsumer, type: :consumer do
   before do
     Msgr.client.start
 
-    create_list(:answer, 2, question: questions.first)
+    create_list(:'pinboard_service/answer', 2, question: questions.first)
 
     # Ensure search documents are build
     UpdateQuestionSearchTextWorker.drain

@@ -18,7 +18,7 @@ development:
 
 test:
   services:
-    account: http://localhost:3100
+    account: http://localhost:3000/account_service
     course: http://localhost:3300
     learnanalytics: http://localhost:5900
     news: http://localhost:4300

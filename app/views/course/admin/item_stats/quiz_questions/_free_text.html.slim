@@ -16,7 +16,7 @@ ajax-wrapper data-url="/api/v2/statistics/item_details/free_text_question.json?i
           data-selector key='answers'
             = render partial: 'score_card', locals: {name: (t :'course.admin.item_stats.quiz.unique_answers'), data_key: 'unique_answer_count', icon: 'text-icon icon-one'}
 
-      h5
+      h5.h5
         = t(:'course.admin.item_stats.quiz.multiple_answers')
 
       data-selector keys='["answers", "non_unique_answer_texts"]'

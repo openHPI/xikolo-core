@@ -1,19 +1,19 @@
 .bs-container
   .row
     .col-md-8.col-md-offset-2
-      h2 #{@teacher.name}
+      h2.h2 #{@teacher.name}
       hr.bs-hr
   - if @teacher.picture?
     .row
       .col-md-8.col-md-offset-2
-        h4 = t(:'.picture')
+        h4.h4 = t(:'.picture')
         = image_tag @teacher.picture_url, class: 'full-width'
   .row
     .col-md-8.col-md-offset-2
       br
-      h4 = t(:'.description')
+      h4.h4 = t(:'.description')
       - @teacher.descriptions do |lang, text|
-        h5 = t("languages.name.#{lang}")
+        h5.h5 = t("languages.name.#{lang}")
         .RenderedMarkdown
           == render_markdown(text)
 

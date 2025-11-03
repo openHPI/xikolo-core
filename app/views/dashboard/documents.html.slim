@@ -1,7 +1,7 @@
 - content_for :head_assets
   = javascript_include_tag('user', crossorigin: 'anonymous', integrity: true, async: true)
 
-h1.documents-title = t(:'.my_documents')
+h1.h1.documents-title = t(:'.my_documents')
 p
   = t(:'.text', {roa_threshold: Xikolo.config.roa_threshold_percentage, cop_threshold: Xikolo.config.cop_threshold_percentage})
 - if Xikolo.config.certificate['transcript_of_records'].present?

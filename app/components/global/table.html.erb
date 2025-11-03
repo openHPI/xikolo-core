@@ -1,8 +1,8 @@
 <% if title.present? %>
-  <h3><%= title %></h3>
+  <h3 class="h3"><%= title %></h3>
 <% end %>
 
-<% if data.any? %>
+<% if rows.any? %>
   <div class="overflow-x-auto">
     <table class="w-auto min-w-full" aria-label="<%= title %>">
       <thead>
@@ -13,10 +13,10 @@
         </tr>
       </thead>
       <tbody>
-        <% data.each do |row| %>
+        <% rows.each do |row| %>
           <tr class="odd:bg-gray-50">
-            <% row.each_value do |cell| %>
-              <td class="p-2.5 leading-snug border-t border-gray-300"><%= sanitize(cell.to_s) %></td>
+            <% row.keys.each do |key| %>
+              <td class="p-2.5 leading-snug border-t border-gray-300"><%= value_for(row, key) %></td>
             <% end %>
           </tr>
         <% end %>

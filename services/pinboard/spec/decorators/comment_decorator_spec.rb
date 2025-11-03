@@ -5,7 +5,7 @@ require 'spec_helper'
 describe CommentDecorator, type: :decorator do
   subject(:json) { decorator.as_json.stringify_keys }
 
-  let(:comment) { create(:comment) }
+  let(:comment) { create(:'pinboard_service/comment') }
   let(:decorator) { CommentDecorator.new(comment) }
 
   it 'includes the correct keys' do
@@ -56,7 +56,7 @@ describe CommentDecorator, type: :decorator do
     end
 
     context 'for technical question' do
-      let(:comment) { create(:technical_comment) }
+      let(:comment) { create(:'pinboard_service/technical_comment') }
 
       describe "['technical']" do
         subject(:technical) { json['technical'] }
@@ -77,7 +77,7 @@ describe CommentDecorator, type: :decorator do
     let(:file_url) { Xikolo::S3.object(file_uri).public_url }
     let(:text_with_uri) { "![enter file description here][1]A text with file\n [1]: #{file_uri}" }
     let(:text_with_url) { "![enter file description here][1]A text with file\n [1]: #{file_url}" }
-    let!(:comment) { create(:comment, text: text_with_uri) }
+    let!(:comment) { create(:'pinboard_service/comment', text: text_with_uri) }
 
     context 'when the post is only shown' do
       it 'returns the text having the uris converted to public urls' do

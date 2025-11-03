@@ -2,7 +2,7 @@
 
 module AccountService
 class API::StatisticsController < API::BaseController # rubocop:disable Layout/IndentationWidth
-  self.responder = Xikolo::Responders::API
+  self.responder = Responders::API
 
   respond_to :json
 

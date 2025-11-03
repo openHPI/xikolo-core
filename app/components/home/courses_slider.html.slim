@@ -2,7 +2,7 @@ section.courses-slider__container
   .courses-slider__content
     .courses-slider__header
       - if @title
-        h2.courses-slider__title
+        h2.h2.courses-slider__title
           = @title
       - if @href
         = link_to t(:'home.list_all_courses'), @href, class: 'btn btn-primary'

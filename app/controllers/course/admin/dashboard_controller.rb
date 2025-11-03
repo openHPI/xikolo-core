@@ -34,6 +34,14 @@ module Course
           t('admin.course_management.dashboard.client_usage.table.users'),
           t('admin.course_management.dashboard.client_usage.table.share'),
         ]
+
+        @historic_data_table_rows = ::Admin::Statistics::HistoricData.call(course_id: @course.id)
+        @historic_data_table_headers = [
+          t('admin.course_management.dashboard.historic_data.table.date'),
+          t('admin.course_management.dashboard.historic_data.table.enrollments'),
+          t('admin.course_management.dashboard.historic_data.table.activity'),
+          t('admin.course_management.dashboard.historic_data.table.certificates'),
+        ]
       end
 
       def hide_course_nav?

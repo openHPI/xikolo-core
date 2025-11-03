@@ -17,7 +17,7 @@
 
         - @course_progress.sections.each do |section_progress|
           div class="#{'disabled' unless section_progress.available?}"
-            h2.course-area-main__title
+            h2.h2.course-area-main__title
               = section_progress.title
             .section_desc.mb20
               = section_progress.description

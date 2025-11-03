@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :vote do
+  factory :'pinboard_service/vote', class: 'Vote' do
     value { 1 }
-    association :votable, factory: :question
+    association :votable, factory: :'pinboard_service/question'
     votable_type { 'Question' }
     sequence(:user_id, 1000) {|n| "00000001-3100-4444-9999-00000000#{n}" }
   end
 
   trait :for_answer do
-    association :votable, factory: :answer
+    association :votable, factory: :'pinboard_service/answer'
     votable_type { 'Answer' }
   end
 end

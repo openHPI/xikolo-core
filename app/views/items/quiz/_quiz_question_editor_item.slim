@@ -1,6 +1,6 @@
 li.quiz-question-editor data-id="#{quiz_question.id}" data-url=move_course_section_item_quiz_question_path(id: quiz_question.id, item_id: item.id)
   .quiz-question-editor__header
-    h2.quiz-question-editor__h2
+    h2.h2.quiz-question-editor__h2
       = t(:'items.quiz.question')
       =< index + 1
 
@@ -54,7 +54,7 @@ li.quiz-question-editor data-id="#{quiz_question.id}" data-url=move_course_secti
 
   - unless quiz_question.is_a? Xikolo::Quiz::EssayQuestion
     div
-      h5 = t(:'items.quiz.answers')
+      h5.h5 = t(:'items.quiz.answers')
       - quiz_question.answers.each do |quiz_answer|
         = render partial: 'items/quiz/quiz_answer_editor_item', locals: {item:, quiz_answer:, quiz_question:}
       button.btn.btn-default.btn-outline.btn-sm type='button' id=quiz_question.id data-behavior='add-quiz-answer'

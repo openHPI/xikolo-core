@@ -13,7 +13,7 @@ RSpec.describe 'Item: overwrite_time_effort', type: :request do
   let(:new_time_effort) { 55 }
   let(:item) { create(:'timeeffort_service/item', id: item_id, time_effort: old_time_effort) }
   let(:payload) { {time_effort: new_time_effort} }
-  let(:overwrite_time_effort_operation) { instance_double(Operation) }
+  let(:overwrite_time_effort_operation) { instance_double(TimeeffortService::Operation) }
 
   context 'w/o time_effort present' do
     let(:payload) { super().merge(time_effort: nil) }
@@ -37,7 +37,7 @@ RSpec.describe 'Item: overwrite_time_effort', type: :request do
     end
 
     before do
-      allow(Item).to receive(:find).with(item.id).and_return(item)
+      allow(TimeeffortService::Item).to receive(:find).with(item.id).and_return(item)
       expect(item).to receive(:overwrite_time_effort).once
         .with(payload[:time_effort])
         .and_return overwrite_time_effort_operation

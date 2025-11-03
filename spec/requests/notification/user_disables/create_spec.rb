@@ -16,7 +16,7 @@ RSpec.describe 'Notifications: UserDisables: Create', type: :request do
       :account, :get, "/user/#{user_id}"
     ).to_return Stub.json({
       id: user_id,
-      preferences_url: "/user/#{user_id}/preferences",
+      preferences_url: "/account_service/user/#{user_id}/preferences",
     })
   end
 
@@ -49,7 +49,7 @@ RSpec.describe 'Notifications: UserDisables: Create', type: :request do
         # Do not change the email id. See security_hash annotation for details.
         id: '66666666-7777-8888-9999-000000000000',
         address: user_email,
-        user_url: "/user/#{user_id}",
+        user_url: "/account_service/user/#{user_id}",
       })
     end
 

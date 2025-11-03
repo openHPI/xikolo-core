@@ -21,7 +21,7 @@
             = render 'items/video/video_downloads', item:
         - if item.video.description.present?
           .col-md-12.mb15
-            h4 = t(:'items.show.video.about')
+            h4.h4 = t(:'items.show.video.about')
             hr.divider.slim
             .RenderedMarkdown lang=item.lang
               == render_markdown(item.video.description, allow_tables: true)

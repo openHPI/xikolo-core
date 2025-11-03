@@ -1,10 +1,10 @@
-h1 = 'Custom select'
+h1.h1 = 'Custom select'
 p
   span => 'To further transform regular select elements into customized and enhanced select boxes add the'
   code = 'data-behavior=custom-select'
   span =< "attribute to the select element (in simple forms these are usually 'f.input')"
 
-h2 = 'Remote search'
+h2.h2 = 'Remote search'
 p
   span => 'Specify the URL from which to fetch the data with the'
   code = 'data-auto-completion-url'
@@ -19,7 +19,7 @@ p = 'Options will be loaded after the user has typed at least 3 characters'
 
 select placeholder=t(:'global.email_or_name') data={behavior: 'custom-select', 'auto-completion-url': 'http://localhost:3000/admin/find_users'}
 
-h3 = 'with group options'
+h3.h3 = 'with group options'
 p
   span => 'To group options, each item should contain the'
   code = 'group'
@@ -28,7 +28,7 @@ p
 
 select placeholder=t(:'simple_form.placeholders.announcement_email.recipients') data={behavior: 'custom-select', 'auto-completion-url': 'http://localhost:3000/admin/announcement/recipients'} multiple=true
 
-h3 = 'Preload options'
+h3.h3 = 'Preload options'
 p
   span => 'If the remote search should load immediately instead of waiting for the 3rd user input characters, add the'
   code = 'data-preload'
@@ -36,7 +36,7 @@ p
 
 select placeholder=t(:'global.email_or_name') data={behavior: 'custom-select', 'auto-completion-url': 'http://localhost:3000/admin/find_users', preload: 'true'}
 
-h2 = 'Create new options'
+h2.h2 = 'Create new options'
 
 p
   span => "You can allow the user to create new items that aren't in the initial list of options by adding the"

@@ -96,7 +96,7 @@ describe 'Pinboard: Create Topic', type: :system do
       Stub.request(:account, :get, "/users/#{other_user['id']}")
         .and_return Stub.json(other_user)
       Stub.request(:account, :get, "/sessions/#{stub_session_id}")
-        .and_return Stub.json({masquerade_url: "/sessions/#{stub_session_id}/masquerade"})
+        .and_return Stub.json({masquerade_url: "/account_service/sessions/#{stub_session_id}/masquerade"})
       Stub.request(:account, :post, "/sessions/#{stub_session_id}/masquerade")
         .and_return Stub.response(status: 201)
       Stub.request(:account, :delete, "/sessions/#{stub_session_id}/masquerade")

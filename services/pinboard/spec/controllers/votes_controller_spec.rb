@@ -5,9 +5,9 @@ require 'spec_helper'
 describe VotesController, type: :controller do
   let(:json) { JSON.parse response.body }
   let(:default_params) { {format: 'json'} }
-  let(:vote) { create(:vote) }
-  let(:question) { create(:question) }
-  let(:unvoted_uncommented_question) { create(:unvoted_uncommented_question) }
+  let(:vote) { create(:'pinboard_service/vote') }
+  let(:question) { create(:'pinboard_service/question') }
+  let(:unvoted_uncommented_question) { create(:'pinboard_service/unvoted_uncommented_question') }
 
   # before { question }
   before { vote; unvoted_uncommented_question }
@@ -43,7 +43,7 @@ describe VotesController, type: :controller do
 
   describe "POST 'create'" do
     it 'responds with 201 Created' do
-      atts = attributes_for(:vote)
+      atts = attributes_for(:'pinboard_service/vote')
       atts[:votable_id] = unvoted_uncommented_question.id
       post :create, params: atts
       expect(response).to have_http_status :created
@@ -51,24 +51,24 @@ describe VotesController, type: :controller do
 
     it 'creates a vote on create' do
       expect do
-        atts = attributes_for(:vote)
+        atts = attributes_for(:'pinboard_service/vote')
         atts[:votable_id] = unvoted_uncommented_question.id
         post :create, params: atts
       end.to change(Vote, :count).by(1)
     end
 
     it 'answers with vote' do
-      atts = attributes_for(:vote)
+      atts = attributes_for(:'pinboard_service/vote')
       atts[:votable_id] = unvoted_uncommented_question.id
       post :create, params: atts
 
       expect(json['value']).not_to be_nil
-      expect(json['value']).to eq(attributes_for(:vote)[:value])
+      expect(json['value']).to eq(attributes_for(:'pinboard_service/vote')[:value])
     end
 
     it 'does not create a vote twice' do
       expect do
-        atts = attributes_for(:vote,
+        atts = attributes_for(:'pinboard_service/vote',
           votable_id: vote.votable_id,
           user_id: vote.user_id)
         post :create, params: atts

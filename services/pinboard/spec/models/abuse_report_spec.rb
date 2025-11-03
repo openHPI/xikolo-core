@@ -4,19 +4,19 @@ require 'spec_helper'
 
 describe AbuseReport, type: :model do
   subject do
-    build(:abuse_report,
+    build(:'pinboard_service/abuse_report',
       user_id:,
       reportable_id: reportable.id,
       reportable_type:)
   end
 
   let(:user_id) { SecureRandom.uuid }
-  let(:reportable) { create(:question) }
+  let(:reportable) { create(:'pinboard_service/question') }
   let(:reportable_type) { 'Question' }
 
   describe 'duplicates' do
     before do
-      create(:abuse_report,
+      create(:'pinboard_service/abuse_report',
         user_id:,
         reportable_id: reportable.id,
         reportable_type:)
@@ -30,30 +30,30 @@ describe AbuseReport, type: :model do
 
     before do
       # single report
-      reportable = create(:question)
-      create(:abuse_report,
+      reportable = create(:'pinboard_service/question')
+      create(:'pinboard_service/abuse_report',
         user_id:,
         reportable:)
 
       # multiple reports
-      reportable = create(:question)
+      reportable = create(:'pinboard_service/question')
       2.times do
-        create(:abuse_report,
+        create(:'pinboard_service/abuse_report',
           user_id: SecureRandom.uuid,
           reportable:)
       end
 
       # blocked by teacher
-      reportable = create(:question)
+      reportable = create(:'pinboard_service/question')
       reportable.block!
-      create(:abuse_report,
+      create(:'pinboard_service/abuse_report',
         user_id:,
         reportable:)
 
       # reviewed by teacher
-      reportable = create(:question)
+      reportable = create(:'pinboard_service/question')
       reportable.review!
-      create(:abuse_report,
+      create(:'pinboard_service/abuse_report',
         user_id:,
         reportable:)
     end

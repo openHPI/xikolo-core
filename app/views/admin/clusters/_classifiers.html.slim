@@ -1,6 +1,6 @@
 .row
   .col-xs-8
-    h2 = t(:'admin.classifiers.headline')
+    h2.h2 = t(:'admin.classifiers.headline')
   .col-xs-4.text-align-right.mt10
     - if current_user.allowed?('course.cluster.manage')
       = link_to t(:'admin.classifiers.actions.create'), new_admin_cluster_classifier_path(cluster), class: 'btn btn-primary mr10'

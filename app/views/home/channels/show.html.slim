@@ -42,10 +42,10 @@
 
   .channel-courses#channel-courses
     - if @channel.description.blank?
-      h1.channel-title
+      h1.h1.channel-title
         = @channel.name
     - else
-      h1.channel-title
+      h1.h1.channel-title
         span.hidden-xs
           = t(:'channels.show.about', name: @channel.name)
         span.visible-xs-block
@@ -79,7 +79,7 @@
         - if @categories.any?
           - @categories.each_with_index do |category, index|
             .course-group
-              h2.category-title
+              h2.h2.category-title
                 = category.title
               - if category.callout.present?
                 = render Global::Callout.new category.callout

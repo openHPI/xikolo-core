@@ -67,7 +67,7 @@ RSpec.describe 'Topics: Create', type: :request do
     end
 
     context 'when one of the tags already exists' do
-      let!(:existing_tag) { create(:explicit_tag, name: 'tag1', course_id:) }
+      let!(:existing_tag) { create(:'pinboard_service/explicit_tag', name: 'tag1', course_id:) }
 
       it 'does not create a duplicate tag for the already existing one' do
         expect { creation }.to change(ExplicitTag, :count).from(1).to(3)
@@ -106,7 +106,7 @@ RSpec.describe 'Topics: Create', type: :request do
     end
 
     context 'when the section tag already exists' do
-      let!(:existing_tag) { create(:section_tag, name: section_id, course_id:) }
+      let!(:existing_tag) { create(:'pinboard_service/section_tag', name: section_id, course_id:) }
 
       it 'creates a new implicit tag for the item, and reuses the section tag' do
         expect { creation }.to change(ImplicitTag, :count).from(1).to(2)

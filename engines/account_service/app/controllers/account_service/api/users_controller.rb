@@ -159,7 +159,7 @@ class API::UsersController < API::RESTController # rubocop:disable Layout/Indent
   def pagination_adapter_init(responder)
     return unless responder.resource.respond_to?(:paginate)
 
-    Xikolo::Paginator.new responder, :created_at
+    Paginator.new responder, :created_at
   end
 
   private

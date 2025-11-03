@@ -4,7 +4,7 @@
 .bs-container.mt20
   - @permissions.each_group do |group|
     .col-md-12.mb20.white-bg id="group-#{group.name}"
-      h3
+      h3.h3
         = t(:"permissions.group_names.global.#{group.name}")
       = t(:'permissions.grant_text')
       .pl20.mb15

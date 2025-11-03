@@ -1,7 +1,7 @@
 .bs-container
   .row
     .col-md-6.col-md-offset-3
-      h2.pt20 = t(:'header.login.headline')
+      h2.h2.pt20 = t(:'header.login.headline')
       .login-box
         - if @session && !@session.valid?
           .alert.alert-danger

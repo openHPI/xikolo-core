@@ -1,5 +1,5 @@
 .course-certificates.col-md-12
-  h2 = t(:'course.certificates.title')
+  h2.h2 = t(:'course.certificates.title')
   .course-certificates__achievements
     - @achievements.each do |achievement|
       = render Course::Achievement.new(achievement, @documents)

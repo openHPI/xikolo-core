@@ -10,7 +10,7 @@ describe Commentable::Store, type: :operation do
       's3://xikolo-pinboard/courses/1L0csnOIXZC1Un4Jct5Yuz/topics/Ur0skV1C03TKK3gqx1Izc/1iGR3qxnxA4tzlQzF34UDd/file.jpg'
     end
     let(:text) { "![enter file description here][1]A text with file\r\n\r\n\r\n  [1]: #{file_uri}" }
-    let(:question) { create(:question, text:) }
+    let(:question) { create(:'pinboard_service/question', text:) }
     let(:attributes) { {} }
     let!(:delete_stub) do
       stub_request(

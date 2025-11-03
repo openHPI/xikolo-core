@@ -10,11 +10,13 @@ if Rails.env.integration? && ENV['GURKE']
   def __clean_database
     Rails.logger.info '>>> Clean database [Account]'
 
-    Group.where.not(name: [Group::NAME::ADMINISTRATORS, Group::NAME::ADMINISTRATORS_GDPR]).delete_all
-    Grant.where.not(principal: [Group.administrators, Group.gdpr_admins]).delete_all
+    AccountService::Group.where.not(name: [AccountService::Group::NAME::ADMINISTRATORS,
+                                           AccountService::Group::NAME::ADMINISTRATORS_GDPR]).delete_all
+    AccountService::Grant.where.not(principal: [AccountService::Group.administrators,
+                                                AccountService::Group.gdpr_admins]).delete_all
 
-    Context.where.not(parent_id: nil).delete_all
-    CustomField.where(required: true).delete_all
+    AccountService::Context.where.not(parent_id: nil).delete_all
+    AccountService::CustomField.where(required: true).delete_all
   end
 
   XiIntegration.hook :test_setup do
@@ -28,7 +30,7 @@ if Rails.env.integration? && ENV['GURKE']
   end
 
   Rack::Remote.register :test_mandatory_profile do |_params, _env, _request|
-    CustomTextField.create! \
+    AccountService::CustomTextField.create! \
       name: 'profession',
       context: 'user',
       required: true

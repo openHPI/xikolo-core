@@ -14,5 +14,5 @@
 
   - if poll.persisted?
     .col-md-4.col-lg-4
-      h4.mt0 = t(:'admin.polls.options')
+      h4.h4.mt0 = t(:'admin.polls.options')
       = render partial: 'options_form', locals: {poll: poll, options: poll.options}

@@ -12,7 +12,7 @@
             li.lti_provider
               .row
                 .col-sm-9
-                  h3 = provider['name']
+                  h3.h3 = provider['name']
                 .col-sm-3.mt20.mb10
                   .btn-group.pull-right
                     = link_to t(:'global.edit'), edit_admin_lti_provider_path(id: provider['id']), class: 'btn btn-default btn-outline btn-sm mr10'

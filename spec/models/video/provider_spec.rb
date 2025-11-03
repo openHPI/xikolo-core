@@ -35,93 +35,63 @@ describe Video::Provider, type: :model do
   end
 
   describe '#sync' do
-    context 'with concurrent syncs', transaction: false do
-      # These tests must not be wrapped in a transaction, as each thread needs
-      # its own transaction in order to acquire a lock.
+    let(:provider) { create(:video_provider, :vimeo) }
 
-      subject(:sync_in_thread) do
-        lambda do |provider|
-          allow(provider.send(:adapter)).to receive(:sync) do
-            # We are letting each thread sleep a bit to ensure the locks conflict.
-            sleep 1
+    context 'when doing full syncs' do
+      let(:full) { true }
 
-            # Here (and in the thread below), we set a thread-local variable
-            # that can be asserted against in the test scenarios below, to
-            # check whether a provider did actually try to sync, or whether an
-            # error was raised.
-            Thread.current[:synced] = true
-          end
+      it 'executes only one sync by aquiring a none wait lock' do
+        allow(provider.send(:adapter)).to receive(:sync)
 
-          Thread.new do
-            provider.sync(full:)
-          rescue Video::Provider::SyncAlreadyRunning
-            Thread.current[:aborted] = true
+        sql = nil
+        subscriber = ActiveSupport::Notifications.subscribe('sql.active_record') do |_, _, _, _, payload|
+          if payload[:sql].include?('FOR UPDATE')
+            sql = payload[:sql]
           end
         end
+
+        provider.sync(full:)
+
+        ActiveSupport::Notifications.unsubscribe(subscriber)
+
+        # Confirm that we are setting a none waiting lock on providers to abort
+        # concurrent synchronization.
+        expect(sql).to match(/\ASELECT "providers.+ FOR UPDATE NOWAIT\z/)
       end
 
-      let(:provider) { create(:video_provider, :vimeo) }
+      it 'raises an error from the failing sync' do
+        allow(provider.send(:adapter)).to receive(:sync).and_raise(ActiveRecord::LockWaitTimeout)
 
-      context 'with the same provider' do
-        subject(:concurrent_syncs) do
-          # We load the provider anew for each thread to avoid sharing internal state
-          [
-            sync_in_thread.call(Video::Provider.find(provider.id)),
-            sync_in_thread.call(Video::Provider.find(provider.id)),
-          ]
-        end
+        expect { provider.sync(full:) }.to raise_error(/Another sync for provider <.+> is still running/)
+      end
+    end
 
-        context 'when doing full syncs' do
-          let(:full) { true }
+    context 'when doing partial syncs' do
+      let(:full) { false }
 
-          it 'executes only one sync' do
-            # These assertions are written to check that e.g. one thread syncs,
-            # but we don't care which one it is. This avoids order dependencies
-            # on how the threads are scheduled.
-            expect(concurrent_syncs.each(&:join)).to contain_exactly(satisfy {|t| t[:synced] == true }, satisfy {|t| t[:synced].nil? })
-          end
+      it 'executes only one sync by aquiring a none wait lock' do
+        allow(provider.send(:adapter)).to receive(:sync)
 
-          it 'raises an error from the failing sync' do
-            expect(concurrent_syncs.each(&:join)).to contain_exactly(satisfy {|t| t[:aborted] == true }, satisfy {|t| t[:aborted].nil? })
+        sql = nil
+        subscriber = ActiveSupport::Notifications.subscribe('sql.active_record') do |_, _, _, _, payload|
+          if payload[:sql].include?('FOR UPDATE')
+            sql = payload[:sql]
           end
         end
 
-        context 'when doing partial syncs' do
-          let(:full) { false }
+        provider.sync(full:)
 
-          it 'executes only one sync' do
-            expect(concurrent_syncs.each(&:join)).to contain_exactly(satisfy {|t| t[:synced] == true }, satisfy {|t| t[:synced].nil? })
-          end
+        ActiveSupport::Notifications.unsubscribe(subscriber)
 
-          it 'swallows the error from the failing sync' do
-            expect(concurrent_syncs.each(&:join)).to contain_exactly(satisfy {|t| t[:aborted].nil? }, satisfy {|t| t[:aborted].nil? })
-          end
-        end
+        # Confirm that we are setting a none waiting lock on providers to abort
+        # concurrent synchronization.
+        expect(sql).to match(/\ASELECT "providers.+ FOR UPDATE NOWAIT\z/)
       end
 
-      context 'with two providers of the same type' do
-        subject(:concurrent_syncs) do
-          [
-            sync_in_thread.call(Video::Provider.find(provider.id)),
-            sync_in_thread.call(create(:video_provider, :vimeo)),
-          ]
-        end
+      it 'swallows the error from the failing sync' do
+        allow(provider.send(:adapter)).to receive(:sync).and_raise(ActiveRecord::LockWaitTimeout)
 
-        context 'when doing full syncs' do
-          let(:full) { true }
-
-          it 'fully executes both syncs' do
-            expect(concurrent_syncs.each(&:join)).to contain_exactly(satisfy {|t| t[:synced] == true }, satisfy {|t| t[:synced] == true })
-          end
-        end
-
-        context 'when doing partial syncs' do
-          let(:full) { false }
-
-          it 'fully executes both syncs' do
-            expect(concurrent_syncs.each(&:join)).to contain_exactly(satisfy {|t| t[:synced] == true }, satisfy {|t| t[:synced] == true })
-          end
-        end
+        expect { provider.sync(full:) }.not_to raise_error
       end
     end
   end

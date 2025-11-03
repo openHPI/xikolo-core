@@ -1,6 +1,6 @@
 .topic-section
   .topic-section__header
-    h4 = t(:'items.show.video.questions_and_discussions')
+    h4.h4 = t(:'items.show.video.questions_and_discussions')
     - if topics.present?
       .topic-section__count(data-topic-count)
         = render Global::Pill.new(t(:'items.show.video.num_questions', count: topics.size))
@@ -21,7 +21,7 @@
       .topic
         button.topic__timestamp.btn-link type='button'
         .topic__title
-          h5
+          h5.h5
         .topic__info
           div
           .topic__replies = t(:'items.show.video.num_replies', count: 0)
@@ -35,7 +35,7 @@
       id: 'show-topic-form'
 
     .mt20#topic-form hidden='true'
-      h4 = t(:'items.show.video.ask_own_question')
+      h4.h4 = t(:'items.show.video.ask_own_question')
       = simple_form_for new_topic,
         url: course_item_topics_path(@item.course_code, @item.id),
         method: :post,

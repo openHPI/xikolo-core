@@ -3,9 +3,9 @@
 require 'spec_helper'
 
 describe Global::Table, type: :component do
-  subject(:component) { described_class.new(data:, headers:, title:) }
+  subject(:component) { described_class.new(rows:, headers:, title:) }
 
-  let(:data) { [{name: 'John', age: 25}, {name: 'Jane', age: 30}] }
+  let(:rows) { [{name: 'John', age: 25}, {name: 'Jane', age: 30}] }
   let(:headers) { %w[Name Age] }
   let(:title) { 'User List' }
 
@@ -21,14 +21,14 @@ describe Global::Table, type: :component do
       expect(page).to have_text('Age')
     end
 
-    it 'renders table data' do
+    it 'renders table rows' do
       render_inline(component)
       expect(page).to have_text('John')
       expect(page).to have_text('25')
     end
 
-    context 'with empty data' do
-      let(:data) { [] }
+    context 'with empty rows' do
+      let(:rows) { [] }
 
       it 'shows empty state component' do
         render_inline(component)

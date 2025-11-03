@@ -155,12 +155,6 @@ GEM
     cronex (0.15.0)
       tzinfo
       unicode (>= 0.4.4.5)
-    database_cleaner (2.1.0)
-      database_cleaner-active_record (>= 2, < 3)
-    database_cleaner-active_record (2.2.1)
-      activerecord (>= 5.a)
-      database_cleaner-core (~> 2.0.0)
-    database_cleaner-core (2.0.1)
     date (3.4.1)
     debug (1.11.0)
       irb (~> 1.10)
@@ -455,7 +449,6 @@ DEPENDENCIES
   bcrypt (~> 3.1)
   bunny (~> 2.7)
   concurrent-ruby (~> 1.0)
-  database_cleaner (~> 2.0)
   debug
   decorate-responder (~> 2.0)
   draper (~> 4.0)

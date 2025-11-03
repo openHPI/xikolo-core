@@ -10,13 +10,13 @@ describe Recipient::Group, type: :model do
   before do
     Stub.service(:account, build(:'account:root'))
     Stub.request(:account, :get, '/groups/the.id')
-      .to_return Stub.json({members_url: '/groups/the.id/members'})
+      .to_return Stub.json({members_url: '/account_service/groups/the.id/members'})
 
     Stub.request(:account, :get, '/groups/the.id/members')
       .to_return Stub.json(
         [{id: 1}, {id: 2}],
         headers: {
-          'Link' => '</groups/the.id/members?page=2>; rel="next"',
+          'Link' => '</account_service/groups/the.id/members?page=2>; rel="next"',
         }
       )
     Stub.request(:account, :get, '/groups/the.id/members?page=2')

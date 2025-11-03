@@ -1,4 +1,4 @@
-h4.pt20 = t(:'dashboard.profile.authorizations.title')
+h4.h4.pt20 = t(:'dashboard.profile.authorizations.title')
 hr.divider
 
 - if profile.authorizations.any?
@@ -11,7 +11,7 @@ hr.divider
   = render State::Empty.new(t(:'dashboard.profile.authorizations.empty_msg'))
 
 .another-profile
-  h5 = t(:'dashboard.profile.authorizations.add_other_title')
+  h5.h5 = t(:'dashboard.profile.authorizations.add_other_title')
   ul.omniauth
     - profile.sso_providers.each do |key|
       li

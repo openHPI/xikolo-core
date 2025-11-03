@@ -115,7 +115,7 @@ html lang="#{I18n.locale}" data-default-locale="#{I18n.default_locale}" data-bra
       .bs-container
         - if browser_support.unsupported? && !hide_browser_warning?
           .alert.alert-danger data-browser-warning='alert'
-            h4.bold
+            h4.h4.bold
               = t(:'browser_warning.headline')
             p
               = t(:'browser_warning.browser_ie')
@@ -126,7 +126,7 @@ html lang="#{I18n.locale}" data-default-locale="#{I18n.default_locale}" data-bra
                 = t(:'browser_warning.text_hide')
         - elsif browser_support.old? && !hide_browser_warning?
           .alert.alert-danger data-browser-warning='alert'
-            h4.bold
+            h4.h4.bold
               = t(:'browser_warning.headline_soft')
             p
               = t(:'browser_warning.text_other')

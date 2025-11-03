@@ -1,7 +1,7 @@
 li.section class="#{'available' if section.available?}" data-id=section.id data-url="#{move_course_section_path(id: section.id)}"
   span.handle data-behavior='section-handle'
   .title
-    h3
+    h3.h3
       = section.title
       - if section.optional_section
         = t(:'sections.optional_section')

@@ -28,7 +28,7 @@
 
         .col-md-6
           .row
-            h3 = t(:'verify.user_data')
+            h3.h3 = t(:'verify.user_data')
             p
               => "#{t(:'verify.issued_for')}:"
               b = @record.user_name
@@ -38,7 +38,7 @@
                 = @record.date_of_birth
 
           .row
-            h3 = t(:'verify.certificate_data')
+            h3.h3 = t(:'verify.certificate_data')
             p
               => "#{t(:'verify.certificate_type')}:"
               = @record.certificate_type_i18n
@@ -59,12 +59,12 @@
 
           - if @record.additional_records
             .row
-              h3 = t(:'verify.additional_records.headline')
+              h3.h3 = t(:'verify.additional_records.headline')
               p == @record.additional_records
 
         - if @open_badge
           .col-md-6
-            h3 = t(:'verify.open_badge.headline')
+            h3.h3 = t(:'verify.open_badge.headline')
             .mt5
               = image_tag @open_badge.file_url, class: 'open-badge',
                 alt: t(:'verify.open_badge.headline'), itemprop: 'image'
@@ -77,10 +77,10 @@
                     = t(:'global.download')
 
       .col-md-3
-        h3 = t(:'verify.course_data')
+        h3.h3 = t(:'verify.course_data')
         = link_to course_url(@record.course_code), class: 'bs-a' do
           = render @record.course_visual
-          h3.mt5 itemprop='name'
+          h3.h3.mt5 itemprop='name'
             = @record.course_title
         p
           => "#{t(:'verify.course_teachers')}:"
@@ -99,7 +99,7 @@
     - if @record.purpose == :show && @open_badge && current_user.feature?('social_sharing.certificate')
       .row
         .col-md-7
-          h3
+          h3.h3
             = t(:'verify.open_badge.share_open_badge')
           .certificate-sharing
             = render Course::SocialSharing.new(context: :certificate,

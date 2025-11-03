@@ -3,7 +3,7 @@
     = render 'items/header', item: item
 
     - if item.instructions?
-      h3 = "#{t(:'items.lti.instruction')}:"
+      h3.h3 = "#{t(:'items.lti.instruction')}:"
       hr.divider.slim.alternative
 
       .RenderedMarkdown == item.instructions_html
@@ -31,7 +31,7 @@
       .quiz-sidebar
         .quiz-sidebar-content
           .bar-title
-            h3 = t(:'items.lti.results')
+            h3.h3 = t(:'items.lti.results')
           .bar-content
             em.mr5 = "#{t(:'quiz_submission.total')}:"
             strong.primary-color = t(:'quiz_submission.total_points', max_points: item.max_points, total_points: item.score)

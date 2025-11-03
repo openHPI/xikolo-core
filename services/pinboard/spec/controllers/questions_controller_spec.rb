@@ -5,8 +5,8 @@ require 'spec_helper'
 describe QuestionsController, type: :controller do
   let(:json) { JSON.parse response.body }
   let(:default_params) { {format: 'json'} }
-  let(:question) { create(:question_with_implicit_tags) }
-  let(:deleted_question) { create(:deleted_question) }
+  let(:question) { create(:'pinboard_service/question_with_implicit_tags') }
+  let(:deleted_question) { create(:'pinboard_service/deleted_question') }
 
   before { question }
 
@@ -52,7 +52,7 @@ describe QuestionsController, type: :controller do
     describe 'querying for a tag' do
       subject(:index) { get :index, params: {course_id: question.course_id, taglist: tags} }
 
-      let(:question) { create(:question_with_tags) }
+      let(:question) { create(:'pinboard_service/question_with_tags') }
       let(:tag) { question.tags.first }
       let(:tags) { {code_does_not_care_about_keys: tag.id} }
 
@@ -77,13 +77,13 @@ describe QuestionsController, type: :controller do
       end
 
       it 'does not return questions that do not have that tag' do
-        create(:question)
+        create(:'pinboard_service/question')
         index
         expect(json.size).to eq(1)
       end
 
       it 'does return more if tagged' do
-        create(:question, tags: [tag])
+        create(:'pinboard_service/question', tags: [tag])
         index
         expect(json.size).to eq(2)
       end
@@ -93,14 +93,14 @@ describe QuestionsController, type: :controller do
       subject { -> { action } }
 
       let(:course_id) { '00000001-3300-4444-9999-000000000001' }
-      let(:tag1) { create(:explicit_tag, name: 'tag 1', course_id:) }
-      let(:tag2) { create(:explicit_tag, name: 'tag 2', course_id:) }
-      let(:tag3) { create(:explicit_tag, name: 'tag 3', course_id:) }
+      let(:tag1) { create(:'pinboard_service/explicit_tag', name: 'tag 1', course_id:) }
+      let(:tag2) { create(:'pinboard_service/explicit_tag', name: 'tag 2', course_id:) }
+      let(:tag3) { create(:'pinboard_service/explicit_tag', name: 'tag 3', course_id:) }
 
-      let(:first_question_with_tags_1_and_2)  { create(:question, course_id:, tags: [tag1, tag2], title: 'With tags 1 and 2') }
-      let(:second_question_with_tags_1_and_2) { create(:question, course_id:, tags: [tag1, tag2], title: 'Also with tags 1 and 2') }
-      let(:question_with_tags_1_and_2_and_3) { create(:question, course_id:, tags: [tag1, tag2, tag3], title: 'With tags 1, 2 and 3') }
-      let(:question_with_tags_2_and_3) { create(:question, course_id:, tags: [tag2, tag3], title: 'Only with tags 2 and 3') }
+      let(:first_question_with_tags_1_and_2)  { create(:'pinboard_service/question', course_id:, tags: [tag1, tag2], title: 'With tags 1 and 2') }
+      let(:second_question_with_tags_1_and_2) { create(:'pinboard_service/question', course_id:, tags: [tag1, tag2], title: 'Also with tags 1 and 2') }
+      let(:question_with_tags_1_and_2_and_3) { create(:'pinboard_service/question', course_id:, tags: [tag1, tag2, tag3], title: 'With tags 1, 2 and 3') }
+      let(:question_with_tags_2_and_3) { create(:'pinboard_service/question', course_id:, tags: [tag2, tag3], title: 'Only with tags 2 and 3') }
 
       let(:params) { {course_id:, with_tagnames: {'0' => tag1.name, '1' => tag2.name}} }
 
@@ -137,12 +137,12 @@ describe QuestionsController, type: :controller do
 
       let(:created_after) { 4.days.ago }
       let!(:older_questions) do
-        create_list(:question, 3,
+        create_list(:'pinboard_service/question', 3,
           created_at: (created_after - 1.day))
       end
       let(:question) { older_questions.first }
       let!(:newer_questions) do
-        create_list(:question, 2,
+        create_list(:'pinboard_service/question', 2,
           created_at: (created_after + 1.day))
       end
 
@@ -176,9 +176,9 @@ describe QuestionsController, type: :controller do
     describe 'for a specific user' do
       let(:params) { {user_id:} }
       let(:user_id) { SecureRandom.uuid }
-      let(:question) { create(:question, user_id:) }
+      let(:question) { create(:'pinboard_service/question', user_id:) }
 
-      before { create_list(:question, 5) }
+      before { create_list(:'pinboard_service/question', 5) }
 
       it 'has one item' do
         action
@@ -198,16 +198,16 @@ describe QuestionsController, type: :controller do
       let(:vote_value) { 1 }
       let(:params) { default_params.merge(vote_value_for_user_id: requested_user_id) }
 
-      let!(:question_with_other_vote) { create(:question, course_id:) }
-      let!(:question_voted_by_user) { create(:question, course_id:) }
+      let!(:question_with_other_vote) { create(:'pinboard_service/question', course_id:) }
+      let!(:question_voted_by_user) { create(:'pinboard_service/question', course_id:) }
 
       before do
-        create(:vote, votable_id: question_voted_by_user.id,
+        create(:'pinboard_service/vote', votable_id: question_voted_by_user.id,
           value: vote_value,
           user_id: requested_user_id,
           votable_type: 'Question')
 
-        create(:vote, votable_id: question_with_other_vote.id,
+        create(:'pinboard_service/vote', votable_id: question_with_other_vote.id,
           value: vote_value,
           user_id: other_user_id,
           votable_type: 'Question')
@@ -286,7 +286,7 @@ describe QuestionsController, type: :controller do
         end
 
         context 'with watch' do
-          before { create(:watch, question_id: question.id, user_id: question.user_id) }
+          before { create(:'pinboard_service/watch', question_id: question.id, user_id: question.user_id) }
 
           it 'is read' do
             action.call
@@ -307,7 +307,7 @@ describe QuestionsController, type: :controller do
     context 'for technical issues' do
       subject(:index_request) { get :index, params: default_params.merge(course_id: question.course_id).merge(additional_params) }
 
-      let!(:technical_question) { create(:technical_question) }
+      let!(:technical_question) { create(:'pinboard_service/technical_question') }
       let(:additional_params) { {} }
 
       before { index_request }
@@ -344,9 +344,9 @@ describe QuestionsController, type: :controller do
       end
 
       let(:question) { nil }
-      let!(:unanswered_questions) { create_list(:question, 3) }
+      let!(:unanswered_questions) { create_list(:'pinboard_service/question', 3) }
 
-      before { create_list(:question_with_accepted_answer, 3) }
+      before { create_list(:'pinboard_service/question_with_accepted_answer', 3) }
 
       it 'returns only unanswered questions' do
         expect(index_response.pluck('id')).to \
@@ -364,7 +364,7 @@ describe QuestionsController, type: :controller do
 
       describe 'random' do
         let(:question) { nil }
-        let!(:questions) { create_list(:question, 3) }
+        let!(:questions) { create_list(:'pinboard_service/question', 3) }
         let(:course_id) { questions.first.course_id }
         let(:params) { super().merge question_filter_order: 'random' }
 
@@ -394,8 +394,8 @@ describe QuestionsController, type: :controller do
       subject { json }
 
       before do
-        create(:question, workflow_state: :blocked)
-        create(:question, workflow_state: :reviewed)
+        create(:'pinboard_service/question', workflow_state: :blocked)
+        create(:'pinboard_service/question', workflow_state: :reviewed)
 
         get :index
       end
@@ -423,7 +423,7 @@ describe QuestionsController, type: :controller do
 
     describe 'text' do
       let(:markup) { "Headline\ns3://xikolo-pinboard/courses/1/thread/1/1/hans.jpg" }
-      let(:question) { create(:question_with_implicit_tags, text: markup) }
+      let(:question) { create(:'pinboard_service/question_with_implicit_tags', text: markup) }
       let(:params) { {id: question.id} }
 
       before { get :show, params: }
@@ -468,16 +468,16 @@ describe QuestionsController, type: :controller do
       let(:vote_value) { 1 }
       let(:params) { default_params.merge(vote_value_for_user_id: requested_user_id) }
 
-      let!(:question_with_other_vote) { create(:question, course_id:) }
-      let!(:question_voted_by_user) { create(:question, course_id:) }
+      let!(:question_with_other_vote) { create(:'pinboard_service/question', course_id:) }
+      let!(:question_voted_by_user) { create(:'pinboard_service/question', course_id:) }
 
       before do
-        create(:vote, votable_id: question_voted_by_user.id,
+        create(:'pinboard_service/vote', votable_id: question_voted_by_user.id,
           value: vote_value,
           user_id: requested_user_id,
           votable_type: 'Question')
 
-        create(:vote, votable_id: question_with_other_vote.id,
+        create(:'pinboard_service/vote', votable_id: question_with_other_vote.id,
           value: vote_value,
           user_id: other_user_id,
           votable_type: 'Question')
@@ -545,7 +545,7 @@ describe QuestionsController, type: :controller do
         end
 
         context 'with watch' do
-          before { create(:watch, question_id: question.id, user_id: question.user_id) }
+          before { create(:'pinboard_service/watch', question_id: question.id, user_id: question.user_id) }
 
           it 'is read' do
             action
@@ -568,7 +568,7 @@ describe QuestionsController, type: :controller do
       end
 
       context 'with watch' do
-        before { create(:watch, question_id: question.id) }
+        before { create(:'pinboard_service/watch', question_id: question.id) }
 
         describe "['views']" do
           subject { super()['views'] }
@@ -617,15 +617,15 @@ describe QuestionsController, type: :controller do
       })
     end
 
-    let!(:sql_tag) { create(:sql_tag) }
+    let!(:sql_tag) { create(:'pinboard_service/sql_tag') }
     let!(:event_request) do
       Stub.request(
         :notification, :post, '/events'
       ).to_return Stub.response(status: 201)
     end
-    let(:definition_tag_attributes) { attributes_for(:definition_tag) }
+    let(:definition_tag_attributes) { attributes_for(:'pinboard_service/definition_tag') }
     let(:tag_names) { [sql_tag.name] }
-    let(:question_params) { attributes_for(:question) }
+    let(:question_params) { attributes_for(:'pinboard_service/question') }
     let(:params) do
       question_params.merge(
         tag_names:,
@@ -815,7 +815,7 @@ describe QuestionsController, type: :controller do
     end
 
     context 'with implicit tags' do
-      let(:section_tag) { create(:section_tag) }
+      let(:section_tag) { create(:'pinboard_service/section_tag') }
       let(:implicit_tags) { [section_tag.id] }
 
       let(:params) { super().merge(implicit_tags:) }
@@ -853,7 +853,7 @@ describe QuestionsController, type: :controller do
       creation
 
       expect(json['text']).not_to be_nil
-      expect(json['text']).to eq(attributes_for(:question)[:text])
+      expect(json['text']).to eq(attributes_for(:'pinboard_service/question')[:text])
     end
 
     context 'with tags' do
@@ -879,7 +879,7 @@ describe QuestionsController, type: :controller do
     context 'with duplicates' do
       subject(:creation) { post :create, params: question_params }
 
-      before { create(:question, question_params) }
+      before { create(:'pinboard_service/question', question_params) }
 
       it { is_expected.to have_http_status :unprocessable_entity }
 
@@ -917,19 +917,19 @@ describe QuestionsController, type: :controller do
   describe "PUT 'update'" do
     subject(:updated) { question.reload }
 
-    let!(:question) { create(:question, tags: [sql_tag, section_tag, video_item_tag]) }
-    let(:sql_tag) { create(:sql_tag) }
-    let(:section_tag) { create(:section_tag) }
-    let(:video_item_tag) { create(:video_item_tag) }
+    let!(:question) { create(:'pinboard_service/question', tags: [sql_tag, section_tag, video_item_tag]) }
+    let(:sql_tag) { create(:'pinboard_service/sql_tag') }
+    let(:section_tag) { create(:'pinboard_service/section_tag') }
+    let(:video_item_tag) { create(:'pinboard_service/video_item_tag') }
 
-    let(:attributes) { attributes_for(:question) }
+    let(:attributes) { attributes_for(:'pinboard_service/question') }
     let(:additional_params) { {title: 'Juchuuu'} }
     let(:implicit_tags) { nil }
     let(:request) { put :update, params: }
     let(:params) do
       attributes.merge(
         id: question.id,
-        tag_names: [sql_tag.name, attributes_for(:offtopic_tag)[:name]]
+        tag_names: [sql_tag.name, attributes_for(:'pinboard_service/offtopic_tag')[:name]]
       ).merge(additional_params)
     end
 
@@ -1149,13 +1149,13 @@ describe QuestionsController, type: :controller do
       request
 
       explicit_tag_names = updated.explicit_tags.map(&:name)
-      expect(explicit_tag_names).to contain_exactly(sql_tag.name, attributes_for(:offtopic_tag)[:name])
+      expect(explicit_tag_names).to contain_exactly(sql_tag.name, attributes_for(:'pinboard_service/offtopic_tag')[:name])
     end
 
     describe 'with an Answer' do
       subject(:updated) { question.reload }
 
-      let!(:answer) { create(:answer) }
+      let!(:answer) { create(:'pinboard_service/answer') }
       let(:additional_params) { {accepted_answer_id: answer.id} }
       let(:question) { answer.question }
 
@@ -1176,7 +1176,7 @@ describe QuestionsController, type: :controller do
         let(:params) { {id: question.id, accepted_answer_id: answer.id, text: question.text} }
 
         before do
-          question.tags << create(:explicit_tag, name: 'custom_tag')
+          question.tags << create(:'pinboard_service/explicit_tag', name: 'custom_tag')
         end
 
         # REGRESSION TEST: Previously, sending only selected attributes (such
@@ -1199,7 +1199,7 @@ describe QuestionsController, type: :controller do
       end
 
       context 'with a new implicit tags' do
-        let(:implicit_tag) { create(:technical_issues_tag) }
+        let(:implicit_tag) { create(:'pinboard_service/technical_issues_tag') }
         let(:params) { super().merge(implicit_tags: [implicit_tag.id]) }
 
         it 'sets an implicit tag' do
@@ -1218,7 +1218,7 @@ describe QuestionsController, type: :controller do
   describe "DELETE 'destroy'" do
     subject(:deleted) { question.reload }
 
-    let!(:question) { create(:question_with_implicit_tags) }
+    let!(:question) { create(:'pinboard_service/question_with_implicit_tags') }
     let(:request) { delete :destroy, params: {id: question.id} }
 
     it 'responds with 204 No Content' do

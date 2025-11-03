@@ -1,4 +1,4 @@
-h3 = t("languages.name.#{translation.language}")
+h3.h3 = t("languages.name.#{translation.language}")
 = simple_fields_for(translation) do |p|
   = p.input :title,
     input_html: {name: 'announcement[translations][][title]'}

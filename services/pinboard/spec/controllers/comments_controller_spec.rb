@@ -5,14 +5,14 @@ require 'spec_helper'
 describe CommentsController, type: :controller do
   let(:json) { JSON.parse response.body }
   let(:default_params) { {format: 'json'} }
-  let(:question) { create(:question) }
-  let(:comment) { create(:comment, commentable: question) }
-  let(:attributes) { attributes_for(:comment, commentable: question) }
-  let(:unvoted_uncommented_question) { create(:unvoted_uncommented_question) }
+  let(:question) { create(:'pinboard_service/question') }
+  let(:comment) { create(:'pinboard_service/comment', commentable: question) }
+  let(:attributes) { attributes_for(:'pinboard_service/comment', commentable: question) }
+  let(:unvoted_uncommented_question) { create(:'pinboard_service/unvoted_uncommented_question') }
 
-  let(:answer) { create(:answer) }
-  let(:answer_comment) { create(:comment, commentable: answer) }
-  let(:answer_comment_attributes) { attributes_for(:comment, commentable: answer) }
+  let(:answer) { create(:'pinboard_service/answer') }
+  let(:answer_comment) { create(:'pinboard_service/comment', commentable: answer) }
+  let(:answer_comment_attributes) { attributes_for(:'pinboard_service/comment', commentable: answer) }
 
   before do
     comment
@@ -39,7 +39,7 @@ describe CommentsController, type: :controller do
 
     context 'with deleted comments' do
       before do
-        create(:comment, deleted: true)
+        create(:'pinboard_service/comment', deleted: true)
 
         action.call
       end
@@ -63,7 +63,7 @@ describe CommentsController, type: :controller do
 
       before do
         comment.update!(user_id:)
-        create_list(:comment, 5)
+        create_list(:'pinboard_service/comment', 5)
 
         action.call
       end
@@ -79,7 +79,7 @@ describe CommentsController, type: :controller do
 
     context 'with many comments' do
       before do
-        create_list(:comment, 51, :for_answer, commentable: answer) # rubocop:disable FactoryBot/ExcessiveCreateList
+        create_list(:'pinboard_service/comment', 51, :for_answer, commentable: answer) # rubocop:disable FactoryBot/ExcessiveCreateList
       end
 
       # a client spec using question.comments / enqueue_comments should test for more than 50 comments
@@ -97,11 +97,11 @@ describe CommentsController, type: :controller do
       end
 
       context 'user is watching' do
-        before { create(:watch, question_id: question.id, user_id: question.user_id) }
+        before { create(:'pinboard_service/watch', question_id: question.id, user_id: question.user_id) }
 
         context 'new comment on question' do
           before do
-            create(:comment, text: "I'm the new comment", commentable: question)
+            create(:'pinboard_service/comment', text: "I'm the new comment", commentable: question)
             action.call # refresh response.body
           end
 
@@ -125,10 +125,10 @@ describe CommentsController, type: :controller do
         end
 
         context 'new comment on answer of a question' do
-          let(:answer) { create(:answer, question:) }
+          let(:answer) { create(:'pinboard_service/answer', question:) }
 
           before do
-            create(:comment, :for_answer, text: "I'm the new comment", commentable: answer)
+            create(:'pinboard_service/comment', :for_answer, text: "I'm the new comment", commentable: answer)
             action.call # and get the response once again
           end
 
@@ -167,7 +167,7 @@ describe CommentsController, type: :controller do
 
     describe 'text' do
       let(:markup) { "Headline\ns3://xikolo-pinboard/courses/1/thread/1/1/hans.jpg" }
-      let(:comment) { create(:comment, text: markup) }
+      let(:comment) { create(:'pinboard_service/comment', text: markup) }
       let(:params) { {id: comment.id} }
 
       before { get :show, params: }

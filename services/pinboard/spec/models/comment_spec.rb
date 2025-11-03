@@ -4,19 +4,19 @@ require 'spec_helper'
 
 describe Comment, type: :model do
   it 'has a valid factory' do
-    expect(create(:comment)).to be_valid
+    expect(create(:'pinboard_service/comment')).to be_valid
   end
 
   describe 'blocked?' do
-    it_behaves_like 'a reportable', :comment
+    it_behaves_like 'a reportable', :'pinboard_service/comment'
   end
 
   describe 'resetting the reviewed flag' do
-    it_behaves_like 'a reviewed reportable', :comment, :text
+    it_behaves_like 'a reviewed reportable', :'pinboard_service/comment', :text
   end
 
   context '(event publication)' do
-    subject(:comment) { build(:comment) }
+    subject(:comment) { build(:'pinboard_service/comment') }
 
     it 'publishes an event for newly created comments' do
       expect(Msgr).to receive(:publish) # Expecting the published event for creating a new question related to the answer
@@ -44,9 +44,9 @@ describe Comment, type: :model do
 
   describe 'question_title' do
     context 'of question comment' do
-      subject(:comment) { create(:comment, commentable:) }
+      subject(:comment) { create(:'pinboard_service/comment', commentable:) }
 
-      let(:commentable) { create(:question) }
+      let(:commentable) { create(:'pinboard_service/question') }
 
       it 'calls #question_title on the question' do
         expect(commentable).to receive(:question_title)
@@ -56,10 +56,10 @@ describe Comment, type: :model do
 
     context 'of answer comment' do
       subject(:comment) do
-        create(:comment, :for_answer, commentable:)
+        create(:'pinboard_service/comment', :for_answer, commentable:)
       end
 
-      let(:commentable) { create(:answer) }
+      let(:commentable) { create(:'pinboard_service/answer') }
 
       it 'calls #question_title on the answer' do
         expect(commentable).to receive(:question_title)
@@ -69,7 +69,7 @@ describe Comment, type: :model do
   end
 
   context 'on question' do
-    let(:comment) { create(:comment) }
+    let(:comment) { create(:'pinboard_service/comment') }
 
     describe 'soft-deletion' do
       subject(:soft_deletion) { comment.soft_delete }
@@ -113,7 +113,7 @@ describe Comment, type: :model do
   end
 
   context 'on answer' do
-    let(:comment) { create(:comment, :for_answer) }
+    let(:comment) { create(:'pinboard_service/comment', :for_answer) }
 
     describe 'soft-deletion' do
       subject(:soft_deletion) { comment.soft_delete }

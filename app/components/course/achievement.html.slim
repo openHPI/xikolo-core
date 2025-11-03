@@ -1,6 +1,6 @@
 article.achievement class=css_classes
   .achievement__title
-    h3
+    h3.h3
       = render Global::FaIcon.new('medal', css_classes: 'mr5')
       = title
     - if show_pill?
@@ -10,7 +10,7 @@ article.achievement class=css_classes
 
   - if show_requirements?
     .achievement__requirements
-      h4 = t(:'course.certificates.requirements')
+      h4.h4 = t(:'course.certificates.requirements')
       ul
         - requirements.each do |requirement|
           = requirement

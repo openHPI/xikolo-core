@@ -1,4 +1,5 @@
 # frozen_string_literal: true
 
-class CustomMultiSelectField < CustomSelectField
+# Fallback for type column
+class CustomMultiSelectField < AccountService::CustomMultiSelectField
 end

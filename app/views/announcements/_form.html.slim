@@ -4,7 +4,7 @@
   - if announcement.visual_url?
     = image_tag announcement.visual_url.to_s
 
-  h3 = t("languages.name.#{announcement.language}")
+  h3.h3 = t("languages.name.#{announcement.language}")
   = f.input :title
   = f.input :visual_upload_id
   = f.input :show_on_homepage
@@ -26,7 +26,7 @@
   = f.input :language,
     as: :hidden
 
-  h2 = t(:'announcements.form.translations')
+  h2.h2 = t(:'announcements.form.translations')
   = render Global::Callout.new(t(:'announcements.form.translation_hint'))
   - announcement.all_translations.each do |translation|
     = render 'announcements/translation', translation: translation

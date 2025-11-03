@@ -15,7 +15,7 @@
 
     .col-md-10
 
-      h2 = t(:'admin.announcements.index.drafts')
+      h2.h2 = t(:'admin.announcements.index.drafts')
 
       - if @drafts.any?
         table.table.table-striped.mt20
@@ -37,7 +37,7 @@
       - else
         = t(:'admin.announcements.index.drafts_empty')
 
-      h2 = t(:'admin.announcements.index.published')
+      h2.h2 = t(:'admin.announcements.index.published')
 
       - if @published.any?
         table.table.table-striped.mt20

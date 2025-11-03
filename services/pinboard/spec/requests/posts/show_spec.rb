@@ -7,9 +7,9 @@ RSpec.describe 'Posts: Show', type: :request do
 
   let(:service) { Restify.new(:test).get.value! }
 
-  let!(:question) { create(:question) }
-  let!(:answer) { create(:answer) }
-  let!(:comment) { create(:comment) }
+  let!(:question) { create(:'pinboard_service/question') }
+  let!(:answer) { create(:'pinboard_service/answer') }
+  let!(:comment) { create(:'pinboard_service/comment') }
 
   context 'with question ID' do
     let(:post_id) { question.id }

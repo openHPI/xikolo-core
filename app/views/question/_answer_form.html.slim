@@ -1,6 +1,6 @@
 .col-md-12
   - if answer.new_record?
-    h3 = t(:'.answer_question')
+    h3.h3 = t(:'.answer_question')
     hr.divider
   .answer-form-box
     - if current_user.logged_in?

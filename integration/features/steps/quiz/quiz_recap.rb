@@ -26,7 +26,7 @@ module Steps
 
     When 'I click a review link' do
       review_window = window_opened_by do
-        click_on 'Open in new tab'
+        find("[aria-label='Open in new tab']").click
       end
 
       context.assign :review_window, review_window
@@ -49,7 +49,7 @@ module Steps
 
     Then 'I should see the results page with a review link' do
       expect(page).to have_content 'Result'
-      expect(page).to have_link 'Open in new tab'
+      find("[aria-label='Open in new tab']")
     end
 
     Then 'I should see the reference page in a new window' do

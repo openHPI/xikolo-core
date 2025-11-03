@@ -44,6 +44,8 @@ RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_paths = [Rails.root.join('spec/fixtures')]
 
+  config.use_transactional_fixtures = true
+
   # If true, the base class of anonymous controllers will be inferred
   # automatically. This will be the default behavior in future versions of
   # rspec-rails.
@@ -61,15 +63,6 @@ RSpec.configure do |config|
     stub_request(:any, /quiz\.xikolo\.tld/).to_rack(Xikolo::QuizService::Application)
 
     Sidekiq::Worker.clear_all
-  end
-
-  config.around do |example|
-    DatabaseCleaner.strategy = :transaction
-    DatabaseCleaner.cleaning(&example)
-  end
-
-  config.before(:all) do
-    DatabaseCleaner.clean_with :truncation
   end
 
   # simplify factory management in spec, simple call `create` ...

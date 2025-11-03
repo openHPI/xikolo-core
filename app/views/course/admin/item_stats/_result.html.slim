@@ -8,7 +8,7 @@
           = t(:'course.admin.item_stats.result.submission_limit_exceeded')
 
     - else
-      h3 = t(:'course.admin.item_stats.result.submissions_over_time')
+      h3.h3 = t(:'course.admin.item_stats.result.submissions_over_time')
       ajax-wrapper data-url="/api/v2/statistics/item_details/result_submissions_over_time.json?id=#{item_stats.item_id}" lazy-load='true'
         loading-spinner
           data-selector key='submissions_over_time'

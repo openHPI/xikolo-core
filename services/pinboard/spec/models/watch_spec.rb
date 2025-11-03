@@ -3,14 +3,14 @@
 require 'spec_helper'
 
 describe Watch, type: :model do
-  subject(:watch) { create(:watch, attributes) }
+  subject(:watch) { create(:'pinboard_service/watch', attributes) }
 
   let(:attributes) { {} }
 
   it { is_expected.to be_valid }
 
   describe 'uniqueness of question and user' do
-    subject(:other_watch) { build(:watch, other_attributes) }
+    subject(:other_watch) { build(:'pinboard_service/watch', other_attributes) }
 
     let(:other_attributes) { {} }
 
@@ -34,7 +34,7 @@ describe Watch, type: :model do
   end
 
   describe 'create' do
-    subject(:watch) { build(:watch, attributes) }
+    subject(:watch) { build(:'pinboard_service/watch', attributes) }
 
     it 'publishes an event for newly created watch' do
       attrs = {

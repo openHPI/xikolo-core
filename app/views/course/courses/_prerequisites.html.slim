@@ -1,7 +1,7 @@
 .course-details--prerequisites
   .prerequisites
     .prerequisites-heading
-      h4 = t(:'courses.prerequisites.headline')
+      h4.h4 = t(:'courses.prerequisites.headline')
       p.prerequisites-heading--status data-status=prerequisites.status
         = render Global::FaIcon.new(prerequisites.status_icon_name, style: :solid)
         = prerequisites.status_text

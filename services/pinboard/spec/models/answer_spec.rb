@@ -4,19 +4,19 @@ require 'spec_helper'
 
 describe Answer, type: :model do
   it 'has a valid factory' do
-    expect(create(:answer)).to be_valid
+    expect(create(:'pinboard_service/answer')).to be_valid
   end
 
   describe 'blocked?' do
-    it_behaves_like 'a reportable', :answer
+    it_behaves_like 'a reportable', :'pinboard_service/answer'
   end
 
   describe 'resetting the reviewed flag' do
-    it_behaves_like 'a reviewed reportable', :question, :text
+    it_behaves_like 'a reviewed reportable', :'pinboard_service/question', :text
   end
 
   context '(event publication)' do
-    subject(:answer) { build(:answer, attachment_uri: 's3://xikolo-pinboard/courses/34/thread/12/3/file.pdf') }
+    subject(:answer) { build(:'pinboard_service/answer', attachment_uri: 's3://xikolo-pinboard/courses/34/thread/12/3/file.pdf') }
 
     it 'publishes an event for newly created answer' do
       allow(Msgr).to receive(:publish)
@@ -55,35 +55,35 @@ describe Answer, type: :model do
   end
 
   context 'sum up votes' do
-    subject(:answer) { create(:answer) }
+    subject(:answer) { create(:'pinboard_service/answer') }
 
-    before { create(:vote, votable_id: answer.id, votable_type: answer.class.name, value: 1, user_id: '00000001-3100-4444-9999-000000000001') }
+    before { create(:'pinboard_service/vote', votable_id: answer.id, votable_type: answer.class.name, value: 1, user_id: '00000001-3100-4444-9999-000000000001') }
 
     it 'calculates positive votes correctly' do
-      create(:vote, votable_id: answer.id, votable_type: answer.class.name, value: 1, user_id: '00000001-3100-4444-9999-000000000002')
+      create(:'pinboard_service/vote', votable_id: answer.id, votable_type: answer.class.name, value: 1, user_id: '00000001-3100-4444-9999-000000000002')
       expect(answer.votes_sum).to eq(2)
     end
 
     it 'calculates negative votes correctly' do
-      create(:vote, votable_id: answer.id, votable_type: answer.class.name, value: -1, user_id: '00000001-3100-4444-9999-000000000002')
-      create(:vote, votable_id: answer.id, votable_type: answer.class.name, value: -1, user_id: '00000001-3100-4444-9999-000000000003')
+      create(:'pinboard_service/vote', votable_id: answer.id, votable_type: answer.class.name, value: -1, user_id: '00000001-3100-4444-9999-000000000002')
+      create(:'pinboard_service/vote', votable_id: answer.id, votable_type: answer.class.name, value: -1, user_id: '00000001-3100-4444-9999-000000000003')
       expect(answer.votes_sum).to eq(-1)
     end
   end
 
   describe 'sorting' do
-    let!(:answer1) { create(:answer) }
-    let!(:answer2) { create(:answer) }
-    let!(:answer3) { create(:answer) }
-    let!(:answer4) { create(:answer) }
+    let!(:answer1) { create(:'pinboard_service/answer') }
+    let!(:answer2) { create(:'pinboard_service/answer') }
+    let!(:answer3) { create(:'pinboard_service/answer') }
+    let!(:answer4) { create(:'pinboard_service/answer') }
 
     context 'by sum of votes, same votes chronologically' do
       before do
-        create(:vote, votable_id: answer1.id,
+        create(:'pinboard_service/vote', votable_id: answer1.id,
           votable_type: answer1.class.name,
           value: 1,
           user_id: '00000001-3100-4444-9999-000000000001')
-        create(:vote, votable_id: answer2.id,
+        create(:'pinboard_service/vote', votable_id: answer2.id,
           votable_type: answer1.class.name,
           value: -1,
           user_id: '00000001-3100-4444-9999-000000000001')
@@ -112,17 +112,17 @@ describe Answer, type: :model do
   end
 
   describe 'answering a discussion' do
-    subject { build(:answer, question:) }
+    subject { build(:'pinboard_service/answer', question:) }
 
-    let(:question) { create(:question, discussion_flag: true) }
+    let(:question) { create(:'pinboard_service/question', discussion_flag: true) }
 
     it { is_expected.to be_valid }
   end
 
   describe 'question_title' do
-    subject(:answer) { create(:answer, question:) }
+    subject(:answer) { create(:'pinboard_service/answer', question:) }
 
-    let(:question) { create(:question) }
+    let(:question) { create(:'pinboard_service/question') }
 
     it 'calls #title on the question' do
       answer
@@ -134,7 +134,7 @@ describe Answer, type: :model do
   describe 'soft-deletion' do
     subject(:soft_deletion) { answer.soft_delete }
 
-    let(:answer) { create(:answer) }
+    let(:answer) { create(:'pinboard_service/answer') }
 
     it 'decreases the public answer count' do
       expect do
@@ -146,7 +146,7 @@ describe Answer, type: :model do
   describe 'destroying' do
     subject(:deletion) { answer.destroy }
 
-    let(:answer) { create(:answer) }
+    let(:answer) { create(:'pinboard_service/answer') }
 
     it 'decreases the public answer count' do
       expect do
@@ -158,7 +158,7 @@ describe Answer, type: :model do
   describe 'blocking' do
     subject(:blocking) { answer.block! }
 
-    let(:answer) { create(:answer) }
+    let(:answer) { create(:'pinboard_service/answer') }
 
     it 'decreases the public answer count' do
       expect do
@@ -170,7 +170,7 @@ describe Answer, type: :model do
   describe 'auto-blocking' do
     subject(:auto_blocking) { answer.update!(workflow_state: :auto_blocked) }
 
-    let(:answer) { create(:answer) }
+    let(:answer) { create(:'pinboard_service/answer') }
 
     it 'decreases the public answer count' do
       expect do

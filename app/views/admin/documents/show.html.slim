@@ -4,7 +4,7 @@
 .bs-container
   .row
     .col-md-9
-      h3 = t(:'knowledge_documents.internal.information')
+      h3.h3 = t(:'knowledge_documents.internal.information')
 
       table.table
         tr
@@ -24,7 +24,7 @@
             strong = t(:'knowledge_documents.courses')
           td = @course_titles.join(', ')
 
-      h3 = t(:'knowledge_documents.localization.translations')
+      h3.h3 = t(:'knowledge_documents.localization.translations')
       table.table.table-striped
         tr
           th = t(:'knowledge_documents.localization.title')

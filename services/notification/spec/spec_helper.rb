@@ -111,15 +111,6 @@ RSpec.configure do |config|
     ActionMailer::Base.deliveries.clear
   end
 
-  config.around do |example|
-    DatabaseCleaner.strategy = :transaction
-    DatabaseCleaner.cleaning(&example)
-  end
-
-  config.before(:all) do
-    DatabaseCleaner.clean_with :truncation
-  end
-
   config.after do
     Msgr.client.stop delete: true
     Msgr::TestPool.reset

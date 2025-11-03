@@ -147,10 +147,6 @@ a.detail-link {
     padding-bottom: 20px;
     @include outer-container();
 
-    &.time-series .chart {
-      margin: 10px 0;
-    }
-
     &.geo .chart {
       height: 500px;
       margin-bottom: 10px;
@@ -241,10 +237,6 @@ a.detail-link {
   .chart-container {
     padding-bottom: 20px;
     @include outer-container();
-
-    &.time-series .chart {
-      margin: 10px 0;
-    }
 
     &.geo .chart {
       height: 500px;

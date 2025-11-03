@@ -1385,8 +1385,6 @@ en:
             video_plays: Videos Played by Users # Do not translate
         stats_over_time: # Do not translate
           title: Historic Data # Do not translate
-          start_date: "Course started at %{start_date}, which is marked as a dashed vertical line in the following charts." # Do not translate
-          start_and_end_date: "Course started at %{start_date}, and ended at %{end_date}, which are marked as dashed vertical lines in the following charts." # Do not translate
           enrollments: # Do not translate
             title: Enrollments and Learners # Do not translate
             total_enrollments: Enrollments (total) # Do not translate
@@ -1415,6 +1413,13 @@ en:
             course_share: Course Share # Do not translate
             global_count: Global Count # Do not translate
             global_share: Global Share # Do not translate
+        historic_data: # Do not translate
+          title: Historic Data # Do not translate
+          table:
+            date: Date # Do not translate
+            enrollments: Enrollments # Do not translate
+            activity: Activity # Do not translate
+            certificates: Certificates # Do not translate
       policy_url: Policy URL
 
     dashboard:

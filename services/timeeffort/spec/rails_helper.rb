@@ -22,8 +22,6 @@ Restify.adapter = Restify::Adapter::Typhoeus.new(sync: true)
 
 Sidekiq::Testing.fake!
 
-require 'database_cleaner'
-
 # Truncate log
 Rails.root.join('log', 'test.log').write('')
 
@@ -47,6 +45,7 @@ RSpec.configure do |config|
   config.include Rails.application.routes.url_helpers
   config.include FactoryBot::Syntax::Methods
   config.include ActiveJob::TestHelper, type: :job
+  config.use_transactional_fixtures = true
 
   config.before do
     default_url_options[:host] = 'test.host'
@@ -59,15 +58,6 @@ RSpec.configure do |config|
 
   config.before do
     ActiveJob::Base.queue_adapter = :test
-  end
-
-  config.around do |example|
-    DatabaseCleaner.strategy = :transaction
-    DatabaseCleaner.cleaning(&example)
-  end
-
-  config.before(:all) do
-    DatabaseCleaner.clean_with :truncation
   end
 
   config.after do

@@ -5,11 +5,11 @@ require 'spec_helper'
 describe TagsController, type: :controller do
   let(:json) { JSON.parse response.body }
   let(:default_params) { {format: 'json'} }
-  let(:tag) { create(:sql_tag) }
-  let(:implicit_tag) { create(:section_tag) }
-  let(:question) { create(:question) }
-  let(:question_with_tags) { create(:question_with_tags) }
-  let(:question_with_unrendered_tags) { create(:question_with_unrendered_tags) }
+  let(:tag) { create(:'pinboard_service/sql_tag') }
+  let(:implicit_tag) { create(:'pinboard_service/section_tag') }
+  let(:question) { create(:'pinboard_service/question') }
+  let(:question_with_tags) { create(:'pinboard_service/question_with_tags') }
+  let(:question_with_unrendered_tags) { create(:'pinboard_service/question_with_unrendered_tags') }
 
   before { tag; question }
 
@@ -46,10 +46,10 @@ describe TagsController, type: :controller do
 
       context 'uniqueness / case-insensitive' do
         subject(:get_tag) do
-          get :index, params: attributes_for(:definition_tag).merge(name: 'definition')
+          get :index, params: attributes_for(:'pinboard_service/definition_tag').merge(name: 'definition')
         end
 
-        before { create(:definition_tag) }
+        before { create(:'pinboard_service/definition_tag') }
 
         it 'respects uniqueness when creating tag with same lower case name in same context' do
           expect { get_tag }.not_to change(Tag, :count)
@@ -64,7 +64,7 @@ describe TagsController, type: :controller do
       context 'with non-existing tag' do
         subject(:get_tag) { get :index, params: attrs }
 
-        let(:attrs) { attributes_for(:sql_tag).merge(name: 'non-existing') }
+        let(:attrs) { attributes_for(:'pinboard_service/sql_tag').merge(name: 'non-existing') }
 
         it 'creates and returns the non-existing tag' do
           expect { get_tag }.to change(Tag, :count).by(1)
@@ -100,21 +100,21 @@ describe TagsController, type: :controller do
 
   describe "POST 'create'" do
     it 'returns http success' do
-      post :create, params: attributes_for(:definition_tag)
+      post :create, params: attributes_for(:'pinboard_service/definition_tag')
       expect(response).to have_http_status :created
     end
 
     it 'creates a tag on create' do
       expect do
-        post :create, params: attributes_for(:definition_tag)
+        post :create, params: attributes_for(:'pinboard_service/definition_tag')
       end.to change(Tag, :count).by(1)
     end
 
     it 'answers with a tag' do
-      post :create, params: attributes_for(:definition_tag)
+      post :create, params: attributes_for(:'pinboard_service/definition_tag')
 
       expect(json['name']).not_to be_nil
-      expect(json['name']).to eq attributes_for(:definition_tag)[:name]
+      expect(json['name']).to eq attributes_for(:'pinboard_service/definition_tag')[:name]
     end
   end
 end

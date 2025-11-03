@@ -5,7 +5,7 @@
 #
 # * Compile and bundle web assets
 #
-FROM timbru31/ruby-node:3.4-slim-22@sha256:a39817f41b537af93a8509a88ecb1c0d543fac2659cdaaad692ec53fa658dfd6 AS assets
+FROM timbru31/ruby-node:3.4-slim-22@sha256:da7b13b80ddc271d57f8734897296bcc07843651c6a9cc02c1bae97b3137ff2f AS assets
 
 ARG BRAND=xikolo
 ARG TARGETARCH
@@ -43,6 +43,7 @@ EOF
 
 COPY ./clients /app/clients
 COPY ./gems /app/gems
+COPY ./engines /app/engines
 COPY Gemfile Gemfile.lock /app/
 
 RUN <<EOF
@@ -104,6 +105,7 @@ EOF
 
 COPY ./clients /app/clients
 COPY ./gems /app/gems
+COPY ./engines /app/engines
 COPY Gemfile Gemfile.lock /app/
 
 RUN <<EOF

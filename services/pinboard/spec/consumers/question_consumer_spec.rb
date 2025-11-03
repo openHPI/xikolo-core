@@ -10,7 +10,7 @@ describe QuestionConsumer, type: :consumer do
   let(:payload)     { {question_id:, user_id:, timestamp: Time.zone.now} }
 
   before do
-    create(:question, id: question_id)
+    create(:'pinboard_service/question', id: question_id)
 
     consumer.instance_variable_set(:@message, message)
     allow(message).to receive(:ack)
@@ -25,14 +25,14 @@ describe QuestionConsumer, type: :consumer do
     end
 
     context 'second time' do
-      let(:watch) { create(:watch, user_id:, question_id:, updated_at: 1.year.ago) }
+      let(:watch) { create(:'pinboard_service/watch', user_id:, question_id:, updated_at: 1.year.ago) }
 
       it 'updates Watch' do
         expect { consumer.read_question }.to change { watch.reload; watch.updated_at }
       end
 
       context 'given someone else is watching' do
-        let(:other_watch) { create(:watch, question_id:, updated_at: 1.year.ago) }
+        let(:other_watch) { create(:'pinboard_service/watch', question_id:, updated_at: 1.year.ago) }
 
         before { watch; other_watch }
 

@@ -18,33 +18,33 @@
 
   .row
     .col-md-8.mt20
-      h3.course-details--section-title = t(:'.about_content')
+      h3.h3.course-details--section-title = t(:'.about_content')
 
       .course-information.mt20.responsive-images lang=@course_presenter.lang
         .RenderedMarkdown
           == @course_presenter.description_html
 
       - if @course_presenter.learning_goals?
-        h3.course-details--section-title.mt20 = t(:'course.courses.show.learning_goals')
+        h3.h3.course-details--section-title.mt20 = t(:'course.courses.show.learning_goals')
         ul.course-details__section-list.list-disc lang=@course_presenter.lang
           - @course_presenter.learning_goals.each do |goal|
             li = goal
 
       - if @course_presenter.target_groups?
-        h3.course-details--section-title.mt20 = t(:'course.courses.show.target_groups')
+        h3.h3.course-details--section-title.mt20 = t(:'course.courses.show.target_groups')
         ul.course-details__section-list.list-disc lang=@course_presenter.lang
           - @course_presenter.target_groups.each do |target|
             li = target
 
       - if @show_section_info
-        h3.course-details--section-title.mt50 = t(:'.content')
+        h3.h3.course-details--section-title.mt50 = t(:'.content')
 
         .mt20.mb10
         ul.list-unstyled lang=@course_presenter.lang
           - @sections.each do |section|
             - if section.published?
               li
-                h4
+                h4.h4
                   = section.title
                   - unless section.description.empty?
                     ' :
@@ -70,7 +70,7 @@
     / Right Part with stats, teacher, ...
     .col-md-4.mt20
       - if @course_presenter.reactivate?
-        h3.course-details--section-title = t(:'course.courses.show.reactivate_course.headline')
+        h3.h3.course-details--section-title = t(:'course.courses.show.reactivate_course.headline')
         = render partial: 'shared/reactivate_course_notice', locals: {course: @course_presenter}
       - if @course_presenter.external?
         = render partial: 'course/shared/external_info', locals: {course: @course_presenter}
@@ -90,7 +90,7 @@
         = render partial: 'course/shared/rating_widget', locals: {course: @course_presenter}
 
       - if @course_presenter.show_certificate_requirements?
-        h3.course-details--section-title = t(:'.certificates')
+        h3.h3.course-details--section-title = t(:'.certificates')
         ul.certificate-requirements.list-disc
           - @course_presenter.certificate_requirements.each do |text|
             li ==> text

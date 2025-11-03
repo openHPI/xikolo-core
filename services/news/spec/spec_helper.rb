@@ -35,6 +35,8 @@ RSpec.configure do |config|
   config.order = 'random'
   config.example_status_persistence_file_path = 'spec/examples.txt'
 
+  config.use_transactional_fixtures = true
+
   config.expect_with :rspec do |expectations|
     expectations.syntax = :expect
   end
@@ -52,16 +54,6 @@ RSpec.configure do |config|
       .to_rack(Xikolo::NewsService::Application)
     stub_request(:any, /test\.host/)
       .to_rack(Xikolo::NewsService::Application)
-  end
-
-  config.around do |example|
-    strategy = example.metadata.fetch(:dbc, :transaction)
-    DatabaseCleaner.strategy = strategy
-    DatabaseCleaner.cleaning(&example)
-  end
-
-  config.before(:all) do
-    DatabaseCleaner.clean_with :truncation
   end
 
   config.before do

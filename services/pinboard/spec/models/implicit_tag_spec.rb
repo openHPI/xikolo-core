@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe ImplicitTag, type: :model do
-  let(:tag) { create(:implicit_tag) }
+  let(:tag) { create(:'pinboard_service/implicit_tag') }
 
   it 'sets the correct type' do
     expect(tag.type).to eq('ImplicitTag')

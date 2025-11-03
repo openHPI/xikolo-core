@@ -1,12 +1,12 @@
 .sidebar
   / Upcoming dates
   .sidebar__component
-    h3 = t(:'dashboard.sidebar.dates')
+    h3.h3 = t(:'dashboard.sidebar.dates')
     hr.divider
     - if @next_dates.any?
       - @next_dates.group_by(&:course_title).each do |course_title, next_dates|
         article.next-date-wrapper
-          h4
+          h4.h4
             = course_title
           - next_dates.each do |next_date|
             .next-date

@@ -2,7 +2,7 @@
 
 module AccountService
 class API::RESTController < API::BaseController # rubocop:disable Layout/IndentationWidth
-  self.responder = Xikolo::Responders::API
+  self.responder = Responders::API
 
   include HasScope
 
@@ -40,7 +40,7 @@ class API::RESTController < API::BaseController # rubocop:disable Layout/Indenta
   end
 
   def self.resource_name
-    @resource_name ||= controller_name.singularize.camelize
+    @resource_name ||= "AccountService::#{controller_name.singularize.camelize}"
   end
 
   def self.resource_class

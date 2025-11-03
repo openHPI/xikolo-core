@@ -2,14 +2,14 @@
   - if OMNIAUTH_PROVIDERS.any? && connect_auth_id.nil?
     - if current_user.feature?('account.login')
       .col-md-6
-        h4 = t(:'header.login.identity.headline')
+        h4.h4 = t(:'header.login.identity.headline')
         = render 'account/sessions/login_form', connect_auth_id: nil, redirect_param: redirect_param
         - if current_user.feature?('account.registration')
           hr.divider
-          h4 = t(:'header.login.register.headline')
+          h4.h4 = t(:'header.login.register.headline')
           = link_to t(:'header.login.register.link'), new_account_path, class: 'btn btn-default full-width'
       .col-md-6
-        h4 = t(:'header.login.external.headline')
+        h4.h4 = t(:'header.login.external.headline')
         = render 'account/sessions/omniauth'
     - else
       .col-md-12
@@ -17,9 +17,9 @@
 
   - else
     .col-md-12
-      h4 = t(:'header.login.identity.headline')
+      h4.h4 = t(:'header.login.identity.headline')
       = render 'account/sessions/login_form', connect_auth_id: connect_auth_id, redirect_param: redirect_param
       - if current_user.feature?('account.registration')
         hr.divider
-        h4 = t(:'header.login.register.headline')
+        h4.h4 = t(:'header.login.register.headline')
         = link_to t(:'header.login.register.link'), new_account_path, class: 'btn btn-default full-width'

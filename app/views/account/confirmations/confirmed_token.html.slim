@@ -1,6 +1,6 @@
 .bs-container
   .col-md-12
-    h1 = t 'account.confirmations.confirmed_token.headline'
+    h1.h1 = t 'account.confirmations.confirmed_token.headline'
     p = t 'account.confirmations.confirmed_token.message'
 
     = link_to t(:'header.navigation.login'), new_session_path, class: 'btn btn-primary'

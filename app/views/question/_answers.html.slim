@@ -1,5 +1,5 @@
 - if question.answers.present?
-  h3 = t(:'pinboard.question.answers')
+  h3.h3 = t(:'pinboard.question.answers')
   hr.divider
 
   - accepted_answer = question.answers.find {|answer| answer.id == question.accepted_answer_id }

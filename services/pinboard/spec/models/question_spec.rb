@@ -3,14 +3,14 @@
 require 'spec_helper'
 
 describe Question, type: :model do
-  subject(:question) { build(:question) }
+  subject(:question) { build(:'pinboard_service/question') }
 
   it 'has a valid factory' do
     expect(question).to be_valid
   end
 
   it 'has a valid question_with_accepted_answer factory' do
-    expect(build(:question_with_accepted_answer)).to be_valid
+    expect(build(:'pinboard_service/question_with_accepted_answer')).to be_valid
   end
 
   it 'is invalid with no course_id' do
@@ -19,23 +19,23 @@ describe Question, type: :model do
   end
 
   describe 'blocked?' do
-    it_behaves_like 'a reportable', :question
+    it_behaves_like 'a reportable', :'pinboard_service/question'
   end
 
   describe 'resetting the reviewed flag' do
-    it_behaves_like 'a reviewed reportable', :question, :text
-    it_behaves_like 'a reviewed reportable', :question, :title
+    it_behaves_like 'a reviewed reportable', :'pinboard_service/question', :text
+    it_behaves_like 'a reviewed reportable', :'pinboard_service/question', :title
   end
 
   context 'scopes' do
     context 'unanswered' do
       subject { Question.unanswered }
 
-      let!(:unanswered_questions) { create_list(:question, 3) }
+      let!(:unanswered_questions) { create_list(:'pinboard_service/question', 3) }
 
       before do
         # And a few answered questions
-        create_list(:question_with_accepted_answer, 3)
+        create_list(:'pinboard_service/question_with_accepted_answer', 3)
       end
 
       it { is_expected.to match_array unanswered_questions }
@@ -43,7 +43,7 @@ describe Question, type: :model do
   end
 
   context '(subscriptions)' do
-    let!(:question) { create(:question, :with_subscriptions, subscription_count: 3) }
+    let!(:question) { create(:'pinboard_service/question', :with_subscriptions, subscription_count: 3) }
 
     it 'deletes associated subscriptions when removed' do
       expect do
@@ -90,7 +90,7 @@ describe Question, type: :model do
     end
 
     describe 'update question' do
-      let(:accepted_answer) { build(:answer, question:) }
+      let(:accepted_answer) { build(:'pinboard_service/answer', question:) }
 
       it 'publishes an event for updated question' do
         question.save
@@ -138,35 +138,35 @@ describe Question, type: :model do
   end
 
   context 'sum up votes' do
-    let(:question) { create(:question) }
+    let(:question) { create(:'pinboard_service/question') }
 
-    before { create(:vote, votable_id: question.id, votable_type: question.class.name, value: 1, user_id: '00000001-3100-4444-9999-000000000001') }
+    before { create(:'pinboard_service/vote', votable_id: question.id, votable_type: question.class.name, value: 1, user_id: '00000001-3100-4444-9999-000000000001') }
 
     it 'calculates positive votes correctly' do
-      create(:vote, votable_id: question.id, votable_type: question.class.name, value: 1, user_id: '00000001-3100-4444-9999-000000000002')
+      create(:'pinboard_service/vote', votable_id: question.id, votable_type: question.class.name, value: 1, user_id: '00000001-3100-4444-9999-000000000002')
       expect(question.votes_sum).to eq(2)
     end
 
     it 'calculates negative votes correctly' do
-      create(:vote, votable_id: question.id, votable_type: question.class.name, value: -1, user_id: '00000001-3100-4444-9999-000000000002')
-      create(:vote, votable_id: question.id, votable_type: question.class.name, value: -1, user_id: '00000001-3100-4444-9999-000000000003')
+      create(:'pinboard_service/vote', votable_id: question.id, votable_type: question.class.name, value: -1, user_id: '00000001-3100-4444-9999-000000000002')
+      create(:'pinboard_service/vote', votable_id: question.id, votable_type: question.class.name, value: -1, user_id: '00000001-3100-4444-9999-000000000003')
       expect(question.votes_sum).to eq(-1)
     end
   end
 
   describe 'sorting' do
-    let!(:question1) { create(:question) }
-    let!(:question2) { create(:question) }
-    let!(:question3) { create(:question) }
-    let!(:question4) { create(:question) }
+    let!(:question1) { create(:'pinboard_service/question') }
+    let!(:question2) { create(:'pinboard_service/question') }
+    let!(:question3) { create(:'pinboard_service/question') }
+    let!(:question4) { create(:'pinboard_service/question') }
 
     context 'by sum of votes, same votes chronologically' do
       before do
-        create(:vote, votable_id: question1.id,
+        create(:'pinboard_service/vote', votable_id: question1.id,
           votable_type: question1.class.name,
           value: 1,
           user_id: '00000001-3100-4444-9999-000000000001')
-        create(:vote, votable_id: question2.id,
+        create(:'pinboard_service/vote', votable_id: question2.id,
           votable_type: question1.class.name,
           value: -1,
           user_id: '00000001-3100-4444-9999-000000000001')
@@ -204,11 +204,11 @@ describe Question, type: :model do
         subject { Question.default_order.order_by_votes(:asc).pluck :id }
 
         before do
-          create(:vote, votable_id: question1.id,
+          create(:'pinboard_service/vote', votable_id: question1.id,
             votable_type: question1.class.name,
             value: 1,
             user_id: '00000001-3100-4444-9999-000000000001')
-          create(:vote, votable_id: question3.id,
+          create(:'pinboard_service/vote', votable_id: question3.id,
             votable_type: question1.class.name,
             value: -1,
             user_id: '00000001-3100-4444-9999-000000000001')
@@ -223,11 +223,11 @@ describe Question, type: :model do
   end
 
   describe '.by_tags' do
-    let!(:question_with_tags) { create(:question_with_tags) }
+    let!(:question_with_tags) { create(:'pinboard_service/question_with_tags') }
 
     before do
       # And a question without tags
-      create(:question)
+      create(:'pinboard_service/question')
     end
 
     it 'retrieves the tagged question when using the right tag' do
@@ -248,14 +248,14 @@ describe Question, type: :model do
 
   describe '.by_tag_names' do
     let(:course_id) { '00000001-3300-4444-9999-000000000001' }
-    let(:tag1) { create(:explicit_tag, name: 'tag 1', course_id:) }
-    let(:tag2) { create(:explicit_tag, name: 'tag 2', course_id:) }
-    let(:tag3) { create(:explicit_tag, name: 'tag 3', course_id:) }
+    let(:tag1) { create(:'pinboard_service/explicit_tag', name: 'tag 1', course_id:) }
+    let(:tag2) { create(:'pinboard_service/explicit_tag', name: 'tag 2', course_id:) }
+    let(:tag3) { create(:'pinboard_service/explicit_tag', name: 'tag 3', course_id:) }
 
-    let(:first_question_with_tags_1_and_2)  { create(:question, course_id:, tags: [tag1, tag2], title: 'With tags 1 and 2') }
-    let(:second_question_with_tags_1_and_2) { create(:question, course_id:, tags: [tag1, tag2], title: 'Also with tags 1 and 2') }
-    let(:question_with_tags_1_and_2_and_3) { create(:question, course_id:, tags: [tag1, tag2, tag3], title: 'With tags 1, 2 and 3') }
-    let(:question_with_tags_2_and_3) { create(:question, course_id:, tags: [tag2, tag3], title: 'Only with tags 2 and 3') }
+    let(:first_question_with_tags_1_and_2)  { create(:'pinboard_service/question', course_id:, tags: [tag1, tag2], title: 'With tags 1 and 2') }
+    let(:second_question_with_tags_1_and_2) { create(:'pinboard_service/question', course_id:, tags: [tag1, tag2], title: 'Also with tags 1 and 2') }
+    let(:question_with_tags_1_and_2_and_3) { create(:'pinboard_service/question', course_id:, tags: [tag1, tag2, tag3], title: 'With tags 1, 2 and 3') }
+    let(:question_with_tags_2_and_3) { create(:'pinboard_service/question', course_id:, tags: [tag2, tag3], title: 'Only with tags 2 and 3') }
 
     before do
       first_question_with_tags_1_and_2; second_question_with_tags_1_and_2
@@ -286,7 +286,7 @@ describe Question, type: :model do
   end
 
   describe '#soft_delete' do
-    let!(:question) { create(:question) }
+    let!(:question) { create(:'pinboard_service/question') }
     let(:action) { -> { question.soft_delete } }
 
     it 'does not delete the question' do
@@ -298,7 +298,7 @@ describe Question, type: :model do
     end
 
     context 'with subscription' do
-      before { create_list(:subscription, 5, question_id: question.id) }
+      before { create_list(:'pinboard_service/subscription', 5, question_id: question.id) }
 
       it 'deletes the corresponding subscriptions' do
         expect { action.call }.to change(Subscription, :count).from(5).to(0)
@@ -306,7 +306,7 @@ describe Question, type: :model do
     end
 
     context 'with answers' do
-      let!(:answer) { create(:answer, question:) }
+      let!(:answer) { create(:'pinboard_service/answer', question:) }
 
       it 'does not delete the corresponding answers' do
         expect { action.call }.not_to change(Answer, :count)
@@ -317,7 +317,7 @@ describe Question, type: :model do
       end
 
       context 'with answer comments' do
-        let!(:answer_comment) { create(:comment, :for_answer, answer:) }
+        let!(:answer_comment) { create(:'pinboard_service/comment', :for_answer, answer:) }
 
         it 'sets the answers comment to deleted' do
           expect { action.call }.to change { answer_comment.reload.deleted }.from(false).to(true)
@@ -326,7 +326,7 @@ describe Question, type: :model do
     end
 
     context 'with comments' do
-      let!(:comment) { create(:comment, question:) }
+      let!(:comment) { create(:'pinboard_service/comment', question:) }
 
       it 'does not delete the corresponding comment' do
         expect { action.call }.not_to change(Comment, :count)
@@ -339,7 +339,7 @@ describe Question, type: :model do
   end
 
   describe '#before_save' do
-    let!(:question) { create(:question) }
+    let!(:question) { create(:'pinboard_service/question') }
 
     describe 'creation' do
       it 'has a text_hash' do
@@ -357,7 +357,7 @@ describe Question, type: :model do
   end
 
   describe 'question_title' do
-    let(:question) { create(:question) }
+    let(:question) { create(:'pinboard_service/question') }
 
     it 'returns the title (needed for abuse reports)' do
       expect(question.question_title).to eq question.title
@@ -370,7 +370,7 @@ describe Question, type: :model do
     let(:course_id) { SecureRandom.uuid }
 
     context 'with course_id' do
-      let(:question) { create(:question, course_id:) }
+      let(:question) { create(:'pinboard_service/question', course_id:) }
 
       it { is_expected.to eq question.course_id }
     end
@@ -379,12 +379,12 @@ describe Question, type: :model do
   describe '#public_answers_count' do
     subject { question.public_answers_count }
 
-    let(:question) { create(:question) }
+    let(:question) { create(:'pinboard_service/question') }
 
     it { is_expected.to eq 0 }
 
     context 'with an answer' do
-      let(:question) { create(:question_with_accepted_answer) }
+      let(:question) { create(:'pinboard_service/question_with_accepted_answer') }
 
       it { is_expected.to eq 1 }
     end
@@ -393,12 +393,12 @@ describe Question, type: :model do
   describe '#public_comments_count' do
     subject { question.public_comments_count }
 
-    let(:question) { create(:question) }
+    let(:question) { create(:'pinboard_service/question') }
 
     it { is_expected.to eq 0 }
 
     context 'with a comment' do
-      let(:question) { create(:question_with_comment) }
+      let(:question) { create(:'pinboard_service/question_with_comment') }
 
       it { is_expected.to eq 1 }
     end
@@ -407,12 +407,12 @@ describe Question, type: :model do
   describe '#public_answer_comments_count' do
     subject { question.public_answer_comments_count }
 
-    let(:question) { create(:question) }
+    let(:question) { create(:'pinboard_service/question') }
 
     it { is_expected.to eq 0 }
 
     context 'with an answer comment' do
-      let(:question) { create(:question_with_commented_answer) }
+      let(:question) { create(:'pinboard_service/question_with_commented_answer') }
 
       it { is_expected.to eq 1 }
     end

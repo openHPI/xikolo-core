@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe AnswerDecorator, type: :decorator do
-  let(:answer) { create(:answer) }
+  let(:answer) { create(:'pinboard_service/answer') }
   let(:decorator) { AnswerDecorator.new(answer) }
 
   describe '#api_v1' do
@@ -12,7 +12,7 @@ describe AnswerDecorator, type: :decorator do
     let(:json) { decorator.as_json.stringify_keys }
 
     context 'attachment_url' do
-      let(:answer) { create(:answer, attachment_uri: 's3://xikolo-pinboard/courses/3/thread/2/1/hans.jpg') }
+      let(:answer) { create(:'pinboard_service/answer', attachment_uri: 's3://xikolo-pinboard/courses/3/thread/2/1/hans.jpg') }
 
       it 'returns a public S3 URL' do
         expect(json['attachment_url']).to eq 'https://s3.xikolo.de/xikolo-pinboard/courses/3/thread/2/1/hans.jpg'
@@ -57,7 +57,7 @@ describe AnswerDecorator, type: :decorator do
     end
 
     context 'for technical question' do
-      let(:answer) { create(:technical_answer) }
+      let(:answer) { create(:'pinboard_service/technical_answer') }
 
       describe "['technical']" do
         subject(:technical) { json['technical'] }
@@ -78,7 +78,7 @@ describe AnswerDecorator, type: :decorator do
     let(:file_url) { Xikolo::S3.object(file_uri).public_url }
     let(:text_with_uri) { "![enter file description here][1]A text with file\r\n\r\n\r\n  [1]: #{file_uri}" }
     let(:text_with_url) { "![enter file description here][1]A text with file\r\n\r\n\r\n  [1]: #{file_url}" }
-    let!(:answer) { create(:answer, text: text_with_uri) }
+    let!(:answer) { create(:'pinboard_service/answer', text: text_with_uri) }
 
     context 'when the post is only shown' do
       it 'returns the text having the uris converted to public urls' do

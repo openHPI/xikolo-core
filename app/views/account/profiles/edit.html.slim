@@ -1,6 +1,6 @@
 = javascript_include_tag 'user', crossorigin: 'anonymous', integrity: true, debug: false
 
-h2.category-title.mb20
+h2.h2.category-title.mb20
   = t(:'dashboard.profile.edit_profile')
 
 = simple_form_for @user, url: dashboard_profile_path, method: :patch do |f|

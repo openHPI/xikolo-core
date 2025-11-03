@@ -6,14 +6,14 @@ describe Question, '.search', type: :model do
   let(:course_id) { generate(:course_id) }
 
   let!(:text_match) do
-    create(:question,
+    create(:'pinboard_service/question',
       title: 'A simple question',
       text: 'With a very satisfied text',
       course_id:)
   end
 
   let!(:title_match) do
-    create(:question,
+    create(:'pinboard_service/question',
       title: 'A satisfied question',
       text: 'With simple and plain text',
       course_id:)
@@ -21,12 +21,12 @@ describe Question, '.search', type: :model do
 
   let!(:answer_match) do
     create(
-      :question,
+      :'pinboard_service/question',
       title: 'A not-matching question',
       text: 'With a non-matching text',
       course_id:
     ).tap do |question|
-      create(:answer,
+      create(:'pinboard_service/answer',
         question:,
         text: 'With a text that satisfies')
     end
@@ -34,16 +34,16 @@ describe Question, '.search', type: :model do
 
   let!(:comment_match) do
     create(
-      :question,
+      :'pinboard_service/question',
       title: 'Another not-matching question',
       text: 'With a non-matching text again',
       course_id:
     ).tap do |question|
-      a = create(:answer,
+      a = create(:'pinboard_service/answer',
         question:,
         text: 'With painful answer')
 
-      create(:comment, commentable: a, text: <<~TEXT)
+      create(:'pinboard_service/comment', commentable: a, text: <<~TEXT)
         Lorem ipsum dolor sït amêt, éûm dicit çonsùl mùcius at, usû çù
         êrrêm deniqùe dolœrês, audirè dôlorûm êos ât. Epïcûrei medïoçrem
         in çum. Numqûàm dolores rêctêqùé pro ân, his invénirê maluîssët

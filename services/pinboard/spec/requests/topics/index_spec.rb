@@ -9,23 +9,23 @@ RSpec.describe 'Topics: Index', type: :request do
 
   let(:params) { {} }
 
-  let!(:question1) { create(:video_question, :with_commented_answer, tags: [video_item_tag]) }
-  let!(:question2) { create(:video_question, :with_commented_answer, tags: [video_item_tag]) }
-  let(:video_item_tag) { create(:video_item_tag) }
-  let(:other_item_tag) { create(:video_item_tag) }
+  let!(:question1) { create(:'pinboard_service/video_question', :with_commented_answer, tags: [video_item_tag]) }
+  let!(:question2) { create(:'pinboard_service/video_question', :with_commented_answer, tags: [video_item_tag]) }
+  let(:video_item_tag) { create(:'pinboard_service/video_item_tag') }
+  let(:other_item_tag) { create(:'pinboard_service/video_item_tag') }
 
   before do
     # Question on another item
-    create(:video_question, :with_commented_answer, tags: [other_item_tag])
+    create(:'pinboard_service/video_question', :with_commented_answer, tags: [other_item_tag])
 
     # Question in the global course forum
-    create(:question, :with_commented_answer)
+    create(:'pinboard_service/question', :with_commented_answer)
 
     # A deleted question
-    create(:video_question, :with_commented_answer, deleted: true, tags: [video_item_tag])
+    create(:'pinboard_service/video_question', :with_commented_answer, deleted: true, tags: [video_item_tag])
 
     # A blocked question
-    create(:video_question, :with_commented_answer, workflow_state: :blocked, tags: [video_item_tag])
+    create(:'pinboard_service/video_question', :with_commented_answer, workflow_state: :blocked, tags: [video_item_tag])
   end
 
   context 'without filter params' do

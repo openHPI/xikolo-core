@@ -1,7 +1,7 @@
 #course-list__content.dashboard
   - @categories.each_with_index do |category, index|
     .course-group
-      h2.category-title
+      h2.h2.category-title
         = category.title
       - if category.courses.empty?
         = render Global::Callout.new category.empty_msg

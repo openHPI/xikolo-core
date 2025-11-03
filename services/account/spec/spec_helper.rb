@@ -40,6 +40,8 @@ RSpec.configure do |config|
   config.example_status_persistence_file_path = 'spec/examples.txt'
   config.file_fixture_path = 'spec/support/files'
 
+  config.use_transactional_fixtures = true
+
   config.expect_with :rspec do |expectations|
     expectations.syntax = :expect
   end
@@ -76,15 +78,6 @@ RSpec.configure do |config|
 
   config.before do
     Rails.cache.clear
-  end
-
-  config.around do |example|
-    DatabaseCleaner.strategy = :transaction
-    DatabaseCleaner.cleaning(&example)
-  end
-
-  config.before(:all) do
-    DatabaseCleaner.clean_with :truncation
   end
 
   config.after do

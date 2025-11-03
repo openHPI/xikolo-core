@@ -13,8 +13,9 @@ Have a look at the [official documentation](https://docs.github.com/en/repositor
 To prepare the release, you will have to:
 
 1. Bump the version according to [semantic versioning](https://docs.npmjs.com/about-semantic-versioning) in `package.json` and `package-lock.json` (if not already done in another commit)
-2. Rebase the `main` branch with the current `dev`
-3. Target the `main` branch for release
+2. Run `npm install` to update the `package-lock.json` accordingly
+3. Commit the changes and push them to the `main` branch
+4. Target the `main` branch for release
 
 In the repo, there is an action set up that automatically publishes a package in our [npmjs organization](https://www.npmjs.com/package/@openhpi/xikolo-video-player) when creating a release.
 So a release on GitHub is always synchronized with the released npm package.

@@ -21,11 +21,11 @@ RSpec.describe 'Item: Create', type: :request do
   end
 
   it 'creates new item record' do
-    expect { create_item }.to change(Item, :count).from(0).to(1)
+    expect { create_item }.to change(TimeeffortService::Item, :count).from(0).to(1)
   end
 
   it 'responds without a follow location' do
-    expect(create_item.follow).to eq timeeffort_service.item_url(Item.last)
+    expect(create_item.follow).to eq timeeffort_service.item_url(TimeeffortService::Item.last)
   end
 
   it 'returns item resource' do

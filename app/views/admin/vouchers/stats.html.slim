@@ -26,7 +26,7 @@
               = @voucher_stats.global.claimed
 
   .col-md-12
-    h3 = t(:'vouchers.stats.by_product')
+    h3.h3 = t(:'vouchers.stats.by_product')
     table.table.table-condensed.table-striped
       tr
         th = t(:'vouchers.stats.product')
@@ -40,7 +40,7 @@
             | #{stats.claimed} (#{stats.percentage}%)
 
   .col-md-12
-    h3 = t(:'vouchers.stats.by_tag')
+    h3.h3 = t(:'vouchers.stats.by_tag')
     table.table.table-condensed.table-striped
       tr
         th = t(:'vouchers.stats.tag')
@@ -54,7 +54,7 @@
             | #{stats.claimed} (#{stats.percentage}%)
 
   .col-md-12
-    h3 = t(:'vouchers.stats.by_course')
+    h3.h3 = t(:'vouchers.stats.by_course')
     table.table.table-condensed.table-striped
       tr
         th = t(:'vouchers.stats.course_code')

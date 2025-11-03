@@ -8,7 +8,7 @@
             = t(:'.back_to_list')
         .clearfix
       = render Global::UserAvatar.new(@profile.user_id, type: 'rounded', size: 'x-large')
-      h2
+      h2.h2
         = @profile.name
         - if @teacher.present? && current_user.allowed?('course.teacher.view')
           br
@@ -20,7 +20,7 @@
       .clearfix
 
       - if current_user.allowed? 'course.course.teaching_anywhere'
-        h3.mt15
+        h3.h3.mt15
           = t(:'.user_information')
         table.table.table-striped.table-condensed.table-hover
           tbody
@@ -38,11 +38,11 @@
               td = @profile.confirmed?
 
       - if current_user.allowed_any?('account.user.change_password', 'account.user.delete', 'account.user.masquerade')
-        h2.text-color
+        h2.h2.text-color
           = t(:'.admin_options')
 
         - if current_user.allowed? 'account.user.change_password'
-          h3 = t(:'users.show.change_password')
+          h3.h3 = t(:'users.show.change_password')
           hr.divider.slim
           = simple_form_for(@profile.form, url: {controller: 'users', action: 'change_user_password'}, method: :post) do |f|
             fieldset.form-section--small
@@ -52,21 +52,21 @@
                 = t(:'users.show.change_password')
               = f.hidden_field :user_id, value: @profile.user_id
         - if @profile.manually_confirmable?
-          h3 = t(:'users.show.manual_confirm')
+          h3.h3 = t(:'users.show.manual_confirm')
           hr.divider.slim
           p = t(:'users.show.manual_confirm_hint')
           = link_to user_manual_confirmations_path(@profile.user_id), method: :post, data: {confirm: t(:'.confirm_manual_confirm')}, class: 'btn btn-default btn-sm'
             = render Global::FaIcon.new('circle-check', css_classes: 'mr5')
             = t(:'.manual_confirm')
         - if current_user.allowed? 'account.user.masquerade'
-          h3 = t(:'users.show.masquerade')
+          h3.h3 = t(:'users.show.masquerade')
           hr.divider.slim
           p = t(:'users.show.masquerade_hint')
           = link_to user_masquerade_path(@profile.user_id), method: :post, class: 'btn btn-default btn-sm'
             = render Global::FaIcon.new('masks-theater', css_classes: 'mr5')
             = t(:'users.show.masquerade')
         - if current_user.allowed? 'account.user.delete'
-          h3 = t(:'users.show.ban')
+          h3.h3 = t(:'users.show.ban')
           hr.divider.slim
           p = t(:'users.show.ban_hint')
           - if @profile.archived?
@@ -77,7 +77,7 @@
               = render Global::FaIcon.new('user-xmark', css_classes: 'mr5')
               = t(:'users.show.ban')
 
-          h3 = t(:'users.show.delete')
+          h3.h3 = t(:'users.show.delete')
           hr.divider.slim
           p = t(:'users.show.delete_hint')
           = link_to user_path(id: @profile.user_id), method: :delete, data: {confirm: t(:'.confirm_delete')}, class: 'btn btn-danger btn-sm'
@@ -89,7 +89,7 @@
       .col-md-8
         - enrolled_courses = @profile.enrolled_courses
         - if enrolled_courses.present?
-          h2.text-color
+          h2.h2.text-color
             = t(:'.enrollments')
           hr.divider.alternative
           table.table.table-striped.table-condensed.table-hover

@@ -5,6 +5,7 @@ locales:
   default: en
 s3:
   buckets:
+    avatars: xikolo-public
     banners: xikolo-public
     certificate: xikolo-certificate
     course: xikolo-public

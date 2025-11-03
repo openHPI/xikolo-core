@@ -8,7 +8,7 @@
 .bs-container
   - @permissions.each_group do |group|
     .col-md-12.mb20.white-bg id="group-#{group.name}"
-      h3
+      h3.h3
         = t("permissions.group_names.#{group.name}")
       = t(:'permissions.grant_text')
       .pl20.mb15
@@ -43,7 +43,7 @@
           = submit_tag t(:'permissions.add_user.button'), {class: 'btn btn-primary btn-sm ml10'}
 
   .col-md-12.white-bg.mb20.pt10 id="group-students"
-    h3
+    h3.h3
       = t(:'permissions.group_names.students')
     = t(:'permissions.grant_text')
     .pl20.mb15

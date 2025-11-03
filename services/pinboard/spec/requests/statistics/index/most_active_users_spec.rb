@@ -17,14 +17,14 @@ RSpec.describe 'Statistics: Index: most_active', type: :request do
 
   before do
     # first user posts twice in course forum
-    first_question = create(:question, user_id: first_user_id, course_id:)
-    create(:answer, user_id: first_user_id, question_id: first_question.id)
-    second_question = create(:question, user_id: first_user_id, course_id:)
-    create(:answer, user_id: first_user_id, question_id: second_question.id)
+    first_question = create(:'pinboard_service/question', user_id: first_user_id, course_id:)
+    create(:'pinboard_service/answer', user_id: first_user_id, question_id: first_question.id)
+    second_question = create(:'pinboard_service/question', user_id: first_user_id, course_id:)
+    create(:'pinboard_service/answer', user_id: first_user_id, question_id: second_question.id)
 
     # second user posts once in course forum
-    third_question = create(:question, user_id: second_user_id, course_id:)
-    create(:answer, user_id: second_user_id, question_id: third_question.id)
+    third_question = create(:'pinboard_service/question', user_id: second_user_id, course_id:)
+    create(:'pinboard_service/answer', user_id: second_user_id, question_id: third_question.id)
 
     Stub.service(:course, build(:'course:root'))
     Stub.service(:account, build(:'account:root'))

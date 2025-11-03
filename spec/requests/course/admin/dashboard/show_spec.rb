@@ -13,7 +13,7 @@ describe 'Course: Admin: Dashboard: Show', type: :request do
   let(:features) { {} }
   let(:course) { create(:course, end_date: 1.week.ago, records_released: true) }
   let(:course_resource) do
-    build(:'course:course', course_code: course.course_code, end_date: 1.week.ago,
+    build(:'course:course', id: course.id, course_code: course.course_code, end_date: 1.week.ago,
       records_released: true)
   end
 
@@ -23,12 +23,18 @@ describe 'Course: Admin: Dashboard: Show', type: :request do
     Stub.service(:course, build(:'course:root'))
     Stub.request(:course, :get, "/courses/#{course.course_code}")
       .to_return Stub.json(course_resource)
+    Stub.request(:course, :get, "/courses/#{course.id}")
+      .to_return Stub.json(course_resource)
     Stub.request(:course, :get, '/next_dates', query: hash_including({}))
       .to_return Stub.json([])
 
     allow(Admin::Statistics::AgeDistribution).to receive(:call).and_return([])
 
+    encoded_end_date = CGI.escape((DateTime.parse(course_resource['end_date']) + 12.weeks).strftime('%Y-%m-%dT%H:%M:%S%:z'))
+
     Stub.service(:learnanalytics, build(:'lanalytics:root'))
+    Stub.request(:learnanalytics, :get, "/course_statistics?course_id=#{course.id}&end_date=#{encoded_end_date}&historic_data=true&start_date")
+      .to_return Stub.json([])
     Stub.request(:learnanalytics, :get, '/metrics')
       .to_return Stub.json([
         {'name' => 'client_combination_usage', 'available' => true},

@@ -1,6 +1,6 @@
 .bs-container
   .layout-error
-    h1.layout-error__header = t(:'account.password_resets.not_found.headline')
+    h1.h1.layout-error__header = t(:'account.password_resets.not_found.headline')
     .layout-error__details
       = t(:'account.password_resets.not_found.message', url: new_account_reset_url)
       = render partial: 'errors/info'

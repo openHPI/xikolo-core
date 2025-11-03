@@ -10,9 +10,9 @@ RSpec.describe 'Posts: User Votes: Set', type: :request do
 
   let(:vote_data) { {value: vote_value} }
 
-  let!(:question) { create(:question) }
-  let!(:answer) { create(:answer) }
-  let!(:comment) { create(:comment) }
+  let!(:question) { create(:'pinboard_service/question') }
+  let!(:answer) { create(:'pinboard_service/answer') }
+  let!(:comment) { create(:'pinboard_service/comment') }
   let(:user_id) { SecureRandom.uuid }
   let(:vote_value) { 1 }
 

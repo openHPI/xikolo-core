@@ -5,7 +5,7 @@ require 'spec_helper'
 describe WatchDecorator, type: :decorator do
   subject { json }
 
-  let(:watch) { create(:watch) }
+  let(:watch) { create(:'pinboard_service/watch') }
   let(:decorator) { described_class.new(watch) }
 
   describe '#to_event' do

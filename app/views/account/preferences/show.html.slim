@@ -2,7 +2,7 @@
   = javascript_include_tag('user', crossorigin: 'anonymous', integrity: true, async: true)
 
 .account-notifications
-  h1 = t :'account.preferences.show.notification.headline'
+  h1.h1 = t :'account.preferences.show.notification.headline'
   - if current_user.feature?('primary_email_suspended')
     = render Global::Callout.new(t(:'account.preferences.show.notification.primary_email_suspended'), type: :warning)
   - else
@@ -33,7 +33,7 @@
               td = preference.render_switch(:email, data: {behavior: 'preferences-switch'})
 
   .account-notifications__subscriptions
-    h2 = t :'account.preferences.show.subscription.headline'
+    h2.h2 = t :'account.preferences.show.subscription.headline'
     - if @pinboard_subscriptions.any?
       table.account-notifications__table
         thead

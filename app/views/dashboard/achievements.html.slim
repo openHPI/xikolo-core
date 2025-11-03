@@ -3,7 +3,7 @@
 
     .dashboard-achievements
 
-      h3.pt20 = t(:'gamification.badges.headline')
+      h3.h3.pt20 = t(:'gamification.badges.headline')
       hr.divider
 
       ul.gamification-badges-list.text-align-center
@@ -11,7 +11,7 @@
           li.gamification-badge
             = render Dashboard::GamificationBadge.new(badge)
 
-      h3.pt20 = t(:'gamification.scores.your_points', points: t(:'gamification.points'))
+      h3.h3.pt20 = t(:'gamification.scores.your_points', points: t(:'gamification.points'))
       hr.divider
 
       - if @gamification.scores.any?

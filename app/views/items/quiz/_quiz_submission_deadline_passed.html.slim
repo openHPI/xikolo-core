@@ -2,7 +2,7 @@
   .course-area-main data-lanalytics-context={course_id: item.course_id}.to_json
     = render 'items/header', item: item
 
-    h3 #{t :'quiz_submission.submission_deadline_passed.title'}:
+    h3.h3 #{t :'quiz_submission.submission_deadline_passed.title'}:
     hr.divider.slim.alternative
     p.wmd-output
       == t(:'quiz_submission.submission_deadline_passed.msg')

@@ -465,6 +465,11 @@ Rails.application.routes.draw do
   resources :ping, only: %i[index]
   root to: 'home/home#index'
 
+  # TODO: Make available in production after authorization is added.
+  if Rails.env.local?
+    mount AccountService::Engine => '/account_service'
+  end
+
   if Rails.env.development?
     mount Lookbook::Engine, at: '/rails/components'
   end

@@ -16,5 +16,5 @@
 ]
   .row
     .col-md-12
-      h3 = t(:'admin.statistics.item_visits.per_type_title')
+      h3.h3 = t(:'admin.statistics.item_visits.per_type_title')
       = render partial: 'shared/statistics_table', locals: {id: 'top-types-table', attr: {'data-course-id': @course['id']}}

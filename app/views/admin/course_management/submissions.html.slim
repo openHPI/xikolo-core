@@ -16,7 +16,7 @@
       =< link_to t(:'.search_reset'), course_submissions_path, class: 'bs-a'
 
   - if @homework_submissions
-    h2
+    h2.h2
       = t :'.user_submissions'
       span.black = @user.name
       =< link_to t(:'admin.course_management.submissions.profile'), user_path(@user.id), class: 'btn btn-default btn-sm'
@@ -54,7 +54,7 @@
                 - if current_user.allowed? 'quiz.submission.grant_attempt'
                   = link_to t(:'admin.course_management.submissions.add_attempt'), add_attempt_path(course_id: @course.id, quiz_id: submission[:quiz_id], user_id: params[:user_id]), method: :post, class: 'btn btn-default btn-xs'
 
-  h2 = t :'.submissions'
+  h2.h2 = t :'.submissions'
 
   - if @submissions.any?
     table.submissions-table.table.table-striped.mb30.full-width

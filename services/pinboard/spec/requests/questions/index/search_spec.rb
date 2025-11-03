@@ -15,28 +15,28 @@ RSpec.describe 'GET /questions{?search}', type: :request do
   let(:course_id) { generate(:course_id) }
 
   let!(:q1) do
-    create(:question,
+    create(:'pinboard_service/question',
       title: 'A simple question',
       text: 'With a very satisfied text',
       course_id:)
   end
 
   let!(:q2) do
-    create(:question,
+    create(:'pinboard_service/question',
       title: 'A not-matching question',
       text: 'With a non-matching text answer to this question',
       course_id:)
   end
 
   let!(:q3) do
-    create(:question,
+    create(:'pinboard_service/question',
       title: 'A simple question title',
       text: 'With an answer text in specific order.',
       course_id:)
   end
 
   let!(:q4) do
-    create(:question,
+    create(:'pinboard_service/question',
       title: 'A simple question title',
       text: 'With order of specific answer text.',
       course_id:)

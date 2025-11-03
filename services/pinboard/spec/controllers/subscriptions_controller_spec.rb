@@ -3,11 +3,11 @@
 require 'spec_helper'
 
 describe SubscriptionsController, type: :controller do
-  let!(:subscription) { create(:subscription) }
+  let!(:subscription) { create(:'pinboard_service/subscription') }
   let(:json) { JSON.parse response.body }
-  let!(:params) { attributes_for(:subscription) }
+  let!(:params) { attributes_for(:'pinboard_service/subscription') }
   let(:default_params) { {format: 'json'} }
-  let(:question) { create(:question) }
+  let(:question) { create(:'pinboard_service/question') }
 
   describe '#index' do
     let(:action) { get :index, params: }

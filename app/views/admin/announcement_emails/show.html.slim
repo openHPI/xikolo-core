@@ -4,7 +4,7 @@
   = render Global::PageHeader.new(t(:'admin.announcements.show.headline'), subtitle: t(:'admin.page_header'), type: :slim)
 
 .bs-container
-  h2 = @email.subject
+  h2.h2 = @email.subject
 
   ul.list-disc
     li = t(:'admin.announcements.show.num_deliveries', num: @email.total_deliveries)
@@ -26,11 +26,11 @@
         =< t(:'admin.announcements.show.sent_at', date: @email.sent_at)
 
   .announcement-email__recipients
-    h3 = t(:'admin.announcements.show.recipients')
+    h3.h3 = t(:'admin.announcements.show.recipients')
     p = @email.recipients
 
   .announcement-email__sending-status
-    h3 = t(:'admin.announcements.show.status')
+    h3.h3 = t(:'admin.announcements.show.status')
     .badge.badge-info = @email.status
     .announcement-email__status-bar
       progress.announcement-email__status-bar__bar max=100 value=@email.deliveries_percentage
@@ -42,7 +42,7 @@
         disabled: @email.disabled_deliveries)
 
   .email-read-status
-    h3 = t(:'admin.announcements.show.open_rate')
+    h3.h3 = t(:'admin.announcements.show.open_rate')
     .announcement-email__status-bar
       progress.announcement-email__status-bar__bar max=100 value=@email.opens_percentage
       span.announcement-email__status-bar__percentage = "#{@email.opens_percentage}%"

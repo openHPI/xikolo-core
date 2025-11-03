@@ -5,13 +5,13 @@ require 'spec_helper'
 describe AbuseReportsController, type: :controller do
   let(:json) { JSON.parse response.body }
   let(:default_params) { {format: 'json'} }
-  let(:reportable) { create(:question) }
-  let(:report) { create(:abuse_report, reportable:) }
+  let(:reportable) { create(:'pinboard_service/question') }
+  let(:report) { create(:'pinboard_service/abuse_report', reportable:) }
 
   describe 'index' do
     subject { action.call; json }
 
-    before { create_list(:abuse_report, 3) }
+    before { create_list(:'pinboard_service/abuse_report', 3) }
 
     let(:action) { -> { get :index, params: } }
     let(:params) { {} }
@@ -19,7 +19,7 @@ describe AbuseReportsController, type: :controller do
     it { is_expected.to have(3).items }
 
     context 'with course_id' do
-      let(:report) { create(:abuse_report, course_id: SecureRandom.uuid) }
+      let(:report) { create(:'pinboard_service/abuse_report', course_id: SecureRandom.uuid) }
       let(:params) { super().merge! course_id: report.course_id }
 
       it { is_expected.to have(1).item }
@@ -60,7 +60,7 @@ describe AbuseReportsController, type: :controller do
       end
     end
 
-    let(:params) { attributes_for(:abuse_report, reportable_id: reportable.id) }
+    let(:params) { attributes_for(:'pinboard_service/abuse_report', reportable_id: reportable.id) }
     let(:action) { -> { post :create, params: } }
 
     it 'returns http created' do

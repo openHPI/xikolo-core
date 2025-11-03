@@ -10,12 +10,12 @@ RSpec.describe 'Topics: Show', type: :request do
   let(:params) { {id: post_id} }
   let(:post_id) { question.id }
 
-  let!(:question) { create(:question, text:) }
+  let!(:question) { create(:'pinboard_service/question', text:) }
   let(:text) { 'Question??' }
-  let!(:answer1) { create(:answer, question:, text: 'Answer!') }
-  let!(:answer2) { create(:answer, question:, text: 'Another answer!') }
-  let!(:question_comment) { create(:comment, commentable: question, text: 'Commenting question.') }
-  let!(:answer1_comment) { create(:comment, :for_answer, commentable: answer1, text: 'Commenting answer.') }
+  let!(:answer1) { create(:'pinboard_service/answer', question:, text: 'Answer!') }
+  let!(:answer2) { create(:'pinboard_service/answer', question:, text: 'Another answer!') }
+  let!(:question_comment) { create(:'pinboard_service/comment', commentable: question, text: 'Commenting question.') }
+  let!(:answer1_comment) { create(:'pinboard_service/comment', :for_answer, commentable: answer1, text: 'Commenting answer.') }
 
   it { is_expected.to respond_with :ok }
 
@@ -75,7 +75,7 @@ RSpec.describe 'Topics: Show', type: :request do
       it { is_expected.to eq({}) }
 
       context 'when the question has a video timestamp' do
-        let(:question) { create(:video_question, video_timestamp: 4444) }
+        let(:question) { create(:'pinboard_service/video_question', video_timestamp: 4444) }
 
         it 'exposes the video timestamp as a meta field' do
           expect(meta).to eq('video_timestamp' => 4444)
