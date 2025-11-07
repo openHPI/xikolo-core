@@ -18,7 +18,6 @@ module Xikolo
       mount CourseAPI
       mount PreferenceAPI
       mount StatisticsAPI
-      mount NewsStatisticAPI
       mount LearningInsightsAPI
 
       def self.json_api_endpoints

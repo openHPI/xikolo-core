@@ -7,8 +7,6 @@ import {
   renderTopItemTypesTable,
   renderVideoStatisticsTable,
   renderRichTextLinksTable,
-  renderNewsTable,
-  renderPinboardActivityTable,
 } from './common';
 
 ready(function () {
@@ -73,27 +71,6 @@ ready(function () {
         element.dataset.itemId,
       function (data) {
         renderRichTextLinksTable(element, data);
-      },
-    );
-  });
-
-  // news
-  $('#news-table').each(function (_, element) {
-    $.getJSON(
-      '/api/v2/news_statistics?course=' + element.dataset.courseId,
-      function (data) {
-        renderNewsTable(element, data.news_statistics, true);
-      },
-    );
-  });
-
-  // pinboard
-  $('#most-active-table').each(function (_, element) {
-    $.getJSON(
-      '/admin/detail_statistics/most_active?course_id=' +
-        element.dataset.courseId,
-      function (data) {
-        renderPinboardActivityTable(element, data);
       },
     );
   });

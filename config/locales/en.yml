@@ -1820,11 +1820,8 @@ en:
         error_header: Error # Do not translate
         disabled_header: Disabled # Do not translate
         read_header: Read # Do not translate
-        newest_header: Newest # Do not translate
-        oldest_header: Oldest # Do not translate
+        date_sent_header: Date sent # Do not translate
         state_header: Status # Do not translate
-        progress_header: Progress # Do not translate
-        readstate_progress_header: ReadState Progress # Do not translate
         state_text: # Do not translate
           text_sending: sending # Do not translate
           text_preparing: preparing # Do not translate

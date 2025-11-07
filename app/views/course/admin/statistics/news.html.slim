@@ -1,5 +1,4 @@
 - content_for :head_assets
-  = javascript_include_tag 'course-admin', crossorigin: 'anonymous', integrity: true, async: true, debug: false
   = javascript_include_tag 'teacher', crossorigin: 'anonymous', integrity: true, async: true, debug: false
 
 - content_for :course_area_header
@@ -16,4 +15,4 @@
 ]
   .row
     .col-md-12
-      = render partial: 'shared/statistics_table', locals: {id: 'news-table', attr: {'data-course-id': @course['id']}}
+      = render Global::Table.new(rows: @announcements_table_rows, headers: @announcements_table_headers, title: t(:'admin.statistics.announcements.title'))

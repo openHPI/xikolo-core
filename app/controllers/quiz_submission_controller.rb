@@ -149,14 +149,17 @@ class QuizSubmissionController < Abstract::FrontendController
     if item['submission_deadline'] &&
        !current_user.instrumented? &&
        !current_user.allowed?('course.content.access')
-      submission_deadline = item['submission_deadline'].to_i
+      submission_deadline = Time.parse(item['submission_deadline'].to_s).to_i
     else
       submission_deadline = nil
     end
 
+    quiz_access_time = @submission.quiz_access_time
+    quiz_end_time = quiz_access_time ? quiz_access_time.to_i + @quiz.current_time_limit_seconds : nil
+
     @counter_end_timediff = [
       submission_deadline,
-      @submission.quiz_access_time.to_i + @quiz.current_time_limit_seconds,
+      quiz_end_time,
     ].compact.min - nowts
     @counter_init_timestamp = nowts
     shuffle_answers @quiz, @submission.id.to_i

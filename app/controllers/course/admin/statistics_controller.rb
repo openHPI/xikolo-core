@@ -21,6 +21,16 @@ class Course::Admin::StatisticsController < Abstract::FrontendController
     authorize! 'course.dashboard.view'
     @course = the_course
     Acfs.run
+
+    @announcements_table_rows = Admin::Statistics::Announcements.call(course_id: @course.id)
+    @announcements_table_headers = [
+      I18n.t('admin.statistics.news.news_title_header'),
+      "#{I18n.t('admin.statistics.news.total_header')} / #{I18n.t('admin.statistics.news.success_header')} / " \
+      "#{I18n.t('admin.statistics.news.error_header')} / #{I18n.t('admin.statistics.news.disabled_header')} / " \
+      "#{I18n.t('admin.statistics.news.read_header')}",
+      I18n.t('admin.statistics.news.date_sent_header'),
+      I18n.t('admin.statistics.news.state_header'),
+    ]
   end
 
   def pinboard
@@ -29,6 +39,21 @@ class Course::Admin::StatisticsController < Abstract::FrontendController
     authorize! 'course.dashboard.view'
     @course = the_course
     Acfs.run
+
+    most_active = ::Admin::Statistics::MostActive.call(course_id: @course.id)
+    @most_active_table_headers = [
+      most_active[:headers][:user],
+      most_active[:headers][:posts],
+      most_active[:headers][:threads],
+    ]
+
+    @most_active_table_rows = most_active[:most_active_data].map do |row|
+      {
+        user: row['user'],
+        posts: row['posts'],
+        threads: row['threads'],
+      }
+    end
   end
 
   def social

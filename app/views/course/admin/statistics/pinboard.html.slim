@@ -1,5 +1,4 @@
 - content_for :head_assets
-  = javascript_include_tag 'course-admin', crossorigin: 'anonymous', integrity: true, async: true, debug: false
   = javascript_include_tag 'teacher', crossorigin: 'anonymous', integrity: true, async: true, debug: false
 
 - content_for :course_area_header
@@ -16,5 +15,6 @@
 ]
   .row
     .col-md-6
-      h3.h3 = t(:'admin.statistics.pinboard.most_active.title')
-      = render partial: 'shared/statistics_table', locals: {id: 'most-active-table', attr: {'data-course-id': @course['id']}}
+      = render Global::Table.new(rows: @most_active_table_rows, headers: @most_active_table_headers, title: t(:'admin.statistics.pinboard.most_active.title')) do |table|
+        - table.column(:user) do |row|
+          = link_to(row[:user]['name'], "/users/#{row[:user]['id']}", class: 'bs-a')
