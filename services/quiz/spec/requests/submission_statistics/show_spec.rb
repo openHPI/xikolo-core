@@ -25,7 +25,6 @@ RSpec.describe 'SubmissionStatistics: Show', type: :request do
     it do
       expect(show).not_to include(
         'avg_submit_duration',
-        'submissions_over_time',
         'box_plot_distributions',
         'questions_base_stats'
       )
@@ -37,12 +36,6 @@ RSpec.describe 'SubmissionStatistics: Show', type: :request do
       let(:params) { super().merge(embed: 'avg_submit_duration') }
 
       it { expect(show).to include('avg_submit_duration') }
-    end
-
-    context 'submissions_over_time' do
-      let(:params) { super().merge(embed: 'submissions_over_time') }
-
-      it { expect(show).to include('submissions_over_time') }
     end
 
     context 'box_plot_distributions' do
@@ -62,7 +55,6 @@ RSpec.describe 'SubmissionStatistics: Show', type: :request do
         super().merge(
           embed: %w[
             avg_submit_duration
-            submissions_over_time
             box_plot_distributions
             questions_base_stats
           ].join(',')
@@ -72,7 +64,6 @@ RSpec.describe 'SubmissionStatistics: Show', type: :request do
       it do
         expect(show).to include(
           'avg_submit_duration',
-          'submissions_over_time',
           'box_plot_distributions',
           'questions_base_stats'
         )
@@ -97,12 +88,6 @@ RSpec.describe 'SubmissionStatistics: Show', type: :request do
       let(:params) { super().merge(only: 'avg_submit_duration') }
 
       it { expect(keys).to contain_exactly('avg_submit_duration') }
-    end
-
-    context 'submissions_over_time' do
-      let(:params) { super().merge(only: 'submissions_over_time') }
-
-      it { expect(keys).to contain_exactly('submissions_over_time') }
     end
 
     context 'box_plot_distributions' do

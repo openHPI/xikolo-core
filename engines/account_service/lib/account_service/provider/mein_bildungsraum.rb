@@ -8,6 +8,7 @@ module Provider # rubocop:disable Layout/IndentationWidth
         email: "#{uid}@example.com",
         full_name: 'Mein Bildungsraum User',
         confirmed: false,
+        status: 'other',
       }
     end
 

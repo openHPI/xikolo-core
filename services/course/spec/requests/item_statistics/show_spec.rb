@@ -27,21 +27,9 @@ RSpec.describe 'ItemStatistics: Show', type: :request do
         'avg_points'
       )
     end
-
-    it 'does not include any other stats' do
-      expect(show).not_to include(
-        'submissions_over_time'
-      )
-    end
   end
 
   context 'embed' do
-    context 'submissions_over_time' do
-      let(:statistics_params) { super().merge(embed: 'submissions_over_time') }
-
-      it { expect(show).to include('submissions_over_time') }
-    end
-
     context 'unsupported statistic' do
       let(:statistics_params) { super().merge(embed: 'unsupported') }
 
@@ -55,12 +43,6 @@ RSpec.describe 'ItemStatistics: Show', type: :request do
 
   context 'only' do
     subject(:keys) { show.keys }
-
-    context 'submissions_over_time' do
-      let(:statistics_params) { super().merge(only: 'submissions_over_time') }
-
-      it { expect(keys).to contain_exactly('submissions_over_time') }
-    end
 
     context 'unsupported statistic' do
       let(:statistics_params) { super().merge(only: 'unsupported') }

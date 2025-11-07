@@ -1,11 +1,11 @@
 # Reporting permission
 
 The reporting role must be assigned to users manually. There is no UI for it as this concerns access to sensitive data and is also a policy issue for some stakeholders.
-It can be granted or revoked on the production systems via the Rails console of `xi-web`:
+It can be granted or revoked on the production systems via the Rails console of `xi-account`:
 
-[Using Nomads web UI, connect to `xi-web`](https://nomad.adm.production.openhpi.xi.xopic.de/ui/exec/xikolo/account-api/server) (don't forget to press Enter here)
+[Using Nomads web UI, connect to `xi-account`](https://nomad.adm.production.openhpi.xi.xopic.de/ui/exec/xikolo/account-api/server) (don't forget to press Enter here)
 
-```shell title="xi-web:/app$"
+```shell title="xi-account:/app$"
 rails c
 ```
 
@@ -20,16 +20,16 @@ rails c
 2. Grant the reporting role for each user. Check the output for errors.
 
     ```ruby
-    r = AccountService::Role.find_by(name: 'lanalytics.report.admin')
-    c = AccountService::Context.root
+    r = Role.find_by(name: 'lanalytics.report.admin')
+    c = Context.root
 
     emails.map do |email|
-      user = AccountService::User.query(email).first
+      user = User.query(email).first
 
       puts "No user found for #{email}" unless user
       next unless user
 
-      AccountService::Grant.create!(principal: user, role: r, context: c)
+      Grant.create!(principal: user, role: r, context: c)
     end
     ```
 
@@ -44,23 +44,23 @@ rails c
 2. Remove the reporting role for each user. Check the output for errors.
 
     ```ruby
-    r = AccountService::Role.find_by(name: 'lanalytics.report.admin')
+    r = Role.find_by(name: 'lanalytics.report.admin')
 
     emails.map do |email|
-    user = AccountService::User.query(email).first
+    user = User.query(email).first
 
     puts "No user found for #{email}" unless user
     next unless user
 
-    AccountService::Grant.find_by(principal: user, role: r)&.destroy!
+    Grant.find_by(principal: user, role: r)&.destroy!
     end
     ```
 
 ## List all users with the reporting role
 
 ```ruby
-r = AccountService::Role.find_by name: 'lanalytics.report.admin'
-user_ids = AccountService::Grant.where(role: r, principal_type: 'AccountService::User').pluck(:principal_id)
+r = Role.find_by name: 'lanalytics.report.admin'
+user_ids = Grant.where(role: r, principal_type: 'User').pluck(:principal_id)
 
-pp AccountService::User.where(id: user_ids).map(&:email)
+pp User.where(id: user_ids).map(&:email)
 ```

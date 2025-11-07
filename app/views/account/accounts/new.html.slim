@@ -10,6 +10,10 @@
           = f.error_notification
           = f.input :full_name
           = f.input :born_at, as: :date, html5: true, label: t(:'simple_form.labels.account.date_of_birth'), required: true, hint: t(:'simple_form.hints.account.date_of_birth')
+          = f.input :status,
+              collection: Account::User.statuses.keys.map {|s| [I18n.t(:"dashboard.profile.statuses.#{s}"), s] },
+              label: t(:'dashboard.profile.status'),
+              required: true
           = f.input :email
           = f.input :password
           = f.input :password_confirmation

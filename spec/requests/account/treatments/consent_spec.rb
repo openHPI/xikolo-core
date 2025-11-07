@@ -14,7 +14,7 @@ describe 'Account: Treatments: Consent', type: :request do
 
   before do
     Stub.request(:account, :get, "/users/#{user[:id]}")
-      .to_return Stub.json({consents_url: '/account_service/myconsents'})
+      .to_return Stub.json({consents_url: '/myconsents'})
   end
 
   context 'to all treatments' do

@@ -8,6 +8,7 @@ module Steps
         'date_of_birth' => '1990-01-20',
         'password' => 'secret123',
         'full_name' => 'John Smith',
+        'status' => 'other',
       }
     end
 
@@ -17,6 +18,7 @@ module Steps
 
       fill_in 'Name', with: data['full_name']
       fill_in 'Date of birth', with: data['date_of_birth'].to_s
+      select 'Teacher', from: 'Status'
       fill_in 'E-mail address', with: data['email']
       fill_in 'Password', with: data['password'], match: :prefer_exact
       fill_in 'Repeat password', with: data['password']
@@ -29,6 +31,7 @@ module Steps
 
       fill_in 'Ihr Name', with: data['full_name']
       fill_in 'Geburtsdatum', with: data['date_of_birth'].to_s
+      select 'Lehrkraft', from: 'Status'
       fill_in 'Ihre E-Mail-Adresse', with: data['email']
       fill_in 'Passwort', with: data['password'], match: :prefer_exact
       fill_in 'Passwort (Wiederholung)', with: data['password']

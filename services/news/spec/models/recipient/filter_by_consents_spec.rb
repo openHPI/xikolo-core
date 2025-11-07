@@ -17,7 +17,7 @@ describe FilterByConsents, type: :model do
       Stub.request(:account, :get, '/users/the_id')
         .to_return Stub.json({
           id: 'the_id',
-          groups_url: '/account_service/users/the_id/groups',
+          groups_url: '/users/the_id/groups',
         })
       Stub.request(:account, :get, '/users/the_id/groups')
         .to_return Stub.json(user_groups)
@@ -56,13 +56,13 @@ describe FilterByConsents, type: :model do
     before do
       Stub.service(:account, build(:'account:root'))
       Stub.request(:account, :get, '/groups/the.id')
-        .to_return Stub.json({members_url: '/account_service/groups/the.id/members'})
+        .to_return Stub.json({members_url: '/groups/the.id/members'})
 
       Stub.request(:account, :get, '/groups/the.id/members')
         .to_return Stub.json(
           [{id: 1}, {id: 2}],
           headers: {
-            'Link' => '</account_service/groups/the.id/members?page=2>; rel="next"',
+            'Link' => '</groups/the.id/members?page=2>; rel="next"',
           }
         )
       Stub.request(:account, :get, '/groups/the.id/members?page=2')
@@ -79,9 +79,9 @@ describe FilterByConsents, type: :model do
       context 'and not all users consented to all required treatments' do
         before do
           Stub.request(:account, :get, '/groups/treatment.consent1')
-            .to_return Stub.json({memberships_url: '/account_service/groups/treatment.consent2/memberships'})
+            .to_return Stub.json({memberships_url: '/groups/treatment.consent2/memberships'})
           Stub.request(:account, :get, '/groups/treatment.consent2')
-            .to_return Stub.json({memberships_url: '/account_service/groups/treatment.consent2/memberships'})
+            .to_return Stub.json({memberships_url: '/groups/treatment.consent2/memberships'})
           Stub.request(
             :account, :get, '/groups/treatment.consent1/memberships',
             query: {per_page: 10_000}

@@ -2294,30 +2294,19 @@ en:
           submissions: "<span>%{submissions}</span> submissions by <span>%{users}</span> users" # Do not translate
           perfect_submissions: "<span>%{submissions}</span> perfect submissions with all points by <span>%{users}</span> users" # Do not translate
           points: "<span>%{avg}</span> (%{percentage_avg}%) of <span>%{max_points}</span> total points on average" # Do not translate
-          submissions_over_time: Submissions over Time # Do not translate
           no_submission: No submissions yet. # Do not translate
           submission_limit_exceeded: This item has too many submissions to show further statistics. # Do not translate
         quiz: # Do not translate
           submissions: "<span>%{submissions}</span> submissions by <span>%{users}</span> users" # Do not translate
           time: "users needed <span>%{seconds} s</span> of allowed <span>%{limit} s</span> on average" # Do not translate
           points: "<span>%{avg}</span> (%{percentage_avg}%) of <span>%{max_points}</span> total points on average" # Do not translate
-          submissions_over_time: Submissions over Time # Do not translate
           no_submission: No submissions yet. # Do not translate
           submission_limit_exceeded: This quiz has too many submissions to show further statistics. # Do not translate
           unknown_type: No stats available for this question type yet. # Do not translate
           base_stats_w_partly_correct: "%{correct} correct, %{partly_correct} partly correct and %{incorrect} wrong submissions | %{percentage_avg}% avg. perf." # Do not translate
           base_stats: "%{correct} correct and %{incorrect} wrong submissions | %{percentage_avg}% avg. perf." # Do not translate
-          total_submissions: Total Submissions # Do not translate
-          total_user: Unique Users # Do not translate
-          max_ponts: Total Points # Do not translate
-          avg_points: Average Points # Do not translate
-          answers: Answers # Do not translate
-          avg_essay_length: Average Essay Length # Do not translate
-          characters: Characters # Do not translate
           request_submission_report: "For a <strong>complete list</strong> of submitted answers, please request a <strong>submission report</strong> for the quiz-id %{id}." # Do not translate
           request_submission_report_link: "For a <strong>complete list</strong> of submitted answers, please request a <a href='%{link}'>submission report</a> for the quiz-id %{id}." # Do not translate
-          unique_answers: One-Time Answers # Do not translate
-          multiple_answers: Multiple Answers # Do not translate
         video: # Do not translate
           plays: "played by <span>%{plays}</span> users" # Do not translate
           farthest_watched: "watched till <span>%{farthest_watched}%</span> by all users on average" # Do not translate

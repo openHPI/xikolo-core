@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :'notification_service/mail_log', class: 'MailLog' do
+  factory :'notification_service/mail_log', class: 'NotificationService::MailLog' do
     user_id { '00000001-aaaa-4444-9999-000000000001' }
     course_id { '00000001-3300-4444-9999-000000000001' }
     news_id { '00000001-3300-4444-9455-000000000001' }

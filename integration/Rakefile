@@ -125,7 +125,7 @@ end
 
 namespace :permissions do
   task load: %i[^config] do
-    Server.exec :main do |app|
+    Server.exec :account do |app|
       app.bundle 'exec', 'rake', 'permissions:load', env: {'RAILS_ENV' => ENV.fetch('RAILS_ENV', nil)}
     end
   end

@@ -28,7 +28,7 @@ shared_examples 'a reportable' do |reportable_class|
         Stub.service(:account, build(:'account:root'))
         Stub.request(
           :account, :get, '/groups/course.the_course.admins'
-        ).to_return Stub.json({members_url: '/account_service/groups/course.the_course.admins/members'})
+        ).to_return Stub.json({members_url: '/groups/course.the_course.admins/members'})
         Stub.request(
           :account, :get, '/groups/course.the_course.admins/members'
         ).to_return Stub.json([

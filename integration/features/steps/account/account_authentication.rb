@@ -68,6 +68,7 @@ module Steps
     When 'I submit my account credentials' do
       fill_in 'Name', with: 'John Smith'
       fill_in 'Date of birth', with: context.fetch(:user).fetch('born_at')
+      select 'Teacher', from: 'Status'
       send :'When I fill in my email address'
       send :'When I fill in my password'
       fill_in 'Repeat password', with: context.fetch(:user).fetch('password')

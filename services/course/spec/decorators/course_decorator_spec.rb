@@ -103,7 +103,7 @@ describe CourseDecorator do
     describe '#students_group_url' do
       subject { json['students_group_url'] }
 
-      it { is_expected.to eq "http://web.xikolo.tld/account_service/groups/course.#{course.course_code}.students" }
+      it { is_expected.to eq "http://account.xikolo.tld/groups/course.#{course.course_code}.students" }
     end
 
     context 'with custom course middle' do

@@ -68,6 +68,7 @@ end
 Factory.define :user do
   field :password, 'secret123'
   field :born_at, '1990-01-20'
+  field :status, 'other'
   field(:full_name, seq {|i| "John Smith#{i}" })
   field :email, ->(user) { "#{user[:full_name].parameterize(separator: '.')}@text.xikolo.de" }
   field :confirmed, true

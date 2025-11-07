@@ -17,7 +17,7 @@ RSpec.describe AnnouncementMailer, type: :mailer do
       Stub.request(:account, :get, "/users/#{user_id}")
         .to_return Stub.json({
           id: user_id,
-          emails_url: "/account_service/users/#{user_id}/emails",
+          emails_url: "/users/#{user_id}/emails",
         })
       Stub.request(:account, :get, "/users/#{user_id}/emails")
         .to_return Stub.json([{id: SecureRandom.uuid}])

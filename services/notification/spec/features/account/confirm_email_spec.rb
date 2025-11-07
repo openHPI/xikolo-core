@@ -16,7 +16,7 @@ describe 'Email Address Confirmation Email', type: :feature do
       display_name: 'John Smith',
       email: 'john@example.de',
       language: user_language,
-      email_url: '/account_service/users/c088d006-8886-4b3c-a6ac-d45f168abc5b/emails/{id}',
+      email_url: '/users/c088d006-8886-4b3c-a6ac-d45f168abc5b/emails/{id}',
     })
     Stub.request(
       :account, :get, '/users/c088d006-8886-4b3c-a6ac-d45f168abc5b/emails/7dbf9da5-f3de-4b83-b5af-299d3fbf9e11'

@@ -25,6 +25,7 @@ describe 'Account: Accounts: Create', type: :request do
     {
       full_name: 'Jane Doe',
       email: 'doe@plattner.de',
+      status: 'Teacher',
       password: 'secret',
       password_confirmation: 'secret',
       language: 'en',
@@ -52,6 +53,7 @@ describe 'Account: Accounts: Create', type: :request do
           create_user_stub.with(body: {
             full_name: 'Jane Doe',
             email: 'doe@plattner.de',
+            status: 'Teacher',
             password: 'secret',
             password_confirmation: 'secret',
             language: 'en',

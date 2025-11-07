@@ -638,10 +638,3 @@ recaptcha:
 # For the use case in xi-web, a boolean value is sufficient.
 # This is valid due to backwards compatibility.
 persisted_learning_evaluation: false
-
-# If a JWT is supposed to get appended to the external_course_url the field
-# to pass on in the organization_name attribute needs to be specified.
-# Example: 'https://example.com/courses/course_code?jwt={jwt with encoded org_name}
-# To use the feature, the corresponding feature flipper must be enabled.
-external_booking:
-  affiliation_field: ~

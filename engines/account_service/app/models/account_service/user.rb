@@ -332,6 +332,7 @@ class User < ApplicationRecord # rubocop:disable Layout/IndentationWidth
         anonymous: true,
         display_name: '',
         full_name: 'Anonymous',
+        status: 'other',
       }
     end
   end

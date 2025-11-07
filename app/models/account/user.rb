@@ -24,6 +24,7 @@ module Account
       class_name: '::Certificate::Record',
       dependent: :destroy
 
+    attribute :gender, :string
     enum :gender, {
       male: 'male',
       female: 'female',
@@ -31,6 +32,7 @@ module Account
       undisclosed: 'undisclosed',
     }, prefix: true
 
+    attribute :status, :string
     enum :status, {
       school_student: 'school_student',
       university_student: 'university_student',
@@ -42,8 +44,10 @@ module Account
     COUNTRY_CODES = ISO3166::Country.all.map(&:alpha2)
 
     # Build a hash like { US: 'US', DE: 'DE', FR: 'FR', ... }
+    attribute :country, :string
     enum :country, COUNTRY_CODES.index_by(&:to_sym), prefix: :country
 
+    attribute :state, :string
     enum :state, {
       BW: 'BW',
       BY: 'BY',

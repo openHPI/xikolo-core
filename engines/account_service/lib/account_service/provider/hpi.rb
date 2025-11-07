@@ -9,6 +9,7 @@ module Provider # rubocop:disable Layout/IndentationWidth
         full_name: "#{info['first_name']} #{info['last_name']}".strip,
         display_name: info['nickname'],
         confirmed: true,
+        status: 'other',
       }
     end
 

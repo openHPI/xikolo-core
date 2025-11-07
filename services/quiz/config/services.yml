@@ -14,7 +14,7 @@ development:
 
 test:
   services:
-    account: http://web.xikolo.tld/account_service
+    account: http://account.xikolo.tld
     course: http://course.xikolo.tld
     quiz: http://quiz.xikolo.tld
     submission: http://quiz.xikolo.tld

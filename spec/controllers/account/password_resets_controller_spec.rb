@@ -7,7 +7,7 @@ describe Account::PasswordResetsController, type: :controller do
     Stub.json({
       user_id: '7563b0ed-f64f-441b-bb05-a673eb3036af',
       id: 'abcd',
-      self_url: 'http://localhost:3000/account_service/password_resets/abcd',
+      self_url: 'http://localhost:3100/password_resets/abcd',
     })
   end
 

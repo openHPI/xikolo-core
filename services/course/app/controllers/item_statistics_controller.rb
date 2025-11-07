@@ -33,9 +33,7 @@ class ItemStatisticsController < ApplicationController
   private
 
   def supported_statistics
-    %w[
-      submissions_over_time
-    ]
+    %w[]
   end
 
   def unsupported_statistic_error

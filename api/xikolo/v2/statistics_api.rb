@@ -328,33 +328,6 @@ module Xikolo
             end
           end
 
-          namespace 'result_submissions_over_time' do
-            params do
-              requires :id, type: String, desc: 'The item UUID'
-            end
-            get do
-              course_item_stats_permission! params[:id]
-
-              course_api
-                .rel(:item).get({id: params[:id]}).value!
-                .rel(:statistics).get({only: 'submissions_over_time'}).value!
-            end
-          end
-
-          namespace 'quiz_submissions_over_time' do
-            params do
-              requires :id, type: String, desc: 'The quiz UUID'
-            end
-            get do
-              course_item_stats_permission_for_quiz! params[:id]
-
-              quiz_api.rel(:submission_statistic).get({
-                id: params[:id],
-                only: 'submissions_over_time',
-              }).value!
-            end
-          end
-
           namespace 'multiple_choice_or_answer_question' do
             params do
               requires :id, type: String, desc: 'The question UUID'

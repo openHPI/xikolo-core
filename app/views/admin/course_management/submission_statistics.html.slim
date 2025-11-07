@@ -46,22 +46,6 @@
           => t(:'.distinct')
           = @stats[stat[0]]['total_submissions_distinct']
           - average = []
-          .white-bg#chart_time style="height:250px"
-            - # rubocop:disable Rails/OutputSafety
-            javascript:
-              ready(function () {
-                chart_data = #{raw @stats[stat[0]]['submissions_over_time'].map {|k, v| {Date: k[0..9], Count: v.to_i} }.to_json};
-                var svg = dimple.newSvg("#chart_time", '100%', '100%');
-                var myChart = new dimple.chart(svg, chart_data);
-                var x = myChart.addTimeAxis("x", "Date", "%Y-%m-%d", "%Y-%m-%d");
-                myChart.addMeasureAxis("y", "Count");
-                s = myChart.addSeries(null, dimple.plot.line);
-                myChart.setMargins("25px", "25px", "25px", "75px");
-                myChart.addLegend(60, 10, 500, 20, "right");
-                myChart.draw();
-                chartHolder.push(myChart);
-              });
-            - # rubocop:enable Rails/OutputSafety
           - @stats_quizzes[stat[0]].questions.each do |question|
             h4.h4 = question.text[0..80]
             - i = @stats[stat[0]]['questions'].find {|k, _v| k.first.first == question.id }

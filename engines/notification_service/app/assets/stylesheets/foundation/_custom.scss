@@ -1,0 +1,17 @@
+//  CUSTOM STYLES FOR FOUNDATION EMAILS
+//  -----------------------------------
+//
+//  Layout and cosmetics across all brands
+
+.settings,
+.footer {
+  p {
+    color: $small-font-color;
+    font-size: $small-font-size;
+  }
+}
+
+hr.colored {
+  border-width: 0;
+  border-bottom: 3px solid $primary-color;
+}

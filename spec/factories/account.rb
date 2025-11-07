@@ -8,6 +8,7 @@ FactoryBot.define do
     sequence(:full_name) {|n| "User Fullname #{n}" }
     sequence(:display_name) {|n| "User Displayname #{n}" }
     language { 'en' }
+    status { 'other' }
 
     trait :with_email do
       after(:create) do |user|
@@ -70,9 +71,10 @@ FactoryBot.define do
     sequence(:full_name) {|n| "User Fullname #{n}" }
     sequence(:display_name) {|n| "User Displayname #{n}" }
     language { 'en' }
+    stauts { 'other' }
     sequence(:email) {|n| "eMail#{n}@openhpi.de" }
 
-    url { "/account_service/users/#{id}" }
+    url { "/users/#{id}" }
     consents_url { stub_url(:account, "/users/#{id}/consents") }
     emails_url { stub_url(:account, "/users/#{id}/emails") }
     features_url { stub_url(:account, "/users/#{id}/features") }

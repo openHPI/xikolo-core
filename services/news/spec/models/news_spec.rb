@@ -47,7 +47,7 @@ describe News, type: :model do
         Stub.request(:account, :get, '/groups', query: hash_including(user: user_id))
           .to_return user_groups_response
         Stub.request(:account, :get, "/users/#{user_id}")
-          .to_return Stub.json({permissions_url: "/account_service/users/#{user_id}/permissions"})
+          .to_return Stub.json({permissions_url: "/users/#{user_id}/permissions"})
         Stub.request(:account, :get, "/users/#{user_id}/permissions")
           .to_return user_permissions_response
       end

@@ -5,6 +5,7 @@ class Account::AccountForm < XUI::Form
 
   attribute :full_name, :single_line_string
   attribute :born_at, :date
+  attribute :status, :single_line_string
   attribute :email, :single_line_string
   attribute :password, :single_line_string
   attribute :password_confirmation, :single_line_string
@@ -12,6 +13,7 @@ class Account::AccountForm < XUI::Form
 
   validates :full_name,
     :born_at,
+    :status,
     :email,
     :password,
     :password_confirmation,

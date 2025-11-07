@@ -10,7 +10,8 @@ h2.h2.category-title.mb20
     = f.input :born_at, as: :date, html5: true, label: t(:'simple_form.labels.account.date_of_birth'), required: true, hint: t(:'simple_form.hints.account.date_of_birth')
     = f.input :status,
               collection: @profile.status_collection,
-              label: t(:'dashboard.profile.status')
+              label: t(:'dashboard.profile.status'),
+              required: true
 
     = f.input :gender,
               collection: @profile.gender_collection,

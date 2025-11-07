@@ -23,7 +23,7 @@ describe 'Daily Statistic Mails', type: :feature do
     ).to_return Stub.json({
       name: 'course.futcode.admins',
       description: 'Course Admins of course futcode',
-      members_url: 'http://localhost:3000/account_service/groups/course.futcode.admins/members',
+      members_url: 'http://localhost:3100/groups/course.futcode.admins/members',
     })
 
     Stub.request(
@@ -34,7 +34,7 @@ describe 'Daily Statistic Mails', type: :feature do
         full_name: 'Tom T. Teacher',
         language: 'en',
         email: 'tom@example.com',
-        preferences_url: 'http://localhost:3000/account_service/users/00000001-3100-4444-9999-000000000003/preferences',
+        preferences_url: 'http://localhost:3100/users/00000001-3100-4444-9999-000000000003/preferences',
       },
     ])
 
@@ -43,7 +43,7 @@ describe 'Daily Statistic Mails', type: :feature do
     ).to_return Stub.json({
       name: 'course.aff.admins',
       description: 'Course Admins of course aff',
-      members_url: 'http://localhost:3000/account_service/groups/course.aff.admins/members',
+      members_url: 'http://localhost:3100/groups/course.aff.admins/members',
     })
 
     Stub.request(
@@ -54,7 +54,7 @@ describe 'Daily Statistic Mails', type: :feature do
         full_name: 'Tom T. Teacher',
         language: 'en',
         email: 'tom@example.com',
-        preferences_url: 'http://localhost:3000/account_service/users/00000001-3100-4444-9999-000000000003/preferences',
+        preferences_url: 'http://localhost:3100/users/00000001-3100-4444-9999-000000000003/preferences',
       },
     ])
 
@@ -98,7 +98,7 @@ describe 'Daily Statistic Mails', type: :feature do
 
     Stub.request(
       :learnanalytics, :get, "/course_statistics/#{course_id1}"
-    ).to_return Stub.json(CourseStats.verify({
+    ).to_return Stub.json(NotificationService::CourseStats.verify({
       id: '00d6833d-d75c-4f64-813f-5d312bd7e686',
       course_code: 'futcode',
       course_id: course_id1,
@@ -146,7 +146,7 @@ describe 'Daily Statistic Mails', type: :feature do
 
     Stub.request(
       :learnanalytics, :get, "/course_statistics/#{course_id2}"
-    ).to_return Stub.json(CourseStats.verify({
+    ).to_return Stub.json(NotificationService::CourseStats.verify({
       id: '00d6833d-d75c-4f64-813f-5d312bd7e683',
       course_code: 'prep',
       course_id: course_id2,
@@ -195,7 +195,7 @@ describe 'Daily Statistic Mails', type: :feature do
 
     Stub.request(
       :learnanalytics, :get, "/course_statistics/#{course_id3}"
-    ).to_return Stub.json(CourseStats.verify({
+    ).to_return Stub.json(NotificationService::CourseStats.verify({
       id: '00d6833d-d75c-4f64-813f-5d312bd7e682',
       course_code: 'aff',
       course_id: course_id3,

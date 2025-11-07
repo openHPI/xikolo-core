@@ -50,45 +50,5 @@
         text-align: center;
       }
     }
-
-    .result {
-      .no-submission {
-        @extend .unknown;
-      }
-    }
-
-    .quiz {
-      .no-submission {
-        @extend .unknown;
-      }
-
-      .unknown-question {
-        color: #999;
-        font-size: 1.3em;
-        text-align: center;
-      }
-
-      .base_stats {
-        font-weight: normal;
-      }
-
-      .kpi-item {
-        padding-top: 10px;
-      }
-
-      score-card {
-        --score-card-icon-background-border-radius: 4px;
-        --score-card-icon-background-color: #{$gray};
-        --score-card-height: 60px;
-        --score-card-icon-font-size: 2.5em;
-        --score-card-link-color: #{$link-color};
-        --score-card-link-color-hover: #{$link-color-hover};
-        --score-card-link-text-decoration: none;
-      }
-
-      .badge {
-        background-color: #333333;
-      }
-    }
   }
 }

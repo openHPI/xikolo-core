@@ -42,13 +42,6 @@ module ItemStats
       'money-check-pen'
     end
 
-    def render(ctx)
-      ctx.render(
-        'course/admin/item_stats/result',
-        item_stats: self
-      )
-    end
-
     def submissions?
       stats['total_submissions'].positive?
     end

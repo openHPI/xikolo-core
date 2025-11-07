@@ -104,11 +104,11 @@ describe NotificationService::EventsController, type: :controller do
     before { Sidekiq::Testing.fake! }
 
     it 'creates a new event' do
-      expect { action }.to change(Event, :count).by(1)
+      expect { action }.to change(NotificationService::Event, :count).by(1)
     end
 
     it 'schedules a job to create notifications for the subscribers' do
-      expect { action }.to change(CreateNotificationsWorker.jobs, :size).by(1)
+      expect { action }.to change(NotificationService::CreateNotificationsWorker.jobs, :size).by(1)
     end
   end
 end

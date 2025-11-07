@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :helpdesk_ticket, class: 'Duplicated::HelpdeskTicket' do
+  factory :helpdesk_ticket, class: 'NotificationService::Duplicated::HelpdeskTicket' do
     sequence(:title) {|n| "Problem #{n}" }
     report { 'Something is not working' }
     topic { 'course' }

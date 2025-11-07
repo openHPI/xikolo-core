@@ -11,7 +11,7 @@ require 'xikolo/common'
 require 'webmock/rspec'
 require 'xikolo/common/rspec'
 
-Xikolo::Common::API.assign(:account, 'http://web.xikolo.tld/account_service')
+Xikolo::Common::API.assign(:account, 'http://account.xikolo.tld')
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|

@@ -10,7 +10,7 @@ describe 'Account Welcome Email', type: :feature do
       display_name: 'John Smith',
       email: 'john@example.de',
       language: user_language,
-      features_url: '/account_service/users/c088d006-8886-4b3c-a6ac-d45f168abc5b/features',
+      features_url: '/users/c088d006-8886-4b3c-a6ac-d45f168abc5b/features',
     })
   end
   let(:user_language) { 'en' }

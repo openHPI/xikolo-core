@@ -15,7 +15,7 @@ template = <<~ERB
     SELECT id
     FROM groups
     WHERE name LIKE 'course.%.%'
-  ) AND principal_type = 'AccountService::Group';
+  ) AND principal_type = 'Group';
 
   -- 2. Ensure that all roles are created
 

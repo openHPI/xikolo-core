@@ -34,7 +34,6 @@ class SubmissionStatisticsController < ApplicationController
   def supported_statistics
     %w[
       avg_submit_duration
-      submissions_over_time
       box_plot_distributions
       questions_base_stats
       questions

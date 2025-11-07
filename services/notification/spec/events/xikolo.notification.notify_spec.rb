@@ -16,9 +16,9 @@ describe 'xikolo.notification.notify', type: :event do
       id: receiver_id,
       email: 'test@email.com',
       archived: false,
-      emails_url: "/account_service/users/#{receiver_id}/emails",
-      features_url: "/account_service/users/#{receiver_id}/features",
-      preferences_url: "/account_service/users/#{receiver_id}/preferences",
+      emails_url: "/users/#{receiver_id}/emails",
+      features_url: "/users/#{receiver_id}/features",
+      preferences_url: "/users/#{receiver_id}/preferences",
     })
     Stub.request(
       :account, :get, "/users/#{receiver_id}/preferences"
@@ -55,7 +55,7 @@ describe 'xikolo.notification.notify', type: :event do
     end
 
     it 'creates a MailLog entry' do
-      expect { notify_event }.to change(MailLog, :count).from(0).to(1)
+      expect { notify_event }.to change(NotificationService::MailLog, :count).from(0).to(1)
     end
 
     describe 'the email' do

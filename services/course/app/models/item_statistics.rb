@@ -31,15 +31,6 @@ class ItemStatistics
     results.average(:dpoints).to_f.try(:/, 10.0).round(2)
   end
 
-  def submissions_over_time
-    submissions_over_time = results.group_by_day(:created_at).count
-    if submissions_over_time.count < 4
-      # group by hour if less then four days
-      submissions_over_time = results.group_by_hour(:created_at).count
-    end
-    submissions_over_time
-  end
-
   private
 
   def results

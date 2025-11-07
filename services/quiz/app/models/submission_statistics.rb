@@ -36,17 +36,6 @@ class SubmissionStatistics
     total_submit_duration.fdiv(submissions.count)
   end
 
-  def submissions_over_time
-    result = submissions.group_by_day(:quiz_submission_time).count
-
-    if result.count <= 3
-      # group by day after three days
-      result = submissions.group_by_hour(:quiz_submission_time).count
-    end
-
-    result
-  end
-
   # deprecated, remove when legacy usage is refactored
   # rubocop:disable Style/Next
   def questions

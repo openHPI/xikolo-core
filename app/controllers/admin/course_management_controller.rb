@@ -197,7 +197,7 @@ class Admin::CourseManagementController < Admin::BaseController
       Xikolo::Quiz::Quiz.find quiz_item.content_id do |quiz|
         stat = quiz_api.rel(:submission_statistic).get({
           id: quiz.id,
-          embed: 'avg_submit_duration,submissions_over_time,questions',
+          embed: 'avg_submit_duration,questions',
         }).value!
         next if stat.blank?
 

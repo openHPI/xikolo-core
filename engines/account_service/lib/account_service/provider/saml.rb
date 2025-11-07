@@ -8,6 +8,7 @@ module Provider # rubocop:disable Layout/IndentationWidth
         email: info['email'],
         full_name: info['name'],
         confirmed: true,
+        status: 'other',
       }
     end
 
