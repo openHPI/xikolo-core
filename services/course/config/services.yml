@@ -18,7 +18,7 @@ development:
 
 test:
   services:
-    account: http://account.xikolo.tld
+    account: http://web.xikolo.tld/account_service
     course: http://course.xikolo.tld
     notification: http://notification.xikolo.tld
     pinboard: http://pinboard.xikolo.tld

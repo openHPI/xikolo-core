@@ -16,9 +16,9 @@ describe 'xikolo.notification.notify', type: :event do
       id: receiver_id,
       email: 'test@email.com',
       archived: false,
-      emails_url: "/users/#{receiver_id}/emails",
-      features_url: "/users/#{receiver_id}/features",
-      preferences_url: "/users/#{receiver_id}/preferences",
+      emails_url: "/account_service/users/#{receiver_id}/emails",
+      features_url: "/account_service/users/#{receiver_id}/features",
+      preferences_url: "/account_service/users/#{receiver_id}/preferences",
     })
     Stub.request(
       :account, :get, "/users/#{receiver_id}/preferences"

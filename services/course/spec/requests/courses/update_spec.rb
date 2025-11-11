@@ -181,7 +181,7 @@ describe 'Course: Update', type: :request do
             context: course.context_id,
             role_name: 'course.visitor',
             group: grant_visitor_group,
-            self_url: "http://account.xikolo.tld/grants/#{existing_grant_id}",
+            self_url: "http://web.xikolo.tld/account_service/grants/#{existing_grant_id}",
           }]
         end
         let!(:delete_visitor_stub) do
@@ -215,7 +215,7 @@ describe 'Course: Update', type: :request do
             context: course.context_id,
             role_name: 'course.visitor',
             group: grant_visitor_group,
-            self_url: "http://account.xikolo.tld/grants/#{grant_id}",
+            self_url: "http://web.xikolo.tld/account_service/grants/#{grant_id}",
           },
         ]
       end
@@ -243,7 +243,7 @@ describe 'Course: Update', type: :request do
             context: course.context_id,
             role_name: 'course.visitor',
             group: grant_visitor_group,
-            self_url: "http://account.xikolo.tld/grants/#{existing_grant_id}",
+            self_url: "http://web.xikolo.tld/account_service/grants/#{existing_grant_id}",
           }
         end
         let!(:grant_visitor_stub) do
@@ -271,7 +271,7 @@ describe 'Course: Update', type: :request do
             context: course.context_id,
             role_name: 'course.visitor',
             group: 'xikolo.other_group',
-            self_url: "http://account.xikolo.tld/grants/#{additional_grant_id}",
+            self_url: "http://web.xikolo.tld/account_service/grants/#{additional_grant_id}",
           }
         end
         let(:existing_grants) { super() << additional_grant }
@@ -321,7 +321,7 @@ describe 'Course: Update', type: :request do
               context: course.context_id,
               role_name: 'course.visitor',
               group: 'all',
-              self_url: "http://account.xikolo.tld/grants/#{additional_grant_id}",
+              self_url: "http://web.xikolo.tld/account_service/grants/#{additional_grant_id}",
             }
           end
           let(:existing_grants) { super() << additional_grant }

@@ -41,7 +41,7 @@ RSpec.describe Xikolo::Common::Auth::Middleware do
     before do
       Stub.service(
         :account,
-        session_url: 'http://account.xikolo.tld/sessions/{id}{?embed,context}'
+        session_url: 'http://web.xikolo.tld/account_service/sessions/{id}{?embed,context}'
       )
     end
 

@@ -1,5 +1,4 @@
 - content_for :head_assets
-  = javascript_include_tag 'course-admin', crossorigin: 'anonymous', integrity: true, async: true, debug: false
   = javascript_include_tag 'teacher', crossorigin: 'anonymous', integrity: true, async: true, debug: false
 
 - content_for :course_area_header
@@ -21,4 +20,20 @@
           t(:'admin.statistics.tooltip.afw_column'),
           t(:'admin.statistics.tooltip.seek_column')],
         level: 3)
-      = render partial: 'shared/statistics_table', locals: {id: 'video-statistics-table', attr: {'data-course-id': @course['id'], 'data-course-code': @course['course_code']}}
+      = render Global::Table.new(rows: @videos_data, headers: @videos_table_headers) do |table|
+        - table.column(:title) do |row|
+          = link_to row['title'],
+            course_item_path(@course_code, row['actions']),
+            class: 'bs-a',
+            data: {sort_value: row['title']}
+
+        - table.column(:actions) do |row|
+          .flex.space-x-4
+            = link_to t(:'admin.course_management.dashboard.more_details'),
+              course_item_statistics_path(@course_code, row['actions']),
+              class: 'bs-a whitespace-nowrap'
+
+            = button_tag t(:'admin.statistics.videos.copy_id'),
+              type: 'button',
+              class: 'inline-flex items-center px-2 py-1 text-xs font-medium text-white bg-gray-700 rounded whitespace-nowrap cursor-pointer',
+              data: {behavior: 'copy-to-clipboard', text: row['actions']}

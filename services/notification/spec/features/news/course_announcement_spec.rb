@@ -86,9 +86,9 @@ describe 'Course Announcement Mail', type: :feature do
       email: 'kevin.cool@example.com',
       language: 'en',
       archived: false,
-      emails_url: '/users/00000001-3100-4444-9999-000000000001/emails',
-      features_url: '/users/00000001-3100-4444-9999-000000000001/features',
-      preferences_url: '/users/00000001-3100-4444-9999-000000000001/preferences',
+      emails_url: '/account_service/users/00000001-3100-4444-9999-000000000001/emails',
+      features_url: '/account_service/users/00000001-3100-4444-9999-000000000001/features',
+      preferences_url: '/account_service/users/00000001-3100-4444-9999-000000000001/preferences',
     })
     Stub.request(
       :account, :get, '/users/00000001-3100-4444-9999-000000000001/preferences'
@@ -110,9 +110,9 @@ describe 'Course Announcement Mail', type: :feature do
       email: 'tom@example.com',
       language: 'de',
       archived: false,
-      emails_url: '/users/00000001-3100-4444-9999-000000000003/emails',
-      features_url: '/users/00000001-3100-4444-9999-000000000003/features',
-      preferences_url: '/users/00000001-3100-4444-9999-000000000003/preferences',
+      emails_url: '/account_service/users/00000001-3100-4444-9999-000000000003/emails',
+      features_url: '/account_service/users/00000001-3100-4444-9999-000000000003/features',
+      preferences_url: '/account_service/users/00000001-3100-4444-9999-000000000003/preferences',
     })
     Stub.request(
       :account, :get, '/users/00000001-3100-4444-9999-000000000003/preferences'
@@ -134,9 +134,9 @@ describe 'Course Announcement Mail', type: :feature do
       email: 'john.smith1@example.com',
       language: 'en',
       archived: false,
-      emails_url: '/users/00000001-3100-4444-9999-000000000101/emails',
-      features_url: '/users/00000001-3100-4444-9999-000000000101/features',
-      preferences_url: '/users/00000001-3100-4444-9999-000000000101/preferences',
+      emails_url: '/account_service/users/00000001-3100-4444-9999-000000000101/emails',
+      features_url: '/account_service/users/00000001-3100-4444-9999-000000000101/features',
+      preferences_url: '/account_service/users/00000001-3100-4444-9999-000000000101/preferences',
     })
     Stub.request(
       :account, :get, '/users/00000001-3100-4444-9999-000000000101/preferences'
@@ -199,9 +199,9 @@ describe 'Course Announcement Mail', type: :feature do
         email: nil,
         language: 'en',
         archived: true,
-        emails_url: '/users/00000001-3100-4444-9999-000000000404/emails',
-        features_url: '/users/00000001-3100-4444-9999-000000000404/features',
-        preferences_url: '/users/00000001-3100-4444-9999-000000000404/preferences',
+        emails_url: '/account_service/users/00000001-3100-4444-9999-000000000404/emails',
+        features_url: '/account_service/users/00000001-3100-4444-9999-000000000404/features',
+        preferences_url: '/account_service/users/00000001-3100-4444-9999-000000000404/preferences',
       })
       Stub.request(
         :account, :get, '/users/00000001-3100-4444-9999-000000000404/preferences'
@@ -395,9 +395,9 @@ describe 'Course Announcement Mail', type: :feature do
         name: 'Adam Author',
         email: 'adam@example.org',
         language: 'en',
-        emails_url: '/users/00000001-3100-4444-9999-000000000002/emails',
-        features_url: '/users/00000001-3100-4444-9999-000000000002/features',
-        preferences_url: '/users/00000001-3100-4444-9999-000000000002/preferences',
+        emails_url: '/account_service/users/00000001-3100-4444-9999-000000000002/emails',
+        features_url: '/account_service/users/00000001-3100-4444-9999-000000000002/features',
+        preferences_url: '/account_service/users/00000001-3100-4444-9999-000000000002/preferences',
       })
       Stub.request(
         :account, :get, '/users/00000001-3100-4444-9999-000000000002/preferences'

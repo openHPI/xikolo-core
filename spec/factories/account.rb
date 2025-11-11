@@ -74,7 +74,7 @@ FactoryBot.define do
     stauts { 'other' }
     sequence(:email) {|n| "eMail#{n}@openhpi.de" }
 
-    url { "/users/#{id}" }
+    url { "/account_service/users/#{id}" }
     consents_url { stub_url(:account, "/users/#{id}/consents") }
     emails_url { stub_url(:account, "/users/#{id}/emails") }
     features_url { stub_url(:account, "/users/#{id}/features") }

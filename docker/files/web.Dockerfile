@@ -43,6 +43,7 @@ EOF
 
 COPY ./clients /app/clients
 COPY ./gems /app/gems
+COPY ./engines /app/engines
 COPY Gemfile Gemfile.lock /app/
 
 RUN <<EOF
@@ -104,6 +105,7 @@ EOF
 
 COPY ./clients /app/clients
 COPY ./gems /app/gems
+COPY ./engines /app/engines
 COPY Gemfile Gemfile.lock /app/
 
 RUN <<EOF

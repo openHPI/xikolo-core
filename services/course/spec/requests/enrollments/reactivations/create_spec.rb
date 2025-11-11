@@ -33,7 +33,7 @@ describe 'Enrollment: Reactivations: Create', type: :request do
     Stub.request(
       :account, :get, "/users/#{record.user_id}"
     ).to_return Stub.json({
-      features_url: "/users/#{record.user_id}/features",
+      features_url: "/account_service/users/#{record.user_id}/features",
     })
 
     Stub.service(:quiz, build(:'quiz:root'))

@@ -53,8 +53,8 @@ describe NotificationService::WelcomeMailConsumer, type: :consumer do
       Stub.json({
         **user_data,
         id: user_id,
-        features_url: "/users/#{user_id}/features",
-        preferences_url: "/users/#{user_id}/preferences",
+        features_url: "/account_service/users/#{user_id}/features",
+        preferences_url: "/account_service/users/#{user_id}/preferences",
       })
     end
 

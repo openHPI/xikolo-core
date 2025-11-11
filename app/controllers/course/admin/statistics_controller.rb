@@ -84,12 +84,11 @@ class Course::Admin::StatisticsController < Abstract::FrontendController
     authorize! 'course.dashboard.view'
     @course = the_course
     Acfs.run
-  end
 
-  def downloads
-    authorize! 'course.dashboard.view'
-    @course = the_course
-    Acfs.run
+    result = Admin::Statistics::Videos.new(course_id: @course.id).call
+    @course_code = @course['course_code']
+    @videos_table_headers = result[:headers].values
+    @videos_data = result[:videos_data]
   end
 
   def rich_texts

@@ -70,12 +70,6 @@ module Admin
         render json: visits
       end
 
-      def videos
-        data = fetch_metric(name: 'video_statistics', course_id: params[:course_id]).value!
-
-        render json: data
-      end
-
       private
 
       def query

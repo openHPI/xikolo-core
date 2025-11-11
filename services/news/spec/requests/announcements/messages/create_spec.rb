@@ -30,8 +30,8 @@ RSpec.describe 'Announcement: Messages: Create', type: :request do
           id: 'b4864a87-ee46-415d-9271-34b8766a40f2',
           email: 'bob@example.org',
           language: 'en',
-          emails_url: '/users/b4864a87-ee46-415d-9271-34b8766a40f2/emails',
-          groups_url: '/users/b4864a87-ee46-415d-9271-34b8766a40f2/groups',
+          emails_url: '/account_service/users/b4864a87-ee46-415d-9271-34b8766a40f2/emails',
+          groups_url: '/account_service/users/b4864a87-ee46-415d-9271-34b8766a40f2/groups',
         })
       Stub.request(:account, :get, '/users/b4864a87-ee46-415d-9271-34b8766a40f2/emails')
         .to_return Stub.json([{id: generate(:uuid)}])
@@ -108,7 +108,7 @@ RSpec.describe 'Announcement: Messages: Create', type: :request do
       Stub.service(:account, build(:'account:root'))
 
       Stub.request(:account, :get, '/groups/xikolo.active')
-        .to_return Stub.json({members_url: '/groups/xikolo.active/members'})
+        .to_return Stub.json({members_url: '/account_service/groups/xikolo.active/members'})
       Stub.request(:account, :get, '/groups/xikolo.active/members')
         .to_return Stub.json(
           [
@@ -130,14 +130,14 @@ RSpec.describe 'Announcement: Messages: Create', type: :request do
           id: 'b4864a87-ee46-415d-9271-34b8766a40f2',
           email: 'bob@example.org',
           language: 'en',
-          emails_url: '/users/b4864a87-ee46-415d-9271-34b8766a40f2/emails',
+          emails_url: '/account_service/users/b4864a87-ee46-415d-9271-34b8766a40f2/emails',
         })
       Stub.request(:account, :get, '/users/c2f2be7b-5304-4648-9b89-015a1627514b')
         .to_return Stub.json({
           id: 'c2f2be7b-5304-4648-9b89-015a1627514b',
           email: 'alice@example.org',
           language: 'en',
-          emails_url: '/users/c2f2be7b-5304-4648-9b89-015a1627514b/emails',
+          emails_url: '/account_service/users/c2f2be7b-5304-4648-9b89-015a1627514b/emails',
         })
       Stub.request(:account, :get, '/users/b4864a87-ee46-415d-9271-34b8766a40f2/emails')
         .to_return Stub.json([{id: generate(:uuid)}])
@@ -167,7 +167,7 @@ RSpec.describe 'Announcement: Messages: Create', type: :request do
 
       before do
         Stub.request(:account, :get, '/groups/treatment.consent')
-          .to_return Stub.json({memberships_url: '/groups/treatment.consent/memberships'})
+          .to_return Stub.json({memberships_url: '/account_service/groups/treatment.consent/memberships'})
         Stub.request(
           :account, :get, '/groups/treatment.consent/memberships',
           query: {per_page: 10_000}

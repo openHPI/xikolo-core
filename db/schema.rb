@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_10_07_072049) do
+ActiveRecord::Schema[7.2].define(version: 2025_11_11_133019) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "pg_trgm"
@@ -1530,7 +1530,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_07_072049) do
     t.enum "state", enum_type: "state"
     t.string "city"
     t.enum "gender", enum_type: "gender"
-    t.enum "status", null: false, enum_type: "user_category"
+    t.enum "status", enum_type: "user_category"
     t.index ["archived"], name: "index_users_on_archived"
     t.index ["confirmed"], name: "index_users_on_confirmed"
     t.index ["created_at", "id"], name: "index_users_pagination"

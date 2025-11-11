@@ -19,7 +19,7 @@ describe 'Account: Confirmations: Update', type: :request do
       id: email_id,
       user_id:,
       confirmed: false,
-      self_url: "/users/#{user_id}/emails/#{email_id}",
+      self_url: "/account_service/users/#{user_id}/emails/#{email_id}",
     }
   end
 

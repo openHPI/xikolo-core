@@ -152,7 +152,6 @@ Rails.application.routes.draw do
       get 'detail_statistics/countries', to: 'detail_statistics#countries'
       get 'detail_statistics/cities', to: 'detail_statistics#cities'
       get 'detail_statistics/top_item_types', to: 'detail_statistics#top_item_types'
-      get 'detail_statistics/videos', to: 'detail_statistics#videos'
       get 'dashboard_statistics/age_distribution', to: 'dashboard_statistics#age_distribution'
       get 'dashboard_statistics/client_usage', to: 'dashboard_statistics#client_usage'
 
@@ -183,7 +182,6 @@ Rails.application.routes.draw do
     get 'quiz', to: 'statistics#quiz', as: :quiz
     get 'item_details', to: 'statistics#item_details', as: :item_details
     get 'videos', to: 'statistics#videos', as: :videos
-    get 'downloads', to: 'statistics#downloads', as: :downloads
     get 'rich_texts', to: 'statistics#rich_texts', as: :rich_texts
   end
 
@@ -463,6 +461,11 @@ Rails.application.routes.draw do
 
   resources :ping, only: %i[index]
   root to: 'home/home#index'
+
+  # TODO: Make available in production after authorization is added.
+  if Rails.env.local?
+    mount AccountService::Engine => '/account_service'
+  end
 
   if Rails.env.development?
     mount Lookbook::Engine, at: '/rails/components'

@@ -38,3 +38,4 @@ services/*/config/initializers/integration*
 !packages.txt
 !Rakefile
 !yarn.lock
+!engines/

@@ -109,9 +109,9 @@
             .kpi-item
               data-selector key='forum_write_activity'
                 = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.forum.forum_write_activity'), data_key: 'user', icon: 'fa fa-pencil-alt'}
-  .row
-    .col-md-12.mb15
-      = render Global::Table.new(rows: @historic_data_table_rows, headers: @historic_data_table_headers, title: t(:'admin.course_management.dashboard.age.title'))
+  / .row
+  /   .col-md-12.mb15
+  /     = render Global::Table.new(rows: @historic_data_table_rows, headers: @historic_data_table_headers, title: t(:'admin.course_management.dashboard.historic_data.title'))
   .row
     .col-md-6.mb15
       = render Global::Table.new(rows: @age_distribution_table_rows, headers: @age_distribution_table_headers, title: t(:'admin.course_management.dashboard.age.title'))

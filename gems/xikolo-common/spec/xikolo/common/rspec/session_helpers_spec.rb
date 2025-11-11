@@ -6,7 +6,7 @@ RSpec.describe 'Session helpers' do
   before do
     Stub.service(
       :account,
-      session_url: '/sessions/{id}{?embed,context}'
+      session_url: '/account_service/sessions/{id}{?embed,context}'
     )
   end
 

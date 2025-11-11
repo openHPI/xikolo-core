@@ -14,10 +14,6 @@ class CourseTeacherNav < MenuWithPermissions
       if: ->(user, _course) { user.allowed? 'course.dashboard.view' },
       route: :course_statistics_videos
 
-    item 'courses.nav.teacher.downloads', '',
-      if: ->(user, _course) { user.allowed? 'course.dashboard.view' },
-      route: :course_statistics_downloads
-
     item 'courses.nav.teacher.item_details', '',
       if: ->(user, _course) { user.allowed? 'course.item_stats.show' },
       route: :course_statistics_item_details

@@ -5,7 +5,6 @@ import {
   renderCountriesTable,
   renderCitiesTable,
   renderTopItemTypesTable,
-  renderVideoStatisticsTable,
   renderRichTextLinksTable,
 } from './common';
 
@@ -50,16 +49,6 @@ ready(function () {
         element.dataset.courseId,
       function (data) {
         renderTopItemTypesTable(element, data);
-      },
-    );
-  });
-
-  // videos
-  $('#video-statistics-table').each(function (_, element) {
-    $.getJSON(
-      '/admin/detail_statistics/videos?course_id=' + element.dataset.courseId,
-      function (data) {
-        renderVideoStatisticsTable(element, data);
       },
     );
   });

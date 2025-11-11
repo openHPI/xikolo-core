@@ -6,7 +6,7 @@ RSpec.describe Xikolo::Common::Auth::CurrentUser do
   before do
     Stub.service(
       :account,
-      session_url: 'http://account.xikolo.tld/sessions/{id}{?embed,context}'
+      session_url: 'http://web.xikolo.tld/account_service/sessions/{id}{?embed,context}'
     )
   end
 
@@ -21,8 +21,8 @@ RSpec.describe Xikolo::Common::Auth::CurrentUser do
       user: {
         id: user_id,
         anonymous:,
-        preferences_url: "http://account.xikolo.tld/users/#{user_id}/preferences",
-        permissions_url: "http://account.xikolo.tld/users/#{user_id}/permissions?user_id=#{user_id}",
+        preferences_url: "http://web.xikolo.tld/account_service/users/#{user_id}/preferences",
+        permissions_url: "http://web.xikolo.tld/account_service/users/#{user_id}/permissions?user_id=#{user_id}",
       },
       features: {},
       permissions:,
@@ -143,7 +143,7 @@ RSpec.describe Xikolo::Common::Auth::CurrentUser do
       let!(:permissions_stub) do
         WebMock.stub_request(
           :get,
-          "http://account.xikolo.tld/users/#{user_id}/permissions"
+          "http://web.xikolo.tld/account_service/users/#{user_id}/permissions"
         ).tap do |stub|
           stub.with(query: {user_id:, context:})
         end.to_return Stub.json(context_permissions)
@@ -188,7 +188,7 @@ RSpec.describe Xikolo::Common::Auth::CurrentUser do
       let!(:permissions_stub) do
         WebMock.stub_request(
           :get,
-          "http://account.xikolo.tld/users/#{user_id}/permissions"
+          "http://web.xikolo.tld/account_service/users/#{user_id}/permissions"
         ).tap do |stub|
           stub.with(query: {user_id:, context:})
         end.to_return Stub.json(context_permissions)

@@ -25,7 +25,7 @@ describe Xikolo::V2::TokenAPI, type: :request do
         :account, :post, '/sessions',
         body: {ident: 'valid@xikolo.de', password: 'valid_password'}
       ).to_return Stub.json({
-        tokens_url: '/tokens_for_session',
+        tokens_url: '/account_service/tokens_for_session',
       })
 
       # For valid requests, we can also retrieve a token

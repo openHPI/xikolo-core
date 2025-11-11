@@ -124,7 +124,7 @@ describe NewsController, type: :controller do
           Stub.request(:account, :get, '/groups', query: hash_including(user: user_id))
             .to_return Stub.json(user_groups)
           Stub.request(:account, :get, "/users/#{user_id}")
-            .to_return Stub.json({permissions_url: "/users/#{user_id}/permissions"})
+            .to_return Stub.json({permissions_url: "/account_service/users/#{user_id}/permissions"})
           Stub.request(:account, :get, "/users/#{user_id}/permissions")
             .to_return Stub.json([])
         end
