@@ -1,4 +1,4 @@
 # frozen_string_literal: true
 
-class ExplicitTag < Tag
+class ExplicitTag < PinboardService::ExplicitTag
 end

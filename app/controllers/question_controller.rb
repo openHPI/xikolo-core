@@ -242,7 +242,7 @@ class QuestionController < Abstract::FrontendController
     if current_user.logged_in?
       report = Xikolo::Pinboard::AbuseReport.new(
         reportable_id: params[:id],
-        reportable_type: 'Question',
+        reportable_type: 'PinboardService::Question',
         user_id: current_user.id,
         url: question_url
       )

@@ -119,7 +119,7 @@ class AnswerController < Abstract::FrontendController
 
     if current_user.logged_in?
       report = Xikolo::Pinboard::AbuseReport.new reportable_id: answer.id,
-        reportable_type: 'Answer',
+        reportable_type: 'PinboardService::Answer',
         user_id: current_user.id,
         url: question_url(id: question_id)
 

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :'pinboard_service/comment', class: 'Comment' do
+  factory :'pinboard_service/comment', class: 'PinboardService::Comment' do
     association :commentable, factory: :'pinboard_service/question', strategy: :create
 
     text { 'Eine FANTASTISCHE Frage! Sollte mehr von der Sorte geben :)' }

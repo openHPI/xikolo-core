@@ -9,158 +9,158 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 #
 
-sql_tag = ExplicitTag.create(
+sql_tag = PinboardService::ExplicitTag.create(
   name: 'SQL',
   id: '00000001-3500-4444-9999-000000000001',
   course_id: '00000001-3300-4444-9999-000000000001'
 )
 
-db_tag = ExplicitTag.create(
+db_tag = PinboardService::ExplicitTag.create(
   name: 'Databases',
   id: '00000001-3500-4444-9999-000000000002',
   course_id: '00000001-3300-4444-9999-000000000001'
 )
 
-homework_tag = ExplicitTag.create(
+homework_tag = PinboardService::ExplicitTag.create(
   name: 'Hausaufgaben',
   id: '00000001-3500-4444-9999-000000000003',
   course_id: '00000001-3300-4444-9999-000000000001'
 )
 
-http_tag = ExplicitTag.create(
+http_tag = PinboardService::ExplicitTag.create(
   id: '00000001-3500-4444-9999-000000000004',
   name: 'HTTP',
   course_id: '00000001-3300-4444-9999-000000000002'
 )
 
-browser_tag = ExplicitTag.create(
+browser_tag = PinboardService::ExplicitTag.create(
   id: '00000001-3500-4444-9999-000000000005',
   name: 'Browser',
   course_id: '00000001-3300-4444-9999-000000000002'
 )
 
-german_homework_tag = ExplicitTag.create(
+german_homework_tag = PinboardService::ExplicitTag.create(
   id: '00000001-3500-4444-9999-000000000006',
   name: 'Hausaufgaben',
   course_id: '00000001-3300-4444-9999-000000000002'
 )
 
-rendering_tag = ExplicitTag.create(
+rendering_tag = PinboardService::ExplicitTag.create(
   id: '00000001-3500-4444-9999-000000000007',
   name: 'Rendering',
   course_id: '00000001-3300-4444-9999-000000000002'
 )
 
-html_tag = ExplicitTag.create(
+html_tag = PinboardService::ExplicitTag.create(
   id: '00000001-3500-4444-9999-000000000008',
   name: 'HTML',
   course_id: '00000001-3300-4444-9999-000000000002'
 )
 
-languages_tag = ExplicitTag.create(
+languages_tag = PinboardService::ExplicitTag.create(
   id: '00000001-3500-4444-9999-000000000009',
   name: 'Programmiersprachen',
   course_id: '00000001-3300-4444-9999-000000000002'
 )
 
-ImplicitTag.create(
+PinboardService::ImplicitTag.create(
   id: '00000001-3500-4444-9999-000000000010',
   name: '00000002-3100-4444-9999-000000000001',
   course_id: '00000001-3300-4444-9999-000000000001',
   referenced_resource: 'Xikolo::Course::Section'
 )
 
-ImplicitTag.create(
+PinboardService::ImplicitTag.create(
   id: '00000001-3500-4444-9999-000000000011',
   name: '00000002-3100-4444-9999-000000000002',
   course_id: '00000001-3300-4444-9999-000000000001',
   referenced_resource: 'Xikolo::Course::Section'
 )
 
-ImplicitTag.create(
+PinboardService::ImplicitTag.create(
   id: '00000001-3500-4444-9999-000000000012',
   name: '00000002-3100-4444-9999-000000000003',
   course_id: '00000001-3300-4444-9999-000000000001',
   referenced_resource: 'Xikolo::Course::Section'
 )
 
-ImplicitTag.create(
+PinboardService::ImplicitTag.create(
   id: '00000001-3500-4444-9999-000000000013',
   name: '00000002-3100-4444-9999-000000000004',
   course_id: '00000001-3300-4444-9999-000000000001',
   referenced_resource: 'Xikolo::Course::Section'
 )
 
-ImplicitTag.create(
+PinboardService::ImplicitTag.create(
   id: '00000001-3500-4444-9999-000000000014',
   name: '00000002-3100-4444-9999-000000000005',
   course_id: '00000001-3300-4444-9999-000000000001',
   referenced_resource: 'Xikolo::Course::Section'
 )
 
-ImplicitTag.create(
+PinboardService::ImplicitTag.create(
   id: '00000001-3500-4444-9999-000000000015',
   name: '00000002-3100-4444-9999-000000000006',
   course_id: '00000001-3300-4444-9999-000000000001',
   referenced_resource: 'Xikolo::Course::Section'
 )
 
-implicit_section_tag = ImplicitTag.create(
+implicit_section_tag = PinboardService::ImplicitTag.create(
   id: '00000001-3500-4444-9999-000000000016',
   name: '00000002-3100-4444-9999-000000000007',
   course_id: '00000001-3300-4444-9999-000000000002',
   referenced_resource: 'Xikolo::Course::Section'
 )
 
-ImplicitTag.create(
+PinboardService::ImplicitTag.create(
   id: '00000001-3500-4444-9999-000000000017',
   name: '00000002-3100-4444-9999-000000000008',
   course_id: '00000001-3300-4444-9999-000000000002'
 )
 
-ImplicitTag.create(
+PinboardService::ImplicitTag.create(
   id: '00000001-3500-4444-9999-000000000018',
   name: '00000003-3100-4444-9999-000000000002',
   course_id: '00000001-3300-4444-9999-000000000001',
   referenced_resource: 'Xikolo::Course::Item'
 )
 
-ImplicitTag.create(
+PinboardService::ImplicitTag.create(
   id: '00000001-3500-4444-9999-000000000019',
   name: '00000003-3100-4444-9999-000000000003',
   course_id: '00000001-3300-4444-9999-000000000001',
   referenced_resource: 'Xikolo::Course::Item'
 )
 
-ImplicitTag.create(
+PinboardService::ImplicitTag.create(
   id: '00000001-3500-4444-9999-000000000020',
   name: '00000003-3100-4444-9999-000000000007',
   course_id: '00000001-3300-4444-9999-000000000001',
   referenced_resource: 'Xikolo::Course::Item'
 )
 
-ImplicitTag.create(
+PinboardService::ImplicitTag.create(
   id: '00000001-3500-4444-9999-000000000022',
   name: '00000003-3100-4444-9999-000000000009',
   course_id: '00000001-3300-4444-9999-000000000002',
   referenced_resource: 'Xikolo::Course::Item'
 )
 
-ImplicitTag.create(
+PinboardService::ImplicitTag.create(
   id: '00000001-3500-4444-9999-000000000023',
   name: '00000003-3100-4444-9999-000000000010',
   course_id: '00000001-3300-4444-9999-000000000002',
   referenced_resource: 'Xikolo::Course::Item'
 )
 
-ImplicitTag.create(
+PinboardService::ImplicitTag.create(
   id: '00000001-3500-4444-9999-000000000024',
   name: '00000003-3100-4444-9999-000000000011',
   course_id: '00000001-3300-4444-9999-000000000001',
   referenced_resource: 'Xikolo::Course::Item'
 )
 
-Question.create(
+PinboardService::Question.create(
   id: '00000002-3500-4444-9999-000000000000',
   title: 'Wie lang kann sowas werden?',
   text: 'Gibt es irgendwelche Begrenzungen für Threads?',
@@ -178,7 +178,7 @@ Question.create(
   end
 end
 
-Question.create(
+PinboardService::Question.create(
   id: '00000002-3500-4444-9999-000000000001',
   title: 'SQL',
   text: 'Ich verstehe wirklich nicht, was dieses SQL sein soll? Wer hat das denn gebastelt und warum?',
@@ -188,7 +188,7 @@ Question.create(
   course_id: '00000001-3300-4444-9999-000000000001',
   created_at: 1.week.ago
 ).tap do |question|
-  Vote.create(
+  PinboardService::Vote.create(
     id: '00000004-3500-4444-9999-000000000001',
     votable: question,
     value: 1,
@@ -201,7 +201,7 @@ Question.create(
     user_id: '00000001-3100-4444-9999-000000000002',
     created_at: 6.days.ago
   ).tap do |answer|
-    Vote.create(
+    PinboardService::Vote.create(
       id: '00000004-3500-4444-9999-000000000003',
       votable: answer,
       value: -1,
@@ -307,27 +307,27 @@ Question.create(
     user_id: '00000001-3100-4444-9999-000000000002',
     created_at: 1.day.ago
   ).tap do |answer|
-    Vote.create(
+    PinboardService::Vote.create(
       votable: answer,
       value: 1,
       user_id: '00000001-3100-4444-9999-000000000101'
     )
-    Vote.create(
+    PinboardService::Vote.create(
       votable: answer,
       value: 1,
       user_id: '00000001-3100-4444-9999-000000000102'
     )
-    Vote.create(
+    PinboardService::Vote.create(
       votable: answer,
       value: 1,
       user_id: '00000001-3100-4444-9999-000000000103'
     )
-    Vote.create(
+    PinboardService::Vote.create(
       votable: answer,
       value: 1,
       user_id: '00000001-3100-4444-9999-000000000104'
     )
-    Vote.create(
+    PinboardService::Vote.create(
       votable: answer,
       value: 1,
       user_id: '00000001-3100-4444-9999-000000000105'
@@ -361,7 +361,7 @@ Question.create(
   )
 end
 
-Question.create(
+PinboardService::Question.create(
   id: '00000002-3500-4444-9999-000000000002',
   title: 'Was ist SQL?',
   text: 'Ist SQL die Anfragesprache für alle Datenbanken auf dieser Welt?',
@@ -370,7 +370,7 @@ Question.create(
   course_id: '00000001-3300-4444-9999-000000000001',
   created_at: 3.days.ago
 ).tap do |question|
-  Vote.create(
+  PinboardService::Vote.create(
     id: '00000004-3500-4444-9999-000000000002',
     votable: question,
     value: 1,
@@ -384,7 +384,7 @@ Question.create(
   )
 end
 
-Question.create(
+PinboardService::Question.create(
   id: '00000002-3500-4444-9999-000000000003',
   title: 'Frage zur aktuellen Hausaufgabe',
   text: 'Was haben denn in der Hausaufgabe die SQL statements zu bedeuten? Ist da ein Fehler drin? Ich schaffe es außerdem nicht die Datenbank aufzusetzen, wo bekomme ich da Hilfe?',
@@ -398,14 +398,14 @@ Question.create(
     text: 'Nein, da ist kein Fehler drin, die SQL statements sollst du ausführen und die Ergebnisse in einer Textdatei abgeben. Die Anleitung zum Aufsetzen der Datenbank gibts in der Kursübersicht!',
     user_id: '00000001-3100-4444-9999-000000000003'
   ).tap do |answer|
-    Vote.create(
+    PinboardService::Vote.create(
       id: '00000004-3500-4444-9999-000000000004',
       votable: answer,
       value: -1,
       user_id: '00000001-3100-4444-9999-000000000002'
     )
 
-    Vote.create(
+    PinboardService::Vote.create(
       id: '00000004-3500-4444-9999-000000000005',
       votable: answer,
       value: 1,
@@ -414,7 +414,7 @@ Question.create(
   end
 end
 
-Question.create(
+PinboardService::Question.create(
   id: '00000002-3500-4444-9999-000000000004',
   title: 'Wozu HTTP?',
   text: 'Ich verstehe wirklich nicht, warum man zur Übertragung von Text extra ein neues Protokoll erfinden musste. Habe ich etwas übersehen?',
@@ -430,7 +430,7 @@ Question.create(
   )
 end
 
-Question.create(
+PinboardService::Question.create(
   id: '00000002-3500-4444-9999-000000000005',
   title: 'Was ist ein Renderer',
   text: 'Als die Funktion des Browsers erklärt wurde, viel der Begriff \'Renderer\'. Kann mir das jemand übersetzen oder erklären?',
@@ -446,7 +446,7 @@ Question.create(
   )
 end
 
-Question.create(
+PinboardService::Question.create(
   id: '00000002-3500-4444-9999-000000000006',
   title: 'Programmiersprache HTML',
   text: 'In der Hausaufgabe habe ich gesagt, das HTML ein Programmiersprache ist. Warum ist das falsch?',
@@ -458,7 +458,7 @@ Question.create(
 
 # Add a bulk of questions to trigger pagination
 100.times do |c|
-  Question.create(
+  PinboardService::Question.create(
     title: "Test Question #{c}",
     text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
     user_id: '00000001-3100-4444-9999-000000000002',
@@ -469,7 +469,7 @@ Question.create(
 end
 
 # Ensure tags and question course ids match
-Question.find_each do |question|
+PinboardService::Question.find_each do |question|
   question.tags.each do |tag|
     if question.course_id != tag.course_id
       puts "!!! Question #{question.id} and tag #{tag.id} do not have the same course ID!"

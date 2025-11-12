@@ -297,7 +297,7 @@ describe QuestionController, type: :controller do
           :pinboard, :post, '/abuse_reports',
           body: hash_including(
             reportable_id: question_id,
-            reportable_type: 'Question',
+            reportable_type: 'PinboardService::Question',
             user_id:,
             url: "http://test.host/courses/#{course_id}/question/#{question_id}"
           )

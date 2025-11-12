@@ -18,7 +18,7 @@ describe 'Posting duplicate questions', type: :request do
       5.times do
         action.call params.merge!(course_id: SecureRandom.uuid)
       end
-      expect(Question.count).to eq 5
+      expect(PinboardService::Question.count).to eq 5
     end
   end
 

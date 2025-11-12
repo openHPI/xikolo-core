@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-route 'xikolo.pinboard.read_question', to: 'question#read_question'
+route 'xikolo.pinboard.read_question', to: 'pinboard_service/question#read_question'
 
-route 'xikolo.course.course.update', to: 'pinboard_search_course#update'
+route 'xikolo.course.course.update', to: 'pinboard_service/pinboard_search_course#update'

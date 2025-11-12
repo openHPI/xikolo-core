@@ -2573,7 +2573,7 @@ de:
 
   pinboard:
     ask_question: Neues Thema eröffnen
-    rule_hint: "<b>Hinweis</b>: Mit unseren <a href='https://open.hpi.de/pages/common_values' target='_blank' rel='noopener'>gemeinsamen Werten</a> schaffen wir einen respektvollen Raum – bitte vor dem Posten lesen und beachten."
+    rule_hint: "<b>Hinweis</b>: Mit unseren <a class='bs-a' href='https://open.hpi.de/pages/common_values' target='_blank' rel='noopener'>gemeinsamen Werten</a> schaffen wir einen respektvollen Raum – bitte vor dem Posten lesen und beachten."
     submit_question: Thema eröffnen
     update_question: Änderungen speichern
     locked_msg: Dieser Diskussionsbereich steht nur noch im Lesemodus zur Verfügung. Es können keine neuen Themen und Antworten mehr erstellt werden.

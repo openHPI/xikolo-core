@@ -26,12 +26,12 @@ RSpec.describe 'Posts: User Votes: Set', type: :request do
     end
 
     context 'with existing vote' do
-      let!(:vote) { Vote.create(user_id:, votable: question, value: -1) }
+      let!(:vote) { PinboardService::Vote.create(user_id:, votable: question, value: -1) }
 
       it { is_expected.to respond_with :no_content }
 
       it 'does not create a new vote' do
-        expect { resource }.not_to change(Vote, :count)
+        expect { resource }.not_to change(PinboardService::Vote, :count)
       end
 
       it 'updates the existing vote' do
@@ -50,12 +50,12 @@ RSpec.describe 'Posts: User Votes: Set', type: :request do
     end
 
     context 'with existing vote' do
-      let!(:vote) { Vote.create(user_id:, votable: answer, value: -1) }
+      let!(:vote) { PinboardService::Vote.create(user_id:, votable: answer, value: -1) }
 
       it { is_expected.to respond_with :no_content }
 
       it 'does not create a new vote' do
-        expect { resource }.not_to change(Vote, :count)
+        expect { resource }.not_to change(PinboardService::Vote, :count)
       end
 
       it 'updates the existing vote' do
@@ -74,12 +74,12 @@ RSpec.describe 'Posts: User Votes: Set', type: :request do
     end
 
     context 'with existing vote' do
-      let!(:vote) { Vote.create(user_id:, votable: comment, value: -1) }
+      let!(:vote) { PinboardService::Vote.create(user_id:, votable: comment, value: -1) }
 
       it { is_expected.to respond_with :no_content }
 
       it 'does not create a new vote' do
-        expect { resource }.not_to change(Vote, :count)
+        expect { resource }.not_to change(PinboardService::Vote, :count)
       end
 
       it 'updates the existing vote' do

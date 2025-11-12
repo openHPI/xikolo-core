@@ -3215,7 +3215,7 @@ en:
 
   pinboard:
     ask_question: Start a new topic
-    rule_hint: "<b>Note</b>: With our <a href='https://open.hpi.de/pages/common_values' target='_blank' rel='noopener'>common values</a> we create a respectful space for everyone - please read and consider before posting."
+    rule_hint: "<b>Note</b>: With our <a class='bs-a' href='https://open.hpi.de/pages/common_values' target='_blank' rel='noopener'>common values</a> we create a respectful space for everyone - please read and consider before posting."
     submit_question: Post new topic
     update_question: Save changes
     locked_msg: The discussions for this course are read-only. No new topics or replies can be created.

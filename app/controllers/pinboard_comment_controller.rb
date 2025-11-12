@@ -24,7 +24,13 @@ class PinboardCommentController < Abstract::FrontendController
 
   def update
     pinboard_comment = comment
-    pinboard_comment.update_attributes(comment_params)
+    # Ensure the commentable_type is namespaced correctly for the update action
+    updated_comment_params = comment_params
+    unless updated_comment_params[:commentable_type].to_s.start_with?('PinboardService::')
+      updated_comment_params[:commentable_type] = "PinboardService::#{comment_params[:commentable_type]}"
+    end
+
+    pinboard_comment.update_attributes(updated_comment_params)
 
     redirect_to question_path id: params[:question_id] || @answer.question_id
   end
@@ -46,7 +52,7 @@ class PinboardCommentController < Abstract::FrontendController
 
     if current_user.logged_in?
       report = Xikolo::Pinboard::AbuseReport.new reportable_id: params[:id],
-        reportable_type: 'Comment',
+        reportable_type: 'PinboardService::Comment',
         user_id: current_user.id,
         url: question_url(id: question_id)
 

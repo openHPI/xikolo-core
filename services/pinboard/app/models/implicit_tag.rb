@@ -1,4 +1,4 @@
 # frozen_string_literal: true
 
-class ImplicitTag < Tag
+class ImplicitTag < PinboardService::ImplicitTag
 end

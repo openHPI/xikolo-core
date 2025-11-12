@@ -19,7 +19,7 @@ RSpec.describe 'Posts: Delete', type: :request do
     it { is_expected.to respond_with :no_content }
 
     it 'deletes the question' do
-      expect { deletion }.to change(Question, :count).from(3).to(2)
+      expect { deletion }.to change(PinboardService::Question, :count).from(3).to(2)
     end
   end
 
@@ -29,7 +29,7 @@ RSpec.describe 'Posts: Delete', type: :request do
     it { is_expected.to respond_with :no_content }
 
     it 'deletes the answer' do
-      expect { deletion }.to change(Answer, :count).from(1).to(0)
+      expect { deletion }.to change(PinboardService::Answer, :count).from(1).to(0)
     end
   end
 
@@ -39,7 +39,7 @@ RSpec.describe 'Posts: Delete', type: :request do
     it { is_expected.to respond_with :no_content }
 
     it 'deletes the comment' do
-      expect { deletion }.to change(Comment, :count).from(1).to(0)
+      expect { deletion }.to change(PinboardService::Comment, :count).from(1).to(0)
     end
   end
 

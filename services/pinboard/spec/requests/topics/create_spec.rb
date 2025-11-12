@@ -22,12 +22,12 @@ RSpec.describe 'Topics: Create', type: :request do
   it { is_expected.to respond_with :created }
 
   it 'creates a new question object' do
-    expect { creation }.to change(Question, :count).from(0).to(1)
+    expect { creation }.to change(PinboardService::Question, :count).from(0).to(1)
   end
 
   it 'stores the text in the question object' do
     creation
-    expect(Question.last.text).to eq 'I can create topics, woah'
+    expect(PinboardService::Question.last.text).to eq 'I can create topics, woah'
   end
 
   context 'with a video_timestamp in the meta hash' do
@@ -40,7 +40,7 @@ RSpec.describe 'Topics: Create', type: :request do
     end
 
     describe 'the question' do
-      subject(:created_question) { creation; Question.last }
+      subject(:created_question) { creation; PinboardService::Question.last }
 
       it 'stores the timestamp in the correct question attribute' do
         expect(created_question.video_timestamp).to eq 1357
@@ -56,12 +56,12 @@ RSpec.describe 'Topics: Create', type: :request do
     end
 
     it 'creates new explicit tags' do
-      expect { creation }.to change(ExplicitTag, :count).from(0).to(3)
+      expect { creation }.to change(PinboardService::ExplicitTag, :count).from(0).to(3)
     end
 
     it 'assigns all tags correctly' do
       creation
-      question = Question.last
+      question = PinboardService::Question.last
       expect(question.explicit_tags.map(&:name)).to match_array %w[tag1 tag2 tag3]
       expect(question.explicit_tags.map(&:course_id)).to eq Array.new(3, course_id)
     end
@@ -70,7 +70,7 @@ RSpec.describe 'Topics: Create', type: :request do
       let!(:existing_tag) { create(:'pinboard_service/explicit_tag', name: 'tag1', course_id:) }
 
       it 'does not create a duplicate tag for the already existing one' do
-        expect { creation }.to change(ExplicitTag, :count).from(1).to(3)
+        expect { creation }.to change(PinboardService::ExplicitTag, :count).from(1).to(3)
 
         # This will trigger ActiveRecord::RecordNotFound in case the existing tag was deleted
         expect { existing_tag.reload }.not_to raise_error
@@ -78,7 +78,7 @@ RSpec.describe 'Topics: Create', type: :request do
 
       it 'assigns all tags correctly' do
         creation
-        question = Question.last
+        question = PinboardService::Question.last
         expect(question.explicit_tags.map(&:name)).to match_array %w[tag1 tag2 tag3]
         expect(question.explicit_tags.map(&:course_id)).to eq Array.new(3, course_id)
       end
@@ -100,18 +100,18 @@ RSpec.describe 'Topics: Create', type: :request do
     end
 
     it 'creates two new implicit tag, one each for section and item' do
-      expect { creation }.to change(ImplicitTag, :count).from(0).to(2)
+      expect { creation }.to change(PinboardService::ImplicitTag, :count).from(0).to(2)
 
-      expect(ImplicitTag.all).to contain_exactly(have_attributes(name: item_id, referenced_resource: 'Xikolo::Course::Item'), have_attributes(name: section_id, referenced_resource: 'Xikolo::Course::Section'))
+      expect(PinboardService::ImplicitTag.all).to contain_exactly(have_attributes(name: item_id, referenced_resource: 'Xikolo::Course::Item'), have_attributes(name: section_id, referenced_resource: 'Xikolo::Course::Section'))
     end
 
     context 'when the section tag already exists' do
       let!(:existing_tag) { create(:'pinboard_service/section_tag', name: section_id, course_id:) }
 
       it 'creates a new implicit tag for the item, and reuses the section tag' do
-        expect { creation }.to change(ImplicitTag, :count).from(1).to(2)
+        expect { creation }.to change(PinboardService::ImplicitTag, :count).from(1).to(2)
 
-        expect(ImplicitTag.all).to contain_exactly(have_attributes(name: item_id, referenced_resource: 'Xikolo::Course::Item'), existing_tag)
+        expect(PinboardService::ImplicitTag.all).to contain_exactly(have_attributes(name: item_id, referenced_resource: 'Xikolo::Course::Item'), existing_tag)
       end
     end
   end
@@ -137,7 +137,7 @@ RSpec.describe 'Topics: Create', type: :request do
 
     it 'creates explicit and implicit tags correctly' do
       creation
-      question = Question.last
+      question = PinboardService::Question.last
 
       expect(question.explicit_tags.count).to eq 3
       expect(question.explicit_tags.map(&:name)).to match_array %w[tag1 tag2 tag3]
@@ -170,8 +170,8 @@ RSpec.describe 'Topics: Create', type: :request do
                        [0-9a-zA-Z]+/foo.jpg}x
       stub_request(:head, store_regex).and_return(status: 404)
       stub_request(:put, store_regex).and_return(status: 200, body: '<xml></xml>')
-      expect { creation }.to change(Question, :count).from(0).to(1)
-      expect(Question.last.text).to include 's3://xikolo-pinboard'
+      expect { creation }.to change(PinboardService::Question, :count).from(0).to(1)
+      expect(PinboardService::Question.last.text).to include 's3://xikolo-pinboard'
     end
 
     it 'rejects invalid upload and does not creates a new page' do
