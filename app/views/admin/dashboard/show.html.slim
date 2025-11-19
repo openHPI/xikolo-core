@@ -1,7 +1,3 @@
-- content_for :head_assets
-  = javascript_include_tag 'admin-legacy', crossorigin: 'anonymous', integrity: true, async: true, debug: false
-  = javascript_include_tag 'm.e.i.n.e.l'
-
 - content_for :page_header_slim
   = render Global::PageHeader.new(t(:'admin.dashboard.show.title'), subtitle: t(:'admin.page_header'), type: :slim) do
     = render partial: 'platform_dashboard_nav', locals: {nav: @nav}
@@ -9,41 +5,35 @@
 
 .bs-container.white-bg.platform-dashboard
   .row
-    .col-md-12
+    .col-md-12.mb15
       h2.h2 = t(:'.kpis.title')
 
-      ajax-wrapper data-url='/admin/platform_statistics/learners_and_enrollments' lazy-load='true'
-        h3.h3
-          = t(:'.kpis.enrollments.title')
-        .kpi-container
-          = render partial: 'admin/shared/kpi_score_card', locals: {name: (t '.kpis.enrollments.total_course_enrollments'), data_key: 'total_enrollments', icon: 'fa fa-graduation-cap', css_class: 'kpi-item'}
-          = render partial: 'admin/shared/kpi_score_card', locals: {name: (t '.kpis.enrollments.total_course_enrollments_last_24h'), data_key: 'total_enrollments_last_day', icon: 'fa fa-graduation-cap', css_class: 'kpi-item'}
+      h3.h3
+        = t(:'.kpis.enrollments.title')
+      .grid.grid-cols-1.gap-4.sm:grid-cols-2.md:grid-cols-2.lg:grid-cols-4
+        = render Global::KpiScoreCard.new(title: t('.kpis.enrollments.total_course_enrollments'), value: @platform_learners_and_enrollments['total_enrollments'], icon_class: 'graduation-cap')
+        = render Global::KpiScoreCard.new(title: t('.kpis.enrollments.total_course_enrollments_last_24h'), value: @platform_learners_and_enrollments['total_enrollments_last_day'], icon_class: 'graduation-cap')
 
-        h3.h3
-          = t(:'.kpis.learners.title')
-        .kpi-container
-          = render partial: 'admin/shared/kpi_score_card', locals: {name: (t '.kpis.learners.total_unique_learner_registration'), data_key: 'confirmed_users', icon: 'fa fa-user', css_class: 'kpi-item'}
-          = render partial: 'admin/shared/kpi_score_card', locals: {name: (t '.kpis.learners.total_deleted_learners'), data_key: 'deleted_users', icon: 'fa fa-user-times', css_class: 'kpi-item'}
+      h3.h3
+        = t(:'.kpis.learners.title')
+      .grid.grid-cols-1.gap-4.sm:grid-cols-2.md:grid-cols-2.lg:grid-cols-4
+        = render Global::KpiScoreCard.new(title: t('.kpis.learners.total_unique_learner_registration'), value: @platform_learners_and_enrollments['confirmed_users'], icon_class: 'user')
+        = render Global::KpiScoreCard.new(title: t('.kpis.learners.total_deleted_learners'), value: @platform_learners_and_enrollments['deleted_users'], icon_class: 'user-times')
 
       h3.h3
         = t(:'.kpis.activity.title')
-      ajax-wrapper data-url='/admin/platform_statistics/activity' lazy-load='true'
-        .kpi-container
-          = render partial: 'admin/shared/kpi_score_card', locals: {name: (t '.kpis.activity.active_learners_last_24h'), data_key: 'count_24h', icon: 'far fa-clock', css_class: 'kpi-item'}
-          = render partial: 'admin/shared/kpi_score_card', locals: {name: (t '.kpis.activity.active_learners_last_7days'), data_key: 'count_7days', icon: 'far fa-calendar-alt', css_class: 'kpi-item'}
+      .grid.grid-cols-1.gap-4.sm:grid-cols-2.md:grid-cols-2.lg:grid-cols-4
+        = render Global::KpiScoreCard.new(title: t('.kpis.activity.active_learners_last_24h'), value: @platform_activity['count_24h'], icon_class: 'clock')
+        = render Global::KpiScoreCard.new(title: t('.kpis.activity.active_learners_last_7days'), value: @platform_activity['count_7days'], icon_class: 'calendar-alt')
 
       h3.h3
         = t(:'admin.course_management.dashboard.kpis.certificates.title')
-      ajax-wrapper data-url='/admin/platform_statistics/certificates' lazy-load='true'
-        .kpi-container
-          .kpi-item
-            = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.certificates.roa'), data_key: 'roa_count', icon: 'fa fa-file-contract'}
-          .kpi-item
-            = render partial: 'admin/shared/kpi_score_card', locals: {name: (t 'admin.course_management.dashboard.kpis.certificates.cop'), data_key: 'cop_count', icon: 'fa fa-file'}
-
+      .grid.grid-cols-1.gap-4.sm:grid-cols-2.md:grid-cols-2.lg:grid-cols-4
+        = render Global::KpiScoreCard.new(title: t('admin.course_management.dashboard.kpis.certificates.roa'), value: @platform_certificates['roa_count'], icon_class: 'file-contract')
+        = render Global::KpiScoreCard.new(title: t('admin.course_management.dashboard.kpis.certificates.cop'), value: @platform_certificates['cop_count'], icon_class: 'file')
   .row
     .col-md-6.mb15
       = render Global::Table.new(rows: @age_distribution_table_rows, headers: @age_distribution_table_headers, title: t(:'admin.dashboard.show.age.title'))
 
     .col-md-6.mb15
-      = render Global::Table.new(rows: @client_usage_table_rows, headers: @client_usage_table_headers, title: t(:'admin.dashboard.show.client_usage.title'))
+      = render Global::Table.new(rows: @client_usage_table_rows, headers: @client_usage_table_headers, title: t(:'admin.dashboard.show.client_usage.title'), caption: t(:'admin.dashboard.show.client_usage.caption'))

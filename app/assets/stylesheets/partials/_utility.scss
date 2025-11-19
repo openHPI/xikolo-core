@@ -426,8 +426,8 @@
 
 .wordbreak {
   hyphens: auto;
+  overflow-wrap: break-word;
   word-break: break-all;
-  word-wrap: break-word;
 }
 
 /*------------------------------------*\
@@ -568,5 +568,36 @@ td[data-click-target] {
 @keyframes delayedShow {
   to {
     visibility: visible;
+  }
+}
+
+/*------------------------------------*\
+    XI-6736: Seasonal snow effect
+\*------------------------------------*/
+
+#snow-container {
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.snowflake {
+  position: absolute;
+  top: -10px;
+  animation: fall linear infinite;
+  color: whitesmoke;
+  font-size: 20px;
+  pointer-events: none;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+  user-select: none;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(100vh) rotate(360deg);
   }
 }

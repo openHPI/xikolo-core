@@ -8,6 +8,10 @@ class Admin::DashboardController < Abstract::FrontendController
       items: PlatformDashboardNav.items_for(current_user)
     )
 
+    @platform_learners_and_enrollments = Admin::Statistics::LearnersAndEnrollments.call
+    @platform_activity = Admin::Statistics::Activity.call
+    @platform_certificates = Admin::Statistics::Certificates.call
+
     @age_distribution_table_rows = Admin::Statistics::AgeDistribution.call
     @age_distribution_table_headers = [
       t('admin.dashboard.show.age.table.age_group'),

@@ -4,6 +4,8 @@
 # This worker allows to create the course content tree for a course that
 # does not have corresponding `::Structure` nodes yet. This eases the
 # migration when switching to the new course content tree for all courses.
+
+# this feature is currently not supported and the worker is unreliable
 #
 module Structure
   class CreateCourseContentTreeWorker

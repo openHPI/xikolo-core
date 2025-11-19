@@ -21,6 +21,11 @@
           </tr>
         <% end %>
       </tbody>
+      <% if caption.present? %>
+        <caption class="p-2.5 text-xs text-gray-600 italic caption-bottom">
+          <%= caption %>
+        </caption>
+      <% end %>
     </table>
   </div>
 <% else %>

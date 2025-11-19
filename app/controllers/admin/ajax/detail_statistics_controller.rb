@@ -43,7 +43,7 @@ module Admin
 
         visits = fetch_metric(name: 'top_items', course_id: params[:course_id]).value!
 
-        visits.each_with_object([]) do |visit, array|
+        data = visits.each_with_object([]) do |visit, array|
           item = items.find {|i| i['id'] == visit['item_id'] }
 
           next unless item
@@ -67,7 +67,7 @@ module Admin
           end
         end.sort_by {|a| a['visits'] }.reverse
 
-        render json: visits
+        render json: data
       end
 
       private

@@ -3,6 +3,8 @@
 module Admin
   module Statistics
     class HistoricData < ApplicationOperation
+      include MetricHelpers
+
       def initialize(course_id: nil)
         super()
 
@@ -23,7 +25,7 @@ module Admin
       private
 
       def fetch_historic_data(course_id)
-        course = Xikolo.api(:course).value!.rel(:course).get({id: course_id}).value!
+        course = course_api.rel(:course).get({id: course_id}).value!
 
         end_date =
           if course['end_date'].blank? || DateTime.parse(course['end_date']).future?
@@ -32,12 +34,20 @@ module Admin
             DateTime.parse(course['end_date']) + 12.weeks
           end
 
-        course_statistics = Xikolo.api(:learnanalytics).value!.rel(:course_statistics).get({
-          course_id: course_id,
-        historic_data: true,
-        start_date: course['created_at'],
-        end_date:,
-        }).value!
+        lanalytics = lanalytics_api
+        return [] unless lanalytics
+
+        course_statistics = begin
+          lanalytics.rel(:course_statistics).get({
+            course_id: course_id,
+            historic_data: true,
+            start_date: course['created_at'],
+            end_date:,
+          }).value!
+        rescue StandardError => e
+          Rails.logger.warn("Failed to fetch historic course statistics: #{e.message}")
+          []
+        end
 
         course_statistics.map do |stats|
           {

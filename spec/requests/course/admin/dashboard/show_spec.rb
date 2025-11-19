@@ -30,6 +30,25 @@ describe 'Course: Admin: Dashboard: Show', type: :request do
 
     allow(Admin::Statistics::AgeDistribution).to receive(:call).and_return([])
 
+    Stub.service(:quiz, build(:'quiz:root'))
+    Stub.service(:pinboard, build(:'pinboard:root'))
+    Stub.request(:course, :get, '/items', query: hash_including({
+      course_id: course.id,
+      was_available: 'true',
+      content_type: 'quiz',
+      exercise_type: 'main,bonus',
+    })).to_return Stub.json([])
+    Stub.request(:course, :get, '/items', query: hash_including({
+      course_id: course.id,
+      was_available: 'true',
+      content_type: 'quiz',
+      exercise_type: 'selftest',
+    })).to_return Stub.json([])
+    Stub.request(:quiz, :get, '/submission_statistic', query: hash_including({}))
+      .to_return Stub.json({})
+    Stub.request(:pinboard, :get, "/statistics/#{course.id}")
+      .to_return Stub.json({})
+
     encoded_end_date = CGI.escape((DateTime.parse(course_resource['end_date']) + 12.weeks).strftime('%Y-%m-%dT%H:%M:%S%:z'))
 
     Stub.service(:learnanalytics, build(:'lanalytics:root'))
@@ -38,11 +57,31 @@ describe 'Course: Admin: Dashboard: Show', type: :request do
     Stub.request(:learnanalytics, :get, '/metrics')
       .to_return Stub.json([
         {'name' => 'client_combination_usage', 'available' => true},
+        {'name' => 'item_visits_count', 'available' => true},
+        {'name' => 'video_play_count', 'available' => true},
+        {'name' => 'forum_activity', 'available' => true},
+        {'name' => 'forum_write_activity', 'available' => true},
       ])
     Stub.request(
       :learnanalytics, :get, '/metrics/client_combination_usage',
       query: hash_including({})
     ).to_return Stub.json([])
+    Stub.request(
+      :learnanalytics, :get, '/metrics/item_visits_count',
+      query: hash_including({course_id: course.id})
+    ).to_return Stub.json({})
+    Stub.request(
+      :learnanalytics, :get, '/metrics/video_play_count',
+      query: hash_including({course_id: course.id})
+    ).to_return Stub.json({})
+    Stub.request(
+      :learnanalytics, :get, '/metrics/forum_activity',
+      query: hash_including({course_id: course.id})
+    ).to_return Stub.json({})
+    Stub.request(
+      :learnanalytics, :get, '/metrics/forum_write_activity',
+      query: hash_including({course_id: course.id})
+    ).to_return Stub.json({})
   end
 
   context 'as anonymous user' do
@@ -85,6 +124,12 @@ describe 'Course: Admin: Dashboard: Show', type: :request do
         expect(response).to render_template :show
         expect(response.body).to include 'Age Distribution'
         expect(response.body).to include 'Client Usage'
+      end
+
+      it 'renders KPI score cards' do
+        show_course_dashboard
+        expect(response.body).to include 'Learning Items'
+        expect(response.body).to include 'Forum'
       end
     end
   end

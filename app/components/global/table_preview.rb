@@ -2,7 +2,8 @@
 
 module Global
   class TablePreview < ViewComponent::Preview
-    def default
+    # @param caption [String]
+    def default(caption: nil)
       rows = [
         {'age_group' => '18–24', 'global_count' => '1,234', 'global_share' => '12%'},
         {'age_group' => '25–34', 'global_count' => '2,345', 'global_share' => '23%'},
@@ -11,7 +12,7 @@ module Global
       ]
       headers = ['Age Group', 'Global Count', 'Global Share']
 
-      render Global::Table.new(rows: rows, headers: headers, title: 'Age Distribution')
+      render Global::Table.new(rows: rows, headers: headers, title: 'Age Distribution', caption: caption)
     end
 
     def empty_data

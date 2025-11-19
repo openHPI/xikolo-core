@@ -1,41 +1,79 @@
-*
-!api/
-!app/
-!bin/
-!brand/
-!clients/
-!config/
-config/*integration*
-config/initializers/integration*
-!db/
-!docker/bin/
-!gems/
-!engines/
-!lib/
-!public/
-public/assets*
-!services/*/app
-!services/*/bin
-!services/*/brand
-!services/*/config
-services/*/config/*integration*
-services/*/config/initializers/integration*
-!services/*/lib/
-!services/*/public/
-!services/*/vendor/
-!services/*/config.ru
-!services/*/Gemfile*
-!services/*/LICENSE*
-!services/*/Rakefile
-!vendor/
-!.yarnrc.yml
-!config.ru
-!Gemfile
-!Gemfile.lock
-!LICENSE*
-!Makefile
-!package.json
-!packages.txt
-!Rakefile
-!yarn.lock
-!engines/
+# See https://docs.docker.com/engine/reference/builder/#dockerignore-file for more about ignoring files.
+
+# Ignore git directory.
+/.git/
+/.gitignore
+
+# Ignore bundler config.
+/.bundle
+
+# Ignore all environment files.
+/.env*
+
+# Ignore all default key files.
+/config/master.key
+/config/credentials/*.key
+
+# Ignore all logfiles and tempfiles.
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+
+# Ignore pidfiles, but keep the directory.
+/tmp/pids/*
+!/tmp/pids/.keep
+
+# Ignore storage (uploaded files in development and any SQLite databases).
+/storage/*
+!/storage/.keep
+/tmp/storage/*
+!/tmp/storage/.keep
+
+# Ignore assets.
+/node_modules/
+/app/assets/builds/*
+!/app/assets/builds/.keep
+/public/assets
+
+# Ignore development files
+/.devcontainer
+
+# Ignore Docker-related files
+/.dockerignore
+/Dockerfile*
+
+# End of Rails default and start custom configuration
+
+# Ignore all service logfiles and tempfiles.
+/services/*/log/*
+/services/*/tmp/*
+!/services/*/log/.keep
+!/services/*/tmp/.keep
+
+# Ignore service pidfiles, but keep the directory.
+/services/*/tmp/pids/*
+!/services/*/tmp/pids/.keep
+
+# Tailwind
+/app/assets/tailwind/output.css
+
+# Auto-generated API documentation
+/doc/api
+
+# Webpack build cache
+.cache
+
+# Ignore links to gems and engines
+/services/*/gems
+/services/*/engines
+
+# Auto-generate integration initializers & config
+/services/*/config/initializers/integration.rb
+/services/*/config/initializers/integration
+/services/*/config/initializers/integration*
+/config/initializers/integration.rb
+/config/initializers/integration
+/config/initializers/integration*
+/config/services.integration.yml
+/config/xikolo.integration.yml

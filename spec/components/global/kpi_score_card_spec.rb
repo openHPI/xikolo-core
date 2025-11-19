@@ -17,6 +17,26 @@ describe Global::KpiScoreCard, type: :component do
   let(:icon_class) { 'fas fa-eye' }
   let(:more_details_url) { '/test' }
 
+  describe '#formatted_value' do
+    it 'formats count values with delimiters' do
+      component = described_class.new(title: 'Test', value: 1234, icon_class: 'eye')
+      render_inline(component)
+      expect(page).to have_content('1,234')
+    end
+
+    it 'formats percentage values' do
+      component = described_class.new(title: 'Test', value: 0.8567, icon_class: 'eye', format: :percentage)
+      render_inline(component)
+      expect(page).to have_content('85.67%')
+    end
+
+    it 'returns n/a for blank values' do
+      component = described_class.new(title: 'Test', value: nil, icon_class: 'eye')
+      render_inline(component)
+      expect(page).to have_content('n/a')
+    end
+  end
+
   describe '#render' do
     it 'renders title, value and more details link' do
       render_inline(component)
@@ -34,6 +54,12 @@ describe Global::KpiScoreCard, type: :component do
         expect(page).to have_content('123')
         expect(page).to have_no_link('More details')
       end
+    end
+
+    it 'renders percentage format correctly' do
+      component = described_class.new(title: 'Quiz Performance', value: 0.75, icon_class: 'user-edit', format: :percentage)
+      render_inline(component)
+      expect(page).to have_content('75.00%')
     end
   end
 end

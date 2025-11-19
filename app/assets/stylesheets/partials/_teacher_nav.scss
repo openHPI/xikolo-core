@@ -88,7 +88,7 @@ $teacher-nav-controls-height: 30px;
     max-height: calc(100% - #{$teacher-nav-item-height});
     border-top: 1px solid $gray-250;
     background-color: $white;
-    overflow-y: overlay;
+    overflow-y: auto;
   }
 
   &__menu,

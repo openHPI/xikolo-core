@@ -1,4 +1,4 @@
-<article class="flex w-full max-w-xl bg-white shadow-sm rounded-lg">
+<article class="flex w-full bg-white shadow-sm rounded-lg">
   <span
     class="flex shrink-0 items-center justify-center rounded-l-md bg-gray-100 size-40"
     aria-hidden="true"
@@ -6,10 +6,10 @@
     <%= render Global::FaIcon.new(icon_class, style: :solid, css_classes: 'text-5xl text-gray-800') %>
   </span>
 
-  <div class="flex flex-col justify-between mx-4 my-2">
+  <div class="flex flex-col justify-between p-4">
     <div>
-      <p class="text-sm !m-0"<% if heading_level.present? %> role="heading" aria-level="<%= heading_level %>"<% end %>><%= title %></p>
-      <p class="text-lg font-semibold"><%= value %></p>
+      <p class="text-xs !mb-1"<% if heading_level.present? %> role="heading" aria-level="<%= heading_level %>"<% end %>><%= title %></p>
+      <p class="text-md font-semibold"><%= formatted_value %></p>
     </div>
 
     <% if more_details? %>
@@ -20,7 +20,7 @@
         >
           <%= render Global::FaIcon.new('arrow-right', style: :solid, css_classes: 'fa-2xs') %>
         </span>
-        <span class="text-sm"><%= t('admin.dashboard.show.more_details') %></span>
+        <span class="text-xs"><%= t('admin.dashboard.show.more_details') %></span>
       <% end %>
     <% end %>
   </div>

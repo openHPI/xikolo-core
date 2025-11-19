@@ -35,5 +35,14 @@ describe Global::Table, type: :component do
         expect(page).to have_text('No data available')
       end
     end
+
+    context 'with caption' do
+      subject(:component) { described_class.new(rows:, headers:, title:, caption: 'Test caption') }
+
+      it 'renders the caption' do
+        render_inline(component)
+        expect(page).to have_text('Test caption')
+      end
+    end
   end
 end

@@ -1401,6 +1401,7 @@ en:
             helpdesk_tickets: Helpdesk tickets # Do not translate
         client_usage: # Do not translate
           title: Client Usage # Do not translate
+          caption: Percentages show adoption rates for each client type and may exceed 100% as users can use multiple clients. # Do not translate
           table:
             client_types: Client Types # Do not translate
             users: Users # Do not translate
@@ -1462,6 +1463,7 @@ en:
           title: User Locations (Last Month) # Do not translate
         client_usage: # Do not translate
           title: Client Usage (Last Month) # Do not translate
+          caption: Percentages show adoption rates for each client type and may exceed 100% as users can use multiple clients. # Do not translate
           table:
             client_types: Client Types # Do not translate
             users: Users # Do not translate

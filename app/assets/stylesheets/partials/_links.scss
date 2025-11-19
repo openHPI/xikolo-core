@@ -23,8 +23,8 @@ $link-color-hover: color.adjust($link-color, $lightness: -8%, $space: hsl);
 
 .bs-a {
   color: $link-color;
+  overflow-wrap: break-word;
   text-decoration: none;
-  word-wrap: break-word;
   @include suppress-dotted-border();
 
   &:hover,

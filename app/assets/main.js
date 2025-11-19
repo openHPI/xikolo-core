@@ -51,3 +51,5 @@ import 'components/navigation/tabs';
 import 'util/forms/upload';
 import 'util/forms/mdupload';
 import 'util/get-relative-time';
+// XI-6736: Seasonal snow effect
+import 'util/snowflakes-effect';

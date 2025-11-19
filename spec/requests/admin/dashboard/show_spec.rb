@@ -19,15 +19,41 @@ describe 'Admin: Dashboard: Show', type: :request do
       before do
         allow(Admin::Statistics::AgeDistribution).to receive(:call).and_return([])
 
+        Stub.service(:course, build(:'course:root'))
+        Stub.request(:account, :get, '/statistic')
+          .to_return Stub.json({
+            'confirmed_users' => 0,
+            'confirmed_users_last_day' => 0,
+            'users_deleted' => 0,
+          })
+        Stub.request(:course, :get, '/stats?key=global')
+          .to_return Stub.json({
+            'platform_enrollments' => 0,
+            'platform_enrollment_delta_sum' => 0,
+            'platform_last_day_enrollments' => 0,
+            'courses_count' => 0,
+          })
+
         Stub.service(:learnanalytics, build(:'lanalytics:root'))
         Stub.request(:learnanalytics, :get, '/metrics')
           .to_return Stub.json([
             {'name' => 'client_combination_usage', 'available' => true},
+            {'name' => 'active_user_count', 'available' => true},
+            {'name' => 'certificates', 'available' => true},
           ])
         Stub.request(
           :learnanalytics, :get, '/metrics/client_combination_usage',
           query: hash_including({})
         ).to_return Stub.json([])
+        Stub.request(
+          :learnanalytics, :get, '/metrics/active_user_count',
+          query: hash_including({})
+        ).to_return Stub.json({'active_users' => 0})
+        Stub.request(:learnanalytics, :get, '/metrics/certificates')
+          .to_return Stub.json({
+            'record_of_achievement' => 0,
+            'confirmation_of_participation' => 0,
+          })
       end
 
       it 'renders age distribution and client usage tables' do
@@ -35,6 +61,14 @@ describe 'Admin: Dashboard: Show', type: :request do
         expect(response).to render_template :show
         expect(response.body).to include 'Age Distribution'
         expect(response.body).to include 'Client Usage'
+      end
+
+      it 'renders KPI score cards' do
+        action
+        expect(response.body).to include 'Enrollments'
+        expect(response.body).to include 'Learners'
+        expect(response.body).to include 'Activity'
+        expect(response.body).to include 'Certificates'
       end
     end
 

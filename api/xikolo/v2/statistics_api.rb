@@ -160,24 +160,6 @@ module Xikolo
             end
           end
 
-          namespace 'item_visits' do
-            desc 'Returns course-specific item visits'
-            get do
-              course_dashboard_permission! params[:course_id]
-
-              fetch_metric(name: 'item_visits_count', course_id: params[:course_id]).value!
-            end
-          end
-
-          namespace 'video_plays' do
-            desc 'Returns course-specific video plays'
-            get do
-              course_dashboard_permission! params[:course_id]
-
-              fetch_metric(name: 'video_play_count', course_id: params[:course_id]).value!
-            end
-          end
-
           namespace 'downloads' do
             desc 'Returns course-specific video asset downloads'
             get do
@@ -193,76 +175,6 @@ module Xikolo
               course_dashboard_permission! params[:course_id]
 
               fetch_metric(name: 'rich_text_link_click_total_count', course_id: params[:course_id]).value!
-            end
-          end
-
-          namespace 'total_quiz_performance' do
-            desc 'Weighted performance average for all quizzes of a course'
-            params do
-              requires :type, type: String, desc: 'Either graded or selftest'
-            end
-            get do
-              course_dashboard_permission! params[:course_id]
-
-              Rails.cache.fetch("statistics/course/#{params[:course_id]}/total_quiz_performance/#{params[:type]}/", expires_in: 1.hour, race_condition_ttl: 1.minute) do
-                case params[:type]
-                  when 'graded'
-                    types = %w[main bonus]
-                  when 'selftest'
-                    types = %w[selftest]
-                  else
-                    next
-                end
-
-                promises = []
-
-                Xikolo.paginate(
-                  course_api.rel(:items).get({
-                    course_id: params[:course_id],
-                    was_available: true,
-                    content_type: 'quiz',
-                    exercise_type: types.join(','),
-                  })
-                ) do |quiz|
-                  promises.append quiz_api.rel(:submission_statistic).get({id: quiz['content_id']})
-                end
-
-                quiz_stats = Restify::Promise.new(promises).value!
-
-                total_avg_points = 0
-                total_max_points = 0
-
-                quiz_stats.each do |qs|
-                  if qs['avg_points']
-                    total_avg_points += qs['avg_points']
-                    total_max_points += qs['max_points']
-                  end
-                end
-
-                if total_max_points > 0
-                  total_avg_points / total_max_points
-                end
-              end
-            end
-          end
-
-          namespace 'forum' do
-            get do
-              course_dashboard_permission! params[:course_id]
-
-              Rails.cache.fetch("statistics/course/#{params[:course_id]}/forum/", expires_in: 1.hour, race_condition_ttl: 10.seconds) do
-                Restify::Promise.new(
-                  pinboard_api.rel(:statistic).get({id: params[:course_id]}),
-                  fetch_metric(name: 'forum_activity', course_id: params[:course_id]),
-                  fetch_metric(name: 'forum_write_activity', course_id: params[:course_id])
-                ) do |forum_statistics, forum_activity, forum_write_activity|
-                  {
-                    forum_statistics:,
-                    forum_activity:,
-                    forum_write_activity:,
-                  }
-                end.value!
-              end
             end
           end
 

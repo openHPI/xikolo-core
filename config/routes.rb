@@ -145,10 +145,6 @@ Rails.application.routes.draw do
   resources :courses, only: %i[create update new edit destroy], module: 'admin'
   namespace :admin do
     scope module: :ajax do
-      get 'platform_statistics/learners_and_enrollments', to: 'platform_statistics#learners_and_enrollments'
-      get 'platform_statistics/activity', to: 'platform_statistics#activity'
-      get 'platform_statistics/certificates', to: 'platform_statistics#certificates'
-
       get 'detail_statistics/countries', to: 'detail_statistics#countries'
       get 'detail_statistics/cities', to: 'detail_statistics#cities'
       get 'detail_statistics/top_item_types', to: 'detail_statistics#top_item_types'

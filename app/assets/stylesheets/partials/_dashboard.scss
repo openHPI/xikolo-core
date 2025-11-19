@@ -108,14 +108,6 @@ $kpi-font: $xi-font-data !default;
   .progress-description {
     margin: 0;
   }
-
-  score-card {
-    --score-card-icon-background-border-radius: 4px;
-    --score-card-icon-background-color: #{$dashboard-score-card-bg};
-    --score-card-link-color: #{$link-color};
-    --score-card-link-color-hover: #{$link-color-hover};
-    --score-card-link-text-decoration: none;
-  }
 }
 
 .course-dashboard-section {
