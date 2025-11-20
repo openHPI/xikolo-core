@@ -2,11 +2,32 @@
  * XI-6736: Seasonal snow effect
  **/
 
+import { isScreenSizeSmall } from './media-query';
+
 (function () {
   const snowContainer = document.getElementById('snow-container');
   if (!snowContainer) {
     return;
   }
+
+  // Respect user motion preferences
+  const prefersReducedMotion = window.matchMedia(
+    '(prefers-reduced-motion: reduce)',
+  ).matches;
+
+  if (prefersReducedMotion) {
+    return;
+  }
+
+  const settings = isScreenSizeSmall()
+    ? {
+        intervalMs: 400, // slower spawn rate => less snowflakes
+        fontSize: 10,
+      }
+    : {
+        intervalMs: 200,
+        fontSize: 15,
+      };
 
   const createSnowflake = () => {
     const snowflake = document.createElement('div');
@@ -19,7 +40,7 @@
     snowflake.style.left = startPosition + 'vw';
     snowflake.style.animationDuration = duration + 's';
     snowflake.style.opacity = (Math.random() * 0.6 + 0.2).toString();
-    snowflake.style.fontSize = Math.random() * 10 + 15 + 'px';
+    snowflake.style.fontSize = Math.random() * 10 + settings.fontSize + 'px';
 
     snowContainer.appendChild(snowflake);
 
@@ -29,7 +50,7 @@
     }, duration * 1000);
   };
 
-  const snowInterval = setInterval(createSnowflake, 200);
+  const snowInterval = setInterval(createSnowflake, settings.intervalMs);
 
   setTimeout(() => {
     clearInterval(snowInterval);

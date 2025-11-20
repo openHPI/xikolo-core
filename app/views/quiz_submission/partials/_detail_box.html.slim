@@ -37,8 +37,6 @@
             em = t(:'quiz_submission.times_taken', count: @item_presenter.attempts)
 
 javascript:
-  var safariFix;
-
   $(function() {
     $('#quiz_form input , #quiz_form select , #quiz_form textarea').change(function(evt) {
       var indicator_selector, quiz_question, target;
@@ -79,33 +77,4 @@ javascript:
         }
       }
     });
-  });
-
-  safariFix = function(elemId) {
-    var explicitlySetAffixPosition, stickywidget;
-    if (navigator.userAgent.indexOf('Safari') === -1) {
-      return;
-    }
-    if (navigator.userAgent.indexOf('Chrome') !== -1) {
-      return;
-    }
-    stickywidget = $(elemId);
-    explicitlySetAffixPosition = function() {
-      return stickywidget.css('left', stickywidget.offset().left + 'px');
-    };
-    stickywidget.on('affix.bs.affix', function() {
-      return explicitlySetAffixPosition();
-    });
-    return $(window).resize(function() {
-      if (!stickywidget.hasClass('affix')) {
-        return;
-      }
-      stickywidget.removeClass('affix');
-      explicitlySetAffixPosition();
-      return stickywidget.addClass('affix');
-    });
-  };
-
-  $(window).on('load', function() {
-    return safariFix("#quiz-sidebar");
   });
