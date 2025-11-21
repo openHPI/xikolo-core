@@ -29,10 +29,27 @@ html lang="#{I18n.locale}" data-default-locale="#{I18n.default_locale}" data-bra
     = stylesheet_link_tag 'styles', media: 'all', crossorigin: 'anonymous', integrity: true
     = stylesheet_link_tag 'tailwind', media: 'all', crossorigin: 'anonymous', integrity: true
 
-    = javascript_include_tag 'runtime', crossorigin: 'anonymous', integrity: true, async: true, debug: false
-    = javascript_include_tag 'main', crossorigin: 'anonymous', integrity: true, async: true, debug: false
+    / Shim for ready() function to queue calls until main.js loads
+    javascript:
+      window.fnQueue = window.fnQueue || {};
 
-    = javascript_include_tag 'application', crossorigin: 'anonymous', integrity: !Rails.env.development?
+      window.ready = window.ready || function(fn) {
+        window.fnQueue.ready = window.fnQueue.ready || [];
+        window.fnQueue.ready.push(fn);
+      };
+
+      // Shim for jQuery to queue calls until library loads
+      window.$ = window.jQuery = window.$ || function() {
+        var args = arguments;
+        window.fnQueue.jQuery = window.fnQueue.jQuery || [];
+        window.fnQueue.jQuery.push({ context: this, args: args });
+        return window.$;
+      };
+      window.$.fn = window.$.prototype = window.$ || {};
+
+    = javascript_include_tag 'runtime', crossorigin: 'anonymous', integrity: true, async: true, debug: false
+    = javascript_include_tag 'main', crossorigin: 'anonymous', integrity: true, defer: true, debug: false
+
     = javascript_include_tag 'lanalytics-framework', crossorigin: 'anonymous', integrity: true
     = javascript_include_tag "xikolo-locale-#{I18n.locale}", crossorigin: 'anonymous', integrity: !Rails.env.development?
 

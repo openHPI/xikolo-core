@@ -18,91 +18,94 @@
       span.small = t(:'admin.courses.items.form.time_effort.calculated_time_effort_hint')
 
 javascript:
-  $("#time_effort").hide();
-  var timeEffortOverwritten;
-  var calculatedTimeEffort;
-  var currentTimeEffort;
+  ready(function() {
 
-  $(function () {
-    $("#time_effort_editable").editable({
-      emptytext: "#{t(:'admin.courses.items.form.time_effort.not_overwritten')}",
-      validate: function (value) {
-        // Validate input here since type="number" is not working on the editable
-        if (value && (!/^(0|[1-9][\d]*)$/.test(value))) {
-          return "#{t(:'admin.courses.items.form.time_effort.must_be_number')}";
+    $("#time_effort").hide();
+    var timeEffortOverwritten;
+    var calculatedTimeEffort;
+    var currentTimeEffort;
+
+    $(function () {
+      $("#time_effort_editable").editable({
+        emptytext: "#{t(:'admin.courses.items.form.time_effort.not_overwritten')}",
+        validate: function (value) {
+          // Validate input here since type="number" is not working on the editable
+          if (value && (!/^(0|[1-9][\d]*)$/.test(value))) {
+            return "#{t(:'admin.courses.items.form.time_effort.must_be_number')}";
+          }
+        },
+        display: function (value) {
+          if (value !== '') $(this).text(value + " #{t(:'time_effort.seconds')}");
+        },
+        success: function (_msg, newValue) {
+          $('#time_effort_editable').siblings('.has-spinner').addClass('loading');
+          if (newValue !== '') {
+            return $.ajax(
+              "#{course_section_item_time_effort_path(item_id: item.id)}",
+              {
+                type: 'PUT',
+                async: true,
+                data: {
+                  time_effort: newValue
+                },
+                success: function () {
+                  timeEffortOverwritten = true;
+                  currentTimeEffort = newValue;
+                  $('#time_effort_editable').removeClass('editable-unsaved').siblings('.has-spinner').removeClass('loading');
+                  $('#error_msg').hide();
+                },
+                error: function () {
+                  $('#time_effort_editable').removeClass('editable-unsaved').editable('setValue', currentTimeEffort)
+                    .siblings('.has-spinner').removeClass('loading');
+                  $('#error_msg').text("#{t(:'admin.courses.items.form.time_effort.overwrite_error')}").show();
+                },
+              }
+            );
+          } else {
+            return $.ajax(
+              "#{course_section_item_time_effort_path(item_id: item.id)}",
+              {
+                type: 'DELETE',
+                async: true,
+                success: function (response) {
+                  timeEffortOverwritten = false;
+                  currentTimeEffort = response['calculated_time_effort'];
+                  $('#time_effort_editable').removeClass('editable-unsaved')
+                    .text("#{t(:'admin.courses.items.form.time_effort.not_overwritten')}").editable('setValue', '')
+                    .siblings('.has-spinner').removeClass('loading');
+                  $("#calculated_time_effort").text(`${currentTimeEffort} #{t(:'time_effort.seconds')}`);
+                  $('#error_msg').hide();
+                },
+                error: function () {
+                  $('#time_effort_editable').removeClass('editable-unsaved').editable('setValue', currentTimeEffort)
+                    .siblings('.has-spinner').removeClass('loading');
+                  $('#error_msg').text("#{t(:'admin.courses.items.form.time_effort.reset_error')}").show();
+                },
+              }
+            );
+          }
         }
-      },
-      display: function (value) {
-        if (value !== '') $(this).text(value + " #{t(:'time_effort.seconds')}");
-      },
-      success: function (_msg, newValue) {
-        $('#time_effort_editable').siblings('.has-spinner').addClass('loading');
-        if (newValue !== '') {
-          return $.ajax(
-            "#{course_section_item_time_effort_path(item_id: item.id)}",
-            {
-              type: 'PUT',
-              async: true,
-              data: {
-                time_effort: newValue
-              },
-              success: function () {
-                timeEffortOverwritten = true;
-                currentTimeEffort = newValue;
-                $('#time_effort_editable').removeClass('editable-unsaved').siblings('.has-spinner').removeClass('loading');
-                $('#error_msg').hide();
-              },
-              error: function () {
-                $('#time_effort_editable').removeClass('editable-unsaved').editable('setValue', currentTimeEffort)
-                  .siblings('.has-spinner').removeClass('loading');
-                $('#error_msg').text("#{t(:'admin.courses.items.form.time_effort.overwrite_error')}").show();
-              },
+      });
+
+      $.ajax(
+        "#{course_section_item_time_effort_path(item_id: item.id)}",
+        {
+          type: 'GET',
+          async: true,
+          success: function (response) {
+            timeEffortOverwritten = response['time_effort_overwritten'];
+            calculatedTimeEffort = response['calculated_time_effort'];
+            currentTimeEffort = '#{item.time_effort}';
+            if (calculatedTimeEffort !== null) {
+              $("#calculated_time_effort").text(calculatedTimeEffort + " #{t(:'time_effort.seconds')}");
             }
-          );
-        } else {
-          return $.ajax(
-            "#{course_section_item_time_effort_path(item_id: item.id)}",
-            {
-              type: 'DELETE',
-              async: true,
-              success: function (response) {
-                timeEffortOverwritten = false;
-                currentTimeEffort = response['calculated_time_effort'];
-                $('#time_effort_editable').removeClass('editable-unsaved')
-                  .text("#{t(:'admin.courses.items.form.time_effort.not_overwritten')}").editable('setValue', '')
-                  .siblings('.has-spinner').removeClass('loading');
-                $("#calculated_time_effort").text(`${currentTimeEffort} #{t(:'time_effort.seconds')}`);
-                $('#error_msg').hide();
-              },
-              error: function () {
-                $('#time_effort_editable').removeClass('editable-unsaved').editable('setValue', currentTimeEffort)
-                  .siblings('.has-spinner').removeClass('loading');
-                $('#error_msg').text("#{t(:'admin.courses.items.form.time_effort.reset_error')}").show();
-              },
+            if (timeEffortOverwritten) {
+              $('#time_effort_editable').editable('setValue', currentTimeEffort);
             }
-          );
+
+            $("#time_effort").show();
+          }
         }
-      }
+      );
     });
-
-    $.ajax(
-      "#{course_section_item_time_effort_path(item_id: item.id)}",
-      {
-        type: 'GET',
-        async: true,
-        success: function (response) {
-          timeEffortOverwritten = response['time_effort_overwritten'];
-          calculatedTimeEffort = response['calculated_time_effort'];
-          currentTimeEffort = '#{item.time_effort}';
-          if (calculatedTimeEffort !== null) {
-            $("#calculated_time_effort").text(calculatedTimeEffort + " #{t(:'time_effort.seconds')}");
-          }
-          if (timeEffortOverwritten) {
-            $('#time_effort_editable').editable('setValue', currentTimeEffort);
-          }
-
-          $("#time_effort").show();
-        }
-      }
-    );
   });

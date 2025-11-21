@@ -9,6 +9,7 @@
 import 'form-request-submit-polyfill';
 
 import './legacy/initializers';
+import '../../vendor/assets/javascripts/bootstrap.min.js';
 import Rails from '@rails/ujs';
 
 // Rails UJS

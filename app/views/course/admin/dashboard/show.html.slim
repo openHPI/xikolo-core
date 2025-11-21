@@ -1,5 +1,4 @@
 - content_for :head_assets
-  = javascript_include_tag 'm.e.i.n.e.l'
   = javascript_include_tag 'course-admin', crossorigin: 'anonymous', integrity: true, async: true, debug: false
   = javascript_include_tag 'teacher', crossorigin: 'anonymous', integrity: true, async: true, debug: false
 
@@ -14,69 +13,14 @@
   data-lanalytics-visit='course_dashboard'
   data-lanalytics-resource={type: 'course', uuid: @course['id']}.to_json
 ]
-
   .row
-    .col-md-12.kpis-container.mt10
-      ajax-wrapper data-url="/api/v2/statistics/course_dashboard/enrollments.json?course_id=#{@course.id}" lazy-load='true'
+    .col-md-12.mb15.mt15
+      .grid.grid-cols-1.gap-4.sm:grid-cols-1.md:grid-cols-2.lg:grid-cols-3
+        = render Global::KpiCard.new(icon_class: 'graduation-cap', title: t(:'admin.course_management.dashboard.kpis.enrollments.title'), metrics: kpi_enrollments_metrics(@kpi_enrollments_stats))
 
-        .course-dashboard-section.kpis.col-md-4
-          .col-md-12.well
-            .row.kpis__header
-              .col-xs-12
-                = render Global::FaIcon.new('graduation-cap', style: :solid, css_classes: 'fa-2x vm')
-                span.title
-                  = t(:'admin.course_management.dashboard.kpis.enrollments.title')
-            hr.bs-hr.hr-dark
-            - if @course.end_date.blank? || @course.end_date > DateTime.now
-              = render partial: 'kpi_item', locals: {name: (t 'admin.course_management.dashboard.kpis.enrollments.total'), data_key: 'enrollments', sec_name: t(:'admin.course_management.dashboard.kpis.enrollments.non_deleted'), sec_data_key: 'enrollments_netto'}
-            - else
-              = render partial: 'kpi_item', locals: {name: (t 'admin.course_management.dashboard.kpis.enrollments.total'), data_key: 'enrollments'}
-            = render partial: 'kpi_item', locals: {name: (t 'admin.course_management.dashboard.kpis.enrollments.last_day'), data_key: 'enrollments_last_day', prefix: '+'}
-            - if @course.start_date && @course.start_date < DateTime.now
-              = render partial: 'kpi_item', locals: {name: (t 'admin.course_management.dashboard.kpis.enrollments.at_start'), data_key: 'enrollments_at_start', sec_name: t(:'admin.course_management.dashboard.kpis.enrollments.non_deleted'), sec_data_key: 'enrollments_at_start_netto'}
-            - if @course.middle_of_course && @course.middle_of_course < DateTime.now
-              = render partial: 'kpi_item', locals: {name: (t 'admin.course_management.dashboard.kpis.enrollments.at_middle'), data_key: 'enrollments_at_middle', sec_name: t(:'admin.course_management.dashboard.kpis.enrollments.non_deleted'), sec_data_key: 'enrollments_at_middle_netto'}
-            - if @course.end_date && @course.end_date < DateTime.now
-              = render partial: 'kpi_item', locals: {name: (t 'admin.course_management.dashboard.kpis.enrollments.at_end'), data_key: 'enrollments_at_end', sec_name: t(:'admin.course_management.dashboard.kpis.enrollments.non_deleted'), sec_data_key: 'enrollments_at_end_netto'}
+        = render Global::KpiCard.new(icon_class: 'users', title: t(:'admin.course_management.dashboard.kpis.activity.title'), metrics: kpi_activity_metrics(@kpi_activity_stats))
 
-        .course-dashboard-section.col-md-4
-          .col-md-12.well
-            .row.kpis__header
-              .col-xs-12
-                = render Global::FaIcon.new('users', style: :solid, css_classes: 'fa-2x vm')
-                span.title
-                  = t(:'admin.course_management.dashboard.kpis.activity.title')
-            hr.bs-hr.hr-dark
-              = render partial: 'kpi_item', locals: {name: (t 'admin.course_management.dashboard.kpis.activity.shows'), data_key: 'shows', quota_name: (t 'admin.course_management.dashboard.kpis.activity.show_rate_explanation'), quota_key: 'show_quota'}
-              - if @course.middle_of_course && @course.middle_of_course < DateTime.now
-                = render partial: 'kpi_item', locals: {name: (t 'admin.course_management.dashboard.kpis.activity.shows_at_middle'), data_key: 'shows_at_middle', quota_name: (t 'admin.course_management.dashboard.kpis.activity.shows_at_middle_rate_explanation'), quota_key: 'show_quota_at_middle'}
-              - if @course.end_date && @course.end_date < DateTime.now
-                = render partial: 'kpi_item', locals: {name: (t 'admin.course_management.dashboard.kpis.activity.shows_at_end'), data_key: 'shows_at_end', quota_name: (t 'admin.course_management.dashboard.kpis.activity.shows_at_end_rate_explanation'), quota_key: 'show_quota_at_end'}
-
-        .course-dashboard-section.col-md-4
-          .col-md-12.well
-            .row.kpis__header
-              .col-xs-12
-                = render Global::FaIcon.new('file-contract', style: :solid, css_classes: 'fa-2x vm')
-                span.title
-                  = t(:'admin.course_management.dashboard.kpis.certificates.title')
-            hr.bs-hr.hr-dark
-            - if @course.records_released
-              - if @course.roa_enabled?
-                = render partial: 'kpi_item', locals: {name: (t 'admin.course_management.dashboard.kpis.certificates.roa'), data_key: 'roa_count', quota_name: (t 'admin.course_management.dashboard.kpis.certificates.completion_rate_explanation'), quota_key: 'completion_rate'}
-              - if @course.cop_enabled?
-                = render partial: 'kpi_item', locals: {name: (t 'admin.course_management.dashboard.kpis.certificates.cop'), data_key: 'cop_count', quota_name: (t 'admin.course_management.dashboard.kpis.certificates.consumption_rate_current_explanation'), quota_key: 'consumption_rate_current'}
-                - if current_user.feature?('course_dashboard.show_cops_details') && @course.end_date&.past?
-                  = render partial: 'kpi_item', locals: {name: (t 'admin.course_management.dashboard.kpis.certificates.cops_until_course_end'), data_key: 'cop_at_end_count', quota_name: (t 'admin.course_management.dashboard.kpis.certificates.consumption_rate_at_end_explanation'), quota_key: 'consumption_rate_at_end'}
-                  = render partial: 'kpi_item', locals: {name: (t 'admin.course_management.dashboard.kpis.certificates.cops_after_course_end'), data_key: 'cop_after_end_count', quota_name: (t 'admin.course_management.dashboard.kpis.certificates.consumption_rate_after_end_explanation'), quota_key: 'consumption_rate_after_end'}
-              - if @course.proctored?
-                = render partial: 'kpi_item', locals: {name: (t 'admin.course_management.dashboard.kpis.certificates.qc'), data_key: 'qc_count'}
-            - elsif !@course.roa_enabled? && !@course.cop_enabled?
-              .text-align-center
-                = t 'admin.course_management.dashboard.kpis.certificates.not_available'
-            - else
-              .text-align-center
-                = t 'admin.course_management.dashboard.kpis.certificates.not_released'
+        = render Global::KpiCard.new(icon_class: 'file-contract', title: t(:'admin.course_management.dashboard.kpis.certificates.title'), metrics: kpi_certificates_metrics(@kpi_certificates_stats))
 
   .row
     .col-md-12.mb15

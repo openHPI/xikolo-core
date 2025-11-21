@@ -20,9 +20,26 @@ html lang="#{I18n.locale}"
     = stylesheet_link_tag 'styles', media: 'all', crossorigin: 'anonymous', integrity: true
     = stylesheet_link_tag 'tailwind', media: 'all', crossorigin: 'anonymous', integrity: true
 
+    / Shim for ready() function to queue calls until main.js loads
+    javascript:
+      window.fnQueue = window.fnQueue || {};
+
+      window.ready = window.ready || function(fn) {
+        window.fnQueue.ready = window.fnQueue.ready || [];
+        window.fnQueue.ready.push(fn);
+      };
+
+      // Shim for jQuery to queue calls until library loads
+      window.$ = window.jQuery = window.$ || function() {
+        var args = arguments;
+        window.fnQueue.jQuery = window.fnQueue.jQuery || [];
+        window.fnQueue.jQuery.push({ context: this, args: args });
+        return window.$;
+      };
+      window.$.fn = window.$.prototype = window.$ || {};
+
     = javascript_include_tag 'runtime', integrity: true, async: true
-    = javascript_include_tag 'main', integrity: true, async: true
-    = javascript_include_tag 'application', integrity: true, async: true
+    = javascript_include_tag 'main', integrity: true, defer: true
     = javascript_include_tag 'lanalytics-framework', crossorigin: 'anonymous', integrity: true
     = javascript_include_tag "xikolo-locale-#{I18n.locale}"
 

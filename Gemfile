@@ -159,8 +159,6 @@ gem 'sprockets-rails', '~> 3.5'
 group :assets do
   gem 'dartsass-sprockets'
   gem 'i18n-js', '~> 4.2', '>= 4.2.3'
-  gem 'jquery-rails'
-  gem 'momentjs-rails'
   gem 'terser', '~> 1.1'
   gem 'tilt', '~> 2.0'
 end

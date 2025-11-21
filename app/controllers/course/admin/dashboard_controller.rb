@@ -16,6 +16,11 @@ module Course
         Acfs.run # wait for course context promises
 
         course_id = @course.id
+        @course_kpi_cards = ::Admin::Statistics::Course::KpiCards.call(course_id:)
+        kpi_cards = @course_kpi_cards || {}
+        @kpi_enrollments_stats = kpi_cards[:enrollments] || {}
+        @kpi_activity_stats = kpi_cards[:activity] || {}
+        @kpi_certificates_stats = kpi_cards[:certificates] || {}
         @course_item_visits = ::Admin::Statistics::Course::ItemVisits.call(course_id:)
         @course_video_plays = ::Admin::Statistics::Course::VideoPlays.call(course_id:)
         @course_quiz_performance = {

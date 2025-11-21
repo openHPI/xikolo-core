@@ -49,6 +49,29 @@ describe 'Course: Admin: Dashboard: Show', type: :request do
     Stub.request(:pinboard, :get, "/statistics/#{course.id}")
       .to_return Stub.json({})
 
+    Stub.request(
+      :course, :get, '/stats',
+      query: {key: 'enrollments', course_id: course.id}
+    ).to_return Stub.json({
+      enrollments: 8,
+      enrollments_netto: 8,
+      enrollments_last_day: 0,
+      enrollments_at_start: 5,
+      enrollments_at_start_netto: 5,
+      enrollments_at_middle: 7,
+      enrollments_at_middle_netto: 7,
+      enrollments_at_end: 8,
+      enrollments_at_end_netto: 8,
+    })
+    Stub.request(
+      :course, :get, '/stats',
+      query: {key: 'shows_and_no_shows', course_id: course.id}
+    ).to_return Stub.json({
+      shows: 5,
+      shows_at_middle: 4,
+      shows_at_end: 3,
+    })
+
     encoded_end_date = CGI.escape((DateTime.parse(course_resource['end_date']) + 12.weeks).strftime('%Y-%m-%dT%H:%M:%S%:z'))
 
     Stub.service(:learnanalytics, build(:'lanalytics:root'))
@@ -61,6 +84,7 @@ describe 'Course: Admin: Dashboard: Show', type: :request do
         {'name' => 'video_play_count', 'available' => true},
         {'name' => 'forum_activity', 'available' => true},
         {'name' => 'forum_write_activity', 'available' => true},
+        {'name' => 'certificates', 'available' => true},
       ])
     Stub.request(
       :learnanalytics, :get, '/metrics/client_combination_usage',
@@ -82,6 +106,14 @@ describe 'Course: Admin: Dashboard: Show', type: :request do
       :learnanalytics, :get, '/metrics/forum_write_activity',
       query: hash_including({course_id: course.id})
     ).to_return Stub.json({})
+    Stub.request(
+      :learnanalytics, :get, '/metrics/certificates',
+      query: hash_including({course_id: course.id})
+    ).to_return Stub.json({
+      record_of_achievement: 4,
+      confirmation_of_participation: 6,
+      qualified_certificate: 1,
+    })
   end
 
   context 'as anonymous user' do
@@ -102,7 +134,23 @@ describe 'Course: Admin: Dashboard: Show', type: :request do
     context 'with permissions' do
       let(:permissions) { %w[course.dashboard.view course.content.access] }
 
-      it 'does not display the CoP details' do
+      it 'renders age distribution and client usage tables' do
+        show_course_dashboard
+        expect(response).to render_template :show
+        expect(response.body).to include 'Age Distribution'
+        expect(response.body).to include 'Client Usage'
+      end
+
+      it 'renders KPI cards and KPI score cards' do
+        show_course_dashboard
+        expect(response.body).to include 'Enrollments'
+        expect(response.body).to include 'Activity'
+        expect(response.body).to include 'Certificates'
+        expect(response.body).to include 'Learning Items'
+        expect(response.body).to include 'Forum'
+      end
+
+      it 'does not display the CoP details by default' do
         show_course_dashboard
         expect(response.body).to include 'Confirmations of Participation'
         expect(response.body).not_to include 'CoPs until course end'
@@ -117,19 +165,6 @@ describe 'Course: Admin: Dashboard: Show', type: :request do
           expect(response.body).to include 'CoPs until course end'
           expect(response.body).to include 'CoPs after course end'
         end
-      end
-
-      it 'renders age distribution and client usage tables' do
-        show_course_dashboard
-        expect(response).to render_template :show
-        expect(response.body).to include 'Age Distribution'
-        expect(response.body).to include 'Client Usage'
-      end
-
-      it 'renders KPI score cards' do
-        show_course_dashboard
-        expect(response.body).to include 'Learning Items'
-        expect(response.body).to include 'Forum'
       end
     end
   end

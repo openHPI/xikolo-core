@@ -58,39 +58,39 @@
     var graded = false;
 
 javascript:
-  var submitted = false;
-
-  function checkQuizCompletion() {
-    if(graded) {
-      indicators = $('#quiz-state-indicators')
-      if (indicators.find('.answer-state-indicator').size() != indicators.find('.edited').size()) {
-        // not all questions answered
-        $('.confirm-quiz-submission').modal('show');
-        return false;
+    function checkQuizCompletion() {
+      if(graded) {
+        indicators = $('#quiz-state-indicators')
+        if (indicators.find('.answer-state-indicator').size() != indicators.find('.edited').size()) {
+          // not all questions answered
+          $('.confirm-quiz-submission').modal('show');
+          return false;
+        }
       }
+      $('#quiz_form').submit();
     }
-    $('#quiz_form').submit();
-  }
-
-  $('#quiz_form').on('submit', function () {
-    if(graded) {
-      $('.confirm-quiz-submission').modal('hide');
-    }
-    showLoading();
-
-    // disable submit button after click
-    $(this).find('input[type=submit]').prop('disabled', true);
-
-    submitted = true;
-    return true;
-  });
-
-  $.fn.changeTimestamp = function(isotime) {
-    var relativeTime = window.getRelativeTime(new Date(isotime));
-    return $(this).attr("title",isotime).data("timeago",null).text(relativeTime);
-  }
 
   ready(function() {
+    var submitted = false;
+
+    $('#quiz_form').on('submit', function () {
+      if(graded) {
+        $('.confirm-quiz-submission').modal('hide');
+      }
+      showLoading();
+
+      // disable submit button after click
+      $(this).find('input[type=submit]').prop('disabled', true);
+
+      submitted = true;
+      return true;
+    });
+
+    $.fn.changeTimestamp = function(isotime) {
+      var relativeTime = window.getRelativeTime(new Date(isotime));
+      return $(this).attr("title",isotime).data("timeago",null).text(relativeTime);
+    }
+
     var quizChanged = false;
     var autoSaveTime = 10000; // Auto-Save Quiz every 10 seconds
 

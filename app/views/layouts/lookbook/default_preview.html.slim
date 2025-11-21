@@ -17,7 +17,6 @@ html lang="#{I18n.locale}"
 
     = javascript_include_tag 'runtime', integrity: !Rails.env.development?
     = javascript_include_tag 'main', integrity: !Rails.env.development?
-    = javascript_include_tag 'application', integrity: !Rails.env.development?
     = javascript_include_tag 'lanalytics-framework', crossorigin: 'anonymous', integrity: true
     = javascript_include_tag 'home', crossorigin: 'anonymous', integrity: true, async: true, debug: false
     = javascript_include_tag 'course', crossorigin: 'anonymous', integrity: true, async: true, debug: false

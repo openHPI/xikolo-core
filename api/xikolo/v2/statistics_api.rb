@@ -112,54 +112,6 @@ module Xikolo
             requires :course_id, type: String, desc: 'The course UUID'
           end
 
-          namespace 'enrollments' do
-            desc 'Returns course-specific KPIs related to enrollments'
-            get do
-              course_dashboard_permission! params[:course_id]
-
-              course = course_api.rel(:course).get({id: params[:course_id]}).value!
-              Rails.cache.fetch("statistics/course/#{params[:course_id]}/enrollments/", expires_in: 1.hour, race_condition_ttl: 1.minute) do
-                Restify::Promise.new(
-                  course_api.rel(:stats).get({course_id: params[:course_id], key: 'enrollments'}),
-                  course_api.rel(:stats).get({course_id: params[:course_id], key: 'shows_and_no_shows'}),
-                  fetch_metric(name: 'certificates', course_id: params[:course_id]),
-                  fetch_metric(name: 'certificates', course_id: params[:course_id], start_date: course['start_date'], end_date: course['end_date']),
-                  fetch_metric(name: 'certificates', course_id: params[:course_id], start_date: course['end_date'])
-                ) do |enrollment_stats, show_stats, certificates, certificates_at_end, certificates_after_end|
-                  {
-                    enrollments: enrollment_stats['enrollments'],
-                    enrollments_netto: enrollment_stats['enrollments_netto'],
-                    enrollments_last_day: enrollment_stats['enrollments_last_day'],
-                    enrollments_at_start: enrollment_stats['enrollments_at_start'],
-                    enrollments_at_start_netto: enrollment_stats['enrollments_at_start_netto'],
-                    enrollments_at_middle: enrollment_stats['enrollments_at_middle'],
-                    enrollments_at_middle_netto: enrollment_stats['enrollments_at_middle_netto'],
-                    enrollments_at_end: enrollment_stats['enrollments_at_end'],
-                    enrollments_at_end_netto: enrollment_stats['enrollments_at_end_netto'],
-
-                    shows: show_stats['shows'],
-                    shows_at_middle: show_stats['shows_at_middle'],
-                    shows_at_end: show_stats['shows_at_end'],
-                    show_quota: percent(show_stats['shows'], enrollment_stats['enrollments']),
-                    show_quota_at_middle: percent(show_stats['shows_at_middle'], enrollment_stats['enrollments_at_middle']),
-                    show_quota_at_end: percent(show_stats['shows_at_end'], enrollment_stats['enrollments_at_end']),
-
-                    roa_count: certificates['record_of_achievement'],
-                    cop_count: certificates['confirmation_of_participation'],
-                    qc_count: certificates['qualified_certificate'],
-                    cop_at_end_count: certificates_at_end['confirmation_of_participation'],
-                    cop_after_end_count: certificates_after_end['confirmation_of_participation'],
-
-                    completion_rate: percent(certificates['record_of_achievement'], show_stats['shows_at_middle']),
-                    consumption_rate_at_end: percent(certificates_at_end['confirmation_of_participation'], show_stats['shows_at_end']),
-                    consumption_rate_after_end: percent(certificates_after_end['confirmation_of_participation'], show_stats['shows'].to_i - show_stats['shows_at_end'].to_i),
-                    consumption_rate_current: percent(certificates['confirmation_of_participation'], show_stats['shows']),
-                  }
-                end.value!
-              end
-            end
-          end
-
           namespace 'downloads' do
             desc 'Returns course-specific video asset downloads'
             get do
