@@ -351,9 +351,9 @@ describe QuizSubmissionsController, type: :controller do
           expect(submission.quiz_version_at).to eql submission.quiz_access_time
         end
 
-        it 'sets the quiz submission time to the last updated at of the unsubmitted submission' do
+        it 'sets the quiz submission time to the current time' do
           action
-          expect(submission.quiz_submission_time.to_s).to eq unsubmitted_quiz_submission.updated_at.to_s
+          expect(submission.quiz_submission_time.to_s).to eq timestamp.to_s
         end
 
         it '(asynchronously) creates an item result resource' do

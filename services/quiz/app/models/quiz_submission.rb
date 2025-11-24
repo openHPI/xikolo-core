@@ -67,10 +67,6 @@ class QuizSubmission < ApplicationRecord
     !quiz_submission_time.nil?
   end
 
-  def within_time_limit?(timestamp)
-    quiz.unlimited_time || (timestamp.to_i <= created_at.in_time_zone.to_i + quiz.time_limit_seconds)
-  end
-
   # Was this object inserted or updated on last save?
   def just_created?
     saved_change_to_attribute?(:created_at, from: nil)

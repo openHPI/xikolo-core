@@ -75,7 +75,6 @@ class QuizSubmissionsController < ApplicationController
     #    question_id => answer text
 
     submission = QuizSubmission.find params[:id]
-    last_updated_at = submission.updated_at
 
     if params[:submission].instance_of? ActionController::Parameters
       ActiveRecord::Base.transaction do
@@ -104,12 +103,7 @@ class QuizSubmissionsController < ApplicationController
 
     # Set quiz_version_at here, because we need created_at timestamp from create action
     if params[:submitted] && !submission.submitted
-      timestamp = DateTime.now.in_time_zone
-      if submission.within_time_limit? timestamp
-        quiz_submission_time = timestamp
-      else
-        quiz_submission_time = last_updated_at
-      end
+      quiz_submission_time = DateTime.now.in_time_zone
 
       submission.update! quiz_submission_time:,
         quiz_version_at: submission.quiz_access_time
