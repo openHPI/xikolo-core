@@ -4,7 +4,7 @@
 
     - if item.instructions? && item.exercise_without_points?
       / Inlined LTI exercises with points already show the intructions on the intro page.
-      .mb20.RenderedMarkdown == item.instructions_html
+      .mb20.prose.prose-2xl.max-w-none == item.instructions_html
 
     iframe.lti-frame src=item.tool_launch_path allow="fullscreen" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"
 

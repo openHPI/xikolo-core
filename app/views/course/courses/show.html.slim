@@ -21,7 +21,7 @@
       h3.h3.course-details--section-title = t(:'.about_content')
 
       .course-information.mt20.responsive-images lang=@course_presenter.lang
-        .RenderedMarkdown
+        .prose.prose-2xl.max-w-none
           == @course_presenter.description_html
 
       - if @course_presenter.learning_goals?
@@ -104,7 +104,7 @@
                 = image_tag Imagecrop.transform(teacher.picture_url, width: 550), alt: ''
 
               - if teacher.description?
-                .RenderedMarkdown
+                .prose.prose-2xl.max-w-none
                   == render_markdown teacher.description
 
 - if @course_presenter.open_mode?

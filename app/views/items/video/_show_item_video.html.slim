@@ -23,7 +23,7 @@
           .col-md-12.mb15
             h4.h4 = t(:'items.show.video.about')
             hr.divider.slim
-            .RenderedMarkdown lang=item.lang
+            .prose.prose-2xl.max-w-none lang=item.lang
               == render_markdown(item.video.description, allow_tables: true)
 
         / TODO refactor to permission

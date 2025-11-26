@@ -43,6 +43,11 @@ PATH
     account_service (0.0.1)
 
 PATH
+  remote: engines/timeeffort_service
+  specs:
+    timeeffort_service (0.0.1)
+
+PATH
   remote: gems/xikolo-common
   specs:
     xikolo-common (2.18.0)
@@ -145,6 +150,9 @@ GEM
     activejob (7.2.2.1)
       activesupport (= 7.2.2.1)
       globalid (>= 0.3.6)
+    activejob-cancel (0.3.2)
+      activejob (>= 4.2.0)
+      activesupport (>= 4.2.0)
     activemodel (7.2.2.1)
       activesupport (= 7.2.2.1)
     activemodel-serializers-xml (1.0.3)
@@ -974,6 +982,7 @@ DEPENDENCIES
   accept_values_for
   account_service!
   acfs (~> 2.0, >= 2.0.0)
+  activejob-cancel
   activerecord-postgres_enum (~> 2.0)
   acts_as_list
   addressable
@@ -1100,6 +1109,7 @@ DEPENDENCIES
   thruster
   tilt (~> 2.0)
   timecop
+  timeeffort_service!
   truncato (~> 0.7.13)
   uuid4 (~> 1.4)
   view_component (~> 3.0)

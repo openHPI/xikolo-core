@@ -9,4 +9,4 @@
     - alerts.each do |alert|
       li.navigation-system-alert role=(alert[:new?] ? 'status' : nil) tabindex=0
         h6.h6.navigation-system-alert__title = alert[:title]
-        .RenderedMarkdown == helpers.render_markdown(alert[:text])
+        .prose.prose-2xl.max-w-none == helpers.render_markdown(alert[:text])

@@ -40,14 +40,14 @@ li.quiz-question-editor data-id="#{quiz_question.id}" data-url=move_course_secti
             = t(:'items.quiz.delete_question')
             = render Global::FaIcon.new('trash-can', style: :solid)
 
-  .RenderedMarkdown
+  .prose.prose-2xl.max-w-none
     == render_markdown(quiz_question.text, allow_tables: true)
 
   = render Global::DisclosureWidget.new(t(:'items.quiz.show_question_explanation'),
     expanded_summary: t(:'items.quiz.hide_question_explanation'),
     visible: quiz_question.explanation.present?)
 
-    .RenderedMarkdown
+    .prose.prose-2xl.max-w-none
       == render_markdown(quiz_question.explanation, allow_tables: true)
 
   .edit_form_quiz_wrapper id="edit_quiz_question_form_#{quiz_question.id}" style="display:none" data-ajax-url="#{edit_course_section_item_quiz_question_path(id: quiz_question.id, item_id: item.id)}"

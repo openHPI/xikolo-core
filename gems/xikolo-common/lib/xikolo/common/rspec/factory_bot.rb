@@ -215,9 +215,9 @@ if defined? FactoryBot
     end
 
     factory 'timeeffort:root', class: Hash do
-      items_url { '/items{?section_id,course_id}' }
-      item_url { '/items/{id}' }
-      item_overwritten_time_effort_url { '/items/{item_id}/overwritten_time_effort' }
+      items_url { 'timeeffort_service/items{?section_id,course_id}' }
+      item_url { 'timeeffort_service/items/{id}' }
+      item_overwritten_time_effort_url { 'timeeffort_service/items/{item_id}/overwritten_time_effort' }
       initialize_with { attributes.as_json }
     end
 

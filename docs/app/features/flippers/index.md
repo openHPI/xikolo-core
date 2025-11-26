@@ -277,7 +277,7 @@ For enabling a specific feature - either locally or for a production system - a 
 === "For a specific user"
 
     ``` ruby
-    Feature.create!(
+    AccountService::Feature.create!(
       name: 'feature_name',
       value: true,
       owner: User.find(user_id),
@@ -288,7 +288,7 @@ For enabling a specific feature - either locally or for a production system - a 
 === "For a global group"
 
     ``` ruby
-    Feature.create!(
+    AccountService::Feature.create!(
       name: 'feature_name',
       value: true,
       owner: Group.all_users,    # or a any other group
@@ -351,7 +351,7 @@ Xikolo.api(:account).value!
 If you want to disable a specific feature that has been previously enabled, the corresponding `Feature` record needs to be destroyed.
 
 ``` ruby
-Feature.find_by!(name: 'feature_name', owner: User.find(user_id)).destroy!
+AccountService::Feature.find_by!(name: 'feature_name', owner: User.find(user_id)).destroy!
 ```
 
 ## Best practices

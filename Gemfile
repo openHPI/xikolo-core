@@ -93,7 +93,9 @@ gem 'xikolo-submission',      '~> 100.0', path: 'clients/xikolo-submission'
 
 # Xikolo services as an engine
 gem 'account_service', path: 'engines/account_service'
+gem 'timeeffort_service', path: 'engines/timeeffort_service'
 
+gem 'activejob-cancel'
 gem 'delayed', '~> 1.0'
 gem 'sidekiq-cron', '~> 2.0'
 gem 'xikolo-common', path: './gems/xikolo-common'

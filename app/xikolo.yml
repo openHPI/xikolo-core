@@ -645,3 +645,7 @@ persisted_learning_evaluation: false
 # To use the feature, the corresponding feature flipper must be enabled.
 external_booking:
   affiliation_field: ~
+
+timeeffort:
+  # Enable/disable time effort calculations
+  enabled: false

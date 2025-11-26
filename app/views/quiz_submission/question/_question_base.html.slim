@@ -13,7 +13,7 @@
           .text-align-right
             = t(:'quiz_submission.question_points', points: question.points.round(2))
 
-    .RenderedMarkdown lang=item.lang
+    .prose.prose-2xl.max-w-none lang=item.lang
       == render_markdown question.text, allow_tables: true
 
   .question-content
@@ -22,7 +22,7 @@
       content_lang: item.lang,
       visible: show_solution && question.explanation.present?)
 
-      .RenderedMarkdown
+      .prose.prose-2xl.max-w-none
         == render_markdown(question.explanation, allow_tables: true)
 
     - if question.is_a? Xikolo::Quiz::FreeTextQuestion

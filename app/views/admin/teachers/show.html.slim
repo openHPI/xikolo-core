@@ -14,7 +14,7 @@
       h4.h4 = t(:'.description')
       - @teacher.descriptions do |lang, text|
         h5.h5 = t("languages.name.#{lang}")
-        .RenderedMarkdown
+        .prose.prose-2xl.max-w-none
           == render_markdown(text)
 
   - if current_user.allowed? 'course.teacher.manage'

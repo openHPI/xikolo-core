@@ -171,6 +171,19 @@ export default function initializeMarkdownEditor(
       },
     });
 
+    // Modify preview classes to use TailwindCSS typography styles
+    // @ts-expect-error - preview is private API
+    toastEditor.preview.el.firstChild.classList.remove(
+      'toastui-editor-contents',
+    );
+    // @ts-expect-error - preview is private API
+    toastEditor.preview.el.firstChild.classList.add(
+      'prose',
+      'prose-2xl',
+      'max-w-none',
+      'p-4',
+    );
+
     setResizeBtn(formInput, toastEditor);
 
     // Prevent user from drag'n'dropping images in the editor
@@ -213,7 +226,7 @@ export default function initializeMarkdownEditor(
     // Softbreak: https://github.com/nhn/tui.editor/issues/485
     const content = toastEditor.getMarkdown();
     preview ||= editor.querySelector<HTMLElement>(
-      '.toastui-editor-md-preview .toastui-editor-contents',
+      '.toastui-editor-md-preview .prose',
     );
 
     // Set parsing rule to use right urls for previewing images

@@ -461,6 +461,7 @@ Rails.application.routes.draw do
   # TODO: Make available in production after authorization is added.
   if Rails.env.local?
     mount AccountService::Engine => '/account_service'
+    mount TimeeffortService::Engine => '/timeeffort_service'
   end
 
   if Rails.env.development?

@@ -39,6 +39,7 @@
     "@herb-tools/linter": "^0.7.3",
     "@stoplight/cli": "^6.0.2354",
     "@tailwindcss/cli": "^4.1.12",
+    "@tailwindcss/typography": "^0.5.19",
     "@types/d3": "^3",
     "@types/jqueryui": "^1.12.20",
     "@types/list.js": "^2",

@@ -6,7 +6,7 @@
       h3.h3 = "#{t(:'items.lti.instruction')}:"
       hr.divider.slim.alternative
 
-      .RenderedMarkdown == item.instructions_html
+      .prose.prose-2xl.max-w-none == item.instructions_html
 
       hr.divider.slim.alternative
     = render 'items/lti_exercise/lti_exercise_properties', item: item

@@ -28,7 +28,7 @@
                   img src=teacher.picture_url style="max-width:150px"
               td = teacher.name
               td
-                .RenderedMarkdown
+                .prose.prose-2xl.max-w-none
                   == HtmlTruncator.new.truncate(render_markdown(teacher.description))
               td = link_to t(:'.details'), teacher_path(teacher.id), class: 'btn btn-primary btn-xs', 'aria-label': teacher.name
 

@@ -2,7 +2,7 @@
   .course-area-main data-lanalytics-context={course_id: item.course_id}.to_json
     = render 'items/header', item: item
 
-    .RichTextItem-Content.RenderedMarkdown lang=item.lang
+    .prose.prose-2xl.max-w-none lang=item.lang
       == item.text_html
 
     .mt40 data-lanalytics-resource={type: 'rich_text', uuid: item.id}.to_json

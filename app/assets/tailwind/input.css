@@ -1,8 +1,10 @@
 @import 'tailwindcss' source(none);
 @import './theme/typography.css';
+@plugin "@tailwindcss/typography";
 
 @source '../../../app/views/';
 @source '../../../app/components/';
+@source '../../../app/assets/components/';
 @source '../../../brand/';
 
 @theme {

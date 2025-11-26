@@ -51,7 +51,7 @@
         span.visible-xs-block
           = @channel.name
       .channel-info.collapsible-container aria-expanded="false"
-        .channel-explanation.RenderedMarkdown.collapsible-element.line-clamp
+        .channel-explanation.prose.prose-2xl.max-w-none.collapsible-element.line-clamp
           == render_markdown(@channel.description, allow_tables: true)
 
         .collapsible-button-container

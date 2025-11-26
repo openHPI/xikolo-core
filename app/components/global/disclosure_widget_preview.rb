@@ -89,8 +89,10 @@ module Global
         'Markdown content',
         content_lang: 'en'
       ) do
-        tag.div(render_markdown(md_content, allow_tables: true, escape_html: false), class: 'RenderedMarkdown',
-          escape: false)
+        tag.div(
+          render_markdown(md_content, allow_tables: true, escape_html: false),
+          class: 'prose prose-2xl max-w-none', escape: false
+        )
       end
     end
 

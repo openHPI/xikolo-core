@@ -6,7 +6,7 @@
       - else
         = render Global::FaIcon.new('circle-xmark', style: :regular, css_classes: 'mr10')
 
-      .RenderedMarkdown
+      .prose.prose-2xl.max-w-none
         == render_markdown quiz_answer.text, allow_tables: true
 
       span.label.label-info.uuid.ml10 hidden='true'
