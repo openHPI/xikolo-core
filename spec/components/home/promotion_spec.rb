@@ -55,4 +55,22 @@ describe Home::Promotion, type: :component do
       expect(page).to have_no_css('.promotion--with-image')
     end
   end
+
+  context 'with a download link' do
+    let(:options) { {link_url: '/document.pdf', download: true} }
+
+    it 'renders a link with download attribute' do
+      render_inline(component)
+      expect(page).to have_link(href: '/document.pdf', download: true)
+    end
+  end
+
+  context 'with a download link and custom filename' do
+    let(:options) { {link_url: '/document.pdf', download: 'custom-filename.pdf'} }
+
+    it 'renders a link with download attribute and custom filename' do
+      render_inline(component)
+      expect(page).to have_link(href: '/document.pdf', download: 'custom-filename.pdf')
+    end
+  end
 end

@@ -1,0 +1,28 @@
+<article class="promotion <%= css_modifiers %>" style="<%= image %>">
+  <% if image? %>
+    <div
+      class="promotion__overlay <%= overlay_modifier %>"
+      style="<%= overlay_opacity %>"
+    ></div>
+  <% end %>
+
+  <% if link? %>
+    <div class="promotion__content">
+      <%= link_to @link_url, link_options do %>
+        <p class="promotion__title"><%= @title %></p>
+        <p class="promotion__text"><%= @text %></p>
+      <% end %>
+
+      <%= link_to @link_url, link_icon_target_options do %>
+        <%= render Global::FaIcon.new('arrow-right') %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="promotion__content">
+      <div>
+        <p class="promotion__title"><%= @title %></p>
+        <p class="promotion__text"><%= @text %></p>
+      </div>
+    </div>
+  <% end %>
+</article>
