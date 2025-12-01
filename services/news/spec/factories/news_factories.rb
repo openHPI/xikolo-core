@@ -4,6 +4,7 @@ FactoryBot.define do
   factory :news do
     author_id { '00000000-0000-4444-9999-000000000000' }
     course_id { '00000000-0000-4444-9999-000000000000' }
+    publish_at { 7.days.from_now }
     show_on_homepage { false }
     audience { nil }
 

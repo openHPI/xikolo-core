@@ -45,6 +45,11 @@ RSpec.describe 'Prevent brute force login attempts', type: :request do
       }
 
       expect(response).to have_http_status(:service_unavailable)
+      expect(response.body).to eq 'Blocked due to too many login attempts.'
+
+      # Does not block resources other than '/sessions'
+      get '/'
+      expect(response).to have_http_status :ok
     end
   end
 

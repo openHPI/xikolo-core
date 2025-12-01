@@ -7,10 +7,6 @@ class Account::SessionsController < Abstract::FrontendController
   skip_before_action :verify_authenticity_token, only: [:authorization_callback]
   skip_after_action :remember_user
 
-  RACK_ATTACK_MAXRETRY = 15
-  RACK_ATTACK_FINDTIME = 1.minute
-  RACK_ATTACK_BANTIME  = 1.hour
-
   before_action :check_logged, only: [:new]
   before_action :restrict_native_login, only: [:create]
 
@@ -220,7 +216,7 @@ class Account::SessionsController < Abstract::FrontendController
       # The controller will render the 'auth_connect' template to let user decide between these two connection options.
       redirect_to new_session_url
     else
-      count_failed_login_attempt!
+      ActiveSupport::Notifications.instrument('login.failure', remote_ip: request.remote_ip)
       session[:login_failed] = true
       store_location(redirect_param)
       # This can also happen for SSO authentication, i.e., when native
@@ -253,17 +249,6 @@ class Account::SessionsController < Abstract::FrontendController
 
     add_flash_message :error, helpers.t(:'flash.error.enterprise_login_already_assigned')
     redirect_to dashboard_url
-  end
-
-  def count_failed_login_attempt!
-    discriminator = request.remote_ip
-    key_prefix    = 'allow2ban'
-
-    # see https://github.com/kickstarter/rack-attack/blob/037e52ba5d760584e5b43b8be59c8ba4f19c62dc/lib/rack/attack/fail2ban.rb#L34
-    count = Rack::Attack.cache.count("#{key_prefix}:count:#{discriminator}", RACK_ATTACK_FINDTIME)
-    if count >= RACK_ATTACK_MAXRETRY
-      Rack::Attack.cache.write("#{key_prefix}:ban:#{discriminator}", 1, RACK_ATTACK_BANTIME)
-    end
   end
 
   def assign_session!

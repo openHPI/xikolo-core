@@ -3,13 +3,17 @@
 require 'spec_helper'
 
 RSpec.describe 'News Email: Create (Send)', type: :request do
-  subject(:request) { news_resource.rel(:email).post(payload).value! }
+  include ActiveJob::TestHelper
+
+  subject(:request) do
+    perform_enqueued_jobs(only: CourseAnnouncementJob) do
+      news_resource.rel(:email).post(payload).value!
+    end
+  end
 
   let(:service) { Restify.new(:test).get.value! }
   let(:news_resource) { service.rel(:news).get({id: announcement.id}).value! }
-
   let(:announcement) { create(:news) }
-
   let(:payload) { {} }
 
   it { is_expected.to respond_with :created }

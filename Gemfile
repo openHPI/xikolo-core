@@ -52,6 +52,9 @@ gem 'rails-rfc6570', '~> 3.0'
 gem 'responders'
 gem 'will_paginate'
 
+gem 'workflow', '~> 3.0'
+gem 'workflow-activerecord', '>= 4.1', '< 6.1'
+
 # Views (Template engines & components)
 gem 'gon', '~> 6.4'
 gem 'jbuilder'
@@ -93,6 +96,7 @@ gem 'xikolo-submission',      '~> 100.0', path: 'clients/xikolo-submission'
 
 # Xikolo services as an engine
 gem 'account_service', path: 'engines/account_service'
+gem 'pinboard_service', path: 'engines/pinboard_service'
 gem 'timeeffort_service', path: 'engines/timeeffort_service'
 
 gem 'activejob-cancel'

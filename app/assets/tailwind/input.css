@@ -1,6 +1,6 @@
 @import 'tailwindcss' source(none);
-@import './theme/typography.css';
 @plugin "@tailwindcss/typography";
+@import './theme/typography.css';
 
 @source '../../../app/views/';
 @source '../../../app/components/';
@@ -57,6 +57,28 @@
   --color-note-900: hsl(208deg, 56%, 13%);
   --color-note-500: hsl(208deg, 56%, 53%);
   --color-note-100: hsl(208deg, 56%, 90%);
+}
+
+/* Prose typography customization to match platform branding */
+@utility prose {
+  --tw-prose-body: var(--color-gray-900);
+  --tw-prose-headings: var(--color-gray-900);
+  --tw-prose-lead: var(--color-gray-600);
+  --tw-prose-links: var(--color-primary-600);
+  --tw-prose-bold: var(--color-gray-900);
+  --tw-prose-counters: var(--color-gray-600);
+  --tw-prose-bullets: var(--color-gray-500);
+  --tw-prose-hr: var(--color-gray-250);
+  --tw-prose-quotes: var(--color-gray-800);
+  --tw-prose-quote-borders: var(--color-primary-250);
+  --tw-prose-captions: var(--color-gray-600);
+  --tw-prose-kbd: var(--color-gray-900);
+  --tw-prose-kbd-shadows: var(--color-gray-500);
+  --tw-prose-code: var(--color-primary-800);
+  --tw-prose-pre-code: var(--color-gray-100);
+  --tw-prose-pre-bg: var(--color-gray-900);
+  --tw-prose-th-borders: var(--color-gray-250);
+  --tw-prose-td-borders: var(--color-gray-100);
 }
 
 @layer components {

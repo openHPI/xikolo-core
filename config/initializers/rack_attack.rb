@@ -1,17 +1,21 @@
 # frozen_string_literal: true
 
+ActiveSupport::Notifications.subscribe('login.failure') do |event|
+  remote_ip = event.payload.fetch(:remote_ip)
+  findtime = 1.minute
+  bantime = 1.hour
+  maxretry = 15
+  count = Rack::Attack.cache.count("login_scrapers_failior_count:#{remote_ip}", findtime)
+
+  Rack::Attack.cache.write("login_scrapers_blocked:#{remote_ip}", 1, bantime) if count >= maxretry
+end
+
 class Rack::Attack
   blocklist('allow2ban login scrapers') do |req|
-    Allow2Ban.filter(
-      req.env['action_dispatch.remote_ip'].to_s,
-      # we still need the values (required)
-      maxretry: 1,
-      findtime: 1.minute,
-      bantime: 1.hour
-    ) do
-      # do not trigger the filter from here
-      false
-    end
+    remote_ip = req.env['action_dispatch.remote_ip'].to_s
+
+    req.path == '/sessions' &&
+      cache.read("login_scrapers_blocked:#{remote_ip}").present?
   end
 
   blocklist('allow2ban password reset bombing') do |req|

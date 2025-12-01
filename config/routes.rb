@@ -462,6 +462,7 @@ Rails.application.routes.draw do
   if Rails.env.local?
     mount AccountService::Engine => '/account_service'
     mount TimeeffortService::Engine => '/timeeffort_service'
+    mount PinboardService::Engine => '/pinboard_service'
   end
 
   if Rails.env.development?

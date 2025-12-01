@@ -59,7 +59,7 @@ en:
         title: Title
         visual_upload_id: Visual
         show_on_homepage: Show on homepage
-        publish_at: Publish at
+        publish_at: Publish at (UTC)
         audience: Target group
         text: Text
         # New admin announcement form

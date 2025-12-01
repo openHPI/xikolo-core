@@ -13,11 +13,10 @@ class Email < ApplicationRecord
   private
 
   def schedule_sending!
-    Msgr.publish announcement.decorate.as_event.tap {|data|
-      if test_recipient
-        data[:test] = true
-        data[:receiver_id] = test_recipient
-      end
-    }, to: 'xikolo.news.announcement.create'
+    if announcement&.publish_at&.future?
+      CourseAnnouncementJob.set(wait_until: announcement.publish_at).perform_later(id)
+    else
+      CourseAnnouncementJob.perform_later(id)
+    end
   end
 end

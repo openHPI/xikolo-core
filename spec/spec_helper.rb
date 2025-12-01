@@ -92,10 +92,6 @@ RSpec.configure do |config|
   end
 
   config.before(:suite) do
-    # Clean up Msgr once, before any test runs so that nothing leaks
-    # from previous runs or debugging sessions.
-    Msgr.client.stop delete: true
-
     # Disable HTTP requests, but allow 127.0.0.1 connection for selenium/capybara.
     # This assumes services are *not* configured to use 127.0.0.1.
     WebMock.disable_net_connect!(allow: '127.0.0.1')

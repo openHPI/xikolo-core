@@ -44,6 +44,10 @@ describe 'Prevent password reset bombing', type: :request do
 
       expect(response).to have_http_status :service_unavailable
       expect(response.body).to eq 'Blocked due to too many password reset attempts.'
+
+      # Does not block resources other than '/account/reset'
+      get '/'
+      expect(response).to have_http_status :ok
     end
   end
 end
