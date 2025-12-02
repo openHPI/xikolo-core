@@ -24,7 +24,9 @@ describe 'Admin: Create Channel', type: :system do
     visit '/channels/new'
 
     fill_in 'Code', with: 'subset'
-    fill_in 'Name', with: 'Important subset of courses'
+    fill_in 'channel_name', with: 'Important subset of courses'
+    fill_in 'Name (English)', with: 'Important subset of courses'
+    fill_in 'Name (German)', with: 'Wichtige Teilmenge von Kursen'
     fill_markdown_editor 'Description (in English)', with: "Headline\n===\n\nenglish!"
     fill_markdown_editor 'Description (in German)', with: "Headline\n===\n\ngerman!"
 
@@ -48,7 +50,8 @@ describe 'Admin: Create Channel', type: :system do
     expect(page).to have_content 'Your file upload could not be stored.'
 
     expect(page).to have_field('Code', with: 'subset')
-    expect(page).to have_field('Name', with: 'Important subset of courses')
+    expect(page).to have_field('Name (English)', with: 'Important subset of courses')
+    expect(page).to have_field('Name (German)', with: 'Wichtige Teilmenge von Kursen')
     expect(page).to have_markdown_editor('Description (in English)', with: "Headline\n===\n\nenglish!")
     expect(page).to have_markdown_editor('Description (in German)', with: "Headline\n===\n\ngerman!")
 
@@ -58,7 +61,8 @@ describe 'Admin: Create Channel', type: :system do
     expect(page).to have_field('Info link label (in English)', with: 'Our FAQ')
     expect(page).to have_field('Info link label (in German)', with: 'Unsere FAQ')
 
-    fill_in 'Name', with: 'Adjusted important subset of courses'
+    fill_in 'Name (English)', with: 'Adjusted important subset of courses'
+    fill_in 'Name (German)', with: 'Angepasste wichtige Teilmenge von Kursen'
 
     create_channel = Stub.request(:course, :post, '/channels')
       .to_return(status: 201)
@@ -71,7 +75,11 @@ describe 'Admin: Create Channel', type: :system do
       create_channel.with(
         body: hash_including(
           'code' => 'subset',
-          'name' => 'Adjusted important subset of courses',
+          'name' => 'Important subset of courses',
+          'title_translations' => {
+            'en' => 'Adjusted important subset of courses',
+            'de' => 'Angepasste wichtige Teilmenge von Kursen',
+          },
           'public' => true,
           'stage_statement' => nil,
           'description' => {

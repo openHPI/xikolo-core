@@ -44,7 +44,7 @@ export default async () => {
     options: {
       cacheDirectory: true,
       presets: [
-        '@babel/preset-typescript',
+        ['@babel/preset-typescript', { allowDeclareFields: true }],
         [
           '@babel/preset-env',
           {

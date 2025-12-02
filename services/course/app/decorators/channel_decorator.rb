@@ -18,6 +18,7 @@ class ChannelDecorator < ApplicationDecorator
       id:,
       code:,
       name:,
+      title_translations:,
       logo_url:,
       description:,
       stage_visual_url:,

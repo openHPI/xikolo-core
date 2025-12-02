@@ -16,7 +16,6 @@ class UserExpiryWorker # rubocop:disable Layout/IndentationWidth
     rescue Date::Error => e
       # If the date is invalid, we will stop doing anything.
       Sentry.capture_exception(e)
-      Mnemosyne.attach_error(e)
       return
     end
 

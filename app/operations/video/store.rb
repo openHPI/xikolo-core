@@ -175,7 +175,6 @@ class Video::Store < ApplicationOperation
     @video.assign_attributes("#{type}_uri": object.storage_uri)
     @new_uris << object.storage_uri
   rescue Aws::S3::Errors::ServiceError => e
-    ::Mnemosyne.attach_error(e)
     ::Sentry.capture_exception(e)
     @errors << %I[#{type}_uri upload_error]
     raise ActiveRecord::RecordInvalid

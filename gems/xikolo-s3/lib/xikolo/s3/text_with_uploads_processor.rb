@@ -87,11 +87,11 @@ module Xikolo::S3
       @uploaded << destination
       destination.storage_uri
     rescue Aws::S3::Errors::ConfigurationMissingError => e
-      defined? Mnemosyne and Mnemosyne.attach_error e
+      Sentry.capture_exception(e)
       @errors.append([match, :rtfile_unconfigured, e.message])
       match
     rescue Aws::S3::Errors::ServiceError => e
-      defined? Mnemosyne and Mnemosyne.attach_error e
+      Sentry.capture_exception(e)
       @errors.append([match, :rtfile_error, 'upload failed'])
       match
     end

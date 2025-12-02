@@ -55,6 +55,7 @@ module Steps
       Server[:course].api.rel(:channels).post({
         code: 'enterprise',
         name: 'Enterprise Channel',
+        title_translations: {'en' => 'Interesting channel', 'de' => 'Interessanter channel'},
         color: '#FF0000',
         public:,
       }).value!

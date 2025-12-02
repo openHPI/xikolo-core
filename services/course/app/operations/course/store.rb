@@ -137,7 +137,6 @@ class Course::Store < ApplicationOperation
   end
 
   def raise_operation_error(error, message)
-    ::Mnemosyne.attach_error(error)
     ::Sentry.capture_exception(error)
     raise OperationError.new message
   end
@@ -171,7 +170,7 @@ class Course::Store < ApplicationOperation
     @course["#{upload_name}_uri"] = object.storage_uri
     @new_uris << object.storage_uri
   rescue Aws::S3::Errors::ServiceError => e
-    Mnemosyne.attach_error e
+    Sentry.capture_exception(e)
     @upload_errors[:"#{upload_name}_upload_id"] =
       'could not process file upload'
   rescue RuntimeError

@@ -57,6 +57,13 @@
   --color-note-900: hsl(208deg, 56%, 13%);
   --color-note-500: hsl(208deg, 56%, 53%);
   --color-note-100: hsl(208deg, 56%, 90%);
+
+  --z-index-xs: 1;
+  --z-index-s: 2;
+  --z-index-sm: 1000;
+  --z-index-m: 1020;
+  --z-index-l: 1030;
+  --z-index-xl: 1040;
 }
 
 /* Prose typography customization to match platform branding */

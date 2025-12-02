@@ -112,8 +112,7 @@ html lang="#{I18n.locale}" data-default-locale="#{I18n.default_locale}" data-bra
   ]
 
     / XI-6736: Temporarily enable snow effect on christmas course
-    - if request.path == '/courses/xmas2025'
-      #snow-container aria-hidden='true'
+    = render Global::SnowflakesEffect.new(show_on_paths: ['/courses/xmas2025'])
 
     / Flash messages
     = render Global::FlashBlock.new(flash.tap(&:discard))

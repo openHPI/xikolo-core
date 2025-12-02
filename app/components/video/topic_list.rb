@@ -20,7 +20,6 @@ module Video
         .map {|t| VideoItemTopicPresenter.new(t, @item.course_code) }
         .sort
     rescue Restify::NetworkError, Restify::ResponseError => e
-      ::Mnemosyne.attach_error(e)
       ::Sentry.capture_exception(e)
 
       # Return nil so the component will be hidden (see #render?)

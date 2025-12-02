@@ -15,7 +15,7 @@ module Xikolo::S3
       upload.metadata['xikolo-state'] == 'accepted' \
         && upload.metadata['xikolo-purpose'] == @purpose.to_s
     rescue Aws::S3::Errors::ServiceError => e
-      defined? Mnemosyne and Mnemosyne.attach_error e
+      Sentry.capture_exception(e)
       false
     end
 
@@ -27,10 +27,10 @@ module Xikolo::S3
       dest_obj.copy_from(upload, params.merge(metadata_directive: 'REPLACE'))
       dest_obj
     rescue Aws::S3::Errors::ConfigurationMissingError => e
-      defined? Mnemosyne and Mnemosyne.attach_error e
+      Sentry.capture_exception(e)
       :rtfile_unconfigured
     rescue Aws::S3::Errors::ServiceError => e
-      defined? Mnemosyne and Mnemosyne.attach_error e
+      Sentry.capture_exception(e)
       :rtfile_error
     end
 

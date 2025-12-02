@@ -1,14 +1,9 @@
-- trace = Mnemosyne::Instrumenter.current_trace
 - error_id = Sentry.last_event_id
-- if trace.present? || error_id.present?
+- if error_id.present?
   p = t(:'errors.trace_hint')
   dl
-    - if trace.present?
-      dt = t(:'errors.trace_id')
-      dd = trace.uuid
-    - if error_id.present?
-      dt = t(:'errors.error_id')
-      dd = error_id
+    dt = t(:'errors.error_id')
+    dd = error_id
 
-a.btn.btn-default href=helpdesk_path(data: {trace: trace&.uuid, error: error_id}.compact)
+a.btn.btn-default href=helpdesk_path(data: {error: error_id}.compact)
   = t(:'errors.go_to_helpdesk')

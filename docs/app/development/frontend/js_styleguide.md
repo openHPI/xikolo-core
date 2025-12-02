@@ -119,3 +119,22 @@ const manager: Manager = {
 ```
 
 If you are unsure, you can use the official [TypeScript cheat sheets](https://www.typescriptlang.org/cheatsheets) as a resource.
+
+## Turbo (Hotwire)
+
+Turbo is integrated into the application for progressive enhancement and partial page updates.
+
+### Configuration
+
+Turbo Drive is **disabled globally** in `app/assets/main.js` to maintain compatibility with existing form handling that renders validation errors directly instead of redirecting.
+
+```javascript
+import { Turbo } from '@hotwired/turbo-rails';
+Turbo.session.drive = false;
+```
+
+### Usage
+
+- **Turbo Frames**: Use `turbo_frame_tag` in views for partial page updates without full page refresh
+- **Turbo Streams**: Available for real-time updates via Action Cable
+- **Explicit opt-in**: New code can enable Turbo Drive per-link/form with `data-turbo="true"`

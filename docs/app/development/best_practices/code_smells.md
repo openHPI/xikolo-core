@@ -193,7 +193,7 @@ Some of the most common code smells in Ruby on Rails are:
 
 Nothing is like taking extra care to produce virtuous code while coding.
 But huge codebases also contain code that we are not familiar with and it might be really challenging to find code smells there.
-Luckily, we can also rely on automation and monitoring tools, such as Rubocop, Sentry, and Mnemosyne.
+Luckily, we can also rely on automation and monitoring tools, such as Rubocop, and Sentry.
 
 #### Rubocop
 
@@ -229,35 +229,6 @@ Since it can be used in any controller where a helper can get mixed in, it skips
 Instance variables in helpers and class / global variables can be considered as a manifestation of the global state. Therefore, they break the OOP principle of abstraction, and the SOLID principles, making tests harder and behaviour unpredictable.
 
 Furthermore, Rubocop's [cop documentation](https://docs.rubocop.org/rubocop/cops.html) provides a useful resource for learning current best practices in Ruby and Rails.
-
-#### Mnemosyne
-
-![Mnemosysne trace part 1](mnemosyne_trace_part1.png)
-![Mnemosysne trace part 2](mnemosyne_trace_part2.png)
-In this trace, some 'bottlenecks' are evident.
-After the first bottleneck of the `Home::CoursesController#index`, which may be yet understandable because of the particular database queries used there, an interesting bottleneck for us can be found immediately below in the `home/courses/index.html.slim` view, which shows a slow performance.
-
-Indeed, we can find quite a lot of logic in this view, and even nested conditionals:
-
-```ruby
-  - if @categories.any? <--- CONDITIONAL
-    - if @featured_course <--- NESTED CONDITIONAL
-      # ...
-
-    - @categories.each_with_index do |category, index| <--- LOOP
-        - if category.callout.present? <--- NESTED CONDITIONAL FOR EACH LOOPED ITEM
-          # ...
-
-        - if category.courses.respond_to?(:next_page) && category.courses.next_page.present? <--- NESTED CONDITIONAL FOR EACH LOOPED ITEM
-          # ...
-  - else
-    - if @filtered_list <--- NESTED CONDITIONAL
-        # ...
-    - else
-      # ...
-```
-
-All this accounts for the Rails-specific code smell of views bloated with logic that contributes to the degraded performance of the page.
 
 ## Refactoring
 

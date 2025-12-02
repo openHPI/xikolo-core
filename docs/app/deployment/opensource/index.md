@@ -141,7 +141,6 @@ To successfully operate the platform, the following points should be considered:
 
         The following (optional) services may be integrated for comprehensive monitoring.
 
-        - **[Mnemosyne](https://github.com/mnemosyne-mon)**: Provides distributed tracing and performance analysis for applications.
         - **Grafana**: Delivers visualizations and dashboards for monitoring system and application metrics.
         - **InfluxDB**: Serves as a time-series database for storing performance metrics.
         - **Telegraf**: Acts as a metrics collection agent for system and application monitoring.

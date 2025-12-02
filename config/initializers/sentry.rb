@@ -80,22 +80,3 @@ Sentry.set_tags(
   site: Xikolo.site.to_s,
   brand: Xikolo.brand.to_s
 )
-
-# Add Mnemosyne's trace ID to the current Sentry context.
-# We do this in a middleware, as doing in a controller could change the ID when
-# touching multiple controllers (e.g. error app) in a request.
-class AnnotateSentryErrorsForMnemosyne
-  def initialize(app)
-    @app = app
-  end
-
-  def call(env)
-    if (trace = Mnemosyne::Instrumenter.current_trace)
-      Sentry.get_current_scope.set_context('mnemosyne', {trace_id: trace.uuid})
-    end
-
-    @app.call(env)
-  end
-end
-
-Rails.application.config.middleware.use AnnotateSentryErrorsForMnemosyne

@@ -37,7 +37,6 @@ class Home::HomeController < Abstract::FrontendController
       AnnouncementPresenter.create post
     end
   rescue Restify::NetworkError, Restify::ServerError => e
-    ::Mnemosyne.attach_error(e)
     ::Sentry.capture_exception(e)
     []
   end

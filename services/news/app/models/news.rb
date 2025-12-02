@@ -64,7 +64,6 @@ class News < ApplicationRecord
     def groups
       @groups.value!
     rescue StandardError => e
-      ::Mnemosyne.attach_error(e)
       ::Sentry.capture_exception(e)
       []
     end
@@ -91,7 +90,6 @@ class News < ApplicationRecord
     def permissions
       @permissions.value!
     rescue StandardError => e
-      ::Mnemosyne.attach_error(e)
       ::Sentry.capture_exception(e)
       []
     end
@@ -140,7 +138,6 @@ class News < ApplicationRecord
     self.visual_uri = object.storage_uri
     Xikolo::S3.object(old_visual).delete if old_visual
   rescue Aws::S3::Errors::ServiceError => e
-    ::Mnemosyne.attach_error(e)
     ::Sentry.capture_exception(e)
     errors.add :visual_upload_id, 'could not process file upload'
   rescue RuntimeError

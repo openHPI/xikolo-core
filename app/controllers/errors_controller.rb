@@ -16,8 +16,6 @@ class ErrorsController < ApplicationController
   # Log an exception and show its pretty error page.
   #
   def show
-    log!
-
     if STATUS_TEMPLATES.key?(status_code)
       pretty_error_page STATUS_TEMPLATES[status_code]
     else
@@ -38,7 +36,6 @@ class ErrorsController < ApplicationController
           title: t(:"errors.#{template}.headline"),
           detail: t(:"errors.#{template}.message"),
           status: status_code,
-          trace_id: Mnemosyne::Instrumenter.current_trace&.uuid,
           error_code: Sentry.last_event_id,
         }.compact, status: status_code, content_type: 'application/problem+json'
       end
@@ -58,14 +55,6 @@ class ErrorsController < ApplicationController
   #
   def fallback
     pretty_error_page(:server)
-  end
-
-  def log!
-    ::Mnemosyne.attach_error exception
-  end
-
-  def exception
-    request.env['action_dispatch.exception']
   end
 
   def status_code

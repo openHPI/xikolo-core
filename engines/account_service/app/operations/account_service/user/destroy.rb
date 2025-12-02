@@ -2,8 +2,6 @@
 
 module AccountService
 class User::Destroy < ApplicationOperation # rubocop:disable Layout/IndentationWidth
-  include Facets::Tracing
-
   def call(user)
     user.transaction do
       user.authorizations.destroy_all
@@ -35,11 +33,9 @@ class User::Destroy < ApplicationOperation # rubocop:disable Layout/IndentationW
     bucket.objects(prefix: "avatars/#{uid}").each do |obj|
       obj.delete
     rescue Aws::S3::Errors::ServiceError => e
-      ::Mnemosyne.attach_error(e)
       ::Sentry.capture_exception(e)
     end
   rescue Aws::S3::Errors::ServiceError => e
-    ::Mnemosyne.attach_error(e)
     ::Sentry.capture_exception(e)
   end
 end

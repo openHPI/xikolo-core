@@ -81,6 +81,8 @@ en:
       channel:
         code: Code
         name: Name
+        title_de: Name (German)
+        title_en: Name (English)
         logo_upload_id: Logo
         description: Description
         video_stream: Stage video

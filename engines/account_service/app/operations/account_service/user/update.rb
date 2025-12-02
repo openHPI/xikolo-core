@@ -2,8 +2,6 @@
 
 module AccountService
 class User::Update < ApplicationOperation # rubocop:disable Layout/IndentationWidth
-  include Facets::Tracing
-
   def initialize(user, params)
     super()
 
@@ -98,7 +96,6 @@ class User::Update < ApplicationOperation # rubocop:disable Layout/IndentationWi
     @replaced_uri = @user.avatar_uri
     @user.avatar_uri = object.storage_uri
   rescue Aws::S3::Errors::ServiceError => e
-    ::Mnemosyne.attach_error(e)
     ::Sentry.capture_exception(e)
     @upload_error = 'could not process file upload'
   rescue RuntimeError

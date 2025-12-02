@@ -37,7 +37,6 @@ gem 'xikolo-config', path: './gems/xikolo-config'
 gem 'xikolo-sidekiq', path: './gems/xikolo-sidekiq'
 
 gem 'concurrent-ruby', '~> 1.0'
-gem 'mnemosyne-ruby', '~> 2.0'
 gem 'stackprof'                 # stackprof must be required before Sentry
 gem 'sentry-rails', '~> 5.26.0' # rubocop:disable Bundler/OrderedGems
 gem 'sentry-ruby', '~> 5.26.0'

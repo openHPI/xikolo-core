@@ -31,7 +31,6 @@ module ForGroups
         .rel(:groups).get({user:, per_page: 1000}).value!
         .pluck('name')
     rescue StandardError => e
-      ::Mnemosyne.attach_error(e)
       ::Sentry.capture_exception(e)
       []
     end

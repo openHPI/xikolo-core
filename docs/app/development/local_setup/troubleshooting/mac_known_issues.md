@@ -8,47 +8,6 @@ Migrating permissions fails due to `Obligation::TimeoutError`.
 
     The problem seems to be ::1 (localhost) in the `/etc/hosts` file, remove it for now.
 
-## Segmentation fault
-
-Since Ruby 2.6, the following error is occurring for multiple services (e.g. account, course, ...):
-
-```text
-[Mnemosyne] Connect to amqp://guest@localhost...
-/Users/user/.rvm/rubies/ruby-2.6.xyz/lib/ruby/2.6.0/socket.rb:227: [BUG] Segmentation fault at 0x0000000111625a3a
-```
-
-!!! success "Solution"
-
-    This error can be fixed by adding the following environment variable to your `.bashrc` or `.zshrc`:
-
-    ```bash
-    export XIKOLO_RABBITMQ_URL="amqp://0.0.0.0"
-    ```
-
-    1. Add the environment variable
-    2. Restart the terminal
-    3. You have to restart RubyMine if you're using RubyMine to start your services
-
-    To check whether the variable is set correctly, execute
-
-    in the shell:
-
-    ```console
-    $ echo $XIKOLO_RABBITMQ_URL
-    amqp://0.0.0.0
-    ```
-
-    If it is empty, try to add it to `.bash_profile` instead and restart your terminal.
-
-    in IRB:
-
-    ```ruby
-    puts ENV["XIKOLO_RABBITMQ_URL"]
-    => amqp://0.0.0.0
-    ```
-
-    If this works but RubyMine still crashes, restart RubyMine.
-
 ## Too many open files
 
 Error similar to

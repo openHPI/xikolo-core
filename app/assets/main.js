@@ -8,6 +8,12 @@
 // Polyfills
 import 'form-request-submit-polyfill';
 
+import { Turbo } from '@hotwired/turbo-rails';
+// Disable Turbo Drive globally to maintain compatibility with existing form handling
+// that renders validation errors directly instead of redirecting
+// New code can explicitly opt-in using data-turbo="true" or turbo_frame_tag
+Turbo.session.drive = false;
+
 import './legacy/initializers';
 import '../../vendor/assets/javascripts/bootstrap.min.js';
 import Rails from '@rails/ujs';
@@ -16,6 +22,15 @@ import Rails from '@rails/ujs';
 Rails.start();
 
 import './legacy/helpdesk';
+
+/**
+ * Stimulus
+ */
+import { Application } from '@hotwired/stimulus';
+import SnowflakesController from './controllers/snowflakes_effect_controller';
+
+window.Stimulus = Application.start();
+window.Stimulus.register('snowflakes_effect', SnowflakesController);
 
 /*
  * Webpack-native snippets and main components
@@ -52,5 +67,3 @@ import 'components/navigation/tabs';
 import 'util/forms/upload';
 import 'util/forms/mdupload';
 import 'util/get-relative-time';
-// XI-6736: Seasonal snow effect
-import 'util/snowflakes-effect';

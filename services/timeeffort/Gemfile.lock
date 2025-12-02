@@ -196,9 +196,6 @@ GEM
     mini_mime (1.1.5)
     mini_portile2 (2.8.9)
     minitest (5.25.5)
-    mnemosyne-ruby (2.1.2)
-      activesupport (>= 6.1)
-      bunny
     msgpack (1.8.0)
     msgr (1.7.0)
       activesupport (>= 7.1)
@@ -415,7 +412,6 @@ DEPENDENCIES
   has_scope (~> 0.8.0)
   json
   listen (~> 3.9.0)
-  mnemosyne-ruby (~> 2.0)
   msgr (~> 1.5)
   mutex_m
   ostruct

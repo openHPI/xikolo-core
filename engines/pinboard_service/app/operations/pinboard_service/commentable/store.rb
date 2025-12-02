@@ -80,7 +80,6 @@ module Commentable # rubocop:disable Layout/IndentationWidth
       commentable.attachment_uri = object.storage_uri
       @new_attachment = object.storage_uri
     rescue Aws::S3::Errors::ServiceError => e
-      ::Mnemosyne.attach_error(e)
       ::Sentry.capture_exception(e)
       @errors << [:attachment_upload_id, 'could not process file upload']
     rescue Xikolo::S3::SingleFileUpload::InvalidUpload

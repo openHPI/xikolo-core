@@ -9,6 +9,7 @@ class Channel < ApplicationRecord
 
   validates :code, presence: true, uniqueness: true
   validates :name, presence: true
+  validate :validate_title_translations_structure
   validates :position, allow_nil: true, numericality: {only_integer: true}
 
   default_scope { not_deleted.ordered }
@@ -73,6 +74,21 @@ class Channel < ApplicationRecord
       Xikolo::S3.object(mobile_visual_uri).delete
     end
   rescue Aws::S3::Errors::ServiceError => e
-    Mnemosyne.attach_error(e)
+    Sentry.capture_exception(e)
+  end
+
+  def validate_title_translations_structure
+    if title_translations.blank?
+      errors.add(:title_translations, 'must be present')
+      return
+    end
+
+    %w[de en].each do |locale|
+      value = title_translations[locale]
+
+      if value.blank?
+        errors.add(:title_translations, "#{locale} must be present")
+      end
+    end
   end
 end

@@ -5,9 +5,23 @@ class Admin::ChannelForm < XUI::Form
 
   self.form_name = 'channel'
 
+  # Build a form from a channel record (used by from_resource)
+  def self.from_resource(channel)
+    form = super
+
+    translations = channel['title_translations'] || {}
+
+    form.title_en = translations['en']
+    form.title_de = translations['de']
+
+    form
+  end
+
   attribute :id, :uuid
   attribute :code, :single_line_string
   attribute :name, :single_line_string
+  attribute :title_en, :string
+  attribute :title_de, :string
   attribute :stage_statement, :markup
   attribute :public, :boolean
   attribute :logo_upload_id, :upload,
@@ -45,6 +59,7 @@ class Admin::ChannelForm < XUI::Form
           [language, (label if resource['info_link_url'][language].present?)]
         end.compact,
       }
+      resource['title_translations'] = {'de' => resource['title_de'], 'en' => resource['title_en']}
 
       resource.except('info_link_url', 'info_link_label')
     end

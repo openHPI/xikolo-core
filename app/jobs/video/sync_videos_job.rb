@@ -13,7 +13,6 @@ module Video
     # it will not go unnoticed.
     discard_on ::Video::Provider::AuthenticationFailed,
       ::Video::Provider::AccountInactive do |_job, e|
-      ::Mnemosyne.attach_error(e)
       ::Sentry.capture_exception(e)
     end
 
@@ -30,7 +29,6 @@ module Video
         self.class.perform_later(provider: id, full:)
       end
     rescue ActiveRecord::RecordNotFound => e
-      ::Mnemosyne.attach_error(e)
       ::Sentry.capture_exception(e)
     end
   end

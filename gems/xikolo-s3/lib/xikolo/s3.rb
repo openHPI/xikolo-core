@@ -28,10 +28,7 @@ module Xikolo
       end
 
       def resource
-        @resource ||= Aws::S3::Resource.new \
-          client: (Aws::S3::Client.new(client_config).tap do |client|
-            client.handlers.add(Seahorse::MnemosyneHandler, step: :build) if defined?(::Mnemosyne)
-          end)
+        @resource ||= Aws::S3::Resource.new(client: Aws::S3::Client.new(client_config))
       end
 
       def stub_responses!(stubs)
@@ -87,9 +84,6 @@ module Xikolo
         copy = bucket_for(bucket).object(target)
         copy.copy_from(source_object, metadata_directive: 'REPLACE', acl:, content_disposition:)
         copy.storage_uri
-      rescue Aws::S3::Errors::ServiceError => e
-        defined? Mnemosyne and Mnemosyne.attach_error e
-        raise
       end
 
       def url_regex
@@ -125,7 +119,6 @@ module Xikolo
       end
     end
 
-    require 'xikolo/s3/seahorse/mnemosyne_handler'
     require 'xikolo/s3/upload_by_uri'
     require 'xikolo/s3/single_file_upload'
     require 'xikolo/s3/text_with_uploads_processor'

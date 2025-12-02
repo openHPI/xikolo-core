@@ -3,7 +3,6 @@
 module AccountService
 class User::Create < ApplicationOperation # rubocop:disable Layout/IndentationWidth
   include Facets::Transaction
-  include Facets::Tracing
 
   attr_reader :params
 

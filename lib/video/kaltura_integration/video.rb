@@ -92,7 +92,6 @@ module Video
           template.expand(elements.merge(flavor: best_flavor(quality))).to_s
         end
       rescue RuntimeError => e
-        ::Mnemosyne.attach_error(e)
         ::Sentry.capture_exception(e)
         nil
       end

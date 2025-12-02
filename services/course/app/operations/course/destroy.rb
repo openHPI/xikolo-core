@@ -30,19 +30,19 @@ class Course::Destroy < ApplicationOperation
       account_api.rel(:group).delete({id: "course.#{code}.#{name}"})
     end.each(&:value!)
   rescue Restify::ServerError, Restify::ClientError => e
-    Mnemosyne.attach_error(e)
+    Sentry.capture_exception(e)
   end
 
   def destroy_context!
     account_api.rel(:context).delete({id: course.context_id}).value!
   rescue Restify::ServerError, Restify::ClientError => e
-    Mnemosyne.attach_error(e)
+    Sentry.capture_exception(e)
   end
 
   def destroy_referenced_files!
     Xikolo::S3.object(course.stage_visual_uri).delete if course.stage_visual_uri?
   rescue Aws::S3::Errors::ServiceError => e
-    Mnemosyne.attach_error(e)
+    Sentry.capture_exception(e)
   end
 
   def account_api

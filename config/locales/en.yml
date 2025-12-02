@@ -629,6 +629,8 @@ en:
       hide_hint_btn: Don't show hint again
     promotion:
       link: Read more
+    snowflakes:
+      toggle_snow: Turn snowflakes on/off
 
   shared:
     records:

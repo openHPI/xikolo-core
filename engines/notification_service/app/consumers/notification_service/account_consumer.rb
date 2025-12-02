@@ -45,7 +45,6 @@ class AccountConsumer < Msgr::Consumer # rubocop:disable Layout/IndentationWidth
   def deliver(mail)
     mail.deliver_now
   rescue Net::SMTPSyntaxError, Net::SMTPFatalError => e
-    ::Mnemosyne.attach_error(e)
     ::Sentry.capture_exception(e)
     Rails.logger.error("#{e.message}\n#{e.backtrace.join("\n")}")
   end

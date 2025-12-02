@@ -68,10 +68,6 @@ describe SessionHelper, type: :helper do
       let(:response) { {status: 500} }
 
       it 'error is ignored but attached and reported' do
-        expect(Mnemosyne).to receive(:attach_error) do |e|
-          expect(e).to be_a Restify::InternalServerError
-        end
-
         expect(Sentry).to receive(:capture_exception) do |e|
           expect(e).to be_a Restify::InternalServerError
         end

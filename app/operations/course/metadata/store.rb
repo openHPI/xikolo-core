@@ -56,7 +56,6 @@ module Course
       rescue ActiveRecord::RecordInvalid => e
         e.record.errors.each {|err| @metadata.errors.add(:base, "#{err.attribute} #{err.message}") }
       rescue Aws::S3::Errors::ServiceError => e
-        ::Mnemosyne.attach_error(e)
         ::Sentry.capture_exception(e)
         @metadata.errors.add(:base, :upload_error)
       rescue RuntimeError

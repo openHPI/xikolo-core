@@ -2020,6 +2020,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@hotwired/stimulus@npm:^3.2.2":
+  version: 3.2.2
+  resolution: "@hotwired/stimulus@npm:3.2.2"
+  checksum: 10/31b9dc3a36a73b87a30570d6e73d27b387a8f6c3caf934aedc4dc96e5b40dde8fc36d530e16056b3d590b1d31b8a13bc1fca002e83df838f1bf5148b188046de
+  languageName: node
+  linkType: hard
+
+"@hotwired/turbo-rails@npm:^8.0.20":
+  version: 8.0.20
+  resolution: "@hotwired/turbo-rails@npm:8.0.20"
+  dependencies:
+    "@hotwired/turbo": "npm:^8.0.20"
+    "@rails/actioncable": "npm:>=7.0"
+  checksum: 10/f2c35d3e1787010cfec5f9b96132ceacd18ec488c28b5021ab9917064a3a51acc2ec0823586ba1d0fce5434fca1c1a7b122e1fb8abc0cb43cda40993cb6483ef
+  languageName: node
+  linkType: hard
+
+"@hotwired/turbo@npm:^8.0.20":
+  version: 8.0.20
+  resolution: "@hotwired/turbo@npm:8.0.20"
+  checksum: 10/ce8fb7aa0c5af06e679d17f0e602cd86071f43cafbec8fa060f375ccb6e90d3f52366c8bd05d946e208278c4c93a62a43e6725ca321f8dc691131a7b66a8839e
+  languageName: node
+  linkType: hard
+
 "@humanfs/core@npm:^0.19.1":
   version: 0.19.1
   resolution: "@humanfs/core@npm:0.19.1"
@@ -2533,6 +2557,13 @@ __metadata:
   version: 1.0.0-next.29
   resolution: "@polka/url@npm:1.0.0-next.29"
   checksum: 10/69ca11ab15a4ffec7f0b07fcc4e1f01489b3d9683a7e1867758818386575c60c213401259ba3705b8a812228d17e2bfd18e6f021194d943fff4bca389c9d4f28
+  languageName: node
+  linkType: hard
+
+"@rails/actioncable@npm:>=7.0":
+  version: 8.1.100
+  resolution: "@rails/actioncable@npm:8.1.100"
+  checksum: 10/eed05106c571065d32238d7b6832a2b4e7db79c8e0d1b3dcefd484a7f89914914db13c1d1b5cae763b266e6697f358523e5ce52871d27b5fafb1dd28d63992eb
   languageName: node
   linkType: hard
 
@@ -4997,9 +5028,9 @@ __metadata:
   linkType: hard
 
 "cssdb@npm:^8.4.2":
-  version: 8.4.2
-  resolution: "cssdb@npm:8.4.2"
-  checksum: 10/09f4d8687289389b67486e921fd6e30cfbd3aa27d23e519f04839969ad55d3f6e5b2bb0f6a455830a9b830b2e50932a52cf3bcb4d3d058dfc4af6b2702e74888
+  version: 8.4.3
+  resolution: "cssdb@npm:8.4.3"
+  checksum: 10/d6d9faf25fcf38d607a4a87c7b4cd42e927535ddbb776239bc430fb9468dea86cdf54dd4cdf802027ce80c59722cc00216bb64e82687e1c0372b380510f43cfc
   languageName: node
   linkType: hard
 
@@ -11531,6 +11562,8 @@ __metadata:
     "@github/relative-time-element": "npm:^4.4.5"
     "@herb-tools/formatter": "npm:^0.7.3"
     "@herb-tools/linter": "npm:^0.7.3"
+    "@hotwired/stimulus": "npm:^3.2.2"
+    "@hotwired/turbo-rails": "npm:^8.0.20"
     "@openhpi/quiz-recap": "npm:^2.0.2"
     "@openhpi/xikolo-video-player": "npm:^2.0.2"
     "@rails/ujs": "npm:7.1.3-4"

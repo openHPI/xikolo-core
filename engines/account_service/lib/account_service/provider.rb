@@ -20,9 +20,7 @@ module AccountService
         provider = find(authorization.provider)
         raise ArgumentError.new 'Authorization provider not found' unless provider
 
-        trace(authorization, provider, 'call') do
-          provider.new(authorization).call(auto_create:)
-        end
+        provider.new(authorization).call(auto_create:)
       end
 
       def update(authorization)
@@ -32,21 +30,7 @@ module AccountService
 
         return unless (provider = find(authorization.provider))
 
-        trace(authorization, provider, 'update') do
-          provider.new(authorization).update(authorization.user)
-        end
-      end
-
-      private
-
-      def trace(authorization, provider, action, &)
-        meta = {
-          authorization: authorization.id,
-          provider: authorization.provider,
-          provider_class: provider.to_s,
-        }
-
-        ::Mnemosyne.trace("lib.provider.#{action}", meta:, &)
+        provider.new(authorization).update(authorization.user)
       end
     end
 

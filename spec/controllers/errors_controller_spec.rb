@@ -17,15 +17,6 @@ describe ErrorsController, type: :controller do
   end
 
   describe '#show' do
-    it 'attaches the exception to mnemosyne' do
-      exception = instance_double(Exception)
-      expect(Mnemosyne).to receive(:attach_error).with(exception)
-
-      request.env['PATH_INFO'] = '/404'
-      request.env['action_dispatch.exception'] = exception
-      get :show, params: {use_route: :root}
-    end
-
     context 'with 404' do
       before do
         request.env['PATH_INFO'] = '/404'

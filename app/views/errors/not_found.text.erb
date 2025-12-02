@@ -2,11 +2,8 @@
 
 <%= word_wrap t(:'errors.not_found.message') %>
 
-<% if (trace = Mnemosyne::Instrumenter.current_trace) %>
-<%= t(:'errors.trace_id') %>: <%= trace.uuid %>
-<% end %>
 <% if (error_id = Sentry.last_event_id) %>
 <%= t(:'errors.error_id') %>: <%= error_id %>
 <% end %>
 
-<%= helpdesk_url(data: {trace: trace&.uuid, error: error_id}.compact) %>
+<%= helpdesk_url(data: {error: error_id}.compact) %>

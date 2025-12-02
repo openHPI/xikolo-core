@@ -6,6 +6,7 @@ ruby '~> 3.4.0'
 
 # Rails
 gem 'rails', '~> 7.2.0'
+gem 'turbo-rails'
 
 gem 'base64'
 gem 'bigdecimal'
@@ -146,7 +147,6 @@ gem 'prawn-table'
 gem 'prawn-templates', '~> 0.1.0'
 
 # Monitoring
-gem 'mnemosyne-ruby', '~> 2.1'
 gem 'stackprof'                 # stackprof must be required before Sentry
 gem 'sentry-rails', '~> 5.26.0' # rubocop:disable Bundler/OrderedGems
 gem 'sentry-ruby', '~> 5.26.0'

@@ -7,7 +7,6 @@ class FileDeletionJob < ApplicationJob # rubocop:disable Layout/IndentationWidth
   def perform(uri)
     Xikolo::S3.object(uri).delete
   rescue Aws::S3::Errors::ServiceError => e
-    ::Mnemosyne.attach_error(e)
     ::Sentry.capture_exception(e)
   end
 end

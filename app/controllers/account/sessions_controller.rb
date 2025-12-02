@@ -45,7 +45,6 @@ class Account::SessionsController < Abstract::FrontendController
     # parameters are passed (for example, only "password" but no
     # "login"). This should never happen in normal requests and might
     # indicate broken or invalid forms.
-    ::Mnemosyne.attach_error(e)
     ::Sentry.capture_exception(e)
 
     add_flash_message :error, t(:'flash.error.generic')

@@ -66,7 +66,6 @@ class Enrollment::Create < ApplicationOperation
 
     enrollment.create_membership!
   rescue Restify::ResponseError => e
-    ::Mnemosyne.attach_error(e)
     ::Sentry.capture_exception(e)
     raise OperationError.new 'membership_creation_failed'
   end

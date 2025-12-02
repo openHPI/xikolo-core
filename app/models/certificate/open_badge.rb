@@ -166,7 +166,6 @@ module Certificate
                              "filename=\"#{record.course.course_code}_open_badge.png\""
       )
     rescue StandardError => e
-      ::Mnemosyne.attach_error(e)
       ::Sentry.capture_exception(e)
       raise BakingFailed
     end

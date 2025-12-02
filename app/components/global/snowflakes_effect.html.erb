@@ -1,0 +1,19 @@
+<div id="snow-container" aria-hidden="true"></div>
+
+<div data-controller="snowflakes_effect">
+  <button
+    type="button"
+    class="
+      fixed top-20 right-[max(15px,calc((100vw-1370px)/2))] bg-gray-600
+      hover:bg-gray-800 active:bg-gray-900 text-white
+      px-4 py-2 m-4 rounded
+      shadow-lg
+      z-xl
+    "
+    data-action="snowflakes_effect#toggleSnowfall"
+    aria-label="<%= t(:'components.snowflakes.toggle_snow') %>"
+    title="<%= t(:'components.snowflakes.toggle_snow') %>"
+  >
+    <%= t(:'components.snowflakes.toggle_snow') %>
+  </button>
+</div>

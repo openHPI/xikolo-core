@@ -21,6 +21,7 @@ describe 'Admin: Modify Channel', type: :system do
       :'course:channel',
       code: 'subset',
       name: 'My channel',
+      title_translations: {'de' => 'Mein Channel', 'en' => 'My channel'},
       info_link: {
         'href' => {'en' => 'https://www.example.com/faq', 'de' => 'https://www.example.com/de/faq'},
         'label' => {'en' => 'Our FAQ', 'de' => 'Unsere FAQ'},
@@ -31,7 +32,8 @@ describe 'Admin: Modify Channel', type: :system do
     visit '/channels/subset/edit'
 
     expect(page).to have_field('Code', with: 'subset')
-    expect(page).to have_field('Name', with: 'My channel')
+    expect(page).to have_field('Name (English)', with: 'My channel')
+    expect(page).to have_field('Name (German)', with: 'Mein Channel')
     expect(page).to have_markdown_editor('Description (in English)', with: 'English!')
     expect(page).to have_markdown_editor('Description (in German)', with: 'Deutsch!')
     fill_markdown_editor 'Description (in German)', with: 'Deutsch'
@@ -65,7 +67,8 @@ describe 'Admin: Modify Channel', type: :system do
     expect(page).to have_field('Info link label (in English)', with: 'The FAQ')
     expect(page).to have_field('Info link label (in German)', with: 'Unsere FAQ')
 
-    fill_in 'Name', with: 'My important channel'
+    fill_in 'Name (English)', with: 'My important channel'
+    fill_in 'Name (German)', with: 'Mein wichtiger Channel'
 
     update_channel = Stub.request(:course, :patch, "/channels/#{channel['id']}")
       .to_return(status: 201)
@@ -78,7 +81,10 @@ describe 'Admin: Modify Channel', type: :system do
       update_channel.with(
         body: hash_including(
           'code' => 'subset',
-          'name' => 'My important channel',
+          'title_translations' => {
+            'de' => 'Mein wichtiger Channel',
+            'en' => 'My important channel',
+          },
           'public' => true,
           'stage_statement' => nil,
           'description' => {

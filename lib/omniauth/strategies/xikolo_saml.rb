@@ -50,15 +50,9 @@ module OmniAuth
           # There is no need to show the user an exception is the logout "mostly"
           # worked. Leftover sessions need to be recycled by the Account service.
           #
-          # We attach the error to the mnemosyne trace for recording but is likely
+          # We attach the error to the Sentry trace for recording but is likely
           # not an exception relevant for developers.
-        rescue Restify::GatewayError => e
-          ::Mnemosyne.attach_error(e)
-
-          # On any other failing response we will continue too but report the
-          # exception.
-        rescue Restify::ResponseError => e
-          ::Mnemosyne.attach_error(e)
+        rescue Restify::GatewayError, Restify::ResponseError => e
           ::Sentry.capture_exception(e)
         end
 
@@ -70,16 +64,6 @@ module OmniAuth
         # session make logout impossible.
         session[:id] = 'anonymous'
       }
-
-      def request_phase
-        ::Mnemosyne.trace('XikoloSAML.request_phase',
-          meta: {session: session.instance_variable_get(:@delegate)}) { super }
-      end
-
-      def callback_phase
-        ::Mnemosyne.trace('XikoloSAML.callback_phase',
-          meta: {session: session.instance_variable_get(:@delegate)}) { super }
-      end
 
       def with_settings
         # Advertise the SLO (Single Log-Out) URL in the SAML metadata.

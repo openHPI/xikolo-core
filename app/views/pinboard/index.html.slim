@@ -13,14 +13,19 @@
             = render Global::FaIcon.new('comments', css_classes: 'fa-lg mr5')
             = t(:'pinboard.ask_question')
           .mt10.text-right
-            - if @course_subscription.present?
-              = link_to course_subscription_path(@course_subscription['id'], course_id: @course.id), method: :delete, disable_with: '...', class: 'bs-a' do
-                = render Global::FaIcon.new('star', style: :solid, css_classes: 'xi-icon')
-                = t(:'pinboard.unsubscribe')
-            - else
-              = link_to course_subscriptions_path(course_id: @course.id), method: :post, disable_with: '...', class: 'bs-a' do
-                = render Global::FaIcon.new('star', css_classes: 'xi-icon')
-                = t(:'pinboard.subscribe')
+            = turbo_frame_tag dom_id(@course, :subscription) do
+              - if @course_subscription.present?
+                = button_to course_subscription_path(@course_subscription['id'], course_id: @course.id),
+                  method: :delete,
+                  class: 'bs-a' do
+                  = render Global::FaIcon.new('star', style: :solid, css_classes: 'xi-icon')
+                  = t(:'pinboard.unsubscribe')
+              - else
+                = button_to course_subscriptions_path(course_id: @course.id),
+                  method: :post,
+                  class: 'bs-a' do
+                  = render Global::FaIcon.new('star', css_classes: 'xi-icon')
+                  = t(:'pinboard.subscribe')
       - else
         .col-sm-12
           = render Global::Callout.new(@pinboard.lock_reason, type: :warning, icon: Global::FaIcon.new('lock'))

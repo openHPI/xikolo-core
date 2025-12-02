@@ -72,7 +72,6 @@ class Experiment
       content_type: 'application/json'
     )
   rescue Aws::S3::Errors::ServiceError => e
-    ::Mnemosyne.attach_error(e)
     ::Sentry.capture_exception(e)
     Rails.logger.error "[SCIENTIST] Could not store mismatch report in S3: #{e}"
   end

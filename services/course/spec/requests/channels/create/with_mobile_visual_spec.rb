@@ -9,6 +9,7 @@ describe 'Channel: create with mobile visual', type: :request do
   let(:data) do
     {
       name: 'group',
+      title_translations: {'de' => 'Gruppe', 'en' => 'Group'},
       code: 'code',
       description: {
         de: 'Deutsch!',

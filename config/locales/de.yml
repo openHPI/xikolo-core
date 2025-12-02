@@ -536,6 +536,8 @@ de:
       hide_hint_btn: Hinweis nicht mehr zeigen
     promotion:
       link: Weiterlesen
+    snowflakes:
+      toggle_snow: Schneeflocken ein-/ausschalten
 
   shared:
     records:

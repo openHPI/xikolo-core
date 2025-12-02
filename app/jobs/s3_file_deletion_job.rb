@@ -9,7 +9,6 @@ class S3FileDeletionJob < ApplicationJob
   rescue URI::InvalidURIError, ArgumentError
     # No valid URI, no deletion
   rescue Aws::S3::Errors::ServiceError => e
-    ::Mnemosyne.attach_error(e)
     ::Sentry.capture_exception(e)
   end
 end

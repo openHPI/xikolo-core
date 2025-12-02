@@ -70,6 +70,9 @@ class ChannelsController < ApplicationController
       if params[:info_link]
         white_listed[:info_link] = params[:info_link].permit!
       end
+      if params[:title_translations]
+        white_listed[:title_translations] = params[:title_translations].permit!
+      end
     end
   end
 end

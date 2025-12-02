@@ -19,6 +19,11 @@ describe Channel, type: :model do
 
   it { is_expected.to accept_values_for(:description, 'Some description', 'another description!', '') }
 
+  it { is_expected.to accept_values_for(:title_translations, {'de' => 'Channel DE', 'en' => 'Channel EN'}) }
+  it { is_expected.not_to accept_values_for(:title_translations, {'de' => 'Channel DE', 'en' => ''}) }
+  it { is_expected.not_to accept_values_for(:title_translations, {'de' => '', 'en' => 'Channel EN'}) }
+  it { is_expected.not_to accept_values_for(:title_translations, {'fr' => 'Channel FR', 'en' => 'Channel EN'}) }
+
   it 'allows assigning multiple courses to a channel' do
     course1 = create(:'course_service/course', channel:)
     course2 = create(:'course_service/course', channel:)

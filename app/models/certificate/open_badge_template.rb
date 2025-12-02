@@ -79,7 +79,6 @@ module Certificate
 
       purge_badge_files! if open_badges.any?
     rescue Aws::S3::Errors::ServiceError => e
-      ::Mnemosyne.attach_error(e)
       ::Sentry.capture_exception(e)
       @upload_error = 'could not process file upload'
     rescue RuntimeError

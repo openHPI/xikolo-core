@@ -47,7 +47,6 @@ module FileReference
           @replaced_objects << #{name}_uri if #{name}_uri?
           self.#{name}_uri = object.storage_uri
         rescue Aws::S3::Errors::ServiceError => err
-          Mnemosyne.attach_error err
           @upload_error[:#{name}] = 'could not process file upload'
         rescue RuntimeError
           @upload_error[:#{name}] = 'invalid upload'

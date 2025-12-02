@@ -57,7 +57,6 @@ class Teacher < ApplicationRecord
     @replaced_uri = picture_uri
     self.picture_uri = object.storage_uri
   rescue Aws::S3::Errors::ServiceError => e
-    ::Mnemosyne.attach_error(e)
     ::Sentry.capture_exception(e)
     errors.add :picture_upload_id, 'could not process file upload'
   rescue RuntimeError
