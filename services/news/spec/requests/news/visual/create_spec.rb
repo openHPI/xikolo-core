@@ -25,14 +25,14 @@ shared_examples 'creates with visual' do
 
   it 'updates the avatar url referencing the file in the new bucket' do
     create_announcement
-    expect(News.first.visual_url).to match store_stub_url
+    expect(NewsService::News.first.visual_url).to match store_stub_url
   end
 end
 
 shared_examples 'does not create' do |error_details|
   it 'does not create the announcement with visual url' do
     expect { create_announcement }.to raise_error(Restify::ClientError)
-    expect(News.first.visual_url).to be_nil
+    expect(NewsService::News.first.visual_url).to be_nil
   end
 
   it 'raises an unprocessable entity error' do
@@ -77,7 +77,7 @@ RSpec.describe 'News: Create with visual', type: :request do
 
   context 'with visual_upload_id' do
     let(:payload) do
-      attributes_for(:news).merge(
+      attributes_for(:'news_service/news').merge(
         title: 'Some title',
         text: 'A beautiful announcement text',
         visual_upload_id: upload_id
@@ -133,7 +133,7 @@ RSpec.describe 'News: Create with visual', type: :request do
 
   context 'with visual_uri' do
     let(:payload) do
-      attributes_for(:news).merge(
+      attributes_for(:'news_service/news').merge(
         title: 'Some title',
         text: 'A beautiful announcement text',
         visual_uri: "upload://#{upload_id}/visual.png"

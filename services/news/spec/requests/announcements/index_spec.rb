@@ -7,7 +7,7 @@ RSpec.describe 'Announcements: Index', type: :request do
 
   let(:service) { Restify.new(:test).get.value! }
   let(:params) { {} }
-  let(:announcement) { create(:announcement, :with_message) }
+  let(:announcement) { create(:'news_service/announcement', :with_message) }
 
   before do
     # Create an announcement
@@ -33,7 +33,7 @@ RSpec.describe 'Announcements: Index', type: :request do
   describe 'with different translations' do
     subject(:representation) { resource.first }
 
-    let(:announcement) { create(:announcement, :with_german_translation, :with_message) }
+    let(:announcement) { create(:'news_service/announcement', :with_german_translation, :with_message) }
 
     context 'with no language set' do
       it 'responds in English (the default)' do
@@ -57,7 +57,7 @@ RSpec.describe 'Announcements: Index', type: :request do
       end
 
       context 'when no English translation exists' do
-        let(:announcement) { create(:announcement, :german_only, :with_message) }
+        let(:announcement) { create(:'news_service/announcement', :german_only, :with_message) }
 
         it 'responds with German (the only available translation)' do
           expect(representation['title']).to eq 'Deutscher Titel'

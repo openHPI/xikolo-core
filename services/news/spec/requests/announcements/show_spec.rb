@@ -7,7 +7,7 @@ RSpec.describe 'Announcement: Show', type: :request do
 
   let(:service) { Restify.new(:test).get.value! }
   let(:params) { {id: announcement.id} }
-  let(:announcement) { create(:announcement, :with_message) }
+  let(:announcement) { create(:'news_service/announcement', :with_message) }
 
   it { is_expected.to respond_with :ok }
 
@@ -26,7 +26,7 @@ RSpec.describe 'Announcement: Show', type: :request do
   end
 
   describe 'with different translations' do
-    let(:announcement) { create(:announcement, :with_german_translation, :with_message) }
+    let(:announcement) { create(:'news_service/announcement', :with_german_translation, :with_message) }
 
     context 'with no language set' do
       it 'responds in English (the default)' do
@@ -50,7 +50,7 @@ RSpec.describe 'Announcement: Show', type: :request do
       end
 
       context 'when no English translation exists' do
-        let(:announcement) { create(:announcement, :german_only, :with_message) }
+        let(:announcement) { create(:'news_service/announcement', :german_only, :with_message) }
 
         it 'responds with German (the only available translation)' do
           expect(resource['title']).to eq 'Deutscher Titel'

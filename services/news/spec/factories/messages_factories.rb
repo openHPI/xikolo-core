@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :message do
-    association :announcement
+  factory :'news_service/message' do
+    association :announcement, factory: :'news_service/announcement'
     creator_id { generate(:user_id) }
     translations do
       {

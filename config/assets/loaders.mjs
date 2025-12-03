@@ -2,12 +2,62 @@ import Extract from 'mini-css-extract-plugin';
 
 import cssnano from 'cssnano';
 import postcssEnv from 'postcss-preset-env';
+import ImageMinimizerPlugin from 'image-minimizer-webpack-plugin';
 
 export default async () => {
   // The image loader optimizes images before emitting
   // them into the bundle.
   const image = {
-    loader: 'image-webpack-loader',
+    loader: ImageMinimizerPlugin.loader,
+    options: {
+      minimizer: {
+        implementation: ImageMinimizerPlugin.sharpMinify,
+        options: {
+          encodeOptions: {
+            jpeg: {
+              // https://sharp.pixelplumbing.com/api-output#jpeg
+              quality: 100,
+            },
+            webp: {
+              // https://sharp.pixelplumbing.com/api-output#webp
+              lossless: true,
+            },
+            avif: {
+              // https://sharp.pixelplumbing.com/api-output#avif
+              lossless: true,
+            },
+
+            // PNG by default sets the quality to 100%, which is same as lossless
+            // https://sharp.pixelplumbing.com/api-output#png
+            png: {},
+
+            // GIF does not support lossless compression at all
+            // https://sharp.pixelplumbing.com/api-output#gif
+            gif: {},
+          },
+        },
+      },
+    },
+  };
+
+  const svg = {
+    loader: ImageMinimizerPlugin.loader,
+    options: {
+      minimizer: {
+        implementation: ImageMinimizerPlugin.svgoMinify,
+        options: {
+          encodeOptions: {
+            // Pass over SVGs multiple times to ensure all optimizations are applied (False by default)
+            multipass: true,
+            plugins: [
+              // Built-in plugin preset enabled by default
+              // See: https://github.com/svg/svgo#default-preset
+              'preset-default',
+            ],
+          },
+        },
+      },
+    },
   };
 
   // Exposes a CSS file as a webpack module
@@ -66,9 +116,14 @@ export default async () => {
       type: 'asset/resource',
     },
     {
-      test: /\.(jpe?g|png|gif|svg)$/i,
+      test: /\.(jpe?g|png|gif)$/i,
       type: 'asset/resource',
       use: [image],
+    },
+    {
+      test: /\.(svg)$/i,
+      type: 'asset/resource',
+      use: [svg],
     },
     {
       test: /\.(scss|sass|css)$/i,

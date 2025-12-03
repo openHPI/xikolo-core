@@ -6,14 +6,14 @@ RSpec.describe 'News Email: Create (Send)', type: :request do
   include ActiveJob::TestHelper
 
   subject(:request) do
-    perform_enqueued_jobs(only: CourseAnnouncementJob) do
+    perform_enqueued_jobs(only: NewsService::CourseAnnouncementJob) do
       news_resource.rel(:email).post(payload).value!
     end
   end
 
   let(:service) { Restify.new(:test).get.value! }
   let(:news_resource) { service.rel(:news).get({id: announcement.id}).value! }
-  let(:announcement) { create(:news) }
+  let(:announcement) { create(:'news_service/news') }
   let(:payload) { {} }
 
   it { is_expected.to respond_with :created }
@@ -30,7 +30,7 @@ RSpec.describe 'News Email: Create (Send)', type: :request do
   end
 
   context 'for a global announcement' do
-    let(:announcement) { create(:news, :global) }
+    let(:announcement) { create(:'news_service/news', :global) }
 
     it 'publishes the correct event payload' do
       expect(Msgr).to receive(:publish) do |*args|
@@ -42,7 +42,7 @@ RSpec.describe 'News Email: Create (Send)', type: :request do
   end
 
   context 'for a group-restricted global announcement' do
-    let(:announcement) { create(:news, :global, audience: 'xikolo.affiliated') }
+    let(:announcement) { create(:'news_service/news', :global, audience: 'xikolo.affiliated') }
 
     it 'includes the group name in the event payload' do
       expect(Msgr).to receive(:publish) do |*args|

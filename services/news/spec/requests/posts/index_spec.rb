@@ -7,15 +7,15 @@ RSpec.describe 'Posts: Index', type: :request do
 
   let(:service) { Restify.new(:test).get.value! }
   let(:params) { {} }
-  let!(:global_announcement) { create(:news, :global, :published) }
-  let!(:unpublished_announcement) { create(:news, :global, publish_at: 2.days.from_now) }
-  let!(:restricted_announcement_1) { create(:news, :global, :published, audience: 'xikolo.affiliated') }
+  let!(:global_announcement) { create(:'news_service/news', :global, :published) }
+  let!(:unpublished_announcement) { create(:'news_service/news', :global, publish_at: 2.days.from_now) }
+  let!(:restricted_announcement_1) { create(:'news_service/news', :global, :published, audience: 'xikolo.affiliated') }
 
   before do
     # Create another course announcement and restricted global announcement to
     # ensure unwanted announcements do not show up in the various responses.
-    create(:news, :published)
-    create(:news, :global, :published, audience: 'xikolo.partners')
+    create(:'news_service/news', :published)
+    create(:'news_service/news', :global, :published, audience: 'xikolo.partners')
   end
 
   it { is_expected.to respond_with :ok }
@@ -54,7 +54,7 @@ RSpec.describe 'Posts: Index', type: :request do
   describe 'with different translations' do
     subject(:representation) { resource.find {|row| row['id'] == global_announcement.id } }
 
-    let!(:global_announcement) { create(:news, :global, :published, :with_german_translation) }
+    let!(:global_announcement) { create(:'news_service/news', :global, :published, :with_german_translation) }
 
     context 'with no language set' do
       it 'responds in English (the default)' do

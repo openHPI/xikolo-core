@@ -7,7 +7,7 @@ RSpec.describe 'News User Visit: Update', type: :request do
 
   let(:service) { Restify.new(:test).get.value! }
   let(:news_resource) { service.rel(:news).get({id: announcement.id}).value! }
-  let(:announcement) { create(:news) }
+  let(:announcement) { create(:'news_service/news') }
   let(:user_id) { SecureRandom.uuid }
 
   before { announcement }
@@ -23,17 +23,17 @@ RSpec.describe 'News User Visit: Update', type: :request do
   end
 
   context 'when a state exists for the user' do
-    let(:announcement) { create(:news, :read, read_by_users: [user_id]) }
+    let(:announcement) { create(:'news_service/news', :read, read_by_users: [user_id]) }
 
     it { is_expected.to respond_with :ok }
 
     it 'does not create a new read state' do
-      expect { request }.not_to change(ReadState, :count)
+      expect { request }.not_to change(NewsService::ReadState, :count)
     end
 
     it 'updates the existing read state object' do
       expect { request }.to change {
-        ReadState.first.updated_at
+        NewsService::ReadState.first.updated_at
       }
     end
   end

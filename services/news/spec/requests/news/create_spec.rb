@@ -13,25 +13,25 @@ RSpec.describe 'News: Create', type: :request do
     it 'returns with errors' do
       expect { request }.to raise_error(Restify::ClientError) do |e|
         expect(e.status).to eq :unprocessable_content
-        expect(News.count).to eq 0
+        expect(NewsService::News.count).to eq 0
       end
     end
   end
 
   context 'with valid announcement data' do
     let(:announcement_params) do
-      attributes_for(:news).merge(title: 'Some title', text: 'A beautiful announcement text')
+      attributes_for(:'news_service/news').merge(title: 'Some title', text: 'A beautiful announcement text')
     end
 
     it { is_expected.to respond_with :created }
 
     it 'stores the new announcement' do
-      expect { request }.to change(News, :count).from(0).to(1)
+      expect { request }.to change(NewsService::News, :count).from(0).to(1)
     end
 
     it 'also stores the announcement text' do
       request
-      translation = News.last.translations.find_by(locale: 'en')
+      translation = NewsService::News.last.translations.find_by(locale: 'en')
       expect(translation.text).to eq 'A beautiful announcement text'
     end
 
@@ -53,19 +53,19 @@ RSpec.describe 'News: Create', type: :request do
       end
 
       it 'stores exactly one new announcement' do
-        expect { request }.to change(News, :count).from(0).to(1)
+        expect { request }.to change(NewsService::News, :count).from(0).to(1)
       end
 
       it 'stores the announcement with English title and text' do
         request
-        translation = News.last.translations.find_by(locale: 'en')
+        translation = NewsService::News.last.translations.find_by(locale: 'en')
         expect(translation.title).to eq announcement_params[:title]
         expect(translation.text).to eq announcement_params[:text]
       end
 
       it 'stores a translation with German title and text' do
         request
-        translation = News.last.translations.find_by(locale: 'de')
+        translation = NewsService::News.last.translations.find_by(locale: 'de')
         expect(translation.title).to eq german_title
         expect(translation.text).to eq german_text
       end

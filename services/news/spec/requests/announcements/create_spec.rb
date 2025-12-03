@@ -24,9 +24,9 @@ RSpec.describe 'Announcements: Create', type: :request do
     it { is_expected.to respond_with :created }
 
     it 'correctly stores the author and translations' do
-      expect { resource }.to change(Announcement, :count).from(0).to(1)
+      expect { resource }.to change(NewsService::Announcement, :count).from(0).to(1)
 
-      announcement = Announcement.last
+      announcement = NewsService::Announcement.last
       expect(announcement.author_id).to eq author_id
       expect(announcement.translations).to eq(
         'en' => {'subject' => 'Title', 'content' => 'Text'}

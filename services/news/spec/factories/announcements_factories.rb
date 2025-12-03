@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :announcement do
+  factory :'news_service/announcement' do
     author_id { generate(:user_id) }
     translations do
       {
@@ -40,7 +40,7 @@ FactoryBot.define do
 
     trait :with_message do
       after(:create) do |announcement, _evaluator|
-        create(:message,
+        create(:'news_service/message',
           announcement:,
           translations: announcement.translations,
           creator_id: announcement.author_id)

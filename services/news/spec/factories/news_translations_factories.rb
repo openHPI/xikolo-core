@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :news_translation do
+  factory :'news_service/news_translation' do
     # News factory must not run its own hook adding translations,
     # otherwise are are invalid
-    association :news, translations: false
+    association :news, factory: :'news_service/news', translations: false
 
     title  { 'Save the Date: Lorem ipsum' }
     locale { 'en' }

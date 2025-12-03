@@ -7,15 +7,15 @@ RSpec.describe 'News: Delete', type: :request do
 
   let(:service) { Restify.new(:test).get.value! }
 
-  let!(:announcement) { create(:news) }
+  let!(:announcement) { create(:'news_service/news') }
 
   it { is_expected.to respond_with :no_content }
 
   it 'deletes an announcement' do
-    expect { request }.to change(News, :count).from(1).to(0)
+    expect { request }.to change(NewsService::News, :count).from(1).to(0)
   end
 
   it 'deletes the correct announcement' do
-    expect { request }.to change { News.exists? announcement.id }.to(false)
+    expect { request }.to change { NewsService::News.exists? announcement.id }.to(false)
   end
 end

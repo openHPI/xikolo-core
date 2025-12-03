@@ -83,7 +83,7 @@ RSpec.describe 'News: Update with visual', type: :request do
   context 'when uploads first visual' do
     let(:store_stub_url) { %r{http://s3.xikolo.de/xikolo-public/news/[0-9a-zA-Z]+/visual_v1} }
     let(:old_store_stub_url) { nil }
-    let(:announcement) { create(:news) }
+    let(:announcement) { create(:'news_service/news') }
     let(:store_stub) do
       stub_request(:put, store_stub_url).to_return(status: 200)
     end
@@ -198,7 +198,7 @@ RSpec.describe 'News: Update with visual', type: :request do
 
   context 'when uploads another visual' do
     let(:old_visual_uri) { 's3://xikolo-public/news/asdf/visual_v1.png' }
-    let(:announcement) { create(:news, visual_uri: old_visual_uri) }
+    let(:announcement) { create(:'news_service/news', visual_uri: old_visual_uri) }
     let(:store_stub_url) { %r{http://s3.xikolo.de/xikolo-public/news/[0-9a-zA-Z]+/visual_v2.png} }
     let(:old_store_stub_url) { %r{http://s3.xikolo.de/xikolo-public/news/[0-9a-zA-Z]+/visual_v1.png} }
     let!(:delete_old) do

@@ -439,7 +439,6 @@ GEM
       actionpack (>= 6.1)
       activesupport (>= 6.1)
       sprockets (>= 3.0.0)
-    stackprof (0.2.27)
     stringio (3.1.7)
     syslog (0.3.0)
       logger
@@ -458,6 +457,7 @@ GEM
     useragent (0.16.11)
     uuid4 (1.4.0)
       base62-rb (~> 0.3.0)
+    vernier (1.9.0)
     webmock (3.25.1)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
@@ -518,12 +518,12 @@ DEPENDENCIES
   slim
   sprockets (~> 4.2)
   sprockets-rails (~> 3.5)
-  stackprof
   syslog
   telegraf (~> 3.0)
   thruster
   typhoeus (~> 1.0)
   uuid4
+  vernier
   webmock
   will_paginate
   xikolo-common!

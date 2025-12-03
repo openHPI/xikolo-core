@@ -907,7 +907,6 @@ GEM
       actionpack (>= 6.1)
       activesupport (>= 6.1)
       sprockets (>= 3.0.0)
-    stackprof (0.2.27)
     streamio-ffmpeg (3.0.2)
       multi_json (~> 1.8)
     stringio (3.1.7)
@@ -953,6 +952,7 @@ GEM
     validate_url (1.0.15)
       activemodel (>= 3.0.0)
       public_suffix
+    vernier (1.9.0)
     version_gem (1.1.8)
     view_component (3.23.2)
       activesupport (>= 5.2.0, < 8.1)
@@ -1110,7 +1110,6 @@ DEPENDENCIES
   slim_lint
   sprockets (~> 4.2)
   sprockets-rails (~> 3.5)
-  stackprof
   streamio-ffmpeg
   syslog
   telegraf (~> 3.0)
@@ -1122,6 +1121,7 @@ DEPENDENCIES
   truncato (~> 0.7.13)
   turbo-rails
   uuid4 (~> 1.4)
+  vernier
   view_component (~> 3.0)
   webmock
   webrick

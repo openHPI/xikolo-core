@@ -8,7 +8,7 @@ RSpec.describe 'Announcement: Message: Show', type: :request do
   let(:service) { Restify.new(:test).get.value! }
   let(:announcement_resource) { service.rel(:announcement).get({id: announcement.id}).value! }
   let(:params) { {} }
-  let(:message) { create(:message) }
+  let(:message) { create(:'news_service/message') }
   let(:announcement) { message.announcement }
 
   it { is_expected.to respond_with :ok }
@@ -33,7 +33,7 @@ RSpec.describe 'Announcement: Message: Show', type: :request do
     end
 
     context 'with delivery' do
-      before { create(:delivery, message:) }
+      before { create(:'news_service/delivery', message:) }
 
       it 'includes the correct count for deliveries' do
         expect(resource['deliveries']['total']).to eq 1
@@ -43,7 +43,7 @@ RSpec.describe 'Announcement: Message: Show', type: :request do
   end
 
   describe 'with different translations' do
-    let(:message) { create(:message, :with_german_translation) }
+    let(:message) { create(:'news_service/message', :with_german_translation) }
 
     context 'with no language set' do
       it 'responds in English (the default)' do
@@ -70,7 +70,7 @@ RSpec.describe 'Announcement: Message: Show', type: :request do
       end
 
       context 'when no English translation exists' do
-        let(:message) { create(:message, :german_only) }
+        let(:message) { create(:'news_service/message', :german_only) }
 
         it 'responds with German (the only available translation)' do
           expect(resource['subject']).to eq 'Deutscher Titel'

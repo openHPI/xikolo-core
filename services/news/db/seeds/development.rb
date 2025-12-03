@@ -8,12 +8,12 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-News.create!(
+NewsService::News.create!(
   id: '00000001-4300-4444-9999-000000000001',
   author_id: '00000001-3100-4444-9999-000000000002',
   course_id: '00000001-3300-4444-9999-000000000002',
   publish_at: Time.zone.now,
-  translations: [NewsTranslation.new(
+  translations: [NewsService::NewsTranslation.new(
     locale: 'en',
     title: 'Test Title for Geovisualisierung',
     text: '
@@ -27,11 +27,11 @@ Some more text too come....
   )]
 )
 
-News.create!(
+NewsService::News.create!(
   id: '00000001-4300-4444-9999-000000000002',
   author_id: '00000001-3100-4444-9999-000000000002',
   publish_at: Time.zone.now,
-  translations: [NewsTranslation.new(
+  translations: [NewsService::NewsTranslation.new(
     locale: 'en',
     title: 'Some title',
     text: '
@@ -42,11 +42,11 @@ we hope you enjoy reading texts. Because here is one.
   )]
 )
 
-News.create!(
+NewsService::News.create!(
   id: '00000001-4300-4444-9999-000000000003',
   author_id: '00000001-3100-4444-9999-000000000002',
   publish_at: Time.zone.now,
-  translations: [NewsTranslation.new(
+  translations: [NewsService::NewsTranslation.new(
     locale: 'en',
     title: 'Week 3 Begins Today',
     text: '
@@ -57,12 +57,12 @@ learners be learnin\'.
   )]
 )
 
-News.create!(
+NewsService::News.create!(
   id: '00000001-4300-4444-9999-000000000004',
   author_id: '00000001-3100-4444-9999-000000000002',
   publish_at: Time.zone.now,
   show_on_homepage: true,
-  translations: [NewsTranslation.new(
+  translations: [NewsService::NewsTranslation.new(
     locale: 'en',
     title: 'Week 2 Begins Today',
     text: '
@@ -73,12 +73,12 @@ enjoy wisdom when you see it.
   )]
 )
 
-News.create!(
+NewsService::News.create!(
   id: '00000001-4300-4444-9999-000000000005',
   author_id: '00000001-3100-4444-9999-000000000002',
   publish_at: Time.zone.now,
   show_on_homepage: true,
-  translations: [NewsTranslation.new(
+  translations: [NewsService::NewsTranslation.new(
     locale: 'en',
     title: 'Some title',
     text: '
@@ -89,12 +89,12 @@ reading is for readers.
   )]
 )
 
-News.create!(
+NewsService::News.create!(
   id: '00000001-4300-4444-9999-000000000006',
   author_id: '00000001-3100-4444-9999-000000000002',
   publish_at: Time.zone.now,
   show_on_homepage: true,
-  translations: [NewsTranslation.new(
+  translations: [NewsService::NewsTranslation.new(
     locale: 'en',
     title: 'Week 2 Begins Today',
     text: "
@@ -132,12 +132,12 @@ Your Course Team
   )]
 )
 
-News.create!(
+NewsService::News.create!(
   id: '00000001-4300-4444-9999-000000000007',
   author_id: '00000001-3100-4444-9999-000000000002',
   publish_at: Time.zone.now,
   show_on_homepage: true,
-  translations: [NewsTranslation.new(
+  translations: [NewsService::NewsTranslation.new(
     locale: 'en',
     title: 'Some title',
     text: '
@@ -187,12 +187,12 @@ The Course Team
   )]
 )
 
-News.create!(
+NewsService::News.create!(
   id: '00000001-4300-4444-9999-000000000008',
   author_id: '00000001-3100-4444-9999-000000000002',
   publish_at: Time.zone.now,
   show_on_homepage: true,
-  translations: [NewsTranslation.new(
+  translations: [NewsService::NewsTranslation.new(
     locale: 'en',
     title: 'Week 2 Begins Today',
     text: '
@@ -203,12 +203,12 @@ lorem ipsum cannot be boring.
   )]
 )
 
-News.create!(
+NewsService::News.create!(
   id: '00000001-4300-4444-9999-000000000009',
   author_id: '00000001-3100-4444-9999-000000000002',
   publish_at: Time.zone.now,
   show_on_homepage: true,
-  translations: [NewsTranslation.new(
+  translations: [NewsService::NewsTranslation.new(
     locale: 'en',
     title: 'Some title',
     text: '
@@ -219,7 +219,7 @@ lirum larum. The quick red brown fox slowly ate some drinks.
   )]
 )
 
-Announcement.create!(
+NewsService::Announcement.create!(
   author_id: '00000001-3100-4444-9999-000000000002',
   recipients: [],
   translations: {
@@ -254,7 +254,7 @@ From January 1 to December 31, get 200% off on course reactivations and zero-wor
   )
 end
 
-Announcement.create!(
+NewsService::Announcement.create!(
   author_id: '00000001-3100-4444-9999-000000000002',
   recipients: [],
   translations: {

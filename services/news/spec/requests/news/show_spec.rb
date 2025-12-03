@@ -10,7 +10,7 @@ RSpec.describe 'News: Show', type: :request do
   let(:params) { {id: announcement_id} }
 
   let(:announcement_id) { announcement.id }
-  let!(:announcement) { create(:news) }
+  let!(:announcement) { create(:'news_service/news') }
 
   it { is_expected.to respond_with :ok }
 
@@ -21,7 +21,7 @@ RSpec.describe 'News: Show', type: :request do
   end
 
   describe 'with different translations' do
-    let!(:announcement) { create(:news, :with_german_translation) }
+    let!(:announcement) { create(:'news_service/news', :with_german_translation) }
 
     context 'with no language set' do
       it 'responds in English (the default)' do

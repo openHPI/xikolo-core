@@ -8,7 +8,7 @@ RSpec.describe 'Visits: Create', type: :request do
   let(:service) { Restify.new(:test).get.value! }
   let(:payload) { {user_id:, announcement_id: announcement.id} }
   let(:user_id) { SecureRandom.uuid }
-  let(:announcement) { create(:news) }
+  let(:announcement) { create(:'news_service/news') }
 
   before { announcement }
 
@@ -23,17 +23,17 @@ RSpec.describe 'Visits: Create', type: :request do
   end
 
   context 'when a state exists for the user' do
-    let(:announcement) { create(:news, :read, read_by_users: [user_id]) }
+    let(:announcement) { create(:'news_service/news', :read, read_by_users: [user_id]) }
 
     it { is_expected.to respond_with :ok }
 
     it 'does not create a new read state' do
-      expect { request }.not_to change(ReadState, :count)
+      expect { request }.not_to change(NewsService::ReadState, :count)
     end
 
     it 'updates the existing read state object' do
       expect { request }.to change {
-        ReadState.first.updated_at
+        NewsService::ReadState.first.updated_at
       }
     end
   end
@@ -43,7 +43,7 @@ RSpec.describe 'Visits: Create', type: :request do
 
     it 'does not create a new read state and returns 404 Not Found' do
       expect { request }.to raise_error Restify::NotFound
-      expect(ReadState.count).to eq 0
+      expect(NewsService::ReadState.count).to eq 0
     end
   end
 end

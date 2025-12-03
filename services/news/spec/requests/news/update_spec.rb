@@ -7,7 +7,7 @@ RSpec.describe 'Announcements: Update', type: :request do
 
   let(:service) { Restify.new(:test).get.value! }
 
-  let!(:announcement) { create(:news) }
+  let!(:announcement) { create(:'news_service/news') }
   let(:announcement_id) { announcement.id }
   let(:new_announcement_title) { 'The updated title' }
   let(:new_announcement_text) { 'The updated text' }
@@ -29,13 +29,13 @@ RSpec.describe 'Announcements: Update', type: :request do
 
     it 'updates the announcement title' do
       expect { request }.to change {
-        News.find(announcement_id).translations.find_by(locale: 'en').title
+        NewsService::News.find(announcement_id).translations.find_by(locale: 'en').title
       }.to(new_announcement_title)
     end
 
     it 'updates the announcement text' do
       expect { request }.to change {
-        News.find(announcement_id).translations.find_by(locale: 'en').text
+        NewsService::News.find(announcement_id).translations.find_by(locale: 'en').text
       }.to(new_announcement_text)
     end
 
@@ -51,30 +51,30 @@ RSpec.describe 'Announcements: Update', type: :request do
       end
 
       it 'does not create any new announcements' do
-        expect { request }.not_to change(News, :count)
+        expect { request }.not_to change(NewsService::News, :count)
       end
 
       it 'updates the announcement with the new English title' do
         expect { request }.to change {
-          News.find(announcement_id).translations.find_by(locale: 'en').title
+          NewsService::News.find(announcement_id).translations.find_by(locale: 'en').title
         }.to(new_announcement_title)
       end
 
       it 'updates the translation with the new German title' do
         expect { request }.to change {
-          News.find(announcement_id).translations.find_by(locale: 'de')&.title
+          NewsService::News.find(announcement_id).translations.find_by(locale: 'de')&.title
         }.to(new_german_title)
       end
 
       it 'updates the announcement with the new English text' do
         expect { request }.to change {
-          News.find(announcement_id).translations.find_by(locale: 'en').text
+          NewsService::News.find(announcement_id).translations.find_by(locale: 'en').text
         }.to(new_announcement_text)
       end
 
       it 'updates the translation with the new German text' do
         expect { request }.to change {
-          News.find(announcement_id).translations.find_by(locale: 'de')&.text
+          NewsService::News.find(announcement_id).translations.find_by(locale: 'de')&.text
         }.to(new_german_text)
       end
     end
