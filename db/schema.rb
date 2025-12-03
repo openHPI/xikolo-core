@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_11_17_141733) do
+ActiveRecord::Schema[7.2].define(version: 2025_11_26_135040) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "pg_trgm"
@@ -207,7 +207,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_11_17_141733) do
 
   create_table "channels", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.string "code", null: false
-    t.string "name", null: false
     t.uuid "logo_id"
     t.boolean "public", default: true, null: false
     t.boolean "archived", default: false, null: false

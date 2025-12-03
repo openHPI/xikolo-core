@@ -22,6 +22,10 @@ module Course
       end
     end
 
+    def title
+      Translations.new(title_translations).to_s
+    end
+
     ##
     # Stage courses shown on the channels page.
     # Excludes deleted, hidden, and group-restricted courses even if they

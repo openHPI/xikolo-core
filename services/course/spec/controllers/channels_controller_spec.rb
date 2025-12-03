@@ -115,8 +115,8 @@ describe ChannelsController, type: :controller do
       it 'has the correct data' do
         expect(json['code']).not_to be_nil
         expect(json['code']).to eq params[:code]
-        expect(json['name']).to eq params[:name]
-        expect(json['name']).not_to be_nil
+        expect(json['title_translations']['en']).to eq params[:title_translations]['en']
+        expect(json['title_translations']['en']).not_to be_nil
         expect(json['description']['en']).to eq params[:description][:en]
         expect(json['description']).not_to be_nil
         expect(json['stage_statement']).to eq params[:stage_statement]
@@ -127,7 +127,7 @@ describe ChannelsController, type: :controller do
     end
 
     context 'with invalid channel code' do
-      let(:params) { {code: '', name: 'Channel X'} }
+      let(:params) { {code: '', title_translations: {'en' => 'Channel X', 'de' => 'Channel X'}} }
 
       it 'responds with 422 Unprocessable Entity on invalid data' do
         action.call
@@ -138,7 +138,7 @@ describe ChannelsController, type: :controller do
     context 'with double channel code' do
       before { channel }
 
-      let(:params) { {code: channel.code, name: 'Channel X'} }
+      let(:params) { {code: channel.code, title_translations: {'en' => 'Channel X', 'de' => 'Channel X'}} }
 
       it 'responds with 422 Unprocessable Entity on taken channel code' do
         action.call

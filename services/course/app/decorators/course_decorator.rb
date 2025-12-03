@@ -94,7 +94,7 @@ class CourseDecorator < ApplicationDecorator
       invite_only:,
       channel_id:,
       channel_code: model.channel&.code,
-      channel_name: model.channel&.name,
+      channel_name: model.channel&.title_translations&.dig('en'),
       show_on_stage:,
       stage_visual_url:,
       stage_statement:,

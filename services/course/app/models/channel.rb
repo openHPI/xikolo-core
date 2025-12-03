@@ -8,7 +8,6 @@ class Channel < ApplicationRecord
   has_many :courses, dependent: :nullify
 
   validates :code, presence: true, uniqueness: true
-  validates :name, presence: true
   validate :validate_title_translations_structure
   validates :position, allow_nil: true, numericality: {only_integer: true}
 
@@ -77,6 +76,10 @@ class Channel < ApplicationRecord
     Sentry.capture_exception(e)
   end
 
+  def title
+    Translations.new(title_translations).to_s
+  end
+
   def validate_title_translations_structure
     if title_translations.blank?
       errors.add(:title_translations, 'must be present')
@@ -85,10 +88,7 @@ class Channel < ApplicationRecord
 
     %w[de en].each do |locale|
       value = title_translations[locale]
-
-      if value.blank?
-        errors.add(:title_translations, "#{locale} must be present")
-      end
+      errors.add(:title_translations, "#{locale} must be present") if value.blank?
     end
   end
 end

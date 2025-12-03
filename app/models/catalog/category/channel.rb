@@ -24,7 +24,7 @@ module Catalog
       end
 
       def title
-        @channel.name
+        @channel.title
       end
 
       def url

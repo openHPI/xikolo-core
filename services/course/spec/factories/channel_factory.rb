@@ -3,7 +3,6 @@
 FactoryBot.define do
   factory :'course_service/channel', class: 'Channel' do
     sequence(:code) {|n| "channel-#{n}" }
-    sequence(:name) {|n| "Channel #{n}" }
     title_translations { {'de' => 'Channel DE', 'en' => 'Channel EN'} }
 
     public { true }

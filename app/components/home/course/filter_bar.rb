@@ -20,7 +20,7 @@ module Home
 
       def channel_filter
         channels = ::Course::Channel.where(public: true, affiliated: false, archived: false)
-          .to_h {|channel| [channel.name, channel.code] }
+          .to_h {|channel| [channel.title, channel.code] }
 
         return if channels.empty?
 

@@ -1403,7 +1403,7 @@ de:
     show:
       previous: Weiter
       next: Zurück
-      about: "Über die <b>%{name}</b> Kursreihe"
+      about: "Über die <b>%{title}</b> Kursreihe"
       filter:
         search: Suche
       empty_state: Es sind noch keine Kurse in diesem Channel verfügbar.

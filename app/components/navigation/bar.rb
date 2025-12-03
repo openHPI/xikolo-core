@@ -285,7 +285,7 @@ module Navigation
         dropdown.with_items(
           @view_context.course_channels.map do |channel|
             {
-              text: channel.name,
+              text: channel.title,
               link: {href: @view_context.channel_path(channel.code)},
               active: @view_context.current_page?(@view_context.channel_path(channel.code)),
             }

@@ -57,7 +57,7 @@ describe 'Home: Course List', type: :system do
 
   describe 'filtering' do
     before do
-      channel = create(:channel, name: 'Get Social!', code: 'social')
+      channel = create(:channel, title_translations: {'en' => 'Get Social!', 'de' => 'Get Social!'}, code: 'social')
       create(:course, status: 'active', title: 'Advanced Mumble Jumbo', lang: 'de', start_date: 1.week.ago, end_date: 1.week.from_now, abstract: 'Repetitive information.')
       course = create(:course, channel:, status: 'active', lang: 'de', title: 'An introduction to databases', start_date: 1.week.ago, end_date: 1.week.from_now, abstract: 'Repetitive information.')
 

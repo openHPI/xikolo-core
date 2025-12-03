@@ -5,9 +5,9 @@ require 'spec_helper'
 describe Course::Channel, '.ordered', type: :model do
   subject(:scope) { described_class.ordered }
 
-  let(:channel_1) { create(:channel, code: 'zebra', position: 1, name: 'Channel 1') }
-  let(:channel_2) { create(:channel, code: 'bunny', position: 2, name: 'Channel 2') }
-  let(:channel_3) { create(:channel, code: 'apple', position: 3, name: 'Channel 3') }
+  let(:channel_1) { create(:channel, code: 'zebra', position: 1, title_translations: {'en' => 'Channel 1', 'de' => 'Channel 1'}) }
+  let(:channel_2) { create(:channel, code: 'bunny', position: 2, title_translations: {'en' => 'Channel 2', 'de' => 'Channel 2'}) }
+  let(:channel_3) { create(:channel, code: 'apple', position: 3, title_translations: {'en' => 'Channel 3', 'de' => 'Channel 3'}) }
 
   context 'with multiple channels, where the postion is set' do
     it 'returns channels ordered by position' do
@@ -28,7 +28,7 @@ describe Course::Channel, '.ordered', type: :model do
   end
 
   context 'with channels where the position is set and some where it is not set' do
-    let(:channel_4) { create(:channel, code: 'cake', position: nil, name: 'Channel 4') }
+    let(:channel_4) { create(:channel, code: 'cake', position: nil, title_translations: {'en' => 'Channel 4', 'de' => 'Channel 4'}) }
 
     before { channel_3.update_attribute(:position, nil) }
 

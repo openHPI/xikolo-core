@@ -1,7 +1,6 @@
 = simple_form_for(channel) do |f|
   = f.error_notification
   = f.input :code
-  = f.input :name
   = f.input :title_en, required: true
   = f.input :title_de, required: true
   - Xikolo.config.locales['available'].each do |locale|

@@ -22,7 +22,7 @@ module Steps
 
     When 'I click on the channel name' do
       context.with :channel do |channel|
-        page.click_on channel['name']
+        page.click_on channel['title_translations']['en']
       end
     end
 
@@ -41,7 +41,7 @@ module Steps
 
     Then 'I should see the channel name in the dropdown' do
       context.with :channel do |channel|
-        expect(page).to have_link channel['name']
+        expect(page).to have_link channel['title_translations']['en']
       end
     end
 
@@ -54,8 +54,7 @@ module Steps
     def create_channel(public:)
       Server[:course].api.rel(:channels).post({
         code: 'enterprise',
-        name: 'Enterprise Channel',
-        title_translations: {'en' => 'Interesting channel', 'de' => 'Interessanter channel'},
+        title_translations: {'en' => 'Enterprise Channel', 'de' => 'Enterprise Channel'},
         color: '#FF0000',
         public:,
       }).value!

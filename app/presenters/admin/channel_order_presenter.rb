@@ -6,6 +6,6 @@ class Admin::ChannelOrderPresenter
   end
 
   def channels_order_select
-    @channels.map {|channel| [channel['name'], channel['id']] }
+    @channels.map {|channel| [channel['title'], channel['id']] }
   end
 end

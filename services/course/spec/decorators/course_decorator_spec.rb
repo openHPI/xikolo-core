@@ -124,7 +124,7 @@ describe CourseDecorator do
 
     context 'with channel' do
       let(:channel_code) { 'mychannel' }
-      let(:channel) { create(:'course_service/channel', code: channel_code, name: 'Disney Channel') }
+      let(:channel) { create(:'course_service/channel', code: channel_code, title_translations: {'de' => 'Disney Channel', 'en' => 'Disney Channel'}) }
       let(:course) { create(:'course_service/course', channel:) }
 
       it 'includes channel attributes' do

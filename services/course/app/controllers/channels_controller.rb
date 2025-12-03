@@ -54,7 +54,6 @@ class ChannelsController < ApplicationController
   def channel_params
     params.permit(
       :code,
-      :name,
       :logo_upload_id,
       :stage_visual_upload_id,
       :mobile_visual_upload_id,
@@ -62,16 +61,14 @@ class ChannelsController < ApplicationController
       :public,
       :highlight,
       :archived,
-      :position
+      :position,
+      title_translations: {}
     ).tap do |white_listed|
       if params[:description]
         white_listed[:description] = params[:description].permit!
       end
       if params[:info_link]
         white_listed[:info_link] = params[:info_link].permit!
-      end
-      if params[:title_translations]
-        white_listed[:title_translations] = params[:title_translations].permit!
       end
     end
   end

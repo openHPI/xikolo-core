@@ -11,13 +11,17 @@ class ChannelDecorator < ApplicationDecorator
     fields(opts).as_json
   end
 
+  def title
+    Translations.new(title_translations).to_s
+  end
+
   private
 
   def fields(_opts)
     {
       id:,
       code:,
-      name:,
+      title:,
       title_translations:,
       logo_url:,
       description:,

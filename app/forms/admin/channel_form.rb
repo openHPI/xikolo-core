@@ -19,7 +19,6 @@ class Admin::ChannelForm < XUI::Form
 
   attribute :id, :uuid
   attribute :code, :single_line_string
-  attribute :name, :single_line_string
   attribute :title_en, :string
   attribute :title_de, :string
   attribute :stage_statement, :markup
@@ -41,7 +40,6 @@ class Admin::ChannelForm < XUI::Form
   localized_attribute :info_link_label, :single_line_string
 
   validates :code, presence: true
-  validates :name, presence: true
   validate :valid_info_links
 
   def to_param

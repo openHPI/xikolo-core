@@ -2010,7 +2010,7 @@ en:
     show:
       previous: Previous
       next: Next
-      about: "About the <b>%{name}</b> Course Series"
+      about: "About the <b>%{title}</b> Course Series"
       filter:
         search: Search
       empty_state: There are no courses available in this channel yet.

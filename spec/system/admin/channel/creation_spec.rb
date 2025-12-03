@@ -24,7 +24,6 @@ describe 'Admin: Create Channel', type: :system do
     visit '/channels/new'
 
     fill_in 'Code', with: 'subset'
-    fill_in 'channel_name', with: 'Important subset of courses'
     fill_in 'Name (English)', with: 'Important subset of courses'
     fill_in 'Name (German)', with: 'Wichtige Teilmenge von Kursen'
     fill_markdown_editor 'Description (in English)', with: "Headline\n===\n\nenglish!"
@@ -75,7 +74,6 @@ describe 'Admin: Create Channel', type: :system do
       create_channel.with(
         body: hash_including(
           'code' => 'subset',
-          'name' => 'Important subset of courses',
           'title_translations' => {
             'en' => 'Adjusted important subset of courses',
             'de' => 'Angepasste wichtige Teilmenge von Kursen',

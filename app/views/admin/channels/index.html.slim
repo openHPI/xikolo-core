@@ -22,7 +22,7 @@
           tr
             td = channel.code
             td.nowrap
-              = channel.name
+              = channel.title
             td.channel-admin-logo
               - if channel.logo_url
                 = image_tag Imagecrop.transform(channel.logo_url, width: 200)

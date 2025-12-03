@@ -29,12 +29,16 @@ module Home
       Translations.new(@channel.description).to_s
     end
 
+    def title
+      Translations.new(@channel.title_translations).to_s
+    end
+
     def meta_tags
       meta = {
-        title: @channel.name,
+        title: @channel.title,
         description:,
         og: {
-          title: @channel.name,
+          title: @channel.title,
           type: 'website',
           url: Xikolo.base_url.join(channel_path(@channel.code)),
           description:,

@@ -82,7 +82,6 @@ FactoryBot.define do
   factory 'course:channel', class: Hash do
     id { generate(:uuid) }
     code { 'my-code' }
-    name { 'Important Channel' }
     description { {'en' => 'English!', 'de' => 'Deutsch!'} }
     video_stream_id { nil }
     stage_statement { '' }
@@ -351,7 +350,7 @@ FactoryBot.define do
 
   factory :channel, class: 'Course::Channel' do
     sequence(:code) {|n| "channel-#{n}" }
-    sequence(:name) {|n| "Channel #{n}" }
+    title_translations { {'en' => 'English Channel', 'de' => 'Deutscher Channel'} }
     sequence(:position)
 
     public { true }

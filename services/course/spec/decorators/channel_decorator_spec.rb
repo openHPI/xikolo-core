@@ -12,7 +12,7 @@ describe ChannelDecorator do
     expect(json.keys).to match_array %w[
       id
       code
-      name
+      title
       title_translations
       logo_url
       description
@@ -30,7 +30,8 @@ describe ChannelDecorator do
 
   it { is_expected.to include 'id' => channel.id }
   it { is_expected.to include 'code' => channel.code }
-  it { is_expected.to include 'name' => channel.name }
+  it { is_expected.to include 'title' => channel.title }
+  it { is_expected.to include 'title_translations' => channel.title_translations }
   it { is_expected.to include 'logo_url' => channel.logo_url }
   it { is_expected.to include 'description' => channel.description }
   it { is_expected.to include 'stage_visual_url' => channel.stage_visual_url }

@@ -43,13 +43,13 @@
   .channel-courses#channel-courses
     - if @channel.description.blank?
       h1.h1.channel-title
-        = @channel.name
+        = @channel.title
     - else
       h1.h1.channel-title
         span.hidden-xs
-          = t(:'channels.show.about', name: @channel.name)
+          = t(:'channels.show.about', title: @channel.title)
         span.visible-xs-block
-          = @channel.name
+          = @channel.title
       .channel-info.collapsible-container aria-expanded="false"
         .channel-explanation.prose.prose-2xl.max-w-none.collapsible-element.line-clamp
           == render_markdown(@channel.description, allow_tables: true)

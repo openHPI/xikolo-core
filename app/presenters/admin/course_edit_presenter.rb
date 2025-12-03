@@ -59,7 +59,7 @@ class Admin::CourseEditPresenter
 
   def channels
     @channels.value!.map do |channel|
-      [channel['name'], channel['id']]
+      [channel['title'], channel['id']]
     end
   end
 

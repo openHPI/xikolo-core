@@ -12,9 +12,6 @@ describe Channel, type: :model do
   it { is_expected.not_to accept_values_for(:code, '') }
   it { is_expected.to accept_values_for(:code, 'company1', 'thoughtleaders') }
 
-  it { is_expected.not_to accept_values_for(:name, '') }
-  it { is_expected.to accept_values_for(:name, 'company1', 'Thought Leaders') }
-
   it { is_expected.to accept_values_for(:logo_id, '', uuid) }
 
   it { is_expected.to accept_values_for(:description, 'Some description', 'another description!', '') }

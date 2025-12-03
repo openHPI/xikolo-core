@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe 'Channel: update', type: :request do
   subject(:request) do
-    api.rel(:channel).patch({name: 'New Name'}, params: {id: identifier}).value!
+    api.rel(:channel).patch({title_translations: {'de' => 'Neuer Name', 'en' => 'New Name'}}, params: {id: identifier}).value!
   end
 
   let(:api) { Restify.new(:test).get.value }
@@ -18,7 +18,7 @@ describe 'Channel: update', type: :request do
     end
 
     it 'updates the channel' do
-      expect { request }.to change { channel.reload.name }.to 'New Name'
+      expect { request }.to change { channel.reload.title_translations['en'] }.to 'New Name'
     end
   end
 
@@ -30,7 +30,7 @@ describe 'Channel: update', type: :request do
     end
 
     it 'updates the channel' do
-      expect { request }.to change { channel.reload.name }.to 'New Name'
+      expect { request }.to change { channel.reload.title_translations['en'] }.to 'New Name'
     end
   end
 end

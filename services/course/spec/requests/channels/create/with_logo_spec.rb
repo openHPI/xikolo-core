@@ -8,7 +8,6 @@ describe 'Channel: create with logo', type: :request do
   let(:api) { Restify.new(:test).get.value }
   let(:data) do
     {
-      name: 'group',
       title_translations: {'de' => 'Gruppe', 'en' => 'Group'},
       code: 'code',
       description: {
