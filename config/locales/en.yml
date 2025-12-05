@@ -2308,6 +2308,11 @@ en:
           base_stats: "%{correct} correct and %{incorrect} wrong submissions | %{percentage_avg}% avg. perf." # Do not translate
           request_submission_report: "For a <strong>complete list</strong> of submitted answers, please request a <strong>submission report</strong> for the quiz-id %{id}." # Do not translate
           request_submission_report_link: "For a <strong>complete list</strong> of submitted answers, please request a <a href='%{link}'>submission report</a> for the quiz-id %{id}." # Do not translate
+          question: Question # Do not translate
+          answer: Answer # Do not translate
+          correct: Correct # Do not translate
+          user_count: Count # Do not translate
+          percentage: Percentage # Do not translate
         video: # Do not translate
           plays: "played by <span>%{plays}</span> users" # Do not translate
           farthest_watched: "watched till <span>%{farthest_watched}%</span> by all users on average" # Do not translate

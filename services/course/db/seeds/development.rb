@@ -13,7 +13,7 @@
 channel1 = Channel.create!(
   id: '00000001-3300-5555-9999-000000000001',
   code: 'social',
-  name: 'Get Social!',
+  title_translations: {'en' => 'Get Social!', 'de' => 'Get Social!'},
   public: true,
   archived: false,
   position: 1,
@@ -48,7 +48,7 @@ channel1 = Channel.create!(
 channel2 = Channel.create!(
   id: '00000001-3300-5555-9999-000000000002',
   code: 'outbreak',
-  name: 'Disease Outbreaks of the day',
+  title_translations: {'en' => 'Disease Outbreaks of the day', 'de' => 'Krankheitsausbrüche des Tages'},
   public: true,
   archived: false,
   position: 2
@@ -57,7 +57,7 @@ channel2 = Channel.create!(
 channel3 = Channel.create!(
   id: '00000001-3300-5555-9999-000000000003',
   code: 'goarn',
-  name: 'GOARN',
+  title_translations: {'en' => 'GOARN', 'de' => 'GOARN'},
   public: true,
   archived: false,
   position: 3
