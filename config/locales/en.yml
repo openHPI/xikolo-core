@@ -1420,7 +1420,7 @@ en:
           title: Historic Data # Do not translate
           table:
             date: Date # Do not translate
-            enrollments: Enrollments # Do not translate
+            enrollments: Total enrollments # Do not translate
             activity: Activity # Do not translate
             certificates: Certificates # Do not translate
       policy_url: Policy URL

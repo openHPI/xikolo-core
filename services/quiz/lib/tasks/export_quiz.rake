@@ -67,7 +67,7 @@ namespace :xikolo do
       end
 
       quizzes.each do |quiz|
-        quiz['questions'] = Question.where(quiz_id: quiz['quiz_id']).map do |question|
+        quiz['questions'] = QuizService::Question.where(quiz_id: quiz['quiz_id']).map do |question|
           question_tmp = {}
           question_tmp['q_id'] = question.id
           question_tmp['q_index'] = quiz['quiz_index']
@@ -85,11 +85,11 @@ namespace :xikolo do
 
         quiz['questions'].each do |quiz_question|
           quiz_question['correct_answers'] = []
-          answers_c = Answer.where(question_id: quiz_question['q_id'], correct: true)
+          answers_c = QuizService::Answer.where(question_id: quiz_question['q_id'], correct: true)
           select_answers(quiz_question, answers_c, true, @max_correct)
 
           quiz_question['wrong_answers'] = []
-          answers_w = Answer.where(question_id: quiz_question['q_id'], correct: false)
+          answers_w = QuizService::Answer.where(question_id: quiz_question['q_id'], correct: false)
           select_answers(quiz_question, answers_w, false, @max_wrong)
         end
 

@@ -557,7 +557,7 @@ moochub_api:
     organization: ~
     # organization:
     #   name: "Company Name" # required
-    #   identifier: "https://www.example.com"
+    #   url: "https://www.example.com"
     #   type: "Organization" # required
     #   description: "Some company is a digital educational platform situated at the other company."
     #   image:

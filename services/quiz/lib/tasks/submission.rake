@@ -6,7 +6,7 @@
 namespace :submission do
   require 'logger'
 
-  require "#{Rails.root}/app/helpers/rake_helper"
+  require "#{Rails.root}/lib/tasks/rake_helper"
   include RakeHelper
 
   desc <<~DESC
@@ -22,7 +22,7 @@ namespace :submission do
 
     # fetch quiz ids
     inform 'Fetching quiz ids...'
-    quiz_ids = Quiz.ids
+    quiz_ids = QuizService::Quiz.ids
 
     if quiz_ids.empty?
       inform 'No quizzes. Nothing to do.'
@@ -33,11 +33,11 @@ namespace :submission do
 
     count = 0
     sub_count = 0
-    num_submissions = QuizSubmission.where.not(quiz_id: quiz_ids).count
+    num_submissions = QuizService::QuizSubmission.where.not(quiz_id: quiz_ids).count
 
     inform "Checking #{num_submissions} submissions for living dead..."
 
-    QuizSubmission.where.not(quiz_id: quiz_ids).find_each do |submission|
+    QuizService::QuizSubmission.where.not(quiz_id: quiz_ids).find_each do |submission|
       sub_count += 1
       if sub_count % 10 == 0
         inform "#{sub_count} of #{num_submissions} checked (#{(sub_count.to_f / num_submissions * 10.0).round(1)}%)"

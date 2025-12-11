@@ -1,0 +1,26 @@
+de:
+  news_service:
+    mailheader_type: Neuigkeiten
+    announcement_mailer:
+      announcement:
+        test_notice: "Dies ist eine Testnachricht, nur Sie können sie sehen!"
+      disable_link:
+        explanation:
+          html: "Sie erhalten diese Mitteilung, weil Sie mit Ihrer E-Mail-Adresse %{email} bei %{site_name} angemeldet sind.<br/>"
+          text: "Sie erhalten diese Mitteilung, weil Sie mit Ihrer E-Mail-Adresse %{email} bei %{site_name} angemeldet sind."
+        local:
+          html: "Wenn Sie keine Mitteilungen mehr erhalten möchten, klicken Sie bitte <a href=%{link}>hier</a>.<br/>"
+          text: "Wenn Sie keine Mitteilungen mehr erhalten möchten, besuchen Sie bitte folgende Seite: %{link}."
+        global:
+          html: "Wenn Sie überhaupt keine Benachrichtigungen per E-Mail mehr erhalten möchten, klicken Sie bitte <a href=%{link}>hier</a>.<br/>"
+          text: "Wenn Sie überhaupt keine Benachrichtigungen per E-Mail mehr erhalten möchten, besuchen Sie bitte folgende Seite: %{link}."
+        notification_settings_link:
+          html: "Sie können Ihre Benachrichtigungseinstellungen in Ihrem <a href=%{link}>Profil</a> ändern."
+          text: "Sie können Ihre Benachrichtigungseinstellungen in Ihrem Profil ändern: %{link}."
+  activerecord:
+    errors:
+      models:
+        news_service/news:
+          attributes:
+            audience:
+              must_be_nil: muss nil sein.

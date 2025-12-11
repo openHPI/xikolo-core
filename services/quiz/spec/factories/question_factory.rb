@@ -2,29 +2,41 @@
 
 FactoryBot.define do
   trait :base_question do
-    association :quiz
+    association :quiz, factory: :'quiz_service/quiz'
     points { 10.0 }
     shuffle_answers { false }
     exclude_from_recap { false }
   end
 
-  factory :multiple_choice_question do
-    type { 'MultipleChoiceQuestion' }
+  factory :'quiz_service/multiple_choice_question' do
+    before(:create) do |question, _evaluator|
+      question.type ||= 'QuizService::MultipleChoiceQuestion'
+    end
+
     base_question
   end
 
-  factory :multiple_answer_question do
-    type { 'MultipleAnswerQuestion' }
+  factory :'quiz_service/multiple_answer_question' do
+    before(:create) do |question, _evaluator|
+      question.type ||= 'QuizService::MultipleAnswerQuestion'
+    end
+
     base_question
   end
 
-  factory :free_text_question do
-    type { 'FreeTextQuestion' }
+  factory :'quiz_service/free_text_question' do
+    before(:create) do |question, _evaluator|
+      question.type ||= 'QuizService::FreeTextQuestion'
+    end
+
     base_question
   end
 
-  factory :essay_question do
-    type { 'EssayQuestion' }
+  factory :'quiz_service/essay_question' do
+    before(:create) do |question, _evaluator|
+      question.type ||= 'QuizService::EssayQuestion'
+    end
+
     base_question
   end
 end

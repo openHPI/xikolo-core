@@ -53,12 +53,8 @@ RSpec.describe NewsService::AnnouncementMailer, type: :mailer do
       end
 
       it 'contains disable links' do
-        expect(mail.body.encoded).to include(
-          'https://xikolo.de/notification_user_settings/disable',
-          'to%40example.org',
-          'key=global',
-          'key=announcement'
-        )
+        expect(mail.html_part.body.to_s).to match(%r{https://xikolo.de/notification_user_settings/disable\?email=to%40example.org.+key=announcement})
+        expect(mail.html_part.body.to_s).to match(%r{https://xikolo.de/notification_user_settings/disable\?email=to%40example.org.+key=global})
       end
     end
   end

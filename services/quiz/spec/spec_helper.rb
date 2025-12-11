@@ -22,8 +22,7 @@ require 'xikolo/common/rspec'
 require 'restify'
 require 'restify/adapter/typhoeus'
 
-Restify::Registry.store :test, 'http://quiz.xikolo.tld',
-  adapter: Restify::Adapter::Typhoeus.new(sync: true)
+Restify.adapter = Restify::Adapter::Typhoeus.new(sync: true)
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -60,7 +59,7 @@ RSpec.configure do |config|
   # Delegate all request to service rack app
   config.include WebMock::API
   config.before do
-    stub_request(:any, /quiz\.xikolo\.tld/).to_rack(Xikolo::QuizService::Application)
+    stub_request(:any, /www\.example\.com/).to_rack(Xikolo::QuizService::Application)
 
     Sidekiq::Worker.clear_all
   end

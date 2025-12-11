@@ -15,9 +15,24 @@ module Admin
         data = fetch_historic_data(@course_id)
         return [] if data.blank?
 
-        data.map do |entry|
+        # Sort chronologically, then only keep rows where the total enrollments changed
+        sorted = data.select do |entry|
+          entry[:timestamp].present? && entry[:total_enrollments].present?
+        end.sort_by do |entry|
+          entry[:timestamp]
+        end
+
+        last_total = nil
+
+        sorted.filter_map do |entry|
+          total = entry[:total_enrollments]
+          next if total == last_total
+
+          last_total = total
+
           {
-            'total_enrollments' => entry[:total_enrollments],
+            'date' => I18n.l(entry[:timestamp], format: :short),
+            'total_enrollments' => total,
           }
         end
       end
@@ -50,18 +65,11 @@ module Admin
         end
 
         course_statistics.map do |stats|
+          timestamp = stats['updated_at']&.to_date
+
           {
-            timestamp: stats['updated_at'].to_date,
-              total_enrollments: stats['total_enrollments'],
-              current_enrollments: stats['current_enrollments'],
-              enrollments_last_day: stats['enrollments_last_day'],
-              new_users: stats['new_users'],
-              no_shows: stats['no_shows'],
-              active_users_last_day: stats['active_users_last_day'],
-              active_users_last_7days: stats['active_users_last_7days'],
-              posts: stats['posts'],
-              threads: stats['threads'],
-              helpdesk_tickets: stats['helpdesk_tickets'],
+            timestamp:,
+            total_enrollments: stats['total_enrollments'],
           }
         end
       end

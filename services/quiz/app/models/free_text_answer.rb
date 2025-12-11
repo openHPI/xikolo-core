@@ -1,4 +1,4 @@
 # frozen_string_literal: true
 
-class FreeTextAnswer < Answer
+class FreeTextAnswer < QuizService::FreeTextAnswer
 end

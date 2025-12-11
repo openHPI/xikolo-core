@@ -7,7 +7,7 @@ namespace :xikolo do
   require 'logger'
   require 'csv'
 
-  require "#{Rails.root}/app/helpers/rake_helper"
+  require "#{Rails.root}/lib/tasks/rake_helper"
   include RakeHelper
 
   desc <<~DESC

@@ -14,7 +14,7 @@ class AnnouncementMailer < ApplicationMailer # rubocop:disable Layout/Indentatio
         test: message.test,
         content: translation.fetch('content'),
         email: user.fetch('email'),
-        mailheader_type: I18n.t(:mailheader_type),
+        mailheader_type: I18n.t('news_service.mailheader_type'),
         **unsubscribe_links_for(user)
       )
 

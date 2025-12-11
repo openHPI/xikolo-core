@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'will_paginate/collection'
+
 module Course
   module Admin
     class DashboardController < Abstract::FrontendController
@@ -51,12 +53,24 @@ module Course
           t('admin.course_management.dashboard.client_usage.table.share'),
         ]
 
-        @historic_data_table_rows = ::Admin::Statistics::HistoricData.call(course_id:)
+        historic_rows = ::Admin::Statistics::HistoricData.call(course_id:).reverse
+        historic_page = params[:historic_page].to_i
+        historic_page = 1 if historic_page < 1
+        per_page = 10
+
+        @historic_data_pagination = WillPaginate::Collection.create(
+          historic_page,
+          per_page,
+          historic_rows.size
+        ) do |pager|
+          offset = (historic_page - 1) * per_page
+          pager.replace(historic_rows.slice(offset, per_page) || [])
+        end
+
+        @historic_data_table_rows = @historic_data_pagination
         @historic_data_table_headers = [
           t('admin.course_management.dashboard.historic_data.table.date'),
           t('admin.course_management.dashboard.historic_data.table.enrollments'),
-          t('admin.course_management.dashboard.historic_data.table.activity'),
-          t('admin.course_management.dashboard.historic_data.table.certificates'),
         ]
       end
 

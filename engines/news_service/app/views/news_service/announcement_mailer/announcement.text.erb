@@ -1,0 +1,6 @@
+<% if @payload.test? %>
+  ------
+  <%= t '.test_notice' %>
+  ------
+<%- end %>
+<%= block_format @payload.content %>

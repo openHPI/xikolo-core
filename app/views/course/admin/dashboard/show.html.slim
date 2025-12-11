@@ -45,9 +45,12 @@
           = render Global::KpiScoreCard.new(title: t('admin.course_management.dashboard.kpis.forum.threads'), value: forum_statistics['threads'], icon_class: 'comment-dots')
           = render Global::KpiScoreCard.new(title: t('admin.course_management.dashboard.kpis.forum.forum_write_activity'), value: forum_write_activity['user'], icon_class: 'pencil-alt')
 
-  / .row
-  /   .col-md-12.mb15
-  /     = render Global::Table.new(rows: @historic_data_table_rows, headers: @historic_data_table_headers, title: t(:'admin.course_management.dashboard.historic_data.title'))
+  .row
+    .col-md-12.mb15
+      = turbo_frame_tag :historic_data do
+        = render Global::Table.new(rows: @historic_data_table_rows, headers: @historic_data_table_headers, title: t(:'admin.course_management.dashboard.historic_data.title'))
+        - if @historic_data_pagination && @historic_data_pagination.total_pages > 1
+          = will_paginate @historic_data_pagination, renderer: PaginationRenderer, param_name: :historic_page, class: 'pagination'
 
   .row
     .col-md-6.mb15

@@ -1,0 +1,11 @@
+<%= Xikolo.config.site_name %>
+<%= '-' * Xikolo.config.site_name.length %>
+
+<%= yield %>
+
+------
+<%= Xikolo.base_url %>
+
+<%= render partial: 'disable_link' %>
+
+<%= render partial: "layouts/news_service/footer" %>

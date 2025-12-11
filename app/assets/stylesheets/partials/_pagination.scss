@@ -64,8 +64,6 @@ $pagination-disabled-color: $white;
     $Pinboard-Paginate
 \*------------------------------------*/
 .pinboard-paginate {
-  @include heavy-bar();
-
   padding-top: 20px;
   padding-bottom: 20px;
   text-align: center;

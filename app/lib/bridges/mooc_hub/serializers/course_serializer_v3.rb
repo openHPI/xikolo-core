@@ -67,8 +67,8 @@ module Bridges
           }
         end
 
-        ALLOWED_ORG_KEYS  = %w[name identifier type description image].freeze
-        REQUIRED_ORG_KEYS = %w[name identifier].freeze
+        ALLOWED_ORG_KEYS  = %w[name url type description image].freeze
+        REQUIRED_ORG_KEYS = %w[name url].freeze
         ALLOWED_IMG_KEYS  = %w[description type contentUrl license].freeze
         REQUIRED_IMG_KEYS = %w[contentUrl license].freeze
 

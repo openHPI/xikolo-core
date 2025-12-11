@@ -72,11 +72,11 @@ describe 'Course: Admin: Dashboard: Show', type: :request do
       shows_at_end: 3,
     })
 
-    encoded_end_date = CGI.escape((DateTime.parse(course_resource['end_date']) + 12.weeks).strftime('%Y-%m-%dT%H:%M:%S%:z'))
-
     Stub.service(:learnanalytics, build(:'lanalytics:root'))
-    Stub.request(:learnanalytics, :get, "/course_statistics?course_id=#{course.id}&end_date=#{encoded_end_date}&historic_data=true&start_date")
-      .to_return Stub.json([])
+    Stub.request(:learnanalytics, :get, '/course_statistics', query: hash_including(
+      course_id: course.id,
+      historic_data: 'true'
+    )).to_return Stub.json([])
     Stub.request(:learnanalytics, :get, '/metrics')
       .to_return Stub.json([
         {'name' => 'client_combination_usage', 'available' => true},

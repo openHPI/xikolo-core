@@ -10,7 +10,7 @@ namespace :regrading do
   task select_answer_for_all: :environment do
     # rake regrading:select_answer_for_all RAILS_ENV=development
     # ANSWER_ID='830f7258-0d29-420b-96f1-d4bb022c00ec' DRY=1
-    Regrading::SelectAnswerForAll.new(
+    QuizService::Regrading::SelectAnswerForAll.new(
       answer = Answer.find(ENV.fetch('ANSWER_ID', nil)),
       dry: ENV['DRY'] == '1'
     ).tap do |regrading|
@@ -25,8 +25,8 @@ namespace :regrading do
   - just check the results, do not update: ENV['DRY']=1
   DESC
   task remove_answer: :environment do
-    Regrading::RemoveAnswer.new(
-      answer = Answer.find(ENV.fetch('ANSWER_ID', nil)),
+    QuizService::Regrading::RemoveAnswer.new(
+      answer = QuizService::Answer.find(ENV.fetch('ANSWER_ID', nil)),
       dry: ENV['DRY'] == '1'
     ).tap do |regrading|
       regrading.logger = Logger.new($stdout)
@@ -41,8 +41,8 @@ namespace :regrading do
   - just check the results, do not update: ENV['DRY']=1
   DESC
   task update_question: :environment do
-    Regrading::UpdateQuestion.new(
-      question = Question.find(ENV.fetch('QUESTION_ID', nil)),
+    QuizService::Regrading::UpdateQuestion.new(
+      question = QuizService::Question.find(ENV.fetch('QUESTION_ID', nil)),
       dry: ENV['DRY'] == '1'
     ).tap do |regrading|
       regrading.logger = Logger.new($stdout)
@@ -56,7 +56,7 @@ namespace :regrading do
   - just check the results, do not update: ENV['DRY']=1
   DESC
   task update_all_questions: :environment do
-    Regrading::UpdateAllQuestions.new(
+    QuizService::Regrading::UpdateAllQuestions.new(
       Quiz.find(ENV.fetch('QUIZ_ID', nil)),
       dry: ENV['DRY'] == '1'
     ).tap do |regrading|
@@ -72,7 +72,7 @@ namespace :regrading do
   - just check the results, do not update: ENV['DRY']=1
   DESC
   task jackpot: :environment do
-    Regrading::Jackpot.new(
+    QuizService::Regrading::Jackpot.new(
       question = Question.find(ENV.fetch('QUESTION_ID', nil)),
       dry: ENV['DRY'] == '1'
     ).tap do |regrading|
@@ -87,7 +87,7 @@ namespace :regrading do
   Requires the quiz id of the question that has been regraded ENV['QUIZ_ID']
   DESC
   task just_update_course: :environment do
-    Regrading::UpdateCourseResults.new(
+    QuizService::Regrading::UpdateCourseResults.new(
       Logger.new($stdout),
       ENV.fetch('QUIZ_ID', nil)
     ).run!

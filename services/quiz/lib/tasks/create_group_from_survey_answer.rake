@@ -4,7 +4,7 @@
 # #######tasks##tasks##tasks###########
 ######################################
 namespace :xikolo do
-  require "#{Rails.root}/app/helpers/rake_helper"
+  require "#{Rails.root}/lib/tasks/rake_helper"
   include RakeHelper
 
   desc <<~DESC

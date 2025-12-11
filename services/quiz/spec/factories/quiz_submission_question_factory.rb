@@ -5,8 +5,8 @@ FactoryBot.define do
     format('00000002-3900-4444-9999-0000000%05d', i)
   end
 
-  factory :quiz_submission_question do
-    association :quiz_submission, :submitted
+  factory :'quiz_service/quiz_submission_question' do
+    association :quiz_submission, :submitted, factory: :'quiz_service/quiz_submission'
     quiz_question_id
     points { 2.0 }
   end

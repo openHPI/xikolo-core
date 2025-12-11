@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :quiz do
+  factory :'quiz_service/quiz' do
     time_limit_seconds { 3600 }
     unlimited_time { false }
     allowed_attempts { 1 }
