@@ -7,7 +7,7 @@ describe 'Channel: delete', type: :request do
     api.rel(:channel).delete({id: identifier}).value!
   end
 
-  let(:api) { Restify.new(:test).get.value }
+  let(:api) { Restify.new(course_service.root_url).get.value }
   let!(:channel) { create(:'course_service/channel') }
 
   context 'identified by ID' do
@@ -18,7 +18,7 @@ describe 'Channel: delete', type: :request do
     end
 
     it 'removes the channel' do
-      expect { request }.to change(Channel, :count).from(1).to(0)
+      expect { request }.to change(CourseService::Channel, :count).from(1).to(0)
     end
   end
 
@@ -30,7 +30,7 @@ describe 'Channel: delete', type: :request do
     end
 
     it 'removes the channel' do
-      expect { request }.to change(Channel, :count).from(1).to(0)
+      expect { request }.to change(CourseService::Channel, :count).from(1).to(0)
     end
   end
 end

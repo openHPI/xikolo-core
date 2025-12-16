@@ -7,7 +7,7 @@ describe 'Repetition Suggestions: Index', type: :request do
     api.rel(:repetition_suggestions).get(params).value!
   end
 
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(course_service.root_url).get.value! }
   let(:user_id) { generate(:user_id) }
   let(:max_dpoints) { 100 }
   let(:course_id) { '00000001-3300-4444-9999-000000000001' }

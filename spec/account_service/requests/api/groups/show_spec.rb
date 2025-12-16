@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Groups: Show', type: :request do
   subject(:resource) { api.rel(:group).get({id: 'owner.groupname'}).value! }
 
-  let(:api) { Restify.new(account_service_url).get.value! }
+  let(:api) { restify_with_headers(account_service_url).get.value! }
   let!(:group) { create(:'account_service/group', name: 'owner.groupname') }
 
   it 'responds with group resource' do

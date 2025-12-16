@@ -9,7 +9,7 @@ describe 'Document Localizations: Delete', type: :request do
   let(:localization) { document.localizations.first }
   let(:localization_id) { localization.id }
 
-  let(:api) { Restify.new(:test).get.value }
+  let(:api) { Restify.new(course_service.root_url).get.value }
 
   it { is_expected.to respond_with :no_content }
 

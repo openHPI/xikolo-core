@@ -68,11 +68,13 @@ module Xikolo
       config.autoload_paths += %W[
         #{config.root}/api
         #{config.root}/lib
+        #{config.root}/constraints
         #{config.root}/brand/#{Xikolo.brand}/lib
       ]
       config.eager_load_paths += %W[
         #{config.root}/api
         #{config.root}/lib
+        #{config.root}/constraints
         #{config.root}/brand/#{Xikolo.brand}/lib
       ]
 

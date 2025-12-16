@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Sessions: Show', type: :request do
   subject(:resource) { api.rel(:session).get({id: session}).value! }
 
-  let(:api) { Restify.new(account_service_url, **config).get.value! }
+  let(:api) { restify_with_headers(account_service_url, **config).get.value! }
   let(:config) { {} }
   let(:session) { create(:'account_service/session', access_at: Time.zone.yesterday) }
   let(:masqueraded_user) { create(:'account_service/user') }

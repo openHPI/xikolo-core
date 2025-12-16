@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Grants: List', type: :request do
   subject(:resource) { api.rel(:grants).get(params).value! }
 
-  let(:api)     { Restify.new(account_service_url).get.value! }
+  let(:api)     { restify_with_headers(account_service_url).get.value! }
   let(:params)  { {} }
 
   let!(:grants) { create_list(:'account_service/grant', 5) }

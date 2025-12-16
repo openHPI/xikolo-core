@@ -5,7 +5,7 @@ require 'spec_helper'
 RSpec.describe 'Teachers: Delete the picture', type: :request do
   subject(:update_teacher) { api.rel(:teacher).patch(data, params: {id: teacher.id}).value! }
 
-  let(:api) { Restify.new(:test).get.value }
+  let(:api) { Restify.new(course_service.root_url).get.value }
   let(:old_picture_uri) { 's3://xikolo-public/teachers/1/42/tux.jpg' }
   let(:teacher) { create(:'course_service/teacher', picture_uri: old_picture_uri) }
   let(:old_store_stub_url) { %r{https://s3.xikolo.de/xikolo-public/teachers/[0-9a-zA-Z]+/[0-9a-zA-Z]+/tux.jpg} }
@@ -16,7 +16,7 @@ RSpec.describe 'Teachers: Delete the picture', type: :request do
 
     it 'schedules the removal of the old picture' do
       update_teacher
-      expect(FileDeletionWorker.jobs.last['args']).to eq [old_picture_uri]
+      expect(CourseService::FileDeletionWorker.jobs.last['args']).to eq [old_picture_uri]
     end
 
     it 'updates the picture url to nil' do

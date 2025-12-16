@@ -7,7 +7,7 @@ describe 'Richtext: Show', type: :request do
     service.rel(:richtext).get(params).value!
   end
 
-  let(:service) { Restify.new(:test).get.value! }
+  let(:service) { Restify.new(course_service.root_url).get.value! }
   let(:params) { {id: richtext.id} }
   let(:text) { 'Some Text' }
   let(:course) { create(:'course_service/course', description: course_description) }

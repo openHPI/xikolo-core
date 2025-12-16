@@ -7,7 +7,7 @@ describe 'Documents: Delete', type: :request do
 
   let!(:document) { create(:'course_service/document', :with_localizations) }
 
-  let(:api) { Restify.new(:test).get.value }
+  let(:api) { Restify.new(course_service.root_url).get.value }
 
   it 'responds with :no_content' do
     expect(action).to respond_with :no_content

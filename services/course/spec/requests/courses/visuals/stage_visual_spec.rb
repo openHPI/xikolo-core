@@ -45,7 +45,7 @@ end
 shared_examples 'does not delete the old stage visual' do
   it 'does not delete the old stage visual' do
     expect { update_course }.to raise_error(Restify::ClientError)
-    expect(FileDeletionWorker.jobs).to be_empty
+    expect(CourseService::FileDeletionWorker.jobs).to be_empty
   end
 end
 
@@ -54,7 +54,7 @@ shared_examples 'deletes the stage visual' do
 
   it 'schedules the removal of the old stage visual' do
     update_course
-    expect(FileDeletionWorker.jobs.last['args']).to eq [old_stage_visual_uri]
+    expect(CourseService::FileDeletionWorker.jobs.last['args']).to eq [old_stage_visual_uri]
   end
 
   it 'updates the stage visual url to nil' do
@@ -67,7 +67,7 @@ RSpec.describe 'Courses: Update with stage visual', type: :request do
   subject(:update_course) { api.rel(:course).patch(data, params: {id: course.id}).value! }
 
   let!(:course) { create(:'course_service/course', initial_params) }
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(course_service.root_url).get.value! }
   let(:upload_id) { '83aebd2a-f026-4d58-8a61-5ee4f1a7cbfa' }
   let(:file_name) { 'image.jpg' }
   let(:file_url) { "https://s3.xikolo.de/xikolo-uploads/uploads/#{upload_id}/#{file_name}" }
@@ -281,7 +281,7 @@ RSpec.describe 'Courses: Update with stage visual', type: :request do
         it_behaves_like 'updates with stage visual'
         it 'schedules the removal of the old stage visual' do
           update_course
-          expect(FileDeletionWorker.jobs.last['args']).to eq [old_stage_visual_uri]
+          expect(CourseService::FileDeletionWorker.jobs.last['args']).to eq [old_stage_visual_uri]
         end
       end
 
@@ -352,7 +352,7 @@ RSpec.describe 'Courses: Update with stage visual', type: :request do
         it_behaves_like 'updates with stage visual'
         it 'schedules the removal of the old stage visual' do
           update_course
-          expect(FileDeletionWorker.jobs.last['args']).to eq [old_stage_visual_uri]
+          expect(CourseService::FileDeletionWorker.jobs.last['args']).to eq [old_stage_visual_uri]
         end
       end
 

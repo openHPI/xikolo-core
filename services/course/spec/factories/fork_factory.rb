@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :'course_service/fork', class: 'Fork' do
+  factory :'course_service/fork' do
     transient do
       # Ensure that all associations are associated to the same course
       course do

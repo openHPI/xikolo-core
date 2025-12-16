@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Teacher: Update', type: :request do
   subject(:update_action) { api.rel(:teacher).patch(data, params: {id: teacher.id}).value! }
 
-  let(:api) { Restify.new(:test).get.value }
+  let(:api) { Restify.new(course_service.root_url).get.value }
   let(:teacher) { create(:'course_service/teacher') }
 
   context 'change name' do

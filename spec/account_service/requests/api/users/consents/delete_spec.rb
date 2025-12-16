@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Delete user consents', type: :request do
   subject(:resource) { base.rel(:self).delete.value! }
 
-  let(:api) { Restify.new(account_service_url).get.value! }
+  let(:api) { restify_with_headers(account_service_url).get.value! }
 
   let(:base) do
     api.rel(:user).get({id: user}).value!.rel(:consents).get.value!.first

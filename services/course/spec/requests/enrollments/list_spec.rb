@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Enrollments: List', type: :request do
   subject(:list) { api.rel(:enrollments).get(params).value! }
 
-  let(:api) { Restify.new(:test).get.value }
+  let(:api) { Restify.new(course_service.root_url).get.value }
   let(:params) { {user_id:} }
 
   let(:user_id) { generate(:user_id) }

@@ -10,7 +10,7 @@ describe 'Course: Update', type: :request do
     Stub.service(:account, build(:'account:root'))
   end
 
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(course_service.root_url).get.value! }
   let!(:course) { create(:'course_service/course', initial_params) }
   let(:initial_params) { {classifiers: {category: %w[databases pro-track]}} }
   let(:classifiers) do
@@ -289,10 +289,10 @@ describe 'Course: Update', type: :request do
       end
 
       context 'with not successful course update' do
-        let(:update_operation) { instance_double(Course::Update, update: false) }
+        let(:update_operation) { instance_double(CourseService::Course::Update, update: false) }
 
         before do
-          allow(Course::Update).to receive(:call).and_return update_operation
+          allow(CourseService::Course::Update).to receive(:call).and_return update_operation
         end
 
         it 'does not revoke or grant course visitor permissions' do

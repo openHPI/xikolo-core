@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe AccountService::API::RootController, type: :request do
-  subject(:resource) { Restify.new(account_service_url).get.value! }
+  subject(:resource) { restify_with_headers(account_service_url).get.value! }
 
   describe 'relations' do
     # Access internal relation map to tests for full match not only inclusion

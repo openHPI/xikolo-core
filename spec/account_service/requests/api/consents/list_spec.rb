@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'List consents', type: :request do
   subject(:resource) { user_resource.rel(:consents).get.value! }
 
-  let(:api) { Restify.new(account_service_url).get.value! }
+  let(:api) { restify_with_headers(account_service_url).get.value! }
   let(:user_resource) { api.rel(:user).get({id: user.id}).value! }
   let(:user) { create(:'account_service/user') }
   let!(:consents) { create_list(:'account_service/consent', 2, user:) }

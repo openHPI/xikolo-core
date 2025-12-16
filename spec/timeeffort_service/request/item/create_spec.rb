@@ -5,7 +5,7 @@ require 'spec_helper'
 RSpec.describe 'Item: Create', type: :request do
   subject(:create_item) { api.rel(:items).post(payload).value! }
 
-  let(:api) { Restify.new(timeeffort_service_url).get.value! }
+  let(:api) { restify_with_headers(timeeffort_service_url).get.value! }
   let(:item_id) { SecureRandom.uuid }
   let(:content_id) { SecureRandom.uuid }
   let(:section_id) { SecureRandom.uuid }

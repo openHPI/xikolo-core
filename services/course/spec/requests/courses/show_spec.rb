@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'Course: Show', type: :request do
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(course_service.root_url).get.value! }
   let(:course) { create(:'course_service/course', course_params) }
   let(:desc_rt) { 'Headline\n--\n s3://xikolo-public/courses/34/rtfiles/3/hans.jpg' }
   let(:desc_rendered) { 'Headline\n--\n https://s3.xikolo.de/xikolo-public/courses/34/rtfiles/3/hans.jpg' }

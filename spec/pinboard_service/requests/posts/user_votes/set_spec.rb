@@ -5,7 +5,7 @@ require 'spec_helper'
 RSpec.describe 'Posts: User Votes: Set', type: :request do
   subject(:resource) { post.rel(:user_votes).put(vote_data, params: {id: user_id}).value! }
 
-  let(:service) { Restify.new(pinboard_service_url).get.value! }
+  let(:service) { restify_with_headers(pinboard_service_url).get.value! }
   let(:post) { service.rel(:post).get({id: post_id}).value! }
 
   let(:vote_data) { {value: vote_value} }

@@ -1,0 +1,31 @@
+en:
+  course_service:
+    achievements:
+      certificates:
+        confirmation:
+          name: Confirmation of Participation
+          state:
+            unavailable: A confirmation is not offered for this course.
+            no_longer_achievable: This course has ended. Confirmations were only available during the active course period.
+            reactivatable: This course has ended. If you still would like to achieve a confirmation for this course, you can reactivate it now.
+            not_achieved: You did not yet complete enough learning units to achieve your confirmation for this course.
+            not_released: Congratulations on achieving a confirmation for this course! Once the confirmation is released by the teaching team, you can download it here.
+            released: Congratulations! You achieved a confirmation for this course.
+            achieved_via_roa: Congratulations! You have achieved the Confirmation of Participation in this course by obtaining the Certificate of Achievement.
+          requirements:
+            progress: Complete at least %{course_percentage}% of the learning units.
+          download:
+            not_released: Once the certificate is released, you can download it here.
+        achievement:
+          name: Record of Achievement
+          state:
+            unavailable: A certificate is not offered for this course.
+            no_longer_achievable: This course has ended. Certificates were only available during the active course period.
+            reactivatable: This course has ended. If you still would like to achieve a certificate for this course, you can reactivate it now.
+            not_achieved: You did not score enough points in graded exams, yet.
+            not_released: Congratulations on achieving a certificate for this course! Once the certificate is released by the teaching team you can download it here.
+            released: Congratulations! You achieved a certificate for this course by scoring high enough in the graded assignments.
+          requirements:
+            completion: Achieve %{course_percentage}% of the overall score in graded assignments.
+          download:
+            not_released: Once the certificate is released, you can download it here.

@@ -5,7 +5,7 @@ require 'spec_helper'
 RSpec.describe 'Topics: Index', type: :request do
   subject(:resource) { service.rel(:topics).get(params).value! }
 
-  let(:service) { Restify.new(pinboard_service_url).get.value! }
+  let(:service) { restify_with_headers(pinboard_service_url).get.value! }
 
   let(:params) { {} }
 

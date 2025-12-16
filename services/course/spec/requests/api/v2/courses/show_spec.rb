@@ -9,7 +9,7 @@ describe '[API v2] Course: Show', type: :request do
     Stub.service(:account, build(:'account:root'))
   end
 
-  let(:api) { Restify.new(:api, headers: session_headers).get.value }
+  let(:api) { Restify.new(course_service.api_v2_course_root_url, headers: session_headers).get.value }
   let(:session_headers) { session_request_headers session }
 
   let(:session) do
@@ -48,7 +48,7 @@ describe '[API v2] Course: Show', type: :request do
 
   let!(:course) { create(:'course_service/course', course_attrs) }
   let(:course_attrs) { {} }
-  let(:course_full) { Course.where(id: course.id).from('embed_courses AS courses').take! }
+  let(:course_full) { CourseService::Course.where(id: course.id).from('embed_courses AS courses').take! }
 
   shared_examples 'show course never' do |_section|
     it 'does not show courses (when no enrollment)' do

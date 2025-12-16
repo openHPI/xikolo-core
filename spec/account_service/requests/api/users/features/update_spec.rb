@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Users: Features: Merge', type: :request do
   subject(:resource) { base.rel(:features).patch(data).value! }
 
-  let(:api) { Restify.new(account_service_url).get.value! }
+  let(:api) { restify_with_headers(account_service_url).get.value! }
   let(:base) { api.rel(:user).get({id: user}).value! }
   let(:user) { create(:'account_service/user') }
   let!(:feature) { create(:'account_service/feature', owner: user) }

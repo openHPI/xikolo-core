@@ -14,7 +14,7 @@ describe 'Document Localization: Update', type: :request do
     "https://s3.xikolo.de/xikolo-uploads/uploads/#{upload_id}/doc.pdf"
   end
 
-  let(:api) { Restify.new(:test).get.value }
+  let(:api) { Restify.new(course_service.root_url).get.value }
 
   let(:data) do
     {

@@ -7,7 +7,7 @@ describe 'Channel: update', type: :request do
     api.rel(:channel).patch({title_translations: {'de' => 'Neuer Name', 'en' => 'New Name'}}, params: {id: identifier}).value!
   end
 
-  let(:api) { Restify.new(:test).get.value }
+  let(:api) { Restify.new(course_service.root_url).get.value }
   let(:channel) { create(:'course_service/channel') }
 
   context 'identified by ID' do

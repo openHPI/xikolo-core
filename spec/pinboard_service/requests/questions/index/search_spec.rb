@@ -10,7 +10,7 @@ RSpec.describe 'GET /questions{?search}', type: :request do
     api.rel(:questions).get({search: query, course_id:}).value!
   end
 
-  let(:api) { Restify.new(pinboard_service_url).get.value! }
+  let(:api) { restify_with_headers(pinboard_service_url).get.value! }
   let(:query) { 'token' }
   let(:course_id) { generate(:course_id) }
 

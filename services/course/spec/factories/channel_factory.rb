@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :'course_service/channel', class: 'Channel' do
+  factory :'course_service/channel' do
     sequence(:code) {|n| "channel-#{n}" }
     title_translations { {'de' => 'Channel DE', 'en' => 'Channel EN'} }
 

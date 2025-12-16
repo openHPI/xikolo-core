@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Document Localizations: List', type: :request do
   subject(:list) { api.rel(:document_localizations).get(params).value! }
 
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(course_service.root_url).get.value! }
   let(:params) { {} }
 
   before { create_list(:'course_service/document_localization', 3) }

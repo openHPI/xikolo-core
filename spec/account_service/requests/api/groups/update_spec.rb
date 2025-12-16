@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Group: Update', type: :request do
   subject(:resource) { api.rel(:group).patch(data, params: {id: data[:name]}).value! }
 
-  let(:api) { Restify.new(account_service_url).get.value! }
+  let(:api) { restify_with_headers(account_service_url).get.value! }
   let(:data) { {name: 'xikolo.group', description: 'Just for testing.'} }
 
   before do

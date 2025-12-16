@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Enrollment: Reactivations: Create', type: :request do
   subject(:request) { enrollment.rel(:reactivations).post(data).value! }
 
-  let(:api)        { Restify.new(:test).get.value! }
+  let(:api)        { Restify.new(course_service.root_url).get.value! }
   let(:enrollment) { api.rel(:enrollment).get({id: record}).value! }
 
   let(:submission_date) { 4.weeks.from_now }
@@ -105,7 +105,7 @@ describe 'Enrollment: Reactivations: Create', type: :request do
     end
 
     it 'removes the fixed learning evaluation' do
-      expect { request }.to change(FixedLearningEvaluation, :count).from(1).to 0
+      expect { request }.to change(CourseService::FixedLearningEvaluation, :count).from(1).to 0
     end
   end
 end

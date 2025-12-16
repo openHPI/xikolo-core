@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Root', type: :request do
-  subject { Restify.new(pinboard_service_url).get.value! }
+  subject { restify_with_headers(pinboard_service_url).get.value! }
 
   it { is_expected.to have_rel :post }
   it { is_expected.to have_rel :topics }

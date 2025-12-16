@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :'course_service/classifier', class: 'Classifier' do
+  factory :'course_service/classifier' do
     association :cluster, factory: :'course_service/cluster'
     sequence(:title) {|n| "Database Track #{n}" }
     sequence(:translations) {|n| {'en' => "Classifier ##{n}", 'de' => "Klassifikation ##{n}"} }

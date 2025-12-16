@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Users: Features: Delete', type: :request do
   subject(:resource) { base.rel(:features).delete({name: features[2].name}).value! }
 
-  let(:api) { Restify.new(account_service_url).get.value! }
+  let(:api) { restify_with_headers(account_service_url).get.value! }
   let(:base) { api.rel(:user).get({id: user}).value! }
   let(:user) { create(:'account_service/user') }
 

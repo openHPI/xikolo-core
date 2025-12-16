@@ -6,7 +6,7 @@ describe 'Visit: Show', type: :request do
   subject(:action) { api.rel(:item_user_visit).get(params).value! }
 
   let(:visit) { create(:'course_service/visit') }
-  let(:api) { Restify.new(:test).get.value }
+  let(:api) { Restify.new(course_service.root_url).get.value }
   let(:params) { {item_id: visit.item_id, user_id: visit.user_id} }
 
   it { is_expected.to respond_with :ok }

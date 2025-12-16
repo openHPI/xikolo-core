@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Group Profile Field Stats', type: :request do
   subject(:resource) { base.rel(:profile_field_stats).get({id: field_name}).value! }
 
-  let(:api) { Restify.new(account_service_url).get.value! }
+  let(:api) { restify_with_headers(account_service_url).get.value! }
   let(:base) { api.rel(:group).get({id: group}).value! }
   let(:field_name) { 'background' }
 

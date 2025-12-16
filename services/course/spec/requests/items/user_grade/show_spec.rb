@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Item User Grade: Show', type: :request do
   subject(:resource) { item_api.rel(:user_grade).get({user_id:}).value! }
 
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(course_service.root_url).get.value! }
   let(:item_api) { api.rel(:item).get({id: item.id}).value! }
   let(:user_id) { generate(:user_id) }
 

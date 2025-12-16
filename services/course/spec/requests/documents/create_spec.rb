@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Documents: Create', type: :request do
   subject(:action) { api.rel(:documents).post(data).value! }
 
-  let(:api) { Restify.new(:test).get.value }
+  let(:api) { Restify.new(course_service.root_url).get.value }
 
   let(:data) { attributes_for(:'course_service/document') }
 
@@ -14,7 +14,7 @@ describe 'Documents: Create', type: :request do
   end
 
   it 'creates a new document' do
-    expect { action }.to change(Document, :count).from(0).to(1)
+    expect { action }.to change(CourseService::Document, :count).from(0).to(1)
   end
 
   context 'without description' do
@@ -55,7 +55,7 @@ describe 'Documents: Create', type: :request do
     end
 
     it 'creates the new document' do
-      expect { action }.to change(Document, :count).from(1).to(2)
+      expect { action }.to change(CourseService::Document, :count).from(1).to(2)
     end
   end
 
@@ -64,12 +64,12 @@ describe 'Documents: Create', type: :request do
     let(:data) { super().merge(course_ids: [course1.id]) }
 
     it 'creates the new document' do
-      expect { action }.to change(Document, :count).from(0).to(1)
+      expect { action }.to change(CourseService::Document, :count).from(0).to(1)
     end
 
     it 'connects document with said course' do
       action
-      document = Document.first
+      document = CourseService::Document.first
       expect(document.course_ids).to eq([course1.id])
     end
   end

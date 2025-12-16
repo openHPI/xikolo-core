@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'Achievements: Index', type: :request do
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(course_service.root_url).get.value! }
   let(:course) { create(:'course_service/course', :active, course_params) }
   let(:course_params) { {cop_enabled: true, roa_enabled: true, on_demand: false} }
   let!(:item) { create(:'course_service/item', :homework, :with_max_points, item_params) }
@@ -333,7 +333,7 @@ describe 'Achievements: Index', type: :request do
     end
 
     context 'when the user is not enrolled' do
-      before { Enrollment.destroy_all }
+      before { CourseService::Enrollment.destroy_all }
 
       it 'returns correct completion information' do
         expect(achievement['description']).to eq('You did not score enough points in graded exams, yet.')

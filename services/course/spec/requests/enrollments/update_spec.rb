@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'Enrollment: Update', type: :request do
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(course_service.root_url).get.value! }
 
   let(:user_id) { generate(:user_id) }
 
@@ -49,7 +49,7 @@ describe 'Enrollment: Update', type: :request do
     let(:completed) { nil }
     let(:course) { create(:'course_service/course') }
     let(:fetch_learning_evaluation) do
-      Enrollment.with_learning_evaluation(Enrollment.all).find(enrollment.id)
+      CourseService::Enrollment.with_learning_evaluation(CourseService::Enrollment.all).find(enrollment.id)
     end
 
     context 'with auto-state true' do

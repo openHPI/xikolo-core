@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Sessions: Create with Credentials', type: :request do
   subject(:resource) { api.rel(:sessions).post(payload).value! }
 
-  let(:api) { Restify.new(account_service_url).get.value! }
+  let(:api) { restify_with_headers(account_service_url).get.value! }
   let(:user) { create(:'account_service/user', password: 'secret123') }
 
   let(:response) do

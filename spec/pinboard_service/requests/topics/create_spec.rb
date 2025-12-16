@@ -5,7 +5,7 @@ require 'spec_helper'
 RSpec.describe 'Topics: Create', type: :request do
   subject(:creation) { service.rel(:topics).post(payload).value! }
 
-  let(:service) { Restify.new(pinboard_service_url).get.value! }
+  let(:service) { restify_with_headers(pinboard_service_url).get.value! }
 
   let(:payload) do
     {

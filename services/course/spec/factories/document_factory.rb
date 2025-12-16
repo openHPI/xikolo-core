@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :'course_service/document', class: 'Document' do
+  factory :'course_service/document' do
     sequence(:title) {|i| "Document Title #{i}" }
     sequence(:description) {|j| "Document Description #{j}" }
     tags { ['git'] }

@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Items: List', type: :request do
   subject(:list) { api.rel(:items).get(params).value! }
 
-  let(:api) { Restify.new(:test).get.value }
+  let(:api) { Restify.new(course_service.root_url).get.value }
   let(:params) { {} }
   let(:course) { create(:'course_service/course') }
   let(:section) { create(:'course_service/section', course:, title: 'Week 1') }
@@ -61,7 +61,7 @@ describe 'Items: List', type: :request do
 
       context 'the user is already assigned to a content test group' do
         before do
-          Duplicated::Membership.create!(user_id:, group_id: fork.branches[1].group_id)
+          CourseService::Duplicated::Membership.create!(user_id:, group_id: fork.branches[1].group_id)
         end
 
         # The user is not re-assigned this time as the user is already member
@@ -219,11 +219,11 @@ describe 'Items: List', type: :request do
 
     context 'with visited and submitted / graded items' do
       before do
-        Visit.create!(user_id:, item: items.first)
-        Result.create!(user_id:, item: items.second, dpoints: 10)
+        CourseService::Visit.create!(user_id:, item: items.first)
+        CourseService::Result.create!(user_id:, item: items.second, dpoints: 10)
 
         items.third.update!(submission_publishing_date: 2.days.from_now)
-        Result.create!(user_id:, item: items.third, dpoints: 10)
+        CourseService::Result.create!(user_id:, item: items.third, dpoints: 10)
       end
 
       it { expect(list.pluck('user_state')).to eq %w[visited graded submitted new] }
@@ -250,7 +250,7 @@ describe 'Items: List', type: :request do
 
   context 'without items with prerequisites' do
     let(:params) { super().merge required_items: 'none' }
-    let!(:item_with_requirements) { create(:'course_service/item', required_item_ids: [Item.first.id]) }
+    let!(:item_with_requirements) { create(:'course_service/item', required_item_ids: [CourseService::Item.first.id]) }
 
     it { is_expected.to have(4).items }
 

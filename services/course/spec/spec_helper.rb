@@ -22,11 +22,7 @@ require 'xikolo/common/rspec'
 require 'restify'
 require 'restify/adapter/typhoeus'
 
-Restify::Registry.store :api, 'http://course.xikolo.tld/api/v2/course',
-  adapter: Restify::Adapter::Typhoeus.new(sync: true)
-
-Restify::Registry.store :test, 'http://course.xikolo.tld',
-  adapter: Restify::Adapter::Typhoeus.new(sync: true)
+Restify.adapter = Restify::Adapter::Typhoeus.new(sync: true)
 
 Sidekiq::Testing.fake!
 
@@ -81,9 +77,9 @@ RSpec.configure do |config|
   end
 
   config.before do
-    stub_request(:any, /course\.xikolo\.tld/).to_rack(Xikolo::CourseService::Application)
+    stub_request(:any, /www\.example\.com/).to_rack(Xikolo::CourseService::Application)
 
-    FileDeletionWorker.jobs.clear
+    CourseService::FileDeletionWorker.jobs.clear
     Rails.cache.clear
     Sidekiq::Worker.clear_all
   end

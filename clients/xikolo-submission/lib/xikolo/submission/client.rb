@@ -2,6 +2,8 @@
 
 require 'acfs'
 
+require_relative '../acfs_auth_middleware'
+
 module Xikolo
   module Submission
     class Client < Acfs::Service
@@ -11,6 +13,7 @@ module Xikolo
 
       use Acfs::Middleware::JsonDecoder
       use Acfs::Middleware::JsonEncoder
+      use AcfsAuthMiddleware
 
       class SystemInfo < Acfs::Resource
         service Xikolo::Submission::Client, path: 'system_info'

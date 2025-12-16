@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Channel: create with mobile visual', type: :request do
   subject(:action) { api.rel(:channels).post(data).value! }
 
-  let(:api) { Restify.new(:test).get.value }
+  let(:api) { Restify.new(course_service.root_url).get.value }
   let(:data) do
     {
       title_translations: {'de' => 'Gruppe', 'en' => 'Group'},
@@ -64,11 +64,11 @@ describe 'Channel: create with mobile visual', type: :request do
     it { is_expected.to respond_with :created }
 
     it 'responds with a follow location to created resource' do
-      expect(action.follow.to_s).to eq channel_url(Channel.last, host: 'course.xikolo.tld')
+      expect(action.follow.to_s).to eq course_service.channel_url(CourseService::Channel.last, host:)
     end
 
     it 'creates a new channel' do
-      expect { action }.to change(Channel, :count).from(0).to(1)
+      expect { action }.to change(CourseService::Channel, :count).from(0).to(1)
     end
 
     it 'stores the mobile visual in S3' do

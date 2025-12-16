@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Groups: Creation', type: :request do
   subject(:resource) { api.rel(:groups).post(data).value! }
 
-  let(:api) { Restify.new(account_service_url).get.value! }
+  let(:api) { restify_with_headers(account_service_url).get.value! }
   let(:data) { {name: 'testowner.group_x'} }
 
   it 'responds with a created resource' do

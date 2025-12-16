@@ -7,7 +7,7 @@ describe 'Course: Learning Evaluation: Trigger Recalculation', type: :request do
     api.rel(:course_learning_evaluation).post({}, params: {course_id: course.id}).value!
   end
 
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(course_service.root_url).get.value! }
   let(:course) { create(:'course_service/course', :with_content_tree, progress_calculated_at: 1.week.ago) }
 
   context 'with the course not requiring progress recalculation' do
@@ -16,7 +16,7 @@ describe 'Course: Learning Evaluation: Trigger Recalculation', type: :request do
     it { is_expected.to respond_with :created }
 
     it 'does not trigger the recalculation' do
-      expect { creation }.not_to change(LearningEvaluation::PersistForCourseWorker.jobs, :size)
+      expect { creation }.not_to change(CourseService::LearningEvaluation::PersistForCourseWorker.jobs, :size)
     end
   end
 
@@ -26,7 +26,7 @@ describe 'Course: Learning Evaluation: Trigger Recalculation', type: :request do
     it { is_expected.to respond_with :created }
 
     it 'triggers the recalculation' do
-      expect { creation }.to change(LearningEvaluation::PersistForCourseWorker.jobs, :size).from(0).to(1)
+      expect { creation }.to change(CourseService::LearningEvaluation::PersistForCourseWorker.jobs, :size).from(0).to(1)
     end
 
     it 'marks the course progress as recalculated' do
@@ -42,7 +42,7 @@ describe 'Course: Learning Evaluation: Trigger Recalculation', type: :request do
     it { is_expected.to respond_with :created }
 
     it 'triggers the recalculation' do
-      expect { creation }.to change(LearningEvaluation::PersistForCourseWorker.jobs, :size).from(0).to(1)
+      expect { creation }.to change(CourseService::LearningEvaluation::PersistForCourseWorker.jobs, :size).from(0).to(1)
     end
 
     it 'marks the course progress as recalculated' do
@@ -62,7 +62,7 @@ describe 'Course: Learning Evaluation: Trigger Recalculation', type: :request do
     it { is_expected.to respond_with :created }
 
     it 'triggers the recalculation' do
-      expect { creation }.to change(LearningEvaluation::PersistForCourseWorker.jobs, :size).from(0).to(1)
+      expect { creation }.to change(CourseService::LearningEvaluation::PersistForCourseWorker.jobs, :size).from(0).to(1)
     end
 
     it 'marks the section and course progresses as recalculated' do
@@ -77,7 +77,7 @@ describe 'Course: Learning Evaluation: Trigger Recalculation', type: :request do
     let(:course) { create(:'course_service/course', :with_content_tree, progress_calculated_at: 50.minutes.ago) }
 
     it 'does not trigger the recalculation' do
-      expect { creation }.not_to change(LearningEvaluation::PersistForCourseWorker.jobs, :size)
+      expect { creation }.not_to change(CourseService::LearningEvaluation::PersistForCourseWorker.jobs, :size)
     end
   end
 
@@ -85,7 +85,7 @@ describe 'Course: Learning Evaluation: Trigger Recalculation', type: :request do
     let(:course) { create(:'course_service/course', progress_calculated_at: 50.minutes.ago) }
 
     it 'does not trigger the recalculation' do
-      expect { creation }.not_to change(LearningEvaluation::PersistForCourseWorker.jobs, :size)
+      expect { creation }.not_to change(CourseService::LearningEvaluation::PersistForCourseWorker.jobs, :size)
     end
   end
 end

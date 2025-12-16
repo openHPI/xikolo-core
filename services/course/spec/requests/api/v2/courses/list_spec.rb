@@ -3,9 +3,9 @@
 require 'spec_helper'
 
 describe '[API v2] Course: List', type: :request do
-  subject(:request) { api.rel(:courses).get.value }
+  subject(:request) { api.rel(:courses).get.value! }
 
-  let(:api) { Restify.new(:api, headers: session_headers).get.value }
+  let(:api) { Restify.new(course_service.api_v2_course_root_url, headers: session_headers).get.value! }
   let(:session_headers) { session_request_headers session }
   let(:user_groups) { [] }
   let(:session) { setup_session user_id, permissions:, features: [], user: }
@@ -14,7 +14,7 @@ describe '[API v2] Course: List', type: :request do
   let(:permissions) { [] }
   let!(:course) { create(:'course_service/course', course_attrs) }
   let(:course_attrs) { {} }
-  let(:course_full) { Course.where(id: course.id).from('embed_courses AS courses').take! }
+  let(:course_full) { CourseService::Course.where(id: course.id).from('embed_courses AS courses').take! }
 
   before do
     Stub.service(:account, build(:'account:root'))
@@ -41,7 +41,7 @@ describe '[API v2] Course: List', type: :request do
 
     it 'lists course (when enrollment)' do
       create(:'course_service/enrollment', user_id:, course_id: course.id)
-      expect(request).to eq json([course_full.decorate.as_json(api_version: 2)])
+      expect(request).to eq json([CourseService::CourseDecorator.new(course_full).as_json(api_version: 2)])
       expect(request[0]['id']).to eq course_full.id
     end
   end
@@ -59,7 +59,7 @@ describe '[API v2] Course: List', type: :request do
 
   shared_examples 'list course always' do
     it 'lists course (when no enrollment)' do
-      expect(request).to eq json([course_full.decorate.as_json(api_version: 2)])
+      expect(request).to eq json([CourseService::CourseDecorator.new(course_full).as_json(api_version: 2)])
       expect(request[0]['id']).to eq course_full.id
     end
 
@@ -198,7 +198,7 @@ describe '[API v2] Course: List', type: :request do
     subject(:request) { api.rel(:courses).get(params).value }
 
     let!(:channel_course) { create(:'course_service/course', :with_channel, status: 'active') }
-    let(:channel_course_full) { Course.where(id: channel_course.id).from('embed_courses AS courses').take! }
+    let(:channel_course_full) { CourseService::Course.where(id: channel_course.id).from('embed_courses AS courses').take! }
 
     context 'as student' do
       let(:permissions) { [] }
@@ -393,7 +393,7 @@ describe '[API v2] Course: List', type: :request do
   end
 
   describe 'document filter' do
-    subject(:request) { api.rel(:courses).get(params).value }
+    subject(:request) { api.rel(:courses).get(params).value! }
 
     let!(:document1) { create(:'course_service/document') }
     let!(:document2) { create(:'course_service/document') }

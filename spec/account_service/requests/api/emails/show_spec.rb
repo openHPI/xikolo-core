@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Show email', type: :request do
   subject(:resource) { api.rel(:email).get(params).value! }
 
-  let(:api) { Restify.new(account_service_url).get.value! }
+  let(:api) { restify_with_headers(account_service_url).get.value! }
   let(:params) { {} }
   let!(:record) { create(:'account_service/email', address: 'john@example.org') }
 

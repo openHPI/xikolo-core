@@ -7,7 +7,7 @@ describe 'Create user', type: :request do
 
   let(:request) { api.rel(:users).post(data) }
 
-  let(:api) { Restify.new(account_service_url).get.value! }
+  let(:api) { restify_with_headers(account_service_url).get.value! }
   let(:data) { {**attributes_for(:'account_service/user'), email: 'root@localhost'} }
   let(:created_user) { AccountService::User.find response['id'] }
 

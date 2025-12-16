@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Teachers: List', type: :request do
   subject(:result) { api.rel(:teachers).get.value }
 
-  let(:api) { Restify.new(:test).get.value }
+  let(:api) { Restify.new(course_service.root_url).get.value }
   let(:teacher) { create(:'course_service/teacher') }
 
   it 'responds with 200 Ok' do

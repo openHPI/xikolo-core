@@ -8,7 +8,7 @@ describe 'Documents: Update', type: :request do
   let!(:document) { create(:'course_service/document', :with_localizations) }
   let!(:course) { create(:'course_service/course', :full_blown) }
 
-  let(:api) { Restify.new(:test).get.value }
+  let(:api) { Restify.new(course_service.root_url).get.value }
 
   let(:data) do
     {

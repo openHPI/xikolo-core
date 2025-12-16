@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Memberships: Creation', type: :request do
   subject(:resource) { api.rel(:memberships).post(data).value! }
 
-  let(:api) { Restify.new(account_service_url).get.value! }
+  let(:api) { restify_with_headers(account_service_url).get.value! }
   let(:data) { {user: user.to_param, group: 'test.group'} }
 
   let(:user) { create(:'account_service/user') }

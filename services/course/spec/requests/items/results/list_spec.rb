@@ -2,10 +2,10 @@
 
 require 'spec_helper'
 
-describe 'Item Results: List', type: :resource do
+describe 'Item Results: List', type: :request do
   subject(:resource) { item_api.rel(:results).get(params).value! }
 
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(course_service.root_url).get.value! }
   let(:item_api) { api.rel(:item).get({id: item.id}).value! }
   let!(:item) { create(:'course_service/item') }
 

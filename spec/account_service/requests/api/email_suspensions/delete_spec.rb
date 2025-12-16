@@ -8,7 +8,7 @@ describe 'EmailSuspensions: Destroy', type: :request do
   let(:email) { create(:'account_service/email', address: 'p3k@example.de', primary: true) }
   let(:user)  { email.user }
 
-  let(:api)           { Restify.new(account_service_url).get.value! }
+  let(:api)           { restify_with_headers(account_service_url).get.value! }
   let(:restify_user)  { api.rel(:user).get({id: user}).value! }
   let(:restify_email) { restify_user.rel(:emails).get.value!.first }
 

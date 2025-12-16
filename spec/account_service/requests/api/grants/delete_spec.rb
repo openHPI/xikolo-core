@@ -9,7 +9,7 @@ describe 'Grants: Delete', type: :request do
   let(:role)     { create(:'account_service/role') }
   let!(:grant)   { create(:'account_service/grant', principal: group, role:) }
 
-  let(:api)      { Restify.new(account_service_url).get.value! }
+  let(:api)      { restify_with_headers(account_service_url).get.value! }
   let(:resource) { api.rel(:grant).get({id: grant.id}).value! }
 
   it 'responds with :ok' do

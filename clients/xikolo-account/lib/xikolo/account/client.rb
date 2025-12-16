@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'acfs'
+require_relative '../acfs_auth_middleware'
 
 module Xikolo::Account
   # Service definition needs to subclass `Acfs::Service`.
@@ -17,6 +18,7 @@ module Xikolo::Account
     # Define used middleware e.g. for JSON decoding.
     use Acfs::Middleware::JsonDecoder
     use Acfs::Middleware::JsonEncoder
+    use AcfsAuthMiddleware
 
     class SystemInfo < Acfs::Resource
       service Xikolo::Account::Client, path: 'system_info'

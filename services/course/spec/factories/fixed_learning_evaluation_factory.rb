@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :'course_service/fixed_learning_evaluation', class: 'FixedLearningEvaluation' do
+  factory :'course_service/fixed_learning_evaluation' do
     user_id
     association :course, factory: :'course_service/course'
     sequence(:maximal_dpoints) {|n| (n * 10) + 3 }

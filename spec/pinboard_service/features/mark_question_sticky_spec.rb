@@ -14,13 +14,13 @@ describe 'Marking a question sticky', type: :request do
   let(:new_order) { [question3.id, question1.id, question2.id, question4.id] }
 
   it 'changes the order' do
-    questions = Restify.new(pinboard_service_url).get.value!
+    questions = restify_with_headers(pinboard_service_url).get.value!
       .rel(:questions).get({course_id:}).value!
     expect(questions.pluck('id')).to eq old_order
 
     question3.update sticky: true
 
-    questions = Restify.new(pinboard_service_url).get.value!
+    questions = restify_with_headers(pinboard_service_url).get.value!
       .rel(:questions).get({course_id:}).value!
     expect(questions.pluck('id')).to eq new_order
   end

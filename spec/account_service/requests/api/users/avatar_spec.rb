@@ -7,7 +7,7 @@ describe 'User\'s avatar upload', type: :request do
 
   let(:user) { create(:'account_service/user') }
   let(:data) { {} }
-  let(:api) { Restify.new(account_service_url).get.value! }
+  let(:api) { restify_with_headers(account_service_url).get.value! }
 
   describe '(S3 avatar upload)' do
     shared_examples 'does not update the avatar' do |error_details|

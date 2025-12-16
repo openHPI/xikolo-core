@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Context: Show', type: :request do
   subject(:resource) { api.rel(:context).get({id: record}).value! }
 
-  let(:api) { Restify.new(account_service_url).get.value! }
+  let(:api) { restify_with_headers(account_service_url).get.value! }
   let(:data) { {} }
   let(:record) { create(:'account_service/context') }
 

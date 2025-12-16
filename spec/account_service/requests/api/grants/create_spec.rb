@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Grants: Create', type: :request do
   subject(:resource) { api.rel(:grants).post(data).value! }
 
-  let(:api) { Restify.new(account_service_url).get.value! }
+  let(:api) { restify_with_headers(account_service_url).get.value! }
   let(:role) { create(:'account_service/role', :with_name) }
   let(:group) { create(:'account_service/group') }
   let(:context) { create(:'account_service/context') }

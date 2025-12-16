@@ -14,7 +14,7 @@ describe 'Document Localizations for a Document: List', type: :request do
   let!(:localization2) { create(:'course_service/document_localization') }
   let!(:localization3) { create(:'course_service/document_localization') }
 
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(course_service.root_url).get.value! }
 
   before do
     document1.localizations << localization1 << localization2

@@ -3,13 +3,14 @@
 require 'spec_helper'
 
 describe 'Role: Show', type: :request do
-  let(:api) { Restify.new(account_service_url).get.value! }
+  let(:api) { restify_with_headers(account_service_url).get.value! }
   let!(:role) { create(:'account_service/role') }
 
   context 'by id' do
     subject(:resource) { api.rel(:role).get({id: role.id}).value! }
 
     it 'responds successful' do
+      puts "Requesting role by ID: #{account_service_url}"
       expect(resource).to respond_with :ok
     end
 

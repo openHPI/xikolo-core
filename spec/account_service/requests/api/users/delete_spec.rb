@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Delete user', type: :request do
   subject(:response) { request.value! }
 
-  let(:api)     { Restify.new(account_service_url).get.value! }
+  let(:api)     { restify_with_headers(account_service_url).get.value! }
   let(:request) { api.rel(:user).delete(params) }
 
   let(:params) { {id: record.id} }

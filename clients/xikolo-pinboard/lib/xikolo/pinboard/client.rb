@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative '../acfs_auth_middleware'
+
 module Xikolo::Pinboard
   # Service definition needs to subclass `Acfs::Service`.
   # This allows you to use the Acfs Service DSL to describe
@@ -15,6 +17,7 @@ module Xikolo::Pinboard
     # Define used middleware e.g. for JSON decoding.
     use Acfs::Middleware::JsonDecoder
     use Acfs::Middleware::JsonEncoder
+    use AcfsAuthMiddleware
 
     class SystemInfo < Acfs::Resource
       service Xikolo::Pinboard::Client, path: 'system_info'

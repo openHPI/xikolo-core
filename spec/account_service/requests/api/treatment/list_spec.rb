@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'List treatments', type: :request do
   subject(:resource) { api.rel(:treatments).get(params).value! }
 
-  let(:api) { Restify.new(account_service_url).get.value! }
+  let(:api) { restify_with_headers(account_service_url).get.value! }
   let(:params) { {} }
 
   let!(:treatments) do

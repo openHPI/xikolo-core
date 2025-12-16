@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :'course_service/lti_provider', class: 'Duplicated::LtiProvider' do
+  factory :'course_service/lti_provider', class: 'CourseService::Duplicated::LtiProvider' do
     course_id
     consumer_key { 'key' }
     domain { 'https://example.com/lti' }

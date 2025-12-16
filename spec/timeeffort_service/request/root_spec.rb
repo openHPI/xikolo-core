@@ -12,6 +12,6 @@ RSpec.describe 'Root', type: :request do
   end
 
   it 'returns root resource on /' do
-    expect(Restify.new('http://test.host/timeeffort_service').get.value!).to eq root
+    expect(restify_with_headers('http://test.host/timeeffort_service').get.value!).to eq root
   end
 end

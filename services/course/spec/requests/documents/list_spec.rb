@@ -9,7 +9,7 @@ describe 'Documents: List', type: :request do
   let!(:document2) { create(:'course_service/document', :english, :german, title: 'Document B') }
   let!(:document3) { create(:'course_service/document', :german, title: 'Document A') }
 
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(course_service.root_url).get.value! }
 
   let(:params) { {} }
 

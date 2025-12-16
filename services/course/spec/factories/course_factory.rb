@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :'course_service/course', class: 'Course' do
+  factory :'course_service/course' do
     sequence :title do |n|
       "In-Memory Data Management-Entwicklung - Iteration #{n}"
     end
@@ -55,7 +55,7 @@ FactoryBot.define do
         course.sections << section_parent
 
         section1 = FactoryBot.create(:'course_service/section', course:, alternative_state: 'child', parent_id: section_parent.id)
-        richtext = Richtext.create course_id: course.id, text: 'Useful information!'
+        richtext = CourseService::Richtext.create course_id: course.id, text: 'Useful information!'
         video = FactoryBot.create(:'course_service/video')
         section1.items << FactoryBot.create(:'course_service/item', section: section1, title: 'Wiki', content_type: 'rich_text', content_id: richtext.id)
         section1.items << FactoryBot.create(:'course_service/item', section: section1, title: 'Video', content_type: 'video', content_id: video.id)

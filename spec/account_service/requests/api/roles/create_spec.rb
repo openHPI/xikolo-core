@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Role: Create', type: :request do
   subject(:resource) { api.rel(:roles).post(data).value! }
 
-  let(:api) { Restify.new(account_service_url).get.value! }
+  let(:api) { restify_with_headers(account_service_url).get.value! }
   let(:data) { {name: 'account.admins', permissions: ['account.users.create', 'account.users.update']} }
 
   it 'responds with a created resource' do

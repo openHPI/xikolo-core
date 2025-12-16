@@ -35,7 +35,7 @@ describe 'Items: List', type: :request do
     end
   end
 
-  let(:api) { Restify.new(:test).get.value }
+  let(:api) { Restify.new(course_service.root_url).get.value }
   let(:params) { {} }
   let(:section) { create(:'course_service/section', course:, title: 'Week 1') }
   let!(:items) { create_list(:'course_service/item', 2, :quiz, :with_max_points, section:) }

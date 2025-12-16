@@ -6,7 +6,7 @@ describe 'Items: Destroy', type: :request do
   subject(:request) { api.rel(:item).delete({id: item.id}).value! }
 
   let(:item) { create(:'course_service/item') }
-  let(:api) { Restify.new(:test).get.value }
+  let(:api) { Restify.new(course_service.root_url).get.value }
 
   before do
     item
@@ -19,15 +19,15 @@ describe 'Items: Destroy', type: :request do
   it { is_expected.to respond_with :no_content }
 
   it 'removes the item from the database' do
-    expect { request }.to change(Item, :count).from(3).to(2)
-    expect(Item.find_by(id: item.id)).to be_nil
+    expect { request }.to change(CourseService::Item, :count).from(3).to(2)
+    expect(CourseService::Item.find_by(id: item.id)).to be_nil
   end
 
   it 'removes all corresponding visits' do
-    expect { request }.to change(Visit, :count).from(4).to(1)
+    expect { request }.to change(CourseService::Visit, :count).from(4).to(1)
   end
 
   it 'removes all corresponding results' do
-    expect { request }.to change(Result, :count).from(5).to(1)
+    expect { request }.to change(CourseService::Result, :count).from(5).to(1)
   end
 end

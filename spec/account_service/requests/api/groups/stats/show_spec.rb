@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Group Stats', type: :request do
   subject(:resource) { base.rel(:stats).get(params).value! }
 
-  let(:api) { Restify.new(account_service_url).get.value! }
+  let(:api) { restify_with_headers(account_service_url).get.value! }
   let(:base) { api.rel(:group).get({id: group}).value! }
   let(:params) { {} }
 

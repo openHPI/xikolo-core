@@ -8,7 +8,7 @@ describe 'Course: Prerequisite Status: Index', type: :request do
       .rel(:prerequisite_status).get({user_id:}).value!
   end
 
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(course_service.root_url).get.value! }
   let(:course) { create(:'course_service/course') }
   let(:user_id) { generate(:user_id) }
 
@@ -24,7 +24,7 @@ describe 'Course: Prerequisite Status: Index', type: :request do
     it 'does not schedule assigning the user to the course students group' do
       expect do
         index
-      end.not_to change(EnrollmentGroupWorker.jobs, :size)
+      end.not_to change(CourseService::EnrollmentGroupWorker.jobs, :size)
     end
   end
 
@@ -92,7 +92,7 @@ describe 'Course: Prerequisite Status: Index', type: :request do
     it 'does not schedule assigning the user to the course students group' do
       expect do
         index
-      end.not_to change(EnrollmentGroupWorker.jobs, :size)
+      end.not_to change(CourseService::EnrollmentGroupWorker.jobs, :size)
     end
 
     context 'when all the requirements are met' do
@@ -142,7 +142,7 @@ describe 'Course: Prerequisite Status: Index', type: :request do
         it 'schedules assigning the user to the course students group' do
           expect do
             index
-          end.to change(EnrollmentGroupWorker.jobs, :size).from(0).to(1)
+          end.to change(CourseService::EnrollmentGroupWorker.jobs, :size).from(0).to(1)
         end
 
         it '(asynchronously) assigns the user to the course students group' do

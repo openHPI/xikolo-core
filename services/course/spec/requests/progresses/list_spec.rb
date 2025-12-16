@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Progresses: List', type: :request do
   subject(:list) { api.rel(:progresses).get(params).value! }
 
-  let(:api) { Restify.new(:test).get.value }
+  let(:api) { Restify.new(course_service.root_url).get.value }
   let(:params) { {} }
   let(:user_id) { generate(:user_id) }
   let(:course) { create(:'course_service/course') }
@@ -91,7 +91,7 @@ describe 'Progresses: List', type: :request do
 
       context 'the user is already assigned to a content test group' do
         before do
-          Duplicated::Membership.create!(user_id:, group_id: fork.branches[1].group_id)
+          CourseService::Duplicated::Membership.create!(user_id:, group_id: fork.branches[1].group_id)
         end
 
         # The user is not re-assigned this time as the user is already member

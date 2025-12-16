@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :'course_service/video', class: 'Duplicated::Video' do
+  factory :'course_service/video', class: 'CourseService::Duplicated::Video' do
     id { SecureRandom.uuid }
     pip_stream_id { SecureRandom.uuid }
     trait :with_slides do
@@ -17,7 +17,7 @@ FactoryBot.define do
     end
   end
 
-  factory :'course_service/subtitle', class: 'Duplicated::Subtitle' do
+  factory :'course_service/subtitle', class: 'CourseService::Duplicated::Subtitle' do
     association :video, factory: :'course_service/video'
     lang { 'en' }
     automatic { false }
@@ -33,7 +33,7 @@ FactoryBot.define do
     end
   end
 
-  factory :'course_service/subtitle_cue', class: 'Duplicated::SubtitleCue' do
+  factory :'course_service/subtitle_cue', class: 'CourseService::Duplicated::SubtitleCue' do
     association :subtitle, factory: :'course_service/subtitle', strategy: :create
     sequence(:identifier) {|n| n }
     sequence(:start) {|n| ((n - 1) * 10).seconds }

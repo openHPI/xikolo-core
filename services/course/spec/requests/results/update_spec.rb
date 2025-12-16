@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'Results: Update', type: :request do
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(course_service.root_url).get.value! }
   let(:result_id) { SecureRandom.uuid }
   let(:user_id) { generate(:user_id) }
   let!(:item) { create(:'course_service/item') }
@@ -14,7 +14,7 @@ describe 'Results: Update', type: :request do
     let(:data) { {user_id:, item_id: item.id, points: 2.3} }
 
     context 'with existing resource' do
-      let!(:result) { Result.create id: result_id, user_id:, item_id: item.id, dpoints: 34 }
+      let!(:result) { CourseService::Result.create id: result_id, user_id:, item_id: item.id, dpoints: 34 }
 
       it { is_expected.to respond_with :no_content }
 
@@ -37,7 +37,7 @@ describe 'Results: Update', type: :request do
     context 'without existing resource' do
       it 'responds with 404 Not Found without side effects' do
         expect { update }.to raise_error(Restify::NotFound)
-        expect(Result.count).to eq 0
+        expect(CourseService::Result.count).to eq 0
       end
     end
   end
@@ -48,7 +48,7 @@ describe 'Results: Update', type: :request do
     let(:data) { {user_id:, item_id: item.id, points: 2.3} }
 
     context 'with existing resource' do
-      let(:result) { Result.create id: result_id, user_id:, item_id: item.id, dpoints: 34 }
+      let(:result) { CourseService::Result.create id: result_id, user_id:, item_id: item.id, dpoints: 34 }
 
       it { is_expected.to respond_with :no_content }
 
@@ -72,12 +72,12 @@ describe 'Results: Update', type: :request do
       it { is_expected.to respond_with :no_content }
 
       it 'creates a result object' do
-        expect { update }.to change(Result, :count).from(0).to(1)
+        expect { update }.to change(CourseService::Result, :count).from(0).to(1)
       end
 
       it 'stores dpoints' do
         update
-        expect(Result.find(result_id).dpoints).to eq 23
+        expect(CourseService::Result.find(result_id).dpoints).to eq 23
       end
 
       context 'with more than one decimal after the comma' do

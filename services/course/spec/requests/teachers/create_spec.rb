@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Teacher: creating new ones', type: :request do
   subject(:action) { api.rel(:teachers).post(data).value! }
 
-  let(:api) { Restify.new(:test).get.value }
+  let(:api) { Restify.new(course_service.root_url).get.value }
   let(:data) do
     {
       id: generate(:user_id),
@@ -32,7 +32,7 @@ describe 'Teacher: creating new ones', type: :request do
     it { is_expected.to respond_with :created }
 
     it 'creates a new teacher object' do
-      expect { action }.to change(Teacher, :count).from(0).to(1)
+      expect { action }.to change(CourseService::Teacher, :count).from(0).to(1)
     end
   end
 
@@ -50,7 +50,7 @@ describe 'Teacher: creating new ones', type: :request do
 
     it 'creates no new teacher object' do
       expect { action }.to raise_error(Restify::ClientError)
-      expect(Teacher.count).to eq 0
+      expect(CourseService::Teacher.count).to eq 0
     end
 
     it 'raises an unprocessable entity error' do
@@ -77,7 +77,7 @@ describe 'Teacher: creating new ones', type: :request do
     before { action }
 
     it 'has its user_id set to its id' do
-      expect(Teacher.first.user_id).to eq teacher_id
+      expect(CourseService::Teacher.first.user_id).to eq teacher_id
     end
   end
 
@@ -98,7 +98,7 @@ describe 'Teacher: creating new ones', type: :request do
     before { action }
 
     it 'has its user_id set to the provided value' do
-      expect(Teacher.first.user_id).to eq user_id
+      expect(CourseService::Teacher.first.user_id).to eq user_id
     end
   end
 
@@ -118,7 +118,7 @@ describe 'Teacher: creating new ones', type: :request do
     before { action }
 
     it 'has its user_id set to nil' do
-      expect(Teacher.first.user_id).to be_nil
+      expect(CourseService::Teacher.first.user_id).to be_nil
     end
   end
 end

@@ -10,7 +10,7 @@ describe 'Document Tags: List', type: :request do
     create(:'course_service/document', tags: %w[tag2 franz hihi])
   end
 
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(course_service.root_url).get.value! }
   let(:params) { {} }
 
   it { is_expected.to respond_with :ok }

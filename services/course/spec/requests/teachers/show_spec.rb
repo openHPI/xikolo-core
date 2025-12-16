@@ -6,7 +6,7 @@ describe 'Teacher: Show', type: :request do
   subject(:action) { api.rel(:teacher).get({id: teacher.id}).value! }
 
   let(:teacher) { create(:'course_service/teacher') }
-  let(:api) { Restify.new(:test).get.value }
+  let(:api) { Restify.new(course_service.root_url).get.value }
 
   it 'is successful' do
     expect(action).to respond_with :ok

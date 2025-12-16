@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :'course_service/section', class: 'Section' do
+  factory :'course_service/section' do
     association(:course, factory: :'course_service/course', strategy: :create)
     title { 'Week 1' }
     description { 'This is the first week of your awesome course' }

@@ -10,7 +10,7 @@ RSpec.describe 'Statistics: Index: most_active', type: :request do
     }).value!
   end
 
-  let(:api) { Restify.new(pinboard_service_url).get.value! }
+  let(:api) { restify_with_headers(pinboard_service_url).get.value! }
   let(:first_user_id) { generate(:user_id) }
   let(:second_user_id) { generate(:user_id) }
   let(:course_id) { generate(:course_id) }

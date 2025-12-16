@@ -5,7 +5,7 @@ require 'spec_helper'
 RSpec.describe 'Posts: Show', type: :request do
   subject(:resource) { service.rel(:post).get({id: post_id}).value! }
 
-  let(:service) { Restify.new(pinboard_service_url).get.value! }
+  let(:service) { restify_with_headers(pinboard_service_url).get.value! }
 
   let!(:question) { create(:'pinboard_service/question') }
   let!(:answer) { create(:'pinboard_service/answer') }

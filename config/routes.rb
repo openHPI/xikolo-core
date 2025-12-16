@@ -459,7 +459,7 @@ Rails.application.routes.draw do
   root to: 'home/home#index'
 
   # TODO: Make available in production after authorization is added.
-  if Rails.env.local?
+  constraints ServiceAuthorizationConstraint.new do
     mount AccountService::Engine => '/account_service'
     mount TimeeffortService::Engine => '/timeeffort_service'
     mount PinboardService::Engine => '/pinboard_service'

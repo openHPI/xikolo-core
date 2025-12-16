@@ -7,7 +7,7 @@ require 'spec_helper'
 # spec/controllers/enrollments_controller_spec.rb
 # GET 'index' with learning evaluation
 #
-describe EnrollmentsController, type: :controller do
+describe CourseService::EnrollmentsController, type: :controller do
   subject(:learning_evaluation) do
     # Create the enrollment after the course structure has been created to
     # trigger an update of the persisted learning evaluation. There will be
@@ -17,6 +17,8 @@ describe EnrollmentsController, type: :controller do
     action.call
     json.first
   end
+
+  include_context 'course_service API controller'
 
   variant 'Persisted evaluation' do
     let(:action) { -> { get :index, params: {evaluated: 'true', user_id:} } }
@@ -73,11 +75,11 @@ describe EnrollmentsController, type: :controller do
     # is the same (which is the case because only the control variant is exposed).
     # Thus, we keep mismatches to ourselves here.
     around do |example|
-      original = Experiment.raise_on_mismatches?
-      Experiment.raise_on_mismatches = false
+      original = CourseService::Experiment.raise_on_mismatches?
+      CourseService::Experiment.raise_on_mismatches = false
       example.run
     ensure
-      Experiment.raise_on_mismatches = original
+      CourseService::Experiment.raise_on_mismatches = original
     end
   end
 
@@ -894,7 +896,7 @@ describe EnrollmentsController, type: :controller do
           # This needs to be manually triggered for the persisted learning evaluation
           # whenever a fixed learning evaluation is created. This only happens in
           # theory, since this is legacy data that is read-only.
-          LearningEvaluation::UpdateCourseProgressWorker
+          CourseService::LearningEvaluation::UpdateCourseProgressWorker
             .perform_async(course.id, user_id)
         end
 
@@ -936,7 +938,7 @@ describe EnrollmentsController, type: :controller do
           # This needs to be manually triggered for the persisted learning evaluation
           # whenever a fixed learning evaluation is created. This only happens in
           # theory, since this is legacy data that is read-only.
-          LearningEvaluation::UpdateCourseProgressWorker
+          CourseService::LearningEvaluation::UpdateCourseProgressWorker
             .perform_async(course.id, user_id)
         end
 
@@ -960,7 +962,7 @@ describe EnrollmentsController, type: :controller do
           # This needs to be manually triggered for the persisted learning evaluation
           # whenever a fixed learning evaluation is created. This only happens in
           # theory, since this is legacy data that is read-only.
-          LearningEvaluation::UpdateCourseProgressWorker
+          CourseService::LearningEvaluation::UpdateCourseProgressWorker
             .perform_async(course.id, user_id)
         end
 
@@ -989,7 +991,7 @@ describe EnrollmentsController, type: :controller do
           # This needs to be manually triggered for the persisted learning evaluation
           # whenever a fixed learning evaluation is created. This only happens in
           # theory, since this is legacy data that is read-only.
-          LearningEvaluation::UpdateCourseProgressWorker
+          CourseService::LearningEvaluation::UpdateCourseProgressWorker
             .perform_async(course.id, user_id)
         end
 

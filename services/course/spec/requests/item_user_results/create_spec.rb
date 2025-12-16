@@ -10,7 +10,7 @@ describe 'Item User Results: Create', type: :request do
     ).value!
   end
 
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(course_service.root_url).get.value! }
   let!(:item) { create(:'course_service/item') }
 
   let(:data) { {points: 2.3} }
@@ -19,12 +19,12 @@ describe 'Item User Results: Create', type: :request do
   it { is_expected.to respond_with :created }
 
   it 'creates a new result object' do
-    expect { creation }.to change(Result, :count).from(0).to(1)
+    expect { creation }.to change(CourseService::Result, :count).from(0).to(1)
   end
 
   it 'stores dpoints' do
     creation
-    result = Result.where(item_id: item.id, user_id:).take!
+    result = CourseService::Result.where(item_id: item.id, user_id:).take!
     expect(result.dpoints).to eq 23
   end
 
@@ -35,7 +35,7 @@ describe 'Item User Results: Create', type: :request do
 
     it 'creates the result object with dpoints' do
       creation
-      result = Result.where(item_id: item.id, user_id:).take!
+      result = CourseService::Result.where(item_id: item.id, user_id:).take!
       expect(result.dpoints).to eq 0
     end
   end
@@ -44,7 +44,7 @@ describe 'Item User Results: Create', type: :request do
     before { create(:'course_service/result', item:, user_id:) }
 
     it 'creates another result object' do
-      expect { creation }.to change(Result, :count).from(1).to(2)
+      expect { creation }.to change(CourseService::Result, :count).from(1).to(2)
     end
   end
 

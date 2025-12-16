@@ -9,7 +9,7 @@ RSpec.describe 'ItemStatistics: Show', type: :request do
       .rel(:statistics).get(statistics_params).value!
   end
 
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(course_service.root_url).get.value! }
   let(:item) { create(:'course_service/item') }
   let(:item_params) { {id: item.id} }
   let(:statistics_params) { {} }

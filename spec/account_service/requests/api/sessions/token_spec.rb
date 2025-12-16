@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'Sessions: Show by token', type: :request do
-  let(:api) { Restify.new(account_service_url).get.value! }
+  let(:api) { restify_with_headers(account_service_url).get.value! }
 
   context 'user token' do
     subject { api.rel(:session).get({id: "token=#{token.token}"}).value! }

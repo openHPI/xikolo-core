@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'Memberships: Deletion', type: :request do
-  let(:api) { Restify.new(account_service_url).get.value! }
+  let(:api) { restify_with_headers(account_service_url).get.value! }
   let(:user) { create(:'account_service/user') }
   let(:group) { create(:'account_service/group') }
 

@@ -5,7 +5,7 @@ require 'spec_helper'
 RSpec.describe 'Posts: Delete', type: :request do
   subject(:deletion) { post_resource.rel(:self).delete.value! }
 
-  let(:service) { Restify.new(pinboard_service_url).get.value! }
+  let(:service) { restify_with_headers(pinboard_service_url).get.value! }
 
   let(:post_resource) { service.rel(:post).get({id: post_id}).value! }
 

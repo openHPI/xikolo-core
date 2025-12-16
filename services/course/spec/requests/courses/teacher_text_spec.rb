@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'Course\'s teacher text', type: :request do
-  let(:api) { Restify.new(:test).get.value }
+  let(:api) { Restify.new(course_service.root_url).get.value }
   let!(:course) { create(:'course_service/course', course_params) }
   let(:teachers) { create_list(:'course_service/teacher', 5).shuffle }
   let(:course_params) { {teacher_ids: teachers.map(&:id)} }

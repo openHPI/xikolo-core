@@ -8,7 +8,7 @@ describe 'Grants: Show', type: :request do
   let(:group) { create(:'account_service/group') }
   let(:role)  { create(:'account_service/role') }
 
-  let(:api)   { Restify.new(account_service_url).get.value! }
+  let(:api)   { restify_with_headers(account_service_url).get.value! }
   let(:grant) { api.rel(:grants).post({group: group.to_param, role: role.to_param, context: 'root'}).value! }
 
   it 'responds with :ok' do

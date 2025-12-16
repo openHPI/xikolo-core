@@ -19,11 +19,11 @@ shared_examples 'creates with picture' do
   it { is_expected.to respond_with :created }
 
   it 'creates a new teacher' do
-    expect { create_teacher }.to change(Teacher, :count).from(0).to(1)
+    expect { create_teacher }.to change(CourseService::Teacher, :count).from(0).to(1)
   end
 
   it 'responds with a follow location to created resource' do
-    expect(create_teacher.follow.to_s).to eq teacher_url(Teacher.last, host: 'course.xikolo.tld')
+    expect(create_teacher.follow.to_s).to eq course_service.teacher_url(CourseService::Teacher.last, host:)
   end
 
   it 'instructs S3 to move the file to the correct bucket' do
@@ -33,14 +33,14 @@ shared_examples 'creates with picture' do
 
   it 'set the picture url referencing the file in the new bucket' do
     create_teacher
-    expect(Teacher.first.picture_url).to match store_stub_url
+    expect(CourseService::Teacher.first.picture_url).to match store_stub_url
   end
 end
 
 shared_examples 'does not create' do |error_details|
   it 'does not create the teacher with picture url' do
     expect { create_teacher }.to raise_error(Restify::ClientError)
-    expect(Teacher.first).to be_nil
+    expect(CourseService::Teacher.first).to be_nil
   end
 
   it 'raises an unprocessable entity error' do
@@ -53,7 +53,7 @@ end
 describe 'Teachers: Create with picture', type: :request do
   subject(:create_teacher) { api.rel(:teachers).post(data).value! }
 
-  let(:api) { Restify.new(:test).get.value }
+  let(:api) { Restify.new(course_service.root_url).get.value }
   let(:upload_id) { 'f13d30d3-6369-4816-9695-af5318c8ac15' }
   let(:file_name) { 'tux.jpg' }
   let(:file_url) { "https://s3.xikolo.de/xikolo-uploads/uploads/#{upload_id}/#{file_name}" }

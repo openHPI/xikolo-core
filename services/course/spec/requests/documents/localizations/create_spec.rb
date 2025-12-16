@@ -10,7 +10,7 @@ describe 'Document Localizations: Create', type: :request do
 
   let!(:document) { create(:'course_service/document', :english) }
   let(:data) { attributes_for(:'course_service/document_localization') }
-  let(:api) { Restify.new(:test).get.value }
+  let(:api) { Restify.new(course_service.root_url).get.value }
   let(:upload_id) { 'f13d30d3-6369-4816-9695-af5318c8ac15' }
   let(:file_url) do
     "https://s3.xikolo.de/xikolo-uploads/uploads/#{upload_id}/doc.pdf"
@@ -19,7 +19,7 @@ describe 'Document Localizations: Create', type: :request do
   it { is_expected.to respond_with :created }
 
   it 'creates a new document localization' do
-    expect { action }.to change(DocumentLocalization, :count).from(1).to(2)
+    expect { action }.to change(CourseService::DocumentLocalization, :count).from(1).to(2)
   end
 
   context 'without description' do

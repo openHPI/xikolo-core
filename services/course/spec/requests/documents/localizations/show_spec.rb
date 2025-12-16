@@ -9,7 +9,7 @@ describe 'Document Localizations: Show', type: :request do
   let(:localization) { document.localizations.first }
   let(:localization_id) { localization.id }
 
-  let(:api) { Restify.new(:test).get.value }
+  let(:api) { Restify.new(course_service.root_url).get.value }
 
   it { is_expected.to respond_with :ok }
 

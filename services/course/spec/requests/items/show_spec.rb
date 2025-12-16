@@ -6,7 +6,7 @@ describe 'Items: Show', type: :request do
   subject(:resource) { api.rel(:item).get(params).value! }
 
   let(:item) { create(:'course_service/item') }
-  let(:api) { Restify.new(:test).get.value }
+  let(:api) { Restify.new(course_service.root_url).get.value }
   let(:params) { {id: item.id} }
 
   it { is_expected.to respond_with :ok }
@@ -141,7 +141,7 @@ describe 'Items: Show', type: :request do
 
       context 'the user is already assigned to a content test group (branch 2)' do
         before do
-          Duplicated::Membership.create!(user_id:, group_id: fork.branches[1].group_id)
+          CourseService::Duplicated::Membership.create!(user_id:, group_id: fork.branches[1].group_id)
         end
 
         context 'regular item' do
@@ -190,11 +190,11 @@ describe 'Items: Show', type: :request do
         section.node.reload
 
         # Order with legacy implementation, relying on the item position attribute:
-        expect(Item.course_order).to eq \
+        expect(CourseService::Item.course_order).to eq \
           [regular_item, item_branch1, item_branch2, regular_item2, regular_item3, item_branch21, item_branch22]
 
         # Order with course content tree structure:
-        items = Structure::UserItemsSelector.new(section.node, user_id).items
+        items = CourseService::Structure::UserItemsSelector.new(section.node, user_id).items
         expect(items).to eq [regular_item, regular_item3, item_branch1, regular_item2, item_branch21]
       end
 

@@ -6,7 +6,7 @@ describe 'Group Memberships: List', type: :request do
   subject(:resource) { api.rel(:memberships).get(params).value! }
 
   let(:api) do
-    Restify.new(account_service_url).get.value!.rel(:group).get({id: group.to_param}).value!
+    restify_with_headers(account_service_url).get.value!.rel(:group).get({id: group.to_param}).value!
   end
 
   let(:params) { {group_id: group.to_param} }

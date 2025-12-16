@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Policy: Create', type: :request do
   subject(:resource) { api.rel(:policies).post(data).value! }
 
-  let(:api) { Restify.new(account_service_url).get.value! }
+  let(:api) { restify_with_headers(account_service_url).get.value! }
   let(:data) { {version: 1, url: {en: 'https://example.com', de: 'https://example.de'}} }
 
   it 'responds with a created resource' do

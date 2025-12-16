@@ -2,6 +2,8 @@
 
 # Service client definition.
 #
+require_relative '../acfs_auth_middleware'
+
 module Xikolo
   module Course
     class Client < Acfs::Service
@@ -9,6 +11,7 @@ module Xikolo
 
       use Acfs::Middleware::JsonDecoder
       use Acfs::Middleware::JsonEncoder
+      use AcfsAuthMiddleware
 
       class SystemInfo < Acfs::Resource
         service Xikolo::Course::Client, path: 'system_info'

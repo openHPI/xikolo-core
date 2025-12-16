@@ -5,7 +5,7 @@ require 'spec_helper'
 RSpec.describe '[API v2] Course: List: Limit access to groups', type: :request do
   subject(:resource) { api.rel(:courses).get.value }
 
-  let(:api)     { Restify.new(:api, headers:).get.value }
+  let(:api)     { Restify.new(course_service.api_v2_course_root_url, headers:).get.value }
   let(:group)   { 'xikolo.test.affiliated' }
   let(:headers) { session_request_headers session }
   let(:user_id) { generate(:user_id) }

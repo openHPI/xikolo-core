@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :'course_service/document_localization', class: 'DocumentLocalization' do
+  factory :'course_service/document_localization' do
     sequence(:title) do |i|
       "ein sinnvoller deutscher Titel mit der Nummer #{i}"
     end

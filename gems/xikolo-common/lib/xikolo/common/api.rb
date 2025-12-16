@@ -18,6 +18,8 @@ module Xikolo::Common
         application/json
       ].join(', ').freeze
 
+      AUTHORIZATION_HEADER = "Bearer #{ENV.fetch('XIKOLO_WEB_API', nil)}".freeze
+
       def services
         @services ||= {}
       end
@@ -25,7 +27,10 @@ module Xikolo::Common
       def [](name)
         ::Restify.new(
           services.fetch(name),
-          headers: {'Accept' => ACCEPT_HEADER}
+          headers: {
+            'Accept' => ACCEPT_HEADER,
+            'Authorization' => AUTHORIZATION_HEADER,
+          }
         ).get
       rescue KeyError
         raise ServiceNotConfigured.new(name)

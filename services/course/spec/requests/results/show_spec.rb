@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Results: Show', type: :request do
   subject(:action) { api.rel(:result).get({id: result.id}).value! }
 
-  let(:api) { Restify.new(:test).get.value! }
+  let(:api) { Restify.new(course_service.root_url).get.value! }
   let!(:result) { create(:'course_service/result', dpoints: 34) }
 
   describe 'response' do

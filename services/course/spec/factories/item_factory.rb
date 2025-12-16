@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :'course_service/item', class: 'Item' do
+  factory :'course_service/item' do
     title { 'Introduction Speech' }
     start_date { 10.days.ago }
     end_date { 17.days.from_now }

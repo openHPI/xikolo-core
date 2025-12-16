@@ -7,7 +7,7 @@ describe 'Channel: update of logo', type: :request do
     api.rel(:channel).patch({logo_upload_id: upload_id}, params: {id: channel.id}).value!
   end
 
-  let(:api) { Restify.new(:test).get.value }
+  let(:api) { Restify.new(course_service.root_url).get.value }
   let(:channel) do
     create(:'course_service/channel',
       logo_uri: 's3://xikolo-public/channels/1/logo_v1.jpg')
@@ -66,7 +66,7 @@ describe 'Channel: update of logo', type: :request do
     it 'schedules removal of the old file' do
       action
 
-      expect(FileDeletionWorker.jobs.last['args']).to eq [
+      expect(CourseService::FileDeletionWorker.jobs.last['args']).to eq [
         's3://xikolo-public/channels/1/logo_v1.jpg',
       ]
     end

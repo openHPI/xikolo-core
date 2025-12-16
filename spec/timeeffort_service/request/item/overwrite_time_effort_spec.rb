@@ -7,7 +7,7 @@ RSpec.describe 'Item: overwrite_time_effort', type: :request do
     api.rel(:item_overwritten_time_effort).put(payload, params: {item_id: item.id}).value!
   end
 
-  let(:api) { Restify.new(timeeffort_service_url).get.value! }
+  let(:api) { restify_with_headers(timeeffort_service_url).get.value! }
   let(:item_id) { '00000001-3300-4444-9999-000000000001' }
   let(:old_time_effort) { 22 }
   let(:new_time_effort) { 55 }

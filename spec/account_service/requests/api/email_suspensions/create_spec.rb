@@ -13,7 +13,7 @@ describe 'EmailSuspensions: Create', type: :request do
   let(:user_id) { SecureRandom.uuid }
   let!(:user)   { create(:'account_service/user', id: user_id) }
   let!(:email)  { create(:'account_service/email', user:, address: 'p.3/-k+fuu@example.de') }
-  let(:api)     { Restify.new(account_service_url).get.value! }
+  let(:api)     { restify_with_headers(account_service_url).get.value! }
 
   it 'responds with a created status' do
     expect(resource).to respond_with :created

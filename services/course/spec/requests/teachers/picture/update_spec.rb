@@ -52,7 +52,7 @@ end
 RSpec.describe 'Teachers: Update with picture', type: :request do
   subject(:update_teacher) { api.rel(:teacher).patch(data, params: {id: teacher.id}).value! }
 
-  let(:api) { Restify.new(:test).get.value }
+  let(:api) { Restify.new(course_service.root_url).get.value }
   let(:teacher) { create(:'course_service/teacher', initial_params) }
   let(:upload_id) { 'f13d30d3-6369-4816-9695-af5318c8ac15' }
   let(:file_name) { 'tux.jpg' }
@@ -238,7 +238,7 @@ RSpec.describe 'Teachers: Update with picture', type: :request do
         it_behaves_like 'updates with picture'
         it 'schedules the removal of the old picture' do
           update_teacher
-          expect(FileDeletionWorker.jobs.last['args']).to eq [old_picture_uri]
+          expect(CourseService::FileDeletionWorker.jobs.last['args']).to eq [old_picture_uri]
         end
       end
 
@@ -310,7 +310,7 @@ RSpec.describe 'Teachers: Update with picture', type: :request do
         it_behaves_like 'updates with picture'
         it 'schedules the removal of the old picture' do
           update_teacher
-          expect(FileDeletionWorker.jobs.last['args']).to eq [old_picture_uri]
+          expect(CourseService::FileDeletionWorker.jobs.last['args']).to eq [old_picture_uri]
         end
       end
 

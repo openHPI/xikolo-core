@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Bans: Create', type: :request do
   subject(:ban_user) { api.rel(:user_ban).post({}, params: {user_id: user.id}).value! }
 
-  let(:api) { Restify.new(account_service_url).get.value! }
+  let(:api) { restify_with_headers(account_service_url).get.value! }
   let(:user) { create(:'account_service/user') }
 
   describe 'POST /bans' do

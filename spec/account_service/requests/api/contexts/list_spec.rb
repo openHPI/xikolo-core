@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Context: List', type: :request do
   subject(:resource) { api.rel(:contexts).get(params).value! }
 
-  let(:api) { Restify.new(account_service_url).get.value! }
+  let(:api) { restify_with_headers(account_service_url).get.value! }
   let(:params) { {} }
 
   before { AccountService::Context.root }

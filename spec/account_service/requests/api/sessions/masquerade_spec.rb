@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'Sessions: Masquerade', type: :request do
-  let(:api) { Restify.new(account_service_url).get.value! }
+  let(:api) { restify_with_headers(account_service_url).get.value! }
   let(:record) { create(:'account_service/session') }
   let(:session) { api.rel(:session).get({id: record}).value! }
 
