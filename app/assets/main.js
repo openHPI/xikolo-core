@@ -5,6 +5,10 @@
  * initializers. Probably.
  */
 
+// Sentry must be initialized first to capture all errors
+import { initSentry } from './util/sentry';
+initSentry();
+
 // Polyfills
 import 'form-request-submit-polyfill';
 

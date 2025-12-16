@@ -10,7 +10,7 @@
 
 ##### Channels #####
 
-channel1 = Channel.create!(
+channel1 = CourseService::Channel.create!(
   id: '00000001-3300-5555-9999-000000000001',
   code: 'social',
   title_translations: {'en' => 'Get Social!', 'de' => 'Get Social!'},
@@ -45,7 +45,7 @@ channel1 = Channel.create!(
   }
 )
 
-channel2 = Channel.create!(
+channel2 = CourseService::Channel.create!(
   id: '00000001-3300-5555-9999-000000000002',
   code: 'outbreak',
   title_translations: {'en' => 'Disease Outbreaks of the day', 'de' => 'Krankheitsausbrüche des Tages'},
@@ -54,7 +54,7 @@ channel2 = Channel.create!(
   position: 2
 )
 
-channel3 = Channel.create!(
+channel3 = CourseService::Channel.create!(
   id: '00000001-3300-5555-9999-000000000003',
   code: 'goarn',
   title_translations: {'en' => 'GOARN', 'de' => 'GOARN'},
@@ -65,32 +65,32 @@ channel3 = Channel.create!(
 
 ##### Categories #####
 
-topic = Cluster.create! id: 'topic', translations: {'en' => 'Topics', 'de' => 'Themen'}
+topic = CourseService::Cluster.create! id: 'topic', translations: {'en' => 'Topics', 'de' => 'Themen'}
 topic.classifiers.create! title: 'Databases', translations: {'en' => 'Databases', 'de' => 'Datenbanken'}, position: 1
 topic.classifiers.create! title: 'Fundamentals', translations: {'en' => 'Fundamentals', 'de' => 'Grundlagen'}, position: 2
 topic.classifiers.create! title: 'Internet', translations: {'en' => 'Internet', 'de' => 'Internet'}, position: 3
 topic.classifiers.create! title: 'Programming', translations: {'en' => 'Programming', 'de' => 'Programmierung'}, position: 4
 
-level = Cluster.create! id: 'level', translations: {'en' => 'Level', 'de' => 'Niveau'}
+level = CourseService::Cluster.create! id: 'level', translations: {'en' => 'Level', 'de' => 'Niveau'}
 level.classifiers.create! title: 'Junior', translations: {'en' => 'Junior', 'de' => 'Junior'}, position: 4
 level.classifiers.create! title: 'Beginner', translations: {'en' => 'Beginner', 'de' => 'Anfänger'}, position: 1
 level.classifiers.create! title: 'Advanced', translations: {'en' => 'Advanced', 'de' => 'Fortgeschrittene'}, position: 2
 level.classifiers.create! title: 'Expert', translations: {'en' => 'Expert', 'de' => 'Experten'}, position: 3
 
-reporting = Cluster.create! id: 'reporting', translations: {'en' => 'Reporting', 'de' => 'Reporting'}, visible: false
+reporting = CourseService::Cluster.create! id: 'reporting', translations: {'en' => 'Reporting', 'de' => 'Reporting'}, visible: false
 reporting.classifiers.create! title: 'dashboard', translations: {'en' => 'Dashboard', 'de' => 'Dashboard'}, position: 1
 
 ##### Courses #####
 
 context_uuid = '81e01000-%d-4444-a%03d-0000000%05d'
 
-teacher = Teacher.create!(
+teacher = CourseService::Teacher.create!(
   name: 'Grandmaster Yoda',
   description: {en: 'He is a teacher', de: 'Er ist ein Lehrer'}
 )
 
 courses = []
-courses << Course::Create.call(
+courses << CourseService::Course::Create.call(
   id: '00000001-3300-4444-9999-000000000001',
   title: 'Cloud und Virtualisierung',
   course_code: 'cloud2013',
@@ -126,7 +126,7 @@ courses << Course::Create.call(
   c.offers.create!
 end
 
-courses << Course::Create.call(
+courses << CourseService::Course::Create.call(
   id: '00000001-3300-4444-9999-000000000002',
   title: 'Geovisualisierung',
   course_code: 'geo2013',
@@ -155,7 +155,7 @@ courses << Course::Create.call(
   ]
 )
 
-courses << Course::Create.call(
+courses << CourseService::Course::Create.call(
   id: '00000001-3300-4444-9999-000000000003',
   title: 'Trends and Concepts in the Software Industry',
   course_code: 'trend2013',
@@ -181,7 +181,7 @@ courses << Course::Create.call(
   channel: channel2
 )
 
-courses << Course::Create.call(
+courses << CourseService::Course::Create.call(
   id: '00000001-3300-4444-9999-000000000004',
   title: 'Data Profiling and Data Cleansing',
   course_code: 'data-cleansing2013',
@@ -210,7 +210,7 @@ courses << Course::Create.call(
   channel: channel3
 )
 
-courses << Course::Create.call(
+courses << CourseService::Course::Create.call(
   id: '00000001-3300-4444-9999-000000000005',
   title: 'Software Profiling',
   course_code: 'sw-profiling2013',
@@ -235,7 +235,7 @@ courses << Course::Create.call(
   channel: channel2
 )
 
-courses << Course::Create.call(
+courses << CourseService::Course::Create.call(
   id: '00000001-3300-4444-9999-000000000006',
   title: 'Software Profiling Future',
   course_code: 'sw-profiling2015',
@@ -260,7 +260,7 @@ courses << Course::Create.call(
   channel: channel3
 )
 
-courses << Course::Create.call(
+courses << CourseService::Course::Create.call(
   id: '00000001-3300-4444-9999-000000000007',
   title: 'Hidden Course',
   course_code: 'hidden',
@@ -293,38 +293,38 @@ courses << Course::Create.call(
 # there was some mistake with matching enrollments to users (the users specified here did not exist)
 # if this fix causes any trouble, please fix the seeds on your side
 3.upto(199) do |i|
-  Enrollment::Create.call(
+  CourseService::Enrollment::Create.call(
     format('00000001-3100-4444-9999-0000000%05d', i + 100),
     courses[0]
   )
 end
 
-Enrollment::Create.call(
+CourseService::Enrollment::Create.call(
   '00000001-3100-4444-9999-000000000001',
   courses[0]
 )
 
-Enrollment::Create.call(
+CourseService::Enrollment::Create.call(
   '00000001-3100-4444-9999-000000000002',
   courses[0]
 )
 
-Enrollment::Create.call(
+CourseService::Enrollment::Create.call(
   '00000001-3100-4444-9999-000000000002',
   courses[1]
 )
 
-Enrollment::Create.call(
+CourseService::Enrollment::Create.call(
   '00000001-3100-4444-9999-000000000003',
   courses[0]
 )
 
-Enrollment::Create.call(
+CourseService::Enrollment::Create.call(
   '00000001-3100-4444-9999-000000000003',
   courses[1]
 )
 
-Enrollment::Create.call(
+CourseService::Enrollment::Create.call(
   '00000001-3100-4444-9999-000000000003',
   courses[2]
 )
@@ -334,7 +334,7 @@ Enrollment::Create.call(
 ## If you add or change a section or video add tag with new id as name in pinboard seed
 ## If you don't, tests will fail.
 
-introduction_section = Section.create!(
+introduction_section = CourseService::Section.create!(
   id: '00000002-3100-4444-9999-000000000001',
   title: 'Introduction',
   description: 'A first insight in the topic.',
@@ -345,7 +345,7 @@ introduction_section = Section.create!(
   position: 1
 )
 
-definitions_section = Section.create!(
+definitions_section = CourseService::Section.create!(
   id: '00000002-3100-4444-9999-000000000002',
   title: 'Definitions',
   description: 'Explanation of important terms.',
@@ -356,7 +356,7 @@ definitions_section = Section.create!(
   position: 2
 )
 
-Section.create!(
+CourseService::Section.create!(
   id: '00000002-3100-4444-9999-000000000003',
   title: 'Published but in future',
   description: 'Explanation of important terms.',
@@ -367,7 +367,7 @@ Section.create!(
   position: 3
 )
 
-Section.create!(
+CourseService::Section.create!(
   id: '00000002-3100-4444-9999-000000000004',
   title: 'Published and expired',
   description: 'Explanation of important terms.',
@@ -378,7 +378,7 @@ Section.create!(
   position: 4
 )
 
-Section.create!(
+CourseService::Section.create!(
   id: '00000002-3100-4444-9999-000000000005',
   title: 'Not Published and in future',
   description: 'Explanation of important terms.',
@@ -389,7 +389,7 @@ Section.create!(
   position: 5
 )
 
-Section.create!(
+CourseService::Section.create!(
   id: '00000002-3100-4444-9999-000000000006',
   title: 'Not Published',
   description: 'Explanation of important terms.',
@@ -400,7 +400,7 @@ Section.create!(
   position: 6
 )
 
-final_exam_section = Section.create!(
+final_exam_section = CourseService::Section.create!(
   id: '00000002-3100-4444-9999-000000000009',
   title: 'Final Exam',
   description: 'The final exam of this course.',
@@ -411,7 +411,7 @@ final_exam_section = Section.create!(
   position: 7
 )
 
-introduction2_section = Section.create!(
+introduction2_section = CourseService::Section.create!(
   id: '00000002-3100-4444-9999-000000000007',
   title: 'Introduction',
   description: 'A first insight in the topic.',
@@ -422,7 +422,7 @@ introduction2_section = Section.create!(
   position: 1
 )
 
-Section.create!(
+CourseService::Section.create!(
   id: '00000002-3100-4444-9999-000000000008',
   title: 'Definitions',
   description: 'Explanation of important terms.',
@@ -433,7 +433,7 @@ Section.create!(
   position: 2
 )
 
-specialization_section = Section.create!(
+specialization_section = CourseService::Section.create!(
   id: '00000002-3100-4444-9999-000000000012',
   title: 'Specializations',
   description: 'Deep dive into different specialized tocpics',
@@ -445,7 +445,7 @@ specialization_section = Section.create!(
   position: 3
 )
 
-spec_section_alt1 = Section.create!(
+spec_section_alt1 = CourseService::Section.create!(
   id: '00000002-3100-4444-9999-000000000010',
   title: 'Urban Planning',
   description: 'Both planners and the general public can use geovisualization to explore real-world environments and model ‘what if’ scenarios based on spatio-temporal data.',
@@ -458,7 +458,7 @@ spec_section_alt1 = Section.create!(
   position: 3
 )
 
-spec_section_alt2 = Section.create!(
+spec_section_alt2 = CourseService::Section.create!(
   id: '00000002-3100-4444-9999-000000000011',
   title: 'Environmental Studies',
   description: 'Geovisualization tools provide multiple stakeholders with the ability to make balanced environmental decisions by taking into account the “the complex interacting factors that should be taken into account when studying environmental changes”',
@@ -472,7 +472,7 @@ spec_section_alt2 = Section.create!(
 )
 
 ##### Items #####
-richtext = Richtext.create!(
+richtext = CourseService::Richtext.create!(
   course_id: introduction_section.course_id,
   text: <<~TEXT
     An h1 header
@@ -603,7 +603,7 @@ richtext = Richtext.create!(
   TEXT
 )
 
-Item.create!(
+CourseService::Item.create!(
   title: 'Markdown Example not shown in Nav',
   start_date: 10.days.ago,
   end_date: 14.days.from_now,
@@ -614,7 +614,7 @@ Item.create!(
   id: '00000003-3100-4444-9999-000000000001'
 )
 
-Item.create!(
+CourseService::Item.create!(
   title: 'Introduction Speech',
   start_date: 2.days.ago,
   end_date: 5.days.from_now,
@@ -624,7 +624,7 @@ Item.create!(
   id: '00000003-3100-4444-9999-000000000002'
 )
 
-Item.create!(
+CourseService::Item.create!(
   title: 'Welcome',
   start_date: 2.days.ago,
   end_date: 5.days.from_now,
@@ -635,7 +635,7 @@ Item.create!(
   id: '00000003-3100-4444-9999-000000000003'
 )
 
-richtext = Richtext.create!(
+richtext = CourseService::Richtext.create!(
   course_id: introduction_section.course_id,
   text: <<~TEXT
     An h1 header
@@ -766,7 +766,7 @@ richtext = Richtext.create!(
   TEXT
 )
 
-Item.create!(
+CourseService::Item.create!(
   title: 'Markdown Example',
   start_date: 2.days.ago,
   end_date: 5.days.from_now,
@@ -777,7 +777,7 @@ Item.create!(
   id: '00000003-3100-4444-9999-000000000004'
 )
 
-Item.create!(
+CourseService::Item.create!(
   title: 'Welcome Quiz',
   start_date: 2.days.ago,
   end_date: 5.days.from_now,
@@ -789,7 +789,7 @@ Item.create!(
   id: '00000003-3100-4444-9999-000000000005'
 )
 
-Item.create!(
+CourseService::Item.create!(
   title: 'Quiz with all question types',
   start_date: 2.days.ago,
   end_date: 5.days.from_now,
@@ -801,7 +801,7 @@ Item.create!(
   id: '00000003-3100-4444-9999-000000000027'
 )
 
-richtext = Richtext.create!(
+richtext = CourseService::Richtext.create!(
   course_id: introduction_section.course_id,
   text: <<~TEXT
     An h1 header
@@ -932,7 +932,7 @@ richtext = Richtext.create!(
   TEXT
 )
 
-Item.create!(
+CourseService::Item.create!(
   title: 'Markdown Example in future',
   start_date: 2.days.from_now,
   end_date: 5.days.from_now,
@@ -943,7 +943,7 @@ Item.create!(
   id: '00000003-3100-4444-9999-000000000006'
 )
 
-Item.create!(
+CourseService::Item.create!(
   title: 'Introduction in Definitions',
   start_date: 2.days.from_now,
   end_date: 5.days.from_now,
@@ -953,7 +953,7 @@ Item.create!(
   id: '00000003-3100-4444-9999-000000000007'
 )
 
-Item.create!(
+CourseService::Item.create!(
   title: 'Definitions Quiz',
   start_date: 2.days.from_now,
   end_date: 5.days.from_now,
@@ -965,7 +965,7 @@ Item.create!(
   id: '00000003-3100-4444-9999-000000000008'
 )
 
-Item.create!(
+CourseService::Item.create!(
   title: 'Homework',
   start_date: 2.days.ago,
   content_type: 'quiz',
@@ -976,7 +976,7 @@ Item.create!(
   id: '00000003-3100-4444-9999-000000000015'
 )
 
-Item.create!(
+CourseService::Item.create!(
   title: 'Introduction Speech for Geo',
   start_date: 2.days.ago,
   end_date: 7.days.from_now,
@@ -988,7 +988,7 @@ Item.create!(
   id: '00000003-3100-4444-9999-000000000009'
 )
 
-Item.create!(
+CourseService::Item.create!(
   title: 'Welcome to Geo',
   start_date: 2.days.ago,
   end_date: 7.days.from_now,
@@ -999,7 +999,7 @@ Item.create!(
   id: '00000003-3100-4444-9999-000000000010'
 )
 
-Item.create!(
+CourseService::Item.create!(
   title: 'Yet another dual stream video',
   start_date: 2.days.ago,
   end_date: 5.days.from_now,
@@ -1010,7 +1010,7 @@ Item.create!(
   id: '00000003-3100-4444-9999-000000000011'
 )
 
-Item.create!(
+CourseService::Item.create!(
   title: 'Kaltura video',
   start_date: 2.days.ago,
   end_date: 5.days.from_now,
@@ -1021,7 +1021,7 @@ Item.create!(
   id: '00000003-3100-4444-9999-000000000012'
 )
 
-Item.create!(
+CourseService::Item.create!(
   title: 'Welcome Survey',
   start_date: 2.days.ago,
   end_date: 5.days.from_now,
@@ -1034,7 +1034,7 @@ Item.create!(
   position: 1
 )
 
-Item.create!(
+CourseService::Item.create!(
   title: 'Final Exam',
   start_date: 2.days.ago,
   end_date: 5.days.from_now,
@@ -1048,7 +1048,7 @@ Item.create!(
 )
 
 1.upto(30) do |i|
-  richtext = Richtext.create!(
+  richtext = CourseService::Richtext.create!(
     course_id: introduction_section.course_id,
     text: <<~TEXT
       An h1 header
@@ -1179,7 +1179,7 @@ Item.create!(
     TEXT
   )
 
-  Item.create!(
+  CourseService::Item.create!(
     title: format('Markdown Test %05d', i),
     content_type: 'rich_text',
     content_id: richtext.id,
@@ -1188,7 +1188,7 @@ Item.create!(
   )
 end
 
-Item.create!(
+CourseService::Item.create!(
   title: 'Welcome to Urban Planning',
   start_date: 2.days.ago,
   end_date: 5.days.from_now,
@@ -1199,7 +1199,7 @@ Item.create!(
   id: '00000003-3100-4444-9999-000000000017'
 )
 
-Item.create!(
+CourseService::Item.create!(
   title: 'Welcome to Environmental Studies',
   start_date: 2.days.ago,
   end_date: 5.days.from_now,
@@ -1210,7 +1210,7 @@ Item.create!(
   id: '00000003-3100-4444-9999-000000000018'
 )
 
-item1 = Item.create!(
+item1 = CourseService::Item.create!(
   title: 'Urban Planning Quiz',
   start_date: 2.days.ago,
   end_date: 5.days.from_now,
@@ -1223,7 +1223,7 @@ item1 = Item.create!(
   max_dpoints: 60
 )
 
-item2 = Item.create!(
+item2 = CourseService::Item.create!(
   title: 'Environmental Studies Quiz',
   start_date: 2.days.ago,
   end_date: 5.days.from_now,
@@ -1239,7 +1239,7 @@ item2 = Item.create!(
 ##### Documents and Localizations  #####
 
 # #1##
-document1 = Document.create!(
+document1 = CourseService::Document.create!(
   title: 'Fantastic Beasts and where to find them',
   description: 'A nice book by J.K.Rowling',
   tags: %w[fantasy beasts wizard witchcraft wizadry Rowling],
@@ -1248,7 +1248,7 @@ document1 = Document.create!(
   items: [item1, item2]
 )
 
-DocumentLocalization.create!(
+CourseService::DocumentLocalization.create!(
   title: 'Fantastische Tierwesen und wo sie zu finden sind',
   description: 'J.K.Rowling ist die Beste',
   id: '00000001-3800-5555-9997-000000000001',
@@ -1258,7 +1258,7 @@ DocumentLocalization.create!(
   revision: '1'
 )
 
-DocumentLocalization.create!(
+CourseService::DocumentLocalization.create!(
   title: 'Les Animaux fantastiques (Harry Potter)',
   description: 'livre de J.K.R.',
   id: '00000001-3800-5555-9997-000000000002',
@@ -1268,7 +1268,7 @@ DocumentLocalization.create!(
   revision: '1'
 )
 
-DocumentLocalization.create!(
+CourseService::DocumentLocalization.create!(
   title: 'Fantastic Beasts and where to find them',
   description: 'A somewhat interesting book by J.K.R.',
   id: '00000001-3800-5555-9997-000000000003',
@@ -1279,7 +1279,7 @@ DocumentLocalization.create!(
 )
 
 # #2##
-document2 = Document.create!(
+document2 = CourseService::Document.create!(
   title: 'Quidditch through the Ages',
   description: 'A nice book by J.K.Rowling',
   tags: %w[fantasy sports quidditch witchcraft wizadry Rowling],
@@ -1288,7 +1288,7 @@ document2 = Document.create!(
   items: [item1, item2]
 )
 
-DocumentLocalization.create!(
+CourseService::DocumentLocalization.create!(
   title: 'Quidditch im Wandel der Zeiten',
   description: 'von J.K.R.',
   id: '00000001-3800-5555-9997-000000000004',
@@ -1298,7 +1298,7 @@ DocumentLocalization.create!(
   revision: '1'
 )
 
-DocumentLocalization.create!(
+CourseService::DocumentLocalization.create!(
   title: 'Quidditch through the Ages',
   description: 'A somewhat interesting book by J.K.R.',
   id: '00000001-3800-5555-9997-000000000005',
@@ -1309,7 +1309,7 @@ DocumentLocalization.create!(
 )
 
 # #3##
-document3 = Document.create!(
+document3 = CourseService::Document.create!(
   title: 'The Tales of Beedle the Bard',
   description: 'A nice book by J.K.Rowling',
   tags: %w[fantasy tales witchcraft wizadry Rowling],
@@ -1318,7 +1318,7 @@ document3 = Document.create!(
   items: [item2]
 )
 
-DocumentLocalization.create!(
+CourseService::DocumentLocalization.create!(
   title: 'The Tales of Beedle the Bard',
   description: 'An interesting book by J.K.R.',
   id: '00000001-3800-5555-9997-000000000006',
@@ -1329,7 +1329,7 @@ DocumentLocalization.create!(
 )
 
 # #4##
-document4 = Document.create!(
+document4 = CourseService::Document.create!(
   title: 'Harry Potter and the cursed child',
   description: 'Not a nice book and not by J.K.Rowling',
   tags: %w[fantasy witchcraft wizadry Rowling],
@@ -1338,7 +1338,7 @@ document4 = Document.create!(
   items: [item1]
 )
 
-DocumentLocalization.create!(
+CourseService::DocumentLocalization.create!(
   title: 'Harry Potter and the cursed child',
   description: 'An awful book',
   id: '00000001-3800-5555-9997-000000000007',
@@ -1350,23 +1350,23 @@ DocumentLocalization.create!(
 
 ##### Course Prerequisites #####
 
-track = CourseSet.create!(name: 'track')
-track.courses << Course.by_identifier('cloud2013').take!
+track = CourseService::CourseSet.create!(name: 'track')
+track.courses << CourseService::Course.by_identifier('cloud2013').take!
 
-prereq1 = CourseSet.create!(name: 'prereq1')
-prereq1.courses << Course.by_identifier('geo2013').take!
+prereq1 = CourseService::CourseSet.create!(name: 'prereq1')
+prereq1.courses << CourseService::Course.by_identifier('geo2013').take!
 
-prereq2 = CourseSet.create!(name: 'prereq2-iter')
-prereq2.courses << Course.by_identifier('sw-profiling2013').take!
-prereq2.courses << Course.by_identifier('sw-profiling2015').take!
+prereq2 = CourseService::CourseSet.create!(name: 'prereq2-iter')
+prereq2.courses << CourseService::Course.by_identifier('sw-profiling2013').take!
+prereq2.courses << CourseService::Course.by_identifier('sw-profiling2015').take!
 
-CourseSetRelation.create!(
+CourseService::CourseSetRelation.create!(
   source_set: track,
   target_set: prereq1,
   kind: 'requires_cop'
 )
 
-CourseSetRelation.create!(
+CourseService::CourseSetRelation.create!(
   source_set: track,
   target_set: prereq2,
   kind: 'requires_roa'

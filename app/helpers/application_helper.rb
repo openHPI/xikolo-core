@@ -17,6 +17,14 @@ module ApplicationHelper
   end
 
   def sentry_meta_tags
-    Sentry.get_trace_propagation_meta.html_safe # rubocop:disable Rails/OutputSafety
+    tags = Sentry.get_trace_propagation_meta
+
+    if ENV['SENTRY_DSN_FRONTEND'].present?
+      tags += tag.meta(name: 'sentry-dsn', content: ENV['SENTRY_DSN_FRONTEND'])
+      env = ENV['SENTRY_ENVIRONMENT'].presence || Rails.env
+      tags += tag.meta(name: 'sentry-environment', content: env)
+    end
+
+    tags.html_safe # rubocop:disable Rails/OutputSafety
   end
 end

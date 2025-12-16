@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-course = Course::Create.call(
+course = CourseService::Course::Create.call(
   title: 'Content A/B',
   description: <<~DESCRIPTION.squish,
     This course utilizes the Content A/B features based on the new course
@@ -14,7 +14,7 @@ course = Course::Create.call(
 )
 
 # Create root node to mark this as a "new" course (with the content tree used for ordering)
-Structure::Root.create!(course:)
+CourseService::Structure::Root.create!(course:)
 
 section1 = course.sections.create!(
   title: 'Week 1',

@@ -7,6 +7,9 @@ locales:
   available: [de, en]
   default: en
 
+# The email address to send emails from
+mailsender: no-reply@xikolo.de
+
 # The SMTP server where outgoing emails should be delivered
 email:
   smtp:

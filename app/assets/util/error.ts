@@ -1,16 +1,17 @@
 import I18n from '../i18n/i18n';
+import { Sentry } from './sentry';
 import swal from './swal';
 
 /**
  * Handle errors
  *
  * Can be used to communicate unexpected platform behavior
- * by logging the error and displaying a customizable message.
+ * by logging the error on the console, reporting it to Sentry and displaying a customizable message.
  *
  * Users can also be informed of false behavior with a message.
  *
  * @param message Text users are presented with in a popup (optional)
- * @param error Error that is logged on the console (optional)
+ * @param error Error that is logged on the console and reported to Sentry (optional)
  * @param showMessage Show user facing error message (default is true)
  */
 const handleError = (message?: string, error?: unknown, showMessage = true) => {
@@ -27,6 +28,9 @@ const handleError = (message?: string, error?: unknown, showMessage = true) => {
 
   if (error) {
     console.error(error);
+    if (Sentry.isInitialized()) {
+      Sentry.captureException(error);
+    }
   }
 };
 

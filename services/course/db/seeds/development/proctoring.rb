@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-course = Course::Create.call(
+course = CourseService::Course::Create.call(
   id: '00000001-3300-4444-9999-000000000008',
   title: 'Proctoring with SMOWL',
   description: <<~DESCRIPTION.squish,
@@ -37,7 +37,7 @@ section1.items.create!(
 )
 
 # Enroll admin and enable proctoring
-Enrollment::Create.call(
+CourseService::Enrollment::Create.call(
   '00000001-3100-4444-9999-000000000002',
   course,
   proctored: true

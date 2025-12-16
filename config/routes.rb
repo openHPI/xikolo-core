@@ -463,6 +463,7 @@ Rails.application.routes.draw do
     mount AccountService::Engine => '/account_service'
     mount TimeeffortService::Engine => '/timeeffort_service'
     mount PinboardService::Engine => '/pinboard_service'
+    mount NewsService::Engine => '/news_service'
   end
 
   if Rails.env.development?

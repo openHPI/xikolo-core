@@ -14,6 +14,7 @@ s3:
     uploads: xikolo-uploads
     video: xikolo-video
     pinboard: xikolo-pinboard
+    news: xikolo-public
   client:
     endpoint: https://s3.xikolo.de
     region: default

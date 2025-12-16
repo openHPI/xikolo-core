@@ -43,6 +43,11 @@ PATH
     account_service (0.0.1)
 
 PATH
+  remote: engines/news_service
+  specs:
+    news_service (0.0.1)
+
+PATH
   remote: engines/pinboard_service
   specs:
     pinboard_service (0.0.1)
@@ -1047,6 +1052,7 @@ DEPENDENCIES
   meta-tags (~> 2.0)
   msgr (~> 1.5)
   mutex_m
+  news_service!
   oauth2
   oj
   omniauth-saml (~> 2.1)

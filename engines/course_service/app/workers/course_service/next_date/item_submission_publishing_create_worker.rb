@@ -23,7 +23,7 @@ class NextDate::ItemSubmissionPublishingCreateWorker # rubocop:disable Layout/In
 
     return purge! unless applicable?
 
-    NextDate
+    CourseService::NextDate
       .find_or_initialize_by(slot_id:, user_id: @user_id)
       .update!(attrs)
   rescue ActiveRecord::RecordNotUnique
