@@ -6,6 +6,8 @@ class ServiceAuthorizationConstraint
   end
 
   def matches?(request)
+    return true if Rails.env.development?
+
     header = request.get_header('HTTP_AUTHORIZATION')
     return false unless header&.start_with?('Bearer ')
 

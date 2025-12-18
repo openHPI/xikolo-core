@@ -53,6 +53,11 @@ PATH
     pinboard_service (0.0.1)
 
 PATH
+  remote: engines/quiz_service
+  specs:
+    quiz_service (0.0.1)
+
+PATH
   remote: engines/timeeffort_service
   specs:
     timeeffort_service (0.0.1)
@@ -501,6 +506,19 @@ GEM
     marcel (1.0.4)
     matrix (0.4.3)
     maxminddb (0.1.22)
+    mechanize (2.14.0)
+      addressable (~> 2.8)
+      base64
+      domain_name (~> 0.5, >= 0.5.20190701)
+      http-cookie (~> 1.0, >= 1.0.3)
+      mime-types (~> 3.3)
+      net-http-digest_auth (~> 1.4, >= 1.4.1)
+      net-http-persistent (>= 2.5.2, < 5.0.dev)
+      nkf
+      nokogiri (~> 1.11, >= 1.11.2)
+      rubyntlm (~> 0.6, >= 0.6.3)
+      webrick (~> 1.7)
+      webrobots (~> 0.1.2)
     meta-tags (2.22.1)
       actionpack (>= 6.0.0, < 8.1)
     method_source (1.1.0)
@@ -526,6 +544,9 @@ GEM
     mutex_m (0.3.0)
     net-http (0.6.0)
       uri
+    net-http-digest_auth (1.4.1)
+    net-http-persistent (4.0.6)
+      connection_pool (~> 2.2, >= 2.2.4)
     net-imap (0.5.9)
       date
       net-protocol
@@ -537,6 +558,7 @@ GEM
       net-protocol
     netrc (0.11.0)
     nio4r (2.7.4)
+    nkf (0.2.0)
     nokogiri (1.18.8)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
@@ -836,6 +858,8 @@ GEM
       nokogiri (>= 1.13.10)
       rexml
     ruby2_keywords (0.0.5)
+    rubyntlm (0.6.5)
+      base64
     rubyzip (2.4.1)
     sanitize (7.0.0)
       crass (~> 1.0.2)
@@ -972,6 +996,7 @@ GEM
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
     webrick (1.9.1)
+    webrobots (0.1.2)
     websocket (1.2.11)
     websocket-driver (0.8.0)
       base64
@@ -1049,6 +1074,7 @@ DEPENDENCIES
   m3u8 (~> 0.8.2)
   matrix (~> 0.4)
   maxminddb (~> 0.1)
+  mechanize
   meta-tags (~> 2.0)
   msgr (~> 1.5)
   mutex_m
@@ -1071,6 +1097,7 @@ DEPENDENCIES
   prawn-templates (~> 0.1.0)
   premailer-rails
   puma
+  quiz_service!
   rack (~> 3.1.0)
   rack-attack
   rack-cors (~> 3.0)

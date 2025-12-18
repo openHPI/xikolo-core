@@ -126,17 +126,17 @@ if defined? FactoryBot
     end
 
     factory 'news:root', class: Hash do
-      announcement_email_url { '/announcements/{announcement_id}/email' }
-      announcement_messages_url { '/announcements/{announcement_id}/messages' }
-      announcement_user_visit_url { '/announcements/{announcement_id}/user_visits/{user_id}' }
-      announcements_url { '/announcements' }
-      announcement_url { '/announcements/{id}' }
-      message_url { '/messages/{id}' }
-      posts_url { '/posts' }
-      visits_url { '/visits' }
-      news_index_url { '/news' }
-      news_url { '/news/{id}' }
-      system_info_url { '/system_info/{id}' }
+      announcement_email_url { '/news_service/announcements/{announcement_id}/email' }
+      announcement_messages_url { '/news_service/announcements/{announcement_id}/messages' }
+      announcement_user_visit_url { '/news_service/announcements/{announcement_id}/user_visits/{user_id}' }
+      announcements_url { '/news_service/announcements' }
+      announcement_url { '/news_service/announcements/{id}' }
+      message_url { '/news_service/messages/{id}' }
+      posts_url { '/news_service/posts' }
+      visits_url { '/news_service/visits' }
+      news_index_url { '/news_service/news' }
+      news_url { '/news_service/news/{id}' }
+      system_info_url { '/news_service/system_info/{id}' }
       initialize_with { attributes.as_json }
     end
 
@@ -148,69 +148,69 @@ if defined? FactoryBot
     end
 
     factory 'pinboard:root', class: Hash do
-      comments_url { '/comments' }
-      comment_url { '/comments/{id}' }
-      answers_url { '/answers' }
-      answer_url { '/answers/{id}' }
-      questions_url { '/questions' }
-      question_url { '/questions/{id}' }
-      votes_url { '/votes' }
-      vote_url { '/votes/{id}' }
-      topics_url { '/topics' }
-      topic_url { '/topics/{id}' }
-      post_user_vote_url { '/posts/{post_id}/user_votes/{id}' }
-      post_url { '/posts/{id}' }
-      tags_url { '/tags' }
-      tag_url { '/tags/{id}' }
-      explicit_tags_url { '/explicit_tags' }
-      explicit_tag_url { '/explicit_tags/{id}' }
-      implicit_tags_url { '/implicit_tags' }
-      implicit_tag_url { '/implicit_tags/{id}' }
-      subscriptions_url { '/subscriptions' }
-      subscription_url { '/subscriptions/{id}' }
-      course_subscriptions_url { '/course_subscriptions' }
-      course_subscription_url { '/course_subscriptions/{id}' }
-      statistics_url { '/statistics' }
-      statistic_url { '/statistics/{id}' }
-      abuse_reports_url { '/abuse_reports' }
-      abuse_report_url { '/abuse_reports/{id}' }
-      system_info_url { '/system_info/{id}' }
+      comments_url { '/pinboard_service/comments' }
+      comment_url { '/pinboard_service/comments/{id}' }
+      answers_url { '/pinboard_service/answers' }
+      answer_url { '/pinboard_service/answers/{id}' }
+      questions_url { '/pinboard_service/questions' }
+      question_url { '/pinboard_service/questions/{id}' }
+      votes_url { '/pinboard_service/votes' }
+      vote_url { '/pinboard_service/votes/{id}' }
+      topics_url { '/pinboard_service/topics' }
+      topic_url { '/pinboard_service/topics/{id}' }
+      post_user_vote_url { '/pinboard_service/posts/{post_id}/user_votes/{id}' }
+      post_url { '/pinboard_service/posts/{id}' }
+      tags_url { '/pinboard_service/tags' }
+      tag_url { '/pinboard_service/tags/{id}' }
+      explicit_tags_url { '/pinboard_service/explicit_tags' }
+      explicit_tag_url { '/pinboard_service/explicit_tags/{id}' }
+      implicit_tags_url { '/pinboard_service/implicit_tags' }
+      implicit_tag_url { '/pinboard_service/implicit_tags/{id}' }
+      subscriptions_url { '/pinboard_service/subscriptions' }
+      subscription_url { '/pinboard_service/subscriptions/{id}' }
+      course_subscriptions_url { '/pinboard_service/course_subscriptions' }
+      course_subscription_url { '/pinboard_service/course_subscriptions/{id}' }
+      statistics_url { '/pinboard_service/statistics' }
+      statistic_url { '/pinboard_service/statistics/{id}' }
+      abuse_reports_url { '/pinboard_service/abuse_reports' }
+      abuse_report_url { '/pinboard_service/abuse_reports/{id}' }
+      system_info_url { '/pinboard_service/system_info/{id}' }
       initialize_with { attributes.as_json }
     end
 
     factory 'quiz:root', class: Hash do
-      clone_quiz_url { '/quizzes/{id}/clone' }
-      quizzes_url { '/quizzes' }
-      quiz_url { '/quizzes/{id}' }
-      questions_url { '/questions' }
-      question_url { '/questions/{id}' }
-      multiple_answer_questions_url { '/multiple_answer_questions' }
-      multiple_answer_question_url { '/multiple_answer_questions/{id}' }
-      multiple_choice_questions_url { '/multiple_choice_questions' }
-      multiple_choice_question_url { '/multiple_choice_questions/{id}' }
-      free_text_questions_url { '/free_text_questions' }
-      free_text_question_url { '/free_text_questions/{id}' }
-      essay_questions_url { '/essay_questions' }
-      essay_question_url { '/essay_questions/{id}' }
-      answers_url { '/answers' }
-      answer_url { '/answers/{id}' }
-      text_answers_url { '/text_answers' }
-      text_answer_url { '/text_answers/{id}' }
-      free_text_answers_url { '/free_text_answers' }
-      free_text_answer_url { '/free_text_answers/{id}' }
-      quiz_submissions_url { '/quiz_submissions' }
-      quiz_submission_url { '/quiz_submissions/{id}' }
-      quiz_submission_questions_url { '/quiz_submission_questions' }
-      quiz_submission_free_text_answers_url { '/quiz_submission_free_text_answers' }
-      quiz_submission_answers_url { '/quiz_submission_answers' }
-      quiz_submission_selectable_answers_url { '/quiz_submission_selectable_answers' }
-      quiz_submission_snapshots_url { '/quiz_submission_snapshots' }
-      quiz_submission_snapshot_url { '/quiz_submission_snapshots/{id}' }
-      user_quiz_attempts_url { '/user_quiz_attempts' }
-      submission_statistic_url { '/submission_statistics/{id}' }
-      submission_question_statistic_url { '/submission_question_statistics/{id}' }
-      quiz_submission_statistic_url { '/quiz_submission_statistics/{id}' }
-      system_info_url { '/system_info/{id}' }
+      clone_quiz_url { '/quiz_service/quizzes/{id}/clone' }
+      quizzes_url { '/quiz_service/quizzes' }
+      quiz_url { '/quiz_service/quizzes/{id}' }
+      questions_url { '/quiz_service/questions' }
+      question_url { '/quiz_service/questions/{id}' }
+      multiple_answer_questions_url { '/quiz_service/multiple_answer_questions' }
+      multiple_answer_question_url { '/quiz_service/multiple_answer_questions/{id}' }
+      multiple_choice_questions_url { '/quiz_service/multiple_choice_questions' }
+      multiple_choice_question_url { '/quiz_service/multiple_choice_questions/{id}' }
+      free_text_questions_url { '/quiz_service/free_text_questions' }
+      free_text_question_url { '/quiz_service/free_text_questions/{id}' }
+      essay_questions_url { '/quiz_service/essay_questions' }
+      essay_question_url { '/quiz_service/essay_questions/{id}' }
+      answers_url { '/quiz_service/answers' }
+      answer_url { '/quiz_service/answers/{id}' }
+      text_answers_url { '/quiz_service/text_answers' }
+      text_answer_url { '/quiz_service/text_answers/{id}' }
+      free_text_answers_url { '/quiz_service/free_text_answers' }
+      free_text_answer_url { '/quiz_service/free_text_answers/{id}' }
+      quiz_submissions_url { '/quiz_service/quiz_submissions' }
+      quiz_submission_url { '/quiz_service/quiz_submissions/{id}' }
+      quiz_submission_questions_url { '/quiz_service/quiz_submission_questions' }
+      quiz_submission_free_text_answers_url { '/quiz_service/quiz_submission_free_text_answers' }
+      quiz_submission_answers_url { '/quiz_service/quiz_submission_answers' }
+      quiz_submission_selectable_answers_url { '/quiz_service/quiz_submission_selectable_answers' }
+      quiz_submission_snapshots_url { '/quiz_service/quiz_submission_snapshots' }
+      quiz_submission_snapshot_url { '/quiz_service/quiz_submission_snapshots/{id}' }
+      user_quiz_attempts_url { '/quiz_service/user_quiz_attempts' }
+      submission_statistic_url { '/quiz_service/submission_statistics/{id}' }
+      submission_question_statistic_url { '/quiz_service/submission_question_statistics/{id}' }
+      quiz_submission_statistic_url { '/quiz_service/quiz_submission_statistics/{id}' }
+      system_info_url { '/quiz_service/system_info/{id}' }
       initialize_with { attributes.as_json }
     end
 

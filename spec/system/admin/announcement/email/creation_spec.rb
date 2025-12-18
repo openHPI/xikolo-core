@@ -18,8 +18,8 @@ describe 'Admin: Announcement: Create Email', type: :system do
       publication_channels: {email: nil},
       author_id: user_id,
       created_at: 1.day.ago,
-      self_url: "/announcements/#{announcement_id}",
-      messages_url: "/announcements/#{announcement_id}/messages",
+      self_url: "/news_service/announcements/#{announcement_id}",
+      messages_url: "/news_service/announcements/#{announcement_id}/messages",
     }
   end
 

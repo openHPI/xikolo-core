@@ -1,14 +1,14 @@
 common: &common
   services:
-    account: <%= ENV['XIKOLO_SERVICE_ACCOUNT'] || 'http://localhost:3100' %>
+    account: <%= ENV['XIKOLO_SERVICE_ACCOUNT'] || 'http://localhost:3000/account_service' %>
     course: <%= ENV['XIKOLO_SERVICE_COURSE'] || 'http://localhost:3300' %>
     learnanalytics: <%= ENV['XIKOLO_SERVICE_LANALYTICS'] || 'http://localhost:5900' %>
-    news: <%= ENV['XIKOLO_SERVICE_NEWS'] || 'http://localhost:4300' %>
+    news: <%= ENV['XIKOLO_SERVICE_NEWS'] || 'http://localhost:3000/news_service' %>
     notification: <%= ENV['XIKOLO_SERVICE_NOTIFICATION'] || 'http://localhost:3200' %>
-    pinboard: <%= ENV['XIKOLO_SERVICE_PINBOARD'] || 'http://localhost:3500' %>
-    quiz: <%= ENV['XIKOLO_SERVICE_QUIZ'] || 'http://localhost:3800' %>
+    pinboard: <%= ENV['XIKOLO_SERVICE_PINBOARD'] || 'http://localhost:3000/pinboard_service' %>
+    quiz: <%= ENV['XIKOLO_SERVICE_QUIZ'] || 'http://localhost:3000/quiz_service' %>
     quizimporter: http://quiz-import-service.example.org
-    timeeffort: <%= ENV['XIKOLO_SERVICE_TIMEEFFORT'] || 'http://localhost:6300' %>
+    timeeffort: <%= ENV['XIKOLO_SERVICE_TIMEEFFORT'] || 'http://localhost:3000/timeeffort_service' %>
 
 production:
   <<: *common

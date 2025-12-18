@@ -50,7 +50,7 @@ describe CourseService::Course::Clone do
 
     # Stub quiz resource
     Stub.request(:quiz, :get, '/quizzes/00000000-3333-4444-9999-000000000001')
-      .to_return Stub.json({clone_url: '/quizzes/00000000-3333-4444-9999-000000000001/clone'})
+      .to_return Stub.json({clone_url: '/quiz_service/quizzes/00000000-3333-4444-9999-000000000001/clone'})
     Stub.request(:quiz, :post, '/quizzes/00000000-3333-4444-9999-000000000001/clone')
       .to_return Stub.json({id: '00000000-3333-4444-9999-000000000103'})
   end

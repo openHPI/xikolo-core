@@ -206,15 +206,15 @@ namespace :db do
   desc 'Seed all databases (development)'
   task :seed, [:role] => %w[^config] do |_task, args|
     args.with_defaults(role: :db)
-    # Seeding the course service requires the account service to be running. The
-    # seeds will create courses that have hook that contacts the account service
-    # to create groups and grants specific for each new course.
+    # Seeding the course service requires the account service (included in web) to
+    # be running. The seeds will create courses that have hook that contacts the
+    # account service to create groups and grants specific for each new course.
     #
-    # The account service is started with development mode and port. This task
+    # The web service is started with development mode and port. This task
     # only assumes to be used in development mode.
-    process = Server[:account].bundle 'exec', 'rails', 'server', '--port', '3100'
+    process = Server[:web].bundle 'exec', 'rails', 'server', '--port', '3000'
     process.extend(MultiProcess::Process::Rails)
-    process.port = 3100
+    process.port = 3000
     process.start
 
     30.times do
@@ -222,7 +222,7 @@ namespace :db do
       break if process.available?
     end
 
-    raise 'Account service not started. Abort.' unless process.available?
+    raise 'Web service not started. Abort.' unless process.available?
 
     Server.exec args[:role], partition: 1 do |app|
       app.bundle 'exec', 'rake', 'db:seed', env: {'RAILS_ENV' => ENV.fetch('RAILS_ENV', nil)}

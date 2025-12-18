@@ -9,18 +9,18 @@ production:
 
 development:
   services:
-    account: <%= ENV['XIKOLO_SERVICE_ACCOUNT'] || 'http://localhost:3100' %>
+    account: <%= ENV['XIKOLO_SERVICE_ACCOUNT'] || 'http://localhost:3000/account_service' %>
     course: <%= ENV['XIKOLO_SERVICE_COURSE'] || 'http://localhost:3300' %>
     learnanalytics: <%= ENV['XIKOLO_SERVICE_LANALYTICS'] || 'http://localhost:5900' %>
-    news: <%= ENV['XIKOLO_SERVICE_NEWS'] || 'http://localhost:4300' %>
+    news: <%= ENV['XIKOLO_SERVICE_NEWS'] || 'http://localhost:3000/news_service' %>
     notification: <%= ENV['XIKOLO_SERVICE_NOTIFICATION'] || 'http://localhost:3200' %>
-    pinboard: <%= ENV['XIKOLO_SERVICE_PINBOARD'] || 'http://localhost:3500' %>
+    pinboard: <%= ENV['XIKOLO_SERVICE_PINBOARD'] || 'http://localhost:3000/pinboard_service' %>
 
 test:
   services:
     account: http://localhost:3000/account_service
     course: http://localhost:3300
     learnanalytics: http://localhost:5900
-    news: http://localhost:4300
+    news: http://localhost:3000/news_service
     notification: http://notification.xikolo.tld/
-    pinboard: http://localhost:3500
+    pinboard: http://localhost:3000/pinboard_service

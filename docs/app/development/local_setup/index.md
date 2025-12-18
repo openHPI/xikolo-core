@@ -540,19 +540,19 @@ There are multiple ways to work with your local copy of Xikolo. These tutorials 
 The 3 most important services you will always need:
 
 ```console
-overmind start -l account,course,web
+overmind start -l course,web
 ```
 
 Whenever you need additional services, you can add it to this list. When you don't know which services you need, you'll get an error message with the specific port. Just take a look at the 'Procfile'. An overview of all ports is available in `config/services.yml`.
 
 ```console
-overmind start -l pinboard,lti,account,course,news,web,video,quiz
+overmind start -l course,web
 ```
 
 Start the project with a different brand than default:
 
 ```console
-BRAND=your_brand overmind start -l account,course,web
+BRAND=your_brand overmind start -l course,web
 ```
 
 !!! note

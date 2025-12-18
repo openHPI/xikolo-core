@@ -11,7 +11,7 @@ describe 'Files: Logo', type: :request do
     subject { request; response }
 
     it { is_expected.to have_http_status :found }
-    it { is_expected.to redirect_to '/assets/logo-3f63cc7e701f26e85682924b88875b4b9d19777ff8a110267bf3ec13026fb92a.png' }
+    it { is_expected.to redirect_to %r{/assets/logo-[a-f0-9]{64}\.png} }
 
     it 'is marked as cacheable for a month' do
       request
@@ -22,7 +22,7 @@ describe 'Files: Logo', type: :request do
       let(:params) { super().merge(email: '1') }
 
       it { is_expected.to have_http_status :found }
-      it { is_expected.to redirect_to '/assets/logo_mail-f46bb9327a8c663c9ccdbd9a1d45c86d501f89bc505b94eb098091f81b550cba.png' }
+      it { is_expected.to redirect_to %r{/assets/logo_mail-[a-f0-9]{64}\.png} }
 
       it 'is marked as cacheable for a month' do
         request

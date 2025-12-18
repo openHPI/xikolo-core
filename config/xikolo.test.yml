@@ -11,6 +11,7 @@ s3:
     course: xikolo-public
     lti: xikolo-public
     pages: xikolo-public
+    quiz: xikolo-quiz
     uploads: xikolo-uploads
     video: xikolo-video
     pinboard: xikolo-pinboard
