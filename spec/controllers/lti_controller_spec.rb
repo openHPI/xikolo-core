@@ -24,6 +24,16 @@ describe LtiController, type: :controller do
 
     render_views
 
+    context 'when submission deadline has passed' do
+      let!(:item) { create(:item, section:, content_id: exercise.id, content_type: 'lti_exercise', submission_deadline: 1.day.ago) }
+
+      it 'redirects with error message' do
+        tool_launch
+        expect(response).to redirect_to(course_item_url('the-course', item.id))
+        expect(flash[:error]).to be_present
+      end
+    end
+
     context 'when the LTI provider has pseudonymized privacy' do
       let(:provider) { create(:lti_provider, :pseudonymized) }
 

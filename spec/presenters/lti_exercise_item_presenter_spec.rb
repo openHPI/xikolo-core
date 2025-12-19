@@ -69,4 +69,26 @@ describe LtiExerciseItemPresenter, type: :presenter do
       end
     end
   end
+
+  describe '#partial_name' do
+    subject { presenter.partial_name }
+
+    let(:item_params) { super().merge content_type: 'lti_exercise' }
+
+    context 'when deadline has not passed' do
+      it { is_expected.to eq 'items/lti_exercise/show_item_lti_exercise' }
+    end
+
+    context 'when deadline has passed' do
+      let(:item_params) { super().merge submission_deadline: 1.day.ago }
+
+      it { is_expected.to eq 'items/quiz/quiz_submission_deadline_passed' }
+
+      context 'for instrumented user' do
+        let(:user) { Xikolo::Common::Auth::CurrentUser.from_session('user_id' => user_id, 'permissions' => {}, 'features' => {}, 'user' => {'anonymous' => false}, 'masqueraded' => true) }
+
+        it { is_expected.to eq 'items/lti_exercise/show_item_lti_exercise' }
+      end
+    end
+  end
 end

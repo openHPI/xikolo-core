@@ -39,7 +39,9 @@ class LtiExerciseItemPresenter < ItemPresenter
   # Decide whether to show an intro page or an embedded launch iframe.
   #
   def partial_name
-    if needs_intro?
+    if submission_deadline_passed? && !@user.instrumented?
+      'items/quiz/quiz_submission_deadline_passed'
+    elsif needs_intro?
       super
     else
       'items/lti_exercise/launch_iframe'
@@ -87,6 +89,10 @@ class LtiExerciseItemPresenter < ItemPresenter
     else
       tool_launch_path
     end
+  end
+
+  def submission_deadline_passed?
+    submission_deadline.present? && submission_deadline < Time.zone.now
   end
 
   private

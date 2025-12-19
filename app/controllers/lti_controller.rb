@@ -9,8 +9,13 @@ class LtiController < ApplicationController
 
   def tool_launch
     item = Course::Item.find(UUID4(params[:id]))
-    @launch = Course::LtiLaunchPresenter.new(item, current_user)
 
+    if item.submission_deadline_passed?(current_user.id)
+      add_flash_message(:error, I18n.t(:'flash.error.quiz_submissions_submission_deadline_passed'))
+      return redirect_to(course_item_url(params[:course_id], params[:id]))
+    end
+
+    @launch = Course::LtiLaunchPresenter.new(item, current_user)
     render 'items/lti_exercise/tool_launch', layout: 'plain'
   end
 

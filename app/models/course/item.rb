@@ -87,5 +87,10 @@ module Course
 
       [self[:submission_deadline], enrollment.forced_submission_date].compact.max
     end
+
+    def submission_deadline_passed?(user_id = nil)
+      deadline = user_id ? submission_deadline_for(user_id) : self[:submission_deadline]
+      deadline.present? && deadline.past?
+    end
   end
 end
