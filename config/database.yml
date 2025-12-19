@@ -7,8 +7,13 @@ common: &common
     statement_timeout: "10s"
 
 development:
-  <<: *common
-  database: xikolo
+  primary:
+    <<: *common
+    database: xikolo
+  queue:
+    <<: *common
+    database: xikolo_queue
+    migrations_paths: db/queue_migrate
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".

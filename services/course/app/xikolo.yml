@@ -109,7 +109,4 @@ course_groups:
 #                     (imported from an older course platform).
 #
 # (For backwards compatibility, it can also be set to "true" or "false" instead of a hash.)
-persisted_learning_evaluation:
-  write: false
-  read: false
-  legacy_courses: []
+persisted_learning_evaluation: false

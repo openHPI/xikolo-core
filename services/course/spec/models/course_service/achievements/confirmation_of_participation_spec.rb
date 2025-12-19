@@ -19,13 +19,21 @@ describe CourseService::Achievements::ConfirmationOfParticipation, type: :model 
 
   subject(:cop) { described_class.new(course, evaluation) }
 
+  before do
+    create(:'course_service/item', item_params)
+    xi_config <<~YML
+      persisted_learning_evaluation:
+        write: false
+        read: false
+        legacy_courses: []
+    YML
+  end
+
   let(:course) { create(:'course_service/course', :active, course_params) }
   let(:course_params) { {cop_enabled: true, roa_enabled: true} }
   let(:user_id) { enrollment.user_id }
   let(:enrollment) { create(:'course_service/enrollment', course:) }
   let(:item_params) { {section: create(:'course_service/section', course:), published: true, optional: false} }
-
-  before { create(:'course_service/item', item_params) }
 
   around do |example|
     Sidekiq::Testing.inline!(&example)

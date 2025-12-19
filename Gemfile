@@ -223,3 +223,5 @@ group :test, :integration do
   gem 'simplecov', require: false
   gem 'simplecov-cobertura', require: false
 end
+
+gem 'solid_queue', '~> 1.2'

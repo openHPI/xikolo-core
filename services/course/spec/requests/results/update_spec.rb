@@ -14,7 +14,7 @@ describe 'Results: Update', type: :request do
     let(:data) { {user_id:, item_id: item.id, points: 2.3} }
 
     context 'with existing resource' do
-      let!(:result) { CourseService::Result.create id: result_id, user_id:, item_id: item.id, dpoints: 34 }
+      let!(:result) { CourseService::Result.create! id: result_id, user_id:, item_id: item.id, dpoints: 34 }
 
       it { is_expected.to respond_with :no_content }
 
@@ -48,7 +48,7 @@ describe 'Results: Update', type: :request do
     let(:data) { {user_id:, item_id: item.id, points: 2.3} }
 
     context 'with existing resource' do
-      let(:result) { CourseService::Result.create id: result_id, user_id:, item_id: item.id, dpoints: 34 }
+      let(:result) { CourseService::Result.create! id: result_id, user_id:, item_id: item.id, dpoints: 34 }
 
       it { is_expected.to respond_with :no_content }
 

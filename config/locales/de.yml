@@ -650,6 +650,7 @@ de:
       remainder: Helpdesk
     notice: "Haben Sie schon in <a class='bs-a' href='/pages/faq' target='_blank' rel='noopener'>unseren FAQ</a> nach einer Antwort auf Ihre Frage gesucht?"
     notice_title: Tipp
+    closed_notice: Bitte beachten Sie, dass der Helpdesk während der Feiertage vom 24.12.2025 bis einschließlich 04.01.2026 geschlossen ist. Wir sind ab dem 05.01.2026 wie gewohnt für Sie da.
     text: Bitte beschreiben Sie Ihr Anliegen mit Hilfe des Formulars unten. Informationen über Ihren Browser und Ihre E-Mail-Adresse werden automatisch mit Ihrer Anfrage übermittelt.
     report_title: Titel für Ihre Anfrage
     email: Ihre E-Mail-Adresse

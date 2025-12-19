@@ -2,6 +2,7 @@ p.mt15
   = t(:'helpdesk.text')
 
 = render Global::Callout.new(t(:'helpdesk.notice'), title: t(:'helpdesk.notice_title'))
+= render Global::Callout.new(t(:'helpdesk.closed_notice'))
 
 = form_tag({controller: 'helpdesk', action: 'send_helpdesk'}, method: :post, class: 'autoValidate',
   id: recaptcha.show_checkbox_recaptcha? ? 'helpdesk-form-with-checkbox-recaptcha' : 'helpdesk-form')

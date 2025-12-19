@@ -175,13 +175,15 @@ describe CourseService::Item, type: :model do
       context 'with a default of true' do
         before { Xikolo.config.open_mode['default_value'] = true }
 
+        let(:default_attrs) { super().merge(section: create(:'course_service/section')) }
+
         it 'respects the default' do
-          item = CourseService::Item.create default_attrs
+          item = CourseService::Item.create! default_attrs
           expect(item.open_mode).to be true
         end
 
         it 'allows overwriting the default' do
-          item = CourseService::Item.create default_attrs.merge(open_mode: false)
+          item = CourseService::Item.create! default_attrs.merge(open_mode: false)
           expect(item.open_mode).to be false
         end
       end
@@ -189,13 +191,15 @@ describe CourseService::Item, type: :model do
       context 'with a default of false' do
         before { Xikolo.config.open_mode['default_value'] = false }
 
+        let(:default_attrs) { super().merge(section: create(:'course_service/section')) }
+
         it 'respects the default' do
-          item = CourseService::Item.create default_attrs
+          item = CourseService::Item.create! default_attrs
           expect(item.open_mode).to be false
         end
 
         it 'allows overwriting the default' do
-          item = CourseService::Item.create default_attrs.merge(open_mode: true)
+          item = CourseService::Item.create! default_attrs.merge(open_mode: true)
           expect(item.open_mode).to be true
         end
       end

@@ -445,3 +445,5 @@ de:
           required_when_proctored: Für überwachte Prüfungen muss eine Abgabefrist festgelegt werden.
         title:
           "can't be blank": Bitte geben Sie einen Titel für die Lerneinheit an.
+      record_availability: Der Leistungsnachweis ist noch nicht verfügbar.
+      user_entitlement: Dieser Leistungsnachweis ist nur für Benutzer verfügbar, die im Kurs eingeschrieben sind und ihn erworben haben.

@@ -500,3 +500,5 @@ en:
       topic:
         base:
           not_created: The topic could not be created. Please try again.
+      record_availability: The certificate is not available yet.
+      user_entitlement: This certificate is only available to users who are enrolled in the course and have earned it.

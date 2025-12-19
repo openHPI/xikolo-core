@@ -22,6 +22,7 @@ describe 'Enrollment: Reactivations: Create', type: :request do
   end
 
   let!(:unlock_graded_assignments) do
+    Stub.service(:quiz, build(:'quiz:root'))
     Stub.request(
       :quiz, :post, '/user_quiz_attempts',
       body: {user_id: enrollment['user_id'], course_id: enrollment['course_id']}

@@ -39,28 +39,28 @@ describe CourseService::Item, '#user_grade' do
     end
 
     it 'returns nil when there are no results for the user' do
-      item.user_results.create(user_id: generate(:user_id), dpoints: 40)
+      item.user_results.create!(user_id: generate(:user_id), dpoints: 40)
 
       expect(grade).to be_nil
     end
 
     it 'returns the user\'s best result' do
-      item.user_results.create(user_id: generate(:user_id), dpoints: 40)
-      my_best = item.user_results.create(user_id:, dpoints: 30)
-      item.user_results.create(user_id:, dpoints: 15)
-      item.user_results.create(user_id:, dpoints: 20)
+      item.user_results.create!(user_id: generate(:user_id), dpoints: 40)
+      my_best = item.user_results.create!(user_id:, dpoints: 30)
+      item.user_results.create!(user_id:, dpoints: 15)
+      item.user_results.create!(user_id:, dpoints: 20)
 
       expect(grade).to eq my_best
     end
 
     context 'when the user is enrolled and booked proctoring' do
-      before { item.section.course.enrollments.create(user_id:, proctored: true) }
+      before { item.section.course.enrollments.create!(user_id:, proctored: true) }
 
       it 'still returns the user\'s best result' do
-        item.user_results.create(user_id: generate(:user_id), dpoints: 40)
-        my_best = item.user_results.create(user_id:, dpoints: 30)
-        item.user_results.create(user_id:, dpoints: 15)
-        item.user_results.create(user_id:, dpoints: 20)
+        item.user_results.create!(user_id: generate(:user_id), dpoints: 40)
+        my_best = item.user_results.create!(user_id:, dpoints: 30)
+        item.user_results.create!(user_id:, dpoints: 15)
+        item.user_results.create!(user_id:, dpoints: 20)
 
         expect(grade).to eq my_best
       end
@@ -75,22 +75,22 @@ describe CourseService::Item, '#user_grade' do
     end
 
     it 'returns the user\'s best result by default' do
-      item.user_results.create(user_id: generate(:user_id), dpoints: 40)
-      my_best = item.user_results.create(user_id:, dpoints: 30)
-      item.user_results.create(user_id:, dpoints: 15)
-      item.user_results.create(user_id:, dpoints: 20)
+      item.user_results.create!(user_id: generate(:user_id), dpoints: 40)
+      my_best = item.user_results.create!(user_id:, dpoints: 30)
+      item.user_results.create!(user_id:, dpoints: 15)
+      item.user_results.create!(user_id:, dpoints: 20)
 
       expect(grade).to eq my_best
     end
 
     context 'when the user is enrolled, but not proctored' do
-      before { item.section.course.enrollments.create(user_id:) }
+      before { item.section.course.enrollments.create!(user_id:) }
 
       it 'returns the user\'s best result' do
-        item.user_results.create(user_id: generate(:user_id), dpoints: 40)
-        my_best = item.user_results.create(user_id:, dpoints: 30)
-        item.user_results.create(user_id:, dpoints: 15)
-        item.user_results.create(user_id:, dpoints: 20)
+        item.user_results.create!(user_id: generate(:user_id), dpoints: 40)
+        my_best = item.user_results.create!(user_id:, dpoints: 30)
+        item.user_results.create!(user_id:, dpoints: 15)
+        item.user_results.create!(user_id:, dpoints: 20)
 
         expect(grade).to eq my_best
       end
@@ -118,22 +118,22 @@ describe CourseService::Item, '#user_grade' do
     end
 
     it 'returns the user\'s best result' do
-      item.user_results.create(user_id: generate(:user_id), dpoints: 40)
-      my_best = item.user_results.create(user_id:, dpoints: 30)
-      item.user_results.create(user_id:, dpoints: 15)
-      item.user_results.create(user_id:, dpoints: 20)
+      item.user_results.create!(user_id: generate(:user_id), dpoints: 40)
+      my_best = item.user_results.create!(user_id:, dpoints: 30)
+      item.user_results.create!(user_id:, dpoints: 15)
+      item.user_results.create!(user_id:, dpoints: 20)
 
       expect(grade).to eq my_best
     end
 
     context 'when the user is enrolled and booked proctoring' do
-      before { item.section.course.enrollments.create(user_id:, proctored: true) }
+      before { item.section.course.enrollments.create!(user_id:, proctored: true) }
 
       it 'still returns the user\'s best result' do
-        item.user_results.create(user_id: generate(:user_id), dpoints: 40)
-        my_best = item.user_results.create(user_id:, dpoints: 30)
-        item.user_results.create(user_id:, dpoints: 15)
-        item.user_results.create(user_id:, dpoints: 20)
+        item.user_results.create!(user_id: generate(:user_id), dpoints: 40)
+        my_best = item.user_results.create!(user_id:, dpoints: 30)
+        item.user_results.create!(user_id:, dpoints: 15)
+        item.user_results.create!(user_id:, dpoints: 20)
 
         expect(grade).to eq my_best
       end

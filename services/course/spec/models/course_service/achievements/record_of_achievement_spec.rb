@@ -27,6 +27,15 @@ describe CourseService::Achievements::RecordOfAchievement, type: :model do
   let!(:item) { create(:'course_service/item', :homework, :with_max_points, item_params) }
   let(:item_params) { {section: create(:'course_service/section', course:)} }
 
+  before do
+    xi_config <<~YML
+      persisted_learning_evaluation:
+        write: false
+        read: false
+        legacy_courses: []
+    YML
+  end
+
   around do |example|
     Sidekiq::Testing.inline!(&example)
   end

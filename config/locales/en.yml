@@ -748,6 +748,7 @@ en:
       remainder: "Helpdesk"
     notice: "Have you already <a class='bs-a' href='/pages/faq' target='_blank' rel='noopener'>checked our FAQ</a> for an answer to your question?"
     notice_title: Hint
+    closed_notice: Please note that the Helpdesk will be closed during the holiday season, from 24 December 2025 to 4 January 2026. We will be available again as usual from 5 January 2026.
     text: Please describe your technical problem using the textbox below. Information about your browser and your e-mail address will be automatically submitted along with your issue report.
     report_title: Title of your issue
     email: Your e-mail address

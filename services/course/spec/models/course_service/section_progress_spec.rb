@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe CourseService::SectionProgress, type: :model do
-  subject(:progress) { described_class.create(section:, user_id:) }
+  subject(:progress) { described_class.create!(section:, user_id:) }
 
   let(:section) { create(:'course_service/section') }
   let(:user_id) { generate(:user_id) }

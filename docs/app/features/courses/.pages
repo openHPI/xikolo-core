@@ -6,5 +6,6 @@ nav:
     - featured_courses.md
     - relations.md
   - deadlines.md
-  - regrading.md
+  - quiz_regrading.md
+  - lti_regrading.md
   - ...
