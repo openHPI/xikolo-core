@@ -5,6 +5,8 @@ require 'spec_helper'
 describe NotificationService::SystemInfoController, type: :controller do
   subject(:system_info) { JSON.parse(response.body) }
 
+  before { request.headers['ACCEPT'] = 'application/json' }
+
   include_context 'notification_service controller'
 
   let(:default_params) { {format: 'json'} }

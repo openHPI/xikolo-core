@@ -4,6 +4,8 @@ require 'spec_helper'
 
 describe NotificationService::EventsController, type: :controller do
   include_context 'notification_service controller'
+  before { request.headers['ACCEPT'] = 'application/json' }
+
   let(:json) { JSON.parse response.body }
   let(:params) { {} }
 

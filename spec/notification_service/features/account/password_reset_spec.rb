@@ -35,12 +35,11 @@ describe 'Account Password Reset Email', type: :feature do
     expect(mail).to be_a Mail::Message
     expect(mail.to).to include 'john@example.de'
     expect(mail.from).to eql ['no-reply@xikolo.de']
+    expect(conv_str(mail.html_part)).to be_present
+    expect(conv_str(mail.html_part)).to include password_reset_url
 
-    expect(mail.html).to be_present
-    expect(mail.html).to include password_reset_url
-
-    expect(mail.text).to be_present
-    expect(mail.text).to include password_reset_url
+    expect(conv_str(mail.text_part)).to be_present
+    expect(conv_str(mail.text_part)).to include password_reset_url
   end
 
   it 'ignores resets for deleted users' do
@@ -98,8 +97,8 @@ describe 'Account Password Reset Email', type: :feature do
         Msgr::TestPool.run
 
         expect(mail.subject).to eq 'Passwort zurücksetzen für Ihr Xikolo Benutzerkonto'
-        expect(mail.html).to include 'Klicken Sie den untenstehenden Button, um das Passwort nun zurückzusetzen.'
-        expect(mail.text).to include 'Klicken Sie den untenstehenden Button, um das Passwort nun zurückzusetzen.'
+        expect(conv_str(mail.html_part)).to include 'Klicken Sie den untenstehenden Button, um das Passwort nun zurückzusetzen.'
+        expect(conv_str(mail.text_part)).to include 'Klicken Sie den untenstehenden Button, um das Passwort nun zurückzusetzen.'
       end
     end
   end

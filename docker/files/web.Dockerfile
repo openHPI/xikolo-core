@@ -30,8 +30,11 @@ RUN <<EOF
     git \
     libcurl4 \
     libffi-dev \
+    libgirepository1.0-dev \
     libidn11-dev \
     libpq-dev \
+    libcairo2-dev \
+    librsvg2-dev \
     libsodium23 \
     libtool \
     libyaml-dev \
@@ -94,8 +97,10 @@ RUN <<EOF
     git \
     libcurl4 \
     libffi-dev \
+    libgirepository1.0-dev \
     libidn11-dev \
     libpq-dev \
+    librsvg2-dev \
     libsodium23 \
     libyaml-dev \
     pax-utils \
@@ -172,6 +177,8 @@ RUN useradd --create-home --shell /bin/bash xikolo
 RUN <<EOF
   apt-get --yes --quiet update
   apt-get --yes --quiet --no-install-recommends install \
+    gir1.2-gdkpixbuf-2.0 \
+    gir1.2-rsvg-2.0 \
     ffmpeg \
     libcurl4 \
     libsodium23 \

@@ -32,6 +32,16 @@ describe LtiController, type: :controller do
         expect(response).to redirect_to(course_item_url('the-course', item.id))
         expect(flash[:error]).to be_present
       end
+
+      context 'when provider allows access after deadline' do
+        let(:provider) { create(:lti_provider, allow_access_after_deadline: true) }
+
+        it 'allows launch' do
+          tool_launch
+          expect(response).to have_http_status(:ok)
+          expect(flash[:error]).to be_blank
+        end
+      end
     end
 
     context 'when the LTI provider has pseudonymized privacy' do

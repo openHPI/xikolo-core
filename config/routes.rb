@@ -465,6 +465,7 @@ Rails.application.routes.draw do
     mount NewsService::Engine => '/news_service'
     mount QuizService::Engine => '/quiz_service'
     mount CourseService::Engine => '/course_service'
+    mount NotificationService::Engine => '/notification_service'
   end
 
   if Rails.env.development?

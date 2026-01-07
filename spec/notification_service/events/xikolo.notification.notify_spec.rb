@@ -63,14 +63,14 @@ describe 'xikolo.notification.notify', type: :event do
 
       it 'contains disable links' do
         # The base URL
-        expect(email.text).to include 'https://xikolo.de/notification_user_settings/disable'
+        expect(conv_str(email.text_part)).to include 'https://xikolo.de/notification_user_settings/disable'
 
         # The setting keys (global and type-specific)
-        expect(email.text).to include 'key=global'
-        expect(email.text).to include 'key=announcement'
+        expect(conv_str(email.text_part)).to include 'key=global'
+        expect(conv_str(email.text_part)).to include 'key=announcement'
 
         # The user's email address
-        expect(email.text).to include 'test@email.com'
+        expect(conv_str(email.text_part)).to include 'test@email.com'
       end
     end
   end
@@ -194,10 +194,10 @@ describe 'xikolo.notification.notify', type: :event do
         before { Xikolo.config.track_mails = false }
 
         it 'does not change the URLs' do
-          expect(email.text).to include 'http://google.com/search'
-          expect(email.html).to include 'http://google.com/search'
-          expect(email.text).to include 'https://xikolo.de/news'
-          expect(email.html).to include 'https://xikolo.de/news'
+          expect(conv_str(email.text_part)).to include 'http://google.com/search'
+          expect(conv_str(email.html_part)).to include 'http://google.com/search'
+          expect(conv_str(email.text_part)).to include 'https://xikolo.de/news'
+          expect(conv_str(email.html_part)).to include 'https://xikolo.de/news'
         end
       end
 
@@ -206,25 +206,25 @@ describe 'xikolo.notification.notify', type: :event do
 
         shared_examples 'external URLs' do
           it 'are routed through /go' do
-            expect(email.text).to include '/go/link?url=http%3A%2F%2Fgoogle.com%2Fsearch'
-            expect(email.html).to include '/go/link?url=http%3A%2F%2Fgoogle.com%2Fsearch'
-            expect(email.text).not_to include 'http://google.com/search'
-            expect(email.html).not_to include 'href="http://google.com/search"'
+            expect(conv_str(email.text_part)).to include '/go/link?url=http%3A%2F%2Fgoogle.com%2Fsearch'
+            expect(conv_str(email.html_part)).to include '/go/link?url=http%3A%2F%2Fgoogle.com%2Fsearch'
+            expect(conv_str(email.text_part)).not_to include 'http://google.com/search'
+            expect(conv_str(email.html_part)).not_to include 'href="http://google.com/search"'
           end
         end
 
         shared_examples 'unsubscribe links' do
           it 'are included in the email' do
-            expect(email.text).to match %r{https://xikolo.de/notification_user_settings/disable\?\S+&key=pinboard&}
-            expect(email.html).to match %r{https://xikolo.de/notification_user_settings/disable\?\S+&amp;key=pinboard&amp;}
+            expect(conv_str(email.text_part)).to match %r{https://xikolo.de/notification_user_settings/disable\?\S+&key=pinboard&}
+            expect(conv_str(email.html_part)).to match %r{https://xikolo.de/notification_user_settings/disable\?\S+&amp;key=pinboard&amp;}
           end
         end
 
         it_behaves_like 'external URLs'
 
         it 'appends tracking parameters to internal URLs retaining the protocol' do
-          expect(email.text).to include 'https://xikolo.de/news?tracking_'
-          expect(email.html).to include 'https://xikolo.de/news?tracking_'
+          expect(conv_str(email.text_part)).to include 'https://xikolo.de/news?tracking_'
+          expect(conv_str(email.html_part)).to include 'https://xikolo.de/news?tracking_'
         end
 
         it_behaves_like 'unsubscribe links'
@@ -247,8 +247,8 @@ describe 'xikolo.notification.notify', type: :event do
           it_behaves_like 'external URLs'
 
           it 'appends tracking parameters to internal URLs retaining the protocol' do
-            expect(email.text).to include 'http://xikolo.de/news?tracking_'
-            expect(email.html).to include 'http://xikolo.de/news?tracking_'
+            expect(conv_str(email.text_part)).to include 'http://xikolo.de/news?tracking_'
+            expect(conv_str(email.html_part)).to include 'http://xikolo.de/news?tracking_'
           end
 
           it_behaves_like 'unsubscribe links'
@@ -277,10 +277,10 @@ describe 'xikolo.notification.notify', type: :event do
 
       it 'asks for review and links the post' do
         expect(email.subject).to eq 'Please review blocked pinboard item'
-        expect(email.text).to include 'an item was automatically blocked. Please review!'
-        expect(email.html).to include 'an item was automatically blocked. Please review!'
-        expect(email.text).to include 'https://xikolo.de/forum/url/to/post/123'
-        expect(email.html).to include 'https://xikolo.de/forum/url/to/post/123'
+        expect(conv_str(email.text_part)).to include 'an item was automatically blocked. Please review!'
+        expect(conv_str(email.html_part)).to include 'an item was automatically blocked. Please review!'
+        expect(conv_str(email.text_part)).to include 'https://xikolo.de/forum/url/to/post/123'
+        expect(conv_str(email.html_part)).to include 'https://xikolo.de/forum/url/to/post/123'
       end
     end
 

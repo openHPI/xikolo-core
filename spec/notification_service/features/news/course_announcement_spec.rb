@@ -159,17 +159,17 @@ describe 'Course Announcement Mail', type: :feature do
     expect(mails.size).to eq 3
     expect(mails.map {|m| m.to.first }).to match_array \
       %w[kevin.cool@example.com tom@example.com john.smith1@example.com]
-    expect(mail.html).to include 'Test Title'
+    expect(conv_str(mail.html_part)).to include 'Test Title'
     expect(mail.subject).to eq 'Test Title: A Course'
 
     # Not a test mail
-    expect(mail.html).not_to include 'This is a test message, only you received this!'
+    expect(conv_str(mail.html_part)).not_to include 'This is a test message, only you received this!'
 
     # Links are tracked
-    expect(mail.text).to include '&tracking_user=1YLgUE6KPhaxfpGX7'
+    expect(conv_str(mail.text_part)).to include '&tracking_user=1YLgUE6KPhaxfpGX7'
 
     # URLs are linkified
-    expect(mail.html).to include 'Click on <a href='
+    expect(conv_str(mail.html_part)).to include 'Click on <a href='
   end
 
   it 'sends email only once even on multiple send' do
@@ -219,7 +219,7 @@ describe 'Course Announcement Mail', type: :feature do
       Msgr::TestPool.run count: 6
       expect(mails.size).to eq 3
 
-      api = Restify.new(:test).get.value!
+      api = restify_with_headers(notification_service_url).get.value!
 
       stats = api.rel(:mail_log_stats).get({news_id: announcement_id}).value!
       expect(stats['count']).to eq 4
@@ -282,7 +282,7 @@ describe 'Course Announcement Mail', type: :feature do
       expect(mails.size).to eq 2
       expect(mails.flat_map(&:to)).to match_array \
         %w[tom@example.com john.smith1@example.com]
-      expect(mail.html).to include 'Test Title'
+      expect(conv_str(mail.html_part)).to include 'Test Title'
       expect(mail.subject).to eq 'Test Title: A Course'
     end
   end
@@ -290,7 +290,7 @@ describe 'Course Announcement Mail', type: :feature do
   it 'includes the course title' do
     publish.call
     Msgr::TestPool.run count: 5
-    expect(mail.html).to include 'A Course'
+    expect(conv_str(mail.html_part)).to include 'A Course'
   end
 
   context 'with translations' do
@@ -317,8 +317,8 @@ describe 'Course Announcement Mail', type: :feature do
 
     expect(mails.size).to eq 3
 
-    expect(mail.html).to include mail.to.first
-    expect(mail.html).to include notification_disable_link_base
+    expect(conv_str(mail.html_part)).to include mail.to.first
+    expect(conv_str(mail.html_part)).to include notification_disable_link_base
   end
 
   it 'translates disable links' do
@@ -326,14 +326,14 @@ describe 'Course Announcement Mail', type: :feature do
     Msgr::TestPool.run count: 5
 
     english_mail = mails.find {|m| m.to[0].eql? 'kevin.cool@example.com' }
-    expect(english_mail.html).to include 'you are signed up at Xikolo with your address kevin.cool@example.com'
-    expect(english_mail.html).to include 'receive further course announcements'
-    expect(english_mail.html).to include 'receive any further emails at all'
+    expect(conv_str(english_mail.html_part)).to include 'you are signed up at Xikolo with your address kevin.cool@example.com'
+    expect(conv_str(english_mail.html_part)).to include 'receive further course announcements'
+    expect(conv_str(english_mail.html_part)).to include 'receive any further emails at all'
 
     german_mail = mails.find {|m| m.to[0].eql? 'tom@example.com' }
-    expect(german_mail.html).to include 'weil Sie mit Ihrer E-Mail-Adresse tom@example.com bei Xikolo'
-    expect(german_mail.html).to include 'Kursmitteilungen mehr erhalten möchten'
-    expect(german_mail.html).to include 'überhaupt keine Benachrichtigungen per E-Mail'
+    expect(conv_str(german_mail.html_part)).to include 'weil Sie mit Ihrer E-Mail-Adresse tom@example.com bei Xikolo'
+    expect(conv_str(german_mail.html_part)).to include 'Kursmitteilungen mehr erhalten möchten'
+    expect(conv_str(german_mail.html_part)).to include 'überhaupt keine Benachrichtigungen per E-Mail'
   end
 
   it 'sets text direction properly' do
@@ -351,7 +351,7 @@ describe 'Course Announcement Mail', type: :feature do
   it 'updates the mail log so that progress can be checked in the frontend' do
     publish.call
 
-    api = Restify.new(:test).get.value!
+    api = restify_with_headers(notification_service_url).get.value!
 
     stats = api.rel(:mail_log_stats).get({news_id: announcement_id}).value!
     expect(stats['count']).to eq 0
@@ -419,7 +419,7 @@ describe 'Course Announcement Mail', type: :feature do
 
       expect(mails.size).to eq 1
       expect(mails.map(&:to).flatten.join).to eq 'adam@example.org'
-      expect(mail.html).to include 'This is a test message, only you received this!'
+      expect(conv_str(mail.html_part)).to include 'This is a test message, only you received this!'
     end
   end
 
@@ -434,7 +434,7 @@ describe 'Course Announcement Mail', type: :feature do
     end
 
     it 'includes the platform name in the disable link' do
-      expect(mail.html).to include 'because you are signed up at XiMOOCs'
+      expect(conv_str(mail.html_part)).to include 'because you are signed up at XiMOOCs'
     end
 
     it 'sends from the configured email address' do

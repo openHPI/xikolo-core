@@ -26,26 +26,6 @@ def mail
   mails.last
 end
 
-module MailPatch
-  def content
-    conv_str _best_part
-  end
-
-  def _best_part
-    html_part || text_part || self
-  end
-
-  def text
-    conv_str text_part
-  end
-
-  def html
-    conv_str html_part
-  end
-
-  def conv_str(part)
-    part.try(:body).try(:raw_source).try(:to_s)
-  end
+def conv_str(part)
+  part.try(:body).try(:raw_source).try(:to_s)
 end
-
-Mail::Message.include MailPatch

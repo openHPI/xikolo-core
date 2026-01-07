@@ -42,11 +42,11 @@ describe 'Email Address Confirmation Email', type: :feature do
     expect(mail.to).to include 'john@theuniverse.com'
     expect(mail.from).to eql ['no-reply@xikolo.de']
 
-    expect(mail.html).to be_present
-    expect(mail.html).to include confirm_email_url
+    expect(conv_str(mail.html_part)).to be_present
+    expect(conv_str(mail.html_part)).to include confirm_email_url
 
-    expect(mail.text).to be_present
-    expect(mail.text).to include confirm_email_url
+    expect(conv_str(mail.text_part)).to be_present
+    expect(conv_str(mail.text_part)).to include confirm_email_url
   end
 
   describe 'localization' do
@@ -63,8 +63,8 @@ describe 'Email Address Confirmation Email', type: :feature do
         Msgr::TestPool.run
 
         expect(mail.subject).to eq 'Bitte Bestätigen Sie Ihre E-Mail'
-        expect(mail.html).to include 'Sie bekommen diese E-Mail, da Sie eine neue E-Mail-Adresse zu Ihrem Konto bei Xikolo hinzugefügt haben.'
-        expect(mail.text).to include 'Sie bekommen diese E-Mail, da Sie eine neue E-Mail-Adresse zu Ihrem Konto bei Xikolo hinzugefügt haben.'
+        expect(conv_str(mail.html_part)).to include 'Sie bekommen diese E-Mail, da Sie eine neue E-Mail-Adresse zu Ihrem Konto bei Xikolo hinzugefügt haben.'
+        expect(conv_str(mail.text_part)).to include 'Sie bekommen diese E-Mail, da Sie eine neue E-Mail-Adresse zu Ihrem Konto bei Xikolo hinzugefügt haben.'
       end
     end
   end

@@ -729,3 +729,15 @@ course_groups:
         context: course
       - role: video.controller
         context: course
+
+# Rewrite URLs in notification emails so that we can track views and link clicks
+track_mails: true
+
+#######################
+### Announcements
+#######################
+
+# Send (global) announcements only to users who have been enrolled
+# in at least one course (including courses with deleted enrollment).
+announcements:
+  require_enrollment: false

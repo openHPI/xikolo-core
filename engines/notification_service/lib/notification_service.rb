@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require_relative 'markdown_service'
+require_relative 'tracking_mail_interceptor'
+
 module NotificationService
   class Engine < ::Rails::Engine
     isolate_namespace NotificationService

@@ -89,6 +89,12 @@ describe LtiExerciseItemPresenter, type: :presenter do
 
         it { is_expected.to eq 'items/lti_exercise/show_item_lti_exercise' }
       end
+
+      context 'when provider allows access after deadline' do
+        let(:exercise) { create(:lti_exercise, provider: create(:lti_provider, allow_access_after_deadline: true)) }
+
+        it { is_expected.to eq 'items/lti_exercise/show_item_lti_exercise' }
+      end
     end
   end
 end

@@ -34,8 +34,8 @@ describe 'Account Welcome Email', type: :feature do
       expect(mail.to).to include 'john@example.de'
       expect(mail.from).to eql ['no-reply@xikolo.de']
 
-      expect(mail.html).to be_present
-      expect(mail.text).to be_present
+      expect(conv_str(mail.html_part)).to be_present
+      expect(conv_str(mail.text_part)).to be_present
     end
   end
 
@@ -53,8 +53,8 @@ describe 'Account Welcome Email', type: :feature do
       it_behaves_like 'a welcome email'
 
       it 'has the confirmation_url on the email' do
-        expect(mail.html).to include welcome_email_url
-        expect(mail.text).to include welcome_email_url
+        expect(conv_str(mail.html_part)).to include welcome_email_url
+        expect(conv_str(mail.text_part)).to include welcome_email_url
       end
     end
 
@@ -70,8 +70,8 @@ describe 'Account Welcome Email', type: :feature do
       it_behaves_like 'a welcome email'
 
       it 'does not have the confirmation_url on the email' do
-        expect(mail.html).not_to include welcome_email_url
-        expect(mail.text).not_to include welcome_email_url
+        expect(conv_str(mail.html_part)).not_to include welcome_email_url
+        expect(conv_str(mail.text_part)).not_to include welcome_email_url
       end
     end
   end
@@ -88,7 +88,7 @@ describe 'Account Welcome Email', type: :feature do
 
       it_behaves_like 'a welcome email'
 
-      it { expect(mail.html).not_to include I18n.t('notification_service.notifications.account_mailer.welcome_email.step_1') }
+      it { expect(conv_str(mail.html_part)).not_to include I18n.t('notification_service.notifications.account_mailer.welcome_email.step_1') }
     end
 
     context 'when the user does not need to fill mandatory fields on their profile' do
@@ -106,7 +106,7 @@ describe 'Account Welcome Email', type: :feature do
 
       it_behaves_like 'a welcome email'
 
-      it { expect(mail.html).to include I18n.t('notification_service.notifications.account_mailer.welcome_email.step_1') }
+      it { expect(conv_str(mail.html_part)).to include I18n.t('notification_service.notifications.account_mailer.welcome_email.step_1') }
     end
   end
 
@@ -126,8 +126,8 @@ describe 'Account Welcome Email', type: :feature do
 
       it 'has German text' do
         expect(mail.subject).to eq 'Willkommen bei Xikolo'
-        expect(mail.html).to include 'Sie erhalten diese E-Mail, weil Sie ein neues Konto bei Xikolo registriert haben.'
-        expect(mail.text).to include 'Sie erhalten diese E-Mail, weil Sie ein neues Konto bei Xikolo registriert haben.'
+        expect(conv_str(mail.html_part)).to include 'Sie erhalten diese E-Mail, weil Sie ein neues Konto bei Xikolo registriert haben.'
+        expect(conv_str(mail.text_part)).to include 'Sie erhalten diese E-Mail, weil Sie ein neues Konto bei Xikolo registriert haben.'
       end
     end
   end

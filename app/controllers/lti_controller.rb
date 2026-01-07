@@ -10,7 +10,7 @@ class LtiController < ApplicationController
   def tool_launch
     item = Course::Item.find(UUID4(params[:id]))
 
-    if item.submission_deadline_passed?(current_user.id)
+    if item.submission_deadline_passed?(current_user.id) && !item.content&.provider&.allow_access_after_deadline
       add_flash_message(:error, I18n.t(:'flash.error.quiz_submissions_submission_deadline_passed'))
       return redirect_to(course_item_url(params[:course_id], params[:id]))
     end
