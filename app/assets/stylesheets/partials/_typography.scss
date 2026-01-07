@@ -70,6 +70,23 @@ $xi-font-nav-tabs: $corporatefont, sans-serif !default;
 /*------------------------------------*\
     $Fonts
 \*------------------------------------*/
+
+@include declare-font-face("IBM Plex Sans", "IBM-Plex-Sans-Regular");
+@include declare-font-face("IBM Plex Sans", "IBM-Plex-Sans-Bold", bold);
+@include declare-font-face(
+  "IBM Plex Sans",
+  "IBM-Plex-Sans-RegularItalic",
+  normal,
+  italic
+);
+@include declare-font-face(
+  "IBM Plex Sans",
+  "IBM-Plex-Sans-BoldItalic",
+  bold,
+  italic
+);
+@include declare-font-face("IBM Plex Mono", "IBM-Plex-Mono-Regular");
+
 @include declare-font-face("Open Sans", "OpenSansRegular");
 @include declare-font-face("Open Sans", "OpenSansLight", 100);
 @include declare-font-face("Open Sans", "OpenSansSemiBold", bold);

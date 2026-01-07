@@ -4,7 +4,7 @@ module NotificationService
 class AccountMailer < ApplicationMailer # rubocop:disable Layout/IndentationWidth
   include NotificationService::MailerHelper
 
-  layout 'foundation'
+  layout 'notification_service/foundation'
 
   def password_reset(user, url)
     @url = url
@@ -12,7 +12,7 @@ class AccountMailer < ApplicationMailer # rubocop:disable Layout/IndentationWidt
     return unless user['email'] # deleted user
 
     I18n.with_locale(get_language(user['language'])) do
-      subject = I18n.t 'account_mailer.password_reset.subject',
+      subject = I18n.t 'notification_service.notifications.account_mailer.password_reset.subject',
         site_name: Xikolo.config.site_name
       mail to: user['email'], subject:
     end
@@ -38,14 +38,14 @@ class AccountMailer < ApplicationMailer # rubocop:disable Layout/IndentationWidt
       @payload = email_payload(mailer)
 
       mail to: email,
-        subject: I18n.t("account_mailer.#{mailer}.subject",
+        subject: I18n.t("notification_service.notifications.account_mailer.#{mailer}.subject",
           site_name: Xikolo.config.site_name)
     end
   end
 
   def email_payload(mailer)
     Hashie::Mash.new(
-      mailheader_type: I18n.t("account_mailer.#{mailer}.mailheader_type",
+      mailheader_type: I18n.t("notification_service.notifications.account_mailer.#{mailer}.mailheader_type",
         site_name: Xikolo.config.site_name)
     )
   end

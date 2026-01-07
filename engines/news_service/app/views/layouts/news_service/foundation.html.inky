@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width" />
 
     <style>
-      <%= raw assets_manifest.find_sources("foundation.css").first %>
+      <%= raw assets_manifest.find_sources("news_service/foundation.css").first %>
     </style>
   </head>
 

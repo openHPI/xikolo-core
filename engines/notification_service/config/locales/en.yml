@@ -38,168 +38,170 @@ en:
           one: discussion forum notification
           other: discussion forum notifications
 
-    disable_link:
-      explanation:
-        html: "You are receiving this %{type} because you are signed up at %{site_name} with your address %{email}."
-        text: "You are receiving this %{type} because you are signed up at %{site_name} with your address %{email}."
-      local:
-        html: "If you do not want to receive further %{types} please click <a href=%{link}>here</a>."
-        text: "If you do not want to receive further %{types} of this kind please visit the following site: %{link}."
-      global:
-        html: "If you do not want to receive any further emails at all please click <a href=%{link}>here</a>."
-        text: "If you do not want to receive any further emails at all please visit the following site: %{link}."
-      notification_settings_link:
-        html: "Please visit your <a href=%{link}>profile settings</a> to change your notification settings."
-        text: "Please visit %{link} to change your notification settings."
-    pinboard:
-      discussion:
-        new:
-          title: "%{username} started a new topic: %{thread_title}"
-          text: "%{text}"
-        comment:
+  notification_service:
+    application_mailer:
+      disable_link:
+        explanation:
+          html: "You are receiving this %{type} because you are signed up at %{site_name} with your address %{email}."
+          text: "You are receiving this %{type} because you are signed up at %{site_name} with your address %{email}."
+        local:
+          html: "If you do not want to receive further %{types} please click <a href=%{link}>here</a>."
+          text: "If you do not want to receive further %{types} of this kind please visit the following site: %{link}."
+        global:
+          html: "If you do not want to receive any further emails at all please click <a href=%{link}>here</a>."
+          text: "If you do not want to receive any further emails at all please visit the following site: %{link}."
+        notification_settings_link:
+          html: "Please visit your <a href=%{link}>profile settings</a> to change your notification settings."
+          text: "Please visit %{link} to change your notification settings."
+    notifications:
+      pinboard:
+        discussion:
           new:
-            title: "%{username} posted in the topic %{thread_title}"
-            text: "%{text}"
-      question:
-        new:
-          title: "%{username} started a new topic: %{thread_title}"
-          text: "%{text}"
-        answer:
-          new:
-            title: "%{username} posted in the topic %{thread_title}"
+            title: "%{username} started a new topic: %{thread_title}"
             text: "%{text}"
           comment:
             new:
               title: "%{username} posted in the topic %{thread_title}"
               text: "%{text}"
-        comment:
+        question:
           new:
-            title: "%{username} posted in the topic %{thread_title}"
+            title: "%{username} started a new topic: %{thread_title}"
             text: "%{text}"
-      new_post:
-        subject: "New post in a topic you are following: %{course_name}"
-        mailheader_type: "Discussion Forum Activity"
-        mailheader_info: "%{course_name}"
-        meta: "On %{date} %{user} posted in a topic you are following."
-        title: "%{title}"
-        action_button: "View or reply"
-        hint: "Hint: If this post was helpful to you, please mark it as best reply."
-      new_thread:
-        subject: "There is a new topic in the forum."
-        mailheader_type: "Discussion Forum Activity"
-        mailheader_info: "%{course_name}"
-        meta: "On %{date} %{user} posted in the forum."
-        title: "%{title}"
-        action_button: "View or reply"
-      blocked_item:
-        subject: Please review blocked pinboard item
-        greeting: Dear admin,
-        text: an item was automatically blocked. Please review!
-        link_text: Click here to review!
-    news:
-      announcement:
-        subject: "A new %{site_name} message is available for you."
-        mailheader_type: "Global News"
-        test_notice: "This is a test message, only you received this!"
-        title: "A new message is available: %{title}"
-        text: "%{text}"
-    course:
-      announcement:
-        subject: "A new course announcement is available"
-        mailheader_type: "Course Announcement"
-        mailheader_info: "%{course_title}"
-        test_notice: "This is a test message, only you received this!"
-        title: "A new announcement is available in course %{course_title}: %{title}"
-        text: "%{text}"
-    shared:
-      questions:
-        no_questions: There was no recent discussions activity.
-        no_unanswered: There are no unanswered questions.
+          answer:
+            new:
+              title: "%{username} posted in the topic %{thread_title}"
+              text: "%{text}"
+            comment:
+              new:
+                title: "%{username} posted in the topic %{thread_title}"
+                text: "%{text}"
+          comment:
+            new:
+              title: "%{username} posted in the topic %{thread_title}"
+              text: "%{text}"
+        new_post:
+          subject: "New post in a topic you are following: %{course_name}"
+          mailheader_type: "Discussion Forum Activity"
+          mailheader_info: "%{course_name}"
+          meta: "On %{date} %{user} posted in a topic you are following."
+          title: "%{title}"
+          action_button: "View or reply"
+          hint: "Hint: If this post was helpful to you, please mark it as best reply."
+        new_thread:
+          subject: "There is a new topic in the forum."
+          mailheader_type: "Discussion Forum Activity"
+          mailheader_info: "%{course_name}"
+          meta: "On %{date} %{user} posted in the forum."
+          title: "%{title}"
+          action_button: "View or reply"
+        blocked_item:
+          subject: Please review blocked pinboard item
+          greeting: Dear admin,
+          text: an item was automatically blocked. Please review!
+          link_text: Click here to review!
+      news:
+        announcement:
+          subject: "A new %{site_name} message is available for you."
+          mailheader_type: "Global News"
+          test_notice: "This is a test message, only you received this!"
+          title: "A new message is available: %{title}"
+          text: "%{text}"
+      course:
+        announcement:
+          subject: "A new course announcement is available"
+          mailheader_type: "Course Announcement"
+          mailheader_info: "%{course_title}"
+          test_notice: "This is a test message, only you received this!"
+          title: "A new announcement is available in course %{course_title}: %{title}"
+          text: "%{text}"
+      shared:
+        questions:
+          no_questions: There was no recent discussions activity.
+          no_unanswered: There are no unanswered questions.
+      account_mailer:
+        password_reset:
+          subject: "Password reset for your %{site_name} account"
+          text: A password reset was requested for your account. Click the button below to reset it. The link will be valid for 24 hours.
+          link: Reset password
+        confirm_email:
+          subject: Please confirm your e-mail address
+          mailheader_type: Confirm your e-mail
+          text: "You are receiving this email because you have added a new email address to your account on %{site_name}. Please confirm this by clicking the button below."
+          link: Confirm e-mail
+          copy_instructions: If the above link is not clickable or does not work, try copying and pasting it into the address bar of your web browser.
+        welcome_email:
+          subject: Welcome to %{site_name}
+          mailheader_type: Welcome to %{site_name}
+          welcome: You are receiving this e-mail because you have registered a new account on %{site_name}.
+          next_steps: "To get your profile ready and start using the platform, please follow the next steps after logging in:"
+          step_1: Follow the on-screen instructions to complete your profile. Some information is required to use the platform.
+          step_2: Enroll for a course that interests you.
+          step_3: Enter the course and start learning. Most of our courses are self-paced and you can start immediately.
+          step_4: If questions arise while you are working on the course, please take a look at the forum discussions.
+          confirmation: To get started, please confirm your e-mail address by clicking on the following button.
+          link: Confirm e-mail
+          copy_instructions: If the above link is not clickable or does not work, try copying and pasting it into the address bar of your web browser.
 
-  account_mailer:
-    password_reset:
-      subject: "Password reset for your %{site_name} account"
-      text: A password reset was requested for your account. Click the button below to reset it. The link will be valid for 24 hours.
-      link: Reset password
-    confirm_email:
-      subject: Please confirm your e-mail address
-      mailheader_type: Confirm your e-mail
-      text: "You are receiving this email because you have added a new email address to your account on %{site_name}. Please confirm this by clicking the button below."
-      link: Confirm e-mail
-      copy_instructions: If the above link is not clickable or does not work, try copying and pasting it into the address bar of your web browser.
-    welcome_email:
-      subject: Welcome to %{site_name}
-      mailheader_type: Welcome to %{site_name}
-      welcome: You are receiving this e-mail because you have registered a new account on %{site_name}.
-      next_steps: "To get your profile ready and start using the platform, please follow the next steps after logging in:"
-      step_1: Follow the on-screen instructions to complete your profile. Some information is required to use the platform.
-      step_2: Enroll for a course that interests you.
-      step_3: Enter the course and start learning. Most of our courses are self-paced and you can start immediately.
-      step_4: If questions arise while you are working on the course, please take a look at the forum discussions.
-      confirmation: To get started, please confirm your e-mail address by clicking on the following button.
-      link: Confirm e-mail
-      copy_instructions: If the above link is not clickable or does not work, try copying and pasting it into the address bar of your web browser.
+    course_welcome_mailer:
+      welcome_mail:
+        subject: "Thanks for enrolling: %{course_title}"
+        mailheader_type: "Thanks for enrolling"
 
-  course_welcome_mailer:
-    welcome_mail:
-      subject: "Thanks for enrolling: %{course_title}"
-      mailheader_type: "Thanks for enrolling"
+    questions:
+      votes: votes
+      responses: responses
+      views: views
+      ago: ago
+      last_activity: last activity
+      answered: Answered
+      discussion: Discussion
+      unanswered: Unanswered
+      closed: Closed
+      tags: Tags
 
-  questions:
-    votes: votes
-    responses: responses
-    views: views
-    ago: ago
-    last_activity: last activity
-    answered: Answered
-    discussion: Discussion
-    unanswered: Unanswered
-    closed: Closed
-    tags: Tags
-
-  statistic_mail:
-    admin:
-      subject: "Daily admin statistics for %{site} (%{date})"
-      mailheader_type: "Your daily course statistics for %{site}"
-    course_admin:
-      subject: "Your daily course statistics for %{site} (%{date})"
-      mailheader_type: "Your daily course statistics for %{site}"
-    statistics: "statistics"
-    global:
-      user:
-        user: "Users on"
-        users: "Total Unique Learner Registration"
+    statistic_mail:
+      admin:
+        subject: "Daily admin statistics for %{site} (%{date})"
+        mailheader_type: "Your daily course statistics for %{site}"
+      course_admin:
+        subject: "Your daily course statistics for %{site} (%{date})"
+        mailheader_type: "Your daily course statistics for %{site}"
+      statistics: "statistics"
+      global:
+        user:
+          user: "Users on"
+          users: "Total Unique Learner Registration"
+          duration: "in last 24h"
+        enrollment:
+          enrollment: "Enrollments on"
+          total_enrollment: "Total Course Enrollments"
+          duration: "in last 24h"
+          unique: "in last 24h from unique learners"
+        certificate: "Issued Certificates on "
+        certificate_roa: "Records of Achievement"
+      ticket:
+        ticket: "Tickets on"
+        total: "Total Tickets"
         duration: "in last 24h"
-      enrollment:
-        enrollment: "Enrollments on"
-        total_enrollment: "Total Course Enrollments"
+      chart: "New Course Enrollments"
+      current_courses: "Current courses"
+      course_info:
+        hidden: "hidden"
+        more: "more"
+        learners: "Enrolled learners"
         duration: "in last 24h"
-        unique: "in last 24h from unique learners"
-      certificate: "Issued Certificates on "
-      certificate_roa: "Records of Achievement"
-    ticket:
-      ticket: "Tickets on"
-      total: "Total Tickets"
-      duration: "in last 24h"
-    chart: "New Course Enrollments"
-    current_courses: "Current courses"
-    course_info:
-      hidden: "hidden"
-      more: "more"
-      learners: "Enrolled learners"
-      duration: "in last 24h"
-      new: "new users"
-      completion_rate: "Completion Rate"
-      cert_issued: "certificates issued"
-      enroll_at_middle: "enrollments at course middle"
-      no_show: "No Shows"
-      soon: "Coming soon"
-      since: "Running since"
-      start_date: "Starts in"
-      col_attr_left: "Content"
-      col_attr_mid: "Total"
-      col_attr_right: "last 24 h"
-      posts: "Posts"
-      threads: "Topics"
-    archive_courses: "Courses recently ended"
-    upcoming_courses: "Upcoming courses"
+        new: "new users"
+        completion_rate: "Completion Rate"
+        cert_issued: "certificates issued"
+        enroll_at_middle: "enrollments at course middle"
+        no_show: "No Shows"
+        soon: "Coming soon"
+        since: "Running since"
+        start_date: "Starts in"
+        col_attr_left: "Content"
+        col_attr_mid: "Total"
+        col_attr_right: "last 24 h"
+        posts: "Posts"
+        threads: "Topics"
+      archive_courses: "Courses recently ended"
+      upcoming_courses: "Upcoming courses"

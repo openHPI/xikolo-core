@@ -8,13 +8,13 @@ production:
 development:
   services:
     account: <%= ENV['XIKOLO_SERVICE_ACCOUNT'] || 'http://localhost:3000/account_service' %>
-    course: <%= ENV['XIKOLO_SERVICE_COURSE'] || 'http://localhost:3300' %>
+    course: <%= ENV['XIKOLO_SERVICE_COURSE'] || 'http://localhost:3000/course_service' %>
     notification: <%= ENV['XIKOLO_SERVICE_NOTIFICATION'] || 'http://localhost:3200' %>
     pinboard: <%= ENV['XIKOLO_SERVICE_PINBOARD'] || 'http://localhost:3000/pinboard_service' %>
 
 test:
   services:
     account: http://web.xikolo.tld/account_service
-    course: http://course.xikolo.tld
+    course: http://course.xikolo.tld/course_service
     notification: http://notification.xikolo.tld
     pinboard: http://pinboard.xikolo.tld

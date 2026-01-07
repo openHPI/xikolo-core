@@ -11,10 +11,6 @@ SimpleCov.formatters = [
   SimpleCov::Formatter::CoberturaFormatter,
 ]
 
-if (brand = ENV.fetch('BRAND', nil))
-  SimpleCov.command_name "RSpec-#{brand}"
-end
-
 require File.expand_path('../config/environment', __dir__)
 
 require 'rspec/rails'

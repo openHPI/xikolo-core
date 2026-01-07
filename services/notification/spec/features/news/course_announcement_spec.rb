@@ -63,7 +63,7 @@ describe 'Course Announcement Mail', type: :feature do
     ).to_return Stub.json(
       enrolled_users[0..1].map {|id| {user_id: id} },
       links: {
-        next: 'http://localhost:3300/enrollments/secondpage',
+        next: 'http://localhost:3000/course_service/enrollments/secondpage',
       }
     )
 

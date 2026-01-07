@@ -45,7 +45,7 @@ describe Voucher::Claim, type: :operation do
     Stub.request(
       :course, :post, '/enrollments',
       body: {course_id: course.id, user_id: current_user.id}
-    ).to_return Stub.json({reactivations_url: '/enrollment/0/reactivations'})
+    ).to_return Stub.json({reactivations_url: '/course_service/enrollment/0/reactivations'})
     Stub.request(
       :course, :post, '/enrollment/0/reactivations',
       body: hash_including(:submission_date)
@@ -294,7 +294,7 @@ describe Voucher::Claim, type: :operation do
       Stub.request(
         :course, :post, '/enrollments',
         body: {course_id: course.id, user_id:}
-      ).to_return Stub.json({reactivations_url: '/enrollment/1/reactivations'})
+      ).to_return Stub.json({reactivations_url: '/course_service/enrollment/1/reactivations'})
       Stub.request(
         :course, :post, '/enrollment/1/reactivations',
         body: hash_including(:submission_date)

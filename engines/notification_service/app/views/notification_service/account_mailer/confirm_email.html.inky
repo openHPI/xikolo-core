@@ -1,8 +1,8 @@
 <row>
   <columns>
-    <p><%= t('account_mailer.confirm_email.text', site_name: Xikolo.config.site_name) %></p>
+    <p><%= t('notification_service.notifications.account_mailer.confirm_email.text', site_name: Xikolo.config.site_name) %></p>
 
-    <button class="primary" href="<%= @url %>"><%= t('account_mailer.confirm_email.link') %></button>
+    <button class="primary" href="<%= @url %>"><%= t('notification_service.notifications.account_mailer.confirm_email.link') %></button>
   </columns>
 </row>
 

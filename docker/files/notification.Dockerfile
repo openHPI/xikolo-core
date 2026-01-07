@@ -59,13 +59,8 @@ EOF
 # Copy rest of the application (see .dockerignore too)
 COPY services/notification/ /app/
 
-# Compile additional assets for mail layouts
-RUN <<EOF
-  for brand in xikolo $(find brand -mindepth 1 -maxdepth 1 -type d -printf "%f\n"); do
-    RAILS_ENV=production BRAND=${brand} bundle exec rake assets:precompile;
-  done;
-EOF
-
+# Compile mail layouts
+RUN RAILS_ENV=production bundle exec rake assets:precompile;
 
 #
 # Runtime image

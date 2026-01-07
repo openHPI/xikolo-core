@@ -5,7 +5,8 @@ module RestifyHelper
     'Authorization' => "Bearer #{ENV.fetch('XIKOLO_WEB_API', nil)}",
   }.freeze
 
-  def restify_with_headers(url)
-    Restify.new(url, headers: DEFAULT_AUTH_HEADERS)
+  def restify_with_headers(url, **options)
+    options[:headers] = (options[:headers] || {}).merge(DEFAULT_AUTH_HEADERS)
+    Restify.new(url, **options)
   end
 end

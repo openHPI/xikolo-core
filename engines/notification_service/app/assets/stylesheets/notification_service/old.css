@@ -1,0 +1,109 @@
+/*
+ *= require notification_service/application
+ */
+
+body {
+  padding: 0px;
+  margin: 0px;
+  background-color: whitesmoke;
+  color: black;
+  font-family: Arial, sans;
+  font-size: 9pt;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+a:visited,
+a:hover,
+a:active {
+  color: #de6212;
+}
+a.logo img {
+  width: 125px;
+  height: 50px;
+  margin-top: 5px;
+  margin-left: 15px;
+}
+header {
+  padding: 10px 0px;
+}
+article {
+  padding: 0px 10px 0px 20px;
+}
+.logo-bar {
+  background-color: #000000;
+}
+.footer {
+  padding: 20px 10px 0px 20px;
+  font-size: 0.9em;
+}
+.footer hr {
+  border: none;
+  border-top: 1px solid grey;
+}
+table#statistics {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+th,
+td#statistics {
+  overflow: hidden;
+  padding: 10px 5px;
+  border-width: 1px;
+  border-style: solid;
+  text-align: center;
+  word-break: normal;
+}
+th#statistics {
+  font-weight: bold;
+}
+.course-name {
+  text-align: right;
+}
+.btn {
+  display: inline-block;
+  padding: 6px 12px;
+  border: 0px none;
+  border-radius: 0px;
+  margin-bottom: 0;
+  background-image: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.428571429;
+  text-align: center;
+  text-decoration: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  border-color: #357ebd;
+  background-color: #de6212;
+  color: white;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active {
+  border-color: #285e8e;
+  background-color: #b8510f;
+  color: white;
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active {
+  border-color: #285e8e;
+  background-color: #b8510f;
+  color: white;
+}

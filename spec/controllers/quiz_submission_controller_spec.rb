@@ -43,7 +43,7 @@ describe QuizSubmissionController, type: :controller do
     stub_user id: 'user-1', display_name: 'John Smith', permissions:, features: {}
 
     Stub.service(:course, build(:'course:root'))
-    stub_request(:get, %r{http://localhost:3300/sections/[0-9a-f\-]+})
+    stub_request(:get, %r{http://localhost:3000/course_service/sections/[0-9a-f\-]+})
       .to_return(
         status: 200,
         body: section_resource.to_json,
@@ -100,7 +100,7 @@ describe QuizSubmissionController, type: :controller do
     Stub.request(:quiz, :get, '/answers', query: {per_page: 250, question_id: question_id})
       .to_return Stub.json([])
 
-    stub_request(:get, %r{http://localhost:3300/enrollments\?course_id=.*&user_id=user-1})
+    stub_request(:get, %r{http://localhost:3000/course_service/enrollments\?course_id=.*&user_id=user-1})
       .to_return(status: 200, body: '[]', headers: {'Content-Type' => 'application/json'})
 
     allow(controller).to receive(:create_visit!)

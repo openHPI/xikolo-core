@@ -115,7 +115,7 @@ describe 'Voucher Redemptions: Create', type: :request do
           course_id: course.id,
           user_id:
         ))
-        .to_return Stub.json({reactivations_url: '/enrollment/1/reactivations'})
+        .to_return Stub.json({reactivations_url: '/course_service/enrollment/1/reactivations'})
     end
 
     it 'redeems the voucher' do

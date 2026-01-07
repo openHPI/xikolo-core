@@ -218,7 +218,7 @@ describe QuizService::XmlImporter::Quiz do
 
         it 'creates the new quiz in the alternative section' do
           expect { create_quizzes }.to change(QuizService::Quiz, :count).from(0).to(1)
-          expect(a_request(:post, 'http://localhost:3300/items')
+          expect(a_request(:post, 'http://localhost:3000/course_service/items')
             .with(body: hash_including(
               content_id: anything,
               section_id: alternative_section_id,

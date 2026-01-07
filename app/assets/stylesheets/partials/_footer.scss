@@ -14,10 +14,10 @@
     $Variables
 \*------------------------------------*/
 $footer-height: auto;
-$xi-footer-background: $black url("images/stripes.png") !default;
-$xi-footer-color: $white !default;
-$xi-footer-box-shadow: 0 3px 2px rgba(0, 0, 0, 0.2) inset !default;
-$xi-footer-link-hover-color: $link-color !default;
+$xi-footer-background: $gray-50;
+$xi-footer-color: $gray-800;
+$xi-footer-box-shadow: none;
+$xi-footer-link-hover-color: $gray-500;
 
 /*------------------------------------*\
     $Footer-Layout
@@ -36,6 +36,7 @@ footer {
     $Footer-Content
 \*------------------------------------*/
 .footer {
+  border-top: 1px solid $gray-250;
   background: $xi-footer-background;
   box-shadow: $xi-footer-box-shadow;
   color: $xi-footer-color;
@@ -205,11 +206,25 @@ footer {
   &__copyright {
     display: flex;
     flex-direction: column;
+    color: $gray-500;
 
     @include screen-size-sm-and-up {
       flex-direction: row;
       justify-content: space-between;
     }
+
+    a {
+      color: $gray-500;
+    }
+  }
+
+  &__release {
+    color: $gray-250;
+  }
+
+  &__owner {
+    margin-right: 2px;
+    text-decoration: underline;
   }
 }
 

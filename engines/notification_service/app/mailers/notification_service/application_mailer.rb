@@ -2,8 +2,7 @@
 
 module NotificationService
 class ApplicationMailer < ActionMailer::Base # rubocop:disable Layout/IndentationWidth
-  prepend_view_path "brand/#{Xikolo.brand}/views"
-  layout 'old'
+  layout 'notification_service/old'
 
   helper :'notification_service/mailer'
 

@@ -3,9 +3,9 @@ $navigation-bar-height: $navbar-height;
 $navigation-bar-border: $gray-100 !default;
 $navigation-content-width: $main-content-width;
 
-$navbar-breakpoint-s: $breakpoint-s !default;
-$navbar-breakpoint-sm: $breakpoint-sm !default;
-$navbar-breakpoint-m: $breakpoint-m !default;
+$navbar-breakpoint-s: 720px;
+$navbar-breakpoint-sm: 950px;
+$navbar-breakpoint-m: 1200px;
 
 .navigation-bar {
   position: sticky;

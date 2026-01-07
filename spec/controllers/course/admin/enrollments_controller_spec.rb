@@ -28,7 +28,7 @@ describe Course::Admin::EnrollmentsController, type: :controller do
       Stub.request(
         :course, :get, '/enrollments',
         query: hash_including(user_id:, course_id: course['id'])
-      ).to_return Stub.json([{url: '/enrollments/123'}])
+      ).to_return Stub.json([{url: '/course_service/enrollments/123'}])
     end
 
     context 'without permission' do

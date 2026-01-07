@@ -5,16 +5,16 @@
       <% if @admin_statistic.platform_user_stats.present? %>
         <columns large="6">
           <h5>
-            <%= t('statistic_mail.global.user.user') %> <%= Xikolo.config.site_name %>
+            <%= t('notification_service.statistic_mail.global.user.user') %> <%= Xikolo.config.site_name %>
           </h5>
           <hr />
-          <%= t('statistic_mail.global.user.users') %>
+          <%= t('notification_service.statistic_mail.global.user.users') %>
           <p class="lead">
             <%= number_with_delimiter(@admin_statistic.platform_user) %>
             <br />
             <small>
               + <%= number_with_delimiter(@admin_statistic.platform_user_stats['confirmed_users_last_day']) %>
-              <%= t('statistic_mail.global.user.duration') %>
+              <%= t('notification_service.statistic_mail.global.user.duration') %>
             </small>
             <br />
           </p>
@@ -24,22 +24,22 @@
       <% if @admin_statistic.platform_course_stats %>
         <columns large="6">
           <h5>
-            <%= t('statistic_mail.global.enrollment.enrollment') %> <%= Xikolo.config.site_name %>
+            <%= t('notification_service.statistic_mail.global.enrollment.enrollment') %> <%= Xikolo.config.site_name %>
           </h5>
           <hr />
-          <%= t('statistic_mail.global.enrollment.total_enrollment') %>
+          <%= t('notification_service.statistic_mail.global.enrollment.total_enrollment') %>
           <br />
           <p class="lead">
             <%= number_with_delimiter(@admin_statistic.platform_enrollments) %>
             <br />
             <small>
               + <%= number_with_delimiter(@admin_statistic.platform_course_stats['platform_last_day_enrollments']) %>
-              <%= t('statistic_mail.global.enrollment.duration') %>
+              <%= t('notification_service.statistic_mail.global.enrollment.duration') %>
             </small>
             <br />
             <small>
               + <%= number_with_delimiter(@admin_statistic.platform_course_stats['platform_last_day_unique_enrollments']) %>
-              <%= t('statistic_mail.global.enrollment.unique') %>
+              <%= t('notification_service.statistic_mail.global.enrollment.unique') %>
             </small>
           </p>
         </columns>
@@ -49,10 +49,10 @@
     <row>
       <columns small="6">
         <h5>
-          <%= t('statistic_mail.global.certificate') %> <%= Xikolo.config.site_name %>
+          <%= t('notification_service.statistic_mail.global.certificate') %> <%= Xikolo.config.site_name %>
         </h5>
         <hr />
-        <%= t('statistic_mail.global.certificate_roa') %>
+        <%= t('notification_service.statistic_mail.global.certificate_roa') %>
         <br />
         <p class="lead">
           <%= number_with_delimiter(@admin_statistic.platform_certificate_stats['record_of_achievement']) %>

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'scientist'
 require 'course_service/experiment'
 
 module CourseService

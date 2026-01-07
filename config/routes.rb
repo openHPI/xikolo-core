@@ -458,13 +458,13 @@ Rails.application.routes.draw do
   resources :ping, only: %i[index]
   root to: 'home/home#index'
 
-  # TODO: Make available in production after authorization is added.
   constraints ServiceAuthorizationConstraint.new do
     mount AccountService::Engine => '/account_service'
     mount TimeeffortService::Engine => '/timeeffort_service'
     mount PinboardService::Engine => '/pinboard_service'
     mount NewsService::Engine => '/news_service'
     mount QuizService::Engine => '/quiz_service'
+    mount CourseService::Engine => '/course_service'
   end
 
   if Rails.env.development?

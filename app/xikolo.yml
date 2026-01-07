@@ -652,3 +652,80 @@ external_booking:
 timeeffort:
   # Enable/disable time effort calculations
   enabled: false
+
+#######################
+### Roles & Permissions
+#######################
+
+# The user groups (and their roles) to create for each new course
+course_groups:
+  students:
+    description: "Students of course %s"
+    grants:
+      - role: course.student
+        context: course
+  admins:
+    description: "Course Admins of course %s"
+    grants:
+      - role: account.tracer
+        context: root
+      - role: certificate.admin
+        context: course
+      - role: course.manager
+        context: course
+      - role: course.manager.global
+        context: root
+      - role: course.previewer
+        context: course
+      - role: lti.admin
+        context: course
+      - role: lti.tool.instructor
+        context: course
+      - role: news.announcement.admin
+        context: course
+      - role: pinboard.moderator
+        context: course
+      - role: quiz.admin
+        context: course
+      - role: quiz.controller
+        context: course
+      - role: quiz.inspector
+        context: course
+      - role: video.controller
+        context: course
+      - role: subtitle.editor
+        context: course
+      - role: video.editor
+        context: root
+  moderators:
+    description: "Moderators of course %s"
+    grants:
+      - role: account.tracer
+        context: root
+      - role: course.previewer
+        context: course
+      - role: news.announcement.previewer
+        context: course
+      - role: pinboard.moderator
+        context: course
+      - role: quiz.inspector
+        context: course
+  teachers:
+    description: "Teachers of course %s"
+    grants:
+      - role: account.tracer
+        context: root
+      - role: course.previewer
+        context: course
+      - role: course.teacher
+        context: course
+      - role: news.announcement.previewer
+        context: course
+      - role: pinboard.moderator
+        context: course
+      - role: quiz.controller
+        context: course
+      - role: quiz.inspector
+        context: course
+      - role: video.controller
+        context: course

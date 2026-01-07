@@ -27,3 +27,5 @@ route 'xikolo.quiz.answer.destroy', to: 'timeeffort_service/quiz#answer_changed'
 # PinboardService: Handle pinboard related messages
 route 'xikolo.pinboard.read_question', to: 'pinboard_service/question#read_question'
 route 'xikolo.course.course.update', to: 'pinboard_service/pinboard_search_course#update'
+
+route 'xikolo.course.clone', to: 'course_service/course#clone'

@@ -88,7 +88,7 @@ describe 'Account Welcome Email', type: :feature do
 
       it_behaves_like 'a welcome email'
 
-      it { expect(mail.html).not_to include I18n.t('account_mailer.welcome_email.step_1') }
+      it { expect(mail.html).not_to include I18n.t('notification_service.notifications.account_mailer.welcome_email.step_1') }
     end
 
     context 'when the user does not need to fill mandatory fields on their profile' do
@@ -106,7 +106,7 @@ describe 'Account Welcome Email', type: :feature do
 
       it_behaves_like 'a welcome email'
 
-      it { expect(mail.html).to include I18n.t('account_mailer.welcome_email.step_1') }
+      it { expect(mail.html).to include I18n.t('notification_service.notifications.account_mailer.welcome_email.step_1') }
     end
   end
 

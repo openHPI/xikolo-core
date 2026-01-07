@@ -6,9 +6,9 @@ production:
 development: &dev
   services:
     account: <%= ENV['XIKOLO_SERVICE_ACCOUNT'] || 'http://localhost:3000/account_service' %>
-    course: <%= ENV['XIKOLO_SERVICE_COURSE'] || 'http://localhost:3300' %>
+    course: <%= ENV['XIKOLO_SERVICE_COURSE'] || 'http://localhost:3000/course_service' %>
 
 test:
   services:
-    account: http://account.xikolo.tld
-    course: http://course.xikolo.tld
+    account: http://web.xikolo.tld/account_service
+    course: http://web.xikolo.tld/course_service

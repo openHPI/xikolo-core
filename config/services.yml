@@ -1,7 +1,7 @@
 common: &common
   services:
     account: <%= ENV['XIKOLO_SERVICE_ACCOUNT'] || 'http://localhost:3000/account_service' %>
-    course: <%= ENV['XIKOLO_SERVICE_COURSE'] || 'http://localhost:3300' %>
+    course: <%= ENV['XIKOLO_SERVICE_COURSE'] || 'http://localhost:3000/course_service' %>
     learnanalytics: <%= ENV['XIKOLO_SERVICE_LANALYTICS'] || 'http://localhost:5900' %>
     news: <%= ENV['XIKOLO_SERVICE_NEWS'] || 'http://localhost:3000/news_service' %>
     notification: <%= ENV['XIKOLO_SERVICE_NOTIFICATION'] || 'http://localhost:3200' %>

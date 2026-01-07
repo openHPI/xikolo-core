@@ -1,0 +1,19 @@
+doctype html
+html
+  head
+    title = Xikolo.config.site_name
+    style
+      = stylesheet_link_tag 'notification_service/old'
+  body
+    header
+      .logo-bar
+        a.logo href="#{Xikolo.base_url}"
+          = image_tag Xikolo.base_url.join('files/logo.png').to_s
+    article
+      = yield
+
+    footer.footer
+      hr.bs-hr
+      = render partial: 'disable_link', locals: {type: "notifications.type.#{@key}"}
+      br
+      = render partial: 'layouts/notification_service/footer'

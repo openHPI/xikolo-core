@@ -98,7 +98,7 @@ describe Admin::CoursesController, type: :controller do
       ).to_return Stub.json({
         id: course_id,
         course_code:,
-        self_url: "http://localhost:3300/courses/#{course_id}",
+        self_url: "http://localhost:3000/course_service/courses/#{course_id}",
       })
       Stub.request(
         :course, :delete, "/courses/#{course_id}"

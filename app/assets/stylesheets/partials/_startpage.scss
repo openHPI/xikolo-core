@@ -1,0 +1,20 @@
+.openhpi-startpage {
+  background-color: $white;
+
+  &__news {
+    background-color: $gray-50;
+  }
+
+  &__accordion {
+    padding-bottom: 20px;
+    background-color: $gray-50;
+
+    @include screen-size-s-and-up {
+      padding-bottom: 60px;
+    }
+  }
+}
+
+.home-courses .course-category__list {
+  padding-bottom: 50px;
+}

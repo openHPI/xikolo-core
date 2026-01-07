@@ -8,13 +8,13 @@ production:
 development:
   services:
     account: <%= ENV['XIKOLO_SERVICE_ACCOUNT'] || 'http://localhost:3000/account_service' %>
-    course: <%= ENV['XIKOLO_SERVICE_COURSE'] || 'http://localhost:3300' %>
+    course: <%= ENV['XIKOLO_SERVICE_COURSE'] || 'http://localhost:3000/course_service' %>
     quiz: <%= ENV['XIKOLO_SERVICE_QUIZ'] || 'http://localhost:3800' %>
     submission: <%= ENV['XIKOLO_SERVICE_QUIZ'] || 'http://localhost:3800' %>
 
 test:
   services:
     account: http://web.xikolo.tld/account_service
-    course: http://course.xikolo.tld
+    course: http://course.xikolo.tld/course_service
     quiz: http://quiz.xikolo.tld
     submission: http://quiz.xikolo.tld

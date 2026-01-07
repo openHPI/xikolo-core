@@ -10,8 +10,8 @@ describe Admin::Statistics::AgeDistribution do
       .to_return Stub.json({'user' => {'age' => {'0' => 65, '25' => 10, '35' => 5}}})
 
     Stub.service(:course, build(:'course:root'))
-    Stub.request(:course, :get, '/courses/test-course').to_return Stub.json({'students_group_url' => '/courses/test-course/students_group'})
-    Stub.request(:course, :get, '/courses/test-course/students_group').to_return Stub.json({'stats_url' => '/courses/test-course/students_group/stats'})
+    Stub.request(:course, :get, '/courses/test-course').to_return Stub.json({'students_group_url' => '/course_service/courses/test-course/students_group'})
+    Stub.request(:course, :get, '/courses/test-course/students_group').to_return Stub.json({'stats_url' => '/course_service/courses/test-course/students_group/stats'})
     Stub.request(:course, :get, '/courses/test-course/students_group/stats', query: hash_including({}))
       .to_return Stub.json({'user' => {'age' => {'0' => 12, '35' => 3}}})
 

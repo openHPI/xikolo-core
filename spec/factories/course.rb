@@ -21,7 +21,7 @@ FactoryBot.define do
     cop_enabled { true }
     roa_threshold_percentage { 50 }
     cop_threshold_percentage { 50 }
-    achievements_url { "/courses/#{id}/achievements{?user_id}" }
+    achievements_url { "/course_service/courses/#{id}/achievements{?user_id}" }
 
     trait :german do
       lang { 'de' }

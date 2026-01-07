@@ -16,7 +16,14 @@ s3:
     video: xikolo-video
     pinboard: xikolo-pinboard
     news: xikolo-public
+    scientist: xikolo-scientist
   client:
+    endpoint: https://s3.xikolo.de
+    region: default
+    access_key_id: access_key
+    secret_access_key: secret_access_key
+    force_path_style: true
+  connect_info:
     endpoint: https://s3.xikolo.de
     region: default
     access_key_id: access_key

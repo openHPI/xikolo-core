@@ -17,7 +17,7 @@ describe Voucher::ProductTypes::Reactivation do
       Stub.request(
         :course, :post, '/enrollments',
         body: {course_id: course.id, user_id: user.id}
-      ).to_return Stub.json({reactivations_url:})
+      ).to_return Stub.json({reactivations_url: '/course_service/enrollment/0/reactivations'})
     end
 
     let(:reactivations_url) { '/enrollment/0/reactivations' }

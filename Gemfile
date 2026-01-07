@@ -37,6 +37,7 @@ gem 'puma'
 gem 'thruster'
 
 # API & Messaging
+gem 'api-responder'
 gem 'grape', '~> 2.2', '< 2.3' # breaks deprecated API::V2
 gem 'grape-entity'
 gem 'msgr', '~> 1.5' # Connecting to RabbitMQ
@@ -98,6 +99,7 @@ gem 'xikolo-submission',      '~> 100.0', path: 'clients/xikolo-submission'
 
 # Xikolo services as an engine
 gem 'account_service', path: 'engines/account_service'
+gem 'course_service', path: 'engines/course_service'
 gem 'news_service', path: 'engines/news_service'
 gem 'pinboard_service', path: 'engines/pinboard_service'
 gem 'quiz_service', path: 'engines/quiz_service'
@@ -150,6 +152,7 @@ gem 'prawn-table'
 gem 'prawn-templates', '~> 0.1.0'
 
 # Monitoring
+gem 'scientist', '~> 1.0'
 gem 'vernier'                   # vernier must be required before Sentry
 gem 'sentry-rails', '~> 5.26.0' # rubocop:disable Bundler/OrderedGems
 gem 'sentry-ruby', '~> 5.26.0'
@@ -179,6 +182,7 @@ end
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri windows], require: 'debug/prelude'
+  gem 'dotenv'
 
   gem 'letter_opener'
   gem 'listen', '~> 3.9.0'
@@ -206,6 +210,7 @@ group :test do
   gem 'rails-controller-testing'
   gem 'selenium-webdriver', '~> 4.11'
   gem 'timecop'
+  gem 'uuidtools'
   gem 'webmock'
   gem 'webrick'
 

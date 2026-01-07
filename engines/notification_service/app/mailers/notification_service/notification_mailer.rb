@@ -19,13 +19,15 @@ class NotificationMailer < ApplicationMailer # rubocop:disable Layout/Indentatio
       @payload = Hashie::Mash.new payload
       @key = key
 
-      @payload.mailheader_type = t("notifications.#{key}.mailheader_type", **payload.symbolize_keys, default: nil)
-      @payload.mailheader_info = t("notifications.#{key}.mailheader_info", **payload.symbolize_keys, default: nil)
+      @payload.mailheader_type = t("notification_service.notifications.#{key}.mailheader_type",
+**payload.symbolize_keys, default: nil)
+      @payload.mailheader_info = t("notification_service.notifications.#{key}.mailheader_info",
+**payload.symbolize_keys, default: nil)
 
       mail(
         to: @receiver.email,
         subject: subject_for(key, payload),
-        template_path: 'notifications',
+        template_path: 'notification_service/notifications',
         template_name: key.tr('.', '/')
       )
     end
@@ -40,7 +42,7 @@ class NotificationMailer < ApplicationMailer # rubocop:disable Layout/Indentatio
   private_constant :MAILS_WITH_OLD_LAYOUT
 
   def layout_name
-    MAILS_WITH_OLD_LAYOUT.include?(@key) ? 'old' : 'foundation'
+    "notification_service/#{MAILS_WITH_OLD_LAYOUT.include?(@key) ? 'old' : 'foundation'}"
   end
 
   # For the following notification types, we let mailboxes know that we are
@@ -101,7 +103,7 @@ class NotificationMailer < ApplicationMailer # rubocop:disable Layout/Indentatio
       end
     else
       # title can be a multilingual hash
-      I18n.t("notifications.#{key}.subject", **payload.symbolize_keys)
+      I18n.t("notification_service.notifications.#{key}.subject", **payload.symbolize_keys)
     end
   end
 end

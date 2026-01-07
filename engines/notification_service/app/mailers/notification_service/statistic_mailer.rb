@@ -4,7 +4,7 @@ module NotificationService
 class StatisticMailer < ApplicationMailer # rubocop:disable Layout/IndentationWidth
   include NotificationService::MailerHelper
 
-  layout 'foundation'
+  layout 'notification_service/foundation'
 
   def global_admin_statistics(receiver_email, admin_statistic)
     # Global stats
@@ -13,8 +13,9 @@ class StatisticMailer < ApplicationMailer # rubocop:disable Layout/IndentationWi
 
     # Data for email header
     @payload = Hashie::Mash.new
-    subject = t('statistic_mail.admin.subject', site: Xikolo.config.site_name, date: current_date)
-    @payload.mailheader_type = t('statistic_mail.admin.mailheader_type', site: Xikolo.config.site_name)
+    subject = t('notification_service.statistic_mail.admin.subject', site: Xikolo.config.site_name, date: current_date)
+    @payload.mailheader_type = t('notification_service.statistic_mail.admin.mailheader_type',
+      site: Xikolo.config.site_name)
     @payload.mailheader_info = current_date
 
     # Add attachments
@@ -34,8 +35,10 @@ class StatisticMailer < ApplicationMailer # rubocop:disable Layout/IndentationWi
 
       # Data for email header
       @payload = Hashie::Mash.new
-      subject = t('statistic_mail.course_admin.subject', site: Xikolo.config.site_name, date: current_date)
-      @payload.mailheader_type = t('statistic_mail.course_admin.mailheader_type', site: Xikolo.config.site_name)
+      subject = t('notification_service.statistic_mail.course_admin.subject', site: Xikolo.config.site_name,
+        date: current_date)
+      @payload.mailheader_type = t('notification_service.statistic_mail.course_admin.mailheader_type',
+        site: Xikolo.config.site_name)
       @payload.mailheader_info = current_date
 
       # Add the enrollment chart image as attachment

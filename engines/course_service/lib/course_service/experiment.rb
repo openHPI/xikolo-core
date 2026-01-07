@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'scientist/experiment'
-
 module CourseService
 class Experiment # rubocop:disable Layout/IndentationWidth
   include Scientist::Experiment

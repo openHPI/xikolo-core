@@ -1,9 +1,0 @@
-<%= Xikolo.config.site_name %>
-<%= '-' * Xikolo.config.site_name.size %>
-
-<%= yield %>
-
-------
-<%= Xikolo.base_url %>
-
-<%= render partial: 'notifications/disable_link', locals: {type: "notifications.type.#{@key}"} %>

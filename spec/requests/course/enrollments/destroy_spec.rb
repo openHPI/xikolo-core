@@ -22,7 +22,7 @@ describe 'Course: Enrollments: Destroy', type: :request do
     Stub.request(
       :course, :get, "/enrollments/#{enrollment['id']}"
     ).to_return Stub.json(
-      enrollment.merge(url: "/enrollments/#{enrollment['id']}")
+      enrollment.merge(url: "/course_service/enrollments/#{enrollment['id']}")
     )
 
     delete_stub

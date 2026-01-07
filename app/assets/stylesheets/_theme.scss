@@ -16,5 +16,19 @@
 @import "theme/design";
 
 // Font
-$basefont: $font-family-sans-serif;
-$corporatefont: "Open Sans";
+$basefont: "IBM Plex Sans", sans-serif;
+$corporatefont: $basefont;
+
+$xi-font-headings: $basefont, sans-serif;
+$xi-font-buttons: $basefont, sans-serif;
+$xi-font-navigation: $basefont, sans-serif;
+
+$xi-font-footer: $basefont, sans-serif;
+$xi-font-footer-link: $basefont, sans-serif;
+
+$xi-font-table-title: $basefont;
+
+$xi-font-form-inputs: $basefont;
+$xi-font-form-labels: $basefont;
+
+$xi-course-card-font: "IBM Plex Mono";

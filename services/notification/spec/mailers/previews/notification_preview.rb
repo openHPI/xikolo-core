@@ -5,7 +5,7 @@ require 'markdown_service'
 # Preview all emails at http://localhost:3200/rails/mailers/notification
 class NotificationPreview < ActionMailer::Preview
   def pinboard_new_post
-    NotificationMailer.notification(
+    NotificationService::NotificationMailer.notification(
       receiver,
       'pinboard.new_post',
       {
@@ -29,7 +29,7 @@ class NotificationPreview < ActionMailer::Preview
   end
 
   def pinboard_new_thread
-    NotificationMailer.notification(
+    NotificationService::NotificationMailer.notification(
       receiver,
       'pinboard.new_thread',
       {
@@ -45,7 +45,7 @@ class NotificationPreview < ActionMailer::Preview
   end
 
   def pinboard_blocked_item
-    NotificationMailer.notification(
+    NotificationService::NotificationMailer.notification(
       receiver,
       'pinboard.blocked_item',
       {
@@ -55,7 +55,7 @@ class NotificationPreview < ActionMailer::Preview
   end
 
   def course_announcement
-    NotificationMailer.notification(
+    NotificationService::NotificationMailer.notification(
       receiver,
       'course.announcement',
       {
@@ -66,7 +66,7 @@ class NotificationPreview < ActionMailer::Preview
   end
 
   def news_announcement
-    NotificationMailer.notification(
+    NotificationService::NotificationMailer.notification(
       receiver,
       'news.announcement',
       {
@@ -80,7 +80,7 @@ class NotificationPreview < ActionMailer::Preview
   private
 
   def receiver
-    @receiver ||= Resources::Receiver.new({
+    @receiver ||= NotificationService::Resources::Receiver.new({
       'id' => SecureRandom.uuid,
       'name' => 'Peer Previewer',
       'email' => 'previewer@example.de',

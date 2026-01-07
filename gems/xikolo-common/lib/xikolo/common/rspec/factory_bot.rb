@@ -72,56 +72,58 @@ if defined? FactoryBot
       initialize_with { attributes.as_json }
     end
 
-    factory 'course:root', class: Hash do
-      items_current_url { '/items/current' }
-      item_user_visit_url { '/items/{item_id}/users/{user_id}/visit' }
-      item_user_results_url { '/items/{item_id}/users/{user_id}/results' }
-      item_results_url { '/items/{item_id}/results' }
-      items_url { '/items' }
-      item_url { '/items/{id}{?embed,user_id,version_at,for_user}' }
-      result_url { '/results/{id}' }
-      course_statistic_url { '/courses/{course_id}/statistic' }
-      course_persist_ranking_task_url { '/courses/{course_id}/persist_ranking_task' }
-      course_documents_url { '/courses/{course_id}/documents' }
-      course_learning_evaluation_url { '/courses/{course_id}/learning_evaluation' }
+    factory 'course:root', class: Hash do # rubocop:disable Metrics/BlockLength
+      items_current_url { '/course_service/items/current' }
+      item_user_visit_url { '/course_service/items/{item_id}/users/{user_id}/visit' }
+      item_user_results_url { '/course_service/items/{item_id}/users/{user_id}/results' }
+      item_results_url { '/course_service/items/{item_id}/results' }
+      items_url { '/course_service/items' }
+      item_url { '/course_service/items/{id}{?embed,user_id,version_at,for_user}' }
+      result_url { '/course_service/results/{id}' }
+      course_statistic_url { '/course_service/courses/{course_id}/statistic' }
+      course_persist_ranking_task_url { '/course_service/courses/{course_id}/persist_ranking_task' }
+      course_documents_url { '/course_service/courses/{course_id}/documents' }
+      course_learning_evaluation_url { '/course_service/courses/{course_id}/learning_evaluation' }
       courses_url do
-        '/courses{?cat_id,user_id,status,id,lang,course_code,upcoming,per_page,current,' \
+        '/course_service/courses{?cat_id,user_id,status,id,lang,course_code,upcoming,per_page,current,' \
           'finished,public,hidden,onlude_external,latest_first,alphabetic,promoted_for,' \
           'not_enrolled,middle_of_course,document_id,autocomplete,active_after,sort}'
       end
-      course_url { '/courses/{id}' }
-      documents_tags_url { '/documents_tags' }
-      document_document_localizations_url { '/documents/{document_id}/document_localizations{?document_id}' }
-      documents_url { '/documents{?course_id,item_id,language,tag}' }
-      document_url { '/documents/{id}' }
-      document_localizations_url { '/document_localizations{?document_id}' }
-      document_localization_url { '/document_localizations/{id}' }
-      channels_url { '/channels' }
-      channel_url { '/channels/{id}' }
-      next_dates_url { '/next_dates' }
-      classifiers_url { '/classifiers' }
-      classifier_url { '/classifiers/{id}' }
-      sections_url { '/sections' }
-      section_url { '/sections/{id}' }
-      section_choices_url { '/section_choices' }
-      enrollment_reactivations_url { '/enrollments/{enrollment_id}/reactivations' }
-      enrollments_url do
-        '/enrollments{?course_id,user_id,learning_evaluation,deleted,current_course,per_page,proctored}'
+      course_url { '/course_service/courses/{id}' }
+      documents_tags_url { '/course_service/documents_tags' }
+      document_document_localizations_url do
+        '/course_service/documents/{document_id}/document_localizations{?document_id}'
       end
-      enrollment_url { '/enrollments/{id}' }
-      teachers_url { '/teachers{?course,query}' }
-      teacher_url { '/teachers/{id}' }
-      richtext_url { '/richtexts/{id}' }
-      system_info_url { '/system_info/{id}' }
-      last_visit_url { '/last_visits/{course_id}' }
-      prerequisite_status_url { '/courses/{id}/prerequisite_status{?user_id}' }
-      progresses_url { '/progresses' }
-      stats_url { '/stats' }
-      enrollment_stats_url { '/enrollment_stats{?start_date,end_date,classifier_id}' }
-      repetition_suggestions_url { '/repetition_suggestions' }
-      api_v2_course_root_url { '/api/v2/course' }
-      api_v2_course_courses_url { '/api/v2/course/courses{?embed,channel,document_id}' }
-      api_v2_course_course_url { '/api/v2/course/courses/{id}{?embed,raw}' }
+      documents_url { '/course_service/documents{?course_id,item_id,language,tag}' }
+      document_url { '/course_service/documents/{id}' }
+      document_localizations_url { '/course_service/document_localizations{?document_id}' }
+      document_localization_url { '/course_service/document_localizations/{id}' }
+      channels_url { '/course_service/channels' }
+      channel_url { '/course_service/channels/{id}' }
+      next_dates_url { '/course_service/next_dates' }
+      classifiers_url { '/course_service/classifiers' }
+      classifier_url { '/course_service/classifiers/{id}' }
+      sections_url { '/course_service/sections' }
+      section_url { '/course_service/sections/{id}' }
+      section_choices_url { '/course_service/section_choices' }
+      enrollment_reactivations_url { '/course_service/enrollments/{enrollment_id}/reactivations' }
+      enrollments_url do
+        '/course_service/enrollments{?course_id,user_id,learning_evaluation,deleted,current_course,per_page,proctored}'
+      end
+      enrollment_url { '/course_service/enrollments/{id}' }
+      teachers_url { '/course_service/teachers{?course,query}' }
+      teacher_url { '/course_service/teachers/{id}' }
+      richtext_url { '/course_service/richtexts/{id}' }
+      system_info_url { '/course_service/system_info/{id}' }
+      last_visit_url { '/course_service/last_visits/{course_id}' }
+      prerequisite_status_url { '/course_service/courses/{id}/prerequisite_status{?user_id}' }
+      progresses_url { '/course_service/progresses' }
+      stats_url { '/course_service/stats' }
+      enrollment_stats_url { '/course_service/enrollment_stats{?start_date,end_date,classifier_id}' }
+      repetition_suggestions_url { '/course_service/repetition_suggestions' }
+      api_v2_course_root_url { '/course_service/api/v2/course' }
+      api_v2_course_courses_url { '/course_service/api/v2/course/courses{?embed,channel,document_id}' }
+      api_v2_course_course_url { '/course_service/api/v2/course/courses/{id}{?embed,raw}' }
       initialize_with { attributes.as_json }
     end
 

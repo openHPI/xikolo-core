@@ -1,6 +1,6 @@
 <row>
   <columns>
-    <h2><%= "#{Xikolo.config.site_name} #{t('statistic_mail.statistics')}" %></h2>
+    <h2><%= "#{Xikolo.config.site_name} #{t('notification_service.statistic_mail.statistics')}" %></h2>
     <hr />
   </columns>
 </row>

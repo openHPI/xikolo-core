@@ -13,12 +13,12 @@
                 <%= cs.course_code %>
                 <% if cs.hidden %>
                   <span class="label default">
-                    <%= t('statistic_mail.course_info.hidden') %>
+                    <%= t('notification_service.statistic_mail.course_info.hidden') %>
                   </span>
                 <% end %>
               </small>
               <button href="<%= Xikolo.base_url.join("courses/#{cs.course_code}/dashboard") %>" class="tiny secondary radius right">
-                <%= t('statistic_mail.course_info.more') %>
+                <%= t('notification_service.statistic_mail.course_info.more') %>
               </button>
             </h6>
             <hr />
@@ -26,39 +26,39 @@
             <row>
               <% if cs.present? %>
                 <columns large="6">
-                  <%= t('statistic_mail.course_info.learners') %>
+                  <%= t('notification_service.statistic_mail.course_info.learners') %>
                   <p class="lead">
                     <%= number_with_delimiter(cs.total_enrollments) %>
                     <br />
                     <small>
                       + <%= number_with_delimiter(cs.enrollments_last_day || 0) %>
-                      <%= t('statistic_mail.course_info.duration') %>
+                      <%= t('notification_service.statistic_mail.course_info.duration') %>
                       <br />
                       <%= number_with_delimiter(cs.new_users) %>
-                      <%= t('statistic_mail.course_info.new') %>
+                      <%= t('notification_service.statistic_mail.course_info.new') %>
                     </small>
                     <br />
                     <br />
                   </p>
                   <% if cs.enrollments_at_course_middle.to_i > 0 and cs.roa_count.to_i > 0 %>
                     <br />
-                    <%= t('statistic_mail.course_info.completion_rate') %>
+                    <%= t('notification_service.statistic_mail.course_info.completion_rate') %>
                     <p class="lead">
                       <%= ((cs.roa_count.to_f  / cs.enrollments_at_course_middle) * 100).round(2) %>%
                       <small>
                         <br />
                         <%= number_with_delimiter(cs.roa_count.to_i) %>
-                        <%= t('statistic_mail.course_info.cert_issued') %>
+                        <%= t('notification_service.statistic_mail.course_info.cert_issued') %>
                         <br />
                         <%= number_with_delimiter(cs.enrollments_at_course_middle) %>
-                        <%= t('statistic_mail.course_info.enroll_at_middle') %>
+                        <%= t('notification_service.statistic_mail.course_info.enroll_at_middle') %>
                       </small>
                     </p>
                   <% end %>
                   <% if cs.start_date&.past? %>
                     <% if cs.total_enrollments.to_i > 0 and cs.no_shows and cs.no_shows > 0 %>
                       <br>
-                      <%= t('statistic_mail.course_info.no_show') %>
+                      <%= t('notification_service.statistic_mail.course_info.no_show') %>
                       <p class="lead">
                         <%= number_with_delimiter(cs.no_shows) %>
                         <small>
@@ -72,12 +72,12 @@
 
               <columns large="6">
                 <% if !cs.start_date %>
-                  <%= t('statistic_mail.course_info.soon') %>
+                  <%= t('notification_service.statistic_mail.course_info.soon') %>
                 <% elsif cs.start_date.past? %>
-                  <%= t('statistic_mail.course_info.since') %>
+                  <%= t('notification_service.statistic_mail.course_info.since') %>
                   <%= time_ago_in_words(cs.start_date) %>
                 <% else %>
-                  <%= t('statistic_mail.course_info.start_date') %> <%= time_ago_in_words(cs.start_date) %>
+                  <%= t('notification_service.statistic_mail.course_info.start_date') %> <%= time_ago_in_words(cs.start_date) %>
                 <% end %>
                 <br />
                 <small><%= cs.start_date %></small>
@@ -86,17 +86,17 @@
                   <br />
                   <table class="data_table">
                     <tr>
-                      <th><%= t('statistic_mail.course_info.col_attr_left') %></th>
-                      <th><%= t('statistic_mail.course_info.col_attr_mid') %></th>
-                      <th><%= t('statistic_mail.course_info.col_attr_right') %></th>
+                      <th><%= t('notification_service.statistic_mail.course_info.col_attr_left') %></th>
+                      <th><%= t('notification_service.statistic_mail.course_info.col_attr_mid') %></th>
+                      <th><%= t('notification_service.statistic_mail.course_info.col_attr_right') %></th>
                     </tr>
                     <tr>
-                      <td><%= t('statistic_mail.course_info.posts') %></td>
+                      <td><%= t('notification_service.statistic_mail.course_info.posts') %></td>
                       <td><%= cs.posts %></td>
                       <td><%= cs.posts_last_day %></td>
                     </tr>
                     <tr>
-                      <td><%= t('statistic_mail.course_info.threads') %></td>
+                      <td><%= t('notification_service.statistic_mail.course_info.threads') %></td>
                       <td><%= cs.threads %></td>
                       <td><%= cs.threads_last_day %></td>
                     </tr>

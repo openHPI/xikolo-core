@@ -74,71 +74,98 @@ de:
           one: Forenbenachrichtigung
           other: Forenbenachrichtigungen
 
-    disable_link:
-      explanation:
-        html: "Sie erhalten diese %{type}, weil Sie mit Ihrer E-Mail-Adresse %{email} bei %{site_name} angemeldet sind."
-        text: "Sie erhalten diese %{type}, weil Sie mit Ihrer E-Mail-Adresse %{email} bei %{site_name} angemeldet sind."
-      local:
-        html: "Wenn Sie keine %{types} mehr erhalten möchten, klicken Sie bitte <a href=%{link}>hier</a>."
-        text: "Wenn Sie keine %{types} mehr erhalten möchten, besuchen Sie bitte folgende Seite: %{link}."
-      global:
-        html: "Wenn Sie überhaupt keine Benachrichtigungen per E-Mail mehr erhalten möchten, klicken Sie bitte <a href=%{link}>hier</a>."
-        text: "Wenn Sie überhaupt keine Benachrichtigungen per E-Mail mehr erhalten möchten, besuchen Sie bitte folgende Seite: %{link}."
-      notification_settings_link:
-        html: "Sie können Ihre Benachrichtigungseinstellungen in Ihrem <a href=%{link}>Profil</a> ändern."
-        text: "Sie können Ihre Benachrichtigungseinstellungen in Ihrem Profil ändern: %{link}."
-    pinboard:
-      discussion:
-        new:
-          title: "%{username} hat ein neues Thema eröffnet: %{thread_title}"
-          text: "%{text}"
-        comment:
+  notification_service:
+    application_mailer:
+      disable_link:
+        explanation:
+          html: "Sie erhalten diese %{type}, weil Sie mit Ihrer E-Mail-Adresse %{email} bei %{site_name} angemeldet sind."
+          text: "Sie erhalten diese %{type}, weil Sie mit Ihrer E-Mail-Adresse %{email} bei %{site_name} angemeldet sind."
+        local:
+          html: "Wenn Sie keine %{types} mehr erhalten möchten, klicken Sie bitte <a href=%{link}>hier</a>."
+          text: "Wenn Sie keine %{types} mehr erhalten möchten, besuchen Sie bitte folgende Seite: %{link}."
+        global:
+          html: "Wenn Sie überhaupt keine Benachrichtigungen per E-Mail mehr erhalten möchten, klicken Sie bitte <a href=%{link}>hier</a>."
+          text: "Wenn Sie überhaupt keine Benachrichtigungen per E-Mail mehr erhalten möchten, besuchen Sie bitte folgende Seite: %{link}."
+        notification_settings_link:
+          html: "Sie können Ihre Benachrichtigungseinstellungen in Ihrem <a href=%{link}>Profil</a> ändern."
+          text: "Sie können Ihre Benachrichtigungseinstellungen in Ihrem Profil ändern: %{link}."
+    notifications:
+      pinboard:
+        discussion:
           new:
-            title: "%{username} hat auf %{thread_title} geantwortet"
-            text: "%{text}"
-      question:
-        new:
-          title: "%{username} hat ein neues Thema eröffnet: %{thread_title}"
-          text: "%{text}"
-        answer:
-          new:
-            title: "%{username} hat auf %{thread_title} geantwortet"
+            title: "%{username} hat ein neues Thema eröffnet: %{thread_title}"
             text: "%{text}"
           comment:
             new:
               title: "%{username} hat auf %{thread_title} geantwortet"
               text: "%{text}"
-        comment:
+        question:
           new:
-            title: "%{username} hat auf %{thread_title} geantwortet"
+            title: "%{username} hat ein neues Thema eröffnet: %{thread_title}"
             text: "%{text}"
-      new_post:
-        subject: "Zu einem Thema, dem Sie folgen, gibt es eine neue Antwort: %{course_name}"
-        mailheader_type: "Forumsaktivität"
-        mailheader_info: "%{course_name}"
-        meta: "Am %{date} hat %{user} einen Beitrag in einem Thema, dem Sie folgen, verfasst."
-        title: "%{title}"
-        action_button: "Ansehen oder antworten"
-        hint: "Tipp: Wenn diese Antwort Ihnen geholfen hat, markieren Sie sie als korrekt."
-      new_thread:
-        subject: "Es gibt ein neues Thema im Forum."
-        mailheader_type: "Forumsaktivität"
-        mailheader_info: "%{course_name}"
-        meta: "Am %{date} hat %{user} ein neues Thema im Forum eröffnet."
-        title: "%{title}"
-        action_button: "Ansehen oder antworten"
-      blocked_item:
-        subject: Bitte überprüfen Sie einen gemeldeten Beitrag
-        greeting: Lieber Admin,
-        text: ein Beitrag wurde automatisch geblockt. Bitte überprüfen Sie es!
-        link_text: Hier zum Überprüfen klicken!
-    news:
-      announcement:
-        subject: "Für Sie steht eine neue %{site_name}-Nachricht bereit"
-        mailheader_type: "Neuigkeiten"
-        test_notice: "Dies ist eine Testnachricht, nur Sie können sie sehen!"
-        title: "Neue Nachricht: %{title}"
-        text: "%{text}"
+          answer:
+            new:
+              title: "%{username} hat auf %{thread_title} geantwortet"
+              text: "%{text}"
+            comment:
+              new:
+                title: "%{username} hat auf %{thread_title} geantwortet"
+                text: "%{text}"
+          comment:
+            new:
+              title: "%{username} hat auf %{thread_title} geantwortet"
+              text: "%{text}"
+        new_post:
+          subject: "Zu einem Thema, dem Sie folgen, gibt es eine neue Antwort: %{course_name}"
+          mailheader_type: "Forumsaktivität"
+          mailheader_info: "%{course_name}"
+          meta: "Am %{date} hat %{user} einen Beitrag in einem Thema, dem Sie folgen, verfasst."
+          title: "%{title}"
+          action_button: "Ansehen oder antworten"
+          hint: "Tipp: Wenn diese Antwort Ihnen geholfen hat, markieren Sie sie als korrekt."
+        new_thread:
+          subject: "Es gibt ein neues Thema im Forum."
+          mailheader_type: "Forumsaktivität"
+          mailheader_info: "%{course_name}"
+          meta: "Am %{date} hat %{user} ein neues Thema im Forum eröffnet."
+          title: "%{title}"
+          action_button: "Ansehen oder antworten"
+        blocked_item:
+          subject: Bitte überprüfen Sie einen gemeldeten Beitrag
+          greeting: Lieber Admin,
+          text: ein Beitrag wurde automatisch geblockt. Bitte überprüfen Sie es!
+          link_text: Hier zum Überprüfen klicken!
+      news:
+        announcement:
+          subject: "Für Sie steht eine neue %{site_name}-Nachricht bereit"
+          mailheader_type: "Neuigkeiten"
+          test_notice: "Dies ist eine Testnachricht, nur Sie können sie sehen!"
+          title: "Neue Nachricht: %{title}"
+          text: "%{text}"
+          account_mailer:
+      account_mailer:
+        password_reset:
+          subject: "Passwort zurücksetzen für Ihr %{site_name} Benutzerkonto"
+          text: Für Ihr Benutzerkonto wurde ein Zurücksetzen des Passwortes beantragt. Klicken Sie den untenstehenden Button, um das Passwort nun zurückzusetzen. Der Link ist nur für 24 Stunden gültig.
+          link: Passwort zurücksetzen
+        confirm_email:
+          subject: Bitte Bestätigen Sie Ihre E-Mail
+          mailheader_type: Bestätigen Sie Ihre E-Mail
+          text: "Sie bekommen diese E-Mail, da Sie eine neue E-Mail-Adresse zu Ihrem Konto bei %{site_name} hinzugefügt haben. Bitte bestätigen Sie die E-Mail-Adresse, indem Sie auf den folgenden Button klicken."
+          link: E-Mail bestätigen
+          copy_instructions: Sollte der oben stehende Link nicht anklickbar sein oder nicht funktionieren, versuchen Sie ihn komplett zu kopieren und in die Adresszeile Ihres Webbrowsers einzufügen.
+        welcome_email:
+          subject: Willkommen bei %{site_name}
+          mailheader_type: Willkommen bei %{site_name}
+          welcome: Sie erhalten diese E-Mail, weil Sie ein neues Konto bei %{site_name} registriert haben.
+          next_steps: "Führen Sie nach dem Anmelden die folgenden Schritte aus, um Ihr Profil vorzubereiten und die Plattform zu verwenden:"
+          step_1: Befolgen Sie die Anweisungen auf dem Bildschirm, um Ihr Profil zu vervollständigen. Für die Nutzung der Plattform sind einige Informationen erforderlich.
+          step_2: Melden Sie sich für einen Kurs an, der Sie interessiert.
+          step_3: Betreten Sie den Kurs und beginnen Sie zu lernen. Die meisten unserer Kurse finden im eigenen Tempo statt und Sie können sofort beginnen.
+          step_4: Wenn Sie während der Arbeit an dem Kurs Fragen haben, schauen Sie sich bitte die Forumsdiskussionen an.
+          confirmation: Um zu beginnen, bestätigen Sie bitte Ihre E-Mail-Adresse, indem Sie auf die folgende Button klicken.
+          link: E-Mail bestätigen
+          copy_instructions: Sollte der oben stehende Link nicht anklickbar sein oder nicht funktionieren, versuchen Sie ihn komplett zu kopieren und in die Adresszeile Ihres Webbrowsers einzufügen.
     course:
       announcement:
         subject: "Eine neue Kursmitteilung ist verfügbar"
@@ -152,90 +179,66 @@ de:
         no_questions: In den letzten Tagen hat sich im Forum nichts getan. Starten Sie heute eine neue Diskussion!
         no_unanswered: Es gibt keine unbeantworteten Fragen.
 
-  account_mailer:
-    password_reset:
-      subject: "Passwort zurücksetzen für Ihr %{site_name} Benutzerkonto"
-      text: Für Ihr Benutzerkonto wurde ein Zurücksetzen des Passwortes beantragt. Klicken Sie den untenstehenden Button, um das Passwort nun zurückzusetzen. Der Link ist nur für 24 Stunden gültig.
-      link: Passwort zurücksetzen
-    confirm_email:
-      subject: Bitte Bestätigen Sie Ihre E-Mail
-      mailheader_type: Bestätigen Sie Ihre E-Mail
-      text: "Sie bekommen diese E-Mail, da Sie eine neue E-Mail-Adresse zu Ihrem Konto bei %{site_name} hinzugefügt haben. Bitte bestätigen Sie die E-Mail-Adresse, indem Sie auf den folgenden Button klicken."
-      link: E-Mail bestätigen
-      copy_instructions: Sollte der oben stehende Link nicht anklickbar sein oder nicht funktionieren, versuchen Sie ihn komplett zu kopieren und in die Adresszeile Ihres Webbrowsers einzufügen.
-    welcome_email:
-      subject: Willkommen bei %{site_name}
-      mailheader_type: Willkommen bei %{site_name}
-      welcome: Sie erhalten diese E-Mail, weil Sie ein neues Konto bei %{site_name} registriert haben.
-      next_steps: "Führen Sie nach dem Anmelden die folgenden Schritte aus, um Ihr Profil vorzubereiten und die Plattform zu verwenden:"
-      step_1: Befolgen Sie die Anweisungen auf dem Bildschirm, um Ihr Profil zu vervollständigen. Für die Nutzung der Plattform sind einige Informationen erforderlich.
-      step_2: Melden Sie sich für einen Kurs an, der Sie interessiert.
-      step_3: Betreten Sie den Kurs und beginnen Sie zu lernen. Die meisten unserer Kurse finden im eigenen Tempo statt und Sie können sofort beginnen.
-      step_4: Wenn Sie während der Arbeit an dem Kurs Fragen haben, schauen Sie sich bitte die Forumsdiskussionen an.
-      confirmation: Um zu beginnen, bestätigen Sie bitte Ihre E-Mail-Adresse, indem Sie auf die folgende Button klicken.
-      link: E-Mail bestätigen
-      copy_instructions: Sollte der oben stehende Link nicht anklickbar sein oder nicht funktionieren, versuchen Sie ihn komplett zu kopieren und in die Adresszeile Ihres Webbrowsers einzufügen.
+    course_welcome_mailer:
+      welcome_mail:
+        subject: "Danke für die Anmeldung: %{course_title}"
+        mailheader_type: "Willkommen im Kurs"
 
-  course_welcome_mailer:
-    welcome_mail:
-      subject: "Danke für die Anmeldung: %{course_title}"
-      mailheader_type: "Willkommen im Kurs"
+    questions:
+      votes: Votes
+      responses: Antworten
+      views: Abrufe
+      ago: her
+      last_activity: letzte Aktivität
+      answered: Beantwortet
+      discussion: Diskussion
+      unanswered: Unbeantwortet
+      closed: Geschlossen
+      tags: Tags
 
-  questions:
-    votes: Votes
-    responses: Antworten
-    views: Abrufe
-    ago: her
-    last_activity: letzte Aktivität
-    answered: Beantwortet
-    discussion: Diskussion
-    unanswered: Unbeantwortet
-    closed: Geschlossen
-    tags: Tags
-
-  statistic_mail:
-    admin:
-      subject: "Daily admin statistics for %{site} (%{date})"
-      mailheader_type: "Your daily course statistics for %{site}"
-    course_admin:
-      subject: "Your daily course statistics for %{site} (%{date})"
-      mailheader_type: "Your daily course statistics for %{site}"
-    statistics: "statistics"
-    global:
-      user:
-        user: "Users on"
-        users: "Total Unique Learner Registration"
+    statistic_mail:
+      admin:
+        subject: "Daily admin statistics for %{site} (%{date})"
+        mailheader_type: "Your daily course statistics for %{site}"
+      course_admin:
+        subject: "Your daily course statistics for %{site} (%{date})"
+        mailheader_type: "Your daily course statistics for %{site}"
+      statistics: "statistics"
+      global:
+        user:
+          user: "Users on"
+          users: "Total Unique Learner Registration"
+          duration: "in last 24h"
+        enrollment:
+          enrollment: "Enrollments on"
+          total_enrollment: "Total Course Enrollments"
+          duration: "in last 24h"
+          unique: "in last 24h from unique learners"
+        certificate: "Issued Certificates on "
+        certificate_roa: "Records of Achievement"
+      ticket:
+        ticket: "Tickets on"
+        total: "Total Tickets"
         duration: "in last 24h"
-      enrollment:
-        enrollment: "Enrollments on"
-        total_enrollment: "Total Course Enrollments"
+      chart: "New Course Enrollments"
+      current_courses: "Current courses"
+      course_info:
+        hidden: "hidden"
+        more: "more"
+        learners: "Enrolled learners"
         duration: "in last 24h"
-        unique: "in last 24h from unique learners"
-      certificate: "Issued Certificates on "
-      certificate_roa: "Records of Achievement"
-    ticket:
-      ticket: "Tickets on"
-      total: "Total Tickets"
-      duration: "in last 24h"
-    chart: "New Course Enrollments"
-    current_courses: "Current courses"
-    course_info:
-      hidden: "hidden"
-      more: "more"
-      learners: "Enrolled learners"
-      duration: "in last 24h"
-      new: "new users"
-      completion_rate: "Completion Rate"
-      cert_issued: "certificates issued"
-      enroll_at_middle: "enrollments at course middle"
-      no_show: "No Shows"
-      soon: "Coming soon"
-      since: "Running since"
-      start_date: "Starts in"
-      col_attr_left: "Content"
-      col_attr_mid: "Total"
-      col_attr_right: "last 24 h"
-      posts: "Posts"
-      threads: "Topics"
-    archive_courses: "Courses recently ended"
-    upcoming_courses: "Upcoming courses"
+        new: "new users"
+        completion_rate: "Completion Rate"
+        cert_issued: "certificates issued"
+        enroll_at_middle: "enrollments at course middle"
+        no_show: "No Shows"
+        soon: "Coming soon"
+        since: "Running since"
+        start_date: "Starts in"
+        col_attr_left: "Content"
+        col_attr_mid: "Total"
+        col_attr_right: "last 24 h"
+        posts: "Posts"
+        threads: "Topics"
+      archive_courses: "Courses recently ended"
+      upcoming_courses: "Upcoming courses"

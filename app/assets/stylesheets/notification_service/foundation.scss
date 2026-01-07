@@ -1,0 +1,11 @@
+$brand-primary-color: #de6212; // HPI Orange
+
+@import "notification_service/foundation/default_settings";
+@import "notification_service/foundation/base";
+@import "notification_service/foundation/custom";
+
+// Theme-colored accent bar at the top of each email
+
+body {
+  border-top: 10px solid $primary-color;
+}
