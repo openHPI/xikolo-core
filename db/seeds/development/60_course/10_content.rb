@@ -1371,11 +1371,3 @@ CourseService::CourseSetRelation.create!(
   target_set: prereq2,
   kind: 'requires_roa'
 )
-
-#
-# Require additional seeds
-#
-
-Rails.root.glob('db/seeds/development/*.rb').sort.each do |file|
-  load file
-end

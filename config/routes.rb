@@ -403,13 +403,6 @@ Rails.application.routes.draw do
     get '/survey/:id', to: 'go#survey'
   end
 
-  # Public API for customers portal
-  scope 'portalapi-beta', module: :portal_api, as: 'portal' do
-    resources :courses, only: %i[index show]
-    resources :users, only: %i[update destroy]
-    resources :enrollments, only: %i[index create]
-  end
-
   scope 'bridges', module: :bridges, as: 'bridges' do
     # Internal Bridge Transpipe API
     scope 'transpipe', module: :transpipe, as: 'transpipe' do

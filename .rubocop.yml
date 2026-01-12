@@ -29,6 +29,7 @@ AllCops:
     - "bin/*"
     - "config/initializers/integration*"
     - "db/schema.rb"
+    - "db/queue_schema.rb"
     - "integration/gems/**/*"
     - "node_modules/**/*"
     - "services/*/bin/**"

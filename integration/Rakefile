@@ -22,7 +22,7 @@ task default: %i[update spec]
 
 task :ci do
   puts "ENV: Running in `#{ENV.fetch('RAILS_ENV', nil)}' environment"
-  %w[bundle:install config db:migrate:reset permissions:load spec].each do |task|
+  %w[bundle:install config db:drop db:prepare permissions:load spec].each do |task|
     Rake::Task[task].invoke
   end
 end
@@ -41,24 +41,24 @@ desc 'Install gems and migrate databases.'
 task update: %w[install]
 
 desc 'Reset all applications to a clean state'
-task reset: %w[reset:sidekiq reset:rabbitmq reset:database reset:s3 reset:data]
+task reset: %w[reset:sidekiq reset:rabbitmq reset:s3 reset:database]
 
 namespace :reset do
-  desc 'Delete and re-setup the database'
+  desc 'Reset the database'
   task :database do
-    Rake::Task['db:migrate:reset'].invoke
+    Rake::Task['db:reset'].invoke
   end
 
   desc 'Clear all RabbitMQ queues'
   task :rabbitmq do
-    Server.exec :msgr, partition: 1 do |app|
+    Server.exec :main do |app|
       app.bundle 'exec', 'rake', 'msgr:drain'
     end
   end
 
   desc 'Clear all Sidekiq queues'
   task :sidekiq do
-    Server.exec :sidekiq, partition: 1 do |app|
+    Server.exec :main do |app|
       app.bundle 'exec', 'rake', 'sidekiq:clear'
     end
   end
@@ -75,12 +75,6 @@ namespace :reset do
 
     # And configure them again
     Rake::Task['s3:configure'].invoke
-  end
-
-  desc 'Write example data and configure permissions'
-  task :data do
-    Rake::Task['permissions:load'].invoke
-    Rake::Task['db:seed'].invoke
   end
 end
 
@@ -171,28 +165,10 @@ namespace :db do
     end
   end
 
-  namespace :migrate do
-    task reset: %w[^config] do
-      Server.exec :main do |app|
-        app.bundle 'exec', 'rake', 'db:migrate:reset', env: {'RAILS_ENV' => ENV.fetch('RAILS_ENV', nil)}
-      end
-    end
-  end
-
   desc 'Prepare databases for current environment.'
   task prepare: %w[^config] do
-    receiver = BroadcastReceiver.new
-    receiver << MultiProcess::Logger.new($stdout, $stderr, sys: true)
-    receiver << buffer_logger = MultiProcess::StringReceiver.new
-
-    Server.exec :main, receiver: do |app|
+    Server.exec :main do |app|
       app.bundle 'exec', 'rake', 'db:prepare', env: {'RAILS_ENV' => ENV.fetch('RAILS_ENV', nil)}
-    end
-
-    # Load seeds for all services if the database was created
-    if buffer_logger.get(:out).include?('Created database')
-      Rake::Task['permissions:load'].invoke
-      Rake::Task['db:seed'].invoke(:srv)
     end
   end
 
@@ -204,31 +180,10 @@ namespace :db do
   end
 
   desc 'Seed all databases (development)'
-  task :seed, [:role] => %w[^config] do |_task, args|
-    args.with_defaults(role: :db)
-    # Seeding the course service requires the account service (included in web) to
-    # be running. The seeds will create courses that have hook that contacts the
-    # account service to create groups and grants specific for each new course.
-    #
-    # The web service is started with development mode and port. This task
-    # only assumes to be used in development mode.
-    process = Server[:web].bundle 'exec', 'rails', 'server', '--port', '3000'
-    process.extend(MultiProcess::Process::Rails)
-    process.port = 3000
-    process.start
-
-    30.times do
-      sleep 1
-      break if process.available?
-    end
-
-    raise 'Web service not started. Abort.' unless process.available?
-
-    Server.exec args[:role], partition: 1 do |app|
+  task seed: %w[^config] do
+    Server.exec :main do |app|
       app.bundle 'exec', 'rake', 'db:seed', env: {'RAILS_ENV' => ENV.fetch('RAILS_ENV', nil)}
     end
-  ensure
-    process&.stop
   end
 
   desc 'Reset all databases. This will drop database, ' \

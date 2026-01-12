@@ -86,6 +86,7 @@ module Xikolo
       config.eager_load_namespaces << GeoIP
 
       # Queuing and mails
+      config.solid_queue.supervisor_pidfile = Rails.root.join('tmp/pids/solid_queue_supervisor.pid')
       config.active_job.queue_adapter = :delayed
       config.action_mailer.deliver_later_queue_name = 'mails'
       config.action_mailer.default_url_options = {

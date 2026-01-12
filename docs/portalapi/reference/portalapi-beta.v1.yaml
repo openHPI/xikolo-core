@@ -2,7 +2,10 @@ openapi: 3.0.0
 info:
   title: portalapi-beta
   version: "1.0"
-  description: An API to access course catalog data from openHPI instances, retrieve and create enrollments.
+  description: |
+    This API has been removed and is no longer available.
+
+    An API to access course catalog data from openHPI instances, retrieve and create enrollments.
   contact:
     name: openHPI
     url: "https://open.hpi.de"

@@ -3,7 +3,7 @@
     <span aria-hidden="true">
       <%= render Global::FaIcon.new(icon_class, style: :solid, css_classes: 'text-3xl') %>
     </span>
-    <p class="!m-0 text-3xl"<% if heading_level.present? %> role="heading" aria-level="<%= heading_level %>"<% end %>><%= title %></p>
+    <p class="m-0 text-3xl"<% if heading_level.present? %> role="heading" aria-level="<%= heading_level %>"<% end %>><%= title %></p>
   </header>
 
   <hr class="my-6 border-gray-300">
