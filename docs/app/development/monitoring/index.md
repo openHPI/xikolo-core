@@ -20,3 +20,9 @@ rescue Restify::ClientError => e
 ### Frontend Error Tracking
 
 Frontend JavaScript errors should be captured and reported to Sentry. In application code, prefer the shared `handleError` utility (`app/assets/util/error.ts`), which reports to Sentry and optionally shows a user-facing message. Unhandled exceptions and promise rejections are tracked automatically.
+
+## Coverband
+
+[Coverband](https://github.com/danmayer/coverband) measures production code usage, showing a counter for the number of times each line of code is executed.
+
+[https://open.hpi.de/coverage](https://open.hpi.de/coverage)

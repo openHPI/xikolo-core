@@ -469,4 +469,6 @@ Rails.application.routes.draw do
     get '/__session__', to: 'account/test#show'
     post '/__session__', to: 'account/test#update'
   end
+
+  mount Coverband::Reporters::Web.new, at: '/coverage'
 end
