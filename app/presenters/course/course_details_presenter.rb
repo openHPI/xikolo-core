@@ -13,7 +13,7 @@ class Course::CourseDetailsPresenter < CoursePresenter
     return if @user.anonymous?
     return unless @course['prerequisite_status_url']
 
-    @prereq_promise ||= Restify.new(@course['prerequisite_status_url']).get({
+    @prereq_promise ||= Xikolo::Common::API.authorized_request(@course['prerequisite_status_url']).get({
       user_id: @user.id,
     })
   end

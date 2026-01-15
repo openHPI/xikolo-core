@@ -15,7 +15,6 @@ class UserDecorator < ApplicationDecorator # rubocop:disable Layout/IndentationW
     admin
     archived
     affiliated
-    affiliation
     confirmed
     anonymous
 

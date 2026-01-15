@@ -20,8 +20,6 @@ class Account::ProfilesController < Abstract::FrontendController
     @user ||= find_user
     @profile = Account::ProfilePresenter.new(@user, native_login: current_user.feature?('account.login'))
 
-    Acfs.run
-
     set_page_title t(:'header.navigation.profile')
     render layout: 'dashboard'
   end
@@ -29,8 +27,6 @@ class Account::ProfilesController < Abstract::FrontendController
   def edit_email
     @profile = Account::ProfilePresenter.new(find_user, native_login: current_user.feature?('account.login'))
     @email = Email.new
-
-    Acfs.run
 
     set_page_title t(:'header.navigation.profile')
     render layout: 'dashboard'

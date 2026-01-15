@@ -368,49 +368,6 @@ describe AccountService::User, type: :model do
     end
   end
 
-  describe '#update_profile_completion!' do
-    subject(:action) { -> { user.update_profile_completion! } }
-
-    let!(:field1) do
-      create(:'account_service/custom_text_field', name: 'fn1', required: true)
-    end
-
-    let!(:field2) do
-      create(:'account_service/custom_text_field', name: 'fn2', required: true)
-    end
-
-    before do
-      create(:'account_service/custom_text_field', name: 'fn3', required: false)
-    end
-
-    context 'with required fields filled' do
-      let(:attributes) { super().merge(completed_profile: false) }
-
-      before do
-        field1.update_values(user, ['text'])
-        field2.update_values(user, ['text'])
-      end
-
-      it do
-        expect { action.call }
-          .to change { user.features.reload.map(&:name) }
-          .from([])
-          .to(['account.profile.mandatory_completed'])
-      end
-    end
-
-    context 'with required fields removed' do
-      let(:attributes) { super().merge(completed_profile: true) }
-
-      it do
-        expect { action.call }
-          .to change { user.features.reload.map(&:name) }
-          .from(['account.profile.mandatory_completed'])
-          .to([])
-      end
-    end
-  end
-
   describe '#affiliated' do
     let(:attributes) { {affiliated: true} }
 

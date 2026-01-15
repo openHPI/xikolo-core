@@ -283,9 +283,6 @@ AccountService::Treatment.create!(
   required: false
 )
 
-# Ensure profile permissions
-AccountService::User.find_each(&:update_profile_completion!)
-
 # Default feature flippers
 %w[
   account.login

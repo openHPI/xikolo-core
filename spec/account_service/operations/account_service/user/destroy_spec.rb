@@ -32,7 +32,6 @@ describe AccountService::User::Destroy, type: :operation do
 
     create(:'account_service/session', user:)
     create(:'account_service/authorization', user:)
-    create(:'account_service/custom_field_value', context: user)
     create(:'account_service/password_reset', user:)
     create(:'account_service/token', user:)
   end
@@ -63,10 +62,6 @@ describe AccountService::User::Destroy, type: :operation do
 
     it 'removes all user tokens' do
       expect { call }.to change { AccountService::Token.where(user:).count }.from(1).to(0)
-    end
-
-    it 'removes all custom field values' do
-      expect { call }.to change(AccountService::CustomFieldValue, :count).from(1).to(0)
     end
   end
 end

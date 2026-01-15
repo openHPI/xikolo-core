@@ -13,7 +13,7 @@ class Course::CertificatesController < Abstract::FrontendController
     Acfs.run
 
     Acfs.on the_course do |course|
-      @achievements = Restify.new(course['achievements_url']).get(
+      @achievements = Xikolo::Common::API.authorized_request(course['achievements_url']).get(
         params: {user_id: current_user.id},
         headers: {'Accept-Language' => I18n.locale}
       ).value!

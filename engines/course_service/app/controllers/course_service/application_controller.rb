@@ -4,8 +4,8 @@ module CourseService
 class ApplicationController < ActionController::Base # rubocop:disable Layout/IndentationWidth
   include Vary
 
-  # This is API!
-  skip_before_action :verify_authenticity_token
+  # Skip CSRF if defined (avoid raising when the callback isn't present in test boot)
+  skip_before_action :verify_authenticity_token, raise: false
 
   rescue_from ActiveRecord::RecordNotFound, with: :error_not_found
   rescue_from ActionController::ParameterMissing, with: :error_param_missing

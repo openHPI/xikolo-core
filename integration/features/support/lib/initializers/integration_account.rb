@@ -16,7 +16,6 @@ if Rails.env.integration? && ENV['GURKE']
                                                 AccountService::Group.gdpr_admins]).delete_all
 
     AccountService::Context.where.not(parent_id: nil).delete_all
-    AccountService::CustomField.where(required: true).delete_all
   end
 
   XiIntegration.hook :test_setup do
@@ -27,14 +26,5 @@ if Rails.env.integration? && ENV['GURKE']
     __clean_database
   rescue StandardError => e
     puts e
-  end
-
-  Rack::Remote.register :test_mandatory_profile do |_params, _env, _request|
-    AccountService::CustomTextField.create! \
-      name: 'profession',
-      context: 'user',
-      required: true
-
-    nil
   end
 end

@@ -29,11 +29,6 @@ describe 'Create user', type: :request do
     it { is_expected.not_to be_confirmed }
     it { is_expected.not_to be_archived  }
 
-    it 'checks profile completion status' do
-      expect(user.features.pluck(:name)).to \
-        eq %w[account.profile.mandatory_completed]
-    end
-
     describe '#email' do
       subject { created_user.email }
 

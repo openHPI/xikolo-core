@@ -1,5 +1,4 @@
 # vim: ft=yaml
 
 nav:
-  - custom_fields.md
   - consents.md

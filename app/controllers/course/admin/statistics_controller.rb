@@ -41,11 +41,15 @@ class Course::Admin::StatisticsController < Abstract::FrontendController
     Acfs.run
 
     most_active = ::Admin::Statistics::MostActive.call(course_id: @course.id)
-    @most_active_table_headers = [
-      most_active[:headers][:user],
-      most_active[:headers][:posts],
-      most_active[:headers][:threads],
-    ]
+    @most_active_table_headers = if most_active[:headers]
+                                   [
+                                     most_active[:headers][:user],
+                                     most_active[:headers][:posts],
+                                     most_active[:headers][:threads],
+                                   ]
+                                 else
+                                   []
+                                 end
 
     @most_active_table_rows = most_active[:most_active_data].map do |row|
       {

@@ -213,28 +213,6 @@ class User < ApplicationRecord # rubocop:disable Layout/IndentationWidth
     affiliated
   end
 
-  def affiliation
-    return if anonymous?
-
-    affiliation = Xikolo.config.external_booking['affiliation_field']
-    return if affiliation.blank?
-
-    CustomField.find_by!(context: 'user', name: affiliation)
-      .custom_field_values
-      .find_by(context_id: id)
-      &.values&.first
-  rescue ActiveRecord::RecordNotFound
-    raise "User affiliation field #{affiliation} required for JWT not found."
-  end
-
-  # TODO: enable when removing the affiliated flag
-  # def affiliated
-  #  @affiliated ||= Membership
-  #    .where(user: self, group: Group.affiliated_group).any?
-  # end
-  #
-  # attr_writer :affiliated
-
   def password=(unencrypted_password)
     @password = unencrypted_password
     super
@@ -282,18 +260,6 @@ class User < ApplicationRecord # rubocop:disable Layout/IndentationWidth
     ActiveRecord::Base.transaction do
       update!(archived: true)
       sessions.destroy_all
-    end
-  end
-
-  def update_profile_completion!
-    if CustomField.context('user').mandatory_completed?(self)
-      features.ensure_exists! \
-        name: 'account.profile.mandatory_completed',
-        context: Context.root
-    else
-      features
-        .where(name: 'account.profile.mandatory_completed')
-        .destroy_all
     end
   end
 

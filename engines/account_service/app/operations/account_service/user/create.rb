@@ -32,8 +32,6 @@ class User::Create < ApplicationOperation # rubocop:disable Layout/IndentationWi
     end
 
     user.adminize! if params[:admin]
-    user.update_profile_completion!
-
     user
   end
 end

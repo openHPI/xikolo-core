@@ -2,7 +2,6 @@
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV['RAILS_ENV'] ||= 'test'
-ENV['XIKOLO_WEB_API'] ||= 'supersecrettoken'
 
 # TODO: Remove when inegration tests use the services in Web
 ENV['XIKOLO_SERVICE_ACCOUNT'] = 'http://localhost:3000/account_service'

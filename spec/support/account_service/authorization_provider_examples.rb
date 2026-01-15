@@ -48,11 +48,6 @@ RSpec.shared_examples 'an authorization provider' do
 
         before { response }
 
-        it 'runs profile completion check' do
-          expect(user.features.pluck(:name)).to \
-            eq %w[account.profile.mandatory_completed]
-        end
-
         describe '#email' do
           subject { user.email }
 

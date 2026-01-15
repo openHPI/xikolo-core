@@ -448,25 +448,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_06_143925) do
     t.index ["document_id"], name: "index_courses_documents_on_document_id"
   end
 
-  create_table "custom_field_values", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "custom_field_id"
-    t.uuid "context_id"
-    t.string "context_type"
-    t.string "values", default: [], null: false, array: true
-    t.index ["context_type", "context_id"], name: "index_custom_field_values_on_context_type_and_context_id"
-  end
-
-  create_table "custom_fields", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "context"
-    t.string "name"
-    t.string "title"
-    t.string "type"
-    t.boolean "required"
-    t.string "values", default: [], array: true
-    t.string "default_values", default: [], array: true
-    t.string "validator"
-  end
-
   create_table "dates", primary_key: ["slot_id", "user_id"], force: :cascade do |t|
     t.uuid "slot_id", null: false
     t.uuid "user_id", default: -> { "uuid_nil()" }, null: false

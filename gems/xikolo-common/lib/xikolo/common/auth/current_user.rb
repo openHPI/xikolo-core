@@ -111,7 +111,7 @@ module Xikolo::Common::Auth::CurrentUser
       return @permissions unless context
 
       @permission_map.fetch(context) do
-        @permission_map[context] = Restify.new(@user['permissions_url'])
+        @permission_map[context] = Xikolo::Common::API.authorized_request(@user['permissions_url'])
           .get({context:}).value!
       end
     end

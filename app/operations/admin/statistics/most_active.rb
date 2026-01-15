@@ -11,7 +11,7 @@ module Admin
 
       def call
         most_active_data = fetch_forum_data(@course_id)
-        return [] if most_active_data.blank?
+        return {most_active_data: []} if most_active_data.blank?
 
         {
           headers: {
@@ -19,9 +19,11 @@ module Admin
             posts: I18n.t('admin.statistics.pinboard.posts_header'),
             threads: I18n.t('admin.statistics.pinboard.threads_header'),
           },
-
           most_active_data: filter_admins(most_active_data),
         }
+      rescue StandardError => e
+        ::Sentry.capture_exception(e, extra: {course_id: @course_id, operation: 'MostActive#call'})
+        {most_active_data: []}
       end
 
       private

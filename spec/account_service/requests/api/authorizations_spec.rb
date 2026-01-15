@@ -105,11 +105,6 @@ describe 'Sessions: Create with User ID', type: :request do
 
           before { response }
 
-          it 'runs profile completion check' do
-            expect(user.features.pluck(:name)).to \
-              eq %w[account.profile.mandatory_completed]
-          end
-
           describe '#email' do
             subject(:email) { user.email }
 

@@ -765,6 +765,8 @@ en:
     chat: Support Chat
     contact: Contact Form
     recaptcha: Help us keep the site secure! Confirm you're human by checking the box below.
+    technical_issue_title: Technical Issue
+    technical_issue_message: "We are currently experiencing a technical issue with our helpdesk. Our development team is already working on a solution. Thank you for your patience. Your openHPI team."
 
   chatbot:
     send: Send

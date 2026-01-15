@@ -4,8 +4,8 @@ module AccountService
 class API::BaseController < ActionController::Base # rubocop:disable Layout/IndentationWidth,Rails/ApplicationController
   include Vary
 
-  # This is API!
-  skip_before_action :verify_authenticity_token
+  # Skip CSRF if defined (avoid raising when the callback isn't present in test boot)
+  skip_before_action :verify_authenticity_token, raise: false
 
   rescue_from ActiveRecord::RecordNotFound, with: :error_not_found
   rescue_from ActiveRecord::RecordInvalid, with: :error_invalid

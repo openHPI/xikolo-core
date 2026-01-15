@@ -34,7 +34,6 @@ describe AccountService::UserDecorator, type: :decorator do
         name
         full_name
         affiliated
-        affiliation
         password_digest
         created_at
         updated_at

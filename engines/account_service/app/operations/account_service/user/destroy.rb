@@ -15,8 +15,6 @@ class User::Destroy < ApplicationOperation # rubocop:disable Layout/IndentationW
         display_name: 'Deleted User',
         avatar_uri: nil,
         confirmed: false
-
-      CustomFieldValue.where(context: user).destroy_all
     end
 
     remove_avatar_images!(user)

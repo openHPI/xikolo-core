@@ -247,12 +247,12 @@ class AnnouncementConsumer < Msgr::Consumer # rubocop:disable Layout/Indentation
       end
 
       def count
-        Restify.new(@audience.to_s).get({per_page: '1'}).value!
+        Xikolo::Common::API.authorized_request(@audience.to_s).get({per_page: '1'}).value!
           .response.headers['X_TOTAL_PAGES'].to_i
       end
 
       def each
-        @response = Restify.new(@url).get.value!
+        @response = Xikolo::Common::API.authorized_request(@url).get.value!
 
         @response.each do |resource|
           yield @audience.extract(resource)

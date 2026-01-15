@@ -24,14 +24,18 @@ module Xikolo::Common
         @services ||= {}
       end
 
-      def [](name)
+      def authorized_request(url)
         ::Restify.new(
-          services.fetch(name),
+          url,
           headers: {
             'Accept' => ACCEPT_HEADER,
             'Authorization' => AUTHORIZATION_HEADER,
           }
-        ).get
+        )
+      end
+
+      def [](name)
+        authorized_request(services.fetch(name)).get
       rescue KeyError
         raise ServiceNotConfigured.new(name)
       end

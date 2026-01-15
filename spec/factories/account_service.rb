@@ -30,20 +30,6 @@ FactoryBot.define do
       user.primary_email.reload
     end
 
-    trait :with_affiliation do
-      transient do
-        affiliation { nil }
-      end
-
-      after(:create) do |user, evaluator|
-        field = AccountService::CustomTextField.find_or_create_by(context: 'user', name: 'affiliation')
-
-        if evaluator.affiliation
-          create(:'account_service/custom_field_value', custom_field: field, context_id: user.id, context_type: 'user', values: [evaluator.affiliation])
-        end
-      end
-    end
-
     trait :archived do
       archived { true }
       full_name { 'Deleted User' }
@@ -151,40 +137,6 @@ FactoryBot.define do
         },
       }
     end
-  end
-
-  factory :'account_service/custom_field' do
-    name { 'fn' }
-    context { 'user' }
-
-    required { false }
-
-    initialize_with { raise 'Use STI subclass' }
-  end
-
-  factory :'account_service/custom_text_field', parent: :'account_service/custom_field' do
-    values { [] }
-    default_values { [] }
-
-    initialize_with { AccountService::CustomTextField.new }
-  end
-
-  factory :'account_service/custom_select_field', parent: :'account_service/custom_field' do
-    values { %w[none A B C] }
-    default_values { %w[none] }
-
-    initialize_with { AccountService::CustomSelectField.new }
-  end
-
-  factory :'account_service/custom_multi_select_field', parent: :'account_service/custom_field' do
-    values { %w[A B C] }
-    default_values { %w[] }
-
-    initialize_with { AccountService::CustomMultiSelectField.new }
-  end
-
-  factory :'account_service/custom_field_value' do
-    association :custom_field, factory: :'account_service/custom_text_field'
   end
 
   factory :'account_service/password_reset' do

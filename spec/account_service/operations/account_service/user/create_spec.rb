@@ -22,13 +22,6 @@ describe AccountService::User::Create, type: :operation do
     expect { operation.call }.to change(AccountService::Email, :count).from(0).to(1)
   end
 
-  # rubocop:disable RSpec/AnyInstance
-  it 'runs profile completion' do
-    expect_any_instance_of(AccountService::User).to receive(:update_profile_completion!)
-    operation.call
-  end
-  # rubocop:enable RSpec/AnyInstance
-
   describe 'new user record' do
     subject(:user) { AccountService::User.first }
 

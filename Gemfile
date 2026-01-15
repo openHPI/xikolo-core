@@ -4,6 +4,10 @@ source 'https://rubygems.org'
 
 ruby '~> 3.4.0'
 
+# Environment variables need to be loaded first for
+# other gems to see them.
+gem 'dotenv', groups: %i[development test]
+
 # Rails
 gem 'rails', '~> 7.2.0'
 gem 'turbo-rails'
@@ -187,7 +191,6 @@ end
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri windows], require: 'debug/prelude'
-  gem 'dotenv'
 
   gem 'letter_opener'
   gem 'listen', '~> 3.9.0'
