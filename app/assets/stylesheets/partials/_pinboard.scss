@@ -466,43 +466,6 @@ $xi-pinboard-comment-avatar-connector-width: 2px;
     width: 100%;
     table-layout: fixed;
 
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      color: $text-color;
-    }
-
-    h1 {
-      font-size: 17px;
-    }
-
-    h2 {
-      font-size: 16px;
-    }
-
-    h3 {
-      font-size: 15px;
-    }
-
-    h4 {
-      font-size: 15px;
-    }
-
-    h5 {
-      font-size: 12px;
-    }
-
-    h6 {
-      font-size: 12px;
-    }
-
-    blockquote {
-      font-size: inherit;
-    }
-
     tr.accepted {
       padding-right: 10px;
       background-color: color.adjust($gray-100, $lightness: -2%, $space: hsl);
@@ -634,23 +597,6 @@ $xi-pinboard-comment-avatar-connector-width: 2px;
         color: color.adjust($gray, $lightness: -10%, $space: hsl);
         font-style: italic;
       }
-    }
-  }
-
-  .qa-text,
-  .comment-text {
-    blockquote {
-      // Add transparency to ensure visibility with any background color
-      border-left-color: rgba($black, 0.1);
-    }
-
-    ul {
-      list-style-position: inside;
-      list-style-type: disc;
-    }
-    ol {
-      list-style-position: inside;
-      list-style-type: decimal;
     }
   }
 

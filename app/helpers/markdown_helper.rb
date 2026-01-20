@@ -52,7 +52,8 @@ module MarkdownHelper
     rendered = _render_md(
       BlankTargets.new(
         escape_html:,
-        with_toc_data: include_toc
+        with_toc_data: include_toc,
+        hard_wrap: true
       ),
       markup,
       allow_tables:
@@ -101,6 +102,7 @@ module MarkdownHelper
         {
           escape_html: false,
           with_toc_data: false,
+          hard_wrap: true,
         },
         internal_link_callback,
         external_link_callback
@@ -132,6 +134,13 @@ module MarkdownHelper
 
       @internal_link_callback = internal_link_callback
       @external_link_callback = external_link_callback
+    end
+
+    def autolink(link, link_type)
+      return nil if link.blank?
+
+      href = link_type == :email ? "mailto:#{link}" : link
+      %(<a class="bs-a" href="#{href}">#{link}</a>)
     end
 
     def link(link, title, content)

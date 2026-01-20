@@ -15,8 +15,8 @@
       span.vote-count = post.try(:votes) || 0
       = render Global::FaIcon.new('thumbs-up', css_classes: 'action action-upvote not-upvoted-icon')
       = render Global::FaIcon.new('thumbs-up', style: :solid, css_classes: 'action action-upvote upvoted-icon')
-  .pinboard2-post--content
-    == render_markdown post.text
+  .pinboard2-post--content.prose.prose-2xl.max-w-none
+    == render_markdown post.text, allow_tables: true
   .pinboard2-post--actions
     - if can_edit? post
       = link_to t(:'question.answers.edit'), class: 'bs-a'

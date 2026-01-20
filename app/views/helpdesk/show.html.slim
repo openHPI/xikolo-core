@@ -1,13 +1,6 @@
 / Hide the slide-in widget on this page
 - content_for(:helpdesk_widget, '<!-- empty -->'.html_safe)
 
-/ TODO: Remove this warning after helpdesk technical issue is resolved
-.alert.alert-warning-border.mb15
-  strong
-    = t(:'helpdesk.technical_issue_title')
-    |  -
-  =< t(:'helpdesk.technical_issue_message')
-
 h4.h4
   span.primary-color = t(:'helpdesk.headline.brand')
   span = t(:'helpdesk.headline.remainder')

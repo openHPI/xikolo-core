@@ -416,27 +416,11 @@ await ready(() => {
   $('#helpdesk-button').show();
 
   $('#helpdesk-button').on('click', function () {
-    // If helpdesk panel is already open, allow closing it
-    if (helpDeskTabOpen == true) {
+    if (helpDeskTabOpen == false) {
+      window.openHelpdeskLayer();
+    } else {
       closeHelpdeskLayer();
-      return;
     }
-
-    if (window.xuiSwal && window.I18n) {
-      const confirmText = window.I18n.t('global.close', { defaultValue: 'OK' });
-      window.xuiSwal.fire({
-        title: window.I18n.t('helpdesk.technical_issue_title'),
-        html: window.I18n.t('helpdesk.technical_issue_message'),
-        icon: 'info',
-        confirmButtonText: confirmText,
-        showCancelButton: false,
-        allowOutsideClick: true,
-        allowEscapeKey: true,
-      });
-    }
-
-    // Prevent opening the helpdesk panel due to technical issues
-    return false;
   });
 
   $('.helpdesk-container').on(

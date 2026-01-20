@@ -1,6 +1,6 @@
 import MarkdownIt from 'markdown-it';
 
-const md = new MarkdownIt({ linkify: true });
+const md = new MarkdownIt({ linkify: true, breaks: true });
 
 // Helper functions to override renderers
 // See https://github.com/markdown-it/markdown-it/blob/master/docs/examples/renderer_rules.md#reusing-existing-rules

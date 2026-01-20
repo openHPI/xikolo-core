@@ -669,8 +669,6 @@ de:
     chat: Support-Chat
     contact: Kontaktformular
     recaptcha: Bitte helfen Sie uns, die Seite vor Missbrauch zu schützen! Bestätigen Sie, dass Sie ein Mensch sind, indem Sie das Kästchen unten anklicken.
-    technical_issue_title: Technisches Problem
-    technical_issue_message: "Aktuell haben wir ein technisches Problem mit unserem Helpdesk. Unser Entwicklungsteam arbeiten bereits an einer Lösung. Danke für euere Geduld. Euer openHPI-Team"
 
   chatbot:
     send: Senden

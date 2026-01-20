@@ -41,16 +41,16 @@
             = question.votes
 
       td.qa-details
-        .qa-text
+        .qa-text.prose.prose-2xl.max-w-none
           - if question.blocked?
             - if current_user.allowed? 'pinboard.entity.block'
               b
                 = t(:'pinboard.reporting.blocked')
-              == render_markdown question.text
+              == render_markdown question.text, allow_tables: true
             - else
               = t(:'pinboard.reporting.question_blocked')
           - else
-            == render_markdown question.text
+            == render_markdown question.text, allow_tables: true
 
         = render 'attachment', resource: question
 
