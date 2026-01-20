@@ -7,12 +7,11 @@
 #
 FROM timbru31/ruby-node:3.4-slim-22@sha256:e134891648f6838f8e546417ab5e8ffde32e1cb884d7cc2f410d19883cf4b4ac AS assets
 
-ARG BRAND=xikolo
 ARG TARGETARCH
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-ENV BRAND=${BRAND}
+ENV BRAND=openhpi
 ENV MALLOC_ARENA_MAX=2
 ENV RAILS_ENV=production
 ENV SECRET_KEY_BASE_DUMMY=true
@@ -76,12 +75,11 @@ EOF
 #
 FROM ruby:3.4.4-slim@sha256:5d7149ee7eda2420d1b2bc3af78798de9eac3098e910c44a3ddd93da2a4130ca AS build
 
-ARG BRAND=xikolo
 ARG TARGETARCH
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-ENV BRAND=${BRAND}
+ENV BRAND=openhpi
 ENV MALLOC_ARENA_MAX=2
 ENV RAILS_ENV=production
 ENV SECRET_KEY_BASE_DUMMY=true
@@ -151,7 +149,6 @@ EOF
 #
 FROM docker.io/ruby:3.4.4-slim@sha256:5d7149ee7eda2420d1b2bc3af78798de9eac3098e910c44a3ddd93da2a4130ca
 
-ARG BRAND=xikolo
 ARG BUILD_REF_NAME
 ARG BUILD_COMMIT_SHA
 ARG BUILD_COMMIT_SHORT_SHA
@@ -159,7 +156,7 @@ ARG TARGETARCH
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-ENV BRAND=${BRAND}
+ENV BRAND=openhpi
 ENV MALLOC_ARENA_MAX=2
 ENV RAILS_ENV=production
 

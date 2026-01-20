@@ -4,7 +4,7 @@ FROM docker.io/ruby:3.4.4-slim@sha256:5d7149ee7eda2420d1b2bc3af78798de9eac3098e9
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-ENV BRAND=${BRAND}
+ENV BRAND=openhpi
 ENV MALLOC_ARENA_MAX=2
 ENV RAILS_ENV=production
 ENV SECRET_KEY_BASE_DUMMY=true
@@ -67,7 +67,6 @@ EOF
 #
 FROM docker.io/ruby:3.4.4-slim@sha256:5d7149ee7eda2420d1b2bc3af78798de9eac3098e910c44a3ddd93da2a4130ca
 
-ARG BRAND=xikolo
 ARG BUILD_REF_NAME
 ARG BUILD_COMMIT_SHA
 ARG BUILD_COMMIT_SHORT_SHA
@@ -75,7 +74,7 @@ ARG TARGETARCH
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-ENV BRAND=${BRAND}
+ENV BRAND=openhpi
 ENV MALLOC_ARENA_MAX=2
 ENV RAILS_ENV=production
 ENV SECRET_KEY_BASE_DUMMY=true
