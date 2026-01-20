@@ -146,7 +146,7 @@ describe 'Course: Certificates: Verify', type: :request do
       expect(verify_response.body).to include "<meta property=\"og:title\" content=\"Certificate Details - #{course.title}\">"
       expect(verify_response.body).to include '<meta property="og:type" content="website">'
       expect(verify_response.body).to include '<meta property="og:url" content="http://www.example.com/verify/jazzy-fuzzy-juicy-junky-pizza">'
-      expect(verify_response.body).to include "<meta property=\"og:description\" content=\"Xikolo verifies that the candidate completed the course #{course.title} and passed the necessary exercises and exams to earn a course certificate.\">"
+      expect(verify_response.body).to include "<meta property=\"og:description\" content=\"openHPI verifies that the candidate completed the course #{course.title} and passed the necessary exercises and exams to earn a course certificate.\">"
       expect(verify_response.body).to include '<meta property="og:site_name" content="Xikolo">'
     end
 

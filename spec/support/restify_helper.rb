@@ -2,7 +2,7 @@
 
 module RestifyHelper
   DEFAULT_AUTH_HEADERS = {
-    'Authorization' => "Bearer #{ENV.fetch('XIKOLO_WEB_API', nil)}",
+    'Authorization' => "Bearer #{ENV.fetch('XIKOLO_WEB_API')}",
   }.freeze
 
   def restify_with_headers(url, **options)

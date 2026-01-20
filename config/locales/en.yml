@@ -1,6 +1,6 @@
 # Localization file for English.
 en:
-  default_title: MOOCs - start to enjoy learning now
+  default_title: MOOCs powered by HPI
 
   date:
     formats:
@@ -351,7 +351,7 @@ en:
       confirmation_resend: "We re-sent you a confirmation e-mail."
       confirmation_email_required: "We sent you a confirmation e-mail to %{email}. Please follow the instructions in order to activate your new e-mail address."
       password_changed: "Your password has been successfully changed."
-      login_connect_auth: "Please login to your existing %{brand} account to connect it with your %{provider} login."
+      login_connect_auth: "Please login to your existing openHPI account to connect it with your %{provider} login."
       auth_deleted: The login has been disconnected from your account.
       course_deleted: The course has been deleted.
       channel_deleted: The channel has been deleted.
@@ -398,7 +398,7 @@ en:
       announcement_saved: Announcement has successfully been saved!
       cache_flush: Deleted %{deleted_items} Cache entries
       confirmation_successful: Thank you for confirming your e-mail address.
-      auth_added: "You can login to %{brand} using your %{provider} account from now."
+      auth_added: "You can login to openHPI using your %{provider} account from now."
       announcement_mails_disabled: "Your account %{mail} will not receive any more platform news. You can reactivate this at any time in your profile settings."
       course_announcement_mails_disabled: "Your account %{mail} will not receive any more course news. You can reactivate this at any time in your profile settings."
       pinboard_mails_disabled: "Your account %{mail} will not receive any more pinboard news. You can reactivate this at any time in your profile settings."
@@ -567,15 +567,12 @@ en:
       email_error_is invalid: Your input contains invalid characters.
       email_error_has already been taken: The choosen email is already taken.
 
-  interrupts:
-    mandatory_profile_fields: To help us improve your learning experience, please fill out the required fields before proceeding on to your courses.
-
   browser_warning:
     headline: Your browser is not supported!
     headline_soft: Your browser is not fully supported!
     browser_ie: You are running Internet Explorer 10 or Microsoft Edge 28 or lower versions.
-    text_ie: "That browser is not supported by %{brand} any longer, <b>you will not be able to use crucial functionality such as the playback of videos.</b> Please update your Internet Explorer or use a current version of an alternative browser before you continue (we recommend <a href='http://www.mozilla.org/firefox/new/'>Mozilla Firefox</a> or <a href='https://www.google.com/chrome/'>Google Chrome</a>)."
-    text_other: "You are running an outdated browser version, which is not fully supported by %{brand}. <b>You might not be able to use crucial functionality such as the submission of quizzes</b>. Please update your browser to the latest version before you continue (we recommend <a href='http://www.mozilla.org/firefox/new/'>Mozilla Firefox</a> or <a href='https://www.google.com/chrome/'>Google Chrome</a>)."
+    text_ie: "That browser is not supported by openHPI any longer, <b>you will not be able to use crucial functionality such as the playback of videos.</b> Please update your Internet Explorer or use a current version of an alternative browser before you continue (we recommend <a href='http://www.mozilla.org/firefox/new/'>Mozilla Firefox</a> or <a href='https://www.google.com/chrome/'>Google Chrome</a>)."
+    text_other: "You are running an outdated browser version, which is not fully supported by openHPI. <b>You might not be able to use crucial functionality such as the submission of quizzes</b>. Please update your browser to the latest version before you continue (we recommend <a href='http://www.mozilla.org/firefox/new/'>Mozilla Firefox</a> or <a href='https://www.google.com/chrome/'>Google Chrome</a>)."
     text_hide: "Click here to hide this warning permanently."
 
   components:
@@ -655,7 +652,7 @@ en:
   header:
     # Log in drop down form
     login:
-      headline: "Login to %{brand}"
+      headline: Login to openHPI
       forgot_password: "Forgot your password?"
       identity:
         headline: Log in with credentials
@@ -673,6 +670,10 @@ en:
         text: "You can %{link}."
         link: Create new account
       omniauth:
+        hpi: HPI Identity
+        hpi_notice: for HPI students and employees
+        hpi_saml: HPI SSO
+        hpi_saml_notice: for HPI students and employees
         mein_bildungsraum: Mein Bildungsraum
         saml: Single Sign-On (SAML)
         saml_test_id: SAMLtest ID
@@ -689,7 +690,7 @@ en:
       logout: Log out
       register: Sign up
       news: News
-      my_things: "My %{brand}"
+      my_things: My openHPI
       account_options: Account options
       dashboard: Dashboard
       profile: Profile
@@ -742,9 +743,10 @@ en:
       close: Close
 
   helpdesk:
+    course_reactivation: openHPI Course Reactivation
     button: Helpdesk
     headline:
-      brand: "%{brand} "
+      brand: "openHPI "
       remainder: "Helpdesk"
     notice: "Have you already <a class='bs-a' href='/pages/faq' target='_blank' rel='noopener'>checked our FAQ</a> for an answer to your question?"
     notice_title: Hint
@@ -777,23 +779,65 @@ en:
     hello: Hello
 
   home:
-    platform: "%{brand}"
+    platform: openHPI
+    head_hero:
+      action_text: About openHPI
+      claim: Training in IT and innovation. From experts. Free of charge. At your own pace.
     courses: Current and upcoming courses
     news: News
     show_article: Read more
     list_all_courses: List all courses »
+    level_selector:
+      headline: Offers for everyone - no matter what previous knowledge you have
+      sections:
+        - label: Junior
+          title: Courses for kids and teens
+          text: Whether you want to learn how a computer works, have always wanted to learn to program, or want to build your own homepage - at openHPI, you will find many courses we have developed especially for juniors. We also offer school versions of our programming courses every spring. The unique thing about these courses is that they don't run for a few weeks, as is usually the case on openHPI, but for an entire school semester. So you have enough time to complete the course or work on it in your class.
+          link_text: Discover our junior courses
+          link_url: "/courses?level=Junior"
+          image_url: "startpage/level_selector/junior.png"
+          image_alt: "Junior level: Two girls working on a laptop together"
+        - label: Beginner
+          title: Experience IT
+          text: With openHPI, you can get started in IT and innovation. Immerse yourself in the world of programming, learn about and understand operating systems, and protect yourself effectively on the Internet. Advance your career and take courses on teamwork, starting an IT business and design thinking. At openHPI, we support you in your personal and professional development so that you can keep up with the rapid developments of the digitized world. You don't need any formal prerequisites for the courses on openHPI.
+          link_text: Discover our courses for beginners
+          link_url: "/courses?level=Beginner"
+          image_url: "startpage/level_selector/beginner.png"
+          image_alt: "Beginner level: human sitting at a computer next to textbooks on Java programming and Fundamentals of Computing"
+        - label: Advanced
+          title: Advance your technical skills
+          text: As a person interested in IT, you can continuously improve your skills on openHPI. Deepen your knowledge of the Internet and Cybersecurity, delve deeper into Design Thinking or prepare for the future with Quantum Computers. Learn how to program ecologically sustainable software, how algorithms work, and what Machine Learning is all about in our advanced courses. With the advanced courses on openHPI, you'll meet all the demands of the working world in the future.
+          link_text: Discover our courses for advanced learners
+          link_url: "/courses?level=Advanced"
+          image_url: "startpage/level_selector/advanced.png"
+          image_alt: "Advanced level: Human programming on a laptop in a professional setting"
+        - label: Expert
+          title: Courses for IT professionals
+          text: Even if you are an IT and innovation professional, you are in good hands at openHPI. In particular, we cover tomorrow's topics, such as Big Data and AI, business and enterprise computing, and the future of the cloud at a senior level. As a professional, you can deepen your knowledge of quantum cryptography, algorithms and optimization. At openHPI, you can make yourself and your company fit for the future.
+          link_text: Discover our courses for experts
+          link_url: "/courses?level=Expert"
+          image_url: "startpage/level_selector/expert.png"
+          image_alt: "Expert level: Woman working with laptop in a data center"
     claims:
-      - title: Be curious,
-        text: Access our learnings online — anytime and anywhere.
-      - title: be social,
-        text: Become part of a vibrant social learning community
-      - title: be successful.
-        text: Receive a Record of Achievement on course completion.
+      - title: Be curious.
+        text: Learn for free – anytime, anywhere and at your pace. Experts and partners from the Hasso Plattner Institute explain IT and innovation topics in an accessible way at university level.
+      - title: Be social.
+        text: Become part of a vibrant, international and social learning community. Enhance your own learning success by actively communicating with other learners and the teaching team.
+      - title: Be successful.
+        text: Acquire the latest knowledge and skills and shape the digital future. Find interactive courses on exciting cutting-edge topics for every skill level.
+    promotion:
+      podcast:
+        title: Neuland - The HPI Science Podcast
+        text: Enhance your knowledge about the digital world. Experts from the Hasso Plattner Institute present digital developments and trends in an understandable manner, and talk about the opportunities and risks of digitalization.
+      highlighted:
+        title: "Attention high school graduates: Experience HPI!"
+        text: "From January 19 to 23, explore computer science at HPI up close! Lectures on programming, cybersecurity, 3D graphics & robotics, campus tour, and personal academic advising—perfect for all computer science enthusiasts. All info & registration here."
+        link: https://hpi.de/studium/dein-studium-am-hpi/schnupperstudium/
     tile:
       more: More
 
   redirect:
-    target_info: "You're being redirected to <b>%{name}</b>, which is outside of %{brand}. This can take up to <b>5 seconds.</b>"
+    target_info: "You're being redirected to <b>%{name}</b>, which is outside of openHPI. This can take up to <b>5 seconds.</b>"
     skip_in_future: Don't show this message again.
     manual_redirect: "If this is taking too long or you're not being redirected,<br /><a class='bs-a' href='%{url}'>click here to continue</a>."
 
@@ -843,14 +887,14 @@ en:
           headline_email: :'global.email'
           headline_inapp: In-App
           email:
-            global: "%{brand} may send me notifications via e-mail"
+            global: openHPI may send me notifications via e-mail
             news:
-              announcement: "Receive news from %{brand}, e.g. announcements of new courses"
+              announcement: Receive news from openHPI, e.g. announcements of new courses
             course:
-              announcement: "Receive announcements for courses you are enrolled to"
+              announcement: Receive announcements for courses you are enrolled to
             pinboard:
-              new_answer: "Activity in discussion topics you are following"
-            stats: "Receive daily statistics for courses you are teaching"
+              new_answer: Activity in discussion topics you are following
+            stats: Receive daily statistics for courses you are teaching
 
         subscription:
           headline: Followed discussion topics
@@ -881,41 +925,46 @@ en:
 
     sessions:
       auth_connect:
-        headline: "Welcome to %{brand}"
+        headline: Welcome to openHPI
         native_login:
           text: >
             <p>You are just about to sign in using %{provider}.</p>
-            <p>Since there is no existing account on %{brand} with your e-mail address, we will create a fresh one for you,
+            <p>Since there is no existing account on openHPI with your e-mail address, we will create a fresh one for you,
             <b>unless you already have an account (with a different e-mail address) and want to connect it with your %{provider} login.</b></p>
           btn_connect: Login and connect to existing account
           btn_cancel: Continue with new account
           mbr_hint: "For %{provider}, continuing with a new account is currently not supported. Please add your %{provider} login in your profile after <a class='bs-a' href='%{url}'>creating a new account</a>."
-        text: This is the first time you are logging in to %{brand} with this digital identity.
-        text_create: New to learning on %{brand}?
+        text: This is the first time you are logging in to openHPI with this digital identity.
+        text_create: New to learning on openHPI?
         btn_create: Create a new account
-        title_connect: Already an %{brand} learner?
+        title_connect: Already an openHPI learner?
         text_connect: Connect your existing account and keep your learning history.
         btn_connect: Connect an existing account
         provider_label:
+          hpi: HPI
+          hpi_saml: HPI SSO
+          mein_bildungsraum: Mein Bildungsraum
           saml: SAML ID
           saml_test_id: SAMLtest ID
         provider_link:
+          hpi: "https://hpi.de"
+          hpi_saml: "https://hpi.de"
           saml_test_id: "https://samltest.id"
       connect_account:
-        headline: Connect an existing %{brand} account
-        text: Please enter the credentials of your existing %{brand} account. You only have to do this once. In future, you will be able to log in to %{brand} with %{provider} Single Sign-On.
+        headline: Connect an existing openHPI account
+        text: Please enter the credentials of your existing openHPI account. You only have to do this once. In future, you will be able to log in to openHPI with %{provider} Single Sign-On.
         btn_cancel: Cancel
         hint: Forgot your password or your password isn't working? Please contact the <a class='bs-a' href='/helpdesk'>helpdesk</a>.
     policies:
       show:
         headline: Privacy Statement
-        instructions: "Before you continue, please read and accept our current <a class='bs-a' href='%{link}' target='_blank'>privacy statement</a> in relation to the use of %{brand} (statement opens in external window)."
+        instructions: "Before you continue, please read and accept our current <a class='bs-a' href='%{link}' target='_blank'>privacy statement</a> in relation to the use of openHPI (statement opens in external window)."
         label:
           submit: "Proceed"
     treatments:
       index:
         mandatory:
-          headline: "Required for using %{brand}"
+          headline: Required for using openHPI
           instructions: We'd like to inform you that you agree to the following mandatory data processing terms when continuing to the application from here.
         optional:
           headline: We need your consent
@@ -937,7 +986,7 @@ en:
           email: Your e-mail address
       show:
         headline: Reset password
-        instructions: "Choose a new password for your account on %{brand}."
+        instructions: Choose a new password for your account on openHPI.
         label:
           password: New password
           password_confirmation: Confirm password
@@ -972,10 +1021,10 @@ en:
         email_not_found: "Check if you entered the e-mail you registered with."
     accounts:
       new:
-        title: "Welcome to %{brand}"
-        text: "Create a new account on %{brand}. Just fill in your details.<br /><i>Notice:</i> Your name will be shown on your %{brand} Record of Achievement."
-        privacy: "<b>Please notice:</b> Your personal data will be processed on %{brand} in accordance with our <a class='bs-a' href='%{link}' target='_blank'>privacy policy</a>. By creating a user account on %{brand}, you agree to the terms of our <a class='bs-a' href='%{link}' target='_blank'>privacy policy</a>."
-        submit: "Register for %{brand}"
+        title: Welcome to openHPI
+        text: "Create a new account on openHPI. Just fill in your details.<br /><i>Notice:</i> Your name will be shown on your openHPI Record of Achievement."
+        privacy: "<b>Please notice:</b> Your personal data will be processed on openHPI in accordance with our <a class='bs-a' href='%{link}' target='_blank'>privacy policy</a>. By creating a user account on openHPI, you agree to the terms of our <a class='bs-a' href='%{link}' target='_blank'>privacy policy</a>."
+        submit: Register for openHPI
       verify:
         headline: Please verify your account
         message: You will receive an email for verification in the next few minutes.
@@ -988,13 +1037,19 @@ en:
           text: USED IN TESTS ONLY
         user_profile:
           label: User Profile
-          text: "I allow %{brand} to store the user profile I have created. Some elements of this profile will be visible to other users of the platform in discussion forums or other collaborative tools. These include my <i>real name</i>, if I have not created a dedicated <i>display name</i>, as well as an optional profile photo."
+          text: I allow openHPI to store the user profile I have created. Some elements of this profile will be visible to other users of the platform in discussion forums or other collaborative tools. These include my <i>real name</i>, if I have not created a dedicated <i>display name</i>, as well as an optional profile photo.
+        hpi_research:
+          label: Research at HPI
+          text: >
+            I confirm that researchers at HPI can use my data for scientific purposes outside the context of the openHPI
+            platform. Evaluations and scientific publications will always be based on pseudonymized data sets. I also
+            give my permission to be contacted by e-mail in the context of research projects.
         profile:
           headline: My consents
           consented_at: "You have given this consent on %{date}."
           consent_declined_at: "You have declined this consent on %{date}."
           required: required
-          notice: "<p>You can give or revoke optional consents at any time.</p><p>Required consents are necessary to provide you with the basic %{brand} services and can only be revoked by deleting your user account, which cannot be reverted.</p>"
+          notice: "<p>You can give or revoke optional consents at any time.</p><p>Required consents are necessary to provide you with the basic openHPI services and can only be revoked by deleting your user account, which cannot be reverted.</p>"
           external: "This consent is managed by a central consent catalog (Consent Manager). You can view or change your settings at any time on <a class='bs-a' href=%{url} target='_blank' rel='noopener'>this page</a>."
         external_notice: This consent is managed by a central consent catalog (Consent Manager).
 
@@ -2106,7 +2161,7 @@ en:
         title: Book a Certificate
         text: Once you redeem the voucher code, you will be taken to the calibration of the online proctoring for the graded assignments. Please make sure you are using a <a href='https://smowl.net/en/faqs-proctoring-smowl/requirements/' target='_blank' rel='noopener'>compatible browser for proctored exams</a> before redeeming the voucher.
         info_title: Don't have a voucher code?
-        info_text: "If you would like to purchase a voucher code for the Certificate, please visit the <a href='%{link}' target='_blank' rel='noopener'>%{brand} shop</a>. For pricing details and more information check our page on the <a href='/pages/document_types' target='_blank' rel='noopener'>Certificate</a>."
+        info_text: "If you would like to purchase a voucher code for the Certificate, please visit the <a href='%{link}' target='_blank' rel='noopener'>openHPI shop</a>. For pricing details and more information check our page on the <a href='/pages/document_types' target='_blank' rel='noopener'>Certificate</a>."
       course_reactivation:
         title: Reactivate this course
         text: "If you have already purchased a voucher for the <a href='/pages/course_reactivation' target='_blank' rel='noopener'>course reactivation</a> from the <a href='%{link}' target='_blank' rel='noopener'>Shop</a>, enter the reactivation code below. Once you redeem the voucher code, you will have <b>%{weeks} weeks</b> to complete the requirements to earn a Record of Achievement."
@@ -2115,7 +2170,7 @@ en:
     card:
       cop: Confirmation of Participation
       roa: Record of Achievement
-      qc_html: Certificate / ECTS
+      qc_html: "<a href='/pages/document_types'>Certificate / ECTS</a>"
       subtitles_more: "%{subtitle_languages} + %{count} more"
       subtitles: "%{subtitle_languages}"
       button_details: Details
@@ -2163,13 +2218,13 @@ en:
         about_content: Course information
         content: Course contents
         how_to_enroll: Enroll me for this course
-        how_to_enroll_text: The course is free. Just register for an account on %{brand} and take the course!
+        how_to_enroll_text: The course is free. Just register for an account on openHPI and take the course!
         how_to_register_text: For this course, you must register directly with the course provider.
         button_enroll: Enroll me now
         button_register: Register now
         external_course:
           headline: External course
-          info: "This course is not running on %{brand}, but on an external learning platform. When following the link to this featured course, you will leave the %{brand} website. You might need an dedicated user account on the external platform to be able to enroll to the course."
+          info: This course is not running on openHPI, but on an external learning platform. When following the link to this featured course, you will leave the openHPI website. You might need an dedicated user account on the external platform to be able to enroll to the course.
         dates_and_stats: Dates and Statistics
         featured_items:
           title: Featured content
@@ -2634,7 +2689,7 @@ en:
       bonus_quiz: This is a bonus quiz
       survey_quiz: This is a survey
       quiz_is_selftest: This quiz is a self-test. You can repeat it as often as you like.
-      quiz_is_survey: "Share your feedback with us. Please take 1 minute of your time to answer the following survey questions. Your feedback is valuable to improve the learning experience at %{brand}!"
+      quiz_is_survey: Share your feedback with us. Please take 1 minute of your time to answer the following survey questions. Your feedback is valuable to improve the learning experience at openHPI!
       question: Question
       question_text: Question text
       question_explanation: Explanation
@@ -2814,12 +2869,12 @@ en:
       delete_account: Delete account
       delete_account_buttontext: Delete account
       delete_account_confirm_text: "Are you sure you want to do this? It will permanently delete your account and any learning content in it!"
-      delete_account_text: "You can permanently delete your account on %{brand} here:"
+      delete_account_text: "You can permanently delete your account on openHPI here:"
       affiliation: Affiliation
       career_status: Career status
       highest_degree: Highest degree
       background_it: Background in IT
-      motivation: "Main motivation for joining %{brand}"
+      motivation: Main motivation for joining openHPI
       computer_use: Regular computer use
       professional_life: Professional life
       position: Position
@@ -3386,7 +3441,7 @@ en:
     quiz_question_points: "%{points} out of %{max_points} points"
     quiz_question_points_slashed: "%{points} / %{max_points}"
     last_saved: "Last saved:"
-    autosave_warning: "<strong>Warning:</strong> the connection to the %{brand} server is interrupted. Your quiz can not be saved automatically. Please check your internet connection."
+    autosave_warning: "<strong>Warning:</strong> the connection to the openHPI server is interrupted. Your quiz can not be saved automatically. Please check your internet connection."
     time_up: "You have reached the time limit for this quiz. Your currently entered solutions will be submitted to the server."
     times_taken:
       zero: "You have not taken this quiz yet."
@@ -3588,8 +3643,8 @@ en:
     headline_show: Certificate Details
     valid: "The certificate for the verification code <i>%{code}</i> is valid."
     user_deleted: The account of this candidate has been deleted. For this reason, we can no longer verify this certificate.
-    narrative: "%{brand} verifies that the candidate completed the course <a class='bs-a' href='%{link}'>%{title}</a> and passed the necessary exercises and exams to earn a course certificate."
-    narrative_meta: "%{brand} verifies that the candidate completed the course %{title} and passed the necessary exercises and exams to earn a course certificate."
+    narrative: "openHPI verifies that the candidate completed the course <a class='bs-a' href='%{link}'>%{title}</a> and passed the necessary exercises and exams to earn a course certificate."
+    narrative_meta: "openHPI verifies that the candidate completed the course %{title} and passed the necessary exercises and exams to earn a course certificate."
     user_data: User Info
     issued_for: Issued for
     identified_by: Identified by e-mail
@@ -3620,11 +3675,15 @@ en:
       linkedin_info_url: "/pages/open_badges"
 
   open_badges:
-    issuer_description: "%{brand} is an online learning platform, based on Xikolo."
+    issuer_description: |
+      openHPI is the digital education platform of the Hasso Plattner Institute, Potsdam,
+      Germany. On openHPI you take part in a worldwide social learning network based on
+      interactive online courses covering different subjects in Information and
+      Communication Technology (ICT).
     badge_class:
       name: "Successfully completed in %{year}: %{course_title}"
       name_fallback: "Successfully completed: %{course_title}"
-      description: 'This badge verifies that the candidate completed the %{brand} course "%{course_title}" and passed the necessary exercises and exams to earn a course certificate.'
+      description: 'This badge verifies that the candidate completed the openHPI course "%{course_title}" and passed the necessary exercises and exams to earn a course certificate.'
 
   gamification:
     points: XP

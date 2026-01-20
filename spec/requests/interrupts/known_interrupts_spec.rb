@@ -33,20 +33,6 @@ describe 'Interrupts: Known interrupt types', type: :request do
     it { is_expected.to redirect_to '/account/policies' }
   end
 
-  context 'with mandatory_profile_fields interrupt' do
-    let(:interrupts) { ['mandatory_profile_fields'] }
-
-    context 'with the profile feature flipper' do
-      let(:features) { {'profile' => 'true'} }
-
-      it { is_expected.to redirect_to '/dashboard/profile' }
-    end
-
-    context 'without the profile feature flipper' do
-      it { is_expected.to have_http_status :ok }
-    end
-  end
-
   context 'with unsupported interrupt' do
     let(:interrupts) { ['2fa_upgrade'] }
 

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+ENV['XIKOLO_WEB_API'] = 'supersecrettoken'
+
 require 'simplecov'
 SimpleCov.start
 

@@ -49,9 +49,8 @@ Depending on what you have been or are planning on doing, you may skip some of t
 
 When you have not updated your local system in a while, or start work on a completely new feature where our development seed data is of help, it is advisable to reset your local environment to its initial state. To do so, run the following command:
 
-```shell hl_lines="2"
-cd integration
-bundle exec rake reset
+```shell
+bin/reset
 ```
 
 !!! note

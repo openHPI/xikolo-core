@@ -7,10 +7,7 @@ class Home::HomeController < Abstract::FrontendController
 
   def index
     @posts = posts
-
-    if Rails.application.config.respond_to?(:homepage_course_loader)
-      @categories = Rails.application.config.homepage_course_loader.call
-    end
+    @current_and_upcoming_category = Catalog::Category::CurrentAndUpcoming.new(max: 50)
 
     if Rails.application.config.respond_to?(:homepage_topics_loader)
       @topics = Rails.application.config.homepage_topics_loader.call

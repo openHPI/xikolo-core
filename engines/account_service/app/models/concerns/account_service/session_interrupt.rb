@@ -10,7 +10,6 @@ module SessionInterrupt # rubocop:disable Layout/IndentationWidth
     @interrupts ||= [
       new_consents,
       new_policy,
-      mandatory_profile_fields,
     ].compact
   end
 
@@ -22,12 +21,6 @@ module SessionInterrupt # rubocop:disable Layout/IndentationWidth
 
   def new_policy
     'new_policy' unless user.policy_accepted?
-  end
-
-  def mandatory_profile_fields
-    return if user.feature? 'account.profile.mandatory_completed'
-
-    'mandatory_profile_fields'
   end
 end
 end

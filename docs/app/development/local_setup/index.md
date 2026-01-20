@@ -525,7 +525,7 @@ There are multiple ways to work with your local copy of Xikolo. These tutorials 
 
 !!! info
 
-    Xikolo (and its services) is managed in a mono-repository located in the openHPI GitLab, where you can also find the project README. You can use `overmind` with the command line in the project directory as follows:
+    The Xikolo Rails needs supporting services to execute assets compilation and background jobs. You can use `overmind` with the command line in the project directory as follows:
 
 === "Debian / Ubuntu"
 
@@ -537,16 +537,10 @@ There are multiple ways to work with your local copy of Xikolo. These tutorials 
     brew install overmind
     ```
 
-The 3 most important services you will always need:
+The rails app and supporting services will be started:
 
 ```console
-overmind start -l course,web
-```
-
-Whenever you need additional services, you can add it to this list. When you don't know which services you need, you'll get an error message with the specific port. Just take a look at the 'Procfile'. An overview of all ports is available in `config/services.yml`.
-
-```console
-overmind start -l course,web
+overmind start
 ```
 
 Start the project with a different brand than default:

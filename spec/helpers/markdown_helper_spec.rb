@@ -32,6 +32,10 @@ describe MarkdownHelper, type: :helper do
       expect(render_markdown("[link][1]\r\n\r\n  [1]: https://notmydomain.de")).to include('<a class="bs-a" target="_blank" rel="noopener" href="https://notmydomain.de">link</a>')
     end
 
+    it 'renders incomplete external link with target blank' do
+      expect(render_markdown("[link][1]\r\n\r\n  [1]: notmydomain.de")).to include('<a class="bs-a" target="_blank" rel="noopener" href="https://notmydomain.de">link</a>')
+    end
+
     it 'renders absolute files link with target blank' do
       expect(render_markdown("[link][1]\r\n\r\n  [1]: https://mydomain.de/files/123")).to include('<a class="bs-a" target="_blank" rel="noopener" href="https://mydomain.de/files/123">link</a>')
     end

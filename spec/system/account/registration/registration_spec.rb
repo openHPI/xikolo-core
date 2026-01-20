@@ -30,7 +30,7 @@ describe 'Account: Register new Account', type: :system do
       fill_in 'Password', with: 'secret'
       fill_in 'Repeat password', with: 'wrong_secret'
 
-      click_on 'Register for Xikolo'
+      click_on 'Register for openHPI'
 
       expect(page).to have_content "doesn't match Password"
     end

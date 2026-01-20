@@ -32,6 +32,7 @@ class Server < MultiProcess::Process
     env = {
       'GURKE' => 'true',
       'RAILS_ENV' => 'integration',
+      'XIKOLO_WEB_API' => 'supersecrettoken',
       'SECRET_KEY_BASE_DUMMY' => '1',
     }
 

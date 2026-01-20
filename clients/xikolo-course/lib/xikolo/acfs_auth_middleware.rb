@@ -6,7 +6,7 @@ class AcfsAuthMiddleware
   end
 
   def call(request)
-    request.headers['Authorization'] = "Bearer #{ENV.fetch('XIKOLO_WEB_API', nil)}"
+    request.headers['Authorization'] = "Bearer #{ENV.fetch('XIKOLO_WEB_API')}"
     @app.call(request)
   end
 end

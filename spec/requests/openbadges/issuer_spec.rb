@@ -53,7 +53,7 @@ RSpec.describe 'OpenBadge: Issuer', type: :request do
 
       describe '(issuer_description)' do
         it 'returns the default description in english' do
-          expect(authentic_response['description']).to eq 'Xikolo is an online learning platform, based on Xikolo.'
+          expect(authentic_response['description']).to include('openHPI is the digital education platform of the Hasso Plattner Institute')
         end
 
         context 'with english not available as platform locale' do
@@ -66,7 +66,7 @@ RSpec.describe 'OpenBadge: Issuer', type: :request do
           end
 
           it 'returns the default description in the default platform locale' do
-            expect(authentic_response['description']).to eq 'Xikolo is eine Online-Lernplattform, basierend auf Xikolo.'
+            expect(authentic_response['description']).to include('openHPI ist die digitale Bildungsplattform des Hasso-Plattner-Instituts')
           end
         end
 
@@ -82,7 +82,7 @@ RSpec.describe 'OpenBadge: Issuer', type: :request do
           end
 
           it 'returns the default description in english' do
-            expect(authentic_response['description']).to eq 'Xikolo is an online learning platform, based on Xikolo.'
+            expect(authentic_response['description']).to include('openHPI is the digital education platform of the Hasso Plattner Institute')
           end
         end
       end

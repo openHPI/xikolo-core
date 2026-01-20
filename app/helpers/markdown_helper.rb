@@ -144,6 +144,7 @@ module MarkdownHelper
       end
 
       begin
+        link = normalize_link(link)
         uri = URI(link)
 
         if open_in_new_tab?(uri)
@@ -166,6 +167,13 @@ module MarkdownHelper
     end
 
     private
+
+    def normalize_link(link)
+      return link if %r{\A[a-z][a-z0-9+.-]*://}i.match?(link)
+      return "https://#{link}" if link =~ /\Awww\./i || link =~ /\A[a-z0-9.-]+\.[a-z]{2,}\z/i
+
+      link
+    end
 
     def absolute_web_link?(uri)
       uri.scheme && %w[http https].include?(uri.scheme)

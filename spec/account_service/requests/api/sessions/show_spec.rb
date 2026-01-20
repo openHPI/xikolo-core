@@ -87,13 +87,6 @@ describe 'Sessions: Show', type: :request do
         it { expect(resource['interrupts']).to eq ['new_policy'] }
       end
     end
-
-    context 'with incomplete profile' do
-      let(:session) { create(:'account_service/session', user: create(:'account_service/user', completed_profile: false)) }
-
-      it { expect(resource['interrupt']).to be true }
-      it { expect(resource['interrupts']).to eq ['mandatory_profile_fields'] }
-    end
   end
 
   describe 'when masqueraded' do

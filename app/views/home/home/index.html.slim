@@ -1,19 +1,38 @@
-/ Head Hero
-= render Home::HeadHero.new(t(:'home.claims').first[:text], image: {url: 'startpage/head_hero/logo.svg', alt: '', dim_nav_logo: true})
+- content_for :head_assets do
+  = javascript_include_tag 'home', crossorigin: 'anonymous', integrity: true, async: true, debug: false
 
-/ Claims
-= render Home::TilesGroup.new do |c|
-  - t(:'home.claims').each do |claim|
-    - c.with_tile claim[:title], text: claim[:text], styles: {title_decoration: true}
+.openhpi-startpage
+  / Head Hero
+  = render Home::HeadHero.new(t(:'home.head_hero.claim'), call_to_action: {text: t(:'home.head_hero.action_text'), link: page_path('about')}, image: {url: 'startpage/head_hero/logo.svg', alt: '', dim_nav_logo: true})
 
-- if @categories.present?
-  .home-courses
-    .bs-container
-      - @categories.each do |category|
-        = render category
+  / Courses slider
+  = render Home::CoursesSlider.new(current_and_upcoming_category: @current_and_upcoming_category)
 
-/ News
-- if @posts.any?
-  = render Home::TilesGroup.new(title: t(:'home.news')) do |c|
-    - @posts.take(3).each do |post|
-      - c.with_tile post.title, text: post.teaser, link: news_index_path(anchor: "post_#{post.id}")
+  / Highlighted promotion
+  = render Home::Promotion.new(t(:'home.promotion.highlighted.title'), t(:'home.promotion.highlighted.text'), link_url: t(:'home.promotion.highlighted.link'), variant: :secondary, target: 'blank')
+
+  / Claims
+  = render Home::TilesGroup.new do |c|
+    - t(:'home.claims').each do |claim|
+      - c.with_tile claim[:title], text: claim[:text], styles: {title_decoration: true}
+
+  / Level selector
+  / The 'Beginner' section is expanded by default
+  .openhpi-startpage__accordion
+    = render Global::Accordion.new(headline: t(:'home.level_selector.headline')) do |accordion|
+      - t(:'home.level_selector.sections').each_with_index do |section, index|
+        - accordion.with_section(section[:label], "level-selector-section-#{index}", expanded: index == 1) do
+          = render Home::Tile.new(section[:title],
+            text: section[:text],
+            link: {text: section[:link_text], url: section[:link_url]},
+            image: {url: section[:image_url], alt: section[:image_alt]})
+
+  / Podcast promotion
+  = render Home::Promotion.new(t(:'home.promotion.podcast.title'), t(:'home.promotion.podcast.text'), link_url: '/pages/podcast')
+
+  / News
+  - if @posts.any?
+    .openhpi-startpage__news
+      = render Home::TilesGroup.new(title: t(:'home.news')) do |c|
+        - @posts.take(3).each do |post|
+          - c.with_tile post.title, text: post.teaser.html_safe, link: news_index_path(anchor: "post_#{post.id}") # rubocop:disable Rails/OutputSafety

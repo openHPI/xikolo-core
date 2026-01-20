@@ -69,7 +69,7 @@ RSpec.describe 'Course: BadgeClass', type: :request do
 
       it 'creates badge name and description from the fallback locales' do
         expect(response_body['name']).to eq('Successfully completed: The Course')
-        expect(response_body['description']).to eq('This badge verifies that the candidate completed the Xikolo course "The Course" and passed the necessary exercises and exams to earn a course certificate.')
+        expect(response_body['description']).to eq('This badge verifies that the candidate completed the openHPI course "The Course" and passed the necessary exercises and exams to earn a course certificate.')
       end
 
       context 'when course language is not an available locale' do
@@ -77,7 +77,7 @@ RSpec.describe 'Course: BadgeClass', type: :request do
 
         it 'falls back to the default locale' do
           expect(response_body['name']).to eq('Successfully completed: The Course')
-          expect(response_body['description']).to eq('This badge verifies that the candidate completed the Xikolo course "The Course" and passed the necessary exercises and exams to earn a course certificate.')
+          expect(response_body['description']).to eq('This badge verifies that the candidate completed the openHPI course "The Course" and passed the necessary exercises and exams to earn a course certificate.')
         end
       end
 

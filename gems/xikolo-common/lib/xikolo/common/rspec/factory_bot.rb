@@ -143,9 +143,9 @@ if defined? FactoryBot
     end
 
     factory 'notification:root', class: Hash do
-      events_url { '/events{?course_id,include_expired,locale,only_global,user_id}' }
-      mail_log_stats_url { '/mail_log_stats{?news_id}' }
-      system_info_url { '/system_info/{id}' }
+      events_url { '/notification_service/events{?course_id,include_expired,locale,only_global,user_id}' }
+      mail_log_stats_url { '/notification_service/mail_log_stats{?news_id}' }
+      system_info_url { '/notification_service/system_info/{id}' }
       initialize_with { attributes.as_json }
     end
 

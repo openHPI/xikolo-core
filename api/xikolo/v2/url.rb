@@ -22,11 +22,8 @@ module Xikolo
       end
 
       include Rails.application.routes.url_helpers
-      include Sprockets::Rails::Helper
 
       extend Forwardable
-
-      def_delegators ActionView::Base, *VIEW_ACCESSORS
 
       def default_url_options
         {host:, port:, protocol:}
@@ -48,6 +45,10 @@ module Xikolo
       # assume it is in the /public folder.
       def unknown_asset_fallback
         true
+      end
+
+      def asset_url(path)
+        ActionController::Base.helpers.asset_url(path)
       end
     end
   end

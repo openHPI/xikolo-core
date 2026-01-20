@@ -1,3 +1,0 @@
-notification: bundle exec rails server -p $PORT
-msgr: bundle exec msgr
-sidekiq: bundle exec sidekiq -q default -q mailers

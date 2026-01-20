@@ -3,9 +3,8 @@
 require 'spec_helper'
 
 RSpec.describe ServiceAuthorizationConstraint do
-  subject(:constraint) { described_class.new(token) }
+  subject(:constraint) { described_class.new }
 
-  let(:token) { 'supersecret123' } # normally ENV value
   let(:request) { instance_double(ActionDispatch::Request, get_header: header_value) }
 
   describe '#matches?' do
@@ -34,7 +33,7 @@ RSpec.describe ServiceAuthorizationConstraint do
     end
 
     context 'when Authorization header contains the correct token' do
-      let(:header_value) { "Bearer #{token}" }
+      let(:header_value) { "Bearer #{ENV.fetch('XIKOLO_WEB_API')}" }
 
       it 'returns true' do
         expect(constraint.matches?(request)).to be(true)

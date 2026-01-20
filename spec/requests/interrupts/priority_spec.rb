@@ -19,7 +19,7 @@ describe 'Interrupts: Priority of multiple interrupts', type: :request do
   let(:interrupts) { [] }
 
   context 'in order of priority' do
-    let(:interrupts) { %w[new_consents new_policy mandatory_profile_fields] }
+    let(:interrupts) { %w[new_consents new_policy] }
 
     it 'redirects to the most important interrupt (new consent required)' do
       request
@@ -28,7 +28,7 @@ describe 'Interrupts: Priority of multiple interrupts', type: :request do
   end
 
   context 'in different order' do
-    let(:interrupts) { %w[new_policy mandatory_profile_fields new_consents] }
+    let(:interrupts) { %w[new_policy new_consents] }
 
     it 'still redirects to the most important interrupt (new consent required)' do
       request

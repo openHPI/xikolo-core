@@ -18,8 +18,6 @@ module Xikolo::Common
         application/json
       ].join(', ').freeze
 
-      AUTHORIZATION_HEADER = "Bearer #{ENV.fetch('XIKOLO_WEB_API', nil)}".freeze
-
       def services
         @services ||= {}
       end
@@ -29,7 +27,7 @@ module Xikolo::Common
           url,
           headers: {
             'Accept' => ACCEPT_HEADER,
-            'Authorization' => AUTHORIZATION_HEADER,
+            'Authorization' => "Bearer #{ENV.fetch('XIKOLO_WEB_API')}",
           }
         )
       end
