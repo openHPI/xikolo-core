@@ -227,6 +227,11 @@ de:
     no_data_message: Keine Daten verfügbar
 
   errors:
+    attributes:
+      translations:
+        missing: Übersetzung fehlt.
+      poll:
+        closed: Geschlossen
     not_found:
       headline: Die gewünschte Seite konnte nicht gefunden werden (404)
       message: Bitte überprüfen Sie die URL. Wenn Sie glauben, dass dies ein Fehler ist, freuen wir uns über Hinweise über den Helpdesk."

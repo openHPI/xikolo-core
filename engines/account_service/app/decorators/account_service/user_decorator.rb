@@ -47,7 +47,6 @@ class UserDecorator < ApplicationDecorator # rubocop:disable Layout/IndentationW
     groups_url
     permissions_url
     preferences_url
-    profile_url
     consents_url
   ].freeze
 
@@ -106,10 +105,6 @@ class UserDecorator < ApplicationDecorator # rubocop:disable Layout/IndentationW
 
   def preferences_url
     h.user_preferences_url to_param
-  end
-
-  def profile_url
-    h.user_profile_url to_param
   end
 
   def consents_url

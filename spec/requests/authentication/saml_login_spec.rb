@@ -3,6 +3,14 @@
 require 'spec_helper'
 
 RSpec.describe 'Authentication: Authenticate with SAML', type: :request do
+  # Localization for test provider that is only present in these tests.
+  around do |example|
+    I18n.backend.store_translations('en', {account: {sessions: {auth_connect: {provider_label: {test_saml: 'Test SAML'}}}}})
+    example.run
+  ensure
+    I18n.backend.reload!
+  end
+
   describe 'request phase' do
     subject(:saml_login) { get '/auth/test_saml' }
 

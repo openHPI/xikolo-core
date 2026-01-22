@@ -19,8 +19,8 @@ describe AccountService::GroupDecorator, type: :decorator do
         'flippers_url' => h.account_service.group_features_rfc6570.partial_expand(group_id: group.to_param),
         'features_url' => h.account_service.group_features_rfc6570.partial_expand(group_id: group.to_param),
         'grants_url' => h.account_service.group_grants_url(group),
-        'stats_url' => h.account_service.group_stats_url(group),
-        'profile_field_stats_url' => h.account_service.group_profile_field_stats_rfc6570.partial_expand(group_id: group.to_param)
+        'stats_url' => h.account_service.group_stats_url(group)
+      # 'profile_field_stats_url' => h.account_service.group_profile_field_stats_rfc6570.partial_expand(group_id: group.to_param)
     end
   end
 end

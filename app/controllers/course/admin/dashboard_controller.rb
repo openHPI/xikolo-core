@@ -36,10 +36,10 @@ module Course
         @age_distribution_table_rows = ::Admin::Statistics::AgeDistribution.call(course_id:)
         @age_distribution_table_headers = [
           t('admin.course_management.dashboard.age.table.age_group'),
-          t('admin.course_management.dashboard.age.table.course_count'),
-          t('admin.course_management.dashboard.age.table.course_share'),
           t('admin.course_management.dashboard.age.table.global_count'),
           t('admin.course_management.dashboard.age.table.global_share'),
+          t('admin.course_management.dashboard.age.table.course_count'),
+          t('admin.course_management.dashboard.age.table.course_share'),
         ]
 
         @client_usage_table_rows = ::Admin::Statistics::ClientUsage.call(

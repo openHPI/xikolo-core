@@ -6,7 +6,6 @@ AccountService::Engine.routes.draw do
     resources :users, except: %i[new edit] do
       resource :ban, only: :create
       resource :preferences, only: %i[show update]
-      resource :profile, only: %i[update show]
       resources :sessions, only: [:index]
       resources :emails, except: %i[new edit] do
         delete 'suspension', to: 'email_suspensions#destroy'
@@ -45,7 +44,6 @@ AccountService::Engine.routes.draw do
 
       get    'grants'      => 'groups#grants'
       get    'stats'       => 'group_stats#show'
-      get    'profile_field_stats/:id', to: 'profile_field_stats#show', as: 'profile_field_stats'
     end
 
     resources :memberships, only: %i[create show destroy]

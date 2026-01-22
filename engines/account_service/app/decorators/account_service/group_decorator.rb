@@ -15,7 +15,6 @@ class GroupDecorator < ApplicationDecorator # rubocop:disable Layout/Indentation
       features_url:,
       grants_url:,
       stats_url:,
-      profile_field_stats_url:,
     }.as_json(opts)
   end
 

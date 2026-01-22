@@ -12,6 +12,7 @@ en:
             not_released: Congratulations on achieving a confirmation for this course! Once the confirmation is released by the teaching team, you can download it here.
             released: Congratulations! You achieved a confirmation for this course.
             achieved_via_roa: Congratulations! You have achieved the Confirmation of Participation in this course by obtaining the Certificate of Achievement.
+            not_achieved_via_roa: You did not receive the Confirmation of Participation in this course.
           requirements:
             progress: Complete at least %{course_percentage}% of the learning units.
           download:

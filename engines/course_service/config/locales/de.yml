@@ -12,6 +12,7 @@ de:
             not_released: Herzlichen Glückwunsch zum Erhalt der Teilnahmebestätigung! Sobald die Bestätigung vom Lehrteam freigegeben wird, können Sie diese hier herunterladen.
             released: Herzlichen Glückwunsch! Sie haben eine Teilnahmebestätigung für diesen Kurs erhalten.
             achieved_via_roa: Herzlichen Glückwunsch! Sie haben die Teilnahmebestätigung für diesen Kurs durch den Erwerb des „Leistungsnachweises“ erhalten.
+            not_achieved_via_roa: Sie haben keine Teilnahmebestätigung für diesen Kurs erhalten.
           requirements:
             progress: Schließen Sie mindestens %{course_percentage}% der Lerneinheiten ab.
           download:

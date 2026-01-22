@@ -46,7 +46,6 @@ describe AccountService::UserDecorator, type: :decorator do
         groups_url
         permissions_url
         preferences_url
-        profile_url
         consents_url
       ]
     end
@@ -75,7 +74,6 @@ describe AccountService::UserDecorator, type: :decorator do
 
     it { is_expected.to include 'self_url' => h.account_service.user_url(user) }
     it { is_expected.to include 'groups_url' => h.account_service.groups_url(user:) }
-    it { is_expected.to include 'profile_url' => h.account_service.user_profile_url(user) }
     it { is_expected.to include 'consents_url' => h.account_service.user_consents_url(user) }
 
     context 'without preferred language' do

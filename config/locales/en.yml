@@ -315,6 +315,11 @@ en:
     no_data_message: No data available
 
   errors:
+    attributes:
+      translations:
+        missing: Translation missing.
+      poll:
+        closed: Closed
     not_found:
       headline: "We are sorry, but the page you are looking for could not be found (404)"
       message: Please check the URL. If you really think this is a bug, feel free to contact our support team through the helpdesk.

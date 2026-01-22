@@ -46,7 +46,7 @@ class NotificationUserDisablesController < Abstract::FrontendController
       .value!
 
     add_flash_message :success,
-      t(:"flash.success.#{params[:key]}_mails_disabled", mail: email['address'])
+      t(:"flash.success.#{params[:key].gsub(/[^a-z_]/, '')}_mails_disabled", mail: email['address'])
 
     true
   rescue Restify::ClientError
