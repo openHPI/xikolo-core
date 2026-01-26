@@ -94,6 +94,9 @@ Rails.application.configure do
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
+
+  # Solid Queue
+  config.solid_queue.connects_to = {database: {writing: :queue}}
   config.solid_queue.supervisor_pidfile = Rails.root.join('tmp/pids/solid_queue_supervisor.pid')
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
