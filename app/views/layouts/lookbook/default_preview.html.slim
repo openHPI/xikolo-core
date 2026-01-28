@@ -1,5 +1,5 @@
 doctype 5
-html lang="#{I18n.locale}"
+html lang="#{I18n.locale}" data-locale-url="#{asset_path("i18n/#{I18n.locale}.json")}"
   head
     meta charset="utf-8"
     meta name="viewport" content="width=device-width, initial-scale=1.0"
@@ -21,8 +21,6 @@ html lang="#{I18n.locale}"
     = javascript_include_tag 'home', crossorigin: 'anonymous', integrity: true, async: true, debug: false
     = javascript_include_tag 'course', crossorigin: 'anonymous', integrity: true, async: true, debug: false
     = javascript_include_tag 'admin', crossorigin: 'anonymous', integrity: true, async: true, debug: false
-
-    = javascript_include_tag "xikolo-locale-#{I18n.locale}", crossorigin: 'anonymous', integrity: !Rails.env.development?
 
   - style = []
   - style << "margin: 0 auto; max-width: #{params[:lookbook][:display][:max_width]}" if params[:lookbook][:display][:max_width]

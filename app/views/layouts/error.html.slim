@@ -1,5 +1,5 @@
 doctype 5
-html lang="#{I18n.locale}"
+html lang="#{I18n.locale}" data-locale-url="#{asset_path("i18n/#{I18n.locale}.json")}"
   head
     meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     meta charset="utf-8"
@@ -41,7 +41,6 @@ html lang="#{I18n.locale}"
     = javascript_include_tag 'runtime', integrity: true, async: true
     = javascript_include_tag 'main', integrity: true, defer: true
     = javascript_include_tag 'lanalytics-framework', crossorigin: 'anonymous', integrity: true
-    = javascript_include_tag "xikolo-locale-#{I18n.locale}"
 
   body class="#{'is-masqueraded' if current_user.instrumented?}"
     = render Navigation::Bar.new(user: current_user, allowed: %w[about announcements courses home].freeze)

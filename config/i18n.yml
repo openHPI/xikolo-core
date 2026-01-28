@@ -26,7 +26,7 @@
 #     only: "*"
 #
 translations:
-  - file: "tmp/cache/<%= Xikolo.config.brand %>/i18n/:locale.json"
+  - file: "app/assets/builds/i18n/:locale.json"
     patterns:
       - "*"
 embed_fallback_translations:

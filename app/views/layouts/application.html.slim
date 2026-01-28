@@ -1,5 +1,10 @@
 doctype 5
-html lang="#{I18n.locale}" data-default-locale="#{I18n.default_locale}" data-brand="#{Xikolo.config.brand}"
+html(
+  lang=I18n.locale
+  data-default-locale=I18n.default_locale
+  data-brand-Xikolo.config.brand
+  data-locale-url=asset_path("i18n/#{I18n.locale}.json")
+)
   head prefix=('og: http://ogp.me/ns#' if meta_tags[:og].present?)
     /
     / Start with meta tags (includes title tag)
@@ -94,7 +99,6 @@ html lang="#{I18n.locale}" data-default-locale="#{I18n.default_locale}" data-bra
     = javascript_include_tag 'main', crossorigin: 'anonymous', integrity: true, defer: true, debug: false
 
     = javascript_include_tag 'lanalytics-framework', crossorigin: 'anonymous', integrity: true, async: true
-    = javascript_include_tag "xikolo-locale-#{I18n.locale}", crossorigin: 'anonymous', integrity: !Rails.env.development?
 
     /
     / Extras

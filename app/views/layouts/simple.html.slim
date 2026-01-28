@@ -1,5 +1,10 @@
 doctype 5
-html lang="#{I18n.locale}" data-default-locale="#{I18n.default_locale}" data-brand="#{Xikolo.config.brand}"
+html(
+  lang=I18n.locale
+  data-default-locale=I18n.default_locale
+  data-brand-Xikolo.config.brand
+  data-locale-url=asset_path("i18n/#{I18n.locale}.json")
+)
   head
     meta charset="utf-8"
     meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"
@@ -51,7 +56,6 @@ html lang="#{I18n.locale}" data-default-locale="#{I18n.default_locale}" data-bra
     = javascript_include_tag 'main', crossorigin: 'anonymous', integrity: true, defer: true, debug: false
 
     = javascript_include_tag 'lanalytics-framework', crossorigin: 'anonymous', integrity: true
-    = javascript_include_tag "xikolo-locale-#{I18n.locale}", crossorigin: 'anonymous', integrity: !Rails.env.development?
 
     - if content_for? :head_assets
       = yield :head_assets

@@ -170,7 +170,8 @@ class Account::SessionsController < Abstract::FrontendController
         # If there is already an account with the authorization's email address,
         # don't add the authorization to the current user
         if e.errors['provider'].include? 'email_already_used_for_another_account'
-          add_flash_message :error, helpers.t(:'flash.error.enterprise_login_already_assigned')
+          add_flash_message :error,
+            helpers.t(:'flash.error.enterprise_login_already_assigned', site_name: Xikolo.config.site_name)
           redirect_to dashboard_url and return
         end
 
@@ -246,7 +247,8 @@ class Account::SessionsController < Abstract::FrontendController
     # don't add the authorization to the current user
     raise unless e.errors['provider'].include? 'email_already_used_for_another_account'
 
-    add_flash_message :error, helpers.t(:'flash.error.enterprise_login_already_assigned')
+    add_flash_message :error,
+      helpers.t(:'flash.error.enterprise_login_already_assigned', site_name: Xikolo.config.site_name)
     redirect_to dashboard_url
   end
 

@@ -20,19 +20,6 @@ module ActionView
           end
         end
 
-        # deprecated
-        unless html_safe_options[:brand] || key == :brand
-          html_safe_options[:brand] = (@brand ||= Xikolo.config.site_name)
-        end
-
-        unless html_safe_options[:site_name] || key == :site_name
-          html_safe_options[:site_name] = (@site_name ||= Xikolo.config.site_name)
-        end
-
-        unless html_safe_options[:brand_id] || key == :brand_id
-          html_safe_options[:brand_id] = (@brand_id ||= Xikolo.config.brand)
-        end
-
         translation = I18n.translate!(scope_key_by_partial(key), **html_safe_options)
         translation.respond_to?(:html_safe) ? translation.html_safe : translation # rubocop:disable Rails/OutputSafety
       rescue I18n::MissingTranslationData => e

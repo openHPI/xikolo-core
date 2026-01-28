@@ -55,9 +55,5 @@ export default async function entries(settings = {}) {
     // Libraries
     dimple: 'legacy/libraries/dimple.js',
     'bootstrap-editable': 'legacy/bootstrap-editable.js',
-
-    // Locales
-    'xikolo-locale-en': `i18n/translations/en.ts`,
-    'xikolo-locale-de': `i18n/translations/de.ts`,
   };
 }
