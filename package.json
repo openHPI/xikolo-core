@@ -98,7 +98,7 @@
     "lint:css": "stylelint --allow-empty-input 'app/assets/**/*.{css,scss}' 'brand/*/assets/**/*.{css,scss}'",
     "lint:format": "prettier --check .",
     "lint:herb": "herb-lint '**/*.html.erb'",
-    "lint:js": "eslint app/assets",
+    "lint:js": "eslint app/assets app/javascript",
     "lint:md": "markdownlint '**/*.{md,md.erb}' .",
     "postinstall": "husky",
     "herb:format": "herb-format",

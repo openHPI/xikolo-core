@@ -10,7 +10,6 @@ export default [
       globals: {
         ...globals.browser,
         __BRAND__: 'readonly',
-        __MODE__: 'readonly',
         I18n: 'readonly',
       },
     },

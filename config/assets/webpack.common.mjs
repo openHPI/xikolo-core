@@ -15,11 +15,13 @@ export default async (settings) => {
   const rules = await makeRules(settings);
 
   const brandPath = join(root, 'brand', brand, 'assets');
-  const defaultPath = join(root, 'app', 'assets');
+  const legacyPath = join(root, 'app', 'assets');
+  const defaultPath = join(root, 'app', 'javascript');
 
   /* eslint-disable no-console */
   console.log(`==> Building ${brand}-${mode}...`);
   console.log(`  Brand path  : ${brandPath}`);
+  console.log(`  Legacy path : ${legacyPath}`);
   console.log(`  Default path: ${defaultPath}`);
   console.log(`  Entries:`);
   const nameMax = Math.max(...Object.keys(entry).map((x) => x.length));
@@ -63,6 +65,7 @@ export default async (settings) => {
       ],
       modules: [
         brandPath,
+        legacyPath,
         defaultPath,
         join(root, 'node_modules'),
         // Load generated i18n-js files containing the exported locale strings. These

@@ -1,6 +1,3 @@
-- content_for :head_assets do
-  = stylesheet_link_tag 'admin', media: 'all', crossorigin: 'anonymous', integrity: true
-
 - content_for :page_header_slim
   = render Global::PageHeader.new(t(:'admin.announcements.show.headline'), subtitle: t(:'admin.page_header'), type: :slim)
 

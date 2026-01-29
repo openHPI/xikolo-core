@@ -1,6 +1,10 @@
 {
-  "include": ["app/assets/", "config/assets/", "./.eslintrc.js"],
-  "exclude": ["app/assets/javascripts/"],
+  "include": [
+    "app/javascript",
+    "app/assets/",
+    "config/assets/",
+    "./.eslintrc.js"
+  ],
   "compilerOptions": {
     "outDir": "./dist/",
     "strict": true,
