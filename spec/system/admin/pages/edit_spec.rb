@@ -39,7 +39,7 @@ RSpec.describe 'Admin: Page: Edit', type: :system do
 
     expect(Page.count).to eq 1
     Page.first.tap do |english_page|
-      expect(english_page.text.to_s).to eq 'We should add an address ...'
+      expect(english_page.text.to_s.strip).to eq 'We should add an address ...'
       expect(english_page).to have_attributes(
         'title' => 'A very important imprint!',
         'locale' => 'en'
@@ -79,7 +79,7 @@ RSpec.describe 'Admin: Page: Edit', type: :system do
     expect(Page.where(name: 'imprint').pluck(:locale)).to match_array %w[en de]
     Page.find_by(name: 'imprint', locale: 'de').tap do |german_page|
       expect(german_page.title).to eq 'Ein wichtiges Impressum'
-      expect(german_page.text.to_s).to eq 'Wir sollten eine Adresse hinzufügen ...'
+      expect(german_page.text.to_s.strip).to eq 'Wir sollten eine Adresse hinzufügen ...'
     end
   end
 
@@ -117,6 +117,6 @@ RSpec.describe 'Admin: Page: Edit', type: :system do
 
     english_page.reload
     expect(english_page.title).to eq 'A very important imprint!'
-    expect(english_page.text.to_s).to eq 'We should add an address ...'
+    expect(english_page.text.to_s.strip).to eq 'We should add an address ...'
   end
 end

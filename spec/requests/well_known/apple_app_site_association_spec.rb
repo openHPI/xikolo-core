@@ -7,10 +7,6 @@ describe 'GET /.well-known/apple-app-site-association', type: :request do
 
   let(:json) { response.parsed_body }
 
-  before do
-    Stub.service(:account, build(:'account:root'))
-  end
-
   context 'with the right config' do
     before do
       xi_config <<~YML

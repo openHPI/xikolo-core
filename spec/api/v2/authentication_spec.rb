@@ -13,8 +13,6 @@ describe Xikolo::V2::TokenAPI, type: :request do
     end
 
     before do
-      Stub.service(:account, build(:'account:root'))
-
       # Requests for a new session will fail (credentials invalid) by default
       Stub.request(
         :account, :post, '/sessions'

@@ -20,7 +20,7 @@ class Admin::VideoProvidersController < Abstract::FrontendController
     if @provider.save
       redirect_to admin_video_providers_path
     else
-      render 'new'
+      render 'new', status: :unprocessable_entity
     end
   end
 

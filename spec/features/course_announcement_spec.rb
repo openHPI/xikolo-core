@@ -33,9 +33,6 @@ describe 'OpenHPI: Course Announcement' do
   before do
     Msgr.client.start
 
-    Stub.service(:news, build(:'news:root'))
-    Stub.service(:course, build(:'course:root'))
-
     Stub.request(
       :news, :get, "/news/#{announcement_id}",
       query: {embed: 'translations'}

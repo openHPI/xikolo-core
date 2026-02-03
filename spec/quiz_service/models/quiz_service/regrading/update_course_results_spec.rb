@@ -5,10 +5,6 @@ require 'spec_helper'
 describe QuizService::Regrading::UpdateCourseResults, type: :model do
   subject(:update_results) { described_class.new(Logger.new(IO::NULL), quiz.id) }
 
-  before do
-    Stub.service(:course, build(:'course:root'))
-  end
-
   let!(:quiz) { create(:'quiz_service/quiz') }
   let!(:question) { create(:'quiz_service/free_text_question', quiz:, points: 5) }
   let!(:answer) { create(:'quiz_service/free_text_answer', question:, text: 'foo') }

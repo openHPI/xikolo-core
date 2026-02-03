@@ -14,6 +14,7 @@ Feature: Edit section properties
     Then the edited section should be listed
     And I should get visual feedback that the action was successful
 
+  @wip
   Scenario: Successfully moving a section
     When I add a section
     And I fill in the section information

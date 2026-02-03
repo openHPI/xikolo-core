@@ -20,7 +20,6 @@ describe 'Course: Admin: Dashboard: Show', type: :request do
   before do
     stub_user_request(permissions:, features:)
 
-    Stub.service(:course, build(:'course:root'))
     Stub.request(:course, :get, "/courses/#{course.course_code}")
       .to_return Stub.json(course_resource)
     Stub.request(:course, :get, "/courses/#{course.id}")
@@ -30,8 +29,6 @@ describe 'Course: Admin: Dashboard: Show', type: :request do
 
     allow(Admin::Statistics::AgeDistribution).to receive(:call).and_return([])
 
-    Stub.service(:quiz, build(:'quiz:root'))
-    Stub.service(:pinboard, build(:'pinboard:root'))
     Stub.request(:course, :get, '/items', query: hash_including({
       course_id: course.id,
       was_available: 'true',

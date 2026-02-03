@@ -27,7 +27,6 @@ describe SubscriptionsController, type: :controller do
   before do
     stub_user id: user_id, language: 'en'
 
-    Stub.service(:pinboard, build(:'pinboard:root'))
     Stub.request(
       :pinboard, :get, '/subscriptions',
       query: {user_id:, question_id:}

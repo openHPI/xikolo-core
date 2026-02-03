@@ -22,8 +22,6 @@ describe 'Teacher: Item: TransPipe: Create Item', type: :system do
 
   before do
     stub_user id: user_id, permissions: %w[course.content.access course.content.edit video.video.index]
-    Stub.service(:course, build(:'course:root'))
-    Stub.service(:pinboard, build(:'pinboard:root'))
 
     Stub.request(:account, :get, "/users/#{user_id}").to_return Stub.json(user)
     Stub.request(:course, :get, '/courses/the_course').to_return Stub.json(course_resource)

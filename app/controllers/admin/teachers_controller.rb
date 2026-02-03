@@ -62,7 +62,7 @@ class Admin::TeachersController < Abstract::FrontendController
 
     @teacher = Admin::TeacherForm.from_params params
 
-    return render(action: :new) unless @teacher.valid?
+    return render(action: :new, status: :unprocessable_entity) unless @teacher.valid?
 
     user_id = params[:teacher][:user_id]
     teacher_resource =
@@ -77,7 +77,7 @@ class Admin::TeachersController < Abstract::FrontendController
     redirect_to action: :show, id: teacher.fetch('id')
   rescue Restify::UnprocessableEntity => e
     @teacher.remote_errors e.errors
-    render action: :new
+    render action: :new, status: :unprocessable_entity
   end
 
   def update
@@ -86,7 +86,7 @@ class Admin::TeachersController < Abstract::FrontendController
     @teacher = Admin::TeacherForm.from_params params
     @teacher.persisted!
 
-    return render(action: :edit) unless @teacher.valid?
+    return render(action: :edit, status: :unprocessable_entity) unless @teacher.valid?
 
     course_api.rel(:teacher).patch(@teacher.to_resource, params: {id: params[:id]}).value!
 
@@ -94,7 +94,7 @@ class Admin::TeachersController < Abstract::FrontendController
     redirect_to action: :show
   rescue Restify::UnprocessableEntity => e
     @teacher.remote_errors e.errors
-    render action: :edit
+    render action: :edit, status: :unprocessable_entity
   end
 
   private

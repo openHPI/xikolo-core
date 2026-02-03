@@ -50,7 +50,6 @@ describe 'Quiz: Submissions: New', type: :request do
       permissions: ['course.content.access.available'],
       features: {'proctoring' => true}
 
-    Stub.service(:course, build(:'course:root'))
     Stub.request(:course, :get, '/courses/the_course')
       .to_return Stub.json(course.as_json)
     Stub.request(
@@ -77,7 +76,6 @@ describe 'Quiz: Submissions: New', type: :request do
       query: {section_id: section.id, state_for: user_id, published: 'true'}
     ).to_return Stub.json([])
 
-    Stub.service :quiz, build(:'quiz:root')
     Stub.request(
       :quiz, :get, "/quizzes/#{quiz_id}"
     ).to_return Stub.json(build(:'quiz:quiz', :exam, id: quiz_id))

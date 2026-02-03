@@ -11,7 +11,6 @@ describe 'Helpdesk: Show', type: :request do
   let(:page) { Capybara.string(resp.body) }
 
   before do
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, '/courses',
       query: hash_including(public: 'true', hidden: 'false')

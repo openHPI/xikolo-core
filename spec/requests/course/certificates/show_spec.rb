@@ -27,7 +27,6 @@ describe 'Course: Certificates: Show', type: :request do
 
     stub_user_request id: user.id
 
-    Stub.service(:course, build(:'course:root'))
     Stub.request(:course, :get, '/next_dates', query: hash_including({}))
       .to_return Stub.json([])
     Stub.request(:course, :get, "/courses/#{course.id}")

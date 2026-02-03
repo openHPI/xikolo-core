@@ -7,10 +7,6 @@ describe DashboardController, type: :controller do
 
   let(:user_id) { '00000001-3100-4444-9999-000000000001' }
 
-  before do
-    Stub.service(:course, build(:'course:root'))
-  end
-
   describe '#dashboard' do
     let(:request) { get :dashboard }
 
@@ -130,8 +126,6 @@ describe DashboardController, type: :controller do
         end
 
         before do
-          Stub.service(:course, build(:'course:root'))
-
           Stub.request(
             :course, :get, '/enrollments',
             query: {user_id:, learning_evaluation: 'true', deleted: 'true'}

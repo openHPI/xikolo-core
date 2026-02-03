@@ -7,10 +7,6 @@ describe 'Admin: ChannelsOrder: Update', type: :request do
   let(:headers) { {} }
   let(:params) { {} }
 
-  before do
-    Stub.service(:course, build(:'course:root'))
-  end
-
   context 'with permission' do
     let(:headers) { {Authorization: "Xikolo-Session session_id=#{stub_session_id}"} }
     let(:permissions) { %w[course.channel.edit] }

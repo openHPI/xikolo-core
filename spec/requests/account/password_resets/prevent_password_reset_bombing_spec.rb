@@ -16,8 +16,6 @@ describe 'Prevent password reset bombing', type: :request do
     Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new
     Rack::Attack.reset!
 
-    Stub.service(:account, build(:'account:root'))
-
     Stub.request(
       :account, :post, '/password_resets',
       body: {email: 'p3k@example.de'}.to_json

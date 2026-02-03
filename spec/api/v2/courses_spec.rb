@@ -3,11 +3,6 @@
 require 'spec_helper'
 
 describe Xikolo::V2::Courses::Courses, type: :request do
-  before do
-    Stub.service(:course, build(:'course:root'))
-    Stub.service(:account, build(:'account:root'))
-  end
-
   describe 'GET courses' do
     subject { get '/api/v2/courses', params: {format: 'json'} }
 

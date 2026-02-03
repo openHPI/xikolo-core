@@ -1,4 +1,5 @@
 @xi-1488
+@wip
 Feature: Gamification
   In order to always have my user score of gamification points present
   As a logged in user

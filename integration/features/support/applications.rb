@@ -28,7 +28,9 @@ end
 
 def services_config
   {'integration' => {
-    'services' => Server.list(:srv).to_h {|app| [app.id.to_s, "http://127.0.0.1:#{app.port}"] },
+    'services' => Server.all_services.to_h do |app|
+      [app.id.to_s, "http://127.0.0.1:#{Server[:web].port}/#{app.mount_path}"]
+    end,
   }}
 end
 

@@ -41,7 +41,7 @@ class Account::PasswordResetsController < Abstract::FrontendController
       end
     end
 
-    render :new
+    render :new, status: :unprocessable_entity
   end
 
   def update
@@ -61,7 +61,7 @@ class Account::PasswordResetsController < Abstract::FrontendController
       end
     end
 
-    render :show
+    render :show, status: :unprocessable_entity
   end
 
   private

@@ -26,7 +26,6 @@ describe 'Course: Certificates: Verify', type: :request do
   before do
     xi_config file_fixture('badge_config.yml').read
 
-    Stub.service(:course, build(:'course:root'))
     Stub.request(:course, :get, '/enrollments',
       query: {
         user_id: user.id,

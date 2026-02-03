@@ -21,7 +21,6 @@ describe NewsService::NewsController, type: :controller do
     let(:rt_language) { 'en' }
 
     before do
-      Stub.service(:course, build(:'course:root'))
       Stub.request(
         :course, :get, '/enrollments',
         query: {user_id: params[:user_id]}
@@ -122,7 +121,6 @@ describe NewsService::NewsController, type: :controller do
         let(:user_groups) { [{name: 'course.foo1.students'}] }
 
         before do
-          Stub.service(:account, build(:'account:root'))
           Stub.request(:account, :get, '/groups', query: hash_including(user: user_id))
             .to_return Stub.json(user_groups)
           Stub.request(:account, :get, "/users/#{user_id}")

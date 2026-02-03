@@ -3,10 +3,6 @@
 require 'spec_helper'
 
 describe 'Admin: Courses: Index', type: :request do
-  before do
-    Stub.service(:course, build(:'course:root'))
-  end
-
   describe 'published courses' do
     subject(:request) do
       get '/admin/courses', headers:

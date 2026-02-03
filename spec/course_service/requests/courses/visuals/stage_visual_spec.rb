@@ -75,8 +75,6 @@ RSpec.describe 'Courses: Update with stage visual', type: :request do
   let(:classifiers) { {cluster.id => ['Internet Technology 2', 'Beginner', 'Cat3', 'Cat4']} }
 
   before do
-    Stub.service(:account, build(:'account:root'))
-
     Stub.request(:account, :get, '/grants').with(
       query: {
         context: course.context_id,

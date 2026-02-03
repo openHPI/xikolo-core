@@ -29,7 +29,7 @@ class Admin::AnnouncementEmailsController < Abstract::FrontendController
     @announcement_email = Admin::AnnouncementEmailForm.from_params(params)
 
     # Re-render creation form if announcement is invalid
-    return render(action: :new) unless @announcement_email.valid?
+    return render(action: :new, status: :unprocessable_entity) unless @announcement_email.valid?
 
     announcement = news_service.rel(:announcement).get({id: UUID4(params[:id]).to_s}).value!
     announcement.rel(:messages).post(
@@ -41,7 +41,7 @@ class Admin::AnnouncementEmailsController < Abstract::FrontendController
     @announcement_email.remote_errors e.errors
 
     # Re-render creation form
-    render(action: :new)
+    render(action: :new, status: :unprocessable_entity)
   end
 
   private

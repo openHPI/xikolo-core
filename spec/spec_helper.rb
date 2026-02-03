@@ -3,9 +3,6 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV['RAILS_ENV'] ||= 'test'
 
-# TODO: Remove when inegration tests use the services in Web
-ENV['XIKOLO_SERVICE_ACCOUNT'] = 'http://localhost:3000/account_service'
-
 require 'simplecov'
 require 'simplecov-cobertura'
 
@@ -36,6 +33,14 @@ Rails.root.glob('spec/support/**/*.rb').each {|f| require f }
 
 # Maintain test schema
 ActiveRecord::Migration.maintain_test_schema!
+
+# Disable HTTP requests, but allow 127.0.0.1 connection for selenium/capybara.
+# This assumes services are *not* configured to use 127.0.0.1.
+WebMock.disable_net_connect!(allow_localhost: true, allow: [
+  # Allow download of chrome and the selenium driver
+  'storage.googleapis.com/chrome-for-testing-public',
+  'chromedriver.storage.googleapis.com',
+])
 
 RSpec.configure do |config|
   # ## Mock Framework
@@ -94,10 +99,6 @@ RSpec.configure do |config|
   end
 
   config.before(:suite) do
-    # Disable HTTP requests, but allow 127.0.0.1 connection for selenium/capybara.
-    # This assumes services are *not* configured to use 127.0.0.1.
-    WebMock.disable_net_connect!(allow: '127.0.0.1')
-
     Acfs::Stub.allow_requests = true
   end
 

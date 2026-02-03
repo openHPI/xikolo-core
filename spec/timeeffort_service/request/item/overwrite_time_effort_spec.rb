@@ -29,7 +29,6 @@ RSpec.describe 'Item: overwrite_time_effort', type: :request do
   context 'w/ existing item' do
     let(:patch_item_status) { 204 }
     let!(:course_item_stub) do
-      Stub.service(:course, build(:'course:root'))
       Stub.request(
         :course, :patch, "/items/#{item.id}",
         body: hash_including(time_effort: payload[:time_effort])

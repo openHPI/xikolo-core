@@ -24,7 +24,6 @@ describe 'Dashboard: Course: Mark Completed', type: :system do
     ).to_return Stub.json({token: 'abc'})
 
     # Course stubs for the sidebar content.
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, '/enrollments',
       query: hash_including(user_id: user['id'], learning_evaluation: 'true')

@@ -10,10 +10,6 @@ describe QuizService::XmlImporter::Quiz do
   let(:course_id) { '00000000-0000-4444-9999-000000000000' }
   let(:section_id) { '00000000-0000-4444-9999-000000000001' }
 
-  before do
-    Stub.service(:course, build(:'course:root'))
-  end
-
   context 'with valid xml' do
     let(:item_result) { [] }
     let(:second_item_result) { [] }

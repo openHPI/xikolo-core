@@ -54,10 +54,8 @@ describe Xikolo::V2::Courses::Items do
   end
 
   before do
-    Stub.service(:account, build(:'account:root'))
     api_stub_user(id: user_id, permissions:, features:, context_id:)
 
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, "/courses/#{course[:id]}"
     ).to_return Stub.json(course)

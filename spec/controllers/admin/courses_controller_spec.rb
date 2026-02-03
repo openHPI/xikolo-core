@@ -14,9 +14,6 @@ describe Admin::CoursesController, type: :controller do
   before do
     user
 
-    Stub.service(:account, build(:'account:root'))
-
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, '/courses'
     ).to_return Stub.json([])

@@ -62,7 +62,6 @@ describe 'LTI: Tool Launch', type: :system do
       .and_return Stub.json({properties: {}})
 
     # Relevant stubs for the items page
-    Stub.service(:course, build(:'course:root'))
     Stub.request(:course, :get, '/courses/the_course')
       .and_return Stub.json(course_resource)
     Stub.request(:course, :get, "/courses/#{course.id}")

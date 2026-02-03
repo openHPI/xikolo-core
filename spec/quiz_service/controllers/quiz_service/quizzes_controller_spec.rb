@@ -10,10 +10,6 @@ describe QuizService::QuizzesController, type: :controller do
   let(:json) { JSON.parse response.body }
   let(:default_params) { {format: 'json'} }
 
-  before do
-    Stub.service(:course, build(:'course:root'))
-  end
-
   describe '#index' do
     subject(:action) { get :index, params: }
 

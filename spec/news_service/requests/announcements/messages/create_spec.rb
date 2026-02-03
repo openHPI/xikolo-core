@@ -23,8 +23,6 @@ RSpec.describe 'Announcement: Messages: Create', type: :request do
     let(:user) { build(:'recipient:user', id: 'b4864a87-ee46-415d-9271-34b8766a40f2') }
 
     before do
-      Stub.service(:account, build(:'account:root'))
-
       Stub.request(:account, :get, '/users/b4864a87-ee46-415d-9271-34b8766a40f2')
         .to_return Stub.json({
           id: 'b4864a87-ee46-415d-9271-34b8766a40f2',
@@ -105,8 +103,6 @@ RSpec.describe 'Announcement: Messages: Create', type: :request do
     let(:group) { build(:'recipient:group', id: 'xikolo.active') }
 
     before do
-      Stub.service(:account, build(:'account:root'))
-
       Stub.request(:account, :get, '/groups/xikolo.active')
         .to_return Stub.json({members_url: '/account_service/groups/xikolo.active/members'})
       Stub.request(:account, :get, '/groups/xikolo.active/members')

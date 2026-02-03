@@ -6,7 +6,6 @@ describe 'Account: Accounts: Create', type: :request do
   subject(:result) { post '/account', params: }
 
   before do
-    Stub.service(:account, build(:'account:root'))
     Stub.request(:account, :get, '/policies')
       .to_return Stub.json(policies)
     Stub.request(:account, :get, '/treatments')

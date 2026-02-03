@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'Global Announcement Mail', type: :feature do
+describe 'Global Announcement Mail', type: :request do
   let(:author_id) { '00000001-3100-4444-9999-000000000002' }
   let(:richtext_id) { '00000001-3700-4444-9999-000000000025' }
   let(:user_kevin_language) { 'en' }
@@ -44,8 +44,6 @@ describe 'Global Announcement Mail', type: :feature do
       features_url: '/account_service/users/00000001-3100-4444-9999-000000000002/features',
       preferences_url: '/account_service/users/00000001-3100-4444-9999-000000000002/preferences',
     })
-
-    Stub.service(:news, build(:'news:root'))
 
     # find article text
     Stub.request(

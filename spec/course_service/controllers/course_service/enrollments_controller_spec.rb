@@ -11,10 +11,6 @@ describe CourseService::EnrollmentsController, type: :controller do
   let(:new_enrollment) { build(:'course_service/enrollment') }
   let(:default_params) { {format: 'json'} }
 
-  before do
-    Stub.service(:account, build(:'account:root'))
-  end
-
   describe "GET 'index'" do
     let(:action) { -> { get(:index, params:) } }
 

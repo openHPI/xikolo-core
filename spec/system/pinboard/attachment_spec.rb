@@ -13,8 +13,6 @@ describe 'Pinboard: Attachment Specs', type: :system do
 
   before do
     stub_user permissions: %w[course.content.access.available], id: user_id
-    Stub.service(:course, build(:'course:root'))
-    Stub.service(:pinboard, build(:'pinboard:root'))
 
     Stub.request(:account, :get, "/users/#{user_id}")
       .and_return Stub.json({id: user_id})

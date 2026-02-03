@@ -6,7 +6,7 @@ class Session < ApplicationRecord # rubocop:disable Layout/IndentationWidth
 
   include SessionInterrupt
 
-  belongs_to :user
+  belongs_to :user, class_name: 'AccountService::User'
   belongs_to :masquerade, class_name: 'AccountService::User', optional: true, inverse_of: false
 
   after_commit(on: :create) { notify(:create) }
@@ -20,7 +20,7 @@ class Session < ApplicationRecord # rubocop:disable Layout/IndentationWidth
         when 'anonymous'
           anonymous
         when /\Atoken=([a-f0-9]{64})\z/
-          TokenSession.new \
+          AccountService::TokenSession.new \
             token: Regexp.last_match(1),
             user: Token.where(token: Regexp.last_match(1)).take!.owner
         else
@@ -29,7 +29,7 @@ class Session < ApplicationRecord # rubocop:disable Layout/IndentationWidth
     end
 
     def anonymous
-      AnonymousSession.new id: 'anonymous', user: User.anonymous
+      AccountService::AnonymousSession.new id: 'anonymous', user: AccountService::User.anonymous
     end
 
     def active
@@ -80,31 +80,5 @@ class Session < ApplicationRecord # rubocop:disable Layout/IndentationWidth
     update_column :access_at, Time.zone.today # rubocop:disable Rails/SkipsModelValidations
     user.access!
   end
-end
-
-class AnonymousSession < Session # rubocop:disable Layout/IndentationWidth
-  def to_param
-    'anonymous'
-  end
-
-  def interrupt?
-    false
-  end
-
-  def interrupts
-    []
-  end
-
-  def access!; end
-end
-
-class TokenSession < Session # rubocop:disable Layout/IndentationWidth
-  attr_accessor :token
-
-  def to_param
-    "token=#{token}"
-  end
-
-  def access!; end
 end
 end

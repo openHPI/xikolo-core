@@ -18,7 +18,6 @@ describe 'Course: Admin: Offers: List', type: :request do
     create(:offer, course_id: course.id, price: 10_050)
     create(:offer, course_id: course.id, price: 10_099, payment_frequency: 'quarterly')
 
-    Stub.service(:course, build(:'course:root'))
     Stub.request(:course, :get, "/courses/#{course.course_code}")
       .to_return(Stub.json(course_resource))
     Stub.request(:course, :get, '/next_dates', query: hash_including({}))

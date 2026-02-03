@@ -110,7 +110,6 @@ end
 
 shared_context 'for quizzes' do
   before do
-    Stub.service(:quiz, build(:'quiz:root'))
     Stub.request(:quiz, :get, "/quizzes/#{item.content_id}")
       .to_return Stub.json({id: item.content_id, current_allowed_attempts: 1})
     Stub.request(:course, :get, '/enrollments', query: {course_id: course.id, user_id:})
@@ -142,8 +141,6 @@ describe 'Course: Items: Show', type: :request do
   end
 
   before do
-    Stub.service(:course, build(:'course:root'))
-
     Stub.request(:course, :get, "/courses/#{course.course_code}")
       .to_return Stub.json(course_resource)
     Stub.request(:course, :get, '/next_dates',
@@ -193,7 +190,6 @@ describe 'Course: Items: Show', type: :request do
           let(:type_specific_content) { item.content.description.to_s }
 
           before do
-            Stub.service(:pinboard, build(:'pinboard:root'))
             Stub.request(:pinboard, :get, '/topics', query: {item_id: item.id})
               .to_return Stub.json([])
           end
@@ -330,8 +326,6 @@ describe 'Course: Items: Show', type: :request do
         let(:item) { create(:item, :video, section:) }
 
         before do
-          Stub.service(:pinboard, build(:'pinboard:root'))
-
           Stub.request(:pinboard, :get, '/topics', query: {item_id: item.id})
             .to_return Stub.json([])
         end

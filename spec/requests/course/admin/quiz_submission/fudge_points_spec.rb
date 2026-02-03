@@ -14,12 +14,10 @@ describe 'Quiz submissions: Grant fudge points', type: :request do
   let(:course) { build(:'course:course') }
 
   before do
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, "/courses/#{course['id']}"
     ).to_return Stub.json(course)
 
-    Stub.service(:quiz, build(:'quiz:root'))
     Stub.request(
       :quiz, :get, "/quiz_submissions/#{submission_id}"
     ).to_return Stub.json(build(:'quiz:submission', fudge_points:))

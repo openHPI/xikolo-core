@@ -28,7 +28,6 @@ describe 'xikolo.course.visit.create' do
     # routes are registered only when the service is available.
     Xikolo.config.gamification = {'enabled' => true}
     Msgr.client.start
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, '/items',
       query: {section_id: score_attributes[:data][:section_id]}

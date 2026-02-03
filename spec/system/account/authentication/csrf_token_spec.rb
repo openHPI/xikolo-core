@@ -7,7 +7,6 @@ describe 'Account: Authentication: CRSF Token', type: :system do
 
   context 'with empty / cleared session' do
     before do
-      Stub.service(:course, build(:'course:root'))
       Stub.request(:course, :get, '/api/v2/course/courses', query: hash_including({}))
         .and_return Stub.json([])
     end

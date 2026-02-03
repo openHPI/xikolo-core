@@ -11,7 +11,6 @@ describe Account::SessionsController, type: :controller do
   let(:connect_auth_id) { SecureRandom.uuid }
 
   before do
-    Stub.service(:account, build(:'account:root'))
     Stub.request(
       :account, :get, '/policies'
     ).to_return Stub.json([])

@@ -76,7 +76,7 @@ await ready(() => {
           });
 
           if (!response.ok) {
-            handleError('', response.statusText);
+            handleError('', response.statusText, false);
           }
 
           const responseText = await response.text();

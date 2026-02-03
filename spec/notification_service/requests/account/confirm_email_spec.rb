@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'Email Address Confirmation Email', type: :feature do
+describe 'Email Address Confirmation Email', type: :request do
   let(:confirm_email_url) { 'https://xikolo.de/confirm_email' }
   let(:user_language) { 'en' }
 

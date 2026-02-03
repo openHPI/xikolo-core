@@ -21,7 +21,6 @@ RSpec.describe 'Teacher: Item: LTI Exercise: Modify Item', type: :system do
   before do
     stub_user id: user_id, permissions: %w[course.content.access course.content.edit]
 
-    Stub.service(:course, build(:'course:root'))
     Stub.request(:course, :get, '/courses/the_course')
       .to_return Stub.json(course)
     Stub.request(:course, :get, '/enrollments', query: {course_id: course['id'], user_id:})

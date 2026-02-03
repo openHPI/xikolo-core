@@ -20,8 +20,6 @@ describe 'Chatbot Bridge API: My Quizzes', type: :request do
   let(:answers2_1) { build_list(:'quiz:answer', 1, question_id: questions2.first['id']) }
 
   before do
-    Stub.service(:course, build(:'course:root'))
-    Stub.service(:quiz, build(:'quiz:root'))
     Stub.request(:course, :get, '/items',
       query: {
         required_items: 'none',

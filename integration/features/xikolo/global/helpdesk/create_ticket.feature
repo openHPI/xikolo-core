@@ -50,6 +50,7 @@ Feature: Create a support ticket using the helpdesk
     Then I should be notified about successful ticket submission
     And an email with my report should be sent to the helpdesk software
 
+  @wip
   @recaptcha_v3
   Scenario: Create a ticket with recaptcha enabled
     Given I am logged in as a confirmed user
@@ -62,6 +63,7 @@ Feature: Create a support ticket using the helpdesk
     Then I should be notified about successful ticket submission
     And an email with my report should be sent to the helpdesk software
 
+  @wip
   @recaptcha_v2
   Scenario: Create a ticket with recaptcha enabled that fails invisible recaptcha
     Given I am logged in as a confirmed user

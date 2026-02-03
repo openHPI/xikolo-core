@@ -36,7 +36,7 @@ class Admin::ChannelsController < Abstract::FrontendController
     end
     @channel = Admin::ChannelEditPresenter.new(form:)
     add_flash_message :error, t(:'flash.error.channel_not_created')
-    render action: :new
+    render action: :new, status: :unprocessable_entity
   end
 
   def update
@@ -59,7 +59,7 @@ class Admin::ChannelsController < Abstract::FrontendController
     end
     @channel = Admin::ChannelEditPresenter.new(form:, channel:)
     add_flash_message :error, t(:'flash.error.channel_not_updated')
-    render action: :edit
+    render action: :edit, status: :unprocessable_entity
   end
 
   def destroy

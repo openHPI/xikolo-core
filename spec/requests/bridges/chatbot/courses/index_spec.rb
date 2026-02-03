@@ -13,7 +13,6 @@ describe 'Chatbot Bridge API: Courses: Index', type: :request do
   let(:json) { JSON.parse response.body }
 
   before do
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, '/courses',
       query: {

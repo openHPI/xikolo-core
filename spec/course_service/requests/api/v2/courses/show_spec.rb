@@ -5,10 +5,6 @@ require 'spec_helper'
 describe '[API v2] Course: Show', type: :request do
   subject(:resource) { api.rel(:course).get(params).value! }
 
-  before do
-    Stub.service(:account, build(:'account:root'))
-  end
-
   let(:api) { restify_with_headers(course_service.api_v2_course_root_url, headers: session_headers).get.value }
   let(:session_headers) { session_request_headers session }
 

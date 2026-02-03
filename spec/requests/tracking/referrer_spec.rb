@@ -6,10 +6,6 @@ describe 'Tracking: Referrers', type: :request do
   subject(:homepage) { get '/', params:, headers: }
 
   before do
-    Stub.service(:account, build(:'account:root'))
-    Stub.service(:course, build(:'course:root'))
-
-    Stub.service(:news, build(:'news:root'))
     Stub.request(:news, :get, '/current_alerts')
       .with(query: hash_including({}))
       .to_return Stub.json([])

@@ -16,7 +16,6 @@ describe 'Course: Items: Create', type: :request do
   let(:headers) { {} }
 
   before do
-    Stub.service(:course, build(:'course:root'))
     Stub.request(:course, :get, "/courses/#{course['course_code']}")
       .to_return Stub.json(course_resource)
   end
@@ -63,8 +62,6 @@ describe 'Course: Items: Create', type: :request do
         :course, :get, '/items',
         query: hash_including(section_id: section['id'])
       ).to_return Stub.json([])
-
-      Stub.service(:pinboard, build(:'pinboard:root'))
     end
 
     context 'with insufficient content editor permissions' do
@@ -493,8 +490,6 @@ describe 'Course: Items: Create', type: :request do
       end
 
       before do
-        Stub.service(:quiz, build(:'quiz:root'))
-
         content_create_stub
         item_create_stub
         content_delete_stub

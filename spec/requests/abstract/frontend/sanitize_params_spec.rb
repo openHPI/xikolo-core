@@ -14,6 +14,7 @@ describe 'Abstract: Frontend: Base: Sanitize Params', type: :request do
   around do |example|
     Rails.application.routes.draw do
       get '/dummy', to: 'dummy#index'
+      mount AccountService::Engine => '/account_service'
     end
     example.run
   ensure

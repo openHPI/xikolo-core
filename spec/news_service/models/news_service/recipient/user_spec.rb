@@ -6,7 +6,6 @@ describe NewsService::Recipient::User, type: :model do
   subject(:recipient) { described_class.new 'the_id' }
 
   before do
-    Stub.service(:account, build(:'account:root'))
     Stub.request(:account, :get, '/users/the_id')
       .to_return Stub.json({id: 'the_id'})
   end

@@ -71,7 +71,6 @@ describe Certificate::RenderDataPresenter, type: :presenter do
   end
 
   before do
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, '/enrollments',
       query: hash_including(

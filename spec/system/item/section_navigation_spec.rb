@@ -47,7 +47,6 @@ describe 'Item: Section Navigation', type: :system do
     Stub.request(:account, :get, "/users/#{user_id}/preferences")
       .and_return Stub.json({properties: {}})
 
-    Stub.service(:course, build(:'course:root'))
     Stub.request(:course, :get, "/courses/#{course.course_code}")
       .to_return Stub.json(course_resource)
 
@@ -86,9 +85,14 @@ describe 'Item: Section Navigation', type: :system do
       body: hash_including({})
     ).to_return Stub.response(status: 201)
 
-    Stub.service(:pinboard, build(:'pinboard:root'))
     Stub.request(:pinboard, :get, '/topics', query: {item_id: open_mode_item['id']})
       .to_return Stub.json([])
+
+    @original_window_size = page.current_window.size
+  end
+
+  after do
+    page.current_window.resize_to(*@original_window_size) # rubocop:disable RSpec/InstanceVariable
   end
 
   context 'as an anonymous user' do

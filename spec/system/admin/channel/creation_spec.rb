@@ -9,7 +9,6 @@ describe 'Admin: Create Channel', type: :system do
     stub_user id: user['id'], permissions: %w[course.channel.create course.channel.index]
     Stub.request(:account, :get, "/users/#{user['id']}")
       .to_return Stub.json(user)
-    Stub.service(:course, build(:'course:root'))
     Stub.request(:course, :get, '/channels', query: hash_including({}))
       .and_return Stub.json([])
     Stub.request(:course, :get, '/api/v2/course/courses', query: hash_including({}))

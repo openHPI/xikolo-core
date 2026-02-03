@@ -13,7 +13,6 @@ describe 'Admin: Reports: Index', type: :system do
     Stub.request(:account, :get, "/users/#{user_id}")
       .to_return Stub.json(user)
 
-    Stub.service(:course, build(:'course:root'))
     Stub.request(:course, :get, '/courses', query: {alphabetic: true, public: true, groups: 'any'})
       .and_return Stub.json([course])
     Stub.request(:course, :get, '/classifiers', query: {cluster: 'category,reporting,topic'})

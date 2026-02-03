@@ -25,9 +25,6 @@ describe Course::Admin::ItemTimeEffortController, type: :controller do
   let(:item_stub_response) { Stub.json(time_effort_item) }
 
   before do
-    Stub.service(:account, build(:'account:root'))
-    Stub.service(:course, build(:'course:root'))
-    Stub.service(:timeeffort, build(:'timeeffort:root'))
     Stub.request(:course, :get, "/courses/#{params[:course_id]}").to_return Stub.json(course)
     Stub.request(:timeeffort, :get, "/items/#{params[:item_id]}").to_return item_stub_response
   end

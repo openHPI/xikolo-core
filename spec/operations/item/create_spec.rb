@@ -19,10 +19,8 @@ RSpec.describe Item::Create do
   end
 
   before do
-    Stub.service(:course, build(:'course:root'))
     Stub.request(:course, :get,
       "/sections/#{section.id}").to_return Stub.json(section_resource)
-    Stub.service(:pinboard, build(:'pinboard:root'))
   end
 
   context 'with a video as the content' do

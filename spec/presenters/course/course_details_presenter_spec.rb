@@ -28,7 +28,6 @@ describe Course::CourseDetailsPresenter do
   end
 
   before do
-    Stub.service(:course, build(:'course:root'))
     previewable_items_stub
   end
 

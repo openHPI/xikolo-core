@@ -7,8 +7,6 @@ describe Admin::UsersController, type: :controller do
   let(:permissions) { ['account.user.create'] }
 
   before do
-    Stub.service(:account, build(:'account:root'))
-
     stub_user id: user_id, permissions:
   end
 

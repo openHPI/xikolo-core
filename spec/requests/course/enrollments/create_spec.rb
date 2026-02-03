@@ -19,7 +19,6 @@ describe 'Course: Enrollments: Create', type: :request do
 
   before do
     stub_user_request(id: user_id, permissions:)
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, "/courses/#{course['id']}"
     ).to_return Stub.json(course)

@@ -8,7 +8,6 @@ describe 'Admin: Reports: Index', type: :request do
   let(:headers) { {} }
 
   before do
-    Stub.service(:course, build(:'course:root'))
     Stub.service(:learnanalytics, build(:'lanalytics:root'))
 
     Stub.request(:learnanalytics, :get, '/report_types')

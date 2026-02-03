@@ -36,8 +36,6 @@ describe 'Teacher: Item: Proctoring: Modify Item', type: :system do
     stub_user id: user_id,
       permissions: %w[course.content.access course.content.edit],
       features: {'proctoring' => 'true'}
-    Stub.service(:course, build(:'course:root'))
-    Stub.service(:quiz, build(:'quiz:root'))
 
     Stub.request(:account, :get, "/users/#{user_id}")
       .to_return Stub.json(user)

@@ -4,8 +4,6 @@ require 'spec_helper'
 
 describe 'Account: Sessions: Create', type: :request do
   before do
-    Stub.service(:news, build(:'news:root'))
-
     Stub.request(:news, :get, '/news')
       .with(query: hash_including({}))
       .to_return Stub.json([])

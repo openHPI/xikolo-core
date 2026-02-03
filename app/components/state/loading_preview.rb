@@ -8,7 +8,7 @@ module State
     end
 
     # @param text text
-    def with_text(text: 'Filtering courses...')
+    def with_text(text: 'Filtering courses')
       render State::Loading.new(text)
     end
   end

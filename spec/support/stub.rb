@@ -108,8 +108,6 @@ module StubAnonymousSession
   extend ActiveSupport::Concern
 
   included do
-    before { Stub.service(:account, build(:'account:root')) }
-
     let(:anonymous_session) do
       {
         id: nil,

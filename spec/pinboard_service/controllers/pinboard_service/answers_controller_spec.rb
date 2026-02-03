@@ -331,7 +331,6 @@ describe PinboardService::AnswersController, type: :controller do
     let(:answer) { attributes_for(:'pinboard_service/answer', question_id: question.id) }
 
     before do
-      Stub.service(:course, build(:'course:root'))
       Stub.request(
         :course, :get, "/courses/#{question.course_id}"
       ).to_return Stub.json({

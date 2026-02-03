@@ -14,7 +14,6 @@ describe 'Course: Certificates: Render', type: :request do
   before do
     stub_user_request id: user.id
 
-    Stub.service(:course, build(:'course:root'))
     Stub.request(:course, :get, "/courses/#{course.id}")
       .to_return Stub.json(course_resource)
 

@@ -91,7 +91,6 @@ RSpec.describe 'Topics: Create', type: :request do
     let(:section_id) { generate(:section_id) }
 
     before do
-      Stub.service(:course, build(:'course:root'))
       Stub.request(
         :course, :get, "/items/#{item_id}"
       ).to_return Stub.json({
@@ -127,7 +126,6 @@ RSpec.describe 'Topics: Create', type: :request do
     let(:section_id) { generate(:section_id) }
 
     before do
-      Stub.service(:course, build(:'course:root'))
       Stub.request(
         :course, :get, "/items/#{item_id}"
       ).to_return Stub.json({

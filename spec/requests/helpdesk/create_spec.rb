@@ -126,7 +126,6 @@ RSpec.describe 'Helpdesk: Create', type: :request do
 
     context 'with invisible reCAPTCHA verification failure (v3)' do
       before do
-        Stub.service(:course, build(:'course:root'))
         Stub.request(
           :course, :get, '/courses',
           query: hash_including(public: 'true', hidden: 'false')
@@ -137,7 +136,7 @@ RSpec.describe 'Helpdesk: Create', type: :request do
 
       it 'prevents creating a ticket and re-renders the page with a checkbox reCAPTCHA (v2)' do
         expect { send_helpdesk }.not_to change(Helpdesk::Ticket, :count)
-        expect(response).to have_http_status :ok
+        expect(response).to have_http_status :unprocessable_entity
         expect(page).to have_content "Confirm you're human by checking the box below."
       end
 

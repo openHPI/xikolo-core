@@ -2,25 +2,6 @@
     $Loading-Indicators
 \*------------------------------------*/
 
-.loading-placeholder {
-  padding: 10px;
-  color: $gray;
-  font-size: 1.7em;
-  font-weight: bold;
-  text-align: center;
-
-  &__text {
-    padding: $spacing-steps;
-    color: $gray;
-    font-weight: normal;
-  }
-
-  .spinner > div {
-    // Apply a lighter color to the bubbles, to better fit the text.
-    background-color: $gray;
-  }
-}
-
 .spinner {
   display: none;
   width: 0;

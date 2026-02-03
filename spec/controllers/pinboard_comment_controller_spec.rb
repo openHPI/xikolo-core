@@ -13,9 +13,6 @@ describe PinboardCommentController, type: :controller do
   let(:comment_id) { SecureRandom.uuid }
 
   before do
-    Stub.service(:course, build(:'course:root'))
-    Stub.service(:pinboard, build(:'pinboard:root'))
-
     Stub.request(
       :course, :get, "/courses/#{course_id}"
     ).to_return Stub.json({

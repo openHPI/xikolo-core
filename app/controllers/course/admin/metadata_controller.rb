@@ -28,7 +28,7 @@ class Course::Admin::MetadataController < Abstract::FrontendController
         end
 
         add_flash_message :error, t(:'flash.error.course_metadata_not_updated')
-        render action: :edit
+        render action: :edit, status: :unprocessable_entity
       end
     end
   end

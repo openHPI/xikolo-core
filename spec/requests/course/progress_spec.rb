@@ -18,7 +18,6 @@ describe 'Course: Progress', type: :request do
   let(:progresses) { build(:'course:progresses') }
 
   before do
-    Stub.service(:course, build(:'course:root'))
     Stub.request(:course, :get, "/courses/#{course.course_code}")
       .and_return Stub.json(course_resource)
   end

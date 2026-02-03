@@ -12,7 +12,6 @@ describe 'Certificate::OpenBadge: Single Table Inheritance', type: :model do
   let(:template) { create(:open_badge_template, course:) }
 
   before do
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, '/enrollments',
       query: hash_including({user_id: user.id, course_id: course.id})

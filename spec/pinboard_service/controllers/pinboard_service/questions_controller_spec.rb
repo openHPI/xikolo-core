@@ -599,8 +599,6 @@ describe PinboardService::QuestionsController, type: :controller do
     subject(:creation) { post :create, params: }
 
     before do
-      Stub.service(:notification, build(:'notification:root'))
-      Stub.service(:course, build(:'course:root'))
       Stub.request(
         :course, :get, "/courses/#{params[:course_id]}"
       ).to_return Stub.json({
@@ -610,7 +608,6 @@ describe PinboardService::QuestionsController, type: :controller do
         forum_is_locked: false,
       })
 
-      Stub.service(:account, build(:'account:root'))
       Stub.request(
         :account, :get, "/users/#{question_params[:user_id]}"
       ).to_return Stub.json({

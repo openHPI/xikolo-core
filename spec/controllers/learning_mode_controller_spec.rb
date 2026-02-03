@@ -8,9 +8,6 @@ describe LearningModeController, type: :controller do
   let(:features) { {} }
 
   before do
-    Stub.service(:account, build(:'account:root'))
-    Stub.service(:course, build(:'course:root'))
-
     Stub.request(
       :course, :get, "/courses/#{course_id}"
     ).to_return Stub.json({

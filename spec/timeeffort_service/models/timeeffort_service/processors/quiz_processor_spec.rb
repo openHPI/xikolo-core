@@ -54,8 +54,6 @@ RSpec.describe TimeeffortService::Processors::QuizProcessor, type: :model do
     end
 
     before do
-      Stub.service(:course, build(:'course:root'))
-      Stub.service(:quiz, build(:'quiz:root'))
       course_item_stub
       quiz_stub
       questions_stub

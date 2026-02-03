@@ -17,9 +17,6 @@ describe 'Course: Pinboard: List', type: :request do
   let(:question_params) { {} }
 
   before do
-    Stub.service(:course, build(:'course:root'))
-    Stub.service(:pinboard, build(:'pinboard:root'))
-
     Stub.request(:course, :get, "/courses/#{course.course_code}")
       .to_return Stub.json(course_resource)
     Stub.request(:course, :get, '/next_dates', query: hash_including({}))

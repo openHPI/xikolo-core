@@ -13,7 +13,6 @@ RSpec.describe 'Course: Assertion', type: :request do
   let(:response_body) { JSON.parse(assertion_response.body) }
 
   before do
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, '/enrollments',
       query: {user_id: user.id, course_id: course.id, deleted: true, learning_evaluation: true}

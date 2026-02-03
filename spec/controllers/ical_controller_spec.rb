@@ -28,7 +28,6 @@ describe IcalController, type: :controller do
       :account, :get, "/users/#{user_id}"
     ).to_return Stub.json(user)
 
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, '/next_dates',
       query: {user_id:}

@@ -29,3 +29,13 @@ RUN <<-EOF
   curl -fL --output chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
   apt-get install --yes --no-install-recommends ./chrome.deb
 EOF
+
+# ---- add non-root user for chrome test execution ----
+RUN groupadd --gid 1000 app \
+  && useradd --uid 1000 --gid app --create-home --shell /bin/bash app \
+  && mkdir -p /home/app/.cache /home/app/.config \
+  && chown -R app:app /home/app
+
+ENV HOME=/home/app
+
+USER app

@@ -78,8 +78,6 @@ describe NotificationService::AdminStatistic, type: :model do
       query: {name: 'certificates'}
     )
 
-    Stub.service(:course, build(:'course:root'))
-
     Stub.request(
       :course, :get, '/courses',
       query: {groups: 'any'}
@@ -138,16 +136,12 @@ describe NotificationService::AdminStatistic, type: :model do
       student_enrollments_by_day: {DateTime.now.iso8601 => 199},
     })
 
-    Stub.service(:pinboard, build(:'pinboard:root'))
-
     Stub.request(
       :pinboard, :get, '/statistics'
     ).to_return Stub.json({
       questions: 500,
       questions_last_day: 50,
     })
-
-    Stub.service(:account, build(:'account:root'))
 
     Stub.request(
       :account, :get, '/statistics'

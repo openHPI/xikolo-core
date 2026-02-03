@@ -15,9 +15,9 @@ class HelpdeskController < Abstract::FrontendController
       @ticket = Helpdesk::TicketForm.new(ticket_params).tap { annotate_with_metadata it }
 
       if helpdesk_layout
-        return render action: :show
+        return render action: :show, status: :unprocessable_entity
       else
-        return render plain: 'checkbox_recaptcha'
+        return render plain: 'checkbox_recaptcha', status: :unprocessable_entity
       end
     end
 

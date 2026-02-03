@@ -35,7 +35,7 @@ class Course::Admin::CertificateTemplatesController < Abstract::FrontendControll
     else
       add_flash_message :error, t(:'flash.error.certificate_template_not_created')
       @file_upload = FileUpload.new purpose: :certificate_template, content_type: 'application/pdf'
-      render action: :new
+      render action: :new, status: :unprocessable_entity
     end
   end
 
@@ -50,7 +50,7 @@ class Course::Admin::CertificateTemplatesController < Abstract::FrontendControll
     else
       add_flash_message :error, t(:'flash.error.certificate_template_not_updated')
       @file_upload = FileUpload.new purpose: :certificate_template, content_type: 'application/pdf'
-      render action: :edit
+      render action: :edit, status: :unprocessable_entity
     end
   end
 

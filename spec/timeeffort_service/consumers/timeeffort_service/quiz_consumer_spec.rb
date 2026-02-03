@@ -61,10 +61,6 @@ RSpec.describe TimeeffortService::QuizConsumer, type: :consumer do
 
     let(:payload) { {question_id:} }
 
-    before do
-      Stub.service(:quiz, build(:'quiz:root'))
-    end
-
     context 'w/ existing question' do
       before do
         Stub.request(:quiz, :get, "/questions/#{question_id}")

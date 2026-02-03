@@ -7,7 +7,6 @@ describe QuizSubmissionSnapshotController, type: :controller do
     subject(:action) { post :create, params: }
 
     before do
-      Stub.service :quiz, build(:'quiz:root')
       Stub.request(
         :quiz, :post, '/quiz_submission_snapshots'
       ).to_return snapshot_stub

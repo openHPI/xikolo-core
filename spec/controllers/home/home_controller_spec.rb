@@ -8,7 +8,6 @@ describe Home::HomeController, type: :controller do
 
     context 'with news available' do
       before do
-        Stub.service(:news, build(:'news:root'))
         Stub.request(:news, :get, '/news', query: {
           global: true,
           language: 'en',

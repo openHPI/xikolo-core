@@ -9,10 +9,6 @@ RSpec.describe 'Notifications: UserDisables: Show', type: :request do
     get '/notification_user_settings/disable', params:
   end
 
-  before do
-    Stub.service(:account, build(:'account:root'))
-  end
-
   context 'without the required params' do
     let(:params) { {} }
 

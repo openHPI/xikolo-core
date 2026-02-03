@@ -35,10 +35,6 @@ RSpec.describe TimeeffortService::ItemConsumer, type: :consumer do
     let(:msgr_route) { 'xikolo.course.item.create' }
     let(:time_effort_job) { instance_double(TimeeffortService::TimeEffortJob) }
 
-    before do
-      Stub.service(:course, build(:'course:root'))
-    end
-
     context 'w/ course item existing' do
       let!(:course_item_stub) do
         Stub.request(:course, :get, "/items/#{course_item_id}")

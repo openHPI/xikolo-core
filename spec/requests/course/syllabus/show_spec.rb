@@ -32,8 +32,6 @@ RSpec.describe 'Course: Syllabus: Show', type: :request do
   let(:headers) { {} }
 
   before do
-    Stub.service(:course, build(:'course:root'))
-
     Stub.request(:course, :get, '/courses/my-course')
       .to_return Stub.json(course)
 

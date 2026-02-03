@@ -13,7 +13,6 @@ describe NewsService::FilterByConsents, type: :model do
     let(:user_groups) { [] }
 
     before do
-      Stub.service(:account, build(:'account:root'))
       Stub.request(:account, :get, '/users/the_id')
         .to_return Stub.json({
           id: 'the_id',
@@ -54,7 +53,6 @@ describe NewsService::FilterByConsents, type: :model do
     let(:recipient) { NewsService::Recipient::Group.new 'the.id', message }
 
     before do
-      Stub.service(:account, build(:'account:root'))
       Stub.request(:account, :get, '/groups/the.id')
         .to_return Stub.json({members_url: '/account_service/groups/the.id/members'})
 

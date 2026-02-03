@@ -10,8 +10,6 @@ describe CourseService::CourseDecorator do
   before do
     create(:'course_service/cluster', id: 'category')
     create(:'course_service/cluster', id: 'zzz')
-
-    Stub.service(:account, build(:'account:root'))
   end
 
   context '(version 1)' do

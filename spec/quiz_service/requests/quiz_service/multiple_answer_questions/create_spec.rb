@@ -11,7 +11,6 @@ RSpec.describe 'Multiple Answer Questions: Create', type: :request do
   let(:quiz) { create(:'quiz_service/quiz') }
 
   before do
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, '/items',
       query: {content_id: payload[:quiz_id]}

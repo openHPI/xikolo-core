@@ -21,7 +21,6 @@ describe 'Chatbot Bridge API: My Courses', type: :request do
   end
 
   before do
-    Stub.service(:course, build(:'course:root'))
     stub_courses
     request
   end

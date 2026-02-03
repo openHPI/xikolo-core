@@ -25,8 +25,6 @@ describe 'Admin: Announcement: Create Email', type: :system do
 
   before do
     stub_user id: user_id, permissions: %w[news.announcement.create news.announcement.send], features: {'admin_announcements' => 'true'}
-    Stub.service(:course, build(:'course:root'))
-    Stub.service(:news, build(:'news:root'))
 
     Stub.request(:account, :get, "/users/#{user_id}")
       .to_return Stub.json(user)

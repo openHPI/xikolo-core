@@ -32,7 +32,7 @@ class Course::Admin::OffersController < Abstract::FrontendController
       redirect_to course_offers_path
     else
       add_flash_message :error, t(:'flash.error.offer_not_created')
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -49,7 +49,7 @@ class Course::Admin::OffersController < Abstract::FrontendController
       redirect_to course_offers_path
     else
       add_flash_message :error, t(:'flash.error.offer_not_updated')
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 

@@ -19,7 +19,6 @@ describe Proctoring::CourseContext do
     let(:items) { [] }
 
     before do
-      Stub.service(:course, build(:'course:root'))
       Stub.request(
         :course, :get, '/items',
         query: {course_id: course.id,

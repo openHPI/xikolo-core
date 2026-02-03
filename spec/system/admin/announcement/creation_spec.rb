@@ -10,7 +10,6 @@ describe 'Admin: Create Announcement', type: :system do
     stub_user id: user_id,
       permissions: %w[news.announcement.create],
       features: {'admin_announcements' => 'true'}
-    Stub.service(:news, build(:'news:root'))
 
     Stub.request(:account, :get, "/users/#{user_id}")
       .to_return Stub.json(user)

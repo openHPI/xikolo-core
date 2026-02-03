@@ -5,10 +5,6 @@ require 'spec_helper'
 describe FeedsController, type: :controller do
   let(:json) { response.parsed_body }
 
-  before do
-    Stub.service(:course, build(:'course:root'))
-  end
-
   describe '#index' do
     subject(:index) { get :index }
 

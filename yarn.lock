@@ -2616,14 +2616,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@openhpi/xikolo-video-player@npm:^3.0.1":
-  version: 3.0.1
-  resolution: "@openhpi/xikolo-video-player@npm:3.0.1"
+"@openhpi/xikolo-video-player@npm:^3.1.1":
+  version: 3.1.1
+  resolution: "@openhpi/xikolo-video-player@npm:3.1.1"
   dependencies:
     "@playkit-js/ovp-provider": "npm:^1.1.0"
     "@playkit-js/playkit-js": "npm:^0.84.35"
     "@vimeo/player": "npm:2.27.1"
-  checksum: 10/c433755a14c06a66702b4f54d54b52c9ef71ed84ba07810bda014e041f513a3aa1b19af2dfc6731cec94f3d8b5bdea00baefbb541956179bb8fb1a607ded4a76
+  checksum: 10/a944804ae5f64f6dbf501af97ae5a254f14888df328ecdcaf64c7abc959e3f60c7019cc848a785807913206611d096482586cf090a8744dd3842016e9384d2ab
   languageName: node
   linkType: hard
 
@@ -5350,6 +5350,13 @@ __metadata:
   version: 3.5.17
   resolution: "d3@npm:3.5.17"
   checksum: 10/b1a6890f95276603a52afacf806c2c16a439b2538c0f71f7b6245b61c48f8f5cc1462ed0362b655b74c9a319a7008d955d452f268c3ed3edefe1e81d9deeb22f
+  languageName: node
+  linkType: hard
+
+"daisyui@npm:^5.5.14":
+  version: 5.5.14
+  resolution: "daisyui@npm:5.5.14"
+  checksum: 10/932cffac105bc0da55f27bd79b8acca55fc6619ee079592ccab3f95ce1224300057b56c0eef5ced4d36ee757c4d3432534cb36593d97fd1d796abea714ef1766
   languageName: node
   linkType: hard
 
@@ -10616,7 +10623,7 @@ __metadata:
     "@hotwired/stimulus": "npm:^3.2.2"
     "@hotwired/turbo-rails": "npm:^8.0.20"
     "@openhpi/quiz-recap": "npm:^2.0.2"
-    "@openhpi/xikolo-video-player": "npm:^3.0.1"
+    "@openhpi/xikolo-video-player": "npm:^3.1.1"
     "@rails/ujs": "npm:7.1.3-4"
     "@sentry/browser": "npm:^10.28.0"
     "@stoplight/cli": "npm:^6.0.2354"
@@ -10638,6 +10645,7 @@ __metadata:
     css-loader: "npm:^7.1.2"
     cssnano: "npm:^7.0.4"
     d3: "npm:^3.5.17"
+    daisyui: "npm:^5.5.14"
     dropzone: "npm:^5.5.0"
     editorconfig-checker: "npm:^6.0.0"
     eslint: "npm:^9.17.0"

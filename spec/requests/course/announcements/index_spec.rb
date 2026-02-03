@@ -17,14 +17,10 @@ describe 'Course: Announcements: Index', type: :request do
   let(:course) { build(:'course:course') }
 
   before do
-    Stub.service(:account, build(:'account:root'))
-
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, '/courses/my-course'
     ).to_return Stub.json(course)
 
-    Stub.service(:news, build(:'news:root'))
     announcements_stub
   end
 

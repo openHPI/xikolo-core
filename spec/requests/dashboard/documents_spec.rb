@@ -15,7 +15,6 @@ describe 'Dashboard: Documents: Index', type: :request do
   before do
     stub_user_request(id: user_id, features:)
 
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, '/enrollments',
       query: {user_id:, learning_evaluation: true, deleted: true}

@@ -66,7 +66,6 @@ describe Pinboard::Topic, type: :component do
     end
 
     before do
-      Stub.service(:course, build(:'course:root'))
       Stub.request(:course, :get,
         "/sections/#{section['id']}").to_return Stub.json(section)
     end

@@ -19,7 +19,6 @@ describe 'Admin: Ajax: Classifiers: Index', type: :request do
     stub_user_request id: user.id
     stub_user_request(permissions:)
 
-    Stub.service(:account, build(:'account:root'))
     Stub.request(:account, :get, '/sessions/')
       .and_return Stub.json(build(:'account:session', user_id: user.id))
   end

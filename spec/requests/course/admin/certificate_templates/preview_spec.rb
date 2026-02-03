@@ -14,7 +14,6 @@ describe 'Course: Admin: Certificate Templates: Preview', type: :request do
   before do
     stub_user_request(id: user.id, permissions:)
 
-    Stub.service(:course, build(:'course:root'))
     Stub.request(:course, :get, "/courses/#{course.id}")
       .to_return Stub.json(build(:'course:course', id: course.id))
 

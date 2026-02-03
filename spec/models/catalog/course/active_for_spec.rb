@@ -98,7 +98,6 @@ describe Catalog::Course, '.active_for', type: :model do
       end_date: 1.month.from_now)
 
     # The following stubs are needed to remove already completed courses.
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, '/enrollments',
       query: hash_including(user_id:, learning_evaluation: 'true')

@@ -43,7 +43,6 @@ describe NewsService::News, type: :model do
         # do not show up in the various responses.
         create(:'news_service/news')
 
-        Stub.service(:account, build(:'account:root'))
         Stub.request(:account, :get, '/groups', query: hash_including(user: user_id))
           .to_return user_groups_response
         Stub.request(:account, :get, "/users/#{user_id}")

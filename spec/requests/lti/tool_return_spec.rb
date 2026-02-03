@@ -20,7 +20,6 @@ RSpec.describe 'LTI: ToolReturn', type: :request do
   let(:query) { {} }
 
   before do
-    Stub.service(:course, build(:'course:root'))
     Stub.request(:course, :get, "/courses/#{course.course_code}")
       .to_return Stub.json(course_resource)
     Stub.request(

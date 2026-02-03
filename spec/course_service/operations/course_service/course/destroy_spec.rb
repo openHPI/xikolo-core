@@ -31,10 +31,6 @@ describe CourseService::Course::Destroy, type: :operation do
     end
   end
 
-  before do
-    Stub.service(:account, build(:'account:root'))
-  end
-
   it 'soft-deletes the course' do
     expect { action }.to change(course, :deleted).from(false).to(true)
   end

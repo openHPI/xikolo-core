@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'Account Password Reset Email', type: :feature do
+describe 'Account Password Reset Email', type: :request do
   before do
     Msgr.client.start
     Stub.request(

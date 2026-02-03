@@ -21,7 +21,6 @@ describe 'Chatbot Bridge API: Courses: Create', type: :request do
   end
 
   before do
-    Stub.service(:course, build(:'course:root'))
     Stub.request(:course, :get, "/courses/#{params[:id]}").to_return Stub.json(course)
     stub_enrollment
     request

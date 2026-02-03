@@ -96,7 +96,6 @@ describe Course::LayoutPresenter do
     let(:dates) { [{}] }
 
     before do
-      Stub.service(:course, build(:'course:root'))
       Stub.request(
         :course, :get, '/next_dates',
         query: {

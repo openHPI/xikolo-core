@@ -162,8 +162,6 @@ describe QuizService::QuizSubmissionsController, type: :controller do
     subject(:modification) { action_proc }
 
     before do
-      Stub.service(:course, build(:'course:root'))
-
       create(:'quiz_service/multiple_answer_question',
         id: '00000000-0000-4444-9999-000000000001',
         quiz:,

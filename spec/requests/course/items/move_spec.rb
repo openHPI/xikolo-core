@@ -13,7 +13,6 @@ describe 'Course: Items: Move', type: :request do
 
   before do
     stub_user_request(id: user_id, permissions:)
-    Stub.service(:course, build(:'course:root'))
     Stub.request(:course, :get, '/enrollments', query: {course_id: course.id, user_id:})
       .to_return Stub.json([])
     Stub.request(:course, :get, '/next_dates', query: hash_including(course_id: course.id))

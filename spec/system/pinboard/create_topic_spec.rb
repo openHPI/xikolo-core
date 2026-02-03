@@ -5,8 +5,6 @@ require 'spec_helper'
 describe 'Pinboard: Create Topic', type: :system do
   before do
     stub_user permissions: user_permissions, id: user['id']
-    Stub.service(:course, build(:'course:root'))
-    Stub.service(:pinboard, build(:'pinboard:root'))
 
     Stub.request(:account, :get, "/users/#{user['id']}")
       .and_return Stub.json(user)

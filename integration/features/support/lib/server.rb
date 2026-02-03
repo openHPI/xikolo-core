@@ -12,8 +12,59 @@ require 'aws-sdk-s3'
 
 ChildProcess.posix_spawn = true
 
+module ServiceEndpoint
+  attr_reader :id, :roles
+
+  def url(path = '/')
+    raise NotImplementedError
+  end
+
+  def api
+    options = {}
+    options[:headers] = {
+      'Authorization' => "Bearer #{ENV.fetch('XIKOLO_WEB_API', 'supersecrettoken')}",
+    }
+
+    @api ||= Restify.new(url, **options).get.value!
+  end
+end
+
+class EngineServer
+  include ServiceEndpoint
+
+  attr_reader :id, :roles, :mount_path
+
+  def initialize(id, target:, mount_path:)
+    @id         = id
+    @target_id  = target
+    @mount_path = mount_path
+  end
+
+  def target
+    Server[@target_id]
+  end
+
+  def address
+    target.address
+  end
+
+  def port
+    target.port
+  end
+
+  def available?
+    target.available?
+  end
+
+  def url(path = '/')
+    path = "/#{path}" unless path.start_with?('/')
+    "http://#{address}:#{port}/#{mount_path}#{path}"
+  end
+end
+
 class Server < MultiProcess::Process
   include MultiProcess::Process::Rails
+  include ServiceEndpoint
 
   attr_reader :id, :roles, :repo, :address
 
@@ -42,7 +93,7 @@ class Server < MultiProcess::Process
   def server_command
     cmd = %w[ruby]
     cmd << '-S' << 'bundle' << 'exec' << 'puma'
-    cmd << '--workers' << '0' << '--threads' << '3'
+    cmd << '--workers' << '5' << '--threads' << '3'
     cmd << '--bind' << "tcp://#{address}:#{port}"
     cmd
   end
@@ -136,13 +187,34 @@ class Server < MultiProcess::Process
       return if (required_roles - opts[:roles]).any?
 
       server = Server.new(*args, opts.merge(port: next_port))
+
+      register(server)
+
       delayed_group << DelayedProcess.new(*args, opts) if server.roles.include? :delayed
       sidekiq_group << SidekiqProcess.new(*args, opts) if server.roles.include? :sidekiq
       group << server
     end
 
+    def add_engine(id, mount_path:, target: :web)
+      server = EngineServer.new(
+        id,
+        mount_path: mount_path,
+        target: target
+      )
+
+      register(server)
+    end
+
+    def registry
+      @registry ||= {}
+    end
+
+    def register(server)
+      registry[server.id] = server
+    end
+
     def [](key)
-      group.processes.find {|srv| srv.id == key }
+      registry[key]
     end
 
     def next_port
@@ -150,13 +222,17 @@ class Server < MultiProcess::Process
       @next_port += 1
     end
 
+    def all_services
+      registry.values.grep(EngineServer)
+    end
+
     def list(*roles)
-      if roles.empty?
-        group.processes
-      else
-        group.processes.select do |app|
-          roles.all? {|role| app.roles.include? role }
-        end
+      servers = registry.values.grep(Server)
+
+      return servers if roles.empty?
+
+      servers.select do |srv|
+        roles.all? {|role| srv.roles.include?(role) }
       end
     end
 
@@ -218,7 +294,7 @@ class Server < MultiProcess::Process
 
     def config_services
       # A few services need special setup for integration tests
-      %i[web account]
+      %i[web]
         .filter_map {|type| Server[type] }
         .each do |app|
           FileUtils.ln_s Gurke.root.join("support/lib/initializers/integration_#{app.id}.rb"),

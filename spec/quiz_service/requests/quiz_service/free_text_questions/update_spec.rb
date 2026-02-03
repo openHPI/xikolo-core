@@ -18,7 +18,6 @@ RSpec.describe 'Free Text Questions: Update', type: :request do
   end
 
   before do
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, '/items',
       query: {content_id: question.quiz_id}

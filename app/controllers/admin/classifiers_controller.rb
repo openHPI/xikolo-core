@@ -21,7 +21,7 @@ class Admin::ClassifiersController < Admin::BaseController
       redirect_to admin_cluster_path(@cluster)
     else
       add_flash_message :error, t(:'flash.error.classifier_not_created')
-      render(action: :new)
+      render(action: :new, status: :unprocessable_entity)
     end
   end
 
@@ -34,7 +34,7 @@ class Admin::ClassifiersController < Admin::BaseController
       # Set the cluster to re-render the form properly.
       @cluster = @classifier.cluster
       add_flash_message :error, t(:'flash.error.classifier_not_updated')
-      render(action: :edit)
+      render(action: :edit, status: :unprocessable_entity)
     end
   end
 

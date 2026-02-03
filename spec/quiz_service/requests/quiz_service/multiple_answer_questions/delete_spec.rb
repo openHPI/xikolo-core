@@ -19,7 +19,6 @@ RSpec.describe 'Multiple Answer Questions: Delete', type: :request do
   end
 
   before do
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, '/items',
       query: {content_id: question.quiz_id}

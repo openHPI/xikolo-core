@@ -53,7 +53,7 @@ class Admin::CoursesController < Admin::BaseController
 
     # rerender creation form
     @course = Admin::CourseEditPresenter.for_creation form:, user: current_user
-    render action: :new
+    render action: :new, status: :unprocessable_entity
   end
 
   def update
@@ -83,7 +83,7 @@ class Admin::CoursesController < Admin::BaseController
     @course = Admin::CourseEditPresenter.for_course id: params[:id], form:, user: current_user
     Acfs.run
 
-    render action: :edit
+    render action: :edit, status: :unprocessable_entity
   end
 
   def clone

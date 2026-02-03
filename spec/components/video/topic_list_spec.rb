@@ -21,8 +21,6 @@ describe Video::TopicList, type: :component do
     }
   end
 
-  before { Stub.service(:pinboard, build(:'pinboard:root')) }
-
   context 'with no topics available' do
     before do
       Stub.request(

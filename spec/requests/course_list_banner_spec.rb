@@ -11,7 +11,6 @@ describe 'Courses: Course list banner', type: :request do
   before do
     stub_user_request features: {'course_list' => 'true'}
 
-    Stub.service(:course, build(:'course:root'))
     Stub.request(:course, :get, '/courses/')
       .to_return Stub.json([])
     Stub.request(

@@ -54,7 +54,6 @@ describe CourseService::Course::Create, type: :operation do
 
   before do
     Xikolo.config.course_groups = course_groups
-    Stub.service(:account, build(:'account:root'))
     context_stub
     students_group_stub
     course_visitor_stub

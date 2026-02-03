@@ -11,8 +11,6 @@ describe QuizService::AttemptsHandler, type: :handler do
   let(:section_id) { SecureRandom.uuid }
 
   before do
-    Stub.service(:course, build(:'course:root'))
-
     Stub.request(
       :course, :get, '/sections',
       query: {course_id:}

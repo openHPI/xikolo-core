@@ -20,7 +20,6 @@ describe 'Course: Featured items', type: :request do
   before do
     stub_user_request id: user_id, permissions: %w[course.course.show]
 
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, '/courses/the-course'
     ).to_return Stub.json(course_resource)

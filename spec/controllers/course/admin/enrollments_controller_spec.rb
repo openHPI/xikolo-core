@@ -10,7 +10,6 @@ describe Course::Admin::EnrollmentsController, type: :controller do
   before do
     stub_user(permissions:)
 
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, "/courses/#{course['id']}"
     ).to_return Stub.json(course)

@@ -34,7 +34,6 @@ describe Certificate::Record, type: :model do
   end
 
   before do
-    Stub.service(:course, build(:'course:root'))
     enrollment_stub
   end
 

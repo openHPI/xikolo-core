@@ -26,7 +26,7 @@ class Admin::ClustersController < Admin::BaseController
       redirect_to admin_clusters_path
     else
       add_flash_message :error, t(:'flash.error.cluster_not_updated')
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 

@@ -27,7 +27,6 @@ RSpec.describe 'Lanalytics Bridge API: Courses: Open Badge Stats: Show', type: :
 
   context 'for a course with Open Badges' do
     before do
-      Stub.service(:course, build(:'course:root'))
       Stub.request(
         :course, :get, '/enrollments',
         query: hash_including(deleted: 'true', learning_evaluation: 'true')

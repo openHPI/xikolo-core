@@ -15,7 +15,6 @@ describe 'APIv2: Show root features', type: :request do
   let(:features) { {'feature_1' => 't', 'feature_2' => 't'} }
 
   before do
-    Stub.service(:account, build(:'account:root'))
     Stub.request(:account, :get, "/users/#{user_id}")
       .and_return Stub.json build(:'account:user', id: user_id)
     Stub.request(:account, :get, "/users/#{user_id}/features")

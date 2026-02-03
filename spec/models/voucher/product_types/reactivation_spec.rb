@@ -12,8 +12,6 @@ describe Voucher::ProductTypes::Reactivation do
     subject(:claim) { reactivation.claim! }
 
     before do
-      Stub.service(:course, build(:'course:root'))
-
       Stub.request(
         :course, :post, '/enrollments',
         body: {course_id: course.id, user_id: user.id}

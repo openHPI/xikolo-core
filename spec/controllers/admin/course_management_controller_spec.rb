@@ -17,9 +17,6 @@ describe Admin::CourseManagementController, type: :controller do
   before do
     user
 
-    Stub.service(:account, build(:'account:root'))
-
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, '/courses'
     ).to_return Stub.json([])
@@ -39,7 +36,6 @@ describe Admin::CourseManagementController, type: :controller do
       user_id: enroll_user_id,
     })
 
-    Stub.service(:quiz, build(:'quiz:root'))
     Stub.request(
       :quiz, :get, "/quiz_submissions/#{submission_id}"
     ).to_return Stub.json({

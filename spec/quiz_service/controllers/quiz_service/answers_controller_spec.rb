@@ -151,9 +151,10 @@ describe QuizService::AnswersController, type: :controller do
         params = {version_at: DateTime.new(2009, 9, 1, 12, 0, 0).to_s}
         get(:index, params:)
         expect(json).to have(3).items
-        expect(json[0]['correct']).to be true
-        expect(json[1]['correct']).to be true
-        expect(json[2]['correct']).to be false
+        # Assert by id (index order is not guaranteed)
+        expect(json.find {|a| a['id'] == answer1.id }['correct']).to be true
+        expect(json.find {|a| a['id'] == answer2.id }['correct']).to be true
+        expect(json.find {|a| a['id'] == answer3.id }['correct']).to be false
       end
 
       it 'index action should return list of correct answers' do

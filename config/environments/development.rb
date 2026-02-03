@@ -70,7 +70,6 @@ Rails.application.configure do
   config.active_job.verbose_enqueue_logs = true
 
   # Solid Queue
-  config.active_job.queue_adapter = :solid_queue
   config.solid_queue.connects_to = {database: {writing: :queue}}
 
   # Suppress logger output for asset requests.

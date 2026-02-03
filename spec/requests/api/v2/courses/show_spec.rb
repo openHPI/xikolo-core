@@ -9,10 +9,6 @@ describe 'APIv2: Show course', type: :request do
 
   let(:headers) { {} }
 
-  before do
-    Stub.service(:course, build(:'course:root'))
-  end
-
   context 'with non-existent course' do
     before do
       Stub.request(

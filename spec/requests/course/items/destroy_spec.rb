@@ -18,7 +18,6 @@ describe 'Course: Items: Destroy', type: :request do
   let(:permissions) { {} }
 
   before do
-    Stub.service(:course, build(:'course:root'))
     Stub.request(:course, :get, "/courses/#{course.course_code}")
       .to_return Stub.json(course_resource)
   end
@@ -144,7 +143,6 @@ describe 'Course: Items: Destroy', type: :request do
         end
 
         before do
-          Stub.service(:quiz, build(:'quiz:root'))
           Stub.request(:quiz, :get, "/quizzes/#{quiz_resource['id']}")
             .to_return Stub.json(quiz_resource)
           content_delete_stub

@@ -9,14 +9,10 @@ RSpec.describe 'CourseSubscriptions', type: :request do
   let(:headers) { {Authorization: "Xikolo-Session session_id=#{stub_session_id}"} }
 
   before do
-    Stub.service(:account, build(:'account:root'))
     stub_user_request id: user_id
 
-    Stub.service(:course, build(:'course:root'))
     Stub.request(:course, :get, "/courses/#{course_id}")
       .to_return Stub.json({id: course_id, course_code: 'test'})
-
-    Stub.service(:pinboard, build(:'pinboard:root'))
   end
 
   describe 'POST /course_subscriptions' do

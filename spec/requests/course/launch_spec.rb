@@ -11,9 +11,6 @@ describe 'Course: Launch', type: :request do
   let(:course) { build(:'course:course', course_code:, title: 'The course') }
 
   before do
-    Stub.service(:account, build(:'account:root'))
-
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, "/courses/#{course_code}"
     ).to_return Stub.json(course)

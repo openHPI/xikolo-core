@@ -22,10 +22,6 @@ describe Middleware::NewsTracker do
     end
 
     context 'with tracking parameters' do
-      before do
-        Stub.service(:news, build(:'news:root'))
-      end
-
       let!(:mark_announcement_as_read) do
         Stub.request(
           :news, :post, '/visits',

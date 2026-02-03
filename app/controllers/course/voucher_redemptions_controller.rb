@@ -40,7 +40,7 @@ module Course
             ),
             course:,
             product: product_type,
-          }
+          }, status: :unprocessable_entity
         end
       end
     end

@@ -11,10 +11,6 @@ describe Account::PasswordResetsController, type: :controller do
     })
   end
 
-  before do
-    Stub.service(:account, build(:'account:root'))
-  end
-
   describe '#create' do
     subject(:action) { -> { post :create, params: } }
 

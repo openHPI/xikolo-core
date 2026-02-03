@@ -8,7 +8,6 @@ describe NewsService::Recipient::Group, type: :model do
   let(:message) { create(:'news_service/message') }
 
   before do
-    Stub.service(:account, build(:'account:root'))
     Stub.request(:account, :get, '/groups/the.id')
       .to_return Stub.json({members_url: '/account_service/groups/the.id/members'})
 

@@ -23,7 +23,6 @@ describe 'Transpipe API: Show course', type: :request do
   end
 
   before do
-    Stub.service(:course, build(:'course:root'))
     Stub.request(:course, :get, "/courses/#{course_id}")
       .to_return Stub.json(course)
     Stub.request(:course, :get, '/sections', query: {course_id:})

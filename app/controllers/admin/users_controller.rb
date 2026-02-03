@@ -39,14 +39,14 @@ class Admin::UsersController < Abstract::FrontendController
 
     @user = Admin::UserForm.from_params params
 
-    return render(action: :new) unless @user.valid?
+    return render(action: :new, status: :unprocessable_entity) unless @user.valid?
 
     user = account_api.rel(:user).post(@user.to_resource).value!
 
     redirect_to user_path user['id']
   rescue Restify::UnprocessableEntity => e
     @user.remote_errors e.errors
-    render action: :new
+    render action: :new, status: :unprocessable_entity
   end
 
   private

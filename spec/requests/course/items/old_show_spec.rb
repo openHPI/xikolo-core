@@ -28,9 +28,6 @@ describe 'Course: Items: Show', type: :request do
   let(:published) { true }
 
   before do
-    Stub.service(:quiz, build(:'quiz:root'))
-    Stub.service(:course, build(:'course:root'))
-
     Stub.request(:course, :get, '/courses/example')
       .to_return Stub.json(course_resource)
     Stub.request(

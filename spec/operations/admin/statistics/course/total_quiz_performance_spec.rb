@@ -4,9 +4,6 @@ require 'spec_helper'
 
 describe Admin::Statistics::Course::TotalQuizPerformance do
   before do
-    Stub.service(:course, build(:'course:root'))
-    Stub.service(:quiz, build(:'quiz:root'))
-
     quiz1 = build(:'course:item', :quiz, content_id: 'quiz-1', exercise_type: 'main')
     quiz2 = build(:'course:item', :quiz, content_id: 'quiz-2', exercise_type: 'bonus')
 

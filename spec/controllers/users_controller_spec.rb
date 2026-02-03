@@ -6,11 +6,8 @@ describe UsersController, type: :controller do
   let!(:user_id) { '00000001-3100-4444-9999-000000000003' }
 
   before do
-    Stub.service(:account, build(:'account:root'))
     Stub.request(:account, :get, "/users/#{user_id}")
       .to_return Stub.json({id: user_id})
-
-    Stub.service(:course, build(:'course:root'))
   end
 
   describe '#show' do

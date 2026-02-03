@@ -21,7 +21,6 @@ RSpec.describe 'Admin: Bans: Create', type: :request do
 
   before do
     stub_user_request permissions:, id: admin['id']
-    Stub.service(:account, build(:'account:root'))
 
     ban_stub
   end

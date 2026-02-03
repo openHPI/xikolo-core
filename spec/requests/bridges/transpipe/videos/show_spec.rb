@@ -13,7 +13,6 @@ describe 'Transpipe API: Show course video', type: :request do
   let(:section) { create(:section) }
 
   before do
-    Stub.service(:course, build(:'course:root'))
     Stub.request(:course, :get, '/items', query: {content_id: video_id})
       .to_return Stub.json([item_resource])
     create(:video_subtitle, video: item.content)

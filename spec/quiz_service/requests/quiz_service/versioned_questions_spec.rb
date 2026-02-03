@@ -8,7 +8,6 @@ RSpec.describe 'Versioned Questions', :versioning, type: :request do
   let(:question) { create(:'quiz_service/multiple_choice_question', points: 3) }
 
   before do
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, '/items',
       query: {content_id: question.quiz_id}

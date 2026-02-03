@@ -14,7 +14,6 @@ describe 'OpenHPI: Daily Statistic Mail' do
     Msgr.client.start
 
     # Account service stubs
-    Stub.service(:account, build(:'account:root'))
     Stub.request(
       :account, :get, '/groups/course.futcode.admins'
     ).to_return Stub.json({
@@ -47,7 +46,6 @@ describe 'OpenHPI: Daily Statistic Mail' do
     })
 
     # Course service stubs
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, '/courses',
       query: {groups: 'any'}
@@ -111,8 +109,6 @@ describe 'OpenHPI: Daily Statistic Mail' do
       confirmation_of_participation: 0,
       qualified_certificate: 0,
     })
-
-    Stub.service(:pinboard, build(:'pinboard:root'))
 
     # Pinboard stubs
     Stub.request(

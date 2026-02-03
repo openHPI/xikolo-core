@@ -30,7 +30,6 @@ describe 'Chatbot Bridge API: Courses: Delete', type: :request do
   end
 
   before do
-    Stub.service(:course, build(:'course:root'))
     stub_get_enrollment
     stub_delete_enrollment
     request

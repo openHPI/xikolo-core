@@ -25,7 +25,6 @@ describe Course::DocumentsPresenter do
   let(:enrollment_params) { {proctored: enrollment_proctored, certificates: certificates_data} }
 
   before do
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, "/courses/#{course.id}"
     ).to_return Stub.json({id: course.id})

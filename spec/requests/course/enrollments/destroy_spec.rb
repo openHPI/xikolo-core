@@ -18,7 +18,6 @@ describe 'Course: Enrollments: Destroy', type: :request do
 
   before do
     stub_user_request id: user_id
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, "/enrollments/#{enrollment['id']}"
     ).to_return Stub.json(

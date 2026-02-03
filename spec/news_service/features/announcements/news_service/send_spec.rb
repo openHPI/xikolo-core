@@ -11,8 +11,6 @@ RSpec.describe 'Announcements: Send email to all recipients', type: :feature do
   end
 
   before do
-    Stub.service(:account, build(:'account:root'))
-
     Stub.request(:account, :get, '/groups/xikolo.active')
       .to_return Stub.json({members_url: '/account_service/groups/xikolo.active/members'})
     Stub.request(:account, :get, '/groups/xikolo.active/members')

@@ -9,10 +9,8 @@ describe SectionsController, type: :controller do
   let(:permissions) { [] }
 
   before do
-    Stub.service(:account, build(:'account:root'))
     stub_user id: '1', display_name: 'John Smith', admin: true, permissions: ['course.content.access', 'course.content.edit']
 
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, "/sections/#{section_id}"
     ).to_return Stub.json({

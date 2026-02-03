@@ -25,7 +25,6 @@ shared_examples 'a reportable' do |reportable_class|
 
     context 'when reported enough times' do
       before do
-        Stub.service(:account, build(:'account:root'))
         Stub.request(
           :account, :get, '/groups/course.the_course.admins'
         ).to_return Stub.json({members_url: '/account_service/groups/course.the_course.admins/members'})
@@ -36,7 +35,6 @@ shared_examples 'a reportable' do |reportable_class|
           {id: SecureRandom.uuid},
         ])
 
-        Stub.service(:course, build(:'course:root'))
         Stub.request(
           :course, :get, "/courses/#{reportable.course_id}"
         ).to_return Stub.json({

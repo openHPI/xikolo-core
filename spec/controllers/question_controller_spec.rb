@@ -72,17 +72,14 @@ describe QuestionController, type: :controller do
   end
 
   before do
-    Stub.service(:account, build(:'account:root'))
     Stub.request(
       :account, :get, "/users/#{user_id}"
     ).to_return Stub.json({id: user_id})
 
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, "/courses/#{course_id}"
     ).to_return Stub.json(course_params)
 
-    Stub.service(:pinboard, build(:'pinboard:root'))
     Stub.request(
       :pinboard, :post, '/questions',
       body: hash_including(

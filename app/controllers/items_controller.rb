@@ -63,7 +63,7 @@ class ItemsController < Abstract::FrontendController
     raise AbstractController::ActionNotFound
   end
 
-  def new
+  def new(status: nil)
     @item ||= Xikolo::Course::Item.new # lazy initialization is used to re-render when create fails
     @item.published = true
 
@@ -93,11 +93,14 @@ class ItemsController < Abstract::FrontendController
 
     create_video_uploads!
     Acfs.run
-
-    render 'new', layout: 'course_area'
+    if status
+      render 'new', layout: 'course_area', status:
+    else
+      render 'new', layout: 'course_area'
+    end
   end
 
-  def edit
+  def edit(status: nil)
     @item = Xikolo::Course::Item.find UUID(params[:id]), params: {raw: 1} do |item|
       case @item.content_type
         when 'video'
@@ -137,8 +140,11 @@ class ItemsController < Abstract::FrontendController
     end
     create_video_uploads!
     Acfs.run
-
-    render 'edit', layout: 'course_area'
+    if status
+      render 'edit', layout: 'course_area', status:
+    else
+      render 'edit', layout: 'course_area'
+    end
   end
 
   def create
@@ -148,7 +154,7 @@ class ItemsController < Abstract::FrontendController
     # Flash a message if selected but not supported.
     unless valid_content_type_attributes?
       add_flash_message :error, t(:'flash.error.content_type_not_supported_options')
-      new
+      new(status: :unprocessable_entity)
       return
     end
 
@@ -157,7 +163,7 @@ class ItemsController < Abstract::FrontendController
         @content = @video = Video::Store.call(Video::Video.new, content_video_params)
         if @video.errors.any?
           add_flash_message :error, I18n.t('items.errors.create')
-          new
+          new(status: :unprocessable_entity)
           return
         end
       when 'rich_text'
@@ -167,7 +173,7 @@ class ItemsController < Abstract::FrontendController
         end
         if @rich_text.errors.any?
           add_flash_message :error, I18n.t('items.errors.create')
-          new
+          new(status: :unprocessable_entity)
           return
         end
       when 'quiz'
@@ -193,7 +199,7 @@ class ItemsController < Abstract::FrontendController
       end
       add_flash_message :error, I18n.t('items.errors.create')
 
-      new
+      new(status: :unprocessable_entity)
       return
     end
 
@@ -257,7 +263,7 @@ class ItemsController < Abstract::FrontendController
     # and flash a message if selected but not supported
     unless valid_content_type_attributes?
       add_flash_message :error, t(:'flash.error.content_type_not_supported_options')
-      edit
+      edit(status: :unprocessable_entity)
       return
     end
 
@@ -276,14 +282,14 @@ class ItemsController < Abstract::FrontendController
           # Specific errors were attached by the operation to the video resource to be displayed inline in the form
           add_flash_message :error, I18n.t('items.errors.update')
           create_video_uploads!
-          render 'edit', layout: 'course_area'
+          render 'edit', layout: 'course_area', status: :unprocessable_entity
           return
         end
       when 'rich_text'
         @rich_text = Course::Richtext::Store.call(@rich_text, content_richtext_params)
         if @rich_text.errors.any?
           add_flash_message :error, I18n.t('items.errors.update')
-          render 'edit', layout: 'course_area'
+          render 'edit', layout: 'course_area', status: :unprocessable_entity
           return
         end
       when 'quiz'
@@ -292,7 +298,7 @@ class ItemsController < Abstract::FrontendController
       when 'lti_exercise'
         @lti_exercise = Lti::Exercise::Store.call(@lti_exercise, content_lti_params)
         if @lti_exercise.errors.any?
-          render 'edit', layout: 'course_area'
+          render 'edit', layout: 'course_area', status: :unprocessable_entity
           return
         end
     end

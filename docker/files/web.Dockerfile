@@ -5,7 +5,7 @@
 #
 # * Compile and bundle web assets
 #
-FROM timbru31/ruby-node:3.4-slim-22@sha256:e134891648f6838f8e546417ab5e8ffde32e1cb884d7cc2f410d19883cf4b4ac AS assets
+FROM timbru31/ruby-node:3.4-slim-22@sha256:9a6b938251b6b02f0d63ce2dc30dbf18f30159429c8d643e74ffbb1cd926fb22 AS assets
 
 ARG TARGETARCH
 

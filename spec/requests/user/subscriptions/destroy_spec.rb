@@ -12,7 +12,6 @@ describe 'Pinboard: Subscription: Destroy', type: :request do
   before do
     stub_user_request(id: user.id)
 
-    Stub.service(:pinboard, build(:'pinboard:root'))
     Stub.request(
       :pinboard, :get, '/subscriptions',
       query: {

@@ -7,7 +7,6 @@ describe 'Admin: Reports: Create', type: :request do
 
   before do
     Stub.service(:learnanalytics, build(:'lanalytics:root'))
-
     Stub.request(:learnanalytics, :get, '/report_types')
       .to_return Stub.json([
         build(:'lanalytics:report_type', :course_report),

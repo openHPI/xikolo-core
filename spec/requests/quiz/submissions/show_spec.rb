@@ -56,9 +56,6 @@ describe 'Quiz: Submissions: Show', type: :request do
       permissions: %w[course.content.access.available],
       features: {'proctoring' => true}
 
-    Stub.service(:course, build(:'course:root'))
-    Stub.service(:quiz, build(:'quiz:root'))
-
     # Stubs for the course the user is enrolled in and its structural content
     Stub.request(:course, :get, '/courses/the_course')
       .to_return Stub.json(course.as_json)

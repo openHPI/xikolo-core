@@ -21,7 +21,6 @@ describe 'Course: Sections: Index', type: :request do
 
   before do
     stub_user_request(id: user_id, permissions:)
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, '/enrollments',
       query: {course_id: stub_course['id'], user_id:}

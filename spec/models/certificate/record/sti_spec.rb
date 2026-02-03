@@ -11,7 +11,6 @@ describe 'Certificate::Record: Single Table Inheritance', type: :model do
   let(:template) { create(:certificate_template) }
 
   before do
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, '/enrollments',
       query: hash_including({user_id: user.id, course_id: course.id})

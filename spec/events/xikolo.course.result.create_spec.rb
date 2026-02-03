@@ -35,7 +35,6 @@ describe 'xikolo.course.result.create' do
     # routes are registered only when the service is available.
     Xikolo.config.gamification = {'enabled' => true}
     Msgr.client.start
-    Stub.service(:course, build(:'course:root'))
   end
 
   context 'for early submission' do

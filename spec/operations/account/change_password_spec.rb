@@ -6,7 +6,6 @@ describe Account::ChangePassword, type: :operation do
   subject(:operation) { described_class.call(current_user, params) }
 
   before do
-    Stub.service(:account, build(:'account:root'))
     Stub.request(
       :account, :post, '/sessions',
       body: hash_including(ident: 'bob@example.com', password: 'old_secret')

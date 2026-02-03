@@ -14,12 +14,9 @@ describe 'Quiz submissions: Grant additional attempt', type: :request do
   let(:course) { build(:'course:course') }
 
   before do
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, "/courses/#{course['id']}"
     ).to_return Stub.json(course)
-
-    Stub.service(:quiz, build(:'quiz:root'))
 
     stub_user_request permissions: ['quiz.submission.grant_attempt']
   end

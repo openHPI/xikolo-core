@@ -19,8 +19,6 @@ describe QuestionPresenter, type: :presenter do
   let(:answer_id) { SecureRandom.uuid }
 
   before do
-    Stub.service(:pinboard, build(:'pinboard:root'))
-
     Stub.request(
       :pinboard, :get, '/explicit_tags',
       query: {question_id: question.id}

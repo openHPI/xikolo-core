@@ -22,7 +22,6 @@ describe 'Enrollment: Reactivations: Create', type: :request do
   end
 
   let!(:unlock_graded_assignments) do
-    Stub.service(:quiz, build(:'quiz:root'))
     Stub.request(
       :quiz, :post, '/user_quiz_attempts',
       body: {user_id: enrollment['user_id'], course_id: enrollment['course_id']}
@@ -30,14 +29,11 @@ describe 'Enrollment: Reactivations: Create', type: :request do
   end
 
   before do
-    Stub.service(:account, build(:'account:root'))
     Stub.request(
       :account, :get, "/users/#{record.user_id}"
     ).to_return Stub.json({
       features_url: "/account_service/users/#{record.user_id}/features",
     })
-
-    Stub.service(:quiz, build(:'quiz:root'))
   end
 
   it 'responds with 201 Created' do

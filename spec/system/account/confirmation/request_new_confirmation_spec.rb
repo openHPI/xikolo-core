@@ -4,8 +4,6 @@ require 'spec_helper'
 
 describe 'Account: Confirmation', type: :system do
   before do
-    Stub.service(:account, build(:'account:root'))
-    Stub.service(:course, build(:'course:root'))
     Stub.request(:course, :get, '/api/v2/course/courses', query: hash_including({}))
       .and_return Stub.json([])
 

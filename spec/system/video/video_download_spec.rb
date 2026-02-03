@@ -28,8 +28,6 @@ describe 'Video Download', type: :system do
     stub_user permissions: %w[course.content.access.available], id: user_id, context_id: course.context_id
     # ... and a second one in root context for a JS-triggered APIv2 call
     stub_user permissions: %w[course.content.access.available], id: user_id
-    Stub.service(:course, build(:'course:root'))
-    Stub.service(:pinboard, build(:'pinboard:root'))
 
     Stub.request(:account, :get, "/users/#{user_id}")
       .and_return Stub.json({id: user_id})

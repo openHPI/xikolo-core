@@ -24,28 +24,21 @@ Server.required_roles << :integration if ENV.key?('GURKE')
 # - integration: services that need to be started when running integration tests
 
 # This is important, web must come first!
-Server.add :web,                name: 'web',
-  roles: %i[rails db assets msgr delayed config integration main],
+Server.add :web, name: 'web',
+  roles: %i[rails db assets msgr delayed config integration main srv sidekiq],
   subpath: '.'
 
-Server.add :account,            name: 'account',
-  roles: %i[rails db account srv config integration],
-  subpath: 'services/account'
-Server.add :course,             name: 'course',
-  roles: %i[rails db srv msgr sidekiq config integration],
-  subpath: 'services/course'
-Server.add :news,               name: 'news',
-  roles: %i[rails db srv msgr sidekiq config integration],
-  subpath: 'services/news'
-Server.add :notification,       name: 'notification',
-  roles: %i[rails db srv msgr sidekiq config integration],
-  subpath: 'services/notification'
-Server.add :pinboard,           name: 'pinboard',
-  roles: %i[rails db srv msgr sidekiq config integration],
-  subpath: 'services/pinboard'
-Server.add :quiz,               name: 'quiz',
-  roles: %i[rails db srv sidekiq config integration],
-  subpath: 'services/quiz'
-Server.add :timeeffort,         name: 'timeeffort',
-  roles: %i[rails db srv msgr sidekiq],
-  subpath: 'services/timeeffort'
+Server.add_engine :account,
+  mount_path: 'account_service'
+Server.add_engine :course,
+  mount_path: 'course_service'
+Server.add_engine :news,
+  mount_path: 'news_service'
+Server.add_engine :notification,
+  mount_path: 'notification_service'
+Server.add_engine :pinboard,
+  mount_path: 'pinboard_service'
+Server.add_engine :quiz,
+  mount_path: 'quiz_service'
+Server.add_engine :timeeffort,
+  mount_path: 'timeeffort_service'

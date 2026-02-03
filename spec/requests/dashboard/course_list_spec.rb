@@ -12,7 +12,6 @@ describe 'Dashboard: Course List', type: :request do
     stub_user_request(id: user_id)
 
     # Stubs for the sidebar content
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, '/enrollments',
       query: hash_including(user_id:, learning_evaluation: 'true')

@@ -46,7 +46,7 @@ class Admin::AnnouncementsController < Abstract::FrontendController
     @announcement = Admin::AnnouncementForm.from_params(params)
 
     # Re-render creation form if announcement is invalid
-    return render(action: :new) unless @announcement.valid?
+    return render(action: :new, status: :unprocessable_entity) unless @announcement.valid?
 
     news_service
       .rel(:announcements)
@@ -58,7 +58,7 @@ class Admin::AnnouncementsController < Abstract::FrontendController
     @announcement.remote_errors e.errors
 
     # Re-render creation form
-    render(action: :new)
+    render(action: :new, status: :unprocessable_entity)
   end
 
   def update
@@ -68,7 +68,7 @@ class Admin::AnnouncementsController < Abstract::FrontendController
     @announcement.persisted!
 
     # Re-render edit form if announcement is invalid
-    return render(action: :edit) unless @announcement.valid?
+    return render(action: :edit, status: :unprocessable_entity) unless @announcement.valid?
 
     announcement = news_service.rel(:announcement).get({id: UUID4(params[:id]).to_s}).value!
     announcement.rel(:self).patch(@announcement.to_resource).value!
@@ -79,7 +79,7 @@ class Admin::AnnouncementsController < Abstract::FrontendController
     @announcement.remote_errors e.errors
 
     # Re-render edit form
-    render(action: :edit)
+    render(action: :edit, status: :unprocessable_entity)
   end
 
   private

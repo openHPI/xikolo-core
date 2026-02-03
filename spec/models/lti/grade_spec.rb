@@ -20,10 +20,6 @@ describe Lti::Grade, type: :model do
     let(:grade) { create(:lti_grade, value: 0.5) }
     let!(:item) { create(:item, content_type: 'lti_exercise', content_id: grade.gradebook.lti_exercise_id, max_dpoints: 30) }
 
-    before do
-      Stub.service(:course, build(:'course:root'))
-    end
-
     it 'schedules a worker' do
       expect { schedule_publication }.to have_enqueued_job(Lti::PublishGradeJob)
         .with(grade.id)

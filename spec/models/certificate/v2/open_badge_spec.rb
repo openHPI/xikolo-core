@@ -20,7 +20,6 @@ describe Certificate::V2::OpenBadge, type: :model do
   let(:rid) { UUID4(record.id).to_s(format: :base62) }
 
   before do
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, '/enrollments',
       query: {user_id: user.id, course_id: course.id, deleted: true, learning_evaluation: true}

@@ -48,7 +48,7 @@ class Account::ProfilesController < Abstract::FrontendController
     else
       add_flash_message :error, t(:'flash.error.profile_not_updated')
       @profile = Account::ProfilePresenter.new(@user, native_login: current_user.feature?('account.login'))
-      render 'edit', layout: 'dashboard'
+      render 'edit', layout: 'dashboard', status: :unprocessable_entity
       nil
     end
   end

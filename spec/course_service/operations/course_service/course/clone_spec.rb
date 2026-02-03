@@ -9,9 +9,6 @@ describe CourseService::Course::Clone do
   let(:context_id) { generate(:context_id) }
 
   before do
-    Stub.service(:account, build(:'account:root'))
-    Stub.service(:quiz, build(:'quiz:root'))
-
     course_groups = %w[students admins moderators teachers]
     %w[original-course cloned-course].each do |course|
       Stub.request(

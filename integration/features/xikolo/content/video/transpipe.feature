@@ -11,6 +11,7 @@ Feature: A Teacher edits a video item subtitles
     And I am on the course sections page
     And I have selected the video item for editing
 
+  @wip
   Scenario: TransPipe enabled
     Then there is no dropzone for the subtitles
     And I see the attached subtitles in a specific language

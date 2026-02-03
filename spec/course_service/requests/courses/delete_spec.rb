@@ -20,8 +20,6 @@ describe 'Course: Delete', type: :request do
   end
 
   before do
-    Stub.service(:account, build(:'account:root'))
-
     Stub.request(
       :account,
       :delete,

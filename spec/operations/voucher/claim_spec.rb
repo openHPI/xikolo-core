@@ -40,8 +40,6 @@ describe Voucher::Claim, type: :operation do
         enabled: true
     YML
 
-    Stub.service(:course, build(:'course:root'))
-
     Stub.request(
       :course, :post, '/enrollments',
       body: {course_id: course.id, user_id: current_user.id}

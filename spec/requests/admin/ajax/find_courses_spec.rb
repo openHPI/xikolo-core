@@ -24,7 +24,6 @@ describe 'Admin: Ajax: Courses: Index', type: :request do
   before do
     stub_user_request(permissions:)
 
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, '/courses',
       query: hash_including(

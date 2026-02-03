@@ -4,7 +4,6 @@ require 'spec_helper'
 
 RSpec.describe PinboardService::Course, type: :model do
   before do
-    Stub.service(:course, build(:'course:root'))
     course_stub
   end
 

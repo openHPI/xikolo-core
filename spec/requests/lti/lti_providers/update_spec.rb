@@ -13,7 +13,6 @@ describe 'LTI Providers: Update', type: :request do
 
   before do
     stub_user_request(permissions:)
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, "/courses/#{course['course_code']}"
     ).to_return Stub.json(

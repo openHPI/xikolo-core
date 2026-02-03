@@ -20,7 +20,6 @@ describe CourseService::Enrollment::Create, type: :operation do
   end
 
   before do
-    Stub.service(:account, build(:'account:root'))
     membership_stub
   end
 

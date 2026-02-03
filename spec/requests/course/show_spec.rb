@@ -15,9 +15,6 @@ describe 'Course: Show', type: :request do
   let(:page) { Capybara::Node::Simple.new(response.body) }
 
   before do
-    Stub.service(:account, build(:'account:root'))
-
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, '/courses/the-course'
     ).to_return Stub.json(course_resource)

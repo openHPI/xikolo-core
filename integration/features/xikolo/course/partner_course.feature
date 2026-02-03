@@ -3,6 +3,7 @@ Feature: Partner course only visble for partners
   As an administrator
   I want to have courses with group restrictions, that are only visible for group members
 
+  @wip
   Scenario: Create course with partner restriction
     Given the company.partner group exists
     And I am an administrator

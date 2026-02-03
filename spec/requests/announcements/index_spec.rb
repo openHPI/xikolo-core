@@ -14,9 +14,6 @@ RSpec.describe 'Posts: Index', type: :request do
   let(:headers) { {} }
 
   before do
-    Stub.service(:account, build(:'account:root'))
-
-    Stub.service(:news, build(:'news:root'))
     posts_stub
   end
 

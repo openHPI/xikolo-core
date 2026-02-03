@@ -39,10 +39,8 @@ describe QuizSubmissionController, type: :controller do
   end
 
   before do
-    Stub.service(:account, build(:'account:root'))
     stub_user id: 'user-1', display_name: 'John Smith', permissions:, features: {}
 
-    Stub.service(:course, build(:'course:root'))
     stub_request(:get, %r{http://localhost:3000/course_service/sections/[0-9a-f\-]+})
       .to_return(
         status: 200,
@@ -80,8 +78,6 @@ describe QuizSubmissionController, type: :controller do
       lang: 'en',
       context_id: course_context_id,
     })
-
-    Stub.service(:quiz, build(:'quiz:root'))
 
     Stub.request(:quiz, :get, '/questions',
       query: {per_page: 250, quiz_id: quiz_id}).to_return Stub.json([{

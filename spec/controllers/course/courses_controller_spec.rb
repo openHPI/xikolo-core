@@ -12,8 +12,6 @@ describe Course::CoursesController, type: :controller do
   let(:enrollment) { [] }
 
   before do
-    Stub.service(:account, build(:'account:root'))
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, '/next_dates',
       query: hash_including({})

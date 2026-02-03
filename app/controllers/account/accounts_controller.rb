@@ -35,7 +35,7 @@ class Account::AccountsController < Abstract::FrontendController
         @account = form
         @consents = treatments.filter_map {|t| ConsentPresenter.from_treatment(t) unless t['required'] }
         @required_consents = treatments.filter_map {|t| ConsentPresenter.from_treatment(t) if t['required'] }
-        render :new
+        render :new, status: :unprocessable_entity
       end
     end
   end

@@ -16,7 +16,6 @@ RSpec.describe 'Admin: Vouchers: Create', type: :request do
 
     stub_user_request permissions: ['course.vouchers.issue']
 
-    Stub.service(:course, build(:'course:root'))
     Stub.request(:course, :get, '/courses', query: hash_including({}))
       .to_return Stub.json([])
   end

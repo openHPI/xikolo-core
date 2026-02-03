@@ -32,7 +32,7 @@ class Course::Admin::OpenBadgeTemplatesController < Abstract::FrontendController
     else
       add_flash_message :error, t(:'flash.error.open_badge_template_not_created')
       @file_upload = FileUpload.new purpose: :certificate_openbadge_template, content_type: 'image/png'
-      render action: :new
+      render action: :new, status: :unprocessable_entity
     end
   end
 
@@ -47,7 +47,7 @@ class Course::Admin::OpenBadgeTemplatesController < Abstract::FrontendController
     else
       add_flash_message :error, t(:'flash.error.open_badge_template_not_updated')
       @file_upload = FileUpload.new purpose: :certificate_openbadge_template, content_type: 'image/png'
-      render action: :edit
+      render action: :edit, status: :unprocessable_entity
     end
   end
 

@@ -8,10 +8,6 @@ describe Voucher::ProductTypes::Proctoring do
   let(:course) { create(:course, :upcoming, :offers_proctoring) }
   let(:user) { create(:user) }
 
-  before do
-    Stub.service(:course, build(:'course:root'))
-  end
-
   describe '#claim!' do
     subject(:claim) { proctoring.claim! }
 

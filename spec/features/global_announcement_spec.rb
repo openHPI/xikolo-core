@@ -29,8 +29,6 @@ context 'OpenHPI: Global Announcement Mail' do
   before do
     Msgr.client.start
 
-    Stub.service(:course, build(:'course:root'))
-
     # prepare mail for display
     # find author name
     Stub.request(
@@ -44,8 +42,6 @@ context 'OpenHPI: Global Announcement Mail' do
       features_url: '/account_service/users/00000001-3100-4444-9999-000000000002/features',
       preferences_url: '/account_service/users/00000001-3100-4444-9999-000000000002/preferences',
     })
-
-    Stub.service(:news, build(:'news:root'))
 
     # find article text
     Stub.request(

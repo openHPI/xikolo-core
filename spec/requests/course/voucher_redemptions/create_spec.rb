@@ -16,8 +16,6 @@ describe 'Voucher Redemptions: Create', type: :request do
     stub_user_request id: user_id,
       features: {'course_reactivation' => true},
       permissions: %w[course.content.access]
-
-    Stub.service(:course, build(:'course:root'))
   end
 
   let(:params) { {voucher_redemption: {code: voucher.id}} }

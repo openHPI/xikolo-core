@@ -9,10 +9,6 @@ describe 'APIv2: List courses', type: :request do
 
   let(:headers) { {} }
 
-  before do
-    Stub.service(:course, build(:'course:root'))
-  end
-
   context 'when unauthorized' do
     before do
       Stub.request(

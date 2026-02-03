@@ -26,7 +26,6 @@ describe 'Admin: Modify Course', type: :system do
       .to_return Stub.json(user)
     Stub.request(:account, :get, "/users/#{user_id}/preferences")
       .to_return Stub.json({id: user_id, properties: {}})
-    Stub.service(:course, build(:'course:root'))
     Stub.request(:course, :get, '/channels', query: {per_page: 250})
       .and_return(Stub.json(build_list(:'course:channel', 3)))
     Stub.request(:course, :get, '/teachers', query: hash_including({}))

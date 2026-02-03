@@ -17,7 +17,6 @@ describe 'Course: Admin: Offers: Destroy', type: :request do
     stub_user_request(permissions:)
     offer
 
-    Stub.service(:course, build(:'course:root'))
     Stub.request(:course, :get, "/courses/#{course.course_code}")
       .to_return Stub.json(course_resource)
   end

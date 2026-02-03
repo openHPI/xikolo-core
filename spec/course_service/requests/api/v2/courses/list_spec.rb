@@ -17,8 +17,6 @@ describe '[API v2] Course: List', skip: 'This feature seems unused in open.hpi. 
   let(:course_full) { CourseService::Course.where(id: course.id).from('embed_courses AS courses').take! }
 
   before do
-    Stub.service(:account, build(:'account:root'))
-
     Stub.request(
       :account,
       :get,

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_01_06_143925) do
+ActiveRecord::Schema[7.2].define(version: 2026_02_02_091932) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "pg_trgm"
@@ -227,6 +227,15 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_06_143925) do
     t.index ["code"], name: "index_channels_on_code", unique: true
   end
 
+  create_table "channels_courses", primary_key: ["channel_id", "course_id"], force: :cascade do |t|
+    t.uuid "channel_id", null: false
+    t.uuid "course_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["channel_id", "course_id"], name: "index_channels_courses_on_channel_id_and_course_id", unique: true
+    t.index ["course_id"], name: "index_channels_courses_on_course_id"
+  end
+
   create_table "classifiers", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.string "title"
     t.string "cluster_id", null: false
@@ -416,7 +425,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_06_143925) do
     t.boolean "on_demand", default: false, null: false
     t.boolean "show_on_stage", default: false, null: false
     t.text "stage_statement"
-    t.uuid "channel_id"
     t.hstore "policy_url"
     t.integer "roa_threshold_percentage"
     t.integer "cop_threshold_percentage"
@@ -437,6 +445,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_06_143925) do
     t.datetime "progress_calculated_at", precision: nil
     t.datetime "progress_stale_at", precision: nil
     t.boolean "pinboard_enabled", default: true, null: false
+    t.uuid "channel_id"
     t.index "lower((course_code)::text)", name: "index_courses_on_lower_course_code", unique: true
     t.index ["search_data"], name: "index_courses_on_search_data", opclass: :gin_trgm_ops, using: :gin
   end
@@ -1604,6 +1613,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_06_143925) do
   add_foreign_key "authorizations", "users"
   add_foreign_key "branches", "forks"
   add_foreign_key "branches", "groups"
+  add_foreign_key "channels_courses", "channels"
+  add_foreign_key "channels_courses", "courses"
   add_foreign_key "classifiers", "clusters", on_delete: :cascade
   add_foreign_key "classifiers_courses", "classifiers", on_delete: :cascade
   add_foreign_key "classifiers_courses", "courses", on_delete: :cascade

@@ -13,7 +13,6 @@ describe Course::PositionPresenter do
   let(:item_resources) { build_list(:'course:item', 2, :quiz, section_id: section.id) }
 
   before do
-    Stub.service(:course, build(:'course:root'))
     Stub.request(:course, :get, '/sections', query: {course_id: course.id})
       .to_return Stub.json([{id: section.id, course_id: course.id}])
     Stub.request(:course, :get, '/items',

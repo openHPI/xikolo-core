@@ -17,13 +17,11 @@ describe 'APIv2: Show root features', type: :request do
   let(:features) { {'feature_1' => 't', 'feature_2' => 't'} }
 
   before do
-    Stub.service(:account, build(:'account:root'))
     Stub.request(:account, :get, "/users/#{user_id}")
       .and_return Stub.json build(:'account:user', id: user_id)
     Stub.request(:account, :get, "/users/#{user_id}/features?context=#{context_id}")
       .and_return Stub.json features
 
-    Stub.service(:course, build(:'course:root'))
     Stub.request(:course, :get, "/courses/#{course_id}")
       .and_return Stub.json build(:'course:course', id: course_id, context_id:)
 

@@ -6,8 +6,6 @@ describe 'Course: Update', type: :request do
   before do
     create(:'course_service/cluster', id: 'category')
     create(:'course_service/cluster', id: 'topic')
-
-    Stub.service(:account, build(:'account:root'))
   end
 
   let(:api) { restify_with_headers(course_service.root_url).get.value! }

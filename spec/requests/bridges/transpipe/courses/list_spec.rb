@@ -8,7 +8,6 @@ describe 'Transpipe API: List courses', type: :request do
   end
 
   before do
-    Stub.service(:course, build(:'course:root'))
     stub_course_list
   end
 

@@ -269,8 +269,6 @@ describe CourseService::Course, type: :model do
       let(:user_groups) { [] }
 
       before do
-        Stub.service(:account, build(:'account:root'))
-
         Stub.request(
           :account,
           :get,

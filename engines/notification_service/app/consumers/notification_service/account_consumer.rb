@@ -25,19 +25,7 @@ class AccountConsumer < Msgr::Consumer # rubocop:disable Layout/IndentationWidth
   end
 
   def welcome_email
-    user = account_api.rel(:user).get({id: payload[:user_id]}).value!
-    return if user['email'].blank?
-
-    features = user.rel(:features).get.value!
-
-    mandatory_fields = features.key?('account.profile.mandatory_completed')
-    url = payload[:confirmation_url]
-
-    deliver AccountMailer.welcome_email(user, mandatory_fields, url)
-  rescue Restify::NotFound
-    # Triggered when either user does not exist (anymore). Should happen
-    # very rarely as this event is triggered after user registration, but
-    # it does happen.
+    SendWelcomeEmailJob.perform_later(payload[:user_id], payload[:confirmation_url])
   end
 
   private

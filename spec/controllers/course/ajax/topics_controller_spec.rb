@@ -8,14 +8,9 @@ describe Course::Ajax::TopicsController, type: :controller do
   let(:request_context_id) { generate(:context_id) }
 
   before do
-    Stub.service(:account, build(:'account:root'))
-
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, "/courses/#{course['id']}"
     ).to_return Stub.json(course)
-
-    Stub.service(:pinboard, build(:'pinboard:root'))
   end
 
   describe '#create' do

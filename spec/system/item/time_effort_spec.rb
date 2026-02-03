@@ -29,7 +29,6 @@ describe 'Item: Time Effort', type: :system do
     stub_user(id: user_id,
       permissions: %w[course.content.access.available],
       features:)
-    Stub.service(:course, build(:'course:root'))
 
     Stub.request(:account, :get, "/users/#{user_id}")
       .and_return Stub.json({id: user_id})
@@ -68,8 +67,6 @@ describe 'Item: Time Effort', type: :system do
 
   context '(video)' do
     before do
-      Stub.service(:pinboard, build(:'pinboard:root'))
-
       Stub.request(
         :pinboard, :get, '/topics',
         query: {item_id: item['id']}
@@ -134,7 +131,6 @@ describe 'Item: Time Effort', type: :system do
     end
 
     before do
-      Stub.service(:quiz, build(:'quiz:root'))
       Stub.request(
         :quiz, :get, "/quizzes/#{quiz['id']}",
         query: hash_including({})

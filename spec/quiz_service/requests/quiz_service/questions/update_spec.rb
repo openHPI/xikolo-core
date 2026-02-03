@@ -6,7 +6,6 @@ RSpec.describe 'Questions: Update', type: :request do
   subject(:modification) { api.rel(:question).put(payload, params: {id: question.id}).value! }
 
   before do
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, '/items',
       query: {content_id: question.quiz_id}

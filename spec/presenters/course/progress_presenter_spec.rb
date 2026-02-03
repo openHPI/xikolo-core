@@ -6,8 +6,6 @@ describe Course::ProgressPresenter do
   subject { presenter }
 
   before do
-    Stub.service(:course, build(:'course:root'))
-
     Stub.request(
       :course, :get, "/courses/#{course_id}"
     ).to_return Stub.json({})

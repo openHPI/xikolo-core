@@ -11,7 +11,6 @@ RSpec.describe 'Dashboard: Vote on polls', type: :system do
     Stub.request(:account, :post, '/tokens')
       .to_return Stub.json({token: 'abc'})
 
-    Stub.service(:course, build(:'course:root'))
     Stub.request(:course, :get, '/courses', query: hash_including({}))
       .to_return Stub.json([])
     Stub.request(:course, :get, '/api/v2/course/courses', query: hash_including({}))
@@ -40,8 +39,8 @@ RSpec.describe 'Dashboard: Vote on polls', type: :system do
 
     expect(page).to have_content 'Which of these platform features do you use regularly?'
 
-    check 'Dashboard'
-    check 'Polls'
+    find('label', text: 'Dashboard', visible: :all).click
+    find('label', text: 'Polls', visible: :all).click
     click_on 'Vote'
 
     expect(page).to have_content 'Thank you for voting!'
@@ -51,7 +50,7 @@ RSpec.describe 'Dashboard: Vote on polls', type: :system do
 
     expect(page).to have_content 'Which poll did you like better?'
 
-    choose 'This one'
+    find('label', text: 'This one', visible: :all).click
     click_on 'Vote'
 
     expect(page).to have_content 'Thank you for voting!'

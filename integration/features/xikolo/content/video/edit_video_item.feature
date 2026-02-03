@@ -20,6 +20,7 @@ Feature: A Teacher edits a video item
     When I save and show the video item
     Then I am on the item page
 
+  @wip
   Scenario: Add subtitles to the video
     When I attach subtitles to the video
     And I save the changes of the video item

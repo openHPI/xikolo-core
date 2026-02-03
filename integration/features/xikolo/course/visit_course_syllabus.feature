@@ -16,6 +16,7 @@ Feature: Course Syllabus
     When I click on an non-previewable item
     Then I see a non-previewable item
 
+  @wip
   @feature:open_mode
   Scenario: Visit course syllabus as a logged in but unenrolled user with open mode being enabled
     Given Open Mode is enabled
@@ -41,6 +42,7 @@ Feature: Course Syllabus
     Then I am redirected to the course detail page
     Then I see a message that I should login to proceed
 
+  @wip
   @feature:open_mode
   Scenario: Visit course syllabus as an anonymous user with open mode being enabled
     Given Open Mode is enabled

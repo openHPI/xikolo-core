@@ -21,9 +21,6 @@ describe Course::LearnerDashboard::SectionProgress::Main, type: :component do
   end
 
   before do
-    Stub.service(:account, build(:'account:root'))
-    Stub.service(:course, build(:'course:root'))
-
     Stub.request(
       :course, :get, "/courses/#{course_id}"
     ).to_return Stub.json({

@@ -3,10 +3,6 @@
 require 'spec_helper'
 
 RSpec.describe 'Authentication: Login with token', type: :request do
-  before do
-    Stub.service(:account, build(:'account:root'))
-  end
-
   context 'in HTTP Authorization header' do
     subject(:request) do
       get '/', headers: {'HTTP_AUTHORIZATION' => "Token token=#{token}"}

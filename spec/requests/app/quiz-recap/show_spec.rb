@@ -33,10 +33,6 @@ describe 'Quiz Recap: Show', type: :request do
   before do
     stub_user_request id: user.id
 
-    Stub.service(:account, build(:'account:root'))
-    Stub.service(:course, build(:'course:root'))
-    Stub.service(:quiz, build(:'quiz:root'))
-
     Stub.request(:account, :get, '/sessions/')
       .and_return Stub.json(build(:'account:session', user_id: user.id))
   end

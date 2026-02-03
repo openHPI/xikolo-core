@@ -10,7 +10,6 @@ describe LtiProvidersController, type: :controller do
   let(:provider_params) { {course_id: course.id, name: 'Provider'} }
 
   before do
-    Stub.service(:course, build(:'course:root'))
     Stub.request(
       :course, :get, "/courses/#{course.id}"
     ).to_return Stub.json({
@@ -26,7 +25,6 @@ describe LtiProvidersController, type: :controller do
       query: {course_id: course.id, user_id:}
     ).to_return Stub.json([])
 
-    Stub.service(:account, build(:'account:root'))
     stub_user id: user_id, permissions:
   end
 

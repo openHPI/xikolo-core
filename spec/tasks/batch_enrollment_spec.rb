@@ -21,7 +21,6 @@ describe 'batch enrollment rake task' do
     end
 
     before do
-      Stub.service(:account, build(:'account:root'))
       unknown_email_list.each do |email|
         Stub.request(:account, :get, "/emails/#{email}").to_return(status: 404)
       end

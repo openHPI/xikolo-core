@@ -19,7 +19,6 @@ describe 'Course: Items: Update', type: :request do
   let(:headers) { {} }
 
   before do
-    Stub.service(:course, build(:'course:root'))
     Stub.request(:course, :get, "/courses/#{course.course_code}")
       .to_return Stub.json(course_resource)
   end

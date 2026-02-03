@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'Course Announcement Mail', type: :feature do
+describe 'Course Announcement Mail', type: :request do
   let(:user_id) { '00000001-3100-4444-9999-000000000002' }
   let(:course_id) { '00000001-3300-4444-9999-000000000002' }
   let(:kevins_properties) { {} }
@@ -29,8 +29,6 @@ describe 'Course Announcement Mail', type: :feature do
 
   before do
     Msgr.client.start
-
-    Stub.service(:news, build(:'news:root'))
 
     Stub.request(
       :news, :get, "/news/#{announcement_id}",

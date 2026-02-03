@@ -13,7 +13,6 @@ RSpec.describe NewsService::AnnouncementMailer, type: :mailer do
     let(:user_id) { SecureRandom.uuid }
 
     before do
-      Stub.service(:account, build(:'account:root'))
       Stub.request(:account, :get, "/users/#{user_id}")
         .to_return Stub.json({
           id: user_id,

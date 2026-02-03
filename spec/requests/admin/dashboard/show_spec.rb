@@ -19,7 +19,6 @@ describe 'Admin: Dashboard: Show', type: :request do
       before do
         allow(Admin::Statistics::AgeDistribution).to receive(:call).and_return([])
 
-        Stub.service(:course, build(:'course:root'))
         Stub.request(:account, :get, '/statistic')
           .to_return Stub.json({
             'confirmed_users' => 0,

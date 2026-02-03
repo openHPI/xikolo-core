@@ -26,7 +26,7 @@ class Admin::PollsController < Abstract::FrontendController
       redirect_to edit_admin_poll_path(id: @poll.id)
     else
       add_flash_message :error, t(:'flash.error.poll_not_created')
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -37,7 +37,7 @@ class Admin::PollsController < Abstract::FrontendController
       redirect_to admin_polls_path
     else
       add_flash_message :error, t(:'flash.error.poll_not_updated')
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 

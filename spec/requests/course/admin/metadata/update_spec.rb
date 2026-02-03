@@ -125,7 +125,6 @@ describe 'Course: Admin: Metadata: Update', type: :request do
   end
 
   before do
-    Stub.service(:course, build(:'course:root'))
     Stub.request(:course, :get, "/courses/#{course.id}")
       .to_return Stub.json(
         build(:'course:course', id: course.id, course_code: course.course_code)
