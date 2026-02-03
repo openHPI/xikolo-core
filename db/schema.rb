@@ -232,7 +232,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_02_091932) do
     t.uuid "course_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["channel_id", "course_id"], name: "index_channels_courses_on_channel_id_and_course_id", unique: true
     t.index ["course_id"], name: "index_channels_courses_on_course_id"
   end
 
