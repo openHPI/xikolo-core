@@ -86,7 +86,7 @@ describe AccountService::API::UsersController, type: :controller do
         {
           **attributes_for(:'account_service/user'),
           id: 'c3b2068a-9525-4d5c-9672-6e547a10f6ba',
-          email: 'root@localhost',
+          email: 'root@localhost.de',
         }
       end
 

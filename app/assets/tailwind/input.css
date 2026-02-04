@@ -1,6 +1,7 @@
 @import 'tailwindcss' source(none);
 @plugin "daisyui" {
   prefix: 'x-';
+  themes: light --default dark --default;
 }
 @plugin "@tailwindcss/typography";
 @import './theme/typography.css';

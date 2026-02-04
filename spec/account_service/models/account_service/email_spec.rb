@@ -12,14 +12,18 @@ describe AccountService::Email, type: :model do
       'john.smith@exämple.com',
       'john.smith@-example.com',
       'john.smith@example..com',
-      'walco.sibbel@example.co@'
+      'walco.sibbel@example.co@',
+      'john.smith@example',
+      'john.smith@.example.com',
+      'john.smith@.example.'
   end
 
   it do
     expect(email).to accept_values_for :address,
       's.yuri@i.ua',
       'john@example.org',
-      "o'connor@example.com"
+      "o'connor@example.com",
+      "o'connor@example.co.uk"
   end
 
   it 'has case-insensitive unique address' do

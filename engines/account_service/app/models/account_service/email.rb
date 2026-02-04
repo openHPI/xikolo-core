@@ -12,7 +12,7 @@ class Email < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   LOCAL  = /[#{LCHARS.source}]+(\.[#{LCHARS.source}]+)*/
   DCHARS = /A-z\d/
   DOMAIN =
-    /[#{DCHARS.source}][#{DCHARS.source}-]*(\.[#{DCHARS.source}-]+)*/
+    /[#{DCHARS.source}][#{DCHARS.source}-]*(\.[#{DCHARS.source}-]+)+/
   EMAIL  = /\A#{LOCAL.source}@#{DOMAIN.source}\z/i
 
   validates :address, presence: true,

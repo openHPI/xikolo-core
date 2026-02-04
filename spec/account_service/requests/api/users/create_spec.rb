@@ -8,7 +8,7 @@ describe 'Create user', type: :request do
   let(:request) { api.rel(:users).post(data) }
 
   let(:api) { restify_with_headers(account_service_url).get.value! }
-  let(:data) { {**attributes_for(:'account_service/user'), email: 'root@localhost'} }
+  let(:data) { {**attributes_for(:'account_service/user'), email: 'root@localhost.de'} }
   let(:created_user) { AccountService::User.find response['id'] }
 
   # test for side effects; we had an error declare ALL users as admin if
@@ -32,7 +32,7 @@ describe 'Create user', type: :request do
     describe '#email' do
       subject { created_user.email }
 
-      it { is_expected.to eq 'root@localhost' }
+      it { is_expected.to eq 'root@localhost.de' }
     end
   end
 
@@ -51,7 +51,7 @@ describe 'Create user', type: :request do
       expect(payload).to include(
         'confirmed' => false,
         'archived' => false,
-        'email' => 'root@localhost'
+        'email' => 'root@localhost.de'
       )
     end
   end
