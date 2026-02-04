@@ -14,7 +14,7 @@ class Home::CoursesController < Abstract::FrontendController
 
     if params[:channel].present?
       channel = Course::Channel.by_identifier(params[:channel]).take
-      courses = courses.where(channel:) if channel
+      courses = courses.joins(:channels).merge(Course::Channel.where(id: channel)) if channel
     end
 
     Course::Cluster.ids.each do |cluster|

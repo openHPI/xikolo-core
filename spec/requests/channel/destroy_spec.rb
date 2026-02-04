@@ -6,7 +6,6 @@ describe 'Channel: destroy', type: :request do
   subject(:destroy_channel) { delete "/channels/#{channel.id}", headers: }
 
   let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
-  let(:course) { create(:course, channel_id: channel.id) }
   let(:channel) do
     create(
       :channel,
@@ -15,6 +14,8 @@ describe 'Channel: destroy', type: :request do
       stage_statement: 'Channel Stage'
     )
   end
+  let(:course) { create(:course, channels: [channel]) }
+
   let(:permissions) { %w[course.channel.delete] }
   let(:page) { Capybara.string(response.body) }
 
@@ -25,8 +26,9 @@ describe 'Channel: destroy', type: :request do
   end
 
   before do
+    channel
+    course
     stub_user_request(permissions:)
-    channel.courses << course
   end
 
   it 'deletes the channel' do
@@ -35,7 +37,7 @@ describe 'Channel: destroy', type: :request do
 
   it 'deletes the channel without deleting the associated courses' do
     expect { destroy_channel }.not_to change(Course::Course, :count)
-    expect(course.reload.channel_id).to be_nil
+    expect(course.reload.channels).to be_empty
     expect(destroy_channel).to redirect_to admin_channels_path
     expect(flash[:notice].first).to eq I18n.t(:'flash.notice.channel_deleted')
   end

@@ -4,7 +4,7 @@
     "(^|/)vendor/",
     "\\.swf$",
     "\\.hbs$",
-    "app/assets/fontawesome-pro"
+    "app/assets/stylesheets/fontawesome-pro"
   ],
   "Disable": {
     "IndentSize": true

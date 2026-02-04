@@ -42,7 +42,7 @@ class CoursesController < ApplicationController # rubocop:disable Layout/Indenta
     end
 
     courses = Course.from('embed_courses AS courses')
-      .not_deleted.includes(:channel)
+      .not_deleted.includes(:channels)
 
     if params[:user_id].blank? &&
        params[:promoted_for].blank? &&
@@ -64,7 +64,7 @@ class CoursesController < ApplicationController # rubocop:disable Layout/Indenta
     courses = courses.by_classifier(params[:cat_id]) if params[:cat_id].present?
 
     # Filter by channel
-    courses.where!(channel_id: params[:channel_id]) if params[:channel_id]
+    courses.joins!(:channels).where!(channels: {id: params[:channel_id]}) if params[:channel_id]
 
     # Filter by document
     if params[:document_id]
@@ -216,7 +216,6 @@ class CoursesController < ApplicationController # rubocop:disable Layout/Indenta
       :enrollment_delta,
       :alternative_teacher_text,
       :show_syllabus,
-      :channel_id,
       :invite_only,
       :external_course_url,
       :welcome_mail,
@@ -237,7 +236,7 @@ class CoursesController < ApplicationController # rubocop:disable Layout/Indenta
       :enable_video_download,
       video_course_codes: [],
       teacher_ids: [],
-      channels: [],
+      channel_ids: [],
       learning_goals: [],
       target_groups: [],
       groups: [],
@@ -273,7 +272,6 @@ class CoursesController < ApplicationController # rubocop:disable Layout/Indenta
       :enrollment_delta,
       :alternative_teacher_text,
       :show_syllabus,
-      :channel_id,
       :invite_only,
       :external_course_url,
       :welcome_mail,

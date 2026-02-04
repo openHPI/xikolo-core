@@ -2,7 +2,11 @@
 
 module Course
   class Channel < ::ApplicationRecord
-    has_many :courses, dependent: :nullify
+    has_many :channels_courses,
+      class_name: 'Course::ChannelsCourse',
+      dependent: :destroy
+
+    has_many :courses, through: :channels_courses
 
     class << self
       def by_identifier(param)

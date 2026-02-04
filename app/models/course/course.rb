@@ -30,7 +30,11 @@ module Course
       class_name: '::Course::Metadata',
       dependent: :destroy
     has_many :offers, class_name: '::Course::Offer', dependent: :destroy
-    belongs_to :channel, optional: true
+    has_many :channels_courses,
+      class_name: 'Course::ChannelsCourse',
+      dependent: :destroy
+
+    has_many :channels, through: :channels_courses
 
     class << self
       def by_identifier(param)

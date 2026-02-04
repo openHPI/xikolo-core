@@ -498,7 +498,7 @@ FactoryBot.define do
 
     trait :with_channel do
       after(:create) do |course|
-        course.channel = create(:channel)
+        course.channels << create(:channel)
         course.save
       end
     end

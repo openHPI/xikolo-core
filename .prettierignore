@@ -30,4 +30,4 @@ gems/
 *.md
 
 # FontAwesome sources
-app/assets/fontawesome-pro
+app/assets/stylesheets/fontawesome-pro

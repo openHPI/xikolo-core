@@ -201,8 +201,8 @@ module Xikolo
           }
         }
 
-        includable has_one('channel', Xikolo::V2::Courses::Channels) {
-          foreign_key 'channel_code'
+        includable has_many('channels', Xikolo::V2::Courses::Channels) {
+          filter_by 'course'
         }
 
         includable has_one('user_enrollment', Xikolo::V2::Courses::Enrollments) {

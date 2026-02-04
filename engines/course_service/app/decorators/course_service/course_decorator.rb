@@ -21,7 +21,13 @@ class CourseDecorator < ApplicationDecorator # rubocop:disable Layout/Indentatio
       abstract: object.abstract,
       teachers: object.teacher_text,
       language: object.lang,
-      channel_code: object.channel&.code,
+      channels: object.channels.map do |ch|
+        {
+          id: ch.id,
+          code: ch.code,
+          title_translations: ch.title_translations,
+        }
+      end,
       classifiers:,
       state: object.state,
       hidden: object.hidden,
@@ -93,9 +99,13 @@ class CourseDecorator < ApplicationDecorator # rubocop:disable Layout/Indentatio
       auto_archive:,
       show_syllabus:,
       invite_only:,
-      channel_id:,
-      channel_code: model.channel&.code,
-      channel_name: model.channel&.title_translations&.dig('en'),
+      channels: object.channels.map do |ch|
+        {
+          id: ch.id,
+          code: ch.code,
+          title_translations: ch.title_translations,
+        }
+      end,
       show_on_stage:,
       stage_visual_url:,
       stage_statement:,

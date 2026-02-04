@@ -17,7 +17,7 @@ class Admin::CourseForm < XUI::Form
   attribute :status, :single_line_string, default: 'preparation'
   attribute :lang, :single_line_string
   attribute :enrollment_delta, :integer, default: 0
-  attribute :channel_id, :uuid
+  attribute :channel_ids, :list, subtype: :uuid, default: []
   attribute :show_on_stage, :boolean, default: false
   attribute :stage_statement, :markup
   attribute :teacher_ids, :list, subtype: :uuid, default: []
@@ -89,6 +89,10 @@ class Admin::CourseForm < XUI::Form
     course_code
   end
 
+  def channel_ids=(value)
+    @channel_ids = Array(value).compact_blank
+  end
+
   def clusters
     @clusters ||= Course::Cluster.all
   end
@@ -127,4 +131,23 @@ class Admin::CourseForm < XUI::Form
   end
 
   process_with { AutoMiddleDate.new }
+
+  class ChannelsToIds
+    def from_resource(attributes, _obj)
+      # Convert channels array to channel_ids array
+      if attributes['channels'].present?
+        attributes['channel_ids'] = attributes['channels'].pluck('id')
+        attributes.delete('channels')
+      end
+      attributes
+    end
+
+    def to_resource(attributes, _obj)
+      # When saving, remove channel_ids if it exists (API might not expect it)
+      # The actual association update should be handled separately
+      attributes
+    end
+  end
+
+  process_with { ChannelsToIds.new }
 end

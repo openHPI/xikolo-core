@@ -139,12 +139,17 @@ describe CourseService::CoursesController, type: :controller do
       context 'by channel' do
         let(:channel_a) { create(:'course_service/channel', code: 'a') }
         let(:channel_b) { create(:'course_service/channel', code: 'b') }
-        let!(:channel_courses) { create_list(:'course_service/course', 7, channel_id: channel_a.id) }
+        let!(:channel_courses) { create_list(:'course_service/course', 7) }
         let(:params) { {channel_id: channel_a} }
 
         before do
-          create_list(:'course_service/course', 3, channel_id: nil)
-          create_list(:'course_service/course', 1, channel_id: channel_b.id)
+          channel_courses.each do |course|
+            course.channels << channel_a
+          end
+          create_list(:'course_service/course', 3)
+          create_list(:'course_service/course', 1).each do |course|
+            course.channels << channel_b
+          end
         end
 
         describe 'json' do

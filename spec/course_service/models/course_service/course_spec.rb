@@ -40,12 +40,12 @@ describe CourseService::Course, type: :model do
   end
 
   it 'allows creating a course not assigned to a channel' do
-    expect(course.channel).to be_nil
+    expect(course.channels).to be_empty
   end
 
   it 'allows assigning a course to a channel' do
     course = create(:'course_service/course', :with_channel)
-    expect(course.channel).to be_a CourseService::Channel
+    expect(course.channels).to all(be_a(CourseService::Channel))
   end
 
   it { is_expected.to accept_values_for(:cop_threshold_percentage, 1, 42, 100, nil) }

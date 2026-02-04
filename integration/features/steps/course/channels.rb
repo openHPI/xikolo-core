@@ -62,7 +62,7 @@ module Steps
 
     def assign_course_to_channel(course, channel)
       Server[:course].api.rel(:course).patch(
-        {channel_id: channel['id']},
+        {channel_ids: [channel['id']]},
         params: {id: course['id']}
       ).value!
     end

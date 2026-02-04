@@ -21,8 +21,8 @@ module Helpdesk
 
       course = ticket.course
 
-      if course.channel.present?
-        "#{course.channel.code} - #{course.course_code}: "
+      if course.channels.present?
+        "#{course.channels.first.code} - #{course.course_code}: "
       else
         "#{course.course_code}: "
       end

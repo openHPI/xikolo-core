@@ -3,7 +3,7 @@
 //
 //  Made available by the foundation_emails gem
 
-@import "foundation-emails";
+@import "../vendor/foundation-emails/foundation-emails";
 
 // Fix for links never being bold
 strong a {

@@ -174,7 +174,7 @@ describe 'Home: Courses: Index', type: :request do
     end
 
     context 'when filtered by channel code' do
-      let(:params) { super().merge(channel: channel_course.channel.code) }
+      let(:params) { super().merge(channel: channel_course.channels.first.code) }
 
       it 'lists only courses belonging to that channel' do
         request
@@ -219,7 +219,7 @@ describe 'Home: Courses: Index', type: :request do
     end
 
     context 'when filtered by channel and classifier' do
-      let(:params) { super().merge(channel: channel_course.channel.code, topic: 'Databases') }
+      let(:params) { super().merge(channel: channel_course.channels.first.code, topic: 'Databases') }
 
       before { channel_course.classifiers << classifier }
 

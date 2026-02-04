@@ -21,7 +21,6 @@ FactoryBot.define do
     auto_archive { true }
     invite_only { false }
     enrollment_delta { 0 }
-    channel_id { nil }
     on_demand { true }
 
     trait :with_content_tree do
@@ -30,7 +29,7 @@ FactoryBot.define do
 
     trait :with_channel do
       after(:create) do |course|
-        course.channel = FactoryBot.create(:'course_service/channel')
+        course.channels << FactoryBot.create(:'course_service/channel')
         course.save
       end
     end

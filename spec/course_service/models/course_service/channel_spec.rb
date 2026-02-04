@@ -22,8 +22,8 @@ describe CourseService::Channel, type: :model do
   it { is_expected.not_to accept_values_for(:title_translations, {'fr' => 'Channel FR', 'en' => 'Channel EN'}) }
 
   it 'allows assigning multiple courses to a channel' do
-    course1 = create(:'course_service/course', channel:)
-    course2 = create(:'course_service/course', channel:)
+    course1 = create(:'course_service/course', channels: [channel])
+    course2 = create(:'course_service/course', channels: [channel])
 
     expect(channel.courses).to contain_exactly(course1, course2)
   end

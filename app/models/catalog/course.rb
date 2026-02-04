@@ -22,7 +22,12 @@ module Catalog
     self.primary_key = :id
     self.ignored_columns += %w[search_data]
 
-    belongs_to :channel, class_name: 'Course::Channel'
+    has_many :channels_courses,
+      class_name: 'CourseService::ChannelsCourse',
+      dependent: :destroy
+
+    has_many :channels, through: :channels_courses
+
     has_many :enrollments,
       class_name: 'Course::Enrollment',
       dependent: :restrict_with_exception
@@ -32,6 +37,10 @@ module Catalog
 
     # Only ever give access to courses that have not been deleted.
     default_scope { where(deleted: false) }
+
+    scope :for_channel_list, lambda {|channel|
+      joins(:channels_courses).where(channels_courses: {channel_id: channel.id})
+    }
 
     PUBLISHED_STATES = %w[active archive].freeze
 
@@ -117,7 +126,8 @@ module Catalog
       # Courses that may appear on channel course listings.
       #
       def for_channel_list(channel)
-        where(channel:)
+        joins(:channels_courses)
+          .where(channels_courses: {channel_id: channel.id})
       end
 
       ##

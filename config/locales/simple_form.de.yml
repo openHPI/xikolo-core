@@ -70,6 +70,7 @@ de:
         qrcode_x: QR code x
         qrcode_y: QR code y
       channel:
+        channels: Channels
         code: Code
         name: Name
         title_de: Name (Deutsch)

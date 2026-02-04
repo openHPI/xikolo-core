@@ -15,25 +15,31 @@ export default async function entries(settings = {}) {
 
   // Detect whether Font Awesome Pro sources are present. If not, use a stub
   // stylesheet to still emit a fontawesome.css bundle to satisfy layout tags.
-  const faProDir = join(root, 'app', 'assets', 'fontawesome-pro');
+  const faProDir = join(
+    root,
+    'app',
+    'assets',
+    'stylesheets',
+    'fontawesome-pro',
+  );
   const hasFontAwesomePro = existsSync(faProDir);
   const fontawesomeEntry = hasFontAwesomePro
-    ? 'fontawesome.scss'
-    : 'fontawesome.stub.scss';
+    ? 'stylesheets/fontawesome.scss'
+    : 'stylesheets/fontawesome.stub.scss';
 
   if (!hasFontAwesomePro) {
     // eslint-disable-next-line no-console
     console.warn(
       colors.yellow('WARNING: Font Awesome Pro not detected.'),
       'The application will have no icons available. If you have a license, please add the source files to',
-      colors.green('app/assets/fontawesome-pro'),
+      colors.green('app/assets/stylesheets/fontawesome-pro'),
     );
   }
 
   return {
     main: ['main.js'],
-    styles: ['main.scss'],
-    bootstrap: ['bootstrap-custom.scss'],
+    styles: ['stylesheets/main.scss'],
+    bootstrap: ['stylesheets/bootstrap-custom.scss'],
     fontawesome: [fontawesomeEntry],
     tailwind: ['tailwind/output.css'],
 

@@ -59,7 +59,8 @@ describe 'Home: Course List', type: :system do
     before do
       channel = create(:channel, title_translations: {'en' => 'Get Social!', 'de' => 'Get Social!'}, code: 'social')
       create(:course, status: 'active', title: 'Advanced Mumble Jumbo', lang: 'de', start_date: 1.week.ago, end_date: 1.week.from_now, abstract: 'Repetitive information.')
-      course = create(:course, channel:, status: 'active', lang: 'de', title: 'An introduction to databases', start_date: 1.week.ago, end_date: 1.week.from_now, abstract: 'Repetitive information.')
+      course = create(:course, status: 'active', lang: 'de', title: 'An introduction to databases', start_date: 1.week.ago, end_date: 1.week.from_now, abstract: 'Repetitive information.')
+      course.channels << channel
 
       cluster = create(:cluster, id: 'level', translations: {en: 'Level'})
       create(:cluster, id: 'topic')

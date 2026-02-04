@@ -97,9 +97,11 @@ describe '[API v2] Course: Show', type: :request do
 
     context 'with channel' do
       let(:channel) { create(:'course_service/channel', code: 'important-group') }
-      let(:course_attrs) { super().merge channel: }
+      let(:course_attrs) { super().merge channel_ids: [channel.id] }
 
-      its(['channel_code']) { is_expected.to eq 'important-group' }
+      it 'includes channel code' do
+        expect(course.channels.first.code).to eq 'important-group'
+      end
     end
 
     # classifiers: classifiers,

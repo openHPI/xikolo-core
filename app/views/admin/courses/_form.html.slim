@@ -67,8 +67,13 @@
     = f.input :target_groups, hint: t(:'simple_form.hints.course.target_groups') do
       = render Form::DynamicSortableList.new(course.dynamic_sortable_list(course.target_groups), name: 'course[target_groups][]', input_id: 'course_target_groups')
 
-    - if course.channels?
-      = f.input :channel_id, collection: course.channels
+    - if Course::Channel.any?
+      = f.input :channel_ids,
+        label: t(:'simple_form.labels.channel.channels'),
+        collection: Course::Channel.all,
+        label_method: :title,
+        value_method: :id,
+        input_html: {multiple: true, 'data-behavior': 'custom-select'}
       = advanced_settings do
         = f.input :show_on_stage
         = f.input :stage_visual_upload_id,

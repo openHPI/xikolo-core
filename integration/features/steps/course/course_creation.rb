@@ -43,7 +43,7 @@ module Steps
     end
 
     When 'I assign a channel' do
-      select 'Enterprise Channel', from: 'Channel'
+      tom_select 'Enterprise Channel', from: 'Channels', search: true
     end
 
     When 'I assign some categories' do

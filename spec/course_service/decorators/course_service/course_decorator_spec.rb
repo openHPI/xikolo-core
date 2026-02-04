@@ -48,9 +48,7 @@ describe CourseService::CourseDecorator do
         show_syllabus
         invite_only
         classifiers
-        channel_id
-        channel_name
-        channel_code
+        channels
         middle_of_course
         middle_of_course_is_auto
         on_demand
@@ -123,11 +121,11 @@ describe CourseService::CourseDecorator do
     context 'with channel' do
       let(:channel_code) { 'mychannel' }
       let(:channel) { create(:'course_service/channel', code: channel_code, title_translations: {'de' => 'Disney Channel', 'en' => 'Disney Channel'}) }
-      let(:course) { create(:'course_service/course', channel:) }
+      let(:course) { create(:'course_service/course', channels: [channel]) }
 
       it 'includes channel attributes' do
-        expect(json['channel_code']).to eq channel_code
-        expect(json['channel_name']).to eq 'Disney Channel'
+        expect(json['channels'].first['code']).to eq channel_code
+        expect(json['channels'].first.dig('title_translations', 'en')).to eq 'Disney Channel'
       end
     end
   end
@@ -149,7 +147,7 @@ describe CourseService::CourseDecorator do
         target_groups
         teachers
         language
-        channel_code
+        channels
         classifiers
         state
         hidden

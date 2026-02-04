@@ -6,7 +6,11 @@ class Channel < ApplicationRecord # rubocop:disable Layout/IndentationWidth
 
   include FileReference
 
-  has_many :courses, dependent: :nullify
+  has_many :channels_courses,
+    class_name: 'CourseService::ChannelsCourse',
+    dependent: :destroy
+
+  has_many :courses, through: :channels_courses
 
   validates :code, presence: true, uniqueness: true
   validate :validate_title_translations_structure

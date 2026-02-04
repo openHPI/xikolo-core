@@ -22,7 +22,7 @@ describe Navigation::CoursesMenu, type: :component do
       before do
         create(:course, :preparing, title: 'An upcoming course in preparation')
         create(:course, :active, title: 'An active and current course')
-        create(:course, :active, title: 'An active and current course in a channel', channel: create(:channel))
+        create(:course, :active, title: 'An active and current course in a channel', channels: [create(:channel)])
         create(:course, :active, title: 'An active and current but not listed course', show_on_list: false)
         create(:course, :active, :hidden, title: 'A hidden course')
         create(:course, :active, :deleted, title: 'A deleted course')

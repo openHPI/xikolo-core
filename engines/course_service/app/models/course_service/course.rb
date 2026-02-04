@@ -12,7 +12,12 @@ class Course < ApplicationRecord # rubocop:disable Layout/IndentationWidth
 
   has_many :sections, -> { order(:position) }, inverse_of: :course
   has_many :items, through: :sections
-  belongs_to :channel, optional: true
+
+  has_many :channels_courses,
+    class_name: 'CourseService::ChannelsCourse',
+    dependent: :destroy
+
+  has_many :channels, through: :channels_courses
   has_and_belongs_to_many :classifiers
 
   has_many :course_set_entries, dependent: :destroy

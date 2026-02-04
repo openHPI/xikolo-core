@@ -15,7 +15,8 @@ class Admin::CourseEditPresenter
     :course_code,
     :stage_visual_url,
     :roa_enabled?,
-    :cop_enabled?
+    :cop_enabled?,
+    :channel_ids
 
   class << self
     def for_creation(user:, form: nil)
