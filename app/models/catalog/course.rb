@@ -20,7 +20,7 @@ module Catalog
     # in course list contexts.
     self.table_name = 'embed_courses'
     self.primary_key = :id
-    self.ignored_columns += %w[search_data]
+    self.ignored_columns += %w[search_data channel_id]
 
     has_many :channels_courses,
       class_name: 'CourseService::ChannelsCourse',

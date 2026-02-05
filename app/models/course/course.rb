@@ -2,7 +2,7 @@
 
 module Course
   class Course < ::ApplicationRecord
-    self.ignored_columns += %w[search_data]
+    self.ignored_columns += %w[search_data channel_id]
 
     has_one :node,
       class_name: '::Course::Structure::Root',

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_02_02_091932) do
+ActiveRecord::Schema[7.2].define(version: 2026_02_02_111528) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "pg_trgm"
@@ -444,7 +444,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_02_091932) do
     t.datetime "progress_calculated_at", precision: nil
     t.datetime "progress_stale_at", precision: nil
     t.boolean "pinboard_enabled", default: true, null: false
-    t.uuid "channel_id"
     t.index "lower((course_code)::text)", name: "index_courses_on_lower_course_code", unique: true
     t.index ["search_data"], name: "index_courses_on_search_data", opclass: :gin_trgm_ops, using: :gin
   end
@@ -1690,7 +1689,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_02_091932) do
       on_demand,
       show_on_stage,
       stage_statement,
-      channel_id,
       policy_url,
       roa_threshold_percentage,
       cop_threshold_percentage,

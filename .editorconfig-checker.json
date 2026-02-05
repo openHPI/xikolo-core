@@ -1,5 +1,6 @@
 {
   "exclude": [
+    ".github/instructions/daisyui.instructions.md",
     "^docs/bridges/",
     "(^|/)vendor/",
     "\\.swf$",
