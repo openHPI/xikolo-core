@@ -19,6 +19,7 @@ describe 'List user features', type: :request do
   let(:target_features_json) { AccountService::FeaturesDecorator.new(target_features).as_json }
 
   before do
+    AccountService::Feature.destroy_all
     groups.map {|group| create_list(:'account_service/feature', 4, owner: group) }
     create_list(:'account_service/feature', 2, owner: user)
 

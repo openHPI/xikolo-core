@@ -18,7 +18,7 @@ describe 'Role: Update', type: :request do
   end
 
   it 'creates new record' do
-    expect { resource }.to change(AccountService::Role, :count).from(0).to(1)
+    expect { resource }.to change(AccountService::Role, :count).by(1)
 
     AccountService::Role.last.tap do |role|
       expect(role.name).to eq 'account.admins'

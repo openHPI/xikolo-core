@@ -120,7 +120,7 @@ courses << CourseService::Course::Create.call(
   status: 'archive',
   lang: 'de',
   classifiers: {topic: %w[Internet], level: %w[Advanced]},
-  channel: channel1,
+  channels: [channel1],
   teacher_ids: [teacher.id]
 ).tap do |c|
   c.offers.create!
@@ -146,7 +146,7 @@ courses << CourseService::Course::Create.call(
   status: 'active',
   lang: 'de',
   classifiers: {topic: %w[Programming], level: %w[Advanced]},
-  channel: channel1,
+  channels: [channel1, channel2],
   target_groups: [
     'Humans', 'People who like Bananas', 'Bananas'
   ],
@@ -178,7 +178,7 @@ courses << CourseService::Course::Create.call(
   status: 'active',
   lang: 'en',
   classifiers: {topic: %w[Fundamentals], level: %w[Beginner]},
-  channel: channel2
+  channels: [channel2]
 )
 
 courses << CourseService::Course::Create.call(
@@ -207,7 +207,7 @@ courses << CourseService::Course::Create.call(
   status: 'preparation',
   lang: 'en',
   classifiers: {topic: %w[Databases], level: %w[Expert]},
-  channel: channel3
+  channels: [channel3]
 )
 
 courses << CourseService::Course::Create.call(
@@ -232,7 +232,7 @@ courses << CourseService::Course::Create.call(
   status: 'preparation',
   lang: 'en',
   classifiers: {topic: %w[Programming], level: %w[Beginner]},
-  channel: channel2
+  channels: [channel2]
 )
 
 courses << CourseService::Course::Create.call(
@@ -257,7 +257,7 @@ courses << CourseService::Course::Create.call(
   status: 'active',
   lang: 'en',
   classifiers: {topic: %w[Programming], level: %w[Beginner]},
-  channel: channel3
+  channels: [channel3]
 )
 
 courses << CourseService::Course::Create.call(
@@ -283,7 +283,7 @@ courses << CourseService::Course::Create.call(
   hidden: true,
   lang: 'en',
   classifiers: {topic: %w[Fundamentals], level: %w[Junior]},
-  channel: channel3
+  channels: [channel3]
 )
 
 ##### Enrollments #####

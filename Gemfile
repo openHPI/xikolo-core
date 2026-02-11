@@ -231,11 +231,12 @@ group :test do
 end
 
 group :test, :integration do
-  gem 'database_cleaner', '~> 2.0'
   gem 'rack-remote'
   gem 'simplecov', require: false
   gem 'simplecov-cobertura', require: false
 end
+
+gem 'database_cleaner', groups: %i[integration]
 
 gem 'pkg-config', '= 1.6.2'
 gem 'solid_queue', '~> 1.2'

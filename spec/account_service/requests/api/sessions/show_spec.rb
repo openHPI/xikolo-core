@@ -135,7 +135,7 @@ describe 'Sessions: Show', type: :request do
           .value!
       end
 
-      it { expect(resource['features']).to eq({}) }
+      it { expect(resource['features']).not_to be_empty }
       it { expect(resource['permissions']).to eq [] }
     end
   end
@@ -168,6 +168,7 @@ describe 'Sessions: Show', type: :request do
       let(:groups) { create_list(:'account_service/group', 5) }
 
       before do
+        AccountService::Feature.destroy_all
         groups.map {|group| create_list(:'account_service/feature', 4, owner: group) }.flatten
 
         session.user.memberships.create! group: groups[2]

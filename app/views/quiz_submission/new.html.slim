@@ -16,7 +16,6 @@
           = render 'quiz_submission/partials/non_graded_info_box'
 
         - @quiz.questions.each_with_index do |question, index|
-          a name="#anchor_#{question.id}"
           = render 'quiz_submission/question/question_base',
               question:,
               show_solution: false,

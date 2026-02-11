@@ -17,7 +17,7 @@ describe 'Groups: Creation', type: :request do
   end
 
   it 'creates database record' do
-    expect { resource }.to change(AccountService::Group, :count).from(0).to(1)
+    expect { resource }.to change(AccountService::Group, :count).by(1)
   end
 
   it 'returns created group' do
@@ -76,7 +76,7 @@ describe 'Groups: Creation', type: :request do
     let(:data) { {**super(), name: 'course.test-course.students'} }
 
     it 'creates database record' do
-      expect { resource }.to change(AccountService::Group, :count).from(0).to(1)
+      expect { resource }.to change(AccountService::Group, :count).by(1)
     end
 
     it 'responds with a created resource' do

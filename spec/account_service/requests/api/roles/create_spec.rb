@@ -17,7 +17,7 @@ describe 'Role: Create', type: :request do
   end
 
   it 'creates database record' do
-    expect { resource }.to change(AccountService::Role, :count).from(0).to(1)
+    expect { resource }.to change(AccountService::Role, :count).by(1)
   end
 
   it 'saves the provided data' do

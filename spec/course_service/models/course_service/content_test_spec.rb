@@ -62,13 +62,12 @@ RSpec.describe CourseService::ContentTest, type: :model do
 
   describe 'group creation' do
     it 'creates groups with proper names and tags' do
-      expect { content_test.save! }.to change(CourseService::Duplicated::Group, :count).from(0).to(2)
-      expect(CourseService::Duplicated::Group.pluck(:name)).to eq \
-        %w[
-          course.the-course.content_test.a-content-test.group-a
-          course.the-course.content_test.a-content-test.group-b
-        ]
-      expect(CourseService::Duplicated::Group.pluck(:tags)).to eq [%w[content_test], %w[content_test]]
+      expect { content_test.save! }.to change(CourseService::Duplicated::Group, :count).by(2)
+      expect(CourseService::Duplicated::Group.pluck(:name)).to include(
+        'course.the-course.content_test.a-content-test.group-a',
+        'course.the-course.content_test.a-content-test.group-b'
+      )
+      expect(CourseService::Duplicated::Group.pluck(:tags)).to include(%w[content_test], %w[content_test])
     end
 
     context 'with existing group' do
@@ -78,7 +77,7 @@ RSpec.describe CourseService::ContentTest, type: :model do
       let(:tags) { %w[blue] }
 
       it 'adds the "content_test" tag to the pre-existing list of tags' do
-        expect { content_test.save! }.to change(CourseService::Duplicated::Group, :count).from(1).to(2)
+        expect { content_test.save! }.to change(CourseService::Duplicated::Group, :count).by(1)
         expect(group.reload.tags).to eq %w[blue content_test]
       end
 
@@ -86,7 +85,7 @@ RSpec.describe CourseService::ContentTest, type: :model do
         let(:tags) { %w[content_test] }
 
         it 'does not add a second tag to the pre-existing list of tags' do
-          expect { content_test.save! }.to change(CourseService::Duplicated::Group, :count).from(1).to(2)
+          expect { content_test.save! }.to change(CourseService::Duplicated::Group, :count).by(1)
           expect(group.reload.tags).to eq %w[content_test]
         end
       end

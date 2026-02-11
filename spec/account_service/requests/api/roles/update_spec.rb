@@ -24,7 +24,7 @@ describe 'Role: Update', type: :request do
   end
 
   it 'does not create new database record' do
-    expect { resource }.not_to change(AccountService::Role, :count).from(1)
+    expect { resource }.not_to change(AccountService::Role, :count)
   end
 
   it 'updates database record' do
@@ -56,7 +56,7 @@ describe 'Role: Update', type: :request do
     let(:data) { {name: 'xikolo.helpdesk', permissions: []} }
 
     it 'adds database record' do
-      expect { resource }.to change(AccountService::Role, :count).from(1).to(2)
+      expect { resource }.to change(AccountService::Role, :count).by(1)
     end
 
     it 'responds with 201 Created' do

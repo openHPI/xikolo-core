@@ -16,3 +16,8 @@ declare module 'i18n/*.json' {
   const value: string;
   export default value;
 }
+
+/// <reference types="@hotwired/turbo" />
+interface Window {
+  Turbo?: typeof Turbo;
+}

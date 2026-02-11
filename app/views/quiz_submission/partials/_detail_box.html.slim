@@ -13,7 +13,7 @@
 
         #quiz-state-indicators
           - @quiz.questions.each_with_index do |question, i|
-            a.answer-state-indicator id="#{question.id}_indicator" href="#anchor_#{question.id}"
+            a.answer-state-indicator id="#{question.id}_indicator" href="##{question.id}" data-turbo='false'
               = i + 1
           hr.divider.light
 

@@ -16,6 +16,10 @@ describe AccountService::Feature, type: :model do
   describe '.lookup' do
     subject { described_class.lookup owner: user, context: }
 
+    before do
+      AccountService::Feature.destroy_all
+    end
+
     context 'with no features' do
       let(:user) { create(:'account_service/user', completed_profile: false) }
 

@@ -62,15 +62,10 @@ describe 'Account: Accounts: Create', type: :request do
       end
 
       it 'triggers a welcome email to be sent out' do
-        expect(Msgr).to receive(:publish).with(
-          hash_including(
-            # Absolute URL is required, as this will be inserted into the welcome mail
-            confirmation_url: %r{^http://www.example.com/account/confirm/.+$}
-          ),
-          to: 'xikolo.web.account.sign_up'
-        )
-
-        result
+        expect do
+          result
+        end.to have_enqueued_job(NotificationService::SendWelcomeEmailJob)
+          .with(user_id, %r{^http://www.example.com/account/confirm/.+$})
       end
 
       context 'when there are policies to accept' do

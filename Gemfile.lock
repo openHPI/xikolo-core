@@ -1095,7 +1095,7 @@ DEPENDENCIES
   coverband
   csv
   dartsass-sprockets
-  database_cleaner (~> 2.0)
+  database_cleaner
   debug
   decorate-responder (~> 2.0)
   delayed (~> 1.0)

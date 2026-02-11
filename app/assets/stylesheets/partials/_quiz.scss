@@ -44,6 +44,10 @@ $xi-quiz-main-background-color: $white !default;
   padding: 10px 0 10px 0;
   border-top: 1px solid $gray-100;
 
+  &.multiple-answer {
+    scroll-margin-top: 40px;
+  }
+
   .question-info {
     margin-bottom: 15px;
     font-size: 0.9em;

@@ -5,6 +5,8 @@ require 'spec_helper'
 describe 'Groups: Listing', type: :request do
   subject(:resource) { api.rel(:groups).get(params).value! }
 
+  before { AccountService::Group.destroy_all }
+
   let(:api) { restify_with_headers(account_service_url).get.value! }
   let(:params) { {} }
   let!(:groups) { create_list(:'account_service/group', 5) }

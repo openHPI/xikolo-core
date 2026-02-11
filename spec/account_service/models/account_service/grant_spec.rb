@@ -21,13 +21,14 @@ describe AccountService::Grant, type: :model do
     end
 
     context 'with principal not set but type set' do
+      before do
+        AccountService::Group.destroy_all
+        create_list(:'account_service/grant', 2)
+      end
+
       let(:kwargs) { {type: AccountService::Group} }
 
       let!(:matches) { create_list(:'account_service/grant', 2, principal: create(:'account_service/group')) }
-
-      before do
-        create_list(:'account_service/grant', 2)
-      end
 
       it 'contains only group grants' do
         expect(grants).to match_array matches
@@ -106,6 +107,11 @@ describe AccountService::Grant, type: :model do
         end
 
         context 'and type set to GROUP' do
+          before do
+            AccountService::Group.destroy_all
+            create(:'account_service/grant', principal: group, context: other_context)
+          end
+
           let(:type) { AccountService::Group }
           let(:group) { create(:'account_service/group') }
           let(:kwargs) { {**super(), context:} }
@@ -113,10 +119,6 @@ describe AccountService::Grant, type: :model do
           let!(:grant1) { create(:'account_service/grant', principal: group) }
           let!(:grant2) { create(:'account_service/grant', principal: group, context:) }
           let!(:grant3) { create(:'account_service/grant', principal: group, context: parent_context) }
-
-          before do
-            create(:'account_service/grant', principal: group, context: other_context)
-          end
 
           it 'returns matches' do
             expect(grants).to contain_exactly(grant1, grant2, grant3)

@@ -76,6 +76,7 @@ describe AccountService::Role, type: :model do
       let(:roles) { AccountService::Role.all[1..2] }
 
       before do
+        AccountService::Role.destroy_all
         create(:'account_service/role')
         create(:'account_service/role', permissions: ['test.permission'])
         create(:'account_service/role', permissions: ['a', 'test.permission', 'b'])
@@ -92,6 +93,7 @@ describe AccountService::Role, type: :model do
       let(:roles) { AccountService::Role.all[3] }
 
       before do
+        AccountService::Role.destroy_all
         create(:'account_service/role')
         create(:'account_service/role', permissions: ['test.p1'])
         create(:'account_service/role', permissions: ['test.p2'])

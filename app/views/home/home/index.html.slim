@@ -9,7 +9,7 @@
   = render Home::CoursesSlider.new(current_and_upcoming_category: @current_and_upcoming_category)
 
   / Highlighted promotion
-  = render Home::Promotion.new(t(:'home.promotion.highlighted.title'), t(:'home.promotion.highlighted.text'), link_url: t(:'home.promotion.highlighted.link'), variant: :secondary, target: 'blank')
+  = render Home::Promotion.new(t(:'home.promotion.highlighted.title'), t(:'home.promotion.highlighted.text'), link_url: t(:'home.promotion.highlighted.link'), variant: :black, target: 'blank')
 
   / Claims
   = render Home::TilesGroup.new do |c|

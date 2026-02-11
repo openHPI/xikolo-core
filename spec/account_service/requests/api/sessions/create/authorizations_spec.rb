@@ -34,32 +34,32 @@ describe 'Sessions: Create with User ID', type: :request do
       let(:payload) { {**super(), autocreate: true} }
 
       context '(welcome mail)' do
-        context 'with user registration enabled' do
-          before do
-            create(:'account_service/feature', name: 'account.registration', owner: AccountService::Group.all_users)
-          end
-
-          it 'triggers a welcome mail' do
-            # first message published triggers welcome mail
-            expect(Msgr).to receive(:publish).with(
-              anything,
-              to: 'xikolo.web.account.sign_up'
-            )
-
-            # "drain" the other msgr messages published
-            expect(Msgr).to receive(:publish).at_least(1).time
-
-            resource
-          end
-        end
-
-        it 'does not trigger a welcome mail' do
-          expect(Msgr).not_to receive(:publish).with(
+        it 'triggers a welcome mail' do
+          # first message published triggers welcome mail
+          expect(Msgr).to receive(:publish).with(
             anything,
             to: 'xikolo.web.account.sign_up'
           )
 
+          # "drain" the other msgr messages published
+          expect(Msgr).to receive(:publish).at_least(1).time
+
           resource
+        end
+
+        context 'with user registration disabled' do
+          before do
+            AccountService::Feature.find_by!(name: 'account.registration').destroy!
+          end
+
+          it 'does not trigger a welcome mail' do
+            expect(Msgr).not_to receive(:publish).with(
+              anything,
+              to: 'xikolo.web.account.sign_up'
+            )
+
+            resource
+          end
         end
       end
     end

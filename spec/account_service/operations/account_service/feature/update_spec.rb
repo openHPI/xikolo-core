@@ -16,17 +16,15 @@ describe AccountService::Feature::Update, type: :operation do
 
   it 'creates new features' do
     expect { operation.call(features) }
-      .to change(AccountService::Feature, :count).from(0).to(2)
+      .to change(AccountService::Feature, :count).by(2)
 
-    AccountService::Feature.order(:name).first.tap do |a|
-      expect(a.name).to eq 'feature.a'
+    AccountService::Feature.find_by!(name: 'feature.a').tap do |a|
       expect(a.value).to eq '1'
       expect(a.owner).to eq owner
       expect(a.context).to eq context
     end
 
-    AccountService::Feature.order(:name).last.tap do |a|
-      expect(a.name).to eq 'feature.b'
+    AccountService::Feature.find_by!(name: 'feature.b').tap do |a|
       expect(a.value).to eq '2'
       expect(a.owner).to eq owner
       expect(a.context).to eq context
@@ -45,10 +43,9 @@ describe AccountService::Feature::Update, type: :operation do
 
     it 'creates new feature' do
       expect { operation.call(features) }
-        .to change(AccountService::Feature, :count).from(1).to(2)
+        .to change(AccountService::Feature, :count).by(1)
 
-      AccountService::Feature.order(:name).last.tap do |a|
-        expect(a.name).to eq 'feature.b'
+      AccountService::Feature.find_by(name: 'feature.b').tap do |a|
         expect(a.value).to eq '2'
         expect(a.owner).to eq owner
         expect(a.context).to eq context

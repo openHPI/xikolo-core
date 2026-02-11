@@ -40,6 +40,8 @@ describe AccountService::Group, type: :model do
         # error. Therefore, actually failing code changes might not be
         # discovered in rare cases.
 
+        AccountService::Group.destroy_all
+
         threads = Array.new(5) do
           SafeThread.new do
             ActiveRecord::Base.transaction do

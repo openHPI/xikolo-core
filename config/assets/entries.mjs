@@ -40,7 +40,7 @@ export default async function entries(settings = {}) {
     main: ['main.js'],
     styles: ['stylesheets/main.scss'],
     bootstrap: ['stylesheets/bootstrap-custom.scss'],
-    fontawesome: [fontawesomeEntry],
+    icons: [fontawesomeEntry],
     tailwind: ['tailwind/output.css'],
 
     admin: 'admin/admin.js',

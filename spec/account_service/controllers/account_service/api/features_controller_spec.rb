@@ -18,7 +18,7 @@ describe AccountService::API::FeaturesController, type: :controller do
         subject(:json) { JSON.parse(response.body) }
 
         it 'is the users feature map' do
-          expect(json).to eq(
+          expect(json).to include(
             features.to_h {|f| [f.name, f.value] }.merge(
               'account.profile.mandatory_completed' => 'true'
             )

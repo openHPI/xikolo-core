@@ -14,7 +14,7 @@ describe 'Groups: Deletion', type: :request do
   end
 
   it 'deletes database record' do
-    expect { resource }.to change(AccountService::Group, :count).from(1).to(0)
+    expect { resource }.to change(AccountService::Group, :count).by(-1)
   end
 
   it 'returns deleted group' do
@@ -32,7 +32,7 @@ describe 'Groups: Deletion', type: :request do
     end
 
     it 'does not delete other memberships' do
-      expect { resource }.to change(AccountService::Membership, :count).from(10).to(5)
+      expect { resource }.to change(AccountService::Membership, :count).by(-5)
     end
   end
 
@@ -49,7 +49,7 @@ describe 'Groups: Deletion', type: :request do
     end
 
     it 'does not delete other grants' do
-      expect { resource }.to change(AccountService::Grant, :count).from(10).to(5)
+      expect { resource }.to change(AccountService::Grant, :count).by(-5)
     end
   end
 end

@@ -283,44 +283,6 @@ AccountService::Treatment.create!(
   required: false
 )
 
-# Default feature flippers
-%w[
-  account.login
-  account.registration
-  announcements
-  certificate_requirements
-  course_details.learning_goals
-  course_list
-  course_reactivation
-  gamification
-  open_mode
-  proctoring
-  profile
-  time_effort
-  quiz_recap
-].each do |feature|
-  AccountService::Feature.create!(
-    name: feature,
-    value: true,
-    owner: AccountService::Group.all_users,
-    context: AccountService::Context.root
-  )
-end
-
-# Admin-only feature flippers
-%w[
-  admin_announcements
-  course.required_items
-  users.search_by_auth_uid
-].each do |feature|
-  AccountService::Feature.create!(
-    name: feature,
-    value: true,
-    owner: AccountService::Group.administrators,
-    context: AccountService::Context.root
-  )
-end
-
 # Special report permission for admins, needs to be manually assigned to selected admins on production
 %w[
   lanalytics.report.admin

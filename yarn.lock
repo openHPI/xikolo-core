@@ -3478,6 +3478,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/hotwired__turbo@npm:^8.0.6":
+  version: 8.0.6
+  resolution: "@types/hotwired__turbo@npm:8.0.6"
+  checksum: 10/eec641c4f1ac69f01083578a730941e1ae6699f8e532e0ab0e8882d81462a65ca92769df7470d5188e34db9508c4d9b2821c60003018ff150b29a0737eec0608
+  languageName: node
+  linkType: hard
+
 "@types/http-errors@npm:*":
   version: 2.0.5
   resolution: "@types/http-errors@npm:2.0.5"
@@ -10631,6 +10638,7 @@ __metadata:
     "@tailwindcss/typography": "npm:^0.5.19"
     "@toast-ui/editor": "npm:^3.2.2"
     "@types/d3": "npm:^3"
+    "@types/hotwired__turbo": "npm:^8.0.6"
     "@types/jqueryui": "npm:^1.12.20"
     "@types/list.js": "npm:^2"
     "@types/luxon": "npm:^3.4.2"

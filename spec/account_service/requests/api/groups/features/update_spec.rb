@@ -20,7 +20,7 @@ describe 'Groups: Features: Merge', type: :request do
     end
 
     it 'responds with features' do
-      expect(resource).to eq AccountService::Feature.all.decorate.as_json
+      expect(resource).to eq AccountService::Feature.where(owner: group).decorate.as_json
     end
   end
 
@@ -38,7 +38,7 @@ describe 'Groups: Features: Merge', type: :request do
     end
 
     it 'responds with features' do
-      expect(resource).to eq AccountService::Feature.all.decorate.as_json
+      expect(resource).to eq AccountService::Feature.where(owner: group).decorate.as_json
     end
   end
 
@@ -65,7 +65,7 @@ describe 'Groups: Features: Merge', type: :request do
     end
 
     it 'responds with list of features' do
-      expect(resource).to eq AccountService::Feature.all.decorate.as_json
+      expect(resource).to eq AccountService::Feature.where(owner: group).decorate.as_json
     end
 
     context 'with invalid feature' do

@@ -8,7 +8,7 @@ describe 'Grants: List', type: :request do
   let(:api)     { restify_with_headers(account_service_url).get.value! }
   let(:params)  { {} }
 
-  let!(:grants) { create_list(:'account_service/grant', 5) }
+  let!(:grants) { AccountService::Grant.all }
 
   it 'responds with :ok' do
     expect(resource).to respond_with :ok

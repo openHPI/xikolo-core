@@ -22,7 +22,7 @@ describe 'Grants: Create', type: :request do
     end
 
     it 'creates database record' do
-      expect { resource }.to change(AccountService::Grant, :count).from(0).to(1)
+      expect { resource }.to change(AccountService::Grant, :count).by(1)
     end
 
     it 'saves the provided data' do
@@ -47,12 +47,14 @@ describe 'Grants: Create', type: :request do
       end
 
       it 'does not create a database record' do
-        expect { resource }.not_to change(AccountService::Grant, :count).from(1)
+        expect { resource }.not_to change(AccountService::Grant, :count)
       end
     end
 
     context 'on xikolo.admins group' do
-      before { expect(AccountService::Group.count).to eq 0 }
+      before do
+        AccountService::Group.find_by!(name: 'xikolo.admins').destroy!
+      end
 
       let(:data) { {group: 'xikolo.admins', role: role.name, context: 'root'} }
 
@@ -65,11 +67,11 @@ describe 'Grants: Create', type: :request do
       end
 
       it 'creates database record' do
-        expect { resource }.to change(AccountService::Grant, :count).from(0).to(1)
+        expect { resource }.to change(AccountService::Grant, :count).by(1)
       end
 
       it 'creates the xikolo.admin group on the fly' do
-        expect { resource }.to change(AccountService::Group, :count).from(0).to(1)
+        expect { resource }.to change(AccountService::Group, :count).by(1)
       end
 
       it 'saves the provided data' do
@@ -94,7 +96,7 @@ describe 'Grants: Create', type: :request do
     end
 
     it 'creates database record' do
-      expect { resource }.to change(AccountService::Grant, :count).from(0).to(1)
+      expect { resource }.to change(AccountService::Grant, :count).by(1)
     end
 
     it 'saves the provided data' do
@@ -119,7 +121,7 @@ describe 'Grants: Create', type: :request do
       end
 
       it 'does not create a database record' do
-        expect { resource }.not_to change(AccountService::Grant, :count).from(1)
+        expect { resource }.not_to change(AccountService::Grant, :count)
       end
     end
   end

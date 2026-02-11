@@ -61,10 +61,9 @@ class Account::Register < ApplicationOperation
   end
 
   def trigger_welcome_mail(user, email)
-    Msgr.publish({
-      user_id: user['id'],
-      confirmation_url: @confirm.call(email['id'].to_s),
-    }, to: 'xikolo.web.account.sign_up')
+    NotificationService::SendWelcomeEmailJob.perform_later(
+      user['id'], @confirm.call(email['id'].to_s)
+    )
   end
 
   def handle_error(exception)

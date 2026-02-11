@@ -24,10 +24,6 @@ class AccountConsumer < Msgr::Consumer # rubocop:disable Layout/IndentationWidth
     # address does not exist anymore.
   end
 
-  def welcome_email
-    SendWelcomeEmailJob.perform_later(payload[:user_id], payload[:confirmation_url])
-  end
-
   private
 
   def deliver(mail)
