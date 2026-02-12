@@ -18,8 +18,8 @@
 /*------------------------------------*\
     $Bootstrap-Import
 \*------------------------------------*/
-@import "/vendor/assets/stylesheets/bootstrap/mixins/alerts";
-@import "/vendor/assets/stylesheets/bootstrap/alerts";
+@import "../../../../vendor/assets/stylesheets/bootstrap/mixins/alerts";
+@import "../../../../vendor/assets/stylesheets/bootstrap/alerts";
 
 .sweet-alert button.confirm {
   background-color: $primary-color !important;

@@ -1,5 +1,5 @@
 - content_for :head_assets
-  = javascript_include_tag 'quiz-recap'
+  = javascript_include_tag 'app/javascript/quiz-recap/quiz-recap', type: 'module'
 
 #quiz-recap__loading-indicator
   = render State::Loading.new

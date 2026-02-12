@@ -23,8 +23,8 @@ $tooltip-arrow-dimension: 5px;
 /*------------------------------------*\
     $Bootstrap-Import
 \*------------------------------------*/
-@import "/vendor/assets/stylesheets/bootstrap/mixins/reset-text";
-@import "/vendor/assets/stylesheets/bootstrap/tooltip";
+@import "../../../../vendor/assets/stylesheets/bootstrap/mixins/reset-text";
+@import "../../../../vendor/assets/stylesheets/bootstrap/tooltip";
 
 /*------------------------------------*\
     $Bootstrap Tooltip Styles (used in progress-item.hbs)

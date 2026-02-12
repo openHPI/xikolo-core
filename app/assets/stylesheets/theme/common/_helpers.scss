@@ -15,22 +15,6 @@
 /*------------------------------------*\
     $Font
 \*------------------------------------*/
-// Mixin for font declaration syntax
-@mixin declare-font-face(
-  $font-family,
-  $font-filename,
-  $font-weight: normal,
-  $font-style: normal,
-  $font-stretch: normal
-) {
-  @font-face {
-    font-family: "#{$font-family}";
-    font-stretch: $font-stretch;
-    font-style: $font-style;
-    font-weight: $font-weight;
-    src: url("fonts/#{$font-filename}.woff") format("woff");
-  }
-}
 
 @mixin font-xs {
   font-size: $font-size-xs;

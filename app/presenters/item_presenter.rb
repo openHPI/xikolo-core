@@ -242,10 +242,7 @@ class ItemPresenter < PrivatePresenter
   end
 
   def with_time_effort?
-    (@user.feature?('time_effort') && time_effort?) ||
-      (@user.feature?('time_effort.video_only') &&
-        time_effort? &&
-        content_type == 'video')
+    @user.feature?('time_effort') && time_effort?
   end
 
   def time_effort?

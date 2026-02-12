@@ -1,0 +1,16 @@
+---
+name: Set up node
+description: Set up Node, Corepack, and installs deps via Yarn
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-bun@v2
+      with:
+        bun-version: latest
+
+    - shell: sh
+      run: corepack enable
+
+    - shell: sh
+      run: bun install --immutable --refresh-lockfile

@@ -1,5 +1,5 @@
 - content_for :head_assets
-  = javascript_include_tag('user', crossorigin: 'anonymous', integrity: true, async: true)
+  = javascript_include_tag('app/javascript/user/user', type: 'module', async: true)
 
 h4.h4.pt20
   = t(:'account.shared.consent.profile.headline')

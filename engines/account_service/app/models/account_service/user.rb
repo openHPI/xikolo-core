@@ -162,11 +162,6 @@ class User < ApplicationRecord # rubocop:disable Layout/IndentationWidth
       ].reduce(:or)
     end
 
-    def auth_uid(query)
-      joins(:authorizations).where(authorizations: {uid: query.to_s})
-    end
-    # rubocop:enable all
-
     def with_embedded_resources
       select(
         'users.*',

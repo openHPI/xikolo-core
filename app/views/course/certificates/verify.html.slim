@@ -95,16 +95,3 @@
           ul.list-disc
             - @record.learning_goals.each do |goal|
               li = goal
-
-    - if @record.purpose == :show && @open_badge && current_user.feature?('social_sharing.certificate')
-      .row
-        .col-md-7
-          h3.h3
-            = t(:'verify.open_badge.share_open_badge')
-          .certificate-sharing
-            = render Course::SocialSharing.new(context: :certificate,
-                services: %w[facebook mail linkedin_add],
-                options: {site: Xikolo.config.site_name, title: @record.course_title, certificate_url: certificate_verification_url(@record.verification_code), course_url: course_url(@record.course_code), issued_year: @record.issued_year, issued_month: @record.issued_month})
-            .certificate-sharing__info
-              = link_to t(:'verify.open_badge.linkedin_info_url'), target: '_blank', rel: 'noopener' do
-                = render Global::FaIcon.new('circle-info', style: :solid, css_classes: 'fa-2x')

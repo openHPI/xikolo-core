@@ -52,10 +52,8 @@ html(
       };
       window.$.fn = window.$.prototype = window.$ || {};
 
-    = javascript_include_tag 'runtime', crossorigin: 'anonymous', integrity: true, async: true, debug: false
-    = javascript_include_tag 'main', crossorigin: 'anonymous', integrity: true, defer: true, debug: false
-
-    = javascript_include_tag 'lanalytics-framework', crossorigin: 'anonymous', integrity: true
+    = javascript_include_tag 'app/javascript/main', type: 'module', defer: true
+    = javascript_include_tag 'app/javascript/legacy/lanalytics/index', type: 'module'
 
     - if content_for? :head_assets
       = yield :head_assets

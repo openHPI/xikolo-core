@@ -15,12 +15,11 @@ html lang="#{I18n.locale}" data-locale-url="#{asset_path("i18n/#{I18n.locale}.js
     = stylesheet_link_tag 'styles', media: 'all', crossorigin: 'anonymous', integrity: true
     = stylesheet_link_tag 'tailwind', media: 'all', crossorigin: 'anonymous', integrity: true
 
-    = javascript_include_tag 'runtime', integrity: !Rails.env.development?
-    = javascript_include_tag 'main', integrity: !Rails.env.development?
-    = javascript_include_tag 'lanalytics-framework', crossorigin: 'anonymous', integrity: true
-    = javascript_include_tag 'home', crossorigin: 'anonymous', integrity: true, async: true, debug: false
-    = javascript_include_tag 'course', crossorigin: 'anonymous', integrity: true, async: true, debug: false
-    = javascript_include_tag 'admin', crossorigin: 'anonymous', integrity: true, async: true, debug: false
+    = javascript_include_tag 'app/javascript/main', type: 'module', async: true
+    = javascript_include_tag 'app/javascript/legacy/lanalytics/index', type: 'module', async: true
+    = javascript_include_tag 'app/javascript/home/home', type: 'module', async: true
+    = javascript_include_tag 'app/javascript/course/course', type: 'module', async: true
+    = javascript_include_tag 'app/javascript/admin/admin', type: 'module', async: true
 
   - style = []
   - style << "margin: 0 auto; max-width: #{params[:lookbook][:display][:max_width]}" if params[:lookbook][:display][:max_width]

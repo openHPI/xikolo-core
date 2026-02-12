@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "Processing SASS…"
+
+fontawesome_entry=./app/assets/stylesheets/fontawesome.scss
+
+# Detect whether Font Awesome Pro sources are present. If not, use a stub
+# stylesheet to still emit a fontawesome.css bundle to satisfy layout tags.
+if [[ ! -d app/assets/stylesheets/fontawesome-pro ]]; then
+  echo "Font Awesome Pro not found, using stub stylesheet"
+  fontawesome_entry=./app/assets/stylesheets/fontawesome.stub.scss
+fi
+
+assets=(
+  "$fontawesome_entry app/assets/builds/icons.css"
+  "./app/assets/stylesheets/bootstrap-custom.scss app/assets/builds/bootstrap.css"
+  "./app/assets/stylesheets/main.scss app/assets/builds/styles.css"
+  "./engines/notification_service/app/assets/stylesheets/notification_service/foundation.scss app/assets/builds/notification_service/foundation.css"
+  "./engines/news_service/app/assets/stylesheets/news_service/foundation.scss app/assets/builds/news_service/foundation.css"
+)
+
+for pair in "${assets[@]}"; do
+  set -- $pair
+  bun sass "$1:$2" --no-source-map --load-path=node_modules --load-path=vendor &
+done
+wait
+
+echo "SASS build done."

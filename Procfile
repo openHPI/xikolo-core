@@ -1,6 +1,0 @@
-web: WORKERS=5 bin/rails server -p 3000
-web-assets: yarn start
-web-msgr: bundle exec msgr
-web-sidekiq: bundle exec sidekiq
-web-delayed: bin/rake delayed:work
-web-solid-queue: bin/jobs

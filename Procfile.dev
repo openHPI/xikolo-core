@@ -1,0 +1,7 @@
+web: env RUBY_DEBUG_OPEN=true WORKERS=5 bin/rails server
+js: bun run build --watch
+css: bun run watch:sass
+tw: bun run build:tailwind --watch
+msgr: bundle exec msgr
+sidekiq: bundle exec sidekiq
+delayed: bin/rake delayed:work

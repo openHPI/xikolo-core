@@ -1,5 +1,5 @@
 /**
- * Helper for inline JS / Sprockets
+ * Helper for inline JS
  * @deprecated
  */
 

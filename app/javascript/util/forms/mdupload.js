@@ -3,7 +3,7 @@
  * See app/inputs/markdown_input.rb
  */
 
-import Dropzone from 'dropzone';
+import Dropzone from '../../../../vendor/assets/javascripts/dropzone';
 import ready from '../ready';
 import sanitize from '../sanitize';
 

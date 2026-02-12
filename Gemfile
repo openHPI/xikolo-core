@@ -173,15 +173,12 @@ gem 'chunky_png'
 gem 'jwt', '~> 2.0' # 3.0 requires a longer RSA key length
 
 # Assets
-gem 'rails-assets-manifest', '~> 3.0', '>= 3.0.1'
-gem 'sprockets', '~> 4.2'
-gem 'sprockets-rails', '~> 3.5'
+gem 'cssbundling-rails'
+gem 'jsbundling-rails'
+gem 'propshaft'
 
 group :assets do
-  gem 'dartsass-sprockets'
   gem 'i18n-js', '~> 4.2', '>= 4.2.3'
-  gem 'terser', '~> 1.1'
-  gem 'tilt', '~> 2.0'
 end
 
 group :development do

@@ -4,7 +4,7 @@ import tseslint from 'typescript-eslint';
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
-  { files: ['**/*.{js,mjs,cjs,ts}'] },
+  { files: ['app/javascript/**/*.{js,mjs,cjs,ts}'] },
   {
     languageOptions: {
       globals: {
@@ -23,7 +23,6 @@ export default [
   },
   {
     ignores: [
-      'app/assets/javascripts', // Ignore legacy assets
       'vendor/assets/javascripts', // Ignore vendor assets
     ],
   },

@@ -228,12 +228,6 @@ See below for explanations on [managing feature flippers](#manage-feature-flippe
 
     *Scope:* `Group.all_users`, `Context.root`
 
-`social_sharing.certificate`
-
-:   Enable social sharing for open badges on the certificates page.
-
-    *Scope:* `Group.all_users`, `Context.root`
-
 `time_effort` :material-test-tube:
 
 :   Enable time effort estimation shown in the item navigation and on the item page.
@@ -243,22 +237,6 @@ See below for explanations on [managing feature flippers](#manage-feature-flippe
     !!! info
 
         This requires the time effort service to be set up for the platform.
-
-`time_effort.video_only` :material-test-tube:
-
-:   Enable time effort estimation shown in the item navigation and on the item page.
-
-    *Scope:* `Group.all_users`, `Context.root`
-
-    !!! info
-
-        This feature must be used in conjunction with the `time_effort` feature.
-
-`users.search_by_auth_uid`
-
-:   Allow admins to search users via authorization UID.
-
-    *Scope:* `Group.administrators`, `Context.root`
 
 `video_slide_thumbnails` :material-test-tube:
 

@@ -62,35 +62,70 @@ $xi-font-nav-tabs: $corporatefont, sans-serif !default;
 /*------------------------------------*\
     $Bootstrap-Import
 \*------------------------------------*/
-@import "/vendor/assets/stylesheets/bootstrap/mixins/text-emphasis";
-@import "/vendor/assets/stylesheets/bootstrap/mixins/text-overflow";
-@import "/vendor/assets/stylesheets/bootstrap/mixins/background-variant";
-@import "/vendor/assets/stylesheets/bootstrap/type";
+@import "../../../../vendor/assets/stylesheets/bootstrap/mixins/text-emphasis";
+@import "../../../../vendor/assets/stylesheets/bootstrap/mixins/text-overflow";
+@import "../../../../vendor/assets/stylesheets/bootstrap/mixins/background-variant";
+@import "../../../../vendor/assets/stylesheets/bootstrap/type";
 
 /*------------------------------------*\
     $Fonts
 \*------------------------------------*/
-
-@include declare-font-face("IBM Plex Sans", "IBM-Plex-Sans-Regular");
-@include declare-font-face("IBM Plex Sans", "IBM-Plex-Sans-Bold", bold);
-@include declare-font-face(
-  "IBM Plex Sans",
-  "IBM-Plex-Sans-RegularItalic",
-  normal,
-  italic
-);
-@include declare-font-face(
-  "IBM Plex Sans",
-  "IBM-Plex-Sans-BoldItalic",
-  bold,
-  italic
-);
-@include declare-font-face("IBM Plex Mono", "IBM-Plex-Mono-Regular");
-
-@include declare-font-face("Open Sans", "OpenSansRegular");
-@include declare-font-face("Open Sans", "OpenSansLight", 100);
-@include declare-font-face("Open Sans", "OpenSansSemiBold", bold);
-
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-stretch: normal;
+  font-style: normal;
+  font-weight: normal;
+  src: url("/IBM-Plex-Sans-Regular.woff") format("woff");
+}
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-stretch: normal;
+  font-style: normal;
+  font-weight: bold;
+  src: url("/IBM-Plex-Sans-Bold.woff") format("woff");
+}
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-stretch: normal;
+  font-style: italic;
+  font-weight: normal;
+  src: url("/IBM-Plex-Sans-RegularItalic.woff") format("woff");
+}
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-stretch: normal;
+  font-style: italic;
+  font-weight: bold;
+  src: url("/IBM-Plex-Sans-BoldItalic.woff") format("woff");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-stretch: normal;
+  font-style: normal;
+  font-weight: normal;
+  src: url("/IBM-Plex-Mono-Regular.woff") format("woff");
+}
+@font-face {
+  font-family: "Open Sans";
+  font-stretch: normal;
+  font-style: normal;
+  font-weight: normal;
+  src: url("/OpenSansRegular.woff") format("woff");
+}
+@font-face {
+  font-family: "Open Sans";
+  font-stretch: normal;
+  font-style: normal;
+  font-weight: 100;
+  src: url("/OpenSansLight.woff") format("woff");
+}
+@font-face {
+  font-family: "Open Sans";
+  font-stretch: normal;
+  font-style: normal;
+  font-weight: bold;
+  src: url("/OpenSansSemiBold.woff") format("woff");
+}
 /*------------------------------------*\
     $Font-Awesome
 \*------------------------------------*/

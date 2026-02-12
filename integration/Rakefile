@@ -198,7 +198,7 @@ namespace :assets do
   desc 'Build all assets'
   task build: %w[^config] do
     Server.exec(:assets) do |app|
-      app.process 'make', 'assets', env: {RAILS_ENV: ENV.fetch('RAILS_ENV', nil)}
+      app.process 'bundle', 'exec', 'rails', 'assets:precompile', env: {RAILS_ENV: ENV.fetch('RAILS_ENV', nil)}
     end
   end
 end

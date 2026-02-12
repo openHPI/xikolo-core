@@ -1313,8 +1313,6 @@ de:
         confirmed_false: Nein
         details: Details
         search: Suche
-        search_by_auth_uid: "Suche Nutzer mit SSO-ID:"
-        go: Los
       form:
         placeholder:
           full_name: "Name"
@@ -3287,32 +3285,3 @@ de:
         announcement: Der Empfang von Plattformbenachrichtigungen wird deaktiviert.
         course_announcement: Der Empfang von Kursbenachrichtigungen wird deaktiviert.
         pinboard: Der Empfang von Pinboard News wird deaktiviert.
-
-  social_sharing:
-    facebook:
-      button: Teilen
-      info: Bei Facebook teilen
-      icon:
-        name: facebook
-        style: brands
-    linkedin_add:
-      button: Zum Profil hinzufügen
-      info: Zu LinkedIn hinzufügen
-      icon:
-        name: linkedin
-        style: brands
-    mail:
-      button: Mail
-      info: Per E-Mail versenden
-      icon:
-        name: envelope
-        style: solid
-      share_certificate:
-        subject: "Ich habe einen Kurs auf %{site} erfolgreich abgeschlossen"
-        body: |
-          Hallo ,
-
-          ich habe den %{site}-Kurs %{title}: %{course_url} abgeschlossen.
-          Meinen Open Badge kannst du hier finden: %{certificate_url}
-
-          Schönen Gruß,

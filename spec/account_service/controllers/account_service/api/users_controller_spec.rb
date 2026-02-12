@@ -306,24 +306,5 @@ describe AccountService::API::UsersController, type: :controller do
         expect(ids).to match_array matches.map(&:id)
       end
     end
-
-    describe 'search by auth uid query' do
-      before do
-        create_list(:'account_service/user', 10)
-      end
-
-      let(:params) { {auth_uid: authorization.uid} }
-      let(:authorization) do
-        create(:'account_service/authorization', user:)
-      end
-      let(:payload) { JSON.parse(response.body) }
-
-      it { is_expected.to have_http_status :ok }
-      it { expect(payload.size).to eq 1 }
-
-      it 'finds user via authorization uid' do
-        expect(payload).to match [hash_including('id' => user.id)]
-      end
-    end
   end
 end

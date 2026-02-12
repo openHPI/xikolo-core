@@ -11,8 +11,8 @@
  *
  */
 
-import TomSelect from 'tom-select/dist/esm/tom-select.complete';
-import { TomInput } from 'tom-select/dist/esm/types';
+import TomSelect from 'tom-select/dist/esm/tom-select.complete.js';
+import { TomInput } from 'tom-select/dist/esm/types/index.js';
 import ready from '../../util/ready';
 import * as settings from './custom-select/settings';
 import getClassifiersSettings from './custom-select/classifiers-select';

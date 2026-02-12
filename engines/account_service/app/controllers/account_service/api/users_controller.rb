@@ -8,7 +8,6 @@ class API::UsersController < API::RESTController # rubocop:disable Layout/Indent
 
   has_scope :query
   has_scope :search
-  has_scope :auth_uid
 
   has_scope :archived, default: 'false', allow_blank: true do |_, scope, value|
     case value
@@ -66,12 +65,11 @@ class API::UsersController < API::RESTController # rubocop:disable Layout/Indent
   #   be returned.
   # @optional context [String] Apply a context scope to filters
   #   supporting a scope lookup like `permissions=`.
-  # @optional auth_uid [String] Search for users by authorization uid.
   #
   # @response [Array<User>] List of users.
   #
   rfc6570_params \
-    index: %i[search query archived confirmed id permission context auth_uid]
+    index: %i[search query archived confirmed id permission context]
   def index
     respond_with collection
   end

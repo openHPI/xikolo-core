@@ -55,7 +55,6 @@ examples.txt
 
 # Auto-generated assets
 /public/assets*
-/app/assets/tailwind/output.css
 /app/assets/builds/*
 !/app/assets/builds/.keep
 

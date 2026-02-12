@@ -300,13 +300,9 @@ GEM
       unicode (>= 0.4.4.5)
     css_parser (1.21.1)
       addressable
+    cssbundling-rails (1.4.3)
+      railties (>= 6.0.0)
     csv (3.3.5)
-    dartsass-sprockets (3.2.1)
-      railties (>= 4.0.0)
-      sassc-embedded (~> 1.80.1)
-      sprockets (> 3.0)
-      sprockets-rails
-      tilt
     database_cleaner (2.1.0)
       database_cleaner-active_record (>= 2, < 3)
     database_cleaner-active_record (2.2.1)
@@ -378,7 +374,6 @@ GEM
       tzinfo
     ethon (0.16.0)
       ffi (>= 1.15.0)
-    execjs (2.10.0)
     factory_bot (6.5.4)
       activesupport (>= 6.1.0)
     factory_bot_rails (6.5.0)
@@ -420,12 +415,6 @@ GEM
       i18n (>= 0.7)
       multi_json
       request_store (>= 1.0)
-    google-protobuf (4.31.1)
-      bigdecimal
-      rake (>= 13)
-    google-protobuf (4.31.1-x86_64-linux-gnu)
-      bigdecimal
-      rake (>= 13)
     grape (2.2.0)
       activesupport (>= 6)
       dry-types (>= 1.1)
@@ -482,6 +471,8 @@ GEM
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
     jmespath (1.6.2)
+    jsbundling-rails (1.3.1)
+      railties (>= 6.0.0)
     json (2.12.2)
     json-jwt (1.16.7)
       activesupport (>= 4.2)
@@ -694,6 +685,10 @@ GEM
       premailer (~> 1.7, >= 1.7.9)
     prettyprint (0.2.0)
     prism (1.4.0)
+    propshaft (1.3.1)
+      actionpack (>= 7.0.0)
+      activesupport (>= 7.0.0)
+      rack
     psych (5.2.6)
       date
       stringio
@@ -745,9 +740,6 @@ GEM
       activesupport (= 7.2.2.1)
       bundler (>= 1.15.0)
       railties (= 7.2.2.1)
-    rails-assets-manifest (3.0.1)
-      activesupport (> 4.2)
-      railties (> 4.2)
     rails-controller-testing (1.0.5)
       actionpack (>= 5.0.1.rc1)
       actionview (>= 5.0.1.rc1)
@@ -906,13 +898,6 @@ GEM
     sanitize (7.0.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.16.8)
-    sass-embedded (1.89.2)
-      google-protobuf (~> 4.31)
-      rake (>= 13)
-    sass-embedded (1.89.2-x86_64-linux-gnu)
-      google-protobuf (~> 4.31)
-    sassc-embedded (1.80.4)
-      sass-embedded (~> 1.80)
     scenic (1.8.0)
       activerecord (>= 4.0.0)
       railties (>= 4.0.0)
@@ -978,14 +963,6 @@ GEM
     sorted_set (1.0.3)
       rbtree
       set (~> 1.0)
-    sprockets (4.2.2)
-      concurrent-ruby (~> 1.0)
-      logger
-      rack (>= 2.2.4, < 4)
-    sprockets-rails (3.5.2)
-      actionpack (>= 6.1)
-      activesupport (>= 6.1)
-      sprockets (>= 3.0.0)
     streamio-ffmpeg (3.0.2)
       multi_json (~> 1.8)
     stringio (3.1.7)
@@ -1000,8 +977,6 @@ GEM
     telegraf (3.3.0)
       bigdecimal
     temple (0.10.3)
-    terser (1.2.6)
-      execjs (>= 0.3.0, < 3)
     thor (1.3.2)
     thruster (0.1.14)
     thruster (0.1.14-x86_64-linux)
@@ -1093,8 +1068,8 @@ DEPENDENCIES
   country_select (~> 11.0)
   course_service!
   coverband
+  cssbundling-rails
   csv
-  dartsass-sprockets
   database_cleaner
   debug
   decorate-responder (~> 2.0)
@@ -1119,6 +1094,7 @@ DEPENDENCIES
   ims-lti (~> 1.2, < 2.0.0)
   inky-rb
   jbuilder
+  jsbundling-rails
   json
   json-schema
   json_spec
@@ -1154,6 +1130,7 @@ DEPENDENCIES
   prawn-table
   prawn-templates (~> 0.1.0)
   premailer-rails
+  propshaft
   puma
   quiz_service!
   rack (~> 3.1.0)
@@ -1162,7 +1139,6 @@ DEPENDENCIES
   rack-link_headers (~> 2.2)
   rack-remote
   rails (~> 7.2.0)
-  rails-assets-manifest (~> 3.0, >= 3.0.1)
   rails-controller-testing
   rails-i18n (~> 7.0)
   rails-rfc6570 (~> 3.0)
@@ -1202,15 +1178,11 @@ DEPENDENCIES
   slim
   slim_lint
   solid_queue (~> 1.2)
-  sprockets (~> 4.2)
-  sprockets-rails (~> 3.5)
   streamio-ffmpeg
   svg-graph (~> 2.1)
   syslog
   telegraf (~> 3.0)
-  terser (~> 1.1)
   thruster
-  tilt (~> 2.0)
   timecop
   timeeffort_service!
   truncato (~> 0.7.13)

@@ -44,7 +44,7 @@ module Home
       ext = File.extname @image[:url]
       img_2x = @image[:url].gsub(ext, ".2x#{ext}")
 
-      return if helpers.assets_manifest.find_sources(img_2x).none?
+      return if Rails.application.assets.load_path.find(img_2x).blank?
 
       "#{image_path(@image[:url])}, #{image_path(img_2x)} 2x"
     end

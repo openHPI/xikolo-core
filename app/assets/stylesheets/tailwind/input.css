@@ -6,10 +6,10 @@
 @plugin "@tailwindcss/typography";
 @import './theme/typography.css';
 
-@source '../../../app/views/';
-@source '../../../app/components/';
-@source '../../../app/assets/components/';
-@source '../../../brand/';
+@source '../../../../app/views/';
+@source '../../../../app/components/';
+@source '../../../../app/assets/components/';
+@source '../../../../brand/';
 
 @theme {
   --color-primary-900: hsl(21deg, 75%, 14%);

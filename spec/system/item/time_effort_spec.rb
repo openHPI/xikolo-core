@@ -105,17 +105,6 @@ describe 'Item: Time Effort', type: :system do
         end
       end
     end
-
-    context 'time effort enabled for videos only' do
-      let(:features) { super().merge('time_effort.video_only' => 'true') }
-
-      it 'adds the time effort information to the item header and tooltip' do
-        visit "/courses/the_course/sections/#{section.id}/items/#{item['id']}"
-
-        expect(page).to have_content 'Time effort: approx. 3 minutes'
-        expect(page.find("[aria-label='Awesome video (Video)']")['data-tooltip']).to include '"item-info":"(Video, \u0026sim;3 minutes)"'
-      end
-    end
   end
 
   context '(quiz)' do
@@ -157,17 +146,6 @@ describe 'Item: Time Effort', type: :system do
 
         expect(page).to have_content 'Time effort: approx. 4 minutes'
         expect(page.find('li.quiz > a')['data-tooltip']).to include '"item-info":"(Graded Test, \u0026sim;4 minutes)"'
-      end
-    end
-
-    context 'time effort enabled for videos only' do
-      let(:features) { super().merge('time_effort.video_only' => 'true') }
-
-      it 'does not add the time effort information' do
-        visit "/courses/the_course/sections/#{section.id}/items/#{item['id']}"
-
-        expect(page.find('li.quiz > a')['data-tooltip']).not_to include '"item-info":"(Graded Test, \u0026sim;4 minutes)"'
-        expect(page).to have_no_content 'Time effort: approx. 4 minutes'
       end
     end
   end

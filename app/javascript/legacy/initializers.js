@@ -9,7 +9,7 @@
  */
 
 import i18n from '../i18n/i18n';
-import Dropzone from 'dropzone';
+import Dropzone from '../../../vendor/assets/javascripts/dropzone';
 import jQuery from 'jquery';
 import ready from '../util/ready';
 

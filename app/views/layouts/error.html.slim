@@ -38,9 +38,8 @@ html lang="#{I18n.locale}" data-locale-url="#{asset_path("i18n/#{I18n.locale}.js
       };
       window.$.fn = window.$.prototype = window.$ || {};
 
-    = javascript_include_tag 'runtime', integrity: true, async: true
-    = javascript_include_tag 'main', integrity: true, defer: true
-    = javascript_include_tag 'lanalytics-framework', crossorigin: 'anonymous', integrity: true
+    = javascript_include_tag 'app/javascript/main', type: 'module', defer: true
+    = javascript_include_tag 'app/javascript/legacy/lanalytics/index', type: 'module'
 
   body class="#{'is-masqueraded' if current_user.instrumented?}"
     = render Navigation::Bar.new(user: current_user, allowed: %w[about announcements courses home].freeze)

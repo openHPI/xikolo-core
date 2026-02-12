@@ -190,7 +190,7 @@ describe AccountService::API::RootController, type: :request do
   context 'rel(users)' do
     subject { super().rel(:users).template.variables }
 
-    it { is_expected.to eq %w[search query archived confirmed id permission context auth_uid] }
+    it { is_expected.to eq %w[search query archived confirmed id permission context] }
   end
 
   describe 'response' do

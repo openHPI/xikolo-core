@@ -31,7 +31,6 @@ The use of js-prefixed classes clutters the class attributes.
 
 ### jQuery is deprecated
 
-In Webpack (modern JS) assets, you can consider it forbidden.
 Typical usage patterns for DOM traversal / manipulation can be [replaced with vanilla JS](http://youmightnotneedjquery.com/).
 
 !!! info

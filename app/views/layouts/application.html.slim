@@ -94,11 +94,8 @@ html.motion-safe:scroll-smooth(
       };
       window.$.fn = window.$.prototype = window.$ || {};
 
-    / webpack assets always support integrity
-    = javascript_include_tag 'runtime', crossorigin: 'anonymous', integrity: true, async: true, debug: false
-    = javascript_include_tag 'main', crossorigin: 'anonymous', integrity: true, defer: true, debug: false
-
-    = javascript_include_tag 'lanalytics-framework', crossorigin: 'anonymous', integrity: true, async: true
+    = javascript_include_tag 'app/javascript/main', type: 'module'
+    = javascript_include_tag 'app/javascript/legacy/lanalytics/index', type: 'module'
 
     /
     / Extras

@@ -1921,8 +1921,6 @@ en:
         confirmed_false: false
         details: Details
         search: Search
-        search_by_auth_uid: "Search user by SSO ID:"
-        go: "Go"
       form:
         placeholder:
           full_name: "Name"
@@ -3988,32 +3986,3 @@ en:
         announcement: Receiving any more platform news will be deactivated.
         course_announcement: Receiving any more course news will be deactivated.
         pinboard: Receiving any more pinboard news will be deactivated.
-
-  social_sharing:
-    facebook:
-      button: Share
-      info: Share on Facebook
-      icon:
-        name: facebook
-        style: brands
-    linkedin_add:
-      button: Add to profile
-      info: Add to LinkedIn profile
-      icon:
-        name: linkedin
-        style: brands
-    mail:
-      button: Mail
-      info: Send by email
-      icon:
-        name: envelope
-        style: solid
-      share_certificate:
-        subject: "I successfully completed a course on %{site}"
-        body: |
-          Hello ,
-
-          I just finished the %{site} course %{title}: %{course_url}.
-          You can check my Open Badge here: %{certificate_url}
-
-          Best regards,

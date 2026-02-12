@@ -3,7 +3,7 @@
  * See app/inputs/image_upload_input.rb
  */
 
-import Dropzone from 'dropzone';
+import Dropzone from '../../../../vendor/assets/javascripts/dropzone';
 import ready from '../../util/ready';
 import sanitize from '../../util/sanitize';
 import I18n from '../../i18n/i18n';

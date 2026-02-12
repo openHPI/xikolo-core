@@ -1,4 +1,4 @@
-= javascript_include_tag('video-player', crossorigin: 'anonymous', integrity: true, async: true, debug: false)
+= javascript_include_tag 'app/javascript/video-player/video-player', type: 'module', async: true
 
 .video-player data-videoplayer-with-transcript=transcript
   xm-player playbackrate=user_preferences[:playback_rate] showsubtitle=user_preferences[:show_subtitle] slides-src=thumbnails

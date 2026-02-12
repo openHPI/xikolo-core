@@ -1,5 +1,5 @@
 - content_for :head_assets do
-  = javascript_include_tag 'teacher', crossorigin: 'anonymous', integrity: true, async: true, debug: false
+  = javascript_include_tag 'app/javascript/teacher/teacher', type: 'module', async: true
 
 = simple_form_for(@item,
     url: {controller: 'items', action: @item.new_record? ? :create : :update},

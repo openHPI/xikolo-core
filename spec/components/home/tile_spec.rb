@@ -67,9 +67,9 @@ describe Home::Tile, type: :component do
 
     context 'providing images for retina displays (.2x)' do
       before do
-        allow(Rails.application.assets_manifest).to receive(:find_sources)
-          .with('/image.2x.png')
-          .and_return(['image'])
+        load_path = instance_double(Propshaft::LoadPath)
+        allow(Rails.application.assets).to receive(:load_path).and_return(load_path)
+        allow(load_path).to receive(:find).with('/image.2x.png').and_return(true)
       end
 
       it 'lists alternative image sizes' do

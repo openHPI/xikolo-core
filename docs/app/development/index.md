@@ -26,19 +26,6 @@ bundle install
 bundle exec rake bundle:install
 cd ..
 
-# Install latest frontend dependencies and compile them:
-# This is the default target and builds the assets: Sprockets and Webpack.
-make assets
-# This must be done additionally for each brand you require:
-BRAND=brandname make assets
-
-# [Optional] Sometimes, some assets need to be (re-)built only:
-# Build Webpack assets only.
-make webpack
-
-# Build Sprockets assets only.
-make sprockets
-
 # Prepare the database (i.e., run migrations):
 bundle exec rake db:prepare
 ```

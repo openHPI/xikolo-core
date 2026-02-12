@@ -1,5 +1,5 @@
 - content_for :head_assets
-  = javascript_include_tag 'teacher', crossorigin: 'anonymous', integrity: true, async: true, debug: false
+  = javascript_include_tag 'app/javascript/teacher/teacher', type: 'module', async: true
 
 - content_for :course_area_header
   = render Global::PageHeader.new("#{t(:'admin.statistics.announcements.title')} - #{course_layout.title}",

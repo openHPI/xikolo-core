@@ -26,6 +26,7 @@ RUN <<EOF
   apt-get --yes --quiet install \
     autoconf \
     build-essential \
+    curl \
     git \
     libcurl4 \
     libffi-dev \
@@ -40,7 +41,8 @@ RUN <<EOF
     pax-utils \
     pkg-config \
     shared-mime-info \
-    tzdata
+    tzdata \
+    unzip
 EOF
 
 COPY ./clients /app/clients
@@ -54,17 +56,17 @@ RUN <<EOF
   bundle install --jobs 4 --retry 3
 EOF
 
-COPY package.json yarn.lock .yarnrc.yml /app/
+COPY package.json bun.lock /app/
 
-RUN <<EOF
-  corepack yarn install
-EOF
+ENV BUN_INSTALL=/usr/local/bun
+ENV PATH=/usr/local/bun/bin:$PATH
+ARG BUN_VERSION=1.3.6
+RUN curl -fsSL https://bun.sh/install | bash -s -- "bun-v${BUN_VERSION}"
 
 COPY --exclude=docker --exclude=services . /app/
 
-RUN --mount=type=bind,target=/docker,source=/docker <<EOF
-  make --jobs="$(/docker/bin/njobs)" all
-EOF
+# Precompiling assets for production without requiring secret RAILS_MASTER_KEY
+RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 
 #
 # Application build environment

@@ -23,9 +23,9 @@ $dropdown-header-color: $black;
 /*------------------------------------*\
     $Bootstrap-Import
 \*------------------------------------*/
-@import "/vendor/assets/stylesheets/bootstrap/mixins/reset-filter";
-@import "/vendor/assets/stylesheets/bootstrap/mixins/nav-divider";
-@import "/vendor/assets/stylesheets/bootstrap/dropdowns";
+@import "../../../../vendor/assets/stylesheets/bootstrap/mixins/reset-filter";
+@import "../../../../vendor/assets/stylesheets/bootstrap/mixins/nav-divider";
+@import "../../../../vendor/assets/stylesheets/bootstrap/dropdowns";
 
 /*------------------------------------*\
     $Dropdown-Base

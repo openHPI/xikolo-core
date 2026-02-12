@@ -18,38 +18,38 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-node
-      - run: yarn run lint:js --color
+      - uses: ./.github/actions/setup-bun
+      - run: bun run lint:js --color
 
   css:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-node
-      - run: yarn run lint:css --color
+      - uses: ./.github/actions/setup-bun
+      - run: bun run lint:css --color
 
   markdown:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-node
-      - run: yarn run lint:md
+      - uses: ./.github/actions/setup-bun
+      - run: bun run lint:md
 
-  # Check that all files are correctly formatted. Use `yarn run format`
+  # Check that all files are correctly formatted. Use `bun run format`
   # to auto-format all files.
   format:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-node
-      - run: yarn run lint:format
+      - uses: ./.github/actions/setup-bun
+      - run: bun run lint:format
 
   herb:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-node
-      - run: yarn run lint:herb
+      - uses: ./.github/actions/setup-bun
+      - run: bun run lint:herb
 
   rubocop:
     runs-on: ubuntu-24.04

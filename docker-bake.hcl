@@ -26,13 +26,13 @@ target ruby-base {
   ]
 }
 
-target ruby-base-node {
+target ruby-base-bun {
   inherits = ["ruby-base"]
-  target   = "ruby-base-node"
+  target   = "ruby-base-bun"
 
   tags = [
-    "${CI_REGISTRY_IMAGE}/ruby-base-node:${TAG}",
-    "${CI_REGISTRY_IMAGE}/ruby-base-node:latest",
+    "${CI_REGISTRY_IMAGE}/ruby-base-bun:${TAG}",
+    "${CI_REGISTRY_IMAGE}/ruby-base-bun:latest",
   ]
 
   platforms = [

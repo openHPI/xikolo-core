@@ -10,18 +10,16 @@ RUN --mount=type=bind,source=packages.txt,target=packages.txt <<-EOF
 EOF
 
 
-FROM ruby-base AS ruby-base-node
+FROM ruby-base AS ruby-base-bun
 
 SHELL ["/bin/bash", "-x", "-o", "pipefail", "-c"]
 
-RUN <<-EOF
-  curl -fL https://deb.nodesource.com/setup_22.x | bash
-  apt-get install --yes --no-install-recommends nodejs
-  corepack enable
-EOF
+ENV BUN_INSTALL=/usr/local/bun
+ENV PATH=/usr/local/bun/bin:$PATH
+ARG BUN_VERSION=1.3.6
+RUN curl -fsSL https://bun.sh/install | bash -s -- "bun-v${BUN_VERSION}"
 
-
-FROM ruby-base-node AS ruby-base-chrome
+FROM ruby-base-bun AS ruby-base-chrome
 
 SHELL ["/bin/bash", "-x", "-o", "pipefail", "-c"]
 

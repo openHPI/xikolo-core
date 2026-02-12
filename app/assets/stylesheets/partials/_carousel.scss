@@ -21,10 +21,10 @@ $xi-carousel-indicators-color-active: $primary-color !default;
 /*------------------------------------*\
     $Bootstrap-Import
 \*------------------------------------*/
-@import "/vendor/assets/stylesheets/bootstrap/mixins/opacity";
-@import "/vendor/assets/stylesheets/bootstrap/mixins/image";
-@import "/vendor/assets/stylesheets/bootstrap/mixins/gradients";
-@import "/vendor/assets/stylesheets/bootstrap/carousel";
+@import "../../../../vendor/assets/stylesheets/bootstrap/mixins/opacity";
+@import "../../../../vendor/assets/stylesheets/bootstrap/mixins/image";
+@import "../../../../vendor/assets/stylesheets/bootstrap/mixins/gradients";
+@import "../../../../vendor/assets/stylesheets/bootstrap/carousel";
 
 /*------------------------------------*\
     $Carousel-Styles

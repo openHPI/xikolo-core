@@ -1,5 +1,5 @@
 - content_for :head_assets
-  = javascript_include_tag 'admin', crossorigin: 'anonymous', integrity: true, async: true, debug: false
+  = javascript_include_tag 'app/javascript/admin/admin', type: 'module', async: true
 
 = simple_form_for(:classifier) do |f|
   = f.input :courses, required: false, collection: []

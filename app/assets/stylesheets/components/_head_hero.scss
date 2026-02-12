@@ -8,8 +8,8 @@ $head-hero-claim-top: 60% !default;
 $head-hero-max-height: 650px !default;
 
 // PNG path without extension. Provide PNG with same name and ".2x" suffix for retina devices support (e.g. desktop.2x.png).
-$head-hero-background-image-mobile: "images/startpage/head_hero/mobile";
-$head-hero-background-image-desktop: "images/startpage/head_hero/desktop";
+$head-hero-background-image-mobile: "/startpage/head_hero/mobile";
+$head-hero-background-image-desktop: "/startpage/head_hero/desktop";
 
 // Set background properties for each breakpoint (background color / position / size / repeat)
 $head-hero-background: hsl(0, 0%, 96%) top center / 100% auto no-repeat !default;

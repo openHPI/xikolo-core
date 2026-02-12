@@ -7,16 +7,6 @@ class Admin::UsersController < Abstract::FrontendController
       params[:page] = 1 # !TODO: Do this global for all paging support controllers?
     end
 
-    if params[:uid_query].present?
-      user = account_api.rel(:users).get({auth_uid: params[:uid_query]}).value!.first
-
-      if user
-        return redirect_to user_path user['id']
-      else
-        add_flash_message :error, t(:'flash.error.users.not_found')
-      end
-    end
-
     users_promise =
       if params[:q].present?
         account_api.rel(:users).get({

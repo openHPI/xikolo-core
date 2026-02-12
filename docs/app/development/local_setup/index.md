@@ -419,25 +419,15 @@ bundle exec rake reset
 
 ### Install and compile frontend dependencies
 
-In `integration/`, run the following command to build all assets:
+This project uses Propshaft to manage frontend dependencies.
+Bun is used to bundle the JavaScript, the (legacy) CSS is compiled using Sass.
+
+Everything is then delivered via Propshaft.
+
+Running the following script starts both the Rails server and the asset bundler's development server:
 
 ```console
-bundle exec rake assets:build
-```
-
-Otherwise, you can run `make` directly:
-
-```console
-make assets
-```
-
-This is the default target and builds all assets: Sprockets and Webpack.
-This target can be customized using `RAILS_ENV` and `BRAND`.
-
-If needed, add a `RAILS_ENV` or `BRAND`, such as:
-
-```console
-RAILS_ENV=production BRAND=brandname make assets
+./bin/dev
 ```
 
 ### Configure EditorConfig support

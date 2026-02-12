@@ -1,5 +1,5 @@
 - content_for :head_assets
-  = javascript_include_tag 'teacher', crossorigin: 'anonymous', integrity: true, async: true, debug: false
+  = javascript_include_tag 'app/javascript/teacher/teacher', type: 'module', async: true
 
 - if params[:stat_id]
   div[
@@ -28,7 +28,7 @@
     .col-md-12
       hr.hr.bs-hr
 
-      = javascript_include_tag 'dimple.js', crossorigin: 'anonymous', integrity: true, defer: true, debug: false
+      = javascript_include_tag 'app/javascript/libraries/dimple', type: 'module', defer: true
 
       javascript:
        var chartHolder = [];

@@ -1,10 +1,10 @@
 $input-border-focus: $primary-color;
 $input-border-radius: 0px;
 
-@import "/vendor/assets/stylesheets/bootstrap/mixins/forms";
-@import "/vendor/assets/stylesheets/bootstrap/mixins/tab-focus";
-@import "/vendor/assets/stylesheets/bootstrap/mixins/vendor-prefixes";
-@import "/vendor/assets/stylesheets/bootstrap/forms";
+@import "../../../../vendor/assets/stylesheets/bootstrap/mixins/forms";
+@import "../../../../vendor/assets/stylesheets/bootstrap/mixins/tab-focus";
+@import "../../../../vendor/assets/stylesheets/bootstrap/mixins/vendor-prefixes";
+@import "../../../../vendor/assets/stylesheets/bootstrap/forms";
 
 //fix for our toggle switches
 div.boolean label.radio,

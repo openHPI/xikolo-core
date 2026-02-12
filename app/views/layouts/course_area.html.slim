@@ -1,5 +1,5 @@
 - content_for :head_assets
-  = javascript_include_tag 'course', crossorigin: 'anonymous', integrity: true, async: true, debug: false
+  = javascript_include_tag 'app/javascript/course/course', type: 'module', defer: true
 
 / Header bar, default is slim (since it's used the most), overwrite via :course_area_header (renders into larger :page_header)
 - if content_for? :course_area_header
