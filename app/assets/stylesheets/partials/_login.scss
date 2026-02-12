@@ -56,7 +56,7 @@
 
     padding-left: 50px;
     margin-bottom: 0 !important;
-    background-image: url("images/omniauth/saml_test_id.png");
+    background-image: url("/omniauth/saml_test_id.png");
     background-position: 17px;
     background-repeat: no-repeat;
     background-size: auto 29px;
@@ -75,7 +75,7 @@
 
     padding-left: 50px;
     margin-bottom: 0 !important;
-    background-image: url("images/omniauth/hpi.png");
+    background-image: url("/omniauth/hpi.png");
     background-position: 17px;
     background-repeat: no-repeat;
     vertical-align: middle;
@@ -91,7 +91,7 @@
 
     padding-left: 50px;
     margin-bottom: 0 !important;
-    background-image: url("images/omniauth/mein_bildungsraum.png");
+    background-image: url("/omniauth/mein_bildungsraum.png");
     background-position: 17px;
     background-repeat: no-repeat;
     vertical-align: middle;
@@ -137,7 +137,7 @@
     padding-right: 10px;
     padding-left: 30px;
     background-color: #04518b;
-    background-image: url("images/omniauth/saml_test_id.png");
+    background-image: url("/omniauth/saml_test_id.png");
     background-position: 6px;
     background-repeat: no-repeat;
     background-size: auto 18px;
@@ -153,13 +153,13 @@
     @extend %label-auth;
 
     background-color: $orange;
-    background-image: url("images/omniauth/hpi.png");
+    background-image: url("/omniauth/hpi.png");
   }
 
   [data-provider="mein_bildungsraum"] {
     @extend %label-auth;
 
     background-color: #4dafff;
-    background-image: url("images/omniauth/mein_bildungsraum.png");
+    background-image: url("/omniauth/mein_bildungsraum.png");
   }
 }

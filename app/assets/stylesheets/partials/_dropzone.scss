@@ -255,7 +255,7 @@
 .dropzone .dz-preview .dz-success-mark,
 .dropzone-previews .dz-preview .dz-success-mark {
   display: block;
-  background-image: url("images/dropzone/spritemap.png");
+  background-image: url("/dropzone/spritemap.png");
   background-repeat: no-repeat;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
   filter: alpha(opacity=0);
@@ -276,7 +276,7 @@
   .dropzone-previews .dz-preview .dz-error-mark,
   .dropzone .dz-preview .dz-success-mark,
   .dropzone-previews .dz-preview .dz-success-mark {
-    background-image: url("images/dropzone/spritemap@2x.png");
+    background-image: url("/dropzone/spritemap@2x.png");
     -webkit-background-size: 428px 406px;
     -moz-background-size: 428px 406px;
     background-size: 428px 406px;
@@ -310,7 +310,7 @@
   -o-animation: loading 0.4s linear infinite;
   -ms-animation: loading 0.4s linear infinite;
   animation: loading 0.4s linear infinite;
-  background-image: url("images/dropzone/spritemap.png");
+  background-image: url("/dropzone/spritemap.png");
   background-position: 0px -400px;
   background-repeat: repeat-x;
   -webkit-transition: width 0.3s ease-in-out;
@@ -327,7 +327,7 @@
   (min-resolution: 1.5dppx) {
   .dropzone .dz-preview .dz-progress .dz-upload,
   .dropzone-previews .dz-preview .dz-progress .dz-upload {
-    background-image: url("images/dropzone/spritemap@2x.png");
+    background-image: url("/dropzone/spritemap@2x.png");
     -webkit-background-size: 428px 406px;
     -moz-background-size: 428px 406px;
     background-size: 428px 406px;
