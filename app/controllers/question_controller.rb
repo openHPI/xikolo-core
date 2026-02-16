@@ -85,11 +85,7 @@ class QuestionController < Abstract::FrontendController
 
     set_page_title @question.title
 
-    if feature? 'new_pinboard.phase-1.2'
-      render 'question/new/show', layout: 'course_area_two_cols'
-    else
-      render layout: 'course_area_two_cols'
-    end
+    render layout: 'course_area_two_cols'
   end
 
   def edit

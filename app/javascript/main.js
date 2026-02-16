@@ -9,9 +9,6 @@
 import { initSentry } from './util/sentry';
 initSentry();
 
-// Polyfills
-import 'form-request-submit-polyfill';
-
 import { Turbo } from '@hotwired/turbo-rails';
 // Disable Turbo Drive globally to maintain compatibility with existing form handling
 // that renders validation errors directly instead of redirecting

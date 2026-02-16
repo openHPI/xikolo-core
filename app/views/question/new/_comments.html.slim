@@ -1,5 +1,0 @@
-- commentable_type = commentable.is_a?(Xikolo::Pinboard::Question) ? 'question' : 'answer'
-
-.comments id="comments-#{commentable_type}-#{commentable.id}"
-  - commentable.comments.each do |comment|
-    = render(partial: 'question/new/post', locals: {post: comment})

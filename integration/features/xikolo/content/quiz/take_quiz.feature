@@ -29,16 +29,6 @@ Feature: Take a quiz
     And I am on the item page
     Then I should not be able to access the item
 
-  @feature:preview_graded_quiz_points
-  Scenario: Taking a selftest again when deadline has passed and results are not published
-    Given a quiz item with one question and answers was created
-    And I submitted the selftest once
-    And the item deadline has passed
-    And the quiz results are not published
-    And I am on the item page
-    Then I see the publishing info
-    And I see the score preview
-
   Scenario: Taking a selftest again when deadline has passed and results are published
     Given a quiz item with one question and answers was created
     And I submitted the selftest once
@@ -101,17 +91,6 @@ Feature: Take a quiz
     And the item deadline has passed
     And I am on the item page
     Then I should not be able to access the item
-
-  @feature:preview_graded_quiz_points
-  Scenario: Taking a main quiz again when deadline has passed and results are not published
-    Given a main quiz item with one question and answers was created
-    And I am on the item page
-    And I submitted a main quiz with wrong answer
-    And the item deadline has passed
-    And the quiz results are not published
-    And I am on the item page
-    Then I see the publishing info
-    And I see the score preview
 
   Scenario: Taking a main quiz again when deadline has passed and results are published
     Given a main quiz item with one question and answers was created

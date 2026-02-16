@@ -3467,8 +3467,6 @@ en:
         wrong: Wrong Answer
         empty: Empty Answer
     submitted_quiz_at: "You submitted this assignment / exam on %{quiz_submission_time} (%{timezone})."
-    submission_points_preview: "Your preliminary score is <b>%{points} / %{max_points} points (%{percent}%)</b>"
-    submission_points_preview_note: "<i>Please note:</i> You should not discuss the assignment / exam content or score in the forum prior to the submission deadline. Your preliminary score is subject to change."
     submitted_survey: Thank you for your participation in this survey. Your feedback is valuable to improve the learning experience!
     publish_results_at: "The results will be available here from %{publish_results_date}!"
     submission_points: "%{points} points"

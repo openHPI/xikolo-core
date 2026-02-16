@@ -63,53 +63,14 @@ Install RVM as described in
 gem install bundler -v '~> 2.0'
 ```
 
-**NodeJS 20**: Needed for installing and compiling frontend dependencies
+**Bun**: JavaScript runtime and bundler for the frontend assets
 
-=== "Debian / Ubuntu"
+Follow the installation instructions on the [Bun website](https://bun.com/docs/installation).
 
-    There are two options:
-
-    1. *Use apt*
-
-        Setup correct [APT repository](https://github.com/nodesource/distributions) for the needed Node version.
-
-        Install Node:
-
-        ```console
-        sudo apt install nodejs
-        ```
-
-    2. *Use NVM*
-
-        Follow install documentation [from `nvm` on GitHub](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-        ```console
-        nvm install
-        ```
-
-=== "Mac"
-
-    Use [NVM](https://github.com/creationix/nvm)
-    Can be installed using [Homebrew](https://brew.sh/):
-
-    ```console
-    brew install nvm
-    mkdir ~/.nvm
-    ```
-
-    Follow install documentation [from nvm on GitHub](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-    ```console
-    nvm install
-    ```
-
-**Yarn**: Another dependency manager for NodeJS
-
-Since Node 16, manually installing `yarn` can be completely substituted by using the bundled `corepack`. This will create stubs for `yarn` on your system. When running `yarn` inside a Node project, the corepack stub will check the `packageManager` fields in `package.json`, and automatically download and use the exact needed version of `yarn`, and otherwise use the latest 1.x version.
+**Install dependencies**:
 
 ```console
-(sudo) corepack enable [--install-directory ~/.local/bin]
-yarn install
+bun install
 ```
 
 !!! note

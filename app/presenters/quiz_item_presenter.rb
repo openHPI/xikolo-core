@@ -190,25 +190,6 @@ class QuizItemPresenter < ItemPresenter
       user_instrumented_or_access_allowed?
   end
 
-  def preview_quiz_score?
-    @user.feature? 'preview_graded_quiz_points'
-  end
-
-  def preview_score_html
-    locals = {
-      quiz_submission_time: I18n.l(
-        @submission.quiz_submission_time.in_time_zone,
-        format: :long
-      ),
-      timezone: Time.zone.name,
-      points: @submission.points.round(1),
-      max_points: @quiz.max_points.round(1),
-      percent: (@submission.points / @quiz.max_points * 100).round(1),
-    }
-
-    ApplicationController.render partial: 'items/quiz/score_preview', locals:
-  end
-
   def allow_retake_quiz?
     attempts_left? && (!submission_deadline_passed? || user_instrumented?)
   end

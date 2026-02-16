@@ -176,10 +176,6 @@ module Steps
       expect(page).to_not have_content 'Retake quiz'
     end
 
-    Then 'I see the score preview' do
-      expect(page).to have_content 'Your preliminary score is 0.0 / 3.0'
-    end
-
     Then 'I see the publishing info' do
       expect(page).to have_selector '#quiz_properties'
       expect(page).to_not have_content 'Retake quiz'

@@ -153,12 +153,6 @@ See below for explanations on [managing feature flippers](#manage-feature-flippe
 
     *Scope:* `Group.all_users`, `Context.root`
 
-`new_pinboard.phase-1.2` :material-test-tube:
-
-:   Enable the new pinboard prototype, i.e. a specific variant of the discussion forum.
-
-    *Scope:* `User`, `Course (A/B tests)`
-
 `open_mode`
 
 :   Enable the preview of video items for anonymous or non-enrolled users for items that are flagged for 'open mode' via the item settings.
@@ -172,12 +166,6 @@ See below for explanations on [managing feature flippers](#manage-feature-flippe
 `password_change.remove_sessions`
 
 :   Log out users on other browsers when they change their password in the profile.
-
-    *Scope:* `Group.all_users`, `Context.root`
-
-`preview_graded_quiz_points`
-
-:   Display achieved score (*not* the results) for graded quizzes immediately after submission.
 
     *Scope:* `Group.all_users`, `Context.root`
 

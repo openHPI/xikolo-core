@@ -2819,8 +2819,6 @@ de:
         wrong: Falsche Antwort
         empty: Leere Antwort
     submitted_quiz_at: "Sie haben diese Wochenaufgabe / Abschlussprüfung am %{quiz_submission_time} (%{timezone}) abgeschickt."
-    submission_points_preview: "Ihr vorläufiges Ergebnis: <b>%{points} / %{max_points} Punkte (%{percent}%)</b>"
-    submission_points_preview_note: "<i>Wichtiger Hinweis:</i> Diskutieren Sie Inhalt und Ergebnisse der Wochenaufgabe / Abschlussprüfung erst nach Ablauf des Abgabetermins. Änderungen des vorläufigen Ergebnisses sind möglich."
     submitted_survey: Vielen Dank, dass Sie an der Umfrage teilgenommen haben. Ihre Angaben werden zur Verbesserung der Plattform beitragen!
     publish_results_at: "Die Ergebnisse werden hier am %{publish_results_date} veröffentlicht!"
     submission_points: "%{points} Punkte"
