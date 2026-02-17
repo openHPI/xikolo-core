@@ -73,6 +73,5 @@
 - content_for :sidebar
   - if @profile.consents.any?
     = render 'account/profiles/consents', consents: @profile.consents
-  - if current_user.feature?('account.login')
-    = render 'account/profiles/change_password', user: @profile.user
+  = render 'account/profiles/change_password', user: @profile.user
   = render 'account/profiles/delete_account', user_id: @profile.user.id

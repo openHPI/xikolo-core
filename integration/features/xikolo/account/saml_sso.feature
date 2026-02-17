@@ -1,4 +1,4 @@
-@xi-150 @feature:profile @feature:account.login
+@xi-150 @feature:profile
 Feature: Sign up with SAML Single Sign-On (SSO)
   In order to use the platform
   As a user with a company account

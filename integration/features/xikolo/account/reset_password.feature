@@ -1,4 +1,4 @@
-@alpha @xi-64 @accountResetPasswordSteps @feature:account.login
+@alpha @xi-64 @accountResetPasswordSteps
 Feature: Reset password
   In order to regain access to my account
   As a registered user

@@ -25,10 +25,6 @@ RSpec.describe 'Prevent brute force login attempts', type: :request do
       ).to_return status: :not_found
     end
 
-    let(:anonymous_session) do
-      super().merge('features' => {'account.login' => true})
-    end
-
     it 'blocks after 15th failed login attempt' do
       15.times do
         post '/sessions', params: {
@@ -54,9 +50,6 @@ RSpec.describe 'Prevent brute force login attempts', type: :request do
   context 'with successful logins' do
     let(:session_id) { SecureRandom.uuid }
     let(:user_id) { SecureRandom.uuid }
-    let(:anonymous_session) do
-      super().merge('features' => {'account.login' => true})
-    end
 
     before do
       Stub.request(
@@ -78,7 +71,7 @@ RSpec.describe 'Prevent brute force login attempts', type: :request do
         id: session_id,
         user_id:,
         user: {anonymous: false, language: 'en', preferred_language: 'en'},
-        features: {'account.login' => true},
+        features: {},
       })
     end
 

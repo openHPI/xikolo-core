@@ -1,4 +1,4 @@
-@xi-229 @accountRegistrationSteps @feature:account.registration @feature:account.login
+@xi-229 @accountRegistrationSteps @feature:account.registration
 Feature: User accidentally enters credentials in registration form
   In order to keep frustration at a minimum
   As a registered user

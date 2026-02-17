@@ -1,4 +1,3 @@
-@feature:account.login
 Feature: Accept policy on login
   In order to satisfy some legal advocates
   As a User

@@ -17,7 +17,7 @@ Feature: Enroll in Course
     And I am on the course detail page
     Then I receive a course welcome mail
 
-  @feature:course_list @feature:account.login
+  @feature:course_list
   Scenario: Enroll as not logged in user
     Given I am a confirmed user
     And I am on the course list

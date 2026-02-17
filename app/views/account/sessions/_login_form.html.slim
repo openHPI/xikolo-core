@@ -5,8 +5,7 @@
     = f.hidden_field :redirect_url, value: redirect_param
   - unless connect_auth_id.nil?
     = f.hidden_field :connect_auth_id, value: connect_auth_id
-  - if current_user.feature?('account.login')
-    = link_to t(:'header.login.forgot_password'), new_account_reset_path, class: 'small'
+  = link_to t(:'header.login.forgot_password'), new_account_reset_path, class: 'small'
   .buttons
     = f.button :submit, t(:'header.login.identity.label.submit'), id: 'login', class: 'full-width', data: {disable_with: false}
 

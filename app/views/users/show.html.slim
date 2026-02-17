@@ -47,7 +47,7 @@
           = simple_form_for(@profile.form, url: {controller: 'users', action: 'change_user_password'}, method: :post) do |f|
             fieldset.form-section--small
               = f.error_notification
-              = f.input :password, label: t(:'.password'), required: true, placeholder: t(:'dashboard.profile.new_password'), hint: current_user.feature?('account.login') ? '' : t(:'users.show.password_hint')
+              = f.input :password, label: t(:'.password'), required: true, placeholder: t(:'dashboard.profile.new_password')
               button.btn.btn-default.btn-sm type='submit'
                 = t(:'users.show.change_password')
               = f.hidden_field :user_id, value: @profile.user_id

@@ -1,4 +1,3 @@
-@feature:account.login
 Feature: Redirect after login
   When I login from different pages
   As a user

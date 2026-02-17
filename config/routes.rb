@@ -461,6 +461,8 @@ Rails.application.routes.draw do
     mount NotificationService::Engine => '/notification_service'
   end
 
+  mount MissionControl::Jobs::Engine, at: '/jobs'
+
   if Rails.env.development?
     mount Lookbook::Engine, at: '/rails/components'
   end

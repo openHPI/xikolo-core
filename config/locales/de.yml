@@ -2892,7 +2892,6 @@ de:
       action_submissions: Submissions zeigen
       user_information: Benutzerinformationen
       password: Passwort
-      password_hint: <strong>Bitte beachten:</strong> Das Ändern des Passworts hat keinen Einfluss auf die verknüpften SSO-Credentials. Bei Verlust des SSO-Zugangs wird durch Bereitstellen eines neuen Passworts das Verknüpfen eines vorhandenen Accounts an die neuen SSO-Credentials ermöglicht.
       primary_email: (primär)
 
   certificates:

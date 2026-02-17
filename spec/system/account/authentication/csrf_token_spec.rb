@@ -11,10 +11,6 @@ describe 'Account: Authentication: CRSF Token', type: :system do
         .and_return Stub.json([])
     end
 
-    let(:anonymous_session) do
-      super().merge(features: {'account.login' => true})
-    end
-
     it 'shows error message on login form' do
       visit '/'
 

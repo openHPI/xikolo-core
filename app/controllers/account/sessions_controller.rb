@@ -8,7 +8,6 @@ class Account::SessionsController < Abstract::FrontendController
   skip_after_action :remember_user
 
   before_action :check_logged, only: [:new]
-  before_action :restrict_native_login, only: [:create]
 
   def new
     if session[:login_failed]
@@ -64,23 +63,6 @@ class Account::SessionsController < Abstract::FrontendController
   end
 
   private
-
-  def restrict_native_login
-    # Native login is enabled
-    return if current_user.feature?('account.login')
-
-    # Return if this is an SSO login attempt.
-    # This also covers the scenario with external platform login (no flipper
-    # and portal issues an SSO login attempt).
-    return if login[:authorization].present?
-
-    # Return if this is an attempt to connect an SSO account with a
-    # native account. In this case, the user needs to provide native account
-    # credentials and regularly log in to the account.
-    return if login[:connect_auth_id].present?
-
-    raise AbstractController::ActionNotFound
-  end
 
   # This overwrites a method from
   # `ActionController::RequestForgeryProtection`. We don't need to

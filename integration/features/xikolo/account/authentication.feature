@@ -1,4 +1,4 @@
-@xi-24 @xi-298 @accountAuthenticationSteps @feature:account.login
+@xi-24 @xi-298 @accountAuthenticationSteps
 Feature: Authentication
   In order to use Xikolo with my personal settings and data
   As a user

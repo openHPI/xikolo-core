@@ -114,12 +114,6 @@ class Account::ProfilePresenter < Presenter
     @sso_providers ||= OMNIAUTH_PROVIDERS
   end
 
-  def delete_authorizations?
-    return true if @opts[:native_login]
-
-    authorizations.count > 1
-  end
-
   def not_set
     I18n.t(:'dashboard.profile.not_set')
   end

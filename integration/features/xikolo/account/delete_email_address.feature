@@ -1,4 +1,4 @@
-@feature:profile @feature:account.login
+@feature:profile
 Feature: Change email address
 
   Background:

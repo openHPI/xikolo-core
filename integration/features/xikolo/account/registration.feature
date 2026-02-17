@@ -1,4 +1,4 @@
-@xi-210 @accountRegistrationSteps @feature:account.registration @feature:account.login
+@xi-210 @accountRegistrationSteps @feature:account.registration
 Feature: Register a new account
   In order to use the platform
   As a not registered user

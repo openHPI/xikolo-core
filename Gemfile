@@ -158,6 +158,7 @@ gem 'prawn-templates', '~> 0.1.0'
 
 # Monitoring
 gem 'coverband'
+gem 'mission_control-jobs'
 gem 'scientist', '~> 1.0'
 gem 'vernier'                   # vernier must be required before Sentry
 gem 'sentry-rails', '~> 5.26.0' # rubocop:disable Bundler/OrderedGems

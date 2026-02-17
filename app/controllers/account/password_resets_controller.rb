@@ -3,8 +3,6 @@
 class Account::PasswordResetsController < Abstract::FrontendController
   respond_to :html
 
-  require_feature 'account.login'
-
   def show
     reset = account_api.rel(:password_reset).get({id: params[:id]}).value!
     @reset = Account::PasswordResetForm.from_resource reset

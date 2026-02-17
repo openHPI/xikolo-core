@@ -48,51 +48,24 @@ describe 'Account: Authorizations: Delete', type: :request do
       .and_return Stub.json(second_authorization)
   end
 
-  context 'with native login disabled' do
-    context 'with only one authorization' do
-      let(:user_authorizations) { [authorization] }
+  context 'with only one authorization' do
+    let(:user_authorizations) { [authorization] }
 
-      it 'does not allow deleting the last connected account' do
-        request
-        expect(page).to have_text 'Single Sign-On (SAML)'
-        expect(page).to have_no_selector('a[data-method="delete"][href="/dashboard/profile/auth/81e01000-0000-4444-a000-000000000001"]')
-      end
-    end
-
-    context 'with multiple authorizations' do
-      let(:user_authorizations) { [authorization, second_authorization] }
-
-      it 'does allow deleting a connected account' do
-        request
-        expect(page).to have_text 'Single Sign-On (SAML)'
-        expect(page).to have_css('a[data-method="delete"][href="/dashboard/profile/auth/81e01000-0000-4444-a000-000000000001"]')
-        expect(page).to have_css('a[data-method="delete"][href="/dashboard/profile/auth/81e01000-0000-4444-a000-000000000002"]')
-      end
+    it 'does allow deleting the last connected account' do
+      request
+      expect(page).to have_text 'Single Sign-On (SAML)'
+      expect(page).to have_css('a[data-method="delete"][href="/dashboard/profile/auth/81e01000-0000-4444-a000-000000000001"]')
     end
   end
 
-  context 'with native login enabled' do
-    let(:features) { super().merge('account.login' => true) }
+  context 'with multiple authorizations' do
+    let(:user_authorizations) { [authorization, second_authorization] }
 
-    context 'with only one authorization' do
-      let(:user_authorizations) { [authorization] }
-
-      it 'does allow deleting the last connected account' do
-        request
-        expect(page).to have_text 'Single Sign-On (SAML)'
-        expect(page).to have_css('a[data-method="delete"][href="/dashboard/profile/auth/81e01000-0000-4444-a000-000000000001"]')
-      end
-    end
-
-    context 'with multiple authorizations' do
-      let(:user_authorizations) { [authorization, second_authorization] }
-
-      it 'does allow deleting a connected account' do
-        request
-        expect(page).to have_text 'Single Sign-On (SAML)'
-        expect(page).to have_css('a[data-method="delete"][href="/dashboard/profile/auth/81e01000-0000-4444-a000-000000000001"]')
-        expect(page).to have_css('a[data-method="delete"][href="/dashboard/profile/auth/81e01000-0000-4444-a000-000000000002"]')
-      end
+    it 'does allow deleting a connected account' do
+      request
+      expect(page).to have_text 'Single Sign-On (SAML)'
+      expect(page).to have_css('a[data-method="delete"][href="/dashboard/profile/auth/81e01000-0000-4444-a000-000000000001"]')
+      expect(page).to have_css('a[data-method="delete"][href="/dashboard/profile/auth/81e01000-0000-4444-a000-000000000002"]')
     end
   end
 end

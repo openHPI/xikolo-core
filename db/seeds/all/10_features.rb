@@ -2,7 +2,6 @@
 
 # Default feature flippers
 %w[
-  account.login
   account.registration
   alternative_sections.create
   announcements

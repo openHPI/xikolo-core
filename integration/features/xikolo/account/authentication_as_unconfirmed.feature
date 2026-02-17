@@ -1,4 +1,4 @@
-@xi-24 @xi-298 @accountAuthenticationSteps @feature:account.login
+@xi-24 @xi-298 @accountAuthenticationSteps
 Feature: Authentication
   In order to not riot on the platform anonymously
   As a user

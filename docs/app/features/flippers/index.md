@@ -17,12 +17,6 @@ See below for explanations on [managing feature flippers](#manage-feature-flippe
 
 ## List of features
 
-`account.login`
-
-:   Enable (native) platform login: This will enable password reset and shows the login form (with user / password input).
-
-    *Scope:* `Group.all_users`, `Context.root`
-
 `account.registration`
 
 :   Enable (native) platform registration: This will show the registration form and the respective button for the login form.

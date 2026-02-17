@@ -3541,7 +3541,6 @@ en:
       action_submissions: Show submissions
       user_information: User information
       password: Password
-      password_hint: <strong>Please note:</strong> Changing the password does not affect the linked SSO credentials. If SSO account access is lost, providing a new password will allow an existing account to be linked to the new SSO credentials.
       primary_email: (primary)
 
   certificates:

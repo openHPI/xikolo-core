@@ -1,4 +1,4 @@
-@xi-789 @feature:profile @feature:account.login
+@xi-789 @feature:profile
 Feature: Change own password
   In order to remember it better
   As a user

@@ -14,7 +14,6 @@ Feature: Change user password as admin
     When I set a new password for the user
     Then I should be notified about successful password change
 
-  @feature:account.login
   Scenario: Log in with new password
     Given I am on the additional user's detail page
     When I set a new password for the user

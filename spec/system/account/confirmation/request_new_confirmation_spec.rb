@@ -20,24 +20,18 @@ describe 'Account: Confirmation', type: :system do
       }, status: 200)
   end
 
-  context 'with native login enabled' do
-    let(:anonymous_session) do
-      super().merge(features: {'account.login' => true})
-    end
+  it 'requests a new confirmation email' do
+    visit '/'
 
-    it 'requests a new confirmation email' do
-      visit '/'
-
+    click_on 'Log in'
+    fill_in 'E-mail', with: 'admin@xikolo.de'
+    fill_in 'Password', with: 'secret'
+    within '#login-form' do
       click_on 'Log in'
-      fill_in 'E-mail', with: 'admin@xikolo.de'
-      fill_in 'Password', with: 'secret'
-      within '#login-form' do
-        click_on 'Log in'
-      end
-
-      expect(page).to have_content 'This e-mail address has not been confirmed yet.'
-      click_on 'here'
-      expect(page).to have_content 'We re-sent you a confirmation e-mail.'
     end
+
+    expect(page).to have_content 'This e-mail address has not been confirmed yet.'
+    click_on 'here'
+    expect(page).to have_content 'We re-sent you a confirmation e-mail.'
   end
 end

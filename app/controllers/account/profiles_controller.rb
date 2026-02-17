@@ -9,7 +9,7 @@ class Account::ProfilesController < Abstract::FrontendController
   include Interruptible
 
   def show
-    @profile = Account::ProfilePresenter.new(find_user, native_login: current_user.feature?('account.login'))
+    @profile = Account::ProfilePresenter.new(find_user)
     Acfs.run
 
     set_page_title t(:'header.navigation.profile')
@@ -18,14 +18,14 @@ class Account::ProfilesController < Abstract::FrontendController
 
   def edit
     @user ||= find_user
-    @profile = Account::ProfilePresenter.new(@user, native_login: current_user.feature?('account.login'))
+    @profile = Account::ProfilePresenter.new(@user)
 
     set_page_title t(:'header.navigation.profile')
     render layout: 'dashboard'
   end
 
   def edit_email
-    @profile = Account::ProfilePresenter.new(find_user, native_login: current_user.feature?('account.login'))
+    @profile = Account::ProfilePresenter.new(find_user)
     @email = Email.new
 
     set_page_title t(:'header.navigation.profile')
@@ -47,7 +47,7 @@ class Account::ProfilesController < Abstract::FrontendController
       redirect_to dashboard_profile_path
     else
       add_flash_message :error, t(:'flash.error.profile_not_updated')
-      @profile = Account::ProfilePresenter.new(@user, native_login: current_user.feature?('account.login'))
+      @profile = Account::ProfilePresenter.new(@user)
       render 'edit', layout: 'dashboard', status: :unprocessable_entity
       nil
     end
