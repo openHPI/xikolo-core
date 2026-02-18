@@ -47,7 +47,7 @@ class Course::Admin::EnrollmentsController < Abstract::FrontendController
 
     unless params[:user_id]
       add_flash_message :error, t(:'flash.error.missing_user_id_for_enrollment')
-      return redirect_to action: :index
+      return redirect_to action: :index, status: :see_other
     end
 
     enrollments = course_api.rel(:enrollments).get({user_id: params[:user_id], course_id: the_course.id}).value!
@@ -76,7 +76,7 @@ class Course::Admin::EnrollmentsController < Abstract::FrontendController
       add_flash_message :error, t(:'flash.error.unenrollment_failed')
     end
 
-    redirect_to action: :index
+    redirect_to action: :index, status: :see_other
   end
 
   def hide_course_nav?

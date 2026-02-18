@@ -42,7 +42,7 @@ class Admin::CoursesController < Admin::BaseController
     begin
       if form.valid? && course_api.rel(:courses).post(form.to_resource).value!
         add_flash_message :success, t(:'flash.success.course_created')
-        return redirect_to course_path(id: form.course_code)
+        return redirect_to course_path(id: form.course_code), status: :see_other
       end
     rescue Restify::UnprocessableEntity => e
       form.remote_errors e.errors
@@ -72,7 +72,7 @@ class Admin::CoursesController < Admin::BaseController
             params: {id: form.id.to_s}
           ).value!
         add_flash_message :success, t(:'flash.success.course_updated')
-        return redirect_to course_path(id: form.course_code)
+        return redirect_to course_path(id: form.course_code), status: :see_other
       end
     rescue Restify::UnprocessableEntity => e
       form.remote_errors e.errors
@@ -90,7 +90,7 @@ class Admin::CoursesController < Admin::BaseController
     authorize! 'course.course.clone'
     if params[:new_course_code].blank?
       add_flash_message :error, t(:'sections.index.clone_course.course_code_empty')
-      return redirect_to course_sections_path params[:id]
+      return redirect_to course_sections_path(params[:id]), status: :see_other
     end
 
     new_course = Xikolo::Course::Course.find_by(course_code: params[:new_course_code]) do |resource|
@@ -100,13 +100,13 @@ class Admin::CoursesController < Admin::BaseController
 
     if new_course.present? && new_course.sections.count > 0
       add_flash_message :error, t(:'sections.index.clone_course.new_course_not_empty')
-      return redirect_to course_sections_path params[:id]
+      return redirect_to course_sections_path(params[:id]), status: :see_other
     end
 
     Msgr.publish({old_course_id:   the_course.id,
                   new_course_code: params[:new_course_code]}, to: 'xikolo.course.clone')
     add_flash_message :success, t(:'sections.index.clone_course.clone_started')
-    redirect_to course_sections_path params[:id]
+    redirect_to course_sections_path(params[:id]), status: :see_other
   end
 
   def destroy
@@ -114,9 +114,9 @@ class Admin::CoursesController < Admin::BaseController
     course_api.rel(:course).get({id: params[:course_code]}).then do |course|
       course.rel(:self).delete
     end.value!
-    redirect_to admin_courses_path, notice: t(:'flash.notice.course_deleted')
+    redirect_to admin_courses_path, notice: t(:'flash.notice.course_deleted'), status: :see_other
   rescue Restify::ResponseError
-    redirect_to course_path(params[:course_code]), error: t(:'flash.error.course_not_deleted')
+    redirect_to course_path(params[:course_code]), error: t(:'flash.error.course_not_deleted'), status: :see_other
   end
 
   def hide_course_nav?

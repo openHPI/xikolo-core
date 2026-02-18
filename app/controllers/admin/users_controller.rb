@@ -33,7 +33,7 @@ class Admin::UsersController < Abstract::FrontendController
 
     user = account_api.rel(:user).post(@user.to_resource).value!
 
-    redirect_to user_path user['id']
+    redirect_to user_path(user['id']), status: :see_other
   rescue Restify::UnprocessableEntity => e
     @user.remote_errors e.errors
     render action: :new, status: :unprocessable_entity

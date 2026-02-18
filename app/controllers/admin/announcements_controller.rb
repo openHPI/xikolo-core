@@ -53,7 +53,7 @@ class Admin::AnnouncementsController < Abstract::FrontendController
       .post(@announcement.to_resource.merge('author_id' => current_user.id))
       .value!
 
-    redirect_to admin_announcements_path
+    redirect_to admin_announcements_path, status: :see_other
   rescue Restify::UnprocessableEntity => e
     @announcement.remote_errors e.errors
 
@@ -74,7 +74,7 @@ class Admin::AnnouncementsController < Abstract::FrontendController
     announcement.rel(:self).patch(@announcement.to_resource).value!
 
     add_flash_message(:success, t(:'flash.success.announcement_saved'))
-    redirect_to admin_announcements_path
+    redirect_to admin_announcements_path, status: :see_other
   rescue Restify::UnprocessableEntity => e
     @announcement.remote_errors e.errors
 

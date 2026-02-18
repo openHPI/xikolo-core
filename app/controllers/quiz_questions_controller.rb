@@ -58,9 +58,10 @@ class QuizQuestionsController < Abstract::FrontendController
     question.save!
 
     if params[:add_answer]
-      redirect_to new_course_section_item_quiz_question_quiz_answer_path quiz_question_id: question.id
+      redirect_to new_course_section_item_quiz_question_quiz_answer_path(quiz_question_id: question.id),
+        status: :see_other
     else
-      redirect_to edit_course_section_item_path(id: params[:item_id]), anchor: 'questions'
+      redirect_to edit_course_section_item_path(id: params[:item_id], anchor: 'questions'), status: :see_other
     end
   end
 
@@ -81,14 +82,14 @@ class QuizQuestionsController < Abstract::FrontendController
       review_id = question.id
     end
 
-    redirect_to edit_course_section_item_path(id: params[:item_id], review_id:), anchor: 'questions'
+    redirect_to edit_course_section_item_path(id: params[:item_id], review_id:, anchor: 'questions'), status: :see_other
   end
 
   def destroy
     question = Xikolo::Quiz::Question.find params[:id]
     Acfs.run
     question.delete!
-    redirect_back fallback_location: root_url
+    redirect_back fallback_location: root_url, status: :see_other
   end
 
   def move
@@ -115,7 +116,7 @@ class QuizQuestionsController < Abstract::FrontendController
     end
 
     Acfs.run
-    request.xhr? ? head(:ok) : redirect_to(edit_course_section_item_path(id: params[:item_id]))
+    request.xhr? ? head(:ok) : redirect_to(edit_course_section_item_path(id: params[:item_id]), status: :see_other)
   end
 
   private

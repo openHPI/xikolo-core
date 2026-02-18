@@ -9,7 +9,7 @@ class CourseSubscriptionsController < ApplicationController
       .rel(:course_subscriptions)
       .post({user_id: current_user.id, course_id: params[:course_id]}).value!
 
-    redirect_back(fallback_location: course_pinboard_index_path(the_course.course_code))
+    redirect_back(fallback_location: course_pinboard_index_path(the_course.course_code), status: :see_other)
   end
 
   def destroy
@@ -17,6 +17,6 @@ class CourseSubscriptionsController < ApplicationController
       .rel(:course_subscription)
       .delete({id: params[:id]}).value!
 
-    redirect_back(fallback_location: course_pinboard_index_path(the_course.course_code))
+    redirect_back(fallback_location: course_pinboard_index_path(the_course.course_code), status: :see_other)
   end
 end

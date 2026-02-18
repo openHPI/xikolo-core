@@ -153,16 +153,6 @@ describe 'Course: Admin: Dashboard: Show', type: :request do
         expect(response.body).not_to include 'CoPs until course end'
         expect(response.body).not_to include 'CoPs after course end'
       end
-
-      context 'with CoP details feature flipper' do
-        let(:features) { {'course_dashboard.show_cops_details' => true} }
-
-        it 'displays CoP details' do
-          show_course_dashboard
-          expect(response.body).to include 'CoPs until course end'
-          expect(response.body).to include 'CoPs after course end'
-        end
-      end
     end
   end
 end

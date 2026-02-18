@@ -81,7 +81,7 @@ RSpec.describe 'Prevent brute force login attempts', type: :request do
           login: {email: 'p3k@example.de', password: 'p3k'},
         }
 
-        expect(response).to have_http_status(:found)
+        expect(response).to have_http_status(:see_other)
       end
     end
   end

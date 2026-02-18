@@ -29,7 +29,7 @@ class Admin::ChannelsController < Abstract::FrontendController
       if form.valid? && course_api.rel(:channels)
           .post(form.to_resource).value!
         add_flash_message :success, t(:'flash.success.channel_created')
-        return redirect_to admin_channels_path
+        return redirect_to admin_channels_path, status: :see_other
       end
     rescue Restify::UnprocessableEntity => e
       form.remote_errors e.errors
@@ -52,7 +52,7 @@ class Admin::ChannelsController < Abstract::FrontendController
       if form.valid? && course_api.rel(:channel)
           .patch(form.to_resource, params: {id: channel['id']}).value!
         add_flash_message :success, t(:'flash.success.channel_updated')
-        return redirect_to admin_channels_path
+        return redirect_to admin_channels_path, status: :see_other
       end
     rescue Restify::UnprocessableEntity => e
       form.remote_errors e.errors
@@ -66,9 +66,9 @@ class Admin::ChannelsController < Abstract::FrontendController
     authorize! 'course.channel.delete'
 
     if Course::Channel.find(params[:id]).destroy
-      redirect_to admin_channels_path, notice: t(:'flash.notice.channel_deleted')
+      redirect_to admin_channels_path, notice: t(:'flash.notice.channel_deleted'), status: :see_other
     else
-      redirect_to admin_channels_path, error: t(:'flash.error.channel_not_deleted')
+      redirect_to admin_channels_path, error: t(:'flash.error.channel_not_deleted'), status: :see_other
     end
   end
 

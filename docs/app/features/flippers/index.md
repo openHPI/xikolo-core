@@ -73,12 +73,6 @@ See below for explanations on [managing feature flippers](#manage-feature-flippe
 
     *Scope:* `Group.administrators`, `Context.root`
 
-`course_dashboard.show_cops_details` :material-test-tube:
-
-:   Display detailed CoPs statistics (at the course end and since the course end) on the course dashboard. Hidden by default until results are deemed reliable.
-
-    *Scope:* `Group.all_users`, `Context.root`
-
 `course_details.learning_goals`
 
 :   Display the learning goals on the course details page.
@@ -126,12 +120,6 @@ See below for explanations on [managing feature flippers](#manage-feature-flippe
 `gamification`
 
 :   Enable gamification for the platform (e.g., XP in navigation and user badges in the discussion forum).
-
-    *Scope:* `Group.all_users`, `Context.root`
-
-`geo_ip_block`
-
-:   Block users from Russia and Belarus on the registration pages.
 
     *Scope:* `Group.all_users`, `Context.root`
 

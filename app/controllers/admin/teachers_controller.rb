@@ -46,7 +46,7 @@ class Admin::TeachersController < Abstract::FrontendController
       end
   rescue Restify::NotFound
     add_flash_message :error, t(:'flash.error.associated_user_not_found')
-    redirect_to action: :new
+    redirect_to action: :new, status: :see_other
   end
 
   def edit
@@ -74,7 +74,7 @@ class Admin::TeachersController < Abstract::FrontendController
     teacher = course_api.rel(:teachers).post(teacher_resource).value!
 
     add_flash_message :success, t(:'flash.success.teacher_information_created')
-    redirect_to action: :show, id: teacher.fetch('id')
+    redirect_to action: :show, id: teacher.fetch('id'), status: :see_other
   rescue Restify::UnprocessableEntity => e
     @teacher.remote_errors e.errors
     render action: :new, status: :unprocessable_entity
@@ -91,7 +91,7 @@ class Admin::TeachersController < Abstract::FrontendController
     course_api.rel(:teacher).patch(@teacher.to_resource, params: {id: params[:id]}).value!
 
     add_flash_message :success, t(:'flash.success.teacher_information_created')
-    redirect_to action: :show
+    redirect_to action: :show, status: :see_other
   rescue Restify::UnprocessableEntity => e
     @teacher.remote_errors e.errors
     render action: :edit, status: :unprocessable_entity

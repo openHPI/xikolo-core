@@ -23,7 +23,7 @@ class Admin::ClustersController < Admin::BaseController
     @cluster = Course::Cluster.find(params[:id])
     if @cluster.update(cluster_params)
       add_flash_message :success, t(:'flash.success.cluster_updated')
-      redirect_to admin_clusters_path
+      redirect_to admin_clusters_path, status: :see_other
     else
       add_flash_message :error, t(:'flash.error.cluster_not_updated')
       render :edit, status: :unprocessable_entity

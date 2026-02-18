@@ -11,16 +11,6 @@
     $User-Profile
 \*------------------------------------*/
 
-.editable-input {
-  select {
-    max-width: 200px;
-
-    @include small {
-      max-width: 400px;
-    }
-  }
-}
-
 .profile-heading {
   display: flex;
   align-items: baseline;
@@ -156,13 +146,4 @@
   p:last-of-type {
     margin-bottom: 0px;
   }
-}
-
-// Add a pen-to-square icon for profile editable status.
-// (Required for the integration with the inline editable inputs)
-a.status:after {
-  margin-left: 10px;
-  content: "\f044";
-  font-family: "Font Awesome 6 Pro";
-  font-weight: 900;
 }

@@ -28,7 +28,7 @@ describe 'Prevent password reset bombing', type: :request do
         reset: {email: 'p3k@example.de'},
       }
 
-      expect(response).to have_http_status :found
+      expect(response).to have_http_status :see_other
     end
 
     post '/account/reset', params: {

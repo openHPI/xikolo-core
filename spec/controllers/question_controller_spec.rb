@@ -160,7 +160,7 @@ describe QuestionController, type: :controller do
     describe 'show' do
       it 'redirects to root' do
         get :show, params: {id: question_id, course_id:}
-        expect(response).to have_http_status :found
+        expect(response).to have_http_status :see_other
         expect(response).to redirect_to course_url('test')
       end
     end
@@ -168,7 +168,7 @@ describe QuestionController, type: :controller do
     describe 'edit' do
       it 'responds' do
         get :edit, params: {id: question_id, course_id:}
-        expect(response).to have_http_status :found
+        expect(response).to have_http_status :see_other
         expect(response).to redirect_to course_url('test')
       end
     end
@@ -176,7 +176,7 @@ describe QuestionController, type: :controller do
     describe 'delete' do
       it 'responds' do
         get :destroy, params: {id: question_id, course_id:}
-        expect(response).to have_http_status :found
+        expect(response).to have_http_status :see_other
         expect(response).to redirect_to course_url('test')
       end
     end
@@ -195,7 +195,7 @@ describe QuestionController, type: :controller do
           xikolo_pinboard_question: question_create_attrs,
         }
 
-        expect(response).to have_http_status :found
+        expect(response).to have_http_status :see_other
         expect(response).to redirect_to course_pinboard_index_path(course_id)
       end
     end
@@ -271,7 +271,7 @@ describe QuestionController, type: :controller do
       describe 'delete' do
         it 'responds' do
           get :destroy, params: {id: question_id, course_id:}
-          expect(response).to have_http_status :found
+          expect(response).to have_http_status :see_other
         end
       end
     end
@@ -282,7 +282,7 @@ describe QuestionController, type: :controller do
       describe 'edit' do
         it 'responds' do
           get :edit, params: {id: question_id, course_id:}
-          expect(response).to have_http_status :found
+          expect(response).to have_http_status :see_other
           expect(response).to redirect_to root_url
         end
       end

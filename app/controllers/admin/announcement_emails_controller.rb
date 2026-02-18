@@ -36,7 +36,7 @@ class Admin::AnnouncementEmailsController < Abstract::FrontendController
       @announcement_email.to_resource.merge('creator_id' => current_user.id)
     ).value!
 
-    redirect_to admin_announcements_path
+    redirect_to admin_announcements_path, status: :see_other
   rescue Restify::UnprocessableEntity => e
     @announcement_email.remote_errors e.errors
 

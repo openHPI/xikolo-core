@@ -20,7 +20,7 @@ class Course::CoursesController < Abstract::FrontendController
     # Ensure the user is allowed to see this course.
     unless current_user.allowed? 'course.course.show'
       add_flash_message :error, t(:'flash.error.not_authorized')
-      return redirect_to dashboard_path
+      return redirect_to dashboard_path, status: :see_other
     end
 
     # 1. Fetch teacher info
@@ -68,10 +68,10 @@ class Course::CoursesController < Abstract::FrontendController
     Acfs.run
 
     redirect_to course_item_path(the_course.course_code,
-      short_uuid(@current_item.id))
+      short_uuid(@current_item.id)), status: :see_other
   rescue Acfs::ResourceNotFound # No redirectable item found!
     add_flash_message :notice, t(:'flash.notice.course_not_published')
-    redirect_to course_path(params[:id])
+    redirect_to course_path(params[:id]), status: :see_other
   end
 
   protected

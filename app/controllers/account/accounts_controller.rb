@@ -1,10 +1,7 @@
 # frozen_string_literal: true
 
-require 'geo_ip/lookup'
-
 class Account::AccountsController < Abstract::FrontendController
   require_feature 'account.registration'
-  before_action :geo_ip_block, except: %i[verify], if: proc {|_| current_user.feature?('geo_ip_block') }
 
   def new
     @account = Account::AccountForm.from_params prefill_params.to_h
@@ -26,10 +23,10 @@ class Account::AccountsController < Abstract::FrontendController
       form, user_treatments,
       confirm: ->(email_id) { generate_confirmation_url(email_id) }
     ).on do |result|
-      result.success { redirect_to verify_account_url }
+      result.success { redirect_to verify_account_url, status: :see_other }
       result.login do |login|
         session[:id] = login.session.id
-        redirect_to dashboard_path
+        redirect_to dashboard_path, status: :see_other
       end
       result.failure do
         @account = form
@@ -61,17 +58,5 @@ class Account::AccountsController < Abstract::FrontendController
 
   def account_api
     @account_api ||= Xikolo.api(:account).value!
-  end
-
-  # Block users from Russia and Belarus (location derived from IP address)
-  def geo_ip_block
-    lookup = GeoIP::Lookup.resolve(request.remote_ip)
-
-    return unless lookup.found?
-
-    if %w[RU BY].include?(lookup.country.iso_code)
-      add_flash_message :error, t(:'flash.error.blocked_by_country')
-      redirect_to root_url
-    end
   end
 end

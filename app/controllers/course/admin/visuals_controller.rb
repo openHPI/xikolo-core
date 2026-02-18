@@ -20,9 +20,9 @@ class Course::Admin::VisualsController < Abstract::FrontendController
       result.success do
         add_flash_message :success, t(:'flash.success.course_visual_updated')
         if params[:show]
-          redirect_to course_path(id: @visual_presenter.course_code)
+          redirect_to course_path(id: @visual_presenter.course_code), status: :see_other
         else
-          redirect_to edit_course_visual_path(course_id: @visual_presenter.course_code)
+          redirect_to edit_course_visual_path(course_id: @visual_presenter.course_code), status: :see_other
         end
       end
       result.error do |e|
@@ -35,7 +35,7 @@ class Course::Admin::VisualsController < Abstract::FrontendController
             add_flash_message :error, t(:'flash.error.course_visual_not_updated')
         end
 
-        redirect_to edit_course_visual_path(course_id: @visual_presenter.course_code)
+        redirect_to edit_course_visual_path(course_id: @visual_presenter.course_code), status: :see_other
       end
     end
   end

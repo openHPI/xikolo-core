@@ -18,7 +18,7 @@ class Admin::ClassifiersController < Admin::BaseController
     @classifier = @cluster.classifiers.build(create_params)
     if @classifier.save
       add_flash_message :success, t(:'flash.success.classifier_created')
-      redirect_to admin_cluster_path(@cluster)
+      redirect_to admin_cluster_path(@cluster), status: :see_other
     else
       add_flash_message :error, t(:'flash.error.classifier_not_created')
       render(action: :new, status: :unprocessable_entity)
@@ -29,7 +29,7 @@ class Admin::ClassifiersController < Admin::BaseController
     @classifier = Course::Classifier.find(params[:id])
     if @classifier.update(update_params)
       add_flash_message :success, t(:'flash.success.classifier_updated')
-      redirect_to admin_cluster_path(@classifier.cluster)
+      redirect_to admin_cluster_path(@classifier.cluster), status: :see_other
     else
       # Set the cluster to re-render the form properly.
       @cluster = @classifier.cluster
@@ -46,7 +46,7 @@ class Admin::ClassifiersController < Admin::BaseController
       add_flash_message :error, t(:'flash.error.classifier_not_deleted')
     end
 
-    redirect_to admin_cluster_path(classifier.cluster)
+    redirect_to admin_cluster_path(classifier.cluster), status: :see_other
   end
 
   private

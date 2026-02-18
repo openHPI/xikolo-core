@@ -20,7 +20,7 @@ class LtiProvidersController < Abstract::FrontendController
 
     if @new_lti_provider.save
       add_flash_message :success, t(:'flash.success.lti_provider_created')
-      redirect_to action: :index
+      redirect_to action: :index, status: :see_other
     else
       add_flash_message :error, t(:'flash.error.lti_provider_not_created')
       # Load all existing providers for the index action.
@@ -39,7 +39,7 @@ class LtiProvidersController < Abstract::FrontendController
       add_flash_message :error, t(:'flash.error.lti_provider_not_updated')
     end
 
-    redirect_to action: :index
+    redirect_to action: :index, status: :see_other
   end
 
   def destroy
@@ -50,7 +50,7 @@ class LtiProvidersController < Abstract::FrontendController
       add_flash_message :error, t(:'flash.error.lti_provider_not_deleted')
     end
 
-    redirect_to action: :index
+    redirect_to action: :index, status: :see_other
   end
 
   def hide_course_nav?

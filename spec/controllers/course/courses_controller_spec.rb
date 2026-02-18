@@ -49,7 +49,7 @@ describe Course::CoursesController, type: :controller do
           ).to_return Stub.response(status: 404)
         end
 
-        its(:status) { is_expected.to eq 302 }
+        its(:status) { is_expected.to eq 303 }
 
         it 'redirects to the course details page' do
           expect(resume).to redirect_to course_path course.course_code
@@ -69,7 +69,7 @@ describe Course::CoursesController, type: :controller do
           ).to_return Stub.json({id: forward_item_id})
         end
 
-        its(:status) { is_expected.to eq 302 }
+        its(:status) { is_expected.to eq 303 }
 
         it 'redirects to the current item' do
           expect(resume).to redirect_to course_item_path(
@@ -95,7 +95,7 @@ describe Course::CoursesController, type: :controller do
           ).to_return Stub.response(status: 404)
         end
 
-        its(:status) { is_expected.to eq 302 }
+        its(:status) { is_expected.to eq 303 }
 
         it 'redirects to the course details page' do
           expect(resume).to redirect_to course_path course.course_code
@@ -115,7 +115,7 @@ describe Course::CoursesController, type: :controller do
           ).to_return Stub.json({id: forward_item_id})
         end
 
-        its(:status) { is_expected.to eq 302 }
+        its(:status) { is_expected.to eq 303 }
 
         it 'redirects to the current item' do
           expect(resume).to redirect_to course_item_path(
@@ -139,7 +139,7 @@ describe Course::CoursesController, type: :controller do
           ).to_return Stub.response(status: 404)
         end
 
-        its(:status) { is_expected.to eq 302 }
+        its(:status) { is_expected.to eq 303 }
 
         it 'redirects to the course details page' do
           expect(resume).to redirect_to course_path course.course_code
@@ -159,7 +159,7 @@ describe Course::CoursesController, type: :controller do
           ).to_return Stub.json({id: forward_item_id})
         end
 
-        its(:status) { is_expected.to eq 302 }
+        its(:status) { is_expected.to eq 303 }
 
         it 'redirects to the current item' do
           expect(resume).to redirect_to course_item_path(

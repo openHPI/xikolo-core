@@ -23,10 +23,10 @@ class UsersController < Abstract::FrontendController
     if params[:id] == current_user.id
       logout
       add_flash_message :notice, t(:'flash.notice.user_deleted')
-      redirect_to after_sign_out_path
+      redirect_to after_sign_out_path, status: :see_other
     else
       add_flash_message :notice, t(:'flash.notice.user_deleted_by_admin')
-      redirect_to users_path
+      redirect_to users_path, status: :see_other
     end
   end
 
@@ -36,10 +36,10 @@ class UsersController < Abstract::FrontendController
     account_api.rel(:user).patch({password: password_params[:password]}, params: {id: params[:id]}).value!
 
     add_flash_message :notice, t(:'flash.notice.password_changed')
-    redirect_to user_path(id: params[:id])
+    redirect_to user_path(id: params[:id]), status: :see_other
   rescue Restify::UnprocessableEntity, Restify::NotFound
     add_flash_message :error, t(:'flash.error.password_change_failed.password_save_failed')
-    redirect_to user_path(id: params[:id])
+    redirect_to user_path(id: params[:id]), status: :see_other
   end
 
   private

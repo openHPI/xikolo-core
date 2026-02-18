@@ -6,7 +6,9 @@ class Course::LaunchController < ApplicationController
   def launch
     raise Status::NotFound unless course
 
-    return redirect_to create_enrollment_path(course_id: course['course_code']) if current_user.authenticated?
+    if current_user.authenticated?
+      return redirect_to create_enrollment_path(course_id: course['course_code']), status: :see_other
+    end
 
     store_location create_enrollment_path(course_id: course['course_code'])
 
@@ -17,7 +19,7 @@ class Course::LaunchController < ApplicationController
       return redirect_external login_url
     end
 
-    redirect_to auth_path(params[:auth])
+    redirect_to auth_path(params[:auth]), status: :see_other
   end
 
   private

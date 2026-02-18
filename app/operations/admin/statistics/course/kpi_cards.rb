@@ -32,13 +32,11 @@ module Admin
               course_id:,
               start_date: course['end_date']
             )
-          ) do |enrollments, shows, certificates, certificates_at_end, certificates_after_end|
+          ) do |enrollments, shows, certificates|
             build_result(
               enrollments || {},
               shows || {},
-              certificates,
-              certificates_at_end,
-              certificates_after_end
+              certificates
             )
           end.value! || {}
         end
@@ -47,7 +45,7 @@ module Admin
 
         attr_reader :course_id
 
-        def build_result(enrollments, shows, certificates, certificates_at_end, certificates_after_end)
+        def build_result(enrollments, shows, certificates)
           {
             enrollments: {
               total: enrollments['enrollments'],
@@ -63,8 +61,6 @@ module Admin
             activity: build_activity(enrollments, shows),
             certificates: build_certificates(
               certificates,
-              certificates_at_end,
-              certificates_after_end,
               shows
             ),
           }
@@ -87,29 +83,16 @@ module Admin
           }
         end
 
-        def build_certificates(certificates, certificates_at_end, certificates_after_end, shows)
+        def build_certificates(certificates, shows)
           certificates ||= {}
-
-          cop_at_end = certificates_at_end&.dig('confirmation_of_participation')
-          cop_after_end = certificates_after_end&.dig('confirmation_of_participation')
 
           {
             roa_count: certificates['record_of_achievement'],
             cop_count: certificates['confirmation_of_participation'],
             qc_count: certificates['qualified_certificate'],
-            cop_at_end_count: cop_at_end,
-            cop_after_end_count: cop_after_end,
             completion_rate: percent(
               certificates['record_of_achievement'],
               shows['shows_at_middle']
-            ),
-            consumption_rate_at_end: percent(
-              cop_at_end,
-              shows['shows_at_end']
-            ),
-            consumption_rate_after_end: percent(
-              cop_after_end,
-              shows['shows'].to_i - shows['shows_at_end'].to_i
             ),
             consumption_rate_current: percent(
               certificates['confirmation_of_participation'],

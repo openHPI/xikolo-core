@@ -47,13 +47,13 @@ class Account::SessionsController < Abstract::FrontendController
     ::Sentry.capture_exception(e)
 
     add_flash_message :error, t(:'flash.error.generic')
-    redirect_to new_session_path
+    redirect_to new_session_path, status: :see_other
   end
 
   def destroy
     logout
     add_flash_message :notice, t(:'flash.success.logged_out')
-    redirect_to after_sign_out_path
+    redirect_to after_sign_out_path, status: :see_other
   end
 
   def authorization_callback
@@ -72,14 +72,14 @@ class Account::SessionsController < Abstract::FrontendController
     case params[:action]
       when 'create'
         add_flash_message :error, t(:'flash.error.session_expired')
-        redirect_to new_session_url
+        redirect_to new_session_url, status: :see_other
       else
         super
     end
   end
 
   def check_logged
-    redirect_to target_url if current_user.authenticated?
+    redirect_to target_url, status: :see_other if current_user.authenticated?
   end
 
   def login
@@ -154,7 +154,7 @@ class Account::SessionsController < Abstract::FrontendController
         if e.errors['provider'].include? 'email_already_used_for_another_account'
           add_flash_message :error,
             helpers.t(:'flash.error.enterprise_login_already_assigned', site_name: Xikolo.config.site_name)
-          redirect_to dashboard_url and return
+          redirect_to dashboard_url, status: :see_other and return
         end
 
         raise
@@ -177,14 +177,14 @@ class Account::SessionsController < Abstract::FrontendController
                  target_url
                end
       cookies.delete :stored_location if cookies.signed[:stored_location]
-      redirect_to target
+      redirect_to target, status: :see_other
     end
   end
   # rubocop:enable all
 
   def handle_mobile_application!
     token = Xikolo.api(:account).value!.rel(:tokens).post({user_id: @handler.session.user_id}).value!.token
-    redirect_to auth_path(provider: 'app', token:)
+    redirect_to auth_path(provider: 'app', token:), status: :see_other
   end
 
   def handle_failure!
@@ -196,7 +196,7 @@ class Account::SessionsController < Abstract::FrontendController
       # This is the case where users connect a new authorization to either an existing account (where the email address
       # differs from the email address the SAML provider passed on) or to a new account that still needs to be created.
       # The controller will render the 'auth_connect' template to let user decide between these two connection options.
-      redirect_to new_session_url
+      redirect_to new_session_url, status: :see_other
     else
       ActiveSupport::Notifications.instrument('login.failure', remote_ip: request.remote_ip)
       session[:login_failed] = true
@@ -222,7 +222,7 @@ class Account::SessionsController < Abstract::FrontendController
     else
       target = target_url(fallback: dashboard_profile_url)
       cookies.delete :stored_location if cookies.signed[:stored_location]
-      redirect_to target
+      redirect_to target, status: :see_other
     end
   rescue Acfs::InvalidResource => e
     # If there is already an account with the authorization's email address,
@@ -231,7 +231,7 @@ class Account::SessionsController < Abstract::FrontendController
 
     add_flash_message :error,
       helpers.t(:'flash.error.enterprise_login_already_assigned', site_name: Xikolo.config.site_name)
-    redirect_to dashboard_url
+    redirect_to dashboard_url, status: :see_other
   end
 
   def assign_session!

@@ -23,7 +23,7 @@ describe 'Admin: Courses: Index', type: :request do
     context 'as anonymous user' do
       it 'redirects the user' do
         request
-        expect(response).to have_http_status :found
+        expect(response).to have_http_status :see_other
       end
     end
 
@@ -35,7 +35,7 @@ describe 'Admin: Courses: Index', type: :request do
 
       it 'redirects the user' do
         request
-        expect(response).to have_http_status :found
+        expect(response).to have_http_status :see_other
       end
 
       context 'with permissions' do
@@ -72,7 +72,7 @@ describe 'Admin: Courses: Index', type: :request do
     context 'as anonymous user' do
       it 'redirects the user' do
         request
-        expect(response).to have_http_status :found
+        expect(response).to have_http_status :see_other
       end
     end
 
@@ -84,7 +84,7 @@ describe 'Admin: Courses: Index', type: :request do
 
       it 'redirects the user' do
         request
-        expect(response).to have_http_status :found
+        expect(response).to have_http_status :see_other
       end
 
       context 'with permissions' do

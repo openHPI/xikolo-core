@@ -31,7 +31,7 @@ class Course::Admin::CertificateTemplatesController < Abstract::FrontendControll
 
     if @template.save
       add_flash_message :success, t(:'flash.success.certificate_template_created')
-      redirect_to course_certificate_templates_path
+      redirect_to course_certificate_templates_path, status: :see_other
     else
       add_flash_message :error, t(:'flash.error.certificate_template_not_created')
       @file_upload = FileUpload.new purpose: :certificate_template, content_type: 'application/pdf'
@@ -46,7 +46,7 @@ class Course::Admin::CertificateTemplatesController < Abstract::FrontendControll
 
     if @template.save
       add_flash_message :success, t(:'flash.success.certificate_template_updated')
-      redirect_to course_certificate_templates_path
+      redirect_to course_certificate_templates_path, status: :see_other
     else
       add_flash_message :error, t(:'flash.error.certificate_template_not_updated')
       @file_upload = FileUpload.new purpose: :certificate_template, content_type: 'application/pdf'
@@ -64,7 +64,7 @@ class Course::Admin::CertificateTemplatesController < Abstract::FrontendControll
       add_flash_message :error, t(:'flash.error.certificate_template_not_deleted')
     end
 
-    redirect_to course_certificate_templates_path
+    redirect_to course_certificate_templates_path, status: :see_other
   end
 
   def preview_certificate

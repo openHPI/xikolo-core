@@ -52,7 +52,7 @@ class ItemPresenter < PrivatePresenter
   end
 
   def redirect(controller)
-    controller.redirect_to @redirect
+    controller.redirect_to @redirect, status: :see_other
   end
 
   def layout

@@ -58,7 +58,7 @@ class Home::ChannelsController < Abstract::FrontendController
     # the correct written channel code.
     return if channel_resource.code == params[:id]
 
-    redirect_to channel_url(channel_resource.code), status: :moved_permanently
+    redirect_to channel_url(channel_resource.code), status: :see_other
   end
 
   Category = Struct.new(:title, :courses, :callout)

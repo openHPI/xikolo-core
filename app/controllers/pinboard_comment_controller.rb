@@ -19,7 +19,7 @@ class PinboardCommentController < Abstract::FrontendController
     Xikolo::Pinboard::Comment.create comment_params_with_user.merge(notification: notification_params)
 
     # both these id reference the QUESTION, I have no idea why...
-    redirect_to question_path id: params[:answer_id] || params[:question_id]
+    redirect_to question_path(id: params[:answer_id] || params[:question_id]), status: :see_other
   end
 
   def update
@@ -32,7 +32,7 @@ class PinboardCommentController < Abstract::FrontendController
 
     pinboard_comment.update_attributes(updated_comment_params)
 
-    redirect_to question_path id: params[:question_id] || @answer.question_id
+    redirect_to question_path(id: params[:question_id] || @answer.question_id), status: :see_other
   end
 
   def destroy
@@ -40,7 +40,7 @@ class PinboardCommentController < Abstract::FrontendController
 
     comment.delete!
 
-    redirect_to question_path id: params[:question_id] || @answer.question_id
+    redirect_to question_path(id: params[:question_id] || @answer.question_id), status: :see_other
   end
 
   def abuse_report
@@ -63,7 +63,7 @@ class PinboardCommentController < Abstract::FrontendController
       end
     end
 
-    redirect_to question_path(id: question_id)
+    redirect_to question_path(id: question_id), status: :see_other
   end
 
   def block
@@ -71,7 +71,7 @@ class PinboardCommentController < Abstract::FrontendController
 
     comment({text_purpose: 'display'}).block
 
-    redirect_to question_path id: params[:question_id] || @answer.question_id
+    redirect_to question_path(id: params[:question_id] || @answer.question_id), status: :see_other
   end
 
   def unblock
@@ -79,7 +79,7 @@ class PinboardCommentController < Abstract::FrontendController
 
     comment({text_purpose: 'display'}).unblock
 
-    redirect_to question_path id: params[:question_id] || @answer.question_id
+    redirect_to question_path(id: params[:question_id] || @answer.question_id), status: :see_other
   end
 
   def comment(pinboard_comment_params = nil)

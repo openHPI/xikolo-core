@@ -112,7 +112,7 @@ class Course::CertificatesController < Abstract::FrontendController
       raise Status::NotFound
     elsif action_name == 'index' && !current_user.allowed?('course.content.access.available')
       add_flash_message :error, I18n.t(:'flash.error.not_enrolled')
-      redirect_to course_url(the_course.course_code)
+      redirect_to course_url(the_course.course_code), status: :see_other
     end
   end
 

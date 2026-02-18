@@ -38,7 +38,7 @@ class Account::ConfirmationsController < Abstract::FrontendController
 
     Msgr.publish(event, to: 'xikolo.account.email.confirm')
 
-    redirect_to new_session_url, notice: t(:'flash.notice.confirmation_resend')
+    redirect_to new_session_url, notice: t(:'flash.notice.confirmation_resend'), status: :see_other
   end
 
   def update
@@ -50,7 +50,7 @@ class Account::ConfirmationsController < Abstract::FrontendController
     email.rel(:self).patch({confirmed: true, primary: true}).value!
 
     add_flash_message :success, t(:'flash.success.confirmation_successful')
-    redirect_to new_session_url
+    redirect_to new_session_url, status: :see_other
   end
 
   private

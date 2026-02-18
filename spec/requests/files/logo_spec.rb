@@ -10,7 +10,7 @@ describe 'Files: Logo', type: :request do
   describe 'response' do
     subject { request; response }
 
-    it { is_expected.to have_http_status :found }
+    it { is_expected.to have_http_status :see_other }
     it { is_expected.to redirect_to %r{/assets/logo-[a-f0-9]+\.png} }
 
     it 'is marked as cacheable for a month' do
@@ -21,7 +21,7 @@ describe 'Files: Logo', type: :request do
     context '?email=1' do
       let(:params) { super().merge(email: '1') }
 
-      it { is_expected.to have_http_status :found }
+      it { is_expected.to have_http_status :see_other }
       it { is_expected.to redirect_to %r{/assets/logo_mail-[a-f0-9]+\.png} }
 
       it 'is marked as cacheable for a month' do

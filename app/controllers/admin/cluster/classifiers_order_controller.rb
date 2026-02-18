@@ -22,14 +22,14 @@ class Admin::Cluster::ClassifiersOrderController < Abstract::FrontendController
         end
 
         add_flash_message(:success, t(:'flash.success.classifiers_order_updated'))
-        redirect_to admin_cluster_url(cluster)
+        redirect_to admin_cluster_url(cluster), status: :see_other
       rescue ActiveRecord::RecordInvalid
         add_flash_message(:error, t(:'flash.error.classifiers_order_failed'))
-        redirect_to admin_cluster_classifiers_order_url(cluster)
+        redirect_to admin_cluster_classifiers_order_url(cluster), status: :see_other
       end
     else
       add_flash_message(:error, t(:'flash.error.classifiers_order_failed'))
-      redirect_to admin_cluster_classifiers_order_url(cluster)
+      redirect_to admin_cluster_classifiers_order_url(cluster), status: :see_other
     end
   end
 end

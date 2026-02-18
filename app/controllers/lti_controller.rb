@@ -12,7 +12,7 @@ class LtiController < ApplicationController
 
     if item.submission_deadline_passed?(current_user.id) && !item.content&.provider&.allow_access_after_deadline
       add_flash_message(:error, I18n.t(:'flash.error.quiz_submissions_submission_deadline_passed'))
-      return redirect_to(course_item_url(params[:course_id], params[:id]))
+      return redirect_to(course_item_url(params[:course_id], params[:id]), status: :see_other)
     end
 
     @launch = Course::LtiLaunchPresenter.new(item, current_user)
@@ -39,7 +39,7 @@ class LtiController < ApplicationController
   def tool_return
     add_flash_message(:error, CGI.escape_html(params[:lti_errormsg])) if params[:lti_errormsg]
     add_flash_message(:notice, CGI.escape_html(params[:lti_msg])) if params[:lti_msg]
-    redirect_to(course_item_url(params[:course_id], params[:id]))
+    redirect_to(course_item_url(params[:course_id], params[:id]), status: :see_other)
   end
 
   private

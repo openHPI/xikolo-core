@@ -26,7 +26,7 @@ RSpec.describe 'CourseSubscriptions', type: :request do
 
       it 'creates a subscription and redirects back' do
         post course_subscriptions_path, params: {course_id:}, headers: headers.merge('HTTP_REFERER' => "/courses/#{course_id}/pinboard")
-        expect(response).to have_http_status(:found)
+        expect(response).to have_http_status(:see_other)
         expect(response.headers['Location']).to include("/courses/#{course_id}/pinboard")
       end
     end
@@ -56,7 +56,7 @@ RSpec.describe 'CourseSubscriptions', type: :request do
 
       it 'destroys a subscription and redirects back' do
         delete course_subscription_path(course_subscription_id), params: {course_id:}, headers: headers.merge('HTTP_REFERER' => "/courses/#{course_id}/pinboard")
-        expect(response).to have_http_status(:found)
+        expect(response).to have_http_status(:see_other)
         expect(response.headers['Location']).to include("/courses/#{course_id}/pinboard")
       end
     end

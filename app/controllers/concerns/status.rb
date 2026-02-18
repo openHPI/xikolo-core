@@ -57,7 +57,7 @@ module Status
   included do
     rescue_from Unauthorized do
       add_flash_message :error, I18n.t('flash.error.not_authorized')
-      redirect_to root_url
+      redirect_to root_url, status: :see_other
     end
 
     rescue_from ActionController::InvalidAuthenticityToken do
@@ -70,7 +70,7 @@ module Status
 
     rescue_from Redirect do |err|
       Rails.logger.debug err.message
-      redirect_to err.url
+      redirect_to err.url, status: :see_other
     end
   end
 end

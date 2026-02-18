@@ -25,7 +25,7 @@ class Home::GoController < Abstract::FrontendController
   def course
     raise Status::NotFound unless params[:course_id]
 
-    redirect_to course_launch_path(*launch_course_params)
+    redirect_to course_launch_path(*launch_course_params), status: :see_other
   end
 
   def pinboard
@@ -39,14 +39,14 @@ class Home::GoController < Abstract::FrontendController
     }).value!.first
 
     if tag.present?
-      redirect_to course_pinboard_index_path(course_id: course['course_code'], tags: tag['id'])
+      redirect_to course_pinboard_index_path(course_id: course['course_code'], tags: tag['id']), status: :see_other
     else
-      redirect_to course_pinboard_index_path(course_id: course['course_code'])
+      redirect_to course_pinboard_index_path(course_id: course['course_code']), status: :see_other
     end
   end
 
   def item
-    redirect_to course_item_path(item_path_params)
+    redirect_to course_item_path(item_path_params), status: :see_other
   end
 
   def survey

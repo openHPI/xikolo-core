@@ -55,9 +55,9 @@ class NotificationUserDisablesController < Abstract::FrontendController
 
   def redirect
     if current_user.anonymous?
-      redirect_to root_path
+      redirect_to root_path, status: :see_other
     else
-      redirect_to preferences_path
+      redirect_to preferences_path, status: :see_other
     end
   end
 end

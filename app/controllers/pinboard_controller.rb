@@ -63,7 +63,7 @@ class PinboardController < Abstract::FrontendController
     tag = Xikolo::Pinboard::Tag.find params[:id]
     Acfs.run
     tag.delete
-    redirect_back fallback_location: root_path
+    redirect_back fallback_location: root_path, status: :see_other
   end
 
   private
@@ -157,7 +157,7 @@ class PinboardController < Abstract::FrontendController
     return unless Xikolo.config.disable_technical_issues_section
 
     if params[:section_id] == 'technical_issues'
-      redirect_to course_pinboard_index_path(the_course.course_code)
+      redirect_to course_pinboard_index_path(the_course.course_code), status: :see_other
     end
   end
 

@@ -17,10 +17,10 @@ module User
         add_flash_message :error, t(:'flash.error.subscription_not_canceled')
       end
 
-      redirect_to preferences_path
+      redirect_to preferences_path, status: :see_other
     rescue Acfs::ResourceNotFound
       # It's already gone
-      redirect_to preferences_path
+      redirect_to preferences_path, status: :see_other
     end
   end
 end

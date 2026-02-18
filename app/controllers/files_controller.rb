@@ -24,15 +24,15 @@ class FilesController < ApplicationController
     expires_in 1.month, public: true
 
     if params[:email]
-      redirect_external view_context.image_url('logo_mail.png'), status: :found
+      redirect_external view_context.image_url('logo_mail.png'), status: :see_other
     else
-      redirect_external view_context.image_url('logo.png'), status: :found
+      redirect_external view_context.image_url('logo.png'), status: :see_other
     end
   end
 
   def favicon
     expires_in 1.month, public: true
-    redirect_external view_context.image_url('favicon.ico'), status: :found
+    redirect_external view_context.image_url('favicon.ico'), status: :see_other
   end
 
   private

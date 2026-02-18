@@ -22,11 +22,11 @@ class LearningModeController < Abstract::FrontendController
         @item = Xikolo::Course::Item.find item_tmp.id
       end
       Acfs.run
-      redirect_to course_item_path course_id: params[:course_id],
-        id: @item.prev_item_id || @item.id
+      redirect_to course_item_path(course_id: params[:course_id], id: @item.prev_item_id || @item.id),
+        status: :see_other
     else
       add_flash_message :error, t(:'flash.error.params_missing_learn_review')
-      redirect_to learn_path
+      redirect_to learn_path, status: :see_other
     end
   end
 

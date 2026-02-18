@@ -9,9 +9,9 @@ class Admin::ManualConfirmationsController < ApplicationController
     email.rel(:self).patch({confirmed: true, primary: true}).value!
 
     add_flash_message(:success, t(:'flash.success.account_confirmed_manually'))
-    redirect_to user_path(id: params[:user_id])
+    redirect_to user_path(id: params[:user_id]), status: :see_other
   rescue Restify::ResponseError
     add_flash_message(:error, t(:'flash.error.account_not_confirmed_manually'))
-    redirect_to user_path(id: params[:user_id])
+    redirect_to user_path(id: params[:user_id]), status: :see_other
   end
 end

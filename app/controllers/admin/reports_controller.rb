@@ -40,10 +40,10 @@ class Admin::ReportsController < Abstract::FrontendController
         )
 
         add_flash_message :success, t(:'reports.restarted')
-        redirect_to reports_path
+        redirect_to reports_path, status: :see_other
       rescue Restify::ResponseError
         add_flash_message :error, t(:'reports.not_restarted')
-        redirect_to reports_path
+        redirect_to reports_path, status: :see_other
       end
     else # create a new report job
       begin
@@ -59,10 +59,10 @@ class Admin::ReportsController < Abstract::FrontendController
           report_type: report_params[:task_type],
           report_scope: report_params[:task_scope],
           **sanitized_task_options
-        )
+        ), status: :see_other
       rescue Restify::ResponseError
         add_flash_message :error, t(:'reports.not_created')
-        redirect_to reports_path
+        redirect_to reports_path, status: :see_other
       end
     end
   end
@@ -76,10 +76,10 @@ class Admin::ReportsController < Abstract::FrontendController
     )
 
     add_flash_message :success, t(:'reports.deleted')
-    redirect_to reports_path
+    redirect_to reports_path, status: :see_other
   rescue Restify::ResponseError
     add_flash_message :error, t(:'reports.not_deleted')
-    redirect_to reports_path
+    redirect_to reports_path, status: :see_other
   end
 
   private

@@ -9,9 +9,9 @@ class Stream::SyncsController < ApplicationController
     Video::Stream.find(params[:stream_id]).sync
 
     add_flash_message(:success, t(:'flash.success.single_video_synced'))
-    redirect_to videos_path
+    redirect_to videos_path, status: :see_other
   rescue ActiveRecord::RecordNotFound, Kaltura::KalturaAPIError
     add_flash_message(:error, t(:'flash.error.single_video_sync_failed'))
-    redirect_to videos_path
+    redirect_to videos_path, status: :see_other
   end
 end

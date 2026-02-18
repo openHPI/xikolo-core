@@ -42,7 +42,7 @@ class AnnouncementsController < Abstract::FrontendController
 
     announcement.rel(:email).post(email_params).value! if send_emails?
 
-    redirect_to news_index_path
+    redirect_to news_index_path, status: :see_other
   rescue Restify::UnprocessableEntity => e
     @announcement.remote_errors e.errors
 
@@ -65,7 +65,7 @@ class AnnouncementsController < Abstract::FrontendController
     announcement.rel(:email).post(email_params).value! if send_emails?
 
     add_flash_message(:success, t(:'flash.success.announcement_saved'))
-    redirect_to news_index_path
+    redirect_to news_index_path, status: :see_other
   rescue Restify::UnprocessableEntity => e
     @announcement.remote_errors e.errors
 
@@ -80,7 +80,7 @@ class AnnouncementsController < Abstract::FrontendController
       .rel(:news).get({id: params[:id]}).value!
       .rel(:self).delete.value!
 
-    redirect_to news_index_path
+    redirect_to news_index_path, status: :see_other
   end
 
   private

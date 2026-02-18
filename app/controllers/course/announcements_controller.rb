@@ -61,7 +61,7 @@ class Course::AnnouncementsController < Abstract::FrontendController
 
     announcement.rel(:email).post(email_params).value! if send_emails?
 
-    redirect_to(action: :index)
+    redirect_to(action: :index, status: :see_other)
   rescue Restify::UnprocessableEntity => e
     @announcement.remote_errors e.errors
 
@@ -86,7 +86,7 @@ class Course::AnnouncementsController < Abstract::FrontendController
     announcement.rel(:email).post(email_params).value! if send_emails?
 
     add_flash_message(:success, t(:'flash.success.announcement_saved'))
-    redirect_to course_announcements_path
+    redirect_to course_announcements_path, status: :see_other
   rescue Restify::UnprocessableEntity => e
     @announcement.remote_errors e.errors
 
@@ -103,7 +103,7 @@ class Course::AnnouncementsController < Abstract::FrontendController
 
     announcement.rel(:self).delete.value!
 
-    redirect_to course_announcements_path
+    redirect_to course_announcements_path, status: :see_other
   end
 
   def hide_course_nav?

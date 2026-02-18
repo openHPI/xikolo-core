@@ -13,10 +13,10 @@ class Admin::VideoProviderSyncController < Abstract::FrontendController
     )
 
     add_flash_message :success, t(:'flash.success.sync_initiated')
-    redirect_to admin_video_providers_path
+    redirect_to admin_video_providers_path, status: :see_other
   rescue SyncRecentlyTriggered
     add_flash_message :notice, t(:'flash.error.sync_recently_triggered')
-    redirect_to admin_video_providers_path
+    redirect_to admin_video_providers_path, status: :see_other
   end
 
   class SyncRecentlyTriggered < StandardError; end

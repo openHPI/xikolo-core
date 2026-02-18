@@ -28,7 +28,7 @@ class QuizSubmissionController < Abstract::FrontendController
     # Access submission only if owner or course admin
     unless submission_from_url['user_id'] == current_user.id || current_user.allowed?('quiz.submission.manage')
       add_flash_message :error, t(:'flash.error.not_authorized')
-      return redirect_to root_url
+      return redirect_to root_url, status: :see_other
     end
 
     create_visit!
@@ -61,7 +61,7 @@ class QuizSubmissionController < Abstract::FrontendController
     Acfs.run
 
     unless @submission.submitted
-      redirect_to new_course_item_quiz_submission_path item_id: params[:item_id]
+      redirect_to new_course_item_quiz_submission_path(item_id: params[:item_id]), status: :see_other
       return
     end
 
@@ -88,14 +88,14 @@ class QuizSubmissionController < Abstract::FrontendController
 
     if item['submission_deadline'].present? && item['submission_deadline'] < ::Time.zone.now
       add_flash_message :error, t(:'flash.error.quiz_submissions_submission_deadline_passed')
-      return redirect_to course_item_path id: short_uuid(item['id'])
+      return redirect_to course_item_path(id: short_uuid(item['id'])), status: :see_other
     end
 
     # Temporary: We do not offer proctoring anymore, so do no allow starting
     # the quiz.
     if proctoring?
       add_flash_message :error, t(:'flash.error.quiz_submission_proctoring_unavailable')
-      return redirect_to course_item_path id: short_uuid(item['id'])
+      return redirect_to course_item_path(id: short_uuid(item['id'])), status: :see_other
     end
 
     nowts = DateTime.now.in_time_zone.to_i
@@ -115,7 +115,7 @@ class QuizSubmissionController < Abstract::FrontendController
       @submission.loaded!
     rescue Restify::UnprocessableEntity
       add_flash_message :error, t(:'flash.error.quiz_submissions_maximum_reached')
-      return redirect_to course_item_path id: short_uuid(item['id'])
+      return redirect_to course_item_path(id: short_uuid(item['id'])), status: :see_other
     end
 
     if @submission['snapshot_id']
@@ -136,7 +136,7 @@ class QuizSubmissionController < Abstract::FrontendController
         @submission.update_attributes({submitted: true, submission: nil})
       end
       add_flash_message :error, t(:'flash.error.quiz_submission_time_up')
-      return redirect_to course_item_quiz_submission_path id: short_uuid(@submission.id)
+      return redirect_to course_item_quiz_submission_path(id: short_uuid(@submission.id)), status: :see_other
     end
 
     create_visit!
@@ -185,7 +185,7 @@ class QuizSubmissionController < Abstract::FrontendController
     # item has been deleted.
     if quiz.nil?
       add_flash_message :error, t(:'flash.error.quiz_submission_failed')
-      return redirect_to course_item_path id: short_uuid(params[:item_id])
+      return redirect_to course_item_path(id: short_uuid(params[:item_id])), status: :see_other
     end
 
     # Test if the time for submission is up, including a buffer of 1 minute, e.g.
@@ -242,7 +242,7 @@ class QuizSubmissionController < Abstract::FrontendController
     redirect_depending_on_quiz_type quiz, submission
   rescue Acfs::ErroneousResponse
     add_flash_message :error, t(:'flash.error.quiz_submission_failed')
-    redirect_to course_item_path id: short_uuid(params[:item_id])
+    redirect_to course_item_path(id: short_uuid(params[:item_id])), status: :see_other
   end
   private
 
@@ -301,11 +301,12 @@ class QuizSubmissionController < Abstract::FrontendController
 
   def redirect_depending_on_quiz_type(quiz, submission)
     if skip_quiz_instructions?
-      redirect_to course_item_quiz_submission_path id: short_uuid(submission.id)
+      redirect_to course_item_quiz_submission_path(id: short_uuid(submission.id)), status: :see_other
     elsif quiz.current_unlimited_attempts || further_quiz_attempt?(quiz)
-      redirect_to course_item_path id: short_uuid(params[:item_id])
+      redirect_to course_item_path(id: short_uuid(params[:item_id])), status: :see_other
     else
-      redirect_to course_item_quiz_submission_path id: short_uuid(submission.id), highest_score: false
+      redirect_to course_item_quiz_submission_path(id: short_uuid(submission.id), highest_score: false),
+        status: :see_other
     end
   end
 

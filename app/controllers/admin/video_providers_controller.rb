@@ -18,7 +18,7 @@ class Admin::VideoProvidersController < Abstract::FrontendController
   def create
     @provider = Video::Provider.new provider_params
     if @provider.save
-      redirect_to admin_video_providers_path
+      redirect_to admin_video_providers_path, status: :see_other
     else
       render 'new', status: :unprocessable_entity
     end
@@ -28,7 +28,7 @@ class Admin::VideoProvidersController < Abstract::FrontendController
     provider = Video::Provider.find params[:id]
     provider.update! provider_params
 
-    redirect_to admin_video_providers_path
+    redirect_to admin_video_providers_path, status: :see_other
   end
 
   def destroy
@@ -39,10 +39,10 @@ class Admin::VideoProvidersController < Abstract::FrontendController
       add_flash_message :error, t(:'flash.error.video_provider_not_deleted')
     end
 
-    redirect_to admin_video_providers_path
+    redirect_to admin_video_providers_path, status: :see_other
   rescue ActiveRecord::DeleteRestrictionError
     add_flash_message :error, t(:'flash.error.video_provider_not_deleted')
-    redirect_to admin_video_providers_path
+    redirect_to admin_video_providers_path, status: :see_other
   end
 
   private

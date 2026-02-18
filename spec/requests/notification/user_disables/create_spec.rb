@@ -25,7 +25,7 @@ RSpec.describe 'Notifications: UserDisables: Create', type: :request do
     before { disable_notification }
 
     it 'renders an error message' do
-      expect(response).to have_http_status :found
+      expect(response).to have_http_status :see_other
       expect(flash[:error].first).to eq 'The provided link seems to be invalid.'
     end
   end
@@ -64,7 +64,7 @@ RSpec.describe 'Notifications: UserDisables: Create', type: :request do
 
       it 'renders an error message' do
         expect(disable_stub).not_to have_been_requested
-        expect(response).to have_http_status :found
+        expect(response).to have_http_status :see_other
         expect(flash[:error].first).to eq 'The provided link seems to be invalid.'
       end
     end

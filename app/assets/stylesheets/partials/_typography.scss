@@ -420,23 +420,6 @@ blockquote {
 }
 
 /*------------------------------------*\
-    $Editable Forms
-\*------------------------------------*/
-
-.editable-empty,
-.editable-empty:hover,
-.editable-empty:focus {
-  color: $link-color;
-  font-style: normal;
-}
-
-.editable-required,
-.editable-required:hover,
-.editable-required:focus {
-  color: $error-500;
-}
-
-/*------------------------------------*\
     $Icons
 \*------------------------------------*/
 

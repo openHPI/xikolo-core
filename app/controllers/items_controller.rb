@@ -217,15 +217,15 @@ class ItemsController < Abstract::FrontendController
                   end
         add_flash_message :error, message
       end
-      return redirect_to new_course_section_item_path
+      return redirect_to new_course_section_item_path, status: :see_other
     end
 
     # Apply the proper redirect depending on the content type
     if item_params[:content_type] == 'quiz'
-      return redirect_to edit_course_section_item_path id: item.id
+      return redirect_to(edit_course_section_item_path(id: item.id), status: :see_other)
     end
 
-    redirect_to course_sections_path
+    redirect_to course_sections_path, status: :see_other
   end
 
   def update
@@ -272,7 +272,7 @@ class ItemsController < Abstract::FrontendController
       @item.errors.messages.each do |msg|
         add_flash_message :error, t("errors.messages.item.#{msg[0]}.#{msg[1][0]}")
       end
-      return redirect_to edit_course_section_item_path
+      return redirect_to edit_course_section_item_path, status: :see_other
     end
 
     case @item.content_type
@@ -304,14 +304,14 @@ class ItemsController < Abstract::FrontendController
     end
 
     if params[:show]
-      redirect_to course_item_path id: short_uuid(@item.id)
+      redirect_to course_item_path(id: short_uuid(@item.id)), status: :see_other
     else
       add_flash_message :success, I18n.t('items.update.success')
-      redirect_to edit_course_section_item_path
+      redirect_to edit_course_section_item_path, status: :see_other
     end
   rescue Acfs::InvalidResource
     add_flash_message :error, I18n.t('items.errors.update')
-    redirect_to edit_course_section_item_path
+    redirect_to edit_course_section_item_path, status: :see_other
   end
 
   def move
@@ -362,7 +362,7 @@ class ItemsController < Abstract::FrontendController
         node.move_to_left_of(Course::Structure::Node.find(params[:right_sibling]))
       end
     end
-    request.xhr? ? head(:ok) : redirect_to(course_sections_path)
+    request.xhr? ? head(:ok) : redirect_to(course_sections_path, status: :see_other)
   end
 
   def destroy
@@ -396,7 +396,7 @@ class ItemsController < Abstract::FrontendController
       @notice = I18n.t('items.deleted_item')
     end
 
-    redirect_to course_sections_path, notice: @notice
+    redirect_to course_sections_path, notice: @notice, status: :see_other
   end
 
   def hide_course_nav?

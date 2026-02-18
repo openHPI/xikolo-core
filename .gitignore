@@ -63,3 +63,4 @@ examples.txt
 
 # License-restricted files (add internal updates with force)
 /app/assets/stylesheets/fontawesome-pro/
+AGENTS.md

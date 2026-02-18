@@ -113,7 +113,7 @@ describe Admin::CoursesController, type: :controller do
 
       it 'answers with a page' do
         action.call
-        expect(response).to have_http_status :found
+        expect(response).to have_http_status :see_other
       end
 
       it 'sets a flash notice message' do

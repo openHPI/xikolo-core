@@ -13,6 +13,6 @@ class Course::Enrollments::CompletionController < Abstract::FrontendController
 
     enrollment.update!(completed: true)
     add_flash_message :success, t(:'flash.success.course_archived')
-    redirect_to dashboard_path
+    redirect_to dashboard_path, status: :see_other
   end
 end

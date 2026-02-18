@@ -33,11 +33,12 @@ class Admin::Classifier::CoursesOrderController < Abstract::FrontendController
         end
       rescue ActiveRecord::RecordInvalid, ActiveRecord::StatementInvalid
         add_flash_message :error, t(:'flash.error.courses_order_failed')
-        return redirect_to admin_cluster_classifier_courses_order_path(@classifier.cluster, @classifier)
+        return redirect_to admin_cluster_classifier_courses_order_path(@classifier.cluster, @classifier),
+          status: :see_other
       end
     end
 
     add_flash_message :success, t(:'flash.success.courses_order_updated')
-    redirect_to admin_cluster_classifier_courses_order_path(@classifier.cluster, @classifier)
+    redirect_to admin_cluster_classifier_courses_order_path(@classifier.cluster, @classifier), status: :see_other
   end
 end

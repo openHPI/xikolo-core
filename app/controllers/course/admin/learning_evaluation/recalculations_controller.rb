@@ -23,7 +23,7 @@ module Course::Admin::LearningEvaluation
     rescue Restify::ResponseError
       add_flash_message :error, t(:'flash.error.recalculation_failed')
     ensure
-      redirect_to course_sections_path(params[:course_id])
+      redirect_to course_sections_path(params[:course_id]), status: :see_other
     end
 
     private

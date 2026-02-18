@@ -20,10 +20,10 @@ class Account::TreatmentsController < Abstract::FrontendController
     user.rel(:consents).patch(consents).value!
 
     add_flash_message :success, t(:'account.treatments.consent.flash.success')
-    redirect_to redirect_url
+    redirect_to redirect_url, status: :see_other
   rescue Restify::ResponseError
     add_flash_message :error, t(:'account.treatments.consent.flash.error')
-    redirect_to treatments_path
+    redirect_to treatments_path, status: :see_other
   end
 
   private

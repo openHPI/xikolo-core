@@ -25,7 +25,6 @@ const config = {
 
     // Libraries
     'app/javascript/legacy/libraries/dimple.js',
-    'app/javascript/legacy/bootstrap-editable.js',
   ],
   outdir: path.join(process.cwd(), 'app/assets/builds'),
   splitting: true,

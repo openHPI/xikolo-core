@@ -133,7 +133,7 @@ class QuestionController < Abstract::FrontendController
     @question = Xikolo::Pinboard::Question.create(
       question_params_with_user.merge(notification_params)
     )
-    redirect_to :pinboard_index
+    redirect_to :pinboard_index, status: :see_other
   end
 
   def update
@@ -142,7 +142,7 @@ class QuestionController < Abstract::FrontendController
 
     question.update_attributes(question_params)
 
-    redirect_to question_path id: question.id
+    redirect_to question_path(id: question.id), status: :see_other
   end
 
   def upvote
@@ -203,7 +203,7 @@ class QuestionController < Abstract::FrontendController
     question = Xikolo::Pinboard::Question.find(params[:id])
     Acfs.run
     question.delete!
-    redirect_to :pinboard_index
+    redirect_to :pinboard_index, status: :see_other
   end
 
   def close
@@ -214,9 +214,9 @@ class QuestionController < Abstract::FrontendController
     question.update_attributes!({closed: true, implicit_tags: nil})
 
     if in_section_context?
-      redirect_to course_section_question_path(section_id: params[:section_id], id: question.id)
+      redirect_to course_section_question_path(section_id: params[:section_id], id: question.id), status: :see_other
     else
-      redirect_to course_question_path(id: question.id)
+      redirect_to course_question_path(id: question.id), status: :see_other
     end
   end
 
@@ -228,9 +228,9 @@ class QuestionController < Abstract::FrontendController
     question.update_attributes!({closed: false, implicit_tags: nil})
 
     if in_section_context?
-      redirect_to course_section_question_path(section_id: params[:section_id], id: question.id)
+      redirect_to course_section_question_path(section_id: params[:section_id], id: question.id), status: :see_other
     else
-      redirect_to course_question_path(id: question.id)
+      redirect_to course_question_path(id: question.id), status: :see_other
     end
   end
 
@@ -248,7 +248,7 @@ class QuestionController < Abstract::FrontendController
         add_flash_message :error, t(:'pinboard.reporting.error')
       end
     end
-    redirect_to question_path
+    redirect_to question_path, status: :see_other
   end
 
   def block
@@ -259,9 +259,9 @@ class QuestionController < Abstract::FrontendController
     question.block
 
     if in_section_context?
-      redirect_to course_section_question_path(section_id: params[:section_id], id: question.id)
+      redirect_to course_section_question_path(section_id: params[:section_id], id: question.id), status: :see_other
     else
-      redirect_to course_question_path(id: question.id)
+      redirect_to course_question_path(id: question.id), status: :see_other
     end
   end
 
@@ -273,9 +273,9 @@ class QuestionController < Abstract::FrontendController
     question.unblock
 
     if in_section_context?
-      redirect_to course_section_question_path(section_id: params[:section_id], id: question.id)
+      redirect_to course_section_question_path(section_id: params[:section_id], id: question.id), status: :see_other
     else
-      redirect_to course_question_path(id: question.id)
+      redirect_to course_question_path(id: question.id), status: :see_other
     end
   end
 
@@ -382,7 +382,7 @@ class QuestionController < Abstract::FrontendController
     Acfs.run
     unless can_edit? question
       add_flash_message :error, t(:'flash.error.pinboard.cannot_edit_question')
-      redirect_to root_url
+      redirect_to root_url, status: :see_other
     end
   end
 

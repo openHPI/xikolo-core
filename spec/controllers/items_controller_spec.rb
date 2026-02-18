@@ -43,7 +43,7 @@ describe ItemsController, type: :controller do
     end
 
     context 'as non admin' do
-      it { is_expected.to have_http_status :found }
+      it { is_expected.to have_http_status :see_other }
     end
 
     context 'via get with course.content.edit permissions' do

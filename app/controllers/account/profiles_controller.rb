@@ -44,7 +44,7 @@ class Account::ProfilesController < Abstract::FrontendController
 
     if @user.update_attributes(user_params)
       add_flash_message :success, t(:'flash.success.profile_updated')
-      redirect_to dashboard_profile_path
+      redirect_to dashboard_profile_path, status: :see_other
     else
       add_flash_message :error, t(:'flash.error.profile_not_updated')
       @profile = Account::ProfilePresenter.new(@user)
@@ -70,7 +70,7 @@ class Account::ProfilesController < Abstract::FrontendController
 
       add_flash_message :notice, t(:'flash.notice.confirmation_email_required', email: email.address)
     end
-    redirect_to profile_edit_email_path
+    redirect_to profile_edit_email_path, status: :see_other
   end
 
   def unsuspend_primary_email
@@ -80,7 +80,7 @@ class Account::ProfilesController < Abstract::FrontendController
     email.rel(:suspension).delete.value!
 
     add_flash_message :success, t(:'flash.success.primary_email_unsuspended')
-    redirect_to profile_path
+    redirect_to profile_path, status: :see_other
   end
 
   def delete_authorization
@@ -94,7 +94,7 @@ class Account::ProfilesController < Abstract::FrontendController
     end
     Acfs.run
 
-    redirect_to profile_path
+    redirect_to profile_path, status: :see_other
   end
 
   def delete_email
@@ -103,13 +103,13 @@ class Account::ProfilesController < Abstract::FrontendController
       Acfs.run
     rescue Acfs::ResourceNotFound
       # it's already gone
-      return redirect_to profile_path
+      return redirect_to profile_path, status: :see_other
     end
 
     email.delete
 
     add_flash_message :success, t(:'flash.success.email_deleted')
-    redirect_to profile_path
+    redirect_to profile_path, status: :see_other
   end
 
   def change_primary_email
@@ -118,7 +118,7 @@ class Account::ProfilesController < Abstract::FrontendController
     email = account_api.rel(:email).get({id: mail.address}).value!
     email.rel(:self).patch({primary: true}).value!
 
-    redirect_to profile_path
+    redirect_to profile_path, status: :see_other
   end
 
   def update_visual
@@ -143,8 +143,7 @@ class Account::ProfilesController < Abstract::FrontendController
         end
       end
     end
-
-    redirect_to dashboard_profile_path
+    redirect_to dashboard_profile_path, status: :see_other
   end
 
   def change_my_password
@@ -155,7 +154,7 @@ class Account::ProfilesController < Abstract::FrontendController
       result.error {|e| add_flash_message :error, e.message }
     end
 
-    redirect_to dashboard_profile_path
+    redirect_to dashboard_profile_path, status: :see_other
   end
 
   private

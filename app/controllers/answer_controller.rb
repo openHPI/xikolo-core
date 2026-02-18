@@ -16,10 +16,10 @@ class AnswerController < Abstract::FrontendController
   def create
     if current_user.anonymous? || answer_params_with_user[:question_id].nil?
       add_flash_message :error, t(:'flash.error.login_to_proceed')
-      redirect_to course_question_path(id: answer_params_with_user[:question_id])
+      redirect_to course_question_path(id: answer_params_with_user[:question_id]), status: :see_other
     else
       Xikolo::Pinboard::Answer.create answer_params_with_user.merge(notification: notification_params)
-      redirect_to question_path(id: answer_params_with_user[:question_id])
+      redirect_to question_path(id: answer_params_with_user[:question_id]), status: :see_other
     end
   end
 
@@ -27,7 +27,7 @@ class AnswerController < Abstract::FrontendController
     pinboard_answer = answer
     pinboard_answer.update_attributes(answer_params)
 
-    redirect_to question_path id: answer.question_id
+    redirect_to question_path(id: answer.question_id), status: :see_other
   end
 
   def upvote
@@ -109,7 +109,7 @@ class AnswerController < Abstract::FrontendController
     authorize! 'pinboard.entity.delete'
 
     answer.delete!
-    redirect_to question_path(id: answer.question_id)
+    redirect_to question_path(id: answer.question_id), status: :see_other
   end
 
   def abuse_report
@@ -129,7 +129,7 @@ class AnswerController < Abstract::FrontendController
         add_flash_message :error, t(:'pinboard.reporting.error')
       end
     end
-    redirect_to question_path(id: question_id)
+    redirect_to question_path(id: question_id), status: :see_other
   end
 
   def block
@@ -137,7 +137,7 @@ class AnswerController < Abstract::FrontendController
 
     answer({text_purpose: 'display'}).block
 
-    redirect_to question_path(id: answer.question_id)
+    redirect_to question_path(id: answer.question_id), status: :see_other
   end
 
   def unblock
@@ -145,7 +145,7 @@ class AnswerController < Abstract::FrontendController
 
     answer({text_purpose: 'display'}).unblock
 
-    redirect_to question_path(id: answer.question_id)
+    redirect_to question_path(id: answer.question_id), status: :see_other
   end
 
   private

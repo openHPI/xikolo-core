@@ -18,7 +18,7 @@ class Admin::MasqueradesController < ApplicationController
     session[:_csrf_token_pre_masquerade] = session.delete :_csrf_token
     reset_csrf_token(request)
 
-    redirect_to dashboard_path
+    redirect_to dashboard_path, status: :see_other
   end
 
   def destroy
@@ -33,6 +33,6 @@ class Admin::MasqueradesController < ApplicationController
     reset_csrf_token(request)
     session[:_csrf_token] = session.delete :_csrf_token_pre_masquerade
 
-    redirect_to user_path(params[:user_id])
+    redirect_to user_path(params[:user_id]), status: :see_other
   end
 end

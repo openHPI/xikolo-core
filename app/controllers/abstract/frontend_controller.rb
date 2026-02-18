@@ -31,7 +31,9 @@ module Abstract
         @in_app = true
         cookies[:in_app] = '1'
         # redirect to given url but without param, used for sso on mobile
-        redirect_to(request.params['redirect_to']) if %w[/auth/who].include? request.params['redirect_to']
+        if %w[/auth/who].include? request.params['redirect_to']
+          redirect_to(request.params['redirect_to'], status: :see_other)
+        end
       end
 
       # This is similar to `Xikolo::Middleware::RunContext#app_request?`

@@ -13,7 +13,7 @@ RSpec.describe 'Notifications: UserDisables: Show', type: :request do
     let(:params) { {} }
 
     it 'renders an error message' do
-      expect(resp.status).to eq 302
+      expect(resp.status).to eq 303
       expect(flash[:error].first).to eq 'The provided link seems to be invalid.'
     end
   end

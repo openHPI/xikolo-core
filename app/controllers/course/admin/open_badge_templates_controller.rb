@@ -28,7 +28,7 @@ class Course::Admin::OpenBadgeTemplatesController < Abstract::FrontendController
 
     if @template.save
       add_flash_message :success, t(:'flash.success.open_badge_template_created')
-      redirect_to course_open_badge_templates_path
+      redirect_to course_open_badge_templates_path, status: :see_other
     else
       add_flash_message :error, t(:'flash.error.open_badge_template_not_created')
       @file_upload = FileUpload.new purpose: :certificate_openbadge_template, content_type: 'image/png'
@@ -43,7 +43,7 @@ class Course::Admin::OpenBadgeTemplatesController < Abstract::FrontendController
 
     if @template.save
       add_flash_message :success, t(:'flash.success.open_badge_template_updated')
-      redirect_to course_open_badge_templates_path
+      redirect_to course_open_badge_templates_path, status: :see_other
     else
       add_flash_message :error, t(:'flash.error.open_badge_template_not_updated')
       @file_upload = FileUpload.new purpose: :certificate_openbadge_template, content_type: 'image/png'
@@ -59,7 +59,7 @@ class Course::Admin::OpenBadgeTemplatesController < Abstract::FrontendController
       add_flash_message :error, t(:'flash.error.open_badge_template_not_deleted')
     end
 
-    redirect_to course_open_badge_templates_path
+    redirect_to course_open_badge_templates_path, status: :see_other
   end
 
   def hide_course_nav?

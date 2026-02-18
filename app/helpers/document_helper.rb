@@ -32,7 +32,7 @@ module DocumentHelper
       id: params[:document_id],
     }).value!
     document.rel(:localizations).post(create_localization_params).value!
-    redirect_to documents_path
+    redirect_to documents_path, status: :see_other
   end
 
   def update_localization
@@ -41,12 +41,12 @@ module DocumentHelper
       id: params[:id],
     }).value!
     localization.rel(:self).patch(update_params).value!
-    redirect_to localization.document_url
+    redirect_to localization.document_url, status: :see_other
   end
 
   def delete_localization
     Xikolo.api(:course).value!.rel(:document_localization).delete({id: params[:id]}).value!
-    redirect_to documents_path
+    redirect_to documents_path, status: :see_other
   end
 
   def create_document
@@ -80,12 +80,12 @@ module DocumentHelper
     update_params[:course_ids]&.reject!(&:blank?)
 
     Xikolo.api(:course).value!.rel(:document).patch(update_params, params: {id: params[:id]}).value!
-    redirect_to document_path(id: update_params[:id])
+    redirect_to document_path(id: update_params[:id]), status: :see_other
   end
 
   def delete_document
     Xikolo.api(:course).value!.rel(:document).delete({id: params[:id]}).value!
-    redirect_to documents_path
+    redirect_to documents_path, status: :see_other
   end
 
   def dropdown_index

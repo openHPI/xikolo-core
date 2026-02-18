@@ -11,7 +11,7 @@ class DashboardController < Abstract::FrontendController
   include Interruptible
 
   def index
-    redirect_to action: :dashboard
+    redirect_to action: :dashboard, status: :see_other
   end
 
   ### Dashboard ###

@@ -32,7 +32,8 @@ class Account::PasswordResetsController < Abstract::FrontendController
 
         return redirect_to(
           root_url,
-          notice: t(:'account.password_resets.flash.reset_send', email: params[:reset][:email])
+          notice: t(:'account.password_resets.flash.reset_send', email: params[:reset][:email]),
+          status: :see_other
         )
       rescue Restify::UnprocessableEntity
         @reset.errors.add :email, t(:'account.password_resets.flash.email_not_found')
@@ -51,7 +52,7 @@ class Account::PasswordResetsController < Abstract::FrontendController
         reset = account_api.rel(:password_reset).get({id: params[:id]}).value!
         reset.rel(:self).patch(@reset.to_resource.slice('password')).value!
 
-        return redirect_to new_session_url, notice: t(:'account.password_resets.flash.pw_changed')
+        return redirect_to new_session_url, notice: t(:'account.password_resets.flash.pw_changed'), status: :see_other
       rescue Restify::NotFound
         return render :not_found, status: :not_found
       rescue Restify::ResponseError => e

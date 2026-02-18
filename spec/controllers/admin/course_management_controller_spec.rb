@@ -228,7 +228,7 @@ describe Admin::CourseManagementController, type: :controller do
     context 'as user' do
       it 'redirects' do
         action.call
-        expect(response).to have_http_status :found
+        expect(response).to have_http_status :see_other
       end
     end
 
@@ -237,7 +237,7 @@ describe Admin::CourseManagementController, type: :controller do
 
       it 'redirects' do
         action.call
-        expect(response).to have_http_status :found
+        expect(response).to have_http_status :see_other
       end
     end
 
@@ -254,7 +254,7 @@ describe Admin::CourseManagementController, type: :controller do
 
         it 'is successful' do
           action.call
-          expect(response).to have_http_status :found
+          expect(response).to have_http_status :see_other
         end
 
         it 'sets a flash error message' do

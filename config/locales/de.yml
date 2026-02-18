@@ -346,7 +346,6 @@ de:
       login_connect_auth_failed: Beim Versuch, Ihren Social/Enterprise Login mit Ihrem Konto zu verbinden ist ein Fehler aufgetreten. Bitte wenden Sie Sich an den Helpdesk.
       auth_delete_failed: Der Login konnte nicht von Ihrem Konto getrennt werden.
       not_authorized: Sie besitzen nicht die nötigen Rechte für diese Aktion.
-      blocked_by_country: Diese Webseite ist in Ihrem Land nicht verfügbar.
       login_before_enrollment: Bitte melden Sie sich an, bevor Sie sich für Kurse einschreiben.
       missing_user_id_for_enrollment: Fehlende Nutzer-ID. Bitte wählen Sie erst einen Nutzer aus, den Sie einschreiben möchten.
       unenrollment_failed: Die Kursteilnahme konnte nicht beendet werden, bitte versuchen sie es später nochmal. Sollte das Problem bestehen bleiben, wenden Sie sich bitte an den Helpdesk.

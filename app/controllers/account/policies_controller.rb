@@ -12,7 +12,7 @@ module Account
       user = account_api.rel(:user).get({id: current_user.id}).value!
       user.rel(:self).patch({accepted_policy_version: policy.fetch('version')})
 
-      redirect_to redirect_url
+      redirect_to redirect_url, status: :see_other
     end
 
     private

@@ -18,9 +18,9 @@ class Admin::VideosController < Abstract::FrontendController
       add_flash_message :error, t(:'flash.error.video_stream_not_deleted')
     end
 
-    redirect_to videos_path
+    redirect_to videos_path, status: :see_other
   rescue ActiveRecord::DeleteRestrictionError
     add_flash_message :error, t(:'flash.error.video_stream_not_deleted')
-    redirect_to videos_path
+    redirect_to videos_path, status: :see_other
   end
 end

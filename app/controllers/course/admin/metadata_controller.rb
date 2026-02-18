@@ -20,7 +20,7 @@ class Course::Admin::MetadataController < Abstract::FrontendController
     Course::Metadata::Store.call(@metadata.to_model, params[:course_metadata]).on do |result|
       result.success do
         add_flash_message :success, t(:'flash.success.course_metadata_updated')
-        redirect_to edit_course_metadata_path(course_id: @metadata.course_code)
+        redirect_to edit_course_metadata_path(course_id: @metadata.course_code), status: :see_other
       end
       result.error do |r|
         r.metadata.errors.each do |error|
@@ -41,7 +41,7 @@ class Course::Admin::MetadataController < Abstract::FrontendController
       add_flash_message :error, t(:'flash.error.course_metadata_not_deleted')
     end
 
-    redirect_to edit_course_metadata_path(course_id: metadata.course.course_code)
+    redirect_to edit_course_metadata_path(course_id: metadata.course.course_code), status: :see_other
   end
 
   private

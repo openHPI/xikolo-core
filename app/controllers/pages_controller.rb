@@ -30,7 +30,7 @@ class PagesController < Abstract::FrontendController
         S3FileDeletionJob.set(wait: 1.minute).perform_later(uri)
       end
 
-      redirect_to page_path(@page.name)
+      redirect_to page_path(@page.name), status: :see_other
     else
       processor.rollback!
       processor.errors.each do |_url, code, _message|

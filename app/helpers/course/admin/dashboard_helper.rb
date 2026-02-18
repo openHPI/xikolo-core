@@ -105,22 +105,6 @@ module Course
             title: t('admin.course_management.dashboard.kpis.certificates.qc'),
           }
         end
-        if current_user.feature?('course_dashboard.show_cops_details') && stats[:cop_at_end_count]
-          metrics << {
-            counter: number_with_delimiter(stats[:cop_at_end_count]),
-            title: t('admin.course_management.dashboard.kpis.certificates.cops_until_course_end'),
-            quota: stats[:consumption_rate_at_end].present? ? "#{stats[:consumption_rate_at_end]}%" : nil,
-            quota_text: t('admin.course_management.dashboard.kpis.certificates.consumption_rate_at_end_explanation'),
-          }
-        end
-        if current_user.feature?('course_dashboard.show_cops_details') && stats[:cop_after_end_count]
-          metrics << {
-            counter: number_with_delimiter(stats[:cop_after_end_count]),
-            title: t('admin.course_management.dashboard.kpis.certificates.cops_after_course_end'),
-            quota: stats[:consumption_rate_after_end].present? ? "#{stats[:consumption_rate_after_end]}%" : nil,
-            quota_text: t('admin.course_management.dashboard.kpis.certificates.consumption_rate_after_end_explanation'),
-          }
-        end
 
         metrics
       end

@@ -23,7 +23,7 @@ class Admin::PollsController < Abstract::FrontendController
     @poll = Poll::Poll.new poll_params
     if @poll.save
       add_flash_message :success, t(:'flash.success.poll_created')
-      redirect_to edit_admin_poll_path(id: @poll.id)
+      redirect_to edit_admin_poll_path(id: @poll.id), status: :see_other
     else
       add_flash_message :error, t(:'flash.error.poll_not_created')
       render :new, status: :unprocessable_entity
@@ -34,7 +34,7 @@ class Admin::PollsController < Abstract::FrontendController
     @poll = Poll::Poll.find(params[:id])
     if @poll.update(poll_params)
       add_flash_message :success, t(:'flash.success.poll_updated')
-      redirect_to admin_polls_path
+      redirect_to admin_polls_path, status: :see_other
     else
       add_flash_message :error, t(:'flash.error.poll_not_updated')
       render :edit, status: :unprocessable_entity
@@ -49,7 +49,7 @@ class Admin::PollsController < Abstract::FrontendController
       add_flash_message :error, t(:'flash.success.poll_not_deleted')
     end
 
-    redirect_to admin_polls_path
+    redirect_to admin_polls_path, status: :see_other
   end
 
   private

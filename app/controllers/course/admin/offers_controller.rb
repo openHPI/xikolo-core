@@ -29,7 +29,7 @@ class Course::Admin::OffersController < Abstract::FrontendController
 
     if @offer.save
       add_flash_message :success, t(:'flash.success.offer_created')
-      redirect_to course_offers_path
+      redirect_to course_offers_path, status: :see_other
     else
       add_flash_message :error, t(:'flash.error.offer_not_created')
       render :new, status: :unprocessable_entity
@@ -46,7 +46,7 @@ class Course::Admin::OffersController < Abstract::FrontendController
 
     if @offer.save
       add_flash_message :success, t(:'flash.success.offer_updated')
-      redirect_to course_offers_path
+      redirect_to course_offers_path, status: :see_other
     else
       add_flash_message :error, t(:'flash.error.offer_not_updated')
       render :edit, status: :unprocessable_entity
@@ -60,7 +60,7 @@ class Course::Admin::OffersController < Abstract::FrontendController
       add_flash_message :error, t(:'flash.error.offer_not_deleted')
     end
 
-    redirect_to course_offers_path
+    redirect_to course_offers_path, status: :see_other
   end
 
   private

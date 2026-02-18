@@ -45,13 +45,13 @@ class SectionsController < Abstract::FrontendController
       # TODO: also allow course preview for alternative sections
     end
     if first_item
-      redirect_to course_item_path id: UUID(first_item.id).to_param
+      redirect_to course_item_path(id: UUID(first_item.id).to_param), status: :see_other
     elsif section['alternative_state'] == 'parent'
       @section_presenter = SectionPresenter.new(section:)
       render(layout: @section_presenter.respond_to?(:layout) ? @section_presenter.layout : 'course_area_two_cols')
     else
       # TODO: the redirect should differentiate between logged in and anonymous users
-      redirect_to course_resume_path id: UUID4(section['course_id']).to_param
+      redirect_to course_resume_path(id: UUID4(section['course_id']).to_param), status: :see_other
     end
   end
 
@@ -79,7 +79,7 @@ class SectionsController < Abstract::FrontendController
       add_flash_message :error, t(:'flash.error.section_not_created')
     end
 
-    redirect_to :course_sections
+    redirect_to :course_sections, status: :see_other
   end
 
   def choose_alternative_section
@@ -88,7 +88,7 @@ class SectionsController < Abstract::FrontendController
         section_id: UUID(params[:id]).to_s,
         chosen_section_id: params[:chosen_id]
     end
-    redirect_to course_section_path id: params[:chosen_id]
+    redirect_to course_section_path(id: params[:chosen_id]), status: :see_other
   end
 
   def update
@@ -102,7 +102,7 @@ class SectionsController < Abstract::FrontendController
       add_flash_message :error, t(:'flash.error.section_not_updated')
     end
 
-    redirect_to course_sections_path
+    redirect_to course_sections_path, status: :see_other
   end
 
   def destroy
@@ -112,7 +112,7 @@ class SectionsController < Abstract::FrontendController
 
     course_api.rel(:section).delete({id: section.id}).value!
 
-    redirect_to course_sections_url, notice: t(:'flash.notice.section_deleted')
+    redirect_to course_sections_url, notice: t(:'flash.notice.section_deleted'), status: :see_other
   end
 
   def move
@@ -134,7 +134,7 @@ class SectionsController < Abstract::FrontendController
     end
     Acfs.run
 
-    request.xhr? ? head(:ok) : redirect_to(course_sections_path)
+    request.xhr? ? head(:ok) : redirect_to(course_sections_path, status: :see_other)
   end
 
   def hide_course_nav?

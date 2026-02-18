@@ -106,7 +106,7 @@ class Admin::CourseManagementController < Admin::BaseController
 
       add_flash_message :success, t(:'flash.success.submission_converted')
     end
-    redirect_back fallback_location: root_path
+    redirect_back fallback_location: root_path, status: :see_other
   rescue Restify::ClientError
     raise Status::NotFound
   end
@@ -157,7 +157,7 @@ class Admin::CourseManagementController < Admin::BaseController
       }).value!
     rescue Restify::ClientError, Restify::ServerError => e
       add_flash_message :error, e.response.body.force_encoding('utf-8')
-      redirect_to course_sections_path params[:id]
+      redirect_to course_sections_path(params[:id]), status: :see_other
       return
     end
 
@@ -167,7 +167,7 @@ class Admin::CourseManagementController < Admin::BaseController
       xml: resource.data.force_encoding('utf-8')
     )
     add_flash_message :success, t(:'items.quiz.import_quizzes_success')
-    redirect_to course_sections_path params[:id]
+    redirect_to course_sections_path(params[:id]), status: :see_other
   end
 
   def generate_ranking

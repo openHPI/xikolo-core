@@ -434,7 +434,6 @@ en:
       login_connect_auth_failed: An error occurred when trying to connect your account with your social/enterprise login. Please contact our helpdesk.
       auth_delete_failed: Could not disconnect the login from your account.
       not_authorized: You do not have sufficient permissions for this action.
-      blocked_by_country: This website is not available in your country.
       login_before_enrollment: Please log in before enrolling to lectures.
       missing_user_id_for_enrollment: Missing user ID. Please select a user before enrolling.
       unenrollment_failed: The unenrollment failed. Please try again.
@@ -1420,14 +1419,10 @@ en:
             title: Certificates # Do not translate
             roa: Records of Achievement # Do not translate
             cop: Confirmations of Participation # Do not translate
-            cops_until_course_end: CoPs until course end
-            cops_after_course_end: CoPs after course end
             qc: Certificates # Do not translate
             not_available: No certificates are enabled for this course. # Do not translate
             not_released: Certificates not released yet. # Do not translate
             completion_rate_explanation: ratio based on shows at middle # Do not translate
-            consumption_rate_at_end_explanation: ratio based on shows at end # Do not translate
-            consumption_rate_after_end_explanation: ratio based on shows after end # Do not translate
             consumption_rate_current_explanation: ratio based on all shows # Do not translate
           helpdesk: # Do not translate
             title: Helpdesk # Do not translate

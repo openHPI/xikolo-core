@@ -39,14 +39,15 @@ class QuizAnswersController < Abstract::FrontendController
     answer.save!
 
     if params[:add_answer]
-      redirect_to new_course_section_item_quiz_question_quiz_answer_path
+      redirect_to new_course_section_item_quiz_question_quiz_answer_path, status: :see_other
     else
       redirect_to(
         edit_course_section_item_path(
           course_id: params[:course_id],
-          id: params[:item_id]
+          id: params[:item_id],
+          anchor: 'questions'
         ),
-        anchor: 'questions'
+        status: :see_other
       )
     end
   end
@@ -63,7 +64,7 @@ class QuizAnswersController < Abstract::FrontendController
     end
     answer.save!
 
-    redirect_to edit_course_section_item_path(id: params[:item_id]), anchor: 'questions'
+    redirect_to edit_course_section_item_path(id: params[:item_id], anchor: 'questions'), status: :see_other
   end
 
   def move
@@ -86,7 +87,7 @@ class QuizAnswersController < Abstract::FrontendController
     end
 
     Acfs.run
-    request.xhr? ? head(:ok) : redirect_to(edit_course_section_item_path)
+    request.xhr? ? head(:ok) : redirect_to(edit_course_section_item_path, status: :see_other)
   end
 
   def destroy
@@ -96,7 +97,7 @@ class QuizAnswersController < Abstract::FrontendController
   rescue Restify::ClientError
     add_flash_message :error, t('flash.error.quiz_answer')
   ensure
-    redirect_to edit_course_section_item_path(id: params[:item_id]), anchor: 'questions'
+    redirect_to edit_course_section_item_path(id: params[:item_id], anchor: 'questions'), status: :see_other
   end
 
   private

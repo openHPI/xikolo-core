@@ -27,7 +27,7 @@ class Admin::ChannelsOrderController < Abstract::FrontendController
       add_flash_message(:error, t(:'flash.error.channel_order_failed'))
     end
 
-    redirect_to admin_channels_url
+    redirect_to admin_channels_url, status: :see_other
   end
 
   private

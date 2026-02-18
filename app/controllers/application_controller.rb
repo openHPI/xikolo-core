@@ -59,7 +59,7 @@ class ApplicationController < ActionController::Base
     return if current_user.allowed?('course.content.edit')
 
     add_flash_message :error, t(:'flash.error.not_authorized')
-    redirect_to root_url
+    redirect_to root_url, status: :see_other
   end
 
   def authorize!(permission)

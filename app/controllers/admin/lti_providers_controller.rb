@@ -20,7 +20,7 @@ class Admin::LtiProvidersController < Admin::BaseController
 
     if @provider.save
       add_flash_message :success, t(:'flash.success.lti_provider_created')
-      redirect_to action: :index
+      redirect_to action: :index, status: :see_other
     else
       add_flash_message :error, t(:'flash.error.lti_provider_not_created')
       render(action: :new, status: :unprocessable_entity)
@@ -32,7 +32,7 @@ class Admin::LtiProvidersController < Admin::BaseController
 
     if @provider.update(lti_provider_params)
       add_flash_message :success, t(:'flash.success.lti_provider_updated')
-      redirect_to action: :index
+      redirect_to action: :index, status: :see_other
     else
       add_flash_message :error, t(:'flash.error.lti_provider_not_updated')
       render(action: :edit, status: :unprocessable_entity)
@@ -47,7 +47,7 @@ class Admin::LtiProvidersController < Admin::BaseController
       add_flash_message :error, t(:'flash.error.lti_provider_not_deleted')
     end
 
-    redirect_to action: :index
+    redirect_to action: :index, status: :see_other
   end
 
   private

@@ -30,7 +30,7 @@ module Course
       ).on do |result|
         result.success do |s|
           add_flash_message :success, s.message
-          redirect_to course_path(course.course_code)
+          redirect_to course_path(course.course_code), status: :see_other
         end
         result.error do |e|
           add_flash_message :error, e.message
@@ -64,7 +64,7 @@ module Course
       return if product_type.enabled_in?(course)
 
       add_flash_message :error, product_type.unavailable_message
-      redirect_to course_path(course.course_code)
+      redirect_to course_path(course.course_code), status: :see_other
     end
 
     def course
