@@ -509,21 +509,6 @@ linkedin_organization_id: ~
 # Configuration for bridge APIs that help us integrate with other portals / tools
 bridges: {}
 
-# A collection of different chatbot backends depending on the plattform, version and language.
-#
-# The public key is used to decrypt / verify auth tokens in the bridge API.
-# To support key rotation, multiple public keys can be listed.
-#
-# Version 1 represents the suggestions provided in the contact form of the helpdesk.
-# Version 2 represents the actual chatbot inside the helpdesk.
-chatbot:
-  bridge_public_keys:
-    - "fe3BIEgJRIsZz4dWT29wGF85knpAwJg0-NQB1f4PJu0"
-  # version2:
-  #   href:
-  #     en:
-  #     de:
-
 # Kaltura settings
 kaltura:
   # The endpoint URL of a Kaltura API can be different, depending on if the Kaltura instance is

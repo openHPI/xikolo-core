@@ -40,6 +40,8 @@ WebMock.disable_net_connect!(allow_localhost: true, allow: [
   # Allow download of chrome and the selenium driver
   'storage.googleapis.com/chrome-for-testing-public',
   'chromedriver.storage.googleapis.com',
+  'http://selenium:4444',
+  "http://rails-app:#{ENV.fetch('CAPYBARA_SERVER_PORT', nil)}",
 ])
 
 RSpec.configure do |config|

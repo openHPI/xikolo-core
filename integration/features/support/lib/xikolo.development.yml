@@ -1,9 +1,9 @@
 s3:
   connect_info:
-    endpoint: http://127.0.0.1:9000
+    endpoint: <%= ENV.fetch('XIKOLO_S3_ENDPOINT', 'http://127.0.0.1:9000') %>
     region: default
-    access_key_id: minioadmin
-    secret_access_key: minioadmin
+    access_key_id: <%= ENV.fetch('XIKOLO_S3_ACCESS_KEY', 'minioadmin') %>
+    secret_access_key: <%= ENV.fetch('XIKOLO_S3_SECRET_KEY', 'minioadmin') %>
     force_path_style: true
   buckets:
     avatars: xikolo-public

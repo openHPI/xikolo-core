@@ -101,16 +101,6 @@ See below for explanations on [managing feature flippers](#manage-feature-flippe
 
     *Scope:* `Group.all_users`, `Context.root`
 
-`chatbot.prototype-2` :material-test-tube:
-
-:   Enable the chatbot prototype in the helpdesk widget.
-
-    *Scope:* `Group.all_users`, `Context.root`
-
-    !!! info
-
-        This requires the chatbot backend to be set up properly. Further configuration is required.
-
 `dashboard.course_recommendations`
 
 :   Enable the course recommendation widget on the user's dashboard, showing courses for promotion (e.g., current or upcoming courses).

@@ -15,6 +15,9 @@ Keep it concise; reference files and commands developers actually use.
 
 - Project-specific conventions / patterns to follow:
   - Feature-style modular components under `app/components` and UI parts under `app/views` — follow existing structure for new components.
+  - Use `erb` templates for views; `slim` is deprecated. Refactor existing views to `erb` if possible.
+  - Use TypeScript for new frontend code; existing JS can be migrated over time. Follow patterns in `app/javascript/` for new code.
+  - Use the `x-` prefix for daisyUI components in views.
 
 - Key files and where to look for examples:
   - Routes and constraints: `config/routes.rb` for request-level routing rules.

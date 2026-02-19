@@ -62,11 +62,11 @@ class Account::ProfilesController < Abstract::FrontendController
       verifier = ::Account::ConfirmationsController.verifier
       payload = verifier.generate(email.id.to_s)
 
-      Msgr.publish({
+      NotificationService::SendConfirmEmailJob.perform_later({
         user_id: current_user.id,
         id: email.id,
         url: account_confirmation_url(payload),
-      }, to: 'xikolo.account.email.confirm')
+      })
 
       add_flash_message :notice, t(:'flash.notice.confirmation_email_required', email: email.address)
     end

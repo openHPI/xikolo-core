@@ -24,20 +24,21 @@ describe 'Account: Confirmations: Create', type: :request do
     expect(resp).to redirect_to '/sessions/new'
   end
 
-  it 'publishes new email message' do
-    expect(Msgr).to receive(:publish) do |event, to:|
-      expect(event).to match \
-        id: '45709320-66c3-4732-b786-1f562a882b77',
-        user_id: '8fc575b8-d881-4024-b787-ae010dd2f81b',
-        url: match(%r{/account/confirm/[^/]+$})
+  it 'enqueues confirm email job' do
+    expect(NotificationService::SendConfirmEmailJob)
+      .to receive(:perform_later) do |event|
+        expect(event).to match(
+          id: '45709320-66c3-4732-b786-1f562a882b77',
+          user_id: '8fc575b8-d881-4024-b787-ae010dd2f81b',
+          url: match(%r{/account/confirm/[^/]+$})
+        )
 
-      event[:url].split('/').last.tap do |payload|
-        expect(verifier.verified(payload)).to eq \
-          '45709320-66c3-4732-b786-1f562a882b77'
+        event[:url].split('/').last.tap do |payload|
+          expect(verifier.verified(payload)).to eq(
+            '45709320-66c3-4732-b786-1f562a882b77'
+          )
+        end
       end
-
-      expect(to).to eq 'xikolo.account.email.confirm'
-    end
 
     resp
   end

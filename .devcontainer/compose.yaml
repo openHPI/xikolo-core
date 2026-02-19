@@ -1,0 +1,92 @@
+name: "xikolo_web"
+
+services:
+  rails-app:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+
+    volumes:
+      - ../..:/workspaces:cached
+      - /app/services # Ignore services all together.
+
+    # Overrides default command so things don't shut down after the process ends.
+    command: /bin/sh -c "socat TCP-LISTEN:9111,fork,reuseaddr TCP:minio:9000 & socat TCP-LISTEN:6379,fork,reuseaddr TCP:redis:6379 & sleep infinity"
+
+    # Uncomment the next line to use a non-root user for all processes.
+    # user: vscod
+
+    # Use "forwardPorts" in **devcontainer.json** to forward an app port locally.
+    # (Adding the "ports" property to this file will not forward from a Codespace.)
+    depends_on:
+      selenium:
+        condition: service_started
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  selenium:
+    image: selenium/standalone-chromium
+    restart: unless-stopped
+
+  redis:
+    command: redis-server --databases 8196
+    image: redis:7.2
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  postgres:
+    image: postgres:16.1
+    restart: unless-stopped
+    networks:
+      - default
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: xikolo
+      POSTGRES_PASSWORD: xikolo
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U xikolo"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  rabbitmq:
+    image: rabbitmq:3.9-management-alpine
+    restart: unless-stopped
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  minio:
+    image: minio/minio
+    restart: unless-stopped
+    command: server /data
+    volumes:
+      - minio-data:/data
+    environment:
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  redis-data:
+  postgres-data:
+  minio-data:

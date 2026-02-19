@@ -5,23 +5,6 @@
       "title": "APIs"
     },
     {
-      "type": "group",
-      "title": "Chatbot API",
-      "slug": "chatbot",
-      "items": [
-        {
-          "type": "item",
-          "title": "Authentication flow",
-          "uri": "/chatbot/docs/authentication-flow.md"
-        },
-        {
-          "type": "item",
-          "title": "API reference",
-          "uri": "/chatbot/reference/chatbot-api.v1.yaml"
-        }
-      ]
-    },
-    {
       "type": "item",
       "title": "MOOChub API",
       "slug": "moochub",

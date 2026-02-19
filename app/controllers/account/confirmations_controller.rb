@@ -36,7 +36,7 @@ class Account::ConfirmationsController < Abstract::FrontendController
       url: account_confirmation_url(payload),
     }
 
-    Msgr.publish(event, to: 'xikolo.account.email.confirm')
+    NotificationService::SendConfirmEmailJob.perform_later(event)
 
     redirect_to new_session_url, notice: t(:'flash.notice.confirmation_resend'), status: :see_other
   end

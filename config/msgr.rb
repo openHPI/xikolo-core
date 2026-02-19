@@ -30,10 +30,6 @@ route 'xikolo.course.course.update', to: 'pinboard_service/pinboard_search_cours
 
 route 'xikolo.course.clone', to: 'course_service/course#clone'
 
-# Account routes
-route 'xikolo.account.password_reset.notify', to: 'notification_service/account#password_reset'
-route 'xikolo.account.email.confirm', to: 'notification_service/account#confirm_email'
-
 # Announcements
 route 'xikolo.news.announcement.create', to: 'notification_service/announcement#create'
 

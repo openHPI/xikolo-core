@@ -432,17 +432,6 @@ Rails.application.routes.draw do
       resources :courses, only: %i[index]
     end
 
-    scope 'chatbot', module: :chatbot, as: 'chatbot' do
-      post 'authenticate', to: 'authentications#create'
-      get 'my_courses', to: 'my_courses#index'
-      post 'my_courses/:id', to: 'my_courses#create'
-      delete 'my_courses/:id', to: 'my_courses#destroy'
-      get 'my_courses/:id/achievements', to: 'my_course_achievements#show'
-      get 'courses', to: 'courses#index'
-      get 'user', to: 'users#show'
-      get 'my_quizzes', to: 'my_quizzes#index'
-    end
-
     scope 'shop', module: :shop, as: 'shop', defaults: {format: 'json'} do
       resources :vouchers, only: %i[index create]
     end

@@ -27,6 +27,15 @@ RSpec.configure do |config|
   config.include Capybara::RSpecMatchers, type: :request
 
   config.before(type: :system) do
-    driven_by(:selenium, using: :"#{'headless_' if headless?}#{browser}")
+    if ENV['CAPYBARA_SERVER_PORT']
+      served_by host: 'rails-app', port: ENV['CAPYBARA_SERVER_PORT']
+
+      driven_by :selenium, using: :headless_chrome, screen_size: [1400, 1400], options: {
+        browser: :remote,
+        url: "http://#{ENV.fetch('SELENIUM_HOST', nil)}:4444",
+      }
+    else
+      driven_by(:selenium, using: :"#{'headless_' if headless?}#{browser}", screen_size: [1400, 1400])
+    end
   end
 end

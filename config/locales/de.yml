@@ -674,14 +674,6 @@ de:
     contact: Kontaktformular
     recaptcha: Bitte helfen Sie uns, die Seite vor Missbrauch zu schützen! Bestätigen Sie, dass Sie ein Mensch sind, indem Sie das Kästchen unten anklicken.
 
-  chatbot:
-    send: Senden
-    placeholder: Nachricht schreiben
-    text: Der Chatbot hilft Ihnen gerne bei Ihrem technischen Problem. Beginnen Sie ein Gespräch, indem Sie eine Frage auf Deutsch stellen!
-    own_message: "Ich möchte eine eigene Nachricht schreiben."
-    own_message_note: "Alles klar! Ich verstehe dich am besten, wenn du deine Fragen kurz und präzise formulierst."
-    hello: Hallo
-
   home:
     platform: openHPI
     head_hero:

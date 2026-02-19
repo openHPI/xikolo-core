@@ -80,9 +80,6 @@ certificate:
 # imgproxy_url: https://imgproxy.services.openhpi.de
 imgproxy_url: ~
 
-chatbot:
-  bridge_public_keys: []
-
 moochub_api:
   enabled: false
   course_license:

@@ -4,20 +4,4 @@
 h4.h4
   span.primary-color = t(:'helpdesk.headline.brand')
   span = t(:'helpdesk.headline.remainder')
-
-- if current_user.feature?('chatbot.prototype-2')
-  #chatbot-urls-v2 data-user-chatbot-url=Translations.new(Xikolo.config.chatbot.dig('version2', 'href')).to_s
-  #chatbot-sitename data-chatbot-sitename=Xikolo.config.site_name
-  #chatbot-api-token data-chatbot-token=TokenSigning.for(:chatbot).sign(current_user.id)
-
-  = render Navigation::Tabs.new do |c|
-    - c.with_tab(controls: 'chatbot-panel-1', active: true)
-      = t(:'helpdesk.chat')
-    - c.with_tab(controls: 'chatbot-panel-2')
-      = t(:'helpdesk.contact')
-    - c.with_panel(id: 'chatbot-panel-1', active: true)
-      = render partial: 'chatbot'
-    - c.with_panel(id: 'chatbot-panel-2')
-      = render partial: 'form', locals: {ticket: @ticket, recaptcha: @recaptcha}
-- else
   = render partial: 'form', locals: {ticket: @ticket, recaptcha: @recaptcha}

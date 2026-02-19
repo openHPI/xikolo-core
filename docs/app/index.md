@@ -30,7 +30,6 @@ Explore the following APIs and access their documentation through the provided l
 [Portal and Bridge APIs](https://openhpi.stoplight.io/), documented via Stoplight:
 
 - :material-layers-outline: The *Portal API* facilitates integration with external platform portals.
-- :material-chat-outline: The *Chatbot API* integrates chatbot systems for enhanced user support.
 - :material-format-list-text: The *MOOChub API* provides course information for MOOC aggregators.
 - :material-cart-outline: The *Shop API* connects shop systems for selling vouchers.
 - :material-subtitles-outline: The *TransPipe API* integrates with [TransPipe](https://github.com/openHPI/transpipe) for subtitle management.

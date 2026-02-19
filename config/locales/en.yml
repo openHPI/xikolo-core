@@ -772,14 +772,6 @@ en:
     contact: Contact Form
     recaptcha: Help us keep the site secure! Confirm you're human by checking the box below.
 
-  chatbot:
-    send: Send
-    placeholder: Write a message
-    text: The chatbot is happy to help you with your technical problem. Feel free to start a conversation by asking a question in English!
-    own_message: "I would like to write my own message."
-    own_message_note: "Okay, I understand you best when you formulate your questions briefly and precisely!"
-    hello: Hello
-
   home:
     platform: openHPI
     head_hero:
