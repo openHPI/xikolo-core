@@ -452,7 +452,6 @@ GEM
       logger
       ostruct
     ice_cube (0.17.0)
-    idn-ruby (0.1.5)
     imgproxy (3.0.0)
       anyway_config (~> 2.6)
     importmap-rails (2.2.3)
@@ -1105,7 +1104,6 @@ DEPENDENCIES
   i18n-js (~> 4.2, >= 4.2.3)
   i18n_data
   icalendar
-  idn-ruby (~> 0.1.0)
   imgproxy
   ims-lti (~> 1.2, < 2.0.0)
   inky-rb

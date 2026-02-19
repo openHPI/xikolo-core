@@ -279,7 +279,6 @@ bun install
     libffi-dev \
     libgirepository1.0-dev \
     libgit2-dev \
-    libidn11-dev \
     libpq-dev \
     librsvg2-dev \
     libsodium23 \
@@ -296,7 +295,6 @@ bun install
     ```console
     brew install \
     cmake \
-    libidn \
     libsodium
     ```
 
@@ -322,16 +320,6 @@ bun install
 
     ```console
     brew services
-    ```
-
-### Configure the build environment
-
-The following settings are required to build gem native extensions.
-
-=== "Mac"
-
-    ```console
-    bundle config set --global build.idn-ruby --with-idn-dir=$(brew --prefix libidn)
     ```
 
 ### Install integration dependencies

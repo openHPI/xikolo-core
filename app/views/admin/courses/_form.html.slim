@@ -197,21 +197,4 @@ javascript:
       }
       return false;
     });
-
-    var course_invite_only = document.getElementById('course_invite_only');
-    var external_registration_url = document.getElementsByClassName('external_registration_url')[0];
-
-    toggleExternalRegistrationUrl();
-
-    course_invite_only.addEventListener('change', function(){
-      toggleExternalRegistrationUrl();
-    });
-
-    function toggleExternalRegistrationUrl() {
-      if (course_invite_only.checked) {
-        external_registration_url.classList.remove('hidden');
-      } else {
-        external_registration_url.classList.add('hidden');
-      }
-    }
   });

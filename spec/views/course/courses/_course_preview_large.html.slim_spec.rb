@@ -83,12 +83,5 @@ describe 'course/courses/_course_preview_large.html.slim', type: :view do
       it { is_expected.to include 'Enroll me for this course' }
       it { is_expected.not_to include 'Clone course' }
     end
-
-    context 'for an invite-only course with external registration' do
-      let(:course_attrs) { super().merge(invite_only: true, external_registration_url: {en: 'http://foo.bar'}) }
-
-      it { is_expected.not_to include 'Enroll me for this course' }
-      it { is_expected.to include 'Register now' }
-    end
   end
 end

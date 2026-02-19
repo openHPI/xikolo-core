@@ -2,18 +2,6 @@
 
 module NotificationService
 class AccountConsumer < Msgr::Consumer # rubocop:disable Layout/IndentationWidth
-  def password_reset
-    user, _reset = Restify::Promise.new(
-      account_api.rel(:user).get({id: payload[:user_id]}),
-      account_api.rel(:password_reset).get({id: payload[:token]})
-    ).value!
-
-    deliver AccountMailer.password_reset(user, payload[:url])
-  rescue Restify::NotFound
-    # Triggered when either user does not exist (anymore) or password
-    # reset does not exist anymore.
-  end
-
   def confirm_email
     user = account_api.rel(:user).get({id: payload[:user_id]}).value!
     email = user.rel(:email).get({id: payload[:id]}).value!

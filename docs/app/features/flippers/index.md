@@ -129,12 +129,6 @@ See below for explanations on [managing feature flippers](#manage-feature-flippe
 
     *Scope:* `Group.all_users`, `Context.root`
 
-`integration.external_booking`
-
-:   Enable integration with external booking tools for courses. This adds a JWT token to external registration URLs.
-
-    *Scope:* `Group.all_users`, `Context.root`
-
 `open_mode`
 
 :   Enable the preview of video items for anonymous or non-enrolled users for items that are flagged for 'open mode' via the item settings.

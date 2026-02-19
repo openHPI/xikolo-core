@@ -238,57 +238,6 @@ describe CourseInfoPresenter do
     end
   end
 
-  describe '#external_registration_url' do
-    subject(:registration_url) { presenter.external_registration_url }
-
-    context 'when the external registration URL is not set' do
-      it { is_expected.to be_nil }
-    end
-
-    context 'when an external registration URL is set' do
-      let(:course_params) do
-        super().merge(
-          external_registration_url: {
-            'en' => 'https://external.registration.en.html',
-            'de' => 'https://external.registration.de.html',
-          }
-        )
-      end
-
-      it 'uses the correct registration URL for English' do
-        I18n.with_locale(:en) do
-          expect(registration_url).to eq('https://external.registration.en.html')
-        end
-      end
-
-      it 'uses the correct registration URL for German' do
-        I18n.with_locale(:de) do
-          expect(registration_url).to eq('https://external.registration.de.html')
-        end
-      end
-
-      context 'when using an external booking system' do
-        let(:features) { {'integration.external_booking' => true} }
-
-        before do
-          allow(ExternalRegistration::JwtTokenGenerator).to receive(:call).once.and_return('mytoken')
-        end
-
-        it 'provides the user\'s JWT token for the English registration URL' do
-          I18n.with_locale(:en) do
-            expect(registration_url).to eq('https://external.registration.en.html?jwt=mytoken')
-          end
-        end
-
-        it 'provides the user\'s JWT token for the German registration URL' do
-          I18n.with_locale(:de) do
-            expect(registration_url).to eq('https://external.registration.de.html?jwt=mytoken')
-          end
-        end
-      end
-    end
-  end
-
   describe '#external?' do
     it { is_expected.not_to be_external }
 

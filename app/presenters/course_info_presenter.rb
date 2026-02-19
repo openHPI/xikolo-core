@@ -180,16 +180,7 @@ class CourseInfoPresenter < PrivatePresenter
     @external_registration_url ||= Translations.new(
       @course.external_registration_url,
       locale_preference: available_locales
-    ).to_s.then do |url|
-      if @user.feature?('integration.external_booking')
-        uri = Addressable::URI.parse(url)
-        jwt = ExternalRegistration.new(@user).token
-        uri.query_values = (uri.query_values.presence || {}).merge('jwt' => jwt)
-        uri.to_s
-      else
-        url
-      end
-    end
+    )
   end
 
   def reactivate?

@@ -21,14 +21,13 @@ class Account::PasswordResetsController < Abstract::FrontendController
       begin
         reset = account_api.rel(:password_resets).post(@reset.to_resource).value!
 
-        Msgr.publish(
-          {
-            user_id: reset['user_id'],
-            token:   reset['id'],
-            url:     account_reset_url(reset['id']),
-          },
-          to: 'xikolo.account.password_reset.notify'
-        )
+        payload = {
+          user_id: reset['user_id'],
+          token:   reset['id'],
+          url:     account_reset_url(reset['id']),
+        }
+
+        NotificationService::SendPasswordResetEmailJob.perform_later(payload)
 
         return redirect_to(
           root_url,

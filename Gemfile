@@ -75,7 +75,6 @@ gem 'addressable'
 gem 'browser', '~> 6.0'
 gem 'dry-validation'
 gem 'http_accept_language'
-gem 'idn-ruby', '~> 0.1.0' # Used by Addressable when available (for better performance)
 gem 'imgproxy'
 gem 'meta-tags', '~> 2.0', require: 'meta_tags'
 gem 'rack-link_headers', '~> 2.2'

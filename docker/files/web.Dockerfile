@@ -31,7 +31,6 @@ RUN <<EOF
     libcurl4 \
     libffi-dev \
     libgirepository1.0-dev \
-    libidn11-dev \
     libpq-dev \
     libcairo2-dev \
     librsvg2-dev \
@@ -98,7 +97,6 @@ RUN <<EOF
     libcurl4 \
     libffi-dev \
     libgirepository1.0-dev \
-    libidn11-dev \
     libpq-dev \
     librsvg2-dev \
     libsodium23 \

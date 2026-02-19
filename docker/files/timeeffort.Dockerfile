@@ -20,7 +20,6 @@ RUN <<EOF
     git \
     libcurl4 \
     libffi-dev \
-    libidn11-dev \
     libpq-dev \
     libsodium23 \
     libyaml-dev \
