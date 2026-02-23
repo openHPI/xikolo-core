@@ -219,10 +219,6 @@ module Xikolo
           filter_by 'course'
         }
 
-        has_many('documents', Xikolo::V2::Documents::Documents) {
-          filter_by 'course'
-        }
-
         has_one('progress', Xikolo::V2::Courses::CourseProgresses) {
           foreign_key 'id'
         }
@@ -232,10 +228,6 @@ module Xikolo
         }
 
         has_many('dates', Xikolo::V2::Courses::Dates) {
-          filter_by 'course'
-        }
-
-        has_many('repetition_suggestions', Xikolo::V2::Courses::RepetitionSuggestions) {
           filter_by 'course'
         }
 

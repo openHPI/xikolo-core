@@ -1,4 +1,5 @@
-= javascript_include_tag 'app/javascript/user/user', type: 'module'
+- content_for :head_assets
+  = javascript_include_tag 'app/javascript/user/user', type: 'module', 'data-turbo-track': Rails.env.production? ? 'reload' : ''
 
 h2.h2.category-title.mb20
   = t(:'dashboard.profile.edit_profile')

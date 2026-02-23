@@ -1,5 +1,5 @@
 - content_for :head_assets
-  = javascript_include_tag 'app/javascript/quiz-recap/quiz-recap', type: 'module'
+  = javascript_include_tag 'app/javascript/quiz-recap/quiz-recap', type: 'module', 'data-turbo-track': Rails.env.production? ? 'reload' : ''
 
 #quiz-recap__loading-indicator
   = render State::Loading.new

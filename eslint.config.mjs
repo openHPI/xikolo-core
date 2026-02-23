@@ -11,6 +11,8 @@ export default [
         ...globals.browser,
         __BRAND__: 'readonly',
         I18n: 'readonly',
+        $: 'readonly', // app/javascript/legacy/initializers.js
+        jQuery: 'readonly', // app/javascript/legacy/initializers.js
       },
     },
   },

@@ -1,5 +1,5 @@
 - content_for :head_assets
-  = javascript_include_tag 'app/javascript/course/course', type: 'module', defer: true
+  = javascript_include_tag 'app/javascript/course/course', type: 'module', defer: true, 'data-turbo-track': Rails.env.production? ? 'reload' : ''
 
 / Header bar, default is slim (since it's used the most), overwrite via :course_area_header (renders into larger :page_header)
 - if content_for? :course_area_header

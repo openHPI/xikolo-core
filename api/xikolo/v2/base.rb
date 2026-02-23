@@ -15,10 +15,7 @@ module Xikolo
 
       mount TokenAPI
 
-      mount CourseAPI
-      mount PreferenceAPI
       mount StatisticsAPI
-      mount LearningInsightsAPI
 
       def self.json_api_endpoints
         @json_api_endpoints ||= {}
@@ -40,21 +37,12 @@ module Xikolo
       mount_json_api_endpoint 'course-items', V2::Courses::Items
       mount_json_api_endpoint 'course-progresses', V2::Courses::CourseProgresses
       mount_json_api_endpoint 'course-sections', V2::Courses::Sections
-      mount_json_api_endpoint 'documents', V2::Documents::Documents
       mount_json_api_endpoint 'enrollments', V2::Courses::Enrollments
       mount_json_api_endpoint 'features', V2::Features::Features
       mount_json_api_endpoint 'last-visits', V2::Courses::LastVisits
       mount_json_api_endpoint 'lti-exercises', V2::CourseItems::LtiExercises
-      mount_json_api_endpoint 'platform-events', V2::Activity::PlatformEvents
       mount_json_api_endpoint 'quizzes', V2::Quiz::Quizzes
-      mount_json_api_endpoint 'quiz-questions', V2::Quiz::Questions
-      mount_json_api_endpoint 'quiz-submissions', V2::Quiz::Submissions
-      mount_json_api_endpoint 'repetition-suggestions', V2::Courses::RepetitionSuggestions
       mount_json_api_endpoint 'rich-texts', V2::CourseItems::RichTexts
-      mount_json_api_endpoint 'section-progresses', V2::Courses::SectionProgresses
-      mount_json_api_endpoint 'subtitle-cues', V2::Subtitles::Cues
-      mount_json_api_endpoint 'subtitle-tracks', V2::Subtitles::Tracks
-      mount_json_api_endpoint 'tickets', V2::Helpdesk::Tickets
       mount_json_api_endpoint 'tracking-events', V2::Tracking::TrackingEvents
       mount_json_api_endpoint 'users', V2::User::Users
       mount_json_api_endpoint 'videos', V2::CourseItems::Videos

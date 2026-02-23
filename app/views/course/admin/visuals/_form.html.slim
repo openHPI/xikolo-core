@@ -1,5 +1,5 @@
 - content_for :head_assets
-  = javascript_include_tag 'app/javascript/admin/admin', type: 'module', async: true
+  = javascript_include_tag 'app/javascript/admin/admin', type: 'module', 'data-turbo-track': Rails.env.production? ? 'reload' : ''
 
 = simple_form_for visual_presenter.visual, as: :course_visual, url: course_visual_path, method: :patch do |f|
   = f.error_notification

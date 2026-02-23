@@ -164,10 +164,6 @@ class Server < MultiProcess::Process
       @group ||= MultiProcess::Group.new receiver: logger
     end
 
-    def delayed_group
-      @delayed_group ||= MultiProcess::Group.new receiver: logger
-    end
-
     def sidekiq_group
       @sidekiq_group ||= MultiProcess::Group.new receiver: logger
     end
@@ -190,7 +186,6 @@ class Server < MultiProcess::Process
 
       register(server)
 
-      delayed_group << DelayedProcess.new(*args, opts) if server.roles.include? :delayed
       sidekiq_group << SidekiqProcess.new(*args, opts) if server.roles.include? :sidekiq
       group << server
     end
@@ -260,7 +255,6 @@ class Server < MultiProcess::Process
 
     def start
       group.start delay: 0.1
-      delayed_group.start delay: 0.1
       sidekiq_group.start delay: 0.1
       group.available! # default timeout
     end
@@ -354,7 +348,7 @@ class Server < MultiProcess::Process
     end
 
     def stop_all
-      processes = [utils_group, delayed_group, sidekiq_group].flat_map(&:processes)
+      processes = [utils_group, sidekiq_group].flat_map(&:processes)
 
       $stdout.puts '(~)> Stopping processes ...'
       Server.each(&:stop)
@@ -398,14 +392,6 @@ class Server < MultiProcess::Process
         File.open "log/#{process.title}.log", 'w'
       end
     end
-  end
-end
-
-class DelayedProcess < Server
-  def server_command
-    cmd = %w[ruby]
-    cmd << '-S' << 'bundle' << 'exec' << 'rake' << 'delayed:work'
-    cmd
   end
 end
 

@@ -41,10 +41,6 @@ module Xikolo
             Xikolo::V2::ProgressStats.visit_data progress['visits']
           }
         }
-
-        includable has_many('section_progresses', Xikolo::V2::Courses::SectionProgresses) {
-          embedded {|res| res['section_progresses'] }
-        }
       end
 
       member do

@@ -22,6 +22,7 @@ const config = {
     'app/javascript/legacy/quiz/result-box.js',
     'app/javascript/legacy/admin.js',
     'app/javascript/legacy/course.js',
+    'app/javascript/legacy/detail-box.js',
 
     // Libraries
     'app/javascript/legacy/libraries/dimple.js',

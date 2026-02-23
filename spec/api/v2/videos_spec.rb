@@ -109,16 +109,6 @@ describe Xikolo::V2::CourseItems::Videos do
       )
     end
 
-    it 'contains a link to the related subtitle tracks' do
-      expect(json['data']['relationships']).to eq(
-        'subtitle-tracks' => {
-          'links' => {
-            'related' => "/api/v2/subtitle-tracks?filter%5Bvideo%5D=#{video.id}",
-          },
-        }
-      )
-    end
-
     it 'contains the link to itself' do
       expect(json['data']['links']['self']).to eq "/api/v2/videos/#{video.id}"
     end

@@ -1,4 +1,5 @@
-= javascript_include_tag 'app/javascript/video-player/video-player', type: 'module', async: true
+- content_for :head_assets
+  = javascript_include_tag 'app/javascript/video-player/video-player', type: 'module', 'data-turbo-track': Rails.env.production? ? 'reload' : ''
 
 .video-player data-videoplayer-with-transcript=transcript
   xm-player playbackrate=user_preferences[:playback_rate] showsubtitle=user_preferences[:show_subtitle] slides-src=thumbnails

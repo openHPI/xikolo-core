@@ -1,5 +1,5 @@
 - content_for :head_assets
-  = javascript_include_tag('app/javascript/user/user', type: 'module', async: true)
+  = javascript_include_tag('app/javascript/user/user', type: 'module', 'data-turbo-track': Rails.env.production? ? 'reload' : '')
 
 .account-notifications
   h1.h1 = t :'account.preferences.show.notification.headline'

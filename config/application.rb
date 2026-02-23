@@ -85,11 +85,7 @@ module Xikolo
       config.eager_load_namespaces << GeoIP
 
       # Queuing and mails
-      # TODO: Setting the adapter for MissionContorlJobs becomes obsolete
-      #       when we change to SolidQueue as our default adapter. The
-      #       default adpter is used in the dashboard by default.
-      config.mission_control.jobs.adapters = [:solid_queue]
-      config.active_job.queue_adapter = :delayed
+      config.active_job.queue_adapter = :solid_queue
       config.action_mailer.deliver_later_queue_name = 'mails'
       config.action_mailer.default_url_options = {
         host: Xikolo.base_url.host,

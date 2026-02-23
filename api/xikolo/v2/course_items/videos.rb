@@ -98,10 +98,6 @@ module Xikolo
           })
         }
 
-        includable has_many('subtitle-tracks', Xikolo::V2::Subtitles::Tracks) {
-          filter_by 'video'
-        }
-
         link('self') {|video| "/api/v2/videos/#{video['id']}" }
       end
 

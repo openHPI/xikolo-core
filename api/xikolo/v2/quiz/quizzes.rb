@@ -30,14 +30,6 @@ module Xikolo
         }
 
         link('self') {|quiz| "/api/v2/quizzes/#{quiz['id']}" }
-
-        includable has_many('questions', V2::Quiz::Questions) {
-          filter_by 'quiz'
-        }
-
-        includable has_one('newest_user_submission', V2::Quiz::Submissions) {
-          foreign_key 'newest_user_submission_id'
-        }
       end
 
       member do

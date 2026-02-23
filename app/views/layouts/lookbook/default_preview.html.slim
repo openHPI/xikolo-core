@@ -10,16 +10,16 @@ html lang="#{I18n.locale}" data-locale-url="#{asset_path("i18n/#{I18n.locale}.js
     /
     = include_gon(init: true)
 
-    = stylesheet_link_tag 'bootstrap', media: 'all', crossorigin: 'anonymous', integrity: true
-    = stylesheet_link_tag 'icons', media: 'all', crossorigin: 'anonymous', integrity: true
-    = stylesheet_link_tag 'styles', media: 'all', crossorigin: 'anonymous', integrity: true
-    = stylesheet_link_tag 'tailwind', media: 'all', crossorigin: 'anonymous', integrity: true
+    = stylesheet_link_tag 'bootstrap', media: 'all', crossorigin: 'anonymous', integrity: true, 'data-turbo-track': Rails.env.production? ? 'reload' : ''
+    = stylesheet_link_tag 'icons', media: 'all', crossorigin: 'anonymous', integrity: true, 'data-turbo-track': Rails.env.production? ? 'reload' : ''
+    = stylesheet_link_tag 'styles', media: 'all', crossorigin: 'anonymous', integrity: true, 'data-turbo-track': Rails.env.production? ? 'reload' : ''
+    = stylesheet_link_tag 'tailwind', media: 'all', crossorigin: 'anonymous', integrity: true, 'data-turbo-track': Rails.env.production? ? 'reload' : ''
 
-    = javascript_include_tag 'app/javascript/main', type: 'module', async: true
-    = javascript_include_tag 'app/javascript/legacy/lanalytics/index', type: 'module', async: true
-    = javascript_include_tag 'app/javascript/home/home', type: 'module', async: true
-    = javascript_include_tag 'app/javascript/course/course', type: 'module', async: true
-    = javascript_include_tag 'app/javascript/admin/admin', type: 'module', async: true
+    = javascript_include_tag 'app/javascript/main', type: 'module', 'data-turbo-track': Rails.env.production? ? 'reload' : ''
+    = javascript_include_tag 'app/javascript/legacy/lanalytics/index', type: 'module', 'data-turbo-track': Rails.env.production? ? 'reload' : ''
+    = javascript_include_tag 'app/javascript/home/home', type: 'module', 'data-turbo-track': Rails.env.production? ? 'reload' : ''
+    = javascript_include_tag 'app/javascript/course/course', type: 'module', 'data-turbo-track': Rails.env.production? ? 'reload' : ''
+    = javascript_include_tag 'app/javascript/admin/admin', type: 'module', 'data-turbo-track': Rails.env.production? ? 'reload' : ''
 
   - style = []
   - style << "margin: 0 auto; max-width: #{params[:lookbook][:display][:max_width]}" if params[:lookbook][:display][:max_width]

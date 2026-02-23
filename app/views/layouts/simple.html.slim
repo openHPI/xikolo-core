@@ -29,10 +29,10 @@ html(
     / Primary web assets
     /
 
-    = stylesheet_link_tag 'bootstrap', media: 'all', crossorigin: 'anonymous', integrity: true
-    = stylesheet_link_tag 'icons', media: 'all', crossorigin: 'anonymous', integrity: true
-    = stylesheet_link_tag 'styles', media: 'all', crossorigin: 'anonymous', integrity: true
-    = stylesheet_link_tag 'tailwind', media: 'all', crossorigin: 'anonymous', integrity: true
+    = stylesheet_link_tag 'bootstrap', media: 'all', crossorigin: 'anonymous', integrity: true, 'data-turbo-track': Rails.env.production? ? 'reload' : ''
+    = stylesheet_link_tag 'icons', media: 'all', crossorigin: 'anonymous', integrity: true, 'data-turbo-track': Rails.env.production? ? 'reload' : ''
+    = stylesheet_link_tag 'styles', media: 'all', crossorigin: 'anonymous', integrity: true, 'data-turbo-track': Rails.env.production? ? 'reload' : ''
+    = stylesheet_link_tag 'tailwind', media: 'all', crossorigin: 'anonymous', integrity: true, 'data-turbo-track': Rails.env.production? ? 'reload' : ''
 
     / Shim for ready() function to queue calls until main.js loads
     javascript:
@@ -52,8 +52,8 @@ html(
       };
       window.$.fn = window.$.prototype = window.$ || {};
 
-    = javascript_include_tag 'app/javascript/main', type: 'module', defer: true
-    = javascript_include_tag 'app/javascript/legacy/lanalytics/index', type: 'module'
+    = javascript_include_tag 'app/javascript/main', type: 'module', defer: true, 'data-turbo-track': Rails.env.production? ? 'reload' : ''
+    = javascript_include_tag 'app/javascript/legacy/lanalytics/index', type: 'module', 'data-turbo-track': Rails.env.production? ? 'reload' : ''
 
     - if content_for? :head_assets
       = yield :head_assets
