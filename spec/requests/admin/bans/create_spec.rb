@@ -3,24 +3,24 @@
 require 'spec_helper'
 
 RSpec.describe 'Admin: Bans: Create', type: :request do
-  subject(:request) { post "/users/#{user['id']}/bans", params:, headers: }
+  subject(:request) { post "/users/#{user[:id]}/bans", params:, headers: }
 
   let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
   let(:permissions) { [] }
-  let(:admin) { build(:'account:user') }
-  let(:user) { build(:'account:user') }
+  let(:admin) { attributes_for(:'account_service/user', id: generate(:user_id)) }
+  let(:user) { attributes_for(:'account_service/user', id: generate(:user_id)) }
   let(:params) do
     {
-      user_id: user['id'],
+      user_id: user[:id],
     }
   end
 
   let(:ban_stub) do
-    Stub.request(:account, :post, "/users/#{user['id']}/ban").to_return Stub.json(user)
+    Stub.request(:account, :post, "/users/#{user[:id]}/ban").to_return Stub.json(user)
   end
 
   before do
-    stub_user_request permissions:, id: admin['id']
+    stub_user_request permissions:, id: admin[:id]
 
     ban_stub
   end
@@ -33,12 +33,12 @@ RSpec.describe 'Admin: Bans: Create', type: :request do
 
       expect(ban_stub).to have_been_requested
       expect(flash[:success].first).to eq('The user was banned successfully.')
-      expect(response).to redirect_to "http://www.example.com/users/#{user['id']}"
+      expect(response).to redirect_to "http://www.example.com/users/#{user[:id]}"
     end
 
     context 'when the user is not found' do
       let(:ban_stub) do
-        Stub.request(:account, :post, "/users/#{user['id']}/ban").to_return Stub.response(status: 404)
+        Stub.request(:account, :post, "/users/#{user[:id]}/ban").to_return Stub.response(status: 404)
       end
 
       it 'raises an error and redirects to the user view' do
@@ -46,13 +46,13 @@ RSpec.describe 'Admin: Bans: Create', type: :request do
 
         expect(ban_stub).to have_been_requested
         expect(flash[:error].first).to eq('The user could not be banned.')
-        expect(response).to redirect_to "http://www.example.com/users/#{user['id']}"
+        expect(response).to redirect_to "http://www.example.com/users/#{user[:id]}"
       end
     end
 
     context 'when the user cannot be banned' do
       let(:ban_stub) do
-        Stub.request(:account, :post, "/users/#{user['id']}/ban").to_return Stub.response(status: 422)
+        Stub.request(:account, :post, "/users/#{user[:id]}/ban").to_return Stub.response(status: 422)
       end
 
       it 'raises an error and redirects to the user view' do
@@ -60,7 +60,7 @@ RSpec.describe 'Admin: Bans: Create', type: :request do
 
         expect(ban_stub).to have_been_requested
         expect(flash[:error].first).to eq('The user could not be banned.')
-        expect(response).to redirect_to "http://www.example.com/users/#{user['id']}"
+        expect(response).to redirect_to "http://www.example.com/users/#{user[:id]}"
       end
     end
 
@@ -74,15 +74,15 @@ RSpec.describe 'Admin: Bans: Create', type: :request do
 
         expect(ban_stub).to have_been_requested
         expect(flash[:success].first).to eq('The user was banned successfully.')
-        expect(response).to redirect_to "http://www.example.com/users/#{user['id']}"
+        expect(response).to redirect_to "http://www.example.com/users/#{user[:id]}"
       end
     end
 
     context 'when the user tries to ban themselves' do
-      subject(:request) { post "/users/#{admin['id']}/bans", params:, headers: }
+      subject(:request) { post "/users/#{admin[:id]}/bans", params:, headers: }
 
       let(:ban_stub) do
-        Stub.request(:account, :post, "/users/#{admin['id']}/ban").to_return Stub.json(admin)
+        Stub.request(:account, :post, "/users/#{admin[:id]}/ban").to_return Stub.json(admin)
       end
 
       it 'raises an error and redirects to the user view' do
@@ -90,7 +90,7 @@ RSpec.describe 'Admin: Bans: Create', type: :request do
 
         expect(ban_stub).not_to have_been_requested
         expect(flash[:error].first).to eq('You cannot ban yourself.')
-        expect(response).to redirect_to "http://www.example.com/users/#{admin['id']}"
+        expect(response).to redirect_to "http://www.example.com/users/#{admin[:id]}"
       end
     end
   end

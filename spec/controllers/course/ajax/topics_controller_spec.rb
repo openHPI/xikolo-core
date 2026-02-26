@@ -5,7 +5,7 @@ require 'spec_helper'
 describe Course::Ajax::TopicsController, type: :controller do
   let(:user_id) { generate(:user_id) }
   let(:course) { build(:'course:course', context_id: request_context_id) }
-  let(:request_context_id) { generate(:context_id) }
+  let(:request_context_id) { AccountService::Context.root.id }
 
   before do
     Stub.request(

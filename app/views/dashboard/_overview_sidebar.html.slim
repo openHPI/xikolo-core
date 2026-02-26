@@ -25,6 +25,3 @@
       = render Dashboard::IcalFeed.new(user: current_user)
 
   = render 'dashboard/polls'
-
-  - if feature?('dashboard.course_recommendations')
-    = render 'dashboard/upcoming_carousel'

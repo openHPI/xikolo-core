@@ -12,18 +12,6 @@ describe 'Admin: Reports: Index', type: :request do
 
     Stub.request(:learnanalytics, :get, '/report_types')
       .to_return Stub.json([build(:'lanalytics:report_type', :course_report)])
-
-    Stub.request(:course, :get, '/courses', query: {alphabetic: true, public: true, groups: 'any'})
-      .to_return Stub.json([
-        build(:'course:course'),
-        build(:'course:course'),
-      ])
-
-    Stub.request(:course, :get, '/classifiers', query: {cluster: 'category,reporting,topic'})
-      .to_return Stub.json([
-        build(:'course:classifier'),
-        build(:'course:classifier'),
-      ])
   end
 
   context 'for logged-in users' do

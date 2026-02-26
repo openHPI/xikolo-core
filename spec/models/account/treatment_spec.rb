@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe Account::Treatment, type: :model do
-  subject(:treatment) { create(:treatment) }
+  subject(:treatment) { create(:'account_service/treatment') }
 
   describe '#group' do
     it 'returns the correct group' do

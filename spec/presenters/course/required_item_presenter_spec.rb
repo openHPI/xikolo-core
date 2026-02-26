@@ -7,7 +7,7 @@ describe Course::RequiredItemPresenter do
 
   let(:item) { create(:item, item_params) }
   let(:item_params) { {content_type: 'rich_text'} }
-  let(:user) { create(:user) }
+  let(:user) { Account::User.find(create(:'account_service/user').id) }
   let(:visit) { create(:visit, item:, user:) }
   let(:current_user) do
     Xikolo::Common::Auth::CurrentUser.from_session(

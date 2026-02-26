@@ -8,7 +8,7 @@ describe 'xikolo.course.result.create' do
     Msgr::TestPool.run count: 1
   end
 
-  let!(:user) { create(:user) }
+  let!(:user) { Account::User.find(create(:'account_service/user').id) }
   let!(:course) { create(:course) }
   let(:score_attributes) { attributes_for(:gamification_score, :take_exam, course_id: course.id, user_id: user.id) }
   let(:points) { 1 }

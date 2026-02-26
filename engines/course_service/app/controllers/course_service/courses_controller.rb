@@ -26,7 +26,6 @@ class CoursesController < ApplicationController # rubocop:disable Layout/Indenta
     exclude_external
     latest_first
     alphabetic
-    promoted_for
     not_enrolled
     middle_of_course
     document_id
@@ -45,12 +44,10 @@ class CoursesController < ApplicationController # rubocop:disable Layout/Indenta
       .not_deleted.includes(:channels)
 
     if params[:user_id].blank? &&
-       params[:promoted_for].blank? &&
        params[:groups] != 'any'
       # For now exclude all courses with group restrictions except
       #   1) User enrolled courses are requested (user_id filter)
-      #   2) Promoted courses are requested (we can check user memberships)
-      #   3) Explicit filter for groups, for now only with the value 'any'
+      #   2) Explicit filter for groups, for now only with the value 'any'
       #      (no filter for specific groups)
       courses = courses.where(groups: [])
     end
@@ -137,19 +134,6 @@ class CoursesController < ApplicationController # rubocop:disable Layout/Indenta
         courses.reorder! Arel.sql('COALESCE(display_start_date, start_date) DESC, title ASC')
       when 'started_earliest_first'
         courses.reorder! Arel.sql('COALESCE(display_start_date, start_date) ASC, title ASC')
-    end
-
-    # dashboard filters
-    if params[:promoted_for].present?
-      courses = courses
-        .for_groups(user: params[:promoted_for])
-        .where(status: 'active', hidden: false)
-        .where('end_date IS NULL OR end_date >= ?', ::Time.zone.now)
-
-      user_enrollments = Enrollment.active
-        .where(user_id: params[:promoted_for]).select(:course_id)
-      courses = courses.where.not(id: user_enrollments)
-      courses.reorder! Arel.sql('COALESCE(display_start_date, start_date)')
     end
 
     respond_with courses

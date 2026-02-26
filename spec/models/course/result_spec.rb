@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe Course::Result, type: :model do
-  let(:user) { create(:user) }
+  let(:user) { Account::User.find(create(:'account_service/user').id) }
   let(:item) { create(:item) }
 
   before do

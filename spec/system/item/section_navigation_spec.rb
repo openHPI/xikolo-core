@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe 'Item: Section Navigation', type: :system do
   let(:user_id) { generate(:user_id) }
-  let(:user) { build(:'account:user', id: user_id, permissions:) }
+  let(:user) { attributes_for(:'account_service/user', id: user_id, permissions:) }
   let(:permissions) { %w[course.content.access.available course.content.access] }
   let(:course) { create(:course, course_params) }
   let(:course_resource) { build(:'course:course', **course_params, id: course.id, course_code: course.course_code) }

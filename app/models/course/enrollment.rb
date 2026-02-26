@@ -13,11 +13,5 @@ module Course
     def reactivated?
       forced_submission_date&.future?
     end
-
-    def proctoring
-      return unless proctored?
-
-      @proctoring ||= Proctoring.new(self)
-    end
   end
 end

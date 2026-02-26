@@ -53,9 +53,6 @@ class Course::CertificatesController < Abstract::FrontendController
       certificate_type: params[:type]
     ).record_for!(current_user.id)
 
-    # Additional authorization for certificate download requests.
-    ensure_proctoring_passed!(record) if render_certificate?
-
     send_data(
       Certificate::Record::Render.call(record),
       type: 'application/pdf',
@@ -84,22 +81,6 @@ class Course::CertificatesController < Abstract::FrontendController
 
   def render_certificate?
     params[:type] == Certificate::Record::CERT
-  end
-
-  # If a course is proctored but proctoring has not been passed by the user,
-  # do not render (i.e. allow downloading) the certificate.
-  # @param record [Certificate::Template]
-  def ensure_proctoring_passed!(record)
-    return unless record.course.proctored?
-
-    enrollment = Course::Enrollment.find_by(
-      user_id: current_user.id,
-      course_id: record.course_id
-    )
-    return if enrollment&.proctored &&
-              Proctoring::SmowlAdapter.new(record.course).passed?(current_user)
-
-    raise CertificateNotAllowed
   end
 
   def check_course_eligibility

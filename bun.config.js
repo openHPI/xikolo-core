@@ -7,6 +7,7 @@ const config = {
   sourcemap: 'inline',
   entrypoints: [
     'app/javascript/main.js',
+    'app/javascript/analytics/piwik.js',
 
     'app/javascript/admin/admin.js',
     'app/javascript/course/course.js',
@@ -23,9 +24,8 @@ const config = {
     'app/javascript/legacy/admin.js',
     'app/javascript/legacy/course.js',
     'app/javascript/legacy/detail-box.js',
-
-    // Libraries
-    'app/javascript/legacy/libraries/dimple.js',
+    'app/javascript/legacy/quiz-submission.js',
+    'app/javascript/legacy/quiz-question-state.ts',
   ],
   outdir: path.join(process.cwd(), 'app/assets/builds'),
   splitting: true,

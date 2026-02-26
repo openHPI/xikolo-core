@@ -36,7 +36,6 @@ describe CourseService::ItemDecorator do
       featured
       public_description
       open_mode
-      time_effort
       required_item_ids
     ]
   end

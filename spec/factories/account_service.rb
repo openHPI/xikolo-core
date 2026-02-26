@@ -45,7 +45,7 @@ FactoryBot.define do
     trait :unconfirmed do
       after(:create) do |user|
         user.update! confirmed: false
-        user.emails.update_all confirmed: false, confirmed_at: nil # rubocop:disable Rails/SkipsModelValidations
+        user.emails.update_all primary: false, confirmed: false, confirmed_at: nil # rubocop:disable Rails/SkipsModelValidations
       end
     end
 

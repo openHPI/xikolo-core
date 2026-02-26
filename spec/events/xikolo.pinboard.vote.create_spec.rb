@@ -8,8 +8,8 @@ describe 'xikolo.pinboard.vote.create' do
     Msgr::TestPool.run count: 1
   end
 
-  let!(:user) { create(:user) }
-  let!(:user2) { create(:user) }
+  let!(:user) { Account::User.find(create(:'account_service/user').id) }
+  let!(:user2) { Account::User.find(create(:'account_service/user').id) }
   let!(:course) { create(:course) }
   let(:user_id) { user2.id }
   let(:score_attributes) { attributes_for(:gamification_score, :answer_vote, course_id: course.id, user_id: user.id) }

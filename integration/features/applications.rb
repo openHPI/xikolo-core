@@ -40,5 +40,3 @@ Server.add_engine :pinboard,
   mount_path: 'pinboard_service'
 Server.add_engine :quiz,
   mount_path: 'quiz_service'
-Server.add_engine :timeeffort,
-  mount_path: 'timeeffort_service'

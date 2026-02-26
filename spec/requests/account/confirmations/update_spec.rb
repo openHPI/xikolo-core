@@ -30,10 +30,6 @@ describe 'Account: Confirmations: Update', type: :request do
   end
 
   before do
-    Stub.request(:news, :get, '/news')
-      .with(query: hash_including({}))
-      .to_return Stub.json([])
-
     Stub.request(:account, :get, "/emails/#{email_id}")
       .to_return Stub.json(email)
   end

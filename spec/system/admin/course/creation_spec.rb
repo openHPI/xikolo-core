@@ -4,8 +4,8 @@ require 'spec_helper'
 
 describe 'Admin: Create Course', type: :system do
   let(:teachers) { build_list(:'course:teacher', 2) }
-  let(:user_id) { user['id'] }
-  let(:user) { build(:'account:user') }
+  let(:user_id) { user[:id] }
+  let(:user) { attributes_for(:'account_service/user', id: generate(:user_id)) }
 
   before do
     stub_user id: user_id, permissions: %w[course.course.create course.course.show course.teacher.view]

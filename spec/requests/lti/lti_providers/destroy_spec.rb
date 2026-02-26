@@ -17,11 +17,6 @@ describe 'LTI Providers: Destroy', type: :request do
     ).to_return Stub.json(
       course
     )
-    Stub.request(
-      :course, :get, '/next_dates',
-      query: hash_including({})
-    ).to_return Stub.json([])
-
     provider
   end
 

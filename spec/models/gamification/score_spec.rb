@@ -17,7 +17,7 @@ describe Gamification::Score, type: :model do
     end
 
     context 'with scores for different users' do
-      let(:user) { create(:user) }
+      let(:user) { Account::User.find(create(:'account_service/user').id) }
 
       before do
         create_list(:gamification_score, 2, user:, points: 3)
@@ -31,7 +31,7 @@ describe Gamification::Score, type: :model do
   end
 
   describe 'creation' do
-    let(:user) { create(:user) }
+    let(:user) { Account::User.find(create(:'account_service/user').id) }
 
     context 'scores for posts in the pinboard' do
       it 'creates a Communicator badge' do

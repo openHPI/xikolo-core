@@ -13,7 +13,7 @@ class LtiServlet < WEBrick::HTTPServlet::AbstractServlet
     response.body = <<~HTML
       <html>
         <body>Welcome to LTI!</body>
-      </html>spec/system/item/time_effort_spec.rb
+      </html>
     HTML
   end
 end

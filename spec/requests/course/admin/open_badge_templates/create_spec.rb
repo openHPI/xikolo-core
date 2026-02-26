@@ -35,8 +35,6 @@ describe 'Course: Admin: Open Badge Templates: Create', type: :request do
 
     Stub.request(:course, :get, "/courses/#{course.course_code}")
       .to_return Stub.json(course_resource)
-    Stub.request(:course, :get, '/next_dates', query: hash_including({}))
-      .to_return Stub.json([])
 
     stub_request(:get,
       'https://s3.xikolo.de/xikolo-uploads?list-type=2&' \

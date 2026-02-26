@@ -16,12 +16,6 @@ describe CourseService::Item, type: :model do
 
       it { is_expected.not_to accept_values_for(:exercise_type, '', nil) }
     end
-
-    context 'for proctored items' do
-      subject(:item) { create(:'course_service/item', :proctored) }
-
-      it { is_expected.not_to accept_values_for(:submission_deadline, '', nil) }
-    end
   end
 
   describe 'creation' do

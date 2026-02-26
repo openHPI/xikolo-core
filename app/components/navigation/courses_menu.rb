@@ -8,10 +8,6 @@ module Navigation
 
     private
 
-    def render?
-      @user.feature?('course_list')
-    end
-
     def courses
       Rails.cache.fetch(
         'nav/courses_megamenu',

@@ -31,10 +31,6 @@ describe 'Course: Featured items', type: :request do
       :course, :get, '/sections',
       query: {course_id: course.id}
     ).to_return Stub.json([])
-    Stub.request(
-      :course, :get, '/next_dates',
-      query: hash_including(user_id:, course_id: course.id)
-    ).to_return Stub.json([])
   end
 
   it 'only lists the featured video items on the course page' do

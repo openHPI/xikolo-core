@@ -9,7 +9,7 @@ describe 'xikolo.pinboard.question.create' do
   end
 
   let!(:course) { create(:course) }
-  let!(:user) { create(:user) }
+  let!(:user) { Account::User.find(create(:'account_service/user').id) }
   let(:user_id) { user.id }
   let(:score_attributes) { attributes_for(:gamification_score, :question_create, course_id: course.id) }
   let(:payload) do

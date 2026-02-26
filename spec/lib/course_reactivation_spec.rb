@@ -5,37 +5,6 @@ require 'spec_helper'
 describe CourseReactivation do
   subject(:reactivation) { described_class }
 
-  describe '#enabled?' do
-    subject { reactivation.enabled? }
-
-    # Disabled by default (esp. with vouchers being disabled).
-    it { is_expected.to be false }
-
-    context 'w/ default service configuration' do
-      before do
-        xi_config <<~YML
-          voucher:
-            enabled: true
-        YML
-      end
-
-      it { is_expected.to be true }
-    end
-
-    context 'w/ missing service configuration' do
-      before do
-        # vouchers are enabled but course reactivation is not configured.
-        xi_config <<~YML
-          course_reactivation: {}
-          voucher:
-            enabled: true
-        YML
-      end
-
-      it { is_expected.to be false }
-    end
-  end
-
   describe '#store_url' do
     subject(:url) { reactivation.store_url }
 

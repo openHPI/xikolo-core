@@ -42,7 +42,8 @@ describe 'Course: Admin: Certificate Templates: Destroy', type: :request do
 
   context 'with issued records' do
     before do
-      user = create(:user)
+      account_user = create(:'account_service/user')
+      user = Account::User.find(account_user.id)
       enrollment = create(:enrollment, course:, user_id: user.id)
       Stub.request(
         :course, :get, '/enrollments',

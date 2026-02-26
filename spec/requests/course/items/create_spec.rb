@@ -51,10 +51,6 @@ describe 'Course: Items: Create', type: :request do
         query: {course_id: course['id'], user_id:}
       ).to_return Stub.json([])
       Stub.request(
-        :course, :get, '/next_dates',
-        query: hash_including(course_id: course['id'])
-      ).to_return Stub.json([])
-      Stub.request(
         :course, :get, '/sections',
         query: {course_id: course['id']}
       ).to_return Stub.json([section])
@@ -112,7 +108,7 @@ describe 'Course: Items: Create', type: :request do
               )
             )
           ).to_return Stub.json(
-            {errors: {submission_deadline: 'required_when_proctored'}},
+            {errors: {title: "can't be blank"}},
             status: 422
           )
         end
@@ -380,7 +376,7 @@ describe 'Course: Items: Create', type: :request do
             )
           ).to_return Stub.json(
             # This is not actually required for video items, but just a dummy error to test the correct behaviour
-            {errors: {submission_deadline: 'required_when_proctored'}},
+            {errors: {title: "can't be blank"}},
             status: 422
           )
         end
@@ -389,7 +385,7 @@ describe 'Course: Items: Create', type: :request do
           create_item
           expect(item_create_stub).to have_been_requested
           expect(response).to redirect_to "/courses/#{course['course_code']}/sections/#{section['id']}/items/new"
-          expect(flash[:error]).to include 'You must provide a submission deadline for proctored items.'
+          expect(flash[:error]).to be_present
         end
       end
 
@@ -605,7 +601,7 @@ describe 'Course: Items: Create', type: :request do
               params[:xikolo_course_item].merge(section_id: section['id'])
             )
           ).to_return Stub.json(
-            {errors: {submission_deadline: 'required_when_proctored'}},
+            {errors: {title: "can't be blank"}},
             status: 422
           )
         end

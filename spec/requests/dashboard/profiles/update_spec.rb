@@ -18,7 +18,7 @@ describe 'Dashboard: Profile: Update', type: :request do
 
   let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
   let(:user_id) { generate(:user_id) }
-  let(:user_resource) { build(:'account:user', id: user_id) }
+  let(:user_resource) { attributes_for(:'account_service/user', id: user_id) }
   let(:features) { {} }
   let(:params) { {} }
 

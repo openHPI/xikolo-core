@@ -10,10 +10,6 @@ describe 'Interrupts: Non-interruptible requests', type: :request do
   let(:headers) { {} }
 
   context 'with anonymous user' do
-    let(:anonymous_session) do
-      super().merge(interrupts: ['new_consents'])
-    end
-
     it { is_expected.to have_http_status :ok }
   end
 

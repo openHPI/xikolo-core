@@ -69,6 +69,5 @@ export const hideAllInputs = () => {
     '#icon-type-select',
   ]);
   hideAndUncheckSwitch('#open-mode-switch', '#open-mode-checkbox');
-  hideAndUncheckSwitch('#proctoring-switch', '#proctoring-checkbox');
   hidePublicDescription();
 };

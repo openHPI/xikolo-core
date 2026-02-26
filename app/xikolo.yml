@@ -233,52 +233,6 @@ course_reactivation:
     de: "https://shop.example.org/gutscheine/kurs-reaktivierung"
     en: "https://shop.example.org/voucher/course-reactivation"
 
-proctoring:
-  store_url: "https://shop.example.org/voucher/qualified-certificate"
-
-proctoring_smowl_options:
-  # Thresholds for proctoring passed/failed features.
-  # Nobody in front of the screen.
-  nobodyinthepicture: 5
-  # Wrong user detected.
-  wronguser: 0
-  # More than one user detected.
-  severalpeople: 1
-  # The user has covered the camera.
-  webcamcovered: 0
-  # Bad lighting or incorrect position.
-  invalidconditions: 5
-  # The webcam was rejected.
-  webcamdiscarted: 5
-  # Cheating attempt detected (e.g. the user tried showing a photograph
-  # to the camera).
-  notallowedelement: 0
-  # The user had another tab open during the quiz. When another tab has the
-  # focus, the camera does not send images, which is not allowed.
-  othertab: 5
-  # SMOWL received black images (usually a technical issue, e.g. the webcam is
-  # not working properly or the laptop is closed). We allow five black images
-  # as this can happen due to technical reasons.
-  emptyimage: 5
-  # A not supported browser is used.
-  notsupportedbrowser: 5
-  # The user does not have a webcam (connected).
-  nocam: 5
-  # Another application is blocking the webcam.
-  otherapp: 5
-  # Minimum number of correct images.
-  correctimages: 1
-
-  # DEPRECATED
-  # Keep these feature thresholds for backward-compatibility.
-  nobody: 5
-  morepeople: 1
-  covered: 0
-  wrongimage: 5
-  discarted: 5
-  cheat: 0
-  black: 5
-
 #######################
 ### Statistics
 #######################
@@ -633,10 +587,6 @@ persisted_learning_evaluation: false
 # To use the feature, the corresponding feature flipper must be enabled.
 external_booking:
   affiliation_field: ~
-
-timeeffort:
-  # Enable/disable time effort calculations
-  enabled: false
 
 #######################
 ### Roles & Permissions

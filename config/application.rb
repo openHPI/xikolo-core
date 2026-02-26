@@ -29,14 +29,6 @@ require 'oauth/request_proxy/action_controller_request'
 
 require 'telegraf/rails'
 
-##
-# Configure the brand from an environment variable.
-#
-# We do this here to ensure the brand is configured correctly before the
-# initializers are run.
-#
-Xikolo.brand = ENV['BRAND'] if ENV.key?('BRAND')
-
 module Xikolo
   module Web
     class Application < Rails::Application
@@ -59,22 +51,17 @@ module Xikolo
       # config.time_zone = "Central Time (US & Canada)"
       # config.eager_load_paths << Rails.root.join("extras")
 
-      # Brands may also provide their own initializers with custom setup code.
-      config.paths['config/initializers'] << "brand/#{Xikolo.brand}/initializers"
-
       # Auto and eager load API and its subdirectories.
       # Auto and eager load library code and brand-specific code.
       config.autoload_paths += %W[
         #{config.root}/api
         #{config.root}/lib
         #{config.root}/constraints
-        #{config.root}/brand/#{Xikolo.brand}/lib
       ]
       config.eager_load_paths += %W[
         #{config.root}/api
         #{config.root}/lib
         #{config.root}/constraints
-        #{config.root}/brand/#{Xikolo.brand}/lib
       ]
 
       # Prepend all log lines with the following tags.

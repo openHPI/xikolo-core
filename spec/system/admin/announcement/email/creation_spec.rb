@@ -3,8 +3,8 @@
 require 'spec_helper'
 
 describe 'Admin: Announcement: Create Email', type: :system do
-  let(:user_id) { user['id'] }
-  let(:user) { build(:'account:user') }
+  let(:user_id) { user[:id] }
+  let(:user) { attributes_for(:'account_service/user', id: generate(:user_id)) }
   let(:announcement_id) { SecureRandom.uuid }
   let(:announcement) do
     {

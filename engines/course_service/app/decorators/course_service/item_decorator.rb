@@ -29,7 +29,6 @@ class ItemDecorator < ApplicationDecorator # rubocop:disable Layout/IndentationW
       featured:,
       public_description:,
       open_mode: context[:raw] ? open_mode : open_mode_accessible?,
-      time_effort:,
       required_item_ids:,
     }.tap do |attrs|
       attrs[:user_state] = model.user_state if model.user_state?

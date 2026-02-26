@@ -3,8 +3,6 @@
 class Home::CoursesController < Abstract::FrontendController
   include Interruptible
 
-  require_feature 'course_list'
-
   PER_PAGE = 12
 
   def index
@@ -82,9 +80,7 @@ class Home::CoursesController < Abstract::FrontendController
       t(:'course.courses.index.archive'),
       scope.self_paced.paginate(page: 1, per_page: PER_PAGE)
     ).tap do |category|
-      if feature?('course_reactivation') && CourseReactivation.enabled?
-        category.callout = t(:'course.courses.index.reactivation_upsell_html')
-      end
+      category.callout = t(:'course.courses.index.reactivation_upsell_html')
     end
   end
 

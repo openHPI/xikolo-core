@@ -4,10 +4,6 @@ FactoryBot.define do
   factory :voucher, class: 'Voucher::Voucher' do
     country { 'DE' }
 
-    trait :proctoring do
-      product_type { 'proctoring_smowl' }
-    end
-
     trait :reactivation do
       product_type { 'course_reactivation' }
     end

@@ -34,21 +34,4 @@ class CourseLargePreviewPresenter < CourseInfoPresenter
     # hide course nav for upcoming courses
     @course.was_available? && @course.external_course_url.blank?
   end
-
-  def proctoring_context
-    @proctoring_context ||= Proctoring::CourseContext.new @course, enrollment
-  end
-
-  def proctoring_enabled?
-    @user.feature?('proctoring') && proctoring_context.enabled?
-  end
-
-  def upgrade_proctoring?
-    @upgrade_proctoring ||= @user.feature?('proctoring') &&
-                            proctoring_context.can_enable?
-  end
-
-  def show_proctoring_impossible_message?
-    upgrade_proctoring? && !proctoring_context.upgrade_possible?
-  end
 end

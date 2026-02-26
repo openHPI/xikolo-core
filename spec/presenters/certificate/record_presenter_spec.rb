@@ -18,9 +18,10 @@ describe Certificate::RecordPresenter, type: :presenter do
     }
   end
   let(:user) do
-    create(:user,
+    account_user = create(:'account_service/user',
       born_at: birthday,
       preferences: {'records.show_birthdate' => true})
+    Account::User.find(account_user.id)
   end
   let(:birthday) { '1960-01-02' }
   let(:certificates) do

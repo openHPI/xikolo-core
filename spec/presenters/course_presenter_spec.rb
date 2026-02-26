@@ -23,38 +23,6 @@ describe CoursePresenter do
 
   it { is_expected.not_to be_external }
 
-  describe '#ribbon' do
-    subject(:ribbon) { Capybara.string(presenter.ribbon) }
-
-    context 'with upcoming course' do
-      let(:course_params) do
-        super().merge status: 'active', start_date: 1.week.from_now, end_date: 2.weeks.from_now
-      end
-
-      it 'has a "Starting soon" ribbon' do
-        expect(ribbon).to have_content('Starting soon')
-      end
-    end
-
-    context 'with currently active course' do
-      let(:course_params) do
-        super().merge status: 'active', start_date: 1.week.ago, end_date: 1.week.from_now
-      end
-
-      it 'has a "Started" ribbon' do
-        expect(ribbon).to have_content('Started')
-      end
-    end
-
-    context 'with recently ended course' do
-      let(:course_params) { super().merge status: 'active', start_date: 2.weeks.ago, end_date: 1.week.ago }
-
-      it 'has a "Started" ribbon' do
-        expect(ribbon).to have_content('Started')
-      end
-    end
-  end
-
   describe '#recalculation_enabled?' do
     subject(:recalculation) { presenter.recalculation_enabled? }
 

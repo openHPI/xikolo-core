@@ -7,7 +7,7 @@ describe CourseService::Course::Create, type: :operation do
 
   let(:params) { {course_code: 'test_code', title: 'Test Course', description: 'Desc'} }
   let(:handler) { described_class.new params }
-  let(:context_id) { generate(:context_id) }
+  let(:context_id) { AccountService::Context.root.id }
 
   let(:course_visitor_group) { 'all' }
 

@@ -266,8 +266,6 @@ module Navigation
     end
 
     def announcements
-      return unless @user.feature?('announcements')
-
       Navigation::Item.new(
         text: I18n.t(:'header.navigation.news'),
         active: @view_context.current_page?(@view_context.news_index_path),
@@ -295,8 +293,6 @@ module Navigation
     end
 
     def courses
-      return unless @user.feature?('course_list')
-
       Navigation::Item.new(
         text: I18n.t(:'header.navigation.courses'),
         active: @view_context.current_page?(@view_context.courses_path),

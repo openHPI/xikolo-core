@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class AnnouncementsController < Abstract::FrontendController
-  require_feature 'announcements'
-
   def new
     authorize! 'news.announcement.create'
 

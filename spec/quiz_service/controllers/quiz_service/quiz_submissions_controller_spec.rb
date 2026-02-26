@@ -770,33 +770,6 @@ describe QuizService::QuizSubmissionsController, type: :controller do
         expect(item_result_1).to have_been_requested
       end
     end
-
-    context 'with available vendor data param' do
-      describe 'proctoring data available' do
-        let(:vendor_data) { {'proctoring_smowl' => {'wrongimage' => '0'}} }
-        let(:params) { {vendor_data:} }
-
-        it 'stores the new vendor data' do
-          expect { action }.to change { quiz_submission.reload.vendor_data }.from({}).to(vendor_data)
-        end
-      end
-
-      describe 'with existing proctoring data' do
-        let(:vendor_data) { {'proctoring_smowl' => {'wrongimage' => '0'}} }
-        let(:quiz_submission1) do
-          create(:'quiz_service/quiz_submission',
-            :submitted,
-            quiz:,
-            created_at: 5.days.ago,
-            vendor_data:)
-        end
-        let(:params) { {vendor_data: {}} }
-
-        it 'does not overwrite vendor data with empty values' do
-          expect { action }.not_to change { quiz_submission1.reload.vendor_data }
-        end
-      end
-    end
   end
 
   describe '#destroy' do

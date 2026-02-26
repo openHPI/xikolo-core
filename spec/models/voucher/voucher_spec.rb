@@ -10,12 +10,10 @@ describe Voucher::Voucher, type: :model do
       create(:voucher, :reactivation)
       create(:voucher, :reactivation, :claimed, tag: 'shop')
       create(:voucher, :reactivation, :claimed, claimed_at: Time.current, tag: 'shop')
-      create(:voucher, :proctoring, tag: 'shop')
-      create(:voucher, :proctoring, :claimed)
     end
 
     it 'returns claimed vouchers only' do
-      expect(claimed).to contain_exactly(an_object_having_attributes(claimed?: true, tag: 'shop'), an_object_having_attributes(claimed?: true, tag: 'shop'), an_object_having_attributes(claimed?: true, tag: 'untagged'))
+      expect(claimed).to contain_exactly(an_object_having_attributes(claimed?: true, tag: 'shop'), an_object_having_attributes(claimed?: true, tag: 'shop'))
     end
   end
 
@@ -24,7 +22,6 @@ describe Voucher::Voucher, type: :model do
 
     let(:voucher) { create(:voucher, :reactivation) }
 
-    it { is_expected.to accept_values_for :product_type, 'proctoring_smowl' }
     it { is_expected.to accept_values_for :product_type, 'course_reactivation' }
     it { is_expected.not_to accept_values_for :product_type, 'unknown' }
 

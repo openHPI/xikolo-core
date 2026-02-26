@@ -14,7 +14,6 @@ RSpec.describe 'Shop Bridge API: Vouchers: Index', type: :request do
 
   let!(:voucher_claimed) { create(:voucher, :reactivation, :claimed, tag: 'shop') }
   let!(:voucher_claimed_today) { create(:voucher, :reactivation, :claimed, claimed_at: DateTime.now, tag: 'shop') }
-  let!(:voucher_proctoring) { create(:voucher, :proctoring, tag: 'shop') }
 
   before do
     xi_config <<~YML
@@ -41,7 +40,7 @@ RSpec.describe 'Shop Bridge API: Vouchers: Index', type: :request do
     it 'returns all vouchers' do
       list_vouchers
 
-      expect(json.size).to eq 8
+      expect(json.size).to eq 7
     end
   end
 
@@ -51,7 +50,7 @@ RSpec.describe 'Shop Bridge API: Vouchers: Index', type: :request do
     it 'returns vouchers with specific tag' do
       list_vouchers
 
-      expect(json).to contain_exactly(hash_including('id' => voucher_claimed.id), hash_including('id' => voucher_claimed_today.id), hash_including('id' => voucher_proctoring.id))
+      expect(json).to contain_exactly(hash_including('id' => voucher_claimed.id), hash_including('id' => voucher_claimed_today.id))
     end
   end
 
@@ -99,7 +98,7 @@ RSpec.describe 'Shop Bridge API: Vouchers: Index', type: :request do
       list_vouchers
 
       expect(response.headers['X-Total-Pages']).to eq '1'
-      expect(response.headers['X-Total-Count']).to eq '8'
+      expect(response.headers['X-Total-Count']).to eq '7'
       expect(response.headers['X-Current-Page']).to eq '1'
     end
   end
@@ -125,7 +124,7 @@ RSpec.describe 'Shop Bridge API: Vouchers: Index', type: :request do
       list_vouchers
 
       expect(response.headers['X-Total-Pages']).to eq '1'
-      expect(response.headers['X-Total-Count']).to eq '8'
+      expect(response.headers['X-Total-Count']).to eq '7'
       expect(response.headers['X-Current-Page']).to eq '1'
     end
   end

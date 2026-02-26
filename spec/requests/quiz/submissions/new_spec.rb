@@ -5,13 +5,18 @@ require 'spec_helper'
 describe 'Quiz: Submissions: New', type: :request do
   subject(:new_submission) do
     get "/courses/the_course/items/#{item.id}/quiz_submission/new",
-      headers: {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"}
+      headers:
   end
 
-  let(:user_id) { generate(:user_id) }
+  let(:session) { create(:'account_service/session', user:) }
+  let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{session.id}"} }
+  let(:permissions) { ['course.content.access.available'] }
+  let(:user) { create(:'account_service/user') }
+  let(:user_id) { user.id }
   let(:request_context_id) { course.context_id }
+  let(:course_context) { create(:'account_service/context') }
   let(:course) do
-    create(:course, :active, course_code: 'the_course', title: 'Automated Quiz Submissions 101')
+    create(:course, :active, course_code: 'the_course', title: 'Automated Quiz Submissions 101', context_id: course_context.id)
   end
   let(:section) { create(:section, course:) }
   let(:section_resource) { build(:'course:section', id: section.id, course_id: course.id) }
@@ -46,9 +51,10 @@ describe 'Quiz: Submissions: New', type: :request do
   around {|example| Timecop.freeze(&example) }
 
   before do
-    stub_user_request id: user_id, language: 'en',
-      permissions: ['course.content.access.available'],
-      features: {'proctoring' => true}
+    role = create(:'account_service/role', permissions:)
+    create(:'account_service/grant', principal: user, role:, context: course_context)
+    user.features.create(name: 'proctoring', value: 'true', context: AccountService::Context.root)
+    set_session(id: session.id)
 
     Stub.request(:course, :get, '/courses/the_course')
       .to_return Stub.json(course.as_json)
@@ -183,32 +189,6 @@ describe 'Quiz: Submissions: New', type: :request do
 
     it 'redirects to course item page' do
       expect(new_submission).to redirect_to "/courses/the_course/items/#{short_uuid(item.id)}"
-    end
-
-    it 'does not create a visit' do
-      new_submission
-      expect(visit_stub).not_to have_been_requested
-    end
-  end
-
-  describe '(proctoring)' do
-    let(:course) do
-      create(:course, :active, :offers_proctoring, course_code: 'the_course', title: 'Automated Quiz Submissions 101')
-    end
-    let(:my_enrollment) { create(:enrollment, :proctored, course:, user_id:) }
-    let(:item_resource) do
-      build(:'course:item', :quiz, :exam, :proctored,
-        id: item.id, section_id: section.id, course_id: course.id, content_id: quiz_id,
-        submission_deadline:)
-    end
-
-    it 'does not create a submission and redirects back to the quiz intro page' do
-      new_submission
-
-      expect(create_submission_stub).not_to have_been_requested
-
-      expect(response).to redirect_to "/courses/the_course/items/#{short_uuid(item.id)}"
-      expect(flash[:error].first).to eq 'The proctored exam could not be started. Please try again later.'
     end
 
     it 'does not create a visit' do

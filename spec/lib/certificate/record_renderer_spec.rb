@@ -12,7 +12,6 @@ describe Certificate::RecordRenderer do
       template_path:,
       dynamic_content:,
       qrcode_pos: {x: 100, y: 100},
-      proctoring_image: Rails.root.join('spec', 'support', 'files', 'proctoring', 'user_certificate_image.jpg'),
       qrcode_url: 'http://qrcode_url',
       transcript_of_records:)
   end

@@ -6,13 +6,6 @@ module CourseReactivation
       Xikolo.config.course_reactivation[key]
     end
 
-    def enabled?
-      # Course reactivations can only be booked using vouchers;
-      # require this feature to be enabled.
-      Xikolo.config.voucher['enabled'] &&
-        Xikolo.config.course_reactivation.present?
-    end
-
     def store_url
       configured_url = config 'store_url'
 

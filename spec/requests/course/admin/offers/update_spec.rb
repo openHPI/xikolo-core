@@ -19,8 +19,6 @@ describe 'Course: Admin: Offers: Update', type: :request do
 
     Stub.request(:course, :get, "/courses/#{course.course_code}")
       .to_return Stub.json(course_resource)
-    Stub.request(:course, :get, '/next_dates', query: hash_including({}))
-      .to_return(Stub.json([]))
   end
 
   it 'updates the course offer' do

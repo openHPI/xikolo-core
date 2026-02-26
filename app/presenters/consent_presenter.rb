@@ -61,7 +61,7 @@ class ConsentPresenter
 
   # Presentational HTML is allowed in this locale.
   def text
-    I18n.t("account.shared.consent.#{name}.text", brand: Xikolo.config.site_name).html_safe
+    I18n.t("account.shared.consent.#{name}.text").html_safe
   end
   # rubocop:enable all
 

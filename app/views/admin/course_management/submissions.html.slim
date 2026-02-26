@@ -5,12 +5,12 @@
     - c.with_pill(t(:"items.show.coursestate.#{course_layout.fullstate}"), size: :small, color: :note)
     = render(partial: 'course/shared/course_admin_action', locals: {course: course_layout, in_teacher_context: true})
 
-.col-md-12
-  form action=course_submissions_path method="GET"
+.col-md-12 data-controller='submissions'
+  form action=course_submissions_path method="GET" data-submissions-target='filterForm'
     label.mr10 for='user_id'
       = t :'.search_user'
     = select_tag :user_id, nil, style: 'width: 200px',
-      data: {behavior: 'custom-select', 'auto-completion-url': admin_find_users_path, placeholder: t(:'global.email_or_name')}
+      data: {behavior: 'custom-select', 'auto-completion-url': admin_find_users_path, placeholder: t(:'global.email_or_name'), action: 'submissions#submitFilter'}
 
     - if params[:user_id]
       =< link_to t(:'.search_reset'), course_submissions_path, class: 'bs-a'
@@ -103,21 +103,11 @@
               - if current_user.allowed? 'course.course.teaching'
                 = render partial: 'fudge_points', locals: {submission:, course: @course}
 
-            - proctoring = submission['proctoring']
-            - if proctoring.present?
-              - if proctoring.results.empty?
-                span.label.label-warning = t(:'admin.course_management.submissions.proctoring.processing')
-              - elsif proctoring.results.perfect?
-                span.label.label-success = t(:'admin.course_management.submissions.proctoring.passed')
-              - elsif proctoring.results.valid?
-                span.label.label-success = t(:'admin.course_management.submissions.proctoring.passed_with_issues')
-              - else
-                span.label.label-danger = t(:'admin.course_management.submissions.proctoring.failed')
           td
             = render Global::ActionsDropdown.new(menu_side: 'right') do |c|
               - if current_user.allowed?('course.course.teaching')
                 - c.with_action
-                  = link_to t(:'quiz_submission.add_fudge_points'), '#', class: 'js-show-fudge', data: {submission: submission['id']}
+                  = button_tag t(:'quiz_submission.add_fudge_points'), type: 'button', class: 'btn btn-link', data: {submission: submission['id'], action: 'submissions#showFudge'}
               - if current_user.allowed?('quiz.submission.manage') && submission['snapshot_id'] && submission['question_count'] == 0
                 - c.with_action
                   = link_to t(:'admin.course_management.submissions.convert_manually'), convert_submission_path(submission_id: submission['id'], snapshot_id: submission['snapshot_id']), method: :post, class: 'bs-a'
@@ -126,28 +116,3 @@
 
   - else
     = render State::Empty.new(params[:user_id] ? t(:'.empty.filtered') : t(:'.empty.course'))
-
-javascript:
-  ready(function() {
-    $('#user_id').on('change', function () {
-      showLoading();
-      $(this).closest('form').submit();
-    });
-
-    document.querySelectorAll('.js-cancel-fudge').forEach(function (elem) {
-      elem.addEventListener('click', function (e) {
-        e.preventDefault();
-        e.target.closest('.fudge').style.visibility = 'hidden';
-      });
-    });
-
-    document.querySelectorAll('.js-show-fudge').forEach(function (elem) {
-      elem.addEventListener('click', function (e) {
-        e.preventDefault();
-        document
-          .getElementById('points-' + e.target.dataset.submission)
-          .querySelector('.fudge')
-          .style.visibility = 'visible';
-      });
-    });
-  });

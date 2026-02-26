@@ -11,10 +11,6 @@ module Course
       item.unlocked? || @user.allowed?('course.content.access')
     end
 
-    def time_effort_info(item)
-      sanitize(" (&sim;#{item.formatted_time_effort})") if item.with_time_effort?
-    end
-
     private
 
     def render?

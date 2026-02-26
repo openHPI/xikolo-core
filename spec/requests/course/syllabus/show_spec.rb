@@ -34,9 +34,6 @@ RSpec.describe 'Course: Syllabus: Show', type: :request do
   before do
     Stub.request(:course, :get, '/courses/my-course')
       .to_return Stub.json(course)
-
-    Stub.request(:course, :get, "/items/#{video['id']}")
-      .to_return Stub.json(video)
   end
 
   shared_examples 'a syllabus' do
@@ -150,9 +147,6 @@ RSpec.describe 'Course: Syllabus: Show', type: :request do
 
     context 'as anonymous user' do
       let(:user_id) { 'anonymous' }
-      let(:anonymous_session) do
-        super().merge(features: {'open_mode' => 'true'})
-      end
 
       it_behaves_like 'a syllabus in open_mode'
     end

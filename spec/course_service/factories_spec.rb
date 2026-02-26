@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 FactoryBot.factories.filter {|factory| factory.name.starts_with?('course_service/') }.each do |factory|
-  next unless factory.build_class.included_modules.include?(ActiveModel::Validations)
+  next unless factory.build_class.include?(ActiveModel::Validations)
 
   RSpec.describe "The #{factory.name} factory" do
     it 'is valid' do

@@ -38,8 +38,7 @@ module Helpdesk
 
     # Add possible options for general questions below
     general_question 'technical', 'helpdesk.technical_question'
-    general_question 'reactivation', 'helpdesk.course_reactivation',
-      if: ->(user) { user.feature?('course_reactivation') && CourseReactivation.enabled? }
+    general_question 'reactivation', 'helpdesk.course_reactivation'
 
     Xikolo.config.helpdesk&.dig('options')&.each do |key, text|
       general_question(key, text)

@@ -27,21 +27,6 @@ namespace :api do
 end
 
 namespace :assets do
-  task precompile: %w[assets:brand:check]
-
-  namespace :brand do
-    task check: :environment do
-      # xikolo is the default brand and only relies on `app/assets/` (has no overrides in `brand/`)
-      next if ENV['BRAND'] == 'xikolo'
-
-      if ENV['BRAND'] && !Rails.root.join('brand', ENV['BRAND']).exist?
-        raise <<~ERROR
-          Brand directory `brand/#{ENV['BRAND']}' does not exist.
-        ERROR
-      end
-    end
-  end
-
   namespace :i18n do
     task export: :environment do
       require 'i18n-js'

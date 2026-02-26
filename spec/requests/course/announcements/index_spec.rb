@@ -48,10 +48,6 @@ describe 'Course: Announcements: Index', type: :request do
           :course, :get, '/enrollments',
           query: {user_id: user[:id], course_id: course['id']}
         ).to_return Stub.json([{id: SecureRandom.uuid}])
-        Stub.request(
-          :course, :get, '/next_dates',
-          query: hash_including(user_id: user[:id], course_id: course['id'])
-        ).to_return Stub.json([])
       end
 
       it 'shows the course announcements page' do

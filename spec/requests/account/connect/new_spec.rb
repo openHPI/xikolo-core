@@ -16,8 +16,8 @@ describe 'Account: Connect: New', type: :request do
 
   context 'with an authorization' do
     let(:params) { {authorization: authorization.id} }
-    let(:user) { create(:user) }
-    let(:authorization) { create(:authorization, user:, provider: 'saml') }
+    let(:user) { create(:'account_service/user') }
+    let(:authorization) { create(:'account_service/authorization', user:, provider: 'saml') }
 
     context 'as an anonymous user' do
       it 'renders the new template' do

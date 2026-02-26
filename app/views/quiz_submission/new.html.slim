@@ -1,3 +1,8 @@
+- content_for :head_assets
+  meta name="quiz-submission-config" content={autoSaveUrl: course_item_quiz_submission_snapshot_index_path, graded: @item_presenter.graded?}.to_json
+  = javascript_include_tag 'app/javascript/legacy/quiz-submission', type: 'module', 'data-turbo-track': Rails.env.production? ? 'reload' : ''
+  = javascript_include_tag 'app/javascript/legacy/quiz-question-state', type: 'module', 'data-turbo-track': Rails.env.production? ? 'reload' : ''
+
 / Item navigation above the main content
 .row
   = render 'shared/course_item_nav', position: @inner_course_position
@@ -23,118 +28,22 @@
               snapshot: @submission_snapshot,
               item: @item_presenter
 
+        - if @item_presenter.graded?
+          = render 'quiz_submission/partials/confirm_quiz_submission'
+
       .mt30
         div data-lanalytics-resource={type: 'quiz', uuid: @quiz.id}.to_json data-lanalytics-context={course_id: @item_presenter.course_id}.to_json
           - if @item_presenter.quiz_submittable?
-            / Firefox needs a void() around javascript-hrefs to avoid actual rendering for some return values
             = render 'items/shared/action',
-              action: {action: 'javascript:void(checkQuizCompletion());',
+              action: {action: '#',
                 text: t(:"quiz_submission.submit.#{@item_presenter.exercise_type}"),
                 icon: 'play',
                 id: 'quiz_submit_button'}
-          - else
-            = render 'items/shared/action',
-              action: {text: t(:'proctoring.service_unavailable'),
-                icon: 'warning'}
 
           = render Course::BottomNavigation.new(course_id: @inner_course_position.course.id,
             prev_item_id: @inner_course_position.prev_item&.id,
             next_item_id: @inner_course_position.next_item&.id)
 
-      - if @item_presenter.graded?
-        = render 'quiz_submission/partials/confirm_quiz_submission'
-
   - unless @item_presenter.survey?
     .col-md-4
       = render 'quiz_submission/partials/detail_box'
-
-/ This JS should not be moved right now, since the internationalization causes additional dev overhead (TODO, though)
-- if @item_presenter.graded?
-  javascript:
-    var graded = true;
-- else
-  javascript:
-    var graded = false;
-
-javascript:
-    function checkQuizCompletion() {
-      if(graded) {
-        indicators = $('#quiz-state-indicators')
-        if (indicators.find('.answer-state-indicator').size() != indicators.find('.edited').size()) {
-          // not all questions answered
-          $('.confirm-quiz-submission').modal('show');
-          return false;
-        }
-      }
-      $('#quiz_form').submit();
-    }
-
-  ready(function() {
-    var submitted = false;
-
-    $('#quiz_form').on('submit', function () {
-      if(graded) {
-        $('.confirm-quiz-submission').modal('hide');
-      }
-      showLoading();
-
-      // disable submit button after click
-      $(this).find('input[type=submit]').prop('disabled', true);
-
-      submitted = true;
-      return true;
-    });
-
-    $.fn.changeTimestamp = function(isotime) {
-      var relativeTime = window.getRelativeTime(new Date(isotime));
-      return $(this).attr("title",isotime).data("timeago",null).text(relativeTime);
-    }
-
-    var quizChanged = false;
-    var autoSaveTime = 10000; // Auto-Save Quiz every 10 seconds
-
-    $(window).on('beforeunload', function(event) {
-      if(!submitted && graded) {
-        event.preventDefault();
-      }
-    });
-
-    // Quiz Auto-Save
-
-    setTimeout(autoSaveQuiz, autoSaveTime);
-
-    $('#quiz_form').change(function() {
-      if (quizChanged == false) {
-        quizChanged = true;
-      }
-    });
-
-    function autoSaveQuiz() {
-      if (quizChanged == true) {
-        $.ajax({
-          type: "POST",
-          url: "#{course_item_quiz_submission_snapshot_index_path}",
-          data: $("#quiz_form").serialize(),
-          dataType: "json",
-          success: function(data) {
-            if (data.success == true){
-              $('.warning-autosave').addClass('hide');
-              try {
-                $("abbr.last_saved").changeTimestamp(data.timestamp);
-              }
-              catch(err) {
-                console.log(err)
-              }
-            }else{
-              $('.warning-autosave').removeClass('hide');
-            }
-            quizChanged = false;
-          },
-          error: function(data) {
-            $('.warning-autosave').removeClass('hide');
-          }
-        });
-      }
-      setTimeout(autoSaveQuiz, autoSaveTime);
-    }
-  });

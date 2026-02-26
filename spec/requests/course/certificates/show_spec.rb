@@ -8,7 +8,7 @@ describe 'Course: Certificates: Show', type: :request do
   let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
   let(:course) { create(:course, course_code: 'my-course', records_released: true) }
   let(:course_resource) { build(:'course:course', id: course.id, course_code: course.course_code) }
-  let(:user) { create(:user, :with_email) }
+  let(:user) { create(:'account_service/user') }
   let!(:certificate_template) { create(:certificate_template, :roa, course:) }
   let!(:badge_template) { create(:open_badge_template, course:) }
   let(:enrollments) do
@@ -27,8 +27,6 @@ describe 'Course: Certificates: Show', type: :request do
 
     stub_user_request id: user.id
 
-    Stub.request(:course, :get, '/next_dates', query: hash_including({}))
-      .to_return Stub.json([])
     Stub.request(:course, :get, "/courses/#{course.id}")
       .to_return Stub.json(course_resource)
     Stub.request(
@@ -38,7 +36,7 @@ describe 'Course: Certificates: Show', type: :request do
   end
 
   context 'with achieved Record of Achievement' do
-    let(:record) { create(:roa, course:, user:, template: certificate_template) }
+    let(:record) { create(:roa, course:, user_id: user.id, template: certificate_template) }
     let(:open_badge) { create(:open_badge, record:, open_badge_template: badge_template) }
     let(:file_url) { "https://s3.xikolo.de/xikolo-certificate/openbadges/#{UUID4(user.id).to_s(format: :base62)}/#{UUID4(record.id).to_s(format: :base62)}.png" }
 
@@ -53,7 +51,7 @@ describe 'Course: Certificates: Show', type: :request do
       show_certificate
       expect(response).to have_http_status :ok
       expect(response.body).to include 'Record of Achievement'
-      expect(response.body).to include course['title']
+      expect(response.body).to include course.title
     end
 
     it 'shows the Open Badge' do

@@ -2,7 +2,7 @@ import { initializeTomSelect } from '../../components/global/custom-select';
 import initMarkdownEditorOnSelector from '../../util/markdown-editor';
 import ready from '../../util/ready';
 import { hideAllInputs, setDefaultTypes } from './form-helpers';
-import { ContentType, InitState } from './form-types';
+import { ContentType } from './form-types';
 
 import mdupload from '../../util/forms/mdupload';
 import upload from '../../util/forms/upload';
@@ -32,7 +32,6 @@ const toggleContentForm = (contentTypeElem: HTMLInputElement) => {
 const handleFormInputs = (
   contentTypeElem: HTMLInputElement,
   exerciseTypeElem: HTMLInputElement,
-  initState: InitState,
 ) => {
   switch (contentTypeElem.value as ContentType) {
     case 'video':
@@ -42,7 +41,7 @@ const handleFormInputs = (
       handleRichTextType();
       break;
     case 'quiz':
-      handleQuizType(contentTypeElem, exerciseTypeElem, initState);
+      handleQuizType(contentTypeElem, exerciseTypeElem);
       break;
     case 'lti_exercise':
       handleLtiExerciseType(contentTypeElem, exerciseTypeElem);
@@ -55,25 +54,12 @@ const handleFormInputs = (
 const listenToContentTypeChange = (
   contentTypeElem: HTMLInputElement,
   exerciseTypeElem: HTMLInputElement,
-  initState: InitState,
 ) => {
   contentTypeElem.addEventListener('change', () => {
     toggleContentForm(contentTypeElem);
-    handleFormInputs(contentTypeElem, exerciseTypeElem, initState);
+    handleFormInputs(contentTypeElem, exerciseTypeElem);
     setDefaultTypes(contentTypeElem, exerciseTypeElem);
   });
-};
-
-const saveInitialValues = (exerciseTypeElem: HTMLInputElement): InitState => {
-  // Proctoring: Save initial values. Important for manipulating the proctoring state later.
-  const proctoringCheckbox = document.querySelector<HTMLInputElement>(
-    '#proctoring-checkbox',
-  );
-  return {
-    proctoring: proctoringCheckbox ? proctoringCheckbox.checked : false,
-    isNotProctoringType:
-      exerciseTypeElem.value !== 'main' && exerciseTypeElem.value !== 'bonus',
-  };
 };
 
 ready(() => {
@@ -90,10 +76,9 @@ ready(() => {
     '#xikolo_course_item_exercise_type',
   ) as HTMLInputElement;
 
-  const initState = saveInitialValues(exerciseTypeElem);
-  handleFormInputs(contentTypeElem, exerciseTypeElem, initState);
+  handleFormInputs(contentTypeElem, exerciseTypeElem);
 
   if (validControllerAction.classList.contains('new-action')) {
-    listenToContentTypeChange(contentTypeElem, exerciseTypeElem, initState);
+    listenToContentTypeChange(contentTypeElem, exerciseTypeElem);
   }
 });

@@ -39,10 +39,6 @@ RSpec.describe 'Authentication: Login with token', type: :request do
       })
 
       Stub.request(
-        :account, :get, '/preferences'
-      ).to_return Stub.json({properties: {}})
-
-      Stub.request(
         :account, :get, "/users/#{user_id}/permissions",
         query: {context: 'root', user_id:}
       ).to_return Stub.json([])

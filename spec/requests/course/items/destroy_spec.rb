@@ -60,10 +60,6 @@ describe 'Course: Items: Destroy', type: :request do
           query: {course_id: course.id, user_id:}
         ).to_return Stub.json([])
         Stub.request(
-          :course, :get, '/next_dates',
-          query: hash_including(course_id: course.id)
-        ).to_return Stub.json([])
-        Stub.request(
           :course, :get, '/items',
           query: hash_including(section_id: section['id'])
         ).to_return Stub.json([])

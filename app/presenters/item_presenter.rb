@@ -5,7 +5,7 @@ class ItemPresenter < PrivatePresenter
     :max_points,
     :optional, :position,
     :section_id, :featured, :public_description,
-    :open_mode, :time_effort,
+    :open_mode,
     :required_item_ids, :published,
     :content_type, :exercise_type
   def_delegator :@course, :id, :course_id
@@ -125,7 +125,6 @@ class ItemPresenter < PrivatePresenter
   def item_tooltip
     item_info = [].tap do |a|
       a << I18n.t("items.type_label.#{type_label}") if type_label.present?
-      a << "&sim;#{formatted_time_effort}" if with_time_effort?
     end.join(', ').tap do |s|
       s.presence&.prepend('(')&.concat(')')
     end
@@ -239,33 +238,6 @@ class ItemPresenter < PrivatePresenter
 
   def transpipe_url
     @transpipe_url ||= Transpipe::URL.for_video @item
-  end
-
-  def with_time_effort?
-    @user.feature?('time_effort') && time_effort?
-  end
-
-  def time_effort?
-    time_effort.present? && time_effort > 0
-  end
-
-  def formatted_time_effort
-    return unless time_effort?
-
-    # Ceil to minutes
-    minutes = (time_effort.to_f / 60).ceil
-
-    # Format time effort
-    if minutes >= 60
-      hours = minutes / 60
-      mod_minutes = minutes % 60
-
-      return I18n.t(:'time_effort.hours', count: hours) if mod_minutes.zero?
-
-      return "#{I18n.t(:'time_effort.hours', count: hours)} #{I18n.t(:'time_effort.minutes', count: mod_minutes)}"
-    end
-
-    I18n.t(:'time_effort.minutes', count: minutes)
   end
 
   def submission_publishing_date

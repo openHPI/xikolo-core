@@ -61,17 +61,5 @@ RSpec.describe 'Quiz Submissions: Create', type: :request do
         expect(QuizService::QuizSubmission.find_by(quiz_id: quiz.id).vendor_data).to eq({})
       end
     end
-
-    context 'with proctoring flag' do
-      let(:payload) { super().merge(vendor_data: {proctoring: 'smowl_v2'}) }
-
-      it 'creates a new quiz submission' do
-        expect { creation }.to change { QuizService::QuizSubmission.where(quiz_id: quiz.id).count }.from(0).to(1)
-
-        expect(QuizService::QuizSubmission.find_by(quiz_id: quiz.id).vendor_data).to eq({
-          'proctoring' => 'smowl_v2',
-        })
-      end
-    end
   end
 end

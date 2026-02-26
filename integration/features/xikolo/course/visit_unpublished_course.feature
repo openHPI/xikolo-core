@@ -17,14 +17,12 @@ Feature: Show unpublished courses to teachers
     When I am on the course detail page
     Then I should see course details
 
-  @feature:course_list
   Scenario: Don't see the course listed as user
     Given I am a confirmed user
     And I am logged in
     When I am on the course list
     Then the course should not be listed
 
-  @feature:course_list
   Scenario: Don't read course information as user
     Given I am a confirmed user
     And I am logged in

@@ -17,7 +17,6 @@ describe Course::LearnerDashboard::SectionProgress::Item, type: :component do
       'optional' => false,
       'max_points' => 10.0,
       'user_points' => nil,
-      'time_effort' => nil,
       'open_mode' => false,
     }
   end

@@ -31,7 +31,7 @@ describe 'Go: Survey', type: :request do
       'r' => 'survey/index',
       'sid' => '123456',
       'newtest' => 'Y',
-      'xi_platform' => 'xikolo',
+      'xi_platform' => 'openHPI',
       'lang' => 'en',
       'course' => 'howtocode2020'
     )
@@ -56,7 +56,7 @@ describe 'Go: Survey', type: :request do
         'r' => 'survey/index',
         'sid' => '123456',
         'newtest' => 'Y',
-        'xi_platform' => 'xikolo',
+        'xi_platform' => 'openHPI',
         'lang' => 'en',
         'course' => 'howtocode2020',
         'another_allowed_param' => 'this_is_fine'
@@ -83,7 +83,7 @@ describe 'Go: Survey', type: :request do
         'r' => 'survey/index',
         'sid' => '123456',
         'newtest' => 'Y',
-        'xi_platform' => 'xikolo',
+        'xi_platform' => 'openHPI',
         'lang' => 'en',
         'course' => 'howtocode2020',
         'xi_pseudo_id' =>
@@ -97,7 +97,6 @@ describe 'Go: Survey', type: :request do
           r: 'another_path',
           sid: 'another_id',
           newtest: 'N',
-          xi_platform: 'another_platform',
           xi_pseudo_id: 'another_hashed_user_id'
         )
       end
@@ -113,7 +112,7 @@ describe 'Go: Survey', type: :request do
           'r' => 'survey/index',
           'sid' => '123456',
           'newtest' => 'Y',
-          'xi_platform' => 'xikolo',
+          'xi_platform' => 'openHPI',
           'lang' => 'en',
           'course' => 'howtocode2020',
           'xi_pseudo_id' =>

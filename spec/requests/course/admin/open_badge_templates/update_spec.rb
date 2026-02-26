@@ -9,7 +9,7 @@ describe 'Course: Admin: Open Badge Templates: Update', type: :request do
       headers:
   end
 
-  let(:user) { create(:user) }
+  let(:user) { create(:'account_service/user') }
   let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
   let(:permissions) { %w[course.content.access certificate.template.manage] }
   let(:course) { create(:course) }
@@ -63,7 +63,7 @@ describe 'Course: Admin: Open Badge Templates: Update', type: :request do
       end
       let(:upload_id) { 'f13d30d3-6369-4816-9695-af5318c8ac15' }
       let(:open_badge) { create(:open_badge, template_id: template.id, record:) }
-      let(:record) { create(:roa, course_id: course.id, user:) }
+      let(:record) { create(:roa, course_id: course.id, user_id: user.id) }
       let(:course) { create(:course, records_released: true) }
 
       let(:delete_stub) do

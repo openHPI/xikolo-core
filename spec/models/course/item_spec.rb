@@ -5,8 +5,8 @@ require 'spec_helper'
 describe Course::Item, type: :model do
   let(:item) { create(:item, item_params) }
   let(:item_params) { {} }
-  let(:user) { create(:user) }
-  let(:other_user) { create(:user) }
+  let(:user) { Account::User.find(create(:'account_service/user').id) }
+  let(:other_user) { Account::User.find(create(:'account_service/user').id) }
 
   describe '#fulfilled_for?' do
     subject(:item_fulfillment) { item.fulfilled_for?(user) }

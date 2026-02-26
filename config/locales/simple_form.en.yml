@@ -131,7 +131,6 @@ en:
         groups: Restricted to groups
         hidden: "Course is hidden"
         show_on_list: Show on course list
-        proctored: Certificate (Proctoring)
         on_demand: "Reactivation"
         welcome_mail: Welcome mail
         invite_only: Require invitation
@@ -232,7 +231,6 @@ en:
         classifiers_keywords: Keywords are exposed via the <a href='https://moochub.org/about/' target='_blank'>MOOChub API</a> and used for the internal course search.
         alternative_teacher_text: "Alternative text if you have a lot of teachers."
         learning_goals: Enter the intended competencies, knowledge, skills, and abilities the learners will gain by successfully attending the course. They will be displayed on the course info page under 'What you'll learn'.
-        learning_goals_only_certificate_page: Enter the intended competencies, knowledge, skills, and abilities the learners will gain by successfully attending the course. They will be displayed on the certificate verification page.
         target_groups: Enter the learner groups whom the course is targeted at. They will be displayed on the course info page under 'Who this course is for'.
         show_on_list: When disabled, the course will not show up on the global course list. It will, however, still be listed on its channel's landing page.
         roa_threshold_percentage: "Threshold as percentage for gaining a certificate, between 1 and 100. The global default is %{global_default}."
@@ -245,7 +243,6 @@ en:
         invite_only: This disables enrollment self-service. To participate in such a course, learners have to be explicitly enrolled by course staff.
         cop_enabled: Participants can earn a CoP by viewing / participating in course material.
         roa_enabled: Signals successful course participation. Given to those who achieve a certain number of points.
-        proctored: Like a RoA, but with webcam-based Proctoring via SMOWL. A picture of the participant will be printed on the certificate PDF. These have to be booked by redeeming a voucher.
         on_demand: Allows achieving a RoA after regular course runtime (when graded assignments are locked). Learners have to book this feature by redeeming a voucher.
         records_released: Enable this when the course has ended, to let participants download their certificates.
         show_syllabus: Show an overview of all published course content in the learning area.
@@ -495,7 +492,6 @@ en:
         max_points:
           invalid_format: Points must be positive.
         submission_deadline:
-          required_when_proctored: You must provide a submission deadline for proctored items.
         title:
           "can't be blank": The item title must not be blank.
       topic:

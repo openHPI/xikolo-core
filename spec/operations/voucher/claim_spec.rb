@@ -13,7 +13,6 @@ describe Voucher::Claim, type: :operation do
   let(:current_user) do
     Xikolo::Common::Auth::CurrentUser.from_session(
       'user_id' => user_id,
-      'features' => {'course_reactivation' => true},
       'user' => {'anonymous' => false},
       'masqueraded' => false
     )
@@ -61,7 +60,6 @@ describe Voucher::Claim, type: :operation do
       let(:current_user) do
         Xikolo::Common::Auth::CurrentUser.from_session(
           'user_id' => 'anonymous',
-          'features' => {'course_reactivation' => true},
           'user' => {'anonymous' => true},
           'masqueraded' => false
         )
@@ -81,16 +79,6 @@ describe Voucher::Claim, type: :operation do
         expect(
           claim_voucher.on {|result| result.error(&:message) }
         ).to eq 'The voucher code you have supplied is not valid. Please check your code.'
-      end
-    end
-
-    context 'with incompatible product type provided by the client' do
-      let(:product_type) { Voucher::ProductTypes.resolve 'proctoring_smowl' }
-
-      it 'responds with error' do
-        expect(
-          claim_voucher.on {|result| result.error(&:message) }
-        ).to eq 'The voucher code you have supplied is not valid for this product.'
       end
     end
 
@@ -152,59 +140,6 @@ describe Voucher::Claim, type: :operation do
           expect(
             claim_voucher.on {|result| result.error(&:message) }
           ).to eq 'You have already reactivated this course.'
-        end
-      end
-    end
-
-    context 'with the proctoring product' do
-      let(:voucher) { create(:voucher, :proctoring) }
-      let(:product_type) { Voucher::ProductTypes.resolve 'proctoring_smowl' }
-
-      context 'when the product is not available in the course' do
-        let(:course) { create(:course, :active) }
-
-        it 'responds with error' do
-          expect(
-            claim_voucher.on {|result| result.error(&:message) }
-          ).to eq 'You cannot book a Certificate for this course.'
-        end
-      end
-
-      context 'when the product is already activated for the user in the course' do
-        let(:course) { create(:course, :active, :offers_proctoring) }
-
-        before do
-          create(:enrollment, :proctored, course:, user_id: current_user.id)
-        end
-
-        it 'responds with error' do
-          expect(
-            claim_voucher.on {|result| result.error(&:message) }
-          ).to eq 'You already booked a Certificate.'
-        end
-      end
-
-      context 'when the user is not enrolled in the course' do
-        let(:course) { create(:course, :active, :offers_proctoring) }
-
-        it 'responds with error' do
-          expect(
-            claim_voucher.on {|result| result.error(&:message) }
-          ).to eq 'You need to enroll to the course to book a Certificate.'
-        end
-      end
-
-      context 'when the enrollment has been deleted' do
-        let(:course) { create(:course, :active, :offers_proctoring) }
-
-        before do
-          create(:enrollment, :deleted, course:, user_id: current_user.id)
-        end
-
-        it 'responds with error' do
-          expect(
-            claim_voucher.on {|result| result.error(&:message) }
-          ).to eq 'You need to enroll to the course to book a Certificate.'
         end
       end
     end

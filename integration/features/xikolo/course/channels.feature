@@ -22,7 +22,6 @@ Feature: Course Channels
     When I am on the homepage
     Then I should not see a dropdown labeled "Channels" in the platform navigation
 
-  @feature:course_list
   Scenario: Hidden channel filter on the course page
     Given a private channel was created
     When I am on the course list

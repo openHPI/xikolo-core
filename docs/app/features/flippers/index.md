@@ -23,16 +23,6 @@ See below for explanations on [managing feature flippers](#manage-feature-flippe
 
     *Scope:* `Group.all_users`, `Context.root`
 
-`announcements`
-
-:   Enable accessing "global" announcements (admin- and user-facing pages) on the platform (including the start page) as well as publishing them via email.
-
-    *Scope:* `Group.all_users`, `Context.root`
-
-    !!! note
-
-        This is *not* referring to "targeted announcements". See the `admin_announcements` feature below.
-
 `admin_announcements` :material-test-tube:
 
 :   Enable the new admin-only announcement overview (accessible via platform admin menu).
@@ -42,12 +32,6 @@ See below for explanations on [managing feature flippers](#manage-feature-flippe
 `alternative_sections.create`
 
 :   Enables the ability to create alternative sections. This doesn't affect existing alternative sections, these can be visited and edited without this flipper.
-
-    *Scope:* `Group.all_users`, `Context.root`
-
-`certificate_requirements`
-
-:   Display the certificate requirements on the course page.
 
     *Scope:* `Group.all_users`, `Context.root`
 
@@ -73,37 +57,9 @@ See below for explanations on [managing feature flippers](#manage-feature-flippe
 
     *Scope:* `Group.administrators`, `Context.root`
 
-`course_details.learning_goals`
-
-:   Display the learning goals on the course details page.
-
-    *Scope:* `Group.all_users`, `Context.root`
-
-`course_list`
-
-:   Enable the global course list.
-
-    *Scope:* `Group.all_users`, `Context.root`
-
-    !!! warning
-
-        :material-layers-outline: Should be disabled on "headless" platforms that sit behind a custom portal.
-
 `course_rating`
 
 :   Enable the course rating widget on the course details pages.
-
-    *Scope:* `Group.all_users`, `Context.root`
-
-`course_reactivation`
-
-:   Enable course reactivation for the platform. Course reactivation can then be enabled individually per course via UI.
-
-    *Scope:* `Group.all_users`, `Context.root`
-
-`dashboard.course_recommendations`
-
-:   Enable the course recommendation widget on the user's dashboard, showing courses for promotion (e.g., current or upcoming courses).
 
     *Scope:* `Group.all_users`, `Context.root`
 
@@ -145,21 +101,6 @@ See below for explanations on [managing feature flippers](#manage-feature-flippe
 
         The feature is set programmatically.
 
-`proctoring` :material-delete-alert-outline:
-
-:   Enable proctoring for the platform. Proctoring can be enabled individually per course, there is a course-specific `proctored` setting.
-
-    *Scope:* `Group.all_users`, `Context.root`
-
-    !!! info
-
-        This feature requires further configuration. The following keys must be set in the `config/secrets.yml` file:
-
-        ```yaml
-        smowl_entity: my_entity
-        smowl_password: my_password
-        ```
-
 `profile`
 
 :   Enable the user profile page.
@@ -181,16 +122,6 @@ See below for explanations on [managing feature flippers](#manage-feature-flippe
 :   Hide notes / hints about the preference to display a user's birthdate on records.
 
     *Scope:* `Group.all_users`, `Context.root`
-
-`time_effort` :material-test-tube:
-
-:   Enable time effort estimation shown in the item navigation and on the item page.
-
-    *Scope:* `Group.all_users`, `Context.root`
-
-    !!! info
-
-        This requires the time effort service to be set up for the platform.
 
 `video_slide_thumbnails` :material-test-tube:
 

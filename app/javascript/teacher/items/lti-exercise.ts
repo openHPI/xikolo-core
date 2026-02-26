@@ -50,7 +50,6 @@ const handleLtiExerciseType = (
   ]);
   setVisibility('hide', ['#featured-switch', '#icon-type-select']);
   hideAndUncheckSwitch('#open-mode-switch', '#open-mode-checkbox');
-  hideAndUncheckSwitch('#proctoring-switch', '#proctoring-checkbox');
   hidePublicDescription();
   handleMaxPoints(exerciseTypeElem.value as ExerciseType);
   listenToExerciseTypeChange(contentTypeElem, exerciseTypeElem);

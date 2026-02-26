@@ -18,8 +18,6 @@ describe 'Course: Admin: Offers: Create', type: :request do
 
     Stub.request(:course, :get, "/courses/#{course.course_code}")
       .to_return Stub.json(course_resource)
-    Stub.request(:course, :get, '/next_dates', query: hash_including({}))
-      .to_return(Stub.json([]))
   end
 
   it 'creates a new course offer' do

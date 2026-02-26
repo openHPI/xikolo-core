@@ -2,7 +2,6 @@ doctype 5
 html.motion-safe:scroll-smooth(
   lang=I18n.locale
   data-default-locale=I18n.default_locale
-  data-brand-Xikolo.config.brand
   data-locale-url=asset_path("i18n/#{I18n.locale}.json")
 )
   head prefix=('og: http://ogp.me/ns#' if meta_tags[:og].present?)
@@ -95,7 +94,10 @@ html.motion-safe:scroll-smooth(
       window.$.fn = window.$.prototype = window.$ || {};
 
     = javascript_include_tag 'app/javascript/main', type: 'module', 'data-turbo-track': Rails.env.production? ? 'reload' : ''
+
+    // Analytics
     = javascript_include_tag 'app/javascript/legacy/lanalytics/index', type: 'module', 'data-turbo-track': Rails.env.production? ? 'reload' : ''
+    = render 'shared/piwik'
 
     /
     / Extras
@@ -106,7 +108,7 @@ html.motion-safe:scroll-smooth(
 
     = render Global::CustomHeadSnippets.new
 
-  body[class="#{Xikolo.config.brand} #{params[:controller].tr('/_', '-')}-controller #{params[:action]}-action #{'in_app' if @in_app} #{'is-masqueraded' if current_user.instrumented?}"
+  body[class="#{params[:controller].tr('/_', '-')}-controller #{params[:action]}-action #{'in_app' if @in_app} #{'is-masqueraded' if current_user.instrumented?}"
     data-offset="150"
     data-target=".scrollspy-target"
     data-spy="scroll"
@@ -166,7 +168,6 @@ html.motion-safe:scroll-smooth(
     - unless @in_app || @teacherview
       = render Footer::Main.new
       = render Global::HelpdeskButton.new(user: current_user)
-      = render 'shared/piwik'
 
     #loading-dimmer[hidden]
       .loading-wrapper

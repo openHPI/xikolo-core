@@ -3,8 +3,8 @@
 require 'spec_helper'
 
 describe 'Admin: Reports: Index', type: :system do
-  let(:user_id) { user['id'] }
-  let(:user) { build(:'account:user') }
+  let(:user_id) { user[:id] }
+  let(:user) { attributes_for(:'account_service/user', id: generate(:user_id)) }
   let(:download_url) { 'http://myfile.com/123abc' }
   let(:course) { build(:'course:course', title: 'Ruby for Beginners', course_code: 'ruby2021') }
 

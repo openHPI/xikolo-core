@@ -45,26 +45,6 @@ describe 'course/courses/_course_preview_large.html.slim', type: :view do
         it { is_expected.not_to include 'Un-enroll' }
         it { is_expected.to include 'To un-enroll from the course, contact the course provider.' }
       end
-
-      context 'with proctoring enabled and proctored course' do
-        let(:course_attrs) { super().merge(proctored: true) }
-        let(:features) { {'proctoring' => true} }
-
-        before do
-          allow(Proctoring).to receive(:enabled?).and_return true
-        end
-
-        context 'without upgraded enrollment' do
-          it { is_expected.not_to include 'You have booked a Certificate.' }
-          it { is_expected.to include 'Booking a Certificate is no longer possible.' }
-        end
-
-        context 'with upgraded enrollment' do
-          let(:enrollments) { [Xikolo::Course::Enrollment.new(course_id: course.id, id: enrollment_id, proctored: true)] }
-
-          it { is_expected.to include 'You have booked a Certificate.' }
-        end
-      end
     end
 
     context 'for external course' do

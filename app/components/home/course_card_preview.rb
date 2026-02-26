@@ -111,7 +111,6 @@ module Home
 
     def registered_user
       Xikolo::Common::Auth::CurrentUser.from_session({
-        'features' => {'course_reactivation' => true},
         'user_id' => USER_ID,
         'user' => {'anonymous' => false},
       })

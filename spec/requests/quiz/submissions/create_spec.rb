@@ -5,13 +5,16 @@ require 'spec_helper'
 describe 'Quiz: Submissions: Create', type: :request do
   subject(:create_submission) do
     post "/courses/the_course/items/#{item.id}/quiz_submission",
-      headers: {Authorization: "Xikolo-Session session_id=#{stub_session_id}"},
+      headers:,
       params:
   end
 
-  let(:user_id) { submission['user_id'] }
+  let(:session) { create(:'account_service/session', user:) }
+  let(:user) { create(:'account_service/user') }
+  let(:user_id) { user.id }
   let(:request_context_id) { course.context_id }
-  let!(:course) { create(:course, :active, course_code: 'the_course') }
+  let(:course_context) { create(:'account_service/context') }
+  let!(:course) { create(:course, :active, course_code: 'the_course', context_id: course_context.id) }
   let!(:my_enrollment) { create(:enrollment, course:, user_id:) }
   let(:section) { create(:section, course:) }
   let(:section_resource) { build(:'course:section', id: section.id, course_id: course.id) }
@@ -30,7 +33,7 @@ describe 'Quiz: Submissions: Create', type: :request do
     build(:'quiz:answer', question_id: quiz_question['id'], quiz_id: quiz['id'])
   end
   let(:short_submission_id) { UUID4.new(submission['id']).to_s(format: :base62) }
-  let(:submission) { build(:'quiz:submission', **submission_attrs) }
+  let(:submission) { build(:'quiz:submission', **submission_attrs, user_id: user.id) }
   let(:submission_attrs) do
     {
       course_id: course.id,
@@ -59,10 +62,14 @@ describe 'Quiz: Submissions: Create', type: :request do
       .to_return Stub.response(status: 200)
   end
 
+  let(:headers) { {Authorization: "Xikolo-Session session_id=#{session.id}"} }
+  let(:permissions) { %w[course.content.access.available] }
+
   before do
-    stub_user_request id: user_id,
-      permissions: %w[course.content.access.available],
-      features: {'proctoring' => true}
+    role = create(:'account_service/role', permissions:)
+    create(:'account_service/grant', principal: user, role:, context: course_context)
+    user.features.create(name: 'proctoring', value: 'true', context: AccountService::Context.root)
+    set_session(id: session.id)
 
     Stub.request(:course, :get, '/courses/the_course')
       .to_return Stub.json(course.as_json)
@@ -144,6 +151,7 @@ describe 'Quiz: Submissions: Create', type: :request do
       end
 
       it 'publishes an event for the submission' do
+        allow(Msgr).to receive(:publish)
         expect(Msgr).to receive(:publish).once.with(
           hash_including(id: submission['id']),
           hash_including(to: 'xikolo.submission.submission.create')
@@ -179,6 +187,7 @@ describe 'Quiz: Submissions: Create', type: :request do
         end
 
         it 'publishes an event for the submission' do
+          allow(Msgr).to receive(:publish)
           expect(Msgr).to receive(:publish).once.with(
             hash_including(id: submission['id']),
             hash_including(to: 'xikolo.submission.submission.create')
@@ -289,6 +298,7 @@ describe 'Quiz: Submissions: Create', type: :request do
     end
 
     it 'publishes an event for the submission' do
+      allow(Msgr).to receive(:publish)
       expect(Msgr).to receive(:publish).once.with(
         hash_including(id: submission['id']),
         hash_including(to: 'xikolo.submission.submission.create')

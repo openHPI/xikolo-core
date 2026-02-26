@@ -79,33 +79,5 @@ describe 'Courses: List', type: :request do
         expect(resource.pluck('id')).to contain_exactly(courses[0].id, courses[1].id)
       end
     end
-
-    context 'with promoted_for filter' do
-      let(:params) { {promoted_for: user_id} }
-      let(:user_id) { generate(:user_id) }
-
-      let!(:courses) do
-        [
-          create(:'course_service/course', :active, groups: []),
-          create(:'course_service/course', :active, groups: []),
-          create(:'course_service/course', :active, groups: [group]),
-          create(:'course_service/course', :active, groups: [group]),
-          create(:'course_service/course', :active, groups: [other_group]),
-        ]
-      end
-
-      before do
-        create(:'course_service/enrollment', course: courses[0], user_id:)
-        create(:'course_service/enrollment', course: courses[2], user_id:)
-
-        Stub.request(
-          :account, :get, '/groups', query: {user: user_id, per_page: 1000}
-        ).to_return Stub.json([{name: group}, {name: 'group.third'}])
-      end
-
-      it 'includes restricted courses the user is not enrolled but allowed to see' do
-        expect(resource.pluck('id')).to contain_exactly(courses[1].id, courses[3].id)
-      end
-    end
   end
 end

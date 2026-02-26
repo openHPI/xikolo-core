@@ -169,7 +169,6 @@ describe Home::CourseCard, type: :component do
         end
 
         describe 'with course reactivation available' do
-          let(:features) { {'course_reactivation' => true} }
           let(:course) { create(:course, :archived, :offers_reactivation, deleted: false) }
 
           before do
@@ -456,18 +455,6 @@ describe Home::CourseCard, type: :component do
         render_inline(component)
 
         expect(page).to have_css "[aria-label='Highest achievable certificate']", text: 'Confirmation of Participation'
-      end
-    end
-
-    context 'with Certificate / ECTS available' do
-      let(:roa_enabled) { true }
-      let(:proctored) { true }
-      let(:course) { create(:course, :active, proctored:, roa_enabled:) }
-
-      it 'shows the highest achievable certificate (ECTS)' do
-        render_inline(component)
-
-        expect(page).to have_css "[aria-label='Highest achievable certificate']", text: 'Certificate / ECTS'
       end
     end
 

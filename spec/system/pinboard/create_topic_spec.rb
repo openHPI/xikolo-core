@@ -4,9 +4,9 @@ require 'spec_helper'
 
 describe 'Pinboard: Create Topic', type: :system do
   before do
-    stub_user permissions: user_permissions, id: user['id']
+    stub_user permissions: user_permissions, id: user[:id]
 
-    Stub.request(:account, :get, "/users/#{user['id']}")
+    Stub.request(:account, :get, "/users/#{user[:id]}")
       .and_return Stub.json(user)
     Stub.request(:course, :get, '/api/v2/course/courses', query: hash_including({}))
       .and_return Stub.json([])
@@ -16,7 +16,7 @@ describe 'Pinboard: Create Topic', type: :system do
       .and_return Stub.json(course)
     Stub.request(:course, :get, '/api/v2/course/courses/our_course', query: hash_including({}))
       .and_return Stub.json(course)
-    Stub.request(:course, :get, "/enrollments?course_id=#{course['id']}&user_id=#{user['id']}")
+    Stub.request(:course, :get, "/enrollments?course_id=#{course['id']}&user_id=#{user[:id]}")
       .and_return Stub.json([{}])
     Stub.request(:course, :get, '/sections', query: hash_including(course_id: course['id']))
       .and_return Stub.json([])
@@ -30,13 +30,13 @@ describe 'Pinboard: Create Topic', type: :system do
       .to_return Stub.json([])
     Stub.request(:pinboard, :get, '/explicit_tags', query: hash_including(course_id: course['id']))
       .to_return Stub.json([])
-    Stub.request(:pinboard, :get, '/course_subscriptions', query: {user_id: user['id'], course_id: course['id']})
+    Stub.request(:pinboard, :get, '/course_subscriptions', query: {user_id: user[:id], course_id: course['id']})
       .to_return Stub.json([])
   end
 
   around(&With(:csrf_protection, true))
 
-  let(:user) { build(:'account:user') }
+  let(:user) { attributes_for(:'account_service/user', id: generate(:user_id)) }
   let(:user_permissions) { %w[course.content.access.available account.user.masquerade] }
   let(:course) do
     build(:'course:course',
@@ -78,20 +78,20 @@ describe 'Pinboard: Create Topic', type: :system do
   end
 
   describe 'protection from accidental posts when masquerading' do
-    let(:other_user) { build(:'account:user') }
+    let(:other_user) { attributes_for(:'account_service/user', id: generate(:user_id)) }
     let(:other_permissions) { %w[course.content.access.available] }
 
     before do
       Stub.request(:pinboard, :get, '/course_subscriptions',
-        query: hash_including(user_id: other_user['id'], course_id: course['id']))
+        query: hash_including(user_id: other_user[:id], course_id: course['id']))
         .to_return Stub.json([])
       Stub.request(:course, :get, '/courses', query: hash_including({}))
         .and_return Stub.json([])
       Stub.request(:course, :get, '/enrollments', query: hash_including({}))
         .and_return Stub.json([])
-      Stub.request(:course, :get, '/teachers', query: {user_id: other_user['id']})
+      Stub.request(:course, :get, '/teachers', query: {user_id: other_user[:id]})
         .and_return Stub.json([])
-      Stub.request(:account, :get, "/users/#{other_user['id']}")
+      Stub.request(:account, :get, "/users/#{other_user[:id]}")
         .and_return Stub.json(other_user)
       Stub.request(:account, :get, "/sessions/#{stub_session_id}")
         .and_return Stub.json({masquerade_url: "/account_service/sessions/#{stub_session_id}/masquerade"})
@@ -112,11 +112,11 @@ describe 'Pinboard: Create Topic', type: :system do
       # In a separate tab, masquerade as another user
       masquerade_window = open_new_window
       within_window masquerade_window do
-        visit "/users/#{other_user['id']}"
+        visit "/users/#{other_user[:id]}"
         click_on 'Masquerade as user'
         # When masquerading, expect to be redirected to the user's dashboard.
         expect(page).to have_content 'My upcoming courses'
-        stub_user_request permissions: other_permissions, id: other_user['id'], masqueraded: true
+        stub_user_request permissions: other_permissions, id: other_user[:id], masqueraded: true
       end
 
       # Try to submit the forum post in the original tab
@@ -132,11 +132,11 @@ describe 'Pinboard: Create Topic', type: :system do
       # In a separate tab, masquerade as another user
       masquerade_window = open_new_window
       within_window masquerade_window do
-        visit "/users/#{other_user['id']}"
+        visit "/users/#{other_user[:id]}"
         click_on 'Masquerade as user'
         # When masquerading, expect to be redirected to the user's dashboard.
         expect(page).to have_content 'My upcoming courses'
-        stub_user_request permissions: other_permissions, id: other_user['id'], masqueraded: true
+        stub_user_request permissions: other_permissions, id: other_user[:id], masqueraded: true
       end
 
       # Now we are the masqueraded user - prepare a post as that user
@@ -149,7 +149,7 @@ describe 'Pinboard: Create Topic', type: :system do
       within_window masquerade_window do
         visit current_path # Refresh the page for stubbed permissions to take effect
         click_on 'DEMASQ'
-        stub_user_request permissions: user_permissions, id: user['id']
+        stub_user_request permissions: user_permissions, id: user[:id]
       end
 
       # Try to submit the forum post in the original tab
@@ -174,16 +174,16 @@ describe 'Pinboard: Create Topic', type: :system do
       # In a separate tab, masquerade as another user
       masquerade_window = open_new_window
       within_window masquerade_window do
-        visit "/users/#{other_user['id']}"
+        visit "/users/#{other_user[:id]}"
         click_on 'Masquerade as user'
         # When masquerading, expect to be redirected to the user's dashboard.
         expect(page).to have_content 'My upcoming courses'
-        stub_user_request permissions: other_permissions, id: other_user['id'], masqueraded: true
+        stub_user_request permissions: other_permissions, id: other_user[:id], masqueraded: true
 
         # And immediately de-masquerade again
         visit current_path # Refresh the page for stubbed permissions to take effect
         click_on 'DEMASQ'
-        stub_user_request permissions: user_permissions, id: user['id']
+        stub_user_request permissions: user_permissions, id: user[:id]
       end
 
       # Try to submit the forum post in the original tab

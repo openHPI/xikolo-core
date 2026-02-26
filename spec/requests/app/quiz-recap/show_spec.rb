@@ -8,7 +8,7 @@ describe 'Quiz Recap: Show', type: :request do
   let(:headers) { {} }
   let(:params) { {} }
 
-  let(:user) { create(:user) }
+  let(:user) { create(:'account_service/user') }
   let(:course) { create(:course) }
   let(:course_resource) { build(:'course:course', id: course.id, course_code: course.course_code) }
   let(:section) { create(:section, course: course) }
@@ -32,9 +32,6 @@ describe 'Quiz Recap: Show', type: :request do
 
   before do
     stub_user_request id: user.id
-
-    Stub.request(:account, :get, '/sessions/')
-      .and_return Stub.json(build(:'account:session', user_id: user.id))
   end
 
   context 'with an anonymous user' do

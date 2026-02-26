@@ -5,12 +5,12 @@ require 'spec_helper'
 describe UserPresenter do
   subject(:presenter) { described_class.new(user) }
 
-  let(:user) { create(:user) }
+  let(:user) { create(:'account_service/user') }
 
   before do
-    create(:email, :confirmed, :primary, user:, address: 'primary@example.com')
-    create(:email, :confirmed, user:, address: 'secondary@example.com')
-    create(:email, :confirmed, address: 'not_from_the_user@example.com')
+    user.primary_email.update(address: 'primary@example.com')
+    create(:'account_service/email', :confirmed, user:, address: 'secondary@example.com')
+    create(:'account_service/email', :confirmed, address: 'not_from_the_user@example.com')
   end
 
   describe '#all_emails' do

@@ -2,7 +2,6 @@ doctype 5
 html(
   lang=I18n.locale
   data-default-locale=I18n.default_locale
-  data-brand-Xikolo.config.brand
   data-locale-url=asset_path("i18n/#{I18n.locale}.json")
 )
   head
@@ -53,12 +52,15 @@ html(
       window.$.fn = window.$.prototype = window.$ || {};
 
     = javascript_include_tag 'app/javascript/main', type: 'module', defer: true, 'data-turbo-track': Rails.env.production? ? 'reload' : ''
+
+    // Analytics
     = javascript_include_tag 'app/javascript/legacy/lanalytics/index', type: 'module', 'data-turbo-track': Rails.env.production? ? 'reload' : ''
+    = render 'shared/piwik'
 
     - if content_for? :head_assets
       = yield :head_assets
 
-  body class="#{Xikolo.config.brand} layout-simple"
+  body class="layout-simple"
 
     / Flash messages
     = render Global::FlashBlock.new(flash.tap(&:discard))
@@ -77,5 +79,4 @@ html(
     - else
       = render Global::HelpdeskButton.new(user: current_user)
 
-    = render 'shared/piwik'
     = render Global::CookieConsentBanner.new

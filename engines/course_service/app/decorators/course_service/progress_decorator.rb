@@ -53,7 +53,6 @@ class ProgressDecorator < ApplicationDecorator # rubocop:disable Layout/Indentat
       icon_type: item.icon_type,
       max_points: format_dpoints(item.max_dpoints),
       user_points: format_dpoints(item.result),
-      time_effort: item.time_effort,
       open_mode: item.open_mode,
     }
   end

@@ -11,19 +11,12 @@
     button.btn.btn-primary.vtop type='submit'
       = t(:'announcements.form.save')
     - if current_user.allowed?('news.announcement.send')
-      .ml10.vtop.inline-block
-        button.btn.btn-default.disabled type='submit' name='notification' id='save-send-button' value='send' disabled='true'
+      .ml10.vtop.inline-block data-controller='save_send_toggle' data-save_send_toggle-disabled-class='disabled'
+        button.btn.btn-default.disabled type='submit' name='notification' id='save-send-button' value='send' disabled='true' data-save_send_toggle-target='button'
           = t(:'announcements.form.save_and_send')
         .mt5
-          input.mr5 type='checkbox' id='enable-save-send' class='toggle-switch'
+          input.mr5 type='checkbox' id='enable-save-send' class='toggle-switch' data-save_send_toggle-target='checkbox' data-action='save_send_toggle#toggle'
           label for='enable-save-send'
     - if current_user.allowed?('news.announcement.send_test')
       button.btn.btn-default.ml10.vtop type='submit' name='notification' value='test'
         = t(:'announcements.form.save_and_test')
-
-javascript:
-  ready(function() {
-    $('#enable-save-send').on('change', function() {
-      return $('#save-send-button').toggleClass('disabled').prop('disabled', !$(this).is(':checked'));
-    });
-  });

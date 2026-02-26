@@ -67,11 +67,6 @@ class QuizSubmissionController < Abstract::FrontendController
 
     @my_result = QuizResultPresenter.new(@quiz, @submission, @submissions)
 
-    submission = Quiz::Submission.from_acfs(@submission)
-    if submission.proctored?
-      @quiz_proctoring = QuizSubmissionProctoringPresenter.new(submission.proctoring)
-    end
-
     shuffle_answers @quiz, @submission.id.to_i
 
     set_page_title the_course.title, item['title']
@@ -91,13 +86,6 @@ class QuizSubmissionController < Abstract::FrontendController
       return redirect_to course_item_path(id: short_uuid(item['id'])), status: :see_other
     end
 
-    # Temporary: We do not offer proctoring anymore, so do no allow starting
-    # the quiz.
-    if proctoring?
-      add_flash_message :error, t(:'flash.error.quiz_submission_proctoring_unavailable')
-      return redirect_to course_item_path(id: short_uuid(item['id'])), status: :see_other
-    end
-
     nowts = DateTime.now.in_time_zone.to_i
 
     begin
@@ -105,7 +93,7 @@ class QuizSubmissionController < Abstract::FrontendController
         course_id: the_course.id,
         quiz_id: @quiz.id,
         user_id: current_user.id,
-        vendor_data: proctoring? ? {proctoring: 'smowl_v2'} : nil,
+        vendor_data: nil,
       }).value!
 
       # To prevent breakage in other parts, let's wrap the Restify response in
@@ -235,7 +223,6 @@ class QuizSubmissionController < Abstract::FrontendController
       points: created_submission.points,
       attempt: submissions.total_pages,
       max_points: quiz.present? ? quiz.max_points : nil,
-      estimated_time_effort: @item_presenter.time_effort,
     }, to: 'xikolo.submission.submission.create')
 
     add_flash_message :success, t(:'flash.success.quiz_submitted')
@@ -271,14 +258,11 @@ class QuizSubmissionController < Abstract::FrontendController
   end
 
   def highest_score?
-    # For regularly graded (not proctored) exams, we use the highest score not the newest attempt.
-    !proctoring? && (params[:highest_score] == 'true')
+    params[:highest_score] == 'true'
   end
 
   def newest_first?
-    # For proctored exams, we always use the newest attempt and not the highest score.
-    # Can be enforced by setting the newest_first param.
-    proctoring? || (params[:newest_first] == 'true')
+    params[:newest_first] == 'true'
   end
 
   def shuffle_answers(quiz, randomkey)
@@ -344,14 +328,6 @@ class QuizSubmissionController < Abstract::FrontendController
 
   def submit!(submission, submission_data = nil)
     submission.update_attributes({submission: submission_data, submitted: true})
-  end
-
-  def proctoring?
-    current_user.feature?('proctoring') && proctoring_context.enabled?
-  end
-
-  def proctoring_context
-    @proctoring_context ||= Proctoring::ItemContext.new(the_course, item, enrollment)
   end
 
   def skip_quiz_instructions?

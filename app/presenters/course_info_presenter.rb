@@ -78,7 +78,7 @@ class CourseInfoPresenter < PrivatePresenter
   end
 
   def learning_goals?
-    @user.feature?('course_details.learning_goals') && learning_goals.present?
+    learning_goals.present?
   end
 
   def target_groups?
@@ -184,17 +184,14 @@ class CourseInfoPresenter < PrivatePresenter
   end
 
   def reactivate?
-    @user.feature?('course_reactivation') &&
-      CourseReactivation.enabled? &&
-      @course.offers_reactivation? &&
+    @course.offers_reactivation? &&
       !currently_reactivated? &&
       (@course.end_date.nil? || @course.end_date < Time.zone.now) &&
       @course.was_available?
   end
 
   def show_certificate_requirements?
-    @user.feature?('certificate_requirements') &&
-      course_wrapper.certificates_enabled?
+    course_wrapper.certificates_enabled?
   end
 
   def certificate_requirements

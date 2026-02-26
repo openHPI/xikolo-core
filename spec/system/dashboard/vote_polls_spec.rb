@@ -4,9 +4,9 @@ require 'spec_helper'
 
 RSpec.describe 'Dashboard: Vote on polls', type: :system do
   before do
-    user = build(:'account:user')
-    stub_user id: user['id'], permissions: %w[polls.archive]
-    Stub.request(:account, :get, "/users/#{user['id']}")
+    user = attributes_for(:'account_service/user', id: generate(:user_id))
+    stub_user id: user[:id], permissions: %w[polls.archive]
+    Stub.request(:account, :get, "/users/#{user[:id]}")
       .and_return Stub.json(user)
     Stub.request(:account, :post, '/tokens')
       .to_return Stub.json({token: 'abc'})

@@ -5,18 +5,12 @@
   account.registration
   alternative_sections.create
   announcements
-  certificate_requirements
   course.access-group
-  course_details.learning_goals
-  course_list
   course_rating
-  course_reactivation
   gamification
   ical_feed
   open_mode
-  proctoring
   profile
-  time_effort
   quiz_recap
   video_slide_thumbnails
 ].each do |feature|

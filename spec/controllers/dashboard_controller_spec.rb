@@ -35,7 +35,6 @@ describe DashboardController, type: :controller do
 
     context 'with user' do
       let(:enrollments) { [] }
-      let(:my_promoted) { [] }
       let(:next_dates) { [] }
 
       before do
@@ -43,10 +42,6 @@ describe DashboardController, type: :controller do
           :course, :get, '/enrollments',
           query: hash_including(user_id:, learning_evaluation: 'true')
         ).to_return Stub.json(enrollments)
-        Stub.request(
-          :course, :get, '/courses',
-          query: {promoted_for: user_id}
-        ).to_return Stub.json(my_promoted)
         Stub.request(
           :course, :get, '/next_dates',
           query: {user_id:}
@@ -64,7 +59,6 @@ describe DashboardController, type: :controller do
       context 'assign' do
         subject { request; assigns }
 
-        it { is_expected.to include 'my_promoted' }
         it { is_expected.to include 'next_dates' }
       end
     end

@@ -8,7 +8,6 @@ Feature:  Show 3 news at a max
   Given I am an administrator
   And I am logged in
 
-  @feature:announcements
   Scenario: Show only 3 news
     When I write 5 global news with visual
     And I log out

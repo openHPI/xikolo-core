@@ -17,15 +17,7 @@ RSpec.describe 'Posts: Index', type: :request do
     posts_stub
   end
 
-  it 'responds with 404 Not Found when the feature is not enabled' do
-    expect { get_posts }.to raise_error AbstractController::ActionNotFound
-  end
-
   context 'for anonymous user' do
-    let(:anonymous_session) do
-      super().merge(features: {'announcements' => 'true'})
-    end
-
     it 'shows the announcements page' do
       get_posts
       expect(response).to be_successful
@@ -42,7 +34,7 @@ RSpec.describe 'Posts: Index', type: :request do
   end
 
   context 'for logged-in user' do
-    let(:user) { stub_user_request features: {'announcements' => 'true'} }
+    let(:user) { stub_user_request }
     let(:headers) { super().merge('Authorization' => "Xikolo-Session session_id=#{stub_session_id}") }
 
     before { user }
@@ -63,7 +55,7 @@ RSpec.describe 'Posts: Index', type: :request do
 
     context 'with permission to see all announcements' do
       let(:user) do
-        stub_user_request features: {'announcements' => 'true'}, permissions: ['news.announcement.show']
+        stub_user_request permissions: ['news.announcement.show']
       end
 
       it 'shows the announcements page' do

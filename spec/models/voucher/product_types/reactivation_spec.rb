@@ -6,7 +6,7 @@ describe Voucher::ProductTypes::Reactivation do
   subject(:reactivation) { described_class.new(course, user) }
 
   let(:course) { create(:course, :archived, :offers_reactivation) }
-  let(:user) { create(:user) }
+  let(:user) { create(:'account_service/user') }
 
   describe '#claim!' do
     subject(:claim) { reactivation.claim! }

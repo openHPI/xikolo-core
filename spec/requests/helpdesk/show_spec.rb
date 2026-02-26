@@ -24,7 +24,7 @@ describe 'Helpdesk: Show', type: :request do
   end
 
   it 'contains the expected options for the category' do
-    expect(page).to have_select 'category', options: ['Technical question', 'First course']
+    expect(page).to have_select 'category', options: ['Technical question', 'openHPI Course Reactivation', 'First course']
   end
 
   context 'a direct GET request' do

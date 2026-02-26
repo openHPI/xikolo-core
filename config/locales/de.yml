@@ -323,8 +323,6 @@ de:
       submission_converted: Quiz-Abgabe wurde erfolgreich konvertiert!
       subscription_canceled: Dem Thema wurde erfolgreich entfolgt.
       reactivate_course: "Sie haben diesen Kurs bis %{date} reaktiviert."
-      proctoring:
-        certificate_booked: Sie haben ein Zertifikat für diesen Kurs gebucht.
       primary_email_unsuspended: Ihre primäre E-Mail-Adresse wurde wieder aktiviert.
       account_confirmed_manually: Der Account wurde manuell bestätigt.
       lti_provider_created: Der LTI-Provider wurde erfolgreich hinzugefügt.
@@ -399,7 +397,6 @@ de:
       quiz_submissions_maximum_reached: Die maximale Anzahl der erlaubten Versuche für dieses Quiz wurde bereits erreicht.
       quiz_submission_time_up: Die Zeit für Ihr aktives Quiz ist leider abgelaufen.
       quiz_submissions_submission_deadline_passed: "Die Abgabefrist für diese Aufgabe ist abgelaufen"
-      quiz_submission_proctoring_unavailable: Die Online-Aufsicht konnte nicht gestartet werden. Bitte versuchen Sie es später erneut.
       section_not_created: Die Section wurde nicht angelegt.
       section_not_updated: Die Section wurde nicht geändert.
       picture_not_uploaded: Ihr Bild konnte nicht hochgeladen werden, bitte versuchen Sie es erneut.
@@ -422,10 +419,6 @@ de:
       email_not_updated: Die E-Mail-Adresse konnte nicht gespeichert werden. Bitte geben Sie eine gültige E-Mail-Adresse an.
       associated_user_not_found: Der zum Lehrer zu ernennende Nutzer konnte nicht gefunden werden.
       document_denied: Diesen Leistungsnachweis dürfen Sie nicht abrufen.
-      proctoring:
-        booking_failed: Ein Zertifikat kann für diesen Kurs nicht gebucht werden.
-        already_proctored: Sie haben bereits ein Zertifikat für diesen Kurs gebucht.
-        not_enrolled: Sie müssen sich zuerst für den Kurs einschreiben, um ein Zertifikat zu buchen.
       reactivation:
         not_available: Dieser Kurs kann derzeit nicht reaktiviert werden.
         already_reactivated: Sie haben diesen Kurs bereits reaktiviert.
@@ -1124,7 +1117,6 @@ de:
             title: "Titel"
             start_date: "Start Datum"
             end_date: "End Datum"
-            time_effort: Zeitaufwand
             published: Veröffentlicht
             show_in_nav: In der Kursnavigation zeigen
             featured: Hervorheben
@@ -1138,7 +1130,6 @@ de:
             required_items: Vorausgesetzte Items
             submission_deadline: Abgabefrist
             submission_publishing_date: Abgabe-Veröffentlichungsdatum
-            proctored: Proctoring einschalten?
             icon_type: Icon-Typ
           type_selector:
             video: "Video"
@@ -1171,14 +1162,6 @@ de:
             remove: Lösche Datei
           description: Beschreibung
           smart_mode_alert: At least one video prefixed with this courses shortcode was found. So this editor switched to smart mode, only showing videos with this prefix here.
-          time_effort:
-            calculated_time_effort: Berechneter Zeitaufwand
-            not_available: Nicht verfügbar
-            calculated_time_effort_hint: Bitte beachten Sie, dass sich der hier angegebene Wert für die automatische Berechnung aufgrund laufender Berechnungen zwischenzeitlich geändert haben kann.
-            not_overwritten: Nicht überschrieben
-            must_be_number: Der Zeitaufwand muss in Sekunden angegeben werden.
-            overwrite_error: Der Zeitaufwand konnte nicht überschrieben werden.
-            reset_error: Der Zeitaufwand konnte nicht auf den automatisch berechneten Wert zurückgesetzt werden.
 
     course_management:
       enrollments:
@@ -1195,7 +1178,6 @@ de:
         email: E-Mail
         enrolled: Eingeschrieben am
         features: Gebuchte Features
-        proctoring: Zertifikat
         reactivation_html: <span title="Until %{date}">Reaktivierung</span>
         details: Details
         submissions: Submissions
@@ -1216,11 +1198,6 @@ de:
           remaining: Verbleibende Versuche
           additional: Zusatzversuche
         add_attempt: "+1"
-        proctoring:
-          processing: "Proctoring: noch in Arbeit..."
-          passed: Proctoring bestanden
-          passed_with_issues: Proctoring mit Fehlern bestanden
-          failed: Proctoring fehlgeschlagen
         actions: Aktionen
         submission: Abgabe
         submissions: Abgaben
@@ -1468,9 +1445,6 @@ de:
       button_quit: Kursteilnahme beenden
       button_reactivate_course: Kurs reaktivieren
       button_goto_external: Externen Kurs besuchen
-      proctoring:
-        booked: Sie haben ein Zertifikat gebucht.
-        upgrade_not_possible: Die Buchung eines Zertifikats ist nicht mehr möglich.
       unenrollment_disabled: Um sich vom Kurs abzumelden, wenden Sie sich an den Kursanbieter.
 
     prerequisites:
@@ -1541,11 +1515,6 @@ de:
     redeem_voucher:
       cancel: Zurück zum Kurs
       for_course: "Sie sind dabei, einen Gutschein-Code für den folgenden Kurs einzulösen:"
-      proctoring_smowl:
-        title: Zertifikat buchen
-        text: Sobald Sie den Gutschein-Code eingelöst haben, werden Sie zur Kalibrierung der Online-Prüfung für die benoteten Aufgaben weitergeleitet. Bitte vergewissern Sie sich, dass Sie einen <a href='https://smowl.net/en/faqs-proctoring-smowl/requirements/' target='_blank' rel='noopener'>kompatiblen Browser für Online-Prüfungen</a> verwenden, bevor Sie den Gutschein einlösen.
-        info_title: Sie haben keinen Gutschein-Code?
-        info_text: "Wenn Sie einen Gutschein-Code für das Zertifikat erwerben möchten, besuchen Sie bitte den <a href='%{link}' target='_blank' rel='noopener'>openHPI Shop</a>. Preisdetails und weitere Informationen finden Sie auf unserer Seite zum <a href='/pages/document_types' target='_blank' rel='noopener'>Zertifikat</a>."
       course_reactivation:
         title: Diesen Kurs reaktivieren
         text: "Wenn Sie bereits einen Gutschein für die <a href='/pages/course_reactivation' target='_blank' rel='noopener'>Kurs-Reaktivierung</a> im <a href='%{link}' target='_blank' rel='noopener'>Shop</a> erworben haben, geben Sie den Code bitte hier an. Sobald Sie den Gutschein-Code eingelösen, haben Sie <b>%{weeks} Wochen</b> Zeit, die nötigen Voraussetzungen für einen Leistungsnachweis zu erfüllen."
@@ -1554,7 +1523,6 @@ de:
     card:
       cop: Teilnahmebestätigung
       roa: Leistungsnachweis
-      qc_html: "<a href='/pages/document_types'>Zertifikat / ECTS</a>"
       subtitles_more:
         one: "%{subtitle_languages} + %{count} weiterer"
         other: "%{subtitle_languages} + %{count} weitere"
@@ -1913,7 +1881,6 @@ de:
       locked_until: "Item ist bis %{date} gesperrt"
       locked_since: "Item ist bis %{date} gesperrt"
       locked_on: "Item wird am %{date} gesperrt"
-      time_effort: "Zeitaufwand: etwa %{time_effort}"
     index:
       headline: Struktur & Inhalt
       label:
@@ -2183,9 +2150,6 @@ de:
     sidebar:
       dates: Nächste Termine pro Kurs
       dates_empty: Es gibt keine bevorstehenden Termine.
-      recommendations: Kurs-Empfehlungen
-    starting_soon: Startet bald
-    started: Gestartet
     profile:
       my_profile: Mein Profil
       edit_profile: Meine Profilinformationen bearbeiten
@@ -2611,7 +2575,6 @@ de:
       show_birthdate: "Geburtsdatum auf meinen Leistungsnachweisen anzeigen"
       no_documents: Es sind noch keine Leistungsnachweise verfügbar.
       my_upcoming_courses: Meine zukünftigen Kurse
-      proctoring_chart: Ergebnis der Online-Aufsicht
       divergent_certificate_requirements: "Abweichende Anforderungen für Leistungsnachweise, siehe <a class='bs-a' href='/courses/%{course_code}'>Kursdetails</a>."
       not_yet_published: Die Leistungsnachweise für diesen Kurs wurden noch nicht freigegeben. Sobald die Dokumente verfügbar sind, werden Sie per E-Mail informiert. Dies geschieht üblicherweise innerhalb einer Woche nach der Abgabefrist der Abschlussprüfung.
       transcript_of_records: "Ein <i>Transcript of Records</i> gibt es für Kurse, die einen zusammenfassenden, tabellarischen Leistungsnachweis für alle dort vorausgesetzten Kurse anbieten. Hierfür müssen alle Voraussetzungen erfüllt sein."
@@ -2768,12 +2731,6 @@ de:
       bonus: Sende meine Antworten
       main: Sende meine finalen Antworten
       survey: Sende Feedback
-    proctoring:
-      no_issues: Keine Verstöße erkannt.
-      data_currently_unavailable: Die Daten werden noch ausgewertet.
-      feature_tooltip: Die Verstöße werden akkumuliert.
-      not_passed: Von der Online-Aufsicht wurden Verstöße festgestellt, die die Ausstellung eines Zertifikats ausschließen.
-      passed_with_issues: Von der Online-Aufsicht wurden die oben angezeigten Verstöße festgestellt. Bitte beachten Sie, dass diese Verstöße im Laufe des Kurses akkumuliert werden. Sobald der festgesetzte Schwellwert überschritten ist, kann kein Zertifikat mehr ausgestellt werden.
     quiz_sidebar_title: "Quiz Details"
     quiz_results: "Ergebnisse"
     total: "Total"
@@ -3046,18 +3003,6 @@ de:
     courses_scores:
       course: Kurs
       total: Gesamt
-
-  proctoring:
-    service_unavailable: Die Online-Aufsicht ist derzeit nicht verfügbar. Bitte laden Sie die Seite neu. Wenn das Problem bestehen bleibt, wenden Sie sich an den Helpdesk.
-
-  time_effort:
-    seconds: Sekunden
-    minutes:
-      one: 1 Minute
-      other: "%{count} Minuten"
-    hours:
-      one: 1 Stunde
-      other: "%{count} Stunden"
 
   learn:
     title: "Recap"

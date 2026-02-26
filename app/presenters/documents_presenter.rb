@@ -31,7 +31,7 @@ class DocumentsPresenter < Presenter
         templates[:transcript_of_records] = template_for(type: Certificate::Record::TOR)
       end
 
-      if enrollment.proctored? && enrollment.certificates[:certificate]
+      if enrollment.certificates[:certificate]
         templates[:certificate] = template_for(type: Certificate::Record::CERT)
       end
     end
@@ -56,8 +56,7 @@ class DocumentsPresenter < Presenter
   end
 
   def cert?
-    enrollment.proctored? &&
-      enrollment.certificates[:certificate] &&
+    enrollment.certificates[:certificate] &&
       template?(:certificate)
   end
 
@@ -71,21 +70,11 @@ class DocumentsPresenter < Presenter
   end
 
   def cert_enabled?
-    user.feature?('proctoring') &&
-      Proctoring.enabled? &&
-      enrollment.proctored?
-  end
-
-  def user_passed_proctoring?
-    Proctoring::SmowlAdapter.new(
-      Course::Course.where(deleted: false).find(enrollment.course_id)
-    ).passed?(@user)
+    cert?
   end
 
   def certificate_download?
-    # Allow to download the certificate when
-    # the document has been created and proctoring has been passed
-    cert_enabled? && cert? && user_passed_proctoring?
+    cert?
   end
 
   def divergent_certificate_requirements?

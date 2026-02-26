@@ -7,7 +7,7 @@ describe 'Course: Sections: Index', type: :request do
     get "/courses/#{course.course_code}/sections", headers:
   end
 
-  let!(:group) { create(:group, course:) }
+  let!(:group) { create(:'account_service/group', name: "course.#{course.course_code}.students") }
   let!(:stub_course) { build(:'course:course', course_code: 'course_1') }
   let!(:stub_section) { build(:'course:section', course_id: stub_course['id']) } # rubocop:disable RSpec/LetSetup
   let!(:course) { create(:course, id: stub_course['id'], course_code: 'course_1') }
@@ -24,10 +24,6 @@ describe 'Course: Sections: Index', type: :request do
     Stub.request(
       :course, :get, '/enrollments',
       query: {course_id: stub_course['id'], user_id:}
-    ).to_return Stub.json([])
-    Stub.request(
-      :course, :get, '/next_dates',
-      query: hash_including(course_id: stub_course['id'])
     ).to_return Stub.json([])
     Stub.request(
       :course, :get, '/courses/course_1'

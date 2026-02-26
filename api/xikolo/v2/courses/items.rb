@@ -90,11 +90,6 @@ module Xikolo
           type :boolean
         }
 
-        attribute('proctored') {
-          description 'Whether this item is only accessible with proctoring if certificate was booked'
-          type :boolean
-        }
-
         attribute('accessible') {
           description 'Whether the item\'s content can be accessed at this time'
           type :boolean
@@ -109,11 +104,6 @@ module Xikolo
 
             true
           }
-        }
-
-        attribute('time_effort') {
-          description 'The estimated time needed to complete the item'
-          type :integer
         }
 
         writable attribute('visited') {
@@ -169,7 +159,6 @@ module Xikolo
           course_api = Xikolo.api(:course).value!
 
           # set context before current_user is accessed / authenticate is called
-          # required to check if time_effort is enabled
           course =
             block_access_by('id') do
               if filters['course_id']
@@ -197,7 +186,6 @@ module Xikolo
             .rel(:items)
             .get(item_params)
             .value!
-            .map {|item| Xikolo::V2::Courses::Items.sanitize_time_effort(item, current_user) }
         end
       end
 
@@ -207,7 +195,6 @@ module Xikolo
             course_api = Xikolo.api(:course).value!
 
             # set context before current_user is accessed / authenticate is called
-            # required to check if time_effort is enabled
             item = course_api.rel(:item).get({id: UUID(id).to_s}).value!
             course = course_api.rel(:course).get({id: item['course_id']}).value!
 
@@ -222,7 +209,6 @@ module Xikolo
               .rel(:item)
               .get({id: UUID(id).to_s, embed: 'user_visit', user_id: current_user.id})
               .value!
-              .tap {|i| Xikolo::V2::Courses::Items.sanitize_time_effort(i, current_user) }
           end
         end
 
@@ -230,7 +216,6 @@ module Xikolo
           course_api = Xikolo.api(:course).value!
 
           # set context before current_user is accessed / authenticate is called
-          # required to check if time_effort is enabled
           item = course_api.rel(:item).get({id:}).value!
           course = course_api.rel(:course).get({id: item['course_id']}).value!
 
@@ -257,12 +242,7 @@ module Xikolo
             .rel(:item)
             .get({id:, embed: 'user_visit', user_id: current_user.id})
             .value!
-            .tap {|i| Xikolo::V2::Courses::Items.sanitize_time_effort(i, current_user) }
         end
-      end
-
-      def self.sanitize_time_effort(item, user)
-        item.tap {|i| i['time_effort'] = 0 unless user.feature?('time_effort') }
       end
     end
   end

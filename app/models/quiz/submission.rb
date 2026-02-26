@@ -25,13 +25,5 @@ module Quiz
     def initialize(hash)
       @submission = hash
     end
-
-    def proctoring
-      @proctoring ||= Proctoring.new(@submission)
-    end
-
-    def proctored?
-      @submission['vendor_data'].key?('proctoring') || @submission['vendor_data'].key?('proctoring_smowl')
-    end
   end
 end

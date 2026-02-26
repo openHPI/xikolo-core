@@ -1,5 +1,4 @@
 /* eslint-disable no-undef */
-import '../libraries/dimple';
 import ready from '../../util/ready';
 
 ready(function () {

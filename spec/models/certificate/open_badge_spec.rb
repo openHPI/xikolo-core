@@ -8,7 +8,7 @@ describe Certificate::OpenBadge, type: :model do
   end
 
   let(:params) { {} }
-  let(:user) { create(:user, :with_email) }
+  let(:user) { Account::User.find(create(:'account_service/user').id) }
   let(:course) { create(:course, records_released: true) }
   let(:template) { create(:open_badge_template, :full, course:) }
   let(:record) { create(:roa, user:, course:) }

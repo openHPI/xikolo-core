@@ -34,7 +34,6 @@ target build {
       "notification",
       "pinboard",
       "quiz",
-      "timeeffort",
       "web",
     ]
   }

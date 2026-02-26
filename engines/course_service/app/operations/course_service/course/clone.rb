@@ -74,12 +74,6 @@ class Course::Clone < ApplicationOperation # rubocop:disable Layout/IndentationW
       old_item.attributes
         .except('id', 'start_date', 'end_date', 'submission_deadline')
         .then do |attrs|
-          # Do not set the time effort, i.e. assume that the time effort has been
-          # overwritten, for cloned video items. For now, the time effort should
-          # always be determined based on the corresponding stream.
-          # This is a short-term fix until the overwritten status can be checked in
-          # the database directly in the monolithic application (and not via Restify).
-          attrs = attrs.except('time_effort') if old_item.content_type == 'video'
           attrs['proctored'] = false
           attrs
         end

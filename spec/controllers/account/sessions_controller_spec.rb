@@ -48,7 +48,9 @@ describe Account::SessionsController, type: :controller do
     context 'with an authorization' do
       let(:auth_id) { SecureRandom.uuid }
       let(:saml_uid) { SecureRandom.uuid }
-      let(:authorization_resource) { build(:'account:authorization', id: auth_id, user_id: nil) }
+      let(:authorization_resource) do
+        attributes_for(:'account_service/authorization', id: auth_id, user_id: nil, expires_at: Time.zone.now.iso8601)
+      end
 
       before do
         session[:saml_uid] = saml_uid
@@ -64,7 +66,10 @@ describe Account::SessionsController, type: :controller do
       context 'when the authorization is already connected to an account' do
         # When there is an active not-anonymous session, a redirect would already have happened.
         # If the authorization is already connected to an account, this might be a forgery attempt.
-        let(:authorization_resource) { build(:'account:authorization', id: auth_id, user_id: SecureRandom.uuid) }
+        let(:authorization_resource) do
+          attributes_for(:'account_service/authorization', id: auth_id, user_id: SecureRandom.uuid,
+            expires_at: Time.zone.now.iso8601)
+        end
 
         it 'renders the login form' do
           action.call

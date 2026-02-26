@@ -5,7 +5,7 @@ require 'spec_helper'
 describe Gamification::Badge, type: :model do
   context 'order' do
     before do
-      user = create(:user)
+      user = Account::User.find(create(:'account_service/user').id)
       %i[bronze silver gold].each {|level| create(:gamification_badge, level, user:) }
       create_list(:gamification_badge, 3, :bronze, user:)
     end

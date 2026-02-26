@@ -1,4 +1,4 @@
-import { setVisibility, hideAndUncheckSwitch } from './form-helpers';
+import { setVisibility } from './form-helpers';
 import videoStreamsAutocompletion from './video-streams';
 
 const handlePublicDescription = () => {
@@ -36,7 +36,6 @@ const handleVideoType = () => {
     '#icon-type-select',
   ]);
   setVisibility('show', ['#featured-switch']);
-  hideAndUncheckSwitch('#proctoring-switch', '#proctoring-checkbox');
   handleOpenMode();
   videoStreamsAutocompletion();
 };

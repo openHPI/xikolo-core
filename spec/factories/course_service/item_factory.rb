@@ -7,7 +7,6 @@ FactoryBot.define do
     end_date { 17.days.from_now }
     content_type { 'video' }
     content_id { 'b2157ab3-454b-4777-bb31-976b99cb016f' }
-    time_effort { 120 }
 
     association(:section, factory: :'course_service/section', strategy: :create)
 

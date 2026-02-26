@@ -68,11 +68,6 @@ PATH
     quiz_service (0.0.1)
 
 PATH
-  remote: engines/timeeffort_service
-  specs:
-    timeeffort_service (0.0.1)
-
-PATH
   remote: gems/xikolo-common
   specs:
     xikolo-common (2.18.0)
@@ -1199,7 +1194,6 @@ DEPENDENCIES
   telegraf (~> 3.0)
   thruster
   timecop
-  timeeffort_service!
   truncato (~> 0.7.13)
   turbo-rails
   uuid4 (~> 1.4)

@@ -1,3 +1,6 @@
+- content_for :head_assets
+  = javascript_include_tag 'app/javascript/legacy/quiz-question-state', type: 'module', 'data-turbo-track': Rails.env.production? ? 'reload' : ''
+
 / Item navigation above the main content
 .row.hidden_in_app
   = render 'shared/course_item_nav', position: @inner_course_position
@@ -34,4 +37,4 @@
 
   - if !@item_presenter.survey? && @item_presenter.show_quiz_results?
     .col-md-4.hidden_in_app
-      = render 'quiz_submission/partials/result_box', my_result: @my_result, my_proctoring: @quiz_proctoring
+      = render 'quiz_submission/partials/result_box', my_result: @my_result

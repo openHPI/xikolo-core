@@ -9,9 +9,9 @@ describe 'Course: Enrollments: Completion: Create', type: :request do
   end
 
   let(:headers) { {} }
-  let(:user) { build(:'account:user') }
+  let(:user) { attributes_for(:'account_service/user', id: generate(:user_id)) }
   let(:course) { create(:course, :archived, title: 'My course') }
-  let(:enrollment) { create(:enrollment, course:, user_id: user['id']) }
+  let(:enrollment) { create(:enrollment, course:, user_id: user[:id]) }
 
   context 'for anonymous user' do
     it 'redirects to login page' do

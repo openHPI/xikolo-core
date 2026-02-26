@@ -7,7 +7,7 @@ describe 'Admin: Ajax: Classifiers: Index', type: :request do
 
   let(:headers) { {} }
   let(:params) { {} }
-  let(:user) { create(:user) }
+  let(:user) { create(:'account_service/user') }
   let(:permissions) { [] }
 
   let!(:classifier1) { create(:classifier, title: 'Alpha', cluster_id: 1, translations: {'en' => 'Alpha'}, cluster: create(:cluster, id: 1)) }
@@ -18,9 +18,6 @@ describe 'Admin: Ajax: Classifiers: Index', type: :request do
   before do
     stub_user_request id: user.id
     stub_user_request(permissions:)
-
-    Stub.request(:account, :get, '/sessions/')
-      .and_return Stub.json(build(:'account:session', user_id: user.id))
   end
 
   context 'when not logged in' do

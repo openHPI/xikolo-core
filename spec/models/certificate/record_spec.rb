@@ -13,7 +13,7 @@ describe Certificate::Record, type: :model do
   end
 
   let(:template) { create(:certificate_template, course:) }
-  let(:user) { create(:user) }
+  let(:user) { Account::User.find(create(:'account_service/user').id) }
   let(:course) { create(:course, records_released:) }
   let(:records_released) { true }
 
@@ -98,7 +98,7 @@ describe Certificate::Record, type: :model do
     end
 
     context 'with a deleted user' do
-      let(:user) { create(:user, :archived) }
+      let(:user) { Account::User.find(create(:'account_service/user', :archived).id) }
 
       before do
         create(:roa, user:, course:, verification:)

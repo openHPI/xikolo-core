@@ -42,9 +42,7 @@ module Home
     end
 
     def show_reactivation_button?
-      @user&.feature?('course_reactivation') &&
-        CourseReactivation.enabled? &&
-        !@enrollment&.reactivated? &&
+      !@enrollment&.reactivated? &&
         @course.reactivation_possible?
     end
 
@@ -163,9 +161,7 @@ module Home
     end
 
     def highest_achievable_certificate
-      if @course.proctored?
-        t(:'course.card.qc_html')
-      elsif @course.roa_enabled?
+      if @course.roa_enabled?
         I18n.t(:'course.card.roa')
       elsif @course.cop_enabled?
         I18n.t(:'course.card.cop')

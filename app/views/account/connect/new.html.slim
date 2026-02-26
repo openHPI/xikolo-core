@@ -4,7 +4,6 @@
       h2.h2.pt20 = t(:'account.sessions.connect_account.headline')
       .login-box
         p = t(:'account.sessions.connect_account.text',
-            brand: Xikolo.config.site_name,
             provider: t(:"account.sessions.auth_connect.provider_label.#{@authorization.provider}"),
             provider_link: t(:"account.sessions.auth_connect.provider_link.#{@authorization.provider}"))
 

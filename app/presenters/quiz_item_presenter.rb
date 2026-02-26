@@ -151,28 +151,12 @@ class QuizItemPresenter < ItemPresenter
     props
   end
 
-  # Only called on quiz intro page
-  def proctored_quiz_unavailable?
-    @user.feature?('proctoring') &&
-      proctoring_context.enabled? &&
-      !proctoring_service_available? &&
-      !user_instrumented?
-  end
-
   def highest_score?
-    # For proctored exams, we always use the newest attempt and not the highest
-    # score. For regularly graded exams, it is the other way around.
-    !(@user.feature?('proctoring') && proctoring_context.enabled?)
+    true
   end
 
-  # Only called when viewing the submission
   def quiz_submittable?
-    # Do not allow to submit a quiz if proctoring is enabled but the service is
-    # unavailable.
-    !@user.feature?('proctoring') ||
-      (@user.feature?('proctoring') && !proctoring_context.enabled?) ||
-      (@user.feature?('proctoring') && proctoring_context.enabled? && proctoring_service_available?) ||
-      user_instrumented?
+    true
   end
 
   def attempts_left?
@@ -242,22 +226,5 @@ class QuizItemPresenter < ItemPresenter
 
   def user_instrumented_or_access_allowed?
     user_instrumented? || @user.allowed?('course.content.access')
-  end
-
-  # Temporary: Proctoring is not offered anymore.
-  def proctoring_service_available?
-    false
-  end
-
-  def proctoring_context
-    @proctoring_context ||= Proctoring::ItemContext.new @course, @item, @enrollment
-  end
-
-  def course_proctoring
-    @course_proctoring ||= Proctoring::SmowlAdapter.new(nil)
-  end
-
-  def enrollment_proctoring
-    @enrollment_proctoring ||= Course::Enrollment.find(@enrollment.id).proctoring
   end
 end

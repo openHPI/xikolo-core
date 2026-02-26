@@ -279,19 +279,9 @@ QuizService::Quiz.create!(
   )
 end
 
-# A quiz submission with proctoring data (passed with violations) in the proctoring course
 submission = welcome_quiz.attempt! '00000001-3100-4444-9999-000000000002',
   course_id: '00000001-3300-4444-9999-000000000008',
-  vendor_data: {
-    'proctoring' => 'smowl_v2',
-    'proctoring_smowl_v2' => {
-      'nobodyinthepicture' => 0, 'wronguser' => 0, 'severalpeople' => 0,
-      'webcamcovered' => 0, 'invalidconditions' => 0,
-      'webcamdiscarted' => 0, 'notallowedelement' => 0, 'nocam' => 1,
-      'otherappblockingthecam' => 0, 'notsupportedbrowser' => 0,
-      'othertab' => 2, 'emptyimage' => 0, 'suspicious' => 0
-    },
-  }
+  vendor_data: {}
 
 q1 = QuizService::QuizSubmissionQuestion.create!(
   quiz_submission_id: submission.id,

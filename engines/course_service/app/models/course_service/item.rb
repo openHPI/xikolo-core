@@ -67,8 +67,6 @@ class Item < ApplicationRecord # rubocop:disable Layout/IndentationWidth
     allow_nil: true,
     greater_than_or_equal_to: 0,
   }
-  validates :submission_deadline,
-    presence: {if: :proctored, message: 'required_when_proctored'}
   validates :exercise_type,
     presence: {if: -> { content_type == 'quiz' }, message: 'required_when_quiz'}
   validate :required_items_exist

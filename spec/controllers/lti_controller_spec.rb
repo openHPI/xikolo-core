@@ -7,7 +7,7 @@ describe LtiController, type: :controller do
   let(:exercise) { create(:lti_exercise, provider:) }
   let(:gradebook) { create(:lti_gradebook, exercise:) }
 
-  let(:user) { create(:user, id: gradebook.user_id) }
+  let(:user) { create(:'account_service/user', id: gradebook.user_id) }
 
   let!(:course) { create(:course, id: provider.course_id, course_code: 'the-course') }
   let!(:section) { create(:section, course:) }

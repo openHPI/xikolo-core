@@ -203,7 +203,6 @@ class ItemsController < ApplicationController # rubocop:disable Layout/Indentati
       :featured,
       :public_description,
       :open_mode,
-      :time_effort,
       required_item_ids: []
     )
     permitted_params = permitted_params.except :format

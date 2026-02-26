@@ -8,7 +8,6 @@
 
 @source '../../../../app/views/';
 @source '../../../../app/components/';
-@source '../../../../brand/';
 
 @theme {
   --color-primary-900: hsl(21deg, 75%, 14%);

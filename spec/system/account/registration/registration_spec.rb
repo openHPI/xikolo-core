@@ -3,16 +3,7 @@
 require 'spec_helper'
 
 describe 'Account: Register new Account', type: :system do
-  before do
-    Stub.request(:account, :get, '/treatments')
-      .to_return(Stub.json([]))
-  end
-
   context 'with native registration enabled' do
-    let(:anonymous_session) do
-      super().merge(features: {'account.registration' => true})
-    end
-
     it 'prefills the form from query parameters' do
       visit '/account/new?full_name=Bello+Flachner&email=bello.flachner%40sub.com'
 

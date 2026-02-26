@@ -5,7 +5,7 @@ require 'spec_helper'
 describe Account::Consent, type: :model do
   subject(:resource) { consent }
 
-  let(:consent) { create(:consent) }
+  let(:consent) { Account::Consent.find(create(:'account_service/consent').id) }
 
   it { is_expected.to accept_values_for :value, true, false }
 
@@ -13,13 +13,13 @@ describe Account::Consent, type: :model do
 
   describe '#consented?' do
     context 'consent is given' do
-      let(:consent) { create(:consent, :consented) }
+      let(:consent) { Account::Consent.find(create(:'account_service/consent', value: true).id) }
 
       it { is_expected.to be_consented }
     end
 
     context 'consent is refused' do
-      let(:consent) { create(:consent, :refused) }
+      let(:consent) { Account::Consent.find(create(:'account_service/consent', value: false).id) }
 
       it { is_expected.not_to be_consented }
     end
@@ -27,13 +27,13 @@ describe Account::Consent, type: :model do
 
   describe '#refused?' do
     context 'consent is given' do
-      let(:consent) { create(:consent, :consented) }
+      let(:consent) { Account::Consent.find(create(:'account_service/consent', value: true).id) }
 
       it { is_expected.not_to be_refused }
     end
 
     context 'consent is refused' do
-      let(:consent) { create(:consent, :refused) }
+      let(:consent) { Account::Consent.find(create(:'account_service/consent', value: false).id) }
 
       it { is_expected.to be_refused }
     end

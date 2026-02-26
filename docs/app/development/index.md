@@ -4,7 +4,7 @@ This section focuses on all aspects related to the development of the Xikolo pla
 
 - the [local setup](local_setup/index.md) of the platform on Unix systems and framework / runtime upgrade guides,
 - everything needed to keep the local environment up-to-date (see below),
-- details and guidelines for the [frontend implementation](frontend/index.md) and [branding](branding/index.md) of the platform,
+- details and guidelines for the [frontend implementation](frontend/index.md)
 - explanations of specific implementation concepts,
 - a guide on how to use [database migrations](best_practices/database_migrations.md),
 - our [testing best practices](testing/index.md) ,

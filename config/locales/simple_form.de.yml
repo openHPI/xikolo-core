@@ -104,7 +104,6 @@ de:
         groups: Auf Gruppen beschränken
         hidden: "Kurs ist versteckt"
         show_on_list: Auf Kursliste zeigen
-        proctored: Zertifikat (überwachte Prüfung)
         on_demand: "Reaktivierung"
         welcome_mail: Willkommens-Mail
         invite_only: Einladung benötigt
@@ -213,7 +212,6 @@ de:
         classifiers_keywords: Die Stichwörter werden über die <a href='https://moochub.org/about/' target='_blank'>MOOChub-API</a> veröffentlicht und für die interne Kurssuche verwendet.
         alternative_teacher_text: "Anzeigetext, falls Sie sehr viele Teachers haben"
         learning_goals: 'Geben Sie die Kompetenzen, Kenntnisse, Fähigkeiten und Fertigkeiten ein, welche Teilnehmende durch den erfolgreichen Abschluss des Kurses erwerben sollen. Sie werden in den Kursdetails unter "Was Teilnehmende lernen werden" angezeigt.'
-        learning_goals_only_certificate_page: "Geben Sie die Kompetenzen, Kenntnisse, Fähigkeiten und Fertigkeiten ein, welche Teilnehmende durch den erfolgreichen Abschluss des Kurses erwerben sollen. Sie werden auf der Seite zur Überprüfung des Zertifikats angezeigt."
         target_groups: 'Geben Sie die Lerngruppen ein, an die sich der Kurs richten soll. Sie werden in den Kursdetails unter "Für wen dieser Kurs gedacht ist" angezeigt.'
         show_on_list: Falls deaktiviert, wird der Kurs nicht auf der globalen Kursliste zu sehen sein. Auf der Landing-Page seines Channels wird er nach wie vor auftauchen.
         roa_threshold_percentage: "Schwellwert zwischen 1 und 100 in Prozent, um einen Leistungsnachweis zu erlangen. Der globale Standard-Wert ist %{global_default}."
@@ -224,7 +222,6 @@ de:
         invite_only: Lernern das selbstständige Einschreiben verbieten. Um an solch einem Kurs teilzunehmen, müssen die Lerner durch die Kursbetreuer eingeschrieben werden.
         cop_enabled: Wird ausgestellt für das Ansehen / Bearbeiten des Kursmaterials.
         roa_enabled: Für erfolgreiche Kursteilnahme. Wird ab einer bestimmten Punktzahl ausgestellt.
-        proctored: Wie ein Leistungsnachweis, aber zusätzlich mit Webcam-basierter Überprüfung durch SMOWL. Ein Bild des Teilnehmers wird auf dem PDF-Zertifikat erscheinen. Zertifikate müssen zahlungspflichtig gebucht und durch einen Gutschein freigeschaltet werden.
         on_demand: Erlaubt das Erreichen eines Leistungsnachweises nach der regulären Kurslaufzeit (wenn benotete Übungen wieder gesperrt sind). Diese Funktion muss zahlungspflichtig gebucht und durch einen Gutschein freigeschaltet werden.
         records_released: Aktivieren Sie diese Option, um den Download von Leistungsnachweisen freizuschalten.
         show_syllabus: Eine Seite im Kursbereich, die das gesamte freigeschaltete Lernmaterial anzeigt.
@@ -443,7 +440,6 @@ de:
         max_points:
           invalid_format: Die Punktzahl muss positiv sein.
         submission_deadline:
-          required_when_proctored: Für überwachte Prüfungen muss eine Abgabefrist festgelegt werden.
         title:
           "can't be blank": Bitte geben Sie einen Titel für die Lerneinheit an.
       record_availability: Der Leistungsnachweis ist noch nicht verfügbar.

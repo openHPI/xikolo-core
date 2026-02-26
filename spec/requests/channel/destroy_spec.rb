@@ -19,12 +19,6 @@ describe 'Channel: destroy', type: :request do
   let(:permissions) { %w[course.channel.delete] }
   let(:page) { Capybara.string(response.body) }
 
-  let(:delete_stub) do
-    Stub.request(
-      :course, :delete, "/channels/#{channel.code}"
-    ).to_return Stub.json({}, status: 204)
-  end
-
   before do
     channel
     course

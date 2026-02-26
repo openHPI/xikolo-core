@@ -54,6 +54,10 @@ describe 'Tracking: Referrers', type: :request do
   context 'with the Referer (sic!) header containing a valid external URL' do
     let(:headers) { super().merge('Referer' => 'http://www.google.de/search?q=foobar') }
 
+    before do
+      allow(Msgr).to receive(:publish)
+    end
+
     it 'tracks the referrer (without protocol)' do
       expect(Msgr).to receive(:publish).with(
         hash_including(
@@ -110,6 +114,7 @@ describe 'Tracking: Referrers', type: :request do
 
           context 'for anonymous user' do
             it 'does not track any user ID' do
+              allow(Msgr).to receive(:publish)
               expect(Msgr).to receive(:publish).with(
                 hash_excluding('user_id'),
                 to: 'xikolo.web.referrer'
@@ -119,8 +124,14 @@ describe 'Tracking: Referrers', type: :request do
           end
 
           context 'for logged-in user' do
-            let!(:user) { stub_user_request }
-            let(:headers) { super().merge('Authorization' => "Xikolo-Session session_id=#{stub_session_id}") }
+            let(:session) { create(:'account_service/session', user:) }
+            let(:user) { create(:'account_service/user') }
+            let(:headers) { super().merge('Authorization' => "Xikolo-Session session_id=#{session.id}") }
+
+            before do
+              allow(Msgr).to receive(:publish)
+              set_session(id: session.id)
+            end
 
             it 'tracks the ID of the current user' do
               expect(Msgr).to receive(:publish).with(
@@ -140,6 +151,7 @@ describe 'Tracking: Referrers', type: :request do
               let(:user_id_param) { SecureRandom.uuid }
 
               it 'uses the parameter as user ID' do
+                allow(Msgr).to receive(:publish)
                 expect(Msgr).to receive(:publish).with(
                   hash_including('user_id' => user_id_param),
                   to: 'xikolo.web.referrer'
@@ -152,6 +164,7 @@ describe 'Tracking: Referrers', type: :request do
               let(:user_id_param) { 'i-am-a-real-uuid-trust-me-001' }
 
               it 'does not track any user ID' do
+                allow(Msgr).to receive(:publish)
                 expect(Msgr).to receive(:publish).with(
                   hash_excluding('user_id'),
                   to: 'xikolo.web.referrer'
@@ -162,8 +175,14 @@ describe 'Tracking: Referrers', type: :request do
           end
 
           context 'for logged-in user' do
-            let!(:user) { stub_user_request }
-            let(:headers) { super().merge('Authorization' => "Xikolo-Session session_id=#{stub_session_id}") }
+            let(:session) { create(:'account_service/session', user:) }
+            let(:user) { create(:'account_service/user') }
+            let(:headers) { super().merge('Authorization' => "Xikolo-Session session_id=#{session.id}") }
+
+            before do
+              allow(Msgr).to receive(:publish)
+              set_session(id: session.id)
+            end
 
             context 'with a valid UUID' do
               let(:user_id_param) { SecureRandom.uuid }
@@ -188,19 +207,26 @@ describe 'Tracking: Referrers', type: :request do
         params:, headers:
     end
 
-    let(:course) { build(:'course:course') }
+    let(:course) { build(:'course:course', context_id: course_context.id) }
 
     # Authenticate user
     let(:headers) do
       super().merge(
-        'Authorization' => "Xikolo-Session session_id=#{stub_session_id}",
+        'Authorization' => "Xikolo-Session session_id=#{session.id}",
         'Referer' => 'http://www.google.de/search?q=foobar'
       )
     end
-    let!(:user) { stub_user_request permissions: ['course.content.access'] }
+    let(:session) { create(:'account_service/session', user:) }
+    let(:user) { create(:'account_service/user') }
+    let(:permissions) { ['course.content.access'] }
+    let(:course_context) { create(:'account_service/context') }
 
     # Stub service resources for course
     before do
+      allow(Msgr).to receive(:publish)
+      role = create(:'account_service/role', permissions:)
+      create(:'account_service/grant', principal: user, role:, context: course_context)
+      set_session(id: session.id)
       Stub.request(:course, :get, "/courses/#{course['course_code']}")
         .to_return Stub.json(course)
       Stub.request(:course, :get, '/enrollments',

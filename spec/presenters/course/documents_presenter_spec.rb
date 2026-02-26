@@ -36,53 +36,6 @@ describe Course::DocumentsPresenter do
     ])
   end
 
-  shared_context 'proctoring enabled and set up' do
-    let(:features) { {'proctoring' => true} }
-
-    before { allow(Proctoring).to receive(:enabled?).and_return true }
-  end
-
-  shared_context 'user received certificate' do
-    let(:cert) { true }
-    let(:enrollment_proctored) { true }
-  end
-
-  shared_examples_for 'correct proctoring and user cert validation' do |result_proctoring_passed:, result_proctoring_failed:|
-    context 'proctoring feature not enabled or not set up correctly' do
-      it { is_expected.to be false }
-    end
-
-    context 'proctoring feature enabled and set up correctly' do
-      include_context 'proctoring enabled and set up'
-
-      context 'certificate not received by user' do
-        it { is_expected.to be false }
-      end
-
-      context 'certificate received by user' do
-        include_context 'user received certificate'
-
-        before do
-          # rubocop:disable RSpec/AnyInstance
-          allow_any_instance_of(DocumentsPresenter).to receive(:user_passed_proctoring?).and_return proctoring_passed
-          # rubocop:enable RSpec/AnyInstance
-        end
-
-        context 'the user did not pass proctoring for course' do
-          let(:proctoring_passed) { false }
-
-          it { is_expected.to eq result_proctoring_failed }
-        end
-
-        context 'the user passed proctoring for course' do
-          let(:proctoring_passed) { true }
-
-          it { is_expected.to eq result_proctoring_passed }
-        end
-      end
-    end
-  end
-
   describe '#cop?' do
     subject { presenter.cop? }
 
@@ -117,70 +70,5 @@ describe Course::DocumentsPresenter do
 
       it { is_expected.to be_truthy }
     end
-  end
-
-  describe '#cert?' do
-    subject { presenter.cert? }
-
-    context 'not received cert' do
-      it { is_expected.to be_falsy }
-    end
-
-    context 'received cert' do
-      before do
-        create(:certificate_template, :certificate, course:)
-      end
-
-      include_context 'user received certificate'
-
-      it { is_expected.to be_truthy }
-    end
-  end
-
-  describe '#cert_enabled?' do
-    subject { presenter.cert_enabled? }
-
-    context 'proctoring feature not enabled (feature flipper)' do
-      it { is_expected.to be_falsy }
-    end
-
-    context 'proctoring feature enabled (feature flipper)' do
-      let(:features) { {'proctoring' => true} }
-      let(:proctoring_enabled) { false }
-
-      before { allow(Proctoring).to receive(:enabled?).and_return proctoring_enabled }
-
-      context 'proctoring not configured' do
-        it { is_expected.to be_falsy }
-      end
-
-      context 'proctoring configured' do
-        let(:proctoring_enabled) { true }
-
-        context 'the user\'s enrollment is not proctored' do
-          let(:enrollment_proctored) { false }
-
-          it { is_expected.to be false }
-        end
-
-        context 'the user\'s enrollment is proctored' do
-          let(:enrollment_proctored) { true }
-
-          it { is_expected.to be true }
-        end
-      end
-    end
-  end
-
-  describe '#certificate_download?' do
-    subject { presenter.certificate_download? }
-
-    before do
-      create(:certificate_template, :certificate, course:)
-    end
-
-    it_behaves_like 'correct proctoring and user cert validation',
-      result_proctoring_passed: true,
-      result_proctoring_failed: false
   end
 end

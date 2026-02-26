@@ -7,7 +7,6 @@ describe Navigation::CoursesMenu, type: :component do
 
   let(:user) do
     Xikolo::Common::Auth::CurrentUser.from_session(
-      'features' => {'course_list' => true},
       'user' => {'anonymous' => true}
     )
   end

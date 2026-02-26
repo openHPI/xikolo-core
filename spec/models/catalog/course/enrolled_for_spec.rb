@@ -45,7 +45,7 @@ describe Catalog::Course, '.enrolled_for', type: :model do
     end
 
     it 'does not include group-restricted courses' do
-      create(:course, :active, groups: ['partners'])
+      create(:course, :active, groups: ['xikolo.partners'])
 
       expect(scope).to be_empty
     end
@@ -114,8 +114,10 @@ describe Catalog::Course, '.enrolled_for', type: :model do
     end
 
     it 'does not include group-restricted courses when member of the group' do
-      create(:course, :active, groups: ['partners'])
-      create(:group, name: 'partners', member: user_id)
+      create(:course, :active, groups: ['xikolo.partners'])
+      group = create(:'account_service/group', name: 'xikolo.partners')
+      user = create(:'account_service/user', id: user_id)
+      create(:'account_service/membership', group:, user:)
 
       expect(scope).to be_empty
     end

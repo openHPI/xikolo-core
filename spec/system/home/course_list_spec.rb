@@ -3,11 +3,11 @@
 require 'spec_helper'
 
 describe 'Home: Course List', type: :system do
-  let(:user) { build(:'account:user') }
+  let(:user) { attributes_for(:'account_service/user', id: generate(:user_id)) }
 
   before do
-    stub_user id: user['id'], features: {'course_list' => 'true'}
-    Stub.request(:account, :get, "/users/#{user['id']}")
+    stub_user id: user[:id], features: {'course_list' => 'true'}
+    Stub.request(:account, :get, "/users/#{user[:id]}")
       .to_return Stub.json(user)
   end
 

@@ -6,10 +6,9 @@ This way, we prevent dealing with payment / accounting directly in the Xikolo ap
 
 ## Products
 
-We currently offer two different types of products to be activated by redeeming vouchers:
+We currently offer the following product to be activated by redeeming vouchers:
 
-1. [Proctoring](proctoring.md): Users will be monitored via the webcam when taking homeworks / exams, which lets them achieve a so-called Certificate.
-2. [Reactivation](reactivation.md): Self-paced courses can be reactivated, which unlocks graded assignments to achieve a Record of Achievement in courses whose regular runtime has ended.
+1. [Reactivation](reactivation.md): Self-paced courses can be reactivated, which unlocks graded assignments to achieve a Record of Achievement in courses whose regular runtime has ended.
 
 ## Creating vouchers
 
@@ -18,15 +17,6 @@ Vouchers can be created using the self-service UI ("Vouchers" from the platform 
 ## Redeeming vouchers
 
 Vouchers for each product can be redeemed on the course details page (`/courses/the-course`).
-
-### Proctoring
-
-Proctoring can be booked after enrolling for a course that offers a Certificate.
-The course details page as well as the proctored homeworks / exams contain links to book proctoring.
-
-Booking proctoring is possible until the submission deadline for the first proctored homework / exam of a course has passed.
-This means, exactly one homework / exam can be taken without booking proctoring (in a course with multiple proctored exercises).
-In courses with only one proctored homework / exam, the exercise must be completed with proctoring to be able to receive a Certificate.
 
 ### Reactivation
 

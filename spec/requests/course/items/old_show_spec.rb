@@ -68,11 +68,6 @@ describe 'Course: Items: Show', type: :request do
       Stub.request(
         :account, :get, "/users/#{user_id}/preferences"
       ).to_return Stub.json({})
-
-      Stub.request(
-        :course, :get, '/next_dates',
-        query: hash_including(course_id: course.id, user_id:)
-      ).to_return Stub.json([])
     end
 
     context 'with an item prerequisite' do
@@ -99,8 +94,8 @@ describe 'Course: Items: Show', type: :request do
 
       context '(requirement fulfilled)' do
         before do
-          user = create(:user, id: user_id)
-          create(:visit, item: required_item, user:)
+          user = create(:'account_service/user', id: user_id)
+          create(:visit, item: required_item, user_id: user.id)
         end
 
         it 'shows the item' do

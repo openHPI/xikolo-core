@@ -9,7 +9,6 @@ Feature: Hidden courses
 
   # Admins also cannot see hidden courses on this list, but that is not
   # a hard requirement, so we do not test it here.
-  @feature:course_list
   Scenario: Hide to user from public list
     Given I am a confirmed user
     And I am logged in

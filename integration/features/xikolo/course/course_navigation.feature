@@ -11,7 +11,6 @@ Feature: Enroll in Course
     And I am on the course list
     When I enroll in the course
 
-  @feature:course_list
   Scenario: Enroll as logged in user
     Given I am on the course detail page
     Then I should see the course navigation

@@ -82,7 +82,6 @@ paths:
                   type: string
                   enum:
                     - course_reactivation
-                    - proctoring_smowl
                 country:
                   type: string
                 tag:
@@ -143,7 +142,6 @@ paths:
                       type: string
                       enum:
                         - course_reactivation
-                        - proctoring_smowl
                     tag:
                       type: string
                     created_at:

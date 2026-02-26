@@ -6,14 +6,9 @@ roles:
     - quiz.statistics.show
   quiz.inspector:
     - quiz.submission.index
-  quiz.proctoring.admin:
-    - quiz.submission.manage.proctoring
 
 grants:
   - role: quiz.admin
-    group: xikolo.gdpr_admins
-    context: root
-  - role: quiz.proctoring.admin
     group: xikolo.gdpr_admins
     context: root
   - role: quiz.inspector

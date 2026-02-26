@@ -214,7 +214,6 @@ class Account::SessionsController < Abstract::FrontendController
     @handler.authorization.update_attributes!({user_id: current_user.id})
 
     add_flash_message :success, t(:'flash.success.auth_added',
-      brand: Xikolo.config.site_name,
       provider: t(:"account.sessions.auth_connect.provider_label.#{@handler.authorization.provider}"))
 
     if @in_app

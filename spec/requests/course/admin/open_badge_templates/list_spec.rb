@@ -18,8 +18,6 @@ describe 'Course: Admin: Open Badge Templates: List', type: :request do
 
     Stub.request(:course, :get, "/courses/#{course.course_code}")
       .to_return Stub.json(course_resource)
-    Stub.request(:course, :get, '/next_dates', query: hash_including({}))
-      .to_return Stub.json([])
 
     create(:open_badge_template, name: 'Open Badge Template No. 1')
     create(:open_badge_template, name: 'Open Badge Template No. 2', course:)

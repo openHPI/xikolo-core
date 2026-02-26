@@ -4,7 +4,6 @@ nav:
   - index.md
   - local_setup
   - frontend
-  - branding
   - implementation
   - ...
   - testing

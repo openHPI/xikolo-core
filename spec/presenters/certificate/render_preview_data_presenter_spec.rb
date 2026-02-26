@@ -36,7 +36,7 @@ describe Certificate::RenderPreviewDataPresenter, type: :presenter do
       </svg>
     DYNCONTENT
   end
-  let(:user) { create(:user, :with_email) }
+  let(:user) { create(:'account_service/user') }
   let(:enrollment) { create(:enrollment, user_id: user.id, course:) }
 
   before do
@@ -103,27 +103,6 @@ describe Certificate::RenderPreviewDataPresenter, type: :presenter do
     subject(:qrcode_data) { render_preview_data.qrcode_url }
 
     it { is_expected.to eq 'https://xikolo.de/verify/jazzy-fuzzy-juicy-junky-pizza' }
-  end
-
-  describe '#proctoring_image' do
-    subject(:proctoring_data) { render_preview_data.proctoring_image }
-
-    context 'with certificate' do
-      let(:template) do
-        create(
-          :certificate_template, :certificate,
-          dynamic_content:,
-          qrcode_x: 200,
-          qrcode_y: 100
-        )
-      end
-      let(:enrollment) { create(:enrollment, :proctored, user_id: user.id, course:) }
-
-      it 'uses the static sample image' do
-        expect(File).to exist proctoring_data
-        expect(proctoring_data.to_s).to match 'assets/images/certificate/user_certificate_image.jpg'
-      end
-    end
   end
 
   describe '#transcript_of_records' do

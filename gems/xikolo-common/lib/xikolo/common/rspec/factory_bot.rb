@@ -11,7 +11,6 @@ if defined? FactoryBot
 
   FactoryBot.define do
     xikolo_uuid_sequence(:user_id,     service: 3100, resource: 1)
-    xikolo_uuid_sequence(:context_id,  service: 3100, resource: 2)
     xikolo_uuid_sequence(:group_id,    service: 3100, resource: 3)
     xikolo_uuid_sequence(:session_id,  service: 3100, resource: 4)
 

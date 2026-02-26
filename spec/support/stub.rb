@@ -66,7 +66,7 @@ def real_stub_user(session_id, **opts)
 end
 
 def stub_session_id
-  'fb66ca82-5206-42fd-961b-4a8721fba975'
+  AccountService::User.anonymous.id
 end
 
 def stub_file_upload(upload_id:, filename:, purpose:, bucket:, state: 'accepted')
@@ -108,29 +108,8 @@ module StubAnonymousSession
   extend ActiveSupport::Concern
 
   included do
-    let(:anonymous_session) do
-      {
-        id: nil,
-        masqueraded: false,
-        user_id: '51f544b6-a9c7-4bfe-b76b-43a4441d36c3',
-        features: {},
-        permissions: [],
-        interrupts: [],
-        user: {
-          anonymous: true,
-          language: I18n.locale,
-          preferred_language: I18n.locale,
-        },
-      }
-    end
-    let(:course_context_id) { 'bf971dd3-0e2f-4c73-a770-3b8718cdd95c' }
+    let(:course_context_id) { AccountService::Context.root.id }
     let(:request_context_id) { 'root' }
-    let!(:stub_anonymous_session) do
-      Stub.request(
-        :account, :get, '/sessions/anonymous',
-        query: {embed: 'user,permissions,features', context: request_context_id}
-      ).to_return Stub.json(anonymous_session)
-    end
   end
 end
 

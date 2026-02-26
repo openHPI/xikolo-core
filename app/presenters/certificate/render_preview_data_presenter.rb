@@ -20,12 +20,6 @@ module Certificate
       Date.current
     end
 
-    def proctoring_image
-      return unless @template.certificate_type == ::Certificate::Record::CERT
-
-      Rails.root.join('app', 'assets', 'images', 'certificate', 'user_certificate_image.jpg').to_s
-    end
-
     def transcript_of_records
       return unless @template.certificate_type == 'TranscriptOfRecords'
 

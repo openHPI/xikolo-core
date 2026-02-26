@@ -129,8 +129,6 @@ describe 'Course: Admin: Metadata: Update', type: :request do
       .to_return Stub.json(
         build(:'course:course', id: course.id, course_code: course.course_code)
       )
-    Stub.request(:course, :get, '/next_dates', query: hash_including({}))
-      .to_return Stub.json([])
     skills_list_stub
     alignment_list_stub
     license_list_stub

@@ -1,7 +1,7 @@
 # A new provider for OmniAuth needs to be configured in the following locations:
 # - config/initializers/omniauth.rb
 # - lib/omniauth/strategies/
-# - services/account/{optional_brand}/lib/xikolo/provider
+# - services/account/lib/xikolo/provider
 
 # EXAMPLE:
 #   provider:

@@ -8,7 +8,6 @@ common: &common
     pinboard: <%= ENV['XIKOLO_SERVICE_PINBOARD'] || 'http://localhost:3000/pinboard_service' %>
     quiz: <%= ENV['XIKOLO_SERVICE_QUIZ'] || 'http://localhost:3000/quiz_service' %>
     quizimporter: http://quiz-import-service.example.org
-    timeeffort: <%= ENV['XIKOLO_SERVICE_TIMEEFFORT'] || 'http://localhost:3000/timeeffort_service' %>
 
 production:
   <<: *common

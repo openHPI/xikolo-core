@@ -43,15 +43,6 @@ class CoursePresenter < CourseInfoPresenter
 
   alias is_enrolled enrolled?
 
-  # Ribbon for the course recommendations
-  def ribbon
-    if course.fullstate == 'upcoming'
-      tag.div(I18n.t(:'dashboard.starting_soon'), class: 'ribbon-horizontal-top')
-    else
-      tag.div(I18n.t(:'dashboard.started'), class: 'ribbon-horizontal-top ribbon-horizontal-top--highlighted')
-    end
-  end
-
   def needs_recalculation?
     return false unless recalculation_enabled?
 

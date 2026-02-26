@@ -3,11 +3,11 @@
 require 'spec_helper'
 
 RSpec.describe 'Admin: Page: Edit', type: :system do
-  let(:user) { build(:'account:user') }
+  let(:user) { attributes_for(:'account_service/user', id: generate(:user_id)) }
 
   before do
-    stub_user id: user['id'], permissions: %w[helpdesk.page.store]
-    Stub.request(:account, :get, "/users/#{user['id']}")
+    stub_user id: user[:id], permissions: %w[helpdesk.page.store]
+    Stub.request(:account, :get, "/users/#{user[:id]}")
       .and_return Stub.json(user)
   end
 

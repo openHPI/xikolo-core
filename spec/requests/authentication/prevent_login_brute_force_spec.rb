@@ -61,10 +61,6 @@ RSpec.describe 'Prevent brute force login attempts', type: :request do
       })
 
       Stub.request(
-        :account, :get, '/policies'
-      ).to_return Stub.json([])
-
-      Stub.request(
         :account, :get, "/sessions/#{session_id}",
         query: {context: 'root', embed: 'user,permissions,features'}
       ).to_return Stub.json({

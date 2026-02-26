@@ -1,0 +1,14 @@
+<% if Xikolo.config.piwik %>
+  <%= javascript_include_tag 'app/javascript/analytics/piwik', type: 'module', 'data-turbo-track': Rails.env.production? ? 'reload' : '' %>
+  <meta name="piwik-host" content="<%= Xikolo.config.piwik['host_uri'] %>">
+  <meta name="piwik-site-id" content="<%= Xikolo.config.piwik['site_id'] %>">
+  <noscript>
+    <p>
+      <img
+        src="https://<%= Xikolo.config.piwik['host_uri'] %>/piwik/piwik.php?idsite=<%= Xikolo.config.piwik['site_id'] %>"
+        style="border:0"
+        alt=""
+      >
+    </p>
+  </noscript>
+<% end %>

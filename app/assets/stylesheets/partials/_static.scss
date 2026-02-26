@@ -50,8 +50,7 @@ $xi-static-page-background-color: $white !default;
   }
 }
 
-.conclusion-hack,
-.proctoring-statics-conclusion-hack {
+.conclusion-hack {
   @include heavy-bar(border-top);
 
   margin-top: 20px;

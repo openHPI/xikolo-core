@@ -265,7 +265,6 @@ Rails.application.routes.draw do
             end
           end
         end
-        resource :time_effort, only: %i[show update destroy], controller: 'item_time_effort', module: 'course/admin'
       end
     end
     pinboard_routes
@@ -442,7 +441,6 @@ Rails.application.routes.draw do
 
   constraints ServiceAuthorizationConstraint.new do
     mount AccountService::Engine => '/account_service'
-    mount TimeeffortService::Engine => '/timeeffort_service'
     mount PinboardService::Engine => '/pinboard_service'
     mount NewsService::Engine => '/news_service'
     mount QuizService::Engine => '/quiz_service'

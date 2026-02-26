@@ -7,7 +7,6 @@ Feature: Invite only course
   Background:
     Given an 'invite only' course was created
 
-  @feature:course_list
   Scenario: User cannot enroll himself
     Given I am a confirmed user
     And I am logged in

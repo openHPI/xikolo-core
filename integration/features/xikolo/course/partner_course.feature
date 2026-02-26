@@ -19,7 +19,6 @@ Feature: Partner course only visble for partners
     When I edit the current course
     Then the group Partners is selected
 
-  @feature:course_list
   Scenario: Partner course not visible for normal user
     Given the company.partner group exists
     And an active partner course was created
@@ -29,7 +28,6 @@ Feature: Partner course only visble for partners
     When I am on the course list
     Then the course should not be listed
 
-  @feature:course_list
   Scenario: Partner can enroll in partner course
     Given the company.partner group exists
     And an active partner course was created

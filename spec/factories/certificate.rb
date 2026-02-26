@@ -143,7 +143,7 @@ FactoryBot.define do
 
   # Abstract Certificate::Record factory
   factory :record, class: 'Certificate::Record' do
-    association :user
+    user_id { create(:'account_service/user').id }
     association :course, records_released: true
     association :template, factory: :certificate_template
   end

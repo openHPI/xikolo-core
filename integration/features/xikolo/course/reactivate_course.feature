@@ -1,4 +1,3 @@
-@feature:course_reactivation @feature:course_list
 Feature: Reactivate a course
   In order to obtain a Record of Achievement in a self-paced course
   As a learner

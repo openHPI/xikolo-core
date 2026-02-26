@@ -25,7 +25,6 @@ module Certificate
         update_fonts!
         qrcode!
         dynamic_content!
-        proctoring_image!
         transcript_of_records!
       end
 
@@ -74,16 +73,6 @@ module Certificate
           width: @pdf.bounds.width,
           # Rather than `Times-Roman` as a default in `prawn-svg`, we use the first font in the list.
           fallback_font_name: fonts.keys.first
-        )
-      end
-
-      def proctoring_image!
-        return if @data.proctoring_image.blank?
-
-        @pdf.image(
-          @data.proctoring_image,
-          at: [16.1, 754],
-          width: 77.2
         )
       end
 

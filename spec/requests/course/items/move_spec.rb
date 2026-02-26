@@ -15,8 +15,6 @@ describe 'Course: Items: Move', type: :request do
     stub_user_request(id: user_id, permissions:)
     Stub.request(:course, :get, '/enrollments', query: {course_id: course.id, user_id:})
       .to_return Stub.json([])
-    Stub.request(:course, :get, '/next_dates', query: hash_including(course_id: course.id))
-      .to_return Stub.json([])
     Stub.request(:course, :get, "/sections/#{section.id}")
       .to_return Stub.json(section_resource)
     Stub.request(:course, :get, '/sections', query: {course_id: course.id})

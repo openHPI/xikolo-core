@@ -6,7 +6,11 @@ RSpec.describe 'Course: Assertion', type: :request do
   subject(:assertion_response) { get "/courses/#{course.id}/openbadges/v2/assertion/#{badge.id}"; response }
 
   let(:course) { create(:course, records_released: true) }
-  let(:user) { create(:user) }
+  let(:user) do
+    account_user = create(:'account_service/user')
+    account_user.primary_email.update!(address: 'mail@mail.de')
+    Account::User.find(account_user.id)
+  end
   let(:record) { create(:roa, course:, user:) }
   let(:badge) { create(:open_badge_v2, :baked, record:) }
 

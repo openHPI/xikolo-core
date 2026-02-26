@@ -17,9 +17,7 @@
       = render Global::Callout.new(t(:'quiz_submission.masq_warning'), type: :error)
 
     div data-lanalytics-resource={type: 'quiz', uuid: item.id}.to_json
-      - if item.proctored_quiz_unavailable?
-        = render Global::Callout.new(t('proctoring.service_unavailable'), type: :error)
-      - elsif item.quiz_taken?
+      - if item.quiz_taken?
         - if item.allow_retake_or_view_results?
           = render 'items/shared/action',
             position:,

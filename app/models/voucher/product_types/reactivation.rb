@@ -4,14 +4,9 @@ module Voucher
   module ProductTypes
     class Reactivation
       class << self
-        def enabled?
-          ::CourseReactivation.enabled?
-        end
-
         # Check platform and course settings: Is reactivation enabled?
         # @param course [Course::Course]
         def enabled_in?(course)
-          return false unless enabled?
           return false unless course.offers_reactivation?
           # Is it too early for reactivation?
           return false if course.start_date&.future? ||
@@ -47,9 +42,7 @@ module Voucher
 
       # Is reactivation allowed for the user?
       def valid?
-        if !@user.feature?('course_reactivation')
-          @error = I18n.t(:'flash.error.reactivation.not_available')
-        elsif enrollment&.reactivated?
+        if enrollment&.reactivated?
           @error = I18n.t(:'flash.error.reactivation.already_reactivated')
         end
 

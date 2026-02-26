@@ -9,14 +9,7 @@ describe 'Courses: Course list banner', type: :request do
   let(:page) { Capybara.string(response.body) }
 
   before do
-    stub_user_request features: {'course_list' => 'true'}
-
-    Stub.request(:course, :get, '/courses/')
-      .to_return Stub.json([])
-    Stub.request(
-      :course, :get, '/api/v2/course/courses',
-      query: hash_including(embed: 'enrollment')
-    ).to_return Stub.json([])
+    stub_user_request
   end
 
   context 'with no banner configured' do

@@ -6,7 +6,7 @@ describe 'Course: Admin: Certificate Templates: Preview', type: :request do
   subject(:request) { get "/courses/#{course.id}/certificate_templates/#{certificate_template.id}/preview", headers: }
 
   let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
-  let(:user) { create(:user, :with_email) }
+  let(:user) { create(:'account_service/user') }
   let(:permissions) { %w[course.content.access certificate.template.manage] }
   let(:course) { create(:course, course_code: 'my-course') }
   let(:certificate_template) { create(:certificate_template, :roa, course:) }

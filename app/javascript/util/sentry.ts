@@ -17,17 +17,13 @@ export function initSentry(): void {
     'meta[name="sentry-environment"]',
   )?.content;
 
-  const brand = document.documentElement.dataset.brand;
-
   Sentry.init({
     dsn,
     environment,
     tracesSampleRate: 0.1,
     initialScope: (scope) => {
       scope.setTag('application', 'frontend');
-      if (brand) {
-        scope.setTag('brand', brand);
-      }
+      scope.setTag('brand', 'openHPI');
       return scope;
     },
     ignoreErrors: [

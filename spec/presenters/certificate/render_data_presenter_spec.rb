@@ -38,13 +38,13 @@ describe Certificate::RenderDataPresenter, type: :presenter do
       </svg>
     DYNCONTENT
   end
-  let(:email) { create(:email, primary: true, address: 'jane.doe@example.com') }
   let(:user) do
-    create(:user,
+    account_user = create(:'account_service/user',
       full_name: user_fullname,
       born_at: '1960-01-02',
-      preferences: {'records.show_birthdate' => show_birthdate},
-      emails: [email])
+      preferences: {'records.show_birthdate' => show_birthdate})
+    account_user.primary_email.update!(address: 'jane.doe@example.com')
+    Account::User.find(account_user.id)
   end
   let(:user_fullname) { 'Jane Doe' }
   let(:show_birthdate) { true }
@@ -225,60 +225,6 @@ describe Certificate::RenderDataPresenter, type: :presenter do
 
     it 'has the correct qrcode position' do
       expect(render_data.qrcode_pos).to eq(x: 200, y: 100)
-    end
-  end
-
-  describe '#proctoring_image' do
-    it 'does not have a proctoring image' do
-      expect(render_data.proctoring_image).to be_nil
-    end
-
-    context 'for a certificate' do
-      subject(:proctoring_image_data) { render_data.proctoring_image }
-
-      let(:record) { create(:certificate, user:, course:, template:) }
-      let(:certificates) { super().merge(certificate: true) }
-      let(:template) do
-        create(:certificate_template, :certificate,
-          course:,
-          file_uri:,
-          dynamic_content:,
-          qrcode_x: 200,
-          qrcode_y: 100)
-      end
-      let(:enrollment) { create(:enrollment, :proctored, user_id: user.id, course:) }
-      let(:download_stub) do
-        stub_request(
-          :get,
-          %r{https://s3.xikolo.de/xikolo-certificate/proctoring/[0-9a-zA-Z]+/[0-9a-zA-Z]+.jpg}x
-        ).and_return(status: 200, body: 'example-image')
-      end
-
-      before do
-        download_stub
-        stub_request(
-          :head,
-          %r{https://s3.xikolo.de/xikolo-certificate/proctoring/[0-9a-zA-Z]+/[0-9a-zA-Z]+.jpg}x
-        ).to_return(status: 200)
-      end
-
-      it 'download proctoring image into temporary file' do
-        expect(proctoring_image_data).to include('/procimg').and end_with('.jpg')
-        expect(download_stub).to have_been_requested
-        expect(File.read(proctoring_image_data)).to eq 'example-image'
-      end
-
-      context 'with not existing proctoring image' do
-        before do
-          stub_request(:head,
-            %r{https://s3.xikolo.de/xikolo-certificate/proctoring/[0-9a-zA-Z]+/[0-9a-zA-Z]+.jpg}x).to_return(status: 404)
-        end
-
-        it 'raises an exception' do
-          expect { render_data.proctoring_image }
-            .to raise_error(Certificate::RenderDataPresenter::InsufficientParams)
-        end
-      end
     end
   end
 

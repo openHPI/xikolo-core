@@ -111,7 +111,7 @@ RSpec.describe 'Authentication: Authenticate with SAML', type: :request do
       end
 
       context 'when autocreate is enabled' do
-        let(:create_session_response) { Stub.json(build(:'account:session', user_id: SecureRandom.uuid)) }
+        let(:create_session_response) { Stub.json({id: SecureRandom.uuid, user_id: SecureRandom.uuid}) }
 
         it 'creates a new session' do
           saml_callback
@@ -135,8 +135,8 @@ RSpec.describe 'Authentication: Authenticate with SAML', type: :request do
       let(:show_session_request) do
         Stub.request(:account, :get, "/sessions/#{stub_session_id}",
           query: {embed: 'user,permissions,features', context: 'root'})
-          .to_return Stub.json(build(:'account:session', user_id:,
-            user: build(:'account:user', id: user_id, anonymous: false)))
+          .to_return Stub.json({id: SecureRandom.uuid, user_id:,
+            user: attributes_for(:'account_service/user', id: user_id, anonymous: false)})
       end
       let(:update_authorization_request) do
         Stub.request(

@@ -246,7 +246,6 @@ FactoryBot.define do
           'icon_type' => nil,
           'max_points' => 10.0,
           'user_points' => nil,
-          'time_effort' => nil,
           'open_mode' => false,
         },
         {
@@ -259,7 +258,6 @@ FactoryBot.define do
           'icon_type' => nil,
           'max_points' => 7.0,
           'user_points' => nil,
-          'time_effort' => nil,
           'open_mode' => false,
         },
         {
@@ -272,7 +270,6 @@ FactoryBot.define do
           'icon_type' => nil,
           'max_points' => 9.0,
           'user_points' => nil,
-          'time_effort' => nil,
           'open_mode' => false,
         },
       ]
@@ -392,7 +389,7 @@ FactoryBot.define do
   factory :course, class: 'Course::Course' do
     sequence(:course_code) {|n| "course_#{n}" }
     sequence(:title) {|n| "MOOC on topic #{n}" }
-    context_id
+    context_id { AccountService::Context.root.id }
     start_date { 2.weeks.ago }
     end_date { 4.weeks.from_now }
     lang { 'en' }

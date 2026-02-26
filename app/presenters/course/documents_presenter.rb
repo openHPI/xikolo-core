@@ -29,10 +29,6 @@ class Course::DocumentsPresenter
     @documents&.roa?
   end
 
-  def cert?
-    @documents&.cert?
-  end
-
   def tor?
     @documents&.tor?
   end

@@ -31,7 +31,6 @@ describe Xikolo::V2::Courses::Items do
       icon_type: nil,
       proctored: false,
       course_id:,
-      time_effort: 100,
     }
   end
 
@@ -90,22 +89,8 @@ describe Xikolo::V2::Courses::Items do
       it { is_expected.to have_attribute 'icon' }
       it { is_expected.to have_attribute 'exercise_type' }
       it { is_expected.to have_attribute 'max_points' }
-      it { is_expected.to have_attribute 'proctored' }
       it { is_expected.to have_attribute 'accessible' }
       it { is_expected.to have_attribute 'visited' }
-      it { is_expected.to have_attribute 'time_effort' }
-
-      describe '[time_effort]' do
-        subject { json.dig('data', 'attributes', 'time_effort') }
-
-        it { is_expected.to eq 0 }
-
-        context 'when the feature is enabled' do
-          let(:features) { {time_effort: true} }
-
-          it { is_expected.to eq 100 }
-        end
-      end
 
       context 'when there is a visit for the current user' do
         let(:user_visit) { {} }

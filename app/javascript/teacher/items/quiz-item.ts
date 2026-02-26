@@ -1,8 +1,6 @@
 import { ExerciseType } from './form-types';
 import I18n from '../../i18n/i18n';
 
-const brand = document.documentElement.getAttribute('data-brand') || 'xikolo';
-
 const switchChangeHandler = (target: HTMLInputElement, selector: string) => {
   const element = document.querySelector<HTMLInputElement>(selector);
   element!.hidden = target.checked;
@@ -11,10 +9,7 @@ const switchChangeHandler = (target: HTMLInputElement, selector: string) => {
 const markdownHasDefaultPlaceholders = (markdown: HTMLElement) =>
   // toastUI wraps the default text with a div
   markdown.innerHTML === '<div>[ Enter quiz instructions here ]</div>' ||
-  markdown.innerHTML ===
-    `<div>${I18n.t('items.quiz.quiz_is_survey', {
-      brand,
-    })}</div>`;
+  markdown.innerHTML === `<div>${I18n.t('items.quiz.quiz_is_survey')}</div>`;
 
 export const handleQuizExerciseTypes = (quizType: ExerciseType) => {
   const quizInstructionsContainer = document.querySelector(
@@ -55,9 +50,7 @@ export const handleQuizExerciseTypes = (quizType: ExerciseType) => {
       timeLimit.hidden = true;
       quizInstructionsContainer.hidden = false;
       if (markdownHasDefaultPlaceholders(quizInstructions)) {
-        quizInstructions.innerHTML = I18n.t('items.quiz.quiz_is_survey', {
-          brand,
-        });
+        quizInstructions.innerHTML = I18n.t('items.quiz.quiz_is_survey');
       }
       break;
     default:

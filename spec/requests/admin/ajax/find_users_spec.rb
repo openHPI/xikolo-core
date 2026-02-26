@@ -15,7 +15,7 @@ describe 'Admin: Ajax: Users: Index', type: :request do
   let(:json) { response.parsed_body }
 
   let(:user) do
-    build(:'account:user', name: 'Jane Doe', email: 'user@example.com')
+    attributes_for(:'account_service/user', id: generate(:user_id), name: 'Jane Doe', email: 'user@example.com')
   end
 
   before do
@@ -30,7 +30,7 @@ describe 'Admin: Ajax: Users: Index', type: :request do
   context 'as an AJAX request' do
     it 'lists all matched courses' do
       find_users
-      expect(json).to contain_exactly({'id' => user['id'], 'text' => 'Jane Doe (user@example.com)'})
+      expect(json).to contain_exactly({'id' => user[:id], 'text' => 'Jane Doe (user@example.com)'})
     end
   end
 

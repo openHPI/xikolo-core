@@ -123,15 +123,6 @@ class ApplicationController < ActionController::Base
     end
 
     ##
-    # Disable the controller for brands other than the given one.
-    #
-    def require_brand(name, opts = {})
-      before_action(opts) do
-        raise AbstractController::ActionNotFound unless Xikolo.brand == name
-      end
-    end
-
-    ##
     # Disable the controller if the given feature flipper is disabled.
     #
     # Controllers where all or some of the actions are dependent on features

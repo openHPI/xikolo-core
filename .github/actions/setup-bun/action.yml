@@ -1,16 +1,11 @@
----
-name: Set up node
-description: Set up Node, Corepack, and installs deps via Yarn
+name: Set up bun
+description: Set up Bun and install dependencies
 
 runs:
   using: composite
   steps:
-    - uses: actions/setup-bun@v2
+    - uses: oven-sh/setup-bun@v2
       with:
-        bun-version: latest
-
-    - shell: sh
-      run: corepack enable
-
+        bun-version-file: ".bun-version"
     - shell: sh
       run: bun install --immutable --refresh-lockfile

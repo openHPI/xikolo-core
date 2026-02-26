@@ -12,6 +12,5 @@ nav:
   - Vouchers:
     - vouchers.md
     - Products:
-      - proctoring.md
       - reactivation.md
   - ...

@@ -24,8 +24,6 @@ course_reactivation:
 
     `period` is the number of weeks for the reactivation period.
 
-Additionally, the `course_reactivation` feature flipper must be enabled for the platform (usually for all courses and all logged-in users).
-
 ## Course configuration
 
 With the enabled feature flipper, a course can be set to allow course reactivation in the "Certificates" section in the "Course Properties" in the course administration.

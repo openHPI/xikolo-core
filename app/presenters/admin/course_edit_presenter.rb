@@ -136,10 +136,6 @@ class Admin::CourseEditPresenter
     @user.feature?('proctoring') && Proctoring.enabled?
   end
 
-  def course_reactivation_activatable?
-    @user.feature?('course_reactivation') && CourseReactivation.enabled?
-  end
-
   # rubocop:disable Naming/MemoizedInstanceVariableName
   def with_teachers!(ids)
     @teachers ||= ids.map do |teacher_id|

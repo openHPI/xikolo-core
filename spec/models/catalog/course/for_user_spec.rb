@@ -127,13 +127,14 @@ describe Catalog::Course, '.for_user', type: :model do
     end
 
     context 'when user is member of the group' do
-      let(:user) { create(:user) }
-      let(:course) { create(:course, :active, groups: %w[partners]) }
+      let(:account_user) { create(:'account_service/user') }
+      let(:user_id) { account_user.id }
+      let(:course) { create(:course, :active, groups: %w[xikolo.partners]) }
 
       before do
         course
-        group = create(:group, name: 'partners')
-        create(:membership, group:, user:)
+        group = Account::Group.create!(name: 'xikolo.partners')
+        Account::Membership.create!(group:, user_id: account_user.id)
       end
 
       it 'includes group-restricted courses' do

@@ -126,11 +126,6 @@ RSpec.describe 'Helpdesk: Create', type: :request do
 
     context 'with invisible reCAPTCHA verification failure (v3)' do
       before do
-        Stub.request(
-          :course, :get, '/courses',
-          query: hash_including(public: 'true', hidden: 'false')
-        ).to_return Stub.json([course])
-
         stub_recaptcha_v3(success: false)
       end
 

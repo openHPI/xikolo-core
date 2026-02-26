@@ -24,8 +24,6 @@ describe 'Course: Admin: Dashboard: Show', type: :request do
       .to_return Stub.json(course_resource)
     Stub.request(:course, :get, "/courses/#{course.id}")
       .to_return Stub.json(course_resource)
-    Stub.request(:course, :get, '/next_dates', query: hash_including({}))
-      .to_return Stub.json([])
 
     allow(Admin::Statistics::AgeDistribution).to receive(:call).and_return([])
 

@@ -4,8 +4,8 @@ require 'spec_helper'
 
 describe 'Admin: Modify Course', type: :system do
   let(:teachers) { build_list(:'course:teacher', 3) }
-  let(:user_id) { user['id'] }
-  let(:user) { build(:'account:user') }
+  let(:user_id) { user[:id] }
+  let(:user) { attributes_for(:'account_service/user', id: generate(:user_id)) }
   let!(:course) { create(:course, :with_teaser_video, video:, course_code: 'my-course') }
   let(:course_resource) { build(:'course:course', course_params) }
   let(:course_params) do

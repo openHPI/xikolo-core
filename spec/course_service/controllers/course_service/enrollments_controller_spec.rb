@@ -41,7 +41,7 @@ describe CourseService::EnrollmentsController, type: :controller do
         json.pluck('course_id')
       end
 
-      let(:deleted_course_id) { generate(:course_id) }
+      let(:deleted_course_id) { AccountService::Context.root.id }
 
       before do
         deleted_course = create(:'course_service/course', id: deleted_course_id, deleted: true)

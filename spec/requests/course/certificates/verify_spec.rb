@@ -8,9 +8,9 @@ describe 'Course: Certificates: Verify', type: :request do
   let(:verify_request) { get "/verify/#{verification_code}" }
   let(:verification_code) { 'jazzy-fuzzy-juicy-junky-pizza' }
   let(:course) { create(:course, records_released: true) }
-  let(:user) { create(:user, :with_email) }
+  let(:user) { create(:'account_service/user') }
   let(:template) { create(:open_badge_template, course:) }
-  let(:record) { create(:roa, verification: verification_code, course:, user:) }
+  let(:record) { create(:roa, verification: verification_code, course:, user_id: user.id) }
   let(:enrollments) do
     Stub.json(
       build_list(
@@ -70,7 +70,7 @@ describe 'Course: Certificates: Verify', type: :request do
     end
 
     context 'for an archived user' do
-      let(:user) { create(:user, :archived) }
+      let(:user) { create(:'account_service/user', :archived) }
 
       before { record; template; }
 
@@ -124,7 +124,7 @@ describe 'Course: Certificates: Verify', type: :request do
   end
 
   describe 'for Confirmation of Participation' do
-    let(:record) { create(:cop, verification: verification_code, course:, user:) }
+    let(:record) { create(:cop, verification: verification_code, course:, user_id: user.id) }
 
     before { record }
 

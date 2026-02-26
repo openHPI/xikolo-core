@@ -177,52 +177,6 @@ describe 'Dashboard: Documents: Index', type: :request do
           href: "/certificate/render?course_id=#{course.id}&type=RecordOfAchievement")
         expect(page).to have_no_button('Certificate')
       end
-
-      context 'when a user has finished a course with proctoring' do
-        let(:features) { {'proctoring' => 'true'} }
-        let(:enrollment) { create(:enrollment, :proctored, course:, user_id:) }
-        let(:enrollments) do
-          [
-            build(:'course:enrollment', :proctored,
-              course_id: enrollment.course_id,
-              user_id: enrollment.user_id,
-              certificates:),
-          ]
-        end
-        let(:certificates) do
-          {
-            record_of_achievement: true,
-            confirmation_of_participation: true,
-            certificate: true,
-          }
-        end
-
-        before do
-          create(:certificate_template, :certificate, course:)
-          allow(Proctoring::SmowlAdapter).to receive(:new).and_wrap_original do |m, *args|
-            m.call(*args).tap do |adapter|
-              allow(adapter).to receive(:passed?).and_return(true)
-            end
-          end
-        end
-
-        it 'shows CoP, RoA and Certificate download links' do
-          show_certificates
-          expect(page).to have_content('My certificates')
-          expect(page).to have_content('My Awesome Course')
-          expect(page).to have_content('(my-course)')
-          expect(page).to have_no_button('Confirmation of Participation')
-          expect(page).to have_link('Confirmation of Participation',
-            href: "/certificate/render?course_id=#{course.id}&type=ConfirmationOfParticipation")
-          expect(page).to have_no_button('Certificate')
-          expect(page).to have_no_button('Record of Achievement')
-          expect(page).to have_link('Record of Achievement',
-            href: "/certificate/render?course_id=#{course.id}&type=RecordOfAchievement")
-          expect(page).to have_no_button('Certificate')
-          expect(page).to have_link('Certificate',
-            href: "/certificate/render?course_id=#{course.id}&type=Certificate")
-        end
-      end
     end
   end
 

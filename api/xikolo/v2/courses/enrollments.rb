@@ -1,14 +1,5 @@
 # frozen_string_literal: true
 
-class SmowlConfirmation
-  def self.passed?(enrollment)
-    course = Course::Course.where(deleted: false).find(enrollment['course_id'])
-    Proctoring::SmowlAdapter.new(course).passed?(
-      Struct.new(:id).new(enrollment['user_id'])
-    )
-  end
-end
-
 module Xikolo
   module V2::Courses
     class Enrollments < Xikolo::Endpoint::CollectionEndpoint
@@ -30,7 +21,9 @@ module Xikolo
           }
           reading {|enrollment|
             enrollment['certificates'].tap {|hash|
-              hash['qualified_certificate'] = hash.delete('certificate') && SmowlConfirmation.passed?(enrollment)
+              # Proctoring removed: use backend certificate flag as-is so existing certificate
+              # holders still get the download URL.
+              hash['qualified_certificate'] = hash.delete('certificate')
             }.to_h {|type, available|
               url = if available
                       Xikolo::V2::URL.certificate_render_url(

@@ -8,7 +8,7 @@ describe QuizItemPresenter, type: :presenter do
       enrollment: Xikolo::Course::Enrollment.new(enrollment.attributes)
   end
 
-  let(:course) { create(:course, :active, :offers_proctoring, course_code: 'test') }
+  let(:course) { create(:course, :active, course_code: 'test') }
   let(:course_resource) { Xikolo::Course::Course.new(id: course.id, course_code: course.course_code) }
   let(:item) { create(:item, content_type: 'quiz', content_id: quiz_resource.id) }
   let(:item_resource) do
@@ -29,12 +29,7 @@ describe QuizItemPresenter, type: :presenter do
       'user' => {'anonymous' => false}
     )
   end
-  let(:proctoring_context) { instance_double(Proctoring::ItemContext) }
-  let(:enrollment) { create(:enrollment, :proctored, course:, user_id:) }
-
-  before do
-    allow(Proctoring::ItemContext).to receive(:new).and_return(proctoring_context)
-  end
+  let(:enrollment) { create(:enrollment, course:, user_id:) }
 
   describe '#survey?' do
     context 'without an exercise_type' do
@@ -105,42 +100,7 @@ describe QuizItemPresenter, type: :presenter do
   describe '#quiz_submittable?' do
     subject { presenter.quiz_submittable? }
 
-    context 'with the proctoring feature being disabled' do
-      it { is_expected.to be true }
-    end
-
-    context 'with the proctoring feature being enabled' do
-      let(:features) { {'proctoring' => true} }
-
-      context 'when the user is instrumented' do
-        let(:masqueraded) { true }
-
-        before do
-          allow(proctoring_context).to receive(:enabled?).and_return(false)
-        end
-
-        it { is_expected.to be true }
-      end
-
-      context 'when the proctoring context for the item is disabled' do
-        # ItemContext not configured, enrollment not proctored, ...
-        before do
-          allow(proctoring_context).to receive(:enabled?).and_return(false)
-        end
-
-        it { is_expected.to be true }
-      end
-
-      context 'when the proctoring context for the item is enabled' do
-        before do
-          allow(proctoring_context).to receive(:enabled?).and_return(true)
-        end
-
-        context 'with proctoring service unavailable' do
-          it { is_expected.to be false }
-        end
-      end
-    end
+    it { is_expected.to be true }
   end
 
   describe '#user_instrumented?' do

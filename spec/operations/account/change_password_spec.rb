@@ -24,10 +24,10 @@ describe Account::ChangePassword, type: :operation do
     })
   end
   let(:current_user_features) { {} }
-  let(:user) { create(:user) }
-  let(:current_session) { create(:session, user:) }
-  let!(:other_sessions) { create_list(:session, 3, user:) }
-  let!(:other_user_sessions) { create_list(:session, 2) }
+  let(:user) { create(:'account_service/user') }
+  let(:current_session) { create(:'account_service/session', user:) }
+  let!(:other_sessions) { create_list(:'account_service/session', 3, user:) }
+  let!(:other_user_sessions) { create_list(:'account_service/session', 2) }
   let(:params) do
     {
       old_password: 'old_secret',

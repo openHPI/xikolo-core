@@ -32,7 +32,6 @@ describe QuizSubmissionController, type: :controller do
       icon_type: nil,
       proctored: false,
       course_id:,
-      time_effort: 100,
       featured: true,
       published: true,
     }
@@ -86,7 +85,6 @@ describe QuizSubmissionController, type: :controller do
       position: 1,
       quiz_id: quiz_id,
       content_type: 'quiz_question',
-      time_effort: 100,
       }])
     Stub.request(:quiz, :get, "/quizzes/#{quiz_id}").to_return Stub.json({
       id: quiz_id,
@@ -104,7 +102,7 @@ describe QuizSubmissionController, type: :controller do
     allow(controller).to receive(:set_page_title)
     allow(controller).to receive(:short_uuid) {|uuid| uuid[0..5] }
 
-    allow(controller).to receive_messages(proctoring?: false, submission_in_time?: true, item: {
+    allow(controller).to receive_messages(submission_in_time?: true, item: {
       'id' => item_id,
       'content_type' => 'quiz',
       'content_id' => quiz_id,

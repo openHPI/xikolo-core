@@ -15,10 +15,12 @@ describe 'APIv2: Show root features', type: :request do
   let(:features) { {'feature_1' => 't', 'feature_2' => 't'} }
 
   before do
+    account_user = attributes_for(:'account_service/user', id: user_id)
+      .merge(features_url: "http://localhost:3000/account_service/users/#{user_id}/features")
     Stub.request(:account, :get, "/users/#{user_id}")
-      .and_return Stub.json build(:'account:user', id: user_id)
+      .and_return Stub.json(account_user)
     Stub.request(:account, :get, "/users/#{user_id}/features")
-      .and_return Stub.json features
+      .and_return Stub.json(features)
 
     api_stub_user id: user_id
   end

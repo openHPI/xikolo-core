@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class Home::HomeController < Abstract::FrontendController
-  prepend_view_path "brand/#{Xikolo.brand}/views"
-
   include Interruptible
 
   def index
@@ -21,7 +19,6 @@ class Home::HomeController < Abstract::FrontendController
   private
 
   def posts
-    return [] unless feature?('announcements')
     return [] unless Xikolo.api?(:news)
 
     Xikolo.api(:news).value!.rel(:news_index).get({

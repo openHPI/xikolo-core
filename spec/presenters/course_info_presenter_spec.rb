@@ -249,46 +249,38 @@ describe CourseInfoPresenter do
   end
 
   describe '#show_certificate_requirements?' do
-    context 'with feature disabled' do
-      it { is_expected.not_to be_show_certificate_requirements }
+    context 'RoA or COP enabled' do
+      let(:course_params) { super().merge roa_enabled: true, cop_enabled: false }
+
+      it { is_expected.to be_show_certificate_requirements }
     end
 
-    context 'with feature enabled' do
-      let(:features) { {'certificate_requirements' => true} }
+    context 'ToR available' do
+      let(:course_id) { SecureRandom.uuid }
+      let(:course_params) { super().merge id: course_id, roa_enabled: false, cop_enabled: false }
 
-      context 'RoA or COP enabled' do
-        let(:course_params) { super().merge roa_enabled: true, cop_enabled: false }
+      before do
+        xi_config <<~YML
+          certificate:
+            transcript_of_records:
+              table_x: 200
+              table_y: 500
+              course_col_width: 300
+              score_col_width: 70
+              font_size: 10
+        YML
 
-        it { is_expected.to be_show_certificate_requirements }
+        create(:course, id: course_id)
+        create(:certificate_template, :tor, course_id:)
       end
 
-      context 'ToR available' do
-        let(:course_id) { SecureRandom.uuid }
-        let(:course_params) { super().merge id: course_id, roa_enabled: false, cop_enabled: false }
+      it { is_expected.to be_show_certificate_requirements }
+    end
 
-        before do
-          xi_config <<~YML
-            certificate:
-              transcript_of_records:
-                table_x: 200
-                table_y: 500
-                course_col_width: 300
-                score_col_width: 70
-                font_size: 10
-          YML
+    context 'RoA nor COP enabled' do
+      let(:course_params) { super().merge roa_enabled: false, cop_enabled: false }
 
-          create(:course, id: course_id)
-          create(:certificate_template, :tor, course_id:)
-        end
-
-        it { is_expected.to be_show_certificate_requirements }
-      end
-
-      context 'RoA nor COP enabled' do
-        let(:course_params) { super().merge roa_enabled: false, cop_enabled: false }
-
-        it { is_expected.not_to be_show_certificate_requirements }
-      end
+      it { is_expected.not_to be_show_certificate_requirements }
     end
   end
 

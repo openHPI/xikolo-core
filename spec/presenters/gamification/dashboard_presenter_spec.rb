@@ -5,7 +5,7 @@ require 'spec_helper'
 describe Gamification::DashboardPresenter, type: :presenter do
   subject(:presenter) { described_class.new(user) }
 
-  let(:user) { create(:user) }
+  let(:user) { Account::User.find(create(:'account_service/user').id) }
 
   describe '#badges' do
     subject(:badges) { presenter.badges }

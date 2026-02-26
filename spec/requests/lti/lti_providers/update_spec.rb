@@ -18,10 +18,6 @@ describe 'LTI Providers: Update', type: :request do
     ).to_return Stub.json(
       course
     )
-    Stub.request(
-      :course, :get, '/next_dates',
-      query: hash_including({})
-    ).to_return Stub.json([])
   end
 
   context 'without permissions' do

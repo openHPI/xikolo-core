@@ -38,18 +38,6 @@
           span.shortinfo
             = render Global::FaIcon.new('hashtag', css_classes: 'vmiddle em1-5 fa-fw')
             span.ml5.vmiddle = course.public_classifiers_string
-        - if course.proctoring_enabled?
-          br
-          span.shortinfo.on-proctoring-track
-            = render Global::FaIcon.new('medal', css_classes: 'vmiddle em1-5 fa-fw')
-            span.ml5.vmiddle
-              = t(:'courses.preview.proctoring.booked')
-        - elsif course.show_proctoring_impossible_message?
-          br
-          span.shortinfo
-            = render Global::FaIcon.new('medal', css_classes: 'vmiddle em1-5 fa-fw')
-            span.ml5.vmiddle
-              = t(:'courses.preview.proctoring.upgrade_not_possible')
     .row
       .col-md-12.course-actions.hidden_in_app
         - if course.external?

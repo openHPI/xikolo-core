@@ -20,6 +20,6 @@ Sentry.init do |config|
 end
 
 Sentry.set_tags(
-  site: Xikolo.site.to_s,
-  brand: Xikolo.brand.to_s
+  site: 'openHPI',
+  brand: 'openHPI'
 )

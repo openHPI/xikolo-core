@@ -438,7 +438,7 @@ describe 'Global Announcement Mail', type: :request do
         Msgr::TestPool.run count: 2
 
         expect(mails.size).to eq 1
-        expect(mails.map(&:to).flatten.join).to eq 'adam@example.org'
+        expect(mails.map(&:to).join).to eq 'adam@example.org'
         expect(conv_str(mail.html_part)).to include 'This is a test message, only you received this!'
       end
     end
@@ -469,7 +469,7 @@ describe 'Global Announcement Mail', type: :request do
         Msgr::TestPool.run count: 2
 
         expect(mails.size).to eq 1
-        expect(mails.map(&:to).flatten.join).to eq 'robert@example.org'
+        expect(mails.map(&:to).join).to eq 'robert@example.org'
         expect(conv_str(mail.html_part)).to include 'This is a test message, only you received this!'
       end
     end

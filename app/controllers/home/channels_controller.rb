@@ -90,9 +90,7 @@ class Home::ChannelsController < Abstract::FrontendController
       t(:'course.courses.index.archive'),
       scope.self_paced.paginate(page: 1, per_page: COURSES_PER_PAGE)
     ).tap do |category|
-      if feature?('course_reactivation') && CourseReactivation.enabled?
-        category.callout = t(:'course.courses.index.reactivation_upsell_html')
-      end
+      category.callout = t(:'course.courses.index.reactivation_upsell_html')
     end
   end
 

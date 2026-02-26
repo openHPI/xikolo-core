@@ -30,7 +30,6 @@ module Xikolo::Course
     attribute :featured, :boolean, default: false
     attribute :public_description, :string
     attribute :open_mode, :boolean, default: -> { Xikolo.config.open_mode['default_value'] }
-    attribute :time_effort, :integer
     attribute :required_item_ids, :list
 
     def published?

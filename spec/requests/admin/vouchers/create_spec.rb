@@ -15,9 +15,6 @@ RSpec.describe 'Admin: Vouchers: Create', type: :request do
     YML
 
     stub_user_request permissions: ['course.vouchers.issue']
-
-    Stub.request(:course, :get, '/courses', query: hash_including({}))
-      .to_return Stub.json([])
   end
 
   it 'creates a new voucher' do

@@ -7,7 +7,6 @@ include:
   - path: compose.notification.yml
   - path: compose.pinboard.yml
   - path: compose.quiz.yml
-  - path: compose.timeeffort.yml
   - path: compose.web.yml
 
 services:

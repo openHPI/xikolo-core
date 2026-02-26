@@ -8,15 +8,18 @@ describe 'Account: Accounts: Create', type: :request do
   before do
     Stub.request(:account, :get, '/policies')
       .to_return Stub.json(policies)
-    Stub.request(:account, :get, '/treatments')
-      .to_return Stub.json([])
     Stub.request(:account, :get, "/users/#{user_id}/emails")
       .to_return Stub.json([{id: SecureRandom.uuid}])
   end
 
   let!(:create_user_stub) do
     Stub.request(:account, :post, '/users')
-      .to_return Stub.json build(:'account:user', id: user_id)
+      .to_return Stub.json(attributes_for(:'account_service/user', id: user_id)
+        .merge(
+          emails_url: "http://localhost:3000/account_service/users/#{user_id}/emails",
+          consents_url: "http://localhost:3000/account_service/users/#{user_id}/consents",
+          self_url: "http://localhost:3000/account_service/users/#{user_id}"
+        ))
   end
   let(:params) { {user: user_params} }
   let(:user_id) { generate(:user_id) }
@@ -34,14 +37,12 @@ describe 'Account: Accounts: Create', type: :request do
   let(:policies) { [] }
 
   it 'responds with 404 Not Found when the native registration is disabled' do
+    AccountService::Feature.find_by!(name: 'account.registration').destroy!
+
     expect { result }.to raise_error AbstractController::ActionNotFound
   end
 
   context 'with native registration enabled' do
-    let(:anonymous_session) do
-      super().merge(features: {'account.registration' => true})
-    end
-
     context 'with complete data' do
       it { is_expected.to redirect_to verify_account_path }
 

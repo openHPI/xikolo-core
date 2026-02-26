@@ -61,7 +61,7 @@
           collection: course.classifier(cluster.id),
           input_html: {data: {cluster: cluster.id, behavior: 'custom-select', preload: 'true'}, multiple: true}
 
-    = f.input :learning_goals, hint: current_user.feature?('course_details.learning_goals') ? t(:'simple_form.hints.course.learning_goals') : t(:'simple_form.hints.course.learning_goals_only_certificate_page') do
+    = f.input :learning_goals, hint: t(:'simple_form.hints.course.learning_goals') do
       = render Form::DynamicSortableList.new(course.dynamic_sortable_list(course.learning_goals), name: 'course[learning_goals][]', input_id: 'course_learning_goals')
 
     = f.input :target_groups, hint: t(:'simple_form.hints.course.target_groups') do
@@ -132,8 +132,7 @@
           i18n_variables: {global_default: Xikolo.config.roa_threshold_percentage}
     - if course.proctoring_activatable?
       = f.input :proctored
-    - if course.course_reactivation_activatable?
-      = f.input :on_demand
+    = f.input :on_demand
 
   fieldset.form-section--large#formgroup-statistics
     legend = t :'admin.courses.formgroups.statistics'

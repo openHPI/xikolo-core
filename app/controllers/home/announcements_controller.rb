@@ -3,8 +3,6 @@
 class Home::AnnouncementsController < Abstract::FrontendController
   include Interruptible
 
-  require_feature 'announcements'
-
   def index
     get_params = {
       published: !current_user.allowed?('news.announcement.show'),

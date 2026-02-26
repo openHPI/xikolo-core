@@ -10,7 +10,7 @@ FactoryBot.define do
       "inmemorydatabases#{n}"
     end
     status { 'preparation' }
-    context_id
+    context_id { AccountService::Context.root.id }
     description { 'Some course ...' }
     start_date { 2.weeks.ago }
     end_date { 4.weeks.from_now }

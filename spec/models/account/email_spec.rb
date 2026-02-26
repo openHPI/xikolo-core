@@ -6,10 +6,12 @@ describe Account::Email, type: :model do
   describe '.primary' do
     subject(:emails) { described_class.primary }
 
-    before { create(:email) }
+    let(:user) { create(:'account_service/user', :unconfirmed) }
+
+    before { create(:'account_service/email', :confirmed, user:) }
 
     context 'with primary emails' do
-      let!(:primary_email) { create(:email, :primary) }
+      let!(:primary_email) { create(:'account_service/email', user:, primary: true) }
 
       it 'returns a list of primary emails' do
         expect(emails).to contain_exactly(an_object_having_attributes(

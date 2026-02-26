@@ -63,10 +63,6 @@ describe 'Course: Show', type: :request do
 
     before do
       Stub.request(
-        :course, :get, '/next_dates',
-        query: hash_including(user_id: user[:id], course_id: course.id)
-      ).to_return Stub.json([])
-      Stub.request(
         :course, :get, '/sections',
         query: {course_id: course.id}
       ).to_return Stub.json([])

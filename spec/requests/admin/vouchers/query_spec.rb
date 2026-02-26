@@ -15,9 +15,6 @@ describe 'Admin: Vouchers: Query', type: :request do
     YML
 
     stub_user_request permissions: ['course.vouchers.issue']
-
-    Stub.request(:course, :get, '/courses', query: hash_including({}))
-      .to_return Stub.json([])
   end
 
   context 'with existing voucher' do

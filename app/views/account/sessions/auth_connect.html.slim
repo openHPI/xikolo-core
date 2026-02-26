@@ -1,9 +1,8 @@
 .col-md-6.col-md-offset-3
   h2.h2.pt20
-    = t(:'account.sessions.auth_connect.headline', brand: Xikolo.config.site_name)
+    = t(:'account.sessions.auth_connect.headline')
   .login-box
     = t(:'account.sessions.auth_connect.native_login.text',
-      brand: Xikolo.config.site_name,
       provider: t(:"account.sessions.auth_connect.provider_label.#{@authorization.provider}"),
       provider_link: t(:"account.sessions.auth_connect.provider_link.#{@authorization.provider}"))
 

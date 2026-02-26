@@ -9,8 +9,8 @@ describe 'xikolo.pinboard.question.update' do
   end
 
   let!(:course) { create(:course) }
-  let!(:user) { create(:user) }
-  let!(:user2) { create(:user) }
+  let!(:user) { Account::User.find(create(:'account_service/user').id) }
+  let!(:user2) { Account::User.find(create(:'account_service/user').id) }
   let(:question_author_id) { user.id }
   let(:question_id) { generate(:uuid).to_s }
   let(:accepted_answer_id) { generate(:uuid).to_s }

@@ -238,8 +238,7 @@ describe CourseService::ProgressesController, type: :controller do
         'user_state',
         'optional',
         'max_points',
-        'user_points',
-        'time_effort'
+        'user_points'
       )
       expect(subject['id']).to eq item.id
       expect(subject['title']).to eq item.title
@@ -249,7 +248,6 @@ describe CourseService::ProgressesController, type: :controller do
       expect(subject['optional']).to eq item.optional?
       expect(subject['max_points']).to eq item.max_dpoints&.fdiv 10
       expect(subject['user_points']).to eq opts[:user_points]
-      expect(subject['time_effort']).to eq item.time_effort
     end
   end
 

@@ -18,8 +18,6 @@ describe 'Course: Admin: Certificate Templates: List', type: :request do
 
     Stub.request(:course, :get, "/courses/#{course.course_code}")
       .to_return Stub.json(course_resource)
-    Stub.request(:course, :get, '/next_dates', query: hash_including({}))
-      .to_return Stub.json([])
 
     create(:certificate_template, :cop)
     create(:certificate_template, :roa, course:)

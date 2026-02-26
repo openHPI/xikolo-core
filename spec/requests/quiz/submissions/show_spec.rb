@@ -5,12 +5,15 @@ require 'spec_helper'
 describe 'Quiz: Submissions: Show', type: :request do
   subject(:show) do
     get "/courses/the_course/items/#{item_resource['id']}/quiz_submission/#{submission_id}",
-      headers: {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"}
+      headers:
   end
 
-  let(:user_id) { requested_submission['user_id'] }
+  let(:session) { create(:'account_service/session', user:) }
+  let(:user) { create(:'account_service/user') }
+  let(:user_id) { user.id }
   let(:request_context_id) { course.context_id }
-  let(:course) { create(:course, :active, course_code: 'the_course') }
+  let(:course_context) { create(:'account_service/context') }
+  let(:course) { create(:course, :active, course_code: 'the_course', context_id: course_context.id) }
   let(:section) { create(:section, course:) }
   let(:section_resource) { build(:'course:section', id: section.id, course_id: course.id) }
   let(:item) { create(:item, section:) }
@@ -27,11 +30,12 @@ describe 'Quiz: Submissions: Show', type: :request do
   end
 
   let(:submission_id) { short_uuid(requested_submission['id']) }
-  let(:requested_submission) { build(:'quiz:submission', **submission_attrs) }
+  let(:requested_submission) { build(:'quiz:submission', **submission_attrs, user_id: user.id) }
   let(:submission_attrs) do
     {
       course_id: course.id,
       quiz_id: quiz['id'],
+      user_id: user.id,
       submitted: true,
       quiz_submission_time: 1.hour.ago.iso8601,
     }
@@ -51,10 +55,14 @@ describe 'Quiz: Submissions: Show', type: :request do
     Stub.request(:course, :post, "/items/#{item.id}/users/#{user_id}/visit")
   end
 
+  let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{session.id}"} }
+  let(:permissions) { %w[course.content.access.available] }
+
   before do
-    stub_user_request id: user_id,
-      permissions: %w[course.content.access.available],
-      features: {'proctoring' => true}
+    role = create(:'account_service/role', permissions:)
+    create(:'account_service/grant', principal: user, role:, context: course_context)
+    user.features.create(name: 'proctoring', value: 'true', context: AccountService::Context.root)
+    set_session(id: session.id)
 
     # Stubs for the course the user is enrolled in and its structural content
     Stub.request(:course, :get, '/courses/the_course')
@@ -110,123 +118,6 @@ describe 'Quiz: Submissions: Show', type: :request do
     visit_stub
   end
 
-  describe 'proctored submission' do
-    let(:course) { create(:course, :active, :offers_proctoring, course_code: 'the_course') }
-    let(:my_enrollment) { create(:enrollment, :proctored, course:, user_id:) }
-    let(:item_resource) do
-      build(:'course:item', :quiz, :exam, :proctored,
-        id: item.id,
-        section_id: section.id,
-        course_id: course.id,
-        content_id: quiz['id'])
-    end
-
-    context 'user passed proctoring (SMOWL v1)' do
-      let(:requested_submission) { build(:'quiz:submission', :proctoring_smowl_v1_passed, **submission_attrs) }
-
-      it 'mentions that everything is okay' do
-        show
-        expect(response.body).to include 'Online proctoring results'
-        expect(response.body).to include 'No issues detected'
-      end
-
-      it 'creates a visit' do
-        show
-        expect(visit_stub).to have_been_requested
-      end
-    end
-
-    context 'user passed proctoring (SMOWL v2)' do
-      let(:requested_submission) { build(:'quiz:submission', :proctoring_smowl_v2_passed, **submission_attrs) }
-
-      it 'mentions that everything is okay' do
-        show
-        expect(response.body).to include 'Online proctoring results'
-        expect(response.body).to include 'No issues detected'
-      end
-
-      it 'creates a visit' do
-        show
-        expect(visit_stub).to have_been_requested
-      end
-    end
-
-    context 'user passed proctoring (SMOWL v1) with a few violations' do
-      let(:requested_submission) { build(:'quiz:submission', :proctoring_smowl_v1_passed_with_violations, **submission_attrs) }
-
-      it 'mentions minor issues' do
-        show
-        expect(response.body).to include 'Online proctoring results'
-        expect(response.body).to include 'There have been some minor issues during the proctoring for this assignment.'
-      end
-
-      it 'creates a visit' do
-        show
-        expect(visit_stub).to have_been_requested
-      end
-    end
-
-    context 'user passed proctoring (SMOWL v2) with a few violations' do
-      let(:requested_submission) { build(:'quiz:submission', :proctoring_smowl_v2_passed_with_violations, **submission_attrs) }
-
-      it 'mentions minor issues' do
-        show
-        expect(response.body).to include 'Online proctoring results'
-        expect(response.body).to include 'There have been some minor issues during the proctoring for this assignment.'
-      end
-
-      it 'creates a visit' do
-        show
-        expect(visit_stub).to have_been_requested
-      end
-    end
-
-    context 'user failed proctoring (SMOWL v1) b/c of too many violations' do
-      let(:requested_submission) { build(:'quiz:submission', :proctoring_smowl_v1_failed, **submission_attrs) }
-
-      it 'mentions certificate is out of reach' do
-        show
-        expect(response.body).to include 'Online proctoring results'
-        expect(response.body).to include 'There have been issues during the proctoring for this assignment. A certificate will not be issued.'
-      end
-
-      it 'creates a visit' do
-        show
-        expect(visit_stub).to have_been_requested
-      end
-    end
-
-    context 'user failed proctoring (SMOWL v2) b/c of too many violations' do
-      let(:requested_submission) { build(:'quiz:submission', :proctoring_smowl_v2_failed, **submission_attrs) }
-
-      it 'mentions certificate is out of reach' do
-        show
-        expect(response.body).to include 'Online proctoring results'
-        expect(response.body).to include 'There have been issues during the proctoring for this assignment. A certificate will not be issued.'
-      end
-
-      it 'creates a visit' do
-        show
-        expect(visit_stub).to have_been_requested
-      end
-    end
-
-    context 'proctoring results have not yet been processed' do
-      let(:requested_submission) { build(:'quiz:submission', :proctoring_smowl_v2_pending, **submission_attrs) }
-
-      it 'mentions processing of proctoring data' do
-        show
-        expect(response.body).to include 'Online proctoring results'
-        expect(response.body).to include 'The proctoring data is still being processed.'
-      end
-
-      it 'creates a visit' do
-        show
-        expect(visit_stub).to have_been_requested
-      end
-    end
-  end
-
   context 'with more than one submission' do
     # The user has submitted answers to the same quiz multiple times.
     # Not all of them can be listed in the dropdown of submissions.
@@ -240,7 +131,7 @@ describe 'Quiz: Submissions: Show', type: :request do
     end
 
     # The requested submission also belongs to our user, but does not appear in the dropdown.
-    let(:requested_submission) { build(:'quiz:submission', **submission_attrs, points: 5.0) }
+    let(:requested_submission) { build(:'quiz:submission', **submission_attrs, user_id: user.id, points: 5.0) }
 
     context 'when the submission belongs to the current user' do
       it 'the requested submission is displayed' do
@@ -256,7 +147,9 @@ describe 'Quiz: Submissions: Show', type: :request do
     end
 
     context 'when the requested submission does not belong to the current user' do
-      let(:user_id) { generate(:user_id) }
+      let(:requested_submission) do
+        build(:'quiz:submission', **submission_attrs, user_id: generate(:user_id), points: 5.0)
+      end
 
       it 'shows an error about lack of permissions and redirects to the home page' do
         show

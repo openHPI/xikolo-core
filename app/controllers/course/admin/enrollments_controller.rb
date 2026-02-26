@@ -25,7 +25,6 @@ class Course::Admin::EnrollmentsController < Abstract::FrontendController
           item[:user] = UserPresenter.new user
           item[:data] = enrollment
           item[:features] = []
-          item[:features] << t(:'admin.course_management.enrollments.proctoring') if enrollment.proctored?
           if enrollment.forced_submission_date
             item[:features] << t(:'admin.course_management.enrollments.reactivation_html',
               date: I18n.l(enrollment.forced_submission_date, format: :short)).html_safe

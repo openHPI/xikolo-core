@@ -27,7 +27,6 @@ module Xikolo
             user_state: :string,
             max_points: :float,
             user_points: :float,
-            time_effort: :integer,
             completed: :boolean,
           }
         end
@@ -60,7 +59,6 @@ module Xikolo
               user_state: item['user_state'],
               max_points: item['max_points'],
               user_points: item['user_points'],
-              time_effort: item['time_effort'],
               completed: completed?(item),
             }
           end

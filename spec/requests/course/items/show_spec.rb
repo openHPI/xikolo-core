@@ -86,7 +86,7 @@ shared_examples 'an item with prerequisites' do |quiz: false|
 
   context 'with fulfilled prerequisites' do
     before do
-      user = create(:user, id: user_id)
+      user = Account::User.find(create(:'account_service/user', id: user_id).id)
       create(:visit, item: required_item, user:)
     end
 
@@ -143,8 +143,6 @@ describe 'Course: Items: Show', type: :request do
   before do
     Stub.request(:course, :get, "/courses/#{course.course_code}")
       .to_return Stub.json(course_resource)
-    Stub.request(:course, :get, '/next_dates',
-      query: hash_including(course_id: course.id, user_id:)).to_return Stub.json([])
     get_item_for_user_request
     create_visit_request
   end

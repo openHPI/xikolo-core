@@ -11,7 +11,6 @@ ARG TARGETARCH
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-ENV BRAND=openhpi
 ENV MALLOC_ARENA_MAX=2
 ENV RAILS_ENV=production
 ENV SECRET_KEY_BASE_DUMMY=true
@@ -80,7 +79,6 @@ ARG TARGETARCH
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-ENV BRAND=openhpi
 ENV MALLOC_ARENA_MAX=2
 ENV RAILS_ENV=production
 ENV SECRET_KEY_BASE_DUMMY=true
@@ -156,7 +154,6 @@ ARG TARGETARCH
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-ENV BRAND=openhpi
 ENV MALLOC_ARENA_MAX=2
 ENV RAILS_ENV=production
 

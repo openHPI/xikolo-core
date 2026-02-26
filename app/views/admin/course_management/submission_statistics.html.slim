@@ -1,5 +1,7 @@
 - content_for :head_assets
   = javascript_include_tag 'app/javascript/teacher/teacher', type: 'module', 'data-turbo-track': Rails.env.production? ? 'reload' : ''
+  = javascript_include_tag 'd3.min', 'data-turbo-track': Rails.env.production? ? 'reload' : ''
+  = javascript_include_tag 'dimple', 'data-turbo-track': Rails.env.production? ? 'reload' : ''
 
 - if params[:stat_id]
   div[
@@ -27,9 +29,6 @@
 
     .col-md-12
       hr.hr.bs-hr
-
-      - content_for :head_assets
-        = javascript_include_tag 'app/javascript/legacy/libraries/dimple', type: 'module', defer: true, 'data-turbo-track': Rails.env.production? ? 'reload' : ''
 
       javascript:
        var chartHolder = [];

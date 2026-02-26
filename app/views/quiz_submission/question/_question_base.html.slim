@@ -32,10 +32,8 @@
       - elsif !snapshot.nil?
         - user_answer = snapshot.loaded_data[question.id]
         - if user_answer && !user_answer.first[1].empty?
-          javascript:
-            ready(function () {
-              $("##{question.id}_indicator", '#quiz-state-indicators').addClass('edited');
-            });
+          - content_for :head_assets
+            meta name="question-edited" content=question.id
 
       = render 'quiz_submission/question/free_text',
         show_solution: show_solution, question: question,
@@ -50,10 +48,8 @@
       - else
         - user_answer = ''
       - if user_answer.present?
-        javascript:
-          ready(function () {
-            $("##{question.id}_indicator", '#quiz-state-indicators').addClass('edited');
-          });
+       - content_for :head_assets
+          meta name="question-edited" content=question.id
 
       = render 'quiz_submission/question/essay',
         show_solution: show_solution, question: question,
@@ -72,10 +68,8 @@
           .mt15
           - answer_selected_by_user = snapshot.loaded_data[question.id].include?(answer.id) unless snapshot.loaded_data.nil? || snapshot.loaded_data[question.id].nil?
           - if answer_selected_by_user
-            javascript:
-              ready(function() {
-                $( "##{question.id}_indicator", '#quiz-state-indicators').addClass('edited');
-              });
+            - content_for :head_assets
+              meta name="question-edited" content=question.id
 
         = render 'quiz_submission/question/multiple_choice',
           show_solution: show_solution, question: question,

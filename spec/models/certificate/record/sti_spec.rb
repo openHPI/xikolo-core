@@ -6,7 +6,7 @@ require 'spec_helper'
 # symbolic names for the subtypes of Record. These names can be more easily
 # mapped / changed to different classes. This functionality is tested here.
 describe 'Certificate::Record: Single Table Inheritance', type: :model do
-  let(:user) { create(:user) }
+  let(:user) { Account::User.find(create(:'account_service/user').id) }
   let(:course) { create(:course, records_released: true) }
   let(:template) { create(:certificate_template) }
 

@@ -7,7 +7,7 @@ describe 'Pinboard: Subscription: Destroy', type: :request do
 
   let(:question_resource) { build(:'pinboard:question', user_id: user.id) }
   let(:subscription) { build(:'pinboard:subscription', user_id: user.id, question_id: question_resource['id']) }
-  let(:user) { create(:user) }
+  let(:user) { create(:'account_service/user') }
 
   before do
     stub_user_request(id: user.id)

@@ -12,22 +12,6 @@ describe 'Dashboard: Course List', type: :request do
     stub_user_request(id: user_id)
 
     # Stubs for the sidebar content
-    Stub.request(
-      :course, :get, '/enrollments',
-      query: hash_including(user_id:, learning_evaluation: 'true')
-    ).to_return Stub.json([])
-    Stub.request(
-      :course, :get, '/courses',
-      query: {promoted_for: user_id}
-    ).to_return Stub.json([])
-    Stub.request(
-      :course, :get, '/next_dates',
-      query: {user_id:}
-    ).to_return Stub.json([])
-    Stub.request(
-      :account, :post, '/tokens',
-      body: hash_including(user_id:)
-    ).to_return Stub.json({token: 'abc'})
   end
 
   it 'shows the user dashboard' do

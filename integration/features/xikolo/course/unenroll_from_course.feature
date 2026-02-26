@@ -15,7 +15,6 @@ Feature: Unenroll from a course
     Then I am unenrolled from the course
     And I see a confirmation of unenrollment
 
-  @feature:course_list
   Scenario: Keep data for re-enrollment
     Given I am on the item page
     And I am on the course detail page

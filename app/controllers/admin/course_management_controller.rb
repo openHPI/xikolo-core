@@ -38,8 +38,6 @@ class Admin::CourseManagementController < Admin::BaseController
 
     @submissions.each do |submission|
       @submission_users[submission['user_id']] ||= Xikolo::Account::User.find(submission['user_id'])
-      quiz_submission = Quiz::Submission.from_restify(submission)
-      submission['proctoring'] = quiz_submission.proctoring if quiz_submission.proctored?
     end
 
     # TODO: decide how to handle deleted items

@@ -3,38 +3,34 @@
 require 'spec_helper'
 
 describe 'Dashboard: Course: Mark Completed', type: :system do
-  let(:user) { build(:'account:user') }
+  let(:user) { attributes_for(:'account_service/user', id: generate(:user_id)) }
   let(:course) { create(:course, :archived, title: 'My course') }
-  let(:enrollment) { create(:enrollment, course:, user_id: user['id']) }
+  let(:enrollment) { create(:enrollment, course:, user_id: user[:id]) }
   let(:enrollment_resource) do
     build(:'course:enrollment', :with_learning_evaluation,
       id: enrollment.id,
-      user_id:  user['id'],
+      user_id:  user[:id],
       course_id: course.id,
       url: "/enrollments/#{enrollment.id}")
   end
 
   before do
-    stub_user(id: user['id'])
-    Stub.request(:account, :get, "/users/#{user['id']}")
+    stub_user(id: user[:id])
+    Stub.request(:account, :get, "/users/#{user[:id]}")
       .to_return Stub.json(user)
     Stub.request(
       :account, :post, '/tokens',
-      body: hash_including(user_id: user['id'])
+      body: hash_including(user_id: user[:id])
     ).to_return Stub.json({token: 'abc'})
 
     # Course stubs for the sidebar content.
     Stub.request(
       :course, :get, '/enrollments',
-      query: hash_including(user_id: user['id'], learning_evaluation: 'true')
+      query: hash_including(user_id: user[:id], learning_evaluation: 'true')
     ).to_return Stub.json([enrollment_resource])
     Stub.request(
       :course, :get, '/next_dates',
-      query: {user_id: user['id']}
-    ).to_return Stub.json([])
-    Stub.request(
-      :course, :get, '/courses',
-      query: {promoted_for: user['id']}
+      query: {user_id: user[:id]}
     ).to_return Stub.json([])
   end
 
@@ -76,11 +72,11 @@ describe 'Dashboard: Course: Mark Completed', type: :system do
   end
 
   context 'with already completed course' do
-    let(:enrollment) { create(:enrollment, course:, user_id: user['id'], completed: true) }
+    let(:enrollment) { create(:enrollment, course:, user_id: user[:id], completed: true) }
     let(:enrollment_resource) do
       build(:'course:enrollment:evaluated', :with_learning_evaluation,
         id: enrollment.id,
-        user_id:  user['id'],
+        user_id:  user[:id],
         course_id: course.id)
     end
 

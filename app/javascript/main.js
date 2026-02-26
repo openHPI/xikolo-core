@@ -29,9 +29,13 @@ import './legacy/helpdesk';
  */
 import { Application } from '@hotwired/stimulus';
 import SnowflakesController from './controllers/snowflakes_effect_controller';
+import SaveSendToggleController from './controllers/save_send_toggle_controller';
+import SubmissionsController from './controllers/submissions_controller';
 
 window.Stimulus = Application.start();
 window.Stimulus.register('snowflakes_effect', SnowflakesController);
+window.Stimulus.register('save_send_toggle', SaveSendToggleController);
+window.Stimulus.register('submissions', SubmissionsController);
 
 /*
  * Webpack-native snippets and main components

@@ -7,7 +7,6 @@ Feature: Stay logged in after a 404
   Background:
     Given an active course was created
 
-  @feature:course_list
   Scenario: Enroll as logged in user
     Given I am a confirmed user
     And I am logged in

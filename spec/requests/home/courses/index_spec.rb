@@ -76,10 +76,6 @@ describe 'Home: Courses: Index', type: :request do
   end
 
   context 'as anonymous user' do
-    let(:anonymous_session) do
-      super().merge(features: {'course_list' => 'true'})
-    end
-
     it_behaves_like 'ajax request'
 
     it 'lists all public courses' do

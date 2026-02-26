@@ -104,8 +104,6 @@ class DashboardController < Abstract::FrontendController
   end
 
   def load_sidebar_content!
-    @my_promoted = fetch_promoted_courses
-
     next_dates = Xikolo.api(:course).value!.rel(:next_dates).get({user_id: current_user.id})
 
     Acfs.run
@@ -116,21 +114,5 @@ class DashboardController < Abstract::FrontendController
     @next_dates = next_dates.value!.map do |next_date|
       Course::NextDatePresenter.new next_date
     end
-  end
-
-  def fetch_promoted_courses
-    my_enrollments = Xikolo::Course::Enrollment.where(
-      user_id: current_user.id,
-      learning_evaluation: true
-    )
-    promoted_courses = Xikolo::Course::Course.where(promoted_for: current_user.id)
-
-    course_presenters = []
-    Acfs.on promoted_courses, my_enrollments do |courses, enrollments|
-      courses.each do |course|
-        course_presenters << CoursePresenter.create(course, current_user, enrollments)
-      end
-    end
-    course_presenters
   end
 end

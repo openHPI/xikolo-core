@@ -13,7 +13,7 @@ describe 'Course: Progress', type: :request do
   let(:course_resource) do
     build(:'course:course', id: course.id, course_code: course.course_code,
       title: 'My Awesome Course',
-      context_id: generate(:context_id))
+      context_id: AccountService::Context.root.id)
   end
   let(:progresses) { build(:'course:progresses') }
 
@@ -40,17 +40,6 @@ describe 'Course: Progress', type: :request do
 
     before do
       stub_user_request(id: user_id, permissions:, features:)
-
-      Stub.request(
-        :course, :get, '/enrollments',
-        query: {course_id: course.id, user_id:, learning_evaluation: true}
-      ).and_return Stub.json(enrollments)
-      Stub.request(
-        :course, :get, '/progresses',
-        query: {course_id: course.id, user_id:}
-      ).and_return Stub.json(progresses)
-      Stub.request(:course, :get, '/next_dates', query: hash_including({}))
-        .to_return Stub.json([])
     end
 
     it 'redirects the user if not enrolled' do
@@ -70,11 +59,6 @@ describe 'Course: Progress', type: :request do
           confirmation_of_participation: false,
           certificate: false,
         }
-      end
-
-      before do
-        Stub.request(:course, :get, "/courses/#{course.id}")
-          .and_return Stub.json(course_resource)
       end
 
       it 'displays the course progress page' do

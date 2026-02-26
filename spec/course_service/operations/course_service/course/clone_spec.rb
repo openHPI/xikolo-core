@@ -6,7 +6,7 @@ describe CourseService::Course::Clone do
   let(:course) do
     create(:'course_service/course', :full_blown, course_code: 'original-course', records_released: true)
   end
-  let(:context_id) { generate(:context_id) }
+  let(:context_id) { AccountService::Context.root.id }
 
   before do
     course_groups = %w[students admins moderators teachers]
@@ -343,20 +343,6 @@ describe CourseService::Course::Clone do
             submission_deadline: nil
           )
         end
-      end
-
-      it 'clones the time efforts for non-video items only' do
-        # Add a time effort to the existing items
-        original = course.items
-        original.find {|i| i.content_type == 'video' }.update!(time_effort: 10)
-        original.find {|i| i.content_type == 'rich_text' }.update!(time_effort: 20)
-        original.find {|i| i.content_type == 'quiz' }.update!(time_effort: 30)
-
-        # Clone the course items and check for the time effort
-        cloned = new_course.items
-        expect(cloned.find {|i| i.content_type == 'video' }.time_effort).to be_nil
-        expect(cloned.find {|i| i.content_type == 'rich_text' }.time_effort).to eq 20
-        expect(cloned.find {|i| i.content_type == 'quiz' }.time_effort).to eq 30
       end
     end
   end

@@ -411,8 +411,6 @@ en:
       user_banned: The user was banned successfully.
       submission_converted: Submission was successfully converted from existing snapshot!
       reactivate_course: "You have reactivated this course until %{date}"
-      proctoring:
-        certificate_booked: You successfully booked the Certificate for this course.
       primary_email_unsuspended: Your primary e-mail address has been reactivated successfully.
       account_confirmed_manually: The account was confirmed manually.
       lti_provider_created: The LTI provider has successfully been created.
@@ -489,7 +487,6 @@ en:
       quiz_submissions_maximum_reached: The maximum of allowed attempts for this quiz is already reached.
       quiz_submission_time_up: The time for your active quiz is up.
       quiz_submissions_submission_deadline_passed: The deadline for this quiz has passed.
-      quiz_submission_proctoring_unavailable: The proctored exam could not be started. Please try again later.
       section_not_created: The section has not been created.
       section_not_updated: The section has not been updated.
       picture_not_uploaded: "Your picture could not be uploaded, please try again."
@@ -512,10 +509,6 @@ en:
       email_not_updated: The e-mail address could not be saved. Please enter a valid e-mail address.
       associated_user_not_found: The user to be promoted could not be found.
       document_denied: You are not qualified for this document.
-      proctoring:
-        booking_failed: You cannot book a Certificate for this course.
-        already_proctored: You already booked a Certificate.
-        not_enrolled: You need to enroll to the course to book a Certificate.
       reactivation:
         not_available: Reactivation is not available for this course at this time.
         already_reactivated: You have already reactivated this course.
@@ -1250,7 +1243,6 @@ en:
             title: "Title"
             start_date: "Start date"
             end_date: "End date"
-            time_effort: Time effort
             published: Published
             show_in_nav: Show in course navigation
             featured: Featured
@@ -1264,7 +1256,6 @@ en:
             required_items: Required items
             submission_deadline: Submission deadline
             submission_publishing_date: Submission publishing date
-            proctored: Enable proctoring?
             icon_type: Icon type
           type_selector:
             video: "Video"
@@ -1296,14 +1287,6 @@ en:
             audio: Audio
             remove: Remove file
           description: Description
-          time_effort:
-            calculated_time_effort: Calculated time effort
-            not_available: Not available
-            calculated_time_effort_hint: Please note that the value given for the automatic calculation may have changed in the meantime due to ongoing calculations.
-            not_overwritten: Not overwritten
-            must_be_number: The time effort must be given in seconds.
-            overwrite_error: The time effort could not be overwritten.
-            reset_error: The time effort could not be reset to the automatically calculated value.
 
     course_management:
       enrollments:
@@ -1320,7 +1303,6 @@ en:
         email: Email
         enrolled: Enrolled
         features: Booked features
-        proctoring: Certificate
         reactivation_html: <span title="Until %{date}">Reactivation</span>
         details: Details
         submissions: Submissions
@@ -1341,11 +1323,6 @@ en:
           remaining: Remaining attempts
           additional: Additional attempts
         add_attempt: "+1"
-        proctoring:
-          processing: "Proctoring: Still processing..."
-          passed: Proctoring passed
-          passed_with_issues: Proctoring passed with some issues
-          failed: Proctoring failed
         actions: Actions
         submission: Submission
         submissions: Submissions
@@ -2072,9 +2049,6 @@ en:
       button_quit: "Un-enroll"
       button_reactivate_course: Reactivate this course
       button_goto_external: Go to external course
-      proctoring:
-        booked: You have booked a Certificate.
-        upgrade_not_possible: Booking a Certificate is no longer possible.
       unenrollment_disabled: To un-enroll from the course, contact the course provider.
 
     prerequisites:
@@ -2145,11 +2119,6 @@ en:
     redeem_voucher:
       cancel: Back to course
       for_course: "You are going to redeem a voucher for the following course:"
-      proctoring_smowl:
-        title: Book a Certificate
-        text: Once you redeem the voucher code, you will be taken to the calibration of the online proctoring for the graded assignments. Please make sure you are using a <a href='https://smowl.net/en/faqs-proctoring-smowl/requirements/' target='_blank' rel='noopener'>compatible browser for proctored exams</a> before redeeming the voucher.
-        info_title: Don't have a voucher code?
-        info_text: "If you would like to purchase a voucher code for the Certificate, please visit the <a href='%{link}' target='_blank' rel='noopener'>openHPI shop</a>. For pricing details and more information check our page on the <a href='/pages/document_types' target='_blank' rel='noopener'>Certificate</a>."
       course_reactivation:
         title: Reactivate this course
         text: "If you have already purchased a voucher for the <a href='/pages/course_reactivation' target='_blank' rel='noopener'>course reactivation</a> from the <a href='%{link}' target='_blank' rel='noopener'>Shop</a>, enter the reactivation code below. Once you redeem the voucher code, you will have <b>%{weeks} weeks</b> to complete the requirements to earn a Record of Achievement."
@@ -2158,7 +2127,6 @@ en:
     card:
       cop: Confirmation of Participation
       roa: Record of Achievement
-      qc_html: "<a href='/pages/document_types'>Certificate / ECTS</a>"
       subtitles_more: "%{subtitle_languages} + %{count} more"
       subtitles: "%{subtitle_languages}"
       button_details: Details
@@ -2555,7 +2523,6 @@ en:
       locked_until: "Item will be unlocked in %{date}"
       locked_since: "Item was locked %{date}"
       locked_on: "Item will be locked on %{date}"
-      time_effort: "Time effort: approx. %{time_effort}"
       statistics: Statistics
     fork:
       create: Add fork
@@ -2829,9 +2796,6 @@ en:
     sidebar:
       dates: Next dates per course
       dates_empty: You don't have any upcoming dates.
-      recommendations: Course Recommendations
-    starting_soon: Starting soon
-    started: Started
     profile:
       my_profile: My profile
       edit_profile: Edit my profile information
@@ -3257,7 +3221,6 @@ en:
       show_birthdate: "Show date of birth on my certificates"
       no_documents: There are no certificates available yet.
       my_upcoming_courses: My upcoming courses
-      proctoring_chart: Online proctoring results
       divergent_certificate_requirements: "Divergent certificate requirements, see <a class='bs-a' href='/courses/%{course_code}'>course details</a>."
       not_yet_published: The certificates for this course are not yet published. As soon as they’re available, you’ll receive an email notification. This  usually happens within one week after the final exam due date.
       transcript_of_records: "A <i>Transcript of Records</i> is available for courses that offer a summarized, tabular record of achievement for all required courses. All requirements must be met to qualify for this."
@@ -3411,12 +3374,6 @@ en:
       bonus: Send my answers
       main: Send my final answers
       survey: Send feedback
-    proctoring:
-      no_issues: No issues detected
-      data_currently_unavailable: The proctoring data is still being processed.
-      feature_tooltip: Violations will be accumulated
-      not_passed: There have been issues during the proctoring for this assignment. A certificate will not be issued. The violations are indicated above.
-      passed_with_issues: There have been some minor issues during the proctoring for this assignment. The violations are shown above. Please, be aware that these violations will be accumulated throughout the course. In case you cross the threshold for one of the features a certificate will not be issued.
     quiz_sidebar_title: "Quiz Details"
     quiz_results: "Results"
     total: "Total"
@@ -3692,18 +3649,6 @@ en:
       course: Course
       total: Total
 
-  proctoring:
-    service_unavailable: The proctoring service is currently unavailable. Please reload the page. If the problem persists, please contact the helpdesk.
-
-  time_effort:
-    seconds: seconds
-    minutes:
-      one: 1 minute
-      other: "%{count} minutes"
-    hours:
-      one: 1 hour
-      other: "%{count} hours"
-
   learn:
     title: "Recap"
     empty_state: There are no questions for this course to recap.
@@ -3829,9 +3774,6 @@ en:
           name: "<b>Quiz statistics</b>: view submission statistics"
         inspector:
           name: "<b>Quiz inspection</b>: view student submissions"
-        proctoring:
-          admin:
-            name: "<b>Proctoring administration</b>: inspect proctoring artifacts, manage proctored quizzes"
       video:
         controller:
           name: "<b>Video controlling:</b> view video statistics"

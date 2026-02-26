@@ -3,8 +3,8 @@
 require 'spec_helper'
 
 describe 'Teacher: Item: TransPipe: Create Item', type: :system do
-  let(:user_id) { user['id'] }
-  let(:user) { build(:'account:user') }
+  let(:user_id) { user[:id] }
+  let(:user) { attributes_for(:'account_service/user', id: generate(:user_id)) }
   let(:course) { create(:course, course_code: 'the_course') }
   let(:course_resource) { build(:'course:course', id: course.id, course_code: course.course_code) }
   let(:section) { create(:section, course: course, title: 'Week 1') }

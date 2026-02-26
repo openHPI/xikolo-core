@@ -9,8 +9,6 @@
   = advanced_settings(column_offset: 3) do
     = f.input :start_date, label: t(:'admin.courses.items.form.label.start_date'), required: false, input_html: {data: {behaviour: 'datepicker'}, autocomplete: 'off'}, as: :string
     = f.input :end_date, label: t(:'admin.courses.items.form.label.end_date'), required: false, input_html: {data: {behaviour: 'datepicker'}, autocomplete: 'off'}, as: :string
-    - if feature?('time_effort') && !@item.new_record?
-      == render partial: 'time_effort', locals: {item: @item}
   = f.input :published, label: t(:'admin.courses.items.form.label.published'), as: :toggle_switch
   = f.input :show_in_nav, label: t(:'admin.courses.items.form.label.show_in_nav'), as: :toggle_switch
   = f.input :optional, label: t(:'admin.courses.items.form.label.optional'), as: :toggle_switch
@@ -40,9 +38,6 @@
               [t(:'admin.courses.items.form.exercise_type_selector.main'), 'main'],
               [t(:'admin.courses.items.form.exercise_type_selector.bonus'), 'bonus']],
             include_blank: false
-  - if feature?('proctoring') && Proctoring.enabled?
-    #proctoring-switch
-      = f.input :proctored, label: t(:'admin.courses.items.form.label.proctored'), as: :toggle_switch, input_html: {id: 'proctoring-checkbox'}, readonly: !@course.proctored
   = f.input :max_points, label: t(:'admin.courses.items.form.label.max_points'), required: false, as: :float, readonly: false, input_html: {min: 0}
 
   = f.input :submission_deadline, label: t(:'admin.courses.items.form.label.submission_deadline'), required: false, input_html: {data: {behaviour: 'datepicker'}, autocomplete: 'off'}, as: :string

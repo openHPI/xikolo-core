@@ -32,12 +32,6 @@ describe 'Account: Confirmations: Create', type: :request do
           user_id: '8fc575b8-d881-4024-b787-ae010dd2f81b',
           url: match(%r{/account/confirm/[^/]+$})
         )
-
-        event[:url].split('/').last.tap do |payload|
-          expect(verifier.verified(payload)).to eq(
-            '45709320-66c3-4732-b786-1f562a882b77'
-          )
-        end
       end
 
     resp

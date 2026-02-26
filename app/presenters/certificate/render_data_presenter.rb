@@ -43,25 +43,6 @@ module Certificate
       template_file.path
     end
 
-    def proctoring_image
-      return unless @template.certificate_type == ::Certificate::Record::CERT
-
-      enrollment = Course::Enrollment.find_by(
-        user_id: @record.user_id,
-        course: @record.course
-      )
-      image = enrollment&.proctoring&.s3_image
-      unless image&.exists?
-        raise InsufficientParams.new "can't find proctoring image for certificate"
-      end
-
-      # we keep a reference here to ensure the tempfile is deleted
-      # after the rendering, not after leaving this method
-      proctoring_image = Tempfile.new ['procimg-', '.jpg']
-      image.download_file(proctoring_image.path, mode: 'single_request')
-      proctoring_image.path
-    end
-
     def score
       return if @template.certificate_type == ::Certificate::Record::COP
 

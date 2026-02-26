@@ -1,4 +1,6 @@
 - content_for :head_assets
+  = javascript_include_tag 'd3.min', 'data-turbo-track': Rails.env.production? ? 'reload' : ''
+  = javascript_include_tag 'dimple', 'data-turbo-track': Rails.env.production? ? 'reload' : ''
   = javascript_include_tag 'app/javascript/legacy/quiz/result-box', type: 'module', 'data-turbo-track': Rails.env.production? ? 'reload' : ''
 
 #quiz-sidebar-wrapper
@@ -12,15 +14,6 @@
         strong.primary-color #{t(:'quiz_submission.total_points', total_points: @submission.points.round(2), max_points: @quiz.max_points.round(2))}
         - unless @submission.fudge_points.zero?
           .primary-color #{t(:'quiz_submission.fudge_points', fudge_points: @submission.fudge_points)}
-
-      - if my_proctoring
-        hr.divider
-        = t(:'dashboard.documents.proctoring_chart')
-
-        - if my_proctoring.result.issues?
-          = render 'shared/proctoring_chart', {proctoring_data: my_proctoring.result}
-
-        .mb20 = render my_proctoring.status_callout
 
       hr.divider
       .mt5

@@ -1,4 +1,3 @@
-@feature:course_reactivation @feature:course_list
 Feature: Configure a course for reactivation
   In order to allow students to reactivate a course
   As a teacher

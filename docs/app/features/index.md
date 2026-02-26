@@ -8,7 +8,7 @@ It includes tools for general course and platform management, more sophisticated
 - :material-wrench-outline: **Course management**: Customize and organize course structures.
 - :material-account-outline: **User profiles**: Configure user settings (e.g., consents) and custom profile fields.
 - :material-star-outline: **Advanced course features**: Understand deadlines, quiz regrading, and the open mode.
-- :material-widgets-outline: **Integrations**: Support for proctoring and course reactivation.
+- :material-widgets-outline: **Integrations**: Support for course reactivation.
 
 !!! note
     This section describes the platform features to provide a better understanding of its capabilities.

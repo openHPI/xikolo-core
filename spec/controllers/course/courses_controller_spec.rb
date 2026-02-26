@@ -283,8 +283,9 @@ describe Course::CoursesController, type: :controller do
 
         subject(:course_details) { get_request; response.body }
 
+        before { stub_user id: user_id, permissions: %w[course.course.show] }
+
         let(:get_request) { get :show, params: {id: course.course_code} }
-        let(:anonymous_session) { super().merge(permissions: %w[course.course.show]) }
 
         it 'has the correct title meta tag' do
           expect(course_details).to _have_xpath('html/head/title', text: 'Title | Xikolo')

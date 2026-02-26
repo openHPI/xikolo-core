@@ -6,7 +6,7 @@ require Rails.root.join('db', 'migrate', '20230925154000_populate_user_last_acce
 describe PopulateUserLastAccess do
   subject(:migration) { described_class.new }
 
-  let!(:user) { create(:user, confirmed: true) }
+  let!(:user) { Account::User.find(create(:'account_service/user', confirmed: true).id) }
   let(:item) { create(:item) }
   let(:visit_date) { 1.week.ago }
   let(:visit) { create(:visit, user:, item:, updated_at: visit_date) }

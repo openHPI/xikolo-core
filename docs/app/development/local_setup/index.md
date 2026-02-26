@@ -482,16 +482,6 @@ The rails app and supporting services will be started:
 overmind start
 ```
 
-Start the project with a different brand than default:
-
-```console
-BRAND=your_brand overmind start -l course,web
-```
-
-!!! note
-
-    Make sure to also set the `brand` and `site_name` options to the brand in the config, e.g. in your `xikolo.development.yml`.
-
 If you have done everything correctly and installed all the necessary tools, you should see the Xikolo platform at [http://localhost:3000](http://localhost:3000).
 
 ### External Services with Docker
@@ -521,7 +511,7 @@ For many IDEs providing run configurations, you can set the environment variable
 ## Locales
 
 The project uses `i18n` for internationalization (i.e., localization of content), making these locales accessible to the frontend application using the `i18n-js` gem.
-This gem exports the locales into JSON format and stores them in `tmp/cache/xikolo/i18n` for each brand (configured in `./config/i18n`).
+This gem exports the locales into JSON format and stores them in `tmp/cache/xikolo/i18n` configured in `./config/i18n`.
 These JSON objects are imported in the Webpack code, then, and consumed by the `i18n-js` npm package.
 
 To ensure that the locales are available when Webpack is built and to avoid potential build failures, execute the gem's CLI command (`i18n export`) before executing `yarn run build`. Alternatively, you can simply use `make assets`, which automates all the required steps.

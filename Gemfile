@@ -107,7 +107,6 @@ gem 'news_service', path: 'engines/news_service'
 gem 'notification_service', path: 'engines/notification_service'
 gem 'pinboard_service', path: 'engines/pinboard_service'
 gem 'quiz_service', path: 'engines/quiz_service'
-gem 'timeeffort_service', path: 'engines/timeeffort_service'
 
 gem 'activejob-cancel'
 gem 'delayed', '~> 1.0'

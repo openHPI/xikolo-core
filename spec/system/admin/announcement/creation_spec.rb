@@ -3,8 +3,8 @@
 require 'spec_helper'
 
 describe 'Admin: Create Announcement', type: :system do
-  let(:user_id) { user['id'] }
-  let(:user) { build(:'account:user') }
+  let(:user_id) { user[:id] }
+  let(:user) { attributes_for(:'account_service/user', id: generate(:user_id)) }
 
   before do
     stub_user id: user_id,

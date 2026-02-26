@@ -59,7 +59,7 @@ class Home::GoController < Abstract::FrontendController
         r: 'survey/index', # required LimeSurvey path passed as query param
         sid: params[:id], # required LimeSurvey survey ID
         newtest: 'Y', # force a new LimeSurvey session
-        xi_platform: Xikolo.config.brand # pass a platform identifier
+        xi_platform: 'openHPI' # pass a platform identifier
       ).tap do |qp|
         unless current_user.anonymous?
           # add a user pseudo ID if applicable

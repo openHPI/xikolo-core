@@ -18,11 +18,6 @@ class Course::ProgressController < Abstract::FrontendController
       user = current_user
     end
 
-    # The current_user is passed in to check for the presence of features (e.g. proctoring).
-    # This needs to be refactored as currently the current_user is the admin/teacher
-    # monitoring the progress of enrolled users in the course admin interface, not
-    # the actual user. However, this doesn't matter for now since the feature
-    # (proctoring) is a global platform feature.
     @course_documents = Course::DocumentsPresenter.new(
       user_id: user.id, course: the_course, current_user:
     )

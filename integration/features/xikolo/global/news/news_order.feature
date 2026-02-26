@@ -8,7 +8,6 @@ Feature:  Show news ordered by newest first
   Given I am an administrator
   And I am logged in
 
-  @feature:announcements
   Scenario: Show news ordered by publishing date
     When I write 5 global news with visual
     And I am on the news page
