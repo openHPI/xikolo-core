@@ -8,7 +8,7 @@ RSpec.describe 'Quiz: Destroy', type: :request do
   let(:api) { restify_with_headers(quiz_service_url).get.value! }
   let!(:quiz) { create(:'quiz_service/quiz', instructions: 's3://xikolo-quiz/quizzes/1/1/test.jpg') }
   let!(:file_deletion) do
-    stub_request(:delete, 'https://s3.xikolo.de/xikolo-quiz/quizzes/1/1/test.jpg')
+    stub_request(:delete, "#{test_s3_host}/xikolo-quiz/quizzes/1/1/test.jpg")
   end
 
   it 'destroys the quiz' do

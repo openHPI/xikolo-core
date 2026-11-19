@@ -10,7 +10,7 @@ module LearningEvaluation # rubocop:disable Layout/IndentationWidth
         return head(:created, content_type: 'text/plain')
       end
 
-      LearningEvaluation::PersistForCourseWorker.perform_async(course.id)
+      LearningEvaluation::PersistForCourseJob.perform_later(course.id)
 
       head(:created, content_type: 'text/plain')
     end

@@ -46,9 +46,11 @@ describe AccountService::API::TokensController, type: :controller do
 
       it 'includes existing token' do
         expect(payload).to eq [
-          'id' => token.id,
+          {
+            'id' => token.id,
           'token' => token.token,
           'user_id' => token.user_id,
+          },
         ]
       end
     end

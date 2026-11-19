@@ -10,7 +10,7 @@ RSpec.describe 'Page: Show', type: :request do
       get '/pages/faq'
 
       expect(response.body).not_to include 's3://xikolo-public/pages/faq/image1.jpg'
-      expect(response.body).to include 'https://s3.xikolo.de/xikolo-public/pages/faq/image1.jpg'
+      expect(response.body).to include "#{test_s3_host}/xikolo-public/pages/faq/image1.jpg"
     end
 
     it 'renders Markdown content as HTML' do
@@ -80,16 +80,14 @@ RSpec.describe 'Page: Show', type: :request do
 
   context 'as admin' do
     before do
-      stub_user_request permissions: %w[helpdesk.page.store]
+      sign_in(user: create(:'account_service/user', :admin))
     end
-
-    let(:headers) { {Authorization: "Xikolo-Session session_id=#{stub_session_id}"} }
 
     it 'returns the requested content as well as buttons for creating/editing translations' do
       create(:page, :english, name: 'imprint')
       create(:page, :german, name: 'imprint')
 
-      get('/pages/imprint', headers:)
+      get('/pages/imprint')
 
       expect(response.body).to include('<title>English Title')
       expect(response.body).to include('English Text')
@@ -101,7 +99,7 @@ RSpec.describe 'Page: Show', type: :request do
     end
 
     it 'shows an error page with buttons for creating translations for missing pages' do
-      get('/pages/missing', headers:)
+      get('/pages/missing')
 
       expect(response.body).not_to include('last changed')
 
@@ -116,7 +114,7 @@ RSpec.describe 'Page: Show', type: :request do
     it 'shows the oldest translation with the correct buttons when only non-default translations exist' do
       create(:page, name: 'imprint', locale: 'de', title: 'German Title', created_at: 1.day.ago)
 
-      get('/pages/imprint', headers:)
+      get('/pages/imprint')
 
       expect(response.body).to include '<title>German Title'
       expect(response.body).to include 'last changed'

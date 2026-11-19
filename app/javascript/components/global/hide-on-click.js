@@ -5,9 +5,16 @@
  * The value of it will specify the target that will be hidden
  */
 
-import ready from '../../util/ready';
+import { turboReady } from '../../util/ready';
 
-ready(() => {
+document.addEventListener('turbo:before-cache', () => {
+  document.querySelectorAll('[data-hide-on-click]').forEach((trigger) => {
+    const target = document.querySelector(trigger.dataset.hideOnClick);
+    if (target) target.hidden = false;
+  });
+});
+
+turboReady(() => {
   const triggers = document.querySelectorAll('[data-hide-on-click]');
 
   triggers.forEach((trigger) => {

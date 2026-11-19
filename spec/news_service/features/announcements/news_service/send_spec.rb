@@ -48,7 +48,7 @@ RSpec.describe 'Announcements: Send email to all recipients', type: :feature do
   end
 
   it 'sends an email to all disjunct users' do
-    Sidekiq::Testing.inline! do
+    perform_enqueued_jobs do
       NewsService::Message::Create.call(announcement)
     end
 

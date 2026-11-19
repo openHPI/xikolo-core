@@ -4,10 +4,11 @@ class QuizSubmissionSnapshotController < Abstract::AjaxController
   before_action :ensure_logged_in
 
   def create
-    snapshot = quiz_api.rel(:quiz_submission_snapshots).post(snapshot_params.to_unsafe_h).value!
+    submission = QuizService::QuizSubmission.find(snapshot_params[:quiz_submission_id])
+    snapshot = submission.snapshot!(snapshot_params[:submission]&.to_unsafe_h)
 
-    render json: {success: true, timestamp: snapshot['updated_at']}
-  rescue Restify::ResponseError
+    render json: {success: true, timestamp: snapshot.updated_at}
+  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotFound
     render json: {success: false}, status: :service_unavailable
   end
 
@@ -18,9 +19,5 @@ class QuizSubmissionSnapshotController < Abstract::AjaxController
     params.permit(:quiz_submission_id).tap do |whitelisted|
       whitelisted[:submission] = params[:submission]
     end
-  end
-
-  def quiz_api
-    @quiz_api ||= Xikolo.api(:quiz).value!
   end
 end

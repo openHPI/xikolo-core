@@ -1,5 +1,5 @@
-- content_for :page_header_slim do
-  = render Global::PageHeader.new(t(:'admin.video_providers.title'), subtitle: t(:'admin.page_header'), type: :slim)
+- content_for :page_header do
+  = render Global::PageHeader.new(t(:'admin.video_providers.title'), subtitle: t(:'admin.page_header'))
 
 .bs-container
   .row.pt10

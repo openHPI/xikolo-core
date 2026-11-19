@@ -1,0 +1,65 @@
+<li data-exercise-type="<%= item.exercise_type %>">
+  <span class="label label-info mr10">
+    <%= t(:"sections.index.label.#{item.content_type}") %>
+  </span>
+
+  <%= item.title %>
+
+  <span class="actions">
+    <%= link_to course_item_path(id: short_uuid(item.id)), class: 'bs-a' do %>
+      <%= render Global::FaIcon.new('eye', style: :solid) %>
+    <% end %>
+
+    <% if item.exercise_type == 'exam' %>
+      <%= link_to edit_exam_course_section_item_path section_id: section.id, id: item.id, class: 'bs-a' do %>
+        <%= render Global::FaIcon.new('pen-to-square', style: :solid) %>
+      <% end %>
+    <% else %>
+      <%= link_to edit_course_section_item_path section_id: section.id, id: item.id, class: 'bs-a' do %>
+        <%= render Global::FaIcon.new('pen-to-square', style: :solid) %>
+      <% end %>
+    <% end %>
+
+    <%= link_to course_section_item_path(section_id: section.id, id: item.id), class: 'bs-a', data: {confirm: t(:'sections.item.delete')}, method: :delete do %>
+      <%= render Global::FaIcon.new('trash-can', style: :solid) %>
+    <% end %>
+
+    <% if current_user.allowed?('course.item_stats.show') && item.content_type.in?(%w[quiz lti_exercise]) %>
+      <%= link_to course_item_statistics_path(item_id: item.id), class: 'bs-a' do %>
+        <%= render Global::FaIcon.new('chart-bar', style: :solid) %>
+      <% end %>
+    <% end %>
+  </span>
+
+  <span class="labels ml10">
+    <% unless item.unlocked? %>
+      <span class="label label-warning">
+        <% if item.start_date&.future? %>
+          <%= t(:'sections.item.locked_until', date: item.start_date.to_fs(:short)) %>
+        <% end %>
+
+        <% if item.end_date&.past? %>
+          <%= t(:'sections.item.locked_since', date: item.end_date.to_fs(:short)) %>
+        <% end %>
+      </span>
+    <% end %>
+
+    <% if item.published? %>
+      <span class="label label-success"></span>
+    <% else %>
+      <span class="label label-warning">
+        <%= t(:'sections.item.unpublished') %>
+      </span>
+    <% end %>
+
+    <span class="label label-info uuid mr10" hidden>
+      ID:<%= item.id %>
+      <%= render Global::CopyToClipboard.new(item.id, tooltip: t(:'sections.item.copy_id')) %>
+    </span>
+
+    <span class="label label-info uuid mr10" hidden>
+      Content ID:<%= item.content_id %>
+      <%= render Global::CopyToClipboard.new(item.content_id, tooltip: t(:'sections.item.copy_content_id')) %>
+    </span>
+  </span>
+</li>

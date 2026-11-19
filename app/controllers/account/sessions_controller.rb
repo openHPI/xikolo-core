@@ -5,7 +5,6 @@ class Account::SessionsController < Abstract::FrontendController
   include SessionHelper
 
   skip_before_action :verify_authenticity_token, only: [:authorization_callback]
-  skip_after_action :remember_user
 
   before_action :check_logged, only: [:new]
 
@@ -168,24 +167,15 @@ class Account::SessionsController < Abstract::FrontendController
         provider: t(:"account.sessions.auth_connect.provider_label.#{authorization.provider}"))
     end
 
-    if @in_app
-      handle_mobile_application!
-    else
-      target = if current_user.logged_in?
-                 target_url(fallback: dashboard_profile_url)
-               else
-                 target_url
-               end
-      cookies.delete :stored_location if cookies.signed[:stored_location]
-      redirect_to target, status: :see_other
-    end
+    target = if current_user.logged_in?
+               target_url(fallback: dashboard_profile_url)
+             else
+               target_url
+             end
+    cookies.delete :stored_location if cookies.signed[:stored_location]
+    redirect_to target, status: :see_other
   end
   # rubocop:enable all
-
-  def handle_mobile_application!
-    token = Xikolo.api(:account).value!.rel(:tokens).post({user_id: @handler.session.user_id}).value!.token
-    redirect_to auth_path(provider: 'app', token:), status: :see_other
-  end
 
   def handle_failure!
     if @handler.user_creation_required?
@@ -198,7 +188,9 @@ class Account::SessionsController < Abstract::FrontendController
       # The controller will render the 'auth_connect' template to let user decide between these two connection options.
       redirect_to new_session_url, status: :see_other
     else
-      ActiveSupport::Notifications.instrument('login.failure', remote_ip: request.remote_ip)
+      ActiveSupport::Notifications.instrument('login.failure',
+        remote_ip: request.remote_ip,
+        email: @handler.ident)
       session[:login_failed] = true
       store_location(redirect_param)
       # This can also happen for SSO authentication, i.e., when native
@@ -216,13 +208,9 @@ class Account::SessionsController < Abstract::FrontendController
     add_flash_message :success, t(:'flash.success.auth_added',
       provider: t(:"account.sessions.auth_connect.provider_label.#{@handler.authorization.provider}"))
 
-    if @in_app
-      handle_mobile_application!
-    else
-      target = target_url(fallback: dashboard_profile_url)
-      cookies.delete :stored_location if cookies.signed[:stored_location]
-      redirect_to target, status: :see_other
-    end
+    target = target_url(fallback: dashboard_profile_url)
+    cookies.delete :stored_location if cookies.signed[:stored_location]
+    redirect_to target, status: :see_other
   rescue Acfs::InvalidResource => e
     # If there is already an account with the authorization's email address,
     # don't add the authorization to the current user
@@ -261,6 +249,9 @@ class Account::SessionsController < Abstract::FrontendController
 
       when 'invalid_digest'
         t :'flash.error.invalid_digest', url: new_account_reset_path
+
+      when 'banned_user'
+        t :'flash.error.banned_user'
 
       else
         t :'flash.error.generic'

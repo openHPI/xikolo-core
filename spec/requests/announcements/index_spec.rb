@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Posts: Index', type: :request do
-  subject(:get_posts) { get '/news', headers: }
+  subject(:get_posts) { get '/news' }
 
   let(:posts_stub) do
     Stub.request(
@@ -11,7 +11,6 @@ RSpec.describe 'Posts: Index', type: :request do
       query: hash_including(language: 'en')
     ).to_return Stub.json([])
   end
-  let(:headers) { {} }
 
   before do
     posts_stub
@@ -34,10 +33,9 @@ RSpec.describe 'Posts: Index', type: :request do
   end
 
   context 'for logged-in user' do
-    let(:user) { stub_user_request }
-    let(:headers) { super().merge('Authorization' => "Xikolo-Session session_id=#{stub_session_id}") }
+    before { sign_in(user:) }
 
-    before { user }
+    let(:user) { create(:'account_service/user') }
 
     it 'shows the announcements page' do
       get_posts
@@ -48,15 +46,13 @@ RSpec.describe 'Posts: Index', type: :request do
       get_posts
       expect(
         posts_stub.with(
-          query: {published: 'true', user_id: user[:id], language: 'en'}
+          query: {published: 'true', user_id: user.id, language: 'en'}
         )
       ).to have_been_requested.once
     end
 
     context 'with permission to see all announcements' do
-      let(:user) do
-        stub_user_request permissions: ['news.announcement.show']
-      end
+      let(:user) { create(:'account_service/user', :admin) }
 
       it 'shows the announcements page' do
         get_posts
@@ -67,7 +63,7 @@ RSpec.describe 'Posts: Index', type: :request do
         get_posts
         expect(
           posts_stub.with(
-            query: {published: 'false', user_id: user[:id], language: 'en'}
+            query: {published: 'false', user_id: user.id, language: 'en'}
           )
         ).to have_been_requested.once
       end

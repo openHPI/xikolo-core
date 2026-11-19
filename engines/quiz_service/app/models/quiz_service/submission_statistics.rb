@@ -29,7 +29,7 @@ class SubmissionStatistics # rubocop:disable Layout/IndentationWidth
   end
 
   def avg_submit_duration
-    return 0 if submissions.count.zero?
+    return 0 if submissions.none?
 
     total_submit_duration = submissions.sum(
       'extract(epoch from age(quiz_submission_time, created_at))'
@@ -155,7 +155,7 @@ class SubmissionStatistics # rubocop:disable Layout/IndentationWidth
   end
 
   def box_plot_distributions
-    query = <<-SQL.squish
+    query = <<~SQL.squish
       WITH raw_data AS (
             SELECT s.id, (s.fudge_points + SUM(q.points)) / #{@quiz.max_points} AS value
               FROM quiz_submissions AS s

@@ -1,0 +1,14 @@
+<article class="x-card bg-accent-25 text-accent-content">
+  <div class="x-card-body">
+    <% if @title.present? %>
+      <h4 class="x-card-title flex items-center gap-2">
+        <%= helpers.pixelart_icon('comment-text', css_class: 'size-6 shrink-0') %>
+        <%= @title %>
+      </h4>
+    <% end %>
+
+    <div class="prose prose-sm max-w-none" lang="<%= @lang %>">
+      <%== @rendered_content %>
+    </div>
+  </div>
+</article>

@@ -11,8 +11,8 @@ class Video::Clone < ApplicationOperation # rubocop:disable Layout/IndentationWi
   end
 
   def call
-    Duplicated::Video.transaction do
-      @video = Duplicated::Video.new(
+    ::Video::Video.transaction do
+      @video = ::Video::Video.new(
         @original_video.attributes.except(
           'id', 'slides_uri', 'transcript_uri', 'reading_material_uri', 'thumbnails_uri'
         ).merge(id: SecureRandom.uuid)

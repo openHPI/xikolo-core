@@ -3,13 +3,12 @@
 require 'spec_helper'
 
 describe 'Courses: Course list banner', type: :request do
-  subject(:get_courses) { get '/courses', headers: }
+  subject(:get_courses) { get '/learn' }
 
-  let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
   let(:page) { Capybara.string(response.body) }
 
   before do
-    stub_user_request
+    sign_in
   end
 
   context 'with no banner configured' do

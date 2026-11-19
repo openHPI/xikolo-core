@@ -13,9 +13,6 @@ class API::PreferencesController < API::RESTController # rubocop:disable Layout/
     user.save!
 
     respond_with user
-
-    Msgr.publish({user_id: user.id},
-      to: 'xikolo.account.user.preferences.updated')
   end
 
   def decorate(resource)

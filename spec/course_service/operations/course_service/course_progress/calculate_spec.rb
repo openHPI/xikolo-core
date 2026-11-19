@@ -29,7 +29,7 @@ describe CourseService::CourseProgress::Calculate, type: :operation do
 
   context 'with existing course progress for the user' do
     before do
-      create(:'course_service/course_progress', course: section.course, user_id:, visits: 2)
+      create(:'course_service/course_progress', course: section.course, user_id:, visits: 2, main_dpoints: 0, main_exercises: 0, max_dpoints: 0, max_visits: 0)
     end
 
     it 'updates the existing course progress' do

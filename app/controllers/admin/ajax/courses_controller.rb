@@ -8,7 +8,7 @@ module Admin
       before_action :ensure_logged_in
 
       def index
-        authorize_any! 'course.course.index', 'course.document.manage'
+        authorize! 'course.course.index'
 
         courses = course_api.rel(:courses).get({
           autocomplete: params[:q],

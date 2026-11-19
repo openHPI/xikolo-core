@@ -4,8 +4,10 @@ module Course
   class Visual < ApplicationRecord
     self.table_name = 'course_visuals'
 
-    belongs_to :course, class_name: '::Course::Course'
+    belongs_to :course, class_name: '::CourseService::Course'
     belongs_to :video, class_name: '::Video::Video', optional: true
+
+    attr_accessor :teaser_video
 
     after_commit :delete_s3_object!, on: %i[update destroy]
 

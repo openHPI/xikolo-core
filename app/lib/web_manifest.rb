@@ -70,7 +70,7 @@ module WebManifest
         icon[:sizes]
       end.collect do |icon|
         {
-          src: ActionController::Base.helpers.image_path(icon[:src][icons_dir.to_s.size + 1..]),
+          src: ActionController::Base.helpers.image_path(icon[:src][(icons_dir.to_s.size + 1)..]),
           sizes: icon[:sizes][1],
           type: 'image/png',
         }

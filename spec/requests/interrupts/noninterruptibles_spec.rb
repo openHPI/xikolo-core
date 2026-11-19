@@ -8,24 +8,16 @@ describe 'Interrupts: Non-interruptible requests', type: :request do
   let(:request) { get '/', params:, headers: }
   let(:params) { {} }
   let(:headers) { {} }
+  let(:user) { create(:'account_service/user', completed_profile: true) }
 
   context 'with anonymous user' do
     it { is_expected.to have_http_status :ok }
   end
 
   context 'with logged-in user' do
-    let(:headers) { super().merge('Authorization' => "Xikolo-Session session_id=#{stub_session_id}") }
-
     before do
-      stub_user_request \
-        id: '2611b7f0-b0dc-43d3-96be-81d810ba2535',
-        interrupts: ['new_consents']
-    end
-
-    context 'request coming from mobile apps' do
-      let(:params) { super().merge(in_app: 'true') }
-
-      it { is_expected.to have_http_status :ok }
+      create(:'account_service/treatment')
+      sign_in(user:)
     end
 
     context 'AJAX request' do

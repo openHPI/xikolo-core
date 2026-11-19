@@ -5,6 +5,7 @@ class Enrollment < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   self.table_name = :enrollments
 
   belongs_to :course
+  belongs_to :user, class_name: '::AccountService::User'
 
   has_one :fixed_learning_evaluation,
     foreign_key: %i[user_id course_id],
@@ -14,10 +15,7 @@ class Enrollment < ApplicationRecord # rubocop:disable Layout/IndentationWidth
     foreign_key: %i[user_id course_id],
     primary_key: %i[user_id course_id]
 
-  default_scope lambda {
-    order('enrollments.created_at DESC, enrollments.updated_at DESC')
-  }
-  scope :active, -> { where(deleted: false) }
+  scope :active, -> { where(deleted: false).joins(:course).where(courses: {deleted: false}) }
   # In Rails 6, these could use begin-/end-less ranges
   scope :created_last_day, -> { where(created_at: 1.day.ago..) }
   scope :created_last_7days, -> { where(created_at: 7.days.ago..) }
@@ -39,28 +37,31 @@ class Enrollment < ApplicationRecord # rubocop:disable Layout/IndentationWidth
           ) AS user_dpoints
         SQL
         'COALESCE(course_progresses.max_dpoints, 0) AS maximal_dpoints',
-        'COALESCE(course_progresses.points_percentage_fpoints, 0)::float / 100 AS points_percentage'
+        'COALESCE(course_progresses.points_percentage_fpoints, 0)::float / 100 AS points_percentage',
+        <<~SQL.squish
+          EXISTS(
+            select * from #{Certificate::Record.table_name}
+            where type = #{Certificate::Record.connection.quote(Certificate::Record::CERT)}
+              and #{Certificate::Record.table_name}.course_id = enrollments.course_id
+              and #{Certificate::Record.table_name}.user_id = enrollments.user_id
+          ) AS certificate_issued
+        SQL
       )
   }
 
   validates :user_id,
-    presence: true,
     uniqueness: {scope: :course_id, message: 'already enrolled'}
   validate :course_not_external
 
   after_commit(on: :create) do
-    LearningEvaluation::UpdateCourseProgressWorker
-      .perform_async(course_id, user_id)
-  end
-
-  after_commit(on: :update) do
-    Msgr.publish(decorate_self, to: 'xikolo.course.enrollment.update')
+    LearningEvaluation::UpdateCourseProgressJob
+      .perform_later(course_id, user_id)
   end
 
   after_commit do
     next unless forced_submission_date?
 
-    NextDate::OnDemandExpiresSyncWorker.perform_async(course_id, user_id)
+    NextDate::OnDemandExpiresSyncJob.perform_later(course_id, user_id)
   end
 
   def completed?
@@ -73,7 +74,7 @@ class Enrollment < ApplicationRecord # rubocop:disable Layout/IndentationWidth
     end
     return true if course.record_of_achievement? self
 
-    course.status != 'active' && course.confirmation_of_participation?(self)
+    (course.status != 'active' || course.end_date&.past?) && course.confirmation_of_participation?(self)
   end
 
   # Is the course currently (actively) reactivated for the user?
@@ -102,7 +103,7 @@ class Enrollment < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   end
 
   def last_visit
-    items = Item.unscope(:order).joins(:section)
+    items = Item.joins(:section)
       .where(sections: {course_id:})
     Visit.reorder(updated_at: :desc).find_by(
       user_id:,
@@ -136,6 +137,15 @@ class Enrollment < ApplicationRecord # rubocop:disable Layout/IndentationWidth
     last_graded_item_date
   end
 
+  def certificates
+    {
+      confirmation_of_participation:
+        course.confirmation_of_participation?(self),
+      record_of_achievement: course.record_of_achievement?(self),
+      certificate: course.certificate?(self),
+    }
+  end
+
   def self.with_learning_evaluation(enrollments)
     # group by section
     visits_query = Visit.where('user_id = enrollments.user_id').where('item_id = items.id')
@@ -146,6 +156,7 @@ class Enrollment < ApplicationRecord # rubocop:disable Layout/IndentationWidth
             EXISTS (#{visits_query.to_sql})
             AND NOT sections.optional_section
             AND NOT items.optional
+            AND (items.exercise_type IS NULL OR items.exercise_type <> 'exam')
           THEN 1
           ELSE 0
         END
@@ -155,7 +166,7 @@ class Enrollment < ApplicationRecord # rubocop:disable Layout/IndentationWidth
     total_items = <<~SQL.squish
       SUM(
         CASE
-          WHEN sections.optional_section OR items.optional
+          WHEN sections.optional_section OR items.optional OR items.exercise_type = 'exam'
           THEN 0
           ELSE 1
         END
@@ -165,19 +176,8 @@ class Enrollment < ApplicationRecord # rubocop:disable Layout/IndentationWidth
     results_query = Result.select('dpoints')
       .where('user_id = enrollments.user_id')
       .where('item_id = items.id')
-      .order(
-        Arel.sql(
-          <<~SQL.squish
-            (
-              CASE
-                WHEN items.proctored and enrollments.proctored
-                THEN cast(extract(epoch from results.created_at) as integer)
-                ELSE results.dpoints
-              END
-            ) DESC
-          SQL
-        )
-      ).limit(1)
+      .order(dpoints: :desc)
+      .limit(1)
     user_dpoints = <<~SQL.squish
       COALESCE (
         SUM (

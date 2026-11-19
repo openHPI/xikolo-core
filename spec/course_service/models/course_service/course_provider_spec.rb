@@ -22,28 +22,19 @@ describe CourseService::CourseProvider, type: :model do
     end
 
     context 'with course in preparation' do
-      let(:attrs) { {status: 'preparation'} }
+      let(:attrs) { {published: false} }
 
       it 'does not sync' do
         expect(sync?).to be_falsey
       end
     end
 
-    context 'with course changed to preparation' do
+    context 'with course changed to published true' do
       context 'from active' do
-        let(:attrs) { {status: 'active'} }
+        let(:attrs) { {published: false} }
 
         it 'syncs' do
-          course.update status: 'preparation'
-          expect(sync?).to be_truthy
-        end
-      end
-
-      context 'from archive' do
-        let(:attrs) { {status: 'archive'} }
-
-        it 'syncs' do
-          course.update status: 'preparation'
+          course.update published: true
           expect(sync?).to be_truthy
         end
       end
@@ -58,7 +49,7 @@ describe CourseService::CourseProvider, type: :model do
     end
 
     context 'with external course' do
-      let(:attrs) { {external_course_url: 'https://mooc.house/courses/test2019'} }
+      let(:attrs) { {external_course_url: 'https://mooc.house/learn/test2019'} }
 
       it 'does not sync' do
         expect(sync?).to be_falsey

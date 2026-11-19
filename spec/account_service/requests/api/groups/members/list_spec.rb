@@ -13,13 +13,12 @@ describe 'Groups Members: Listing', type: :request do
   let(:users) { create_list(:'account_service/user', 10) }
 
   # Overwritten in specific contexts
-  # rubocop:disable RSpec/LetSetup
+  # rubocop:disable-next RSpec/LetSetup
   let!(:setup) do
     group.members << users[1..3]
     group.members << users[5..7]
     group.members << users[9..9]
   end
-  # rubocop:enable RSpec/LetSetup
 
   it 'responds with 200 Ok' do
     expect(resource).to respond_with :ok
@@ -72,7 +71,7 @@ describe 'Groups Members: Listing', type: :request do
 
       it 'contains all users' do
         expect(resource.size).to eq users.size
-        expect(resource.map { it['id'] }).to match_array users.pluck(:id)
+        expect(resource.pluck('id')).to match_array users.pluck(:id)
       end
     end
 
@@ -84,7 +83,7 @@ describe 'Groups Members: Listing', type: :request do
 
       it 'contains only active users' do
         expect(resource.size).to eq 2
-        expect(resource.map { it['id'] }).to match_array \
+        expect(resource.pluck('id')).to match_array \
           [users[1], users[4]].pluck(:id)
       end
     end
@@ -97,7 +96,7 @@ describe 'Groups Members: Listing', type: :request do
 
       it 'contains only confirmed users' do
         expect(resource.size).to eq 3
-        expect(resource.map { it['id'] }).to match_array \
+        expect(resource.pluck('id')).to match_array \
           [users[1], users[3], users[4]].pluck(:id)
       end
     end
@@ -110,7 +109,7 @@ describe 'Groups Members: Listing', type: :request do
 
       it 'contains only unconfirmed users' do
         expect(resource.size).to eq 4
-        expect(resource.map { it['id'] }).to match_array \
+        expect(resource.pluck('id')).to match_array \
           [users[0], users[2], users[5], users[6]].pluck(:id)
       end
     end
@@ -128,7 +127,7 @@ describe 'Groups Members: Listing', type: :request do
 
       it 'contains only archived users' do
         expect(resource.size).to eq 2
-        expect(resource.map { it['id'] }).to match_array \
+        expect(resource.pluck('id')).to match_array \
           [users[3], users[6]].pluck(:id)
       end
     end
@@ -161,19 +160,19 @@ describe 'Groups Members: Listing', type: :request do
         res = resource
 
         expect(res.size).to eq 3
-        expect(res.as_json.map { it['id'] }).to eq members[0, 3].map(&:id)
+        expect(res.as_json.pluck('id')).to eq members[0, 3].map(&:id)
         expect(res.response.headers['X_TOTAL_COUNT']).to eq '7'
 
         res = res.rel(:next).get.value!
 
         expect(res.size).to eq 3
-        expect(res.as_json.map { it['id'] }).to eq members[3, 3].map(&:id)
+        expect(res.as_json.pluck('id')).to eq members[3, 3].map(&:id)
         expect(res.response.headers['X_TOTAL_COUNT']).to eq '7'
 
         res = res.rel(:next).get.value!
 
         expect(res.size).to eq 1
-        expect(res.as_json.map { it['id'] }).to eq members[6, 1].map(&:id)
+        expect(res.as_json.pluck('id')).to eq members[6, 1].map(&:id)
         expect(res.response.headers['X_TOTAL_COUNT']).to eq '7'
       end
 
@@ -184,14 +183,14 @@ describe 'Groups Members: Listing', type: :request do
           res = resource
 
           expect(res.size).to eq 3
-          expect(res.as_json.map { it['id'] }).to eq members[3, 3].map(&:id)
+          expect(res.as_json.pluck('id')).to eq members[3, 3].map(&:id)
 
           expect(res.response.headers['X_TOTAL_COUNT']).to eq '7'
 
           res = res.rel(:next).get.value!
 
           expect(res.size).to eq 1
-          expect(res.as_json.map { it['id'] }).to eq members[6, 1].map(&:id)
+          expect(res.as_json.pluck('id')).to eq members[6, 1].map(&:id)
 
           expect(res.response.headers['X_TOTAL_COUNT']).to eq '7'
         end
@@ -204,19 +203,19 @@ describe 'Groups Members: Listing', type: :request do
           res = resource
 
           expect(res.size).to eq 3
-          expect(res.as_json.map { it['id'] }).to eq members[0, 3].map(&:id)
+          expect(res.as_json.pluck('id')).to eq members[0, 3].map(&:id)
           expect(res.response.headers['X_TOTAL_COUNT']).to eq '7'
 
           res = base.rel(:members).get({**params, page: 2}).value!
 
           expect(res.size).to eq 3
-          expect(res.as_json.map { it['id'] }).to eq members[3, 3].map(&:id)
+          expect(res.as_json.pluck('id')).to eq members[3, 3].map(&:id)
           expect(res.response.headers['X_TOTAL_COUNT']).to eq '7'
 
           res = base.rel(:members).get({**params, page: 3}).value!
 
           expect(res.size).to eq 1
-          expect(res.as_json.map { it['id'] }).to eq members[6, 1].map(&:id)
+          expect(res.as_json.pluck('id')).to eq members[6, 1].map(&:id)
           expect(res.response.headers['X_TOTAL_COUNT']).to eq '7'
         end
       end

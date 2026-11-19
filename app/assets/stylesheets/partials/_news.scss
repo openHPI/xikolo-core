@@ -23,8 +23,8 @@ $xi-news-background-color: $white !default;
   &__older-title {
     @include font-m;
     overflow: hidden;
-    padding: 1rem;
-    margin: 4rem 0 2rem 0;
+    padding: legacy-rem(1rem);
+    margin: legacy-rem(4rem) 0 legacy-rem(2rem) 0;
     color: $gray-600;
     text-align: center;
 

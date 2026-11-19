@@ -10,7 +10,12 @@ class Account::TreatmentsController < Abstract::FrontendController
   end
 
   def consent
-    consents = params[:treatments].split(',').map do |treatment|
+    if missing_required_consents?
+      add_flash_message :error, t(:'account.treatments.consent.flash.error')
+      return redirect_to treatments_path, status: :see_other
+    end
+
+    consents = AccountService::Treatment.pluck(:name).map do |treatment|
       {
         name: treatment,
         consented: given_consents.include?(treatment),
@@ -38,5 +43,11 @@ class Account::TreatmentsController < Abstract::FrontendController
 
   def given_consents
     @given_consents ||= params.permit(consent: []).fetch(:consent, [])
+  end
+
+  # Every required treatment has to be ticked before we store anything.
+  def missing_required_consents?
+    AccountService::Treatment.where(required: true).pluck(:name)
+      .any? {|name| given_consents.exclude?(name) }
   end
 end

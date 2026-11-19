@@ -3,14 +3,6 @@
 class ApplicationJob < ActiveJob::Base
   queue_as 'default'
 
-  # The max amount of time a job is allowed to run before it is stopped.
-  # Must be less than the global `max_run_time` default,
-  # see config/initializers/delayed.rb.
-  # Allow a regular job to run for 20 minutes, which is the delayed gem default.
-  def max_run_time
-    20.minutes
-  end
-
   # Automatically retry jobs that encountered a deadlock.
   # retry_on ActiveRecord::Deadlocked
 

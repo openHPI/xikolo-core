@@ -9,75 +9,7 @@ describe NotificationService::AdminStatistic, type: :model do
   let(:course_id2) { '00000001-3300-4444-9999-000000000007' }
   let(:course_id3) { '00000001-3300-4444-9999-000000000008' }
 
-  let(:end_date) { '2017-08-16T00:00:00.000Z' }
-  let(:course_statistic) do
-    NotificationService::CourseStats.verify({
-      id: '00d6833d-d75c-4f64-813f-5d312bd7e686',
-      course_code: 'hidden',
-      course_id: '00000001-3300-4444-9999-000000000007',
-      course_status: 'active',
-      hidden: true,
-      end_date:,
-      start_date: nil,
-      created_at: '2016-09-14T09:11:53.781Z',
-      updated_at: '2016-09-14T11:29:57.596Z',
-
-      active_users_last_7days: nil,
-      active_users_last_day: nil,
-      badge_downloads: nil,
-      badge_issues: nil,
-      badge_shares: nil,
-      completion_rate: 0.0,
-      consumption_rate: 0.0,
-      cop_count: nil,
-      current_enrollments: 0,
-      days_since_coursestart: nil,
-      enrollments_at_course_end_netto: nil,
-      enrollments_at_course_end: nil,
-      enrollments_at_course_middle_netto: nil,
-      enrollments_at_course_middle: 0,
-      enrollments_at_course_start_netto: nil,
-      enrollments_at_course_start: nil,
-      enrollments_last_day: 0,
-      enrollments_per_day: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      helpdesk_tickets_last_day: 0,
-      helpdesk_tickets: 0,
-      new_users: 0,
-      no_shows_at_end: nil,
-      no_shows_at_middle: nil,
-      no_shows: 0.0,
-      posts_last_day: nil,
-      posts: nil,
-      qc_count: nil,
-      roa_count: 99,
-      shows_at_end: nil,
-      shows_at_middle: nil,
-      shows: nil,
-      threads_last_day: nil,
-      threads: nil,
-      total_enrollments: 100,
-    })
-  end
-
   before do
-    Sidekiq::Testing.fake!
-
-    Stub.service(:learnanalytics, build(:'lanalytics:root'))
-
-    Stub.request(:learnanalytics, :get, "/course_statistics/#{course_id}")
-      .to_return Stub.json(course_statistic)
-
-    Stub.request(:learnanalytics, :get, "/course_statistics/#{course_id2}")
-      .to_return Stub.json(course_statistic)
-
-    Stub.request(:learnanalytics, :get, "/course_statistics/#{course_id3}")
-      .to_return Stub.json(course_statistic)
-
-    Stub.request(
-      :learnanalytics, :get, '/metric',
-      query: {name: 'certificates'}
-    )
-
     Stub.request(
       :course, :get, '/courses',
       query: {groups: 'any'}
@@ -152,24 +84,8 @@ describe NotificationService::AdminStatistic, type: :model do
     create_list(:helpdesk_ticket, 5, :today)
   end
 
-  it 'has one course' do
-    expect(statistic).to respond_to(:course_stats)
-    expect(statistic.course_stats.length).to eq(2)
-
-    course_info = statistic.course_stats.first
-    expect(course_info).to be_a(NotificationService::CourseStats)
-    expect(course_info.course_id).to eq(course_id2)
-  end
-
   it 'has general course statistics' do
     expect(statistic).to respond_to(:platform_course_stats)
-  end
-
-  it 'has correct data' do
-    course_statistic = statistic.course_stats.first
-    expect(course_statistic.course_id).to eq(course_id2)
-    expect(course_statistic.total_enrollments).to eq(100)
-    expect(course_statistic.roa_count).to eq(99)
   end
 
   it 'counts helpdesk tickets (total and per day)' do
@@ -178,8 +94,6 @@ describe NotificationService::AdminStatistic, type: :model do
   end
 
   context 'without an end date' do
-    let(:end_date) { nil }
-
     it 'does not raise an error' do
       expect { statistic }.not_to raise_error
     end

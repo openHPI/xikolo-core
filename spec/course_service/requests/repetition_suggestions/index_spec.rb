@@ -8,7 +8,7 @@ describe 'Repetition Suggestions: Index', type: :request do
   end
 
   let(:api) { restify_with_headers(course_service.root_url).get.value! }
-  let(:user_id) { generate(:user_id) }
+  let(:user_id) { create(:'account_service/user').id }
   let(:max_dpoints) { 100 }
   let(:course_id) { '00000001-3300-4444-9999-000000000001' }
   let!(:course) { create(:'course_service/course', id: course_id) }

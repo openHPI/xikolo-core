@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :'pinboard_service/question', class: 'PinboardService::Question' do
-    user_id { '00000001-3100-4444-9999-000000000001' }
+    user_id { create(:'account_service/user').id }
     sequence(:title) {|n| "Test Title #{n}" }
     text { 'SQL seems to be an abbreviation. Does anyone know its meaning?' }
     video_id { '00000001-3600-4444-9999-000000000001' }

@@ -35,30 +35,9 @@ module Admin
         }).value!
       end
 
-      def fetch_metric(name:, **params)
-        return lanalytics_api.rel(:metric).get({**params, name:}) if metrics_available?(name)
-
-        Restify::Promise.fulfilled(nil)
-      end
-
-      def metrics_available?(*names)
-        names.map(&:underscore).all? {|name| available_metrics.include?(name) }
-      end
-
-      def available_metrics
-        @available_metrics ||= begin
-          metrics_list = lanalytics_api.rel(:metrics).get.value!
-          metrics_list.select {|metric| metric['available'] }.pluck('name')
-        end
-      end
-
-      def lanalytics_api
-        @lanalytics_api ||= Xikolo.api(:learnanalytics).value!
-      end
-
       def filter_admins(data)
-        group_id = Account::Group.find_by(name: 'xikolo.admins').id
-        admin_user_ids = Account::Membership.where(group_id: group_id).pluck(:user_id)
+        group_id = AccountService::Group.find_by(name: 'xikolo.admins').id
+        admin_user_ids = AccountService::Membership.where(group_id: group_id).pluck(:user_id)
 
         data.reject do |row|
           admin_user_ids.include?(row['user']['id'])

@@ -1,0 +1,13 @@
+<span id="question-subscription" class="action">
+  <% if subscribed %>
+    <%= button_to toggle_subscription_path(question_id) do %>
+      <%= render Global::FaIcon.new('star', style: :solid, css_classes: 'xi-icon') %>
+      <%= t(:'question.question_detail.unsubscribe') %>
+    <% end %>
+  <% else %>
+    <%= button_to toggle_subscription_path(question_id) do %>
+      <%= render Global::FaIcon.new('star', css_classes: 'xi-icon') %>
+      <%= t(:'question.question_detail.subscribe') %>
+    <% end %>
+  <% end %>
+</span>

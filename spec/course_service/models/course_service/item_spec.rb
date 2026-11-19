@@ -16,6 +16,33 @@ describe CourseService::Item, type: :model do
 
       it { is_expected.not_to accept_values_for(:exercise_type, '', nil) }
     end
+
+    context 'for scored cmi5 items' do
+      subject(:item) do
+        create(
+          :'course_service/item',
+          content_type: 'cmi5',
+          exercise_type: 'selftest',
+          max_dpoints: 100
+        )
+      end
+
+      it { is_expected.to accept_values_for(:exercise_type, 'selftest') }
+      it { is_expected.not_to accept_values_for(:exercise_type, '', nil, 'main', 'bonus', 'survey') }
+    end
+
+    context 'for ungraded cmi5 items' do
+      subject(:item) do
+        create(
+          :'course_service/item',
+          content_type: 'cmi5',
+          exercise_type: nil,
+          max_dpoints: nil
+        )
+      end
+
+      it { is_expected.to accept_values_for(:exercise_type, '', nil) }
+    end
   end
 
   describe 'creation' do
@@ -238,7 +265,7 @@ describe CourseService::Item, type: :model do
 
         context 'unpublishing the item' do
           let(:update_params) { {published: false} }
-          let!(:item) do # rubocop:disable RSpec/LetSetup
+          let!(:item) do
             create(:'course_service/item', :quiz, section:, published: true)
           end
 
@@ -263,7 +290,7 @@ describe CourseService::Item, type: :model do
 
         context 'setting the item to non-optional' do
           let(:update_params) { {optional: false} }
-          let!(:item) do # rubocop:disable RSpec/LetSetup
+          let!(:item) do
             create(:'course_service/item', :quiz, section:, optional: true)
           end
 
@@ -305,7 +332,7 @@ describe CourseService::Item, type: :model do
           end
 
           context 'when the item and both sections are published' do
-            let!(:item) do # rubocop:disable RSpec/LetSetup
+            let!(:item) do
               create(:'course_service/item', :quiz, section:, published: true)
             end
 
@@ -334,7 +361,7 @@ describe CourseService::Item, type: :model do
 
           context 'from a published to a non-published section' do
             let(:another_section) { create(:'course_service/section', course:, published: false) }
-            let!(:item) do # rubocop:disable RSpec/LetSetup
+            let!(:item) do
               create(:'course_service/item', :quiz, section:, published: true)
             end
 
@@ -349,7 +376,7 @@ describe CourseService::Item, type: :model do
 
           context 'from a non-published to a published section' do
             let(:section) { create(:'course_service/section', course:, published: false) }
-            let!(:item) do # rubocop:disable RSpec/LetSetup
+            let!(:item) do
               create(:'course_service/item', :quiz, section:, published: true)
             end
 
@@ -365,7 +392,7 @@ describe CourseService::Item, type: :model do
           context 'from a non-published to another non-published section' do
             let(:section) { create(:'course_service/section', course:, published: false) }
             let(:another_section) { create(:'course_service/section', course:, published: false) }
-            let!(:item) do # rubocop:disable RSpec/LetSetup
+            let!(:item) do
               create(:'course_service/item', :quiz, section:, published: true)
             end
 
@@ -469,7 +496,7 @@ describe CourseService::Item, type: :model do
 
         context 'unpublishing the item' do
           let(:update_params) { {published: false} }
-          let!(:item) do # rubocop:disable RSpec/LetSetup
+          let!(:item) do
             create(:'course_service/item', :quiz, section:, published: true)
           end
 
@@ -494,7 +521,7 @@ describe CourseService::Item, type: :model do
 
         context 'setting the item to non-optional' do
           let(:update_params) { {optional: false} }
-          let!(:item) do # rubocop:disable RSpec/LetSetup
+          let!(:item) do
             create(:'course_service/item', :quiz, section:, optional: true)
           end
 
@@ -536,7 +563,7 @@ describe CourseService::Item, type: :model do
           end
 
           context 'when the item and both sections are published' do
-            let!(:item) do # rubocop:disable RSpec/LetSetup
+            let!(:item) do
               create(:'course_service/item', :quiz, section:, published: true)
             end
 
@@ -565,7 +592,7 @@ describe CourseService::Item, type: :model do
 
           context 'from a published to a non-published section' do
             let(:another_section) { create(:'course_service/section', course:, published: false) }
-            let!(:item) do # rubocop:disable RSpec/LetSetup
+            let!(:item) do
               create(:'course_service/item', :quiz, section:, published: true)
             end
 
@@ -580,7 +607,7 @@ describe CourseService::Item, type: :model do
 
           context 'from a non-published to a published section' do
             let(:section) { create(:'course_service/section', course:, published: false) }
-            let!(:item) do # rubocop:disable RSpec/LetSetup
+            let!(:item) do
               create(:'course_service/item', :quiz, section:, published: true)
             end
 
@@ -596,7 +623,7 @@ describe CourseService::Item, type: :model do
           context 'from a non-published to another non-published section' do
             let(:section) { create(:'course_service/section', course:, published: false) }
             let(:another_section) { create(:'course_service/section', course:, published: false) }
-            let!(:item) do # rubocop:disable RSpec/LetSetup
+            let!(:item) do
               create(:'course_service/item', :quiz, section:, published: true)
             end
 
@@ -802,6 +829,92 @@ describe CourseService::Item, type: :model do
     end
   end
 
+  describe '.completed?' do
+    %w[lti_exercise peer_assessment quiz].each do |content_type|
+      it "counts #{content_type} items once graded or submitted" do
+        expect(described_class.completed?(content_type:, user_state: 'graded')).to be true
+        expect(described_class.completed?(content_type:, user_state: 'submitted')).to be true
+        expect(described_class.completed?(content_type:, user_state: 'visited')).to be false
+        expect(described_class.completed?(content_type:, user_state: 'new')).to be false
+      end
+    end
+
+    it 'counts scored CMI5 items once graded or submitted' do
+      expect(described_class.completed?(content_type: 'cmi5', user_state: 'graded', max_points: 100)).to be true
+      expect(described_class.completed?(content_type: 'cmi5', user_state: 'submitted', max_points: 100)).to be true
+      expect(described_class.completed?(content_type: 'cmi5', user_state: 'visited', max_points: 100)).to be false
+      expect(described_class.completed?(content_type: 'cmi5', user_state: 'new', max_points: 100)).to be false
+    end
+
+    it 'counts non-scored CMI5 items once visited' do
+      expect(described_class.completed?(content_type: 'cmi5', user_state: 'visited', max_points: 0)).to be true
+      expect(described_class.completed?(content_type: 'cmi5', user_state: 'visited')).to be true
+      expect(described_class.completed?(content_type: 'cmi5', user_state: 'graded', max_points: 0)).to be false
+      expect(described_class.completed?(content_type: 'cmi5', user_state: 'new', max_points: 0)).to be false
+    end
+
+    it 'counts other items once visited' do
+      expect(described_class.completed?(content_type: 'video', user_state: 'visited')).to be true
+      expect(described_class.completed?(content_type: 'video', user_state: 'graded')).to be false
+      expect(described_class.completed?(content_type: 'video', user_state: 'new')).to be false
+    end
+  end
+
+  describe '#exam_locked_for?' do
+    subject(:locked) { item.exam_locked_for?(user_id) }
+
+    let(:item) do
+      create(:'course_service/item', :quiz, exercise_type: 'exam', minimum_progress_percentage:,
+        content_id: create(:'quiz_service/quiz', :with_valid_question_pool).id)
+    end
+    let(:minimum_progress_percentage) { 50 }
+    let(:user_id) { generate(:user_id) }
+
+    def create_progress(visits_percentage_fpoints)
+      create(:'course_service/course_progress', course: item.section.course, user_id:, visits_percentage_fpoints:)
+    end
+
+    it 'is locked without a course progress' do
+      expect(locked).to be true
+    end
+
+    it 'is locked below the required progress' do
+      create_progress(49_99)
+      expect(locked).to be true
+    end
+
+    it 'is unlocked once the required progress is reached' do
+      create_progress(50_00)
+      expect(locked).to be false
+    end
+
+    context 'without a user' do
+      let(:user_id) { nil }
+
+      it { is_expected.to be false }
+    end
+
+    context 'for items other than exams' do
+      let(:item) { create(:'course_service/item', :homework) }
+
+      it { is_expected.to be false }
+    end
+
+    context 'without a required progress' do
+      let(:minimum_progress_percentage) { nil }
+
+      it 'is locked below 75%' do
+        create_progress(74_99)
+        expect(locked).to be true
+      end
+
+      it 'is unlocked from 75%' do
+        create_progress(75_00)
+        expect(locked).to be false
+      end
+    end
+  end
+
   describe '#effective_published' do
     # we don't consider course start / end dates here
     let!(:course) { create(:'course_service/course', start_date: nil, end_date: nil) }
@@ -862,7 +975,7 @@ describe CourseService::Item, type: :model do
         item.effective_submission_deadline
       end
 
-      let(:user_id) { generate(:user_id) }
+      let(:user_id) { create(:'account_service/user').id }
       let(:enrollment_params) { {user_id:, course_id: item.section.course.id} }
 
       before { create(:'course_service/enrollment', enrollment_params) }
@@ -998,24 +1111,9 @@ describe CourseService::Item, type: :model do
       it 'publishes an event for newly created item' do
         # With a new item, the course structure is changed so the course is
         # marked for recalculation, causing an update event to be published.
-        expect(Msgr).to receive(:publish).with(kind_of(Hash), hash_including(to: 'xikolo.course.course.update'))
-        expect(Msgr).to receive(:publish).with(kind_of(Hash), hash_including(to: 'xikolo.course.item.create'))
-
-        # During the first save we expect an event to be published.
-        item.save!
-      end
-
-      it 'publishes an event for updated item' do
-        item.save!
-
-        expect(Msgr).to receive(:publish) do |updated_item_as_hash, msgr_params|
-          expect(updated_item_as_hash).to be_a(Hash)
-          expect(updated_item_as_hash).to include('title' => 'New awesome openHPI Course Item')
-          expect(msgr_params).to include(to: 'xikolo.course.item.update')
-        end
-
-        item.title = 'New awesome openHPI Course Item'
-        item.save!
+        expect { item.save! }
+          .to have_enqueued_job(PinboardService::SearchCourseUpdateJob)
+          .with(kind_of(Hash))
       end
 
       it 'publishes an event for a destroyed item' do
@@ -1023,61 +1121,10 @@ describe CourseService::Item, type: :model do
 
         # With a destroyed item, the course structure is changed so the course is
         # marked for recalculation, causing an update event to be published.
-        expect(Msgr).to receive(:publish).with(kind_of(Hash), hash_including(to: 'xikolo.course.course.update'))
-        expect(Msgr).to receive(:publish) do |destroyed_item_as_hash, msgr_params|
-          expect(destroyed_item_as_hash).to be_a(Hash)
-          expect(destroyed_item_as_hash).to include('title' => item.title, 'content_type' => item.content_type)
-          expect(msgr_params).to include(to: 'xikolo.course.item.destroy')
-        end
-
-        item.destroy!
+        expect { item.destroy! }
+          .to have_enqueued_job(PinboardService::SearchCourseUpdateJob)
+          .with(kind_of(Hash))
       end
-    end
-  end
-
-  describe '#open_mode_accessible?' do
-    subject { item.open_mode_accessible? }
-
-    let(:open_mode) { true }
-    let(:course_params) { {start_date: 2.days.ago, status: 'active'} }
-    let(:content_type) { 'video' }
-
-    let(:course) { create(:'course_service/course', course_params) }
-    let(:section) { create(:'course_service/section', course:) }
-    let(:item) { create(:'course_service/item', section:, open_mode:, content_type:) }
-
-    context 'in active public course with open mode' do
-      it { is_expected.to be_truthy }
-    end
-
-    context 'without open mode' do
-      let(:open_mode) { false }
-
-      it { is_expected.to be_falsey }
-    end
-
-    context 'in course in preparation' do
-      let(:course_params) { {status: 'preparation'} }
-
-      it { is_expected.to be_falsey }
-    end
-
-    context 'in hidden course' do
-      let(:course_params) { {status: 'active', hidden: true} }
-
-      it { is_expected.to be_falsey }
-    end
-
-    context 'in group restricted course' do
-      let(:course_params) { {status: 'active', groups: ['partners']} }
-
-      it { is_expected.to be_falsey }
-    end
-
-    context 'for a non-video item' do
-      let(:content_type) { 'rich_text' }
-
-      it { is_expected.to be_falsey }
     end
   end
 end

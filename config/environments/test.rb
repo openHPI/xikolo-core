@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'active_support/core_ext/integer/time'
-
 # The test environment is used exclusively to run your application's
 # test suite. You never need to work with it otherwise. Remember that
 # your test database is "scratch space" for the test suite and is wiped
@@ -19,32 +17,39 @@ Rails.application.configure do
   # loading is working properly before deploying your code.
   config.eager_load = ENV['CI'].present?
 
-  # Configure public file server for tests with Cache-Control for performance.
-  config.public_file_server.headers = {'Cache-Control' => "public, max-age=#{1.hour.to_i}"}
+  # Configure public file server for tests with cache-control for performance.
+  config.public_file_server.headers = {'cache-control' => 'public, max-age=3600'}
 
-  # Show full error reports and disable caching.
+  # Show full error reports.
   config.consider_all_requests_local = true
-  config.action_controller.perform_caching = false
   config.cache_store = :null_store
 
   # Render exception templates for rescuable exceptions and raise for other exceptions.
-  config.action_dispatch.show_exceptions = :none
+  config.action_dispatch.show_exceptions = :none # rescuable needs many test changes
 
   # Disable request forgery protection in test environment.
   config.action_controller.allow_forgery_protection = false
 
-  # Disable caching for Action Mailer templates even if Action Controller
-  # caching is enabled.
-  config.action_mailer.perform_caching = false
+  # Store uploaded files on the local file system in a temporary directory.
+  config.active_storage.service = :test
 
   # Tell Action Mailer not to deliver emails to the real world.
   # The :test delivery method accumulates sent emails in the
   # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
 
-  # Unlike controllers, the mailer instance doesn't have any context about the
-  # incoming request so you'll need to provide the :host parameter yourself.
-  config.action_mailer.default_url_options = {host: 'www.example.com'}
+  # Set host to be used by links generated in mailer templates.
+  config.action_mailer.default_url_options = {host: 'example.com'}
+
+  # Do not wrap test cases in the Rails executor. With Rails 8.1 this makes
+  # ActiveSupport::ExecutionContext non-nestable, so that executor run/complete
+  # cycles simply clear the context (as in Rails 8.0) instead of pushing/popping
+  # a stack. This is required because request specs route internal service calls
+  # back into the application (see spec/support/services.rb), which runs a
+  # nested executor cycle that completes the outer one. The resulting unbalanced
+  # pop would otherwise leave the execution context store as nil and break any
+  # subsequent ExecutionContext access (e.g. error reporting, ActiveJob).
+  config.active_support.executor_around_test_case = false
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr

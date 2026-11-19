@@ -1,0 +1,17 @@
+<div class="x-card <%= css_classes %> transform relative mb-5 w-64">
+  <div class="flex grow flex-col gap-2 w-64 p-5 pb-7">
+    <div class="line-clamp-2 text-base sm:text-xl" title="<%= @title %>">
+      <%= @title %>
+    </div>
+    <div class="line-clamp-2 text-xs" title="<%= @subtitle %>">
+      <%= @subtitle %>
+    </div>
+  </div>
+  <% if link? %>
+    <div class="pr-6 flex flex-col justify-end items-end absolute right-0 -bottom-5">
+      <%= link_to @link, class: 'x-btn x-btn-outline bg-base-100 justify-center items-center' do %>
+        <%= helpers.pixelart_icon 'arrow-right', css_class: 'size-4' %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

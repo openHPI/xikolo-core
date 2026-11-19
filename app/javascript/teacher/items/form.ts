@@ -1,11 +1,12 @@
 import { initializeTomSelect } from '../../components/global/custom-select';
 import initMarkdownEditorOnSelector from '../../util/markdown-editor';
-import ready from '../../util/ready';
+import { turboReady } from '../../util/ready';
 import { hideAllInputs, setDefaultTypes } from './form-helpers';
 import { ContentType } from './form-types';
 
 import mdupload from '../../util/forms/mdupload';
 import upload from '../../util/forms/upload';
+import handleCmi5Type from './cmi5';
 import handleLtiExerciseType from './lti-exercise';
 import handleQuizType from './quiz';
 import handleRichTextType from './rich-text';
@@ -46,6 +47,9 @@ const handleFormInputs = (
     case 'lti_exercise':
       handleLtiExerciseType(contentTypeElem, exerciseTypeElem);
       break;
+    case 'cmi5':
+      handleCmi5Type(exerciseTypeElem);
+      break;
     default:
       hideAllInputs();
   }
@@ -62,9 +66,10 @@ const listenToContentTypeChange = (
   });
 };
 
-ready(() => {
+turboReady(() => {
   const validControllerAction = document.querySelector(
-    'body.items-controller.new-action, body.items-controller.edit-action',
+    'body.items-controller.new-action, body.items-controller.edit-action, ' +
+      'body.items-controller.new_exam-action, body.items-controller.edit_exam-action',
   );
   if (!validControllerAction) return;
 

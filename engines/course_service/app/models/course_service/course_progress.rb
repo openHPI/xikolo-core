@@ -6,8 +6,8 @@ class CourseProgress < ApplicationRecord # rubocop:disable Layout/IndentationWid
   self.primary_key = %i[course_id user_id]
 
   # `0_00..100_00` are the fixed point representation of 0.00% - 100.00%
-  validates_inclusion_of :points_percentage_fpoints, in: 0_00..100_00
-  validates_inclusion_of :visits_percentage_fpoints, in: 0_00..100_00
+  validates :points_percentage_fpoints, inclusion: {in: 0_00..100_00}
+  validates :visits_percentage_fpoints, inclusion: {in: 0_00..100_00}
 
   belongs_to :course
 
@@ -104,7 +104,7 @@ class CourseProgress < ApplicationRecord # rubocop:disable Layout/IndentationWid
       # Ignore parent section without published children.
       next 0 if best_section.blank?
 
-      best_section.items.published.mandatory.count
+      best_section.items.published.mandatory.not_exams.count
     end
 
     # ...and add to the visits for items in regular sections

@@ -1,0 +1,39 @@
+<div
+  data-controller="countdown"
+  data-countdown-remaining-secs-value="<%= @remaining_secs %>"
+  <% if @form %>data-countdown-submit-form-value="<%= @form %>"<% end %>
+  role="timer"
+>
+  <% if labeled? %>
+    <%# Ticking numbers are noise for screen readers; callers describe the end date instead. %>
+    <div class="flex gap-4" aria-hidden="true">
+      <% units.each do |unit| %>
+        <div class="flex flex-col items-center">
+          <span class="x-countdown font-mono text-3xl lg:text-4xl">
+            <span
+              data-countdown-target="<%= unit.name %>"
+              style="--x-value:<%= unit.value %>; --x-digits: <%= digits(unit.value) %>;"
+            >
+              <%= unit.value %>
+            </span>
+          </span>
+
+          <span
+            data-countdown-target="<%= unit.name %>Label"
+            data-one="<%= unit_label(unit.name, 1) %>"
+            data-other="<%= unit_label(unit.name, 2) %>"
+            class="text-sm"
+          >
+            <%= unit_label(unit.name, unit.value) %>
+          </span>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <span class="x-countdown">
+      <% units.each_with_index do |unit, index| %>
+        <span data-countdown-target="<%= unit.name %>" style="--x-value:<%= unit.value %>; --x-digits: <%= digits(unit.value) %>;" aria-live="polite" aria-label="<%= pad(unit.value) %>"><%= pad(unit.value) %></span><%= ':' if index < units.size - 1 %>
+      <% end %>
+    </span>
+  <% end %>
+</div>

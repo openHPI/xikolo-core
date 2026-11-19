@@ -9,20 +9,20 @@ describe PinboardService::Commentable::Store, type: :operation do
     let(:file_uri) do
       's3://xikolo-pinboard/courses/1L0csnOIXZC1Un4Jct5Yuz/topics/Ur0skV1C03TKK3gqx1Izc/1iGR3qxnxA4tzlQzF34UDd/file.jpg'
     end
-    let(:text) { "![enter file description here][1]A text with file\r\n\r\n\r\n  [1]: #{file_uri}" }
+    let(:text) { "![enter file description here][1]A text with file\\r\\n\\r\\n\\r\\n  [1]: #{file_uri}" }
     let(:question) { create(:'pinboard_service/question', text:) }
     let(:attributes) { {} }
     let!(:delete_stub) do
       stub_request(
-        :delete, %r{https://s3.xikolo.de/xikolo-pinboard/courses/[a-zA-Z0-9]+/topics/[a-zA-Z0-9]+/[a-zA-Z0-9]+/file.jpg}
+        :delete, %r{#{test_s3_host}/xikolo-pinboard/courses/[a-zA-Z0-9]+/topics/[a-zA-Z0-9]+/[a-zA-Z0-9]+/file.jpg}
       ).with(
-        headers: {'Host' => 's3.xikolo.de'}
+        headers: {'Host' => URI(test_s3_host).then {|u| "#{u.host}:#{u.port}" }}
       ).to_return(status: 200, body: '<xml></xml>')
     end
 
     context 'when changing the text but not the referenced file' do
       let(:attributes) do
-        super().merge(text: "![A nice file description][1]A text with file\r\n\r\n\r\n  [1]: #{file_uri} and some more text")
+        super().merge(text: "![A nice file description][1]A text with file\\r\\n\\r\\n\\r\\n  [1]: #{file_uri} and some more text")
       end
 
       it 'does not delete the referenced file from S3' do
@@ -71,19 +71,19 @@ describe PinboardService::Commentable::Store, type: :operation do
       let(:filename) { 'new_file.jpg' }
       let(:new_file_uri) { "upload://#{upload_id}/#{filename}" }
       let(:attributes) do
-        super().merge(text: "![enter file description here][1]A text with file\r\n\r\n\r\n  [1]: #{new_file_uri}")
+        super().merge(text: "![enter file description here][1]A text with file\\r\\n\\r\\n\\r\\n  [1]: #{new_file_uri}")
       end
 
       let(:cid) { UUID4(question.course_id).to_str(format: :base62) }
       let(:qid) { UUID4(question.id).to_str(format: :base62) }
-      let(:store_regex) { %r{https://s3.xikolo.de/xikolo-pinboard/courses/#{cid}/topics/#{qid}/[0-9a-zA-Z]+/#{filename}}x }
+      let(:store_regex) { %r{#{test_s3_host}/xikolo-pinboard/courses/#{cid}/topics/#{qid}/[0-9a-zA-Z]+/#{filename}}x }
       let(:upload_stub) do
         stub_request(:put, store_regex).and_return(status: 200, body: '<xml></xml>')
           .and_return(status: 200, body: '<xml></xml>')
       end
 
       before do
-        stub_request(:head, "https://s3.xikolo.de/xikolo-uploads/uploads/#{upload_id}/#{filename}")
+        stub_request(:head, "#{test_s3_host}/xikolo-uploads/uploads/#{upload_id}/#{filename}")
           .and_return(
             status: 200,
             headers: {
@@ -122,7 +122,7 @@ describe PinboardService::Commentable::Store, type: :operation do
       context 'when adding a second file reference' do
         let(:attributes) do
           super().merge(
-            text: "![A nice file description][1]A text with file\r\n\r\n\r\n  [1]: #{file_uri}" + " ![enter file description here][2]A text with file\r\n\r\n\r\n  [2]: #{new_file_uri}"
+            text: "![A nice file description][1]A text with file\\r\\n\\r\\n\\r\\n  [1]: #{file_uri}" + " ![enter file description here][2]A text with file\\r\\n\\r\\n\\r\\n  [2]: #{new_file_uri}"
           )
         end
 
@@ -139,7 +139,7 @@ describe PinboardService::Commentable::Store, type: :operation do
         context 'when the new file references in the text are a subset of the existing references' do
           let(:attributes) do
             super().merge(
-              text: "![A nice file description][1]A text with file\r\n\r\n\r\n  [1]: #{file_uri}" + " ![enter file description here][2]A text with file\r\n\r\n\r\n  [2]: #{file_uri}"
+              text: "![A nice file description][1]A text with file\\r\\n\\r\\n\\r\\n  [1]: #{file_uri}" + " ![enter file description here][2]A text with file\\r\\n\\r\\n\\r\\n  [2]: #{file_uri}"
             )
           end
 

@@ -3,28 +3,17 @@
 require 'spec_helper'
 
 describe Course::SectionProgressPresenter do
-  subject(:presenter) do
-    described_class.new(course:, section: progress, user:).tap do
-      Acfs.run
-    end
-  end
+  subject(:presenter) { described_class.new(course:, section:, user:) }
 
-  let(:course) { Xikolo::Course::Course.new id: SecureRandom.uuid }
-  let(:progress) { Xikolo::Course::Progress.new section_progress }
-  let(:section_progress) { {'kind' => 'course', 'visits' => {}, 'items' => []} }
-  let(:user) { Xikolo::Account::User.new id: SecureRandom.uuid }
+  let(:course) { create(:course) }
+  let(:section) { create(:section, course:, published: true, start_date: 1.day.ago, end_date: 1.day.from_now) }
+  let(:user) { create(:'account_service/user') }
 
   describe '#available?' do
     subject { presenter.available? }
 
-    context 'with empty course' do
-      it { is_expected.to be_falsey }
-    end
-
-    context 'with not available section' do
-      let(:section_progress) do
-        super().merge 'available' => false
-      end
+    context 'with an unpublished section' do
+      let(:section) { create(:section, course:, published: false) }
 
       it { is_expected.to be_falsey }
     end
@@ -46,13 +35,9 @@ describe Course::SectionProgressPresenter do
     end
 
     context 'with items' do
-      let(:section_progress) do
-        super().merge(
-          'items' => [
-            {'title' => 'test'},
-            {'title' => 'test2'},
-          ]
-        )
+      before do
+        create(:item, section:, title: 'test', content_type: 'video')
+        create(:item, section:, title: 'test2', content_type: 'video')
       end
 
       its([0]) { is_expected.to be_a ItemPresenter }

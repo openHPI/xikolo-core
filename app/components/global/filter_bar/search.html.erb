@@ -1,0 +1,11 @@
+<div class="relative w-full min-w-0 sm:w-75">
+  <%= label_tag @name, @label || t(:'components.filter_bar.search.label'), class: 'sr-only' %>
+
+  <%= search_field_tag @name, @search_param,
+    class: 'x-input x-input-lg w-full pl-12',
+    placeholder: t(:'components.filter_bar.search.placeholder') %>
+
+  <%= button_tag type: 'submit', class: 'x-btn x-btn-ghost x-btn-square x-btn-sm absolute top-1/2 left-2 -translate-y-1/2', 'aria-label': t(:'components.filter_bar.search.label') do %>
+    <%= helpers.pixelart_icon('search', css_class: 'size-5') %>
+  <% end %>
+</div>

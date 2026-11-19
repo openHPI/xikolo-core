@@ -3,8 +3,8 @@
 require 'spec_helper'
 
 describe Course::Ajax::TopicsController, type: :controller do
-  let(:user_id) { generate(:user_id) }
-  let(:course) { build(:'course:course', context_id: request_context_id) }
+  let(:user) { create(:'account_service/user') }
+  let(:course) { create(:'course_service/course', context_id: request_context_id) }
   let(:request_context_id) { AccountService::Context.root.id }
 
   before do
@@ -32,7 +32,7 @@ describe Course::Ajax::TopicsController, type: :controller do
           title: topic_params[:title],
           first_post: {text: topic_params[:text]},
           meta: {video_timestamp: topic_params[:video_timestamp]},
-          author_id: user_id,
+          author_id: user.id,
           course_id: course['id'],
           item_id:,
         }
@@ -55,7 +55,7 @@ describe Course::Ajax::TopicsController, type: :controller do
     context 'for logged-in user' do
       let(:permissions) { %w[course.content.access.available] }
 
-      before { stub_user id: user_id, permissions: }
+      before { sign_in user: user, permissions: }
 
       it { is_expected.to have_http_status(:ok) }
 
@@ -70,7 +70,7 @@ describe Course::Ajax::TopicsController, type: :controller do
 
         it 'fails with proper error message' do
           create_topic
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
           expect(json).to eq('errors' => {'text' => ["The text can't be blank."]})
         end
       end

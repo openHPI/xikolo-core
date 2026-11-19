@@ -8,7 +8,7 @@ class PersistRankingTasksController < ApplicationController # rubocop:disable La
   respond_to :json
 
   def create
-    PersistRankingWorker.perform_async(course.id)
+    PersistRankingJob.perform_later(course.id)
 
     render json: {course_id: course.id}, status: :created
   end

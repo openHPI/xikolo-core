@@ -7,8 +7,7 @@
 #
 module Voucher
   class DeleteClaimantIPJob < ApplicationJob
-    queue_as :default
-    queue_with_priority :reporting
+    queue_as :low
 
     def perform
       # Clear all `claimant_ip` fields where it is not yet cleared

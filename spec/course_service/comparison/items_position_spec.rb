@@ -36,7 +36,7 @@ describe 'Items: Position', type: :request do
   let(:section) { create(:'course_service/section', course:, title: 'Week 1') }
   let!(:items) { create_list(:'course_service/item', 2, :quiz, :with_max_points, section:) }
   let(:late_item) { create(:'course_service/item', :quiz, section:).tap {|i| items << i } }
-  let(:user_id) { generate(:user_id) }
+  let(:user_id) { create(:'account_service/user').id }
 
   before do
     # Specifying a native `before` blocks here and in variants leads to a

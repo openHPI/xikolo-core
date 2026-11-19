@@ -15,18 +15,12 @@ class Course::TeacherListPresenter
     @teachers_promise = teachers_promise
   end
 
-  def pagination
-    RestifyPaginationCollection.new all
-  end
-
   def display?
     !all.empty?
   end
 
   def each
-    all.each_with_index do |teacher, i|
-      yield TeacherPresenter.new(teacher, active: i == 0)
-    end
+    all.each {|teacher| yield TeacherPresenter.new(teacher) }
   end
 
   private
@@ -36,9 +30,8 @@ class Course::TeacherListPresenter
   end
 
   class TeacherPresenter
-    def initialize(teacher, active: false)
+    def initialize(teacher)
       @teacher = teacher
-      @active = active
     end
 
     def id
@@ -53,10 +46,6 @@ class Course::TeacherListPresenter
       @teacher['picture_url']
     end
     alias picture? picture_url
-
-    def active?
-      @active
-    end
 
     def description
       return nil if @teacher['description'].nil?
@@ -81,6 +70,10 @@ class Course::TeacherListPresenter
 
     def description?
       description.present?
+    end
+
+    def referenced_in_courses?
+      @teacher['referenced_in_courses']
     end
   end
 end

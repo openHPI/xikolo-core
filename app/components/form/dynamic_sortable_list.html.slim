@@ -6,14 +6,14 @@
         span = item_name
         input type="hidden" name=@name value=item_id
         - if add_items?
-          button.btn.btn-danger.btn-xs data-behavior="delete" = t(:'global.delete')
+          button.btn.btn-danger.btn-xs type="button" data-behavior="delete" = t(:'global.delete')
 
   - if add_items?
     template
       = render Global::FaIcon.new('bars', style: :solid)
       span data-target="label"
       input type="hidden" name=@name
-      button.btn.btn-danger.btn-xs data-behavior="delete" = t(:'global.delete')
+      button.btn.btn-danger.btn-xs type="button" data-behavior="delete" = t(:'global.delete')
 
     .input-group
       - if @select_config.present?

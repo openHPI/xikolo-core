@@ -4,17 +4,20 @@ require 'spec_helper'
 
 describe 'Course: Admin: Offers: Destroy', type: :request do
   subject(:destroy_offer) do
-    delete "/courses/#{course.course_code}/offers/#{offer.id}", headers:
+    delete "/learn/#{course.course_code}/offers/#{offer.id}"
   end
 
-  let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
   let(:permissions) { %w[course.course.edit course.content.access] }
   let(:course) { create(:course) }
+  let(:user) { create(:'account_service/user') }
+  let(:authenticate) { true }
   let(:course_resource) { build(:'course:course', course_code: course.course_code, id: course.id) }
   let(:offer) { create(:offer, course_id: course.id) }
 
   before do
-    stub_user_request(permissions:)
+    sign_in(user:) if authenticate
+    role = create(:'account_service/role', permissions:)
+    create(:'account_service/grant', principal: user, role:)
     offer
 
     Stub.request(:course, :get, "/courses/#{course.course_code}")
@@ -41,16 +44,16 @@ describe 'Course: Admin: Offers: Destroy', type: :request do
 
     it 'redirects the user' do
       destroy_offer
-      expect(response).to redirect_to "/courses/#{course.course_code}"
+      expect(response).to redirect_to "/learn/#{course.course_code}"
     end
   end
 
   context 'for anonymous users' do
-    let(:headers) { {} }
+    let(:authenticate) { false }
 
     it 'redirects the user' do
       destroy_offer
-      expect(response).to redirect_to "/courses/#{course.course_code}"
+      expect(response).to redirect_to "/learn/#{course.course_code}"
     end
   end
 end

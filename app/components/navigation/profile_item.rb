@@ -33,9 +33,7 @@ module Navigation
       @user.id
     end
 
-    def gamification_score
-      @gamification_score if @user.feature?('gamification')
-    end
+    attr_reader :gamification_score
 
     def config
       @config ||= Xikolo.config.profile

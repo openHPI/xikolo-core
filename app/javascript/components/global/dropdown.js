@@ -1,44 +1,27 @@
-import ready from '../../util/ready';
+document.addEventListener('click', (e) => {
+  const dropdown = e.target.closest("[data-behaviour='dropdown']");
 
-const initDropdowns = (dropdowns) => {
-  dropdowns.forEach((dropdown) => {
+  if (dropdown) {
+    const expanded = dropdown.getAttribute('aria-expanded');
     const parentMenu = dropdown.closest("[data-behaviour='menu-dropdown']");
     const parentMenuId = parentMenu ? parentMenu.id : null;
 
-    dropdown.addEventListener('click', () => {
-      const expanded = dropdown.getAttribute('aria-expanded');
-
-      if (expanded === 'false') {
-        // Before expanding the dropdown, close other dropdowns except for its parent (if nested)
-        const dropdownsWithoutParent = Array.from(dropdowns).filter(
-          (d) => d.getAttribute('aria-controls') !== parentMenuId,
-        );
-        dropdownsWithoutParent.forEach((d) =>
-          d.setAttribute('aria-expanded', 'false'),
-        );
-        dropdown.setAttribute('aria-expanded', 'true');
-      } else {
-        dropdown.setAttribute('aria-expanded', 'false');
-        dropdown.blur();
-      }
-    });
-  });
-
-  // Close dropdown when clicking outside
-  document.addEventListener('click', (e) => {
-    const isDropdown = e.target.getAttribute('data-behaviour') === 'dropdown';
-    const isInsideDropdown = e.target.closest("[data-behaviour='dropdown']");
-
-    if (isDropdown || isInsideDropdown) return;
-
-    dropdowns.forEach((d) => d.setAttribute('aria-expanded', 'false'));
-  });
-};
-
-ready(() => {
-  const dropdowns = document.querySelectorAll("[data-behaviour='dropdown']");
-
-  initDropdowns(dropdowns);
+    if (expanded === 'false') {
+      // Before expanding, close other dropdowns except parent (if nested)
+      document.querySelectorAll("[data-behaviour='dropdown']").forEach((d) => {
+        if (d.getAttribute('aria-controls') !== parentMenuId) {
+          d.setAttribute('aria-expanded', 'false');
+        }
+      });
+      dropdown.setAttribute('aria-expanded', 'true');
+    } else {
+      dropdown.setAttribute('aria-expanded', 'false');
+      dropdown.blur();
+    }
+  } else {
+    // Clicked outside any dropdown — close all
+    document
+      .querySelectorAll("[data-behaviour='dropdown']")
+      .forEach((d) => d.setAttribute('aria-expanded', 'false'));
+  }
 });
-
-export default initDropdowns;

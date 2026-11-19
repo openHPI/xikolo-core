@@ -37,5 +37,5 @@ a.news__anchor id="post_#{post.id}"
             class: 'btn btn-xs btn-danger'
   hr.divider
   .postcontent
-    .prose.prose-2xl.max-w-none dir='auto'
+    .prose.prose-sm.max-w-none dir='auto'
       == render_markdown(post.text, allow_tables: true)

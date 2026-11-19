@@ -69,11 +69,11 @@ class Account::ProfilePresenter < Presenter
   end
 
   def gender_collection
-    Account::User.genders.keys.map {|g| [I18n.t(:"dashboard.profile.genders.#{g}"), g] }
+    AccountService::User.genders.keys.map {|g| [I18n.t(:"dashboard.profile.genders.#{g}"), g] }
   end
 
   def status_collection
-    Account::User.statuses.keys.map {|s| [I18n.t(:"dashboard.profile.statuses.#{s}"), s] }
+    AccountService::User.statuses.keys.map {|s| [I18n.t(:"dashboard.profile.statuses.#{s}"), s] }
   end
 
   def state_collection
@@ -106,7 +106,7 @@ class Account::ProfilePresenter < Presenter
                  else
                    Xikolo::Common::API.authorized_request(@user.attributes['consents_url']).get.value!
                  end
-      consents.map {|c| ConsentPresenter.new(c) }
+      consents.map {|c| ConsentPresenter.new(c) } + [guardian_consent].compact
     end
   end
 
@@ -120,5 +120,24 @@ class Account::ProfilePresenter < Presenter
 
   def show_state?
     @user['country'] == 'DE'
+  end
+
+  private
+
+  # Only underage users ever hold a guardian consent, and it cannot be
+  # withdrawn, so it is listed as a given, required consent.
+  def guardian_consent
+    return unless account_user.underage? && account_user.guardian_consent?
+
+    GuardianConsentPresenter.new(
+      'name' => 'guardian_consent',
+      'required' => true,
+      'consented' => true,
+      'consented_at' => account_user.guardian_consent_at.iso8601
+    )
+  end
+
+  def account_user
+    @account_user ||= AccountService::User.find(@user.id)
   end
 end

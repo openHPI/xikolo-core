@@ -8,6 +8,17 @@ class API::RolesController < API::RESTController # rubocop:disable Layout/Indent
     respond_with Role.all
   end
 
+  # @url /roles/{id}
+  # @action GET
+  #
+  # Get a specific role by UUID or by name.
+  #
+  # @response [Role] Single role resource.
+  #
+  def show
+    respond_with resource
+  end
+
   # @url /roles
   # @action POST
   #
@@ -19,17 +30,6 @@ class API::RolesController < API::RESTController # rubocop:disable Layout/Indent
   #
   def create(params = role_params)
     respond_with Role.create(params), status: :created
-  end
-
-  # @url /roles/{id}
-  # @action GET
-  #
-  # Get a specific role by UUID or by name.
-  #
-  # @response [Role] Single role resource.
-  #
-  def show
-    respond_with resource
   end
 
   # @url /roles/{id}

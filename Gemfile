@@ -2,103 +2,103 @@
 
 source 'https://rubygems.org'
 
-ruby '~> 3.4.0'
+ruby '~> 4.0.0'
 
 # Environment variables need to be loaded first for
 # other gems to see them.
 gem 'dotenv', groups: %i[development test]
 
 # Rails
-gem 'rails', '~> 7.2.0'
-gem 'turbo-rails'
+gem 'rails', '~> 8.1.0'
+gem 'turbo-rails', '>= 0'
 
-gem 'base64'
-gem 'bigdecimal'
-gem 'csv'
-gem 'drb'
-gem 'json'
-gem 'mutex_m'
-gem 'ostruct'
-gem 'syslog'
+gem 'base64', '>= 0'
+gem 'bigdecimal', '>= 0'
+gem 'cgi', '>= 0'
+gem 'csv', '>= 0'
+gem 'drb', '>= 0'
+gem 'json', '>= 0'
+gem 'mutex_m', '>= 0'
+gem 'ostruct', '>= 0'
+gem 'syslog', '>= 0'
+gem 'tsort', '>= 0'
 
 # Database
-gem 'activerecord-postgres_enum', '~> 2.0'
-gem 'acts_as_list'
-gem 'awesome_nested_set', '~> 3.4'
-gem 'fx', '~> 0.9.0'
-gem 'groupdate', '~> 6.0'
-gem 'has_scope'
-gem 'json-schema'
-gem 'paper_trail', '~> 16.0'
-gem 'pg', '~> 1.0'
-gem 'scenic', '~> 1.5'
+gem 'acts_as_list', '>= 0'
+gem 'awesome_nested_set', '>= 0'
+gem 'fx', '>= 0'
+gem 'groupdate', '>= 0'
+gem 'has_scope', '>= 0'
+gem 'json-schema', '>= 0'
+gem 'paper_trail', '>= 0'
+gem 'pg', '>= 0'
+gem 'scenic', '>= 0'
+gem 'strong_migrations'
 
 # Cache storage
+gem 'connection_pool', '>= 0'
 gem 'redis', '~> 5.0'
 
 # App servers
-gem 'puma'
-gem 'thruster'
+gem 'puma', '>= 0'
+gem 'thruster', '>= 0'
 
 # API & Messaging
-gem 'api-responder'
-gem 'grape', '~> 2.2', '< 2.3' # breaks deprecated API::V2
-gem 'grape-entity'
-gem 'msgr', '~> 1.5' # Connecting to RabbitMQ
-gem 'oj'
-gem 'rack', '~> 3.1.0'
-gem 'rack-attack'
-gem 'rack-cors', '~> 3.0'
-gem 'restify', '~> 2.0'
+gem 'api-responder', '>= 0'
+gem 'aws-sdk-s3', require: false
+gem 'oj', '>= 0'
+gem 'rack', '>= 0'
+gem 'rack-attack', '>= 0'
+gem 'rack-cors', '>= 0'
+gem 'restify', '>= 0'
 
-gem 'decorate-responder', '~> 2.0'
-gem 'draper'
-gem 'mechanize'
-gem 'paginate-responder', '~> 2.0'
-gem 'rails-rfc6570', '~> 3.0'
-gem 'responders'
-gem 'will_paginate'
+gem 'decorate-responder', '>= 0'
+gem 'draper', '>= 0'
+gem 'paginate-responder', '>= 0'
+gem 'rails-rfc6570', '>= 0'
+gem 'responders', '>= 0'
+gem 'will_paginate', '>= 0'
 
-gem 'workflow', '~> 3.0'
-gem 'workflow-activerecord', '>= 4.1', '< 6.1'
+gem 'google-apis-drive_v3', '>= 0'
+gem 'google-apis-sheets_v4', '>= 0'
+gem 'googleauth', '>= 0'
+gem 'workflow', '>= 0'
+gem 'workflow-activerecord', '>= 0'
 
 # Views (Template engines & components)
-gem 'gon', '~> 6.4'
-gem 'jbuilder'
-gem 'lookbook', '~> 2.0'
-gem 'rails-i18n', '~> 7.0'
-gem 'slim'
-gem 'view_component', '~> 3.0'
+gem 'lookbook', '>= 0'
+gem 'rails-i18n', '>= 0'
+gem 'slim', '>= 0'
+gem 'view_component', '>= 0'
 
 # Helper
-gem 'addressable'
-gem 'browser', '~> 6.0'
-gem 'dry-validation'
-gem 'http_accept_language'
-gem 'imgproxy'
-gem 'meta-tags', '~> 2.0', require: 'meta_tags'
-gem 'rack-link_headers', '~> 2.2'
-gem 'rubyzip', '~> 2.4.0', require: 'zip'
-gem 'sanitize'
-gem 'simple_form', '~> 5.0'
-gem 'truncato', '~> 0.7.13'
-gem 'uuid4', '~> 1.4'
-gem 'xui-form', path: 'gems/xui-form'
+gem 'addressable', '>= 0'
+gem 'browser', '>= 0'
+gem 'http_accept_language', '>= 0'
+gem 'imgproxy', '>= 0'
+gem 'meta-tags', '>= 0', require: 'meta_tags'
+gem 'rack-link_headers', '>= 0'
+gem 'rubyzip', '>= 0', require: 'zip'
+gem 'sanitize', '>= 0'
+gem 'simple_form', '>= 0'
+gem 'truncato', '>= 0'
+gem 'uuid4', '>= 0'
+gem 'xui-form', '>= 0', path: 'gems/xui-form'
 
-gem 'icalendar'
+gem 'icalendar', '>= 0'
 
-gem 'countries', '~> 8.0' # ISO country codes
-gem 'country_select', '~> 11.0'
-gem 'i18n_data'
-gem 'maxminddb', '~> 0.1' # Location tracking
+gem 'countries', '>= 0' # ISO country codes
+gem 'country_select', '>= 0'
+gem 'i18n_data', '>= 0'
+gem 'maxminddb', '>= 0' # Location tracking
 
 # Xikolo service gems
-gem 'acfs', '~> 2.0', '>= 2.0.0'
-gem 'xikolo-account',         '~> 8.0',   path: 'clients/xikolo-account'
-gem 'xikolo-course',          '~> 12.0',  path: 'clients/xikolo-course'
-gem 'xikolo-pinboard',        '~> 5.0',   path: 'clients/xikolo-pinboard'
-gem 'xikolo-quiz',            '~> 5.0',   path: 'clients/xikolo-quiz'
-gem 'xikolo-submission',      '~> 100.0', path: 'clients/xikolo-submission'
+gem 'acfs', '>= 0'
+gem 'xikolo-account', path: 'clients/xikolo-account'
+gem 'xikolo-course', path: 'clients/xikolo-course'
+gem 'xikolo-pinboard', path: 'clients/xikolo-pinboard'
+gem 'xikolo-quiz', path: 'clients/xikolo-quiz'
+gem 'xikolo-submission', path: 'clients/xikolo-submission'
 
 # Xikolo services as an engine
 gem 'account_service', path: 'engines/account_service'
@@ -108,131 +108,120 @@ gem 'notification_service', path: 'engines/notification_service'
 gem 'pinboard_service', path: 'engines/pinboard_service'
 gem 'quiz_service', path: 'engines/quiz_service'
 
-gem 'activejob-cancel'
-gem 'delayed', '~> 1.0'
-gem 'sidekiq-cron', '~> 2.0'
 gem 'xikolo-common', path: './gems/xikolo-common'
 gem 'xikolo-config', path: './gems/xikolo-config'
 gem 'xikolo-s3', path: './gems/xikolo-s3'
-gem 'xikolo-sidekiq', path: './gems/xikolo-sidekiq'
 
 # Authentication
-gem 'bcrypt', '~> 3.1'
-gem 'oauth2'
-gem 'omniauth_openid_connect', '~> 0.4'
-gem 'omniauth-saml', '~> 2.1'
-gem 'paseto' # for token encryption
-gem 'rexml', '>= 3.2.1' # https://github.com/onelogin/ruby-saml/issues/516
-gem 'ruby-saml', '~> 1.14'
+gem 'bcrypt', '>= 0'
+gem 'oauth2', '>= 0'
+gem 'omniauth_openid_connect', '>= 0'
+gem 'omniauth-saml', '>= 0'
+gem 'rexml', '>= 0'
+gem 'ruby-saml', '>= 0'
 
 # reCAPTCHA
-gem 'recaptcha', '5.19.0'
+gem 'recaptcha', '>= 0'
 
 # HTML Emails
-gem 'inky-rb', require: 'inky'
-gem 'premailer-rails'
+gem 'inky-rb', '>= 0', require: 'inky'
+gem 'premailer-rails', '>= 0'
 
 # LTI integration
 # Version 2 implements LTI 2.0, which is deprecated. Hence, we stay with version 1.
 gem 'ims-lti', '~> 1.2', '< 2.0.0'
 
 # Video support
-gem 'kaltura-client'
-gem 'm3u8', '~> 0.8.2'
-gem 'streamio-ffmpeg'
-gem 'webvtt-ruby', '~> 0.4.0'
+gem 'm3u8', '>= 0'
+gem 'streamio-ffmpeg', '>= 0'
+gem 'webvtt-ruby', '>= 0'
+
+# Validation
+gem 'active_storage_validations'
 
 # Markdown support
-gem 'redcarpet'
+gem 'redcarpet', '>= 0'
 
 # PDF
-gem 'arabic-letter-connector'
-gem 'matrix', '~> 0.4' # required by prawn on Ruby 3.1+
-gem 'prawn', '~> 2.0'
-gem 'prawn-qrcode'
-gem 'prawn-svg'
-gem 'prawn-table'
-gem 'prawn-templates', '~> 0.1.0'
+gem 'arabic-letter-connector', '>= 0'
+gem 'matrix', '>= 0'
+gem 'prawn', '>= 0'
+gem 'prawn-qrcode', '>= 0'
+gem 'prawn-svg', '>= 0'
+gem 'prawn-table', '>= 0'
+gem 'prawn-templates', '>= 0'
 
 # Monitoring
-gem 'coverband'
-gem 'mission_control-jobs'
-gem 'scientist', '~> 1.0'
-gem 'vernier'                   # vernier must be required before Sentry
-gem 'sentry-rails', '~> 5.26.0' # rubocop:disable Bundler/OrderedGems
-gem 'sentry-ruby', '~> 5.26.0'
-gem 'sentry-sidekiq', '~> 5.26.0'
-gem 'telegraf', '~> 3.0'
+gem 'mission_control-jobs', '>= 0'
+gem 'vernier', '>= 0'      # vernier must be required before Sentry
+gem 'sentry-rails', '>= 0' # rubocop:disable Bundler/OrderedGems
+gem 'sentry-ruby', '>= 0'
+gem 'telegraf', '>= 0'
 
-gem 'rsvg2', '~> 4.2.9'
-gem 'svg-graph', '~> 2.1', require: 'svggraph'
-
-# Open Badges
-gem 'chunky_png'
-gem 'jwt', '~> 2.0' # 3.0 requires a longer RSA key length
+gem 'image_processing', '>= 0'
+gem 'ruby-vips', '>= 0'
+gem 'svg-graph', '>= 0', require: 'svggraph'
 
 # Assets
-gem 'cssbundling-rails'
-gem 'jsbundling-rails'
-gem 'propshaft'
+gem 'cssbundling-rails', '>= 0'
+gem 'jsbundling-rails', '>= 0'
+gem 'propshaft', '>= 0'
 
 group :assets do
-  gem 'i18n-js', '~> 4.2', '>= 4.2.3'
+  gem 'i18n-js', '>= 0'
 end
 
-group :development do
-  gem 'bootsnap', require: false
+gem 'bootsnap', '>= 0', require: false
+
+group :production do
+  gem 'coverband', '>= 0'
 end
 
 group :development, :test do
-  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem 'debug', platforms: %i[mri windows], require: 'debug/prelude'
+  gem 'debug', '>= 0', platforms: %i[mri windows]
 
-  gem 'letter_opener'
-  gem 'listen', '~> 3.9.0'
-  gem 'rubocop', '~> 1.75.0'
-  gem 'rubocop-capybara', '~> 2.22.0'
-  gem 'rubocop-factory_bot', '~> 2.27.0'
-  gem 'rubocop-performance', '~> 1.25.0'
-  gem 'rubocop-rails', '~> 2.31.0'
-  gem 'rubocop-rspec', '~> 3.6.0'
-  gem 'rubocop-rspec_rails', '~> 2.31.0'
-  gem 'slim_lint'
+  gem 'letter_opener', '>= 0'
+  gem 'listen', '>= 0'
+  gem 'rubocop', '>= 0'
+  gem 'rubocop-capybara', '>= 0'
+  gem 'rubocop-factory_bot', '>= 0'
+  gem 'rubocop-performance', '>= 0'
+  gem 'rubocop-rails', '>= 0'
+  gem 'rubocop-rspec', '>= 0'
+  gem 'rubocop-rspec_rails', '>= 0'
+  gem 'slim_lint', '>= 0'
 end
 
-group :development, :integration do
-  gem 'better_errors', require: !ENV.key?('CI')
-  gem 'binding_of_caller', require: !ENV.key?('CI')
+group :development do
+  gem 'hotwire-livereload', '>= 0' unless !!ENV['DISABLE_LIVE_RELOAD']
+  gem 'web-console', '>= 0'
 end
 
 group :test do
-  gem 'accept_values_for'
-  gem 'capybara', '~> 3.36'
-  gem 'factory_bot_rails', '~> 6.0'
-  gem 'json_spec'
-  gem 'pdf-inspector', require: 'pdf/inspector'
-  gem 'rails-controller-testing'
-  gem 'selenium-webdriver', '~> 4.11'
-  gem 'timecop'
-  gem 'uuidtools'
-  gem 'webmock'
-  gem 'webrick'
+  gem 'accept_values_for', '>= 0'
+  gem 'capybara', '>= 0'
+  gem 'factory_bot_rails', '>= 0'
+  gem 'json_spec', '>= 0'
+  gem 'parallel_tests', '>= 0'
+  gem 'pdf-inspector', '>= 0', require: 'pdf/inspector'
+  gem 'rails-controller-testing', '>= 0'
+  gem 'selenium-webdriver', '>= 0'
+  gem 'simplecov', '>= 0', require: false
+  gem 'simplecov-cobertura', '>= 0', require: false
+  gem 'timecop', '>= 0'
+  gem 'uuidtools', '>= 0'
+  gem 'webmock', '>= 0'
+  gem 'webrick', '>= 0'
 
-  gem 'rspec', '~> 3.10'
-  gem 'rspec-collection_matchers'
-  gem 'rspec-github', '~> 3.0', require: false
-  gem 'rspec-its'
-  gem 'rspec_junit_formatter', '~> 0.6.0', require: false
-  gem 'rspec-rails', '~> 8.0'
+  gem 'rspec', '>= 0'
+  gem 'rspec-collection_matchers', '>= 0'
+  gem 'rspec-github', '>= 0', require: false
+  gem 'rspec-its', '>= 0'
+  gem 'rspec_junit_formatter', '>= 0', require: false
+  gem 'rspec-rails', '>= 0'
+  gem 'rspec-rebound', '>= 0'
 end
 
-group :test, :integration do
-  gem 'rack-remote'
-  gem 'simplecov', require: false
-  gem 'simplecov-cobertura', require: false
-end
+gem 'solid_queue', '>= 0'
 
-gem 'database_cleaner', groups: %i[integration]
-
-gem 'pkg-config', '= 1.6.2'
-gem 'solid_queue', '~> 1.2'
+gem 'maintenance_tasks', '~> 2.17'

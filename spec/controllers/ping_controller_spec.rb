@@ -6,7 +6,7 @@ describe PingController, type: :controller do
   describe 'index' do
     it 'returns the wanted page and answer with HTTP Status 200' do
       get :index
-      assert_response :success
+      expect(response).to have_http_status(:success)
     end
   end
 end

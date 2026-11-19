@@ -3,7 +3,7 @@
 module Video
   class VideoPlayer < ApplicationComponent
     def self.compatible?(video)
-      provider_types = %w[vimeo kaltura]
+      provider_types = %w[vimeo]
 
       [video.lecturer_stream, video.slides_stream, video.pip_stream, video.subtitled_stream].compact.all? do |stream|
         provider_types.include? stream.provider.provider_type
@@ -21,6 +21,21 @@ module Video
     end
 
     private
+
+    def player_aspect_ratio(stacked: false)
+      streams = if @video.lecturer_stream && @video.slides_stream
+                  [@video.lecturer_stream, @video.slides_stream]
+                else
+                  [@video.pip_stream].compact
+                end
+      ratios = streams.map do |stream|
+        stream.width.to_i.positive? && stream.height.to_i.positive? ? stream.width.to_f / stream.height : 16.0 / 9
+      end
+
+      return 16.0 / 9 if ratios.empty?
+
+      stacked ? 1.0 / ratios.sum {|ratio| 1.0 / ratio } : ratios.sum
+    end
 
     def streams
       if @video.lecturer_stream && @video.slides_stream
@@ -47,14 +62,6 @@ module Video
       case stream.provider.provider_type
         when 'vimeo'
           tag.xm_vimeo('', name:, src: stream.provider_video_id)
-        when 'kaltura'
-          tag.xm_kaltura('',
-            name:,
-            'partner-id': stream.provider.safe_metadata['partner_id'],
-            'entry-id': stream.provider_video_id,
-            duration: stream.duration,
-            ratio: stream.height / stream.width.to_f,
-            poster: stream.poster)
         else
           raise ArgumentError.new "Unknown video provider type #{provider.provider_type}"
       end
@@ -87,7 +94,6 @@ module Video
     end
 
     def thumbnails
-      return unless @user.feature?('video_slide_thumbnails')
       return unless @opts.fetch(:load_thumbnails, false)
 
       # Map thumbnails to JSON structure that can be processed by the
@@ -135,7 +141,7 @@ module Video
     end
 
     def prefs
-      @prefs ||= @user.preferences.value!
+      @prefs ||= @user.preferences
     end
   end
 end

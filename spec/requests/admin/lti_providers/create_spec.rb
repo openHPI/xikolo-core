@@ -3,10 +3,10 @@
 require 'spec_helper'
 
 describe 'Admin: LTI Providers: Create', type: :request do
-  subject(:create_lti_provider) { post '/admin/lti_providers', params: {lti_provider: params}, headers: }
+  subject(:create_lti_provider) { post '/admin/lti_providers', params: {lti_provider: params} }
 
-  let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
-  let(:permissions) { %w[lti.provider.manage] }
+  let(:user) { create(:'account_service/user', :admin) }
+  let(:authenticate) { true }
   let(:params) do
     {
       consumer_key: 'consumer',
@@ -19,7 +19,7 @@ describe 'Admin: LTI Providers: Create', type: :request do
     }
   end
 
-  before { stub_user_request permissions: }
+  before { sign_in(user:) if authenticate }
 
   it 'creates a new LTI provider and redirects to the index view' do
     expect { create_lti_provider }.to change(Lti::Provider, :count).from(0).to(1)
@@ -38,7 +38,7 @@ describe 'Admin: LTI Providers: Create', type: :request do
   end
 
   context 'without permissions' do
-    let(:permissions) { [] }
+    let(:user) { create(:'account_service/user') }
 
     it 'redirects to the homepage' do
       create_lti_provider
@@ -47,7 +47,7 @@ describe 'Admin: LTI Providers: Create', type: :request do
   end
 
   context 'for anonymous users' do
-    let(:headers) { {} }
+    let(:authenticate) { false }
 
     it 'redirects to the login page' do
       create_lti_provider

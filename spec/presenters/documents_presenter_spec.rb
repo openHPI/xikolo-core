@@ -10,16 +10,14 @@ describe DocumentsPresenter, type: :presenter do
   let(:roa) { false }
   let(:cert) { false }
   let(:certificates_data) { {confirmation_of_participation: cop, record_of_achievement: roa, certificate: cert} }
-  let(:enrollment_proctored) { false }
-  let(:enrollment_params) { {completed: true, proctored: enrollment_proctored, certificates: certificates_data} }
-  let(:enrollment) { Xikolo::Course::Enrollment.new enrollment_params.merge course_id: course.id }
-  let(:user) do
-    Xikolo::Common::Auth::CurrentUser.from_session(
-      'user' => {'anonymous' => false},
-      'features' => features
-    )
+  let(:enrollment_params) { {completed: true} }
+  let(:enrollment) do
+    CourseService::Enrollment.new(enrollment_params.merge(course_id: course.id)).tap do |enrollment|
+      allow(enrollment).to receive(:decorate_self).and_return(certificates: certificates_data)
+    end
   end
-  let(:features) { {} }
+  let(:session) { create(:'account_service/session') }
+  let(:user) { CurrentUser::User.new(session:, context_id: 'root') }
   let(:presenter) { described_class.new(course:, enrollment:, user:) }
 
   describe 'cop?' do

@@ -60,6 +60,18 @@ describe Translations do
       end
     end
 
+    context 'with English is not available and the language is set to english' do
+      let(:hash) do
+        {de: 'Mikro-Lernen', en: ''}
+      end
+
+      it 'falls back to display the german language value' do
+        I18n.with_locale(:en) do
+          expect(string).to eq 'Mikro-Lernen'
+        end
+      end
+    end
+
     context 'with a specific locale preference' do
       let(:translations) { described_class.new(hash, locale_preference: %w[de en]) }
 

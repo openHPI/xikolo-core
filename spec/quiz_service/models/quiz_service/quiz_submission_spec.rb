@@ -55,14 +55,14 @@ describe QuizService::QuizSubmission, type: :model do
     describe '#by_user' do
       subject(:scope) { described_class.by_user(user_id) }
 
-      let(:user_id) { generate(:user_id) }
+      let(:user_id) { create(:'account_service/user').id }
 
       before do
         quiz = create(:'quiz_service/quiz')
         create(:'quiz_service/quiz_submission', :submitted, quiz:, user_id:)
         create(:'quiz_service/quiz_submission', quiz:, user_id:)
         create(:'quiz_service/quiz_submission', user_id:)
-        create(:'quiz_service/quiz_submission', quiz:, user_id: generate(:user_id))
+        create(:'quiz_service/quiz_submission', quiz:)
       end
 
       it 'returns all submissions by that user' do

@@ -1,6 +1,6 @@
 # Localization file for English.
 en:
-  default_title: MOOCs powered by HPI
+  default_title: Free Online Courses in Computer Science, IT & AI | openHPI
 
   date:
     formats:
@@ -309,17 +309,42 @@ en:
     nojs:
       label: Please enable Javascript in your browser!!
       link: https://turnonjs.com/
-    read_more: Read more
-    read_less: Read less
+    read_more: more
+    read_less: less
     close: Close
     no_data_message: No data available
+    status: Status
+    error_notification: We found some errors. Please review your form input.
 
   errors:
+    messages:
+      invalid_exam_question_count: must be a positive multiple of 10
+      invalid_exam_pool_size: must contain exactly %{count} questions
+      insufficient_exam_questions_for_difficulty: must contain at least %{count} %{difficulty} questions
+      invalid_exam_question_type: may contain only single-select and multi-select questions
+      only_available_for_exam_quizzes: is only available for exams
+      not_allowed_in_exam: is not allowed in an exam question pool
+      invalid_exam: cannot be published until its question-pool configuration is valid
+      exam_already_exists: this course already has an exam
+      requires_question_pool: must be attached to a quiz with a question pool
+      exam_passed: the exam was already passed, so no further attempt is possible
+      exam_locked: the exam is locked until you reach the required course progression
     attributes:
+      email:
+        already_taken: The e-mail address you entered has already been registered.
+        invalid: Please enter a valid e-mail address
+      full_name:
+        invalid: The name must not contain quotation marks or slashes
+      language:
+        not_available: The selected language is not supported
+      password:
+        below_minimum_length: The password must have a minimum length of 8 characters.
+        maximum_length_reached: The password length must not exceed 72 characters.
+        password_contains_email: Your e-mail address must not be part of the password.
+      password_confirmation:
+        confirmation: The passwords do not match
       translations:
         missing: Translation missing.
-      poll:
-        closed: Closed
     not_found:
       headline: "We are sorry, but the page you are looking for could not be found (404)"
       message: Please check the URL. If you really think this is a bug, feel free to contact our support team through the helpdesk.
@@ -370,9 +395,6 @@ en:
       certificate_template_created: The template has been created.
       certificate_template_updated: The template has been updated.
       certificate_template_deleted: The template has been deleted.
-      open_badge_template_created: The Open Badge template has been created.
-      open_badge_template_updated: The Open Badge template has been updated.
-      open_badge_template_deleted: The Open Badge template has been deleted.
       course_created: The course has been created.
       course_updated: The course has been updated.
       course_metadata_deleted: The course metadata has been deleted.
@@ -382,6 +404,9 @@ en:
       channel_created: The channel has been created.
       channel_updated: The channel has been updated.
       channel_order_updated: The channel order has been updated.
+      short_updated: The short has been updated.
+      short_created: The short has been created.
+      short_deleted: The short has been deleted.
       classifier_deleted: The tag has been deleted.
       classifier_updated: The tag has been updated.
       classifier_created: The tag has been created.
@@ -390,9 +415,6 @@ en:
       offer_created: The offer has been created.
       offer_updated: The offer has been updated.
       offer_deleted: The offer has been deleted.
-      poll_created: The poll has been created.
-      poll_updated: The poll has been updated.
-      poll_deleted: The poll has been deleted.
       profile_updated: The profile has been updated.
       quiz_submitted: Your quiz solution has been submitted successfully.
       section_updated: "The section %{section_title} has been updated."
@@ -400,6 +422,7 @@ en:
       sync_initiated: The synchronization has been initiated.
       logged_out: You successfully logged out.
       teacher_information_created: Teacher information has been successfully saved!
+      teacher_deleted: Teacher was deleted successfully.
       announcement_saved: Announcement has successfully been saved!
       cache_flush: Deleted %{deleted_items} Cache entries
       confirmation_successful: Thank you for confirming your e-mail address.
@@ -409,6 +432,9 @@ en:
       pinboard_mails_disabled: "Your account %{mail} will not receive any more pinboard news. You can reactivate this at any time in your profile settings."
       global_mails_disabled: "Your account %{mail} will not receive any more notifications via email. You can reactivate this at any time in your profile settings."
       user_banned: The user was banned successfully.
+      user_unbanned: The user was unbanned successfully.
+      user_marked_top_talent: The user was successfully marked as top talent.
+      user_unmarked_top_talent: The top talent flag was successfully removed.
       submission_converted: Submission was successfully converted from existing snapshot!
       reactivate_course: "You have reactivated this course until %{date}"
       primary_email_unsuspended: Your primary e-mail address has been reactivated successfully.
@@ -422,6 +448,8 @@ en:
       quiz_attempt_added: The additional attempt for quiz was granted.
       fudge_points_added: The grading was updated.
       video_provider_deleted: The video provider has been deleted.
+      video_stream_created: The video has been uploaded and is being processed.
+      video_stream_retry_enqueued: The video upload will be retried.
       video_stream_deleted: The video stream has been deleted.
       profile_picture_deleted: Your profile picture was succesfully deleted.
       profile_picture_uploaded: Your profile picture has been succesfully uploaded.
@@ -448,14 +476,10 @@ en:
       offer_not_created: The offer could not be created.
       offer_not_updated: The offer could not be updated.
       offer_not_deleted: The offer could not be deleted.
-      open_badge_template_not_created: The Open Badge template has not been created.
-      open_badge_template_not_updated: The Open Badge template has not been updated.
-      open_badge_template_not_uploaded: The Open Badge template file has not been uploaded.
-      open_badge_template_not_deleted: Can't delete the Open Badge template due to already existing badges.
       lti_provider_not_created: The LTI provider has not been created.
       lti_provider_not_updated: The LTI provider has not been saved.
       lti_provider_not_deleted: The LTI provider has not been deleted.
-      certificate_not_updated: The Record of Achievement has not been updated.
+      certificate_not_updated: The Certificate has not been updated.
       course_not_created: The course was not created.
       course_not_updated: The course was not updated.
       course_not_deleted: The course could not be deleted.
@@ -467,15 +491,16 @@ en:
       channel_not_created: The channel was not created.
       channel_not_updated: The channel was not updated.
       channel_not_deleted: The channel was not deleted.
+      short_not_updated: The short was not updated.
+      short_not_created: The short was not created.
+      short_not_deleted: The short was not deleted.
+      teacher_not_deleted: The teacher was not deleted.
       channel_order_failed: Something went wrong. The order of the channels may not have been updated correctly. Please check the result.
       classifiers_order_failed: Something went wrong. The order of the tags may not have been updated correctly. Please check the result.
       cluster_not_updated: The category was not updated.
       classifier_not_deleted: The tag was not deleted.
       classifier_not_updated: The tag was not updated.
       classifier_not_created: The tag was not created.
-      poll_not_created: The poll has not been created.
-      poll_not_updated: The poll has not been updated.
-      poll_not_deleted: The poll has not been deleted.
       profile_not_updated: The profile has not been updated.
       sync_recently_triggered: The sync has been recently triggered.
       subscription_not_canceled: The topic could not be unfollowed.
@@ -490,6 +515,7 @@ en:
       section_not_created: The section has not been created.
       section_not_updated: The section has not been updated.
       picture_not_uploaded: "Your picture could not be uploaded, please try again."
+      upload_cloud: Your file could not be uploaded to the cloud, please try again later.
       slides_not_uploaded: "Your slides could not be uploaded, please try again."
       audio_not_uploaded: "Your audio file could not be uploaded, please try again."
       transcript_not_uploaded: "Your transcript file could not be uploaded, please try again."
@@ -502,6 +528,7 @@ en:
       invalid_digest: "Your login failed due to an internal error. Please <a href='%{url}' class='btn btn-default btn-xs'>reset your password</a> for security reasons and try to log in again."
       generic: "Something broke while we tried to log you in. Please try again later or contact the helpdesk."
       unconfirmed_user: "This e-mail address has not been confirmed yet. Please check your inbox for an e-mail received after the registration process. All further steps can be found there. If you have not received the mail click <a href='%{url}' class='btn btn-default btn-xs'>here</a> to send it again."
+      banned_user: "Your account has been suspended. Please contact the helpdesk for further information."
       invalid_information: "The login with your identity provider has failed due to an information exchange error. Please refer to our helpdesk."
       login_failed: Login failed.
       need_to_be_member: You need to be a member of the group to do this.
@@ -528,9 +555,11 @@ en:
       email_hash_invalid: The provided link seems to be invalid.
       params_missing_learn_review: Params for quiz_id and course_id are missing!
       switch_question_to_mcq: Single Select Questions should only have 1 correct answer! Please review the question.
+      user_not_found: User not found.
       user_not_banned: The user could not be banned.
       user_required: No user given.
       user_self_ban: You cannot ban yourself.
+      user_unban: The user ban could not be removed.
       reactivate_course: The course reactivation has failed. Please try again or contact the helpdesk if the problem persists.
       voucher:
         not_found: The voucher code you have supplied is not valid. Please check your code.
@@ -540,12 +569,9 @@ en:
         incorrect_product: The voucher code you have supplied is not valid for this product.
         expired: The voucher code you have supplied is already expired.
         general: A general error has occurred. Please contact the helpdesk if this problem persists.
-      document:
-        title_already_taken: The given title is already in use.
       provider_auth_error: "No valid authentication has been found for %{provider_name}."
       account_not_confirmed_manually: The account could not be confirmed manually.
-      content_type_not_supported_options: Open mode and featured are not supported options for the selected content type.
-      unfulfilled_prerequisites: You have not yet fulfilled the prerequisites for participation in this course.
+      content_type_not_supported_options: Open mode is not supported for the selected content type.
       users:
         not_found: The user could not be found.
       enterprise_login_already_assigned: "The email address of the Enterprise Login you want to use with this account has already been used for another %{site_name} account. If you want to use the Enterprise Login for this account, please delete the other account."
@@ -557,6 +583,9 @@ en:
       quiz_attempt_failed: An additional attempt for the quiz could not be granted.
       fudge_points_failed: The grading could not be updated.
       video_provider_not_deleted: The video provider could not be deleted as corresponding streams are still referenced.
+      video_stream_not_created: The video could not be uploaded. Please try again.
+      video_stream_not_retryable: Only failed video uploads can be retried.
+      video_stream_no_file: Please select a video file to upload.
       video_stream_not_deleted: The video stream could not be deleted as it is still used in learning units.
       upload_type: The file type is not valid.
       upload_size: The file size is too large.
@@ -575,11 +604,43 @@ en:
   components:
     actions_dropdown:
       aria_label: More actions
+    carousel:
+      role_description: Carousel
+      previous: Previous
+      next: Next
     clipboard:
       copy: Copy to clipboard
       copied: Copied!
     countdown:
-      time_remaining: "Time remaining:"
+      units:
+        days:
+          one: day
+          other: days
+        hours:
+          one: hour
+          other: hours
+        minutes:
+          one: minute
+          other: minutes
+    course_navigation:
+      label: Course
+      locked: (available after enrollment)
+      enroll_to_unlock: Enroll in this course to unlock this feature.
+      unread_announcements:
+        one: (1 unread)
+        other: (%{count} unread)
+      details:
+        label: Details
+        description: Overview and info
+      forum:
+        label: Forum
+        description: Discussion and help
+      progress:
+        label: Progress
+        description: Your history
+      recap:
+        label: Recap
+        description: Test yourself
     custom_select:
       clear_button: Remove all items
       loading: Searching...
@@ -588,12 +649,6 @@ en:
       no_results: No results found for "%{input}"
       option_create: "Add <strong>%{input}...</strong>"
       remove_item: Remove this item
-    enrollment_form:
-      title: "Enroll for %{course_title}"
-      text: Before you can be enrolled for the course, you have to read and agree to the course provider's data protection policy.
-      link: Show policy
-      accept: I have read and agree to the data protection policy.
-      enroll: Enroll me for this course
     ical_feed:
       text: You can subscribe to this feed by copying the iCal URL and importing it into your calendar application.
       label: Copy iCal URL
@@ -601,22 +656,41 @@ en:
     markdown_editor:
       expand: Expand editor
       collapse: Collapse editor
+    page_header:
+      back_to_course: Back to course details
     filter_bar:
       search:
         label: Search
-        clear: Clear search
+        placeholder: Search
       filter:
+        toggle: Filters
         reset: Reset all filters
         divider: ──────────
         all: All
         results: "Results for:"
         results_count:
-          one: "%{count} course"
-          other: "%{count} courses"
+          one: "%{count} results"
+          other: "%{count} results"
         adjust: Adjust
     date_time_picker:
       today: Set to today
       clear: Clear
+    file_upload:
+      title: Attach file
+      hint: Drop a file here or pick one from your device.
+      button: Select file
+      list_label: Selected files
+      remove: Remove file
+      status:
+        uploading: "Uploading · %%{progress}%"
+        complete: Successfully uploaded
+        failed: Upload failed
+    pagination:
+      label: Pagination
+      info: "Showing %{from} to %{to} of %{total} entries"
+    password_field:
+      show: Show password
+      hide: Hide password
     popover:
       title: Did you know?
       close: Close
@@ -625,32 +699,38 @@ en:
       link: Read more
     snowflakes:
       toggle_snow: Turn snowflakes on/off
+    shorts_carousel:
+      label: Shorts
+      role_description: Carousel
+      play_video: Play video
+      play_previous: Play previous video
+      play_next: Play next video
+      scroll_back: Scroll back
+      scroll_forward: Scroll forward
 
   shared:
     records:
       roa:
-        download_roa: Record of Achievement
-        roa_not_available: "Record of Achievement"
+        download_roa: Certificate
+        roa_not_available: "Certificate"
         contact_helpdesk: "Please contact helpdesk"
       cop:
         download_cop: Confirmation of Participation
         cop_not_available: "Confirmation of Participation"
         contact_helpdesk: "Please contact helpdesk"
       cert:
-        download_cert: Certificate
-        cert_not_available: "Certificate"
+        download_cert: Verified Certificate
+        cert_not_available: "Verified Certificate"
         contact_helpdesk: "Please contact helpdesk"
-      tor:
-        download_tor: Transcript of Records
-      open_badge:
-        open_badge: Open Badge
 
   # Header string translations
   header:
     # Log in drop down form
     login:
       headline: Login to openHPI
-      forgot_password: "Forgot your password?"
+      tab_credentials: openHPI Login
+      tab_sso: Single Sign-On (SSO)
+      forgot_password: Forgot your password?
       identity:
         headline: Log in with credentials
         label:
@@ -660,27 +740,33 @@ en:
         placeholder:
           email: :global.email
           password: :global.password
-      external:
-        headline: "Or log in with:"
       register:
         headline: New here?
-        text: "You can %{link}."
         link: Create new account
       omniauth:
         hpi: HPI Identity
-        hpi_notice: for HPI students and employees
+        hpi_notice: For HPI students and employees
         hpi_saml: HPI SSO
-        hpi_saml_notice: for HPI students and employees
+        hpi_saml_notice: For HPI students and employees
         mein_bildungsraum: Mein Bildungsraum
         saml: Single Sign-On (SAML)
         saml_test_id: SAMLtest ID
-        saml_test_id_notice: Don't know how to use SAML Test Single Sign-On? <a class='bs-a' href='/pages/faq' target='_blank'>Learn how it works.</a>
+        saml_test_id_notice: Don't know how to use SAML Test Single Sign-On? <a class='x-link' href='/pages/faq' target='_blank'>Learn how it works.</a>
+
+    meta_tags:
+      about:
+        title: About %{site_name}
+      courses:
+        title: Browse Online Courses in Programming, IT & AI | openHPI
+        index: Browse free online courses in computer science, IT, and digital innovation with interactive learning.
+      root:
+        index: Learn computer science, IT, and digital innovation with free interactive online courses on openHPI.
 
     # Navigation
     navigation:
       home: Home
       about: "About %{site_name}"
-      courses: Courses
+      courses: Learn
       discussions: Discussions
       points: Points
       login: Log in
@@ -709,20 +795,20 @@ en:
       administration: Administration
       admin:
         dashboard: Dashboard
-        courses: Courses
+        courses: Learning Units
         categories: Categories
         users: Users
         teachers: Teacher
         permissions: Permissions
         videos: Videos
         certificates: Certificates
-        knowledge_documents: Documents
         channels: Channels
         announcements: Announcements
-        polls: Polls
+        news: News
         reports: Reports
         vouchers: Vouchers
         lti_providers: LTI Providers
+        shorts: Shorts
       masquerade:
         copy_user_id: User ID to Clipboard
         copy_email: E-Mail to Clipboard
@@ -775,36 +861,18 @@ en:
     show_article: Read more
     list_all_courses: List all courses »
     level_selector:
-      headline: Offers for everyone - no matter what previous knowledge you have
+      headline: Find Your Level – Learn at Your Own Pace
+      link_text: Explore Courses
       sections:
-        - label: Junior
-          title: Courses for kids and teens
-          text: Whether you want to learn how a computer works, have always wanted to learn to program, or want to build your own homepage - at openHPI, you will find many courses we have developed especially for juniors. We also offer school versions of our programming courses every spring. The unique thing about these courses is that they don't run for a few weeks, as is usually the case on openHPI, but for an entire school semester. So you have enough time to complete the course or work on it in your class.
-          link_text: Discover our junior courses
-          link_url: "/courses?level=Junior"
-          image_url: "startpage/level_selector/junior.png"
-          image_alt: "Junior level: Two girls working on a laptop together"
         - label: Beginner
-          title: Experience IT
-          text: With openHPI, you can get started in IT and innovation. Immerse yourself in the world of programming, learn about and understand operating systems, and protect yourself effectively on the Internet. Advance your career and take courses on teamwork, starting an IT business and design thinking. At openHPI, we support you in your personal and professional development so that you can keep up with the rapid developments of the digitized world. You don't need any formal prerequisites for the courses on openHPI.
-          link_text: Discover our courses for beginners
-          link_url: "/courses?level=Beginner"
-          image_url: "startpage/level_selector/beginner.png"
-          image_alt: "Beginner level: human sitting at a computer next to textbooks on Java programming and Fundamentals of Computing"
-        - label: Advanced
-          title: Advance your technical skills
-          text: As a person interested in IT, you can continuously improve your skills on openHPI. Deepen your knowledge of the Internet and Cybersecurity, delve deeper into Design Thinking or prepare for the future with Quantum Computers. Learn how to program ecologically sustainable software, how algorithms work, and what Machine Learning is all about in our advanced courses. With the advanced courses on openHPI, you'll meet all the demands of the working world in the future.
-          link_text: Discover our courses for advanced learners
-          link_url: "/courses?level=Advanced"
-          image_url: "startpage/level_selector/advanced.png"
-          image_alt: "Advanced level: Human programming on a laptop in a professional setting"
+          text: New to the world of IT? Start with no prior knowledge, learn the fundamentals of computer science, and discover what excites you.
+          link_url: "/learn?level=Beginner"
+        - label: Intermediate
+          text: Already comfortable with the basics, such as 10th-grade math and fundamental computer science concepts? Deepen your knowledge, tackle more challenging tasks, and take your practical IT skills to the next level.
+          link_url: "/learn?level=Intermediate"
         - label: Expert
-          title: Courses for IT professionals
-          text: Even if you are an IT and innovation professional, you are in good hands at openHPI. In particular, we cover tomorrow's topics, such as Big Data and AI, business and enterprise computing, and the future of the cloud at a senior level. As a professional, you can deepen your knowledge of quantum cryptography, algorithms and optimization. At openHPI, you can make yourself and your company fit for the future.
-          link_text: Discover our courses for experts
-          link_url: "/courses?level=Expert"
-          image_url: "startpage/level_selector/expert.png"
-          image_alt: "Expert level: Woman working with laptop in a data center"
+          text: Get closer to the world of academic research. Specialize in advanced computer science topics at university level and expand your expertise.
+          link_url: "/learn?level=Expert"
     claims:
       - title: Be curious.
         text: Learn for free – anytime, anywhere and at your pace. Experts and partners from the Hasso Plattner Institute explain IT and innovation topics in an accessible way at university level.
@@ -813,20 +881,28 @@ en:
       - title: Be successful.
         text: Acquire the latest knowledge and skills and shape the digital future. Find interactive courses on exciting cutting-edge topics for every skill level.
     promotion:
-      podcast:
-        title: Neuland - The HPI Science Podcast
-        text: Enhance your knowledge about the digital world. Experts from the Hasso Plattner Institute present digital developments and trends in an understandable manner, and talk about the opportunities and risks of digitalization.
       highlighted:
-        title: "Attention high school graduates: Experience HPI!"
-        text: "From January 19 to 23, explore computer science at HPI up close! Lectures on programming, cybersecurity, 3D graphics & robotics, campus tour, and personal academic advising—perfect for all computer science enthusiasts. All info & registration here."
-        link: https://hpi.de/studium/dein-studium-am-hpi/schnupperstudium/
+        title:
+        text:
+        link:
     tile:
       more: More
+    about:
+      text_1: OpenHPI has developed into an important part of digital education.
+      text_2: With excellent research and teaching, we address the challenges of
+        tomorrow, putting our trust in diversity, creativity and collaboration.
+      header:
+        title: About us
+        text: Welcome to openHPI, the innovative online learning platform of the Hasso Plattner Institute (HPI), one of Europe's leading computer science institutes.
 
   redirect:
     target_info: "You're being redirected to <b>%{name}</b>, which is outside of openHPI. This can take up to <b>5 seconds.</b>"
     skip_in_future: Don't show this message again.
     manual_redirect: "If this is taking too long or you're not being redirected,<br /><a class='bs-a' href='%{url}'>click here to continue</a>."
+
+  accordion:
+    previous_question: Previous question
+    next_question: Next question
 
   account:
     confirmations:
@@ -945,14 +1021,23 @@ en:
     policies:
       show:
         headline: Privacy Statement
-        instructions: "Before you continue, please read and accept our current <a class='bs-a' href='%{link}' target='_blank'>privacy statement</a> in relation to the use of openHPI (statement opens in external window)."
+        instructions: "Before you continue, please read and accept our current <a class='x-link' href='%{link}' target='_blank'>privacy statement</a> in relation to the use of openHPI (statement opens in external window)."
         label:
           submit: "Proceed"
+    guardian_consents:
+      show:
+        headline: Required for using openHPI
+        instructions: We need your confirmation that a legal guardian approves your use of openHPI before you can continue to the application. Please tick the corresponding checkbox.
+        label:
+          submit: Proceed
+      update:
+        flash:
+          error: This confirmation is required to continue. Please tick the corresponding checkbox.
     treatments:
       index:
         mandatory:
           headline: Required for using openHPI
-          instructions: We'd like to inform you that you agree to the following mandatory data processing terms when continuing to the application from here.
+          instructions: We need your explicit consent to the following mandatory data processing terms before you can continue to the application. Please tick the corresponding checkboxes.
         optional:
           headline: We need your consent
           instructions: We would like to ask you to give us an additional consent, that we need to provide you with additional service. Please take this opportunity to review the consents you have already given. You can also always review your consents in your user profile.
@@ -971,6 +1056,7 @@ en:
           submit: Request password reset
         placeholder:
           email: Your e-mail address
+        back_to_login: Back to login
       show:
         headline: Reset password
         instructions: Choose a new password for your account on openHPI.
@@ -981,6 +1067,7 @@ en:
         placeholder:
           password: New password
           password_confirmation: Confirm password
+        back_to_login: Back to login
       not_found:
         headline: Invalid password reset link
         message: >
@@ -1008,29 +1095,50 @@ en:
         email_not_found: "Check if you entered the e-mail you registered with."
     accounts:
       new:
-        title: Welcome to openHPI
-        text: "Create a new account on openHPI. Just fill in your details.<br /><i>Notice:</i> Your name will be shown on your openHPI Record of Achievement."
-        privacy: "<b>Please notice:</b> Your personal data will be processed on openHPI in accordance with our <a class='bs-a' href='%{link}' target='_blank'>privacy policy</a>. By creating a user account on openHPI, you agree to the terms of our <a class='bs-a' href='%{link}' target='_blank'>privacy policy</a>."
-        submit: Register for openHPI
+        title: Register with openHPI
+        text: Create your own account on openHPI.
+        legend:
+          personal_details: Personal details
+          contact_and_security: Contact & security
+          usage: Using openHPI
+        label:
+          full_name: First and Last Name
+          date_of_birth: Date of birth
+          status: Status
+          email: E-mail
+          password: Password
+          password_confirmation: Repeat password
+        hint:
+          full_name: This name will appear on your openHPI certificates.
+          date_of_birth: Your date of birth will appear on your openHPI certificates.
+        placeholder:
+          status: Please select
+          password: At least 8 characters
+        privacy: "<b>Please notice:</b> Your personal data will be processed on openHPI in accordance with our <a class='x-link' href='%{link}' target='_blank'>privacy policy</a>."
+        privacy_agreement: "By creating a user account on openHPI, you agree to the terms of our <a class='x-link' href='%{link}' target='_blank'>privacy policy</a>."
+        notification_emails:
+          label: "(Optional) <b>E-mail notifications</b>"
+          text: I would like to receive email notifications from openHPI to stay up to date on platform news and make sure I don't miss any announcements about our offers. I can revoke my consent at any time in the “My Notification Settings” section.
+        submit: Register
+        login:
+          text: "Already have an account?"
+          link: Log in now
       verify:
-        headline: Please verify your account
-        message: You will receive an email for verification in the next few minutes.
-        confirmation_period: The verification link will be valid for three days.
-        notice: Please check your spam folder if you did not receive the confirmation email, and if you do not receive one within the next 15 minutes, please contact the <a class='bs-a' href='https://open.hpi.de/helpdesk?locale=en' target='_blank' rel='noopener'>helpdesk</a>.
+        headline: Confirm your account
+        message: You will receive an email within the next few minutes to verify your account. The verification link is valid for three days.
+        notice: If you did not receive a confirmation email, please also check your spam folder. If you do not receive an email within the next 15 minutes, please contact the <a class='x-link' href='https://open.hpi.de/helpdesk?locale=en' target='_blank' rel='noopener'>helpdesk</a>.
+        back_link: Back to start page
     shared:
+      guardian_consent:
+        label: Disclaimer under 16 years old
+        text: I confirm that this registration is made with the knowledge and consent of my parent or legal guardian. I confirm that my parent or legal guardian agreed to the terms of openHPI's <a class='x-link' href='/pages/data-protection' target='_blank'>privacy policy</a>.
       consent:
         marketing:
           label: marketing
           text: USED IN TESTS ONLY
         user_profile:
           label: User Profile
-          text: I allow openHPI to store the user profile I have created. Some elements of this profile will be visible to other users of the platform in discussion forums or other collaborative tools. These include my <i>real name</i>, if I have not created a dedicated <i>display name</i>, as well as an optional profile photo.
-        hpi_research:
-          label: Research at HPI
-          text: >
-            I confirm that researchers at HPI can use my data for scientific purposes outside the context of the openHPI
-            platform. Evaluations and scientific publications will always be based on pseudonymized data sets. I also
-            give my permission to be contacted by e-mail in the context of research projects.
+          text: I allow openHPI to store the user profile I have created. Some elements of this profile will be visible to other users of the platform in discussion forums or other collaborative tools. These include my <i>real name</i>, if I have not created a dedicated <i>display name</i>, as well as an optional profile photo. I can set or change my display name at any time in my profile settings.
         profile:
           headline: My consents
           consented_at: "You have given this consent on %{date}."
@@ -1086,7 +1194,6 @@ en:
         translations: Translations
         translation_hint: If available, you can provide translations for users speaking other languages here. For languages you omit, the system will automatically fall back to the default language above.
     channels:
-      channel: Channel
       delete_warning:
         zero: "Are you sure, you wish to delete this channel?"
         one: "There is one course in this channel - are you sure, you want to delete it?"
@@ -1172,7 +1279,7 @@ en:
       delete: Delete course
       help: Help
       index:
-        headline: All Courses
+        headline: All Learning Units
         published: Published
         preparation: In preparation
         search:
@@ -1181,21 +1288,24 @@ en:
         code: Code
         title: Title
         status: Status
-        actions: Actions
         edit: Edit
         copy_id: Copy ID
         create: Create new course
         filter:
           preparation: Preparation
-          archive: Archive
           active: Active
+          hidden: Hidden
+          upcoming: Upcoming
+          self_paced: Self-paced
+          external: External
           status: Status
+        empty_state: There are no courses yet.
+        no_results: Sorry, we couldn't find any matching course.
       classifiers:
         status: Status
-        course_status:
-          preparation: Preparation
-          active: Active
-          archive: Archive
+        placement:
+          open4all: Public (on course list)
+          archive: Archived course
       formgroups:
         meta: Metadata
         visuals: Visuals
@@ -1210,8 +1320,6 @@ en:
       form:
         file: "File name:"
         edit_visuals: Edit visuals
-      info:
-        invite_only: If you configure an external registration URL in any language, learners will no longer be able to un-enroll themselves from the course. Learners must also go to the external registration to cancel their booking properly.
       generate_ranking:
         label: "Generate Ranking"
         created_at: "Created at: %{date}"
@@ -1244,8 +1352,8 @@ en:
             start_date: "Start date"
             end_date: "End date"
             published: Published
-            show_in_nav: Show in course navigation
-            featured: Featured
+            deemphasized_in_nav: De-emphasize in course navigation
+            deemphasized_in_nav_hint: "The item is still listed in the course navigation, but shown in a less prominent color."
             open_mode: Open Mode allowed
             public_description: Public description
             public_description_hint: "A public description should contain a textual summary of the video content (useful for search engines in Open Mode)."
@@ -1256,12 +1364,12 @@ en:
             required_items: Required items
             submission_deadline: Submission deadline
             submission_publishing_date: Submission publishing date
-            icon_type: Icon type
           type_selector:
             video: "Video"
             quiz: "Quiz"
             text: "Text"
             lti_exercise: "External exercise tool"
+            cmi5: Cmi5
           exercise_type_selector:
             selftest: Self test
             main: Main
@@ -1271,6 +1379,8 @@ en:
           video_groupings:
             video_data: Video Data
             additional_files: Additional Files
+          rich_text_groupings:
+            additional_files: Additional Files
           video_data:
             pip_stream: Pip stream
             lecturer_stream: Lecturer stream
@@ -1279,7 +1389,7 @@ en:
             stream_placeholder: Choose a stream
             thumbnail_archive: Metadata archive
             subtitles: Subtitles
-            transpipe_link: Manage subtitles in TransPipe
+            subtitles_download: Download subtitle
           additional_files:
             slides: Slides
             transcript: Transcript
@@ -1344,22 +1454,6 @@ en:
         true_text: true
         false_text: false
         profile: Profile
-      submission_statistics: # Do not translate
-        title: Quiz Details (Deprecated) # Do not translate
-        submissions: Submission # Do not translate
-        total_submissions: "Total Submissions:" # Do not translate
-        distinct: "Submitting users:" # Do not translate
-        total_points: "Total points:" # Do not translate
-        please_select: "Please select..." # Do not translate
-        correct: Correct # Do not translate
-        wrong: Wrong # Do not translate
-        total: total # Do not translate
-        student_performance: Student performance # Do not translate
-        average_time: "Average time:" # Do not translate
-        average_points: "Average points:" # Do not translate
-        percent_of: "% of" # Do not translate
-        seconds: seconds # Do not translate
-        limit: limit # Do not translate
       dashboard: # Do not translate
         title: Course Dashboard # Do not translate
         more_details: More details # Do not translate
@@ -1386,9 +1480,9 @@ en:
             forum_write_activity: Learners posted in Forum # Do not translate
           certificates: # Do not translate
             title: Certificates # Do not translate
-            roa: Records of Achievement # Do not translate
+            roa: Certificates # Do not translate
             cop: Confirmations of Participation # Do not translate
-            qc: Certificates # Do not translate
+            qc: Verified Certificates # Do not translate
             not_available: No certificates are enabled for this course. # Do not translate
             not_released: Certificates not released yet. # Do not translate
             completion_rate_explanation: ratio based on shows at middle # Do not translate
@@ -1879,60 +1973,44 @@ en:
         title: Users
         display_name: Display Name
         email: Email
-        confirmed: Confirmed
-        filter: "Filter by name or email:"
-        confirmed_true: true
-        confirmed_false: false
+        status_filter: Status
+        banned: Banned
+        is_banned: This user is banned
+        is_not_banned: This user is not banned
+        top_talent: Top talent
+        confirmed_true: Confirmed
+        confirmed_false: Unconfirmed
         details: Details
-        search: Search
-      form:
-        placeholder:
-          full_name: "Name"
-          email: "E-mail"
-          password: "Password"
-        label:
-          submit: "Submit"
-          full_name: "Name:"
-          email: "E-mail:"
-          password: "Password:"
-        confirmed: Confirmed
-      new:
-        create_user: Create a user
+        empty_state: There are no users yet.
+        no_results: Sorry, we couldn't find any matching entry.
     teachers:
       index:
         title: Teachers
         name: Name
-        description: Bio
-        details: Details
-        filter: "Filter by name:"
-        search: Search
-        new: New teacher
-      show:
         picture: Picture
-        description: Bio
-        edit: Edit teacher information
+        description: Description
+        details: Details
+        delete: Delete
+        confirm_delete: Are you sure you want to delete this teacher?
+        referenced_in_courses_prompt: This teacher is still assigned to at least one course and cannot be deleted. Do you want to open the details page to check the assignment?
+        new: New teacher
+        empty_state: There are no teachers yet.
+        no_results: Sorry, we couldn't find any matching entry.
+      show:
+        title: Details
+        page_header: Teacher detail
+        description: Description
+        no_picture: No picture
+        course_references: Course references
+        no_courses: This teacher is not referenced in any courses
+        delete_prompt: In case the teacher is still assigned to a course, remove the assignment first.
       form:
         description_explanation: The bio must be given in at least one language.
         description_label: Bio (%{language})
       new:
         create_teacher: Create a teacher
       edit:
-        edit_teacher: Edit teacher information
-    polls:
-      headline: Polls
-      question: Question
-      start_at: Start at
-      end_at: End at
-      actions: Actions
-      add: Create poll
-      show: Details
-      edit: Edit
-      delete: Delete
-      confirm_delete: Are you sure you want to delete this poll?
-      empty_msg: There are currently no polls.
-      edit_poll: Edit poll
-      options: Options
-
+        edit_teacher: Edit teacher
     videos:
       index:
         created_at: Added on
@@ -1955,9 +2033,29 @@ en:
         search: Search
         filter_videos: "Filter videos starting with:"
         copy_id: Copy ID
+        upload: Upload video
+        status: Status
+        retry: Retry upload
+        confirm_retry: "Are you sure?"
+        retrying: "Retrying..."
+        upload_status:
+          waiting: Waiting
+          uploading: Uploading
+          ready: Ready
+          failed: Failed
+          invalid: Invalid
       provider_type:
         vimeo: Vimeo
-        kaltura: Kaltura
+        bunny: Bunny
+      upload:
+        headline: Upload a video
+      form:
+        title: Title
+        submit: Upload video
+        video:
+          title: Upload video
+          button: Select video
+          hint: Drop a video file here or pick one from your device.
 
     video_providers:
       title: Video Providers
@@ -1986,7 +2084,6 @@ en:
       form:
         edit_provider: Edit video provider
         credentials_info:
-          kaltura: Your Kaltura account administrator will need to <a href="https://developer.kaltura.com/api-docs/VPaaS-API-Getting-Started/application-tokens.html">create an application token</a> with the privileges to access the videos you would like to share. The following fields can be filled from the attributes of this token. <strong>Note:</strong> The token must be created with the hash type "SHA256".
           vimeo: With your Vimeo account, <a href="https://developer.vimeo.com/apps/new">create a new private API app</a>. After you have configured the app, you can generate a "personal access token" for this app and enter it here. Make sure that the token has at least the scopes <strong>private, create, edit, delete, interact, video_files, public</strong>.
 
     lti_providers:
@@ -2000,6 +2097,33 @@ en:
         headline: Add LTI Provider
       edit:
         headline: Edit LTI Provider
+    shorts:
+      index:
+        title: Shorts
+        course_title: Course
+        status: Status
+        headline: All Shorts
+        empty_state: There are no shorts available yet.
+        no_results: Unfortunately, we could not find any shorts matching your search.
+        edit: Edit
+        create: Create new short
+        delete: Delete
+        confirm_delete: Are you sure you want to delete the short?
+        filter:
+          status: Status
+          preparation: Preparation
+          active: Active
+          archived: Archived
+      form:
+        video:
+          title: Upload video
+          button: Select video
+          hint: Drop a video file here or pick one from your device.
+      new:
+        headline: Create Short
+      edit:
+        headline: Edit Short
+      hint: At least one title field needs to be filled out.
 
   announcements:
     new:
@@ -2029,6 +2153,7 @@ en:
   channels:
     view_all: View all courses
     show_details: Show course details
+    other_channels: This could interest you as well
     show:
       previous: Previous
       next: Next
@@ -2042,47 +2167,21 @@ en:
     ago: "%{timeago} ago"
     preview:
       has_started: The course has already started.
-      button_details: Show course details
-      button_enroll: Enroll me for this course
       button_enter: Enter course
       button_progress: Show my progress
-      button_quit: "Un-enroll"
       button_reactivate_course: Reactivate this course
       button_goto_external: Go to external course
-      unenrollment_disabled: To un-enroll from the course, contact the course provider.
-
-    prerequisites:
-      headline: Prerequisites
-      explain_completion: You must successfully complete these prerequisites in order to take part in this course.
-      status_text:
-        zero: all set!
-        one: one course incomplete
-        other: "%{count} courses incomplete"
-      facts:
-        fulfilled_roa: You gained a Record of Achievement in this course.
-        fulfilled_cop: You gained a Confirmation of Participation in this course.
-        missing_roa: You have not gained a Record of Achievement in this course.
-        missing_cop: You have not gained a Confirmation of Participation in this course.
-      button_trigger_reactivation: Reactivate for free
-      reactivation_modal:
-        title: 'Reactivating "%{course}"'
-        text: You will be granted <strong>one course reactivation for free</strong>. Once you reactivate, you will have eight weeks to complete the course and earn your Record of Achievement.
-        button_confirm: Reactivate now
-        button_cancel: Maybe later
-        error: Something went wrong. Please contact the helpdesk.
-      success_modal:
-        title: Great!
-        text: 'The course "%{course}" has been reactivated.'
 
     nav:
       sections: Learnings
       syllabus: Overview
+      to_overview: Go to overview
       progress: Progress
-      certificates: Certificates
       info: Course Details
-      knowledge_documents: Documents
       discussions: Discussions
       announcements: Announcements
+      completed: Completed
+      completed_units: "%{completed} of %{total} completed"
       teacher:
         administration: Course Administration
         welcome: Welcome, teacher!
@@ -2098,7 +2197,6 @@ en:
         announcements: Announcements
         content: Structure & Content
         lti: LTI providers
-        transpipe: Subtitles (in TransPipe)
         settings: Settings
         permissions: Permissions
         certificates: Certificates
@@ -2111,38 +2209,61 @@ en:
       admin:
         alerts: View issues
         certificate_templates: Certificate Templates
-        open_badge_templates: Open Badge Templates
         back: Go to course
         back_admin: Go to course administration
 
   course:
+    bottom_bar:
+      continue_learning: Continue learning
+      enroll: Enroll for the course
+      label: Course actions
+    details_card:
+      categories: Categories
+      enroll: Enroll now
+      enrollments:
+        one: "%{count} enrollment"
+        other: "%{count} enrollments"
+      last_updated: Last updated on %{date}
+      offered_by: Offered by %{teachers}
+      resume: Continue course
+      starts_in: Starts in
+      starts_on: Course starts on %{date}
+      unenroll: Un-enroll
+      view_teaser: Go to teaser video
+    certificate_card:
+      achieved: Achieved
+      pending: Pending
+      requirement: Requirement
+      issued_on: Issued on
+    item_card:
+      completed: Completed
+      failed: Not passed
+      locked: Locked
+    key_facts:
+      certificate: Certificate
+      label: Course facts
     redeem_voucher:
       cancel: Back to course
       for_course: "You are going to redeem a voucher for the following course:"
       course_reactivation:
         title: Reactivate this course
-        text: "If you have already purchased a voucher for the <a href='/pages/course_reactivation' target='_blank' rel='noopener'>course reactivation</a> from the <a href='%{link}' target='_blank' rel='noopener'>Shop</a>, enter the reactivation code below. Once you redeem the voucher code, you will have <b>%{weeks} weeks</b> to complete the requirements to earn a Record of Achievement."
-        info_title: Don't have a voucher code?
-        info_text: "If you would like to purchase a voucher code for the course reactivation, please visit the <a href='%{link}' target='_blank' rel='noopener'>Shop</a>. For pricing details and more information check our page on the <a href='/pages/course_reactivation' target='_blank' rel='noopener'>course reactivation</a>."
+        text: "If you have already received a reactivation-code for the course reactivation, enter the code below. Once you redeem the code, you will have <b>%{weeks} weeks</b> to complete the requirements to earn a Certificate."
+        info_title: Don't have a reactivation-code?
+        info_text: "Course reactivations are currently restricted. Please contact the <a href='/helpdesk' target='_blank' rel='noopener'>Helpdesk</a> for queries."
     card:
-      cop: Confirmation of Participation
-      roa: Record of Achievement
-      subtitles_more: "%{subtitle_languages} + %{count} more"
-      subtitles: "%{subtitle_languages}"
       button_details: Details
       button_enroll: Enroll
       button_resume: Resume
-      button_reactivate_course: Reactivate
-      button_visit: Visit
-      date: Course dates
-      classifiers: Course classifiers
-      certificate: Highest achievable certificate
       language: Course language
-      available_subtitles: Available subtitles
-      buttons_menu:
-        details: Show details
-      label:
-        reactivated: Reactivated
+      completed: Completed
+      upcoming: Upcoming
+      progress: Course progress
+      topics: Topics
+      level: Level
+    formats:
+      course: Course
+      workshop: Workshop
+      project: Project
     courses:
       date:
         self_paced_since: "Self-paced since %{date}"
@@ -2153,69 +2274,36 @@ en:
         filter:
           channel: Channel
           language: Language
+          format: Format
           status: Status
           submit: Filter
         filter_by: Filter by text
         placeholder: What would you like to learn?
-        loading: Looking for courses...
-        empty_state: There are no courses available yet.
-        empty: Unfortunately, we could not find any courses that match your search.
-        action: Show all courses
-        current: Current courses
-        upcoming: Upcoming courses
-        archive: Self-paced courses
-        reactivation_upsell_html: "You now have the opportunity to earn a Record of Achievement for many courses in self-paced mode. Learn more about our <a class='bs-a' href='/pages/course_reactivation' target='_blank'> course reactivation option</a>."
-        load_more: Load more courses
-        error: An error occurred while loading additional courses. Please try again later.
+        loading: Finding great stuff for you...
+        empty_state: Nothing here yet — check back soon!
+        empty: No results! Try a different search.
+        action: See everything
+        current: Happening now
+        upcoming: Coming soon
+        archive: Go at your own pace
+        load_more: Show me more!
+        error: Oops! Something went wrong. Give it another try!
 
       show:
-        header_subtitle: Offered by %{teachers}
-        user_enrolled: You are enrolled.
         about_content: Course information
-        content: Course contents
-        how_to_enroll: Enroll me for this course
-        how_to_enroll_text: The course is free. Just register for an account on openHPI and take the course!
-        how_to_register_text: For this course, you must register directly with the course provider.
-        button_enroll: Enroll me now
-        button_register: Register now
-        external_course:
-          headline: External course
-          info: This course is not running on openHPI, but on an external learning platform. When following the link to this featured course, you will leave the openHPI website. You might need an dedicated user account on the external platform to be able to enroll to the course.
-        dates_and_stats: Dates and Statistics
-        featured_items:
-          title: Featured content
-        teacher_title: This course is offered by
-        course_runtime: Runs from
-        categories: Tracks
-        language: Language
+        teaser_title: Watch the teaser for this online course
+        teacher_title: Our teachers
         reactivate_course:
-          headline: Reactivate this course
-          notice: "You can access all graded assignments and earn a Record of Achievement with the <a class='bs-a' href='/pages/course_reactivation' target='_blank'>course reactivation option</a>. Learn more or "
+          notice: "You can access all graded assignments and earn a Certificate with the course reactivation option. Learn more or "
           upgrade_now: reactivate now!
         open_mode:
           text: You can watch most of our course videos right away! No login required.
-        invite_only_notice: You must be invited to enroll in this course.
-        certificates: Certificate Requirements
-        qc_requirements: "Gain a <b>Certificate</b> by booking it <b>and</b> gaining a Record of Achievement."
-        roa_requirements: "Gain a <b>Record of Achievement</b> by earning at least <b>%{roa_threshold}%</b> of the maximum number of points from all graded assignments."
-        cop_requirements: "Gain a <b>Confirmation of Participation</b> by completing at least <b>%{cop_threshold}%</b> of the course material."
-        tor_requirements: "Gain a <b>Transcript of Records</b> by fulfilling all requirements for this course."
-        open_badge_requirements: "Gain an <b>Open Badge</b> by completing the course."
-        guidelines_link: "Find out more in the <a href='/pages/roa_guidelines' class='bs-a'>certificate guidelines</a>."
-        qc_guidelines_link: "Find out more in the <a href='/pages/document_types' class='bs-a'>certificate guidelines</a>."
-        learning_goals: What you'll learn
-        target_groups: Who this course is for
-
-      enrollment_statistics:
-        heading: Learners
-        current:
-          title: Current
-          date: Today
-        course_end:
-          title: Course End
-        course_start:
-          title: Course Start
-        currently_enrolled: Learners enrolled
+        certificates: Requirements for Proofs of Achievement
+        roa_requirements_with_exam: "<b>Certificate:</b> Once you have completed <b>%{exam_threshold}%</b> of the course content, you will unlock the online final exam. If you achieve a score of at least <b>%{pass_percentage}%</b>, you will receive your official openHPI Certificate. You have two attempts, the number of which will be shown on the certificate."
+        roa_requirements: "<b>Certificate:</b> You will receive your official openHPI Certificate by earning at least <b>%{roa_threshold}%</b> of the maximum number of points from all graded assignments."
+        cop_requirements: "<b>Confirmation of Participation:</b> You will automatically receive a free Confirmation of Participation once you have completed at least <b>%{cop_threshold}%</b> of the content."
+        guidelines_link: "Find out more on our page for <a href='/pages/certificates_and_guidelines' class='bs-a'>Proofs of Achievement and Guidelines</a>."
+        learning_goals: Learning goals
 
       announcements:
         empty_state: There are no announcements yet. Check again after the course started.
@@ -2229,46 +2317,36 @@ en:
       create:
         edit: Edit course
 
-      rating:
-        headline: Rating
-        details: "This course was rated with <b><span itemprop='ratingValue'>%{stars}</span> stars</b> in average from <b><span itemprop='ratingCount'>%{votes}</span> votes</b>."
-
     progress:
-      learner_dashboard: My learning progress
-      graded_score: Graded points
-      graded: "%{achieved} of %{available}"
-      bonus_points:
-        one: "You got 1 point and earned %{bonus_points} extra"
-        other: "You got %{count} points and earned %{bonus_points} extra"
-      selftest_score: Self-test points
-      selftest: "%{achieved} of %{available}"
-      completed_score: Completed items
-      completed: "%{completed} of %{available}"
-      completed_items: "%{completed} of %{available} items completed"
-      completed_empty: No available items
-      section_score:
-        graded: "Graded: "
-        selftests: "Self-tests: "
-        completed: "Completed: "
+      header:
+        title: My learning progress
+        subtitle: Here you can find your progress, self-tests, recaps and certificates to download.
+        completed_content: Completed content
+        count: "%{completed} / %{total}"
+        certificates: Download certificates
+      certificates:
+        mascot:
+          none_unlocked: Nothing unlocked yet? You've got this!
+          partially_unlocked: Your first certificates are here. Keep it up!
+          all_unlocked: Everything unlocked. Nice work!
+        not_available_yet: Not available yet
+        not_downloaded_yet: Not downloaded yet
+      section:
+        count: "%{completed}/%{total}"
+        exam: The exam itself does not count towards your learning progress.
+        exam_unlock: The exam unlocks once you have completed %{percentage}% of the course.
+        locked: This section is not available yet.
       section_material_empty: No available items
-      statistics:
-        main: Assignments
-        bonus: Bonus
-        selftests: Self-tests
-        points_achieved: "%{submitted_points} of %{max_points} points"
-        items_taken: "%{taken} of %{total} taken"
-        empty_state_points: No points
-      legend:
-        show: Show explanation
-        hide: Hide explanation
-        completed: Content successfully completed
-        not_completed: Content not completed
-        warning: Sufficient score achieved
-        critical: Low score, revisit if possible
-        optional: Optional content, does not affect score
+      current_item:
+        start: Start
+        continue: Continue
+      retake_exam: Retake
 
       show:
         empty_msg: "There are no items yet, so we cannot show you any progress now. Come back later."
+        quizzes_title: Quizzes
+        certificates_title: Certificates
+        certificates_subtitle: Download your certificates
       overview:
         open_mode:
           message: "The listed learning units belong to the course <b>%{title}</b>. Do you want to access all course content?"
@@ -2280,7 +2358,7 @@ en:
     admin:
       page_header: Course administration
       certificate_templates:
-        headline: Certificate and Open Badges Templates
+        headline: Certificate Templates
         index:
           empty_msg: There are no certificate templates available.
           new: Add new template
@@ -2332,28 +2410,11 @@ en:
           forward_seeks: "seeked <span>%{seeks}</span> times forward" # Do not translate
           backward_seeks: "seeked <span>%{seeks}</span> times backward" # Do not translate
         rich_text: # Do not translate
-          link_clicks: Link Clicks # Do not translate
           total_clicks: "<span>%{clicks}</span> clicks on links by <span>%{users}</span> users" # Do not translate
           earliest_click: "earliest click at %{date}" # Do not translate
           latest_click: "latest click at %{date}" # Do not translate
         unknown: # Do not translate
           statement: No further stats available for this item type yet. # Do not translate
-      open_badge_templates:
-        index:
-          empty_msg: There are no Open Badge templates available.
-          new: Add new template
-          name: Name
-          description: Description
-          badge_count: Badges issued
-          image: Image
-          edit: Edit
-          download: Download
-          delete: Delete
-          confirm_delete: Are you sure to delete this Open Badge template?
-        new:
-          headline: New Open Badge Template
-        edit:
-          headline: Edit Open Badge Template
       metadata:
         edit: Edit metadata
         form:
@@ -2364,6 +2425,9 @@ en:
           view_license: View license metadata
           remove_license: Remove license metadata
       visuals:
+        upload_teaser: Upload teaser video
+        upload_hint: Upload a new video to Bunny or select an existing stream below. A new upload replaces the selected stream.
+        upload_status: "Video upload: %{status}"
         edit: Edit visuals
         back: Back to course editor
       offers:
@@ -2392,14 +2456,6 @@ en:
           course: Course
           certificate: Certificate
           complete: Complete
-    certificates:
-      title: My course certificates
-      guideline_link: "Find out more on the <a class='bs-a' href='%{url}'>the certificate guidelines page</a>."
-      requirements: Requirements
-      achieved_state: Achieved
-      in_progress_state: In Progress
-      in_progress_button: Check my progress
-      show_open_badge: Show Open Badge
 
   certificate:
     template:
@@ -2416,72 +2472,6 @@ en:
       score_v3: "%{points} / %{max_points} points (%{percent}%)"
 
       verify: "Verify online: %{verification_url}"
-
-  knowledge_documents:
-    documents: Documents
-    show: Show Details
-    title: Title
-    description: Description
-    language: Language
-    upload_file: Upload documents
-    id: Id
-    filename: Filename
-    size: Size
-    path: Path
-    download: Download
-    actions: Actions
-    no_documents: No documents available
-    filter: Filter by
-    or_course: Filter by course
-    reset_filter: Reset Filter
-    hint: Upload is limited to PDF. The file size must not exceed 8 MB.
-    corresponding_document: Corresponding document
-    add_language: Add Language
-    edit_document: Edit Document
-    new: Add new Document
-    edit: Edit
-    tags: Tags
-    languages: Languages
-    select_courses: Select courses
-    select_tags: Select tags
-    corresponding_courses: Corresponding Courses
-    delete: Delete
-    delete_all: Delete Document and all translations
-    delete_localization: Delete translation
-    submit: Submit
-    update: Update Document
-    internal:
-      information: Internal Information
-      title: Internal title
-      title_placeholder: Enter an internal title for the document. This will be only visible for other administrators.
-      description: Internal document description
-      description_placeholder: Enter an internal description for the document.This will be only visible for other administrators.
-    localization:
-      edit: Edit translation
-      create: Add new translation
-      this_translation: This translation of the document
-      translations: Translations
-      language: Language written in
-      file: File (as pdf)
-      file_placeholder: Choose a file to upload
-      old_file: Old file
-      new_file: Upload new file (as pdf)
-      show_file: Show current file
-      title: Title (in chosen language)
-      title_placeholder: Enter document title in chosen language
-      description: Description (in chosen language)
-      description_placeholder: Enter a description for this document.This should be written in the same language as the attached file.
-    courses: In courses
-    courses_placeholder: Choose courses, where this document should be used
-    public: Public?
-    create: Create a document
-    platform: Use on platform
-    index: Back to Overview
-    cancel: Cancel
-    help:
-      help: Help
-      new: Documents can be displayed in different languages. Use this form to create a whole new document. You have to provide at least one translation for the users to see. The uploaded files have to be a PDF to ensure every user can display them.
-      edit: Documents can be displayed in different languages. Use this form to edit the internal information about this document. These are visible to other administrators and should hold information to clearly recognize the content and goal of the document. Below you can see and edit the translations of this document.
 
   sections:
     admin:
@@ -2514,9 +2504,12 @@ en:
       delete: Delete item
       create: Add item
       create_headline: Create new item in section "%{section}"
+      create_exam: Add exam
+      edit_exam: Edit exam
+      create_exam_headline: Create new exam in section "%{section}"
+      edit_exam_headline: Edit exam "%{item}"
       edit_headline: Edit item "%{item}"
       edit: Edit item
-      edit_subtitles: Edit subtitles
       copy_id: Copy ID
       copy_content_id: Copy content ID
       unpublished: Item is not published
@@ -2533,12 +2526,14 @@ en:
         video: Video
         quiz: Quiz
         lti_exercise: Exercise
+        cmi5: Cmi5 Quiz
+        exam: Exam
       clone_course:
         button: Clone course
         placeholder: Course code of the clone
         course_code_empty: The course code for the clone cannot be empty.
         new_course_not_empty: The target course for the clone may not have content (sections).
-        clone_started: "Course cloning started. You can find the cloned course in the <a class='bs-a' href='/admin/courses'>courses list</a>."
+        clone_started: "Course cloning started. You can find the cloned course in the <a class='bs-a' href='/admin/learn'>courses list</a>."
       fork: Fork
       recalculate_learning_evaluation: Recalculate now
       recalculate_title: The learner's progresses for this course need to be recalculated
@@ -2561,6 +2556,23 @@ en:
     errors:
       create: Something went wrong while creating this item.
       update: Something went wrong while updating this item.
+    exam:
+      minimum_progress_percentage: Course progression required
+      minimum_progress_percentage_hint: "The exam unlocks once a learner has completed at least %{percentage}% of the course (mandatory items only)."
+      pass_percentage: Passing score
+      pass_percentage_hint: "The exam is passed with at least %{percentage}% of the points."
+      max_points_hint: "The maximum points are derived from the displayed questions: %{points} points per attempt."
+      locked_hint: "This exam unlocks once you have completed at least %{percentage}% of the course."
+      start_exam: Start exam
+      start_exam_now: Start exam now
+      confirm_heading: Start exam?
+      confirm_pass_text: "The exam is passed with at least %{percentage}% of the points."
+      start_modal:
+        note: "Please note before starting:"
+        points: Total points
+        attempts: Attempts
+        time: Time limit
+        timer_hint: "The timer keeps running even when you switch tabs."
     video:
       errors:
         invalid_subtitle:
@@ -2571,20 +2583,24 @@ en:
     new:
       back_to_editor: Back to course editor
     show:
+      label: Menu
       hide_nav: Hide navigation
       show_nav: Show navigation
       toggle_nav_hint: Toggle navigation
       coursestate:
-        available: Course is available
-        was_available: Course is finished
-        archive: Self-paced course
+        active: Course is available
+        self-paced: Self-paced course
         preparation: In preparation
         upcoming: Course has not yet started
-        hidden: Course is hidden
       prev_item: Previous
       next_item: Next
-      unsupported_browser: Your browser is not supported. Please use a modern browser.
+      prev_section_item: Previous module
+      next_section_item: Next module
       unsupported_item_type: This item type is no longer supported. Please skip to the next item.
+      rich_text:
+        downloads: Downloads
+        download:
+          reading_material: Reading material
       video:
         preview:
           info: "This video belongs to the %{platform} course <b>%{course_title}</b>. Do you want to see more?"
@@ -2593,8 +2609,7 @@ en:
         activity: Activity
         no_activity: Not yet here
         about: About this video
-        video_downloads: Download video
-        additional_downloads: Download additional material
+        downloads: Downloads
         download:
           video: Video as MP4
           hd_video: "Video (HD) as MP4"
@@ -2604,7 +2619,6 @@ en:
           transcript: Transcription
           reading_material: Reading material
           audio: Audio as MP3
-          disabled: Downloading this video/audio is not possible due to licensing regulations.
         ask_own_question: Start a new topic
         questions_and_discussions: Discussion topics
         view_or_answer: View or reply
@@ -2649,6 +2663,7 @@ en:
       question_text: Question text
       question_explanation: Explanation
       question_alert: Review this question!
+      question_count: Question %{count}
       show_question_explanation: Show Explanation
       hide_question_explanation: Hide Explanation
       edit_question: Edit question
@@ -2666,6 +2681,21 @@ en:
       enter_question: Enter your question here
       enter_question_explanation: Enter your explanation here
       points: Points
+      question_pool: Question Pool
+      exam: Exam question pool
+      exam_hint: Exams give every learner a random, stable subset of questions and always allow two attempts.
+      displayed_question_count: Questions shown to each learner
+      displayed_question_count_hint: Must be a positive multiple of 10. Each ten questions shown include three easy, three mid, and four hard questions. Add exactly three times this many single- or multi-select questions to the pool.
+      exam_draft_message: "The exam remains unpublished: %{errors}"
+      exam_invalid_message: "The exam cannot be published: %{errors}"
+      exam_pool_heading: Exam question pool
+      exam_pool_description: Create and manage the %{count}-question pool. Every ten-question learner set contains three easy, three mid, and four hard questions.
+      difficulty: Difficulty
+      difficulties:
+        not_defined: Not defined
+        easy: Easy
+        mid: Mid
+        hard: Hard
       shuffle_answers: Shuffle answers
       answer: Answer text
       answers: Answers
@@ -2699,7 +2729,7 @@ en:
           legend: A <span class="updated_record">colored row</span> indicates a quiz, which has been inserted already. This quiz will neither be updated nor inserted!<br/>To add this quiz, please delete the existing one.
           confirmButtonText: Import
           errorTitle: Errors occurred while validating quizzes
-      import_quizzes_by_service: Import quizzes from spreadsheet
+      import_quizzes: Import quizzes from spreadsheet
       import_quizzes_success: Quizzes successfully imported!
       confirm_start_quiz: This quiz is graded and cannot be paused. Please ensure you have enough time to complete it before starting.
       exclude_from_recap: Exclude from recap
@@ -2741,19 +2771,38 @@ en:
       quiz_info: Quiz info
       questions: "Question(s):"
       quiz_total_points: "Quiz Total Points: "
+    quiz_info:
+      valid: Exam is ready
+      incomplete: Exam is incomplete
+      difficulties:
+        easy: Easy
+        mid: Mid
+        hard: Hard
+      questions_per_learner: "%{count} questions shown to each learner"
+      questions_per_learner_missing: Set the questions shown to each learner to a positive multiple of 10
+      pool_size: "%{current_count} / %{required_count} questions in the exam"
+      pool_size_missing_count: Set the questions shown to each learner first
+      pool_size_missing: "%{current_count} / %{required_count} questions in the exam"
+      pool_size_too_many: "%{current_count} / %{required_count} questions in the exam (%{count} too many)"
+      difficulty: "%{difficulty} questions: %{count} (minimum %{required_count})"
+      question_types: Only single- and multi-select questions
+      question_types_missing: "%{count} question(s) must be single- or multi-select"
     deleted_quiz: "Quiz deleted."
     deleted_richtext: Text item deleted.
     deleted_item: "Item deleted."
     type_label:
       video: Video
       rich_text: Text
+      learning_material: Learning materials
       self_test: Self-test
       graded_test: Graded Test
       bonus_test: Bonus Test
+      exam: Exam
       survey: Survey
-      exercise: Exercise
-      graded_exercise: Graded Exercise
-      bonus_exercise: Bonus Exercise
+    cmi5:
+      not_found: This item was not found. Please contact the helpdesk if the problem persists.
+      package: Cmi5 package (.zip)
+      current_package: "Currently uploaded: %{filename}. Select a file to replace it."
 
   video_player:
     interactive_transcript_toggle_button: Transcript
@@ -2766,13 +2815,7 @@ en:
     section_start: "%{title} starts in"
     item_submission_deadline: "Submissions for %{title} ending in"
     item_submission_publishing: "Submissions for %{title} will be published in"
-    on_demand_expires: Complete your Record of Achievement before your course reactivation expires in
-    deadline_widget:
-      tooltip: "Click to view your upcoming deadlines for this course"
-      empty_state: "There are no upcoming deadlines for you in this course."
-      events:
-        on_demand_expires: "Your course reactivation expires in %{when}"
-        item_submission_deadline: "Deadline in %{when}"
+    on_demand_expires: Complete your Certificate before your course reactivation expires in
 
   ical:
     course_start: "Course %{title} starts"
@@ -2786,15 +2829,15 @@ en:
 
   dashboard:
     courses:
-      current: My current courses
-      upcoming: My upcoming courses
-      completed: My completed courses
-    not_enrolled_upcoming: 'You are not enrolled in any upcoming courses. Explore our <a class="bs-a" href="/courses">courses</a>.'
+      current: My current learning opportunities
+      upcoming: My upcoming learning opportunities
+      completed: My completed learning opportunities
+    not_enrolled_upcoming: 'You are not enrolled in any upcoming learning session. Explore our <a class="bs-a" href="/learn"> learning opportunities</a>.'
     mark_completed: Mark as completed
     mark_completed_confirmation: By choosing this option, you move the course permanently from your current courses to your completed courses. You can still access the course from there.
-    more_courses: 'Hint: You can still find all other courses you are not yet enrolled for in <a class="bs-a" href="/courses">the course archive</a> and register for self-study (without Record of Achievement).'
+    more_courses: 'Hint: You can still find all other courses you are not yet enrolled for in <a class="bs-a" href="/learn">the course archive</a> and register for self-study (without Certificate).'
     sidebar:
-      dates: Next dates per course
+      dates: Next dates
       dates_empty: You don't have any upcoming dates.
     profile:
       my_profile: My profile
@@ -2803,7 +2846,7 @@ en:
       error_message: Unfortunately, the data could not be saved. Your input might be invalid. Please check your input and try again.
       email_already_taken: The appointed e-mail address is already in use.
       name: Name
-      name_text: This is how your name will be shown on the Record of Achievement.
+      name_text: This name will appear on your openHPI Certificates.
       display_name: Display name
       display_name_text: This is how your name will be shown on the platform.
       resulting_display_name: Your resulting display name
@@ -3217,13 +3260,12 @@ en:
 
     documents:
       my_documents: My certificates
-      text: "Here you can find all your certificates (records of achievement and confirmations of participation) in one place. You are qualified for a graded <i>Record of Achievement</i> if you score at least %{roa_threshold}%% of the overall maximum score from homework assignments and final examination of a course. You can download your <i>Confirmation of Participation</i>, if you work through at least %{cop_threshold}%% of the learning material of a course. See the <a class='bs-a' href='/pages/roa_guidelines'>Certificate Guidelines</a> for more information."
+      text: "Here you can find all your proofs of achievement (certificates and confirmations of participation) in one place. You qualify for a <i>Certificate</i> if you score at least %{roa_threshold}%% of the maximum possible score in the examination. You can download your <i>Confirmation of Participation</i> if you have completed at least %{cop_threshold}%% of the learning materials in a learning opportunity. Find out more on our <a class='bs-a' href='/pages/certificates_and_guidelines'>Proofs of Achievement and Guidelines</a> page."
       show_birthdate: "Show date of birth on my certificates"
       no_documents: There are no certificates available yet.
       my_upcoming_courses: My upcoming courses
-      divergent_certificate_requirements: "Divergent certificate requirements, see <a class='bs-a' href='/courses/%{course_code}'>course details</a>."
+      divergent_certificate_requirements: "Divergent certificate requirements, see <a class='bs-a' href='/learn/%{course_code}'>course details</a>."
       not_yet_published: The certificates for this course are not yet published. As soon as they’re available, you’ll receive an email notification. This  usually happens within one week after the final exam due date.
-      transcript_of_records: "A <i>Transcript of Records</i> is available for courses that offer a summarized, tabular record of achievement for all required courses. All requirements must be met to qualify for this."
 
   feeds:
     headline: "Our Feeds:"
@@ -3232,7 +3274,7 @@ en:
 
   pinboard:
     ask_question: Start a new topic
-    rule_hint: "<b>Note</b>: With our <a class='bs-a' href='https://open.hpi.de/pages/common_values' target='_blank' rel='noopener'>common values</a> we create a respectful space for everyone - please read and consider before posting."
+    rule_hint: "<b>Note</b>: With our <a class='bs-a' href='https://open.hpi.de/pages/code_of_conduct' target='_blank' rel='noopener'>code of conduct</a> we create a respectful space for everyone - please read and consider before posting."
     submit_question: Post new topic
     update_question: Save changes
     locked_msg: The discussions for this course are read-only. No new topics or replies can be created.
@@ -3241,7 +3283,6 @@ en:
       one: Your search result for tag "%{tags}"
       other: Your search result for tags "%{tags}"
     breadcrumbs:
-      label: "You are here:"
       all: All discussions
     general: All discussions (General)
     no_results_search: Sorry, no items found for your search
@@ -3262,10 +3303,10 @@ en:
       closed: Closed
       accept_hint: Did this answer help you? Click here to mark it as accepted.
     pagination:
-      next: next
+      next: Next
       first: first
       last: last
-      previous: previous
+      previous: Previous
     filters:
       all_discussions: All discussions
       discussions_in: Show topics in
@@ -3324,6 +3365,8 @@ en:
 
   question:
     answered: Answered
+    correct: Correct
+    incorrect: Incorrect
     unanswered: Answer now
     show:
       back: Back to overview
@@ -3365,16 +3408,15 @@ en:
     instruction: Quiz Instruction
     questions: Questions
     retake_quiz: Retake quiz
-    your_submissions: "Your submissions: %{submission_count}"
-    remaining_attempts: "Remaining attempts: %{remaining_attempts}"
-    choose_submission: "Choose submission:"
+    correct_answer: Correct answer
+    explanation_for_answer: Explanation for the answer
     total_points: "%{total_points} of %{max_points} points achieved"
     submit:
       selftest: Send my answers
       bonus: Send my answers
       main: Send my final answers
       survey: Send feedback
-    quiz_sidebar_title: "Quiz Details"
+      exam: Send my final answers
     quiz_results: "Results"
     total: "Total"
     question_count:
@@ -3385,27 +3427,21 @@ en:
     question_points: "%{points} Pts"
     quiz_question_points: "%{points} out of %{max_points} points"
     quiz_question_points_slashed: "%{points} / %{max_points}"
-    last_saved: "Last saved:"
     autosave_warning: "<strong>Warning:</strong> the connection to the openHPI server is interrupted. Your quiz can not be saved automatically. Please check your internet connection."
     time_up: "You have reached the time limit for this quiz. Your currently entered solutions will be submitted to the server."
-    times_taken:
-      zero: "You have not taken this quiz yet."
-      one: "You have taken this quiz %{count} time."
-      other: "You have taken this quiz %{count} times."
-    unlimited_time: "No time limit for this quiz, enjoy!"
-    unlimited_attempts: This quiz can be repeated indefinitely!
     please_select: Please select
+    card:
+      total_points: "Total points"
+      attempts_left: "Attempts left"
+      attempts:
+        one: "%{count} Attempt"
+        other: "%{count} Attempts"
+      time_left: "Time left"
+      unlimited: "Unlimited"
+      answered_count: "%{answered} of %{total} questions answered"
     partials:
       quiz_answer_solution:
-        correct: Correct!
-        wrong: Your Answer
-        unselected: Correct Answer
         thanks: Thank you!
-        # v Old v
-        correct_selected: Right!
-        correct_unselected: Right, this statement is not true!
-        wrong_selected: This statement is wrong, you shouldn't have selected this!'
-        wrong_unselected: This statement is right, you should have selected this!
       quiz_free_text_answer_solution:
         correct: Correct!
         wrong: Wrong Answer
@@ -3434,7 +3470,11 @@ en:
       homework: "This is a graded assignment/ exam"
       bonus: This is a bonus exercise
       selftest: This is an ungraded self-test
+      exam: This is the course exam
       show_results: "Results available from %{datetime}"
+    exam_passed: "Congratulations, you have passed the exam."
+    exam_failed: "You did not pass the exam yet. You need to achieve at least %{percentage} % of the total points to pass the exam."
+    exam_failed_final: "You did not pass the exam. There are no more attempts left."
     masq_warning: The submission deadline has already passed. You can only submit as you are masqueraded as the user.
     admin_area_title: Admin Area
     submit_fudge_points: Submit
@@ -3460,13 +3500,21 @@ en:
       masquerade: Masquerade as user
       masquerade_hint: Tempoarily masquarade as this user for support or maintenance.
       ban: Ban user
-      ban_hint: A banned user will be logged out and will not be able to log in again. The account will be archived, but not deleted.
+      ban_hint: "A banned user will be logged out and will not be able to log in again. This account has been banned %{ban_count} times before."
       ban_info: This user has been banned.
       ban_confirm: Are you sure you want to ban this user? Banning the user will not delete the account but the user will be logged out and is unable to log in again.
       ban_user_info: This user has been banned.
+      unban: Unban user
+      unban_confirm: This will remove the ban from the user. An unbanned user will be able to log in again.
+      unban_info: "This user has been banned. This account has been banned %{ban_count} times before. The last ban was on %{last_ban_date}."
       manual_confirm: Confirm manually
       manual_confirm_hint: Verify and activate this account manually.
       confirm_manual_confirm: Please a) double check, if the e-mail address of this user is spelled correctly, and b) make sure the user has confirm this e-mail address via a response to the helpdesk.
+      top_talent: Top talent
+      top_talent_hint: Flag or unflag this user as a top talent.
+      top_talent_confirm: Are you sure you want to mark this user as top talent?
+      remove_top_talent: Remove top talent
+      remove_top_talent_confirm: Are you sure you want to remove the top talent flag from this user?
       enrollments: Course enrollments
       course_title: Course title
       course_code: Course code
@@ -3478,9 +3526,8 @@ en:
       quantile: Quantile
       certificates: Certificates
       confirmation_of_participation: Confirmation of Participation
-      record_of_achievement: Record of Achievement
-      certificate: Certificate
-      transcript_of_records: Transcript of Records
+      record_of_achievement: Certificate
+      certificate: Verified Certificate
       actions: Actions
       action_submissions: Show submissions
       user_information: User information
@@ -3512,11 +3559,6 @@ en:
       placeholder:
         name: Enter a name
         description: "Some description might be helpful"
-    transcript_of_records:
-      course: Course
-      score: Score
-      overall_score: Overall score
-      passed: passed
   certificate_templates:
     index:
       headline: Record templates
@@ -3531,10 +3573,9 @@ en:
     new:
       headline: New Certificate-Template
     form:
-      record_of_achievement: "Record of Achievement"
+      record_of_achievement: "Certificate"
       confirmation_of_participation: "Confirmation of Participation"
-      certificate: "Certificate"
-      transcript_of_records: Transcript of Records
+      certificate: "Verified Certificate"
       course_code: Course Code
       certificate_type: Certificate Type
       file: File
@@ -3556,29 +3597,11 @@ en:
       # Datetime is not supported by I18n, instead, time is used.
       # Proposed workaround is to define datetime formats in the time section.
       long_datetime: "%B %d, %Y %H:%M"
+      long_datetime_zone: "%B %d, %Y %H:%M %Z"
       short_datetime: "%B %-d, %Y"
       very_short_datetime: "%b %d %H:%M"
       quiz_submission: "%a, %b %d, %Y %H:%M:%S"
       abbreviated_month_date: "%b %-d, %Y"
-
-  polls:
-    widget:
-      headline: Polls
-      end_at: "Open until %{date}"
-      vote: Vote
-      thanks: Thank you for voting!
-      poll_archive_link: "You can see the results in the <a class='bs-a' href='%{link}'>poll archive</a> as soon as the poll ends."
-      not_enough_participants: "You can see the results in the <a class='bs-a' href='%{link}'>poll archive</a> as soon it has a sufficient number of participants."
-      next_poll: Next poll
-      recent_results: Recent poll results
-      intermediate_results: "Intermediate results with %{participants} participants."
-    archive:
-      headline: Polls Archive
-      place_vote: "This poll is still open until %{date}. Please <a class='bs-a' href='%{link}'>place your vote</a>!"
-      intermediate_results: "Intermediate results with %{participants} participants."
-      final_results: "Poll ended on %{date} with %{participants} participants."
-      not_ended: "This poll ends on %{date}. The results will be shown afterwards."
-      not_enough_participants: "Intermediate results will be shown as soon as there is a sufficient number of responses."
 
   verify:
     headline: Certificate Verification
@@ -3600,10 +3623,9 @@ en:
     course_learning_goals: Learning Goals
     certificate_data: Certificate Info
     certificate_type: Certificate type
-    record_of_achievement: Record of Achievement
+    record_of_achievement: Certificate
     confirmation_of_participation: Confirmation of Participation
-    certificate: Certificate
-    transcript_of_records: Transcript of Records
+    certificate: Verified Certificate
     issued_at: Issued at
     result: Result
     points: "%{points} of %{max_points} points (%{percent}%)"
@@ -3611,22 +3633,6 @@ en:
     additional_records:
       headline: Additional Records
       info: "The user has also achieved the following record type(s) in this course: <b>%{records}</b>. In this case, we always show the verification result for the most valuable record."
-    open_badge:
-      headline: Open Badge
-      share_open_badge: Share Open Badge
-      linkedin_info_url: "/pages/open_badges"
-
-  open_badges:
-    issuer_description: |
-      openHPI is the digital education platform of the Hasso Plattner Institute, Potsdam,
-      Germany. On openHPI you take part in a worldwide social learning network based on
-      interactive online courses covering different subjects in Information and
-      Communication Technology (ICT).
-    badge_class:
-      name: "Successfully completed in %{year}: %{course_title}"
-      name_fallback: "Successfully completed: %{course_title}"
-      description: 'This badge verifies that the candidate completed the openHPI course "%{course_title}" and passed the necessary exercises and exams to earn a course certificate.'
-
   gamification:
     points: XP
     badge:
@@ -3724,18 +3730,6 @@ en:
       file:
         admin:
           name: "<b>File administration:</b> list and delete uploaded files"
-      lanalytics:
-        alert:
-          admin:
-            name: "<b>QC Alert administration:</b> delete alerts for all users"
-          inspector:
-            name: "<b>QC Alerting:</b> list and ignore (own) alerts"
-        report:
-          inspector:
-            name: "<b>Reports:</b> create anonymized reportings"
-        rule:
-          admin:
-            name: "<b>QC Rule administration:</b> manage rules for QC alerts"
       lti:
         admin:
           name: "<b>LTI administration:</b> manage LTI providers"
@@ -3785,9 +3779,6 @@ en:
         editor:
           name: "<b>Subtitle editing:</b> upload and delete subtitles for videos"
       helpdesk:
-        polls:
-          admin:
-            name: "<b>Polls administration:</b> creation, editing, deletion, and evaluation of polls"
         pages:
           admin:
             name: "<b>Pages administration:</b> creation, editing, and deletion of pages"

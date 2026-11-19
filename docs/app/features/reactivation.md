@@ -9,15 +9,6 @@
 ```yaml title="xikolo.yml"
 course_reactivation:
   period: 8
-  store_url: "https://shop.example.org/voucher/qualified-certificate"
-```
-
-```yaml title="xikolo.yml"
-course_reactivation:
-  period: 8
-  store_url:
-      de: "https://shop.example.org/gutscheine/qualified-certificate"
-      en: "https://shop.example.org/voucher/qualified-certificate"
 ```
 
 !!! note

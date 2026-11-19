@@ -7,7 +7,7 @@ module Account
     end
 
     def new
-      @authorization = Account::Authorization.find params[:authorization]
+      @authorization = AccountService::Authorization.find params[:authorization]
     rescue ActiveRecord::RecordNotFound
       raise AbstractController::ActionNotFound
     end

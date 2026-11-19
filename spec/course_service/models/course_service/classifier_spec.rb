@@ -5,6 +5,10 @@ require 'spec_helper'
 describe CourseService::Classifier, type: :model do
   subject(:classifier) { create(:'course_service/classifier') }
 
+  before do
+    perform_enqueued_jobs
+  end
+
   describe '(validations)' do
     it do
       expect(classifier).to accept_values_for :title,
@@ -41,7 +45,7 @@ describe CourseService::Classifier, type: :model do
     context 'without courses' do
       it 'does not raise an error' do
         expect { classifier.update!(title: 'Java') }.not_to raise_error
-        expect { classifier.update!(title: 'Java') }.not_to change { CourseService::UpdateCourseSearchIndexWorker.jobs.count }
+        expect { classifier.update!(title: 'Java') }.not_to have_enqueued_job(CourseService::UpdateCourseSearchIndexJob)
       end
     end
 
@@ -52,13 +56,13 @@ describe CourseService::Classifier, type: :model do
 
       context 'when updating a classifier' do
         it 'schedules the update course search index worker or each course' do
-          expect { classifier.update!(title: 'Java') }.to change { CourseService::UpdateCourseSearchIndexWorker.jobs.count }.by(2)
+          expect { classifier.update!(title: 'Java') }.to have_enqueued_job(CourseService::UpdateCourseSearchIndexJob).exactly(:twice)
         end
       end
 
       context 'when destroying a classifier' do
         it 'schedules the update course search index worker for each course' do
-          expect { classifier.destroy }.to change { CourseService::UpdateCourseSearchIndexWorker.jobs.count }.by(2)
+          expect { classifier.destroy }.to have_enqueued_job(CourseService::UpdateCourseSearchIndexJob).exactly(:twice)
         end
       end
     end

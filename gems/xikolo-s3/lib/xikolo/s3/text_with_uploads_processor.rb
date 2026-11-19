@@ -71,8 +71,8 @@ module Xikolo::S3
 
     def process_upload(match)
       uri = URI.parse match
-      upload = upload_bucket.object("uploads/#{uri.host}#{uri.path}")
-      unless upload.metadata['xikolo-state'] == 'accepted' \
+      upload = upload_bucket.object("uploads/#{uri.host}#{uri.path}").load
+      unless upload.metadata['xikolo-state'] == 'accepted'
           && upload.metadata['xikolo-purpose'] == @purpose
         @errors.append([match, :rtfile_rejected, 'upload is not valid'])
         return match

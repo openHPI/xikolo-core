@@ -14,7 +14,7 @@ describe 'Delete user', type: :request do
 
   let(:s3_avatar_index) do
     stub_request(:get,
-      'https://s3.xikolo.de/xikolo-public?list-type=2&' \
+      "#{test_s3_host}/xikolo-public?list-type=2&" \
       "prefix=avatars%2F#{uid}")
       .to_return(
         status: 200,
@@ -124,7 +124,7 @@ describe 'Delete user', type: :request do
         </ListBucketResult>
       XML
 
-      stub_request(:get, 'https://s3.xikolo.de/xikolo-public')
+      stub_request(:get, "#{test_s3_host}/xikolo-public")
         .with(
           query: {'list-type': 2, prefix: "avatars/#{uid}"}
         )
@@ -139,12 +139,12 @@ describe 'Delete user', type: :request do
 
     let!(:s3_avatar_delete_1) do
       stub_request(:delete,
-        "https://s3.xikolo.de/xikolo-public/avatars/#{uid}/avatar_v1.jpg")
+        "#{test_s3_host}/xikolo-public/avatars/#{uid}/avatar_v1.jpg")
     end
 
     let!(:s3_avatar_delete_2) do
       stub_request(:delete,
-        "https://s3.xikolo.de/xikolo-public/avatars/#{uid}/avatar_v2.png")
+        "#{test_s3_host}/xikolo-public/avatars/#{uid}/avatar_v2.png")
     end
 
     it 'removes the current avatar image' do

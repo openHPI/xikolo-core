@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe Admin::CourseManagementController, type: :controller do
-  let(:user) { stub_user id: user_id, language: 'en', permissions: }
+  let(:user) { create(:'account_service/user', id: user_id, language: 'en') }
   let(:permissions) { [] }
   let(:user_id) { SecureRandom.uuid }
   let(:enroll_user_id) { SecureRandom.uuid }
@@ -11,23 +11,15 @@ describe Admin::CourseManagementController, type: :controller do
   let(:submission_id) { SecureRandom.uuid }
   let(:snapshot_id) { SecureRandom.uuid }
   let(:course_code) { 'the-code' }
+  let(:course) { create(:'course_service/course', id: course_id, course_code:) }
+  let(:course_context) { AccountService::Context.root }
 
   around {|example| Timecop.freeze(&example) }
 
   before do
-    user
+    course
+    sign_in(user: user, permissions:) if user
 
-    Stub.request(
-      :course, :get, '/courses'
-    ).to_return Stub.json([])
-    Stub.request(
-      :course, :get, "/courses/#{course_id}"
-    ).to_return Stub.json({
-      id: course_id,
-      course_code:,
-      context_id: course_context_id,
-      created_at: DateTime.new(2015, 7, 12),
-    })
     Stub.request(
       :course, :post, '/enrollments',
       body: hash_including(user_id: enroll_user_id, course_id:)
@@ -48,169 +40,39 @@ describe Admin::CourseManagementController, type: :controller do
     })
   end
 
-  describe '#preview_quizzes' do
-    subject(:action) { -> { post :preview_quizzes, params: } }
-
-    let(:request_context_id) { course_context_id }
-    let(:permissions) { ['course.content.edit'] }
-    let(:xmlfile) { fixture_file_upload('spec/support/files/course/quizzes.xml', 'text/xml') }
-    let(:xmlstring) { File.read(xmlfile.path) }
-    let(:params) { {id: course_id, xml: xmlfile} }
-
-    let(:quiz_request) do
-      Stub.request(:quiz, :post, '/quizzes', query: {preview: true}).to_return(quiz_response)
-    end
-
-    before { quiz_request }
-
-    context 'with successful request' do
-      let(:response_data) do
-        {
-          params: {
-            course_code:,
-            course_id:,
-            xml: xmlstring,
-          },
-          quizzes: {quizzes: [quiz: {name: 'My Test'}]},
-        }.to_json
-      end
-
-      let(:quiz_response) do
-        {
-          body: response_data,
-          status: 200,
-          headers: {'Content-Type' => 'text/xml; charset=utf-8'},
-        }
-      end
-
-      it 'got params and quizzes as json' do
-        action.call
-        expect(response.body).to eq response_data
-        expect(response).to have_http_status :ok
-      end
-    end
-  end
-
   describe '#import_quizzes' do
     subject(:action) { -> { post :import_quizzes, params: } }
 
-    let(:request_context_id) { course_context_id }
     let(:permissions) { ['course.content.edit'] }
-    let(:xmlstring) { File.read('spec/support/files/course/quizzes.xml') }
-    let(:params) { {id: course_id, xml: xmlstring} }
-
-    let(:quiz_request) do
-      Stub.request(:quiz, :post, '/quizzes',
-        body: hash_including(
-          course_code:,
-          course_id:,
-          xml: xmlstring
-        )).to_return(quiz_response)
-    end
-    let(:quiz_response) { {status: 200} }
-
-    before { quiz_request }
-
-    context 'with successfull response' do
-      it 'returns ok' do
-        action.call
-        expect(response.body).to eq '{"success":"Ok"}'
-        expect(response).to have_http_status :ok
-      end
-    end
-
-    context 'with errors from quiz service' do
-      let(:errors) { ['1st parameter error', '2nd parameter error'] }
-      let(:quiz_response) do
-        {
-          body: {errors:}.to_json,
-          status: 422,
-          headers: {'Content-Type' => 'application/json'},
-        }
-      end
-
-      let(:response_body) do
-        {error: errors}.to_json
-      end
-
-      it 'returns paramters errors' do
-        action.call
-        expect(response.body).to eq response_body
-        expect(response).to have_http_status :unprocessable_entity
-      end
-    end
-  end
-
-  describe '#import_quizzes_by_service' do
-    subject(:action) { -> { post :import_quizzes_by_service, params: } }
-
-    let(:request_context_id) { course_context_id }
-    let(:permissions) { ['course.content.edit'] }
-    let(:xml) do
-      # We need an unfrozen string here as the controller
-      # enforces an encoding on the (stubbed) response body
-      +'xml_string_from_service'
-    end
     let(:params) { {id: course_id, spreadsheet: 'abc', worksheet: 'xyz'} }
 
-    let(:quiz_request) do
-      Stub.request(:quiz, :post, '/quizzes',
-        body: hash_including(
-          course_code:,
-          course_id:,
-          xml:
-        )).to_return(status: 200)
-    end
-
-    before do
-      quiz_request
-
-      Stub.enable :quizimporter
-      Stub.request(
-        :quizimporter, :get, '/',
-        query: {
-          worksheet: 'xyz',
-          spreadsheet: 'abc',
-          course_code:,
-        }
-      ).to_return(service_response)
-    end
-
-    context 'with successful request' do
-      let(:service_response) do
-        {
-          body: xml,
-          status: 200,
-          headers: {'Content-Type' => 'text/xml; charset=utf-8'},
-        }
+    context 'with successful import' do
+      before do
+        allow(QuizImporter).to receive(:import).with(
+          spreadsheet: params[:spreadsheet],
+          worksheet: params[:worksheet],
+          course_code: course_code
+        ).and_return(true)
       end
 
       it 'sets a proper flash message' do
         action.call
         expect(flash[:success]).to include 'Quizzes successfully imported!'
       end
-
-      it 'sends XML to quiz service' do
-        action.call
-        expect(quiz_request).to have_been_requested
-      end
     end
 
     context 'with invalid worksheet' do
-      let(:service_response) do
-        {
-          # We need an unfrozen string here as the controller
-          # enforces an encoding on the (stubbed) response body
-          body: +'Invalid worksheet',
-          status: 405,
-          headers: {'Content-Type' => 'text/plain; charset=utf-8'},
-        }
+      before do
+        allow(QuizImporter).to receive(:import).with(
+          spreadsheet: params[:spreadsheet],
+          worksheet: params[:worksheet],
+          course_code: course_code
+        ).and_raise(QuizImporter::LoadWorksheetError, 'Invalid worksheet')
       end
 
       it 'sets an error flash message' do
         action.call
         expect(flash[:error]).to include 'Invalid worksheet'
-        expect(quiz_request).not_to have_been_requested
       end
     end
   end
@@ -218,7 +80,6 @@ describe Admin::CourseManagementController, type: :controller do
   describe 'POST convert_submission' do
     subject(:action) { -> { post :convert_submission, params: } }
 
-    let(:request_context_id) { course_context_id }
     let(:params) { {id: course_id} }
 
     before do
@@ -261,6 +122,104 @@ describe Admin::CourseManagementController, type: :controller do
           action.call
           expect(flash[:success]).to include 'Submission was successfully converted from existing snapshot!'
         end
+      end
+    end
+  end
+
+  describe '#submissions' do
+    subject(:action) { -> { get :submissions, params:, format: } }
+
+    let(:permissions) { ['course.content.access', 'quiz.submission.index'] }
+
+    let(:format) { :html }
+    let(:params) { {id: course_id} }
+
+    context 'with html format' do
+      it 'returns success' do
+        action.call
+
+        expect(response).to have_http_status :ok
+      end
+    end
+
+    context 'with a user_id param' do
+      let(:params) { {id: course_id, user_id: enroll_user_id} }
+      let(:section) { create(:'course_service/section', course:) }
+      let(:quiz) { create(:'quiz_service/quiz') }
+
+      before do
+        create(:'account_service/user', id: enroll_user_id)
+        create(:'course_service/item', :homework, section:, content_id: quiz.id, title: 'Homework 1')
+
+        Stub.request(:quiz, :get, "/quizzes/#{quiz.id}")
+          .to_return Stub.json(quiz.decorate.as_json(api_version: 1))
+        Stub.request(
+          :quiz, :get, '/user_quiz_attempts',
+          query: {user_id: enroll_user_id, quiz_id: quiz.id}
+        ).to_return Stub.json({additional_attempts: 0, attempts: 0})
+      end
+
+      it 'lists the homework submissions for the user' do
+        action.call
+
+        expect(response).to have_http_status :ok
+        expect(assigns(:homework_submissions)).to contain_exactly(
+          a_hash_including(title: "#{section.title}/Homework 1", quiz_id: quiz.id)
+        )
+      end
+    end
+
+    context 'with json format' do
+      let(:format) { :json }
+
+      let(:submission) do
+        create(:'quiz_service/quiz_submission',
+          id: submission_id, course_id: course_id, user_id: user_id)
+      end
+
+      it 'returns submissions json file' do
+        submission
+        action.call
+
+        expect(response).to have_http_status :ok
+        expect(response.headers['Content-Type']).to include('application/json')
+        expect(response.headers['Content-Disposition']).to include('submissions.json')
+
+        body = response.parsed_body
+
+        expect(body).to eq([
+          {
+            'quiz_id' => submission.quiz_id,
+            'submission_id' => submission.id,
+            'user_name' => user.display_name,
+            'user_email' => user.primary_email.address,
+            'submitted_at' => submission.quiz_submission_time,
+            'grade' => submission.fudge_points,
+          },
+        ])
+      end
+
+      context 'with more submissions than fit on a single page' do
+        let(:submission_count) { 35 }
+
+        before do
+          create_list(:'quiz_service/quiz_submission', submission_count, course_id:)
+        end
+
+        it 'returns all matching submissions instead of only the first page' do
+          action.call
+
+          expect(response.parsed_body.size).to eq(submission_count)
+        end
+      end
+    end
+
+    context 'without permission' do
+      let(:permissions) { ['course.content.access'] }
+
+      it 'redirects' do
+        action.call
+        expect(response).to have_http_status :see_other
       end
     end
   end

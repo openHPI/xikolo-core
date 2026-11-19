@@ -1,5 +1,5 @@
-- content_for :head_assets
-  = javascript_include_tag 'app/javascript/home/home', type: 'module', 'data-turbo-track': Rails.env.production? ? 'reload' : ''
+- content_for :custom_meta_tags do
+  meta name="description" content=t(:'header.meta_tags.courses.index')
 
 = render Global::CourseListBanner.new
 
@@ -20,16 +20,14 @@
         .course-group
           h2.h2.category-title
             = category.title
-          - if category.callout.present?
-            = render Global::Callout.new category.callout
-          .course-card-grid data-id = "category-#{index}"
+          div class="grid grid-cols-1 gap-8 mt-1 mb-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" data-id = "category-#{index}"
             = render partial: 'courses', locals: {courses: category.courses, enrollments: @enrollments}
 
           / Only self-paced courses are paginated so far, so there is a `next_page` for them.
           - if category.courses.respond_to?(:next_page) && category.courses.next_page.present?
             .load-more
               = button_tag(type: 'button', class: 'btn btn-default btn-outline mb20 mt20',
-                data: {behavior: 'load-more', current_page: category.courses.current_page, target: "category-#{index}", dispatch_event: 'load-more:course-cards'}) do
+                data: {behavior: 'load-more', current_page: category.courses.current_page, target: "category-#{index}"}) do
                 = t(:'course.courses.index.load_more')
               div data-id='load-more__indicator' hidden='true'
                 = render State::Loading.new

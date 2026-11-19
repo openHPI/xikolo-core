@@ -12,8 +12,8 @@ class CourseProvider < ApplicationRecord # rubocop:disable Layout/IndentationWid
     CourseProvider
       .where(enabled: true)
       .find_each do |provider|
-        CourseProviderWorker
-          .perform_async(
+        CourseProviderJob
+          .perform_later(
             provider.name,
             provider.provider_type,
             provider.config,
@@ -23,15 +23,14 @@ class CourseProvider < ApplicationRecord # rubocop:disable Layout/IndentationWid
   end
 
   def self.sync?(course)
-    (course.status != 'preparation' || changed_to_preparation?(course)) &&
+    (course.published? || published_changed?(course)) &&
       !course.invite_only &&
       course.external_course_url.blank? &&
       course.groups.blank?
   end
 
-  def self.changed_to_preparation?(course)
-    course.status_previously_changed?(from: 'active', to: 'preparation') ||
-      course.status_previously_changed?(from: 'archive', to: 'preparation')
+  def self.published_changed?(course)
+    course.published_previously_changed?(from: true, to: false)
   end
 end
 end

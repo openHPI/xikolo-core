@@ -62,9 +62,6 @@ class QuestionController < Abstract::FrontendController
     Acfs.run
     read_question
 
-    # Lanalytics
-    gon.question_id = @question.id
-
     @new_comment = Xikolo::Pinboard::Comment.new
     @new_answer = Xikolo::Pinboard::Answer.new
     @new_question = Xikolo::Pinboard::Question.new
@@ -84,8 +81,6 @@ class QuestionController < Abstract::FrontendController
     end
 
     set_page_title @question.title
-
-    render layout: 'course_area_two_cols'
   end
 
   def edit
@@ -182,16 +177,6 @@ class QuestionController < Abstract::FrontendController
       question.implicit_tags = nil # Leave implicit tags unchanged
       question.save
 
-      # send data to analytics
-      data = {
-        id:           question.accepted_answer_id,
-        user_id:      current_user.id,
-        course_id:    question.course_id,
-        question_id:  question.id,
-        created_at:   DateTime.now.in_time_zone,
-      }
-
-      Msgr.publish data, to: 'xikolo.pinboard.answer.accept'
     end
 
     head :created
@@ -279,11 +264,19 @@ class QuestionController < Abstract::FrontendController
     end
   end
 
+  def course_nav_tab
+    :forum if action_name == 'show'
+  end
+
+  def course_area_variant
+    :light
+  end
+
   private
 
   def check_course_path
-    Acfs.on the_course, Xikolo::Pinboard::Question.find(params[:id]) do |course, question|
-      if question.course_id != course.id
+    Acfs.on Xikolo::Pinboard::Question.find(params[:id]) do |question|
+      if question.course_id != the_course.id
         raise Status::NotFound
       end
     end
@@ -393,13 +386,7 @@ class QuestionController < Abstract::FrontendController
   end
 
   def read_question
-    data = {
-      user_id: current_user.id,
-      question_id: params[:id],
-      timestamp:    Time.zone.now,
-    }
-
-    Msgr.publish data, to: 'xikolo.pinboard.read_question'
+    PinboardService::ReadQuestionJob.perform_later(current_user.id, params[:id], Time.zone.now)
   end
 
   def course_api

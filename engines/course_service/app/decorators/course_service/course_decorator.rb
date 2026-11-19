@@ -6,57 +6,7 @@ class CourseDecorator < ApplicationDecorator # rubocop:disable Layout/Indentatio
   decorates_association :classifiers
 
   def as_api_v1(opts = {})
-    fields.merge(
-      url: h.course_path(self),
-      prerequisite_status_url: h.prerequisite_status_course_url(self),
-      achievements_url: h.course_achievements_url(self)
-    ).as_json(opts)
-  end
-
-  def as_api_v2(opts = {})
-    {
-      id: object.id,
-      course_code: object.course_code,
-      title: object.title,
-      abstract: object.abstract,
-      teachers: object.teacher_text,
-      language: object.lang,
-      channels: object.channels.map do |ch|
-        {
-          id: ch.id,
-          code: ch.code,
-          title_translations: ch.title_translations,
-        }
-      end,
-      classifiers:,
-      state: object.state,
-      hidden: object.hidden,
-      accessible: object.accessible?,
-      invite_only: object.invite_only,
-      proctored: object.proctored,
-      on_demand: model.allows_reactivation?,
-      start_date: object.displayed_start_date&.iso8601,
-      end_date: object.end_date&.iso8601,
-      roa_threshold_percentage: object.roa_threshold_percentage,
-      cop_threshold_percentage: object.cop_threshold_percentage,
-      roa_enabled: object.roa_enabled,
-      cop_enabled: object.cop_enabled,
-      created_at: model.created_at,
-      updated_at: model.updated_at,
-      learning_goals: object.learning_goals,
-      target_groups: object.target_groups,
-      show_on_list: object.show_on_list,
-    }.tap do |attrs|
-      if object.enrollable?
-        attrs[:enrollments_url] = h.enrollments_path(course_id: object.id)
-      end
-      if object.external_course_url.present?
-        attrs[:external_course_url] = object.external_course_url
-      end
-      attrs[:policy_url] = object.policy_url if object.policy_url.present?
-      attrs[:description] = description_v2 if embed?('description')
-      attrs[:enrollment] = enrollment if embed?('enrollment')
-    end.as_json(opts)
+    fields.merge(url: h.course_path(self)).as_json(opts)
   end
 
   def as_event(**opts)
@@ -85,19 +35,13 @@ class CourseDecorator < ApplicationDecorator # rubocop:disable Layout/Indentatio
       course_code:,
       context_id:,
       special_groups:,
-      status:,
       records_released:,
       enrollment_delta:,
       alternative_teacher_text:,
       external_course_url:,
       forum_is_locked:,
-      public: object.public?,
-      hidden:,
-      show_on_list:,
-      proctored:,
-      welcome_mail:,
-      auto_archive:,
-      show_syllabus:,
+       public: object.public?,
+       welcome_mail:,
       invite_only:,
       channels: object.channels.map do |ch|
         {
@@ -106,45 +50,30 @@ class CourseDecorator < ApplicationDecorator # rubocop:disable Layout/Indentatio
           title_translations: ch.title_translations,
         }
       end,
-      show_on_stage:,
-      stage_visual_url:,
-      stage_statement:,
       pinboard_enabled:,
-      policy_url:,
       on_demand:,
       enable_video_download:,
+      published:,
+      placement:,
       roa_threshold_percentage: model.roa_threshold_percentage,
       cop_threshold_percentage: model.cop_threshold_percentage,
       roa_enabled: model.roa_enabled,
       cop_enabled: model.cop_enabled,
       video_course_codes:,
-      rating_stars:,
-      rating_votes:,
       created_at: model.created_at,
       updated_at: model.updated_at,
       students_group_url:,
       learning_goals: object.learning_goals,
-      target_groups: object.target_groups,
+      course_format:,
     }.tap do |attrs|
       %i[teacher_text].each do |field|
         next unless model.respond_to? field
 
         attrs[field] = model.send field
       end
-      if external_registration?
-        attrs[:external_registration_url] = model.external_registration_url
-      end
       attrs[:description] = description_v1 unless in_collection?
       attrs[:groups] = groups if raw?
     end
-  end
-
-  # This enforces that the external_registration_url field will only be send
-  # whenever necessary, that means, once the course is invite-only and has
-  # external registration url(s) present, or on a context where the raw
-  # model is requested (e.g. the admin interface)
-  def external_registration?
-    (model.invite_only? && model.external_registration_url.present?) || raw?
   end
 
   def classifiers

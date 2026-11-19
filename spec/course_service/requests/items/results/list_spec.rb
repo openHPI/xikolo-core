@@ -28,7 +28,7 @@ describe 'Item Results: List', type: :request do
     it { is_expected.to have(3).items }
 
     context 'with two more results, both for the same user' do
-      let(:user_id) { generate(:user_id) }
+      let(:user_id) { create(:'account_service/user').id }
       let!(:good_result) { create(:'course_service/result', item:, user_id:, dpoints: 300) }
       let!(:bad_result) { create(:'course_service/result', item:, user_id:, dpoints: 50) }
 
@@ -44,7 +44,7 @@ describe 'Item Results: List', type: :request do
 
   describe 'by user ID' do
     let(:params) { super().merge(user_id:) }
-    let(:user_id) { generate(:user_id) }
+    let(:user_id) { create(:'account_service/user').id }
 
     let!(:good_result) { create(:'course_service/result', item:, user_id:, dpoints: 300) }
     let!(:bad_result) { create(:'course_service/result', item:, user_id:, dpoints: 50) }

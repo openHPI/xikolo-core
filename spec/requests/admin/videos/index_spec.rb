@@ -3,14 +3,19 @@
 require 'spec_helper'
 
 describe 'Admin: Videos: Index', type: :request do
-  subject(:index_action) { get '/videos', headers:, params: }
+  subject(:index_action) { get '/videos', params: }
 
-  let(:headers) { {Authorization: "Xikolo-Session session_id=#{stub_session_id}"} }
   let(:params) { {} }
   let(:page) { Capybara.string(response.body) }
 
+  def status_text_for(title)
+    index_action
+    row = page.find_all('.stream').find {|r| r.find('td:nth-child(2)').text == title }
+    row.find('td:nth-child(3)').text.strip.squeeze(' ')
+  end
+
   before do
-    stub_user_request(permissions: %w[video.video.manage])
+    sign_in(user: create(:'account_service/user', :admin))
 
     create(:stream, title: 'New stream', created_at: DateTime.new(2013, 12, 0o5, 15, 0o0))
     create(:stream, title: 'Old stream', created_at: DateTime.new(2013, 10, 0o1, 18, 30))
@@ -29,9 +34,53 @@ describe 'Admin: Videos: Index', type: :request do
 
       results = page.find_all('.stream')
       expect(results.first.find('td:nth-child(2)').text).to eq 'New stream'
-      expect(results.first.find('td:nth-child(5)').text).to eq '2013-12-05 15:00:00 +0000'
+      expect(results.first.find('td:nth-child(6)').text).to eq '2013-12-05 15:00:00 +0000'
       expect(results.last.find('td:nth-child(2)').text).to eq 'Old stream'
-      expect(results.last.find('td:nth-child(5)').text).to eq '2013-10-01 18:30:00 +0000'
+      expect(results.last.find('td:nth-child(6)').text).to eq '2013-10-01 18:30:00 +0000'
+    end
+  end
+
+  context 'for Bunny streams with different upload states' do
+    let(:bunny_provider) { create(:video_provider, :bunny, name: 'Bunny') }
+
+    before do
+      create(:stream, provider: bunny_provider, title: 'Waiting stream',
+        provider_video_id: nil, hd_url: nil, sd_url: nil, hls_url: nil, upload_state: 'waiting')
+      create(:stream, provider: bunny_provider, title: 'Uploading stream',
+        provider_video_id: 'guid-up', hls_url: 'https://cdn.example.com/guid-up/playlist.m3u8', upload_state: 'uploading')
+      create(:stream, provider: bunny_provider, title: 'Ready stream')
+      create(:stream, provider: bunny_provider, title: 'Invalid stream',
+        provider_video_id: nil, hd_url: nil, sd_url: nil, hls_url: nil,
+        upload_state: 'failed', upload_error: 'Bunny is down')
+      create(:stream, provider: bunny_provider, title: 'Failed stream',
+        provider_video_id: 'guid-fail', hls_url: 'https://cdn.example.com/guid-fail/playlist.m3u8',
+        upload_state: 'failed', upload_error: 'Bunny is down')
+    end
+
+    it 'shows a Waiting badge for waiting streams' do
+      expect(status_text_for('Waiting stream')).to eq 'Waiting'
+    end
+
+    it 'shows an Uploading badge for uploading streams' do
+      expect(status_text_for('Uploading stream')).to eq 'Uploading'
+    end
+
+    it 'shows a Ready badge for ready streams' do
+      expect(status_text_for('Ready stream')).to eq 'Ready'
+    end
+
+    it 'shows an Invalid badge for failed streams without a provider video' do
+      expect(status_text_for('Invalid stream')).to eq 'Invalid'
+    end
+
+    it 'shows a Failed badge for failed streams with a provider video' do
+      expect(status_text_for('Failed stream')).to eq 'Failed'
+    end
+
+    it 'shows no status badge for provider-synced streams' do
+      index_action
+      row = page.find_all('.stream').find {|r| r.find('td:nth-child(2)').text == 'New stream' }
+      expect(row.find('td:nth-child(3)').text).to be_blank
     end
   end
 

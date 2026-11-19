@@ -1,4 +1,4 @@
-import ready from '../../util/ready';
+import { turboReady } from '../../util/ready';
 
 // It toggles the aria-expanded attribute on click on elements with
 // [data-behaviour='toggle-menu'].
@@ -17,7 +17,7 @@ const attachButton = (element) => {
   }
 };
 
-ready(() => {
+turboReady(() => {
   const elements = document.querySelectorAll("[data-behaviour='toggle-menu']");
 
   elements.forEach((element) => {

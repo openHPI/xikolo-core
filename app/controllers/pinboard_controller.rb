@@ -5,7 +5,6 @@ class PinboardController < Abstract::FrontendController
   include PinboardRoutesHelper
   include PinboardHelper
 
-  before_action :set_no_cache_headers
   before_action :ensure_logged_in
 
   inside_course only: :index
@@ -45,14 +44,10 @@ class PinboardController < Abstract::FrontendController
       technical_issues: params[:section_id] == 'technical_issues',
       filters:
     )
-    pinboard_api.rel(:questions).get(question_params).then do |topics|
-      @topics = topics
-    end.value!
-
+    @topics = fetch_topics
     @course_code = the_course.course_code
 
     set_page_title the_course.title, t(:'courses.nav.discussions')
-    render layout: 'course_area_two_cols'
   end
 
   def tags
@@ -63,7 +58,15 @@ class PinboardController < Abstract::FrontendController
     tag = Xikolo::Pinboard::Tag.find params[:id]
     Acfs.run
     tag.delete
-    redirect_back fallback_location: root_path, status: :see_other
+    redirect_back_or_to(root_path, status: :see_other)
+  end
+
+  def course_nav_tab
+    :forum
+  end
+
+  def course_area_variant
+    :light
   end
 
   private
@@ -84,13 +87,10 @@ class PinboardController < Abstract::FrontendController
   end
 
   def available_sections
-    sections = Xikolo::Course::Section.where({
-      course_id: the_course.id,
-      include_alternatives: true,
-      published: true,
-      available: true,
-    })
-    Acfs.run
+    sections = CourseService::Section
+      .where(course_id: the_course.id)
+      .available
+      .order(:position)
 
     [
       # Always have the "All discussions" select option first.
@@ -115,28 +115,56 @@ class PinboardController < Abstract::FrontendController
     ].compact
   end
 
-  def question_params
-    {
-      watch_for_user_id: current_user.id,
-      course_id: the_course.id,
-      question_filter_order: params[:order] || 'activity',
-      blocked: current_user.allowed?('pinboard.entity.block'),
-      page: params[:page] || 1,
-      per_page: params[:per_page] || 25,
-    }.tap do |h|
-      h[:section_id] = section_id if params[:section_id].present?
-      h[:search] = params[:q] if params[:q].present?
-      if params[:tags].present?
-        h[:tags] = params[:tags].is_a?(Array) ? params[:tags].join(',') : params[:tags]
-      end
-    end
+  def fetch_topics
+    Thread.current[:requested_user_id] = current_user.id
+
+    questions = PinboardService::Question.where(course_id: the_course.id, deleted: false)
+    questions = questions.unblocked unless current_user.allowed?('pinboard.entity.block')
+    questions = filter_by_tags(questions)
+
+    questions = questions.default_order
+    questions = questions.search(params[:q], language: the_course.lang || 'en') if params[:q].present?
+    questions = order_topics(questions)
+
+    questions
+      .includes(:implicit_tags, :explicit_tags, :votes, :watches, :user_watch)
+      .paginate(page: params[:page], per_page: params[:per_page] || 25)
   end
 
-  def section_id
+  def filter_by_tags(questions)
     if params[:section_id] == 'technical_issues'
-      'technical'
-    else
-      UUID(params[:section_id]).to_s
+      questions = questions.joins(:implicit_tags)
+        .where(tags: {name: 'Technical Issues', course_id: the_course.id})
+    elsif params[:section_id].present?
+      questions = questions.joins(:implicit_tags).where(tags: {
+        name: UUID(params[:section_id]).to_s,
+        course_id: the_course.id,
+        referenced_resource: 'Xikolo::Course::Section',
+      })
+    end
+
+    tag_ids = Array(params[:tags]).flat_map {|t| t.split(',') }
+    questions = questions.by_tags(tag_ids) if tag_ids.any?
+
+    unless params[:section_id] == 'technical_issues'
+      # Questions tagged with an unreferenced implicit tag (e.g. technical
+      # issues) only appear on their dedicated pinboard.
+      questions = questions.where.not(
+        id: PinboardService::Question.joins(:implicit_tags)
+          .where(tags: {referenced_resource: [nil, '']})
+          .select(:id)
+      )
+    end
+
+    questions
+  end
+
+  def order_topics(questions)
+    case params[:order]
+      when 'age'    then questions.order(created_at: :desc)
+      when 'votes'  then questions.order_by_votes(:desc)
+      when 'random' then questions.order(Arel.sql('RANDOM()'))
+      else questions.order(updated_at: :desc)
     end
   end
 
@@ -159,9 +187,5 @@ class PinboardController < Abstract::FrontendController
     if params[:section_id] == 'technical_issues'
       redirect_to course_pinboard_index_path(the_course.course_code), status: :see_other
     end
-  end
-
-  def pinboard_api
-    @pinboard_api ||= Xikolo.api(:pinboard).value!
   end
 end

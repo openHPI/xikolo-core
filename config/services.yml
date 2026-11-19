@@ -1,13 +1,11 @@
 common: &common
   services:
-    account: <%= ENV['XIKOLO_SERVICE_ACCOUNT'] || 'http://localhost:3000/account_service' %>
-    course: <%= ENV['XIKOLO_SERVICE_COURSE'] || 'http://localhost:3000/course_service' %>
-    learnanalytics: <%= ENV['XIKOLO_SERVICE_LANALYTICS'] || 'http://localhost:5900' %>
-    news: <%= ENV['XIKOLO_SERVICE_NEWS'] || 'http://localhost:3000/news_service' %>
-    notification: <%= ENV['XIKOLO_SERVICE_NOTIFICATION'] || 'http://localhost:3000/notification_service' %>
-    pinboard: <%= ENV['XIKOLO_SERVICE_PINBOARD'] || 'http://localhost:3000/pinboard_service' %>
-    quiz: <%= ENV['XIKOLO_SERVICE_QUIZ'] || 'http://localhost:3000/quiz_service' %>
-    quizimporter: http://quiz-import-service.example.org
+    account: <%= "#{ENV.fetch('XIKOLO_SERVICE_HOST', 'http://localhost:3000')}/account_service" %>
+    course: <%= "#{ENV.fetch('XIKOLO_SERVICE_HOST', 'http://localhost:3000')}/course_service" %>
+    news: <%= "#{ENV.fetch('XIKOLO_SERVICE_HOST', 'http://localhost:3000')}/news_service" %>
+    notification: <%= "#{ENV.fetch('XIKOLO_SERVICE_HOST', 'http://localhost:3000')}/notification_service" %>
+    pinboard: <%= "#{ENV.fetch('XIKOLO_SERVICE_HOST', 'http://localhost:3000')}/pinboard_service" %>
+    quiz: <%= "#{ENV.fetch('XIKOLO_SERVICE_HOST', 'http://localhost:3000')}/quiz_service" %>
 
 production:
   <<: *common

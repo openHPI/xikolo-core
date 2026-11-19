@@ -1,0 +1,66 @@
+<%= render Global::Accordion.new do |accordion| %>
+  <% @sections.each do |section| %>
+    <% accordion.with_section(section.title, "section-#{section.id}", expanded: section.expanded?, locked: section.locked?) do |accordion_section| %>
+      <%# Exam sections explain their lock themselves. %>
+      <% if section.exam? %>
+        <% accordion_section.with_header_detail do %>
+          <%# One sentence per line, so they wrap at sentence boundaries first. %>
+          <span class="flex w-full flex-col font-medium sm:w-auto sm:text-end">
+            <% if section.exam_unlock_percentage %>
+              <span><%= t(:'course.progress.section.exam_unlock', percentage: section.exam_unlock_percentage) %></span>
+            <% end %>
+            <span><%= t(:'course.progress.section.exam') %></span>
+          </span>
+        <% end %>
+      <% elsif section.locked? %>
+        <% accordion_section.with_header_detail do %>
+          <span class="w-full font-medium sm:w-auto sm:text-end"><%= t(:'course.progress.section.locked') %></span>
+        <% end %>
+      <% elsif section.total_items_count.positive? %>
+        <% accordion_section.with_header_detail do %>
+          <%# The count sits above the bar on small screens and next to it from `sm`. %>
+          <span class="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
+            <span class="font-medium whitespace-nowrap">
+              <%= t(:'course.progress.section.count', completed: section.completed_items_count, total: section.total_items_count) %>
+            </span>
+            <progress
+              class="x-progress text-accent-75 h-2 w-full sm:w-45"
+              value="<%= section.completed_items_count %>"
+              max="<%= section.total_items_count %>"
+              aria-label="<%= t(:'course.progress.header.completed_content') %>"
+            ></progress>
+          </span>
+        <% end %>
+      <% end %>
+
+      <% if section.completed? %>
+        <% accordion_section.with_indicator do %>
+          <span class="border-base-300 bg-accent flex rounded-full border p-0.5 text-white">
+            <span aria-hidden="true"><%= helpers.pixelart_icon('check', css_class: 'size-4') %></span>
+            <span class="sr-only"><%= t(:'course.item_card.completed') %></span>
+          </span>
+        <% end %>
+      <% end %>
+
+      <% if section.items.any? %>
+        <ul class="m-0 flex list-none flex-col gap-2 p-0">
+          <% section.items.each do |item| %>
+            <li>
+              <%= render Course::ItemCard.new(
+                title: item.title,
+                label: item.label,
+                icon: item.icon,
+                path: item.path,
+                state: item.state,
+                action_label: item.action_label,
+                layout: :row,
+              ) %>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p><%= t(:'course.progress.section_material_empty') %></p>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

@@ -18,7 +18,8 @@ module CourseContextHelper
     return unless base_controller.respond_to? :before_action
 
     base_controller.helper_method :course_layout
-    base_controller.helper_method :hide_course_nav?
+    base_controller.helper_method :course_nav_tab
+    base_controller.helper_method :course_area_variant
 
     class << base_controller
       def inside_course(**)
@@ -51,15 +52,31 @@ module CourseContextHelper
     end
   end
 
-  def hide_course_nav?
-    false
+  # The course navigation tab of the current page, see +Course::Navigation+.
+  # Only the learner-facing course pages show the navigation (in the page header).
+  def course_nav_tab
+    nil
+  end
+
+  # How the course area is presented:
+  # - :accent      contained content on the accent background (e.g. course items)
+  # - :light       contained content on the default background (e.g. forum)
+  # - :full_width  content spanning the full page width on the default background,
+  #                structured into full-width stripes by the page (e.g. course details)
+  def course_area_variant
+    :accent
   end
 
   protected
 
   # functions around the current course
   def request_course
-    Xikolo::Course::Course.find params[:course_id]
+    course = CourseService::Course.by_identifier(params[:course_id]).take
+    if course.nil?
+      raise Status::NotFound
+    end
+
+    course
   end
 
   # the current section
@@ -86,7 +103,7 @@ module CourseContextHelper
   def the_item
     promises[:item] ||= request_item.then do |promise|
       promise.tap do |item|
-        if item.blank? || item_available?(item) || (item['featured'] && item['published'])
+        if item.blank? || item_available?(item)
           next
         end
         unless current_user.allowed?('course.content.access')
@@ -102,7 +119,7 @@ module CourseContextHelper
   end
 
   def load_section_nav
-    sections = the_course.sections
+    sections = the_course.sections.not_alternative
     Acfs.run
     return if sections.nil?
 

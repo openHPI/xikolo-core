@@ -12,7 +12,6 @@ describe CourseService::Course, '.search_by_text', type: :model do
   let!(:course1) do
     create(:'course_service/course',
       title: 'Special Course',
-      status: 'active',
       abstract: 'Introduction into the trends in development',
       course_code: 'software-development',
       alternative_teacher_text: 'MOOC Team',
@@ -23,7 +22,6 @@ describe CourseService::Course, '.search_by_text', type: :model do
   let!(:course2) do
     create(:'course_service/course',
       title: 'Blockchain',
-      status: 'active',
       abstract: 'another amazing course',
       description: "Hype-driven buzzword bingo, don't take me",
       course_code: 'blockchain101',
@@ -34,7 +32,6 @@ describe CourseService::Course, '.search_by_text', type: :model do
   let!(:course3) do
     create(:'course_service/course',
       title: 'Computer Graphics',
-      status: 'active',
       abstract: 'This lecture teaches concepts and techniques for drawing on screens',
       description: 'description',
       course_code: 'drawing',

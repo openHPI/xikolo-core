@@ -6,11 +6,6 @@ describe 'Account: Authentication: CRSF Token', type: :system do
   around(&With(:csrf_protection, true))
 
   context 'with empty / cleared session' do
-    before do
-      Stub.request(:course, :get, '/api/v2/course/courses', query: hash_including({}))
-        .and_return Stub.json([])
-    end
-
     it 'shows error message on login form' do
       visit '/'
 
@@ -25,7 +20,7 @@ describe 'Account: Authentication: CRSF Token', type: :system do
       expect(page).to have_field 'E-mail'
       expect(page).to have_field 'Password'
 
-      expect(page).to have_content \
+      expect(page).to have_text \
         'Your session has expired. Please log in again.'
     end
   end

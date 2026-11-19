@@ -6,8 +6,6 @@ require 'xi/recaptcha/integration'
 class HelpdeskController < Abstract::FrontendController
   layout :helpdesk_layout
 
-  before_action :set_no_cache_headers
-
   def send_helpdesk
     @recaptcha = Xi::Recaptcha::Integration.new(request: request, params: params, action: 'helpdesk')
     unless @recaptcha.verified?
@@ -15,16 +13,16 @@ class HelpdeskController < Abstract::FrontendController
       @ticket = Helpdesk::TicketForm.new(ticket_params).tap { annotate_with_metadata it }
 
       if helpdesk_layout
-        return render action: :show, status: :unprocessable_entity
+        return render action: :show, status: :unprocessable_content
       else
-        return render plain: 'checkbox_recaptcha', status: :unprocessable_entity
+        return render plain: 'checkbox_recaptcha', status: :unprocessable_content
       end
     end
 
     create_ticket!
     render 'success'
   rescue ActiveRecord::RecordInvalid
-    render 'error', status: :unprocessable_entity
+    render 'error', status: :unprocessable_content
   end
 
   def show

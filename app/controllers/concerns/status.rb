@@ -61,7 +61,7 @@ module Status
     end
 
     rescue_from ActionController::InvalidAuthenticityToken do
-      render 'errors/csrf_error', layout: 'error', status: :unprocessable_entity
+      render 'errors/csrf_error', layout: 'error', status: :unprocessable_content
     end
 
     rescue_from Acfs::ResourceNotFound do

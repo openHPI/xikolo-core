@@ -1,10 +1,10 @@
-import initializeMarkdownEditor from '../components/global/markdown-editor';
+import { loadMarkdownEditors } from '../components/global/markdown-editor/index';
 
 /**
- * Adapter for attaching the legacy markdown editor
+ * Adapter for attaching the markdown editor
  */
 const initMarkdownEditorOnSelector = (scope: HTMLElement) => {
-  initializeMarkdownEditor(scope);
+  loadMarkdownEditors(scope);
 };
 
 export default initMarkdownEditorOnSelector;

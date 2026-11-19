@@ -54,16 +54,12 @@ class Enrollment::Create < ApplicationOperation # rubocop:disable Layout/Indenta
   end
 
   def update_fields!
-    enrollment.proctored = params[:proctored] unless params[:proctored].nil?
     enrollment.deleted = false
     enrollment.save!
   end
 
   def create_membership!
     return if @course.context_id.nil? # course not yet migrated
-    unless prerequisites.status_for(enrollment.user_id).fulfilled?
-      raise OperationError.new 'prerequisites_unfulfilled'
-    end
 
     enrollment.create_membership!
   rescue Restify::ResponseError => e
@@ -72,11 +68,10 @@ class Enrollment::Create < ApplicationOperation # rubocop:disable Layout/Indenta
   end
 
   def announce_creation!
-    Msgr.publish(enrollment.decorate.as_event, to: 'xikolo.course.enrollment.create')
-  end
-
-  def prerequisites
-    @course.prerequisites
+    NotificationService::SendCourseWelcomeEmailJob.perform_later({
+      user_id: enrollment.user_id,
+      course_id: enrollment.course_id,
+    })
   end
 end
 end

@@ -3,13 +3,12 @@
 module QuizService
 module Regrading # rubocop:disable Layout/IndentationWidth
   class UpdateAllQuestions < Base
-    # rubocop:disable Lint/MissingSuper
+    # rubocop:disable-next Lint/MissingSuper
     def initialize(quiz, dry: false)
       @quiz = quiz
 
       @dry = dry
     end
-    # rubocop:enable Lint/MissingSuper
 
     # rubocop:disable Rails/SkipsModelValidations
     def run!
@@ -27,7 +26,7 @@ module Regrading # rubocop:disable Layout/IndentationWidth
 
         log "..regrading finished: #{@quiz.submissions.count} submissions regraded \n", :info
       end
-      @quiz.questions.each {|question| UpdateQuestionStatisticsWorker.perform_async(question.id) }
+      @quiz.questions.each {|question| UpdateQuestionStatisticsJob.perform_later(question.id) }
     end
     # rubocop:enable all
 

@@ -1,0 +1,25 @@
+<article class="x-card bg-accent-25 relative mb-5 w-full sm:h-[128px] sm:w-[242px]">
+  <div class="flex grow flex-col gap-2 p-6">
+    <div class="line-clamp-2 text-base sm:text-xl" title="<%= @title %>">
+      <%= @title %>
+    </div>
+
+    <% if file_metadata.present? %>
+      <p class="mt-auto text-sm">
+        <%= file_metadata %>
+      </p>
+    <% end %>
+  </div>
+
+  <a
+    href="<%= @url %>"
+    download
+    class="
+      x-btn bg-base-100 absolute right-5 -bottom-5 rounded-2xl border
+      border-black shadow-none
+    "
+    aria-label="<%= helpers.t(:'global.download') %> <%= @title %>"
+  >
+    <%= helpers.pixelart_icon 'download', css_class: 'size-4' %>
+  </a>
+</article>

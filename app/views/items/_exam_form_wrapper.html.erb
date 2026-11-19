@@ -1,0 +1,29 @@
+<% if quiz.nil? || quiz.new? %>
+  <%= render 'exam_form', quiz:, item:, quiz_question:, multiple_choice_question:, multiple_answer_question:, free_text_question:, essay_question: %>
+<% else %>
+  <%= render Navigation::Tabs.new do |c| %>
+    <% c.with_tab(controls: 'quiz_properties', active: quiz.questions.blank?) do %>
+      <%= render Global::FaIcon.new('gear', css_classes: 'mr5') %><%= t(:'items.quiz.nav.properties') %>
+    <% end %>
+
+    <% c.with_tab(controls: 'quiz_questions', active: quiz.questions.present?) do %>
+      <%= render Global::FaIcon.new('lightbulb', css_classes: 'mr5') %><%= t(:'items.quiz.nav.questions') %>
+    <% end %>
+
+    <% c.with_panel(id: 'quiz_properties', active: quiz.questions.blank?) do %>
+      <%= render 'exam_form', quiz:, item:, quiz_question:, multiple_choice_question:, multiple_answer_question:, free_text_question:, essay_question: %>
+    <% end %>
+
+    <% c.with_panel(id: 'quiz_questions', active: quiz.questions.present?) do %>
+      <div id="quiz_questions"></div>
+    <% end %>
+  <% end %>
+<% end %>
+
+<div id="form-extensions">
+  <% if item.new_record? %>
+    <template id="quiz-form">
+      <%= render 'items/quiz/exam/form', quiz:, item:, quiz_question:, multiple_choice_question:, multiple_answer_question:, free_text_question:, essay_question: %>
+    </template>
+  <% end %>
+</div>

@@ -23,7 +23,7 @@ class Admin::Announcement::RecipientsController < Abstract::AjaxController
     end
 
     courses = Rails.cache.fetch(
-      "announcements/courses/#{params[:q]}",
+      "announcements/learn/#{params[:q]}",
       expires_in: 1.hour,
       race_condition_ttl: 10.seconds
     ) do

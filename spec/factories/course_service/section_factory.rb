@@ -5,8 +5,8 @@ FactoryBot.define do
     association(:course, factory: :'course_service/course', strategy: :create)
     title { 'Week 1' }
     description { 'This is the first week of your awesome course' }
-    start_date { 10.days.from_now.iso8601 }
-    end_date  { 17.days.from_now.iso8601 }
+    start_date { 10.days.ago }
+    end_date { 17.days.from_now }
     published { true }
     optional_section { false }
     alternative_state { 'none' }

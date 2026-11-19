@@ -123,7 +123,10 @@ module Video
 
     # Create or update a stream with the given data
     def store(vimeo_stream)
-      record = ::Video::Stream.find_or_initialize_by(provider_video_id: vimeo_stream.id)
+      record = ::Video::Stream.find_or_initialize_by(
+        provider_id: @provider.id,
+        provider_video_id: vimeo_stream.id
+      )
       record.update vimeo_stream.to_hash.merge(provider_id: @provider.id)
     end
   end

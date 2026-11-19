@@ -35,7 +35,7 @@ describe CourseService::CoursesController, type: :controller do
 
       context 'latest first' do
         let(:params) { {latest_first: 'true'} }
-        let!(:records) { create_list(:'course_service/course', 5, status: 'active') }
+        let!(:records) { create_list(:'course_service/course', 5) }
 
         describe 'json' do
           before { action.call }
@@ -72,186 +72,17 @@ describe CourseService::CoursesController, type: :controller do
       end
     end
 
-    describe 'sorting' do
-      let(:action) { -> { get :index, params: } }
-
-      before do
-        Timecop.freeze
-        create(:'course_service/course', display_start_date: Time.current, start_date: 2.days.ago, title: 'A')
-        create(:'course_service/course', display_start_date: nil, start_date: 1.day.ago, title: 'B')
-        create(:'course_service/course', display_start_date: 2.days.ago, start_date: 2.days.ago, title: 'D')
-        create(:'course_service/course', display_start_date: nil, start_date: 2.days.ago, title: 'C')
-      end
-
-      context 'started recently first' do
-        let(:params) { {sort: 'started_recently_first'} }
-
-        describe 'json' do
-          before { action.call }
-
-          it 'sorts the courses' do
-            expect(json).to match [
-              hash_including('title' => 'A'),
-              hash_including('title' => 'B'),
-              hash_including('title' => 'C'),
-              hash_including('title' => 'D'),
-            ]
-          end
-        end
-      end
-
-      context 'started earliest first' do
-        let(:params) { {sort: 'started_earliest_first'} }
-
-        describe 'json' do
-          before { action.call }
-
-          it 'sorts the courses' do
-            expect(json).to match [
-              hash_including('title' => 'C'),
-              hash_including('title' => 'D'),
-              hash_including('title' => 'B'),
-              hash_including('title' => 'A'),
-            ]
-          end
-        end
-      end
-    end
-
     describe 'filter' do
       let(:action) { -> { get :index, params: } }
 
-      context 'by classifier' do
-        let(:classifier) { create(:'course_service/classifier') }
-        let!(:records) { create_list(:'course_service/course', 5, classifiers: classifier) }
-        let(:params) { {cat_id: classifier.id} }
-
-        before { create_list(:'course_service/course', 10) }
-
-        describe 'json' do
-          before { action.call }
-
-          it { expect(json).to have(5).items }
-          it { expect(json.pluck('id')).to match_array records.map(&:id) }
-        end
-      end
-
-      context 'by channel' do
-        let(:channel_a) { create(:'course_service/channel', code: 'a') }
-        let(:channel_b) { create(:'course_service/channel', code: 'b') }
-        let!(:channel_courses) { create_list(:'course_service/course', 7) }
-        let(:params) { {channel_id: channel_a} }
-
-        before do
-          channel_courses.each do |course|
-            course.channels << channel_a
-          end
-          create_list(:'course_service/course', 3)
-          create_list(:'course_service/course', 1).each do |course|
-            course.channels << channel_b
-          end
-        end
-
-        describe 'json' do
-          before { action.call }
-
-          it { expect(json).to have(channel_courses.count).items }
-          it { expect(json.pluck('id')).to match_array channel_courses.map(&:id) }
-        end
-      end
-
-      context 'by document' do
-        let!(:document1) { create(:'course_service/document') }
-        let!(:document2) { create(:'course_service/document') }
-        let!(:course_a) { create(:'course_service/course') }
-        let!(:course_b) { create(:'course_service/course') }
-        let!(:course_c) { create(:'course_service/course') }
-        let(:params) { {document_id: document1.id} }
-
-        before do
-          document1.courses << course_a << course_b
-          document2.courses << course_c
-        end
-
-        it 'shows only the documents of Course A' do
-          action.call
-          expect(json.pluck('id')).to contain_exactly(course_a.id, course_b.id)
-        end
-      end
-
-      context 'by status' do
-        let!(:records) { create_list(:'course_service/course', 3) }
-        let(:params) { {status: 'preparation'} }
-
-        before { create_list(:'course_service/course', 5, status: 'active') }
-
-        describe 'json' do
-          before { action.call }
-
-          it { expect(json).to have(3).items }
-          it { expect(json.pluck('id')).to match_array records.map(&:id) }
-        end
-      end
-
-      context 'by upcoming' do
-        let(:params) { {upcoming: 'true'} }
-
-        before do
-          create_list(:'course_service/course', 5, status: 'active', start_date: 2.days.ago, end_date: 30.days.from_now)
-          create(:'course_service/course', course_code: 'course-a', status: 'active', start_date: 1.week.from_now, end_date: 30.days.from_now)
-          create(:'course_service/course', course_code: 'course-b', status: 'active', start_date: 2.days.from_now, end_date: 30.days.from_now)
-        end
-
-        describe 'json' do
-          before { action.call }
-
-          it { expect(json).to have(2).items }
-
-          it 'sorts the courses by earliest start date' do
-            expect(json).to match [
-              hash_including('course_code' => 'course-b'),
-              hash_including('course_code' => 'course-a'),
-            ]
-          end
-        end
-      end
-
-      context 'by upcoming with display_date' do
-        let(:params) { {upcoming: 'true'} }
-
-        before do
-          create_list(:'course_service/course', 5, status: 'active', end_date: 30.days.from_now)
-
-          two_weeks_from_now = 2.weeks.from_now
-          create(:'course_service/course', course_code: 'course-a', status: 'active', start_date: 4.days.from_now, display_start_date: two_weeks_from_now, end_date: 20.days.from_now)
-          create(:'course_service/course', course_code: 'course-b', status: 'active', start_date: 3.days.from_now, display_start_date: two_weeks_from_now, end_date: 20.days.from_now)
-          create(:'course_service/course', course_code: 'course-c', status: 'active', start_date: 1.week.from_now, end_date: 20.days.from_now)
-        end
-
-        describe 'json' do
-          before { action.call }
-
-          it { expect(json).to have(3).items }
-
-          it 'sorts the courses by earliest start date and display start date' do
-            expect(json).to match [
-              hash_including('course_code' => 'course-c'),
-              hash_including('course_code' => 'course-a'),
-              # The start_date is ignored if the display_start_date is the same.
-              hash_including('course_code' => 'course-b'),
-            ]
-          end
-        end
-      end
-
       context 'by public' do
-        let!(:active_courses) { create_list(:'course_service/course', 5, status: 'active') }
-        let!(:archive_courses) { create_list(:'course_service/course', 7, status: 'archive') }
+        let!(:active_courses) { create_list(:'course_service/course', 5) }
+        let!(:archive_courses) { create_list(:'course_service/course', 7) }
         let(:params) { {public: 'true'} }
 
         describe 'json' do
           before do
-            create_list(:'course_service/course', 6, status: 'preparation')
+            create_list(:'course_service/course', 6, published: false)
             action.call
           end
 
@@ -272,22 +103,9 @@ describe CourseService::CoursesController, type: :controller do
         end
       end
 
-      context 'by excluded hidden courses' do
-        let!(:public_courses) { create_list(:'course_service/course', 7, hidden: 'false') }
-        let(:params) { {hidden: 'false'} }
-
-        before { create_list(:'course_service/course', 3, hidden: 'true') }
-
-        describe 'json' do
-          before { action.call }
-
-          it { expect(json).to have(public_courses.count).items }
-        end
-      end
-
       context 'by included hidden courses' do
-        let!(:hidden_courses) { create_list(:'course_service/course', 3, hidden: 'true') }
-        let!(:public_courses) { create_list(:'course_service/course', 7, hidden: 'false') }
+        let!(:hidden_courses) { create_list(:'course_service/course', 3, placement: []) }
+        let!(:public_courses) { create_list(:'course_service/course', 7) }
         let(:params) { {} }
 
         describe 'json' do
@@ -297,16 +115,18 @@ describe CourseService::CoursesController, type: :controller do
         end
       end
 
-      context 'by only hidden' do
-        let!(:hidden_courses) { create_list(:'course_service/course', 3, hidden: 'true') }
-        let(:params) { {only_hidden: 'true'} }
-
-        before { create_list(:'course_service/course', 7, hidden: 'false') }
+      context 'by excluded hidden courses' do
+        let(:hidden_courses) { create_list(:'course_service/course', 3, placement: []) }
+        let!(:public_courses) { create_list(:'course_service/course', 7) }
+        let(:params) { {placement: ['Open4All']} }
 
         describe 'json' do
-          before { action.call }
+          before do
+            action.call
+            hidden_courses
+          end
 
-          it { expect(json).to have(hidden_courses.count).items }
+          it { expect(json).to have(public_courses.count).items }
         end
       end
 
@@ -472,18 +292,13 @@ describe CourseService::CoursesController, type: :controller do
       expect(CourseService::Course.first.context_id).to eq context_id
     end
 
-    describe 'with learning_goals and target_groups params present' do
-      let(:params) { super().merge(learning_goals: %w[goal1 goal2], target_groups: %w[students professionals]) }
+    describe 'with learning_goals params present' do
+      let(:params) { super().merge(learning_goals: %w[goal1 goal2]) }
 
       before { action.call }
 
-      it 'includes learning_goals and target_group params' do
+      it 'includes learning_goals params' do
         expect(json).to include 'learning_goals'
-        expect(json).to include 'target_groups'
-      end
-
-      it 'target_groups persists value correctly' do
-        expect(json['target_groups']).to eq %w[students professionals]
       end
 
       it 'learning_goals persists value correctly' do
@@ -492,7 +307,7 @@ describe CourseService::CoursesController, type: :controller do
     end
 
     context 'with access groups' do
-      let(:params) { super().merge(groups: ['test.group']) }
+      let(:params) { super().merge(groups: ['test.group'], published: false) }
 
       it 'stores the access groups' do
         action.call

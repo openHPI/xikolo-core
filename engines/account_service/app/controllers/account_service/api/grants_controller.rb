@@ -24,6 +24,17 @@ class API::GrantsController < API::RESTController # rubocop:disable Layout/Inden
     respond_with collection
   end
 
+  # @url /grants/{id}
+  # @action GET
+  #
+  # Get a specific grant
+  #
+  # @response [Grant] Single grant resource.
+  #
+  def show
+    respond_with resource
+  end
+
   # @url /grants
   # @action POST
   #
@@ -43,17 +54,6 @@ class API::GrantsController < API::RESTController # rubocop:disable Layout/Inden
     end
   rescue ActiveRecord::RecordInvalid => e
     respond_with e.record
-  end
-
-  # @url /grants/{id}
-  # @action GET
-  #
-  # Get a specific grant
-  #
-  # @response [Grant] Single grant resource.
-  #
-  def show
-    respond_with resource
   end
 
   # @url /grants/{id}

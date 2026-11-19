@@ -23,7 +23,7 @@ describe Voucher::DeleteClaimantIPJob, type: :job do
   let!(:unclaimed_voucher) { create(:voucher, :reactivation) }
 
   it 'enqueues a new job' do
-    expect { enqueue_job }.to have_enqueued_job(described_class).on_queue('default')
+    expect { enqueue_job }.to have_enqueued_job(described_class).on_queue('low')
   end
 
   describe '#perform' do

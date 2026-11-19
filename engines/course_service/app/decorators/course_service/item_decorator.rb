@@ -17,18 +17,16 @@ class ItemDecorator < ApplicationDecorator # rubocop:disable Layout/IndentationW
       submission_publishing_date: model.submission_publishing_date&.iso8601(3),
       section_id:,
       course_id: section.course.id,
-      show_in_nav:,
+      deemphasized_in_nav:,
       published: model.effective_published,
       position:,
       effective_start_date: model.effective_start_date&.iso8601(3),
       effective_end_date: model.effective_end_date&.iso8601(3),
       course_archived: model.course_archived,
-      proctored: model.proctored,
       optional: model.optional,
-      icon_type: model.icon_type,
-      featured:,
+      minimum_progress_percentage: model.minimum_progress_percentage,
       public_description:,
-      open_mode: context[:raw] ? open_mode : open_mode_accessible?,
+      open_mode:,
       required_item_ids:,
     }.tap do |attrs|
       attrs[:user_state] = model.user_state if model.user_state?
@@ -44,12 +42,13 @@ class ItemDecorator < ApplicationDecorator # rubocop:disable Layout/IndentationW
     fields.tap do |attrs|
       attrs[:user_state] = model.user_state if model.user_state?
 
+      attrs[:exam_locked] = model.exam_locked_for?(context[:user_id]) if model.exam?
+
       if embed?('user_visit') && model.attributes.key?('visit_user_id')
         attrs[:user_visit] = if model.attributes['visit_user_id']
                                {
                                  user_id: model.attributes['visit_user_id'],
-                                 updated_at:
-                                   model.attributes['visit_updated_at'],
+                                 updated_at: model.attributes['visit_updated_at'],
                                }
                              end
       end
@@ -65,9 +64,6 @@ class ItemDecorator < ApplicationDecorator # rubocop:disable Layout/IndentationW
   def urls
     urls = {
       section_url: h.section_url(model.section_id),
-      user_visit_url: h.item_user_visit_rfc6570.partial_expand(
-        item_id: model.id
-      ),
       results_url: h.item_results_url(item_id: model.id),
       statistics_url: h.item_statistics_url(item_id: model.id),
     }

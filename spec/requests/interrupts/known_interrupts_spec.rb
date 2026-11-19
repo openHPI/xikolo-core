@@ -5,20 +5,23 @@ require 'spec_helper'
 describe 'Interrupts: Known interrupt types', type: :request do
   subject { request; response }
 
-  let(:request) do
-    get '/', headers: {
-      'Authorization' => "Xikolo-Session session_id=#{stub_session_id}",
-    }
-  end
+  let(:request) { get '/' }
   let(:interrupts) { [] }
   let(:features) { {} }
+  let(:born_at) { nil }
+  let(:user) { create(:'account_service/user', completed_profile: true, born_at:) }
 
   before do
-    stub_user_request(
-      id: '2611b7f0-b0dc-43d3-96be-81d810ba2535',
-      features:,
-      interrupts:
-    )
+    create(:'account_service/treatment') if interrupts.include?('new_consents')
+    create(:'account_service/policy') if interrupts.include?('new_policy')
+    sign_in(user:)
+  end
+
+  context 'with guardian_consent interrupt' do
+    let(:interrupts) { ['guardian_consent'] }
+    let(:born_at) { 12.years.ago }
+
+    it { is_expected.to redirect_to '/account/guardian_consent' }
   end
 
   context 'with new_consents interrupt' do

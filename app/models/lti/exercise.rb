@@ -19,7 +19,7 @@ module Lti
       inverse_of: :exercises
 
     has_one :item,
-      class_name: 'Course::Item',
+      class_name: 'CourseService::Item',
       as: :content,
       dependent: :restrict_with_exception
 

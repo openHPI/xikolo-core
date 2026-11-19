@@ -23,11 +23,6 @@ $xi-transcript-highlighted-background-color: color.scale(
     $Video-Styles
 \*--------------------------------------------*/
 
-#player-container {
-  position: relative;
-  margin-bottom: 20px;
-}
-
 // Hide custom control buttons until element is defined
 xm-toggle-control:not(:defined) {
   visibility: hidden;

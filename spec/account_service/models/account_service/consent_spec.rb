@@ -6,6 +6,10 @@ RSpec.describe AccountService::Consent, type: :model do
   let(:attributes) { {} }
   let(:consent) { AccountService::Consent.create attributes }
 
+  it { is_expected.to accept_values_for(:value, true, false) }
+
+  it { is_expected.not_to accept_values_for(:value, nil) }
+
   describe '#consented?' do
     subject { consent.consented? }
 
@@ -47,6 +51,15 @@ RSpec.describe AccountService::Consent, type: :model do
       let(:attributes) { {value: nil} }
 
       it { is_expected.to be false }
+    end
+  end
+
+  describe '#consented_at' do
+    it 'is based on creation time' do
+      timestamp = 2.days.ago
+      consent = create(:'account_service/consent', created_at: timestamp)
+
+      expect(consent.consented_at).to eq timestamp
     end
   end
 end

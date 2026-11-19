@@ -4,9 +4,9 @@ require 'spec_helper'
 
 shared_examples 'an item with a manipulated URL' do
   context "when the item's course and the course in the URL does not match" do
-    subject(:show_item) { get "/courses/tatort/items/#{item.id}", headers: }
+    subject(:show_item) { get "/learn/tatort/items/#{item.id}" }
 
-    let(:other_course) { build(:'course:course', course_code: 'tatort') }
+    let(:other_course) { create(:'course_service/course', course_code: 'tatort') }
 
     before do
       Stub.request(:course, :get, '/courses/tatort').to_return Stub.json(other_course)
@@ -23,7 +23,6 @@ end
 shared_examples 'an inaccessible item' do |error|
   it 'redirects' do
     show_item
-    expect(create_visit_request).not_to have_been_requested
     expect(response).to redirect_to redirect_target
     expect(request.flash[:error].first).to eq error if error
   end
@@ -48,13 +47,13 @@ shared_examples 'an accessible item' do |enrolled: true, quiz: false|
 
   it 'creates a visit', unless: quiz do
     show_item
-    expect(create_visit_request).to have_been_requested
+    expect(CourseService::Visit.exists?(user_id: user.id, item_id: item.id)).to be true
   end
 
   # The QuizSubmissionController takes care of creating visits for quizzes
   it 'does not create a visit', if: quiz do
     show_item
-    expect(create_visit_request).not_to have_been_requested
+    expect(CourseService::Visit.exists?(user_id: user.id, item_id: item.id)).to be false
   end
 
   it 'shows an enrollment notice', if: !enrolled && quiz do
@@ -86,8 +85,7 @@ shared_examples 'an item with prerequisites' do |quiz: false|
 
   context 'with fulfilled prerequisites' do
     before do
-      user = Account::User.find(create(:'account_service/user', id: user_id).id)
-      create(:visit, item: required_item, user:)
+      create(:visit, item: required_item, user_id:)
     end
 
     # Only ungraded quizzes without any prerequisites are started automatically
@@ -104,28 +102,28 @@ shared_examples 'a startable quiz' do
     show_item
     expect(response.body).to include 'Start quiz now'
     expect(response.body).not_to include 'Requirements not met'
-    expect(create_visit_request).not_to have_been_requested
   end
 end
 
 shared_context 'for quizzes' do
+  let(:quiz) { create(:'quiz_service/quiz') }
+
   before do
     Stub.request(:quiz, :get, "/quizzes/#{item.content_id}")
-      .to_return Stub.json({id: item.content_id, current_allowed_attempts: 1})
-    Stub.request(:course, :get, '/enrollments', query: {course_id: course.id, user_id:})
-      .to_return Stub.json(enrollments_resources)
-    Stub.request(:quiz, :get, '/questions', query: {per_page: 250, quiz_id: item.content_id})
-      .to_return Stub.json(build(:'quiz:question', quiz_id: item.content_id))
+      .to_return Stub.json(quiz.decorate.as_json(api_version: 1))
+    item.update!(content: quiz)
+    item_resource['content_id'] = quiz.id
+    item_resource['content_type'] = 'quiz'
   end
 end
 
 describe 'Course: Items: Show', type: :request do
-  subject(:show_item) { get "/courses/#{course.course_code}/items/#{item.id}", headers: }
+  subject(:show_item) { get "/learn/#{course.course_code}/items/#{item.id}" }
 
-  let(:headers) { {} }
   let(:course) { create(:course, course_code: 'example') }
   let(:section) { create(:section, course:) }
   let(:item) { create(:item, :richtext, section:, title: 'The Item') }
+  let(:user) { create(:'account_service/user') }
   let(:course_resource) { build(:'course:course', id: course.id, course_code: course.course_code) }
   let(:section_resource) { build(:'course:section', id: section.id, course_id: course.id) }
   let(:item_resource) { build(:'course:item', **item_params) }
@@ -136,33 +134,30 @@ describe 'Course: Items: Show', type: :request do
     Stub.request(:course, :get, "/items/#{item.id}", query: {user_id:})
       .to_return Stub.json(item_resource)
   end
-  let(:create_visit_request) do
-    Stub.request(:course, :post, "/items/#{item.id}/users/#{user_id}/visit")
-  end
 
   before do
     Stub.request(:course, :get, "/courses/#{course.course_code}")
       .to_return Stub.json(course_resource)
     get_item_for_user_request
-    create_visit_request
   end
 
   context 'when the user is anonymous' do
     let(:user_id) { 'anonymous' }
 
     it_behaves_like 'an inaccessible item', 'Please log in to proceed.' do
-      let(:redirect_target) { '/courses/example' }
+      let(:redirect_target) { '/learn/example' }
     end
   end
 
   context 'when the user is logged in' do
-    let(:headers) { {Authorization: "Xikolo-Session session_id=#{stub_session_id}"} }
     let(:permissions) { [] }
-    let(:user_id) { generate(:user_id) }
+    let(:user_id) { user.id }
     let(:item_resources) { [item_resource] }
 
     before do
-      stub_user_request(id: user_id, permissions:)
+      sign_in(user:)
+      role = create(:'account_service/role', permissions:)
+      create(:'account_service/grant', principal: user, role:)
       Stub.request(:account, :get, "/users/#{user_id}/preferences")
         .to_return Stub.json({properties: {}})
       Stub.request(:course, :get, '/sections', query: {course_id: course.id})
@@ -172,12 +167,11 @@ describe 'Course: Items: Show', type: :request do
       Stub.request(:course, :get, "/sections/#{section.id}").to_return Stub.json(section_resource)
       Stub.request(:course, :get, '/items', query: {section_id: section.id})
         .to_return Stub.json(item_resources)
-      Stub.request(:course, :post, "/items/#{item.id}/users/#{user_id}/visit")
     end
 
     context 'when the user is not enrolled' do
       it_behaves_like 'an inaccessible item', 'You are not enrolled for this course.' do
-        let(:redirect_target) { '/courses/example' }
+        let(:redirect_target) { '/learn/example' }
       end
 
       context 'with a video item in open mode' do
@@ -210,9 +204,7 @@ describe 'Course: Items: Show', type: :request do
       context 'with a quiz item' do
         let(:item) { create(:item, section:, title: 'The Quiz', content_type: 'quiz', content_id: generate(:quiz_id)) }
 
-        include_context 'for quizzes' do
-          let(:enrollments_resources) { [] }
-        end
+        include_context 'for quizzes'
 
         it_behaves_like 'an accessible item', quiz: true, enrolled: false do
           let(:type_specific_content) { 'What is the answer?' }
@@ -230,23 +222,11 @@ describe 'Course: Items: Show', type: :request do
 
       context 'with an unpublished item' do
         let(:permissions) { %w[course.content.access] }
-        let(:item) { create(:item, :richtext, section:, title: 'The Item', published: false) }
+        let(:item_resource) { build(:'course:item', **item_params) }
         let(:item_params) { super().merge(published: false) }
-        let(:another_item_resource) do
-          build(:'course:item', section_id: section.id, content_type: 'quiz', title: 'The Quiz Item', published: true)
-        end
-        let(:item_resources) { [item_resource, another_item_resource] }
 
         it_behaves_like 'an accessible item' do
           let(:type_specific_content) { item.content.text.to_s }
-        end
-
-        it 'does not lock it in the navigation' do
-          show_item
-          expect(response.body).to include('class="course-nav-item rich_text active"')
-          expect(response.body).to include('class="course-nav-item quiz"')
-          expect(response.body).not_to include('class="course-nav-item rich_text active locked"')
-          expect(response.body).not_to include('class="course-nav-item quiz locked"')
         end
       end
     end
@@ -260,17 +240,28 @@ describe 'Course: Items: Show', type: :request do
 
       it_behaves_like 'an item with a manipulated URL'
 
+      context 'with an item scheduled for later' do
+        let(:item) { create(:item, :video, section:, start_date: 1.day.from_now) }
+        let(:item_params) do
+          super().merge(published: true, effective_start_date: item.start_date.iso8601)
+        end
+
+        it_behaves_like 'an inaccessible item', nil do
+          let(:redirect_target) { "/learn/#{course.id}/resume" }
+        end
+      end
+
       context 'with an unpublished item' do
         let(:item) { create(:item, :richtext, section:, title: 'The Item', published: false) }
         let(:item_params) { super().merge(published: false) }
 
         it_behaves_like 'an inaccessible item', nil do
-          let(:redirect_target) { "/courses/#{course.id}/resume" }
+          let(:redirect_target) { "/learn/#{course.id}/resume" }
         end
       end
 
       context 'with an item from another branch' do
-        subject(:show_item) { get "/courses/example/items/#{unaccessible_item_id}", headers: }
+        subject(:show_item) { get "/learn/example/items/#{unaccessible_item_id}" }
 
         let(:unaccessible_item_id) { generate(:item_id) }
 
@@ -291,9 +282,9 @@ describe 'Course: Items: Show', type: :request do
         let(:item_params) { super().merge(exercise_type: 'selftest', required_item_ids: []) }
 
         include_context 'for quizzes' do
-          let(:enrollments_resources) { [build(:'course:enrollment', course_id: course.id, user_id:)] }
-
           before do
+            create(:enrollment, course:, user_id:)
+
             Stub.request(:quiz, :get, '/quiz_submissions',
               query: {newest_first: true, quiz_id: item.content_id, user_id:}).to_return Stub.json([])
             Stub.request(:quiz, :get, '/user_quiz_attempts',

@@ -3,10 +3,9 @@
 require 'spec_helper'
 
 describe 'Admin: Modify Announcement', type: :system do
-  let(:user_id) { user[:id] }
-  let(:user) { attributes_for(:'account_service/user', id: generate(:user_id)) }
+  let(:user) { create(:'account_service/user', :admin) }
   let(:announcement_id) { SecureRandom.uuid }
-  let(:announcement) do
+  let(:announcement_resource) do
     {
       id: announcement_id,
       title: 'This might interest you',
@@ -15,32 +14,32 @@ describe 'Admin: Modify Announcement', type: :system do
         'content' => 'Check it out!',
       }},
       publication_channels: {email: nil},
-      author_id: user_id,
+      author_id: user.id,
       created_at: 1.day.ago,
       self_url: "/news_service/announcements/#{announcement_id}",
     }
   end
 
-  before do
-    stub_user id: user_id,
-      permissions: %w[news.announcement.create news.announcement.update],
-      features: {'admin_announcements' => 'true'}
+  let(:announcement) do
+    create(:'news_service/announcement', id: announcement_id, author_id: user.id)
+  end
 
-    Stub.request(:account, :get, "/users/#{user_id}")
-      .to_return Stub.json(user)
+  before do
+    announcement
+    sign_in(user:)
 
     Stub.request(:news, :get, "/announcements/#{announcement_id}")
-      .and_return Stub.json(announcement)
+      .and_return Stub.json(announcement_resource)
     Stub.request(:news, :get, '/announcements')
-      .and_return Stub.json([announcement])
+      .and_return Stub.json([announcement_resource])
   end
 
   it 'prefills the form and updates the announcement' do
     visit "/admin/announcements/#{announcement_id}/edit"
 
     within_fieldset('English') do
-      expect(page).to have_field('Subject', with: 'This might interest you')
-      expect(page).to have_markdown_editor('Content', with: 'Check it out!')
+      expect(page).to have_field('Subject', with: 'English Subject')
+      expect(page).to have_markdown_editor('Content', with: 'Oh, you gonna like my news...')
     end
 
     update_announcement = Stub.request(:news, :patch, "/announcements/#{announcement_id}")
@@ -51,15 +50,15 @@ describe 'Admin: Modify Announcement', type: :system do
     # Since there is no flash message when an announcement has been
     # updated, we check that the announcement is visible on the page
     # (listed under "Draft").
-    expect(page).to have_content 'This might interest you'
+    expect(page).to have_text 'This might interest you'
 
     expect(
       update_announcement.with(
         body: hash_including(
           'translations' => {
             'en' => {
-              'subject' => 'This might interest you',
-              'content' => 'Check it out!',
+              'subject' => 'English Subject',
+              'content' => 'Oh, you gonna like my news...',
             },
           }
         )

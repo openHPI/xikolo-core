@@ -357,7 +357,7 @@ describe QuizService::QuizSubmissionsController, type: :controller do
         end
 
         it '(asynchronously) creates an item result resource' do
-          Sidekiq::Testing.inline! { action }
+          perform_enqueued_jobs { action }
 
           expect(item_result_2).to have_been_requested
         end
@@ -386,7 +386,7 @@ describe QuizService::QuizSubmissionsController, type: :controller do
         end
 
         it '(asynchronously) creates an item result resource' do
-          Sidekiq::Testing.inline! { action }
+          perform_enqueued_jobs { action }
 
           expect(item_result_2).to have_been_requested
         end
@@ -397,7 +397,7 @@ describe QuizService::QuizSubmissionsController, type: :controller do
         let(:params) { super().merge(fudge_points: 0.0) }
 
         it '(asynchronously) creates an item result resource only once' do
-          Sidekiq::Testing.inline! { action }
+          perform_enqueued_jobs { action }
 
           expect(item_result_2).to have_been_requested.once
         end
@@ -417,7 +417,7 @@ describe QuizService::QuizSubmissionsController, type: :controller do
       end
 
       it '(asynchronously) does not create an item result resource' do
-        Sidekiq::Testing.inline! { action }
+        perform_enqueued_jobs { action }
 
         expect(item_result_2).not_to have_been_requested
       end
@@ -452,7 +452,7 @@ describe QuizService::QuizSubmissionsController, type: :controller do
       end
 
       it '(asynchronously) updates questions statistics' do
-        Sidekiq::Testing.inline! do
+        perform_enqueued_jobs do
           expect { action }.to change(QuizService::QuestionStatistics, :count).from(0).to(7)
         end
       end
@@ -492,7 +492,7 @@ describe QuizService::QuizSubmissionsController, type: :controller do
           end
 
           it '(asynchronously) creates an item result resource' do
-            Sidekiq::Testing.inline! { action }
+            perform_enqueued_jobs { action }
 
             expect(item_result_2).to have_been_requested
           end
@@ -765,7 +765,7 @@ describe QuizService::QuizSubmissionsController, type: :controller do
       end
 
       it '(asynchronously) updates the item result' do
-        Sidekiq::Testing.inline! { action }
+        perform_enqueued_jobs { action }
 
         expect(item_result_1).to have_been_requested
       end

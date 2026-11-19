@@ -46,7 +46,7 @@ module Xikolo
         end
 
         def to_s
-          @markup
+          @markup.to_s
         end
 
         def to_hash

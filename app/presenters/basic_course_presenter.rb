@@ -33,12 +33,8 @@ class BasicCoursePresenter
     @course['cop_enabled']
   end
 
-  def tor_enabled?
-    Xikolo.config.certificate['transcript_of_records'].present?
-  end
-
-  def tor_available?
-    tor_enabled? && tor_template?
+  def course_format
+    @course['course_format']
   end
 
   def roa_threshold_percentage
@@ -49,16 +45,8 @@ class BasicCoursePresenter
     @course['cop_threshold_percentage']
   end
 
-  def proctored?
-    @course['proctored']
-  end
-
   def certificates_enabled?
-    roa_enabled? || cop_enabled? || tor_available?
-  end
-
-  def open_badge_enabled?
-    certificates_enabled? && open_badge_template?
+    roa_enabled? || cop_enabled?
   end
 
   def certificates_published?
@@ -66,31 +54,20 @@ class BasicCoursePresenter
   end
 
   def certificate_requirements
-    return Array.wrap(I18n.t(:'course.courses.show.tor_requirements')) if tor_available?
-
     cr = []
+    exam = @course.exam
 
-    # The guideline link might not exist for all platforms
-    if proctored?
-      cr << [
-        I18n.t(:'course.courses.show.qc_requirements'),
-        I18n.t(:'course.courses.show.qc_guidelines_link'),
-      ].compact_blank.join(' ')
-    end
-
-    cr << I18n.t(:'course.courses.show.roa_requirements', roa_threshold: roa_threshold_percentage) if roa_enabled?
     cr << I18n.t(:'course.courses.show.cop_requirements', cop_threshold: cop_threshold_percentage) if cop_enabled?
-    cr << I18n.t(:'course.courses.show.open_badge_requirements') if open_badge_enabled?
+    if roa_enabled? && exam.present?
+      roa_with_exam = I18n.t(
+        :'course.courses.show.roa_requirements_with_exam',
+        exam_threshold: exam.minimum_progress_percentage,
+        pass_percentage: exam.content.pass_percentage
+      )
+      cr << roa_with_exam
+    elsif roa_enabled?
+      cr << I18n.t(:'course.courses.show.roa_requirements', roa_threshold: roa_threshold_percentage)
+    end
     cr
-  end
-
-  private
-
-  def tor_template?
-    Certificate::Template.exists?(course_id: @course['id'], certificate_type: Certificate::Record::TOR)
-  end
-
-  def open_badge_template?
-    Certificate::OpenBadgeTemplate.exists?(course_id: @course['id'])
   end
 end

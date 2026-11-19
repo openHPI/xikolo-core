@@ -6,11 +6,10 @@ describe CourseService::Course::Destroy, type: :operation do
   subject(:action) { described_class.call(course) }
 
   let(:code) { 'the-course-code' }
-  let(:stage_visual_uri) { nil }
   let(:course) do
     create(:'course_service/course',
       course_code: code,
-      stage_visual_uri:)
+      skip_account_groups: true)
   end
 
   let!(:context_stub) do
@@ -37,6 +36,13 @@ describe CourseService::Course::Destroy, type: :operation do
 
   it 'does not delete the course' do
     expect { action }.not_to change(CourseService::Course, :count)
+  end
+
+  it 'records when the course was flagged for deletion' do
+    Timecop.freeze do
+      action
+      expect(course.reload.deleted_at).to be_within(1.second).of(Time.current)
+    end
   end
 
   it 'deletes the course special groups' do
@@ -75,33 +81,6 @@ describe CourseService::Course::Destroy, type: :operation do
 
     it 'does not raise an exception' do
       expect { action }.not_to raise_error
-    end
-  end
-
-  context 'S3 file references' do
-    context 'stage visual image' do
-      let(:stage_visual_uri) { 's3://xikolo-course/course/asb234/stage_visual_v0.png' }
-
-      it 'deletes the referenced S3 object' do
-        delete_stub = stub_request(
-          :delete,
-          'https://s3.xikolo.de/xikolo-course/course/asb234/stage_visual_v0.png'
-        )
-
-        expect { action }.not_to raise_error
-        expect(delete_stub).to have_been_requested
-      end
-
-      it 'does not propagate S3 API errors' do
-        delete_stub = stub_request(
-          :delete,
-          'https://s3.xikolo.de/xikolo-course/course/asb234/stage_visual_v0.png'
-        )
-          .to_return(status: 403, body: '', headers: {})
-
-        expect { action }.not_to raise_error
-        expect(delete_stub).to have_been_requested
-      end
     end
   end
 end

@@ -8,7 +8,7 @@ describe CourseService::SystemInfoController, type: :controller do
   include_context 'course_service API controller'
 
   let(:default_params) { {format: 'json'} }
-  let(:params)  { {} }
+  let(:params) { {} }
 
   describe 'GET show' do
     before do

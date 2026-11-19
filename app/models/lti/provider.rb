@@ -7,7 +7,7 @@ module Lti
 
     self.table_name = 'lti_providers'
 
-    has_many :exercises, # rubocop:disable Rails/HasManyOrHasOneDependent
+    has_many :exercises,
       class_name: 'Lti::Exercise',
       foreign_key: :lti_provider_id,
       inverse_of: :provider
@@ -26,6 +26,10 @@ module Lti
 
     def tool_consumer
       IMS::LTI::ToolConsumer.new consumer_key, shared_secret
+    end
+
+    def global?
+      course_id.nil?
     end
 
     def anonymized?

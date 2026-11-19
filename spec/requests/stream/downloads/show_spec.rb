@@ -5,7 +5,8 @@ require 'spec_helper'
 RSpec.describe 'Stream: Downloads: Show', type: :request do
   subject(:show) { get "/streams/#{stream.id}/downloads/#{quality}", headers: }
 
-  let(:headers) { {Authorization: "Xikolo-Session session_id=#{stub_session_id}"} }
+  let(:headers) { {} }
+  let(:authenticate) { true }
   let(:stream) { create(:stream, hd_download_url: old_hd_url, downloads_expire: expire_at) }
   let(:expire_at) { nil }
   let(:quality) { 'hd' }
@@ -13,6 +14,7 @@ RSpec.describe 'Stream: Downloads: Show', type: :request do
   let(:new_hd_url) { 'https://vimeo.com/the_download/hd_new.mp4' }
   let(:new_sd_url) { 'https://vimeo.com/the_download/sd_new.mp4' }
   let(:expiration_date) { 12.hours.from_now.iso8601.to_s }
+  let(:user) { create(:'account_service/user') }
   let(:vimeo_api_stub) do
     stub_request(:get, "https://api.vimeo.com/videos/#{stream.provider_video_id}?fields=download")
       .with(
@@ -49,12 +51,11 @@ RSpec.describe 'Stream: Downloads: Show', type: :request do
     }.to_json
   end
 
-  before do
-    stub_user_request
-    vimeo_api_stub
-  end
+  before { vimeo_api_stub }
 
   describe '(response)' do
+    before { sign_in(user:) }
+
     it 'redirects to the specified download URL' do
       show
       expect(response).to redirect_to new_hd_url
@@ -140,8 +141,6 @@ RSpec.describe 'Stream: Downloads: Show', type: :request do
   end
 
   context 'for anonymous user' do
-    let(:headers) { {} }
-
     it 'redirects to login page' do
       show
       expect(response).to redirect_to 'http://www.example.com/sessions/new'

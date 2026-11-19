@@ -1,0 +1,14 @@
+s3:
+  buckets:
+    avatars: xikolo-public
+    banners: xikolo-public
+    certificate: xikolo-certificate
+    course: xikolo-public
+    lti: xikolo-public
+    news: xikolo-public
+    pages: xikolo-public
+    pinboard: xikolo-pinboard
+    quiz: xikolo-public
+    scientist: xikolo-scientist
+    uploads: xikolo-uploads
+    video: xikolo-video

@@ -10,82 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_02_02_111528) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_12_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
+  enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
   enable_extension "pgcrypto"
-  enable_extension "plpgsql"
   enable_extension "unaccent"
   enable_extension "uuid-ossp"
 
-  create_enum :gender, [
-    "male",
-    "female",
-    "diverse",
-    "undisclosed",
-  ], force: :cascade
+  # Custom types defined in this database.
+  # Note that some types may not work with other database engines. Be careful if changing database.
+  create_enum "course_format", ["course", "workshop", "project"]
+  create_enum "gender", ["male", "female", "diverse", "undisclosed"]
+  create_enum "link_target", ["self", "blank"]
+  create_enum "node_type", ["root", "section", "item", "branch", "fork"]
+  create_enum "offer_category", ["course", "certificate", "complete"]
+  create_enum "payment_frequency", ["one_time", "weekly", "monthly", "quarterly", "half_yearly", "by_semester", "yearly", "other"]
+  create_enum "short_status", ["preparation", "active", "archived"]
+  create_enum "sort_mode", ["automatic", "manual"]
+  create_enum "state", ["BW", "BY", "BE", "BB", "HB", "HH", "HE", "MV", "NI", "NW", "RP", "SL", "SN", "ST", "SH", "TH"]
+  create_enum "top_talent_source", ["admin", "course"]
+  create_enum "user_category", ["school_student", "university_student", "teacher", "other"]
 
-  create_enum :link_target, [
-    "self",
-    "blank",
-  ], force: :cascade
-
-  create_enum :node_type, [
-    "root",
-    "section",
-    "item",
-    "branch",
-    "fork",
-  ], force: :cascade
-
-  create_enum :offer_category, [
-    "course",
-    "certificate",
-    "complete",
-  ], force: :cascade
-
-  create_enum :payment_frequency, [
-    "one_time",
-    "weekly",
-    "monthly",
-    "quarterly",
-    "half_yearly",
-    "by_semester",
-    "yearly",
-    "other",
-  ], force: :cascade
-
-  create_enum :sort_mode, [
-    "automatic",
-    "manual",
-  ], force: :cascade
-
-  create_enum :state, [
-    "BW",
-    "BY",
-    "BE",
-    "BB",
-    "HB",
-    "HH",
-    "HE",
-    "MV",
-    "NI",
-    "NW",
-    "RP",
-    "SL",
-    "SN",
-    "ST",
-    "SH",
-    "TH",
-  ], force: :cascade
-
-  create_enum :user_category, [
-    "school_student",
-    "university_student",
-    "teacher",
-    "other",
-  ], force: :cascade
 
   create_function :uuid_generate_v7ms, sql_definition: <<-'SQL'
       CREATE OR REPLACE FUNCTION public.uuid_generate_v7ms()
@@ -111,119 +58,146 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_02_111528) do
       end
       $function$
   SQL
-
   create_table "abuse_reports", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
+    t.uuid "course_id"
+    t.datetime "created_at", precision: nil, null: false
     t.uuid "reportable_id"
     t.string "reportable_type"
-    t.uuid "user_id"
-    t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.string "url"
-    t.uuid "course_id"
+    t.uuid "user_id"
+  end
+
+  create_table "active_storage_attachments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.uuid "record_id", null: false
+    t.string "record_type", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.bigint "byte_size", null: false
+    t.string "checksum"
+    t.string "content_type"
+    t.datetime "created_at", null: false
+    t.string "filename", null: false
+    t.string "key", null: false
+    t.text "metadata"
+    t.string "service_name", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
   create_table "additional_quiz_attempts", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "quiz_id"
-    t.uuid "user_id"
     t.integer "count"
     t.datetime "created_at", precision: nil
+    t.uuid "quiz_id"
     t.datetime "updated_at", precision: nil
+    t.uuid "user_id"
   end
 
   create_table "alerts", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.jsonb "translations", default: {}, null: false
+    t.datetime "created_at", precision: nil, null: false
     t.datetime "publish_at", precision: nil
     t.datetime "publish_until", precision: nil
-    t.datetime "created_at", precision: nil, null: false
+    t.jsonb "translations", default: {}, null: false
     t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "announcements", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
+    t.uuid "author_id", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.integer "lock_version", default: 0, null: false
     t.datetime "publish_at", precision: nil
     t.jsonb "recipients", default: [], null: false
     t.jsonb "translations", default: {}, null: false
-    t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.uuid "author_id", null: false
   end
 
   create_table "answers", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.text "text"
-    t.uuid "question_id"
+    t.string "attachment_uri"
     t.datetime "created_at", precision: nil
+    t.boolean "deleted", default: false, null: false
+    t.uuid "file_id"
+    t.uuid "question_id"
+    t.integer "ranking"
+    t.text "text"
+    t.float "unhelpful_answer_score"
     t.datetime "updated_at", precision: nil
     t.uuid "user_id"
-    t.uuid "file_id"
-    t.boolean "deleted", default: false, null: false
     t.string "workflow_state", default: "new", null: false
-    t.integer "ranking"
-    t.float "unhelpful_answer_score"
-    t.string "attachment_uri"
     t.index ["question_id"], name: "index_answers_on_question_id"
   end
 
   create_table "authorizations", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "user_id"
-    t.text "provider", null: false
-    t.text "uid", null: false
-    t.text "token"
-    t.text "secret"
     t.datetime "expires_at", precision: nil
     t.text "info"
+    t.text "provider", null: false
+    t.text "secret"
+    t.text "token"
+    t.text "uid", null: false
+    t.uuid "user_id"
     t.index ["provider"], name: "index_authorizations_on_provider"
     t.index ["user_id"], name: "index_authorizations_on_user_id"
   end
 
   create_table "badges", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "name"
-    t.integer "level"
-    t.uuid "user_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
     t.uuid "course_id"
+    t.datetime "created_at", precision: nil
+    t.integer "level"
+    t.string "name"
+    t.datetime "updated_at", precision: nil
+    t.uuid "user_id"
   end
 
   create_table "banners", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "file_uri", null: false
-    t.string "link_url"
-    t.enum "link_target", enum_type: "link_target"
     t.string "alt_text", null: false
-    t.datetime "publish_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "expire_at", precision: nil
     t.datetime "created_at", precision: nil, null: false
+    t.datetime "expire_at", precision: nil
+    t.string "file_uri", null: false
+    t.enum "link_target", enum_type: "link_target"
+    t.string "link_url"
+    t.datetime "publish_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "branches", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "title"
-    t.uuid "group_id", null: false
     t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
     t.uuid "fork_id", null: false
+    t.uuid "group_id", null: false
+    t.string "title"
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["fork_id"], name: "index_branches_on_fork_id"
     t.index ["group_id"], name: "index_branches_on_group_id"
   end
 
   create_table "channels", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "code", null: false
-    t.uuid "logo_id"
-    t.boolean "public", default: true, null: false
+    t.boolean "affiliated", default: false, null: false
     t.boolean "archived", default: false, null: false
+    t.string "code", null: false
     t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.text "stage_statement"
-    t.uuid "stage_visual_id"
     t.hstore "description"
     t.boolean "highlight", default: false
-    t.boolean "affiliated", default: false, null: false
-    t.integer "position"
-    t.uuid "mobile_visual_id"
-    t.string "logo_uri"
-    t.string "stage_visual_uri"
-    t.string "mobile_visual_uri"
     t.jsonb "info_link", default: {}, null: false
+    t.uuid "logo_id"
+    t.string "logo_uri"
+    t.uuid "mobile_visual_id"
+    t.string "mobile_visual_uri"
+    t.integer "position"
+    t.boolean "public", default: true, null: false
+    t.text "stage_statement"
+    t.uuid "stage_visual_id"
+    t.string "stage_visual_uri"
     t.jsonb "title_translations", default: {}
+    t.datetime "updated_at", precision: nil
     t.index ["code"], name: "index_channels_on_code", unique: true
   end
 
@@ -236,65 +210,67 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_02_111528) do
   end
 
   create_table "classifiers", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "title"
     t.string "cluster_id", null: false
-    t.jsonb "translations", default: {}, null: false
-    t.integer "position"
     t.jsonb "descriptions", default: {}, null: false
+    t.integer "position"
+    t.string "title"
+    t.jsonb "translations", default: {}, null: false
     t.index ["cluster_id"], name: "index_classifiers_on_cluster_id"
   end
 
   create_table "classifiers_courses", primary_key: ["classifier_id", "course_id"], force: :cascade do |t|
-    t.uuid "course_id", null: false
     t.uuid "classifier_id", null: false
+    t.uuid "course_id", null: false
     t.integer "position"
   end
 
   create_table "client_applications", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "name", null: false
-    t.text "description"
     t.datetime "created_at", precision: nil, null: false
+    t.text "description"
+    t.string "name", null: false
     t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "clusters", id: :string, force: :cascade do |t|
-    t.boolean "visible", default: true, null: false
-    t.jsonb "translations", default: {}, null: false
     t.enum "sort_mode", default: "automatic", null: false, enum_type: "sort_mode"
+    t.jsonb "translations", default: {}, null: false
+    t.boolean "visible", default: true, null: false
+  end
+
+  create_table "cmi5_files", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
+    t.uuid "cmi5_item_id", null: false
+    t.datetime "created_at", null: false
+    t.string "file_path"
+    t.datetime "updated_at", null: false
+    t.index ["cmi5_item_id"], name: "index_cmi5_files_on_cmi5_item_id"
+  end
+
+  create_table "cmi5_items", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "player_height"
+    t.integer "player_width"
+    t.datetime "updated_at", null: false
   end
 
   create_table "comments", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.text "text"
     t.uuid "commentable_id"
+    t.string "commentable_type"
     t.datetime "created_at", precision: nil
+    t.boolean "deleted", default: false, null: false
+    t.text "text"
     t.datetime "updated_at", precision: nil
     t.uuid "user_id"
-    t.string "commentable_type"
-    t.boolean "deleted", default: false, null: false
     t.string "workflow_state", default: "new", null: false
     t.index ["commentable_id", "commentable_type"], name: "index_comments_on_commentable_id_and_commentable_type"
     t.index ["commentable_id"], name: "index_comments_on_commentable_id"
   end
 
-  create_table "conflicts", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "reason"
-    t.boolean "open", default: true
-    t.uuid "conflict_subject_id"
-    t.string "conflict_subject_type"
-    t.uuid "reporter"
-    t.text "comment"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.uuid "accused"
-    t.uuid "peer_assessment_id"
-  end
-
   create_table "consents", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "user_id", null: false
-    t.uuid "treatment_id", null: false
     t.datetime "created_at", precision: nil, null: false
-    t.boolean "value", default: false, null: false
+    t.uuid "treatment_id", null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.uuid "user_id", null: false
+    t.boolean "value", default: false, null: false
     t.index ["treatment_id"], name: "index_consents_on_treatment_id"
     t.index ["user_id", "treatment_id"], name: "index_consents_on_user_id_and_treatment_id", unique: true
     t.index ["user_id"], name: "index_consents_on_user_id"
@@ -302,240 +278,157 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_02_111528) do
 
   create_table "content_tests", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.uuid "course_id", null: false
-    t.string "groups", default: [], null: false, array: true
     t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.integer "round_robin_counter", default: 0, null: false
+    t.string "groups", default: [], null: false, array: true
     t.string "identifier", null: false
+    t.integer "round_robin_counter", default: 0, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["course_id", "identifier"], name: "index_content_tests_on_course_id_and_identifier", unique: true
   end
 
   create_table "contexts", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
+    t.datetime "created_at", precision: nil, null: false
     t.uuid "parent_id"
     t.string "reference_uri"
-    t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "course_offers", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "price_currency", default: "EUR", null: false
-    t.enum "payment_frequency", default: "one_time", null: false, enum_type: "payment_frequency"
     t.enum "category", default: "course", null: false, enum_type: "offer_category"
-    t.integer "price", default: 0, null: false
     t.uuid "course_id"
     t.datetime "created_at", null: false
+    t.enum "payment_frequency", default: "one_time", null: false, enum_type: "payment_frequency"
+    t.integer "price", default: 0, null: false
+    t.string "price_currency", default: "EUR", null: false
     t.datetime "updated_at", null: false
     t.index ["course_id"], name: "index_course_offers_on_course_id"
   end
 
   create_table "course_progresses", primary_key: ["course_id", "user_id"], force: :cascade do |t|
-    t.uuid "user_id", null: false
-    t.uuid "course_id", null: false
-    t.integer "visits", default: 0, null: false
-    t.integer "main_dpoints", default: 0, null: false
-    t.integer "main_exercises", default: 0, null: false
     t.integer "bonus_dpoints", default: 0, null: false
     t.integer "bonus_exercises", default: 0, null: false
-    t.integer "selftest_dpoints", default: 0, null: false
-    t.integer "selftest_exercises", default: 0, null: false
+    t.uuid "course_id", null: false
     t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.integer "main_dpoints", default: 0, null: false
+    t.integer "main_exercises", default: 0, null: false
     t.integer "max_dpoints", default: 0, null: false
     t.integer "max_visits", default: 0, null: false
     t.integer "points_percentage_fpoints", default: 0, null: false
+    t.integer "selftest_dpoints", default: 0, null: false
+    t.integer "selftest_exercises", default: 0, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.uuid "user_id", null: false
+    t.integer "visits", default: 0, null: false
     t.integer "visits_percentage_fpoints", default: 0, null: false
     t.index ["course_id"], name: "index_course_progresses_on_course_id"
   end
 
   create_table "course_providers", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
+    t.jsonb "config", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.boolean "enabled", default: false, null: false
     t.string "name", null: false
     t.string "provider_type", null: false
-    t.jsonb "config", null: false
-    t.boolean "enabled", default: false, null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-  end
-
-  create_table "course_set_entries", primary_key: ["course_set_id", "course_id"], force: :cascade do |t|
-    t.uuid "course_set_id", null: false
-    t.uuid "course_id", null: false
-  end
-
-  create_table "course_set_relations", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "kind"
-    t.uuid "source_set_id"
-    t.uuid "target_set_id"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-  end
-
-  create_table "course_sets", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "course_subscriptions", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "user_id", null: false
     t.uuid "course_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "user_id", null: false
     t.index ["user_id", "course_id"], name: "index_course_subscriptions_on_user_id_and_course_id", unique: true
   end
 
   create_table "course_visuals", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.uuid "course_id", null: false
-    t.uuid "video_id"
-    t.string "image_uri"
     t.datetime "created_at", null: false
+    t.string "image_uri"
     t.datetime "updated_at", null: false
+    t.uuid "video_id"
     t.index ["course_id"], name: "index_course_visuals_on_course_id", unique: true
   end
 
   create_table "courses", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "title"
-    t.string "status", default: "preparation"
-    t.string "course_code", null: false
-    t.datetime "start_date", precision: nil
-    t.datetime "end_date", precision: nil
     t.text "abstract"
-    t.string "lang"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.uuid "description_rtid"
-    t.boolean "records_released"
-    t.integer "enrollment_delta", default: 0, null: false
+    t.boolean "affiliated", default: false, null: false
     t.string "alternative_teacher_text"
+    t.uuid "context_id"
+    t.boolean "cop_enabled", default: true, null: false
+    t.integer "cop_threshold_percentage"
+    t.string "course_code", null: false
+    t.enum "course_format", default: "course", null: false, enum_type: "course_format"
+    t.datetime "created_at", precision: nil
+    t.boolean "deleted", default: false, null: false
+    t.datetime "deleted_at", precision: nil
+    t.text "description"
+    t.uuid "description_rtid"
+    t.datetime "display_start_date", precision: nil
+    t.boolean "enable_video_download", default: true, null: false
+    t.datetime "end_date", precision: nil
+    t.integer "enrollment_delta", default: 0, null: false
     t.string "external_course_url"
     t.boolean "forum_is_locked"
-    t.boolean "affiliated", default: false, null: false
-    t.boolean "hidden", default: false, null: false
-    t.text "welcome_mail"
-    t.datetime "display_start_date", precision: nil
-    t.boolean "proctored", default: false, null: false
-    t.boolean "auto_archive", default: true
-    t.boolean "show_syllabus", default: true
+    t.string "groups", default: [], null: false, array: true
     t.boolean "invite_only", default: false
-    t.boolean "deleted", default: false, null: false
-    t.uuid "context_id"
-    t.string "special_groups", default: [], null: false, array: true
-    t.uuid "teacher_ids", default: [], null: false, array: true
+    t.string "lang"
+    t.string "learning_goals", default: [], null: false, array: true
     t.datetime "middle_of_course", precision: nil
     t.boolean "on_demand", default: false, null: false
-    t.boolean "show_on_stage", default: false, null: false
-    t.text "stage_statement"
-    t.hstore "policy_url"
-    t.integer "roa_threshold_percentage"
-    t.integer "cop_threshold_percentage"
-    t.boolean "roa_enabled", default: true, null: false
-    t.boolean "cop_enabled", default: true, null: false
-    t.string "video_course_codes", default: [], null: false, array: true
-    t.float "rating_stars"
-    t.integer "rating_votes"
-    t.string "stage_visual_uri"
-    t.text "description"
-    t.string "groups", default: [], null: false, array: true
-    t.boolean "enable_video_download", default: true, null: false
-    t.hstore "external_registration_url"
-    t.string "learning_goals", default: [], null: false, array: true
-    t.string "target_groups", default: [], null: false, array: true
-    t.boolean "show_on_list", default: true, null: false
-    t.text "search_data"
+    t.boolean "pinboard_enabled", default: true, null: false
+    t.string "placement", default: [], null: false, array: true
     t.datetime "progress_calculated_at", precision: nil
     t.datetime "progress_stale_at", precision: nil
-    t.boolean "pinboard_enabled", default: true, null: false
+    t.boolean "published", default: false, null: false
+    t.boolean "records_released"
+    t.boolean "roa_enabled", default: true, null: false
+    t.integer "roa_threshold_percentage"
+    t.text "search_data"
+    t.string "special_groups", default: [], null: false, array: true
+    t.datetime "start_date", precision: nil
+    t.uuid "teacher_ids", default: [], null: false, array: true
+    t.string "title"
+    t.datetime "updated_at", precision: nil
+    t.string "video_course_codes", default: [], null: false, array: true
+    t.text "welcome_mail"
     t.index "lower((course_code)::text)", name: "index_courses_on_lower_course_code", unique: true
     t.index ["search_data"], name: "index_courses_on_search_data", opclass: :gin_trgm_ops, using: :gin
   end
 
-  create_table "courses_documents", primary_key: ["course_id", "document_id"], force: :cascade do |t|
-    t.uuid "course_id", null: false
-    t.uuid "document_id", null: false
-    t.index ["course_id"], name: "index_courses_documents_on_course_id"
-    t.index ["document_id"], name: "index_courses_documents_on_document_id"
-  end
-
   create_table "dates", primary_key: ["slot_id", "user_id"], force: :cascade do |t|
-    t.uuid "slot_id", null: false
-    t.uuid "user_id", default: -> { "uuid_nil()" }, null: false
     t.uuid "course_id"
-    t.string "type", null: false
-    t.string "resource_type", null: false
-    t.uuid "resource_id", null: false
-    t.datetime "date", precision: nil, null: false
-    t.string "title", null: false
-    t.integer "section_pos"
-    t.integer "item_pos"
-    t.datetime "visible_after", precision: nil
     t.datetime "created_at", precision: nil, null: false
+    t.datetime "date", precision: nil, null: false
+    t.integer "item_pos"
+    t.uuid "resource_id", null: false
+    t.string "resource_type", null: false
+    t.integer "section_pos"
+    t.uuid "slot_id", null: false
+    t.string "title", null: false
+    t.string "type", null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.uuid "user_id", default: -> { "uuid_nil()" }, null: false
+    t.datetime "visible_after", precision: nil
     t.index ["user_id", "course_id"], name: "index_dates_on_user_id_and_course_id"
   end
 
-  create_table "delayed_jobs", force: :cascade do |t|
-    t.integer "priority", default: 0, null: false
-    t.integer "attempts", default: 0, null: false
-    t.text "handler", null: false
-    t.text "last_error"
-    t.datetime "run_at", precision: nil
-    t.datetime "locked_at", precision: nil
-    t.datetime "failed_at", precision: nil
-    t.string "locked_by"
-    t.string "queue"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.index ["priority", "run_at"], name: "delayed_jobs_priority"
-  end
-
   create_table "deliveries", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "message_id", null: false
-    t.uuid "user_id", null: false
-    t.datetime "sent_at", precision: nil
     t.datetime "created_at", precision: nil, null: false
+    t.uuid "message_id", null: false
+    t.datetime "sent_at", precision: nil
+    t.uuid "user_id", null: false
     t.index ["message_id", "user_id"], name: "index_deliveries_on_message_id_and_user_id", unique: true
     t.index ["message_id"], name: "index_deliveries_on_message_id"
   end
 
-  create_table "document_localizations", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "title"
-    t.text "description"
-    t.uuid "file_id"
-    t.string "revision"
-    t.string "language"
-    t.boolean "deleted", default: false, null: false
-    t.uuid "document_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.string "file_uri"
-    t.index ["document_id"], name: "index_document_localizations_on_document_id"
-  end
-
-  create_table "documents", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "title", comment: "Admin-facing, not visible to end-users"
-    t.text "description", comment: "Used by admins, contains information that is not visible to end-users"
-    t.boolean "deleted", default: false, null: false
-    t.boolean "public", default: true, null: false
-    t.string "tags", default: [], array: true
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.index ["title"], name: "index_documents_on_title"
-  end
-
-  create_table "documents_items", primary_key: ["document_id", "item_id"], force: :cascade do |t|
-    t.uuid "item_id", null: false
-    t.uuid "document_id", null: false
-    t.index ["document_id"], name: "index_documents_items_on_document_id"
-    t.index ["item_id"], name: "index_documents_items_on_item_id"
-  end
-
   create_table "emails", id: :serial, force: :cascade do |t|
-    t.uuid "uuid", default: -> { "uuid_generate_v7ms()" }
-    t.uuid "user_id", null: false
     t.string "address", null: false
-    t.boolean "primary"
     t.boolean "confirmed"
     t.datetime "confirmed_at", precision: nil
     t.datetime "created_at", precision: nil
+    t.boolean "primary"
+    t.uuid "user_id", null: false
+    t.uuid "uuid", default: -> { "uuid_generate_v7ms()" }
     t.index "lower((address)::text)", name: "index_emails_on_lower_address", unique: true
     t.index ["address"], name: "index_emails_on_address", unique: true
     t.index ["user_id"], name: "index_emails_on_user_id"
@@ -543,16 +436,15 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_02_111528) do
   end
 
   create_table "enrollments", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "user_id"
+    t.boolean "completed"
     t.uuid "course_id"
     t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.float "quantile"
-    t.boolean "proctored", default: false, null: false
     t.boolean "deleted", default: false, null: false
     t.datetime "forced_submission_date", precision: nil
-    t.boolean "completed"
+    t.float "quantile"
     t.integer "quantiled_user_dpoints"
+    t.datetime "updated_at", precision: nil
+    t.uuid "user_id"
     t.index ["course_id", "created_at"], name: "index_enrollments_on_course_id_and_created_at"
     t.index ["user_id", "course_id", "deleted"], name: "index_enrollments_on_user_id_and_course_id_and_deleted"
     t.index ["user_id", "course_id"], name: "index_enrollments_on_user_id_and_course_id", unique: true
@@ -560,183 +452,194 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_02_111528) do
   end
 
   create_table "events", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "user_id"
-    t.string "key"
-    t.boolean "public"
-    t.hstore "payload"
-    t.datetime "expire_at", precision: nil
-    t.uuid "course_id"
     t.uuid "context_id"
+    t.uuid "course_id"
     t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "expire_at", precision: nil
+    t.string "key"
     t.string "link"
+    t.hstore "payload"
+    t.boolean "public"
+    t.datetime "updated_at", precision: nil
+    t.uuid "user_id"
     t.index ["public"], name: "index_events_on_public"
   end
 
   create_table "fixed_learning_evaluations", primary_key: ["user_id", "course_id"], force: :cascade do |t|
-    t.uuid "user_id", null: false
     t.uuid "course_id", null: false
-    t.float "visits_percentage"
-    t.integer "user_dpoints"
-    t.integer "maximal_dpoints"
     t.datetime "created_at", precision: nil
+    t.integer "maximal_dpoints"
     t.datetime "updated_at", precision: nil
+    t.integer "user_dpoints"
+    t.uuid "user_id", null: false
+    t.float "visits_percentage"
   end
 
   create_table "flippers", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
+    t.uuid "context_id", null: false
     t.string "name"
-    t.string "value"
     t.uuid "owner_id"
     t.string "owner_type"
-    t.uuid "context_id", null: false
+    t.string "value"
     t.index ["context_id"], name: "index_flippers_on_context_id"
     t.index ["name"], name: "index_flippers_on_name"
     t.index ["owner_type", "owner_id"], name: "index_flippers_on_owner_type_and_owner_id"
   end
 
   create_table "forks", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "title"
     t.uuid "content_test_id", null: false
     t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
     t.uuid "section_id", null: false
+    t.string "title"
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["content_test_id"], name: "index_forks_on_content_test_id"
     t.index ["section_id"], name: "index_forks_on_section_id"
   end
 
-  create_table "gallery_votes", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.integer "rating"
-    t.uuid "user_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.uuid "shared_submission_id"
-  end
-
   create_table "grades", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "submission_id"
+    t.boolean "absolute"
     t.float "base_points"
     t.string "bonus_points", default: [], array: true
-    t.float "delta"
-    t.boolean "absolute"
     t.datetime "created_at", precision: nil
+    t.float "delta"
+    t.uuid "submission_id"
     t.datetime "updated_at", precision: nil
     t.index ["submission_id"], name: "index_grades_on_submission_id", unique: true
   end
 
   create_table "grants", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.uuid "context_id"
-    t.uuid "role_id"
+    t.datetime "created_at", precision: nil, null: false
     t.uuid "principal_id"
     t.string "principal_type"
-    t.datetime "created_at", precision: nil, null: false
+    t.uuid "role_id"
     t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "groups", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "name"
     t.string "description"
+    t.string "name"
     t.string "tags", default: [], null: false, array: true
     t.index ["name"], name: "index_groups_on_name", unique: true
     t.index ["tags"], name: "index_groups_on_tags", using: :gin
   end
 
   create_table "item_results", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
+    t.datetime "created_at", precision: nil, null: false
     t.uuid "item_id"
+    t.datetime "updated_at", precision: nil, null: false
     t.uuid "user_id"
     t.integer "user_points"
     t.boolean "visited", default: false, null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
     t.index ["item_id", "user_id"], name: "index_item_results_on_item_id_and_user_id", unique: true
     t.index ["item_id"], name: "index_item_results_on_item_id"
     t.index ["user_id"], name: "index_item_results_on_user_id"
   end
 
   create_table "items", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "title"
-    t.datetime "start_date", precision: nil
-    t.datetime "end_date", precision: nil
-    t.string "content_type"
-    t.uuid "section_id"
     t.uuid "content_id"
-    t.boolean "published", default: true
-    t.integer "position"
-    t.boolean "show_in_nav", default: false
+    t.string "content_type"
     t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.boolean "deemphasized_in_nav", default: false, null: false
+    t.datetime "end_date", precision: nil
     t.string "exercise_type"
-    t.datetime "submission_deadline", precision: nil
-    t.datetime "submission_publishing_date", precision: nil
     t.integer "max_dpoints"
-    t.boolean "proctored", default: false, null: false
+    t.integer "minimum_progress_percentage", default: 75
+    t.boolean "open_mode", default: true, null: false
     t.boolean "optional", default: false, null: false
     t.uuid "original_item_id"
-    t.string "icon_type"
-    t.boolean "featured", default: false, null: false
+    t.integer "position"
     t.text "public_description"
-    t.boolean "open_mode", default: true, null: false
-    t.integer "time_effort"
+    t.boolean "published", default: true
     t.uuid "required_item_ids", default: [], null: false, array: true
+    t.uuid "section_id"
+    t.datetime "start_date", precision: nil
+    t.datetime "submission_deadline", precision: nil
+    t.datetime "submission_publishing_date", precision: nil
+    t.string "title"
+    t.datetime "updated_at", precision: nil
     t.index ["section_id"], name: "index_items_on_section_id"
   end
 
   create_table "lti_exercises", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "title"
-    t.uuid "lti_provider_id"
-    t.uuid "instructions_rtid"
     t.integer "allowed_attempts"
-    t.string "custom_fields"
     t.datetime "created_at", precision: nil
+    t.string "custom_fields"
+    t.text "instructions"
+    t.uuid "instructions_rtid"
+    t.datetime "lock_submissions_at", precision: nil
+    t.uuid "lti_provider_id"
+    t.string "title"
     t.datetime "updated_at", precision: nil
     t.integer "weight"
-    t.datetime "lock_submissions_at", precision: nil
-    t.text "instructions"
   end
 
   create_table "lti_gradebooks", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "user_id", null: false
-    t.uuid "lti_exercise_id", null: false
     t.datetime "created_at", precision: nil
+    t.uuid "lti_exercise_id", null: false
     t.datetime "updated_at", precision: nil
+    t.uuid "user_id", null: false
     t.index ["lti_exercise_id", "user_id"], name: "index_lti_gradebooks_on_lti_exercise_id_and_user_id", unique: true
   end
 
   create_table "lti_grades", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.float "value"
-    t.uuid "lti_gradebook_id"
     t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.uuid "lti_gradebook_id"
     t.string "nonce", null: false
+    t.datetime "updated_at", precision: nil
+    t.float "value"
     t.index ["lti_gradebook_id", "nonce"], name: "index_lti_grades_on_lti_gradebook_id_and_nonce", unique: true
     t.index ["lti_gradebook_id"], name: "index_lti_grades_on_lti_gradebook_id"
   end
 
   create_table "lti_providers", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "name"
-    t.string "domain"
-    t.string "consumer_key"
-    t.string "shared_secret"
-    t.text "custom_fields"
-    t.string "privacy", null: false
-    t.text "description"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.uuid "course_id"
-    t.string "presentation_mode"
     t.boolean "allow_access_after_deadline", default: false, null: false
+    t.string "consumer_key"
+    t.uuid "course_id"
+    t.datetime "created_at", precision: nil
+    t.text "custom_fields"
+    t.text "description"
+    t.string "domain"
+    t.string "name"
+    t.string "presentation_mode"
+    t.string "privacy", null: false
+    t.string "shared_secret"
+    t.datetime "updated_at", precision: nil
     t.index ["course_id"], name: "index_lti_providers_on_course_id"
   end
 
   create_table "mail_logs", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "user_id"
     t.uuid "course_id"
+    t.datetime "created_at", precision: nil, null: false
+    t.string "key"
     t.uuid "news_id"
     t.string "state"
-    t.string "key"
-    t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.uuid "user_id"
     t.index ["news_id", "state"], name: "index_mail_logs_on_news_id_and_state"
     t.index ["news_id", "user_id"], name: "index_mail_logs_on_news_id_and_user_id"
+  end
+
+  create_table "maintenance_tasks_runs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.text "arguments"
+    t.text "backtrace"
+    t.datetime "created_at", null: false
+    t.string "cursor"
+    t.boolean "cursor_is_json", default: false, null: false
+    t.datetime "ended_at"
+    t.string "error_class"
+    t.string "error_message"
+    t.string "job_id"
+    t.integer "lock_version", default: 0, null: false
+    t.text "metadata"
+    t.datetime "started_at"
+    t.string "status", default: "enqueued", null: false
+    t.string "task_name", null: false
+    t.bigint "tick_count", default: 0, null: false
+    t.bigint "tick_total"
+    t.float "time_running", default: 0.0, null: false
+    t.datetime "updated_at", null: false
+    t.index ["task_name", "status", "created_at"], name: "index_maintenance_tasks_runs", order: { created_at: :desc }
   end
 
   create_table "memberships", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
@@ -748,75 +651,75 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_02_111528) do
 
   create_table "messages", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.uuid "announcement_id", null: false
-    t.jsonb "recipients", default: [], null: false
-    t.jsonb "translations", default: {}, null: false
-    t.boolean "test", default: false, null: false
-    t.string "status", default: "preparation", null: false
+    t.jsonb "consents", default: [], null: false
     t.datetime "created_at", precision: nil, null: false
     t.uuid "creator_id", null: false
-    t.jsonb "consents", default: [], null: false
+    t.jsonb "recipients", default: [], null: false
+    t.string "status", default: "preparation", null: false
+    t.boolean "test", default: false, null: false
+    t.jsonb "translations", default: {}, null: false
     t.index ["announcement_id"], name: "index_messages_on_announcement_id"
   end
 
   create_table "metadata", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.jsonb "data", default: []
-    t.string "name", null: false
-    t.string "version", null: false
     t.uuid "course_id", null: false
     t.datetime "created_at", null: false
+    t.jsonb "data", default: []
+    t.string "name", null: false
     t.datetime "updated_at", null: false
+    t.string "version", null: false
     t.index ["course_id", "name", "version"], name: "index_metadata_on_course_id_and_name_and_version", unique: true
     t.index ["course_id"], name: "index_metadata_on_course_id"
   end
 
   create_table "news", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "course_id"
+    t.string "audience"
     t.uuid "author_id"
-    t.datetime "publish_at", precision: nil
-    t.boolean "show_on_homepage", default: false
+    t.uuid "course_id"
     t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.string "state"
+    t.datetime "publish_at", precision: nil
     t.integer "receivers"
     t.integer "sending_state"
+    t.boolean "show_on_homepage", default: false
+    t.string "state"
+    t.datetime "updated_at", precision: nil
     t.string "visual_uri"
-    t.string "audience"
   end
 
   create_table "news_emails", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
+    t.datetime "created_at", precision: nil, null: false
     t.uuid "news_id", null: false
     t.uuid "test_recipient"
-    t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "news_translations", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "news_id", null: false
-    t.string "locale", null: false
     t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.string "title", null: false
-    t.text "text", null: false
+    t.string "locale", null: false
+    t.uuid "news_id", null: false
     t.text "teaser", default: "", null: false
+    t.text "text", null: false
+    t.string "title", null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["locale"], name: "index_news_translations_on_locale"
     t.index ["news_id"], name: "index_news_translations_on_news_id"
   end
 
   create_table "nodes", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.enum "type", null: false, enum_type: "node_type"
-    t.uuid "course_id", null: false
-    t.uuid "parent_id"
-    t.integer "lft", null: false
-    t.integer "rgt", null: false
-    t.integer "depth", default: 0, null: false
-    t.integer "children_count", default: 0, null: false
-    t.uuid "section_id"
-    t.uuid "item_id"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.uuid "fork_id"
     t.uuid "branch_id"
+    t.integer "children_count", default: 0, null: false
+    t.uuid "course_id", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.integer "depth", default: 0, null: false
+    t.uuid "fork_id"
+    t.uuid "item_id"
+    t.integer "lft", null: false
+    t.uuid "parent_id"
     t.datetime "progress_stale_at", precision: nil
+    t.integer "rgt", null: false
+    t.uuid "section_id"
+    t.enum "type", null: false, enum_type: "node_type"
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["branch_id"], name: "index_nodes_on_branch_id"
     t.index ["course_id"], name: "index_nodes_on_course_id"
     t.index ["fork_id"], name: "index_nodes_on_fork_id"
@@ -829,222 +732,126 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_02_111528) do
   end
 
   create_table "notes", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
+    t.datetime "created_at", precision: nil
     t.uuid "subject_id"
     t.string "subject_type"
-    t.uuid "user_id"
     t.text "text"
-    t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
+    t.uuid "user_id"
   end
 
   create_table "notifications", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "event_id"
-    t.uuid "user_id"
     t.datetime "created_at", precision: nil
+    t.uuid "event_id"
     t.datetime "updated_at", precision: nil
+    t.uuid "user_id"
     t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
-  create_table "open_badge_templates", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "course_id", null: false
-    t.text "svg"
-    t.string "name"
-    t.text "description"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.string "file_uri"
-    t.index ["course_id"], name: "index_open_badge_templates_on_course_id", unique: true
-  end
-
-  create_table "open_badges", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "record_id", null: false
-    t.uuid "template_id", null: false
-    t.jsonb "assertion"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.string "file_uri"
-    t.string "type", default: "OpenBadge"
-    t.index ["record_id", "template_id"], name: "index_open_badges_on_record_id_and_template_id"
-    t.index ["type"], name: "index_open_badges_on_type"
-  end
-
   create_table "pages", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "name", null: false
-    t.string "locale", null: false
-    t.string "title", null: false
-    t.text "text", null: false
     t.datetime "created_at", precision: nil, null: false
+    t.string "locale", null: false
+    t.string "name", null: false
+    t.text "text", null: false
+    t.string "title", null: false
     t.datetime "updated_at", precision: nil, null: false
     t.index ["name", "locale"], name: "index_pages_on_name_and_locale", unique: true
   end
 
-  create_table "participants", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "user_id"
-    t.uuid "peer_assessment_id"
-    t.uuid "current_step"
-    t.integer "expertise"
-    t.float "grading_weight"
-    t.uuid "completed", default: [], array: true
-    t.uuid "skipped", default: [], array: true
-    t.uuid "group_id"
-  end
-
   create_table "password_resets", id: :serial, force: :cascade do |t|
-    t.uuid "user_id"
+    t.datetime "created_at", precision: nil
     t.string "token"
-    t.datetime "created_at", precision: nil
-  end
-
-  create_table "peer_assessment_files", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "name", null: false
-    t.string "storage_uri", null: false
-    t.uuid "user_id", null: false
-    t.integer "size", null: false
-    t.string "mime_type", null: false
-    t.uuid "peer_assessment_id", null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-  end
-
-  create_table "peer_assessment_groups", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-  end
-
-  create_table "peer_assessments", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "title"
-    t.text "instructions"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.uuid "course_id"
-    t.uuid "item_id"
-    t.text "grading_hints"
-    t.text "usage_disclaimer", default: ""
-    t.boolean "allow_gallery_opt_out", default: true
-    t.integer "allowed_attachments", default: 0
-    t.string "allowed_file_types"
-    t.integer "max_file_size", default: 5
-    t.uuid "attachments", default: [], array: true
-    t.uuid "gallery_entries", default: [], array: true
-    t.boolean "is_team_assessment", default: false
+    t.uuid "user_id"
   end
 
   create_table "pinboards", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "topic"
-    t.boolean "supervised"
     t.datetime "created_at", precision: nil
+    t.boolean "supervised"
+    t.string "topic"
     t.datetime "updated_at", precision: nil
   end
 
   create_table "policies", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.integer "version"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.hstore "url", default: {}, null: false
-  end
-
-  create_table "poll_options", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.text "text"
-    t.integer "position", null: false
-    t.uuid "poll_id", null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.index ["poll_id", "position"], name: "index_poll_options_on_poll_id_and_position", unique: true
-  end
-
-  create_table "poll_responses", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "poll_id", null: false
-    t.uuid "user_id", null: false
-    t.uuid "choices", null: false, array: true
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.index ["poll_id", "user_id"], name: "index_poll_responses_on_poll_id_and_user_id", unique: true
-  end
-
-  create_table "polls", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.text "question", null: false
-    t.boolean "allow_multiple_choices", default: false, null: false
-    t.datetime "start_at", precision: nil, null: false
-    t.datetime "end_at", precision: nil, null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.boolean "show_intermediate_results", default: true, null: false
+    t.integer "version"
   end
 
   create_table "pool_entries", id: :serial, force: :cascade do |t|
-    t.integer "resource_pool_id"
     t.integer "available_locks"
-    t.uuid "submission_id"
     t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
     t.float "priority", default: 0.0
+    t.integer "resource_pool_id"
+    t.uuid "submission_id"
+    t.datetime "updated_at", precision: nil
     t.index ["created_at"], name: "index_pool_entries_on_created_at"
     t.index ["submission_id"], name: "index_pool_entries_on_submission_id"
   end
 
   create_table "progresses", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "user_objective_id"
-    t.json "points_progress", default: {}, null: false
-    t.json "visit_progress", default: {}, null: false
     t.boolean "achievable"
     t.datetime "created_at", precision: nil, null: false
+    t.json "points_progress", default: {}, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.uuid "user_objective_id"
+    t.json "visit_progress", default: {}, null: false
     t.index ["user_objective_id"], name: "index_progresses_on_user_objective_id"
   end
 
   create_table "providers", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "name"
-    t.string "token"
     t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.boolean "default", default: false, null: false
-    t.datetime "synchronized_at", precision: nil, default: "1970-01-01 00:00:00", null: false
-    t.datetime "run_at", precision: nil, default: "1970-01-01 00:00:00", null: false
-    t.string "provider_type", null: false
     t.jsonb "credentials", default: {}, null: false
+    t.boolean "default", default: false, null: false
+    t.string "name"
+    t.string "provider_type", null: false
+    t.datetime "run_at", precision: nil, default: "1970-01-01 00:00:00", null: false
+    t.datetime "synchronized_at", precision: nil, default: "1970-01-01 00:00:00", null: false
+    t.string "token"
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "question_statistics", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
+    t.jsonb "answer_statistics", default: []
+    t.float "avg_points"
+    t.integer "correct_submission_count", default: 0
+    t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.integer "incorrect_submission_count", default: 0
+    t.float "max_points"
+    t.integer "partly_correct_submission_count", default: 0
     t.uuid "question_id"
     t.integer "question_position"
-    t.string "question_type"
     t.string "question_text"
-    t.float "max_points"
-    t.float "avg_points"
+    t.string "question_type"
     t.integer "submission_count", default: 0
     t.integer "submission_user_count", default: 0
-    t.integer "correct_submission_count", default: 0
-    t.integer "incorrect_submission_count", default: 0
-    t.integer "partly_correct_submission_count", default: 0
-    t.jsonb "answer_statistics", default: []
-    t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["question_id"], name: "index_question_statistics_on_question_id"
   end
 
   create_table "questions", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.text "text"
-    t.string "title"
-    t.uuid "video_id"
-    t.uuid "user_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
     t.uuid "accepted_answer_id"
+    t.string "attachment_uri"
+    t.boolean "closed", default: false
     t.uuid "course_id"
+    t.datetime "created_at", precision: nil
+    t.boolean "deleted", default: false, null: false
     t.boolean "discussion_flag", default: false
     t.uuid "file_id"
-    t.boolean "sticky", default: false
-    t.boolean "deleted", default: false, null: false
-    t.boolean "closed", default: false
-    t.string "text_hash"
-    t.string "workflow_state", default: "new", null: false
-    t.integer "video_timestamp"
+    t.string "language"
+    t.integer "public_answer_comments_count", default: 0, null: false
     t.integer "public_answers_count", default: 0, null: false
     t.integer "public_comments_count", default: 0, null: false
-    t.integer "public_answer_comments_count", default: 0, null: false
-    t.string "attachment_uri"
+    t.boolean "sticky", default: false
+    t.text "text"
+    t.string "text_hash"
+    t.string "title"
     t.tsvector "tsv"
-    t.string "language"
+    t.datetime "updated_at", precision: nil
+    t.uuid "user_id"
+    t.uuid "video_id"
+    t.integer "video_timestamp"
+    t.string "workflow_state", default: "new", null: false
     t.index ["accepted_answer_id"], name: "index_questions_on_accepted_answer_id"
     t.index ["course_id", "user_id", "title", "text_hash"], name: "course_double_posting_index", unique: true
     t.index ["tsv"], name: "index_questions_on_tsv", using: :gin
@@ -1057,40 +864,40 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_02_111528) do
   end
 
   create_table "quiz_answers", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "question_id"
-    t.string "comment", limit: 10000
-    t.integer "position"
-    t.boolean "correct"
     t.uuid "answer_rtid"
-    t.string "type"
+    t.string "comment", limit: 10000
+    t.boolean "correct"
     t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.integer "position"
+    t.uuid "question_id"
     t.text "text"
+    t.string "type"
+    t.datetime "updated_at", precision: nil
     t.index ["question_id"], name: "index_quiz_answers_on_quiz_question_id"
   end
 
   create_table "quiz_questions", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "quiz_id"
-    t.uuid "question_rtid"
-    t.float "points"
-    t.boolean "shuffle_answers"
-    t.string "type"
-    t.integer "position", default: 0
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.uuid "explanation_rtid"
-    t.boolean "exclude_from_recap", default: false, null: false
     t.boolean "case_sensitive", default: true, null: false
-    t.text "text"
+    t.datetime "created_at", precision: nil
+    t.boolean "exclude_from_recap", default: false, null: false
     t.text "explanation"
+    t.uuid "explanation_rtid"
+    t.float "points"
+    t.integer "position", default: 0
+    t.uuid "question_rtid"
+    t.uuid "quiz_id"
+    t.boolean "shuffle_answers"
+    t.text "text"
+    t.string "type"
+    t.datetime "updated_at", precision: nil
     t.index ["quiz_id"], name: "index_quiz_questions_on_quiz_id"
   end
 
   create_table "quiz_submission_answers", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "type"
+    t.datetime "created_at", precision: nil
     t.uuid "quiz_answer_id"
     t.uuid "quiz_submission_question_id"
-    t.datetime "created_at", precision: nil
+    t.string "type"
     t.datetime "updated_at", precision: nil
     t.text "user_answer_text"
     t.index ["quiz_answer_id"], name: "index_quiz_submission_answers_on_quiz_answer_id"
@@ -1098,10 +905,11 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_02_111528) do
   end
 
   create_table "quiz_submission_questions", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "quiz_submission_id"
-    t.uuid "quiz_question_id"
-    t.float "points"
     t.datetime "created_at", precision: nil
+    t.float "points"
+    t.integer "position"
+    t.uuid "quiz_question_id"
+    t.uuid "quiz_submission_id"
     t.datetime "updated_at", precision: nil
     t.index ["quiz_question_id"], name: "index_quiz_submission_questions_on_quiz_question_id"
     t.index ["quiz_submission_id", "quiz_question_id"], name: "index_submission_questions_on_submission_id_and_qq_id", unique: true
@@ -1109,23 +917,22 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_02_111528) do
   end
 
   create_table "quiz_submission_snapshots", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "quiz_submission_id"
-    t.text "data"
     t.datetime "created_at", precision: nil
+    t.text "data"
+    t.uuid "quiz_submission_id"
     t.datetime "updated_at", precision: nil
     t.index ["quiz_submission_id"], name: "index_quiz_submission_snapshots_on_quiz_submission_id", unique: true
   end
 
   create_table "quiz_submissions", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "quiz_id"
-    t.uuid "user_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.datetime "quiz_submission_time", precision: nil
     t.uuid "course_id"
-    t.datetime "quiz_version_at", precision: nil
+    t.datetime "created_at", precision: nil
     t.float "fudge_points", default: 0.0
-    t.jsonb "vendor_data", default: {}, null: false
+    t.uuid "quiz_id"
+    t.datetime "quiz_submission_time", precision: nil
+    t.datetime "quiz_version_at", precision: nil
+    t.datetime "updated_at", precision: nil
+    t.uuid "user_id"
     t.index ["course_id"], name: "index_quiz_submissions_on_course_id"
     t.index ["quiz_id", "user_id"], name: "index_quiz_submissions_on_quiz_id_and_user_id"
     t.index ["user_id", "course_id"], name: "index_quiz_submissions_on_user_id_and_course_id"
@@ -1133,299 +940,275 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_02_111528) do
   end
 
   create_table "quizzes", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "instructions_rtid"
-    t.integer "time_limit_seconds"
     t.integer "allowed_attempts"
     t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.boolean "unlimited_time"
-    t.boolean "unlimited_attempts"
-    t.boolean "skip_welcome_page"
+    t.integer "displayed_question_count"
     t.string "external_ref_id"
     t.text "instructions"
+    t.uuid "instructions_rtid"
+    t.integer "pass_percentage", default: 70
+    t.boolean "question_pool", default: false, null: false
+    t.boolean "skip_welcome_page"
+    t.integer "time_limit_seconds"
+    t.boolean "unlimited_attempts"
+    t.boolean "unlimited_time"
+    t.datetime "updated_at", precision: nil
   end
 
   create_table "read_states", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "user_id", null: false
-    t.uuid "news_id", null: false
     t.datetime "created_at", precision: nil
+    t.uuid "news_id", null: false
     t.datetime "updated_at", precision: nil
+    t.uuid "user_id", null: false
     t.index ["news_id"], name: "index_read_states_on_news_id"
     t.index ["user_id"], name: "index_read_states_on_user_id"
   end
 
   create_table "records", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.uuid "course_id"
-    t.uuid "template_id"
-    t.uuid "user_id"
     t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.string "type"
-    t.text "render_state"
-    t.string "verification"
     t.boolean "preview", default: false
+    t.text "render_state"
+    t.uuid "template_id"
+    t.string "type"
+    t.datetime "updated_at", precision: nil
+    t.uuid "user_id"
+    t.string "verification"
     t.index ["verification"], name: "index_records_on_verification"
   end
 
-  create_table "resource_pools", id: :serial, force: :cascade do |t|
-    t.uuid "peer_assessment_id"
-    t.string "purpose"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-  end
-
   create_table "results", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "user_id"
-    t.uuid "item_id"
-    t.integer "dpoints", null: false
     t.datetime "created_at", precision: nil
+    t.integer "dpoints", null: false
+    t.uuid "item_id"
     t.datetime "updated_at", precision: nil
+    t.uuid "user_id"
     t.index ["item_id"], name: "index_results_on_item_id"
     t.index ["user_id", "item_id"], name: "index_results_on_user_id_and_item_id"
   end
 
   create_table "reviews", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "submission_id"
-    t.uuid "step_id"
-    t.uuid "user_id"
-    t.text "text"
-    t.boolean "submitted"
     t.boolean "award"
-    t.integer "feedback_grade"
     t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.boolean "train_review", default: false
     t.datetime "deadline", precision: nil
-    t.uuid "optionIDs", default: [], array: true
     t.boolean "extended", default: false
+    t.integer "feedback_grade"
+    t.uuid "optionIDs", default: [], array: true
+    t.uuid "step_id"
+    t.uuid "submission_id"
+    t.boolean "submitted"
+    t.text "text"
+    t.boolean "train_review", default: false
+    t.datetime "updated_at", precision: nil
+    t.uuid "user_id"
     t.string "worker_jid"
   end
 
   create_table "richtexts", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
     t.uuid "course_id"
-    t.text "text"
     t.datetime "created_at", precision: nil, null: false
+    t.string "reading_material_uri"
+    t.text "text"
     t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "roles", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "permissions", default: [], array: true
     t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
     t.string "name"
+    t.string "permissions", default: [], array: true
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "rubric_options", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "rubric_id"
     t.text "description", default: ""
     t.integer "points"
-  end
-
-  create_table "rubrics", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "peer_assessment_id"
-    t.string "title"
-    t.boolean "template", default: false
-    t.text "hints"
-    t.integer "position"
-    t.boolean "team_evaluation", default: false
+    t.uuid "rubric_id"
   end
 
   create_table "scores", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "user_id", null: false
-    t.uuid "course_id"
-    t.string "rule", null: false
-    t.integer "points", null: false
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.text "data", default: "{}", null: false
     t.string "checksum"
+    t.uuid "course_id"
+    t.datetime "created_at", precision: nil
+    t.text "data", default: "{}", null: false
+    t.integer "points", null: false
+    t.string "rule", null: false
+    t.datetime "updated_at", precision: nil
+    t.uuid "user_id", null: false
     t.index ["checksum", "rule"], name: "index_scores_on_checksum_and_rule"
     t.index ["rule"], name: "index_scores_on_rule"
     t.index ["user_id", "course_id", "rule"], name: "index_scores_on_user_id_and_course_id_and_rule"
   end
 
   create_table "section_choices", primary_key: ["user_id", "section_id"], force: :cascade do |t|
-    t.uuid "user_id", null: false
-    t.uuid "section_id", null: false
     t.uuid "choice_ids", default: [], array: true
     t.datetime "created_at", precision: nil
+    t.uuid "section_id", null: false
     t.datetime "updated_at", precision: nil
+    t.uuid "user_id", null: false
   end
 
   create_table "section_progresses", primary_key: ["section_id", "user_id"], force: :cascade do |t|
-    t.uuid "user_id", null: false
-    t.uuid "section_id", null: false
     t.uuid "alternative_progress_for"
-    t.integer "visits", default: 0, null: false
-    t.integer "main_dpoints", default: 0, null: false
-    t.integer "main_exercises", default: 0, null: false
     t.integer "bonus_dpoints", default: 0, null: false
     t.integer "bonus_exercises", default: 0, null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.integer "main_dpoints", default: 0, null: false
+    t.integer "main_exercises", default: 0, null: false
+    t.uuid "section_id", null: false
     t.integer "selftest_dpoints", default: 0, null: false
     t.integer "selftest_exercises", default: 0, null: false
-    t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.uuid "user_id", null: false
+    t.integer "visits", default: 0, null: false
   end
 
   create_table "sections", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "title"
-    t.text "description"
-    t.boolean "published"
-    t.datetime "start_date", precision: nil
-    t.datetime "end_date", precision: nil
-    t.uuid "course_id"
-    t.boolean "optional_section", default: false, null: false
-    t.integer "position"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.boolean "pinboard_closed", default: false, null: false
     t.string "alternative_state", default: "none", null: false
+    t.uuid "course_id"
+    t.datetime "created_at", precision: nil
+    t.text "description"
+    t.datetime "end_date", precision: nil
+    t.boolean "optional_section", default: false, null: false
     t.uuid "parent_id"
+    t.boolean "pinboard_closed", default: false, null: false
+    t.integer "position"
     t.datetime "progress_stale_at", precision: nil
+    t.boolean "published"
     t.uuid "required_section_ids", default: [], null: false, array: true
+    t.datetime "start_date", precision: nil
+    t.string "title"
+    t.datetime "updated_at", precision: nil
     t.index ["course_id"], name: "index_sections_on_course_id"
     t.index ["parent_id"], name: "index_sections_on_parent_id"
   end
 
   create_table "sessions", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "user_id"
-    t.string "user_agent"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.uuid "masquerade_id"
     t.date "access_at", default: -> { "CURRENT_DATE" }, null: false
+    t.datetime "created_at", precision: nil
+    t.uuid "masquerade_id"
+    t.datetime "updated_at", precision: nil
+    t.string "user_agent"
+    t.uuid "user_id"
     t.index ["access_at"], name: "index_sessions_on_access_at"
   end
 
-  create_table "shared_submissions", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "peer_assessment_id"
-    t.text "text"
-    t.boolean "submitted"
-    t.boolean "disallowed_sample", default: false
-    t.boolean "gallery_opt_out", default: false
-    t.uuid "attachments", default: [], array: true
-    t.integer "additional_attempts", default: 0
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-  end
-
-  create_table "steps", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "peer_assessment_id"
-    t.datetime "deadline", precision: nil
-    t.boolean "optional", default: false
-    t.integer "position", default: 0
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.string "type"
-    t.integer "required_reviews"
-    t.boolean "open"
-    t.datetime "unlock_date", precision: nil
-    t.string "deadline_worker_jids", default: [], array: true
+  create_table "shorts", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
+    t.string "bunny_video_id"
+    t.uuid "course_id", null: false
+    t.datetime "created_at", null: false
+    t.jsonb "description_translations", default: {}, null: false
+    t.enum "status", default: "preparation", null: false, enum_type: "short_status"
+    t.jsonb "title_translations", default: {}, null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_shorts_on_course_id"
   end
 
   create_table "streams", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "title"
-    t.string "hd_url"
-    t.string "sd_url"
-    t.integer "width"
-    t.integer "height"
+    t.string "audio_uri"
     t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.string "poster"
-    t.uuid "provider_id"
-    t.bigint "sd_size"
+    t.datetime "downloads_expire", precision: nil
+    t.integer "duration"
+    t.string "hd_download_url"
+    t.string "hd_md5"
     t.bigint "hd_size"
+    t.string "hd_url"
+    t.integer "height"
+    t.string "hls_md5"
     t.bigint "hls_size"
     t.string "hls_url"
-    t.integer "duration"
-    t.string "sd_md5"
-    t.string "hd_md5"
-    t.string "hls_md5"
-    t.string "audio_uri"
+    t.string "poster"
+    t.uuid "provider_id"
+    t.string "provider_video_id"
     t.string "sd_download_url"
-    t.string "hd_download_url"
-    t.string "provider_video_id", null: false
-    t.datetime "downloads_expire", precision: nil
+    t.string "sd_md5"
+    t.bigint "sd_size"
+    t.string "sd_url"
+    t.string "title"
+    t.string "upload_error"
+    t.string "upload_state", default: "ready", null: false
+    t.datetime "updated_at", precision: nil
+    t.integer "width"
+    t.index ["provider_id", "provider_video_id"], name: "index_streams_on_provider_id_and_provider_video_id", unique: true
   end
 
   create_table "submission_files", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "name", null: false
-    t.string "storage_uri", null: false
-    t.uuid "user_id", null: false
-    t.integer "size", null: false
-    t.string "mime_type", null: false
-    t.uuid "shared_submission_id", null: false
     t.datetime "created_at", precision: nil, null: false
+    t.string "mime_type", null: false
+    t.string "name", null: false
+    t.uuid "shared_submission_id", null: false
+    t.integer "size", null: false
+    t.string "storage_uri", null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.uuid "user_id", null: false
   end
 
   create_table "submissions", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "user_id"
     t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
     t.uuid "grade"
     t.uuid "shared_submission_id"
+    t.datetime "updated_at", precision: nil
+    t.uuid "user_id"
     t.index ["shared_submission_id"], name: "index_submissions_on_shared_submission_id"
     t.index ["user_id", "shared_submission_id"], name: "index_submissions_on_user_id_and_shared_submission_id", unique: true
   end
 
   create_table "subscriptions", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "user_id"
-    t.uuid "question_id"
     t.datetime "created_at", precision: nil
+    t.uuid "question_id"
     t.datetime "updated_at", precision: nil
+    t.uuid "user_id"
     t.index ["question_id"], name: "index_subscriptions_on_question_id"
   end
 
   create_table "subtitle_cues", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "subtitle_id", null: false
     t.integer "identifier", null: false
     t.interval "start", default: "PT0S", null: false
     t.interval "stop", default: "PT0S", null: false
-    t.text "text"
     t.string "style"
+    t.uuid "subtitle_id", null: false
+    t.text "text"
     t.index ["subtitle_id"], name: "index_subtitle_cues_on_subtitle_id"
   end
 
   create_table "subtitles", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "video_id", null: false
-    t.string "lang", null: false
     t.boolean "automatic", default: false, null: false
     t.datetime "created_at", precision: nil
+    t.string "lang", null: false
     t.datetime "updated_at", precision: nil
+    t.uuid "video_id", null: false
     t.index ["video_id", "lang"], name: "index_subtitles_on_video_id_and_lang", unique: true
   end
 
   create_table "tags", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
     t.uuid "course_id"
+    t.datetime "created_at", precision: nil
+    t.string "name"
     t.string "referenced_resource"
     t.string "type"
+    t.datetime "updated_at", precision: nil
     t.index "course_id, lower((name)::text)", name: "course_duplicate_tags_index", unique: true
     t.index ["id", "type"], name: "index_tags_on_id_and_type"
     t.index ["type", "referenced_resource"], name: "index_tags_on_type_and_referenced_resource"
   end
 
   create_table "teachers", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "name"
     t.hstore "description"
+    t.string "name"
     t.uuid "picture_id"
-    t.uuid "signature_id"
     t.string "picture_uri"
+    t.uuid "signature_id"
     t.uuid "user_id"
   end
 
   create_table "templates", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.text "dynamic_content"
     t.string "certificate_type"
     t.uuid "course_id"
     t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.text "dynamic_content"
+    t.string "file_uri"
     t.integer "qrcode_x"
     t.integer "qrcode_y"
-    t.string "file_uri"
+    t.datetime "updated_at", precision: nil
     t.index ["course_id", "certificate_type"], name: "index_templates_on_course_id_and_certificate_type", unique: true
   end
 
@@ -1436,94 +1219,86 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_02_111528) do
   end
 
   create_table "tickets", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "url"
-    t.string "title"
-    t.text "report"
-    t.string "topic"
-    t.string "language"
-    t.uuid "user_id"
     t.uuid "course_id"
-    t.text "data"
-    t.string "mail"
     t.datetime "created_at", precision: nil
-  end
-
-  create_table "time_effort_items", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "content_type", null: false
-    t.uuid "content_id", null: false
-    t.uuid "section_id", null: false
-    t.uuid "course_id", null: false
-    t.integer "time_effort"
-    t.integer "calculated_time_effort"
-    t.boolean "time_effort_overwritten", default: false, null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.index ["course_id"], name: "index_time_effort_items_on_course_id"
-    t.index ["section_id"], name: "index_time_effort_items_on_section_id"
-  end
-
-  create_table "time_effort_jobs", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "item_id", null: false
-    t.uuid "job_id"
-    t.string "status", default: "waiting", null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.text "data"
+    t.string "language"
+    t.string "mail"
+    t.text "report"
+    t.string "title"
+    t.string "topic"
+    t.string "url"
+    t.uuid "user_id"
   end
 
   create_table "tokens", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "user_id"
-    t.string "token"
-    t.string "scenario"
-    t.string "owner_type"
     t.integer "owner_id"
+    t.string "owner_type"
+    t.string "scenario"
+    t.string "token"
+    t.uuid "user_id"
     t.index ["token"], name: "index_tokens_on_token"
   end
 
   create_table "treatments", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
+    t.jsonb "consent_manager", default: {}, null: false
+    t.datetime "created_at", precision: nil, null: false
     t.string "name", null: false
     t.boolean "required", default: false, null: false
-    t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.jsonb "consent_manager", default: {}, null: false
     t.index ["name"], name: "index_treatments_on_name", unique: true
   end
 
   create_table "user_statuses", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "user_id", null: false
     t.uuid "context_id", null: false
-    t.hstore "settings", default: {}, null: false
     t.datetime "created_at", precision: nil, null: false
+    t.hstore "settings", default: {}, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.uuid "user_id", null: false
     t.index ["user_id", "context_id"], name: "index_user_statuses_on_user_id_and_context_id", unique: true
   end
 
+  create_table "user_top_talents", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.enum "source", null: false, enum_type: "top_talent_source"
+    t.datetime "revoked_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "source"], name: "index_user_top_talents_on_user_id_and_source", unique: true
+  end
+
   create_table "users", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "password_digest"
-    t.string "display_name"
-    t.datetime "born_at", precision: nil
-    t.string "language"
-    t.string "timezone"
-    t.uuid "image_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.hstore "preferences", default: {}, null: false
-    t.boolean "archived", default: false
-    t.boolean "affiliated", default: false, null: false
     t.integer "accepted_policy_version", default: 0
+    t.boolean "affiliated", default: false, null: false
     t.boolean "anonymous", default: false
-    t.boolean "confirmed", default: false, null: false
+    t.boolean "archived", default: false
     t.string "avatar_uri"
-    t.string "full_name", null: false
-    t.date "last_access"
-    t.string "country"
-    t.enum "state", enum_type: "state"
+    t.integer "ban_count", default: 0, null: false
+    t.datetime "banned_at"
+    t.datetime "born_at", precision: nil
     t.string "city"
+    t.boolean "confirmed", default: false, null: false
+    t.string "country"
+    t.datetime "created_at", precision: nil
+    t.string "display_name"
+    t.string "full_name", null: false
     t.enum "gender", enum_type: "gender"
+    t.datetime "guardian_consent_at"
+    t.uuid "image_id"
+    t.string "language"
+    t.date "last_access"
+    t.string "password_digest"
+    t.hstore "preferences", default: {}, null: false
+    t.enum "state", enum_type: "state"
     t.enum "status", enum_type: "user_category"
+    t.string "timezone"
+    t.datetime "updated_at", precision: nil
+    t.boolean "top_talent", default: false, null: false
     t.index ["archived"], name: "index_users_on_archived"
+    t.index ["banned_at"], name: "index_users_on_banned_at"
     t.index ["confirmed"], name: "index_users_on_confirmed"
     t.index ["created_at", "id"], name: "index_users_pagination"
-    t.index ["created_at"], name: "index_users_active", where: "((confirmed = true) AND (archived = false) AND (anonymous = false))"
+    t.index ["created_at"], name: "index_users_active", where: "((confirmed = true) AND (archived = false) AND (banned_at IS NOT NULL) AND (anonymous = false))"
     t.index ["created_at"], name: "index_users_on_create_at_where_anonymous", where: "(anonymous = true)"
     t.index ["created_at"], name: "index_users_on_created_at"
     t.index ["display_name"], name: "index_users_on_display_name"
@@ -1533,72 +1308,72 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_02_111528) do
   end
 
   create_table "versions", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "item_type", null: false
-    t.uuid "item_id", null: false
-    t.string "event", null: false
-    t.string "whodunnit"
-    t.text "object"
     t.datetime "created_at", precision: nil
+    t.string "event", null: false
+    t.uuid "item_id", null: false
+    t.string "item_type", null: false
+    t.text "object"
+    t.string "whodunnit"
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
   create_table "videos", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.string "title"
+    t.datetime "created_at", precision: nil
     t.text "description"
     t.uuid "lecturer_stream_id"
-    t.uuid "slides_stream_id"
     t.uuid "pip_stream_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.string "reading_material_uri"
+    t.uuid "slides_stream_id"
+    t.string "slides_uri"
     t.uuid "subtitled_stream_id"
     t.integer "thumbnail_job_counter", default: 0
-    t.string "slides_uri"
-    t.string "transcript_uri"
-    t.string "reading_material_uri"
     t.string "thumbnails_uri"
+    t.string "title"
+    t.string "transcript_uri"
+    t.datetime "updated_at", precision: nil
     t.index ["lecturer_stream_id"], name: "index_videos_on_lecturer_stream_id"
     t.index ["pip_stream_id"], name: "index_videos_on_pip_stream_id"
     t.index ["slides_stream_id"], name: "index_videos_on_slides_stream_id"
   end
 
   create_table "visits", primary_key: ["user_id", "item_id"], force: :cascade do |t|
-    t.uuid "user_id", null: false
-    t.uuid "item_id", null: false
     t.datetime "created_at", precision: nil
+    t.uuid "item_id", null: false
     t.datetime "updated_at", precision: nil
+    t.uuid "user_id", null: false
     t.index ["item_id"], name: "index_visits_on_item_id"
     t.index ["user_id", "item_id"], name: "index_visits_on_user_id_and_item_id", unique: true
   end
 
   create_table "votes", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.integer "value"
-    t.uuid "votable_id"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.uuid "user_id"
+    t.integer "value"
+    t.uuid "votable_id"
     t.string "votable_type"
     t.index ["votable_id", "votable_type"], name: "index_votes_on_votable_id_and_votable_type"
   end
 
   create_table "vouchers", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
+    t.string "claimant_country", limit: 3
+    t.uuid "claimant_id"
+    t.inet "claimant_ip"
+    t.datetime "claimed_at", precision: nil
     t.string "country", null: false
     t.uuid "course_id"
-    t.uuid "claimant_id"
-    t.datetime "claimed_at", precision: nil
     t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.string "tag", default: "untagged", null: false
     t.datetime "expires_at", precision: nil
-    t.inet "claimant_ip"
-    t.string "claimant_country", limit: 3
     t.string "product_type", null: false
+    t.string "tag", default: "untagged", null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "watches", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|
-    t.uuid "user_id"
-    t.uuid "question_id"
     t.datetime "created_at", precision: nil
+    t.uuid "question_id"
     t.datetime "updated_at", precision: nil
+    t.uuid "user_id"
     t.index ["question_id"], name: "index_watches_on_question_id"
   end
 
@@ -1608,6 +1383,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_02_111528) do
     t.datetime "updated_at", precision: nil, null: false
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "authorizations", "users"
   add_foreign_key "branches", "forks"
   add_foreign_key "branches", "groups"
@@ -1621,14 +1398,12 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_02_111528) do
   add_foreign_key "content_tests", "courses"
   add_foreign_key "course_offers", "courses"
   add_foreign_key "course_progresses", "courses"
-  add_foreign_key "course_set_entries", "course_sets", on_update: :cascade, on_delete: :restrict
-  add_foreign_key "course_set_entries", "courses", on_update: :cascade, on_delete: :restrict
-  add_foreign_key "course_set_relations", "course_sets", column: "source_set_id", on_update: :cascade, on_delete: :restrict
-  add_foreign_key "course_set_relations", "course_sets", column: "target_set_id", on_update: :cascade, on_delete: :restrict
   add_foreign_key "course_subscriptions", "courses"
   add_foreign_key "course_subscriptions", "users"
+  add_foreign_key "course_visuals", "videos"
   add_foreign_key "dates", "courses"
   add_foreign_key "deliveries", "messages"
+  add_foreign_key "enrollments", "courses", validate: false
   add_foreign_key "forks", "content_tests"
   add_foreign_key "forks", "sections"
   add_foreign_key "messages", "announcements"
@@ -1642,6 +1417,16 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_02_111528) do
   add_foreign_key "nodes", "sections"
   add_foreign_key "question_statistics", "quiz_questions", column: "question_id", on_delete: :cascade
   add_foreign_key "section_progresses", "sections"
+  add_foreign_key "shorts", "courses"
+  add_foreign_key "streams", "providers"
+  add_foreign_key "subtitle_cues", "subtitles"
+  add_foreign_key "subtitles", "videos"
+  add_foreign_key "thumbnails", "videos"
+  add_foreign_key "user_top_talents", "users"
+  add_foreign_key "videos", "streams", column: "lecturer_stream_id"
+  add_foreign_key "videos", "streams", column: "pip_stream_id"
+  add_foreign_key "videos", "streams", column: "slides_stream_id"
+  add_foreign_key "videos", "streams", column: "subtitled_stream_id"
 
   create_view "embed_courses", sql_definition: <<-SQL
       SELECT ARRAY( SELECT hstore(classifiers.*) AS hstore
@@ -1658,57 +1443,47 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_02_111528) do
                              FROM courses courses_1) c
                     WHERE ((courses.id = c.id) AND (teachers.id = c.teacher_ids[c.pos])))), ', '::text))::character varying) AS teacher_text,
       id,
-      title,
-      status,
-      course_code,
-      start_date,
-      end_date,
       abstract,
-      lang,
-      created_at,
-      updated_at,
-      description_rtid,
-      records_released,
-      enrollment_delta,
+      affiliated,
       alternative_teacher_text,
+      context_id,
+      cop_enabled,
+      cop_threshold_percentage,
+      course_code,
+      course_format,
+      created_at,
+      deleted,
+      deleted_at,
+      description,
+      description_rtid,
+      display_start_date,
+      enable_video_download,
+      end_date,
+      enrollment_delta,
       external_course_url,
       forum_is_locked,
-      affiliated,
-      hidden,
-      welcome_mail,
-      display_start_date,
-      proctored,
-      auto_archive,
-      show_syllabus,
+      groups,
       invite_only,
-      deleted,
-      context_id,
-      special_groups,
-      teacher_ids,
+      lang,
+      learning_goals,
       middle_of_course,
       on_demand,
-      show_on_stage,
-      stage_statement,
-      policy_url,
-      roa_threshold_percentage,
-      cop_threshold_percentage,
-      roa_enabled,
-      cop_enabled,
-      video_course_codes,
-      rating_stars,
-      rating_votes,
-      stage_visual_uri,
-      description,
-      groups,
-      enable_video_download,
-      external_registration_url,
-      learning_goals,
-      target_groups,
-      show_on_list,
-      search_data,
+      pinboard_enabled,
+      placement,
       progress_calculated_at,
       progress_stale_at,
-      pinboard_enabled
+      published,
+      records_released,
+      roa_enabled,
+      roa_threshold_percentage,
+      search_data,
+      special_groups,
+      start_date,
+      teacher_ids,
+      title,
+      updated_at,
+      video_course_codes,
+      welcome_mail
      FROM courses;
   SQL
 end

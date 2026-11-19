@@ -2,7 +2,7 @@
 
 class Admin::StatisticsPresenter
   def self.courses
-    ::Course::Classifier.find_by(title: 'dashboard', cluster_id: 'reporting')
+    ::CourseService::Classifier.find_by(title: 'dashboard', cluster_id: 'reporting')
       &.courses
       &.map {|course| Course.new(course) }
   end

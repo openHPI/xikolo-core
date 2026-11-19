@@ -7,6 +7,6 @@
         = t(:'home.list_all_courses')
   - if @teaser
     p.course-category__teaser = @teaser
-  .course-category__list.course-card-grid
+  div class="grid grid-cols-1 gap-8 mt-1 mb-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full flex-none pb-navbar"
     - @category.courses.each do |course|
       = render Home::CourseCard.new(course)

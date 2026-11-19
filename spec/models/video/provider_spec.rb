@@ -12,8 +12,25 @@ describe Video::Provider, type: :model do
     it { is_expected.to accept_values_for(:name, 'test') }
     it { is_expected.not_to accept_values_for(:name, '') }
 
-    it { is_expected.to accept_values_for(:provider_type, 'kaltura', 'vimeo') }
     it { is_expected.not_to accept_values_for(:provider_type, '', nil, 'youtube') }
+
+    context 'with the bunny provider type' do
+      subject(:new_provider) { build(:video_provider, :bunny) }
+
+      it { is_expected.to accept_values_for(:provider_type, 'bunny') }
+
+      it 'has no credential attributes' do
+        expect(Video::ProviderTypes::Bunny.credential_attributes).to eq([])
+      end
+
+      it 'can be saved without credentials' do
+        expect { new_provider.save! }.to change(Video::Provider, :count).by(1)
+      end
+
+      it 'resolves the bunny adapter' do
+        expect(new_provider.send(:adapter)).to be_a(Video::BunnyAdapter)
+      end
+    end
 
     context 'with existing provider' do
       let(:name) { 'test' }
@@ -31,6 +48,22 @@ describe Video::Provider, type: :model do
       end
 
       it { is_expected.not_to accept_values_for(:default, true) }
+    end
+  end
+
+  describe '.bunny!' do
+    it 'creates a bunny provider when none exists' do
+      provider = described_class.bunny!
+
+      expect(provider).to be_persisted
+      expect(provider.provider_type).to eq('bunny')
+      expect(provider.name).to eq('Bunny')
+    end
+
+    it 'returns the existing bunny provider when one exists' do
+      existing = create(:video_provider, :bunny, name: 'Bunny')
+
+      expect(described_class.bunny!).to eq(existing)
     end
   end
 

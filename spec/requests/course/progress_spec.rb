@@ -4,10 +4,9 @@ require 'spec_helper'
 
 describe 'Course: Progress', type: :request do
   subject(:show_progress) do
-    get "/courses/#{course.course_code}/progress", headers:
+    get "/learn/#{course.course_code}/progress"
   end
 
-  let(:headers) { {} }
   let(:request_context_id) { course_resource['context_id'] }
   let(:course) { create(:course, title: 'My Awesome Course', records_released: true) }
   let(:course_resource) do
@@ -25,40 +24,30 @@ describe 'Course: Progress', type: :request do
   context 'for anonymous user' do
     it 'redirects the user' do
       show_progress
-      expect(response).to redirect_to "/courses/#{course.course_code}"
+      expect(response).to redirect_to "/learn/#{course.course_code}"
       expect(flash[:error].first).to eq 'Please log in to proceed.'
     end
   end
 
   context 'for logged-in user' do
-    let(:headers) { super().merge('Authorization' => "Xikolo-Session session_id=#{stub_session_id}") }
-    let(:user_id) { generate(:user_id) }
-    let(:enrollments) { [] }
-    let(:permissions) { [] }
-    let(:features) { {} }
+    let(:user) { create(:'account_service/user') }
+    let(:user_id) { user.id }
     let(:page) { Capybara.string(response.body) }
 
     before do
-      stub_user_request(id: user_id, permissions:, features:)
+      sign_in(user:)
     end
 
     it 'redirects the user if not enrolled' do
       show_progress
-      expect(response).to redirect_to "/courses/#{course.course_code}"
+      expect(response).to redirect_to "/learn/#{course.course_code}"
       expect(flash[:error].first).to eq 'You are not enrolled for this course.'
     end
 
     context 'when the user is enrolled in the course' do
-      let(:permissions) { %w[course.content.access.available] }
-      let(:enrollments) do
-        [build(:'course:enrollment', course_id: course.id, user_id:, certificates:)]
-      end
-      let(:certificates) do
-        {
-          record_of_achievement: false,
-          confirmation_of_participation: false,
-          certificate: false,
-        }
+      before do
+        role = create(:'account_service/role', permissions: %w[course.content.access.available])
+        create(:'account_service/grant', principal: user, role:)
       end
 
       it 'displays the course progress page' do

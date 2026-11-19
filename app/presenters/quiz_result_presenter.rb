@@ -13,28 +13,27 @@ class QuizResultPresenter
   # Determine the achieved percentage in the current submission
   #
   def percentage
-    calc_progress(@submission['points'], @quiz['max_points'])
+    calc_progress(@submission['points'], max_points)
+  end
+
+  def max_points
+    @submission['max_points'] || @quiz['max_points']
   end
 
   ##
-  # Assemble the data for the chart of historic submissions (points over time)
+  # Did the learner pass the exam with this submission? Only meaningful for
+  # exams (question-pool quizzes); returns `false` for all other quiz types.
   #
-  def history_graph_data
-    @all_submissions.each_with_object({}) do |submission, hash|
-      key = DateTime.iso8601(submission['quiz_submission_time']).as_json
-      hash[key] = submission['points']
-    end
+  def exam?
+    @quiz['question_pool'] == true
   end
 
-  ##
-  # Generate the labels and IDs for selecting other submissions (e.g. for viewing them)
-  #
-  def submission_labels
-    @all_submissions.map do |submission|
-      [
-        I18n.l(DateTime.iso8601(submission['quiz_submission_time']), format: :quiz_submission),
-        UUID(submission['id']).to_param,
-      ]
-    end
+  def passed?
+    return false unless exam?
+
+    max = max_points.to_f
+    return false if max.zero?
+
+    @submission['points'].to_f * 100 / max >= (@quiz['pass_percentage'] || 70)
   end
 end

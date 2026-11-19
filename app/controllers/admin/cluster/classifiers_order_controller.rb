@@ -4,13 +4,13 @@ class Admin::Cluster::ClassifiersOrderController < Abstract::FrontendController
   require_permission 'course.cluster.manage'
 
   def index
-    @cluster = Admin::ClusterPresenter.new(Course::Cluster.find(params[:cluster_id]))
+    @cluster = Admin::ClusterPresenter.new(CourseService::Cluster.find(params[:cluster_id]))
 
     render template: 'admin/classifiers/order'
   end
 
   def update
-    cluster = Course::Cluster.find(params[:cluster_id])
+    cluster = CourseService::Cluster.find(params[:cluster_id])
     if params[:classifiers].present?
       begin
         cluster.transaction do

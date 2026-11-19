@@ -24,10 +24,10 @@ class NextDatesController < ApplicationController # rubocop:disable Layout/Inden
     return params[:course_id] if params[:course_id]
 
     if params[:user_id]
-      Enrollment.unscoped.where(user_id: params[:user_id]).active
+      Enrollment.where(user_id: params[:user_id]).active
         .select(:course_id)
     else
-      Course.unrestricted.where(hidden: false).select(:id)
+      Course.unrestricted.where.not(placement: []).select(:id)
     end
   end
 end

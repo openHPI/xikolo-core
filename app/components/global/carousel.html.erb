@@ -1,0 +1,44 @@
+<div
+  class="flex items-center gap-4"
+  data-controller="carousel"
+  role="region"
+  aria-roledescription="<%= t('components.carousel.role_description') %>"
+  aria-label="<%= @label %>"
+>
+  <button
+    type="button"
+    class="x-btn x-btn-outline"
+    data-carousel-target="previous"
+    data-action="carousel#previous"
+    aria-label="<%= t('components.carousel.previous') %>"
+    hidden
+  >
+    <%= helpers.pixelart_icon 'chevron-left', css_class: 'size-3.5' %>
+  </button>
+
+  <div
+    class="x-carousel min-w-0 flex-1 overflow-y-hidden <%= track_classes %>"
+    data-carousel-target="track"
+    data-action="scroll->carousel#updateButtons"
+  >
+    <% items.each do |item| %>
+      <div
+        class="x-carousel-item <%= item_classes %>"
+        data-carousel-target="item"
+      >
+        <%= item %>
+      </div>
+    <% end %>
+  </div>
+
+  <button
+    type="button"
+    class="x-btn x-btn-outline"
+    data-carousel-target="next"
+    data-action="carousel#next"
+    aria-label="<%= t('components.carousel.next') %>"
+    hidden
+  >
+    <%= helpers.pixelart_icon 'chevron-right', css_class: 'size-3.5' %>
+  </button>
+</div>

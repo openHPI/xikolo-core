@@ -94,8 +94,8 @@ class NotificationMailer < ApplicationMailer # rubocop:disable Layout/Indentatio
   end
 
   def subject_for(key, payload)
-    if payload.key?('subject')
-      subject = payload.fetch 'subject'
+    if payload.key?('subject') || payload.key?(:subject)
+      subject = payload['subject'] || payload[:subject]
       if subject.is_a?(Hash)
         locale_string_from subject
       else

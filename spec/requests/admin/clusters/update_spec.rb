@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'Admin: Clusters: Update', type: :request do
-  subject(:update_cluster) { patch "/admin/clusters/#{cluster.id}", params: {cluster: params}, headers: }
+  subject(:update_cluster) { patch "/admin/clusters/#{cluster.id}", params: {course_cluster: params}, headers: }
 
   let(:cluster) { create(:cluster, :visible, id: 'level', translations: {'de' => 'Themen', 'en' => 'Tropic'}) }
   let(:params) { {translations: {'de' => 'Themen', 'en' => 'Topic'}} }
@@ -18,10 +18,9 @@ describe 'Admin: Clusters: Update', type: :request do
   end
 
   context 'as logged in user' do
-    let(:headers) { {Authorization: "Xikolo-Session session_id=#{stub_session_id}"} }
-    let(:permissions) { [] }
+    let(:user) { create(:'account_service/user') }
 
-    before { stub_user_request permissions: }
+    before { sign_in(user:) }
 
     it 'redirects the user' do
       update_cluster
@@ -29,7 +28,7 @@ describe 'Admin: Clusters: Update', type: :request do
     end
 
     context 'with permissions' do
-      let(:permissions) { %w[course.cluster.manage] }
+      let(:user) { create(:'account_service/user', :admin) }
 
       it 'updates the cluster and redirects to the cluster list' do
         expect { update_cluster }.to change { cluster.reload.translations }

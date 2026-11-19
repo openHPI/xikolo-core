@@ -32,20 +32,4 @@ describe PinboardService::Watch, type: :model do
       it { is_expected.not_to be_valid }
     end
   end
-
-  describe 'create' do
-    subject(:watch) { build(:'pinboard_service/watch', attributes) }
-
-    it 'publishes an event for newly created watch' do
-      attrs = {
-        question_id: watch.question_id,
-        user_id: watch.user_id,
-        course_id: watch.course_id,
-      }
-      expect(Msgr).to receive(:publish)
-        .with(hash_including(attrs),
-          to: 'xikolo.pinboard.watch.create')
-      watch.save
-    end
-  end
 end

@@ -2,23 +2,9 @@
 
 module NotificationService
 class AdminStatistic # rubocop:disable Layout/IndentationWidth
-  attr_reader :course_stats
-
   def initialize
     @platform_course_stats_promise = course_api.rel(:stats).get({key: 'global'})
     @platform_user_stats_promise = account_api.rel(:statistics).get
-    @platform_certificate_stats_promise = lanalytics_api.rel(:metric).get({name: 'certificates'})
-
-    # Load all course stats
-    # We do not parallelize these requests, as that tends to overload the lanalytics
-    # service and result in timeouts (many courses, many requests)
-    @course_stats = courses.filter_map do |course|
-      stats = lanalytics_api.rel(:course_statistic).get({id: course['id']}).value!
-      CourseStats.new(stats)
-    rescue Restify::NotFound
-      # Course stats for newly published courses may not have been calculated yet.
-      nil
-    end
   end
 
   def course(id)
@@ -34,7 +20,7 @@ class AdminStatistic # rubocop:disable Layout/IndentationWidth
   end
 
   def platform_certificate_stats
-    @platform_certificate_stats_promise.value!
+    Certificate::Record.group(:type).count
   end
 
   HelpdeskStats = Struct.new(:ticket_count, :ticket_count_last_day)
@@ -77,10 +63,6 @@ class AdminStatistic # rubocop:disable Layout/IndentationWidth
 
   def account_api
     @account_api ||= Xikolo.api(:account).value!
-  end
-
-  def lanalytics_api
-    @lanalytics_api ||= Xikolo.api(:learnanalytics).value!
   end
 end
 end

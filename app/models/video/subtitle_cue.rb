@@ -18,10 +18,6 @@ module Video
 
     serialize :style, coder: YAML, type: Hash
 
-    def as_api_v2
-      @api_v2 ||= ::Video::SubtitleCue::APIV2.new(self).as_json # rubocop:disable Naming/MemoizedInstanceVariableName
-    end
-
     def to_vtt
       "#{identifier}\n#{formatted_start} --> #{formatted_stop} #{settings}\n#{vtt_text}\n"
     end
@@ -45,6 +41,10 @@ module Video
         '<' => '&lt;',
         '>' => '&gt;'
       )
+    end
+
+    def clone(attrs = {})
+      self.class.create attributes.except('id').merge(attrs)
     end
 
     private

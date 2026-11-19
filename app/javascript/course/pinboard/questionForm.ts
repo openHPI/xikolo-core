@@ -1,17 +1,6 @@
-import ready from '../../util/ready';
-import triggerTrackEvent from '../../util/track-event';
+import { turboReady } from '../../util/ready';
 
-ready(() => {
-  document
-    .querySelector('[data-track="form-toggle"]')
-    ?.addEventListener('click', () => {
-      triggerTrackEvent(
-        'toggled_pinboard_question_form',
-        window.location.pathname,
-        'page',
-      );
-    });
-
+turboReady(() => {
   // Mark questions as read on mouseenter
   ['.qa-answer.unread', '.comment.unread'].forEach((selector) => {
     document.querySelectorAll(selector).forEach((unread) => {

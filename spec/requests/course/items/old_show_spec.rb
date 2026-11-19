@@ -3,10 +3,10 @@
 require 'spec_helper'
 
 describe 'Course: Items: Show', type: :request do
-  subject(:show_item) { get "/courses/example/items/#{item.id}", headers: }
+  subject(:show_item) { get "/learn/example/items/#{item.id}" }
 
-  let(:headers) { {} }
-  let(:user_id) { generate(:user_id) }
+  let(:user) { create(:'account_service/user') }
+  let(:user_id) { user.id }
   let(:content_id) { generate(:uuid) }
   let(:course) { create(:course, course_code: 'example') }
   let(:course_resource) { build(:'course:course', id: course.id, course_code: course.course_code) }
@@ -37,15 +37,13 @@ describe 'Course: Items: Show', type: :request do
   end
 
   context 'for authenticated users' do
-    let(:headers) { {Authorization: "Xikolo-Session session_id=#{stub_session_id}"} }
     let(:permissions) { %w[course.content.access.available] }
     let(:enrollments) { [] }
-    let!(:visit_stub) do
-      Stub.request(:course, :post, "/items/#{item.id}/users/#{user_id}/visit")
-    end
 
     before do
-      stub_user_request(id: user_id, permissions:)
+      sign_in(user:)
+      role = create(:'account_service/role', permissions:)
+      create(:'account_service/grant', principal: user, role:)
 
       Stub.request(
         :course, :get, "/items/#{item.id}"
@@ -59,11 +57,6 @@ describe 'Course: Items: Show', type: :request do
       Stub.request(
         :course, :get, "/sections/#{section.id}"
       ).to_return Stub.json(section_resource)
-
-      Stub.request(
-        :course, :get, '/enrollments',
-        query: {course_id: course.id, user_id:}
-      ).to_return Stub.json(enrollments)
 
       Stub.request(
         :account, :get, "/users/#{user_id}/preferences"
@@ -89,20 +82,23 @@ describe 'Course: Items: Show', type: :request do
 
       it 'does not create a visit' do
         show_item
-        expect(visit_stub).not_to have_been_requested
+        expect(CourseService::Visit.exists?(user_id:, item_id: item.id)).to be false
       end
 
       context '(requirement fulfilled)' do
         before do
-          user = create(:'account_service/user', id: user_id)
-          create(:visit, item: required_item, user_id: user.id)
+          create(:visit, item: required_item, user_id:)
         end
 
         it 'shows the item' do
           show_item
           expect(response.body).to include item_resource['title']
           expect(response.body).not_to include 'Requirements not met'
-          expect(visit_stub).to have_been_requested
+        end
+
+        it 'creates a visit' do
+          show_item
+          expect(CourseService::Visit.exists?(user_id:, item_id: item.id)).to be true
         end
       end
 
@@ -126,9 +122,9 @@ describe 'Course: Items: Show', type: :request do
         end
 
         context 'when enrolled and there are prerequisites' do
-          let(:enrollments) { [build(:'course:enrollment', course_id: course.id, user_id:)] }
-
           before do
+            create(:enrollment, course:, user_id:)
+
             Stub.request(
               :quiz, :get, '/quiz_submissions', query: {newest_first: true, quiz_id: content_id, user_id:}
             ).to_return Stub.json([])

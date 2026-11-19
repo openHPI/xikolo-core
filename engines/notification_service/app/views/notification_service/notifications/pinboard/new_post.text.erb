@@ -1,4 +1,4 @@
-<%=t :'.meta', date: l(DateTime.parse @payload.timestamp), user: @payload.user_name %>
+<%=t :'.meta', date: l(DateTime.parse @payload.timestamp.to_s), user: @payload.user_name %>
 
 <% if @payload.topic_author_id == @receiver.id %>
   <%=t :'.hint' %>

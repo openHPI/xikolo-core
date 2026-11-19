@@ -36,7 +36,7 @@ module Catalog
       private
 
       def classifier
-        @classifier ||= ::Course::Classifier
+        @classifier ||= ::CourseService::Classifier
           .where(cluster_id: @cluster_id)
           .find_by!(title: @classifier_title)
       end

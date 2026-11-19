@@ -4,29 +4,28 @@ require 'spec_helper'
 
 describe 'Quiz submissions: Grant fudge points', type: :request do
   subject(:grant_points) do
-    post "/courses/#{course['id']}/add_fudge_points",
+    post "/learn/#{course.id}/add_fudge_points",
       params:,
-      headers: {'HTTP_AUTHORIZATION' => "Xikolo-Session session_id=#{stub_session_id}", 'Referer' => '/previous'}
+      headers: {'Referer' => '/previous'}
   end
 
-  let(:submission_id) { '7d689603-ad14-4d8b-917f-318e118bf066' }
+  let(:quiz) { create(:'quiz_service/quiz') }
+  let(:submission) do
+    create(:'quiz_service/quiz_submission',
+      quiz:,
+      user_id: user.id,
+      course_id: course.id,
+      quiz_submission_time: 1.hour.ago,
+      fudge_points:)
+  end
   let(:fudge_points) { 1.5 }
-  let(:course) { build(:'course:course') }
+  let(:course) { create(:'course_service/course') }
+  let(:user) { create(:'account_service/user') }
 
   before do
-    Stub.request(
-      :course, :get, "/courses/#{course['id']}"
-    ).to_return Stub.json(course)
-
-    Stub.request(
-      :quiz, :get, "/quiz_submissions/#{submission_id}"
-    ).to_return Stub.json(build(:'quiz:submission', fudge_points:))
-    Stub.request(
-      :quiz, :patch, "/quiz_submissions/#{submission_id}",
-      body: {fudge_points:}
-    ).to_return Stub.response(status: 200)
-
-    stub_user_request permissions: ['quiz.submission.manage']
+    sign_in(user:)
+    role = create(:'account_service/role', permissions: ['quiz.submission.manage'])
+    create(:'account_service/grant', principal: user, role:)
   end
 
   describe 'response' do
@@ -34,7 +33,7 @@ describe 'Quiz submissions: Grant fudge points', type: :request do
     let(:user_id) { '00000001-3100-4444-9999-000000000002' }
 
     context 'when we send correct parameters' do
-      let(:params) { {fudge_points:, id: submission_id} }
+      let(:params) { {fudge_points:, id: submission.id} }
 
       it 'redirects back with a success message' do
         grant_points
@@ -44,7 +43,7 @@ describe 'Quiz submissions: Grant fudge points', type: :request do
     end
 
     context 'when we lose points in parameters' do
-      let(:params) { {id: submission_id} }
+      let(:params) { {id: submission.id} }
 
       it 'redirects back with an error message' do
         grant_points

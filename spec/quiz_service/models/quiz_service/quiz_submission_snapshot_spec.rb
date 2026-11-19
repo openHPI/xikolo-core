@@ -102,13 +102,12 @@ describe QuizService::QuizSubmissionSnapshot, type: :model do
       # Do *not* use `#squish` here. The `data` value will contain newlines that
       # would get striped by squish.
       #
-      # rubocop:disable Rails/SquishedSQLHeredocs
+      # rubocop:disable-next Rails/SquishedSQLHeredocs
       conn.execute <<~SQL
         UPDATE quiz_submission_snapshots
         SET data = #{conn.quote(data)}
         WHERE id = #{conn.quote(snapshot.id)}
       SQL
-      # rubocop:enable Rails/SquishedSQLHeredocs
     end
 
     snapshot.reload

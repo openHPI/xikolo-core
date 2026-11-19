@@ -10,7 +10,7 @@ describe QuizService::Regrading::SelectAnswerForAll, type: :model do
 
   # The first user had already selected both answers
   let!(:quiz_submission1) do
-    create(:'quiz_service/quiz_submission', quiz:, user_id: generate(:user_id)).tap do |submission|
+    create(:'quiz_service/quiz_submission', quiz:).tap do |submission|
       create(
         :'quiz_service/quiz_submission_question', quiz_submission: submission, quiz_question_id: quiz_question.id, points: 5.0
       ).tap do |question|
@@ -22,7 +22,7 @@ describe QuizService::Regrading::SelectAnswerForAll, type: :model do
 
   # The second user had only selected one of the correct answers
   let!(:quiz_submission2) do
-    create(:'quiz_service/quiz_submission', quiz:, user_id: generate(:user_id)).tap do |submission|
+    create(:'quiz_service/quiz_submission', quiz:).tap do |submission|
       create(
         :'quiz_service/quiz_submission_question', quiz_submission: submission, quiz_question_id: quiz_question.id, points: 2.5
       ).tap do |question|
@@ -69,10 +69,8 @@ describe QuizService::Regrading::SelectAnswerForAll, type: :model do
   end
 
   it 'triggers recalculation of question statistics' do
-    Sidekiq::Testing.fake!
-
     expect do
       described_class.new(answer_to_select).run!
-    end.to change(QuizService::UpdateQuestionStatisticsWorker.jobs, :size).by(1)
+    end.to have_enqueued_job(QuizService::UpdateQuestionStatisticsJob).exactly(:once)
   end
 end

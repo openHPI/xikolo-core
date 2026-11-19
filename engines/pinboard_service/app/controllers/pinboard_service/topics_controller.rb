@@ -11,17 +11,17 @@ class TopicsController < ApplicationController # rubocop:disable Layout/Indentat
   def index
     return respond_with Question.none if params[:item_id].blank?
 
-    respond_with item_tag.questions.undeleted.unblocked
-  end
-
-  # POST /topics
-  def create
-    respond_with Commentable::Store.call(Question.new(id: SecureRandom.uuid), topic_params)
+    respond_with item_tag.questions.undeleted.unblocked.includes(:explicit_tags)
   end
 
   # GET /topics/:id
   def show
     respond_with topic, embed:
+  end
+
+  # POST /topics
+  def create
+    respond_with Commentable::Store.call(Question.new(id: SecureRandom.uuid), topic_params)
   end
 
   def decorate(res)

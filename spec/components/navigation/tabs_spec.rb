@@ -51,23 +51,6 @@ describe Navigation::Tabs, type: :component do
     end
   end
 
-  describe 'with additional items present' do
-    it 'renders them in a separate list' do
-      render_inline(component) do |c|
-        c.with_tab { '<a href=#>A link</a>'.html_safe }
-        c.with_additional_item { '<a href=#>Additional Item</a>'.html_safe }
-      end
-
-      # There is only one tablist
-      # because the additional items do not have a special role
-      expect(page).to have_css('ul[role=tablist]', count: 1)
-      expect(page).to have_css('ul', count: 2)
-
-      expect(page).to have_css('li', count: 2)
-      expect(page).to have_link('A link', href: '#')
-    end
-  end
-
   describe 'with panels' do
     it 'shows only active panels' do
       render_inline(component) do |c|

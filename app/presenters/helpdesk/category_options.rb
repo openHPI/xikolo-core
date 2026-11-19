@@ -31,7 +31,7 @@ module Helpdesk
 
       def all_courses
         Xikolo.api(:course).value!.rel(:courses).get({
-          public: true, hidden: false, per_page: 500
+          public: true, per_page: 500
         }).value!
       end
     end

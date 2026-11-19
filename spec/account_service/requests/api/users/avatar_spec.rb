@@ -55,12 +55,12 @@ describe 'User\'s avatar upload', type: :request do
 
     let(:upload_id) { 'f13d30d3-6369-4816-9695-af5318c8ac15' }
     let(:file_url) do
-      "https://s3.xikolo.de/xikolo-uploads/uploads/#{upload_id}/profil.jpg"
+      "#{test_s3_host}/xikolo-uploads/uploads/#{upload_id}/profil.jpg"
     end
 
     before do
       stub_request(:get,
-        'https://s3.xikolo.de/xikolo-uploads?list-type=2&' \
+        "#{test_s3_host}/xikolo-uploads?list-type=2&" \
         "prefix=uploads%2F#{upload_id}")
         .to_return(
           status: 200,
@@ -81,7 +81,7 @@ describe 'User\'s avatar upload', type: :request do
     end
 
     context 'user with new (not existing) avatar' do
-      let(:store_stub_url) { %r{https://s3\.xikolo\.de/xikolo-public/avatars/[0-9A-Za-z]+/[0-9A-Za-z]+/profil\.jpg} }
+      let(:store_stub_url) { %r{#{test_s3_host}/xikolo-public/avatars/[0-9A-Za-z]+/[0-9A-Za-z]+/profil\.jpg} }
       let(:store_stub) do
         stub_request(:put, store_stub_url).to_return(status: 200)
       end
@@ -156,7 +156,7 @@ describe 'User\'s avatar upload', type: :request do
             avatar_uri: "upload://#{upload_id}/profil.jpg",
           }
         end
-        let(:store_stub_url) { %r{https://s3\.xikolo\.de/xikolo-public/avatars/[0-9A-Za-z]+/profil\.jpg} }
+        let(:store_stub_url) { %r{#{test_s3_host}/xikolo-public/avatars/[0-9A-Za-z]+/profil\.jpg} }
 
         before do
           stub_request(:head, store_stub_url)
@@ -217,8 +217,8 @@ describe 'User\'s avatar upload', type: :request do
     context 'with existing avatar' do
       let(:old_avatar_uri) { 's3://xikolo-public/avatars/3/avatar_v1.jpg' }
       let(:user) { create(:'account_service/user', avatar_uri: old_avatar_uri) }
-      let(:store_stub_url) { %r{https://s3\.xikolo\.de/xikolo-public/avatars/[0-9A-Za-z]+/[0-9A-Za-z]+/profil\.jpg} }
-      let(:old_store_stub_url) { 'https://s3.xikolo.de/xikolo-public/avatars/3/avatar_v1.jpg' }
+      let(:store_stub_url) { %r{#{test_s3_host}/xikolo-public/avatars/[0-9A-Za-z]+/[0-9A-Za-z]+/profil\.jpg} }
+      let(:old_store_stub_url) { "#{test_s3_host}/xikolo-public/avatars/3/avatar_v1.jpg" }
 
       before do
         stub_request(:put, store_stub_url).to_return(status: 200, body: '<xml></xml>')
@@ -237,7 +237,7 @@ describe 'User\'s avatar upload', type: :request do
         let(:data) { {avatar_upload_id: upload_id} }
         let(:upload_id) { 'f13d30d3-6369-4816-9695-af5318c8ac15' }
         let(:file_url) do
-          "https://s3.xikolo.de/xikolo-uploads/uploads/#{upload_id}/profil.jpg"
+          "#{test_s3_host}/xikolo-uploads/uploads/#{upload_id}/profil.jpg"
         end
 
         context 'when upload is successful' do
@@ -291,7 +291,7 @@ describe 'User\'s avatar upload', type: :request do
       end
 
       context 'with avatar_uri' do
-        let(:store_stub_url) { %r{https://s3\.xikolo\.de/xikolo-public/avatars/[0-9A-Za-z]+/profil\.jpg} }
+        let(:store_stub_url) { %r{#{test_s3_host}/xikolo-public/avatars/[0-9A-Za-z]+/profil\.jpg} }
         let(:data) { {avatar_upload_id: upload_id, avatar_uri: "upload://#{upload_id}/profil.jpg"} }
 
         before do

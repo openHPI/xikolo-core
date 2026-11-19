@@ -6,16 +6,12 @@
  *   Important: Provide data-id in the dataset as a target where to add the new content
  * - data-id 'load-more__indicator' is displayed during the fetching
  * - data-id 'load-more__error-message' is displayed if an error occurs while fetching
- *
- * Optional data attributes:
- * - data-dispatch-event: Dispatches a custom event (named after the attribute's value)
- *  after the new content has been added to the DOM
  */
 
-import ready from '../../util/ready';
+import { turboReady } from '../../util/ready';
 import fetch from '../../util/fetch';
 
-ready(() => {
+turboReady(() => {
   const button = document.querySelector('[data-behavior="load-more"]');
   const loadingIndicator = document.querySelector(
     '[data-id="load-more__indicator"]',
@@ -54,10 +50,6 @@ ready(() => {
         button.hidden = false;
 
         target.insertAdjacentHTML('beforeend', html);
-
-        if (button.dataset.dispatchEvent) {
-          document.dispatchEvent(new CustomEvent(button.dataset.dispatchEvent));
-        }
 
         // On the last page the button removes itself
         if (currentPage === totalPages) {

@@ -74,12 +74,12 @@ module Question::Search # rubocop:disable Layout/IndentationWidth
     end
 
     def schedule_search_text_update
-      pluck(:id).each {|id| PinboardService::UpdateQuestionSearchTextWorker.perform_async(id) }
+      pluck(:id).each {|id| PinboardService::UpdateQuestionSearchTextJob.perform_later(id) }
     end
   end
 
   def schedule_search_text_update
-    PinboardService::UpdateQuestionSearchTextWorker.perform_async(id)
+    PinboardService::UpdateQuestionSearchTextJob.perform_later(id)
   end
 
   def update_text_search_index

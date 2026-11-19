@@ -20,13 +20,13 @@ RSpec.describe NewsService::Delivery::Create, type: :operation do
       end
     end
 
-    it 'invokes the delivery worker' do
-      expect(NewsService::DeliveryWorker).to receive(:call) do |delivery, user_arg|
-        expect(delivery).to eq NewsService::Delivery.first
-        expect(user_arg).to eq user
-      end
-
-      op.call(message, user)
+    it 'invokes the delivery job' do
+      expect { op.call(message, user) }
+        .to have_enqueued_job(NewsService::DeliveryJob)
+        .with do |delivery_id, user_arg|
+          expect(delivery_id).to eq NewsService::Delivery.first.id
+          expect(user_arg).to eq user
+        end
     end
   end
 end

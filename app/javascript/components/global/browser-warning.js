@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
-import ready from '../../util/ready';
+import { turboReady } from '../../util/ready';
 
-ready(() => {
+turboReady(() => {
   const dismissButton = document.querySelector(
     '[data-browser-warning="dismiss"]',
   );

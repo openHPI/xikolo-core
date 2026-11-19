@@ -16,29 +16,17 @@ describe PinboardService::Comment, type: :model do
   end
 
   context '(event publication)' do
-    subject(:comment) { build(:'pinboard_service/comment') }
+    subject(:comment) { build(:'pinboard_service/comment', commentable:) }
 
-    it 'publishes an event for newly created comments' do
-      expect(Msgr).to receive(:publish) # Expecting the published event for creating a new question related to the answer
-      expect(Msgr).to receive(:publish) do |comment_as_hash, msgr_params|
-        expect(comment_as_hash).to be_a(Hash)
-        expect(comment_as_hash).to eq comment.decorate.to_event
-        expect(msgr_params).to include(to: 'xikolo.pinboard.comment.create')
-      end
-      comment.save
+    let(:commentable) do
+      create(:'pinboard_service/question', user_id: '00000001-3100-4444-9999-000000000003')
     end
 
-    it 'pubishes an event for updated comments' do
+    it 'enqueues a CommentCreateJob for newly created comments' do
       comment.save
+      expected_payload = comment.decorate.to_event
 
-      expect(Msgr).to receive(:publish) do |updated_comment_as_hash, msgr_params|
-        expect(updated_comment_as_hash).to be_a(Hash)
-        expect(updated_comment_as_hash).to include('text' => 'Foo is the correct answer')
-        expect(msgr_params).to include(to: 'xikolo.pinboard.comment.update')
-      end
-
-      comment.text = 'Foo is the correct answer'
-      comment.save
+      expect(CommentCreateJob).to have_been_enqueued.with(expected_payload)
     end
   end
 

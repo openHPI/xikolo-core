@@ -7,23 +7,23 @@ describe 'Account: Register new Account', type: :system do
     it 'prefills the form from query parameters' do
       visit '/account/new?full_name=Bello+Flachner&email=bello.flachner%40sub.com'
 
-      expect(page).to have_field 'Name', with: 'Bello Flachner'
-      expect(page).to have_field 'E-mail address', with: 'bello.flachner@sub.com'
+      expect(page).to have_field 'First and Last Name', with: 'Bello Flachner'
+      expect(page).to have_field 'E-mail', with: 'bello.flachner@sub.com'
     end
 
     it 'shows an error message when the password confirmation is wrong' do
       visit '/account/new'
 
-      fill_in 'Name', with: 'Jane Doe'
-      fill_in 'E-mail address', with: 'doe@plattner.de'
+      fill_in 'First and Last Name', with: 'Jane Doe'
+      fill_in 'E-mail', with: 'doe@plattner.de'
       select 'Teacher', from: 'Status'
       fill_in 'Date of birth', with: '01.01.2000'
       fill_in 'Password', with: 'secret'
       fill_in 'Repeat password', with: 'wrong_secret'
 
-      click_on 'Register for openHPI'
+      click_on 'Register'
 
-      expect(page).to have_content "doesn't match Password"
+      expect(page).to have_text 'The passwords do not match'
     end
   end
 end

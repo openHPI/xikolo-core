@@ -22,6 +22,7 @@ module Interruptible
   # to prevent a redirect loop when the user is already visiting the URL that
   # is also the interrupt's target.
   INTERRUPT_LOCATIONS = {
+    'guardian_consent' => {controller: 'account/guardian_consents', action: 'show'},
     'new_consents' => {controller: 'account/treatments', action: 'index'},
     'new_policy' => {controller: 'account/policies', action: 'show'},
   }.freeze
@@ -57,7 +58,6 @@ module Interruptible
     return false unless current_user.logged_in?
     return false unless request.get?
     return false if request.xml_http_request?
-    return false if request.params['in_app'] == 'true'
 
     true
   end

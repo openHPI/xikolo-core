@@ -4,25 +4,10 @@ module ItemStats
   class BaseStats
     def initialize(item)
       @item = item
-      @base_stats_promise = lanalytics_api.rel(:metric).get({
-        name: 'item_visits',
-        resource_id: item['id'],
-      })
     end
 
     def base_facts
-      [
-        I18n.t(
-          'course.admin.item_stats.facts.visits',
-          visits: base_stats['total_item_visits'],
-          users: base_stats['users_visited']
-        ),
-        I18n.t(
-          'course.admin.item_stats.facts.visits_last_24h',
-          visits: base_stats['total_item_visits_24'],
-          users: base_stats['users_visited_24']
-        ),
-      ].map(&:html_safe)
+      []
     end
 
     def facts
@@ -59,16 +44,8 @@ module ItemStats
       @course ||= course_api.rel(:course).get({id: @item['course_id']}).value!
     end
 
-    def base_stats
-      @base_stats ||= @base_stats_promise.value!
-    end
-
     def course_api
       @course_api ||= Xikolo.api(:course).value!
-    end
-
-    def lanalytics_api
-      @lanalytics_api ||= Xikolo.api(:learnanalytics).value!
     end
   end
 end

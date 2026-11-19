@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'will_paginate/view_helpers/action_view'
+
 # This self-made tag building thing is no standard Rails rendering
 # context, the recommended context tag changes do not work here:
 #
@@ -12,32 +14,33 @@ class PaginationRenderer < WillPaginate::ActionView::LinkRenderer
 
   def page_number(page)
     if page == current_page
-      tag(:li, tag(:a, page), class: 'active')
+      tag(:li, tag(:span, page, class: 'x-join-item x-btn x-btn-primary x-btn-active', 'aria-current': 'page'))
     else
-      tag(:li, link(page, page, rel: rel_value(page)))
+      tag(:li, link(page, page, class: 'x-join-item x-btn', rel: rel_value(page)))
     end
   end
 
   def previous_or_next_page(page, text, classname)
     if page
-      tag(:li, link(text, page), class: classname)
+      tag(:li, link(text, page, class: "x-join-item x-btn #{classname}".strip))
     else
-      tag(:li, tag(:a, text), class: "#{classname} disabled")
+      tag(:li, tag(:button, text, class: "x-join-item x-btn x-btn-disabled #{classname}".strip,
+        disabled: true, 'aria-disabled': true))
     end
   end
 
   def html_container(html)
-    tag(:div, tag(:ul, html, container_attributes), class: 'pinboard-paginate')
+    tag(:ul, html, class: 'x-join flex flex-wrap justify-center')
   end
 
   def gap
-    tag(:li, tag(:a, '…'), class: 'disabled')
+    tag(:li, tag(:button, '…', class: 'x-join-item x-btn x-btn-disabled', disabled: true, 'aria-hidden': 'true'))
   end
 
   def previous_page
     previous_or_next_page(
       @collection.current_page > 1 && (@collection.current_page - 1),
-      '<span class="xi-icon fa-regular fa-chevron-left mr5"></span>' \
+      '<span class="xi-icon fa-regular fa-chevron-left ms-5"></span>' \
       "#{I18n.t(:'pinboard.pagination.previous')}",
       ''
     )
@@ -47,7 +50,7 @@ class PaginationRenderer < WillPaginate::ActionView::LinkRenderer
     previous_or_next_page(
       @collection.current_page < total_pages && (@collection.current_page + 1),
       "#{I18n.t(:'pinboard.pagination.next')}" \
-      '<span class="xi-icon fa-regular fa-chevron-right ml5"></span>',
+      '<span class="xi-icon fa-regular fa-chevron-right me-5"></span>',
       ''
     )
   end

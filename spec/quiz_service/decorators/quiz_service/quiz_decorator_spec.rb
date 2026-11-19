@@ -25,7 +25,10 @@ describe QuizService::QuizDecorator, type: :decorator do
         external_ref_id
         unlimited_attempts
         unlimited_time
+        question_pool
+        displayed_question_count
         submission_statistic_url
+        pass_percentage
       ]
     end
   end

@@ -14,6 +14,7 @@ class User::Create < ApplicationOperation # rubocop:disable Layout/IndentationWi
 
   def call
     user = User.create! params.except(:email, :confirmed, :admin)
+      .merge(preferences: {'notification.email.global' => 'false'})
 
     begin
       user.emails.create!(

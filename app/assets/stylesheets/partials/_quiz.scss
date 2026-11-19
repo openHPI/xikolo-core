@@ -98,7 +98,7 @@ $xi-quiz-main-background-color: $white !default;
 
     // -----------> IMPORTANT: Additional elements used in the richtext must also have special treatment here!
     p,
-    span,
+    span:not(.x-badge),
     ol,
     ul {
       position: relative;
@@ -152,42 +152,6 @@ $xi-quiz-main-background-color: $white !default;
   @extend .quiz-question;
   border-color: $quiz-color-partial;
   border-left-color: $quiz-color-partial;
-}
-
-.quiz-indicator-line {
-  position: absolute;
-  z-index: 400;
-  top: 50%;
-  right: 0px;
-  left: 40px;
-  border-top: 2px solid;
-  margin-top: -1px;
-
-  &.wrong {
-    border-color: $error-500;
-  }
-
-  &.correct {
-    border-color: $success-500;
-  }
-
-  &.unselected {
-    border-color: $gray;
-  }
-}
-
-#quiz-state-indicators a {
-  padding-top: 2px;
-  border-radius: 2px;
-  background-color: $gray-600;
-  color: white;
-  line-height: 130%;
-  text-align: center;
-  text-decoration: none;
-
-  &.edited {
-    background-color: $gray-100;
-  }
 }
 
 .quiz-question-editor {
@@ -303,13 +267,6 @@ ul#submission-list {
   top: auto;
   /* It should stop near the bottom of its parent. */
   bottom: 20px;
-}
-
-.warning-autosave {
-  padding: 10px;
-  margin: 10px 0px;
-  background-color: $error-600;
-  color: $white;
 }
 
 /*------------------------------------*\

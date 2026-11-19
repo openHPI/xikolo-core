@@ -1,0 +1,11 @@
+  <div class="w-full gap-6 pt-6 inline-flex justify-center flex-wrap">
+    <% @items.each_with_index do |item, index| %>
+        <%= render ::Global::TiltedCard.new(
+          title: item.title,
+          subtitle: localized_text(item.description),
+          link: channel_path(item.code),
+          color_scheme: %w[bg-primary-250 bg-secondary-50 bg-accent-50][index % 3],
+          tilt_direction: index.even? ? 'right' : 'left'
+          ) %>
+    <% end %>
+</div>

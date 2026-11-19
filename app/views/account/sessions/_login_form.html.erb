@@ -1,0 +1,42 @@
+<%= form_with scope: :login,
+              url: sessions_url,
+              data: {
+                'disable-on-submit': 'input[type="submit"]',
+              },
+              class: "space-y-3" do |f| %>
+
+  <fieldset class="x-fieldset w-full">
+    <%= f.label :email, t(:'header.login.identity.label.email'), class: "x-label text-base-content" %>
+    <%= f.email_field :email,
+                      placeholder: t(:'header.login.identity.placeholder.email'),
+                      required: true,
+                      class: "x-input rounded-2xl w-full" %>
+  </fieldset>
+
+  <fieldset class="x-fieldset w-full">
+    <%= f.label :password, t(:'header.login.identity.label.password'), class: "x-label text-base-content" %>
+    <%= render Form::PasswordField.new(f, :password,
+                                       placeholder: t(:'header.login.identity.placeholder.password'),
+                                       required: true) %>
+  </fieldset>
+
+  <% if redirect_param.present? %>
+    <%= f.hidden_field :redirect_url, value: redirect_param %>
+  <% end %>
+
+  <% if connect_auth_id.present? %>
+    <%= f.hidden_field :connect_auth_id, value: connect_auth_id %>
+  <% end %>
+
+  <%= link_to t(:'header.login.forgot_password'),
+              new_account_reset_path,
+              class: 'x-link text-xs x-text-primary' %>
+
+  <div class="mt-6">
+    <%= f.submit t(:'header.login.identity.label.submit'),
+                 id: 'login',
+                 class: 'x-btn x-btn-primary font-semibold rounded-2xl w-full shadow-none',
+                 data: { disable_with: false } %>
+  </div>
+
+<% end %>

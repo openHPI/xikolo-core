@@ -39,8 +39,8 @@ RSpec.describe 'CookieConsent: Create', type: :request do
 
       create_cookie_consent
 
-      expect(response.header['Set-Cookie']).to match(
-        %r{cookie_consents=%5B%22%2Btest_consent%22%5D; path=/; expires=Sun, 01 Jan 2023 00:00:00 GMT}
+      expect(response.header['Set-Cookie']).to include(
+        'cookie_consents=%5B%22%2Btest_consent%22%5D; path=/; expires=Sun, 01 Jan 2023 00:00:00 GMT'
       )
     end
   end
@@ -59,8 +59,8 @@ RSpec.describe 'CookieConsent: Create', type: :request do
 
       create_cookie_consent
 
-      expect(response.header['Set-Cookie']).to match(
-        %r{cookie_consents=%5B%22-test_consent%22%5D; path=/; expires=Sun, 01 Jan 2023 00:00:00 GMT}
+      expect(response.header['Set-Cookie']).to include(
+        'cookie_consents=%5B%22-test_consent%22%5D; path=/; expires=Sun, 01 Jan 2023 00:00:00 GMT'
       )
     end
   end

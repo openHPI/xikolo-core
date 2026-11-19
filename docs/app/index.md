@@ -32,7 +32,6 @@ Explore the following APIs and access their documentation through the provided l
 - :material-layers-outline: The *Portal API* facilitates integration with external platform portals.
 - :material-format-list-text: The *MOOChub API* provides course information for MOOC aggregators.
 - :material-cart-outline: The *Shop API* connects shop systems for selling vouchers.
-- :material-subtitles-outline: The *TransPipe API* integrates with [TransPipe](https://github.com/openHPI/transpipe) for subtitle management.
 
 :material-devices: [Xikolo API](https://apidocs.dev.xikolo.de/): Supports integration with mobile apps and is implemented based on `JSON:API`.
   *(Legacy: Limited support for this API may be provided.)*

@@ -27,7 +27,7 @@ module Video
     end
 
     def video_item(forum_is_locked)
-      item = Course::Item.new({
+      item = CourseService::Item.new({
         id: ITEM_ID,
         content_type: 'video',
         title: 'Video',

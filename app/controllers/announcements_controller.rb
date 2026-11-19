@@ -17,6 +17,7 @@ class AnnouncementsController < Abstract::FrontendController
     @announcement = news_service.rel(:news).get({
       id: params[:id],
       embed: 'translations',
+      raw: true,
     }).then do |announcement|
       Admin::NewsForm.from_resource(announcement)
     end.value!
@@ -28,7 +29,7 @@ class AnnouncementsController < Abstract::FrontendController
     @announcement = Admin::NewsForm.from_params(params)
 
     # re-render creation form if announcement is invalid
-    return render(action: :new, status: :unprocessable_entity) unless @announcement.valid?
+    return render(action: :new, status: :unprocessable_content) unless @announcement.valid?
 
     announcement = news_service
       .rel(:news_index)
@@ -45,7 +46,7 @@ class AnnouncementsController < Abstract::FrontendController
     @announcement.remote_errors e.errors
 
     # re-render creation form
-    render(action: :new, status: :unprocessable_entity)
+    render(action: :new, status: :unprocessable_content)
   end
 
   def update
@@ -55,7 +56,7 @@ class AnnouncementsController < Abstract::FrontendController
     @announcement.persisted!
 
     # re-render edit form if announcement is invalid
-    return render(action: :edit, status: :unprocessable_entity) unless @announcement.valid?
+    return render(action: :edit, status: :unprocessable_content) unless @announcement.valid?
 
     announcement = news_service.rel(:news).get({id: params[:id]}).value!
     announcement.rel(:self).patch(@announcement.to_resource).value!
@@ -68,7 +69,7 @@ class AnnouncementsController < Abstract::FrontendController
     @announcement.remote_errors e.errors
 
     # re-render edit form
-    render(action: :edit, status: :unprocessable_entity)
+    render(action: :edit, status: :unprocessable_content)
   end
 
   def destroy

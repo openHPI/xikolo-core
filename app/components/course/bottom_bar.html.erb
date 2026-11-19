@@ -1,0 +1,37 @@
+<% content_for :bottom_navigation_spacer do %>
+  <div
+    class="h-[calc(var(--spacing-bottom-bar)+env(safe-area-inset-bottom))]"
+    aria-hidden="true"
+  ></div>
+<% end %>
+
+<nav
+  class="
+    group/bottom-bar bg-secondary-25 z-xl fixed inset-x-0 bottom-0
+    h-[calc(var(--spacing-bottom-bar)+env(safe-area-inset-bottom))]
+    pr-[calc(env(safe-area-inset-right)+15px)]
+    pb-[env(safe-area-inset-bottom)]
+    pl-[calc(env(safe-area-inset-left)+15px)]
+    lg:pr-[calc(env(safe-area-inset-right)+64px)]
+    lg:pl-[calc(env(safe-area-inset-left)+64px)]
+  "
+  aria-label="<%= t('course.bottom_bar.label') %>"
+  data-has-primary-action="<%= primary_action_content.present? %>"
+>
+  <div
+    class="
+      h-bottom-bar container mx-auto items-center gap-2 sm:gap-4
+      <%= navigation_content.present? && primary_action_content.present? ?
+      'grid grid-cols-[auto_minmax(0,1fr)_auto] lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)_minmax(0,1fr)]' :
+      'flex justify-between' %>
+    "
+  >
+    <%= navigation_content %>
+
+    <% if primary_action_content.present? %>
+      <div class="row-start-1 flex min-w-0 justify-end <%= navigation_content.present? ? 'col-start-2' : 'ml-auto' %>">
+        <%= primary_action_content %>
+      </div>
+    <% end %>
+  </div>
+</nav>

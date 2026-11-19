@@ -472,6 +472,13 @@ describe CourseService::Section, type: :model do
         expect(section.alternative_state).to eq 'parent'
         expect(section).to be_parent
       end
+
+      it 'has alternative sections' do
+        alternative1 = create(:'course_service/section', alternative_state: 'child', parent_id: section.id)
+        alternative2 = create(:'course_service/section', alternative_state: 'child', parent_id: section.id)
+
+        expect(section.alternatives).to contain_exactly(alternative1, alternative2)
+      end
     end
 
     context 'as child section' do

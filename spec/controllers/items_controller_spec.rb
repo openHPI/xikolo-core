@@ -4,24 +4,20 @@ require 'spec_helper'
 require 'rspec/expectations'
 
 describe ItemsController, type: :controller do
-  let(:course) { create(:course) }
+  let(:course) { create(:course, course_code: "course-#{SecureRandom.uuid}") }
   let(:section) { create(:section, course:) }
-  let(:course_resource) { build(:'course:course', id: course.id, title: course.title, course_state:, context_id: course_context_id) }
+  let(:course_resource) { build(:'course:course', id: course.id, title: course.title, course_state:, context_id: course_context.id) }
   let(:section_resource) { build(:'course:section', id: section.id, title: section.title, course_id: course.id) }
 
   let(:user_id) { SecureRandom.uuid }
+  let(:user) { create(:'account_service/user', id: user_id) }
   let(:permissions) { [] }
   let(:course_state) { 'archive' }
-  let(:request_context_id) { course_context_id }
+  let(:course_context) { AccountService::Context.root }
 
   before do
     Stub.request(:account, :get, "/users/#{user_id}/preferences")
       .to_return Stub.json({properties: {}})
-    Stub.request(
-      :account, :get, "/users/#{user_id}/permissions",
-      query: {context: 'root', user_id:}
-    ).to_return Stub.json(permissions)
-
     Stub.request(:course, :get, "/courses/#{course.id}")
       .to_return Stub.json(course_resource)
     Stub.request(
@@ -31,7 +27,7 @@ describe ItemsController, type: :controller do
     Stub.request(:course, :get, "/sections/#{section.id}").to_return Stub.json(section_resource)
     Stub.request(:course, :get, '/sections', query: {course_id: course.id})
       .to_return Stub.json([])
-    stub_user id: user_id, permissions:
+    sign_in(user: user, permissions:)
   end
 
   describe 'GET #new' do
@@ -47,8 +43,7 @@ describe ItemsController, type: :controller do
     end
 
     context 'via get with course.content.edit permissions' do
-      let(:request_context_id) { course_context_id }
-      let(:permissions)        { %w[course.content.edit course.content.access] }
+      let(:permissions) { %w[course.content.edit course.content.access] }
 
       it { is_expected.to have_http_status :ok }
     end

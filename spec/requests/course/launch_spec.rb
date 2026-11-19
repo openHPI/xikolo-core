@@ -3,10 +3,9 @@
 require 'spec_helper'
 
 describe 'Course: Launch', type: :request do
-  subject(:launch_course) { get launch_url, headers: }
+  subject(:launch_course) { get launch_url }
 
-  let(:headers) { {} }
-  let(:launch_url) { "/courses/#{course_code}/launch" }
+  let(:launch_url) { "/learn/#{course_code}/launch" }
   let(:course_code) { 'the-course' }
   let(:course) { build(:'course:course', course_code:, title: 'The course') }
 
@@ -38,10 +37,8 @@ describe 'Course: Launch', type: :request do
   end
 
   context 'for authorized user' do
-    let(:headers) { {'HTTP_AUTHORIZATION' => "Xikolo-Session session_id=#{stub_session_id}"} }
-
     before do
-      stub_user_request
+      sign_in
       launch_course
     end
 
@@ -52,7 +49,7 @@ describe 'Course: Launch', type: :request do
 
   context 'with auth provider' do
     let(:provider) { 'saml' }
-    let(:launch_url) { "/courses/#{course_code}/launch/#{provider}" }
+    let(:launch_url) { "/learn/#{course_code}/launch/#{provider}" }
 
     before { launch_course }
 

@@ -23,8 +23,8 @@ module Imagecrop
 
     def enabled?
       imgproxy_url.present? &&
-        Rails.application.secrets.imgproxy_key.present? &&
-        Rails.application.secrets.imgproxy_salt.present?
+        ENV.fetch('IMGPROXY_KEY', nil).present? &&
+        ENV.fetch('IMGPROXY_SALT', nil).present?
     end
 
     def origin

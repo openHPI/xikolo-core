@@ -82,7 +82,7 @@ describe 'Teacher: creating new ones', type: :request do
   end
 
   context 'user_id given' do
-    let(:user_id) { generate(:user_id) }
+    let(:user_id) { create(:'account_service/user').id }
     let(:data) do
       {
         id: generate(:user_id),

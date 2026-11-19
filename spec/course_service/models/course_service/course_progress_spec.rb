@@ -39,6 +39,24 @@ describe CourseService::CourseProgress, type: :model do
       end
     end
 
+    context 'with a regular item and an exam in a section' do
+      before do
+        section = create(:'course_service/section', course:)
+        create(:'course_service/item', title: 'Lecture', section:)
+        quiz = create(:'quiz_service/quiz', :with_valid_question_pool)
+        create(:'course_service/item',
+          title: 'Final Exam',
+          section:,
+          content_type: 'quiz',
+          content_id: quiz.id,
+          exercise_type: 'exam')
+      end
+
+      it 'counts the regular item into max_visits but excludes the exam' do
+        expect(calculated).to have_attributes(max_visits: 1, visits: 0)
+      end
+    end
+
     context 'with progress in sections' do
       let(:week1) { create(:'course_service/section', course:) }
       let(:week2) { create(:'course_service/section', course:) }

@@ -17,7 +17,7 @@ module LoadsCourseChannels
 
   def course_channels
     @course_channels ||= Rails.cache.fetch(CHANNELS_PUBLIC_CACHE_KEY, expires_in: 1.hour) do
-      Course::Channel
+      CourseService::Channel
         .order(:position, :code)
         .where(public: true, affiliated: false, archived: false)
         .to_a

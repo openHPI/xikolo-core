@@ -1,0 +1,57 @@
+<button
+  type="button"
+  class="x-btn x-btn-primary w-full max-w-full rounded-2xl whitespace-normal"
+  aria-controls="<%= modal_id %>"
+>
+  <%= helpers.pixelart_icon('play', css_class: 'size-5 shrink-0') %>
+  <%= t('items.exam.start_exam_now') %>
+</button>
+
+<dialog class="x-modal" id="<%= modal_id %>" data-behavior="dialog">
+  <div class="x-modal-box relative">
+    <button
+      type="button"
+      class="x-btn x-btn-ghost x-btn-sm absolute top-3 right-3"
+      data-behavior="close-dialog"
+      aria-label="<%= t('global.close') %>"
+    >
+      <%= helpers.pixelart_icon('close', css_class: 'size-4') %>
+    </button>
+
+    <h3 class="text-xl font-bold"><%= t('items.exam.confirm_heading') %></h3>
+
+    <p class="mt-2 font-bold"><%= t('items.exam.start_modal.note') %></p>
+    <p><%= t('items.exam.confirm_pass_text', percentage: @pass_percentage) %></p>
+
+    <dl class="grid grid-cols-3 my-4!">
+      <div>
+        <dt class="text-sm text-base-content/60"><%= t('items.exam.start_modal.points') %></dt>
+        <dd class="font-semibold text-lg"><%= t('quiz_submission.properties.points', count: @displayed_max_points) %></dd>
+      </div>
+      <div class="pl-4 border-l border-base-content/10">
+        <dt class="text-sm text-base-content/60"><%= t('items.exam.start_modal.attempts') %></dt>
+        <dd class="font-semibold text-lg"><%= t('quiz_submission.properties.allowed_attempts', count: @current_allowed_attempts) %></dd>
+      </div>
+      <div class="pl-4 border-l border-base-content/10">
+        <dt class="text-sm text-base-content/60"><%= t('items.exam.start_modal.time') %></dt>
+        <dd class="font-semibold text-lg"><%= time %></dd>
+      </div>
+    </dl>
+
+    <span
+      class="inline-flex items-center gap-2 rounded-selector bg-accent/15 px-3 py-1 text-accent"
+    >
+      <%= helpers.pixelart_icon('circle-info', css_class: 'size-3.5') %>
+      <%= t('items.exam.start_modal.timer_hint') %>
+    </span>
+
+    <div class="x-modal-action">
+      <%= link_to @start_path, class: 'x-btn x-btn-primary' do %>
+        <%= t('items.exam.start_exam') %>
+      <% end %>
+    </div>
+  </div>
+  <form method="dialog" class="x-modal-backdrop">
+    <button type="submit"><%= t('global.close') %></button>
+  </form>
+</dialog>

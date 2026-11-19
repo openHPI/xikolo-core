@@ -30,11 +30,18 @@ export const hidePublicDescription = () => {
   if (!publicDescription) return;
 
   publicDescription.hidden = true;
-  // Reset markdown
+  // Reset markdown. The editor is loaded asynchronously, so the editable
+  // ToastUI element may not have been mounted yet.
+  const publicDescriptionFormInput =
+    publicDescription.querySelector<HTMLTextAreaElement>(
+      '[data-behavior="markdown-form-input"]',
+    );
+  if (publicDescriptionFormInput) publicDescriptionFormInput.value = '';
+
   const publicDescriptionInput = publicDescription.querySelector<HTMLElement>(
     '[contenteditable="true"]',
   );
-  publicDescriptionInput!.innerHTML = '';
+  if (publicDescriptionInput) publicDescriptionInput.innerHTML = '';
 };
 
 export const setDefaultTypes = (
@@ -65,7 +72,6 @@ export const hideAllInputs = () => {
     '.xikolo_course_item_max_points',
     '.xikolo_course_item_submission_deadline',
     '.xikolo_course_item_submission_publishing_date',
-    '#featured-switch',
     '#icon-type-select',
   ]);
   hideAndUncheckSwitch('#open-mode-switch', '#open-mode-checkbox');

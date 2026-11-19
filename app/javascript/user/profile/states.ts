@@ -1,6 +1,6 @@
-import ready from '../../util/ready';
+import { turboReady } from '../../util/ready';
 
-ready(() => {
+turboReady(() => {
   const countrySelect = document.getElementById(
     'xikolo_account_user_country',
   ) as HTMLSelectElement;

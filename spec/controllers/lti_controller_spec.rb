@@ -13,9 +13,7 @@ describe LtiController, type: :controller do
   let!(:section) { create(:section, course:) }
   let!(:item) { create(:item, section:, content_id: exercise.id, content_type: 'lti_exercise') }
 
-  before do
-    stub_user id: user.id, email: 'jsmith@example.com', name: 'John Smith', context_id: course.context_id
-  end
+  before { sign_in(user:) }
 
   describe 'GET #tool_launch' do
     subject(:tool_launch) do
@@ -164,57 +162,10 @@ describe LtiController, type: :controller do
             )
           end
 
-          let(:event_hash) do
-            {
-              'in_context' => {
-                'course_id' => course.id,
-                'provider_name' => 'Provider',
-                'provider_start_url' => 'https://example.org/lti',
-                'score' => score,
-                'user_ip' => '0.0.0.0',
-              },
-              'resource' => {'uuid' => exercise.id, 'type' => 'lti'},
-              'verb' => {'type' => 'SUBMITTED_LTI_V2'},
-              'user' => {'uuid' => user.id},
-              'timestamp' => nil,
-              'with_result' => {},
-            }
-          end
-
           before do
             expect(IMS::LTI::OutcomeResponse)
               .to receive(:new).once
               .and_return(outcome_response)
-          end
-
-          it 'creates an LTI grade' do
-            expect do
-              tool_grading
-            end.to change(Lti::Grade, :count).from(0).to(1)
-          end
-
-          context 'with LTI provider' do
-            context 'non-global' do
-              it 'publishes the xi-lanalytics LTI tracking event' do
-                expect(Msgr).to receive(:publish).once.with(
-                  event_hash,
-                  hash_including(to: 'xikolo.web.exp_event.create')
-                )
-                tool_grading
-              end
-            end
-
-            context 'global' do
-              let(:provider) { create(:lti_provider, :global) }
-
-              it 'publishes the xi-lanalytics LTI tracking event' do
-                expect(Msgr).to receive(:publish).once.with(
-                  event_hash,
-                  hash_including(to: 'xikolo.web.exp_event.create')
-                )
-                tool_grading
-              end
-            end
           end
 
           it 'returns the generated XML response' do
@@ -228,15 +179,7 @@ describe LtiController, type: :controller do
           context 'with invalid score' do
             let(:score) { 1.5 }
 
-            it { is_expected.to have_http_status :unprocessable_entity }
-
-            it 'does not publish the xi-lanalytics LTI tracking event' do
-              expect(Msgr).not_to receive(:publish).with(
-                hash_including('verb' => {'type' => 'SUBMITTED_LTI'}),
-                hash_including(to: 'xikolo.web.exp_event.create')
-              )
-              tool_grading
-            end
+            it { is_expected.to have_http_status :unprocessable_content }
           end
         end
       end

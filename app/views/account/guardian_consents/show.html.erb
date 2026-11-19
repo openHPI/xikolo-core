@@ -1,0 +1,30 @@
+<div class="col-md-6 col-md-offset-3">
+  <h2 class="h2"><%= t(:'account.guardian_consents.show.headline') %></h2>
+  <%= form_tag account_guardian_consent_path, method: :put do %>
+    <div class="login-box mb30">
+      <div class="row">
+        <div class="col-sm-2 large-icon">
+          <%= render Global::FaIcon.new('file-contract') %>
+        </div>
+        <div class="col-sm-10">
+          <p><%= t(:'account.guardian_consents.show.instructions') %></p>
+          <div class="mt-4">
+            <div class="flex items-start gap-3">
+              <%= check_box_tag 'guardian_consent', true, false,
+                    id: 'guardian_consent',
+                    required: true,
+                    class: 'x-checkbox x-checkbox-xs x-checkbox-secondary shrink-0' %>
+              <%= label_tag 'guardian_consent', class: 'cursor-pointer font-normal!' do %>
+                <p><b><%= t(:'account.shared.guardian_consent.label') %></b></p>
+                <p><%= t(:'account.shared.guardian_consent.text') %></p>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <%= submit_tag t(:'account.guardian_consents.show.label.submit'), id: 'submit', class: 'btn btn-primary' %>
+    </div>
+  <% end %>
+</div>

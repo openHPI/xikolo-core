@@ -6,13 +6,12 @@ module Regrading # rubocop:disable Layout/IndentationWidth
   # Select answer for all users and recalculate points
   #
   class SelectAnswerForAll < Base
-    # rubocop:disable Lint/MissingSuper
+    # rubocop:disable-next Lint/MissingSuper
     def initialize(answer, dry: false)
       @answer = answer
 
       @dry = dry
     end
-    # rubocop:enable Lint/MissingSuper
 
     # rubocop:disable Rails/SkipsModelValidations
     def run!
@@ -63,7 +62,7 @@ module Regrading # rubocop:disable Layout/IndentationWidth
         end
 
         # recalculate points
-        # rubocop:disable Style/CombinableLoops
+        # rubocop:disable-next Style/CombinableLoops
         affected_submission_questions.each do |submission_question|
           submission_question.update(points: nil)
           log <<~TEXT.strip, :info
@@ -72,7 +71,6 @@ module Regrading # rubocop:disable Layout/IndentationWidth
             quiz_question.id: #{submission_question.quiz_question_id}
           TEXT
         end
-        # rubocop:enable Style/CombinableLoops
 
         # reset quiz_version of submission to newest
         affected_submissions = QuizSubmission.where(quiz_id:)
@@ -81,8 +79,8 @@ module Regrading # rubocop:disable Layout/IndentationWidth
 
         log "..regrading finished: #{count} submissions regraded \n", :info
 
-        # trigger background worker to recalculate statistics
-        UpdateQuestionStatisticsWorker.perform_async(question.id)
+        # trigger background job to recalculate statistics
+        UpdateQuestionStatisticsJob.perform_later(question.id)
       end
     end
     # rubocop:enable all

@@ -42,7 +42,7 @@ describe NotificationService::MailLogStatsController, type: :controller do
     its(['error_count']) { is_expected.to eq 2 }
     its(['disabled_count']) { is_expected.to eq 1 }
     its(['unique_count']) { is_expected.to eq 1 } # by user
-    its(['oldest'])  { is_expected.to eq old_ts.iso8601 }
-    its(['newest'])  { is_expected.to eq new_ts.iso8601 }
+    its(['oldest']) { is_expected.to eq old_ts.iso8601 }
+    its(['newest']) { is_expected.to eq new_ts.iso8601 }
   end
 end

@@ -6,7 +6,7 @@ describe CourseService::Course::Visual::Clone do
   subject(:operation) { described_class.call(old_visual, course) }
 
   let!(:course) { create(:'course_service/course', :active) }
-  let!(:old_visual) { create(:'course_service/visual', :with_video) }
+  let!(:old_visual) { create(:visual, :with_video, course_id: create(:'course_service/course', :active).id) }
   let!(:old_video) { old_visual&.video }
   let(:new_visual) { course.visual }
   let(:new_video) { new_visual.video }
@@ -14,7 +14,7 @@ describe CourseService::Course::Visual::Clone do
 
   let!(:copy_visual) do
     stub_request(
-      :put, %r{https://s3.xikolo.de/xikolo-public/courses/[a-zA-Z0-9]+/[a-zA-Z0-9]+/course_visual.png}
+      :put, %r{#{test_s3_host}/xikolo-public/courses/[a-zA-Z0-9]+/[a-zA-Z0-9]+/course_visual.png}
     ).and_return(
       status: 200,
       body: '<xml></xml>'
@@ -28,31 +28,31 @@ describe CourseService::Course::Visual::Clone do
     end
 
     it 'clones the visual' do
-      expect { operation }.to change(CourseService::Duplicated::Visual, :count).from(1).to(2)
+      expect { operation }.to change(Course::Visual, :count).from(1).to(2)
       expect(new_visual.course_id).to eq course.id
     end
 
     it 'updates the associated image' do
       operation
       expect(new_visual.image_uri).not_to eq old_visual.image_uri
-      expect(new_visual.image_uri).to match(%r{s3://xikolo-public/courses/#{encoded_course_id}/encodedUUUID/course_visual.png})
+      expect(new_visual.image_uri).to match(%r{s3://xikolo-public/courses/#{encoded_course_id}/[a-zA-Z0-9]+/course_visual.png})
     end
 
     it 'clones the related teaser video' do
-      expect { operation }.to change(CourseService::Duplicated::Video, :count).from(1).to(2)
+      expect { operation }.to change(Video::Video, :count).from(1).to(2)
       expect(new_video.pip_stream_id).to eq(old_video.pip_stream_id)
     end
 
     context 'when the teaser video has subtitles' do
-      let!(:subtitle) { create(:'course_service/subtitle', video: old_video) }
+      let!(:subtitle) { create(:video_subtitle, video: old_video) }
       let!(:old_cue) do
-        create(:'course_service/subtitle_cue', subtitle:, start: 10.seconds, stop: 20.seconds)
+        create(:subtitle_cue, subtitle:, start: 10.seconds, stop: 20.seconds)
       end
       let(:new_subtitle) { new_video.subtitles.first }
       let(:new_cue) { new_subtitle.cues.first }
 
       it 'clones subtitles to the new video' do
-        expect { operation }.to change(CourseService::Duplicated::Subtitle, :count).from(1).to(2)
+        expect { operation }.to change(Video::Subtitle, :count).from(1).to(2)
         expect(new_video.reload.subtitles.count).to eq 1
         expect(new_subtitle.attributes.except('id')).to match(
           hash_including(
@@ -64,13 +64,13 @@ describe CourseService::Course::Visual::Clone do
       end
 
       it 'clones cues of each subtitle' do
-        expect { operation }.to change(CourseService::Duplicated::SubtitleCue, :count).from(1).to(2)
+        expect { operation }.to change(Video::SubtitleCue, :count).from(1).to(2)
         expect(new_subtitle.reload.cues.count).to eq(1)
       end
 
       it 'copies the same values of existing clues' do
         operation
-        cue = CourseService::Duplicated::SubtitleCue.find(old_cue.id)
+        cue = Video::SubtitleCue.find(old_cue.id)
         expect(new_cue).to match an_object_having_attributes(
           subtitle_id: new_subtitle.id,
           identifier: cue.identifier,
@@ -88,31 +88,31 @@ describe CourseService::Course::Visual::Clone do
   end
 
   context 'with an image only' do
-    let(:old_visual) { create(:'course_service/visual') }
+    let(:old_visual) { create(:visual) }
     let(:old_video) { nil }
 
     it 'clones the visual' do
-      expect { operation }.to change(CourseService::Duplicated::Visual, :count).from(1).to(2)
+      expect { operation }.to change(Course::Visual, :count).from(1).to(2)
       expect(new_visual.course_id).to eq course.id
     end
 
     it 'updates the associated image' do
       operation
       expect(new_visual.image_uri).not_to eq old_visual.image_uri
-      expect(new_visual.image_uri).to match(%r{s3://xikolo-public/courses/#{encoded_course_id}/encodedUUUID/course_visual.png})
+      expect(new_visual.image_uri).to match(%r{s3://xikolo-public/courses/#{encoded_course_id}/[a-zA-Z0-9]+/course_visual.png})
     end
 
     it 'does not create an associated teaser video' do
-      expect { operation }.not_to change(CourseService::Duplicated::Video, :count)
+      expect { operation }.not_to change(Video::Video, :count)
       expect(new_visual.video).to be_nil
     end
   end
 
   context 'with a teaser video only' do
-    let(:old_visual) { create(:'course_service/visual', :with_video, image_uri: nil) }
+    let(:old_visual) { create(:visual, :with_video, image_uri: nil) }
 
     it 'clones the visual' do
-      expect { operation }.to change(CourseService::Duplicated::Visual, :count).from(1).to(2)
+      expect { operation }.to change(Course::Visual, :count).from(1).to(2)
       expect(new_visual.course_id).to eq course.id
     end
 
@@ -122,7 +122,7 @@ describe CourseService::Course::Visual::Clone do
     end
 
     it 'clones the associated existing teaser video' do
-      expect { operation }.to change(CourseService::Duplicated::Video, :count).from(1).to(2)
+      expect { operation }.to change(Video::Video, :count).from(1).to(2)
       expect(new_visual.video_id).to eq(new_video.id)
       expect(new_video.pip_stream_id).to eq(old_video.pip_stream_id)
     end
@@ -133,11 +133,11 @@ describe CourseService::Course::Visual::Clone do
     let(:old_video) { nil }
 
     it 'does not clone any visual' do
-      expect { operation }.not_to change(CourseService::Duplicated::Visual, :count).from(0)
+      expect { operation }.not_to change(Course::Visual, :count).from(0)
     end
 
     it 'does not clone any video' do
-      expect { operation }.not_to change(CourseService::Duplicated::Video, :count).from(0)
+      expect { operation }.not_to change(Video::Video, :count).from(0)
     end
 
     it 'does not raise an error' do
@@ -149,7 +149,7 @@ describe CourseService::Course::Visual::Clone do
     context 'when no s3 file for the old image is found' do
       before do
         stub_request(
-          :put, %r{https://s3.xikolo.de/xikolo-public/courses/[a-zA-Z0-9]+/[a-zA-Z0-9]+/course_visual.png}
+          :put, %r{#{test_s3_host}/xikolo-public/courses/[a-zA-Z0-9]+/[a-zA-Z0-9]+/course_visual.png}
         ).and_return(
           status: 404
         )
@@ -161,7 +161,7 @@ describe CourseService::Course::Visual::Clone do
         end
 
         it 'does clone a visual' do
-          expect { operation }.to change(CourseService::Duplicated::Visual, :count).from(1).to(2)
+          expect { operation }.to change(Course::Visual, :count).from(1).to(2)
         end
 
         it 'does not update the associated image' do
@@ -170,13 +170,13 @@ describe CourseService::Course::Visual::Clone do
         end
 
         it 'clones the related teaser video' do
-          expect { operation }.to change(CourseService::Duplicated::Video, :count).from(1).to(2)
+          expect { operation }.to change(Video::Video, :count).from(1).to(2)
           expect(new_video.pip_stream_id).to eq(old_video.pip_stream_id)
         end
       end
 
       context 'with image only' do
-        let(:old_visual) { create(:'course_service/visual') }
+        let(:old_visual) { create(:visual) }
         let(:old_video) { nil }
 
         it 'fails gracefully' do
@@ -184,7 +184,7 @@ describe CourseService::Course::Visual::Clone do
         end
 
         it 'does not clone a visual' do
-          expect { operation }.not_to change(CourseService::Duplicated::Visual, :count)
+          expect { operation }.not_to change(Course::Visual, :count)
           expect(new_visual).to be_nil
         end
       end
@@ -194,11 +194,12 @@ describe CourseService::Course::Visual::Clone do
       # rubocop:disable RSpec/AnyInstance
       context 'with an existing visual' do
         before do
-          allow_any_instance_of(CourseService::Duplicated::Visual).to receive(:create_video!).with(pip_stream_id: old_video.pip_stream_id).and_raise(ActiveRecord::RecordInvalid)
+          allow_any_instance_of(Course::Visual).to receive(:create_video!).with(pip_stream_id: old_video.pip_stream_id, title: old_video.title)
+            .and_raise(ActiveRecord::RecordInvalid)
         end
 
         it 'does not create a new teaser video' do
-          expect { operation }.not_to change(CourseService::Duplicated::Video, :count)
+          expect { operation }.not_to change(Video::Video, :count)
         end
 
         it 'fails gracefully' do
@@ -207,8 +208,8 @@ describe CourseService::Course::Visual::Clone do
 
         context 'when its existing video has subtitles' do
           before do
-            subtitle = create(:'course_service/subtitle', video: old_video)
-            create(:'course_service/subtitle_cue', subtitle:)
+            subtitle = create(:video_subtitle, video: old_video)
+            create(:subtitle_cue, subtitle:)
           end
 
           it 'fails gracefully' do
@@ -216,11 +217,11 @@ describe CourseService::Course::Visual::Clone do
           end
 
           it 'does not clone subtitles' do
-            expect { operation }.not_to change(CourseService::Duplicated::Subtitle, :count)
+            expect { operation }.not_to change(Video::Subtitle, :count)
           end
 
           it 'does not clone subtitle cues' do
-            expect { operation }.not_to change(CourseService::Duplicated::SubtitleCue, :count)
+            expect { operation }.not_to change(Video::SubtitleCue, :count)
           end
         end
       end
@@ -228,7 +229,7 @@ describe CourseService::Course::Visual::Clone do
       context 'without an existing visual for the new course' do
         before do
           course.visual = nil
-          allow_any_instance_of(CourseService::Duplicated::Visual).to receive(:create_video!).with(pip_stream_id: old_video.pip_stream_id).and_raise ActiveRecord::RecordInvalid
+          allow_any_instance_of(Course::Visual).to receive(:create_video!).with(pip_stream_id: old_video.pip_stream_id, title: old_video.title).and_raise ActiveRecord::RecordInvalid
         end
 
         it 'fails gracefully' do
@@ -236,7 +237,7 @@ describe CourseService::Course::Visual::Clone do
         end
 
         it 'does not clone a teaser video' do
-          expect { operation }.not_to change(CourseService::Duplicated::Video, :count)
+          expect { operation }.not_to change(Video::Video, :count)
         end
 
         it 'creates a visual' do
@@ -248,9 +249,9 @@ describe CourseService::Course::Visual::Clone do
 
     context 'when an error occurs during the cloning of subtitles' do
       before do
-        subtitle = create(:'course_service/subtitle', video: old_video)
-        create(:'course_service/subtitle_cue', subtitle:)
-        allow_any_instance_of(CourseService::Duplicated::Subtitle)
+        subtitle = create(:video_subtitle, video: old_video)
+        create(:subtitle_cue, subtitle:)
+        allow_any_instance_of(Video::Subtitle)
           .to receive(:clone).and_raise ActiveRecord::RecordInvalid
       end
 
@@ -259,11 +260,11 @@ describe CourseService::Course::Visual::Clone do
       end
 
       it 'does not clone subtitles' do
-        expect { operation }.not_to change(CourseService::Duplicated::Subtitle, :count)
+        expect { operation }.not_to change(Video::Subtitle, :count)
       end
 
       it 'does not clone subtitle cues' do
-        expect { operation }.not_to change(CourseService::Duplicated::SubtitleCue, :count)
+        expect { operation }.not_to change(Video::SubtitleCue, :count)
       end
     end
     # rubocop:enable RSpec/AnyInstance

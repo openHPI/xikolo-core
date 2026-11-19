@@ -47,15 +47,7 @@ describe Helpdesk::Ticket do
     expect(ticket.url.size).to eq 255
   end
 
-  context '(event publication)' do
-    it 'publishes a RabbitMQ event' do
-      expect(Msgr).to receive(:publish).with(
-        kind_of(Hash),
-        hash_including(to: 'xikolo.helpdesk.ticket.create')
-      )
-      ticket.save!
-    end
-
+  context '(callbacks)' do
     it '(asynchronously) sends an email to the helpdesk system' do
       expect { ticket.save! }.to have_enqueued_mail(Helpdesk::TicketMailer, :new_ticket_email)
     end

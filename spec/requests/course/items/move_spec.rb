@@ -3,16 +3,18 @@
 require 'spec_helper'
 
 describe 'Course: Items: Move', type: :request do
-  let(:user_id) { generate(:user_id) }
+  let(:user) { create(:'account_service/user') }
+  let(:user_id) { user.id }
   let(:course_resource) { build(:'course:course', id: course.id, course_code: course.course_code) }
   let(:section_resource) { build(:'course:section', id: section.id, course_id: course.id) }
 
-  let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
   let(:permissions) { %w[course.content.access course.content.edit] }
   let(:params) { {} }
 
   before do
-    stub_user_request(id: user_id, permissions:)
+    sign_in(user:)
+    role = create(:'account_service/role', permissions:)
+    create(:'account_service/grant', principal: user, role:)
     Stub.request(:course, :get, '/enrollments', query: {course_id: course.id, user_id:})
       .to_return Stub.json([])
     Stub.request(:course, :get, "/sections/#{section.id}")
@@ -25,43 +27,36 @@ describe 'Course: Items: Move', type: :request do
 
   context 'legacy courses' do
     subject(:move_item) do
-      post "/courses/#{course['course_code']}/sections/#{section['id']}/items/#{item_resource['id']}/move",
-        headers:,
+      post "/learn/#{course['course_code']}/sections/#{section['id']}/items/#{item_resource['id']}/move",
         params:
     end
 
     let(:course) { create(:course_legacy) }
     let(:section) { create(:section_legacy, course:) }
-    let(:item_resource) { build(:'course:item', content_type: 'rich_text', open_mode: false) }
-
-    before do
-      Stub.request(:course, :get, "/items/#{item_resource['id']}").to_return Stub.json(item_resource)
-      Stub.request(:course, :get, '/items', query: hash_including(section_id: section.id))
-        .to_return Stub.json([])
+    # `create(:item, ...)` attaches a content tree node, which legacy
+    # sections/courses do not have, so the item is created directly instead.
+    let(:item_resource) do
+      CourseService::Item.create!(
+        section:, title: 'Legacy Item', content_type: 'rich_text',
+        content_id: create(:richtext).id, open_mode: false
+      )
     end
 
     describe 'when an item is moved' do
       let(:params) { {position: 5} }
-      let!(:item_update_request) do
-        Stub.request(
-          :course, :put, "/items/#{item_resource['id']}",
-          # Add one as client items are indexed starting at zero while
-          # service starts at one
-          body: hash_including(position: 6)
-        ).to_return Stub.json({id: item_resource['id']}, status: 201)
-      end
 
-      it 'requests the corresponding position' do
+      it 'sets the corresponding position' do
         move_item
-        expect(item_update_request).to have_been_requested
+        # Add one as client items are indexed starting at zero while
+        # service starts at one
+        expect(item_resource.reload.position).to eq 6
       end
     end
   end
 
   context 'courses with nodes' do
     subject(:move_item) do
-      post "/courses/#{course.id}/sections/#{section.id}/items/#{item_2.id}/move",
-        headers:,
+      post "/learn/#{course.id}/sections/#{section.id}/items/#{item_2.id}/move",
         params:
     end
 
@@ -100,8 +95,7 @@ describe 'Course: Items: Move', type: :request do
 
       describe 'and placed between other items' do
         subject(:move_item) do
-          post "/courses/#{course.id}/sections/#{section.id}/items/#{item_1.id}/move",
-            headers:,
+          post "/learn/#{course.id}/sections/#{section.id}/items/#{item_1.id}/move",
             params:
         end
 

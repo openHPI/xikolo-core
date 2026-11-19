@@ -16,7 +16,6 @@ class RootController < ApplicationController # rubocop:disable Layout/Indentatio
   def routes
     {
       items_current_url: items_current_rfc6570,
-      item_user_visit_url: item_user_visit_rfc6570,
       item_user_results_url: item_user_results_rfc6570,
       item_results_url: item_results_rfc6570,
       items_url: items_rfc6570,
@@ -24,17 +23,9 @@ class RootController < ApplicationController # rubocop:disable Layout/Indentatio
       result_url: result_rfc6570,
       course_statistic_url: course_statistic_rfc6570,
       course_persist_ranking_task_url: course_persist_ranking_task_rfc6570,
-      course_documents_url: course_documents_rfc6570,
       course_learning_evaluation_url: course_learning_evaluation_rfc6570,
       courses_url: courses_rfc6570,
       course_url: course_rfc6570,
-      documents_tags_url: documents_tags_rfc6570,
-      document_document_localizations_url:
-        document_document_localizations_rfc6570,
-      documents_url: documents_rfc6570,
-      document_url: document_rfc6570,
-      document_localizations_url: document_localizations_rfc6570,
-      document_localization_url: document_localization_rfc6570,
       channels_url: channels_rfc6570,
       channel_url: channel_rfc6570,
       next_dates_url: next_dates_rfc6570,
@@ -51,7 +42,6 @@ class RootController < ApplicationController # rubocop:disable Layout/Indentatio
       richtext_url: richtext_rfc6570,
       system_info_url: system_info_rfc6570,
       last_visit_url: last_visit_url_rfc6570,
-      prerequisite_status_url: prerequisite_status_course_url_rfc6570,
       progresses_url: progresses_rfc6570,
       stats_url: stats_rfc6570,
       enrollment_stats_url: enrollment_stats_rfc6570,

@@ -1,0 +1,49 @@
+<% content_for :course_area_main do %>
+  <div data-turbo-prefetch="false">
+    <% if @teacherview %>
+      <% if content_for?(:maincol_content) %>
+        <%= yield :maincol_content %>
+      <% else %>
+        <%= yield %>
+      <% end %>
+    <% elsif the_table_of_content.present? %>
+      <%= render Course::NavigationDrawer.new do |drawer| %>
+        <% drawer.with_main_content do %>
+          <% if content_for?(:maincol_content) %>
+            <%= yield :maincol_content %>
+          <% else %>
+            <%= yield %>
+          <% end %>
+        <% end %>
+
+        <% drawer.with_overview_link do %>
+          <% overview_path = course_overview_path(course_layout.course_code) %>
+          <%= link_to overview_path,
+            class: 'x-btn x-btn-neutral x-btn-outline w-full gap-1.5 rounded-2xl',
+            aria: {current: ('page' if current_page?(overview_path))} do %>
+            <%= pixelart_icon('bulletlist', css_class: 'size-3.5 shrink-0') %>
+            <%= t('courses.nav.to_overview') %>
+          <% end %>
+        <% end %>
+
+        <% if current_user.allowed_any?('course.content.access', 'course.content.access.available') %>
+          <% drawer.with_course_progress do %>
+            <%= turbo_frame_tag 'course-progress', src: bar_course_progress_path(course_layout.course_code), loading: :lazy, class: 'block' do %>
+              <%= render Course::ProgressBar.new %>
+            <% end %>
+          <% end %>
+        <% end %>
+
+        <% drawer.with_navigation(component: the_table_of_content) %>
+      <% end %>
+    <% else %>
+      <% if content_for?(:maincol_content) %>
+        <%= yield :maincol_content %>
+      <% else %>
+        <%= yield %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+
+<%= render template: 'layouts/course_area' %>

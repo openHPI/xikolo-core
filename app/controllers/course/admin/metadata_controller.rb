@@ -7,7 +7,7 @@ class Course::Admin::MetadataController < Abstract::FrontendController
   require_permission 'course.course.edit'
 
   def show
-    render json: Course::Metadata.find(params[:id]).data
+    render json: CourseService::Metadata.find(params[:id]).data
   end
 
   def edit
@@ -17,7 +17,7 @@ class Course::Admin::MetadataController < Abstract::FrontendController
   def update
     @metadata = Course::Admin::MetadataEditPresenter.for_course(id: params[:course_id])
 
-    Course::Metadata::Store.call(@metadata.to_model, params[:course_metadata]).on do |result|
+    Course::Metadata::Store.call(@metadata.to_model, params[:course_service_metadata]).on do |result|
       result.success do
         add_flash_message :success, t(:'flash.success.course_metadata_updated')
         redirect_to edit_course_metadata_path(course_id: @metadata.course_code), status: :see_other
@@ -28,13 +28,13 @@ class Course::Admin::MetadataController < Abstract::FrontendController
         end
 
         add_flash_message :error, t(:'flash.error.course_metadata_not_updated')
-        render action: :edit, status: :unprocessable_entity
+        render action: :edit, status: :unprocessable_content
       end
     end
   end
 
   def destroy
-    metadata = Course::Metadata.find(params[:id])
+    metadata = CourseService::Metadata.find(params[:id])
     if metadata.destroy
       add_flash_message :success, t(:'flash.success.course_metadata_deleted')
     else
@@ -47,10 +47,6 @@ class Course::Admin::MetadataController < Abstract::FrontendController
   private
 
   def metadata_params
-    params.require(:course_metadata).permit(:skills_upload_id, :educational_alignment_upload_id)
-  end
-
-  def hide_course_nav?
-    true
+    params.require(:course_service_metadata).permit(:skills_upload_id, :educational_alignment_upload_id)
   end
 end

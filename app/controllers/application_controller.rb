@@ -1,20 +1,15 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
-  # Make the FeatureTogglesHelper available in views as well as controllers
-  helper FeatureTogglesHelper
-  include FeatureTogglesHelper
-
   include Login
 
   protect_from_forgery with: :exception
   before_action { Acfs.runner.clear } # clear Acfs queue
-  around_action :auth_middleware
-  after_action  :remember_user
 
   include Locale
 
   before_action :forget_location, if: proc {|_| current_user.anonymous? }
+  before_action :redirect_expired_sessions
 
   add_flash_types :error, :success
 
@@ -74,12 +69,6 @@ class ApplicationController < ActionController::Base
     raise Status::Unauthorized.new("User does not have any of the permissions #{permissions.join(', ')}.")
   end
 
-  def set_no_cache_headers
-    response.headers['Cache-Control'] = 'no-cache, no-store, max-age=0, must-revalidate'
-    response.headers['Pragma'] = 'no-cache'
-    response.headers['Expires'] = 'Fri, 01 Jan 1990 00:00:00 GMT'
-  end
-
   def store_location(path = request.fullpath, forget: false)
     return unless request.get? || path != request.fullpath
     return if request.xhr?
@@ -135,71 +124,46 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def auth_middleware(&app)
-    request.env['xikolo_context'] = auth_context
-
-    # Check if an existing user is already signed in and trying to add a new identity to their account;
-    # the session ID is passed through the RelayState then (see the `XikoloSAML` strategy).
-    #
-    # If the RelayState contains a session ID, we pass it on, so that the middleware can find the current user.
-    # This is necessary to avoid creating a new user (when 'autocreate' is enabled) or redirect to `auth_connect`.
-    if request.params[:RelayState]
-      request.env['rack.session']['id'] = OmniAuth::NonceStore.pop(request.params.delete(:RelayState))
-    end
-
-    Xikolo::Common::Auth::Middleware.new(app).call(request.env)
-  end
-
-  # For sessions initiated by tokens in the Authorization header
-  # (as used by mobile apps), we remember them for subsequent
-  # requests by storing the session ID in a cookie
-  def remember_user
-    return if current_user.anonymous?
-
-    # If there is already another session ID in cookie storage,
-    # we will not override that one
-    return if session[:id]
-
-    # If we get here, create a new session for the authenticated user
-    session[:id] = Xikolo.api(:account).value!.rel(:sessions).post({
-      user: current_user.id,
-    }).value!['id']
-  end
-
   def the_course
-    promises[:course] ||= request_course.tap { Acfs.run }
-  rescue Acfs::ResourceNotFound
+    @the_course ||= request_course
+  rescue ActiveRecord::RecordNotFound
     raise Status::NotFound
   end
 
   def current_user
-    @current_user ||= begin # rubocop:disable Style/RedundantBegin
-      if request.env['current_user']
-        request.env['current_user'].value!
-      else
-        Xikolo::Common::Auth::CurrentUser.from_session(
-          'user' => {
-            'anonymous' => true,
-            'language' => I18n.locale,
-            'preferred_language' => nil,
-          }
-        )
-      end.tap do |user|
-        Sentry.set_user(id: user.id)
-      end
-    end
-  rescue Restify::NotFound
-    # If we get a 404 error here, we assume that this means the session has expired
+    @current_user ||= if current_session
+                        CurrentUser::User.new(session: current_session, context_id: auth_context)
+                      else
+                        CurrentUser::AnonymousUser.new(context_id: auth_context)
+                      end
+  end
+  helper_method :current_user
+
+  def redirect_expired_sessions
+    return unless current_user.anonymous? && current_session_id
+
     reset_session
     add_flash_message :error, t(:'flash.error.session_expired')
     raise Status::Redirect.new 'Session expired', root_url
   end
-  helper_method :current_user
 
   # In which context are we? For which context do we need to know which
   # permissions and features the user has?
   def auth_context
     :root
+  end
+
+  def current_session
+    return unless current_session_id
+
+    @current_session ||= AccountService::Session.find_by(id: session[:id])
+      .tap { it&.access! }
+  end
+
+  def current_session_id
+    return if session[:id] == 'anonymous'
+
+    session[:id]
   end
 
   # Promise compatible interface for newer Acfs version

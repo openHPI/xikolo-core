@@ -41,6 +41,8 @@ module Course
               raise OperationError.new 'visual_update_error'
             end
 
+            attach_teaser_upload! if @params[:teaser_video].present?
+
             ##
             # 2. Update the course teaser video, which requires to update
             # the corresponding video resource or destroy it if needed.
@@ -87,6 +89,8 @@ module Course
           return result Error.new 'visual_update_error'
         end
 
+        UploadStreamToBunnyJob.perform_later(@uploaded_stream.id) if @uploaded_stream
+
         # Attach the subtitles when the teaser video update was successful.
         if @visual.video_stream.present? && !subtitles_upload.empty?
           # TODO: This error handling is very generic. We can use the actual
@@ -103,6 +107,19 @@ module Course
       end
 
       private
+
+      def attach_teaser_upload!
+        provider = Video::Provider.bunny!
+
+        @uploaded_stream = provider.streams.create!(
+          title: "#{@visual.course.course_code}_teaser",
+          video: @params[:teaser_video],
+          upload_state: :waiting
+        )
+        @params[:video_stream_id] = @uploaded_stream.id
+      rescue ActiveRecord::RecordNotFound, ActiveSupport::MessageVerifier::InvalidSignature
+        raise OperationError.new 'visual_update_error'
+      end
 
       def upload_via_id(upload_name, upload_value, purpose)
         upload = Xikolo::S3::SingleFileUpload.new(upload_value, purpose:)

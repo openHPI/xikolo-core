@@ -8,7 +8,7 @@ describe QuizService::SystemInfoController, type: :controller do
   include_context 'quiz_service API controller'
 
   let(:default_params) { {format: 'json'} }
-  let(:params)  { {} }
+  let(:params) { {} }
 
   describe 'GET show' do
     before do

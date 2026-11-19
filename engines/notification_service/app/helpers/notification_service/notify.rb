@@ -9,10 +9,7 @@ module Notify # rubocop:disable Layout/IndentationWidth
   end
 
   def notify(receiver, key, payload)
-    Msgr.publish(
-      {key:, receiver_id: receiver, payload:},
-      to: 'xikolo.notification.notify'
-    )
+    SendNotificationJob.perform_later({key:, receiver_id: receiver, payload:})
   end
 end
 end

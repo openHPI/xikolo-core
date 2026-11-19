@@ -3,24 +3,22 @@
 module Global
   module FilterBar
     class Controls < ApplicationComponent
-      def initialize(path, content_id, loading_indicator_id, filters, results_count: nil, show_overview: false)
+      def initialize(path, content_id, loading_indicator_id, filters, results_count: nil, show_overview: false,
+                     search_param: :q)
         @path = path
         @content_id = content_id
         @loading_indicator_id = loading_indicator_id
         @filters = filters
         @results_count = results_count
         @show_overview = show_overview
+        @search_param = search_param
       end
 
       private
 
       # Are we currently filtering?
       def render?
-        params[:q].present? || @filters.any? {|filter| filter.selected.present? }
-      end
-
-      def data_behavior
-        'fixed' if @show_overview
+        params[@search_param].present? || @filters.any? {|filter| filter.selected.present? }
       end
 
       def results_count
@@ -31,7 +29,7 @@ module Global
 
       def applied_filters
         list = []
-        list << params[:q]
+        list << params[@search_param]
 
         @filters.each do |filter|
           next if filter.selected.blank?

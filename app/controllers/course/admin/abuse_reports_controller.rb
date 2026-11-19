@@ -21,10 +21,6 @@ class Course::Admin::AbuseReportsController < Abstract::FrontendController
     end
   end
 
-  def hide_course_nav?
-    true
-  end
-
   private
 
   def auth_context

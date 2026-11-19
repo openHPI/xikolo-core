@@ -7,14 +7,14 @@ class Course::Admin::CertificateTemplatesController < Abstract::FrontendControll
   require_permission 'certificate.template.manage'
 
   def index
-    course = Course::Course.by_identifier(params[:course_id]).take!
+    course = CourseService::Course.by_identifier(params[:course_id]).take!
     @templates = Certificate::Template.where(course:).map do |template|
       Course::CertificateTemplatePresenter.new(template)
     end
   end
 
   def new
-    course = Course::Course.by_identifier(params[:course_id]).take!
+    course = CourseService::Course.by_identifier(params[:course_id]).take!
     @template = Certificate::Template.new(course_id: course.id)
     @file_upload = FileUpload.new purpose: :certificate_template, content_type: 'application/pdf'
   end
@@ -25,7 +25,7 @@ class Course::Admin::CertificateTemplatesController < Abstract::FrontendControll
   end
 
   def create
-    course = Course::Course.by_identifier(params[:course_id]).take!
+    course = CourseService::Course.by_identifier(params[:course_id]).take!
     @template = Certificate::Template.new(template_params.merge(course_id: course.id))
     @template.process_upload! upload_params[:file_upload_id]
 
@@ -35,7 +35,7 @@ class Course::Admin::CertificateTemplatesController < Abstract::FrontendControll
     else
       add_flash_message :error, t(:'flash.error.certificate_template_not_created')
       @file_upload = FileUpload.new purpose: :certificate_template, content_type: 'application/pdf'
-      render action: :new, status: :unprocessable_entity
+      render action: :new, status: :unprocessable_content
     end
   end
 
@@ -50,7 +50,7 @@ class Course::Admin::CertificateTemplatesController < Abstract::FrontendControll
     else
       add_flash_message :error, t(:'flash.error.certificate_template_not_updated')
       @file_upload = FileUpload.new purpose: :certificate_template, content_type: 'application/pdf'
-      render action: :edit, status: :unprocessable_entity
+      render action: :edit, status: :unprocessable_content
     end
   end
 
@@ -68,7 +68,7 @@ class Course::Admin::CertificateTemplatesController < Abstract::FrontendControll
   end
 
   def preview_certificate
-    course = Course::Course.by_identifier(params[:course_id]).take!
+    course = CourseService::Course.by_identifier(params[:course_id]).take!
     preview = Certificate::Template.find(params[:id]).preview_for(current_user.id)
 
     send_data(
@@ -77,10 +77,6 @@ class Course::Admin::CertificateTemplatesController < Abstract::FrontendControll
       disposition: 'attachment',
       filename: "#{course.course_code}_record_preview.pdf"
     )
-  end
-
-  def hide_course_nav?
-    true
   end
 
   private

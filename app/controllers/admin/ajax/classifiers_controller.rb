@@ -8,7 +8,7 @@ module Admin
       respond_to? :json
 
       def index
-        classifiers = ::Course::Classifier.all
+        classifiers = ::CourseService::Classifier.all
 
         if params[:cluster].present?
           classifiers = classifiers.where(cluster_id: params[:cluster])

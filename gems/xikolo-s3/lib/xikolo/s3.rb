@@ -101,14 +101,20 @@ module Xikolo
       end
 
       def client_config
-        cfg = config['client'] || config['connect_info']
-        if cfg
-          cfg = cfg.symbolize_keys
-          required_keys = %i[endpoint region access_key_id secret_access_key]
-          cfg[:logger] = ::Rails.logger if defined?(::Rails)
-          return cfg if (cfg.keys & required_keys).size == required_keys.size
+        missing = %w[S3_ACCESS_ID S3_ACCESS_KEY].reject {|key| ENV[key].present? }
+        raise "Configure S3 via ENV, missing: #{missing.join(', ')}!" if missing.any?
+
+        cfg = {
+          region: ENV.fetch('AWS_REGION', 'default'),
+          credentials: Aws::Credentials.new(ENV.fetch('S3_ACCESS_ID', nil), ENV.fetch('S3_ACCESS_KEY', nil)),
+        }
+
+        if ENV['S3_PROVIDER_ENDPOINT'].present?
+          cfg[:endpoint] = ENV['S3_PROVIDER_ENDPOINT']
+          cfg[:force_path_style] = true
         end
-        raise 'Configure S3 credentials via Xikolo.config.s3["client"]!'
+
+        cfg
       end
 
       def bucket_config

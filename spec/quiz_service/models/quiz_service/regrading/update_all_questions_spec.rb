@@ -37,10 +37,8 @@ describe QuizService::Regrading::UpdateAllQuestions, type: :model do
   end
 
   it 'triggers recalculation of questions statistics' do
-    Sidekiq::Testing.fake!
-
     expect do
       described_class.new(quiz).run!
-    end.to change(QuizService::UpdateQuestionStatisticsWorker.jobs, :size).by(2)
+    end.to have_enqueued_job(QuizService::UpdateQuestionStatisticsJob).exactly(:twice)
   end
 end

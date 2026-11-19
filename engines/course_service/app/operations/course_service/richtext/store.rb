@@ -54,7 +54,7 @@ class Richtext::Store < ApplicationOperation # rubocop:disable Layout/Indentatio
   def commit!
     processor.commit!
     processor.obsolete_uris.each do |uri|
-      RichtextFileDeletionWorker.perform_in 1.hour, uri
+      RichtextFileDeletionJob.set(wait: 1.hour).perform_later(uri)
     end
     true
   end

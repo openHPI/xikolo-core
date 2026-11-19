@@ -1,0 +1,188 @@
+<% content_for :main_background do %>
+  <%= render 'account/shared/background' %>
+<% end %>
+
+<div class="flex justify-center px-4 py-8 md:py-16">
+  <div class="x-card bg-base-100 w-full max-w-170">
+    <div class="x-card-body">
+      <h1 class="x-card-title text-xl font-medium sm:text-3xl">
+        <%= t(:'account.accounts.new.title') %>
+      </h1>
+
+      <p class="text-base"><%= t(:'account.accounts.new.text') %></p>
+
+      <%= form_with model: @account,
+            url: account_path,
+            id: 'registration-form',
+            class: 'flex flex-col gap-2',
+            data: {
+              controller: 'guardian-consent',
+              guardian_consent_age_of_consent_value: AccountService::AgeOfConsent::YEARS,
+            } do |f| %>
+        <% if @account.errors.any? %>
+          <div role="alert" class="x-alert x-alert-error x-alert-soft">
+            <%= t(:'global.error_notification') %>
+          </div>
+        <% end %>
+
+        <fieldset class="x-fieldset">
+          <legend class="x-fieldset-legend">
+            <%= t(:'account.accounts.new.legend.personal_details') %>
+          </legend>
+
+          <%= f.label :full_name, t(:'account.accounts.new.label.full_name'), class: 'x-label text-base-content pt-1' %>
+
+          <%= f.text_field :full_name,
+                required: true,
+                autocomplete: 'name',
+                maxlength: AccountService::User::NAME_MAX_LENGTH,
+                placeholder: t(:'account.accounts.new.label.full_name'),
+                class: 'x-input rounded-2xl w-full' %>
+
+          <p class="text-base-content text-[10px]">
+            <%= t(:'account.accounts.new.hint.full_name') %>
+          </p>
+
+          <% if @account.errors[:full_name].any? %>
+            <p class="text-error">
+              <%= @account.errors[:full_name].to_sentence %>
+            </p>
+          <% end %>
+
+          <%= f.label :born_at, t(:'account.accounts.new.label.date_of_birth'), class: 'x-label text-base-content pt-1' %>
+
+          <%= f.date_field :born_at,
+                required: true,
+                autocomplete: 'bday',
+                class: 'x-input rounded-2xl w-full [&::-webkit-calendar-picker-indicator]:opacity-50',
+                data: {guardian_consent_target: 'birthdate', action: 'guardian-consent#update'} %>
+
+          <p class="text-base-content text-[10px]">
+            <%= t(:'account.accounts.new.hint.date_of_birth') %>
+          </p>
+
+          <%= f.label :status, t(:'account.accounts.new.label.status'), class: 'x-label text-base-content pt-1' %>
+
+          <%= f.select :status,
+                AccountService::User.statuses.keys.map {|s| [t(:"dashboard.profile.statuses.#{s}"), s] },
+                {prompt: t(:'account.accounts.new.placeholder.status')},
+                {required: true,
+                 class: 'x-select rounded-2xl w-full'} %>
+        </fieldset>
+
+        <fieldset class="x-fieldset">
+          <legend class="x-fieldset-legend">
+            <%= t(:'account.accounts.new.legend.contact_and_security') %>
+          </legend>
+
+          <%= f.label :email, t(:'account.accounts.new.label.email'), class: 'x-label text-base-content pt-1' %>
+
+          <%= f.email_field :email,
+                required: true,
+                autocomplete: 'email',
+                placeholder: t(:'account.accounts.new.label.email'),
+                class: 'x-input rounded-2xl w-full' %>
+
+          <% if @account.errors[:email].any? %>
+            <p class="text-error"><%= @account.errors[:email].to_sentence %></p>
+          <% end %>
+
+          <%= f.label :password, t(:'account.accounts.new.label.password'), class: 'x-label text-base-content pt-1' %>
+
+          <%= render Form::PasswordField.new(f, :password,
+                required: true,
+                autocomplete: 'new-password',
+                placeholder: t(:'account.accounts.new.placeholder.password')) %>
+
+          <% if @account.errors[:password].any? %>
+            <p class="text-error">
+              <%= @account.errors[:password].to_sentence %>
+            </p>
+          <% end %>
+
+          <%= f.label :password_confirmation, t(:'account.accounts.new.label.password_confirmation'), class: 'x-label text-base-content pt-1' %>
+
+          <%= render Form::PasswordField.new(f, :password_confirmation,
+                required: true,
+                autocomplete: 'new-password',
+                placeholder: t(:'account.accounts.new.label.password_confirmation')) %>
+
+          <% if @account.errors[:password_confirmation].any? %>
+            <p class="text-error">
+              <%= @account.errors[:password_confirmation].to_sentence %>
+            </p>
+          <% end %>
+        </fieldset>
+
+        <%= f.hidden_field :language, value: I18n.locale %>
+
+        <fieldset class="x-fieldset">
+          <legend class="x-fieldset-legend">
+            <%= t(:'account.accounts.new.legend.usage') %>
+          </legend>
+
+          <% if @required_consents.any? %>
+            <%= render 'account/shared/consent', consents: @required_consents %>
+          <% end %>
+
+          <%= tag.div data: {guardian_consent_target: 'disclaimer'}, hidden: !@account.underage? do %>
+            <div class="flex items-start gap-3">
+              <%= f.check_box :guardian_consent,
+                      {required: true,
+                       disabled: !@account.underage?,
+                       class: 'x-checkbox x-checkbox-xs x-checkbox-secondary not-checked:border-base-content shrink-0'},
+                      'true', 'false' %>
+
+              <%= f.label :guardian_consent, class: 'x-label text-base-content leading-5 cursor-pointer whitespace-normal' do %>
+                <p>
+                  <b><%= t(:'account.shared.guardian_consent.label') %></b>:
+                  <span><%= t(:'account.shared.guardian_consent.text') %></span>
+                </p>
+              <% end %>
+            </div>
+
+            <% if @account.errors[:guardian_consent].any? %>
+              <p class="text-error">
+                <%= @account.errors[:guardian_consent].to_sentence %>
+              </p>
+            <% end %>
+          <% end %>
+
+          <% if @consents.any? %>
+            <%= render 'account/shared/consent', consents: @consents %>
+          <% end %>
+
+          <div class="flex items-start gap-3">
+            <%= check_box_tag 'notification_emails', true, params[:notification_emails].present?, class: 'x-checkbox x-checkbox-xs x-checkbox-secondary not-checked:border-base-content shrink-0' %>
+
+            <%= label_tag 'notification_emails', class: 'x-label text-base-content leading-5 cursor-pointer whitespace-normal' do %>
+              <p>
+                <%= t(:'account.accounts.new.notification_emails.label') %>:
+                <span><%= t(:'account.accounts.new.notification_emails.text') %></span>
+              </p>
+            <% end %>
+          </div>
+
+          <div class="mt-4">
+            <p class="leading-5">
+              <%= t(:'account.accounts.new.privacy', link: '/pages/data-protection') %>
+
+              <%= tag.span t(:'account.accounts.new.privacy_agreement', link: '/pages/data-protection'),
+                    data: {guardian_consent_target: 'privacyAgreement'},
+                    hidden: @account.underage? %>
+            </p>
+          </div>
+        </fieldset>
+
+        <%= f.submit t(:'account.accounts.new.submit'), id: 'submit', class: 'x-btn x-btn-primary font-semibold rounded-2xl w-full shadow-none' %>
+
+        <div class="x-divider">
+          <p class="text-sm sm:text-base">
+            <%= t(:'account.accounts.new.login.text') %>
+            <%= link_to t(:'account.accounts.new.login.link'), new_session_path, class: 'x-link font-semibold' %>
+          </p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

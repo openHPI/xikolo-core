@@ -94,7 +94,7 @@ describe Banner, type: :model do
     it 'deletes the referenced S3 object' do
       delete_stub = stub_request(
         :delete,
-        'https://s3.xikolo.de/xikolo-public/banners/banner.jpg'
+        "#{test_s3_host}/xikolo-public/banners/banner.jpg"
       )
 
       banner.save!

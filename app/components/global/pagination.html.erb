@@ -1,0 +1,15 @@
+<div class="py-2">
+  <div class="pb-2 text-sm text-gray-400">
+    <%= pagination_info(@pagination) %>
+  </div>
+  <% if @pagination.total_pages > 1 %>
+    <%# Mobile %>
+    <nav aria-label="<%= t(:'components.pagination.label') %>"  class="md:hidden">
+      <%= helpers.will_paginate @pagination, renderer: PaginationRenderer, inner_window: 1, outer_window: 0 %>
+    </nav>
+    <%# Desktop %>
+    <nav aria-label="<%= t(:'components.pagination.label') %>"  class="hidden md:block">
+      <%= helpers.will_paginate @pagination, renderer: PaginationRenderer, inner_window: 2, outer_window: 1 %>
+    </nav>
+  <% end %>
+</div>

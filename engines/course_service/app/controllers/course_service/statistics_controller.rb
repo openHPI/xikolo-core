@@ -10,7 +10,7 @@ class StatisticsController < ApplicationController # rubocop:disable Layout/Inde
   respond_to :json
 
   def show
-    course = Course.find(params[:course_id])
+    course = Course.by_identifier(params[:course_id]).take!
     enrollments = course.enrollments
     current_enrollments = enrollments.active
     respond_with(

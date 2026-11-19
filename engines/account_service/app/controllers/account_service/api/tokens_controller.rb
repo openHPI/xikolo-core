@@ -4,6 +4,14 @@ module AccountService
 class API::TokensController < API::RESTController # rubocop:disable Layout/IndentationWidth
   respond_to :json
 
+  def index
+    respond_with collection
+  end
+
+  def show
+    respond_with token
+  end
+
   def create
     token = Token.find_or_create_by(params.permit(:user_id))
     respond_with token
@@ -15,14 +23,7 @@ class API::TokensController < API::RESTController # rubocop:disable Layout/Inden
     tokens.where(token: params[:token])
   end
 
-  def show
-    respond_with token
-  end
-
   rfc6570_params index: [:token]
-  def index
-    respond_with collection
-  end
 
   private
 

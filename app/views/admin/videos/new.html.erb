@@ -1,0 +1,8 @@
+<% content_for :page_header do %>
+  <%= render Global::PageHeader.new(t(:'admin.videos.upload.headline'), subtitle: t(:'admin.page_header')) %>
+<% end %>
+<section class="mx-auto max-w-342.5 px-4 py-8">
+  <div class="x-rounded-box border border-base-300 bg-white p-6 shadow-xs">
+    <%= render 'form', stream: @stream %>
+  </div>
+</section>

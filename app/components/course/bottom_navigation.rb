@@ -2,40 +2,36 @@
 
 module Course
   class BottomNavigation < ApplicationComponent
-    def initialize(course_id:, prev_item_id:, next_item_id:)
-      @course_id = course_id
-      @prev_item_id = prev_item_id
-      @next_item_id = next_item_id
+    # Each link contains :url, :title, :icon, and optionally :section, or is nil when absent.
+    def initialize(previous_link: nil, next_link: nil)
+      @previous_link = previous_link
+      @next_link = next_link
     end
 
     def render?
-      @prev_item_id || @next_item_id
-    end
-
-    def items
-      [
-        item_data(@prev_item_id, 'prev').presence,
-        item_data(@next_item_id, 'next').presence,
-      ].compact
+      @previous_link.present? || @next_link.present?
     end
 
     private
 
-    def item_data(item_id, type)
-      return if item_id.blank?
+    def items
+      [
+        item_data(@previous_link, 'prev'),
+        item_data(@next_link, 'next'),
+      ].compact
+    end
 
-      item = Item.find(item_id)
+    def item_data(link, type)
+      return if link.nil?
+
       {
-        url: course_item_path(@course_id, item.id),
-        title: item.title,
-        text: t(:"items.show.#{type}_item"),
-        icon: Item::Icon.from_resource(item).icon_class,
-        arrow_icon: type == 'prev' ? 'chevron-left' : 'chevron-right',
-        data: {tooltip: item.title, 'lanalytics-event': {verb: "navigated_#{type}_item"}},
-        css_modifier: "bottom-navigation__item--#{type}",
+        url: link.fetch(:url),
+        title: link.fetch(:title),
+        text: t(:"items.show.#{type}_#{link[:section] ? 'section_item' : 'item'}"),
+        type:,
+        icon: link.fetch(:icon),
+        arrow_icon: type == 'prev' ? 'arrow-left' : 'arrow-right',
       }
-    rescue ActiveRecord::RecordNotFound
-      # do nothing
     end
   end
 end

@@ -8,7 +8,7 @@ This way, we prevent dealing with payment / accounting directly in the Xikolo ap
 
 We currently offer the following product to be activated by redeeming vouchers:
 
-1. [Reactivation](reactivation.md): Self-paced courses can be reactivated, which unlocks graded assignments to achieve a Record of Achievement in courses whose regular runtime has ended.
+1. [Reactivation](reactivation.md): Self-paced courses can be reactivated, which unlocks graded assignments to achieve a Certificate in courses whose regular runtime has ended.
 
 ## Creating vouchers
 

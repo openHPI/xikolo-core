@@ -3,10 +3,9 @@
 require 'spec_helper'
 
 RSpec.describe 'Admin: Vouchers: Create', type: :request do
-  subject(:create_voucher) { post '/vouchers', params:, headers: }
+  subject(:create_voucher) { post '/vouchers', params: }
 
   let(:params) { {product_type: 'course_reactivation', count: '1', tag: '', claimant_id: '', course_id: '', expires_at: ''} }
-  let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
 
   before do
     xi_config <<~YML
@@ -14,7 +13,7 @@ RSpec.describe 'Admin: Vouchers: Create', type: :request do
         enabled: true
     YML
 
-    stub_user_request permissions: ['course.vouchers.issue']
+    sign_in(user: create(:'account_service/user', :admin))
   end
 
   it 'creates a new voucher' do

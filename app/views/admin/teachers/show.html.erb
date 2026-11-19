@@ -1,0 +1,58 @@
+<% content_for :page_header do %>
+  <%= render Global::PageHeader.new(@teacher.name, subtitle: t(:'admin.teachers.show.title')) do %>
+    <%= link_to t(:'global.back'), teachers_path, class: 'x-link' %>
+  <% end %>
+<% end %>
+
+<section class="mx-auto w-full max-w-7xl px-4 pt-4 pb-8 sm:px-6 lg:px-8">
+  <div class="x-card bg-base-100 lg:x-card-side">
+    <% if @teacher.picture_url.present? %>
+      <figure class="aspect-3/4 w-full max-w-sm overflow-hidden">
+        <%= image_tag @teacher.picture_url, alt: @teacher.name, class: "w-full h-full h-auto object-cover" %>
+      </figure>
+    <% else %>
+      <div class="x-avatar x-avatar-placeholder">
+        <div class="bg-base-300 text-neutral-content w-96">
+          <span class="font-semibold">
+            <%= t(:'admin.teachers.show.no_picture') %>
+          </span>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="x-card-body">
+      <% if current_user.allowed? 'course.teacher.manage' %>
+        <div class="x-card-actions lg:justify-end">
+          <%= link_to t(:'global.edit'), edit_teacher_path(@teacher.id), class: 'x-btn' %>
+          <%= link_to t(:'admin.teachers.index.delete'), teacher_path(@teacher.id), method: :delete, data: { confirm: t(:'admin.teachers.show.delete_prompt') }, class: 'x-btn x-btn-error' %>
+        </div>
+      <% end %>
+
+      <h3 class="x-card-title"><%= t(:'admin.teachers.show.description') %></h3>
+
+      <% @teacher['description'].each do |lang, text| %>
+        <h4 class="x-card-title"><%= t("languages.name.#{lang}") %></h4>
+
+        <div class="prose prose-sm max-w-none">
+          <%== render_markdown(text) %>
+        </div>
+      <% end %>
+
+      <h4 class="x-card-title">
+        <%= t(:'admin.teachers.show.course_references') %>
+      </h4>
+
+      <% if @teacher.referenced_in_courses? %>
+        <ul class="x-list list-disc list-inside">
+          <% @teacher.courses.each do |course| %>
+            <li>
+              <%= link_to course.title, "#{edit_course_path(course)}#formgroup-teaching_team", class: "x-link-primary x-link" %>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <%= render State::Empty.new(t(:'admin.teachers.show.no_courses'), size: :compact, align: :left) %>
+      <% end %>
+    </div>
+  </div>
+</section>

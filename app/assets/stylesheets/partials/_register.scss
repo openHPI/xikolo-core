@@ -21,7 +21,8 @@
   text-align: left;
 }
 
-.field_with_errors > input {
+.field_with_errors
+  > input:where(:not(.x-input, .x-checkbox, .x-radio, .x-file-input, .x-btn)) {
   border: 1px solid red;
 }
 

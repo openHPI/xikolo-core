@@ -25,7 +25,6 @@ module Certificate
         update_fonts!
         qrcode!
         dynamic_content!
-        transcript_of_records!
       end
 
       def render
@@ -76,39 +75,12 @@ module Certificate
         )
       end
 
-      def transcript_of_records!
-        return if @data.transcript_of_records.blank?
-
-        tor = @data.transcript_of_records
-        config = Xikolo.config.certificate['transcript_of_records']
-
-        @pdf.move_cursor_to(config['table_y'])
-        @pdf.table(
-          tor,
-          position: config['table_x'],
-          column_widths: [config['course_col_width'], config['score_col_width']],
-          cell_style: {font: fonts.keys.first, size: config['font_size']}
-        ) do
-          # Reset all cell border
-          cells.borders = []
-
-          # Add vertical line between rows
-          row(0..tor.length - 2).borders = [:bottom]
-
-          # Thicker line after first and before last row
-          row(0).border_width = 2
-          row(tor.length - 2).border_width = 2
-
-          columns(1).align = :right
-        end
-      end
-
       def fonts
         # fallback to default Open Sans if there are no brand-specific fonts
         return default_fonts unless Xikolo.config.certificate&.dig('fonts')
 
         Xikolo.config.certificate['fonts'].transform_values do |file|
-          Rails.root.join('brand', Xikolo.brand, 'assets', 'fonts', file).to_s
+          Rails.root.join('app', 'assets', 'fonts', file).to_s
         end
       end
 

@@ -15,19 +15,19 @@ describe 'Channel: update of stage visual', type: :request do
 
   let(:upload_id) { 'f13d30d3-6369-4816-9695-af5318c8ac15' }
   let(:file_url) do
-    'https://s3.xikolo.de/xikolo-uploads/' \
+    "#{test_s3_host}/xikolo-uploads/" \
       "uploads/#{upload_id}/tux.jpg"
   end
 
   context 'with valid upload' do
     let!(:store_stub) do
-      stub_request(:put, %r{https://s3.xikolo.de/xikolo-public/
+      stub_request(:put, %r{#{test_s3_host}/xikolo-public/
         channels/[0-9a-zA-Z]+/stage_visual_v2.jpg}x).to_return(status: 200, body: '<xml></xml>')
     end
 
     before do
       stub_request(:get,
-        'https://s3.xikolo.de/xikolo-uploads?list-type=2&' \
+        "#{test_s3_host}/xikolo-uploads?list-type=2&" \
         "prefix=uploads%2F#{upload_id}")
         .to_return(
           status: 200,
@@ -65,17 +65,14 @@ describe 'Channel: update of stage visual', type: :request do
 
     it 'schedules removal of the old file' do
       action
-
-      expect(CourseService::FileDeletionWorker.jobs.last['args']).to eq [
-        's3://xikolo-public/channels/1/stage_visual_v1.jpg',
-      ]
+      expect(ActiveJob::Base.queue_adapter.enqueued_jobs.last['arguments']).to eq ['s3://xikolo-public/channels/1/stage_visual_v1.jpg']
     end
   end
 
   context 'with invalid file upload' do
     before do
       stub_request(:get,
-        'https://s3.xikolo.de/xikolo-uploads?list-type=2&' \
+        "#{test_s3_host}/xikolo-uploads?list-type=2&" \
         "prefix=uploads%2F#{upload_id}")
         .to_return(
           status: 200,
@@ -130,7 +127,7 @@ describe 'Channel: update of stage visual', type: :request do
         }
       )
 
-      stub_request(:put, %r{https://s3.xikolo.de/xikolo-public/
+      stub_request(:put, %r{#{test_s3_host}/xikolo-public/
         channels/[0-9a-zA-Z]+/stage_visual_v2.jpg}x).to_return(status: 403)
 
       expect { action }.to raise_error(Restify::ClientError) do |error|

@@ -9,9 +9,9 @@ class Vote < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   delegate :course_id, to: :votable, allow_nil: true
 
   validates :user_id, presence: true
-  validates_uniqueness_of :user_id, scope: %i[votable_id votable_type]
-  validates_inclusion_of :value, in: [-1, 0, 1]
+  validates :user_id, uniqueness: {scope: %i[votable_id votable_type]}
+  validates :value, inclusion: {in: [-1, 0, 1]}
 
-  after_create { Msgr.publish(decorate.to_event, to: 'xikolo.pinboard.vote.create') }
+  after_create { VoteCreateJob.perform_later(decorate.to_event) }
 end
 end

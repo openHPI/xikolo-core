@@ -1,6 +1,6 @@
 # Localization file for German
 de:
-  default_title: Das MOOC-Angebot des HPI
+  default_title: Kostenlose Online-Kurse in Informatik, IT & KI | openHPI
 
   date:
     formats:
@@ -221,17 +221,42 @@ de:
     nojs:
       label: Bitte aktivieren Sie Javascript in Ihrem Browser!!
       link: https://turnonjs.com/
-    read_more: Mehr anzeigen
-    read_less: Weniger anzeigen
+    read_more: mehr
+    read_less: weniger
     close: Schließen
     no_data_message: Keine Daten verfügbar
+    status: Status
+    error_notification: Es wurden Fehler gefunden. Bitte überprüfen Sie Ihre Eingaben.
 
   errors:
+    messages:
+      invalid_exam_question_count: muss ein positives Vielfaches von 10 sein
+      invalid_exam_pool_size: muss genau %{count} Fragen enthalten
+      insufficient_exam_questions_for_difficulty: muss mindestens %{count} Fragen der Schwierigkeit %{difficulty} enthalten
+      invalid_exam_question_type: darf nur Single- und Multiple-Choice-Fragen enthalten
+      only_available_for_exam_quizzes: ist nur für Prüfungen verfügbar
+      not_allowed_in_exam: ist in einem Prüfungsfragenpool nicht erlaubt
+      invalid_exam: kann erst veröffentlicht werden, wenn die Konfiguration des Fragenpools gültig ist
+      exam_already_exists: dieser Kurs enthält bereits eine Prüfung
+      requires_question_pool: muss an ein Quiz mit Fragenpool angebunden sein
+      exam_passed: Die Prüfung wurde bereits bestanden, daher ist kein weiterer Versuch möglich.
+      exam_locked: Die Prüfung ist gesperrt, bis der benötigte Fortschritt im Kurs erreicht ist.
     attributes:
+      email:
+        already_taken: Die eingegebenen E-Mail-Adresse wurde bereits für einen Account auf unserer Platform registriert.
+        invalid: Bitte gib eine gültige E-Mail-Adresse ein
+      full_name:
+        invalid: Der Name darf keine Anführungszeichen oder Schrägstriche enthalten
+      language:
+        not_available: Die gewählte Sprache wird nicht unterstützt
+      password:
+        below_minimum_length: Das Passwort muss eine Länge von mindestens 8 Zeichen haben.
+        maximum_length_reached: Das Passwort darf eine Länge von 72 Zeichen nicht überschreiten.
+        password_contains_email: Ihre E-Mail-Adresse darf nicht Teil des Passworts sein.
+      password_confirmation:
+        confirmation: Die Passwörter stimmen nicht überein
       translations:
         missing: Übersetzung fehlt.
-      poll:
-        closed: Geschlossen
     not_found:
       headline: Die gewünschte Seite konnte nicht gefunden werden (404)
       message: Bitte überprüfen Sie die URL. Wenn Sie glauben, dass dies ein Fehler ist, freuen wir uns über Hinweise über den Helpdesk."
@@ -271,7 +296,7 @@ de:
       login_connect_auth: "Bitte melden Sie Sich mit Ihrem bestehenden openHPI-Konto an, um es mit Ihrem %{provider}-Login zu verknüpfen."
       auth_deleted: "Der Login wurde aus Ihrem Konto entfernt."
       course_deleted: Der Kurs wurde gelöscht.
-      channel_deleted: Der Channel wurde gelöscht.
+      channel_deleted: Die Themenwelt wurde gelöscht.
       primary_email_suspended: >
         <b>Ihre primäre E-Mail-Adresse wurde wegen Versandproblemen deaktiviert.</b> Gründe dafür können sein, dass die E-Mail-Adresse nicht mehr existiert,
         oder dass Ihre Mailbox voll ist. In Ihrem <a href='/dashboard/profile' class='btn btn-xs btn-default'>Profil</a> können Sie eine neue Adresse
@@ -282,9 +307,6 @@ de:
       certificate_template_created: Das Template wurde erstellt.
       certificate_template_updated: Das Template wurde geändert.
       certificate_template_deleted: Das Template wurde gelöscht.
-      open_badge_template_created: Das Open Badge Template wurde erstellt.
-      open_badge_template_updated: Das Open Badge Template wurde geändert.
-      open_badge_template_deleted: Das Open Badge Template wurde gelöscht.
       course_created: Der Kurs wurde angelegt.
       course_updated: Der Kurs wurde geändert.
       course_metadata_deleted: Die Kurs-Metadaten wurden gelöscht.
@@ -294,23 +316,24 @@ de:
       offer_deleted: Das Angebot wurde gelöscht.
       course_visual_updated: Die Visuals wurden geändert.
       courses_order_updated: Die Reihenfolge der Kurse wurde geändert.
-      channel_created: Der Channel wurde angelegt.
-      channel_updated: Der Channel wurde geändert.
-      channel_order_updated: Die Reihenfolge der Channels wurde geändert.
+      channel_created: Die Themenwelt wurde angelegt.
+      channel_updated: Die Themenwelt wurde geändert.
+      short_updated: Das Short wurde geändert.
+      short_created: Das Short wurde angelegt.
+      short_deleted: Das Short wurde gelöscht.
+      channel_order_updated: Die Reihenfolge wurde geändert.
       classifier_deleted: Das Tag wurde gelöscht.
       classifier_updated: Das Tag wurde geändert.
       classifier_created: Das Tag wurde angelegt.
       classifiers_order_updated: Die Reihenfolge der Tags wurde geändert.
       cluster_updated: Die Kategorie wurde geändert.
-      poll_created: Die Umfrage wurde angelegt.
-      poll_updated: Die Umfrage wurde gespeichert.
-      poll_deleted: Die Umfrage wurde gelöscht.
       profile_updated: Das Profil wurde geändert.
       quiz_submitted: Ihre Lösung für das Quiz wurde erfolgreich übermittelt.
       section_updated: "Die Section %{section_title} wurde geändert."
       sync_initiated: Die Synchronisierung wurde gestartet.
       logged_out: Sie wurden erfolgreich ausgeloggt.
       teacher_information_created: Informationen zum Lehrer wurden erfolgreich gespeichtert!
+      teacher_deleted: Der Dozent wurde erfolgreich gelöscht.
       announcement_saved: Ankündigung erfolgreich gespeichert!
       cache_flush: "%{deleted_items} Cache-Einträge gelöscht!"
       confirmation_successful: Vielen Dank für die Bestätigung Ihrer E-Mail-Adresse.
@@ -320,8 +343,11 @@ de:
       pinboard_mails_disabled: "Der Empfang von Pinboard News für die E-Mailadresse %{mail} wurde deaktiviert. Sie können diese Einstellung in Ihrem Profil jederzeit wieder aktivieren."
       global_mails_disabled: "Der Empfang von Nachrichten per E-Mail für die E-Mailadresse %{mail} wurde deaktiviert. Sie können diese Einstellung in Ihrem Profil jederzeit wieder aktivieren."
       user_banned: Der Benutzer wurde erfolgreich gesperrt.
+      user_unbaned: Der Benutzer wurde erfolgreich entsperrt.
+      user_marked_top_talent: Der Benutzer wurde erfolgreich als Top Talent markiert.
+      user_unmarked_top_talent: Die Markierung als Top Talent wurde erfolgreich entfernt.
       submission_converted: Quiz-Abgabe wurde erfolgreich konvertiert!
-      subscription_canceled: Dem Thema wurde erfolgreich entfolgt.
+      subscription_canceled: Du folgst nicht länger diesem Beitrag.
       reactivate_course: "Sie haben diesen Kurs bis %{date} reaktiviert."
       primary_email_unsuspended: Ihre primäre E-Mail-Adresse wurde wieder aktiviert.
       account_confirmed_manually: Der Account wurde manuell bestätigt.
@@ -334,6 +360,7 @@ de:
       quiz_attempt_added: Der zusätzliche Versuch für ein Quiz wurde gewährt.
       fudge_points_added: Die Bewertung wurde aktualisiert.
       video_provider_deleted: Der Video-Provider wurde gelöscht.
+      video_stream_created: Das Video wurde hochgeladen und wird verarbeitet.
       video_stream_deleted: Der Videostream wurde gelöscht.
       profile_picture_deleted: Ihr Profilbild wurde erfolgreich gelöscht.
       profile_picture_uploaded: Ihr Profilbild wurde erfolgreich hochgeladen.
@@ -355,16 +382,12 @@ de:
       certificate_template_not_updated: Das Template wurde nicht geändert.
       certificate_template_not_uploaded: Die Template-Datei wurde nicht hochgeladen.
       certificate_template_not_deleted: Das Template wurde nicht gelöscht.
-      certificate_template_has_records: Templates, für die bereits Leistungsnachweise erstellt wurden, können nicht gelöscht werden.
+      certificate_template_has_records: Templates, für die bereits Zertifikate erstellt wurden, können nicht gelöscht werden.
       course_metadata_not_deleted: Die Kurs-Metadaten wurden nicht gelöscht.
       offer_not_created: Das Angebot wurde nicht erstellt.
       offer_not_updated: Das Angebot wurde nicht geändert.
       offer_not_deleted: Das Angebot wurde nicht gelöscht.
       profile_not_updated: Ihr Profil wurde nicht geändert.
-      open_badge_template_not_created: Das Open Badge Template wurde nicht erstellt.
-      open_badge_template_not_updated: Das Open Badge Template wurde nicht geändert.
-      open_badge_template_not_uploaded: Die Open Badge Template-Datei wurde nicht hochgeladen.
-      open_badge_template_not_deleted: Open Badge Templates, für die bereits Badges erstellt wurden, können nicht gelöscht werden.
       lti_provider_not_created: Der LTI-Provider wurde nicht erstellt.
       lti_provider_not_updated: Die Einstellungen für den LTI-Provider konnten nicht gespeichert werden.
       lti_provider_not_deleted: Der LTI-Provider wurde nicht gelöscht.
@@ -375,19 +398,20 @@ de:
       course_visual_not_updated: Die Visuals wurden nicht geändert.
       courses_order_failed: Etwas ist schief gelaufen. Die Reihenfolge der Kurse wurde möglicherweise nicht korrekt aktualisiert. Bitte überprüfen Sie das Ergebnis.
       subtitles_not_updated: Die Untertitel konnten nicht hochgeladen werden, bitte überprüfen Sie deren Format und versuchen Sie es erneut.
-      subscription_not_canceled: Dem Thema konnte nicht entfolgt werden.
+      subscription_not_canceled: Es gab ein Problem. Du folgst weiterhin diesem Beitrag.
       video_stream_missing: Es wurden Untertitel zu einem Teaser-Video hinzugefügt, aber keine Videodatei wurde gefunden. Bitte fügen Sie ein Teaser-Video hinzu.
-      channel_not_created: Der Channel wurde nicht angelegt.
-      channel_not_updated: Der Channel wurde nicht geändert.
-      channel_not_deleted: Der Channel wurde nicht gelöscht.
-      channel_order_failed: Die Reihenfolge der Channels konnte nicht gespeichert werden.
+      channel_not_created: Die Themenwelt konnte nicht angelegt werden.
+      channel_not_updated: Die Themenwelt konnte nicht geändert werden.
+      channel_not_deleted: Die Themenwelt konnte nicht gelöscht werden.
+      short_not_updated: Der Short wurde nicht geändert.
+      short_not_created: Der Short wurde nicht angelegt.
+      short_not_deleted: Der Short wurde nicht gelöscht.
+      teacher_not_deleted: Der Dozent wurde nicht gelöscht.
+      channel_order_failed: Die Reihenfolge der Themenwelten konnte nicht gespeichert werden.
       classifiers_order_failed: Die Reihenfolge der Tags konnte nicht gespeichert werden.
       cluster_not_updated: Die Kategorie wurde nicht geändert.
       classifier_not_deleted: Das Tag konnte nicht gelöscht werden.
       classifier_not_updated: Das Tag wurde nicht geändert.
-      poll_not_created: Die Umfrage wurde nicht angelegt.
-      poll_not_updated: Die Umfrage wurde nicht gespeichert.
-      poll_not_deleted: Die Umfrage wurde nicht gelöscht.
       sync_recent_triggered: Die Synchronisierung wurde erst kürzlich ausgelöst.
       confirmation_failed_no_email: E-Mail konnte nicht gefunden werden
       confirmation_failed_already_confirmed: Diese E-Mail wurde bereits bestätigt
@@ -400,6 +424,7 @@ de:
       section_not_created: Die Section wurde nicht angelegt.
       section_not_updated: Die Section wurde nicht geändert.
       picture_not_uploaded: Ihr Bild konnte nicht hochgeladen werden, bitte versuchen Sie es erneut.
+      upload_cloud: Ihre Datei konnte nicht in die Cloud hochgeladen werden, bitte versuchen Sie es später erneut.
       slides_not_uploaded: Ihre Folien konnten nicht hochgeladen werden, bitte versuchen Sie es erneut.
       audio_not_uploaded: Ihre Audio-Datei konnte nicht hochgeladen werden, bitte versuchen Sie es erneut.
       transcript_not_uploaded: Ihr Transkript konnte nicht hochgeladen werden, bitte versuchen Sie es erneut.
@@ -412,13 +437,14 @@ de:
       invalid_digest: "Ihre Anmeldung ist aufgrund eines internen Fehlers fehlgeschlagen. Bitte setzen Sie aus Sicherheitsgründen Ihr <a href='%{url}' class='btn btn-default btn-xs'>Passwort zurück</a> und melden Sie sich erneut an."
       generic: "Während Ihrer Anmeldung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut oder wenden Sie sich an den Helpdesk."
       unconfirmed_user: "Diese E-Mail Adresse wurde noch nicht bestätigt. Sie sollten bei der Anmeldung eine E-Mail geschickt bekommen haben. Überprüfen Sie bitte Ihr Postfach und folgen Sie den dort geschilderten Anweisungen. Wenn Sie die E-Mail nicht erhalten haben, klicken Sie <a href='%{url}' class='btn btn-default btn-xs'>hier</a>, um diese erneut zu senden."
+      banned_user: "Ihr Konto wurde gesperrt. Bitte wenden Sie sich für mehr Informationen an den Helpdesk."
       invalid_information: "Die Anmeldung mit Hilfe Ihres Identity Providers ist aufgrund eines fehlerhaften Datenaustausches fehlgeschlagen. Bitte kontaktieren Sie den Helpdesk."
       login_failed: Anmeldung fehlgeschlagen.
       need_to_be_member: Du musst ein Mitglied der Gruppe sein, um dies zu tun.
       need_to_be_admin: Du musst ein Administrator der Gruppe sein, um dies zu tun.
       email_not_updated: Die E-Mail-Adresse konnte nicht gespeichert werden. Bitte geben Sie eine gültige E-Mail-Adresse an.
       associated_user_not_found: Der zum Lehrer zu ernennende Nutzer konnte nicht gefunden werden.
-      document_denied: Diesen Leistungsnachweis dürfen Sie nicht abrufen.
+      document_denied: Dieses Zertifikat dürfen Sie nicht abrufen.
       reactivation:
         not_available: Dieser Kurs kann derzeit nicht reaktiviert werden.
         already_reactivated: Sie haben diesen Kurs bereits reaktiviert.
@@ -436,15 +462,13 @@ de:
           invalid_mime_type: "{{fileext}} ist kein erlaubtes Dateiformat. Erlaubte Formate sind %{allowed}."
           valid_formats: "Erlaubte Formate sind pdf, xml, txt, jpg, png und gif. Max. Größe: 8 MB."
       email_hash_invalid: Der angegebene Link scheint ungültig zu sein.
-      unfulfilled_prerequisites: Sie haben die Voraussetzungen für die Teilnahme an diesem Kurs noch nicht erfüllt.
       params_missing_learn_review: Parameter für quiz_id und course_id fehlen!
       switch_question_to_mcq: Single Select Fragen sollten nur 1 korrekte Antwort haben! Bitte überprüfen Sie die Frage.
       user_not_banned: Der Benutzer konnte nicht gesperrt werden.
       user_required: Kein Benutzer angegeben.
       user_self_ban: Sie können sich nicht selbst sperren.
+      user_not_unbanned: Der Benutzer konnte nicht entsperrt werden.
       reactivate_course: Die Reaktivierung dieses Kurses ist fehlgeschlagen. Bitte versuchen Sie es erneut oder wenden sich an den Helpdesk, falls das Problem bestehen bleibt.
-      document:
-        title_already_taken: Der gewünschte Titel wird bereits verwendet.
       voucher:
         not_found: Der angegebene Gutschein-Code ist ungültig. Bitte überprüfen Sie Ihren Code.
         already_claimed: Der angegebene Gutschein-Code wurde bereits genutzt. Codes können nur einmal eingelöst werden.
@@ -455,7 +479,7 @@ de:
         general: Ein genereller Fehler ist bei der Überprüfung Ihres Gutschein-Codes aufgetreten. Bitte wenden Sie sich an den Helpdesk, falls das Problem bestehen bleibt.
       provider_auth_error: "Es wurde keine valide Authentifizierung für %{provider_name} gefunden."
       account_not_confirmed_manually: Der Account konnte nicht manuell bestätigt werden.
-      content_type_not_supported_options: Der Open Mode und das Hervorheben von Inhalten werden für diesen Typ nicht unterstützt.
+      content_type_not_supported_options: Der Open Mode wird für diesen Typ nicht unterstützt.
       users:
         not_found: Der Benutzer kann nicht gefunden werden.
       enterprise_login_already_assigned: "Die E-Mail-Adresse des Enterprise Logins, den Sie für dieses Konto verwenden möchten, wurde bereits für ein anderes %{site_name}-Konto genutzt. Wenn Sie Ihre Enterprise-Benutzerkennung für dieses Konto verwenden möchten, löschen Sie bitte das andere Konto."
@@ -467,6 +491,10 @@ de:
       quiz_attempt_failed: Ein weiterer Versuch für das Quiz konnte nicht gewährt werden.
       fudge_points_failed: Die Bewertung konnte nicht aktualisiert werden.
       video_provider_not_deleted: Der Video-Provider konnte nicht gelöscht werden, da zugehörige Videostreams noch verwendet werden.
+      video_stream_not_created: Das Video konnte nicht hochgeladen werden. Bitte versuchen Sie es erneut.
+      video_stream_retry_enqueued: Der Video-Upload wird wiederholt.
+      video_stream_not_retryable: Nur fehlgeschlagene Video-Uploads können wiederholt werden.
+      video_stream_no_file: Bitte wählen Sie eine Videodatei aus, die hochgeladen werden soll.
       video_stream_not_deleted: Der Videostream konnte nicht gelöscht werden, da er noch in Lerneinheiten verwendet wird.
       email_error_is invalid: Ihre Eingabe enthält ungültige Zeichen.
       email_error_has already been taken: Die gewählte E-Mail-Adresse ist bereits vergeben.
@@ -482,11 +510,43 @@ de:
   components:
     actions_dropdown:
       aria_label: Weitere Aktionen
+    carousel:
+      role_description: Karussell
+      previous: Zurück
+      next: Weiter
     clipboard:
       copy: In die Zwischenablage kopieren
       copied: Kopiert!
     countdown:
-      time_remaining: "Verbleibende Zeit:"
+      units:
+        days:
+          one: Tag
+          other: Tage
+        hours:
+          one: Stunde
+          other: Stunden
+        minutes:
+          one: Minute
+          other: Minuten
+    course_navigation:
+      label: Kurs
+      locked: (nach der Einschreibung verfügbar)
+      enroll_to_unlock: Melde dich für dieses Lernangebot an, um diese Funktion freizuschalten.
+      unread_announcements:
+        one: (1 ungelesen)
+        other: (%{count} ungelesen)
+      details:
+        label: Details
+        description: Überblick und Infos
+      forum:
+        label: Forum
+        description: Austausch und Hilfe
+      progress:
+        label: Fortschritt
+        description: Dein Verlauf
+      recap:
+        label: Recap
+        description: Teste dich selbst
     custom_select:
       clear_button: Alle Elemente entfernen
       loading: Laden...
@@ -495,12 +555,6 @@ de:
       no_results: Keine Ergebnisse für "%{input}" gefunden
       option_create: "<strong>%{input}...</strong> hinzufügen"
       remove_item: Dieses Element entfernen
-    enrollment_form:
-      title: "Anmeldung für %{course_title}"
-      text: Bevor Sie sich für diesen Kurs einschreiben können, akzeptieren Sie bitte die Datenschutzvereinbarung des Kursanbieters.
-      link: Datenschutzvereinbarung anzeigen
-      accept: Ich akzeptiere die Datenschutzvereinbarung.
-      enroll: Für den Kurs einschreiben
     ical_feed:
       text: Sie können diesen Feed abonnieren, indem Sie die iCal-URL kopieren und sie in Ihre Kalenderanwendung importieren.
       summary: Termine in den Kalender eintragen
@@ -508,22 +562,41 @@ de:
     markdown_editor:
       expand: Editor aufklappen
       collapse: Editor zuklappen
+    page_header:
+      back_to_course: Zurück zu den Kursdetails
     filter_bar:
       search:
         label: Suchen
-        clear: Suche zurücksetzen
+        placeholder: Durchsuchen
       filter:
+        toggle: Filter
         reset: Filter zurücksetzen
         divider: ──────────
         all: Alle
         results: "Ergebnisse für:"
         results_count:
-          one: "%{count} Kurs"
-          other: "%{count} Kurse"
+          one: "%{count} Ergebnis"
+          other: "%{count} Ergebnisse"
         adjust: Anpassen
     date_time_picker:
       today: Auf heute setzen
       clear: Löschen
+    file_upload:
+      title: Datei anhängen
+      hint: Ziehen Sie eine Datei hierher oder wählen Sie eine von Ihrem Gerät aus.
+      button: Datei auswählen
+      list_label: Ausgewählte Dateien
+      remove: Datei entfernen
+      status:
+        uploading: "Wird hochgeladen · %%{progress}%"
+        complete: Erfolgreich hochgeladen
+        failed: Upload fehlgeschlagen
+    pagination:
+      label: Paginierung
+      info: "%{from} bis %{to} von %{total} Einträgen"
+    password_field:
+      show: Passwort anzeigen
+      hide: Passwort ausblenden
     popover:
       title: Schon gewusst?
       close: Schließen
@@ -532,31 +605,37 @@ de:
       link: Weiterlesen
     snowflakes:
       toggle_snow: Schneeflocken ein-/ausschalten
+    shorts_carousel:
+      label: Shorts
+      role_description: Karussell
+      play_video: Video abspielen
+      play_previous: Vorheriges Video abspielen
+      play_next: Nächstes Video abspielen
+      scroll_back: Zurück scrollen
+      scroll_forward: Weiter scrollen
 
   shared:
     records:
       roa:
-        download_roa: Leistungsnachweis
+        download_roa: Zertifikat
         contact_helpdesk: "Bitte beim Helpdesk melden"
       cop:
         download_cop: Teilnahmebestätigung
         contact_helpdesk: "Bitte beim Helpdesk melden"
       cert:
-        download_cert: Zertifikat
+        download_cert: Verifiziertes Zertifikat
         contact_helpdesk: "Bitte beim Helpdesk melden"
-      tor:
-        download_tor: Transcript of Records
-      open_badge:
-        open_badge: Open Badge
 
   # Header string translations
   header:
     # Log in drop down form
     login:
       headline: Anmelden bei openHPI
+      tab_credentials: openHPI Login
+      tab_sso: Single Sign-On (SSO)
       forgot_password: Passwort vergessen?
       identity:
-        headline: Mit Passwort anmelden
+        headline: Melde dich mit deinen Zugangsdaten an
         label:
           email: :global.email
           password: :global.password
@@ -564,27 +643,33 @@ de:
         placeholder:
           email: :global.email
           password: :global.password
-      external:
-        headline: "Oder anmelden mit:"
       register:
         headline: Neu hier?
-        text: "%{link}."
         link: Neues Benutzerkonto anlegen
       omniauth:
         hpi: HPI Identity
-        hpi_notice: für HPI-Studierende und Angestellte
+        hpi_notice: Für HPI-Studierende und Angestellte
         hpi_saml: HPI SSO
-        hpi_saml_notice: für HPI-Studierende und Angestellte
+        hpi_saml_notice: Für HPI-Studierende und Angestellte
         mein_bildungsraum: Mein Bildungsraum
         saml_test_id: SAMLtest ID
-        saml_test_id_notice: Sie wissen nicht, wie man SAML Test Single Sign-On verwendet? <a class='bs-a' href='/pages/faq' target='_blank'>Erfahren Sie, wie es funktioniert.</a>
+        saml_test_id_notice: Sie wissen nicht, wie man SAML Test Single Sign-On verwendet? <a class='x-link' href='/pages/faq' target='_blank'>Erfahren Sie, wie es funktioniert.</a>
+
+    meta_tags:
+      about:
+        title: Über %{site_name}
+      courses:
+        title: Online-Kurse in Programmierung, IT & KI entdecken | openHPI
+        index: Entdecke kostenlose Online-Kurse zu Informatik, IT und digitaler Innovation mit interaktivem Lernen.
+      root:
+        index: Lerne Informatik, IT und digitale Innovation mit kostenlosen interaktiven Online-Kursen auf openHPI.
 
     # Navigation
     navigation:
       home: Home
       about: "Über %{site_name}"
-      courses: Kurse
-      discussions: Diskussionen
+      courses: Lernen
+      discussions: Forum
       points: Punkte
       login: Anmelden
       logout: Abmelden
@@ -596,10 +681,10 @@ de:
       profile: Profil
       achievements: Erfolge
       settings: Benachrichtigungen
-      documents: Leistungsnachweise
+      documents: Zertifikate
       greeting: "%{name}"
       choose_language: Sprache wählen
-      channels: Channels
+      channels: Themenwelten
       toggle: Navigation anzeigen
       alerts: Benachrichtigungen
       menu: Menü
@@ -612,19 +697,20 @@ de:
       administration: Administration
       admin:
         dashboard: Dashboard
-        courses: Kurse
+        courses: Lerneinheiten
         categories: Kategorien
         users: Benutzer
         teachers: Dozenten
         permissions: Berechtigungen
         videos: Videos
-        certificates: Leistungsnachweise
-        knowledge_documents: Dokumente
-        channels: Channels
-        polls: Umfragen
+        certificates: Zertifikate
+        channels: Themenwelten
+        announcements: Ankündigungen
+        news: Neuigkeiten
         reports: Berichte
         vouchers: Vouchers
         lti_providers: LTI-Anbieter
+        shorts: Shorts
       masquerade:
         copy_user_id: User ID to Clipboard
         copy_email: E-Mail to Clipboard
@@ -677,36 +763,18 @@ de:
     show_article: Artikel anzeigen
     list_all_courses: Alle Kurse zeigen »
     level_selector:
-      headline: Angebote für alle – für jede Vorerfahrung
+      headline: Finde dein Level – lerne in deinem Tempo
+      link_text: Zu den Angeboten
       sections:
-        - label: Junior
-          title: Kurse für Kinder und Jugendliche
-          text: "Egal, ob Du herausfinden willst, wie ein Computer funktioniert, Du schon immer Programmieren lernen oder Deine eigene Homepage bauen wolltest – bei openHPI findest Du viele Kurse, die wir speziell für Schüler:innen entwickelt haben. Außerdem bieten wir jedes Frühjahr Kinder- und Jugendversionen unserer Programmierkurse an. Das Besondere dabei: Die Kurse dauern nicht wie sonst auf openHPI wenige Wochen, sondern ein ganzes Schulhalbjahr. Du hast also genug Zeit, um den Kurs zu belegen oder ihn sogar gemeinsam mit Deiner Klasse im Unterricht zu machen."
-          link_text: Entdecke unsere Junior-Kurse
-          link_url: "/courses?level=Junior"
-          image_url: "startpage/level_selector/junior.png"
-          image_alt: "Junior-Level: Zwei Mädchen arbeiten gemeinsam am Laptop"
         - label: Beginner
-          title: IT erfahren
-          text: Mit openHPI schaffen Sie den Einstieg in IT und Innovation. Tauchen Sie ein in die Welt des Programmierens, lernen Sie Betriebssysteme kennen und verstehen und schützen Sie sich effektiv im Internet. Treiben Sie Ihre Karriere voran und besuchen Sie Kurse über Teamwork, Unternehmensgründung und Design Thinking. Auf openHPI unterstützen wir Sie in Ihrer persönlichen und beruflichen Weiterbildung, damit Sie mit den rasanten Entwicklungen der digitalisierten Welt Schritt halten können. Für die Kurse auf openHPI müssen Sie keine formalen Voraussetzungen mitbringen.
-          link_text: Entdecken Sie unsere Kurse für Anfänger:innen
-          link_url: "/courses?level=Beginner"
-          image_url: "startpage/level_selector/beginner.png"
-          image_alt: "Beginner-Level: Mensch sitzt am Computer, daneben liegen Fachbücher zu Java-Programmierung und Fundamentals of Computing"
-        - label: Advanced
-          title: Technische Kompetenzen erweitern
-          text: Als IT-interessierte Person können Sie Ihre Kompetenzen auf openHPI kontinuierlich verbessern. Vertiefen Sie Ihre Kenntnisse rund um das Internet und Cybersicherheit, steigen Sie tiefer ein ins Design Thinking oder bereiten Sie sich auf die Zukunft mit Quantencomputern vor. Lernen Sie in weiterführenden Kursen, wie Sie ökologisch nachhaltige Software programmieren, wie Algorithmen funktionieren und was maschinelles Lernen ausmacht. Mit den Fortgeschrittenen-Kursen auf openHPI erfüllen Sie auch in Zukunft alle Anforderungen der Arbeitswelt.
-          link_text: Entdecken Sie unsere Kurse für Fortgeschrittene
-          link_url: "/courses?level=Advanced"
-          image_url: "startpage/level_selector/advanced.png"
-          image_alt: "Advanced-Level: Mensch programmiert am Laptop in professionellem Setting"
+          text: Neu in der IT-Welt? Starte ohne Vorkenntnisse, lerne die Grundlagen der Informatik und entdecke, was dich begeistert.
+          link_url: "/learn?level=Beginner"
+        - label: Intermediate
+          text: Die Basics wie 10.Klasse Mathe und Informatikgrundlagen sitzen? Vertiefe dein Wissen, löse anspruchsvollere Aufgaben und entwickle deine praktischen IT-Skills weiter.
+          link_url: "/learn?level=Intermediate"
         - label: Expert
-          title: Kurse für IT-Profis
-          text: Auch als IT- und Innovationsprofi sind Sie auf openHPI gut aufgehoben. Insbesondere Zukunftsthemen wie Big Data und KI, Business und Enterprise Computing und die Zukunft der Cloud behandeln wir auf hohem Niveau. Als Expert:in können Sie Wissen über Quantenkryptographie, -algorithmen und -optimierungt vertiefen. Auf openHPI machen Sie sich und Ihr Unternehmen fit für die Zukunft.
-          link_text: Entdecken Sie unsere Kurse für Expert:innen
-          link_url: "/courses?level=Expert"
-          image_url: "startpage/level_selector/expert.png"
-          image_alt: "Expert-Level: Frau arbeitet mit Laptop im Rechenzentrum"
+          text: Dein direkter Draht zur Wissenschaft. Spezialisiere dich auf komplexe Informatik-Themen auf universitärem Niveau.
+          link_url: "/learn?level=Expert"
     claims:
       - title: Sei wissbegierig.
         text: Lernen Sie kostenlos – jederzeit, überall und im eigenen Tempo. Expert:innen des Hasso-Plattner-Instituts und Partner:innen vermitteln verständlich Themen aus IT und Innovation auf Universitätsniveau.
@@ -715,20 +783,28 @@ de:
       - title: Sei erfolgreich.
         text: Erlangen Sie neuestes Wissen und Fähigkeiten und gestalten Sie die digitale Zukunft. Finden Sie interaktive Kurse zu aktuellen aufregenden Themen für jeden Kenntnisstand.
     promotion:
-      podcast:
-        title: Neuland - Der HPI-Wissenspodcast
-        text: Mehr Wissen über die digitale Welt. Experten des Hasso-Plattner-Instituts sprechen verständlich über digitale Entwicklungen und Trends, über Chancen und Risiken der Digitalisierung.
       highlighted:
-        title: "Abiturienten aufgepasst: HPI-Luft schnuppern!"
-        text: "Vom 19. bis 23. Januar erlebt ihr Informatik am HPI hautnah! Vorlesungen zu Programmiertechnik, Cybersicherheit, 3D‑Grafik & Robotik, Campusbesichtigung und persönliche Studienberatung – ideal für alle Informatikbegeisterten. Alle Infos & Anmeldung gibt's hier."
-        link: https://hpi.de/studium/dein-studium-am-hpi/schnupperstudium/
+        title:
+        text:
+        link:
     tile:
       more: Mehr
+    about:
+      text_1: OpenHPI hat sich zu einem wichtigen Element in der digitalen Bildung entwickelt.
+      text_2: Mit exzellenter Forschung und Lehre begegnen wir den
+        Herausforderungen von morgen und setzen dabei auf Diversität,
+        Gestaltungsfreude und Zusammenarbeit.
+      header:
+        title: Über uns
+        text: Willkommen bei openHPI, der innovativen Online-Lernplattform des Hasso-Plattner-Instituts (HPI), einem der führenden Informatikinstitute Europas.
 
   redirect:
     target_info: "Sie werden zu <b>%{name}</b> weitergeleitet (außerhalb von openHPI). Dies kann bis zu <b>5 Sekunden</b> dauern."
     skip_in_future: Diese Meldung nicht mehr anzeigen.
     manual_redirect: "Sollte die Weiterleitung zu lange dauern oder nicht funktionieren,<br /><a class='bs-a' href='%{url}'>klicken Sie hier, um fortzufahren</a>."
+  accordion:
+    previous_question: Vorherige Frage
+    next_question: Nächste Frage
   account:
     confirmations:
       new:
@@ -784,21 +860,21 @@ de:
             course:
               announcement: Neuigkeiten aus Kursen, für die Sie eingeschrieben sind
             pinboard:
-              new_answer: Aktivitäten in Diskussionsthemen, denen Sie folgen
+              new_answer: Aktivitäten in Foren, denen Sie folgen
             stats: Tägliche Kursstatistiken für von mir geleitete Kurse
         subscription:
-          headline: Diskussionsthemen, denen Sie folgen
+          headline: Forumsbeiträge, denen Sie folgen
           subscribe: Folgen
           unsubscribe: Nicht mehr folgen
-          thread: Diskussionsthema
+          thread: Forumsbeitrag
           action: Abonnement verwalten
           last_activity: "Letzte Aktivität"
           thread_count:
-            zero: Sie folgen keinen Diskussionthemen.
-            one: Sie folgen einem Diskussionsthema.
-            other: Sie folgen %{count} Diskussionsthemen.
+            zero: Sie folgen keinem Forumsbeitrag.
+            one: Sie folgen einem Forumsbeitrag.
+            other: Sie folgen %{count} Forumsbeiträgen.
           ago: "%{timeago} her"
-          empty_state: Es gibt keine Diskussionsthemen, die Sie verfolgen.
+          empty_state: Es gibt keine Forumsbeiträge, denen Sie folgen.
 
         xikolo:
           course:
@@ -806,9 +882,9 @@ de:
               enrollment_create: Neue Einschreibung
           pinboard:
             answer:
-              create: Neue Antwort in einem Thema, dem Sie folgen
+              create: Neue Antwort in einem Beitrag, dem Sie folgen
               notify:
-                create: Neue Antwort in einem Thema, dem Sie folgen
+                create: Neue Antwort in einem Beitrag, dem Sie folgen
           news:
             announcement:
               create: Neue Ankündigung
@@ -846,14 +922,23 @@ de:
     policies:
       show:
         headline: Datenschutzbestimmungen
-        instructions: "Bevor Sie fortfahren können, bestätigen Sie bitte, dass Sie unsere aktuellen <a class='bs-a' href='%{link}' target='_blank'>Datenschutzbestimmungen</a> zur Nutzung von openHPI gelesen haben (Erklärung öffnet in neuem Fenster)."
+        instructions: "Bevor Sie fortfahren können, bestätigen Sie bitte, dass Sie unsere aktuellen <a class='x-link' href='%{link}' target='_blank'>Datenschutzbestimmungen</a> zur Nutzung von openHPI gelesen haben (Erklärung öffnet in neuem Fenster)."
         label:
           submit: "Fortfahren"
+    guardian_consents:
+      show:
+        headline: Erforderlich für die Nutzung von openHPI
+        instructions: Wir benötigen Ihre Bestätigung, dass ein Erziehungsberechtigter Ihrer Nutzung von openHPI zustimmt, bevor Sie mit der Nutzung fortfahren können. Bitte setzen Sie das entsprechende Häkchen.
+        label:
+          submit: Fortfahren
+      update:
+        flash:
+          error: Diese Bestätigung wird zum Fortfahren benötigt. Bitte setzen Sie das entsprechende Häkchen.
     treatments:
       index:
         mandatory:
           headline: Erforderlich für die Nutzung von openHPI
-          instructions: Wir möchten Sie darüber informieren, dass Sie den folgenden Bedingungen zur Datenverarbeitung zustimmen, wenn Sie von hier aus mit dem Lernen fortfahren.
+          instructions: Wir benötigen Ihre ausdrückliche Einwilligung in die folgenden verpflichtenden Bedingungen zur Datenverarbeitung, bevor Sie mit der Nutzung fortfahren können. Bitte setzen Sie die entsprechenden Häkchen.
         optional:
           headline: Wir benötigen Ihre Einwilligung
           instructions: Wir bitten Sie um eine zusätzliche Einwilligung. Diese benötigen wir, um Ihnen zusätzliche Dienste anbieten zu können. Bitte nutzen Sie diese Gelegenheit auch, um Ihre bisher gegebenen Einwilligungen zu überprüfen. Dies können Sie auch jederzeit in Ihrem Nutzerprofil tun.
@@ -872,6 +957,7 @@ de:
           submit: Zurücksetzen des Passworts beantragen
         placeholder:
           email: Ihre E-Mail-Adresse
+        back_to_login: Zurück zur Anmeldung
       show:
         headline: Passwort zurücksetzen
         instructions: Hier können Sie ein neues Passwort für Ihr Nutzerkonto auf openHPI festlegen.
@@ -882,6 +968,7 @@ de:
         placeholder:
           password: Neues Passwort
           password_confirmation: Passwort wiederholen
+        back_to_login: Zurück zur Anmeldung
       not_found:
         headline: Link zum Zurücksetzen des Passworts nicht korrekt
         message: >
@@ -911,28 +998,48 @@ de:
         email_not_found: "Bitte überprüfen Sie, ob Sie die E-Mail-Adresse eingegeben haben, die Sie bisher zur Anmeldung verwendet haben."
     accounts:
       new:
-        title: Registrieren
-        text: "Legen Sie Ihren eigenen Account bei openHPI an. Dazu müssen Sie nur wenige Angaben machen.<br />Ihr Name wird später auf Ihrem openHPI-Leistungsnachweis erscheinen."
-        privacy: "<b>Bitte beachten Sie:</b> Ihre personenbezogenen Daten werden auf openHPI unter den Bedingungen unserer <a class='bs-a' href='%{link}' target='_blank'>Datenschutzbestimmungen</a> verarbeitet. Mit der Registrierung eines Benutzerkontos auf openHPI erkennen Sie diese <a class='bs-a' href='%{link}' target='_blank'>Datenschutzbestimmungen</a> an."
-        submit: Für openHPI registrieren
+        title: Registrieren bei openHPI
+        text: Lege deinen eigenen Account bei openHPI an.
+        legend:
+          personal_details: Persönliche Angaben
+          contact_and_security: Kontakt & Sicherheit
+          usage: Die Nutzung von openHPI
+        label:
+          full_name: Vor- und Nachname
+          date_of_birth: Geburtsdatum
+          status: Status
+          email: E-Mail
+          password: Passwort
+          password_confirmation: Passwort wiederholen
+        hint:
+          full_name: Dieser Name wird später auf deinen openHPI-Zertifikaten erscheinen.
+          date_of_birth: Dein Geburtsdatum wird später auf deinen openHPI-Zertifikaten erscheinen.
+        placeholder:
+          status: Bitte auswählen
+          password: Mindestens 8 Zeichen
+        privacy: "<b>Bitte beachte:</b> Deine personenbezogenen Daten werden auf openHPI unter den Bedingungen unserer <a class='x-link' href='%{link}' target='_blank'>Datenschutzbestimmungen</a> verarbeitet."
+        privacy_agreement: "Mit der Registrierung eines Benutzerkontos auf openHPI erkennst du diese <a class='x-link' href='%{link}' target='_blank'>Datenschutzbestimmungen</a> an."
+        notification_emails:
+          label: "(Optional) <b>E-Mail-Benachrichtigungen</b>"
+          text: Ich möchte E-Mail-Benachrichtigungen von openHPI erhalten, um Plattform-Neuigkeiten zu empfangen und keine Ankündigungen zu Angeboten zu verpassen. Ich kann meine Zustimmung jederzeit im Bereich „Meine Benachrichtigungseinstellungen“ widerrufen.
+        submit: Registrieren
+        login:
+          text: "Bereits ein Konto?"
+          link: Jetzt anmelden
       verify:
-        headline: Bitte aktivieren Sie Ihr Benutzerkonto
-        message: Zur Bestätigung Ihrer E-Mail-Adresse werden Sie zeitnah eine E-Mail erhalten.
-        confirmation_period: Der Bestätigungslink in der E-Mail ist drei Tage gültig.
-        notice: Bitte überprüfen Sie auch Ihren Spam-Ordner. Wenn Sie die E-Mail nicht innerhalb der nächsten 15 Minuten erhalten, wenden Sie sich bitte an das <a class='bs-a' href='https://open.hpi.de/helpdesk?locale=de' target='_blank' rel='noopener'>Helpdesk</a>.
+        headline: Bestätige dein Konto
+        message: Du erhältst innerhalb der nächsten Minuten eine E-Mail zur Verifizierung deines Kontos. Der Verifizierungslink ist drei Tage lang gültig.
+        notice: Falls du keine Bestätigungs-E-Mail erhalten hast, überprüfe bitte auch deinen Spam-Ordner. Solltest du innerhalb der nächsten 15 Minuten keine E-Mail erhalten, wende dich bitte an den <a class='x-link' href='https://open.hpi.de/helpdesk?locale=de' target='_blank' rel='noopener'>Helpdesk</a>.
+        back_link: Zurück zur Startseite
     shared:
+      guardian_consent:
+        label: Hinweis für Minderjährige
+        text: Ich bestätige, dass diese Registrierung mit Wissen und Einwilligung meines Elternteils bzw. Erziehungsberechtigten erfolgt. Ich bestätige, dass mein Elternteil bzw. Erziehungsberechtigter den Bedingungen der <a class='x-link' href='/pages/data-protection' target='_blank'>Datenschutzerklärung</a> von openHPI zugestimmt hat.
       consent:
         required: Verpflichtende Einwilligungen werden zum Fortfahren benötigt.
         user_profile:
           label: Benutzerprofil
-          text: "Ich erlaube, dass openHPI das von mir angegebene Benutzerprofil speichert. Teile des Profils können von anderen Nutzern der Plattform in Diskussionsforen oder anderen kollaborativen Funktionen eingesehen werden. Dies umfasst den <i>Klarnamen</i>, sofern kein expliziter <i>Anzeigename</i> gesetzt wird, sowie ein optionales Profilfoto."
-        hpi_research:
-          label: Forschung am HPI
-          text: >
-            Ich bestätige, dass Forscher am HPI meine Daten zu wissenschaftlichen Zwecken auch außerhalb des Kontexts
-            der openHPI-Plattform verwenden dürfen. Auswertungen und wissenschaftliche Veröffentlichungen erfolgen
-            dabei stets auf Basis von pseudonymisierten Datensätzen. Außerdem erlaube ich, dass ich im Rahmen von
-            Forschungsprojekten per E-Mail kontaktiert werde.
+          text: "Ich erlaube, dass openHPI das von mir angegebene Benutzerprofil speichert. Teile des Profils können von anderen Nutzern der Plattform in Foren oder anderen kollaborativen Funktionen eingesehen werden. Dies umfasst den <i>Klarnamen</i>, sofern kein expliziter <i>Anzeigename</i> gesetzt wird, sowie ein optionales Profilfoto. Meinen Anzeigenamen kann ich jederzeit in meinen Profileinstellungen festlegen oder ändern."
         profile:
           headline: Meine Einwilligungen
           consented_at: "Sie haben diese Einwilligung am %{date} gegeben."
@@ -952,15 +1059,14 @@ de:
       recipients_selector_content_tests: Inhaltstests
       recipients_selector_custom_recipients: Manuelle Empfängergruppen
     channels:
-      channel: Channel
       delete_warning:
-        zero: "Sind Sie sicher, dass Sie diesen Channel löschen möchten?"
-        one: "Es gibt einen Kurs in diesem Channel - sind Sie sicher, dass Sie ihn löschen wollen?"
-        other: "Es gibt %{count} Kurse in diesem Channel - sind Sie sicher, dass Sie ihn löschen wollen?"
-      headline: Channels
-      empty_msg: Es gibt derzeit keine Channels.
-      add: Channel anlegen
-      reorder: Reihenfolge der Channels ändern
+        zero: "Sind Sie sicher, dass Sie diese Themenwelt löschen möchten?"
+        one: "Es gibt ein Angebot in dieser Themenwelt - sind Sie sicher, dass Sie diese löschen wollen?"
+        other: "Es gibt %{count} Angebote in dieser Themenwelt - sind Sie sicher, dass Sie diese löschen wollen?"
+      headline: Themenwelten
+      empty_msg: Es gibt derzeit keine Themenwelten.
+      add: Neu anlegen
+      reorder: Reihenfolge ändern
       actions:
         show: Ansehen
         edit: Bearbeiten
@@ -974,14 +1080,14 @@ de:
       public_true: Ja
       public_false: Nein
       new: # view
-        title: Channel anlegen
+        title: Themenwelten - Neu anlegen
       edit: # view
-        title: Channel bearbeiten
+        title: Themenwelten - Bearbeiten
       sort:
-        title: Reihenfolge der Channels ändern
-        info: Sie können die Channels durch Ziehen und Ablegen sortieren. Die Reihenfolge wird überall dort verwendet, wo Channels aufgelistet sind, z.B. im Channels-Dropdown in der Hauptnavigation (wenn das Channels-Dropdown aktiviert ist).
-        back_to_list: Zurück zur Channels-Liste
-        empty_msg: Es gibt derzeit keine Channels.
+        title: Themenwelten - Reihenfolge anpassen
+        info: Sie können die Themenwelten durch Ziehen und Ablegen sortieren. Die Reihenfolge wird überall dort verwendet, wo Themenwelten aufgelistet sind, z.B. im Themenwelten-Dropdown in der Hauptnavigation.
+        back_to_list: Zurück zur Themenwelten-Liste
+        empty_msg: Es gibt derzeit keine Themenwelten.
       form:
         label:
           submit: Reihenfolge speichern
@@ -1038,7 +1144,7 @@ de:
       delete: Kurs löschen
       help: Hilfe
       index:
-        headline: Alle Kurse
+        headline: Alle Lerneinheiten
         published: Veröffentlicht
         preparation: In Vorbereitung
         search:
@@ -1047,7 +1153,6 @@ de:
         code: Code
         title: Titel
         status: Status
-        actions: Aktionen
         edit: Bearbeiten
         copy_id: ID kopieren
         create: Neuen Kurs erstellen
@@ -1055,20 +1160,25 @@ de:
           preparation: In Vorbereitung
           archive: Archiviert
           active: Aktiv
+          hidden: Versteckt
+          upcoming: Zukünftig
+          self_paced: Selbststudium
+          external: External
           status: Status
+        empty_state: Es sind derzeit keine Kurse vorhanden.
+        no_results: Leider konnten wir keine passenden Kurse finden.
       classifiers:
         group: Kurs-Klassifizierung
         label:
           category: Kategorie
-          topic: Thema
+          topic: Topic
           target_audience: Zielgruppe
           reporting: Reporting Typ
           keywords: Keywords
         status: Status
-        course_status:
-          preparation: in Vorbereitung
-          active: aktiv
-          archive: archiviert
+        placement:
+          open4all: Öffentlich (auf Kursliste)
+          archive: Archiv-Kurs
       formgroups:
         meta: Metadaten
         visuals: Visuals
@@ -1077,14 +1187,12 @@ de:
         dates: Laufzeit und Sichtbarkeit
         enrollment: Einschreibung
         features: Features
-        certificate: Leistungsnachweise
+        certificate: Zertifikate
         statistics: Statistiken
         end: Kursende
       form:
         file: "Dateiname:"
         edit_visuals: Visuals bearbeiten
-      info:
-        invite_only: Wenn Sie hier einen Wert in einer beliebigen Sprache eintragen, können sich die Lernenden nicht mehr selbst vom Kurs abmelden. Lernende müssen Ihre Buchung ebenfalls ordnungsgemäß über die externen Registrierung stornieren.
 
       generate_ranking:
         label: "Berechne Kurs-Ranking"
@@ -1107,7 +1215,7 @@ de:
             end_date: "End Datum"
             published: Veröffentlicht
             optional: Section ist optional
-            pinboard_closed: Diskussionen schließen?
+            pinboard_closed: Forum schließen?
             required_sections: Vorausgesetzte Sections
       items:
         form:
@@ -1118,8 +1226,8 @@ de:
             start_date: "Start Datum"
             end_date: "End Datum"
             published: Veröffentlicht
-            show_in_nav: In der Kursnavigation zeigen
-            featured: Hervorheben
+            deemphasized_in_nav: In der Kursnavigation abschwächen
+            deemphasized_in_nav_hint: "Das Item wird weiterhin in der Kursnavigation aufgeführt, aber in einer weniger auffälligen Farbe dargestellt."
             open_mode: Open Mode erlaubt
             public_description: Öffentliche Beschreibung
             public_description_hint: "Die öffentliche Beschreibung sollte eine schriftliche Zusammenfassung der Inhalte des Videos enthalten (nützlich für Suchmaschinen im Open Mode)."
@@ -1130,12 +1238,12 @@ de:
             required_items: Vorausgesetzte Items
             submission_deadline: Abgabefrist
             submission_publishing_date: Abgabe-Veröffentlichungsdatum
-            icon_type: Icon-Typ
           type_selector:
             video: "Video"
             quiz: "Quiz"
             text: "Text"
             lti_exercise: "Externes Übungstool"
+            cmi5: Cmi5
           exercise_type_selector:
             selftest: Selbsttest
             main: Benotet
@@ -1145,6 +1253,8 @@ de:
           video_groupings:
             video_data: Video Daten
             additional_files: Zusätzliche Dateien
+          rich_text_groupings:
+            additional_files: Zusätzliche Dateien
           video_data:
             pip_stream: Pip stream
             lecturer_stream: Lecturer stream
@@ -1153,7 +1263,7 @@ de:
             stream_placeholder: Stream auswählen
             thumbnail_archive: Metadata archive
             subtitles: Subtitles
-            # EN-fallback transpipe_link: Manage subtitles in TransPipe
+            subtitles_download: Untertitel herunterladen
           additional_files:
             slides: Slides
             transcript: Transcript
@@ -1219,22 +1329,6 @@ de:
         convert_manually: Manuell umwandeln
         true_text: Ja
         false_text: Nein
-      submission_statistics:
-        title: "Einreichungs-Statistik"
-        submissions: Einreichungen
-        total_submissions: "Einreichungen gesamt:"
-        distinct: "Einreichende Nutzer:"
-        total_points: "Punkte gesamt:"
-        please_select: "Bitte wählen Sie..."
-        correct: Richtig
-        wrong: Falsch
-        total: gesamt
-        student_performance: Kursteilnehmer-Leistung
-        average_time: "Zeit im Durchschnitt:"
-        average_points: "Punkte im Durchschnitt:"
-        percent_of: "% von"
-        seconds: Sekunden
-        limit: Limit
     dashboard:
       nav:
         title: Statistiken
@@ -1275,60 +1369,42 @@ de:
         title: Nutzer
         display_name: Anzeigename
         email: Email
-        confirmed: Bestätigt
-        filter: "Nach Name oder Email filtern:"
-        confirmed_true: Ja
-        confirmed_false: Nein
+        confirmed_true: Bestätigt
+        confirmed_false: Unvollständig
+        banned: Gesperrt
+        is_banned: Dieser Nutzer ist gesperrt
+        is_not_banned: Dieser Nuter ist nicht gesperrt
+        top_talent: Top Talent
         details: Details
-        search: Suche
-      form:
-        placeholder:
-          full_name: "Name"
-          email: "E-Mail"
-          password: "Passwort"
-        label:
-          submit: "Senden"
-          full_name: "Name:"
-          email: "E-Mail:"
-          password: "Passwort:"
-        confirmed: "Bestätigt?"
-      new:
-        create_user: Nutzer anlegen
+        empty_state: Es sind derzeit keine Nutzer vorhanden.
+        no_results: Leider konnten wir keine passenden Einträge finden.
     teachers:
       index:
         title: Dozenten
         name: Name
-        description: Beschreibung
-        details: Details
-        filter: "Nach Name filtern:"
-        search: Suche
-        new: Neuer Dozent
-      show:
         picture: Bild
         description: Beschreibung
-        edit: Lehrerinformationen bearbeiten
+        details: Details
+        delete: Löschen
+        confirm_delete: Sind Sie sicher, dass Sie diesen Dozenten löschen möchten?
+        referenced_in_courses_prompt: Dieser Dozent ist noch mindestens einem Kurs zugeordnet und kann nicht gelöscht werden. Möchten Sie die Detailseite öffnen um die Zuordnung zu überprüfen?
+        new: Neuer Dozent
+        empty_state: Es sind derzeit keine Dozenten vorhanden.
+        no_results: Leider konnten wir keine passenden Einträge finden.
+      show:
+        title: Details
+        description: Beschreibung
+        no_picture: Kein Bild
+        course_references: Zugeordnete Kurse
+        no_courses: Dieser Dozent ist keinen Kursen zugeordnet
+        delete_prompt: Falls der Dozent noch einem Kurs zugeordnet ist, entfernen Sie zuerst die Zuordnung.
       form:
         description_explanation: Die Beschreibung muss mindestens in einer Sprache angegeben werden.
         description_label: Beschreibung (%{language})
       new:
         create_teacher: Neuen Dozenten anlegen
       edit:
-        edit_teacher: Lehrerinformationen bearbeiten
-    polls:
-      headline: Umfragen
-      question: Frage
-      start_at: Startet am
-      end_at: Endet am
-      actions: Actions
-      add: Umfrage anlegen
-      show: Details
-      edit: Bearbeiten
-      delete: Löschen
-      confirm_delete: Wollen Sie diese Umfrage wirklich löschen?
-      empty_msg: Derzeit gibt es keine Umfragen.
-      edit_poll: Umfrage bearbeiten
-      options: Optionen
-
+        edit_teacher: Lehrer bearbeiten
     videos:
       index:
         created_at: Hinzugefügt am
@@ -1351,9 +1427,29 @@ de:
         search: Suche
         filter_videos: "Videos filtern:"
         copy_id: ID kopieren
+        upload: Video hochladen
+        status: Status
+        retry: Upload wiederholen
+        confirm_retry: "Sind Sie sicher?"
+        retrying: "Wird wiederholt ..."
+        upload_status:
+          waiting: Wartet
+          uploading: Läuft
+          ready: Fertig
+          failed: Fehlgeschlagen
+          invalid: Ungültig
       provider_type:
         vimeo: Vimeo
-        kaltura: Kaltura
+        bunny: Bunny
+      upload:
+        headline: Video hochladen
+      form:
+        title: Titel
+        submit: Video hochladen
+        video:
+          title: Video hochladen
+          button: Video auswählen
+          hint: Video-Datei hierher ziehen oder von Ihrem Gerät auswählen.
 
     video_providers:
       title: Video Provider
@@ -1382,7 +1478,6 @@ de:
       form:
         edit_provider: Video-Provider bearbeiten
         credentials_info:
-          kaltura: Lassen Sie Ihren Kaltura-Konto-Administrator <a href="https://developer.kaltura.com/api-docs/VPaaS-API-Getting-Started/application-tokens.html">einen Application-Token generieren</a>. Dieser muss die notwendigen Rechte haben, um auf alle gewünschten Videos lesend zuzugreifen. Die folgenden Felder können dann mit den entsprechenden Attributen des Tokens ausgefüllt werden. <strong>Hinweis:</strong> Bei der Erstellung des Tokens muss der Hash-Typ "SHA256" ausgewählt werden.
           vimeo: Erstellen Sie in Ihrem Vimeo-Account <a href="https://developer.vimeo.com/apps/new">eine neue private API-App</a>. Nach der Konfiguration der App können Sie einen "Personal access token" für diese App generieren. Tragen Sie diesen hier ein. Bitte stellen Sie sicher, dass der Token mindestens die Scopes <strong>private, create, edit, delete, interact, video_files, public</strong> hat.
 
     lti_providers:
@@ -1396,7 +1491,33 @@ de:
         headline: LTI-Anbieter hinzufügen
       edit:
         headline: LTI-Anbieter bearbeiten
-
+    shorts:
+      index:
+        title: Shorts
+        course_title: Kurs
+        status: Status
+        headline: Alle Shorts
+        empty_state: Es sind noch keine Shorts vorhanden.
+        no_results: Leider konnten wir keine passenden Shorts finden.
+        edit: Bearbeiten
+        create: Neuen Short erstellen
+        delete: Löschen
+        confirm_delete: Sind Sie sicher, dass Sie diesen Short löschen möchten?
+        filter:
+          status: Status
+          preparation: Vorbereitung
+          active: Aktiv
+          archived: Archiviert
+      form:
+        video:
+          title: Video hochladen
+          button: Video auswählen
+          hint: Ziehen Sie eine Videodatei hierher oder wählen Sie eine von Ihrem Gerät aus.
+      new:
+        headline: Short erstellen
+      edit:
+        headline: Short bearbeiten
+      hint: Mindestens eines der Titel Felder muss ausgefüllt sein.
   announcements:
     new:
       headline: Neue Ankündigung
@@ -1425,60 +1546,35 @@ de:
   channels:
     view_all: Alle Kurse anzeigen
     show_details: Kursdetails zeigen
+    other_channels: Das könnte dich auch interessieren
     show:
       previous: Weiter
       next: Zurück
       about: "Über die <b>%{title}</b> Kursreihe"
       filter:
         search: Suche
-      empty_state: Es sind noch keine Kurse in diesem Channel verfügbar.
-      empty: Leider konnten wir keine Kurse in diesem Channel finden, die zu dieser Suche passen.
+      empty_state: Es sind noch keine Kurse in dieser Themenwelt verfügbar.
+      empty: Leider konnten wir keine Kurse in dieser Themenwelt finden, die zu dieser Suche passen.
 
   courses:
     ago: "vor %{timeago}"
     preview:
       has_started: Der Kurs hat bereits begonnen.
-      button_details: Kursdetails zeigen
-      button_enroll: Für den Kurs einschreiben
       button_enter: Zum Kurs
       button_progress: Fortschritt zeigen
-      button_quit: Kursteilnahme beenden
       button_reactivate_course: Kurs reaktivieren
       button_goto_external: Externen Kurs besuchen
-      unenrollment_disabled: Um sich vom Kurs abzumelden, wenden Sie sich an den Kursanbieter.
-
-    prerequisites:
-      headline: Voraussetzungen
-      explain_completion: Sie müssen folgende Voraussetzungen erfüllen, bevor Sie diesen Kurs belegen können.
-      status_text:
-        zero: erledigt!
-        one: ein Kurs ausstehend
-        other: "%{count} Kurse ausstehend"
-      facts:
-        fulfilled_roa: Sie haben in diesem Kurs einen Leistungsnachweis erreicht.
-        fulfilled_cop: Sie haben in diesem Kurs eine Teilnahmebestätigung erreicht.
-        missing_roa: Sie haben in diesem Kurs keinen Leistungsnachweis erreicht.
-        missing_cop: Sie haben in diesem Kurs keine Teilnahmebestätigung erreicht.
-      button_trigger_reactivation: Kostenlos reaktivieren
-      reactivation_modal:
-        title: "Reaktivierung von „%{course}“"
-        text: Sie erhalten <strong>eine kostenlose Kursreaktivierung</strong>. Nach erfolgter Reaktivierung haben Sie acht Wochen Zeit, den Kurs mit einem Leistungsnachweis abzuschließen.
-        button_confirm: Jetzt reaktivieren
-        button_cancel: Später
-        error: Ein Fehler ist aufgetreten. Bitte wenden Sie sich an den Helpdesk.
-      success_modal:
-        title: Super!
-        text: "Der Kurs „%{course}“ wurde reaktiviert."
 
     nav:
       sections: Lernmaterial
       syllabus: Übersicht
+      to_overview: Zur Übersicht
       progress: Fortschritt
-      certificates: Zertifikate
       info: Kursdetails
-      discussions: Diskussionen
+      discussions: Forum
       announcements: Ankündigungen
-      knowledge_documents: Dokumente
+      completed: Abgeschlossen
+      completed_units: "%{completed} von %{total} abgeschlossen"
       teacher:
         administration: Kursadministration
         welcome: Willkommen, Lehrer!
@@ -1494,10 +1590,9 @@ de:
         announcements: Ankündigungen
         content: Struktur & Inhalt
         lti: LTI-Provider
-        transpipe: Untertitel (in TransPipe)
         settings: Einstellungen
         permissions: Berechtigungen
-        certificates: Leistungsnachweise
+        certificates: Zertifikate
         enrollments: Einschreibungen
         grading: Abgaben
         forum: Forum-Moderation
@@ -1506,41 +1601,62 @@ de:
         offers: Angebote
       admin:
         alerts: Probleme anzeigen
-        certificate_templates: Leistungsnachweis-Vorlagen
-        open_badge_templates: Open Badge-Vorlagen
+        certificate_templates: Zertifikat-Vorlagen
         back: Zum Kurs
         back_admin: Zur Kursadministration
 
   course:
+    bottom_bar:
+      continue_learning: Weiterlernen
+      enroll: Für den Kurs einschreiben
+      label: Kursaktionen
+    details_card:
+      categories: Kategorien
+      enroll: Jetzt einschreiben
+      enrollments:
+        one: "%{count} Einschreibung"
+        other: "%{count} Einschreibungen"
+      last_updated: Zuletzt aktualisiert am %{date}
+      offered_by: Angeboten von %{teachers}
+      resume: Kurs fortsetzen
+      starts_in: Beginnt in
+      starts_on: Kursbeginn am %{date}
+      unenroll: Teilnahme beenden
+      view_teaser: Zum Teaservideo
+    certificate_card:
+      achieved: Erreicht
+      pending: Ausstehend
+      requirement: Anforderung
+      issued_on: Ausgestellt am
+    item_card:
+      completed: Abgeschlossen
+      failed: Nicht bestanden
+      locked: Gesperrt
+    key_facts:
+      certificate: Zertifikat
+      label: Kursdetails
     redeem_voucher:
       cancel: Zurück zum Kurs
       for_course: "Sie sind dabei, einen Gutschein-Code für den folgenden Kurs einzulösen:"
       course_reactivation:
         title: Diesen Kurs reaktivieren
-        text: "Wenn Sie bereits einen Gutschein für die <a href='/pages/course_reactivation' target='_blank' rel='noopener'>Kurs-Reaktivierung</a> im <a href='%{link}' target='_blank' rel='noopener'>Shop</a> erworben haben, geben Sie den Code bitte hier an. Sobald Sie den Gutschein-Code eingelösen, haben Sie <b>%{weeks} Wochen</b> Zeit, die nötigen Voraussetzungen für einen Leistungsnachweis zu erfüllen."
-        info_title: Sie haben keinen Gutschein-Code?
-        info_text: "Um einen Gutschein-Code für die Kurs-Reaktivierung zu erwerben, besuchen Sie bitte den <a href='%{link}' target='_blank' rel='noopener'>Shop</a>. Details zu Preisen und weitere Informationen finden Sie auch auf unserer Seite zur <a href='/pages/course_reactivation' target='_blank' rel='noopener'>Kurs-Reaktivierung</a>."
+        text: "Wenn du bereits einen Reaktivierungs-Code für die Kurs-Reaktivierung erhalten hast, gib den Code bitte hier an. Sobald du den Reaktivierungs-Code eingelöst hast, hast du <b>%{weeks} Wochen</b> Zeit, die nötigen Voraussetzungen für ein Zertifikat zu erfüllen."
+        info_title: Du hast keinen Reaktivierungs-Code?
+        info_text: "Die Reaktivierung von Kursen ist eingeschränkt. Bei Fragen wende dich bitte an den <a href='/helpdesk' target='_blank' rel='noopener'>Helpdesk</a>."
     card:
-      cop: Teilnahmebestätigung
-      roa: Leistungsnachweis
-      subtitles_more:
-        one: "%{subtitle_languages} + %{count} weiterer"
-        other: "%{subtitle_languages} + %{count} weitere"
-      subtitles: "%{subtitle_languages}"
       button_details: Details
       button_enroll: Einschreiben
       button_resume: Fortsetzen
-      button_reactivate_course: Reaktivieren
-      button_visit: Besuchen
-      date: Kursdaten
-      classifiers: Kurs-Klassifizierung
-      certificate: Höchstes zu erreichendes Zertifikat
       language: Kurssprache
-      available_subtitles: Verfügbare Untertitel
-      buttons_menu:
-        details: Details zeigen
-      label:
-        reactivated: Reaktiviert
+      completed: Abgeschlossen
+      upcoming: Demnächst
+      progress: Kursfortschritt
+      topics: Themen
+      level: Niveau
+    formats:
+      course: Kurs
+      workshop: Workshop
+      project: Projekt
     courses:
       date:
         self_paced_since: "Seit %{date} im Selbststudium"
@@ -1549,72 +1665,39 @@ de:
         coming_soon: Bald verfügbar
       index:
         filter:
-          channel: Channel
+          channel: Themenwelt
           language: Sprache
+          format: Format
           status: Status
           submit: Filtern
         filter_by: Filtern nach Text
         placeholder: Was möchten Sie lernen?
-        loading: Kurse werden geladen...
-        empty_state: Es sind noch keine Kurse verfügbar.
-        empty: Leider konnten wir keine Kurse finden, die zu dieser Suche passen.
-        action: Alle Kurse anzeigen
-        current: Aktuelle Kurse
-        upcoming: Zukünftige Kurse
-        archive: Kurse im Selbststudium
-        reactivation_upsell_html: ""
-        load_more: Mehr Kurse laden
-        error: Beim Laden zusätzlicher Kurse ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal.
+        loading: Wir suchen's für dich...
+        empty_state: Noch nichts da – schau bald wieder rein!
+        empty: Keine Ergebnisse! Versuch eine andere Suche.
+        action: Alles anzeigen
+        current: Läuft gerade
+        upcoming: Started bald
+        self_paced: In deinem eigenen Tempo
+        load_more: Zeig mir mehr!
+        error: Ups! Etwas ist schiefgelaufen. Versuch es nochmal!
 
       show:
-        header_subtitle: Angeboten von %{teachers}
-        user_enrolled: Sie sind eingeschrieben.
-        about_content: Kursinformationen
-        content: Lernmaterial
-        how_to_enroll: Für diesen Kurs einschreiben
-        how_to_enroll_text: Der Kurs ist kostenlos. Legen Sie sich einfach ein Benutzerkonto auf openHPI an und nehmen Sie am Kurs teil!
-        how_to_register_text: Für diesen Kurs müssen Sie sich direkt beim Kursanbieter anmelden.
-        button_enroll: Jetzt einschreiben
-        button_register: Jetzt anmelden
-        external_course:
-          headline: Externer Kurs
-          info: Dieser Kurs läuft nicht auf openHPI, sondern auf einer externen Lernplattform. Wenn Sie dem Link zu diesem Kurs folgen, verlassen Sie die openHPI-Webseite. Gegebenenfalls benötigen Sie ein gesondertes Nutzerkonto auf der externen Plattform, um sich in den Kurs einschreiben zu können.
-        dates_and_stats: Termine und Statistiken
-        featured_items:
-          title: Ausgewählte Inhalte
-        teacher_title: Dieser Kurs wird angeboten von
-        course_runtime: Läuft von
-        categories: Kategorien
-        language: Kurssprache
+        about_content: Kursinformation
+        teaser_title: Schau den Teaser zu diesem Online-Kurs
+        teacher_title: Unsere Dozent:innen
         reactivate_course:
-          headline: Diesen Kurs reaktivieren
-          notice: "Diesen Kurs können Sie <b>reaktivieren</b> und so die Möglichkeit erhalten, sich noch für einen Leistungsnachweis zu qualifizieren. Weitere Informationen finden Sie <a href='/pages/course_reactivation'>hier</a> &mdash; oder "
+          notice: "Diesen Kurs können Sie <b>reaktivieren</b> und so die Möglichkeit erhalten, sich noch für ein Zertifikat zu qualifizieren. Oder "
           upgrade_now: buchen Sie jetzt!
           upgrade: Reaktivieren
         open_mode:
           text: Die meisten unserer Kursvideos können Sie direkt anschauen! Ganz ohne Login.
-        invite_only_notice: Sie benötigen eine Einladung, um sich für diesen Kurs einzuschreiben.
-        certificates: "Anforderungen für Leistungsnachweise"
-        qc_requirements: "Das <b>Zertifikat</b> erhält, wer es gebucht hat <b>und</b> den Leistungsnachweis erhalten hat."
-        roa_requirements: "Den <b>Leistungsnachweis</b> erhält, wer in der Summe aller benoteten Aufgaben mindestens <b>%{roa_threshold}%</b> der Höchstpunktzahl erreicht hat."
-        cop_requirements: "Die <b>Teilnahmebestätigung</b> erhält, wer auf mindestens <b>%{cop_threshold}%</b> der Kursunterlagen zugegriffen hat."
-        tor_requirements: "Das <b>Transcript of Records</b> erhält, wer alle Voraussetzungen für diesen Kurs erfüllt hat."
-        open_badge_requirements: "Einen <b>Open Badge</b> erhalten Sie, indem Sie den Kurs abschließen."
-        guidelines_link: "Mehr Informationen finden Sie in den <a href='/pages/roa_guidelines' class='bs-a'>Richtlinien für Leistungsnachweise</a>."
-        qc_guidelines_link: "Mehr Informationen finden Sie in den <a href='/pages/document_types' class='bs-a'>Richtlinien für das Zertifikat</a>."
-        learning_goals: Was Teilnehmende lernen werden
-        target_groups: Für wen dieser Kurs gedacht ist
-
-      enrollment_statistics:
-        heading: Lernende
-        current:
-          title: Aktuell
-          date: Heute
-        course_end:
-          title: Kursende
-        course_start:
-          title: Kursstart
-        currently_enrolled: Eingeschriebene Nutzer
+        certificates: Anforderungen für Nachweise
+        roa_requirements_with_exam: "<b>Zertifikat:</b> Nach <b>%{exam_threshold}%</b> der Kursinhalte schaltest du das Online-Abschlussexamen frei. Erreichst du mindestens <b>%{pass_percentage}%</b> der Punkte, erhältst du dein offizielles openHPI-Zertifikat. Du hast zwei Versuche, deren Anzahl auf dem Zertifikat ausgewiesen wird."
+        roa_requirements: "<b>Zertifikat:</b> Du erhältst ein Zertifikat, wenn du in der Summe aller benoteten Aufgaben mindestens <b>%{roa_threshold}%</b> der Höchstpunktzahl erreicht hast."
+        cop_requirements: "<b>Teilnahmebescheinigung:</b> Du erhältst automatisch eine kostenlose Teilnahmebescheinigung, sobald du mindestens <b>%{cop_threshold}%</b> der Kursinhalte durchgearbeitet hast."
+        guidelines_link: "Mehr Informationen findest du auf der Seite für <a href='/pages/certificates_and_guidelines' class='bs-a'>Nachweise und Richtlinien</a>."
+        learning_goals: Lernziele
 
       announcements:
         empty_state: Es gibt noch keine Mitteilungen für diesen Kurs.
@@ -1628,38 +1711,36 @@ de:
       create:
         edit: Bearbeiten
 
-      rating:
-        headline: Bewertungen
-        details: "Der Kurs wurde mit durchschnittlich <b><span itemprop='ratingValue'>%{stars}</span> Sternen</b> bei <b><span itemprop='ratingCount'>%{votes}</span> abgegebenen Stimmen</b> bewertet."
-
     progress:
-      learner_dashboard: Mein Lernfortschritt
-      graded_score: Bewertete Punkte
-      graded: "%{achieved} von %{available}"
-      bonus_points:
-        one: "Du hast 1 Punkt bekommen und %{bonus_points} extra verdient"
-        other: "Du hast %{count} Punkte bekommen und %{bonus_points} extra verdient"
-      selftest_score: Selbsttests
-      selftest: "%{achieved} von %{available}"
-      completed_score: Abgeschlossene Inhalte
-      completed: "%{completed} von %{available}"
-      completed_items: "%{completed} von %{available} abgeschlossen"
-      completed_empty: Keine Inhalte verfügbar
-      section_score:
-        graded: "Bewertet: "
-        selftests: "Selbsttests: "
-        completed: "Abgeschlossen: "
+      header:
+        title: Mein Lernfortschritt
+        subtitle: Hier findest du deinen Fortschritt, Selbsttests, Recaps und Nachweise zum Runterladen.
+        completed_content: Abgeschlossene Inhalte
+        count: "%{completed} / %{total}"
+        certificates: Nachweise downloaden
+      certificates:
+        mascot:
+          none_unlocked: Noch keine Nachweise freigeschaltet? Bleib dran!
+          partially_unlocked: Die ersten Nachweise sind da. Weiter so!
+          all_unlocked: Alles freigeschaltet. Kann sich sehen lassen!
+        not_available_yet: Noch nicht verfügbar
+        not_downloaded_yet: Noch nicht heruntergeladen
+      section:
+        count: "%{completed}/%{total}"
+        exam: Das Exam selbst zählt nicht zu deinem Lernfortschritt.
+        exam_unlock: Das Exam wird freigeschaltet, sobald du %{percentage} % des Kurses abgeschlossen hast.
+        locked: Dieser Abschnitt ist noch nicht verfügbar.
       section_material_empty: Keine Inhalte verfügbar
-      statistics:
-        main: Hausaufgaben
-        bonus: Bonus
-        selftests: Selbsttests
-        points_achieved: "%{submitted_points} von %{max_points} Punkte"
-        items_taken: "%{taken} von %{total} bearbeitet"
-        empty_state_points: Keine Punkte
+      current_item:
+        start: Starten
+        continue: Fortsetzen
+      retake_exam: Wiederholen
 
       show:
         empty_msg: Es gibt noch keine Inhalte in diesem Kurs, daher auch noch keine Fortschrittsanzeige.
+        quizzes_title: Quiz
+        certificates_title: Nachweise
+        certificates_subtitle: Lade deine Nachweise herunter
       overview:
         open_mode:
           message: "Die Lerneinheiten in dieser Liste gehören zum Kurs <b>%{title}</b>. Möchten Sie auf den gesamten Kursinhalt zugreifen?"
@@ -1667,50 +1748,26 @@ de:
           item: Für diese Lerneinheit gibt es keine Vorschau. Bitte schreiben Sie sich für den Kurs ein, um fortzufahren.
         empty_msg: Die Übersicht ist für diesen Kurs nicht verfügbar.
         continue: Weiterlernen
-      legend:
-        show: Erklärung anzeigen
-        hide: Erklärung ausblenden
-        completed: Inhalt erfolgreich abgeschlossen
-        not_completed: Inhalt nicht abgeschlossen
-        warning: Ausreichende Punktzahl erreicht
-        critical: Niedrige Punktzahl, wenn möglich wiederholen
-        optional: Optionaler Inhalt, beeinflusst die Punktzahl nicht
 
     admin:
       page_header: Kursadministration
       certificate_templates:
-        headline: Leistungsnachweis-Vorlagen und Vorlagen für Open Badges
+        headline: Zertifikat-Vorlagen
         index:
-          empty_msg: Es gibt noch keine Leistungsnachweis-Vorlagen
+          empty_msg: Es gibt noch keine Zertifikat-Vorlagen
           new: Neue Vorlage hinzufügen
-          record_count: Anzahl Leistungsnachweise
+          record_count: Anzahl Zertifikate
           type: Type
           actions: Aktionen
           edit: Bearbeiten
           preview: Vorschau
           download: Herunterladen
           delete: Löschen
-          confirm_delete: Möchten Sie diese Leistungsnachweis-Vorlage wirklich löschen?
+          confirm_delete: Möchten Sie diese Zertifikat-Vorlage wirklich löschen?
         new:
-          headline: Neue Leistungsnachweis-Vorlage
+          headline: Neue Zertifikat-Vorlage
         edit:
-          headline: Leistungsnachweis-Vorlage bearbeiten
-      open_badge_templates:
-        index:
-          empty_msg: Es gibt derzeit noch keine Open Badge-Vorlage.
-          new: Neue Vorlage hinzufügen
-          name: Name
-          description: Beschreibung
-          badge_count: Ausgestellte Badges
-          image: Bild
-          edit: Bearbeiten
-          download: Herunterladen
-          delete: Löschen
-          confirm_delete: Sind Sie sicher, dass Sie diese Open Badge-Vorlage löschen möchten?
-        new:
-          headline: Neue Open Badge-Vorlage
-        edit:
-          headline: Open Badge-Vorlage bearbeiten
+          headline: Zertifikat-Vorlage bearbeiten
       metadata:
         edit: Metadaten bearbeiten
         form:
@@ -1747,17 +1804,11 @@ de:
           certificate: Zertifikat
           complete: Kurs & Zertifikat
       visuals:
+        upload_teaser: Teaser-Video hochladen
+        upload_hint: Laden Sie ein neues Video zu Bunny hoch oder wählen Sie unten einen vorhandenen Stream. Ein neuer Upload ersetzt den ausgewählten Stream.
+        upload_status: "Video-Upload: %{status}"
         edit: Visuals bearbeiten
         back: Zurück zum Kurseditor
-
-    certificates:
-      title: Meine Kurszertifikate
-      requirements: Anforderungen
-      achieved_state: Erreicht
-      in_progress_state: Noch nicht erreicht
-      in_progress_button: Fortschritt überprüfen
-      guideline_link: "Weitere Informationen finden Sie in den <a class='bs-a' href='%{url}'>Richtlinien für Leistungsnachweise</a>."
-      show_open_badge: Open Badge anzeigen
 
   certificate:
     template:
@@ -1774,72 +1825,6 @@ de:
       score_v3: "%{points} / %{max_points} Punkte (%{percent}%)"
 
       verify: "Online Verifizierung: %{verification_url}"
-
-  knowledge_documents:
-    documents: Dokumente
-    show: Details anzeigen
-    title: Titel
-    description: Beschreibungstext
-    language: Sprache
-    upload_file: Dokument hochladen
-    id: Id
-    filename: Dateiname
-    size: Größe
-    path: Pfad
-    download: Herunterladen
-    actions: Aktionen
-    no_documents: Keine Dokumente verfügbar
-    filter: Dokumente filtern nach
-    or_course: Nach Kurs filtern
-    reset_filter: Filter zurücksetzen
-    hint: Es können nur PDF Dokumente hochgeladen werden. Die Dateigröße ist auf 8MB begrenzt.
-    add_language: Neue Sprache hinzufügen
-    corresponding_document: Zugehöriges Dokument
-    edit_document: Dokument bearbeiten
-    new: Neues Dokument anlegen
-    tags: Tags
-    languags: Sprachen
-    select_courses: Kurse auswählen
-    select_tags: Tags auswählen
-    corresponding_courses: Zugehörige Kurse
-    edit: Bearbeiten
-    delete: Löschen
-    delete_all: Dokument und alle Übersetzungen löschen
-    delete_localization: Übersetzung löschen
-    submit: Abschicken
-    update: Dokument aktualisieren
-    internal:
-      information: Interne Informationen
-      title: Interner Titel
-      title_placeholder: Geben Sie einen internen Titel für das Dokument an. Dieser wird nur für andere Administratoren sichtbar sein.
-      description: Interne Beschreibung
-      description_placeholder: Geben Sie eine interne Beschreibung für das Dokument an. Diese wird nur für andere Administratoren sichtbar sein.
-    localization:
-      edit: Übersetzung bearbeiten
-      create: Neue Übersetzung erstellen
-      this_translation: Diese Übersetzung des Dokuments
-      translations: Übersetzungen
-      language: Sprache
-      file: Datei (als PDF)
-      file_placeholder: Wählen Sie eine Datei aus, die Sie hochladen wollen.
-      old_file: Ursprüngliche Datei
-      new_file: Neue Datei hochladen (als PDF)
-      show_file: Aktuelle Datei anzeigen
-      title: Titel (in gewählter Sprache)
-      title_placeholder: Geben Sie den Titel des Dokuments in der von Ihnen gewählten Sprache an.
-      description: Beschreibung (in gewählter Sprache)
-      description_placeholder: Geben Sie eine Beschreibung des Dokuments in der von Ihnen gewählten Sprache an.
-    courses: genutzt in folgenden Kursen
-    courses_placeholder: Wählen Sie Kurse aus, in denen dieses Dokument zur Verfügung stehen soll.
-    public: Veröffentlicht?
-    create: Dokument erstellen
-    platform: Verwendung auf der Plattform
-    index: Zurück zur Übersicht
-    cancel: Abbrechen
-    help:
-      help: Hilfe
-      new: Dokumente können in verschiedenen Sprachen angezeigt werden. Nutzen Sie dieses Formular, um ein neues Dokument anzulegen. Sie müssen mindestens eine Übersetzung angeben, damit Nutzer dieses Dokument sehen können. Hochgeladene Datein müssen im PDF-Format sein, um sicherzustellen, dass jeder Nutzer sie anzeigen kann.
-      edit: Dokumente können in verschiedenen Sprachen angezeigt werden. Nutzen Sie dieses Formular, um die internen Informationen dieses Dokuments zu ändern. Diese Informationen sind sichtbar für andere Administratoren und sollten so formuliert sein, dass Inhalt und Ziel des Dokuments klar erkennbar sind. Im unteren Teil des Formulars können die die zugehörigen Übersetzungen sehen und bearbeiten.
 
   sections:
     admin:
@@ -1872,14 +1857,17 @@ de:
       delete: Item löschen
       create: Neues Item
       create_headline: Neues Item in Section "%{section}"
+      create_exam: Neue Prüfung
+      edit_exam: Prüfung bearbeiten
+      create_exam_headline: Neue Prüfung in Section "%{section}"
+      edit_exam_headline: Prüfung bearbeiten "%{item}"
       edit_headline: Item bearbeiten "%{item}"
       edit: Item bearbeiten
-      edit_subtitles: Untertitel bearbeiten
       copy_id: ID kopieren
       copy_content_id: Content-ID kopieren
       unpublished: Item ist nicht veröffentlicht
       locked_until: "Item ist bis %{date} gesperrt"
-      locked_since: "Item ist bis %{date} gesperrt"
+      locked_since: "Item wurde am %{date} gesperrt"
       locked_on: "Item wird am %{date} gesperrt"
     index:
       headline: Struktur & Inhalt
@@ -1888,12 +1876,14 @@ de:
         video: Video
         quiz: Quiz
         lti_exercise: Übung
+        cmi5: Cmi5 Quiz
+        exam: Prüfung
       clone_course:
         button: Kurs klonen
         placeholder: Course Code des Klons
         course_code_empty: Der Course Code für den Klon darf nicht leer sein.
         new_course_not_empty: Der Zielkurs für das Klonen darf keine Inhalte (Sektionen) haben.
-        clone_started: "Klonen des Kurses gestartet. Sie finden den geklonten Kurse in der <a class='bs-a' href='/admin/courses'>Kursübersicht</a>."
+        clone_started: "Klonen des Kurses gestartet. Sie finden den geklonten Kurse in der <a class='bs-a' href='/admin/learn'>Kursübersicht</a>."
       fork: Fork
       recalculate_learning_evaluation: Jetzt neu berechnen
       recalculate_title: Die Lernfortschritte für diesen Kurs müssen neu berechnet werden
@@ -1915,6 +1905,23 @@ de:
     errors:
       create: Beim Erstellen des Items ist etwas schief gelaufen.
       update: Beim Aktualisieren des Items ist etwas schief gelaufen.
+    exam:
+      minimum_progress_percentage: Benötigter Kursfortschritt
+      minimum_progress_percentage_hint: "Die Prüfung wird freigeschaltet, sobald mindestens %{percentage}% des Kurses (nur Pflichtinhalte) abgeschlossen sind."
+      pass_percentage: Bestehensgrenze
+      pass_percentage_hint: "Die Prüfung wird bestanden, wenn mindestens %{percentage}% der Punkte erreicht werden."
+      max_points_hint: "Die maximale Punktzahl ergibt sich aus den angezeigten Fragen: %{points} Punkte pro Versuch."
+      locked_hint: "Diese Prüfung wird freigeschaltet, sobald du mindestens %{percentage}% des Kurses abgeschlossen hast."
+      start_exam: Prüfung starten
+      start_exam_now: Prüfung jetzt starten
+      confirm_heading: Prüfung starten?
+      confirm_pass_text: "Die Prüfung wird bestanden, wenn mindestens %{percentage}% der Punkte erreicht werden."
+      start_modal:
+        note: "Bitte beachte vor dem Start:"
+        points: Gesamtpunkte
+        attempts: Versuche
+        time: Zeitlimit
+        timer_hint: "Die Zeit läuft weiter, auch wenn du zwischen den Tabs wechselst."
     video:
       errors:
         invalid_subtitle:
@@ -1923,20 +1930,24 @@ de:
     new:
       back_to_editor: Zurück zum Kurseditor
     show:
+      label: Menü
       hide_nav: Menü ausblenden
       show_nav: Menü zeigen
       toggle_nav_hint: Menü aus- oder einblenden
       coursestate:
-        available: Kurs ist verfügbar
-        was_available: Kurs ist beendet
-        archive: Kurs im Selbststudium
+        active: Kurs ist verfügbar
+        self-paced: Kurs im Selbststudium
         preparation: In Vorbereitung
         upcoming: Kurs hat noch nicht begonnen
-        hidden: Kurs ist versteckt
       prev_item: Zurück
       next_item: Weiter
-      unsupported_browser: Ihr Browser wird nicht unterstützt. Bitte benutzen Sie einen modernen Browser.
+      prev_section_item: Vorheriges Modul
+      next_section_item: Nächstes Modul
       unsupported_item_type: Diese Art von Lerninhalt wird nicht mehr unterstützt. Bitte fahren Sie mit dem nächsten fort.
+      rich_text:
+        downloads: Downloads
+        download:
+          reading_material: Lesematerial
       video:
         preview:
           info: "Dieses Video gehört zum %{platform}-Kurs <b>%{course_title}</b>. Möchten Sie mehr sehen?"
@@ -1945,8 +1956,7 @@ de:
         activity: Activity
         no_activity: Not yet here
         about: Über dieses Video
-        video_downloads: Video herunterladen
-        additional_downloads: Zusätzliches Material herunterladen
+        downloads: Downloads
         download:
           video: Video als MP4-Datei
           hd_video: "Video (HD) als MP4"
@@ -1956,15 +1966,14 @@ de:
           transcript: Transkript als PDF
           reading_material: Lesematerial
           audio: Audio als MP3-Datei
-          disabled: Das Herunterladen dieses Videos/Audios ist aufgrund von lizenzrechtlichen Bestimmungen nicht möglich.
-        ask_own_question: Neues Thema eröffnen
-        questions_and_discussions: Diskussionsthemen
+        ask_own_question: Neuen Beitrag eröffnen
+        questions_and_discussions: Forumsbeiträge
         view_or_answer: Ansehen oder Antworten
         read_more: Weiterlesen
         num_questions:
-          zero: Es gibt noch keine Diskussionsthemen
-          one: 1 Thema
-          other: "%{count} Themen"
+          zero: Es gibt noch keine Forumsbeiträge
+          one: 1 Beitrag
+          other: "%{count} Beiträge"
         num_replies:
           zero: Keine Antworten
           one: 1 Antwort
@@ -1995,6 +2004,7 @@ de:
       question_text: Fragestellung
       question_explanation: Erläuterung
       question_alert: Überprüfen Sie diese Frage!
+      question_count: Frage %{count}
       show_question_explanation: Erläuterung anzeigen
       hide_question_explanation: Erläuterung ausblenden
       actions: Aktionen
@@ -2013,6 +2023,22 @@ de:
       enter_question: Geben Sie Ihre Frage ein
       enter_question_explanation: Geben Sie Ihre Erläuterung hier ein
       points: Punkte
+      question_pool: Fragenpool
+      exam: Prüfungsfragenpool
+      exam_hint: Prüfungen weisen jeder lernenden Person eine zufällige, stabile Teilmenge der Fragen zu und erlauben immer zwei Versuche.
+      exam_attempts_hint: Prüfungsfragenpools erlauben immer genau zwei Versuche.
+      displayed_question_count: Pro lernender Person angezeigte Fragen
+      displayed_question_count_hint: Muss ein positives Vielfaches von 10 sein. Je zehn angezeigte Fragen enthalten drei einfache, drei mittlere und vier schwierige Fragen. Fügen Sie dem Pool genau dreimal so viele Single- oder Multiple-Choice-Fragen hinzu.
+      exam_draft_message: "Die Prüfung bleibt unveröffentlicht: %{errors}"
+      exam_invalid_message: "Die Prüfung kann nicht veröffentlicht werden: %{errors}"
+      exam_pool_heading: Prüfungsfragenpool
+      exam_pool_description: Erstellen und verwalten Sie den %{count}-Fragen-Pool. Jede Zehnergruppe für Lernende enthält drei einfache, drei mittlere und vier schwierige Fragen.
+      difficulty: Schwierigkeit
+      difficulties:
+        not_defined: Nicht definiert
+        easy: Einfach
+        mid: Mittel
+        hard: Schwer
       shuffle_answers: Antworten mischen
       answer: Antwort
       answers: Antworten
@@ -2046,7 +2072,7 @@ de:
           legend: Eine <span class="updated_record">farbig markierte Reihe</span> weist auf ein bereits existierendes Quiz hin. Dieses Quiz wird weder aktualisiert noch neu hinzugefügt!<br/>Um das Quiz erneut hinzu zu fügen, muss zunächst das bestehende Quiz gelöscht werden.
           confirmButtonText: Importieren
           errorTitle: Es sind Fehler während der Validierung aufgetreten
-      import_quizzes_by_service: Importiere Quiz aus Spreadsheet
+      import_quizzes: Importiere Quiz aus Spreadsheet
       import_quizzes_success: Quizze erfolgreich importiert!
       confirm_start_quiz: Dieses Quiz wird benotet und kann nicht pausiert werden. Bitte vergewissern Sie sich, dass Sie genügend Zeit haben, um es zu bearbeiten, bevor Sie beginnen.
       exclude_from_recap: Vom Recap-Modus ausschließen
@@ -2085,19 +2111,38 @@ de:
       quiz_info: Quiz info
       questions: "Frage(n):"
       quiz_total_points: "Ingesamte Quiz Punkte: "
+    quiz_info:
+      valid: Prüfung ist bereit
+      incomplete: Prüfung ist unvollständig
+      difficulties:
+        easy: Einfache
+        mid: Mittlere
+        hard: Schwierige
+      questions_per_learner: "%{count} Fragen werden jeder lernenden Person angezeigt"
+      questions_per_learner_missing: Setzen Sie die Anzahl angezeigter Fragen auf ein positives Vielfaches von 10
+      pool_size: "%{current_count} / %{required_count} Fragen in der Prüfung"
+      pool_size_missing_count: Legen Sie zuerst die Anzahl angezeigter Fragen fest
+      pool_size_missing: "%{current_count} / %{required_count} Fragen in der Prüfung"
+      pool_size_too_many: "%{current_count} / %{required_count} Fragen in der Prüfung (%{count} zu viel)"
+      difficulty: "%{difficulty} Fragen: %{count} (mindestens %{required_count})"
+      question_types: Nur Single- und Multiple-Choice-Fragen
+      question_types_missing: "%{count} Frage(n) müssen Single- oder Multiple-Choice-Fragen sein"
     deleted_quiz: "Quiz gelöscht."
     deleted_richtext: Text-Item gelöscht.
     deleted_item: "Item gelöscht."
     type_label:
       video: Video
       rich_text: Text
+      learning_material: Lernmaterial
       self_test: Selbsttest
       graded_test: Benoteter Test
+      exam: Prüfung
       bonus_test: Bonus-Test
       survey: Umfrage
-      exercise: Übung
-      graded_exercise: Benotete Übung
-      bonus_exercise: Bonus-Übung
+    cmi5:
+      not_found: Dieses Item wurde nicht gefunden. Bitte wenden Sie sich an den Helpdesk, wenn das Problem weiterhin besteht.
+      package: Cmi5-Paket (.zip)
+      current_package: "Aktuell hochgeladen: %{filename}. Wählen Sie eine Datei aus, um sie zu ersetzen."
 
   lti_providers:
     lti_provider:
@@ -2120,13 +2165,7 @@ de:
     section_start: "%{title} startet in"
     item_submission_deadline: "Abgaben für %{title} enden in"
     item_submission_publishing: "Ergebnisse für %{title} werden veröffentlicht am"
-    on_demand_expires: "Erlangen Sie Ihren Leistungsnachweis bevor Ihre <b>Kurs-Reaktivierung</b> abläuft in"
-    deadline_widget:
-      tooltip: "Klicken Sie hier, um Ihre bevorstehenden Deadlines für diesen Kurs zu sehen"
-      empty_state: "Sie haben keine bevorstehende Deadline für diesen Kurs."
-      events:
-        on_demand_expires: "Ihre Kursreaktivierung ist noch %{when} gültig"
-        item_submission_deadline: "Deadline: %{when}"
+    on_demand_expires: "Erlangen Sie Ihr Zertifikat bevor Ihre <b>Kurs-Reaktivierung</b> abläuft in"
 
   ical:
     course_start: "Kurs %{title} startet"
@@ -2140,15 +2179,15 @@ de:
 
   dashboard:
     courses:
-      current: Meine aktuellen Kurse
-      upcoming: Meine zukünftigen Kurse
-      completed: Meine abgeschlossenen Kurse
-    not_enrolled_upcoming: 'Sie sind für keinen zukünftigen Kurs eingeschrieben. Bitte besuchen Sie unsere <a class="bs-a" href="/courses">Kursübersicht</a>.'
+      current: Meine aktuellen Lernangebote
+      upcoming: Meine zukünftigen Lernangebote
+      completed: Meine abgeschlossenen Lernangebote
+    not_enrolled_upcoming: 'Sie sind für kein zukünftiges Angebot eingeschrieben. Bitte besuchen Sie unsere <a class="bs-a" href="/learn">Lernangebote</a>.'
     mark_completed: Als abgeschlossen markieren
     mark_completed_confirmation: Durch diese Option bewegen Sie den Kurs permanent von Ihren aktuellen Kursen zu Ihren abgeschlossenen Kursen. Von dort können Sie weiterhin auf den Kurs zugreifen.
-    more_courses: 'Tipp: Sie können immer alle abgeschlossenen Kurse, für die Sie noch nicht eingeschrieben sind, im <a class="bs-a" href="/courses">Kursarchiv</a> finden und sich für ein Selbststudium (ohne Leistungsnachweis) anmelden.'
+    more_courses: 'Tipp: Sie können immer alle abgeschlossenen Kurse, für die Sie noch nicht eingeschrieben sind, im <a class="bs-a" href="/learn">Kursarchiv</a> finden und sich für ein Selbststudium (ohne Zertifikat) anmelden.'
     sidebar:
-      dates: Nächste Termine pro Kurs
+      dates: Nächste Termine
       dates_empty: Es gibt keine bevorstehenden Termine.
     profile:
       my_profile: Mein Profil
@@ -2157,7 +2196,7 @@ de:
       error_message: Die Daten konnten leider nicht gespeichert werden. Ihre Eingabe ist vermutlich ungültig. Bitte überprüfen Sie Ihre Eingabe und versuchen Sie es anschließend erneut.
       email_already_taken: Die eingegebene E-Mail-Adresse wird bereits verwendet.
       name: Name
-      name_text: Dieser Name wird für die Ausstellung der Leistungsnachweise genutzt.
+      name_text: Dieser Name wird auf deinen openHPI-Zertifikaten erscheinen.
       display_name: Anzeigename
       display_name_text: Unter diesem Namen treten Sie auf der Lernplattform auf.
       resulting_display_name: Ihr Anzeigename
@@ -2174,7 +2213,7 @@ de:
       identities: Verknüpfte Konten
       delete_account: Konto löschen
       delete_account_buttontext: Konto löschen
-      delete_account_text: Hier können Sie Ihr Konto bei openHPI unwiderruflich löschen. Alle Ihre persönlichen Daten werden gelöscht. Sie können dann nicht mehr auf Ihre Daten und Leistungsnachweise zugreifen. Dieser Schritt ist nicht widerrufbar.
+      delete_account_text: Hier können Sie Ihr Konto bei openHPI unwiderruflich löschen. Alle Ihre persönlichen Daten werden gelöscht. Sie können dann nicht mehr auf Ihre Daten und Zertifikate zugreifen. Dieser Schritt ist nicht widerrufbar.
       delete_account_confirm_text: Sind Sie wirklich  sicher? Wennn Sie Ihr Konto löschen, können Sie nicht mehr auf die Lerninhalte und Ihre Daten zugreifen.
       affiliation: Organisation
       career_status: Beruflicher Status
@@ -2196,7 +2235,7 @@ de:
       password_confirmation: "Passwort bestätigen"
       birthdate: "Geburtsdatum"
       select_birthdate: "Bitte wählen"
-      show_birthdate_on_record: Sie können in Ihrer <a class='bs-a' href='%{url}'>Zertifikatseite</a> angeben, ob Ihr Geburtsdatum auf Ihren Leistungsnachweisen angezeigt werden soll.
+      show_birthdate_on_record: Dein Geburtsdatum wird später auf deinen openHPI-Zertifikaten erscheinen.
       combodate_format: "YYYY-MM-DD"
       combodate_viewformat: "D. MMMM YYYY"
       combodate_template: "DD. MMMM YYYY"
@@ -2570,14 +2609,13 @@ de:
       select_state: Bundesland auswählen
 
     documents:
-      my_documents: Meine Leistungsnachweise
-      text: "Hier finden Sie alle Leistungsnachweise aus Ihren Kursen gesammelt (Leistungsnachweise und Teilnahmebestätigungen). Sie qualifizieren Sich für einen benoteten <i>Leistungsnachweis</i>, wenn Sie mindestens %{roa_threshold}%% der Gesamtpunktzahl aus Hausaufgaben und Abschlussklausur erreichen. Sie können eine <i>Teilnahmebestätigung</i> herunterladen, wenn Sie mehr als %{cop_threshold}%% der Lernmaterialien eines Kurses bearbeitet haben. Weitere Informationen finden Sie bei den <a class='bs-a' href='/pages/roa_guidelines'>Richtlinien für Leistungsnachweise</a>."
-      show_birthdate: "Geburtsdatum auf meinen Leistungsnachweisen anzeigen"
-      no_documents: Es sind noch keine Leistungsnachweise verfügbar.
+      my_documents: Meine Zertifikate
+      text: "Hier findest du alle Nachweise aus deinen Lernangeboten gesammelt (Zertifikate und Teilnahmebestätigungen). Du qualifizierst dich für einen <i>Nachweis</i>, wenn du mindestens %{roa_threshold}%% der Gesamtpunktzahl im Exam erreichst. Eine <i>Teilnahmebestätigung</i> kannst du herunterladen, wenn du mehr als %{cop_threshold}%% der Lernmaterialien eines Lernangebots bearbeitet hast. Weitere Informationen findest du auf der Seite <a class='bs-a' href='/pages/certificates_and_guidelines'>Nachweise und Richtlinien</a>."
+      show_birthdate: "Geburtsdatum auf meinen Zertifikaten anzeigen"
+      no_documents: Es sind noch keine Zertifikate verfügbar.
       my_upcoming_courses: Meine zukünftigen Kurse
-      divergent_certificate_requirements: "Abweichende Anforderungen für Leistungsnachweise, siehe <a class='bs-a' href='/courses/%{course_code}'>Kursdetails</a>."
-      not_yet_published: Die Leistungsnachweise für diesen Kurs wurden noch nicht freigegeben. Sobald die Dokumente verfügbar sind, werden Sie per E-Mail informiert. Dies geschieht üblicherweise innerhalb einer Woche nach der Abgabefrist der Abschlussprüfung.
-      transcript_of_records: "Ein <i>Transcript of Records</i> gibt es für Kurse, die einen zusammenfassenden, tabellarischen Leistungsnachweis für alle dort vorausgesetzten Kurse anbieten. Hierfür müssen alle Voraussetzungen erfüllt sein."
+      divergent_certificate_requirements: "Abweichende Anforderungen für Zertifikate, siehe <a class='bs-a' href='/learn/%{course_code}'>Kursdetails</a>."
+      not_yet_published: Die Zertifikate für diesen Kurs wurden noch nicht freigegeben. Sobald die Dokumente verfügbar sind, werden Sie per E-Mail informiert. Dies geschieht üblicherweise innerhalb einer Woche nach der Abgabefrist der Abschlussprüfung.
 
   feeds:
     headline: "Unsere Feeds:"
@@ -2585,19 +2623,18 @@ de:
     course_feed_name: "Kurse"
 
   pinboard:
-    ask_question: Neues Thema eröffnen
-    rule_hint: "<b>Hinweis</b>: Mit unseren <a class='bs-a' href='https://open.hpi.de/pages/common_values' target='_blank' rel='noopener'>gemeinsamen Werten</a> schaffen wir einen respektvollen Raum – bitte vor dem Posten lesen und beachten."
-    submit_question: Thema eröffnen
+    ask_question: Neuen Beitrag eröffnen
+    rule_hint: "<b>Hinweis</b>: Mit unserem <a class='bs-a' href='https://open.hpi.de/pages/code_of_conduct' target='_blank' rel='noopener'>Verhaltenskodex</a> schaffen wir einen respektvollen Raum – bitte vor dem Posten lesen und beachten."
+    submit_question: Beitrag eröffnen
     update_question: Änderungen speichern
-    locked_msg: Dieser Diskussionsbereich steht nur noch im Lesemodus zur Verfügung. Es können keine neuen Themen und Antworten mehr erstellt werden.
+    locked_msg: Dieses Forum steht nur noch im Lesemodus zur Verfügung. Es können keine neuen Beiträge und Antworten mehr erstellt werden.
     cancel: Abbrechen
     search_tag_result_text:
       one: 'Ihr Suchergebnis für Tag "%{tags}"'
       other: Ihr Suchergebnis für die Tags "%{tags}"
     breadcrumbs:
-      label: "Sie sind hier:"
-      all: Alle Diskussionen
-    general: Alle Diskussionen (Allgemein)
+      all: Forum
+    general: Forum (Allgemein)
     no_results_search: Keine Suchergebnisse gefunden
     no_results: Keine Einträge gefunden
     question:
@@ -2612,7 +2649,7 @@ de:
       ago: "vor %{timeago}"
       last_activity: letzte Aktivität
       answered: Beantwortet
-      discussion: Diskussion
+      discussion: Forum
       unanswered: Unbeantwortet
       closed: Geschlossen
       accept_hint: Hat Ihnen diese Antwort geholfen? Klicken Sie hier, um sie als korrekt zu markieren.
@@ -2622,8 +2659,8 @@ de:
       last: Ende
       previous: Zurück
     filters:
-      all_discussions: Alle Diskussionen
-      discussions_in: Themen anzeigen in
+      all_discussions: Alle Forumsbeiträge
+      discussions_in: Beiträge anzeigen in
       technical_issues: Technische Probleme
     index:
       filter:
@@ -2637,7 +2674,7 @@ de:
           activity: Letzte Aktivität
           age: Neueste Fragen
           votes: Bestbewertete zuerst
-      loading: Diskussionen werden geladen...
+      loading: Beiträge werden geladen...
     reporting:
       report: Melden
       block: Sperren
@@ -2652,12 +2689,12 @@ de:
       question_blocked: "[Dieser Beitrag wurde aufgrund unangemessenen Inhalts gesperrt]"
       answer_blocked: "[Diese Antwort wurde aufgrund unangemessenen Inhalts gesperrt]"
       comment_blocked: "[Dieser Kommentar wurde aufgrund unangemessenen Inhalts gesperrt]"
-      reply_blocked: Antworten und Kommentare sind für dieses Thema deaktiviert, da es gesperrt wurde.
+      reply_blocked: Antworten und Kommentare sind für diesen Beitrag deaktiviert, da er gesperrt wurde.
       success: Ihre Meldung ist bei uns eingegangen
       error: Der Beitrag konnte leider nicht gemeldet werden
       admin:
-        headline: Gemeldete Diskussionsbeiträge
-        question_title: Diskussionsthema
+        headline: Gemeldete Forumsbeiträge
+        question_title: Forumsbeiträge
         type: Typ des Beitrags
         reporter: Gemeldet von
         created: Meldezeit
@@ -2672,31 +2709,33 @@ de:
     errors:
       loading: Es ist ein Fehler beim Laden aufgetreten.
       already_voted: Sie können nur einmal abstimmen.
-    subscribe: Diskussionsforum folgen
-    unsubscribe: Diskussionsforum nicht mehr folgen
+    subscribe: Forum folgen
+    unsubscribe: Forum nicht mehr folgen
 
   pinboard_comment:
     update: Änderungen speichern
 
   question:
     answered: Beantwortet
+    correct: Richtig
     discussion: Diskussion
+    incorrect: Falsch
     unanswered: Jetzt beantworten
     show:
       back: Zur Übersicht
-      subscribe: Thema folgen
-      unsubscribe: Thema nicht mehr folgen
+      subscribe: Beitrag folgen
+      unsubscribe: Beitrag nicht mehr folgen
       destroy: Löschen
-      confirm_delete: Dieses Thema löschen?
+      confirm_delete: Diesen Beitrag löschen?
       close: Schließen
-      confirm_close: Dieses Thema schließen?
+      confirm_close: Diesen Beitrag schließen?
       reopen: Öffnen
-      confirm_reopen: Dieses Thema wieder eröffnen?
-      closed_msg: Dieses Thema wurde geschlossen und steht nur noch im Lesemodus zur Verfügung. Es können keine neuen Antworten mehr erstellt werden.
-      section_locked_msg: Der Diskussionsbereich im Abschnitt "%{section}" steht nur noch im Lesemodus zur Verfügung. Es können keine neuen Themen und Antworten mehr erstellt werden.
+      confirm_reopen: Diesen Beitrag wieder eröffnen?
+      closed_msg: Dieser Beitrag wurde geschlossen und steht nur noch im Lesemodus zur Verfügung. Es können keine neuen Antworten mehr erstellt werden.
+      section_locked_msg: Der Forumsbereich im Abschnitt "%{section}" steht nur noch im Lesemodus zur Verfügung. Es können keine neuen Beiträge und Antworten mehr erstellt werden.
     question_detail:
-      subscribe: Thema folgen
-      unsubscribe: Thema nicht mehr folgen
+      subscribe: Beitrag folgen
+      unsubscribe: Beitrag nicht mehr folgen
       edit: Ändern
       add_reply: Neue Antwort
     comment_form:
@@ -2722,16 +2761,15 @@ de:
     instruction: Einführung
     questions: Fragen
     retake_quiz: Quiz wiederholen
-    your_submissions: "Quiz bereits %{submission_count} mal abgeschickt"
-    remaining_attempts: "Insgesamt %{remaining_attempts} Versuche verbleibend."
-    choose_submission: "Abgabe auswählen:"
+    correct_answer: Richtige Antwort
+    explanation_for_answer: Erläuterung zur Antwort
     total_points: "Sie haben %{total_points} von %{max_points} Punkten erreicht"
     submit:
       selftest: Sende meine Antworten
       bonus: Sende meine Antworten
       main: Sende meine finalen Antworten
       survey: Sende Feedback
-    quiz_sidebar_title: "Quiz Details"
+      exam: Sende meine finalen Antworten
     quiz_results: "Ergebnisse"
     total: "Total"
     question_count:
@@ -2742,26 +2780,21 @@ de:
     question_points: "%{points} Punkte"
     quiz_question_points: "%{points} Punkte von %{max_points} Punkten"
     quiz_question_points_slashed: "%{points} / %{max_points}"
-    last_saved: "Zuletzt gespeichert:"
     autosave_warning: "<strong>Achtung:</strong> die Verbindung zum openHPI Server wurde unterbrochen. Ihr Quiz kann nicht automatisch gespeichert werden. Bitte überprüfen Sie Ihre Internetverbindung."
     time_up: "Ihre Zeit für das Quiz ist leider abgelaufen. Ihre bisherigen Lösungen werden an den Server übermittelt."
-    times_taken:
-      zero: "Sie haben dieses Quiz noch nie abgegeben."
-      one: "Sie haben dieses Quiz bereits einmal abgegeben."
-      other: "Sie haben dieses Quiz bereits %{count} mal abgegeben."
-    unlimited_time: Es gibt keine Zeitbegrenzung für dieses Quiz!
-    unlimited_attempts: Das Quiz kann beliebig oft wiederholt werden!
     please_select: Bitte wählen
+    card:
+      total_points: "Punkte gesamt"
+      attempts_left: "Verbleibende Versuche"
+      attempts:
+        one: "%{count} Versuch"
+        other: "%{count} Versuche"
+      time_left: "Restzeit"
+      unlimited: "Unbegrenzt"
+      answered_count: "%{answered} von %{total} Fragen beantwortet"
     partials:
       quiz_answer_solution:
-        correct: Richtig!
-        wrong: Leider falsch
-        unselected: Richtige Antwort
         thanks: Vielen Dank!
-        correct_selected: Richtig!
-        correct_unselected: "Richtig, diese Antwort wäre nicht korrekt!"
-        wrong_selected: Diese Antwort ist leider falsch ausgewählt worden.
-        wrong_unselected: Diese Antwort wäre richtig gewesen.
       quiz_free_text_answer_solution:
         correct: Richtig!
         wrong: Falsche Antwort
@@ -2790,7 +2823,11 @@ de:
       homework: Dies ist eine benotete Aufgabe/Prüfung
       bonus: Dies ist eine Bonusaufgabe
       selftest: Dies ist ein unbenoteter Selbsttest
+      exam: Dies ist die Kursprüfung
       show_results: Ergebnisse einsehbar ab %{datetime}
+    exam_passed: "Glückwunsch! Du hast die Prüfung bestanden."
+    exam_failed: "Du hast die Prüfung noch nicht bestanden. Du musst mindestens %{percentage} % der Gesamtpunkte erreichen, um die Prüfung zu bestehen."
+    exam_failed_final: "Du hast die Prüfung nicht bestanden. Es sind keine weiteren Versuche mehr möglich."
     masq_warning: Die Abgabefrist ist bereits verstrichen. Sie können das Quiz noch abgeben, da Sie als Nutzer maskiert sind.
     admin_area_title: Adminbereich
     submit_fudge_points: Senden
@@ -2817,11 +2854,17 @@ de:
       masquerade_hint: Vorübergehend als dieser Benutzer zum Support oder Wartung agieren.
       ban: Benutzer sperren
       ban_info: Dieser Benutzer wurde gesperrt.
+      unban_info: Dieser Benutzer wurde gesperrt. Dieses Konto wurde bereits %{ban_count}-mal gesperrt. Die letzte Sperrung erfolgte am %{last_ban_date}.
       ban_confirm: Sind Sie sich sicher, dass sie den Benutzer sperren wollen? Ein gesperrter Nutzer wird nicht gelöscht aber ein Login ist nicht mehr möglich.
       ban_hint: Ein gesperrter Benutzer wird abgemeldet und kann sich nicht wieder anmelden. Das Konto wird archiviert, aber nicht gelöscht.
       manual_confirm: Manuell bestätigen
       manual_confirm_hint: Dieses Konto manuell verifizieren und aktivieren.
       confirm_manual_confirm: Bitte a) überprüfen Sie, ob die E-Mail-Adresse des Nutzers korrekt geschrieben ist und b) stellen Sie sicher, dass der Nutzer die Adresse mittels einer Antwort im Helpdesk bestätigt hat.
+      top_talent: Top Talent
+      top_talent_hint: Diesen Benutzer als Top Talent markieren oder die Markierung entfernen.
+      top_talent_confirm: Sind Sie sich sicher, dass Sie diesen Benutzer als Top Talent markieren wollen?
+      remove_top_talent: Top Talent entfernen
+      remove_top_talent_confirm: Sind Sie sich sicher, dass Sie diesen Nutzer von der Liste der Top Talente entfernen wollen?
       enrollments: Belegte Kurse
       course_title: Titel des Kurses
       course_code: Kurs-Code
@@ -2831,11 +2874,10 @@ de:
       completed_: nicht verfügbar
       points: Punkte
       quantile: Quantil
-      certificates: Leistungsnachweise
+      certificates: Zertifikate
       confirmation_of_participation: Teilnahmebestätigung
-      record_of_achievement: Leistungsnachweis
-      certificate: Zertifikat
-      transcript_of_records: Transcript of Records
+      record_of_achievement: Zertifikat
+      certificate: Verifiziertes Zertifikat
       actions: Aktionen
       action_submissions: Submissions zeigen
       user_information: Benutzerinformationen
@@ -2854,27 +2896,22 @@ de:
       actions: Aktionen
       download: Download
       delete: "Löschen"
-      confirm_delete: "Sind Sie sicher, dass Sie diesen Leistungsnachweis löschen wollen?"
+      confirm_delete: "Sind Sie sicher, dass Sie dieses Zertifikat löschen wollen?"
       error: Fehler
       render_state:
         rendered: rendered
         requested: requested
         error: error
         denied: denied
-      show_all: Alle Leistungsnachweise
+      show_all: Alle Zertifikate
       show_errors: Nur Fehler anzeigen
     form:
       placeholder:
         name: Namen angeben
         description: Beschreibung angeben
-    transcript_of_records:
-      course: Kurs
-      score: Ergebnis
-      overall_score: Gesamtergebnis
-      passed: bestanden
   certificate_templates:
     index:
-      headline: Leistungsnachweis-Vorlagen
+      headline: Zertifikat-Vorlagen
       edit: Bearbeiten
       preview: Vorschau
       download: Herunterladen
@@ -2886,10 +2923,9 @@ de:
     new:
       headline: New Certificate-Template
     form:
-      record_of_achievement: "Record of Achievement"
+      record_of_achievement: "Certificate"
       confirmation_of_participation: "Confirmation of Participation"
-      certificate: "Certificate"
-      transcript_of_records: Transcript of Records
+      certificate: "Verified Certificate"
       course_code: Course Code
       certificate_type: Certificate Type
       file: File
@@ -2911,36 +2947,18 @@ de:
       # Datetime is not supported by I18n, instead, time is used.
       # Proposed workaround is to define datetime formats in the time section.
       long_datetime: "%d. %B %Y %H:%M Uhr"
+      long_datetime_zone: "%d. %B %Y, %H:%M %Z"
       short_datetime: "%-d. %B %Y"
       very_short_datetime: "%d. %b. %H:%M"
       quiz_submission: "%A, %d.%b.%Y, %H:%M:%S"
       abbreviated_month_date: "%-d. %b. %Y"
 
-  polls:
-    widget:
-      headline: Umfragen
-      end_at: "Offen bis %{date}"
-      vote: Abstimmen
-      thanks: Vielen Dank für Ihre Stimme!
-      poll_archive_link: "Sie können die Ergebnisse nach Abschluss der Umfrage im <a class='bs-a' href='%{link}'>Umfragenarchiv</a> ansehen."
-      not_enough_participants: "Sie können die Ergebnisse im <a class='bs-a' href='%{link}'>Umfragenarchiv</a> ansehen, sobald eine ausreichende Anzahl an Stimmen abgegeben wurde."
-      next_poll: Nächste Frage
-      recent_results: Aktuelle Umfrageergebnisse
-      intermediate_results: "Zwischenergebnisse bei %{participants} Teilnehmern."
-    archive:
-      headline: Umfragearchiv
-      place_vote: "Diese Umfrage ist noch bis zum %{date} offen. Bitte <a class='bs-a' href='%{link}'>stimmen Sie ab</a>!"
-      intermediate_results: "Zwischenergebnisse bei %{participants} Teilnehmern."
-      final_results: "Diese Umfrage endete am %{date} mit %{participants} Teilnehmern."
-      not_ended: "Diese Umfrage endet am %{date}. Die Resultate werden im Anschluss veröffentlicht."
-      not_enough_participants: "Zwischenergebnisse werden angezeigt, sobald eine ausreichende Anzahl an Stimmen abgegeben wurde."
-
   verify:
-    headline: Verifikation von Leistungsnachweisen
-    headline_show: Details zum Leistungsnachweis
+    headline: Verifikation von Zertifikaten
+    headline_show: Details zum Zertifikat
     narrative: "openHPI bestätigt, dass der Kandidat den Kurs  <a class='bs-a' href='%{link}'>%{title}</a> erfolgreich abgeschlossen und die notwendigen Prüfungen für dieses Zertifikat bestanden hat."
     narrative_meta: "openHPI bestätigt, dass der Kandidat den Kurs %{title} erfolgreich abgeschlossen und die notwendigen Prüfungen für dieses Zertifikat bestanden hat."
-    valid: "Der Leistungsnachweis für den Verifikationscode <i>%{code}</i> ist valide."
+    valid: "Das Zertifikat für den Verifikationscode <i>%{code}</i> ist valide."
     user_deleted: Der Account dieses Kandidaten wurde gelöscht. Aus diesem Grund können wir dieses Zertifikat nicht länger verifizieren.
     user_data: Benutzerinformation
     issued_for: Ausgestellt für
@@ -2953,34 +2971,18 @@ de:
     course_date: "%{start_date} bis %{end_date}"
     course_date_from: "seit %{start_date}"
     course_learning_goals: Lernziele
-    certificate_data: Leistungsnachweis
-    certificate_type: Typ des Leistungsnachweises
-    record_of_achievement: Leistungsnachweis
+    certificate_data: Zertifikat
+    certificate_type: Typ des Zertifikats
+    record_of_achievement: Zertifikat
     confirmation_of_participation: Teilnahmebescheinigung
-    certificate: Zertifikat
-    transcript_of_records: Transcript of Records
+    certificate: Verifiziertes Zertifikat
     issued_at: Erworben am
     result: Ergebnis
     points: "%{points} von %{max_points} Punkte (%{percent}%)"
     top: "Das Ergebnis gehört zu den <b>besten %{top}%</b> des Kurses."
     additional_records:
-      headline: Weitere Leistungsnachweise
-      info: "Diese/r Nutzer/in hat auch die folgenden Leistungsnachweise für diesen Kurs erworben: <b>%{records}</b>. In diesem Fall zeigen wir stets die Bestätigung für den höchstwertigen Leistungsnachweis."
-    open_badge:
-      headline: Open Badge
-      share_open_badge: Open Badge teilen
-      linkedin_info_url: "/pages/open_badges"
-
-  open_badges:
-    issuer_description: |
-      openHPI ist die digitale Bildungsplattform des Hasso-Plattner-Instituts, Potsdam,
-      Deutschland. Auf openHPI nehmen Sie an einem weltweiten sozialen Lernnetzwerk teil,
-      das auf interaktiven Online-Kursen basiert und verschiedene Themen im Bereich
-      Informations- und Kommunikationstechnologie (IKT) abdeckt.
-    badge_class:
-      name: "Erfolgreich abgeschlossen in %{year}: %{course_title}"
-      name_fallback: "Erfolgreich abgeschlossen: %{course_title}"
-      description: 'Dieser Badge bestätigt, dass der Teilnehmer den openHPI-Kurs "%{course_title}" erfolgreich absolviert und alle notwendigen Aufgaben und Prüfungen für ein Zertifikat bestanden hat.'
+      headline: Weitere Zertifikate
+      info: "Diese/r Nutzer/in hat auch die folgenden Zertifikate für diesen Kurs erworben: <b>%{records}</b>. In diesem Fall zeigen wir stets die Bestätigung für das höchstwertige Zertifikat."
 
   gamification:
     points: XP
@@ -2994,7 +2996,7 @@ de:
       headline: Badges
     scores:
       your_points: "Ihre %{points}"
-      empty: Sie können sich Erfahrungspunkte (XP) verdienen, indem Sie in einem Kurs die Lerninhalte absolvieren und an Diskussionen in den Foren teilnehmen.
+      empty: Sie können sich Erfahrungspunkte (XP) verdienen, indem Sie in einem Kurs die Lerninhalte absolvieren und an Beiträgen in den Foren teilnehmen.
       course: Kurs
       selftests: Selbsttests
       communication: Kommunikation
@@ -3064,7 +3066,7 @@ de:
             name: "<b>Inhaltscontrolling:</b> Statistiken über Inhalts-Items sehen"
         channel:
           admin:
-            name: "<b>Channel-Administration:</b> Anlegen, Bearbeiten und Löschen von Channels"
+            name: "<b>Themenwelt-Administration:</b> Anlegen, Bearbeiten und Löschen von Themenwelten"
         teacher:
           name: "<b>Lehrer:</b> Legacy-Rolle für alte Lehrer-Permissions"
         vouchers:
@@ -3078,18 +3080,6 @@ de:
       file:
         admin:
           name: "<b>Dateiadministration:</b> Anzeigen und Löschen von hochgeladenen Dateien"
-      lanalytics:
-        alert:
-          admin:
-            name: "<b>QC Alert-Administration:</b> Löschen bestehender Alerts für alle Nutzer"
-          inspector:
-            name: "<b>QC Alerting:</b> Einsehen und Ausblenden (eigener) Alerts"
-        report:
-          inspector:
-            name: "<b>Reports:</b> Erstellen anonymisierter Reportings"
-        rule:
-          admin:
-            name: "<b>QC Regeladministration:</b> Verwalten von Regeln für QC Alerts"
       lti:
         admin:
           name: "<b>LTI-Administration:</b> Verwaltung von LTI-Providern"
@@ -3111,11 +3101,11 @@ de:
             name: "<b>Seitenadministration:</b> Anlegen und Bearbeiten von statischen Seiten"
       pinboard:
         moderator:
-          name: "<b>Forenmoderation:</b> Forenbeiträge bearbeiten, löschen, blockieren/freigeben, verschieben, schließen, oder als 'sticky' markieren, Report 'Gemeldete Diskussionen' ansehen"
+          name: "<b>Forenmoderation:</b> Forenbeiträge bearbeiten, löschen, blockieren/freigeben, verschieben, schließen, oder als 'sticky' markieren, Report 'Gemeldete Beiträge' ansehen"
         instructor:
           name: "<b>Foreninstruktion:</b> <i>noch nicht spezifiziert</i>"
         support:
-          name: "<b>Pinboard moderation support:</b> Foreneinträge blockieren/ freigeben, Report 'Gemeldete Diskussionen' ansehen, 'Sticky Posts' erstellen"
+          name: "<b>Pinboard moderation support:</b> Foreneinträge blockieren/ freigeben, Report 'Gemeldete Beiträge' ansehen, 'Sticky Posts' erstellen"
       platform:
         operator:
           name: "<b>Platformoperation:</b> Einsehen des globalen Dashboards"
@@ -3137,9 +3127,6 @@ de:
         editor:
           name: "<b>Untertitelmanagement:</b> Untertitel zu Videos hinzufügen oder löschen"
       helpdesk:
-        polls:
-          admin:
-            name: "<b>Umfrageadministration:</b> Erstellen, Bearbeiten, Löschen und Auswerten von Umfragen"
 
   vouchers:
     headline: Voucher Selbstbedienung

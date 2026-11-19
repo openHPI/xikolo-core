@@ -55,7 +55,7 @@ module Xi
           "<p class='recaptcha-hint'>#{I18n.t(:'helpdesk.recaptcha')}</p>".html_safe +
             recaptcha_tags(site_key: V2.site_key, hl: I18n.locale)
         else
-          recaptcha_v3(action: @action, site_key: V3.site_key, turbo: true)
+          recaptcha_v3(action: @action, site_key: V3.site_key)
         end
       end
     end

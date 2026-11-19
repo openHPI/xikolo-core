@@ -10,7 +10,7 @@ describe QuizService::Regrading::Jackpot, type: :model do
 
   # This user had selected the correct answer, so they should be unaffected by the regrading.
   let!(:submission1) do
-    create(:'quiz_service/quiz_submission', quiz:, user_id: generate(:user_id)).tap do |submission|
+    create(:'quiz_service/quiz_submission', quiz:).tap do |submission|
       create(:'quiz_service/quiz_submission_question', quiz_submission: submission, quiz_question_id: quiz_question.id, points: 3).tap do |question|
         create(:'quiz_service/quiz_submission_selectable_answer', quiz_answer_id: correct_answer.id, quiz_submission_question: question)
       end
@@ -19,7 +19,7 @@ describe QuizService::Regrading::Jackpot, type: :model do
 
   # This user had selected the incorrect answer, so they should have more points after the regrading.
   let!(:submission2) do
-    create(:'quiz_service/quiz_submission', quiz:, user_id: generate(:user_id)).tap do |submission|
+    create(:'quiz_service/quiz_submission', quiz:).tap do |submission|
       create(:'quiz_service/quiz_submission_question', quiz_submission: submission, quiz_question_id: quiz_question.id, points: 0).tap do |question|
         create(:'quiz_service/quiz_submission_selectable_answer', quiz_answer_id: wrong_answer.id, quiz_submission_question: question)
       end
@@ -27,7 +27,7 @@ describe QuizService::Regrading::Jackpot, type: :model do
   end
 
   # This user did not make any selection for this question, so the quiz submission question needs to be created first.
-  let!(:submission3) { create(:'quiz_service/quiz_submission', quiz:, user_id: generate(:user_id)) }
+  let!(:submission3) { create(:'quiz_service/quiz_submission', quiz:) }
 
   it 'does not give more points to users who already have full points' do
     expect do
@@ -56,10 +56,8 @@ describe QuizService::Regrading::Jackpot, type: :model do
   end
 
   it 'triggers recalculation of questions statistics' do
-    Sidekiq::Testing.fake!
-
     expect do
       described_class.new(quiz_question).run!
-    end.to change(QuizService::UpdateQuestionStatisticsWorker.jobs, :size).by(1)
+    end.to have_enqueued_job(QuizService::UpdateQuestionStatisticsJob).exactly(:once)
   end
 end

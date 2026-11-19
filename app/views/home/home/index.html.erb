@@ -1,0 +1,34 @@
+<% content_for :custom_meta_tags do %>
+  <meta name="description" content="<%= t(:'header.meta_tags.root.index') %>">
+<% end %>
+
+<div class="openhpi-startpage">
+  <!-- Head Hero -->
+  <%= render Home::HeadHero.new(t(:'home.head_hero.claim'), call_to_action: {text: t(:'home.head_hero.action_text'), link: page_path('about')}, image: {url: 'startpage/head_hero/logo.svg', alt: '', dim_nav_logo: true}) %>
+
+  <!-- Courses slider -->
+  <%= render Home::CoursesSlider.new(current_and_upcoming_category: @current_and_upcoming_category, enrollments: @enrollments) %>
+
+  <!-- Promotion -->
+
+  <!-- Claims -->
+  <%= render Home::TilesGroup.new do |c| %>
+    <% t(:'home.claims').each do |claim| %>
+      <% c.with_tile claim[:title], text: claim[:text], styles: {title_decoration: true} %>
+    <% end %>
+  <% end %>
+
+  <!-- Level selector -->
+  <%= render Home::LevelCardGroup.new() %>
+
+  <!-- News -->
+  <% if @posts.any? %>
+    <div class="openhpi-startpage__news">
+      <%= render Home::TilesGroup.new(title: t(:'home.news')) do |c| %>
+        <% @posts.take(3).each do |post| %>
+          <% c.with_tile post.title, text: post.teaser.html_safe, link: news_index_path(anchor: "post_#{post.id}") %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

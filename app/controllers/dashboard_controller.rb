@@ -3,9 +3,6 @@
 class DashboardController < Abstract::FrontendController
   include ActionView::Helpers::TranslationHelper
 
-  require_feature 'gamification', only: :achievements
-
-  before_action :set_no_cache_headers
   before_action :ensure_logged_in
 
   include Interruptible
@@ -27,11 +24,8 @@ class DashboardController < Abstract::FrontendController
     load_sidebar_content!
     Acfs.run
 
-    # Load all of the user's enrollments into a hash (keyed by course ID) so that
-    # they can be looked up and passed into each course's card component.
-    # This is needed for action buttons on the cards being rendered depending on
-    # whether an enrollment exists, it's reactivated, etc.
-    enrollments = Course::Enrollment.active.where(user_id: current_user.id)
+    # Load evaluated enrollments once for completion badges.
+    enrollments = CourseService::Enrollment.active.with_evaluation.where(user_id: current_user.id)
 
     enrollment_types = {
       active: enrollments.reject(&:completed?),
@@ -48,18 +42,14 @@ class DashboardController < Abstract::FrontendController
   end
 
   def achievements
-    user = Account::User.find current_user.id
+    user = AccountService::User.find current_user.id
     @gamification = Gamification::DashboardPresenter.new(user)
   end
 
   def documents
     @documents = []
-    Xikolo::Course::Enrollment.each_item(
-      user_id: current_user.id,
-      deleted: true,
-      learning_evaluation: true
-    ) do |enrollment|
-      next unless enrollment.certificates.values.any?
+    CourseService::Enrollment.with_evaluation.where(user_id: current_user.id).find_each do |enrollment|
+      next unless (enrollment.decorate_self[:certificates] || {}).values.any?
 
       @documents << DocumentsPresenter.create(enrollment, current_user)
     end
@@ -71,7 +61,7 @@ class DashboardController < Abstract::FrontendController
 
   private
 
-  Category = Struct.new(:title, :courses, :empty_msg, :completed_button)
+  Category = Struct.new(:title, :courses, :empty_msg)
   private_constant :Category
 
   def categorize(courses, enrollments)
@@ -79,20 +69,17 @@ class DashboardController < Abstract::FrontendController
       Category.new(
         t(:'dashboard.courses.current'),
         courses.active_for(current_user, enrollments[:active]),
-        nil,
-        true
+        nil
       ),
       Category.new(
         t(:'dashboard.courses.upcoming'),
         courses.upcoming_for(current_user, enrollments[:active]),
-        t(:'dashboard.not_enrolled_upcoming'),
-        false
+        t(:'dashboard.not_enrolled_upcoming')
       ),
       Category.new(
         t(:'dashboard.courses.completed'),
         courses.completed_for(current_user, enrollments[:completed]),
-        nil,
-        false
+        nil
       ),
     ].reject do |category|
       # Only display categories that have courses to be shown.

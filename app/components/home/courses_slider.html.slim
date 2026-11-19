@@ -10,4 +10,4 @@ section.courses-slider__container
       = render Global::Slider.new(variant: slider_variant) do |c|
         - courses.each do |course|
           - c.with_item do
-            = render Home::CourseCard.new(course)
+            = render Home::CourseCard.new(course, enrollment: @enrollments[course.id])

@@ -8,9 +8,9 @@
  * its action is being processed.
  *
  */
-import ready from '../util/ready';
+import { turboReady } from '../util/ready';
 
-ready(() => {
+turboReady(() => {
   const elements: NodeListOf<HTMLFormElement> = document.querySelectorAll(
     '[data-behavior=disable-after-click]',
   );

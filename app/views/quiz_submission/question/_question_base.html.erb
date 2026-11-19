@@ -1,0 +1,81 @@
+<%# locals: (question:, show_solution:, index:, snapshot:, item:, user_submission: nil) %>
+<div class="quiz-question multiple-answer" id="<%= question.id %>" data-testid="quiz-question">
+  <div class="question">
+    <div class="prose prose-sm max-w-none" lang="<%= item.lang %>">
+      <%== render_markdown question.text, allow_tables: true %>
+    </div>
+  </div>
+
+  <div class="question-content">
+    <% if question.is_a? Xikolo::Quiz::FreeTextQuestion %>
+      <div class="mt-4"></div>
+      <% user_answer = nil %>
+      <% if show_solution && user_submission %>
+        <% user_answer = user_submission %>
+      <% elsif !snapshot.nil? %>
+        <% user_answer = snapshot.loaded_data[question.id] %>
+        <% if user_answer && !user_answer.first[1].empty? %>
+          <% content_for :head_assets do %>
+            <meta name="question-edited" content="<%= question.id %>">
+          <% end %>
+        <% end %>
+      <% end %>
+      <%= render 'quiz_submission/question/free_text',
+        show_solution: show_solution, question: question,
+        answer: question.answers.first, user_submission: user_answer,
+        lang: item.lang %>
+    <% elsif question.is_a? Xikolo::Quiz::EssayQuestion %>
+      <div class="mt-4"></div>
+      <% if show_solution && user_submission %>
+        <% user_answer = user_submission.quiz_submission_answers.first.user_answer_text %>
+      <% elsif !snapshot.nil? %>
+        <% user_answer = snapshot.loaded_data[question.id] %>
+      <% else %>
+        <% user_answer = '' %>
+      <% end %>
+      <% if user_answer.present? %>
+        <% content_for :head_assets do %>
+          <meta name="question-edited" content="<%= question.id %>">
+        <% end %>
+      <% end %>
+      <%= render 'quiz_submission/question/essay',
+        show_solution: show_solution, question: question,
+        answer: question.answers.first, user_submission: user_answer %>
+    <% elsif question.is_a?(Xikolo::Quiz::MultipleChoiceQuestion) && item.survey? && !show_solution && question.answers.size >= Xikolo.config.multiple_choice_answers_as_dropdown_threshold %>
+      <%= render Quiz::Dropdown.new(question, submission: defined?(user_submission) ? user_submission : nil, snapshot: snapshot) %>
+    <% elsif question.is_a? Xikolo::Quiz::MultipleAnswerQuestion %>
+      <%= render Quiz::CheckBoxes.new(question, submission: defined?(user_submission) ? user_submission : nil, snapshot: snapshot, show_solution: show_solution, lang: item.lang) %>
+    <% else %>
+      <% question.answers.each do |answer| %>
+        <% answer_selected_by_user = false %>
+        <% if show_solution %>
+          <div class="mt-4"></div>
+          <% answer_selected_by_user = user_submission.quiz_submission_answers.map(&:quiz_answer_id).include?(answer.id) if user_submission %>
+        <% elsif !snapshot.nil? %>
+          <div class="mt-4"></div>
+          <% answer_selected_by_user = snapshot.loaded_data[question.id].include?(answer.id) unless snapshot.loaded_data.nil? || snapshot.loaded_data[question.id].nil? %>
+          <% if answer_selected_by_user %>
+            <% content_for :head_assets do %>
+              <meta name="question-edited" content="<%= question.id %>">
+            <% end %>
+          <% end %>
+        <% end %>
+        <%= render 'quiz_submission/question/multiple_choice',
+          show_solution: show_solution, question: question,
+          answer: answer, answer_selected_by_user: answer_selected_by_user,
+          snapshot: snapshot, lang: item.lang %>
+      <% end %>
+    <% end %>
+
+    <% if show_solution && question.explanation.present? %>
+      <hr class="my-6 border-0 border-t border-base-content/15">
+      <div class="flex items-center gap-2">
+        <%= pixelart_icon('circle-info', css_class: 'size-5 text-accent') %>
+        <h3 class="m-0 font-medium text-base-content"><%= t('quiz_submission.explanation_for_answer') %></h3>
+      </div>
+      <div class="prose prose-sm max-w-none mt-2" lang="<%= item.lang %>">
+        <%== render_markdown(question.explanation, allow_tables: true) %>
+      </div>
+    <% end %>
+  </div>
+</div>

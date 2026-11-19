@@ -1,6 +1,6 @@
-import ready from '../../util/ready';
+import { turboReady } from '../../util/ready';
 
-ready(() => {
+turboReady(() => {
   const banner = document.querySelector('.cookie-consent-banner');
 
   if (!banner) return;

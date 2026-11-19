@@ -1,0 +1,72 @@
+<%= tag.div class: 'flex items-center justify-between gap-4', data: {controller: ('toast' if @locked)} do %>
+  <nav class="min-w-0 overflow-x-auto" aria-label="<%= t('components.course_navigation.label') %>">
+    <ul class="flex gap-4 lg:gap-8">
+      <% tabs.each do |tab| %>
+        <li>
+          <%# Locked tabs stay focusable and explain on click how to unlock them %>
+          <%= content_tag(tab[:locked] ? :button : :a,
+                href: (tab[:url] unless tab[:locked]),
+                type: ('button' if tab[:locked]),
+                class: class_names('flex flex-col gap-2 text-left', 'cursor-pointer text-accent-content/50': tab[:locked]),
+                aria: {current: ('page' if tab[:active]), disabled: (true if tab[:locked])},
+                data: ({action: 'toast#show'} if tab[:locked])) do %>
+            <span class="flex items-start gap-2">
+              <span class="pt-1.5">
+                <%= helpers.pixelart_icon(tab[:icon], css_class: 'size-4 sm:size-5') %>
+              </span>
+              <span class="flex flex-col whitespace-nowrap">
+                <span class="text-sm/7 font-medium sm:text-base/7 lg:text-lg/7"><%= tab[:label] %></span>
+                <span class="text-[10px]/normal"><%= tab[:description] %></span>
+                <% if tab[:locked] %>
+                  <span class="sr-only"><%= t('components.course_navigation.locked') %></span>
+                <% end %>
+              </span>
+            </span>
+            <span class="<%= class_names('h-0.75 w-full rounded-full', 'bg-accent-content': tab[:active]) %>"></span>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </nav>
+
+  <% if @locked %>
+    <button
+      type="button"
+      class="x-btn x-btn-sm shrink-0 rounded-lg border-transparent bg-accent-content/10 px-3 text-accent-content/50 shadow-none"
+      aria-disabled="true"
+      data-action="toast#show"
+    >
+      <%= helpers.pixelart_icon('bell', css_class: 'size-3') %>
+      <span class="sr-only"><%= t('courses.nav.announcements') %> <%= t('components.course_navigation.locked') %></span>
+    </button>
+  <% else %>
+    <div class="x-indicator shrink-0">
+      <% if unread_announcements? %>
+        <span class="x-indicator-item x-badge x-badge-sm rounded-lg border-accent bg-accent px-2.75 text-xs font-medium text-white" aria-hidden="true">
+          <%= @unread_announcements %>
+        </span>
+      <% end %>
+      <%# Visiting the announcements marks them as read, so hovering must not prefetch them %>
+      <%= link_to announcements_url,
+            class: class_names('x-btn x-btn-sm rounded-lg border-base-200 bg-base-200 px-3', 'x-btn-active': announcements_active?),
+            aria: {current: ('page' if announcements_active?)},
+            data: {turbo_prefetch: false} do %>
+        <%= helpers.pixelart_icon('bell', css_class: 'size-3') %>
+        <span class="sr-only">
+          <%= t('courses.nav.announcements') %>
+          <% if unread_announcements? %>
+            <%= t('components.course_navigation.unread_announcements', count: @unread_announcements) %>
+          <% end %>
+        </span>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if @locked %>
+    <div class="x-toast x-toast-center x-toast-top top-[calc(var(--spacing-navbar)+(--spacing(3)))] z-xl" role="status">
+      <div class="x-alert x-alert-info" data-toast-target="message" hidden>
+        <%= t('components.course_navigation.enroll_to_unlock') %>
+      </div>
+    </div>
+  <% end %>
+<% end %>

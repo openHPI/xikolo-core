@@ -27,7 +27,7 @@ FactoryBot.define do
       end
 
       create(:'account_service/email', user:, primary: true, confirmed: true)
-      user.primary_email.reload
+      user.reload
     end
 
     trait :archived do
@@ -42,16 +42,34 @@ FactoryBot.define do
       end
     end
 
+    trait :banned do
+      banned_at { Time.zone.now }
+      ban_count { 1 }
+    end
+
     trait :unconfirmed do
       after(:create) do |user|
         user.update! confirmed: false
-        user.emails.update_all primary: false, confirmed: false, confirmed_at: nil # rubocop:disable Rails/SkipsModelValidations
+        user.emails.update_all confirmed: false, confirmed_at: nil # rubocop:disable Rails/SkipsModelValidations
       end
     end
 
     trait :admin do
       after(:create) do |user|
         user.memberships.create! group: AccountService::Group.administrators
+        AccountService::Feature.find_or_create_by!(
+          name: 'admin_announcements',
+          value: true,
+          owner: user,
+          context: AccountService::Context.root
+        )
+      end
+    end
+
+    trait :gdpr_admin do
+      after(:create) do |user|
+        user.memberships.create! group: AccountService::Group.administrators
+        user.memberships.create! group: AccountService::Group.gdpr_admins
       end
     end
   end
@@ -67,10 +85,9 @@ FactoryBot.define do
 
   factory :'account_service/feature' do
     sequence(:name) {|n| "flipper.nr#{n}" }
-    value { 'true' }
-    context_id { AccountService::Context.root_id }
-
-    association :owner, factory: :'account_service/group'
+    value { true }
+    context { AccountService::Context.root }
+    owner { AccountService::Group.all_users }
   end
 
   factory :'account_service/email' do

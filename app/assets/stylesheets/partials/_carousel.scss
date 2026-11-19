@@ -71,14 +71,3 @@ as it is used for multiple purposes. */
   border-top: 1px solid rgba(200, 200, 200, 0.5);
   border-bottom: 1px solid rgba(200, 200, 200, 0.5);
 }
-
-/*------------------------------------*\
-    $preview-carousel
-\*------------------------------------*/
-#featured-items-carousel {
-  min-height: 310px;
-
-  .carousel-inner {
-    min-height: 310px;
-  }
-}

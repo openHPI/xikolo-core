@@ -68,37 +68,6 @@ module Admin
 
         render json: json
       end
-
-      def client_usage
-        if params[:course_id].present?
-          json = Rails.cache.fetch(
-            'statistics/dashboard/client_usage?' \
-            "course_id=#{params[:course_id]}" \
-            "&start_date=#{params[:start_date]}" \
-            "&end_date=#{params[:end_date]}",
-            expires_in: 6.hours, race_condition_ttl: 10.seconds
-          ) do
-            fetch_metric(
-              name: 'client_combination_usage',
-              course_id: params[:course_id],
-              start_date: params[:start_date].presence || 1.month.ago,
-              end_date: params[:end_date].presence || Time.zone.now
-            ).value!
-          end
-        else
-          json = Rails.cache.fetch('statistics/dashboard/client_usage', expires_in: 6.hours,
-            race_condition_ttl: 10.seconds) do
-            fetch_metric(
-              name: 'client_combination_usage',
-              course_id: params[:course_id],
-              start_date: params[:start_date].presence || 1.month.ago,
-              end_date: params[:end_date].presence || Time.zone.now
-            ).value!
-          end
-        end
-
-        render json: json
-      end
     end
   end
 end

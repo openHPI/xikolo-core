@@ -2,8 +2,8 @@
 
 module CourseService
 class Course::Visual::Clone < ApplicationOperation # rubocop:disable Layout/IndentationWidth
-  # param visual [Duplicated::Visual]
-  # param course [Course]
+  # param visual [Course::Visual]
+  # param course [CourseService::Course]
   def initialize(visual, course)
     super()
     @visual = visual
@@ -43,11 +43,11 @@ class Course::Visual::Clone < ApplicationOperation # rubocop:disable Layout/Inde
     return if @visual.video_stream_id.blank?
 
     if @course.visual
-      @course.visual.create_video!(pip_stream_id: @visual.video_stream_id)
+      @course.visual.create_video!(pip_stream_id: @visual.video_stream_id, title: @visual.video.title)
     else
       ActiveRecord::Base.transaction do
         @course.build_visual.tap do |visual|
-          visual.create_video!(pip_stream_id: @visual.video_stream_id)
+          visual.create_video!(pip_stream_id: @visual.video_stream_id, title: @visual.video.title)
           visual.save!
         end
       end

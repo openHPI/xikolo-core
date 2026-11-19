@@ -1,4 +1,4 @@
-import ready from '../../util/ready';
+import { turboReady } from '../../util/ready';
 import I18n from '../../i18n/i18n';
 
 const addTimestampListener = (timestamp, player, seconds) => {
@@ -41,7 +41,7 @@ const topicCreationLogic = () => {
         Accept: 'application/json',
         'Content-Type': 'application/json',
         'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')
-          .content,
+          ?.content,
       },
       body: JSON.stringify(data),
     });
@@ -152,7 +152,7 @@ const topicTimestampLogic = () => {
  * Attaches logic to the document.body to forward certain Keyboard events to the video player
  * When the body has the focus, functions on the player will be called
  */
-const forwardShortcutKeysToPlayer = async () => {
+const forwardShortcutKeysToPlayer = async (signal) => {
   // There is a weird behavior in chrome:
   // Sometimes methods of the public are not available
   // To have reliable access, the script waits for the component to be defined completely
@@ -167,22 +167,36 @@ const forwardShortcutKeysToPlayer = async () => {
     (key) => key !== 'ArrowUp' && key !== 'ArrowDown',
   );
 
-  document.body.addEventListener('keydown', (e) => {
-    // The check for the tag name makes sure that the user can e.g. type in an input
-    if (e.target.tagName === 'BODY' && shortCutKeys.includes(e.key)) {
-      const player = document.querySelector('xm-player');
-      player.dispatchEvent(new KeyboardEvent('keydown', e));
+  document.body.addEventListener(
+    'keydown',
+    (e) => {
+      // The check for the tag name makes sure that the user can e.g. type in an input
+      if (e.target.tagName === 'BODY' && shortCutKeys.includes(e.key)) {
+        const player = document.querySelector('xm-player');
+        player.dispatchEvent(new KeyboardEvent('keydown', e));
 
-      // Prevent scrolling with space bar for play / pause
-      if (e.key === ' ') {
-        e.preventDefault();
+        // Prevent scrolling with space bar for play / pause
+        if (e.key === ' ') {
+          e.preventDefault();
+        }
       }
-    }
-  });
+    },
+    { signal },
+  );
 };
 
-ready(async () => {
+turboReady(async () => {
+  const controller = new AbortController();
+
   topicCreationLogic();
   topicTimestampLogic();
-  await forwardShortcutKeysToPlayer();
+  await forwardShortcutKeysToPlayer(controller.signal);
+
+  document.addEventListener(
+    'turbo:before-cache',
+    () => {
+      controller.abort();
+    },
+    { once: true },
+  );
 });

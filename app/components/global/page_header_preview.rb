@@ -3,64 +3,49 @@
 module Global
   class PageHeaderPreview < ViewComponent::Preview
     include ActionView::Helpers::UrlHelper
+    include SvgHelper
 
-    # @!group
+    COURSE_TITLE = 'Digitale Gerechtigkeit – Wie du dich für eine fairere KI-Zukunft engagieren kannst'
+
     def simple
-      render Global::PageHeader.new('Quantencomputing Summer School')
+      render Global::PageHeader.new('Channels', subtitle: I18n.t(:'admin.page_header'))
     end
 
-    def with_subtitle
-      render Global::PageHeader.new('Quantencomputing Summer School', subtitle: 'Offered by openHPI Team')
+    def course_page
+      render Global::PageHeader.new(COURSE_TITLE, breadcrumbs:, type: :slim)
     end
 
-    def with_pill
-      render Global::PageHeader.new('Quantencomputing Summer School', subtitle: 'Offered by openHPI Team') do |c|
-        c.with_pill 'Active course', color: :note
+    def course_item_page
+      render_with_template(locals: {title: COURSE_TITLE, breadcrumbs:, icon_class: icon_for('video')})
+    end
+
+    def course_page_with_navigation
+      render_with_template(locals: {title: COURSE_TITLE, breadcrumbs:})
+    end
+
+    def course_admin_page
+      render Global::PageHeader.new('Item bearbeiten', subtitle: COURSE_TITLE)
+    end
+
+    def with_additional_content
+      render Global::PageHeader.new(COURSE_TITLE, breadcrumbs:, type: :slim) do
+        link_to 'Go to course administration', '/', class: 'inline-flex items-center gap-1.5 text-sm'
       end
     end
 
-    def slim
-      render Global::PageHeader.new('Quantencomputing Summer School', type: :slim, subtitle: 'openHPI Team') do |c|
-        c.with_pill 'Active course', size: :small, color: :note
-      end
+    private
+
+    def breadcrumbs
+      [
+        {url: '#', icon: pixelart_icon('home', css_class: 'w-4 h-4'), aria_label: I18n.t('header.navigation.home')},
+        {url: '#', text: I18n.t('header.navigation.courses')},
+        {url: '#', text: COURSE_TITLE},
+        {url: '#', text: I18n.t('courses.nav.sections')},
+      ]
     end
 
-    def with_additional_custom_content
-      render Global::PageHeader.new('Quantencomputing Summer School', subtitle: 'Offered by openHPI Team') do |c|
-        c.with_pill 'Active course', color: :note
-        link_to 'Click here', '/', class: 'red block mt5'
-      end
-    end
-
-    def slim_with_additional_custom_content
-      render Global::PageHeader.new('Quantencomputing Summer School', type: :slim, subtitle: 'openHPI Team') do |c|
-        c.with_pill 'Active course', size: :small, color: :note
-        link_to 'Click here', '/', class: 'red block'
-      end
-    end
-    # @!endgroup
-
-    # @param title
-    # @param subtitle
-    # @param pill
-    def with_params(title: 'Quantencomputing Summer School', subtitle: 'Offered by openHPI Team', pill: 'Active course')
-      render Global::PageHeader.new(title, subtitle:) do |c|
-        if pill.present?
-          c.with_pill pill, color: :note
-        end
-      end
-    end
-
-    # @param title
-    # @param subtitle
-    # @param pill
-    def slim_with_params(title: 'Quantencomputing Summer School', subtitle: 'Offered by openHPI Team', type: :slim,
-                         pill: 'Active course')
-      render Global::PageHeader.new(title, subtitle:, type:) do |c|
-        if pill.present?
-          c.with_pill pill, size: :small, color: :note
-        end
-      end
+    def icon_for(content_type)
+      ::Course::Item::Icon.from_resource({'content_type' => content_type}).icon_class
     end
   end
 end

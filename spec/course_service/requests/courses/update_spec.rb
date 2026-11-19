@@ -21,7 +21,6 @@ describe 'Course: Update', type: :request do
     api.rel(:course).patch({
       title: 'new course title',
       classifiers:,
-      proctored: true,
       invite_only: true,
     }, params: {id: course.id}).value!
   end
@@ -53,7 +52,6 @@ describe 'Course: Update', type: :request do
 
     its(:title) { is_expected.to eq 'new course title' }
     its(:classifiers) { is_expected.to have(4).items }
-    its(:proctored) { is_expected.to be true }
     its(:invite_only) { is_expected.to be true }
   end
 
@@ -97,7 +95,7 @@ describe 'Course: Update', type: :request do
     it 'stores the upload and update course' do
       stub_request(
         :head,
-        'https://s3.xikolo.de/xikolo-uploads/' \
+        "#{test_s3_host}/xikolo-uploads/" \
         'uploads/b5f99337-224f-40f5-aa82-44ee8b272579/company1.jpg'
       ).and_return(
         status: 200,
@@ -106,7 +104,7 @@ describe 'Course: Update', type: :request do
           'X-Amz-Meta-Xikolo-State' => 'accepted',
         }
       )
-      store_regex = %r{https://s3.xikolo.de/xikolo-public
+      store_regex = %r{#{test_s3_host}/xikolo-public
                        /courses/21BHFCPYoUuzziqRhNss7k
                        /rtfiles/[0-9a-zA-Z]+/company1.jpg}x
       stub_request(:head, store_regex).and_return(status: 404)
@@ -119,7 +117,7 @@ describe 'Course: Update', type: :request do
     it 'rejects invalid upload and does not updates course' do
       stub_request(
         :head,
-        'https://s3.xikolo.de/xikolo-uploads/' \
+        "#{test_s3_host}/xikolo-uploads/" \
         'uploads/b5f99337-224f-40f5-aa82-44ee8b272579/company1.jpg'
       ).and_return(
         status: 200,
@@ -139,7 +137,7 @@ describe 'Course: Update', type: :request do
     it 'rejects upload on storage errors' do
       stub_request(
         :head,
-        'https://s3.xikolo.de/xikolo-uploads/' \
+        "#{test_s3_host}/xikolo-uploads/" \
         'uploads/b5f99337-224f-40f5-aa82-44ee8b272579/company1.jpg'
       ).and_return(
         status: 200,
@@ -148,7 +146,7 @@ describe 'Course: Update', type: :request do
           'X-Amz-Meta-Xikolo-State' => 'accepted',
         }
       )
-      store_regex = %r{https://s3.xikolo.de/xikolo-public
+      store_regex = %r{#{test_s3_host}/xikolo-public
                        /courses/21BHFCPYoUuzziqRhNss7k
                        /rtfiles/[0-9a-zA-Z]+/company1.jpg}x
       stub_request(:head, store_regex).and_return(status: 404)
@@ -163,7 +161,7 @@ describe 'Course: Update', type: :request do
   end
 
   context '(course visitor grants)' do
-    let(:initial_params) { super().merge status: 'preparation' }
+    let(:initial_params) { super().merge published: false }
 
     context 'when not publishing the course' do
       it 'does not grant all users the permission to visit the course details page' do
@@ -200,7 +198,7 @@ describe 'Course: Update', type: :request do
     context 'when publishing the course' do
       let(:data) do
         {
-          status: 'active',
+          published: true,
           start_date: 2.days.from_now,
           end_date: 10.days.from_now,
         }
@@ -224,7 +222,7 @@ describe 'Course: Update', type: :request do
       end
 
       it 'changes the course state to active' do
-        expect { action }.to change { course.reload.status }.from('preparation').to('active')
+        expect { action }.to change { course.reload.published }.from(false).to(true)
       end
 
       it 'grants all users the permission to visit the course details page' do
@@ -346,7 +344,7 @@ describe 'Course: Update', type: :request do
       }, params: {id: course.id}).value!
     end
 
-    let!(:course) { create(:'course_service/course', groups: ['group.a']) }
+    let!(:course) { create(:'course_service/course', groups: ['group.a'], published: false) }
 
     it do
       expect { patch }

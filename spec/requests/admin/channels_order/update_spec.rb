@@ -3,14 +3,11 @@
 require 'spec_helper'
 
 describe 'Admin: ChannelsOrder: Update', type: :request do
-  let(:update_channels_order) { post '/admin/channels/order', params:, headers: }
-  let(:headers) { {} }
+  let(:update_channels_order) { post '/admin/channels/order', params: }
   let(:params) { {} }
+  let(:user) { create(:'account_service/user', :admin) }
 
   context 'with permission' do
-    let(:headers) { {Authorization: "Xikolo-Session session_id=#{stub_session_id}"} }
-    let(:permissions) { %w[course.channel.edit] }
-
     let(:patch_requests) do
       Stub.request(:course, :patch, '/channels/channel_id_1', body: hash_including({position: 1})).to_return Stub.json({}, status: 200)
       Stub.request(:course, :patch, '/channels/channel_id_2', body: hash_including({position: 2})).to_return Stub.json({}, status: 200)
@@ -18,7 +15,7 @@ describe 'Admin: ChannelsOrder: Update', type: :request do
     end
 
     before do
-      stub_user_request(permissions:)
+      sign_in(user:)
       patch_requests
     end
 

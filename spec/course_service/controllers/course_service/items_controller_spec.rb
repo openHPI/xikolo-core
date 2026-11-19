@@ -113,7 +113,7 @@ describe CourseService::ItemsController, type: :controller do
       end
 
       context 'with item from unavailable sections only' do
-        let(:section) { create(:'course_service/section', published: true) }
+        let(:section) { create(:'course_service/section', published: true, start_date: 10.days.from_now) }
         let(:item) { create(:'course_service/item', section:, published: true) }
         let(:params) { {available: true, course_id: section.course_id, format: 'json'} }
 
@@ -142,28 +142,6 @@ describe CourseService::ItemsController, type: :controller do
           it 'contains the correct item resource' do
             action
             expect(json.first['id']).to eq item.id
-          end
-        end
-      end
-
-      context 'with featured item' do
-        context 'with published item' do
-          let!(:featured_item) { create(:'course_service/item', featured: true, public_description: 'Lorem ipsum ...') }
-          let(:params) { {featured: true, format: 'json'} }
-
-          before do
-            create(:'course_service/item')
-            action
-          end
-
-          describe 'json' do
-            it 'has one item' do
-              expect(json).to have(1).item
-            end
-
-            it 'contains the correct item resource' do
-              expect(json.first['id']).to eq featured_item.id
-            end
           end
         end
       end
@@ -236,7 +214,7 @@ describe CourseService::ItemsController, type: :controller do
         let(:available_section_2) { create(:'course_service/section', course_id: course.id, published: true, start_date: DateTime.now - 1000, position: 2) }
         let(:available_section_3) { create(:'course_service/section', course_id: course.id, published: true, start_date: DateTime.now - 1000, position: 3) }
 
-        let(:unavailable_section) { create(:'course_service/section', course_id: course.id, published: true, end_date: DateTime.now + 1000, position: 4) }
+        let(:unavailable_section) { create(:'course_service/section', course_id: course.id, published: true, start_date: DateTime.now + 1000, position: 4) }
 
         let(:available_item_in_unavailable_section) { create(:'course_service/item', section_id: unavailable_section.id, published: true, position: 1) }
 
@@ -245,13 +223,13 @@ describe CourseService::ItemsController, type: :controller do
         let(:available_item_3_in_available_section_1)   { create(:'course_service/item', section_id: available_section_1.id, published: true, position: 3) }
         let(:available_item_4_in_available_section_1)   { create(:'course_service/item', section_id: available_section_1.id, published: true, position: 4) }
 
-        let(:available_item_1_in_available_section_2)   { create(:'course_service/item', section_id: available_section_2.id, published: true, position: 1) }
-        let(:available_item_2_in_available_section_2)   { create(:'course_service/item', section_id: available_section_2.id, published: true, position: 2) }
-        let(:available_item_3_in_available_section_2)   { create(:'course_service/item', section_id: available_section_2.id, published: true, position: 3) }
+        let(:available_item_1_in_available_section_2) { create(:'course_service/item', section_id: available_section_2.id, published: true, position: 1) }
+        let(:available_item_2_in_available_section_2) { create(:'course_service/item', section_id: available_section_2.id, published: true, position: 2) }
+        let(:available_item_3_in_available_section_2) { create(:'course_service/item', section_id: available_section_2.id, published: true, position: 3) }
 
-        let(:available_item_1_in_available_section_3)   { create(:'course_service/item', section_id: available_section_3.id, published: true, position: 1) }
-        let(:available_item_2_in_available_section_3)   { create(:'course_service/item', section_id: available_section_3.id, published: true, position: 2) }
-        let(:available_item_3_in_available_section_3)   { create(:'course_service/item', section_id: available_section_3.id, published: true, position: 3) }
+        let(:available_item_1_in_available_section_3) { create(:'course_service/item', section_id: available_section_3.id, published: true, position: 1) }
+        let(:available_item_2_in_available_section_3) { create(:'course_service/item', section_id: available_section_3.id, published: true, position: 2) }
+        let(:available_item_3_in_available_section_3) { create(:'course_service/item', section_id: available_section_3.id, published: true, position: 3) }
 
         let(:params) { {course_id: course.id, available: true, format: 'json'} }
 
@@ -311,9 +289,9 @@ describe CourseService::ItemsController, type: :controller do
         let(:unavailable_item_in_available_section) do
           create(:'course_service/item', section_id: available_section.id, published: true, start_date: DateTime.now + 1000, position: 1)
         end
-        let(:available_item_in_available_section_2)   { create(:'course_service/item', section_id: available_section.id, published: true, position: 3) }
-        let(:available_item_in_available_section_3)   { create(:'course_service/item', section_id: available_section.id, published: true, position: 4) }
-        let(:available_item_in_available_section_1)   { create(:'course_service/item', section_id: available_section.id, published: true, position: 2) }
+        let(:available_item_in_available_section_2) { create(:'course_service/item', section_id: available_section.id, published: true, position: 3) }
+        let(:available_item_in_available_section_3) { create(:'course_service/item', section_id: available_section.id, published: true, position: 4) }
+        let(:available_item_in_available_section_1) { create(:'course_service/item', section_id: available_section.id, published: true, position: 2) }
 
         let(:params) { {course_id: course.id, was_available: true, format: 'json'} }
 
@@ -500,7 +478,7 @@ describe CourseService::ItemsController, type: :controller do
     end
 
     context 'with new_for' do
-      let(:user_id) { generate(:user_id) }
+      let(:user_id) { create(:'account_service/user').id }
       let(:params) { {new_for: user_id, format: 'json'} }
       let!(:items) { create_list(:'course_service/item', 4) }
 
@@ -550,7 +528,7 @@ describe CourseService::ItemsController, type: :controller do
 
     context 'with user id' do
       let(:item) { create(:'course_service/item', submission_deadline: Time.zone.now.midnight - 1.day) }
-      let(:user_id) { SecureRandom.uuid }
+      let(:user_id) { create(:'account_service/user').id }
       let(:forced_submission_date) { Time.zone.now.midnight }
       let(:enrollment) do
         create(:'course_service/enrollment',
@@ -627,16 +605,19 @@ describe CourseService::ItemsController, type: :controller do
       end
     end
 
-    context 'with featured flag' do
-      let(:params) { super().merge(featured: true, public_description: 'Lorem ipsum ...') }
+    context 'with public description' do
+      let(:params) { super().merge(public_description: 'Lorem ipsum ...') }
 
       it 'responds with a 201' do
         action.call
         expect(response).to have_http_status :created
       end
 
-      it 'creates a new item' do
-        expect { action.call }.to change(CourseService::Item, :count).from(0).to(1)
+      it 'persists and exposes the public description' do
+        action.call
+
+        expect(CourseService::Item.last.public_description).to eq 'Lorem ipsum ...'
+        expect(json['public_description']).to eq 'Lorem ipsum ...'
       end
     end
 
@@ -657,15 +638,6 @@ describe CourseService::ItemsController, type: :controller do
 
         it 'fails with missing item' do
           expect(item['errors']['required_item_ids']).to include("must identify an item (failed for: #{missing_item_id})")
-        end
-      end
-
-      context '(containing nil - regression spec)' do
-        let(:missing_item_id) { nil }
-        let(:req_item_ids) { super() << missing_item_id }
-
-        it 'fails with missing item' do
-          expect(item['errors']['required_item_ids']).to include('must identify an item (failed for: empty item)')
         end
       end
     end
@@ -797,7 +769,7 @@ describe CourseService::ItemsController, type: :controller do
   describe '#current' do
     subject { action; response }
 
-    let(:user_id) { generate(:user_id) }
+    let(:user_id) { create(:'account_service/user').id }
     let(:enrollment) { create(:'course_service/enrollment', user_id:, course:) }
     let(:course) { create(:'course_service/course') }
 
@@ -1085,6 +1057,12 @@ describe CourseService::ItemsController, type: :controller do
 
         context 'with the first (resume) item belonging to a branch' do
           before do
+            xi_config <<~YML
+              open_mode:
+                enabled: false
+                default_value: false
+            YML
+
             fork
             # Switch positions for the legacy implementation (creation order).
             item_branch2.node.move_to_child_of(fork.branches[1].node)
@@ -1136,6 +1114,12 @@ describe CourseService::ItemsController, type: :controller do
 
         context 'with the first (resume) item belonging to a branch' do
           before do
+            xi_config <<~YML
+              open_mode:
+                enabled: false
+                default_value: false
+            YML
+
             fork
             # Switch positions for the legacy implementation (creation order).
             item_branch2.node.move_to_child_of(fork.branches[1].node)

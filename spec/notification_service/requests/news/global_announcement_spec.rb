@@ -26,11 +26,15 @@ describe 'Global Announcement Mail', type: :request do
       timestamp: Time.zone.now,
     }
   end
-  let(:publish) { -> { Msgr.publish(message, to: 'xikolo.news.announcement.create') } }
+  let(:publish) do
+    lambda do
+      perform_enqueued_jobs do
+        NotificationService::AnnouncementJob.perform_later(message.deep_symbolize_keys)
+      end
+    end
+  end
 
   before do
-    Msgr.client.start
-
     # prepare mail for display
     # find author name
     Stub.request(
@@ -199,8 +203,6 @@ describe 'Global Announcement Mail', type: :request do
   it 'sends email' do
     publish.call
 
-    Msgr::TestPool.run count: 6
-
     expect(mails.size).to eq 4
     expect(mails.map {|m| m.to.first }).to match_array \
       %w[admin@example.com kevin.cool@example.com
@@ -227,9 +229,7 @@ describe 'Global Announcement Mail', type: :request do
 
   it 'sends email only once even on multiple send' do
     publish.call
-    Msgr::TestPool.run count: 6
     publish.call
-    expect { Msgr::TestPool.run(count: 6) }.to raise_error(Timeout::Error)
     expect(mails.size).to eq 4
   end
 
@@ -270,7 +270,6 @@ describe 'Global Announcement Mail', type: :request do
 
     it 'sends email normally but ignores the deleted user' do
       publish.call
-      Msgr::TestPool.run count: 7
       expect(mails.size).to eq 4
 
       api = restify_with_headers(notification_service_url).get.value!
@@ -285,7 +284,6 @@ describe 'Global Announcement Mail', type: :request do
 
   it 'includes a disable link' do
     publish.call
-    Msgr::TestPool.run count: 6
 
     expect(mails.size).to eq 4
     expect(conv_str(mail.html_part)).to include mail.to.first
@@ -294,7 +292,6 @@ describe 'Global Announcement Mail', type: :request do
 
   it 'sets text direction properly' do
     publish.call
-    Msgr::TestPool.run count: 5
 
     # content body
     expect(mail.body.encoded).to include('<div dir=3D"auto">')
@@ -312,7 +309,6 @@ describe 'Global Announcement Mail', type: :request do
 
       it 'only sends emails to users who enrolled to at least one course' do
         publish.call
-        Msgr::TestPool.run count: 5
 
         expect(mails.size).to eq 3
         expect(mails.flat_map(&:to)).not_to include 'kevin.cool@example.com'
@@ -322,7 +318,6 @@ describe 'Global Announcement Mail', type: :request do
     context 'for platforms without the constraint' do
       it 'sends emails to all users, whether they have enrollments or not' do
         publish.call
-        Msgr::TestPool.run count: 6
 
         expect(mails.size).to eq 4
         expect(mails.flat_map(&:to)).to include 'kevin.cool@example.com'
@@ -336,8 +331,6 @@ describe 'Global Announcement Mail', type: :request do
     it 'translates email\'s subject' do
       publish.call
 
-      Msgr::TestPool.run count: 6
-
       english_mail = mails.find {|m| m.to[0].eql? 'tom@example.com' }
       german_mail = mails.find {|m| m.to[0].eql? 'kevin.cool@example.com' }
 
@@ -347,7 +340,6 @@ describe 'Global Announcement Mail', type: :request do
 
     it 'translates disable links' do
       publish.call
-      Msgr::TestPool.run count: 6
 
       english_mail = mails.find {|m| m.to[0].eql? 'tom@example.com' }
       expect(conv_str(english_mail.html_part)).to include 'you are signed up at Xikolo with your address tom@example.com'
@@ -365,30 +357,6 @@ describe 'Global Announcement Mail', type: :request do
     publish.call
 
     api = restify_with_headers(notification_service_url).get.value!
-
-    stats = api.rel(:mail_log_stats).get({news_id: announcement_id}).value!
-    expect(stats['count']).to eq 0
-
-    # Trigger notification events (page 1)
-    Msgr::TestPool.run count: 1
-
-    stats = api.rel(:mail_log_stats).get({news_id: announcement_id}).value!
-    expect(stats['count']).to eq 3
-    expect(stats['success_count']).to eq 0
-    expect(stats['disabled_count']).to eq 0
-    expect(stats['error_count']).to eq 0
-
-    # Send the queued notification mails from page 1 and load page 2
-    Msgr::TestPool.run count: 4
-
-    stats = api.rel(:mail_log_stats).get({news_id: announcement_id}).value!
-    expect(stats['count']).to eq 4
-    expect(stats['success_count']).to eq 3
-    expect(stats['disabled_count']).to eq 0
-    expect(stats['error_count']).to eq 0
-
-    # Send the remaining queued notification mail from page 2
-    Msgr::TestPool.run count: 1
 
     stats = api.rel(:mail_log_stats).get({news_id: announcement_id}).value!
     expect(stats['count']).to eq 4
@@ -435,8 +403,6 @@ describe 'Global Announcement Mail', type: :request do
       it 'sends mail only to author' do
         publish.call
 
-        Msgr::TestPool.run count: 2
-
         expect(mails.size).to eq 1
         expect(mails.map(&:to).join).to eq 'adam@example.org'
         expect(conv_str(mail.html_part)).to include 'This is a test message, only you received this!'
@@ -466,8 +432,6 @@ describe 'Global Announcement Mail', type: :request do
       it 'sends a mail only to the defined test receiver' do
         publish.call
 
-        Msgr::TestPool.run count: 2
-
         expect(mails.size).to eq 1
         expect(mails.map(&:to).join).to eq 'robert@example.org'
         expect(conv_str(mail.html_part)).to include 'This is a test message, only you received this!'
@@ -480,7 +444,6 @@ describe 'Global Announcement Mail', type: :request do
       Xikolo.config.site_name = 'XiMOOCs'
       Xikolo.config.mailsender = 'foo@bar.com'
       publish.call
-      Msgr::TestPool.run count: 5
     end
 
     it 'includes the standard header' do

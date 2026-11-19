@@ -1,6 +1,6 @@
-import ready from '../../util/ready';
+import { turboReady } from '../../util/ready';
 
-ready(() => {
+turboReady(() => {
   const validControllerAction = document.querySelector(
     'body.lti-providers-controller.index-action, body.lti-providers-controller.create-action',
   );

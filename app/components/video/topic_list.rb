@@ -27,7 +27,7 @@ module Video
     end
 
     def allow_topic_creation
-      !@item.course_pinboard_closed?
+      !@item.forum_locked?
     end
 
     def empty_state

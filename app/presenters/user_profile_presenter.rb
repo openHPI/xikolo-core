@@ -15,12 +15,11 @@ class UserProfilePresenter
   end
 
   def enrolled_courses
-    enrollments = Xikolo::Course::Enrollment.where user_id: @user.id, learning_evaluation: 'true', per_page: 500
-    Acfs.run
-    enrollments.collect do |enrollment|
-      course = Xikolo::Course::Course.find enrollment.course_id
-      Acfs.run
-      EnrollmentWithCourse.new(course, enrollment)
+    CourseService::Enrollment.with_evaluation
+      .active
+      .where(user_id: @user.id)
+      .map do |enrollment|
+      EnrollmentWithCourse.new(enrollment.course, enrollment)
     end
   end
 

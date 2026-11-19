@@ -101,21 +101,6 @@ AccountService::User.create!(
   )
 end
 
-200.times do |i|
-  AccountService::User.create!(
-    id: format('00000001-3100-4444-9999-0000000%05d', i + 100),
-    full_name: 'John Smith',
-    display_name: "U_#{i} Smith",
-    password: 'johnsmith'
-  ).tap do |user|
-    user.emails.create!(
-      address: "john.smith#{i}@example.com",
-      primary: true,
-      confirmed: true
-    )
-  end
-end
-
 # == Users for Tatort / Peer Assessment seeds
 
 AccountService::User.create!(
@@ -282,14 +267,3 @@ AccountService::Treatment.create!(
   name: 'marketing',
   required: false
 )
-
-# Special report permission for admins, needs to be manually assigned to selected admins on production
-%w[
-  lanalytics.report.admin
-].each do |role|
-  AccountService::Grant.create!(
-    role: AccountService::Role.find_by!(name: role),
-    principal: AccountService::Group.administrators,
-    context: AccountService::Context.root
-  )
-end

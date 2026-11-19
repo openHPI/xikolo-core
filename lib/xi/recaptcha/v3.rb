@@ -32,7 +32,7 @@ module Xi
         options = {
           action: 'helpdesk',
           minimum_score: Xikolo.config.recaptcha['score'],
-          secret_key: Rails.application.secrets.recaptcha_v3,
+          secret_key: ENV.fetch('RECAPTCHA_V3', nil),
           response: recaptcha_token,
         }
 

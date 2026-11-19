@@ -8,25 +8,19 @@ class Question < ApplicationRecord # rubocop:disable Layout/IndentationWidth
 
   default_scope { order(:position) }
   has_many :answers, dependent: :destroy
+  has_many :quiz_submission_questions, foreign_key: :quiz_question_id
   has_one :statistics, class_name: 'QuestionStatistics'
   belongs_to :quiz
   acts_as_list scope: :quiz
   has_paper_trail
 
   validates :type, presence: true
+  validate :allowed_in_question_pool
 
   before_save do
     self.explanation = nil if explanation.blank?
   end
-  after_commit(on: :create) do
-    Msgr.publish(decorate.as_event, to: 'xikolo.quiz.question.create')
-  end
-  after_commit(on: :update) do
-    Msgr.publish(decorate.as_event, to: 'xikolo.quiz.question.update')
-  end
-  after_commit(on: :destroy) do
-    Msgr.publish(decorate.as_event, to: 'xikolo.quiz.question.destroy')
-  end
+
   after_commit(on: :destroy) do
     (
       Xikolo::S3.extract_file_refs(text) +
@@ -58,6 +52,15 @@ class Question < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   rescue ActiveRecord::RecordNotUnique
     # Retry on race condition in between find and create.
     retry
+  end
+
+  private
+
+  def allowed_in_question_pool
+    return unless quiz&.question_pool?
+    return if Quiz::EXAM_QUESTION_TYPES.include?(type)
+
+    errors.add(:type, :not_allowed_in_exam)
   end
 end
 end

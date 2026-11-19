@@ -6,7 +6,7 @@ describe 'Course: Show', type: :request do
   let(:api) { restify_with_headers(course_service.root_url).get.value! }
   let(:course) { create(:'course_service/course', course_params) }
   let(:desc_rt) { 'Headline\n--\n s3://xikolo-public/courses/34/rtfiles/3/hans.jpg' }
-  let(:desc_rendered) { 'Headline\n--\n https://s3.xikolo.de/xikolo-public/courses/34/rtfiles/3/hans.jpg' }
+  let(:desc_rendered) { "Headline\\n--\\n #{test_s3_host}/xikolo-public/courses/34/rtfiles/3/hans.jpg" }
   let(:course_params) { {description: desc_rt, groups: ['xikolo.admin']} }
 
   context 'with case-insensitive course code' do
@@ -29,8 +29,6 @@ describe 'Course: Show', type: :request do
     it 'returns the inlined description with external URLs' do
       expect(show['description']).to eq desc_rendered
     end
-
-    it { is_expected.to have_relation :prerequisite_status }
   end
 
   context 'in raw format' do
@@ -40,7 +38,7 @@ describe 'Course: Show', type: :request do
       expect(show['description']).to eq(
         'url_mapping' => {
           's3://xikolo-public/courses/34/rtfiles/3/hans.jpg' \
-            => 'https://s3.xikolo.de/xikolo-public/courses/34/rtfiles/3/hans.jpg',
+            => "#{test_s3_host}/xikolo-public/courses/34/rtfiles/3/hans.jpg",
         },
         'other_files' => {
           's3://xikolo-public/courses/34/rtfiles/3/hans.jpg' => 'hans.jpg',
@@ -52,30 +50,6 @@ describe 'Course: Show', type: :request do
 
     it 'returns allowed groups' do
       expect(show['groups']).to eq ['xikolo.admin']
-    end
-
-    context 'external registration URL' do
-      describe 'invite-only course, with external registration' do
-        let(:course_params) do
-          {invite_only: true, external_registration_url: {en: 'http://foo.bar'}}
-        end
-
-        it 'returns the external registration URLs from the course' do
-          expect(show['external_registration_url']['en']).to eq 'http://foo.bar'
-        end
-      end
-
-      describe 'invite-only course' do
-        let(:course_params) { {invite_only: true} }
-
-        it { expect(show['external_registration_url']).to be_nil }
-      end
-
-      describe 'external registration course' do
-        let(:course_params) { {external_registration_url: {en: 'http://foo.bar'}} }
-
-        it { expect(show['external_registration_url']['en']).to eq 'http://foo.bar' }
-      end
     end
   end
 end

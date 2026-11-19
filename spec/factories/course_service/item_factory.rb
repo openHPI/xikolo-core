@@ -7,6 +7,7 @@ FactoryBot.define do
     end_date { 17.days.from_now }
     content_type { 'video' }
     content_id { 'b2157ab3-454b-4777-bb31-976b99cb016f' }
+    published { true }
 
     association(:section, factory: :'course_service/section', strategy: :create)
 
@@ -14,6 +15,10 @@ FactoryBot.define do
       title { 'A Quiz' }
       content_type { 'quiz' }
       exercise_type { 'selftest' }
+    end
+
+    trait :lti_exercise do
+      association :content, factory: :lti_exercise
     end
 
     trait :homework do
@@ -32,11 +37,6 @@ FactoryBot.define do
     trait :text do
       title { 'A Text' }
       content_type { 'richtext' }
-    end
-
-    trait :proctored do
-      proctored { true }
-      submission_deadline { 5.days.from_now }
     end
   end
 end

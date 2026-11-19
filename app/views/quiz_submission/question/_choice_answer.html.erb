@@ -1,0 +1,20 @@
+<%# locals: (input_type:, question_id:, answer_id:, name:, value:, answer_text:, checked:, disabled:, wrong:, correct:, lang:) %>
+<% input_id = "question_#{question_id}_answer_#{answer_id}_#{input_type == 'radio' ? 'radiobutton' : 'checkbox'}" %>
+<% input_classes = "shrink-0 #{input_type == 'radio' ? 'x-radio' : 'x-checkbox'} #{wrong ? (input_type == 'radio' ? 'x-radio-error' : 'x-checkbox-error') : ''}" %>
+<div class="quiz-answer">
+  <label class="inline-flex items-center gap-3 <%= wrong ? 'text-error' : 'text-base-content' %>" for="<%= input_id %>" lang="<%= lang %>">
+    <% if input_type == 'radio' %>
+      <%= radio_button_tag name, value, checked, id: input_id, disabled: disabled, class: input_classes %>
+    <% else %>
+      <%= check_box_tag name, value, checked, id: input_id, disabled: disabled, class: input_classes %>
+    <% end %>
+    <span class="min-w-0 <%= 'font-semibold' if correct %>">
+      <%== render_markdown answer_text, allow_tables: true %>
+    </span>
+    <% if correct %>
+      <span class="x-badge x-badge-sm shrink-0 border-0 bg-accent-10 text-accent">
+        <%= t(:'quiz_submission.correct_answer') %>
+      </span>
+    <% end %>
+  </label>
+</div>

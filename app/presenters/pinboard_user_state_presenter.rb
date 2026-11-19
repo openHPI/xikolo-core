@@ -7,7 +7,7 @@ class PinboardUserStatePresenter
   end
 
   def user_state_for(user_id)
-    if gamification? && (level = level_for(user_id))
+    if (level = level_for(user_id))
       user_state_icon(level)
     else
       ''
@@ -15,7 +15,7 @@ class PinboardUserStatePresenter
   end
 
   def available?(user_id)
-    gamification? && level_for(user_id)
+    level_for(user_id)
   end
 
   private
@@ -41,7 +41,7 @@ class PinboardUserStatePresenter
   end
 
   def gamification_levels
-    @gamification_levels ||= gamification? ? Gamification::Level.all.sort : []
+    @gamification_levels ||= Gamification::Level.all.sort
   end
 
   def author_ids
@@ -51,9 +51,5 @@ class PinboardUserStatePresenter
       *@question.answers.map(&:user_id),
       *@question.answers.flat_map(&:comments).map(&:user_id),
     ].uniq
-  end
-
-  def gamification?
-    @user.feature?('gamification')
   end
 end

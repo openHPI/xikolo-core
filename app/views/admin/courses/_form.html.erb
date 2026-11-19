@@ -1,0 +1,173 @@
+<%= simple_form_for course, html: {data: {turbo: false}} do |f| %>
+  <%= f.error_notification %>
+  <fieldset class="form-section--large" id="formgroup-meta">
+    <legend><%= t :'admin.courses.formgroups.meta' %></legend>
+    <%= f.input :title %>
+    <%= f.input :course_code do %>
+      <div class="input-group">
+        <span class="input-group-addon">
+          <%= Xikolo.base_url.join('courses/') %>
+        </span>
+        <%= f.input_field :course_code %>
+      </div>
+    <% end %>
+    <%= f.input :course_format,
+      as: :select,
+      collection: course.course_format_collection,
+      required: true %>
+    <%= f.input :lang, collection: course.lang_collection %>
+    <%= f.input :external_course_url %>
+    <%= f.input :abstract, hint: t(:'simple_form.hints.course.abstract') %>
+    <%= f.input :description %>
+  </fieldset>
+
+  <fieldset class="form-section--large course-visuals" id="formgroup-visuals">
+    <legend><%= t(:'admin.courses.formgroups.visuals') %></legend>
+
+    <% if course.persisted? %>
+      <div class="form-group">
+        <div class="col-lg-2 col-md-2 mb10">
+          <span class="bold"><%= t(:'simple_form.labels.course_visual.image') %></span>
+        </div>
+        <div class="col-lg-10 col-md-10">
+          <% if course.course_image %>
+            <%= render course.course_image %>
+            <div class="mt10 mb10">
+              <span class="bold gray-dark mr10"><%= t(:'admin.courses.form.file') %></span>
+              <span><%= course.course_image_filename %></span>
+            </div>
+          <% else %>
+            <span class="gray-dark">-</span>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-lg-2 col-md-2 mb10">
+          <span class="bold"><%= t(:'simple_form.labels.course_visual.video_stream_id') %></span>
+        </div>
+        <div class="col-lg-10 col-md-10">
+          <% if course.stream_info.present? %>
+            <span><%= course.stream_info %></span>
+          <% else %>
+            <span class="gray-dark">-</span>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="col-lg-offset-2 mb15">
+        <%= link_to t(:'admin.courses.form.edit_visuals'), edit_course_visual_path(course.course_code), class: 'btn-xs btn btn-default' %>
+      </div>
+    <% else %>
+      <%= render Global::Callout.new(t(:'simple_form.hints.course.visual_creation')) %>
+    <% end %>
+  </fieldset>
+
+  <fieldset class="form-section--large" id="formgroup-teaching_team">
+    <legend><%= t :'admin.courses.formgroups.teaching_team' %></legend>
+
+    <%= f.input :teacher_ids do %>
+      <%= render Form::DynamicSortableList.new(course.teachers, name: 'course[teacher_ids][]', select_config: {url: '/teachers', placeholder: t(:'simple_form.placeholders.course.teacher_ids'), preload: true}) %>
+    <% end %>
+    <%= advanced_settings do %>
+      <%= f.input :alternative_teacher_text %>
+    <% end %>
+  </fieldset>
+  <fieldset class="form-section--large" id="formgroup-classifiers">
+    <legend><%= t :'admin.courses.formgroups.classifiers' %></legend>
+    <% course.clusters.each do |cluster| %>
+      <%= f.input :"classifiers_#{cluster.id}",
+          label: cluster.title,
+          collection: course.classifier(cluster.id),
+          input_html: {data: {cluster: cluster.id, behavior: 'custom-select', preload: 'true'}, multiple: true} %>
+    <% end %>
+
+    <%= f.input :learning_goals, hint: t(:'simple_form.hints.course.learning_goals') do %>
+      <%= render Form::DynamicSortableList.new(course.dynamic_sortable_list(course.learning_goals), name: 'course[learning_goals][]', input_id: 'course_learning_goals') %>
+    <% end %>
+
+    <% if CourseService::Channel.any? %>
+      <%= f.input :channel_ids,
+        label: t(:'simple_form.labels.channel.channels'),
+        collection: CourseService::Channel.all,
+        label_method: :title,
+        value_method: :id,
+        input_html: {multiple: true, 'data-behavior': 'custom-select'} %>
+    <% end %>
+  </fieldset>
+  <fieldset class="form-section--large" id="formgroup-dates">
+    <legend><%= t :'admin.courses.formgroups.dates' %></legend>
+    <% if Xikolo.config.access_groups.present? && current_user.feature?('course.access-group') %>
+      <%= f.input :groups, collection: course.access_groups_collection,
+        input_html: {multiple: true, data: {behavior: 'custom-select'}} %>
+    <% end %>
+    <%= f.input :start_date, html5: true %>
+    <%= f.input :display_start_date %>
+    <%= f.input :end_date %>
+    <%= f.input :published %>
+    <%= f.input :placement,
+        as: :select,
+        collection: CourseService::Course::PLACEMENTS,
+        input_html: {multiple: true, 'data-behavior': 'custom-select'} %>
+  </fieldset>
+  <fieldset class="form-section--large" id="formgroup-enrollment">
+    <legend><%= t :'admin.courses.formgroups.enrollment' %></legend>
+    <%= f.input :welcome_mail %>
+    <%= f.input :invite_only %>
+  </fieldset>
+  <fieldset class="form-section--large" id="formgroup-features">
+    <legend><%= t :'admin.courses.formgroups.features' %></legend>
+    <%= f.input :enable_video_download %>
+    <%= f.input :pinboard_enabled %>
+  </fieldset>
+  <fieldset class="form-section--large" id="formgroup-certificate">
+    <legend><%= t :'admin.courses.formgroups.certificate' %></legend>
+    <%= f.input :cop_enabled %>
+    <div id="cop_threshold_percentage" style="<%= 'display: none;' unless course.cop_enabled? %>">
+      <%= f.input :cop_threshold_percentage,
+          i18n_variables: {global_default: Xikolo.config.cop_threshold_percentage} %>
+    </div>
+    <%= f.input :roa_enabled %>
+    <div id="roa_threshold_percentage" style="<%= 'display: none;' unless course.roa_enabled? %>">
+      <%= f.input :roa_threshold_percentage,
+          i18n_variables: {global_default: Xikolo.config.roa_threshold_percentage} %>
+    </div>
+    <%= f.input :on_demand %>
+  </fieldset>
+  <fieldset class="form-section--large" id="formgroup-statistics">
+    <legend><%= t :'admin.courses.formgroups.statistics' %></legend>
+    <%= f.input :enrollment_delta %>
+    <%= f.input :middle_of_course_is_auto %>
+    <%= f.input :middle_of_course %>
+  </fieldset>
+  <fieldset class="form-section--large" id="formgroup-end">
+    <legend><%= t :'admin.courses.formgroups.end' %></legend>
+    <%= f.input :records_released %>
+    <%= f.input :forum_is_locked %>
+  </fieldset>
+
+  <div class="btn-group">
+    <%= f.button :submit, class: 'mr20' %>
+  </div>
+  <% if course.persisted? && current_user.allowed?('course.course.delete') %>
+    <%= link_to t(:'admin.courses.delete'),
+        course_path(course_code: course.course_code),
+        data: {confirm: t(:'admin.courses.delete')},
+        method: :delete,
+        class: 'btn btn-default' %>
+  <% end %>
+<% end %>
+
+<% unless course.new_record? %>
+  <div class="infobox infobox-info mt15">
+    <%= link_to t(:'admin.courses.generate_ranking.label'), generate_ranking_course_path(course.course_code), method: :post, class: 'btn btn-warning mr15 btn-force-white', id: 'generate_ranking_button' %>
+    <% if course.statistic_dates? %>
+      <% if course.statistic_dates['quantile_count'].present? %>
+        <%= t :'admin.courses.generate_ranking.quantile_count', count: course.statistic_dates['quantile_count'] %>
+      <% end %>
+      <% if course.statistic_dates['percentile_created_at_days'].present? %>
+        <%== t :'admin.courses.generate_ranking.created_at', date: course.statistic_dates['percentile_created_at_days'].map {|date| Date.parse(date[0]) }.join(', ') %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

@@ -1,0 +1,61 @@
+<% if !@item_presenter.survey? && @item_presenter.show_quiz_results? %>
+  <!-- Quiz results summary card -->
+  <div class="mb-4">
+    <%= render Quiz::SubmissionCard.new(@quiz, submission: @submission, item_presenter: @item_presenter, my_result: @my_result, counter_end_timediff: nil) %>
+  </div>
+<% end %>
+
+<!-- Main content of the quiz -->
+<div class="quiz-content rounded-2xl">
+  <% if @item_presenter.survey? %>
+    <p>
+      <%= t(:'quiz_submission.submitted_survey') %>
+    </p>
+  <% elsif !@item_presenter.show_quiz_results? %>
+    <%= render Global::Callout.new(t(:'quiz_submission.submitted_quiz_at', quiz_submission_time: I18n.l(@item_presenter.submission.quiz_submission_time.in_time_zone, format: :long), timezone: Time.zone.name)) %>
+    <hr class="divider alternative" id="quiz_properties">
+    <%= render 'items/quiz/quiz_properties', presenter: @item_presenter, highlight_quiz_properties: false %>
+  <% else %>
+    <!-- Render all questions as an accordion -->
+    <%= render Global::Accordion.new do |accordion| %>
+      <% @quiz.questions.each_with_index do |question, index| %>
+        <% submission_question = @submission.get_user_submission_question_for(question.id) %>
+        <% question_label = t(:'items.quiz.question_count', count: index + 1) %>
+        <% points = submission_question ? t(:'quiz_submission.quiz_question_points_slashed', points: submission_question.points.round(2), max_points: question.points) : t(:'quiz_submission.question_points', points: question.points.round(2)) %>
+        <% status = submission_question ? question_status(question, submission_question:) : nil %>
+        <% accordion.with_section(question_label, "accordion-section-#{question.id}", expanded: index == 0) do |section| %>
+          <% section.with_header do %>
+            <span class="inline-flex shrink-0 items-center gap-2 whitespace-nowrap">
+              <span class="x-badge x-badge-sm x-badge-accent x-badge-soft"><%= points %></span>
+              <% if status == 'correct' %>
+                <span class="x-badge x-badge-sm x-badge-success"><%= t('question.correct') %></span>
+              <% elsif status == 'incorrect' %>
+                <span class="x-badge x-badge-sm x-badge-soft x-badge-error"><%= t('question.incorrect') %></span>
+              <% end %>
+            </span>
+            <% if question.explanation.present? %>
+              <span class="inline-flex shrink-0 items-center" title="<%= t('items.quiz.question_explanation') %>" aria-hidden="true">
+                <%= pixelart_icon('circle-info', css_class: 'size-4 text-accent') %>
+              </span>
+            <% end %>
+          <% end %>
+          <%= render 'quiz_submission/question/question_base',
+              question: question,
+              show_solution: true,
+              index: index,
+              user_submission: submission_question,
+              snapshot: nil,
+              item: @item_presenter %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <%= render course_item_bottom_bar do |bar| %>
+    <% if @item_presenter.allow_retake_quiz? && (@item_presenter.survey? || !@item_presenter.show_quiz_results?) %>
+      <% bar.with_primary_action do %>
+        <%= render 'items/quiz/retake_action', url: new_course_item_quiz_submission_path %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

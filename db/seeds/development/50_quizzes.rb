@@ -280,8 +280,7 @@ QuizService::Quiz.create!(
 end
 
 submission = welcome_quiz.attempt! '00000001-3100-4444-9999-000000000002',
-  course_id: '00000001-3300-4444-9999-000000000008',
-  vendor_data: {}
+  course_id: '00000001-3300-4444-9999-000000000008'
 
 q1 = QuizService::QuizSubmissionQuestion.create!(
   quiz_submission_id: submission.id,

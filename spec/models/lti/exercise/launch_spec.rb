@@ -5,22 +5,15 @@ require 'spec_helper'
 describe 'LTI::Exercise#launch_for' do
   subject(:launch) { exercise.launch_for(user) }
 
-  let(:user_id) { SecureRandom.uuid }
+  let(:account_user) { create(:'account_service/user') }
+  let(:session) { create(:'account_service/session', user: account_user) }
+  let(:user_id) { account_user.id }
   let(:gradebook) { create(:lti_gradebook, exercise:, user_id:) }
   let(:provider) { create(:lti_provider, consumer_key: 'teambuilder-app', course_id:) }
 
-  let(:user) do
-    Xikolo::Common::Auth::CurrentUser.from_session(
-      'permissions' => permissions,
-      'features' => features,
-      'user_id' =>  user_id,
-      'user' => {'anonymous' => false, 'id' => user_id, 'email' => 'jsmith@example.com', 'name' => 'John Smith'},
-      'masqueraded' => false
-    )
-  end
+  let(:user) { CurrentUser::User.new(session:, context_id: 'root') }
 
   let(:permissions) { [] }
-  let(:features) { {} }
 
   let(:exercise) { create(:lti_exercise, provider:) }
   let(:course_id) { generate(:course_id) }
@@ -30,7 +23,11 @@ describe 'LTI::Exercise#launch_for' do
   let!(:section) { create(:section, course:) }
   let(:item) { create(:item, id: item_id, section:, content: exercise, submission_deadline:) }
 
-  before { item }
+  before do
+    role = create(:'account_service/role', permissions:)
+    create(:'account_service/grant', principal: account_user, role:)
+    item
+  end
 
   it 'includes course information' do
     expect(launch.data_hash).to include(
@@ -65,7 +62,7 @@ describe 'LTI::Exercise#launch_for' do
 
       it 'includes user information' do
         expect(launch.data_hash).to include(
-          'lis_person_contact_email_primary' => 'jsmith@example.com',
+          'lis_person_contact_email_primary' => account_user.primary_email.address,
           'lis_person_name_family' => 'Mous',
           'lis_person_name_given' => 'Anony',
           'lis_person_name_full' => 'John Smith',
@@ -111,18 +108,10 @@ describe 'LTI::Exercise#launch_for' do
       end
 
       describe 'the hashed user ID' do
-        let(:user2_id) { generate(:user_id) }
-        let(:user2) do
-          Xikolo::Common::Auth::CurrentUser.from_session(
-            'permissions' => permissions,
-            'features' => features,
-            'user_id' =>  user2_id,
-            'user' => {'anonymous' => false, 'id' => user2_id, 'email' => 'test2@xikolo.de', 'name' => 'Amazing Joe'},
-            'masqueraded' => false
-          )
-        end
+        let(:other_account_user) { create(:'account_service/user') }
+        let(:other_session) { create(:'account_service/session', user: other_account_user) }
+        let(:user2) { CurrentUser::User.new(session: other_session, context_id: 'root') }
         let(:permissions) { [] }
-        let(:features) { {} }
 
         let(:provider) { create(:lti_provider, :pseudonymized, :global) }
         let(:exercise) { create(:lti_exercise, provider:) }
@@ -216,7 +205,7 @@ describe 'LTI::Exercise#launch_for' do
 
   it 'includes a return URL' do
     expect(launch.data_hash).to match hash_including(
-      'launch_presentation_return_url' => %r{https://xikolo\.de/courses/the-course/items/[A-Za-z0-9]{14,22}/tool_return}
+      'launch_presentation_return_url' => %r{https://xikolo\.de/learn/the-course/items/[A-Za-z0-9]{14,22}/tool_return}
     )
   end
 
@@ -276,7 +265,7 @@ describe 'LTI::Exercise#launch_for' do
 
     it 'includes an outcome URL' do
       expect(launch.data_hash).to match hash_including(
-        'lis_outcome_service_url' => %r{https://xikolo\.de/courses/the-course/items/[A-Za-z0-9]{14,22}/tool_grading}
+        'lis_outcome_service_url' => %r{https://xikolo\.de/learn/the-course/items/[A-Za-z0-9]{14,22}/tool_grading}
       )
     end
   end
@@ -301,7 +290,21 @@ describe 'LTI::Exercise#launch_for' do
 
       it 'includes an outcome URL' do
         expect(launch.data_hash).to match hash_including(
-          'lis_outcome_service_url' => %r{https://xikolo\.de/courses/the-course/items/[A-Za-z0-9]{14,22}/tool_grading}
+          'lis_outcome_service_url' => %r{https://xikolo\.de/learn/the-course/items/[A-Za-z0-9]{14,22}/tool_grading}
+        )
+      end
+    end
+
+    context 'when the provider allows access after the deadline' do
+      let(:provider) { create(:lti_provider, consumer_key: 'teambuilder-app', course_id:, allow_access_after_deadline: true) }
+
+      it 'marks the exercise as active' do
+        expect(launch.data_hash['custom_state']).to eq 'active'
+      end
+
+      it 'includes an outcome URL' do
+        expect(launch.data_hash).to match hash_including(
+          'lis_outcome_service_url' => %r{https://xikolo\.de/learn/the-course/items/[A-Za-z0-9]{14,22}/tool_grading}
         )
       end
     end

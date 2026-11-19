@@ -16,7 +16,7 @@ module Xikolo::Submission
     attribute :snapshot_id, :uuid
     attribute :fudge_points, :float
     attribute :question_count, :integer
-    attribute :vendor_data, :dict
+    attribute :max_points, :float
 
     def enqueue_acfs_request_for_quiz_submissions_questions(&)
       @quiz_submission_questions = Xikolo::Submission::QuizSubmissionQuestion.where(

@@ -1,0 +1,58 @@
+<%= simple_form_for(item,
+    as: :xikolo_course_item,
+    url: {controller: 'items', action: item.new_record? ? :create : :update},
+    html: {multipart: true},
+    wrapper: :larger_labels) do |f| %>
+  <%= f.error_notification %>
+  <%= f.input :title, label: t(:'admin.courses.items.form.label.title'), required: true, placeholder: t(:'admin.courses.items.form.placeholder.title') %>
+
+  <%= f.input :published, label: t(:'admin.courses.items.form.label.published'), as: :toggle_switch %>
+
+  <div id="public-description-markdown">
+    <%= f.input :public_description, label: t(:'admin.courses.items.form.label.public_description'), required: false, class: 'form-control', as: :markdown, placeholder: 'Enter content', hint: t(:'admin.courses.items.form.label.public_description_hint') %>
+  </div>
+
+  <% if item.exercise_type == 'exam' %>
+    <%= f.hidden_field :content_type, value: 'quiz' %>
+    <%= f.hidden_field :exercise_type, value: 'exam' %>
+    <%= f.input :minimum_progress_percentage,
+      label: t(:'items.exam.minimum_progress_percentage', percentage: item.minimum_progress_percentage),
+      hint: t(:'items.exam.minimum_progress_percentage_hint', percentage: item.minimum_progress_percentage),
+      required: true,
+      as: :integer,
+      input_html: {type: 'number', min: 0, max: 100, step: 1, value: item.minimum_progress_percentage} %>
+  <% else %>
+    <% if item.new_record? %>
+      <%= f.input :content_type, label: t(:'admin.courses.items.form.label.content_type'), required: true, collection: [[t(:'admin.courses.items.form.type_selector.video'), 'video'], [t(:'admin.courses.items.form.type_selector.quiz'), 'quiz'], [t(:'admin.courses.items.form.type_selector.text'), 'rich_text'], [t(:'admin.courses.items.form.type_selector.lti_exercise'), 'lti_exercise'], [t(:'admin.courses.items.form.type_selector.cmi5'), 'cmi5']] %>
+    <% else %>
+      <%= f.hidden_field :content_type %>
+    <% end %>
+  <% end %>
+
+  <% if item.exercise_type == 'exam' && quiz.present? && quiz.displayed_question_count.to_i.positive? %>
+    <%= f.input :max_points, label: t(:'admin.courses.items.form.label.max_points'), required: false, as: :float, readonly: false, input_html: {min: 0}, hint: t(:'items.exam.max_points_hint', points: displayed_max_points(quiz)) %>
+  <% else %>
+    <%= f.input :max_points, label: t(:'admin.courses.items.form.label.max_points'), required: false, as: :float, readonly: false, input_html: {min: 0} %>
+  <% end %>
+
+  <div class="content-form" id="custom-form">
+    <%= render 'items/quiz/exam/form', quiz:, item:, quiz_question:, multiple_choice_question:, multiple_answer_question:, free_text_question:, essay_question: %>
+  </div>
+
+  <div class="col-md-9 pl0">
+    <%= f.button :submit, class: 'btn btn-primary' %>
+
+    <% unless item.new_record? %>
+      <%= f.button :submit, t(:'helpers.submit.xikolo_course_item.preview'), name: 'show', class: 'btn btn-primary ml10' %>
+    <% end %>
+
+    <button
+      class="btn btn-default ml10"
+      type="button"
+      data-controller="navigation"
+      data-action="navigation#back"
+    >
+      <%= t(:'global.cancel') %>
+    </button>
+  </div>
+<% end %>

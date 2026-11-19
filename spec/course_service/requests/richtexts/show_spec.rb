@@ -22,14 +22,14 @@ describe 'Richtext: Show', type: :request do
     let(:text) { 'some text\ns3://xikolo-public/courses/34/rtfiles/34/hans.jpg' }
 
     it 'returns text with public URLs' do
-      expect(richtext_show['text']).to eq 'some text\nhttps://s3.xikolo.de/xikolo-public/courses/34/rtfiles/34/hans.jpg'
+      expect(richtext_show['text']).to eq "some text\\n#{test_s3_host}/xikolo-public/courses/34/rtfiles/34/hans.jpg"
     end
 
     context 'in raw mode' do
       let(:params) { super().merge raw: true }
 
       it 'returns the text enhanced with url mappings and other files references' do
-        expect(richtext_show['text']).to eq('some text\\nhttps://s3.xikolo.de/xikolo-public/courses/34/rtfiles/34/hans.jpg')
+        expect(richtext_show['text']).to eq("some text\\n#{test_s3_host}/xikolo-public/courses/34/rtfiles/34/hans.jpg")
       end
 
       context 'with other files in course' do
@@ -41,7 +41,7 @@ describe 'Richtext: Show', type: :request do
         end
 
         it 'returns existings file references of course description and other richtext items' do
-          expect(richtext_show['text']).to eq('some text\\nhttps://s3.xikolo.de/xikolo-public/courses/34/rtfiles/34/hans.jpg')
+          expect(richtext_show['text']).to eq("some text\\n#{test_s3_host}/xikolo-public/courses/34/rtfiles/34/hans.jpg")
         end
       end
     end

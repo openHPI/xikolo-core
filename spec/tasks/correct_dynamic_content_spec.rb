@@ -8,9 +8,8 @@ RSpec.describe 'dynamic_content:remove_invalid_content' do
     Rake.application.invoke_task 'dynamic_content:remove_invalid_content'
   end
 
-  # rubocop:disable RSpec/BeforeAfterAll
+  # rubocop:disable-next RSpec/BeforeAfterAll
   before(:all) { Rails.application.load_tasks if Rake::Task.tasks.empty? }
-  # rubocop:enable RSpec/BeforeAfterAll
 
   context 'when there are certificates with invalid dynamic content' do
     let(:invalid_content) do

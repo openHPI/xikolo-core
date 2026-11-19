@@ -33,28 +33,6 @@ services:
       MINIO_ACCESS_KEY: minioadmin
       MINIO_SECRET_KEY: minioadmin
 
-  # RabbitMQ and Redis are explicitly started without persistent
-  # storage. Restarting the stack purges all still pending background
-  # jobs or queued messages.
-
-  rabbitmq:
-    image: rabbitmq:3.9-management-alpine
-    restart: always
-    ports:
-      - 127.0.0.1:5672:5672
-      - 127.0.0.1:15672:15672
-    healthcheck:
-      test: rabbitmq-diagnostics -q ping
-      interval: 10s
-      timeout: 5s
-      retries: 3
-
-  redis:
-    image: redis:7-alpine
-    command: redis-server --databases 8196
-    ports:
-      - 127.0.0.1:6379:6379
-
 volumes:
   postgres:
   minio:

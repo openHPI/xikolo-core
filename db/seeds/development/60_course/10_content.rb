@@ -72,9 +72,8 @@ topic.classifiers.create! title: 'Internet', translations: {'en' => 'Internet', 
 topic.classifiers.create! title: 'Programming', translations: {'en' => 'Programming', 'de' => 'Programmierung'}, position: 4
 
 level = CourseService::Cluster.create! id: 'level', translations: {'en' => 'Level', 'de' => 'Niveau'}
-level.classifiers.create! title: 'Junior', translations: {'en' => 'Junior', 'de' => 'Junior'}, position: 4
 level.classifiers.create! title: 'Beginner', translations: {'en' => 'Beginner', 'de' => 'Anfänger'}, position: 1
-level.classifiers.create! title: 'Advanced', translations: {'en' => 'Advanced', 'de' => 'Fortgeschrittene'}, position: 2
+level.classifiers.create! title: 'Intermediate', translations: {'en' => 'Intermediate', 'de' => 'Fortgeschritten'}, position: 2
 level.classifiers.create! title: 'Expert', translations: {'en' => 'Expert', 'de' => 'Experten'}, position: 3
 
 reporting = CourseService::Cluster.create! id: 'reporting', translations: {'en' => 'Reporting', 'de' => 'Reporting'}, visible: false
@@ -117,11 +116,12 @@ courses << CourseService::Course::Create.call(
   ABSTRACT
   start_date: Date.yesterday - 60,
   end_date: Date.yesterday,
-  status: 'archive',
+  published: true,
   lang: 'de',
   classifiers: {topic: %w[Internet], level: %w[Advanced]},
   channels: [channel1],
-  teacher_ids: [teacher.id]
+  teacher_ids: [teacher.id],
+  placement: ['Open4All']
 ).tap do |c|
   c.offers.create!
 end
@@ -143,13 +143,11 @@ courses << CourseService::Course::Create.call(
   ABSTRACT
   start_date: Date.yesterday - 60,
   end_date: Date.tomorrow,
-  status: 'active',
+  published: true,
   lang: 'de',
   classifiers: {topic: %w[Programming], level: %w[Advanced]},
   channels: [channel1, channel2],
-  target_groups: [
-    'Humans', 'People who like Bananas', 'Bananas'
-  ],
+  placement: ['Open4All'],
   learning_goals: [
     'Build an autonomously operating Submarine', 'Ride a Dinosaur', 'Find inner Peace'
   ]
@@ -175,10 +173,11 @@ courses << CourseService::Course::Create.call(
   ABSTRACT
   start_date: Date.yesterday - 30,
   end_date: Date.tomorrow + 30,
-  status: 'active',
+  published: true,
   lang: 'en',
   classifiers: {topic: %w[Fundamentals], level: %w[Beginner]},
-  channels: [channel2]
+  channels: [channel2],
+  placement: ['Open4All']
 )
 
 courses << CourseService::Course::Create.call(
@@ -204,10 +203,11 @@ courses << CourseService::Course::Create.call(
   ABSTRACT
   start_date: Time.zone.today,
   end_date: Date.tomorrow + 60,
-  status: 'preparation',
+  published: false,
   lang: 'en',
   classifiers: {topic: %w[Databases], level: %w[Expert]},
-  channels: [channel3]
+  channels: [channel3],
+  placement: ['Open4All']
 )
 
 courses << CourseService::Course::Create.call(
@@ -229,10 +229,11 @@ courses << CourseService::Course::Create.call(
   ABSTRACT
   start_date: Date.tomorrow,
   end_date: Date.tomorrow + 62,
-  status: 'preparation',
+  published: false,
   lang: 'en',
   classifiers: {topic: %w[Programming], level: %w[Beginner]},
-  channels: [channel2]
+  channels: [channel2],
+  placement: ['Open4All']
 )
 
 courses << CourseService::Course::Create.call(
@@ -254,10 +255,11 @@ courses << CourseService::Course::Create.call(
   ABSTRACT
   start_date: Date.tomorrow + 600,
   end_date: Date.tomorrow + 662,
-  status: 'active',
+  published: true,
   lang: 'en',
   classifiers: {topic: %w[Programming], level: %w[Beginner]},
-  channels: [channel3]
+  channels: [channel3],
+  placement: ['Open4All']
 )
 
 courses << CourseService::Course::Create.call(
@@ -279,8 +281,8 @@ courses << CourseService::Course::Create.call(
   ABSTRACT
   start_date: Date.tomorrow + 600,
   end_date: Date.tomorrow + 662,
-  status: 'active',
-  hidden: true,
+  published: true,
+  placement: [],
   lang: 'en',
   classifiers: {topic: %w[Fundamentals], level: %w[Junior]},
   channels: [channel3]
@@ -604,13 +606,13 @@ richtext = CourseService::Richtext.create!(
 )
 
 CourseService::Item.create!(
-  title: 'Markdown Example not shown in Nav',
+  title: 'De-emphasized Markdown Example',
   start_date: 10.days.ago,
   end_date: 14.days.from_now,
   content_type: 'rich_text',
   content_id: richtext.id,
   section: introduction_section,
-  show_in_nav: false,
+  deemphasized_in_nav: true,
   id: '00000003-3100-4444-9999-000000000001'
 )
 
@@ -631,7 +633,6 @@ CourseService::Item.create!(
   content_type: 'video',
   content_id: '00000001-3600-4444-9999-000000000004',
   section: introduction_section,
-  show_in_nav: true,
   id: '00000003-3100-4444-9999-000000000003'
 )
 
@@ -773,31 +774,28 @@ CourseService::Item.create!(
   content_type: 'rich_text',
   content_id: richtext.id,
   section: introduction_section,
-  show_in_nav: true,
   id: '00000003-3100-4444-9999-000000000004'
 )
 
 CourseService::Item.create!(
   title: 'Welcome Quiz',
   start_date: 2.days.ago,
-  end_date: 5.days.from_now,
+  end_date: 3.years.from_now,
   content_type: 'quiz',
   exercise_type: 'selftest',
   content_id: '00000001-3800-4444-9999-000000000001',
   section: introduction_section,
-  show_in_nav: true,
   id: '00000003-3100-4444-9999-000000000005'
 )
 
 CourseService::Item.create!(
   title: 'Quiz with all question types',
   start_date: 2.days.ago,
-  end_date: 5.days.from_now,
+  end_date: 3.years.from_now,
   content_type: 'quiz',
   exercise_type: 'selftest',
   content_id: '00000001-3800-4444-9999-000000000006',
   section: introduction_section,
-  show_in_nav: true,
   id: '00000003-3100-4444-9999-000000000027'
 )
 
@@ -939,7 +937,6 @@ CourseService::Item.create!(
   content_type: 'rich_text',
   content_id: richtext.id,
   section: introduction_section,
-  show_in_nav: true,
   id: '00000003-3100-4444-9999-000000000006'
 )
 
@@ -961,7 +958,6 @@ CourseService::Item.create!(
   exercise_type: 'selftest',
   content_id: '00000001-3800-4444-9999-000000000002',
   section: definitions_section,
-  show_in_nav: true,
   id: '00000003-3100-4444-9999-000000000008'
 )
 
@@ -972,7 +968,6 @@ CourseService::Item.create!(
   exercise_type: 'main',
   content_id: '00000001-3800-4444-9999-000000000004',
   section: definitions_section,
-  show_in_nav: true,
   id: '00000003-3100-4444-9999-000000000015'
 )
 
@@ -984,7 +979,6 @@ CourseService::Item.create!(
   content_id: '00000001-3600-4444-9999-000000000003',
   section: introduction2_section,
   open_mode: true,
-  show_in_nav: true,
   id: '00000003-3100-4444-9999-000000000009'
 )
 
@@ -995,8 +989,34 @@ CourseService::Item.create!(
   content_type: 'video',
   content_id: '00000001-3600-4444-9999-000000000004',
   section: introduction2_section,
-  show_in_nav: true,
   id: '00000003-3100-4444-9999-000000000010'
+)
+
+cmi5_package = Rails.root.join('spec/fixtures/files/dummy_cmi5_exercise.zip')
+cmi5_item = Cmi5::Item.new(
+  id: '00000001-3900-4444-9999-000000000001'
+)
+
+cmi5_package.open do |package|
+  cmi5_item.package.attach(
+    io: package,
+    filename: cmi5_package.basename.to_s,
+    content_type: 'application/zip'
+  )
+  cmi5_item.save!
+end
+
+Cmi5ItemUnzipJob.perform_now(cmi5_item)
+
+CourseService::Item.create!(
+  title: 'Fit2Study CMI5 Exercise',
+  start_date: 2.days.ago,
+  content_type: 'cmi5',
+  content_id: cmi5_item.id,
+  section: introduction2_section,
+  exercise_type: 'selftest',
+  max_dpoints: 100,
+  id: '00000003-3100-4444-9999-000000000021'
 )
 
 CourseService::Item.create!(
@@ -1006,19 +1026,7 @@ CourseService::Item.create!(
   content_type: 'video',
   content_id: '00000001-3600-4444-9999-000000000005',
   section: definitions_section,
-  show_in_nav: true,
   id: '00000003-3100-4444-9999-000000000011'
-)
-
-CourseService::Item.create!(
-  title: 'Kaltura video',
-  start_date: 2.days.ago,
-  end_date: 5.days.from_now,
-  content_type: 'video',
-  content_id: '00000001-3600-4444-9999-000000000006',
-  section: introduction_section,
-  show_in_nav: true,
-  id: '00000003-3100-4444-9999-000000000012'
 )
 
 CourseService::Item.create!(
@@ -1029,7 +1037,6 @@ CourseService::Item.create!(
   exercise_type: 'survey',
   content_id: '00000001-3800-4444-9999-000000000003',
   section: introduction_section,
-  show_in_nav: true,
   id: '00000003-3100-4444-9999-000000000014',
   position: 1
 )
@@ -1037,12 +1044,11 @@ CourseService::Item.create!(
 CourseService::Item.create!(
   title: 'Final Exam',
   start_date: 2.days.ago,
-  end_date: 5.days.from_now,
+  end_date: 3.years.from_now,
   content_type: 'quiz',
   exercise_type: 'main',
   content_id: '00000001-3800-4444-9999-000000000005',
   section: final_exam_section,
-  show_in_nav: true,
   id: '00000003-3100-4444-9999-000000000016',
   position: 1
 )
@@ -1183,8 +1189,7 @@ CourseService::Item.create!(
     title: format('Markdown Test %05d', i),
     content_type: 'rich_text',
     content_id: richtext.id,
-    section: introduction_section,
-    show_in_nav: true
+    section: introduction_section
   )
 end
 
@@ -1195,7 +1200,6 @@ CourseService::Item.create!(
   content_type: 'video',
   content_id: '00000001-3600-4444-9999-000000000004',
   section: spec_section_alt1,
-  show_in_nav: true,
   id: '00000003-3100-4444-9999-000000000017'
 )
 
@@ -1206,11 +1210,10 @@ CourseService::Item.create!(
   content_type: 'video',
   content_id: '00000001-3600-4444-9999-000000000004',
   section: spec_section_alt2,
-  show_in_nav: true,
   id: '00000003-3100-4444-9999-000000000018'
 )
 
-item1 = CourseService::Item.create!(
+CourseService::Item.create!(
   title: 'Urban Planning Quiz',
   start_date: 2.days.ago,
   end_date: 5.days.from_now,
@@ -1218,12 +1221,11 @@ item1 = CourseService::Item.create!(
   exercise_type: 'main',
   content_id: '00000001-3800-4444-9999-000000000001',
   section: spec_section_alt1,
-  show_in_nav: true,
   id: '00000003-3100-4444-9999-000000000019',
   max_dpoints: 60
 )
 
-item2 = CourseService::Item.create!(
+CourseService::Item.create!(
   title: 'Environmental Studies Quiz',
   start_date: 2.days.ago,
   end_date: 5.days.from_now,
@@ -1231,143 +1233,6 @@ item2 = CourseService::Item.create!(
   exercise_type: 'main',
   content_id: '00000001-3800-4444-9999-000000000004',
   section: spec_section_alt2,
-  show_in_nav: true,
   id: '00000003-3100-4444-9999-000000000020',
   max_dpoints: 30
-)
-
-##### Documents and Localizations  #####
-
-# #1##
-document1 = CourseService::Document.create!(
-  title: 'Fantastic Beasts and where to find them',
-  description: 'A nice book by J.K.Rowling',
-  tags: %w[fantasy beasts wizard witchcraft wizadry Rowling],
-  id: '00000001-3800-5555-9999-000000000001',
-  courses: [courses.fourth, courses.second],
-  items: [item1, item2]
-)
-
-CourseService::DocumentLocalization.create!(
-  title: 'Fantastische Tierwesen und wo sie zu finden sind',
-  description: 'J.K.Rowling ist die Beste',
-  id: '00000001-3800-5555-9997-000000000001',
-  document: document1,
-  file_id: '00000001-4000-4444-9999-000000000008',
-  language: 'de',
-  revision: '1'
-)
-
-CourseService::DocumentLocalization.create!(
-  title: 'Les Animaux fantastiques (Harry Potter)',
-  description: 'livre de J.K.R.',
-  id: '00000001-3800-5555-9997-000000000002',
-  document: document1,
-  file_id: '00000001-4000-4444-9999-000000000008',
-  language: 'en',
-  revision: '1'
-)
-
-CourseService::DocumentLocalization.create!(
-  title: 'Fantastic Beasts and where to find them',
-  description: 'A somewhat interesting book by J.K.R.',
-  id: '00000001-3800-5555-9997-000000000003',
-  document: document1,
-  file_id: '00000001-4000-4444-9999-000000000008',
-  language: 'en',
-  revision: '1'
-)
-
-# #2##
-document2 = CourseService::Document.create!(
-  title: 'Quidditch through the Ages',
-  description: 'A nice book by J.K.Rowling',
-  tags: %w[fantasy sports quidditch witchcraft wizadry Rowling],
-  id: '00000001-3800-5555-9999-000000000002',
-  courses: [courses.first, courses.third],
-  items: [item1, item2]
-)
-
-CourseService::DocumentLocalization.create!(
-  title: 'Quidditch im Wandel der Zeiten',
-  description: 'von J.K.R.',
-  id: '00000001-3800-5555-9997-000000000004',
-  document: document2,
-  file_id: '00000001-4000-4444-9999-000000000008',
-  language: 'de',
-  revision: '1'
-)
-
-CourseService::DocumentLocalization.create!(
-  title: 'Quidditch through the Ages',
-  description: 'A somewhat interesting book by J.K.R.',
-  id: '00000001-3800-5555-9997-000000000005',
-  document: document2,
-  file_id: '00000001-4000-4444-9999-000000000008',
-  language: 'en',
-  revision: '1'
-)
-
-# #3##
-document3 = CourseService::Document.create!(
-  title: 'The Tales of Beedle the Bard',
-  description: 'A nice book by J.K.Rowling',
-  tags: %w[fantasy tales witchcraft wizadry Rowling],
-  id: '00000001-3800-5555-9999-000000000003',
-  courses: [courses.first, courses.third, courses.fourth],
-  items: [item2]
-)
-
-CourseService::DocumentLocalization.create!(
-  title: 'The Tales of Beedle the Bard',
-  description: 'An interesting book by J.K.R.',
-  id: '00000001-3800-5555-9997-000000000006',
-  document: document3,
-  file_id: '00000001-4000-4444-9999-000000000008',
-  language: 'en',
-  revision: '1'
-)
-
-# #4##
-document4 = CourseService::Document.create!(
-  title: 'Harry Potter and the cursed child',
-  description: 'Not a nice book and not by J.K.Rowling',
-  tags: %w[fantasy witchcraft wizadry Rowling],
-  id: '00000001-3800-5555-9999-000000000004',
-  courses: [courses.second],
-  items: [item1]
-)
-
-CourseService::DocumentLocalization.create!(
-  title: 'Harry Potter and the cursed child',
-  description: 'An awful book',
-  id: '00000001-3800-5555-9997-000000000007',
-  document: document4,
-  file_id: '00000001-4000-4444-9999-000000000008',
-  language: 'en',
-  revision: '0'
-)
-
-##### Course Prerequisites #####
-
-track = CourseService::CourseSet.create!(name: 'track')
-track.courses << CourseService::Course.by_identifier('cloud2013').take!
-
-prereq1 = CourseService::CourseSet.create!(name: 'prereq1')
-prereq1.courses << CourseService::Course.by_identifier('geo2013').take!
-
-prereq2 = CourseService::CourseSet.create!(name: 'prereq2-iter')
-prereq2.courses << CourseService::Course.by_identifier('sw-profiling2013').take!
-prereq2.courses << CourseService::Course.by_identifier('sw-profiling2015').take!
-
-CourseService::CourseSetRelation.create!(
-  source_set: track,
-  target_set: prereq1,
-  kind: 'requires_cop'
-)
-
-CourseService::CourseSetRelation.create!(
-  source_set: track,
-  target_set: prereq2,
-  kind: 'requires_roa'
 )

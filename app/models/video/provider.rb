@@ -3,13 +3,13 @@
 module Video
   class Provider < ::ApplicationRecord
     VALID_PROVIDER_TYPES = {
-      'kaltura' => ProviderTypes::Kaltura,
       'vimeo' => ProviderTypes::Vimeo,
+      'bunny' => ProviderTypes::Bunny,
     }.freeze
 
     ADAPTER = {
-      'kaltura' => KalturaAdapter,
       'vimeo' => VimeoAdapter,
+      'bunny' => BunnyAdapter,
     }.freeze
 
     has_many :streams, class_name: '::Video::Stream', dependent: :destroy
@@ -17,6 +17,13 @@ module Video
     validates :provider_type, presence: true, inclusion: VALID_PROVIDER_TYPES.keys
     validates :name, presence: true, uniqueness: true
     validate :uniqueness_of_default, if: -> { Provider.method_defined? :default }
+
+    def self.bunny!
+      find_or_create_by!(name: 'Bunny') do |record|
+        record.provider_type = 'bunny'
+        record.credentials = {}
+      end
+    end
 
     def uniqueness_of_default
       # make sure that this is the only default provider

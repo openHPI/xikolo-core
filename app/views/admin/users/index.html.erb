@@ -1,0 +1,83 @@
+<% content_for :page_header do %>
+  <%= render Global::PageHeader.new(t(:'admin.users.index.title'), subtitle: t(:'admin.page_header')) %>
+<% end %>
+
+<section class="mx-auto max-w-342.5 px-4 py-8 flex flex-col">
+  <div class="x-rounded-box border border-base-300 bg-base-200 p-4">
+    <%= render Global::FilterBar::Form.new(
+      action: users_path,
+      filters: [Global::FilterBar::Filter.new(
+        :status,
+        t(:'admin.users.index.status_filter'),
+        [
+          [t(:'admin.users.index.banned'), 'banned'],
+          [t(:'admin.users.index.confirmed_true'), 'confirmed'],
+          [t(:'admin.users.index.confirmed_false'), 'unconfirmed'],
+          [t(:'admin.users.index.top_talent'), 'top_talent'],
+        ],
+        selected: params[:status]
+      )]
+    ) do |form| %>
+      <% form.with_controls %>
+    <% end %>
+  </div>
+
+  <% if @users.any? %>
+    <div class="overflow-x-auto x-rounded-box border border-base-300 shadow-xs mt-5">
+      <table class="x-table x-table-zebra" aria-label="<%= t(:'admin.users.index.title') %>">
+        <thead>
+          <tr class="bg-base-200 text-xs uppercase tracking-wide text-base-content/60">
+            <th scope="col"><%= t(:'users.list.full_name') %></th>
+            <th scope="col"><%= t(:'admin.users.index.display_name') %></th>
+            <th scope="col"><%= t(:'admin.users.index.email') %></th>
+            <th scope="col"><%= t(:'global.status') %></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @users.each do |user| %>
+            <tr class="hover:bg-base-200/50">
+              <td class="font-medium"><%= user.full_name %></td>
+              <td><%= user.display_name %></td>
+              <td><%= user.email %></td>
+              <td>
+                <div class="flex flex-wrap gap-1">
+                  <% if user.confirmed? %>
+                    <span class="x-badge x-badge-success x-badge-sm gap-1">
+                      <span class="xi-icon fa-regular fa-circle-check"></span>
+                      <%= t(:'admin.users.index.confirmed_true') %>
+                    </span>
+                  <% else %>
+                    <span class="x-badge x-badge-soft x-badge-warning x-badge-sm gap-1">
+                      <span class="xi-icon fa-regular fa-circle-exclamation"></span>
+                      <%= t(:'admin.users.index.confirmed_false') %>
+                    </span>
+                  <% end %>
+                  <% if user.banned? %>
+                    <span class="x-badge x-badge-soft x-badge-error x-badge-sm gap-1">
+                      <span class="xi-icon fa-regular fa-ban"></span>
+                      <%= t(:'admin.users.index.banned') %>
+                    </span>
+                  <% end %>
+                  <% if user.top_talent? %>
+                    <span class="x-badge x-badge-soft x-badge-warning x-badge-sm gap-1">
+                      <span class="xi-icon fa-regular fa-star"></span>
+                      <%= t(:'admin.users.index.top_talent') %>
+                    </span>
+                  <% end %>
+                </div>
+              </td>
+              <td class="text-right whitespace-nowrap">
+                <%= link_to t('.details'), user_path(user.id), class: 'x-btn x-btn-sm x-btn-soft', 'aria-label': user.full_name %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <%= render Global::Pagination.new(@users) %>
+  <% else %>
+    <%= render State::Empty.new((params[:q].present? || params[:status].present?) ? t(:'admin.users.index.no_results') : t(:'admin.users.index.empty_state')) %>
+  <% end %>
+</section>

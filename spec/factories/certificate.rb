@@ -3,12 +3,6 @@
 require 'xikolo/common/rspec'
 
 FactoryBot.define do
-  factory 'certificate:root', class: Hash do
-    open_badge_templates_url { '/open_badge_templates/{course_id}' }
-
-    initialize_with { attributes.as_json }
-  end
-
   factory 'certificate:roa', class: Hash do
     id { SecureRandom.uuid }
     user_id
@@ -18,7 +12,6 @@ FactoryBot.define do
     verification { 'xinif-mehon-nuhuh-lirom-bapal' }
 
     verification_url { "/verification?code=#{verification}" }
-    open_badge_url { "/open_badges?course_id=#{course_id}&user_id=#{user_id}" }
 
     initialize_with { attributes.as_json }
   end
@@ -89,10 +82,6 @@ FactoryBot.define do
       certificate_type { 'ConfirmationOfParticipation' }
     end
 
-    trait :tor do
-      certificate_type { 'TranscriptOfRecords' }
-    end
-
     trait :invalid_xml do
       dynamic_content do
         <<-XML
@@ -119,7 +108,7 @@ FactoryBot.define do
           <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Basic//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-basic.dtd">
           <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="842" height="595" viewBox="0 0 842 595" xml:space="preserve">
             <g id="Dynamic-data">
-              <text fill="#C82B4A" stroke="#C82B4A" stroke-width="0" x="128.90" y="153.04"  font-size="21.6" font-family="NeoSansMedium" text-anchor="start" xml:space="preserve">##NAME##</text>
+              <text fill="#C82B4A" stroke="#C82B4A" stroke-width="0" x="128.90" y="153.04"  font-size="21.6" font-family="NotoSans" text-anchor="start" xml:space="preserve">##NAME##</text>
             </g>
           </svg>
         XML
@@ -143,7 +132,7 @@ FactoryBot.define do
 
   # Abstract Certificate::Record factory
   factory :record, class: 'Certificate::Record' do
-    user_id { create(:'account_service/user').id }
+    association :user, factory: :'account_service/user'
     association :course, records_released: true
     association :template, factory: :certificate_template
   end
@@ -164,48 +153,17 @@ FactoryBot.define do
     template do
       association :certificate_template, certificate_type: 'Certificate', course:
     end
-  end
 
-  factory :open_badge, class: 'Certificate::OpenBadge' do
-    association :record, factory: :roa
-    association :open_badge_template
-  end
-
-  factory :open_badge_v2, class: 'Certificate::V2::OpenBadge' do
-    association :record, factory: :roa
-    association :open_badge_template
-
-    trait :baked do
-      file_uri { 's3://xikolo-certificate/openbadage/25cybhs1xuULc2at3/1YLgUE6KPhaxfpGSZ.png' }
-      assertion do
-        {
-          id: 'http://localhost:3000/courses/open-badges/openbadges/v2/assertion/d0c104cc-2f60-4b39-b2af-f3705cb058dc',
-          type: 'Assertion',
-          badge: 'http://localhost:3000/courses/open-badges/openbadges/v2/class.json',
-          '@context': 'https://w3id.org/openbadges/v2',
-          evidence: 'http://localhost:3000/verify/xifem-zutok-nynyn-nubin-ketyz',
-          issuedOn: '2019-09-09T00:00:00Z',
-          recipient: {
-            type: 'email',
-            hashed: true,
-            identity: 'sha256$89afb9f04c2395d92a2634e32de9b28f18b610ec9f3045eb5de3cb461da57a6d',
-          },
-          verification: {
-            type: 'signed',
-            creator: 'http://localhost:3000/openbadges/v2/public_key.json',
-          },
-        }.as_json
-      end
+    pdf do
+      Rack::Test::UploadedFile.new(
+        Rails.root.join('spec', 'support', 'files', 'certificate', 'template.pdf'),
+        'application/pdf'
+      )
     end
-  end
 
-  factory :open_badge_template, class: 'Certificate::OpenBadgeTemplate' do
-    association :course
-    file_uri { 's3://xikolo-certificate/openbadge_templates/1YLgUE6KPhaxfpGSZ.png' }
-
-    trait :full do
-      name { 'Custom badge name' }
-      description { 'Custom badge description' }
-    end
+    # Certificates are no longer issued, so user_entitlement cannot be
+    # satisfied for newly created records. Historical records are persisted
+    # directly to keep them available for rendering.
+    to_create {|record| record.save!(validate: false) }
   end
 end

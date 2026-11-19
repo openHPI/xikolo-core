@@ -1,0 +1,36 @@
+<section class="x-card bg-accent text-base-100 p-4 md:p-6" aria-labelledby="progress-header-title">
+  <%# The certificates link moves from below the progress (small screens) to next to the title (from `md`). %>
+  <div class="grid grid-cols-[auto_1fr] items-start gap-x-2 gap-y-5 md:grid-cols-[auto_1fr_auto] md:gap-x-4 md:gap-y-6">
+    <span class="bg-accent-75 flex size-10 items-center justify-center rounded-full md:size-15" aria-hidden="true">
+      <%= helpers.pixelart_icon('cellular-signal-1', css_class: 'size-6') %>
+    </span>
+
+    <div class="flex min-w-0 flex-col gap-2 md:gap-1">
+      <h2 id="progress-header-title" class="text-xl font-medium md:text-3xl"><%= t(:'course.progress.header.title') %></h2>
+      <p class="text-sm"><%= t(:'course.progress.header.subtitle') %></p>
+    </div>
+
+    <hr class="border-base-content/10 col-span-2 md:hidden">
+
+    <%# The count sits above the bar on small screens and below it from `md`. %>
+    <div class="col-span-2 grid grid-cols-[1fr_auto] items-center gap-x-4 gap-y-2 md:col-span-3">
+      <span id="progress-header-label" class="col-span-2 text-sm font-semibold md:col-span-1">
+        <%= t(:'course.progress.header.completed_content') %>
+      </span>
+      <span class="text-xs md:row-start-3"><%= count %></span>
+      <span class="text-xl font-semibold md:col-start-2 md:row-start-1 md:text-4xl md:font-bold"><%= formatted_percentage %></span>
+      <progress
+        class="x-progress bg-base-content/20 text-base-100 col-span-2 h-2"
+        value="<%= percentage %>"
+        max="100"
+        aria-labelledby="progress-header-label"
+      ></progress>
+    </div>
+
+    <% if @certificates_url %>
+      <%= link_to t(:'course.progress.header.certificates'),
+        @certificates_url,
+        class: 'x-btn border-base-100 bg-base-100 text-base-content col-span-2 md:col-span-1 md:col-start-3 md:row-start-1' %>
+    <% end %>
+  </div>
+</section>

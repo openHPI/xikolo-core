@@ -8,9 +8,16 @@
  * The primary use case is hiding filtered content when submitting forms, until
  * the new filter criteria are applied.
  */
-import ready from '../../util/ready';
+import { turboReady } from '../../util/ready';
 
-ready(() => {
+document.addEventListener('turbo:before-cache', () => {
+  document.querySelectorAll('[data-hide-on-submit]').forEach((el) => {
+    const target = document.querySelector(el.dataset.hideOnSubmit);
+    if (target) target.hidden = false;
+  });
+});
+
+turboReady(() => {
   const forms = document.querySelectorAll('[data-hide-on-submit]');
 
   forms.forEach((form) => {

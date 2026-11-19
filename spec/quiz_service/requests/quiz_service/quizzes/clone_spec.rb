@@ -36,13 +36,13 @@ RSpec.describe 'Quiz: Clone', type: :request do
     b = create(:'quiz_service/text_answer', question: q1, text: "B!\ns3://xikolo-quiz/quizzes/1/b.jpg", position: 2)
 
     # Add requests stubs to call to copy all references S3 files:
-    copy_arch_file = stub_request(:put, %r{https://s3.xikolo.de/xikolo-quiz
+    copy_arch_file = stub_request(:put, %r{#{test_s3_host}/xikolo-quiz
       /quizzes/[a-zA-Z0-9]+/arch.jpg}x).and_return(status: 200, body: '<xml></xml>')
-    copy_what_file = stub_request(:put, %r{https://s3.xikolo.de/xikolo-quiz
+    copy_what_file = stub_request(:put, %r{#{test_s3_host}/xikolo-quiz
       /quizzes/[a-zA-Z0-9]+/what.jpg}x).and_return(status: 200, body: '<xml></xml>')
-    copy_a_file = stub_request(:put, %r{https://s3.xikolo.de/xikolo-quiz
+    copy_a_file = stub_request(:put, %r{#{test_s3_host}/xikolo-quiz
       /quizzes/[a-zA-Z0-9]+/a.jpg}x).and_return(status: 200, body: '<xml></xml>')
-    copy_b_file = stub_request(:put, %r{https://s3.xikolo.de/xikolo-quiz
+    copy_b_file = stub_request(:put, %r{#{test_s3_host}/xikolo-quiz
       /quizzes/[a-zA-Z0-9]+/b.jpg}x).and_return(status: 200, body: '<xml></xml>')
 
     # executed the cloning and fetch to created quiz:

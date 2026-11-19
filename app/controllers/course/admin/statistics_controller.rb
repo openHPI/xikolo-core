@@ -5,18 +5,6 @@ class Course::Admin::StatisticsController < Abstract::FrontendController
 
   inside_course
 
-  def activity
-    authorize! 'course.dashboard.view'
-    @course = the_course
-    Acfs.run
-  end
-
-  def geo
-    authorize! 'course.dashboard.view'
-    @course = the_course
-    Acfs.run
-  end
-
   def news
     authorize! 'course.dashboard.view'
     @course = the_course
@@ -34,8 +22,6 @@ class Course::Admin::StatisticsController < Abstract::FrontendController
   end
 
   def pinboard
-    raise AbstractController::ActionNotFound unless Xikolo.config.beta_features['teaching_team_pinboard_activity']
-
     authorize! 'course.dashboard.view'
     @course = the_course
     Acfs.run
@@ -58,59 +44,6 @@ class Course::Admin::StatisticsController < Abstract::FrontendController
         threads: row['threads'],
       }
     end
-  end
-
-  def social
-    authorize! 'course.dashboard.view'
-    @course = the_course
-    Acfs.run
-  end
-
-  def referrer
-    authorize! 'course.dashboard.view'
-    @course = the_course
-    Acfs.run
-  end
-
-  def item_visits
-    authorize! 'course.dashboard.view'
-    @course = the_course
-    Acfs.run
-  end
-
-  def quiz
-    authorize! 'course.dashboard.view'
-    @course = the_course
-    Acfs.run
-  end
-
-  def videos
-    authorize! 'course.dashboard.view'
-    @course = the_course
-    Acfs.run
-
-    result = Admin::Statistics::Videos.new(course_id: @course.id).call
-    @course_code = @course['course_code']
-    @videos_table_headers = result[:headers].values
-    @videos_data = result[:videos_data]
-  end
-
-  def rich_texts
-    authorize! 'course.dashboard.view'
-    @course = the_course
-    Acfs.run
-  end
-
-  def item_details
-    authorize! 'course.item_stats.show'
-    @course = the_course
-    Acfs.run
-
-    @item_stats_nav = ItemStats::ItemStatsPresenter.nav_elements(@course)
-  end
-
-  def hide_course_nav?
-    true
   end
 
   private

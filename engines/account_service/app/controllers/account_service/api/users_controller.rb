@@ -172,6 +172,7 @@ class API::UsersController < API::RESTController # rubocop:disable Layout/Indent
       display_name
       email
       full_name
+      guardian_consent
       language
       password
       password_digest

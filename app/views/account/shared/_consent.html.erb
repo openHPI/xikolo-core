@@ -1,0 +1,21 @@
+<% consents.each do |consent| %>
+  <div>
+    <div class="flex items-start gap-3">
+      <%= check_box_tag 'consent[]', consent.name, consent.consented?, id: "consent_#{consent.name}", required: consent.required?, class: 'x-checkbox x-checkbox-xs x-checkbox-secondary not-checked:border-base-content shrink-0' %>
+      <%= label_tag "consent_#{consent.name}", class: 'x-label text-base-content leading-5 flex-col items-start cursor-pointer whitespace-normal' do %>
+        <p><b><%= consent.label %></b>: <span><%= consent.text %></span></p>
+        <% if consent.consented_at %>
+          <p>
+            <%= render Global::FaIcon.new('calendar-day', css_classes: 'mr5') %>
+            <%= consent.consented_at_msg %>
+          </p>
+        <% end %>
+      <% end %>
+    </div>
+    <% if consent.external_url.present? %>
+      <div class="pl-8">
+        <%= render Global::Callout.new(I18n.t(:'account.shared.consent.external_notice')) %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

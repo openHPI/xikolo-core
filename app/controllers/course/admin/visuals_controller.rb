@@ -40,10 +40,6 @@ class Course::Admin::VisualsController < Abstract::FrontendController
     end
   end
 
-  def hide_course_nav?
-    true
-  end
-
   private
 
   def auth_context
@@ -51,7 +47,12 @@ class Course::Admin::VisualsController < Abstract::FrontendController
   end
 
   def request_course
-    Xikolo::Course::Course.find params[:course_id]
+    course = CourseService::Course.by_identifier(params[:course_id]).take
+    if course.nil?
+      raise Status::NotFound
+    end
+
+    course
   end
 
   def visual_params
@@ -59,6 +60,7 @@ class Course::Admin::VisualsController < Abstract::FrontendController
       :image_upload_id,
       :image_uri,
       :subtitles_upload_id,
+      :teaser_video,
       :video_stream_id
     ).to_h
   end

@@ -3,7 +3,6 @@ import toggleUuids from '../toggle-uuids';
 import initMarkdownEditorOnSelector from '../../util/markdown-editor';
 import upload from '../../util/forms/upload';
 import mdupload from '../../util/forms/mdupload';
-import initDropdownsOnSelector from '../../util/dropdown';
 
 const resetQuestionForm = () => {
   const activeQuestionForm = document.querySelector<HTMLElement>(
@@ -88,7 +87,6 @@ const setQuestionForm = (quizQuestions: HTMLElement) => {
   upload.scan(quizQuestions);
   mdupload.scan(quizQuestions);
   initMarkdownEditorOnSelector(quizQuestions);
-  initDropdownsOnSelector(quizQuestions);
 };
 
 const setQuizQuestions = () => {
@@ -100,6 +98,7 @@ const setQuizQuestions = () => {
   const quizQuestions = document.querySelector(
     '#quiz_questions',
   ) as HTMLElement;
+  if (!quizQuestions) return;
   const clonedTemplate = document.importNode(questionsWrapper.content, true);
   quizQuestions.appendChild(clonedTemplate);
   setQuestionForm(quizQuestions);

@@ -3,117 +3,119 @@
 module Home
   # @label Course cards
   class CourseCardPreview < ViewComponent::Preview
-    # Needed for previews with course reactivation button
-    Xikolo.config.voucher['enabled'] = true
-
-    # Appears collapsed on default, expands on hover.
-    #
-    # Contains basic metadata of a course in collapsed state.
-    # In the hovered state it includes teachers, course abstract and action buttons.
-    #
-    # @label Expandable
-    def expandable
-      render Home::CourseCard.new(active_course)
+    # @group Course cards
+    def default
+      render_card(level: nil, topics: [])
     end
 
-    # Passing an enrollment object for the user has effects on the available buttons
-    #
-    # @label Expandable with enrolled user
-    def expandable_with_enrolled_user
-      render Home::CourseCard.new(ended_course_with_reactivation, user: registered_user, enrollment:)
+    def project
+      render_card(course_format: 'project', title: 'Build your first web application')
     end
 
-    # A card with actions moves the 'Details' button in a dropdown where more links can be added
-    #
-    # @label With actions
-    def with_actions
-      render Home::CourseCard.new(active_course, user: registered_user) do |c|
-        c.with_action { '<a href=# class="bs-a">Extra button</a>'.html_safe }
-      end
+    def workshop
+      render_card(course_format: 'workshop', title: 'A practical introduction to databases')
     end
 
-    # The 'compact' variant respects user specifics (i.e. by showing buttons), but omits
-    # additional details such as teacher names and the course abstract.
-    #
-    # Meant to be used for lists of courses the user knows well, e.g. enrolled
-    # courses on the user dashboard.
-    #
-    # @label Compact
-    def compact
-      render Home::CourseCard.new(active_course, user: registered_user, enrollment:, type: 'compact')
+    def upcoming
+      render_card(display_start_date: 1.week.from_now)
     end
 
-    # Just like expandable cards, it moves the 'Details' button in a dropdown where more links can be added
-    #
-    # @label Compact with actions
-    def compact_with_actions
-      render Home::CourseCard.new(active_course, user: registered_user, type: 'compact') do |c|
-        c.with_action { '<a href=# class="bs-a">Extra button</a>'.html_safe }
-      end
+    def completed
+      render_card(completed: true, progress: 100)
     end
 
-    # A special case is the reactivation button,
-    # which is placed in the dropdown on the compact type.
-    #
-    # @label Compact with reactivation action
-    def compact_with_reactivation
-      render Home::CourseCard.new(ended_course_with_reactivation, user: registered_user, enrollment:, type: 'compact')
+    def enrolled_without_progress
+      render_card(enrolled: true)
     end
+
+    def enrolled_with_progress
+      render_card(enrolled: true, progress: 30)
+    end
+
+    def fully_visited
+      render_card(enrolled: true, progress: 100)
+    end
+
+    def manually_completed_with_partial_progress
+      render_card(completed: true, progress: 30)
+    end
+
+    def upcoming_and_completed
+      render_card(completed: true, display_start_date: 1.week.from_now)
+    end
+
+    def with_topics_and_level
+      render_card(level: 'Beginner', topics: %w[Programming Databases])
+    end
+
+    def intermediate
+      render_card(level: 'Intermediate')
+    end
+
+    def expert
+      render_card(level: 'Expert')
+    end
+
+    def with_long_title
+      render_card(
+        title: 'An introduction to relational databases, distributed systems, and modern web application development'
+      )
+    end
+
+    def with_many_topics
+      render_card(topics: [
+        'Programming',
+        'Databases',
+        'Web development',
+        'Distributed information systems',
+        'Software engineering',
+      ])
+    end
+
+    def german_language
+      render_card(lang: 'de', title: 'Einführung in relationale Datenbanken')
+    end
+    # @endgroup
 
     private
 
-    COURSE_ID = SecureRandom.uuid
-    COURSE_ID_2 = SecureRandom.uuid
-    ENROLLMENT_ID = SecureRandom.uuid
-    USER_ID = SecureRandom.uuid
-
-    private_constant :ENROLLMENT_ID, :COURSE_ID, :COURSE_ID_2, :USER_ID
-
-    def active_course
-      Catalog::Course.new({
-        id: COURSE_ID,
+    def render_card(completed: false, enrolled: false, progress: 0, level: 'Beginner',
+                    topics: %w[Programming Databases], **attributes)
+      course = Catalog::Course.new({
+        id: SecureRandom.uuid,
         course_code: 'databases',
         title: 'Everything about databases',
-        teacher_text: 'Prof. D. B. Expert',
-        abstract: 'Tables, rows and columns; all day long',
         start_date: 2.weeks.ago,
         end_date: 3.weeks.from_now,
+        published: true,
+        course_format: 'course',
         lang: 'en',
-        fixed_classifiers: [],
-        roa_enabled: true,
-      })
+        fixed_classifiers: classifiers(level:, topics:),
+      }.merge(attributes))
+      enrollment = if enrolled || completed
+                     ::CourseService::Enrollment.instantiate('completed' => completed, 'visits_percentage' => progress)
+                   end
+      card = Home::CourseCard.new(course, enrollment:)
+
+      # Show the fixture metadata without creating clusters or changing the
+      # platform's cluster visibility settings.
+      card.define_singleton_method(:visible_clusters) { %w[topic level] }
+
+      render card
     end
 
-    def ended_course_with_reactivation
-      Catalog::Course.new({
-        id: COURSE_ID_2,
-        course_code: 'databases',
-        title: 'Everything about databases',
-        teacher_text: 'Prof. D. B. Expert',
-        abstract: 'Tables, rows and columns; all day long',
-        start_date: 3.weeks.ago,
-        end_date: 2.weeks.ago,
-        lang: 'en',
-        fixed_classifiers: [],
-        roa_enabled: true,
-        on_demand: true,
-        status: 'active',
-      })
+    def classifiers(level:, topics:)
+      classifiers = topics.map { classifier('topic', it) }
+      classifiers << classifier('level', level) if level
+      classifiers
     end
 
-    def enrollment
-      ::Course::Enrollment.new({
-        id: ENROLLMENT_ID,
-        course_id: COURSE_ID,
-        user_id: USER_ID,
-      })
-    end
-
-    def registered_user
-      Xikolo::Common::Auth::CurrentUser.from_session({
-        'user_id' => USER_ID,
-        'user' => {'anonymous' => false},
-      })
+    def classifier(cluster, title)
+      {
+        'cluster_id' => cluster,
+        'title' => title,
+        'translations' => '{}',
+      }
     end
   end
 end

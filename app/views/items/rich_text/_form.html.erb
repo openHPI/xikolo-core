@@ -1,0 +1,30 @@
+<% unless rich_text.nil? %>
+  <%= simple_fields_for(rich_text, wrapper: :larger_labels) do |r| %>
+    <%= r.input :text, required: true, label: t(:'.markup'), placeholder: t('.placeholder_text') %>
+
+    <fieldset>
+      <legend>
+        <%= t(:'admin.courses.items.form.rich_text_groupings.additional_files') %>
+      </legend>
+
+      <% provide :reading_material_extra do %>
+        <% if rich_text.reading_material_url %>
+          <%= File.basename rich_text.reading_material_url %>
+          <span class="actions mt-1 inline-flex items-center gap-1 align-middle">
+            <%= link_to rich_text.reading_material_url, class: 'inline-flex text-primary-500 hover:text-primary-600' do %>
+              <%= pixelart_icon 'attachment', css_class: 'inline-block size-5 align-bottom' %>
+            <% end %>
+
+            <%= button_tag type: 'submit', name: 'richtext[reading_material_url]', value: '',
+                  class: 'x-btn x-btn-circle x-btn-xs text-primary-500',
+                  aria: {label: t(:'admin.courses.items.form.additional_files.remove')} do %>
+              <%= pixelart_icon 'close', css_class: 'size-4' %>
+            <% end %>
+          </span>
+        <% end %>
+      <% end %>
+
+      <%= r.input :reading_material_uri, label: t(:'admin.courses.items.form.additional_files.reading_material'), as: :upload, value: richtext_reading_material_upload, extra_html: yield(:reading_material_extra) %>
+    </fieldset>
+  <% end %>
+<% end %>

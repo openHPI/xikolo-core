@@ -1,0 +1,41 @@
+<%= simple_form_for(quiz_question, url: {controller: 'quiz_questions', action: :create, item_id: item.id}) do |f| %>
+  <%= label_tag :meta_question_type, t(:'items.quiz.question_type') %>
+  <%= select 'meta', 'question_type',
+    question_type_options(quiz),
+    {include_blank: t(:'items.quiz.select_question_type')},
+    class: 'form-control mb10' %>
+  <br>
+  <div class="generic-fields">
+    <%= f.input :text, as: :markdown, required: true,
+      label: t(:'items.quiz.question_text'),
+      placeholder: t(:'items.quiz.enter_question'),
+      markdown_id_suffix: "quiz_question_#{quiz_question.id}",
+      uploads: {purpose: :quiz_question_text, content_type: 'image/*'} %>
+    <%= f.input :explanation, as: :markdown, required: false,
+      label: t(:'items.quiz.question_explanation'),
+      placeholder: t(:'items.quiz.enter_question_explanation'),
+      markdown_id_suffix: "quiz_explanation_text_#{quiz_question.id}",
+      uploads: {purpose: :quiz_question_explanation, content_type: 'image/*'} %>
+  </div>
+
+  <div id="active-question-form"></div>
+  <div class="generic-fields">
+    <%= f.button :submit, class: 'btn btn-primary mr10', data: {behavior: 'scroll-marker'} %>
+  </div>
+<% end %>
+
+<div id="available-question-forms" hidden>
+  <div id="multiple-choice-form" class="question-form">
+    <%= render 'quiz_questions/question_forms/form_selectable_answer_question', question: multiple_choice_question, in_exam: item.exercise_type == 'exam' %>
+  </div>
+  <div id="multiple-answer-form" class="question-form">
+    <%= render 'quiz_questions/question_forms/form_selectable_answer_question', question: multiple_answer_question, in_exam: item.exercise_type == 'exam' %>
+  </div>
+  <div id="simple-free-text-form" class="question-form">
+    <%= render 'quiz_questions/question_forms/form_free_text_question', question: free_text_question %>
+  </div>
+  <div id="simple-essay-form" class="question-form">
+    <%= render 'quiz_questions/question_forms/form_essay_question', question: essay_question %>
+  </div>
+  <%# TODO: Add further types – also to selection! %>
+</div>

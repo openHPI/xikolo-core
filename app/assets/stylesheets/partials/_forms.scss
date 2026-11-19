@@ -12,9 +12,11 @@ div.boolean label.checkbox {
   display: inline;
 }
 
-textarea:focus,
-input:focus,
-input[type]:focus,
+textarea:where(:not(.x-textarea)):focus,
+input:where(:not(.x-input, .x-checkbox, .x-radio, .x-file-input, .x-btn)):focus,
+input[type]:where(
+    :not(.x-input, .x-checkbox, .x-radio, .x-file-input, .x-btn)
+  ):focus,
 .ts-control:focus-within,
 .toastui-editor-md-mode:focus-within {
   border-color: rgba($primary-color, 0.8);
@@ -48,7 +50,7 @@ textarea.form-control {
   resize: vertical;
 }
 
-label {
+label:where(:not(.x-label, .x-btn, .x-drawer-overlay)) {
   margin-top: 5px;
   margin-bottom: 0;
 }

@@ -3,21 +3,17 @@
 require 'spec_helper'
 
 describe 'LTI Providers: Update', type: :request do
-  subject(:update_lti_provider) { patch "/courses/#{course['course_code']}/lti_providers/#{provider.id}", params: {lti_provider: params}, headers: }
+  subject(:update_lti_provider) { patch "/learn/#{course['course_code']}/lti_providers/#{provider.id}", params: {lti_provider: params} }
 
-  let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
-  let(:course) { build(:'course:course') }
+  let(:course) { create(:'course_service/course') }
   let(:provider) { create(:lti_provider, course_id: course['id']) }
-  let(:permissions) { [] }
   let(:params) { {} }
+  let(:user) { create(:'account_service/user') }
+  let(:authenticate) { true }
 
   before do
-    stub_user_request(permissions:)
-    Stub.request(
-      :course, :get, "/courses/#{course['course_code']}"
-    ).to_return Stub.json(
-      course
-    )
+    sign_in(user:) if authenticate
+    course
   end
 
   context 'without permissions' do
@@ -27,7 +23,10 @@ describe 'LTI Providers: Update', type: :request do
   end
 
   context 'with permissions' do
-    let(:permissions) { %w[lti.provider.manage course.content.access] }
+    before do
+      role = create(:'account_service/role', permissions: %w[lti.provider.manage course.content.access])
+      create(:'account_service/grant', principal: user, role:)
+    end
 
     context 'with valid attributes' do
       let(:params) { super().merge(name: 'Updated Provider') }
@@ -67,7 +66,7 @@ describe 'LTI Providers: Update', type: :request do
   end
 
   context 'for anonymous users' do
-    let(:headers) { {} }
+    let(:authenticate) { false }
 
     it 'redirects to the course page' do
       expect(update_lti_provider).to redirect_to course_path(course['course_code'])

@@ -10,7 +10,7 @@ describe NotificationService::SystemInfoController, type: :controller do
   include_context 'notification_service controller'
 
   let(:default_params) { {format: 'json'} }
-  let(:params)  { {} }
+  let(:params) { {} }
 
   describe 'GET show' do
     before do

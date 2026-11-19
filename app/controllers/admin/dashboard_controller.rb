@@ -9,21 +9,13 @@ class Admin::DashboardController < Abstract::FrontendController
     )
 
     @platform_learners_and_enrollments = Admin::Statistics::LearnersAndEnrollments.call
-    @platform_activity = Admin::Statistics::Activity.call
-    @platform_certificates = Admin::Statistics::Certificates.call
+    @platform_certificates_counts = Certificate::Record.group(:type).count
 
     @age_distribution_table_rows = Admin::Statistics::AgeDistribution.call
     @age_distribution_table_headers = [
       t('admin.dashboard.show.age.table.age_group'),
       t('admin.dashboard.show.age.table.global_count'),
       t('admin.dashboard.show.age.table.global_share'),
-    ]
-
-    @client_usage_table_rows = Admin::Statistics::ClientUsage.call
-    @client_usage_table_headers = [
-      t('admin.dashboard.show.client_usage.table.client_types'),
-      t('admin.dashboard.show.client_usage.table.users'),
-      t('admin.dashboard.show.client_usage.table.share'),
     ]
   end
 end

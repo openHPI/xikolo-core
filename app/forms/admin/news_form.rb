@@ -7,7 +7,12 @@ class Admin::NewsForm < XUI::Form
     self.form_name = 'translation'
 
     attribute :title, :single_line_string
-    attribute :text, :markup
+    attribute :text, :markup,
+      uploads: {
+        purpose: 'news_text_image',
+        content_type: 'image/*',
+      }
+
     attribute :language, :single_line_string
 
     def self.readonly_attributes
@@ -19,14 +24,13 @@ class Admin::NewsForm < XUI::Form
   attribute :title, :single_line_string
   attribute :show_on_homepage, :boolean, default: true
   attribute :publish_at, :datetime
-  attribute :text, :markup
+  attribute :text, :markup,
+    uploads: {
+      purpose: 'news_text_image',
+      content_type: 'image/*',
+    }
   attribute :language, :single_line_string
-  attribute :visual_url, :url
   attribute :audience, :single_line_string
-
-  attribute :visual_upload_id, :upload,
-    purpose: :news_visual,
-    content_type: 'image/*'
 
   attribute :translations,
     :list,
@@ -90,8 +94,9 @@ class Admin::NewsForm < XUI::Form
 
   def title_and_text?
     translations.each do |translation|
-      next if translation.title.present? && translation.text.present?
-      next if translation.title.blank? && translation.text.blank?
+      markup = translation.text['markup'] if translation.text.is_a?(Hash)
+      next if translation.title.present? && markup.present?
+      next if translation.title.blank? && (translation.text.blank? || markup.blank?)
 
       errors.add :base,
         I18n.t(:'.errors.messages.announcement.base.translation_title_text')

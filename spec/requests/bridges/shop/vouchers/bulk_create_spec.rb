@@ -7,12 +7,16 @@ RSpec.describe 'Shop Bridge API: Vouchers: Bulk Create', type: :request do
     post '/bridges/shop/vouchers', headers:, params:
   end
 
-  let(:token) { 'Bearer 78f6d8ca88c65a67c9dffa3c232313d64b4e338e29d7c83ef39c2e963894b966' }
+  let(:shared_secret) { '78f6d8ca88c65a67c9dffa3c232313d64b4e338e29d7c83ef39c2e963894b966' }
+  let(:token) { "Bearer #{shared_secret}" }
   let(:headers) { {'Authorization' => token} }
   let(:json) { JSON.parse response.body }
   let(:params) { {product: 'course_reactivation', qty: '5', tag: 'shop', country: 'DE'} }
 
   before do
+    allow(ENV).to receive(:fetch).and_call_original
+    allow(ENV).to receive(:fetch).with('BRIDGE_SHOP', nil).and_return(shared_secret)
+
     xi_config <<~YML
       voucher:
         enabled: true
@@ -57,7 +61,7 @@ RSpec.describe 'Shop Bridge API: Vouchers: Bulk Create', type: :request do
     it 'returns a JSON error' do
       create_vouchers
 
-      expect(response).to have_http_status :unprocessable_entity
+      expect(response).to have_http_status :unprocessable_content
       expect(json).to eq({
         'errors' => {'country' => ['required'], 'product' => ['required']},
       })
@@ -74,7 +78,7 @@ RSpec.describe 'Shop Bridge API: Vouchers: Bulk Create', type: :request do
     it 'returns a JSON error' do
       create_vouchers
 
-      expect(response).to have_http_status :unprocessable_entity
+      expect(response).to have_http_status :unprocessable_content
       expect(json).to eq({
         'errors' => {'base' => ['Number must at least be 1']},
       })

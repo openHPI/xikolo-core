@@ -27,13 +27,15 @@ describe CourseService::PersistRankingTasksController, type: :controller do
       its(:status) { is_expected.to eq 201 }
     end
 
-    it 'creates a new persist ranking worker job' do
-      expect { action.call }.to change(CourseService::PersistRankingWorker.jobs, :size).from(0).to(1)
+    it 'creates a new persist ranking job' do
+      expect { action.call }.to have_enqueued_job(CourseService::PersistRankingJob)
     end
 
     context 'with worker execution' do
       around do |example|
-        Sidekiq::Testing.inline!(&example)
+        perform_enqueued_jobs do
+          example.run
+        end
       end
 
       shared_examples 'generate correct rankings' do
@@ -42,7 +44,7 @@ describe CourseService::PersistRankingTasksController, type: :controller do
         end
         let!(:enrollments) do
           results_and_quantils.map.with_index do |(point, _), i|
-            user_id = generate(:user_id)
+            user_id = create(:'account_service/user').id
             unless point.nil?
               create :'course_service/result', dpoints: point,
                 item:, user_id:

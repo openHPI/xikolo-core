@@ -2,7 +2,7 @@ import { DateTime } from 'luxon';
 import flatpickr from 'flatpickr';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { de } from 'flatpickr/dist/l10n';
-import ready from '../../util/ready';
+import { turboReady } from '../../util/ready';
 import getGMTOffset from '../../util/timeZoneOffset';
 import CustomButtonsPlugin from './flatpickr/customButtonsPlugin';
 import getLocale from '../../util/locale';
@@ -34,7 +34,7 @@ const parseDate = (dateStr) => {
 const formatDate = (date) =>
   DateTime.fromJSDate(date).toFormat("yyyy-LL-dd'T'HH:mm:ss'Z'");
 
-ready(() => {
+turboReady(() => {
   document
     .querySelectorAll('[data-behaviour~=datepicker]')
     .forEach((datepicker) => {

@@ -4,7 +4,6 @@ class NotificationUserDisablesController < Abstract::FrontendController
   include NotificationUserSettingsHelper
 
   skip_before_action :verify_authenticity_token
-  before_action :set_no_cache_headers
 
   def show
     if params.values_at(:email, :hash, :key).any?(&:blank?)

@@ -1,8 +1,5 @@
-- content_for :head_assets
-  = javascript_include_tag 'app/javascript/admin/admin', type: 'module', 'data-turbo-track': Rails.env.production? ? 'reload' : ''
-
-- content_for :page_header_slim
-  = render Global::PageHeader.new(t(:'reports.headline'), subtitle: t(:'admin.page_header'), type: :slim)
+- content_for :page_header
+  = render Global::PageHeader.new(t(:'reports.headline'), subtitle: t(:'admin.page_header'))
 
 .bs-container
   .reports-list.mt10

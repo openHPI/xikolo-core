@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
 class FilesController < ApplicationController
-  # The user is not needed to serve a file
-  skip_around_action :auth_middleware
-
   def avatar
     user = Xikolo::Account::User.find params[:id]
     Acfs.run

@@ -3,26 +3,20 @@
 require 'spec_helper'
 
 describe 'Admin: LtiProviders: Index', type: :request do
-  subject(:action) { get('/admin/lti_providers', headers:); response }
+  subject(:action) { get('/admin/lti_providers'); response }
 
-  let(:headers) { {} }
+  let(:user) { create(:'account_service/user', :admin) }
 
   context 'for logged-in users' do
-    let(:headers) { {Authorization: "Xikolo-Session session_id=#{stub_session_id}"} }
+    before { sign_in(user:) }
 
-    before { stub_user_request permissions: }
-
-    context 'with permissions' do
-      let(:permissions) { ['lti.provider.manage'] }
-
-      it 'renders the index page' do
-        action
-        expect(response).to render_template :index
-      end
+    it 'renders the index page' do
+      action
+      expect(response).to render_template :index
     end
 
     context 'without permissions' do
-      let(:permissions) { [] }
+      let(:user) { create(:'account_service/user') }
 
       it 'redirects to homepage' do
         action

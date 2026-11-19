@@ -3,34 +3,36 @@
 require 'spec_helper'
 
 RSpec.describe 'Dashboard: Profile: Unsuspend Primary Email', type: :request do
-  subject(:request) { get '/dashboard/profile/unsuspend_primary_email', headers: }
+  subject(:request) { get '/dashboard/profile/unsuspend_primary_email' }
 
-  let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
   let(:email_id) { generate(:uuid) }
   let(:email) do
-    attributes_for(:'account_service/email', id: email_id, user_id:, address: 'jon.doe@internet.org', primary: true)
+    attributes_for(:'account_service/email', id: email_id, user_id:, address: email_address, primary: true)
       .merge(suspension_url: "http://localhost:3000/account_service/users/#{user_id}/emails/#{email_id}/suspension")
   end
-  let(:features) { {} }
   let(:user_id) { generate(:user_id) }
-  let(:user) do
-    attributes_for(:'account_service/user', id: user_id, email: email[:address])
-      .merge(emails_url: "http://localhost:3000/account_service/users/#{user_id}/emails")
-  end
+  let(:email_address) { 'jon.doe@internet.org' }
+  let(:user) { create(:'account_service/user', id: user_id) }
+  let(:authenticate) { true }
 
   before do
-    stub_user_request(id: user_id, features:)
+    sign_in(user:) if authenticate
+    user.primary_email.update!(address: email_address)
   end
 
   context 'with the profile feature flipper' do
     let(:features) { {'profile' => 'true'} }
+    let(:user_resource) do
+      attributes_for(:'account_service/user', id: user_id, email: email_address)
+        .merge(emails_url: "http://localhost:3000/account_service/users/#{user_id}/emails")
+    end
     let(:email_suspension_stub) do
       Stub.request(:account, :delete, "/users/#{user_id}/emails/#{email_id}/suspension")
         .to_return Stub.json({msg: 'e-mail address unsuspended'}, status: 200)
     end
 
     before do
-      Stub.request(:account, :get, "/users/#{user_id}").to_return Stub.json(user)
+      Stub.request(:account, :get, "/users/#{user_id}").to_return Stub.json(user_resource)
       Stub.request(:account, :get, "/users/#{user_id}/emails")
         .to_return Stub.json([email])
       email_suspension_stub
@@ -48,6 +50,10 @@ RSpec.describe 'Dashboard: Profile: Unsuspend Primary Email', type: :request do
   end
 
   context 'without the profile feature flipper' do
+    before do
+      AccountService::Feature.where(name: 'profile').delete_all
+    end
+
     it 'cannot be accessed' do
       expect { request }.to raise_error(AbstractController::ActionNotFound)
     end

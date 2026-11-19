@@ -32,7 +32,7 @@ version:
     First, the newest Ruby version is installed, followed by the installation of the newest RubyGems version. Finally, bundler is installed to be used in accordance with the rake tasks in `integration`.
 
     ```shell
-    rvm install 3.4.4
+    rvm install 4.0.10
     gem update --system
     gem install bundler
 
@@ -50,7 +50,7 @@ version:
     ```shell
     # Syntax: rvm upgrade <old ruby> <new ruby>
     # Get existing ruby versions with `rvm list`
-    rvm upgrade 3.4.3 3.4.4
+    rvm upgrade 4.0.1 4.0.10
     gem update --system
     ```
 
@@ -74,7 +74,7 @@ The `Gemfile` and `Gemfile.lock` files need to be updated to the new Ruby versio
 
     ```ruby
     # Gemfile
-    ruby '~> 3.4.0'
+    ruby '~> 4.0.0'
     ```
 
 2. `Gemfile.lock`
@@ -89,7 +89,7 @@ The `Gemfile` and `Gemfile.lock` files need to be updated to the new Ruby versio
         ```ruby
         # Gemfile.lock
         RUBY VERSION
-           ruby 3.4.4p34
+           ruby 4.0.10
         ```
 
         The `RUBY VERSION` is updated with the following command:
@@ -105,7 +105,7 @@ The `Gemfile` and `Gemfile.lock` files need to be updated to the new Ruby versio
         ```ruby
         # Gemfile.lock
         BUNDLED WITH
-           2.6.9
+           4.0.6
         ```
 
         The `RUBY VERSION` is updated with the following command:
@@ -136,7 +136,7 @@ For example:
 
 ```yaml
 # .gitlab-ci.yml
-image: ruby:3.4.4-slim
+image: ruby:4.0.10-slim
 ```
 
 !!! note

@@ -8,12 +8,8 @@ class Achievements # rubocop:disable Layout/IndentationWidth
   attr_reader :enrollment
 
   def initialize(course_id, user_id)
-    @course = Course.find(course_id)
-    @enrollment = if user_id.present?
-                    LearningEvaluation.by_params({learning_evaluation: 'true'}).call(
-                      Enrollment.where(course_id:, user_id:)
-                    ).first
-                  end
+    @course = Course.by_identifier(course_id).take!
+    @enrollment = CourseService::Enrollment.with_evaluation.find_by(course_id: @course.id, user_id: user_id)
   end
 
   def roa

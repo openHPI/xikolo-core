@@ -29,14 +29,8 @@ class EnrollmentChart # rubocop:disable Layout/IndentationWidth
       )
     end
 
-    surface = Cairo::ImageSurface.new(Cairo::FORMAT_ARGB32, WIDTH, HEIGHT)
-    Cairo::Context.new(surface).render_rsvg_handle(
-      Rsvg::Handle.new(data: g.burn)
-    )
-
-    StringIO.new.tap do |io|
-      surface.write_to_png(io)
-    end.string
+    image = Vips::Image.svgload_buffer(g.burn, dpi: 300)
+    image.write_to_buffer('.png')
   end
 
   def empty?

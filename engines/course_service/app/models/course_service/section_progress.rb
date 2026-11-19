@@ -14,8 +14,8 @@ class SectionProgress < ApplicationRecord # rubocop:disable Layout/IndentationWi
   scope :best_alternatives, -> { where.not(alternative_progress_for: nil) }
 
   after_commit(on: :destroy) do
-    LearningEvaluation::UpdateCourseProgressWorker
-      .perform_async(section.course_id, user_id)
+    LearningEvaluation::UpdateCourseProgressJob
+      .perform_later(section.course_id, user_id)
   end
 
   def calculate!
@@ -69,42 +69,28 @@ class SectionProgress < ApplicationRecord # rubocop:disable Layout/IndentationWi
     matching_result = Result.select('dpoints')
       .where(user_id:)
       .where('item_id = items.id')
+      .order(dpoints: :desc)
       .limit(1)
 
-    # Special case: When the user has activated proctoring, we will take the
-    # *last* result for all proctored items (usually homework and exams), not
-    # necessarily the best one.
-    points = if proctored_enrollment?
-               matching_result.order(
-                 Arel.sql('CASE WHEN items.proctored THEN created_at END DESC'),
-                 Arel.sql('CASE WHEN NOT items.proctored THEN dpoints END DESC')
-               )
-             else
-               matching_result.order(dpoints: :desc)
-             end
-
     Item.from(
-      items.unscope(:order).published.select(
-        "(#{points.to_sql}) AS dpoints"
+      items.published.select(
+        "(#{matching_result.to_sql}) AS dpoints"
       ),
       :items
     ).sum(:dpoints)
   end
 
   def count_results_for(items)
-    # Unscope the order as ordering is never needed for IN operator queries and
-    # only takes up more time and space, especially if there is no sorted index
-    # that can be used. In that case, all items would need to be sorted, only to
-    # check if `results.item_id` is included in the (sorted) result.
     Result.select(:item_id)
-      .where(user_id:, item: items.published.unscope(:order))
+      .where(user_id:, item: items.published)
       .distinct
       .count
   end
 
   def count_visits
     relevant_items
-      .joins(:user_visits)
+      .not_exams
+      .joins(:visits)
       .joins(:section)
       .where(
         optional: false,
@@ -112,15 +98,6 @@ class SectionProgress < ApplicationRecord # rubocop:disable Layout/IndentationWi
         visits: {user_id:},
         sections: {optional_section: false}
       ).count
-  end
-
-  def proctored_enrollment?
-    # Explicit nil check because "normal" memoization does not work with booleans
-    return @proctored_enrollment unless @proctored_enrollment.nil?
-
-    @proctored_enrollment = Enrollment.exists?(
-      course_id: section.course_id, user_id:, proctored: true
-    )
   end
 
   def alternative_progress

@@ -8,16 +8,18 @@ FactoryBot.define do
 
     association :pip_stream, factory: :stream
 
+    trait :dual_stream do
+      pip_stream { nil }
+      association :lecturer_stream, factory: :stream
+      association :slides_stream, factory: :stream
+    end
+
     trait :with_attachments do
       slides_uri { 's3://slides.url' }
       transcript_uri { 's3://transcript.stream.url' }
       reading_material_uri { 's3://reading.stream.url' }
 
       association :pip_stream, factory: %i[stream with_downloads]
-    end
-
-    trait :kaltura do
-      association :pip_stream, factory: %i[stream kaltura]
     end
 
     trait :with_subtitles do
@@ -38,15 +40,10 @@ FactoryBot.define do
       end
     end
 
-    trait :kaltura do
-      provider_type { 'kaltura' }
+    trait :bunny do
+      provider_type { 'bunny' }
       credentials do
-        {
-          user_id: 'kaltura-user@example.com',
-          partner_id: '1234567',
-          token_id: 'token-id',
-          token: 'secret-token',
-        }
+        {}
       end
     end
   end
@@ -95,9 +92,21 @@ FactoryBot.define do
       provider_video_id { '123456abcdef' }
     end
 
-    trait :kaltura do
-      association :provider, factory: %i[video_provider kaltura]
-      provider_video_id { '123456abcdef' }
+    trait :with_video do
+      after(:create) do |stream|
+        stream.video.attach(
+          io: StringIO.new('video data'),
+          filename: 'video.mp4',
+          content_type: 'video/mp4'
+        )
+      end
+    end
+
+    trait :bunny do
+      association(:provider, factory: %i[video_provider bunny])
+      sequence(:provider_video_id) {|n| "bunny-guid-#{n}" }
+      # Mirrors UploadStreamToBunnyJob, which stores the unsigned CDN url.
+      poster { "https://video.bunnycdn.com/#{provider_video_id}/thumbnail.jpg" }
     end
   end
 

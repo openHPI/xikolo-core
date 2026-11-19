@@ -34,10 +34,20 @@ module Lti
         {
           user_id: gradebook.user_id,
           item_id: gradebook.item.id,
-          points: item_score,
+          points: published_score,
         },
         params: {id:}
       ).value!
+    end
+
+    private
+
+    # Once the submission deadline has passed, the exercise still counts as
+    # completed but no points are awarded.
+    def published_score
+      return 0 if gradebook.item.submission_deadline_passed?
+
+      item_score
     end
   end
 end

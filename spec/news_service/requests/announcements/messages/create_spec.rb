@@ -36,14 +36,16 @@ RSpec.describe 'Announcement: Messages: Create', type: :request do
     end
 
     it 'persists a message record' do
-      Sidekiq::Testing.inline! { resource }
+      perform_enqueued_jobs { resource }
 
       expect(announcement.messages.count).to eq 1
       expect(announcement.messages.first.status).to eq 'sending'
     end
 
     it 'sends an email to the specified recipient' do
-      Sidekiq::Testing.inline! { resource }
+      perform_enqueued_jobs { resource }
+
+      assert_performed_jobs 3
 
       mails = ActionMailer::Base.deliveries
       expect(mails.count).to eq 1
@@ -64,14 +66,14 @@ RSpec.describe 'Announcement: Messages: Create', type: :request do
         let(:user_groups) { [{name: 'treatment.consent'}] }
 
         it 'persists a message record' do
-          Sidekiq::Testing.inline! { resource }
+          perform_enqueued_jobs { resource }
 
           expect(announcement.messages.count).to eq 1
           expect(announcement.messages.first.status).to eq 'sending'
         end
 
         it 'sends an email to the specified recipient' do
-          Sidekiq::Testing.inline! { resource }
+          perform_enqueued_jobs { resource }
 
           mails = ActionMailer::Base.deliveries
           expect(mails.count).to eq 1
@@ -82,14 +84,14 @@ RSpec.describe 'Announcement: Messages: Create', type: :request do
 
       context 'and the user has not consented' do
         it 'persists a message record' do
-          Sidekiq::Testing.inline! { resource }
+          perform_enqueued_jobs { resource }
 
           expect(announcement.messages.count).to eq 1
           expect(announcement.messages.first.status).to eq 'sending'
         end
 
         it 'does not send an email to the specified recipient' do
-          Sidekiq::Testing.inline! { resource }
+          perform_enqueued_jobs { resource }
 
           mails = ActionMailer::Base.deliveries
           expect(mails.count).to be_zero
@@ -142,14 +144,14 @@ RSpec.describe 'Announcement: Messages: Create', type: :request do
     end
 
     it 'persists a message record' do
-      Sidekiq::Testing.inline! { resource }
+      perform_enqueued_jobs { resource }
 
       expect(announcement.messages.count).to eq 1
       expect(announcement.messages.first.status).to eq 'sending'
     end
 
     it 'sends an email to all recipients' do
-      Sidekiq::Testing.inline! { resource }
+      perform_enqueued_jobs { resource }
 
       mails = ActionMailer::Base.deliveries
       expect(mails.count).to eq 2
@@ -174,14 +176,14 @@ RSpec.describe 'Announcement: Messages: Create', type: :request do
         let(:consented_users) { [{user: 'b4864a87-ee46-415d-9271-34b8766a40f2'}] }
 
         it 'persists a message record' do
-          Sidekiq::Testing.inline! { resource }
+          perform_enqueued_jobs { resource }
 
           expect(announcement.messages.count).to eq 1
           expect(announcement.messages.first.status).to eq 'sending'
         end
 
         it 'sends an email to recipients who consented' do
-          Sidekiq::Testing.inline! { resource }
+          perform_enqueued_jobs { resource }
 
           mails = ActionMailer::Base.deliveries
           expect(mails.count).to eq 1
@@ -192,14 +194,14 @@ RSpec.describe 'Announcement: Messages: Create', type: :request do
 
       context 'and the recipients have not consented' do
         it 'persists a message record' do
-          Sidekiq::Testing.inline! { resource }
+          perform_enqueued_jobs { resource }
 
           expect(announcement.messages.count).to eq 1
           expect(announcement.messages.first.status).to eq 'sending'
         end
 
         it 'does not send an email' do
-          Sidekiq::Testing.inline! { resource }
+          perform_enqueued_jobs { resource }
 
           mails = ActionMailer::Base.deliveries
           expect(mails.count).to be_zero

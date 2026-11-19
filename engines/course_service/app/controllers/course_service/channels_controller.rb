@@ -10,7 +10,7 @@ class ChannelsController < ApplicationController # rubocop:disable Layout/Indent
   respond_to :json
 
   def index
-    channels = Channel.where(affiliated: false)
+    channels = Channel.not_deleted.ordered.where(affiliated: false)
 
     channels = channels.where(public: true) if params[:public] == 'true'
     channels = channels.where(highlight: true) if params[:highlight] == 'true'
@@ -48,6 +48,7 @@ class ChannelsController < ApplicationController # rubocop:disable Layout/Indent
 
   def channel
     @channel ||= Channel
+      .not_deleted
       .where(affiliated: false)
       .by_identifier(params[:id]).take!
   end

@@ -108,7 +108,7 @@ class Admin::AnnouncementEmailForm < XUI::Form
           user = account_service.rel(:user).get({id: Regexp.last_match(1)}).value!
           ["#{user['name']} (#{user['email']})", recipient]
         when /^group:course.([\w-]+).students/
-          title = Course::Course.find_by(course_code: Regexp.last_match(1))&.title
+          title = CourseService::Course.find_by(course_code: Regexp.last_match(1))&.title
           [I18n.t('admin.announcement_email.recipients_course_students', course: title,
             course_code: Regexp.last_match(1)), recipient]
         when /^group:(.+)/

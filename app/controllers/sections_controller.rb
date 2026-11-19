@@ -5,7 +5,6 @@ class SectionsController < Abstract::FrontendController
 
   before_action :ensure_content_editor, only: %i[index create destroy move update]
   before_action :load_section_nav, only: [:show]
-  before_action :set_no_cache_headers
   inside_course
   respond_to :json
 
@@ -19,7 +18,7 @@ class SectionsController < Abstract::FrontendController
   def index
     @course_presenter = CoursePresenter.create(the_course, current_user)
 
-    course = Course::Course.find(the_course.id)
+    course = CourseService::Course.find(the_course.id)
 
     if course.legacy?
       @legacy = true
@@ -29,13 +28,12 @@ class SectionsController < Abstract::FrontendController
       @sections = course.node.children
     end
 
-    Acfs.run
-    @new_section = Xikolo::Course::Section.new
+    @new_section = CourseService::Section.new
   end
 
   # redirects to the first item in the section or to decision page for alternative sections
   def show
-    section_items = Course::Item.where(section_id: section['id'])
+    section_items = CourseService::Item.where(section_id: section['id'])
     first_item = section_items.find do |item|
       item.available? && (current_user.authenticated? || item.open_mode)
     end
@@ -65,7 +63,7 @@ class SectionsController < Abstract::FrontendController
       section_params_valid_date = section_params_valid_date.except :end_date
     end
 
-    @section = Xikolo::Course::Section.new section_params_valid_date # section_params
+    @section = CourseService::Section.new section_params_valid_date # section_params
     @section.course_id = the_course.id
 
     if @section.save
@@ -84,16 +82,20 @@ class SectionsController < Abstract::FrontendController
 
   def choose_alternative_section
     unless current_user.instrumented?
-      Xikolo::Course::SectionChoice.create user_id: current_user.id,
-        section_id: UUID(params[:id]).to_s,
-        chosen_section_id: params[:chosen_id]
+      choice = CourseService::SectionChoice.find_or_initialize_by(
+        user_id: current_user.id,
+        section_id: UUID(params[:id]).to_s
+      )
+      unless choice.choice_ids.include?(params[:chosen_id])
+        choice.choice_ids << params[:chosen_id]
+        choice.save!
+      end
     end
     redirect_to course_section_path(id: params[:chosen_id]), status: :see_other
   end
 
   def update
-    @section = Xikolo::Course::Section.find params[:id]
-    Acfs.run
+    @section = CourseService::Section.find params[:id]
     @section.attributes = section_params
 
     if @section.save
@@ -106,39 +108,33 @@ class SectionsController < Abstract::FrontendController
   end
 
   def destroy
-    section = Course::Section.find params[:id]
+    section = CourseService::Section.find params[:id]
 
     raise ActionController::Forbidden unless section.destroyable?
 
-    course_api.rel(:section).delete({id: section.id}).value!
+    CourseService::Section::Destroy.call(section)
 
     redirect_to course_sections_url, notice: t(:'flash.notice.section_deleted'), status: :see_other
   end
 
   def move
-    Xikolo::Course::Section.find params[:id] do |section|
-      case params[:position]
-        when 'up'
-          section.update_attributes({position: section.position - 1})
-        when 'down'
-          section.update_attributes({position: section.position + 1})
-        when 'top'
-          section.update_attributes({position: 1})
-        when 'bottom'
-          Xikolo::Course::Section.where course_id: section.course_id do |sections|
-            section.update_attributes({position: sections.map(&:position).max + 1})
-          end
-        else
-          section.update_attributes({position: params[:position].to_i})
-      end
+    section = CourseService::Section.find params[:id]
+
+    case params[:position]
+      when 'up'
+        section.update({position: section.position - 1})
+      when 'down'
+        section.update({position: section.position + 1})
+      when 'top'
+        section.update({position: 1})
+      when 'bottom'
+        max_position = CourseService::Section.where(course_id: section.course_id).maximum(:position)
+        section.update({position: max_position + 1})
+      else
+        section.update({position: params[:position].to_i})
     end
-    Acfs.run
 
-    request.xhr? ? head(:ok) : redirect_to(course_sections_path, status: :see_other)
-  end
-
-  def hide_course_nav?
-    true
+    head(:ok)
   end
 
   private
@@ -165,14 +161,12 @@ class SectionsController < Abstract::FrontendController
 
   # @deprecated Only for courses not yet migrated to the new course content tree
   def load_raw_sections(course)
-    course.sections do |sections|
-      sections.each do |section|
-        section.items
-        section.alternatives do |alternatives|
-          alternatives.each(&:items)
-        end
-      end
+    sections = course.sections
+    sections.each do |section|
+      section.items
+      section.alternatives&.each(&:items)
     end
+    sections
   end
 
   def course_api

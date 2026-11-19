@@ -1,0 +1,11 @@
+<% if Xikolo.config.piwik %>
+  <noscript>
+    <p>
+      <img
+        src="https://<%= Xikolo.config.piwik['host_uri'] %>/piwik/matomo.php?idsite=<%= Xikolo.config.piwik['site_id'] %>"
+        style="border:0"
+        alt=""
+      >
+    </p>
+  </noscript>
+<% end %>

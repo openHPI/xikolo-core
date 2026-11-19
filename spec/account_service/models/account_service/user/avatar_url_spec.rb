@@ -19,7 +19,7 @@ describe AccountService::User, '#avatar_url', type: :model do
 
       it do
         expect(avatar_url).to eq \
-          'https://s3.xikolo.de/xikolo-avatars/users/test.png'
+          "#{test_s3_host}/xikolo-avatars/users/test.png"
       end
     end
   end

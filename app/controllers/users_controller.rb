@@ -6,13 +6,14 @@ class UsersController < Abstract::FrontendController
   before_action :ensure_logged_in
 
   def show
-    user = account_api.rel(:user).get({id: params[:id]}).value!
-    teacher = course_api.rel(:teachers).get({user_id: params[:id]}).value!.first
+    @user = AccountService::User.find(params[:id])
+    teacher = CourseService::Teacher.find_by(user_id: params[:id])
 
-    @profile = UserProfilePresenter.new(current_user, UserPresenter.new(user))
+    @profile = UserProfilePresenter.new(current_user, UserPresenter.new(@user))
     @teacher = Course::TeacherListPresenter::TeacherPresenter.new(teacher) if teacher.present?
-  rescue Restify::NotFound
-    raise AbstractController::ActionNotFound
+  rescue ActiveRecord::RecordNotFound
+    add_flash_message :error, t(:'flash.error.user_not_found')
+    redirect_to users_path, status: :see_other
   end
 
   def destroy
@@ -50,9 +51,5 @@ class UsersController < Abstract::FrontendController
 
   def account_api
     @account_api ||= Xikolo.api(:account).value!
-  end
-
-  def course_api
-    @course_api ||= Xikolo.api(:course).value!
   end
 end

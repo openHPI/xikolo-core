@@ -1,3 +1,5 @@
+@use "sass:math";
+
 /*----------------------------------------------------*\
     $CONTENTS
 
@@ -48,7 +50,15 @@ $lightbox-height: 400px;
 
 $main-content-width: 1370px;
 
-$footer-top-margin: 60px;
+// Legacy design tokens in this file were authored for 1rem = 10px.
+// Convert them explicitly to a standards-based 16px root.
+$legacy-rem-base: 10px !default;
+$standard-rem-base: 16px !default;
+
+@function legacy-rem($value) {
+  @return math.div($value, 1rem) *
+    math.div($legacy-rem-base, $standard-rem-base) * 1rem;
+}
 
 /* -------------------------------------------- *\
     $BRAND-FONT-DEFINITIONS
@@ -59,25 +69,25 @@ $footer-top-margin: 60px;
     Calculated with 10px bootstrap base font-size.
 \* -------------------------------------------- */
 
-$font-size-xs: 1.1rem; // 11px
-$font-size-s: 1.4rem; // 14px
-$font-size-sm: 1.8rem; // 18px
-$font-size-m: 2.6rem; // 26px
-$font-size-l: 3.3rem; // 33px
-$font-size-xl: 4.2rem; // 42px
+$font-size-xs: legacy-rem(1.1rem); // 11px
+$font-size-s: legacy-rem(1.4rem); // 14px
+$font-size-sm: legacy-rem(1.8rem); // 18px
+$font-size-m: legacy-rem(2.6rem); // 26px
+$font-size-l: legacy-rem(3.3rem); // 33px
+$font-size-xl: legacy-rem(4.2rem); // 42px
 
-$line-height-xs: 1.6rem; // 16px
-$line-height-s: 2rem; // 20px
-$line-height-sm: 2.5rem; // 25px
-$line-height-m: 3.3rem; // 33px
-$line-height-l: 3.8rem; // 38px
-$line-height-xl: 4.6rem; // 46px
+$line-height-xs: legacy-rem(1.6rem); // 16px
+$line-height-s: legacy-rem(2rem); // 20px
+$line-height-sm: legacy-rem(2.5rem); // 25px
+$line-height-m: legacy-rem(3.3rem); // 33px
+$line-height-l: legacy-rem(3.8rem); // 38px
+$line-height-xl: legacy-rem(4.6rem); // 46px
 
 /*----------------------------------------------------*\
     $Vertical spacing
 \*----------------------------------------------------*/
 
-$spacing-steps: 0.625rem; // 10px
+$spacing-steps: legacy-rem(0.625rem); // 10px
 
 /*----------------------------------------------------*\
     $Page padding
@@ -196,14 +206,6 @@ $navigation-item-hover-bg: $primary-50 !default;
 $navigation-item-hover-color: $primary-900 !default;
 $navigation-item-icon: $gray-600 !default;
 $navigation-item-font-weight: normal !default;
-
-$toc-navigation-item-bg: $navigation-item-bg;
-$toc-navigation-item-color: $navigation-item-color;
-$toc-navigation-item-selected-bg: $navigation-item-selected-bg;
-$toc-navigation-item-selected-color: $navigation-item-selected-color;
-$toc-navigation-item-hover-bg: $navigation-item-hover-bg;
-$toc-navigation-item-hover-color: $navigation-item-hover-color;
-$toc-navigation-item-icon: $navigation-item-icon;
 
 $menu-navigation-item-bg: $white !default;
 $menu-navigation-item-color: $text-color !default;

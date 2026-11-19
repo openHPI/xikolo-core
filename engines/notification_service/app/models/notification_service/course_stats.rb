@@ -3,7 +3,7 @@
 module NotificationService
 class CourseStats # rubocop:disable Layout/IndentationWidth
   #
-  # Exported from lanalytics course statistics presenter
+  # Exported from the course statistics presenter
   #
   FIELDS = [
     'id',
@@ -58,11 +58,6 @@ class CourseStats # rubocop:disable Layout/IndentationWidth
     # helpdesk
     'helpdesk_tickets',
     'helpdesk_tickets_last_day',
-
-    # open badges
-    'badge_issues',
-    'badge_downloads',
-    'badge_shares',
   ].freeze
 
   DATE_FIELDS = %w[
@@ -77,7 +72,7 @@ class CourseStats # rubocop:disable Layout/IndentationWidth
   def initialize(resource)
     FIELDS.each do |field|
       if DATE_FIELDS.include?(field) && resource[field].present?
-        # Info: Lanalytics does *NOT* consistently return ISO 8601
+        # Info: Upstream data does *NOT* consistently return ISO 8601
         value = Time.zone.parse(resource[field])
       else
         value = resource[field]

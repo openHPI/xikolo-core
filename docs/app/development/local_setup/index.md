@@ -43,18 +43,18 @@ Install RVM as described in
 - [Basic installation guide](https://rvm.io/)
 - [Full installation guide](https://rvm.io/rvm/install/)
 
-**Ruby 3.4**: The programming language for most of our services
+**Ruby 4.0**: The programming language for most of our services
 
 === "Debian / Ubuntu"
 
     ```console
-    rvm install 3.4.4
+    rvm install 4.0.10
     ```
 
 === "Mac"
 
     ```console
-    rvm install 3.4.4
+    rvm install 4.0.10
     ```
 
 **Bundler**: Ruby's dependency manager
@@ -76,45 +76,6 @@ bun install
 !!! note
 
     `--install-directory` can be used to install the stubs in a specific directory, such as `/usr/local/bin`, or without sudo `~/.local/bin`. This path must be in `PATH`.
-
-**RabbitMQ**: Asynchronous messaging / event broadcasting between services
-
-!!! tip
-
-    There is a RabbitMQ Web-UI (if you install it): [http://localhost:15672](http://localhost:15672/)
-
-    username: `guest`
-    password: `guest`
-
-=== "Debian / Ubuntu"
-
-    ```console
-    sudo apt install rabbitmq-server
-    ```
-
-    Optionally, install the Web UI:
-
-    ```console
-    sudo rabbitmq-plugins enable rabbitmq_management
-    ```
-
-=== "Mac"
-
-    ```console
-    brew install rabbitmq
-    ```
-
-    To start as a service:
-
-    ```console
-    brew services start rabbitmq
-    ```
-
-    Optionally, install the rabbitmq_management:
-
-    ```console
-    /usr/local/opt/rabbitmq/sbin/rabbitmq-plugins enable rabbitmq_management
-    ```
 
 **PostgreSQL 17 (or later)**: A relational database
 
@@ -273,20 +234,18 @@ bun install
     sudo apt install \
     cmake \
     ffmpeg \
-    gir1.2-gdkpixbuf-2.0 \
-    gir1.2-rsvg-2.0 \
     libcurl4 \
     libffi-dev \
     libgirepository1.0-dev \
     libgit2-dev \
     libpq-dev \
-    librsvg2-dev \
+    libvips \
     libsodium23 \
+    libvips \
     libv8-dev \
     libxml2-dev \
     libxslt1-dev \
     libz-dev \
-    pkg-config \
     zip
     ```
 
@@ -295,7 +254,8 @@ bun install
     ```console
     brew install \
     cmake \
-    libsodium
+    libsodium \
+    vips
     ```
 
 ## Setup
@@ -434,7 +394,7 @@ Add this to the file:
 # Use this format for the message header:
 # <type>[optional scope]: <subject>
 # optional scopes are bound to our services e.g.
-# course, account, lanalytics and so on
+# course, account and so on
 #| <----- Type Maximum 50 Characters here -----> |
 
 # The commit message body should contain the what and why, starting with a blank line
@@ -542,7 +502,6 @@ To run the test suite and make sure you have the necessary drivers, please see t
 
 ## Troubleshooting
 
-- **Apple Silicon:** If you are using a MacBook with an Apple Silicon chip (instead of Intel) be sure to read [this article first](troubleshooting/apple_silicon.md).
 - **Known issues:** There is a list of possible problems with solutions for [Mac OS X](troubleshooting/mac_known_issues.md)
 
 ## Update this Documentation

@@ -12,28 +12,24 @@
  * Can be extended with further action types or suitable events.
  */
 
-import ready from '../../util/ready';
+function handleChange(event) {
+  const el = event.target;
 
-ready(() => {
-  function handleChange(event) {
-    const el = event.target;
-
-    switch (el.dataset.change) {
-      case 'submit':
-        el.closest('form').requestSubmit();
-        break;
-      case 'redirect': {
-        window.location.href = el.value;
-        break;
-      }
-      default:
-        break;
+  switch (el.dataset.change) {
+    case 'submit':
+      el.closest('form').requestSubmit();
+      break;
+    case 'redirect': {
+      window.location.href = el.value;
+      break;
     }
+    default:
+      break;
   }
+}
 
-  document.addEventListener('change', (e) => {
-    if (e.target.matches('[data-change]')) {
-      handleChange(e);
-    }
-  });
+document.addEventListener('change', (e) => {
+  if (e.target.matches('[data-change]')) {
+    handleChange(e);
+  }
 });

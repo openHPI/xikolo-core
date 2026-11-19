@@ -24,17 +24,5 @@ if defined? FactoryBot
     xikolo_uuid_sequence(:question_id, service: 3800, resource: 2)
 
     xikolo_uuid_sequence(:file_id,     service: 4000, resource: 1)
-
-    factory 'lanalytics:root', class: Hash do
-      metric_url { '/metrics/{name}' }
-      metrics_url { '/metrics' }
-      report_jobs_url { '/report_jobs{?job_params,task_type,user_id,show_expired}' }
-      report_job_url { '/report_jobs/{id}' }
-      report_types_url { '/report_types' }
-      course_statistics_url { '/course_statistics' }
-      course_statistic_url { '/course_statistics/{id}' }
-      system_info_url { '/system_info/{id}' }
-      initialize_with { attributes.as_json }
-    end
   end
 end

@@ -4,33 +4,20 @@ class Admin::TeachersController < Abstract::FrontendController
   def index
     authorize! 'course.teacher.view'
 
-    teachers_promise = course_api.rel(:teachers).get({
-      offset: params[:offset],
-      page: params.fetch(:page, 1),
-      limit: 10,
-      query: params[:q],
-      sort: 'name',
-    }.compact)
+    teachers = CourseService::Teacher.with_referenced_in_courses.order(:name)
+    teachers = teachers.filter_by_query(params[:q]) if params[:q].present?
 
     if request.xhr?
-      json = teachers_promise.value!.map do |teacher|
-        {
-          id: teacher['id'],
-          text: teacher['name'],
-        }
-      end
-      render json:
+      render json: teachers.limit(10).map {|t| {id: t.id, text: t.name} }
     else
-      @teachers = Course::TeacherListPresenter.new teachers_promise
+      @teachers = teachers.paginate(page: params[:page], per_page: 50)
     end
   end
 
   def show
     authorize! 'course.teacher.view'
 
-    @teacher = Course::TeacherListPresenter::TeacherPresenter.new(
-      course_api.rel(:teacher).get({id: params[:id]}).value!
-    )
+    @teacher = CourseService::Teacher.find(params[:id])
   end
 
   def new
@@ -62,7 +49,7 @@ class Admin::TeachersController < Abstract::FrontendController
 
     @teacher = Admin::TeacherForm.from_params params
 
-    return render(action: :new, status: :unprocessable_entity) unless @teacher.valid?
+    return render(action: :new, status: :unprocessable_content) unless @teacher.valid?
 
     user_id = params[:teacher][:user_id]
     teacher_resource =
@@ -77,7 +64,7 @@ class Admin::TeachersController < Abstract::FrontendController
     redirect_to action: :show, id: teacher.fetch('id'), status: :see_other
   rescue Restify::UnprocessableEntity => e
     @teacher.remote_errors e.errors
-    render action: :new, status: :unprocessable_entity
+    render action: :new, status: :unprocessable_content
   end
 
   def update
@@ -86,7 +73,7 @@ class Admin::TeachersController < Abstract::FrontendController
     @teacher = Admin::TeacherForm.from_params params
     @teacher.persisted!
 
-    return render(action: :edit, status: :unprocessable_entity) unless @teacher.valid?
+    return render(action: :edit, status: :unprocessable_content) unless @teacher.valid?
 
     course_api.rel(:teacher).patch(@teacher.to_resource, params: {id: params[:id]}).value!
 
@@ -94,7 +81,19 @@ class Admin::TeachersController < Abstract::FrontendController
     redirect_to action: :show, status: :see_other
   rescue Restify::UnprocessableEntity => e
     @teacher.remote_errors e.errors
-    render action: :edit, status: :unprocessable_entity
+    render action: :edit, status: :unprocessable_content
+  end
+
+  def destroy
+    authorize! 'course.teacher.manage'
+
+    if CourseService::Teacher.find(params[:id]).destroy
+      add_flash_message :success, t(:'flash.success.teacher_deleted')
+    else
+      add_flash_message :error, t(:'flash.error.teacher_not_deleted')
+    end
+
+    redirect_to action: :index, status: :see_other
   end
 
   private

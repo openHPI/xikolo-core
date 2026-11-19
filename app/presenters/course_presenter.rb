@@ -5,8 +5,8 @@ class CoursePresenter < CourseInfoPresenter
   include ActionView::Context
 
   def_delegators :course, :id, :course_code, :classifiers, :lang, :title, :abstract, :forum_is_locked,
-    :start_date, :end_date, :display_start_date, :was_available?, :available?, :status, :hidden,
-    :alternative_teacher_text, :fullstate
+    :start_date, :end_date, :display_start_date, :was_available?, :available?, :published,
+    :alternative_teacher_text
 
   attr_accessor :course, :enrollments
 
@@ -23,29 +23,44 @@ class CoursePresenter < CourseInfoPresenter
 
   def classifier_titles
     course.classifiers
-      .slice('category', 'topic')
-      .flat_map {|_, v| v }
+      .where(cluster_id: %w[category topic])
+      .pluck(:title)
       .sort
       .uniq
   end
 
   def item_collection
-    @item_collection ||= ::Course::Course.find(course.id).sections.flat_map(&:items).map do |item|
+    @item_collection ||= ::CourseService::Course.find(course.id).sections.flat_map(&:items).map do |item|
       ["#{item.section.title}: #{item.title} (#{I18n.t(:"sections.index.label.#{item.content_type}")})", item.id]
     end
   end
 
   def section_collection
-    @section_collection ||= ::Course::Course.find(course.id).sections.map do |section|
+    @section_collection ||= ::CourseService::Course.find(course.id).sections.map do |section|
       [section.title, section.id]
     end
   end
 
-  alias is_enrolled enrolled?
+  # Does the course have an exam yet? A course can have at most one exam.
+  def exam?
+    @exam ||= ::CourseService::Item.joins(:section)
+      .where(sections: {course_id: course.id})
+      .exists?(exercise_type: 'exam')
+  end
+
+  def exam_in_this_section?(section_id)
+    ::CourseService::Item.where(section_id:)
+      .exists?(exercise_type: 'exam')
+  end
+
+  def exam_id
+    @exam_id ||= ::CourseService::Item.joins(:section)
+      .where(sections: {course_id: course.id})
+      .where(exercise_type: 'exam')
+      .pick(:id)
+  end
 
   def needs_recalculation?
-    return false unless recalculation_enabled?
-
     @user.allowed?('course.course.recalculate') &&
       the_course.needs_recalculation?
   end
@@ -64,8 +79,8 @@ class CoursePresenter < CourseInfoPresenter
       image: visual_url,
       next_events: [],
       language: lang,
+      published: published,
       categories: classifier_titles,
-      status: course.status,
     }
   end
 
@@ -73,15 +88,11 @@ class CoursePresenter < CourseInfoPresenter
     PublicCoursePage.url_for(self)
   end
 
-  def recalculation_enabled?
-    Xikolo.config.persisted_learning_evaluation.present?
-  end
-
   def recalculation_allowed?
     the_course.recalculation_allowed?
   end
 
   def the_course
-    @the_course ||= Course::Course.find(course.id)
+    @the_course ||= CourseService::Course.find(course.id)
   end
 end

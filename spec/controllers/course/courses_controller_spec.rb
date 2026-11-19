@@ -4,25 +4,19 @@ require 'spec_helper'
 require 'rspec/expectations'
 
 describe Course::CoursesController, type: :controller do
-  let(:user_id) { '00000001-3100-4444-9999-000000000001' }
+  let(:user) { create(:'account_service/user') }
   let(:course) { create(:course, :with_visual, course_code: 'test') }
-  let(:section_id) { generate(:section_id) }
   let(:forward_item_id) { generate(:item_id) }
   let(:teacher_id) { '00000001-3100-4444-9999-000000000002' }
   let(:enrollment) { [] }
-
-  before do
-    Stub.request(
-      :course, :get, '/next_dates',
-      query: hash_including({})
-    ).to_return Stub.json([])
-  end
+  let(:course_context) { AccountService::Context.root }
 
   describe '#resume' do
     subject(:resume) { request; response }
 
     let(:request) { get :resume, params: {id: course.course_code} }
-    let(:request_context_id) { course_context_id }
+    # Anonymous and non-enrolled users only ever see open-mode video items.
+    let(:section) { create(:'course_service/section', course:) }
 
     before do
       Stub.request(
@@ -30,97 +24,72 @@ describe Course::CoursesController, type: :controller do
       ).to_return Stub.json({
         id: course.id,
         course_code: course.course_code,
-        status: 'active',
-        context_id: course_context_id,
+        published: true,
+        context_id: course_context.id,
       })
 
       Stub.request(
         :course, :get, '/enrollments',
-        query: {course_id: course.id, user_id:}
+        query: {course_id: course.id, user_id: user.id}
       ).to_return Stub.json(enrollment)
     end
 
+    shared_examples 'without any available item' do
+      its(:status) { is_expected.to eq 303 }
+
+      it 'redirects to the course details page' do
+        expect(resume).to redirect_to course_path course.course_code
+      end
+
+      it 'displays a flash notice' do
+        request
+        expect(flash[:notice]).to include 'There is no public course content yet.'
+      end
+    end
+
     context 'as anonymous' do
+      before do
+        session[:id] = nil
+      end
+
       context 'without any available item' do
-        before do
-          Stub.request(
-            :course, :get, '/items/current',
-            query: {course: course.id, user: 'anonymous', preview: 'false'}
-          ).to_return Stub.response(status: 404)
-        end
-
-        its(:status) { is_expected.to eq 303 }
-
-        it 'redirects to the course details page' do
-          expect(resume).to redirect_to course_path course.course_code
-        end
-
-        it 'displays a flash notice' do
-          request
-          expect(flash[:notice]).to include 'There is no public course content yet.'
-        end
+        it_behaves_like 'without any available item'
       end
 
       context 'with current item' do
-        before do
-          Stub.request(
-            :course, :get, '/items/current',
-            query: {course: course.id, user: 'anonymous', preview: 'false'}
-          ).to_return Stub.json({id: forward_item_id})
-        end
+        let!(:item) { create(:item, section:, open_mode: true) }
 
         its(:status) { is_expected.to eq 303 }
 
         it 'redirects to the current item' do
           expect(resume).to redirect_to course_item_path(
             course.course_code,
-            short_uuid(forward_item_id)
+            short_uuid(item.id)
           )
         end
       end
     end
 
     context 'as an enrolled user' do
-      let(:enrollment) { create(:enrollment, user_id:, course:) }
+      let(:enrollment) { create(:enrollment, user_id: user.id, course:) }
 
       before do
-        stub_user id: user_id, language: 'en', permissions: ['course.content.access.available']
+        sign_in user: user, permissions: ['course.content.access.available']
       end
 
       context 'without any available item' do
-        before do
-          Stub.request(
-            :course, :get, '/items/current',
-            query: {course: course.id, user: user_id, preview: 'false'}
-          ).to_return Stub.response(status: 404)
-        end
-
-        its(:status) { is_expected.to eq 303 }
-
-        it 'redirects to the course details page' do
-          expect(resume).to redirect_to course_path course.course_code
-        end
-
-        it 'displays a flash notice' do
-          request
-          expect(flash[:notice]).to include 'There is no public course content yet.'
-        end
+        it_behaves_like 'without any available item'
       end
 
       context 'with current item' do
-        before do
-          Stub.request(
-            :course, :get, '/items/current',
-            query: {course: course.id, user: user_id, preview: 'false'}
-          ).to_return Stub.json({id: forward_item_id})
-        end
+        let!(:item) { create(:item, section:) }
 
         its(:status) { is_expected.to eq 303 }
 
         it 'redirects to the current item' do
           expect(resume).to redirect_to course_item_path(
             course.course_code,
-            short_uuid(forward_item_id)
+            short_uuid(item.id)
           )
         end
       end
@@ -128,43 +97,22 @@ describe Course::CoursesController, type: :controller do
 
     context 'as a not enrolled user' do
       before do
-        stub_user id: user_id, language: 'en', permissions: []
+        sign_in user: user, permissions: []
       end
 
       context 'without any available item' do
-        before do
-          Stub.request(
-            :course, :get, '/items/current',
-            query: {course: course.id, user: user_id, preview: 'false'}
-          ).to_return Stub.response(status: 404)
-        end
-
-        its(:status) { is_expected.to eq 303 }
-
-        it 'redirects to the course details page' do
-          expect(resume).to redirect_to course_path course.course_code
-        end
-
-        it 'displays a flash notice' do
-          request
-          expect(flash[:notice]).to include 'There is no public course content yet.'
-        end
+        it_behaves_like 'without any available item'
       end
 
       context 'with current item' do
-        before do
-          Stub.request(
-            :course, :get, '/items/current',
-            query: {course: course.id, user: user_id, preview: 'false'}
-          ).to_return Stub.json({id: forward_item_id})
-        end
+        let!(:item) { create(:item, section:, open_mode: true) }
 
         its(:status) { is_expected.to eq 303 }
 
         it 'redirects to the current item' do
           expect(resume).to redirect_to course_item_path(
             course.course_code,
-            short_uuid(forward_item_id)
+            short_uuid(item.id)
           )
         end
       end
@@ -172,26 +120,13 @@ describe Course::CoursesController, type: :controller do
   end
 
   describe '#show' do
-    let(:request_context_id) { course_context_id }
-
-    before do
-      Stub.request(
-        :course, :get, '/items',
-        query: {course_id: course.id, featured: true, content_type: 'video'}
-      ).to_return Stub.json([])
-    end
-
     context 'for course in preparation' do
       subject(:request) { get :show, params: {id: course.id} }
 
+      let(:course) { create(:course, published: false, course_code: 'test') }
+
       before do
-        Stub.request(
-          :course, :get, "/courses/#{course.id}"
-        ).to_return Stub.json({
-          id: course.id,
-          status: 'preparation',
-          context_id: course_context_id,
-        })
+        course
       end
 
       context 'as anonymous user' do
@@ -201,7 +136,7 @@ describe Course::CoursesController, type: :controller do
       end
 
       context 'as logged in user' do
-        before { stub_user id: '99c29e4b-28e0-42e4-b46f-7f289edb8c3a' }
+        before { sign_in user: create(:'account_service/user') }
 
         it 'cannot access the course' do
           expect { request }.to raise_error Status::NotFound
@@ -216,40 +151,10 @@ describe Course::CoursesController, type: :controller do
       let(:abstract) { 'Abstract' }
       let(:now) { DateTime.current }
       let(:classifiers) { nil }
-      let(:hidden) { false }
+      let(:placement) { ['Open4All'] }
+      let(:course) { create(:'course_service/course', :active, course_code: 'the_course', placement:, title: 'Test Course', created_at: now - 2.weeks, updated_at: now - 1.week) }
 
       before do
-        Stub.request(
-          :course, :get, "/courses/#{course.course_code}"
-        ).to_return Stub.json({
-          id: course.id,
-          status: 'active',
-          teacher_ids: [teacher_id],
-          description: 'Description',
-          abstract:,
-          title: 'Title',
-          course_code: course.course_code,
-          lang: 'en',
-          context_id: course_context_id,
-          teacher_text: 'Teachers!',
-          created_at: now - 2.weeks,
-          updated_at: now - 1.week,
-          classifiers:,
-          hidden:,
-        })
-
-        Stub.request(
-          :course, :get, '/sections',
-          query: {course_id: course.id}
-        ).to_return Stub.json([
-          {id: section_id, position: 1},
-        ])
-
-        Stub.request(
-          :course, :get, '/stats',
-          query: hash_including(course_id: course.id, key: 'enrollments')
-        ).to_return Stub.json({enrollments: 9999})
-
         Stub.request(
           :course, :get, '/teachers',
           query: {course: course.id}
@@ -259,18 +164,14 @@ describe Course::CoursesController, type: :controller do
       end
 
       context 'as anonymous user' do
-        it { is_expected.to redirect_to dashboard_path }
+        it 'answers with a page' do
+          expect(get_request.status).to eq 200
+        end
       end
 
       context 'for logged-in users' do
-        context 'w/o permission to access the course details' do
-          before { stub_user id: user_id }
-
-          it { is_expected.to redirect_to dashboard_path }
-        end
-
         context 'w/ permission to see the course details' do
-          before { stub_user id: user_id, permissions: %w[course.course.show] }
+          before { sign_in user: user }
 
           it 'answers with a page' do
             expect(get_request.status).to eq 200
@@ -283,16 +184,16 @@ describe Course::CoursesController, type: :controller do
 
         subject(:course_details) { get_request; response.body }
 
-        before { stub_user id: user_id, permissions: %w[course.course.show] }
+        before { sign_in user: user, permissions: %w[course.course.show] }
 
         let(:get_request) { get :show, params: {id: course.course_code} }
 
         it 'has the correct title meta tag' do
-          expect(course_details).to _have_xpath('html/head/title', text: 'Title | Xikolo')
+          expect(course_details).to _have_xpath('html/head/title', text: 'Test Course')
         end
 
         it 'has the correct description' do
-          expect(course_details).to _have_xpath("html/head/meta[@name='description']", content: 'Abstract')
+          expect(course_details).to _have_xpath("html/head/meta[@name='description']", content: 'This is a nice course about cool stuff')
         end
 
         it 'has no robots tag' do
@@ -303,13 +204,13 @@ describe Course::CoursesController, type: :controller do
           let(:abstract) { nil }
 
           it 'has the correct description (falling back to course description)' do
-            expect(course_details).to _have_xpath("html/head/meta[@name='description']", content: 'Description')
+            expect(course_details).to _have_xpath("html/head/meta[@name='description']", content: 'This is a nice course about cool stuff')
           end
         end
 
         it 'has the correct timestamps' do
-          expect(course_details).to _have_xpath("html/head/meta[@name='dcterms.created']", content: (now - 2.weeks).to_s)
-          expect(course_details).to _have_xpath("html/head/meta[@name='dcterms.modified']", content: (now - 1.week).to_s)
+          expect(course_details).to _have_xpath("html/head/meta[@name='dcterms.created']", content: course.created_at.iso8601)
+          expect(course_details).to _have_xpath("html/head/meta[@name='dcterms.modified']", content: course.updated_at.iso8601)
         end
 
         it 'has no keywords' do
@@ -317,46 +218,46 @@ describe Course::CoursesController, type: :controller do
         end
 
         context 'with keyword classifiers' do
-          let(:classifiers) { {keywords: %w[p3k i18n]} }
+          let(:cluster) { create(:'course_service/cluster', id: 'topic') }
+          let(:classifier_1) { create(:'course_service/classifier', cluster_id: cluster.id, title: 'p3k') }
+          let(:classifier_2) { create(:'course_service/classifier', cluster_id: cluster.id, title: 'i18n') }
+
+          before do
+            course.classifiers << classifier_1
+            course.classifiers << classifier_2
+          end
 
           it 'has the correct keywords' do
             expect(course_details).to _have_xpath("html/head/meta[@name='keywords']", content: 'p3k, i18n')
           end
 
           context 'with additional topic classifier' do
-            let(:classifiers) { super().merge(topic: ['topic']) }
+            let(:classifier_3) { create(:'course_service/classifier', cluster_id: cluster.id, title: 'topic') }
+
+            before do
+              course.classifiers << classifier_3
+            end
 
             it 'has the correct keywords' do
-              expect(course_details).to _have_xpath("html/head/meta[@name='keywords']", content: 'p3k, i18n, topic')
+              content = course_details[/name="keywords" content="([^"]*)"/, 1]
+              expect(content.split(', ')).to contain_exactly('p3k', 'i18n', 'topic')
             end
           end
         end
 
-        context 'with facebook app id' do
-          before do
-            xi_config <<~YML
-              facebook_app_id: fb_app_id
-            YML
-          end
-
-          it 'includes the facebook app id' do
-            expect(course_details).to _have_xpath("html/head/meta[@property='fb:app_id']", content: 'fb_app_id')
-          end
-        end
-
         it 'has the correct OpenGraph meta tags' do
-          expect(course_details).to _have_xpath("html/head/meta[@property='og:title']", content: 'Title')
-          expect(course_details).to _have_xpath("html/head/meta[@property='og:image']", content: 'https://s3.xikolo.de/xikolo-public/courses/123/456/course_visual.png')
+          expect(course_details).to _have_xpath("html/head/meta[@property='og:title']", content: 'Test Course')
+          expect(course_details).to _have_xpath("html/head/meta[@property='og:image']", content: '/assets/defaults/course-e42f443e.png')
           expect(course_details).to _have_xpath("html/head/meta[@property='og:type']", content: 'website')
-          expect(course_details).to _have_xpath("html/head/meta[@property='og:url']", content: 'https://xikolo.de/courses/test')
-          expect(course_details).to _have_xpath("html/head/meta[@property='og:description']", content: 'Abstract')
+          expect(course_details).to _have_xpath("html/head/meta[@property='og:url']", content: 'https://xikolo.de/learn/the_course')
+          expect(course_details).to _have_xpath("html/head/meta[@property='og:description']", content: 'This is a nice course about cool stuff')
           expect(course_details).to _have_xpath("html/head/meta[@property='og:site_name']", content: 'Xikolo')
-          expect(course_details).to _have_xpath("html/head/meta[@property='og:image:secure_url']", content: 'https://s3.xikolo.de/xikolo-public/courses/123/456/course_visual.png')
+          expect(course_details).to _have_xpath("html/head/meta[@property='og:image:secure_url']", content: '/assets/defaults/course-e42f443e.png')
           expect(course_details).to _have_xpath("html/head/meta[@property='og:locale']", content: 'en')
         end
 
         context 'for hidden courses' do
-          let(:hidden) { true }
+          let(:placement) { [] }
 
           it 'has noindex in the robots tag' do
             expect(course_details).to _have_xpath("html/head/meta[@name='robots']", content: 'noindex')
@@ -374,8 +275,8 @@ describe Course::CoursesController, type: :controller do
         ).to_return Stub.json({
           id: course.id,
           course_code: 'test',
-          status: 'active',
-          context_id: course_context_id,
+          published: true,
+          context_id: course_context.id,
         })
       end
 

@@ -8,9 +8,9 @@
  * In an intermediate position, both buttons are displayed.
  *
  */
-import ready from '../../util/ready';
+import { turboReady } from '../../util/ready';
 
-ready(() => {
+turboReady(() => {
   const sliderComponents = document.querySelectorAll(
     "[data-controller~='slider']",
   );

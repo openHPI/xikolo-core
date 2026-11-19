@@ -1,0 +1,14 @@
+<%= render 'course/shared/admin_page_header', title: t(:'sections.item.edit_headline', item: @item.title) %>
+
+<div class="bs-container x-card bg-accent-25 text-accent-content p-5">
+  <div class="row">
+    <div class="col-md-9">
+      <%= render 'form_wrapper', item: @item %>
+    </div>
+    <div class="col-md-3">
+      <% if @quiz_info %>
+        <%= render Items::QuizInfo.new(@quiz_info) %>
+      <% end %>
+    </div>
+  </div>
+</div>

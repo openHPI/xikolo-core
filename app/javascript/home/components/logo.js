@@ -1,6 +1,6 @@
-import ready from '../../util/ready';
+import { turboReady } from '../../util/ready';
 
-ready(() => {
+turboReady(() => {
   const navigationLogo = document.querySelector(
     "[data-id='desktop-navigation-logo']",
   );

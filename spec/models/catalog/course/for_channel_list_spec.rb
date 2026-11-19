@@ -5,18 +5,18 @@ require 'spec_helper'
 describe Catalog::Course, '.for_channel_list', type: :model do
   subject(:scope) { described_class.for_channel_list(channel) }
 
-  let(:channel) { create(:channel) }
+  let(:channel) { create(:'course_service/channel') }
 
   before do
     create(:course, :preparing, title: 'An upcoming course in preparation').channels << channel
     create(:course, :active, title: 'An active and current course').channels << channel
-    create(:course, :active, title: 'An active and current course in another channel').channels << create(:channel)
-    create(:course, :active, title: 'An active and current but not listed course', show_on_list: false).channels << channel
+    create(:course, :active, title: 'An active and current course in another channel').channels << create(:'course_service/channel')
+    create(:course, :active, title: 'An active and current but not listed course', placement: []).channels << channel
     create(:course, :active, :hidden, title: 'A hidden course').channels << channel
     create(:course, :active, :deleted, title: 'A deleted course').channels << channel
     create(:course, :active, title: 'A group-restricted course', groups: %w[group.1]).channels << channel
-    create(:course, :archived, title: 'An archived course').channels << channel
-    create(:course, :archived, title: 'An archived but not listed courses', show_on_list: false).channels << channel
+    create(:course, :self_paced, title: 'An self-paced course').channels << channel
+    create(:course, :self_paced, title: 'An self-paced but not listed courses', placement: []).channels << channel
     create(:course, :upcoming, title: 'A published future course').channels << channel
   end
 
@@ -27,8 +27,8 @@ describe Catalog::Course, '.for_channel_list', type: :model do
       'An active and current but not listed course',
       'A hidden course',
       'A group-restricted course',
-      'An archived course',
-      'An archived but not listed courses',
+      'An self-paced course',
+      'An self-paced but not listed courses',
       'A published future course',
     ]
 

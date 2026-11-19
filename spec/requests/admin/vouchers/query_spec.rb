@@ -3,10 +3,9 @@
 require 'spec_helper'
 
 describe 'Admin: Vouchers: Query', type: :request do
-  subject(:page) { get '/vouchers/query', params: {code:}, headers: }
+  subject(:page) { get '/vouchers/query', params: {code:} }
 
   let(:code) { generate(:uuid) }
-  let(:headers) { {Authorization: "Xikolo-Session session_id=#{stub_session_id}"} }
 
   before do
     xi_config <<~YML
@@ -14,7 +13,7 @@ describe 'Admin: Vouchers: Query', type: :request do
         enabled: true
     YML
 
-    stub_user_request permissions: ['course.vouchers.issue']
+    sign_in(user: create(:'account_service/user', :admin))
   end
 
   context 'with existing voucher' do

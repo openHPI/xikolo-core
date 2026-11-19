@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 class Course::NextDatePresenter
-  def initialize(date, with_link: true)
+  def initialize(date)
     @next_date = date
-    @with_link = with_link
   end
 
   include Rails.application.routes.url_helpers
@@ -49,8 +48,6 @@ class Course::NextDatePresenter
   end
 
   def do_url
-    return unless @with_link
-
     case id
       when 'course_start'
         course_path(@next_date['course_code'])

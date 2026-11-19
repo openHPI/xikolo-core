@@ -30,11 +30,6 @@ class Course::EnrollmentsController < Abstract::FrontendController
       return redirect_to course_path(course['course_code']), status: :see_other
     end
 
-    if e.errors['base']&.include? 'prerequisites_unfulfilled'
-      add_flash_message :error, t(:'flash.error.unfulfilled_prerequisites')
-      return redirect_to course_path(course['course_code']), status: :see_other
-    end
-
     add_flash_message :notice, t(:'flash.notice.enrollment_already_present')
     redirect_to course_resume_path(course['course_code']), status: :see_other
   end

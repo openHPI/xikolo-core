@@ -9,20 +9,16 @@ describe UnsupportedItemPresenter, type: :presenter do
 
   let(:user_id) { generate(:user_id) }
   let(:course) { create(:course) }
-  let(:course_resource) { Xikolo::Course::Course.new id: course.id, course_code: course.course_code }
   let(:section) { create(:section, course:) }
   let(:section_resource) { build(:'course:section', id: section.id, course_id: course.id) }
   let(:item_params) { {id: generate(:uuid)} }
-  let(:item) { Xikolo::Course::Item.new item_params.merge(content_type: 'unsupported_type') }
-  let(:features) { {} }
-  let(:masqueraded) { false }
-  let(:user) do
-    Xikolo::Common::Auth::CurrentUser.from_session(
-      'permissions' => %w[course.content.access.available],
-      'features' => features,
-      'masqueraded' => masqueraded,
-      'user' => {'anonymous' => false}
-    )
+  let(:item) { build(:'course:item', **item_params, content_type: 'unsupported_type') }
+  let(:session) { create(:'account_service/session') }
+  let(:user) { CurrentUser::User.new(session:, context_id: 'root') }
+
+  before do
+    role = create(:'account_service/role', permissions: %w[course.content.access.available])
+    create(:'account_service/grant', principal: session.user, role:)
   end
 
   describe '#icon_class' do
@@ -31,25 +27,25 @@ describe UnsupportedItemPresenter, type: :presenter do
     context 'as self-test' do
       let(:item_params) { super().merge exercise_type: 'selftest' }
 
-      it { is_expected.to be_empty }
+      it { is_expected.to eq 'learning_material' }
     end
 
     context 'as main exercise' do
       let(:item_params) { super().merge exercise_type: 'main' }
 
-      it { is_expected.to be_empty }
+      it { is_expected.to eq 'learning_material' }
     end
 
     context 'as bonus exercise' do
       let(:item_params) { super().merge exercise_type: 'bonus' }
 
-      it { is_expected.to be_empty }
+      it { is_expected.to eq 'learning_material' }
     end
 
     context 'without exercise' do
       let(:item_params) { super().merge exercise_type: nil }
 
-      it { is_expected.to be_empty }
+      it { is_expected.to eq 'learning_material' }
     end
   end
 end

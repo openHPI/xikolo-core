@@ -5,11 +5,9 @@ require 'spec_helper'
 describe Catalog::Course, '.enrolled_for', type: :model do
   subject(:scope) { described_class.enrolled_for(user) }
 
-  let(:user) { Xikolo::Common::Auth::CurrentUser.from_session(user_session) }
+  let(:user) { CurrentUser::AnonymousUser.new(context_id: 'root') }
 
   context 'for anonymous users' do
-    let(:user_session) { {'user' => {'anonymous' => true}} }
-
     it 'is empty when there are no courses' do
       expect(scope).to be_empty
     end
@@ -27,7 +25,7 @@ describe Catalog::Course, '.enrolled_for', type: :model do
     end
 
     it 'does not include courses that should be hidden on the course list' do
-      create(:course, :active, show_on_list: false)
+      create(:course, :active, placement: [])
 
       expect(scope).to be_empty
     end
@@ -52,18 +50,10 @@ describe Catalog::Course, '.enrolled_for', type: :model do
   end
 
   context 'for registered users' do
-    let(:user_id) { generate(:user_id) }
-    let(:user_session) do
-      {
-        'masqueraded' => false,
-        'user_id' => user_id,
-        'user' => {
-          'anonymous' => false,
-          'language' => I18n.locale,
-          'preferred_language' => I18n.locale,
-        },
-      }
-    end
+    let(:account_user) { create(:'account_service/user') }
+    let(:session) { create(:'account_service/session', user: account_user) }
+    let(:user) { CurrentUser::User.new(session:, context_id: 'root') }
+    let(:user_id) { account_user.id }
 
     it 'is empty when there are no courses' do
       expect(scope).to be_empty
@@ -89,7 +79,7 @@ describe Catalog::Course, '.enrolled_for', type: :model do
     end
 
     it 'does not include courses that should be hidden on the course list' do
-      create(:course, :active, show_on_list: false)
+      create(:course, :active, placement: [])
 
       expect(scope).to be_empty
     end
@@ -116,8 +106,7 @@ describe Catalog::Course, '.enrolled_for', type: :model do
     it 'does not include group-restricted courses when member of the group' do
       create(:course, :active, groups: ['xikolo.partners'])
       group = create(:'account_service/group', name: 'xikolo.partners')
-      user = create(:'account_service/user', id: user_id)
-      create(:'account_service/membership', group:, user:)
+      create(:'account_service/membership', group:, user: account_user)
 
       expect(scope).to be_empty
     end

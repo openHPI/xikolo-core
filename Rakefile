@@ -19,13 +19,6 @@ namespace :ci do
   task setup: %w[assets:i18n:export db:drop:all db:create:all db:schema:load]
 end
 
-namespace :api do
-  desc 'Generate the documentation for the REST API'
-  task docs: :environment do
-    Xikolo::API.make_docs!
-  end
-end
-
 namespace :assets do
   namespace :i18n do
     task export: :environment do

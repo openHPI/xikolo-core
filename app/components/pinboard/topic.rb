@@ -18,18 +18,18 @@ module Pinboard
 
     def title
       if blocked?
-        "#{t(:'pinboard.reporting.blocked')} #{@topic['title']}"
+        "#{t(:'pinboard.reporting.blocked')} #{@topic.title}"
       else
-        @topic['title']
+        @topic.title
       end
     end
 
     def blocked?
-      %w[blocked auto_blocked].include? @topic['abuse_report_state']
+      %w[blocked auto_blocked].include? @topic.workflow_state
     end
 
     def sticky?
-      @topic['sticky']
+      @topic.sticky
     end
 
     def url
@@ -37,27 +37,29 @@ module Pinboard
     end
 
     def votes
-      @topic['votes']
+      @topic.votes_sum
     end
 
     def views
-      @topic['views']
+      @topic.watches.size
     end
 
     def reply_count
-      [@topic['answer_count'], @topic['comment_count'], @topic['answer_comment_count']].sum(&:to_i)
+      @topic.public_answers_count.to_i +
+        @topic.public_comments_count.to_i +
+        @topic.public_answer_comments_count.to_i
     end
 
     def answered?
-      @topic['accepted_answer_id'].present?
+      @topic.accepted_answer_id.present?
     end
 
     def closed?
-      @topic['closed']
+      @topic.closed
     end
 
     def read?
-      @topic['read']
+      @topic.user_watch.present? && (@topic.updated_at < @topic.user_watch.updated_at)
     end
 
     def tags
@@ -65,45 +67,33 @@ module Pinboard
     end
 
     def time_ago
-      time_ago_in_words(@topic['updated_at'])
+      time_ago_in_words(@topic.updated_at)
     end
 
     private
 
     def url_params
-      {
-        course_id: @course_code, id: @topic['id']
-      }.tap do |h|
-        h[:section_id] = @topic['section_id'] if @topic['section_id'].present?
-      end
+      {course_id: @course_code, id: @topic.id}
     end
 
     def user_tags
-      return if @topic['user_tags'].blank?
-
-      @topic['user_tags'].map(&:to_h).map do |h|
-        h.transform_keys(&:to_sym)
-      end
+      @topic.explicit_tags.map {|tag| {name: tag.name, id: tag.id} }
     end
 
     def implicit_tags
-      return if @topic['implicit_tags'].blank?
-
-      implicit_tags_collection = []
       # referenced resource can be a Xikolo::Course::Section or a Xikolo::Course::Item
-      resource_types = %w[Xikolo::Course::Section Xikolo::Course::Item]
-
-      @topic['implicit_tags'].each do |tag|
-        if resource_types.include? tag['referenced_resource']
-          section = tag['referenced_resource'].constantize.find tag['name']
-          Acfs.run
-          implicit_tags_collection << {name: section.title, id: tag['id']}
+      resource_types = {
+        'Xikolo::Course::Section' => CourseService::Section,
+        'Xikolo::Course::Item' => CourseService::Item,
+      }
+      @topic.implicit_tags.map do |tag|
+        resource_class = resource_types[tag.referenced_resource]
+        if resource_class
+          {name: resource_class.find(tag.name).title, id: tag.id}
         else
-          implicit_tags_collection << {name: tag['name'], id: tag['id']}
+          {name: tag.name, id: tag.id}
         end
       end
-
-      implicit_tags_collection
     end
   end
 end

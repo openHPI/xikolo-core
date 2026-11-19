@@ -1,0 +1,25 @@
+<div class="x-card bg-accent-25 text-accent-content p-5 w-full">
+  <h2 class="h2 pb-5">
+    <%= t(:'quiz_submission.instruction') %>
+  </h2>
+
+  <div class="prose prose-sm max-w-none" lang="<%= item.lang %>">
+    <%== render_markdown item.instructions %>
+  </div>
+
+  <% unless item.survey? %>
+    <%= render 'items/quiz/quiz_properties', presenter: item, highlight_quiz_properties: true %>
+  <% end %>
+
+  <% if item.submission_deadline_passed? && current_user.instrumented? %>
+    <%= render Global::Callout.new(t(:'quiz_submission.masq_warning'), type: :error) %>
+  <% end %>
+
+  <% action = item.instruction_action %>
+
+  <% if action == :locked %>
+    <%= render Global::Callout.new(t(:'items.exam.locked_hint', percentage: item.minimum_progress_percentage), type: :error) %>
+  <% end %>
+
+  <%= render 'items/quiz/bottom_bar', item:, action: %>
+</div>

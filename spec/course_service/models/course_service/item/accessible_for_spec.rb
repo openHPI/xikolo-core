@@ -15,7 +15,7 @@ describe CourseService::Item, '#accessible_for' do
     end
 
     context 'with a user ID' do
-      let(:user_id) { generate(:user_id) }
+      let(:user_id) { create(:'account_service/user').id }
 
       it { is_expected.to be true }
     end
@@ -47,7 +47,7 @@ describe CourseService::Item, '#accessible_for' do
     end
 
     context 'with a user ID' do
-      let(:user_id) { generate(:user_id) }
+      let(:user_id) { create(:'account_service/user').id }
 
       context 'the user is not assigned to a content test group' do
         # The user is automatically assigned to a group (branch 1) when requesting the item.
@@ -72,7 +72,7 @@ describe CourseService::Item, '#accessible_for' do
 
       context 'the user is already assigned to a content test group (branch 2)' do
         before do
-          CourseService::Duplicated::Membership.create!(user_id:, group_id: fork.branches[1].group_id)
+          AccountService::Membership.create!(user_id:, group_id: fork.branches[1].group_id)
         end
 
         context 'regular item' do

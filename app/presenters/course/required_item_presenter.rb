@@ -4,13 +4,13 @@ module Course
   class RequiredItemPresenter
     # Gathers the required items for an item in the context of a user
     #
-    # @param item [Course::Item] the item with requirements
+    # @param item [CourseService::Item] the item with requirements
     # @param user [Account::User] the user to determine requirements fulfillment for
-    # @return [Array<Course::Item>] a list of required items, or nil if all requirements are fulfilled
+    # @return [Array<CourseService::Item>] a list of required items, or nil if all requirements are fulfilled
     def self.requirements_for(item, user)
       return if item['required_item_ids'].blank?
 
-      required_items = ::Course::Item.where(id: item['required_item_ids']).map do |req_item|
+      required_items = ::CourseService::Item.where(id: item['required_item_ids']).map do |req_item|
         new(req_item, user)
       end
 

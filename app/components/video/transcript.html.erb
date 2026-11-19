@@ -1,0 +1,12 @@
+<div class="transcript bg-accent-25 text-accent-content" data-transcript <% if @initial_hidden_state %>hidden<% end %>>
+  <div class="hidden-scroll-indicator blank cpointer" data-transcript-indicator role="button">
+    <span class="text-container">
+      <i class="fa direction-icon" aria-hidden="true" data-transcript-icon></i>
+      <%= @scroll_button_text %>
+    </span>
+  </div>
+  <ol class="transcript__cues" tabindex="-1" data-transcript-cues>
+  </ol>
+  <p class="transcript__empty-state" data-transcript-message hidden><%= @empty_msg %></p>
+  <div class="absolute place-self-center inset-0" data-transcript-loading><%= render State::Loading.new %></div>
+</div>

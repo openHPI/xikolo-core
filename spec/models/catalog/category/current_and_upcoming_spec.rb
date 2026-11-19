@@ -18,7 +18,7 @@ describe Catalog::Category::CurrentAndUpcoming, type: :model do
   end
 
   it 'does not include courses that should be hidden on the course list' do
-    create(:course, :active, show_on_list: false)
+    create(:course, :active, placement: [])
 
     expect(category.courses).to be_empty
   end
@@ -35,8 +35,8 @@ describe Catalog::Category::CurrentAndUpcoming, type: :model do
     expect(category.courses).to be_empty
   end
 
-  it 'does not include archived courses' do
-    create(:course, :archived)
+  it 'does not include self_paced courses' do
+    create(:course, :self_paced)
 
     expect(category.courses).to be_empty
   end

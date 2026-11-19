@@ -18,11 +18,7 @@ class VideoItemPresenter < ItemPresenter
   end
 
   def forum_locked?
-    course_pinboard_closed? || Course::Section.find(@item['section_id']).pinboard_closed
-  end
-
-  def featured_image
-    @video.thumbnail
+    course_pinboard_closed? || CourseService::Section.find(@item['section_id']).pinboard_closed
   end
 
   def meta_tags
@@ -31,7 +27,7 @@ class VideoItemPresenter < ItemPresenter
         # mandatory:
         title:,
         type: 'video',
-        image: @video.pip_stream&.poster,
+        image: @video.pip_stream&.poster_url,
         url: Xikolo.base_url.join(
           course_item_path(
             course_id: @course.course_code,

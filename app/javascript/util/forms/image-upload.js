@@ -3,8 +3,8 @@
  * See app/inputs/image_upload_input.rb
  */
 
-import Dropzone from '../../../../vendor/assets/javascripts/dropzone';
-import ready from '../../util/ready';
+import { Dropzone } from 'dropzone';
+import { turboReady } from '../../util/ready';
 import sanitize from '../../util/sanitize';
 import I18n from '../../i18n/i18n';
 
@@ -87,6 +87,9 @@ const init = (el) => {
     opts.thumbnailHeight = targetHeight;
     opts.thumbnailMethod = 'crop';
     opts.resizeMethod = 'crop';
+    // Defer the accept decision until the thumbnail is generated, when
+    // file.width / file.height are known and the dimension check can run.
+    opts.accept = (file, done) => (file.done = done);
   }
 
   if (el.dataset.errorSize) {
@@ -246,7 +249,16 @@ const scan = (node = document) =>
     init,
   );
 
-ready(() => scan());
+turboReady(() => scan());
+
+document.addEventListener('turbo:before-cache', () => {
+  document.querySelectorAll('[data-imageupload]').forEach((el) => {
+    const elZone = el.querySelector('.xui-imageupload-zone');
+    if (elZone && elZone.dropzone) {
+      elZone.dropzone.destroy();
+    }
+  });
+});
 
 window.xui = !window.xui ? {} : window.xui;
 window.xui.imageupload = {

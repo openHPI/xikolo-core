@@ -50,12 +50,12 @@ describe Navigation::SystemAlerts, type: :component do
 
       expect(page).to have_css '[aria-label="Alerts"][aria-expanded="true"]'
       expect(page).to have_css '[role="status"]', count: 2, visible: :all
-      expect(page).to have_content 'Published recent alert'
-      expect(page).to have_content 'Text for old alert'
-      expect(page).to have_content 'Published old alert'
-      expect(page).to have_content 'Text for recent alert'
+      expect(page).to have_text 'Published recent alert'
+      expect(page).to have_text 'Text for old alert'
+      expect(page).to have_text 'Published old alert'
+      expect(page).to have_text 'Text for recent alert'
       expect(page).to have_link(text: 'link', href: 'https://www.example.com')
-      expect(page).to have_no_content 'Some title'
+      expect(page).to have_no_text 'Some title'
     end
 
     context 'one of them seen already' do
@@ -78,9 +78,9 @@ describe Navigation::SystemAlerts, type: :component do
       it 'returns the content for the platform default locale by default' do
         render_inline(component)
 
-        expect(page).to have_content 'Published recent alert'
-        expect(page).to have_content 'Published old alert'
-        expect(page).to have_no_content 'Deutscher Titel'
+        expect(page).to have_text 'Published recent alert'
+        expect(page).to have_text 'Published old alert'
+        expect(page).to have_no_text 'Deutscher Titel'
       end
 
       context 'when requesting a specific language that is available' do
@@ -88,21 +88,23 @@ describe Navigation::SystemAlerts, type: :component do
           I18n.with_locale(:de) do
             render_inline(component)
 
-            expect(page).to have_content 'Published old alert'
-            expect(page).to have_content 'Deutscher Titel'
+            expect(page).to have_text 'Published old alert'
+            expect(page).to have_text 'Deutscher Titel'
           end
         end
       end
 
       context 'when requesting only a language that is not available' do
+        before { I18n.available_locales |= [:it] }
+        after  { I18n.available_locales -= [:it] }
+
         it 'returns the platform default locale content everywhere' do
-          I18n.available_locales += [:it]
           I18n.with_locale(:it) do
             render_inline(component)
 
-            expect(page).to have_content 'Published recent alert'
-            expect(page).to have_content 'Published old alert'
-            expect(page).to have_no_content 'Deutscher Titel'
+            expect(page).to have_text 'Published recent alert'
+            expect(page).to have_text 'Published old alert'
+            expect(page).to have_no_text 'Deutscher Titel'
           end
         end
       end

@@ -18,7 +18,7 @@ describe QuizService::Quiz, type: :model do
   describe '#attempt!' do
     subject(:attempt) { quiz.attempt!(user_id) }
 
-    let(:user_id) { generate(:user_id) }
+    let(:user_id) { create(:'account_service/user').id }
 
     context 'when there is a submitted submission for the user' do
       let!(:existing_submission) { create(:'quiz_service/quiz_submission', :submitted, quiz:, user_id:) }

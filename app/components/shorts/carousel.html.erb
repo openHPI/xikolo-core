@@ -1,0 +1,119 @@
+<div
+  class="max-w-main-content relative mx-auto flex items-center gap-4"
+  data-controller="shorts-carousel"
+  data-shorts-carousel-infinite-value="<%= infinite_scroll? %>"
+  role="region"
+  aria-roledescription="<%= t(:'components.shorts_carousel.role_description') %>"
+  aria-label="<%= t(:'components.shorts_carousel.label') %>"
+>
+  <button
+    class="x-btn x-btn-circle pointer-coarse:hidden"
+    hidden
+    data-shorts-carousel-target="navButton"
+    data-action="click->shorts-carousel#scrollBack"
+    aria-label="<%= t(:'components.shorts_carousel.scroll_back') %>"
+    tabindex="-1"
+  >
+    <%= render Global::FaIcon.new('chevron-left', style: :solid) %>
+  </button>
+
+  <div
+    class="x-carousel x-carousel-center x-rounded-box w-full space-x-4"
+    data-shorts-carousel-target="carousel"
+  >
+    <% carousel_items.each do |item| %>
+      <button
+        class="x-carousel-item group px-2 py-5"
+        data-action="click->shorts-carousel#openDialog"
+        data-shorts-carousel-target="item"
+        data-video-src="<%= signed_url_short_path(item[:id]) %>"
+        aria-label="<%= t(:'components.shorts_carousel.play_video') %>"
+        <% if item[:clone] %>
+          aria-hidden="true"
+          tabindex="-1"
+        <% end %>
+      >
+        <div
+          class="relative transition-transform duration-300"
+          data-shorts-carousel-target="zoomItem"
+        >
+          <div class="aspect-9/16 w-54">
+            <%= image_tag item[:thumbnail], alt: '', loading: 'lazy', class: "w-full h-full object-cover x-rounded-box" %>
+          </div>
+
+          <div class="absolute inset-0 flex items-center justify-center">
+            <%= render Global::FaIcon.new('play', css_classes: 'text-neutral-100 text-4xl drop-shadow-lg group-hover:scale-110 transition-transform', style: :solid) %>
+          </div>
+        </div>
+      </button>
+    <% end %>
+  </div>
+
+  <button
+    class="x-btn x-btn-circle pointer-coarse:hidden"
+    hidden
+    data-shorts-carousel-target="navButton"
+    data-action="click->shorts-carousel#scrollForward"
+    aria-label="<%= t(:'components.shorts_carousel.scroll_forward') %>"
+    tabindex="-1"
+  >
+    <%= render Global::FaIcon.new('chevron-right', style: :solid) %>
+  </button>
+
+  <dialog
+    class="x-modal"
+    data-shorts-carousel-target="dialog"
+    data-action="close->shorts-carousel#onDialogClose"
+  >
+    <div
+      class="
+        x-modal-box relative aspect-9/16 overflow-visible
+        h-[min(48rem,calc(100dvh-5rem),calc((100vw-2rem)*16/9))] w-auto p-0
+        sm:h-[min(48rem,calc(100dvh-5rem),calc((100vw-9rem)*16/9))]
+      "
+    >
+      <button
+        class="x-btn x-btn-circle absolute top-1/2 right-full mr-4 -translate-y-1/2 max-sm:hidden"
+        data-action="click->shorts-carousel#playPrevious"
+        aria-label="<%= t(:'components.shorts_carousel.play_previous') %>"
+      >
+        <%= render Global::FaIcon.new('chevron-left', style: :solid) %>
+      </button>
+
+      <video-player
+        class="block h-full w-full"
+      >
+        <video-skin class="h-full w-full [--media-border-radius:var(--radius-box)]">
+          <hlsjs-video
+            class="block h-full w-full"
+            loop
+            playsinline
+            disablepictureinpicture
+            data-shorts-carousel-target="video"
+          ></hlsjs-video>
+        </video-skin>
+      </video-player>
+
+      <form method="dialog" class="absolute top-0 left-full ml-4 max-sm:hidden">
+        <button
+          class="x-btn x-btn-circle"
+          aria-label="<%= t(:'global.close') %>"
+        >
+          <%= render Global::FaIcon.new('xmark', style: :solid) %>
+        </button>
+      </form>
+
+      <button
+        class="x-btn x-btn-circle absolute top-1/2 left-full ml-4 -translate-y-1/2 max-sm:hidden"
+        data-action="click->shorts-carousel#playNext"
+        aria-label="<%= t(:'components.shorts_carousel.play_next') %>"
+      >
+        <%= render Global::FaIcon.new('chevron-right', style: :solid) %>
+      </button>
+    </div>
+
+    <form method="dialog" class="x-modal-backdrop">
+      <button><%= t(:'global.close') %></button>
+    </form>
+  </dialog>
+</div>

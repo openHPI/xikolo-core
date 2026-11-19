@@ -1,0 +1,46 @@
+<%# Header bar, default is the course item header; overwrite via :course_area_header (renders into larger :page_header). %>
+<% if content_for?(:course_area_header) %>
+  <% content_for :page_header do %>
+    <%= yield :course_area_header %>
+  <% end %>
+<% else %>
+  <%= render 'shared/course_item_header', course: course_layout, item: @item_presenter %>
+<% end %>
+
+<% content_for :pre_main do %>
+  <%# TEACHER MENU %>
+  <%# For teachers, we show a menu with all teacher pages on the left side of the %>
+  <%# screen (if there is enough room). %>
+  <%= render 'course/shared/teacher_nav', teacher_nav: course_layout.teacher_nav %>
+<% end %>
+
+<% content_for :main_background_class, 'bg-accent' if course_area_variant == :accent %>
+
+<% content_for :main do %>
+  <div class="px-3.75 lg:px-16">
+    <div class="mx-auto container">
+      <%# Preselects the course in the helpdesk %>
+      <div id="course_id_container" hidden><%= course_layout.id %></div>
+
+      <%# Main content %>
+      <% unless course_area_variant == :full_width %>
+        <div class="mt15"></div>
+        <div id="<%= course_layout.course_code %>">
+          <% if content_for?(:course_area_main) %>
+            <%= yield :course_area_main %>
+          <% else %>
+            <%= yield %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <% if course_area_variant == :full_width %>
+    <div id="<%= course_layout.course_code %>">
+      <%= yield %>
+    </div>
+  <% end %>
+<% end %>
+
+<%= render template: 'layouts/application' %>

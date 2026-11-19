@@ -3,6 +3,7 @@
 class Course::Admin::AnnouncementForm < XUI::Form
   self.form_name = 'announcement'
 
+  attribute :id, :uuid
   attribute :title, :single_line_string
   attribute :publish_at, :datetime
   attribute :text, :markup

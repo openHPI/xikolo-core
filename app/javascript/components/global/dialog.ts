@@ -1,4 +1,4 @@
-import ready from '../../util/ready';
+import { turboReady } from '../../util/ready';
 
 const initializeDialog = (dialog: HTMLDialogElement) => {
   const triggerButton = document.querySelector(
@@ -23,7 +23,7 @@ const initializeDialog = (dialog: HTMLDialogElement) => {
   );
 };
 
-ready(() => {
+turboReady(() => {
   const dialogs = document.querySelectorAll<HTMLDialogElement>(
     'dialog[data-behavior=dialog]',
   );

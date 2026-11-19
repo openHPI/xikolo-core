@@ -14,6 +14,10 @@ class API::MembershipsController < API::RESTController # rubocop:disable Layout/
     respond_with collection
   end
 
+  def show
+    respond_with resource
+  end
+
   def create
     begin
       membership = Membership.find_or_create_by!(user:, group:)
@@ -30,10 +34,6 @@ class API::MembershipsController < API::RESTController # rubocop:disable Layout/
     end
 
     respond_with membership
-  end
-
-  def show
-    respond_with resource
   end
 
   def destroy

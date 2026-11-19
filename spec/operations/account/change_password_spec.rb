@@ -8,24 +8,13 @@ describe Account::ChangePassword, type: :operation do
   before do
     Stub.request(
       :account, :post, '/sessions',
-      body: hash_including(ident: 'bob@example.com', password: 'old_secret')
+      body: hash_including(ident: current_user.email, password: 'old_secret')
     ).to_return check_password_response
   end
 
-  let(:current_user) do
-    Xikolo::Common::Auth::CurrentUser.from_session({
-      'id' => current_session.id,
-      'user_id' => user.id,
-      'user' => {
-        'anonymous' => false,
-        'email' => 'bob@example.com',
-      },
-      'features' => current_user_features,
-    })
-  end
-  let(:current_user_features) { {} }
-  let(:user) { create(:'account_service/user') }
+  let(:user) { create(:'account_service/user', primary_email: build(:'account_service/email', address: 'bob@example.com')) }
   let(:current_session) { create(:'account_service/session', user:) }
+  let(:current_user) { CurrentUser::User.new(session: current_session, context_id: 'root') }
   let!(:other_sessions) { create_list(:'account_service/session', 3, user:) }
   let!(:other_user_sessions) { create_list(:'account_service/session', 2) }
   let(:params) do
@@ -37,11 +26,13 @@ describe Account::ChangePassword, type: :operation do
   end
 
   let!(:change_password_stub) do
-    Stub.request(:account, :patch, "/users/#{current_user.id}")
-      .to_return change_password_response
+    Stub.request(
+      :account, :patch, "/users/#{current_user.id}",
+      body: hash_including(password: 'new_secret')
+    ).to_return change_password_response
   end
   let(:change_password_response) { Stub.response(status: 204) }
-  let(:check_password_response) { Stub.json({user_id: user.id}) }
+  let(:check_password_response) { Stub.json({user_id: current_user.id}) }
 
   it { is_expected.to be_success }
 
@@ -53,24 +44,14 @@ describe Account::ChangePassword, type: :operation do
     ).to have_been_requested
   end
 
-  it 'does not touch existing sessions by default' do
-    expect { operation }.not_to change(Account::Session, :count).from(6)
-  end
+  it "removes all of the user's sessions except for the current one" do
+    expect { operation }.to change(AccountService::Session, :count).from(6).to(3)
 
-  context 'when configured via feature flipper' do
-    let(:current_user_features) { {'password_change.remove_sessions' => true} }
-
-    it { is_expected.to be_success }
-
-    it "removes all of the user's sessions except for the current one" do
-      expect { operation }.to change(Account::Session, :count).from(6).to(3)
-
-      expect(current_session.reload).not_to be_destroyed
-      other_sessions.each do |s|
-        expect { s.reload }.to raise_error(ActiveRecord::RecordNotFound)
-      end
-      expect(other_user_sessions.map(&:reload)).to all be_persisted
+    expect(current_session.reload).not_to be_destroyed
+    other_sessions.each do |s|
+      expect { s.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
+    expect(other_user_sessions.map(&:reload)).to all be_persisted
   end
 
   context 'when the old password is not correct' do

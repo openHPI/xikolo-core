@@ -13,12 +13,6 @@ html(
     = sentry_meta_tags
 
     /
-    / Deprecated: Include GON for passing information to JavaScript
-    / - Needed for the lanalytics plugin
-    /
-    = include_gon(init: true)
-
-    /
     / Tools, Applications and Icons
     /
 
@@ -33,34 +27,18 @@ html(
     = stylesheet_link_tag 'styles', media: 'all', crossorigin: 'anonymous', integrity: true, 'data-turbo-track': Rails.env.production? ? 'reload' : ''
     = stylesheet_link_tag 'tailwind', media: 'all', crossorigin: 'anonymous', integrity: true, 'data-turbo-track': Rails.env.production? ? 'reload' : ''
 
-    / Shim for ready() function to queue calls until main.js loads
-    javascript:
-      window.fnQueue = window.fnQueue || {};
-
-      window.ready = window.ready || function(fn) {
-        window.fnQueue.ready = window.fnQueue.ready || [];
-        window.fnQueue.ready.push(fn);
-      };
-
-      // Shim for jQuery to queue calls until library loads
-      window.$ = window.jQuery = window.$ || function() {
-        var args = arguments;
-        window.fnQueue.jQuery = window.fnQueue.jQuery || [];
-        window.fnQueue.jQuery.push({ context: this, args: args });
-        return window.$;
-      };
-      window.$.fn = window.$.prototype = window.$ || {};
-
-    = javascript_include_tag 'app/javascript/main', type: 'module', defer: true, 'data-turbo-track': Rails.env.production? ? 'reload' : ''
+    = javascript_include_tag 'main', type: 'module', defer: true, 'data-turbo-track': Rails.env.production? ? 'reload' : ''
 
     // Analytics
-    = javascript_include_tag 'app/javascript/legacy/lanalytics/index', type: 'module', 'data-turbo-track': Rails.env.production? ? 'reload' : ''
-    = render 'shared/piwik'
+    = render 'shared/matomo'
 
     - if content_for? :head_assets
       = yield :head_assets
 
   body class="layout-simple"
+
+    / Matomo fallback for browsers without JavaScript
+    = render 'shared/matomo_noscript'
 
     / Flash messages
     = render Global::FlashBlock.new(flash.tap(&:discard))

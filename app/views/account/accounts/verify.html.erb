@@ -1,0 +1,20 @@
+<% content_for :main_background do %>
+  <%= render 'account/shared/background' %>
+<% end %>
+
+<div class="flex justify-center px-4 py-8 md:py-16">
+  <div class="x-card bg-base-100 w-full max-w-170">
+    <div class="x-card-body">
+      <h1 class="x-card-title text-xl font-medium sm:text-3xl">
+        <%= t(:'account.accounts.verify.headline') %>
+      </h1>
+
+      <p class="text-base"><%= t(:'account.accounts.verify.message') %></p>
+      <p class="text-base"><%= t(:'account.accounts.verify.notice') %></p>
+
+      <div class="x-divider text-sm sm:text-base">
+        <%= link_to t(:'account.accounts.verify.back_link'), root_url, class: "x-link font-semibold" %>
+      </div>
+    </div>
+  </div>
+</div>

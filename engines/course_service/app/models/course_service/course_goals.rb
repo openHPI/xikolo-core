@@ -24,6 +24,7 @@ class CourseGoals # rubocop:disable Layout/IndentationWidth
       relevant_sections = Section.published.mandatory.where(alternative_state: 'none')
 
       @course.items.published.mandatory
+        .not_exams
         .joins(:section).merge(relevant_sections)
         .count
     end
@@ -34,7 +35,7 @@ class CourseGoals # rubocop:disable Layout/IndentationWidth
   # sections of a course. Alternative sections are ignored.
   #
   # This can be used, for example, to determine how many points can be achieved
-  # for a Record of Achievement.
+  # for a RoA aka Certificate.
   #
   def max_dpoints
     @max_dpoints ||= begin

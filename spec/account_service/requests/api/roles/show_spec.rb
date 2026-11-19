@@ -10,7 +10,6 @@ describe 'Role: Show', type: :request do
     subject(:resource) { api.rel(:role).get({id: role.id}).value! }
 
     it 'responds successful' do
-      puts "Requesting role by ID: #{account_service_url}"
       expect(resource).to respond_with :ok
     end
 

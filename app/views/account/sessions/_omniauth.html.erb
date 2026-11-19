@@ -1,0 +1,20 @@
+<ul class="x-list gap-5">
+  <% OMNIAUTH_PROVIDERS.each do |key| %>
+    <li>
+      <% if I18n.exists?("header.login.omniauth.#{key}_notice") %>
+        <p class="text-sm sm:text-lg mb-2">
+          <%= t(:"header.login.omniauth.#{key}_notice") %>
+        </p>
+      <% end %>
+      <%= link_to auth_path(key),
+        class: "x-btn rounded-2xl font-semibold w-full gap-3 shadow-none #{omniauth_provider_btn_class(key)}",
+        data: {provider: key},
+        role: 'button' do %>
+        <% if (icon = omniauth_provider_icon(key)) %>
+          <%= image_tag icon, alt: '', class: 'h-6 w-6', aria: {hidden: true} %>
+        <% end %>
+        <span><%= t(:"header.login.omniauth.#{key}") %></span>
+      <% end %>
+    </li>
+  <% end %>
+</ul>

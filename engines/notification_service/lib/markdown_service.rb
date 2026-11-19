@@ -11,7 +11,7 @@ module MarkdownService
     def renderer
       @renderer ||= Redcarpet::Markdown.new(
         Redcarpet::Render::HTML.new(
-          no_images: true,
+          no_images: false,
           no_links: false,
           filter_html: true
         ),

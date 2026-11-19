@@ -13,7 +13,7 @@ class ResultReporter # rubocop:disable Layout/IndentationWidth
       {
         user_id: submission.user_id,
         item_id: item['id'],
-        points: submission.points,
+        points: reported_points(submission),
       },
       params: {id: submission.id}
     ).value!
@@ -23,6 +23,13 @@ class ResultReporter # rubocop:disable Layout/IndentationWidth
 
   def item
     @item ||= course_api.rel(:items).get({content_id: @quiz_id}).value!.first
+  end
+
+  def reported_points(submission)
+    return submission.points unless submission.quiz.question_pool?
+    return 0 if submission.max_points.zero?
+
+    submission.points / submission.max_points * item['max_points']
   end
 
   def course_api

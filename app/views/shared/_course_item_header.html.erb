@@ -1,0 +1,29 @@
+<% content_for :page_header do %>
+  <%= render Global::PageHeader.new(
+        course.title,
+        lang: course.lang,
+        breadcrumbs: course.breadcrumbs(view_context: self),
+        back_url: (course_path(course.course_code) if item),
+        type: :slim
+      ) do |header| %>
+    <%= render 'course/shared/course_admin_action', course:, in_teacher_context: false %>
+
+    <% if course_nav_tab && !course.external? %>
+      <% header.with_navigation do %>
+        <%= render Course::Navigation.new(
+              course_code: course.course_code,
+              active: course_nav_tab,
+              locked: !course.content_accessible?,
+              forum: course.pinboard_enabled?,
+              recap_url: (recap_path(course_id: course.id) if course.was_available?),
+              unread_announcements: course.unread_announcements.count
+            ) %>
+      <% end %>
+    <% end %>
+
+    <%# Item pages show the item they are on inside the header %>
+    <% if item %>
+      <%= render 'items/header', header:, item: %>
+    <% end %>
+  <% end %>
+<% end %>

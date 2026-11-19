@@ -2,7 +2,7 @@
   position: fixed;
   z-index: $z-index-m;
   right: calc(env(safe-area-inset-right) + 10px);
-  bottom: 10px;
+  bottom: 90px;
 
   display: flex;
   width: 50px;
@@ -17,28 +17,19 @@
   box-shadow: $box-shadow-s;
 
   color: $white;
-  font-size: 2rem;
+  font-size: legacy-rem(2rem);
 
   transition: bottom 0.1s;
 
   @include small {
     right: calc(env(safe-area-inset-right) + 20px);
-    bottom: 20px;
     font-size: $font-size-sm;
-  }
-
-  &--bottom-reached {
-    bottom: 50px;
-
-    & + .helpdesk-panel {
-      bottom: 130px;
-    }
   }
 }
 
 .helpdesk-panel {
   position: fixed;
-  z-index: $z-index-l;
+  z-index: $z-index-xl;
 
   // Align to top under navigation bar
   top: $navbar-height;

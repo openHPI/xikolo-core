@@ -11,9 +11,22 @@ This helps us unify the look and feel of all filters in the platform.
 
 These components are:
 
+- `Global::FilterBar::Form`
 - `Global::FilterBar::Filter`
 - `Global::FilterBar::Search`
 - `Global::FilterBar::Controls`
+
+## FilterBar::Form
+
+The shared GET form lays out the search field, optional controls, and filters.
+Page-specific components supply the action, search parameter, and filter definitions.
+Use its `controls` slot for reset controls below the filters.
+Call `with_controls` to build `Controls` using the form's action, filters, and search parameter.
+Optionally pass `content_id:` and `loading_indicator_id:` together to enable loading feedback.
+Omit the slot when reset controls are not needed inside the form.
+
+Catalog and channel pages render their sticky overview outside the form, within the course list.
+This preserves the overview's scrolling container and keeps its applied filters, result count, Adjust, and Reset actions.
 
 ## FilterBar::Filter
 
@@ -26,10 +39,9 @@ The optional `selected` parameter indicates the selected option.
 ## FilterBar::Search
 
 A search box element.
-It uses the `clear-button.js` util to reset the input element when clicking to a close button.
 
-`Home::Course::FilterBar` does not use this search component.
-For this specific filter bar, we use a particular input element that has a floating placeholder and is inlined in the `FilterBar` template component.
+All filter bars use this search component.
+Its optional `label` preserves page-specific accessible search text while sharing the same input and submit button.
 
 ## FilterBar::Controls
 
@@ -50,8 +62,10 @@ For this, it uses the `hide-on-click.js` util.
 It uses the `show-on-click.js` util.
 - The available `filters`.
 
+The loading selectors may both be `nil` when loading feedback is not needed.
+
 Optional parameters:
 
-- The `result_count`.
-- When `show_overview` is set to true, a message bar showing an overview of the filters applied will be displayed sticked to the top of the page when scrolling down the filter bar.
-For this, it uses the `fixed-bar.js` util.
+- The `results_count`.
+- The `search_param`, defaulting to `q`, for pages with a different search parameter.
+- When `show_overview` is set to true, a message bar showing an overview of the filters applied will stick to the top of the page when scrolling down the course list.

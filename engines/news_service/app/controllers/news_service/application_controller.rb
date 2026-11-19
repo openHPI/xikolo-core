@@ -11,6 +11,10 @@ class ApplicationController < ActionController::Base # rubocop:disable Layout/In
     render status: :bad_request, json: {error: e.message}
   end
 
+  rescue_from ActiveRecord::RecordInvalid do |e|
+    render json: {errors: e.record.errors}, status: :unprocessable_content
+  end
+
   def set_default_format
     request.format = :json if request.accept.blank?
   end

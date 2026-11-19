@@ -24,9 +24,9 @@
       long an Acfs resource.
 
   - unless @multiple_choice_question.nil?
-    = render 'quiz_questions/question_forms/form_multiple_choice_question', question: @multiple_choice_question
+    = render 'quiz_questions/question_forms/form_selectable_answer_question', question: @multiple_choice_question, in_exam: @item.exercise_type == 'exam'
   - unless @multiple_answer_question.nil?
-    = render 'quiz_questions/question_forms/form_multiple_answer_question', question: @multiple_answer_question
+    = render 'quiz_questions/question_forms/form_selectable_answer_question', question: @multiple_answer_question, in_exam: @item.exercise_type == 'exam'
   - unless @free_text_question.nil?
     = render 'quiz_questions/question_forms/form_free_text_question', question: @free_text_question
   - unless @essay_question.nil?
@@ -35,5 +35,5 @@
 
   = f.button :submit, t(:'.submit'), class: 'btn btn-primary mr10'
 
-  .btn.btn-default onclick="$(this).closest('.edit_form_quiz_wrapper').hide();"
+  button.btn.btn-default type="button" data-controller="hide-closest" data-action="hide-closest#hide" data-hide-closest-selector-value=".edit_form_quiz_wrapper"
     = t(:'global.cancel')

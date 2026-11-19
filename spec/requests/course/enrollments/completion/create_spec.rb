@@ -9,9 +9,9 @@ describe 'Course: Enrollments: Completion: Create', type: :request do
   end
 
   let(:headers) { {} }
-  let(:user) { attributes_for(:'account_service/user', id: generate(:user_id)) }
-  let(:course) { create(:course, :archived, title: 'My course') }
-  let(:enrollment) { create(:enrollment, course:, user_id: user[:id]) }
+  let(:user) { create(:'account_service/user') }
+  let(:course) { create(:course, :self_paced, title: 'My course') }
+  let(:enrollment) { create(:enrollment, course:, user_id: user.id) }
 
   context 'for anonymous user' do
     it 'redirects to login page' do
@@ -20,11 +20,9 @@ describe 'Course: Enrollments: Completion: Create', type: :request do
   end
 
   context 'for logged-in user' do
-    let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
-
     context 'for the user\'s enrollment' do
       before do
-        stub_user_request id: enrollment.user_id
+        sign_in(user:)
       end
 
       it 'updates the enrollment' do
@@ -35,8 +33,10 @@ describe 'Course: Enrollments: Completion: Create', type: :request do
     end
 
     context 'for another user\'s enrollment' do
+      let(:other_user) { create(:'account_service/user') }
+
       before do
-        stub_user_request id: generate(:user_id)
+        sign_in(user: other_user)
       end
 
       it 'does not update the enrollment' do

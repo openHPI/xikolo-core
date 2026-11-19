@@ -35,7 +35,7 @@ class ItemStatistics # rubocop:disable Layout/IndentationWidth
   private
 
   def results
-    @item.user_results
+    @item.results
   end
 end
 end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class SupplementVideoProvidersToSupportMultipleTypes < ActiveRecord::Migration[5.2]
-  # rubocop:disable Rails/BulkChangeTable
+  # rubocop:disable-next Rails/BulkChangeTable
   def change
     change_table :providers, bulk: true do |t|
       t.string :provider_type
@@ -16,5 +16,4 @@ class SupplementVideoProvidersToSupportMultipleTypes < ActiveRecord::Migration[5
     change_column_null :providers, :provider_type, false
     change_column_null :providers, :credentials, false
   end
-  # rubocop:enable Rails/BulkChangeTable
 end

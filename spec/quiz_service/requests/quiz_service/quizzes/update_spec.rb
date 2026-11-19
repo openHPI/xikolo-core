@@ -16,6 +16,21 @@ RSpec.describe 'Quiz: Update', type: :request do
     expect { modification; quiz.reload }.to change(quiz, :time_limit_seconds).from(60).to(4242)
   end
 
+  it 'updates the question pool setting' do
+    expect { api.rel(:quiz).patch({question_pool: true}, params: {id: quiz.id}).value! }
+      .to change { quiz.reload.question_pool }.from(false).to(true)
+  end
+
+  it 'rejects question pools for non-main quizzes' do
+    create(:'course_service/item', :quiz, content_id: quiz.id, exercise_type: 'selftest')
+
+    expect { api.rel(:quiz).patch({question_pool: true}, params: {id: quiz.id}).value! }
+      .to raise_error(Restify::ClientError) do |error|
+        expect(error.status).to eq :unprocessable_content
+        expect(error.errors).to eq 'question_pool' => ['is only available for exams']
+      end
+  end
+
   context 'instructions with file upload references' do
     let(:instructions) { 'upload://b5f99337-224f-40f5-aa82-44ee8b272579/foo.jpg' }
     let(:payload) { super().merge instructions: }
@@ -23,7 +38,7 @@ RSpec.describe 'Quiz: Update', type: :request do
     it 'stores valid upload and updates quiz' do
       stub_request(
         :head,
-        'https://s3.xikolo.de/xikolo-uploads/' \
+        "#{test_s3_host}/xikolo-uploads/" \
         'uploads/b5f99337-224f-40f5-aa82-44ee8b272579/foo.jpg'
       ).and_return(
         status: 200,
@@ -32,7 +47,7 @@ RSpec.describe 'Quiz: Update', type: :request do
           'X-Amz-Meta-Xikolo-State' => 'accepted',
         }
       )
-      store_regex = %r{https://s3.xikolo.de/xikolo-quiz
+      store_regex = %r{#{test_s3_host}/xikolo-quiz
                        /quizzes/#{qid}/[0-9a-zA-Z]+_foo.jpg}x
       stub_request(:head, store_regex).and_return(status: 404)
       stub_request(:put, store_regex).and_return(status: 200, body: '<xml></xml>')
@@ -43,7 +58,7 @@ RSpec.describe 'Quiz: Update', type: :request do
     it 'rejects invalid upload and does not update the quiz' do
       stub_request(
         :head,
-        'https://s3.xikolo.de/xikolo-uploads/' \
+        "#{test_s3_host}/xikolo-uploads/" \
         'uploads/b5f99337-224f-40f5-aa82-44ee8b272579/foo.jpg'
       ).and_return(
         status: 200,
@@ -62,7 +77,7 @@ RSpec.describe 'Quiz: Update', type: :request do
     it 'rejects upload on storage errors' do
       stub_request(
         :head,
-        'https://s3.xikolo.de/xikolo-uploads/' \
+        "#{test_s3_host}/xikolo-uploads/" \
         'uploads/b5f99337-224f-40f5-aa82-44ee8b272579/foo.jpg'
       ).and_return(
         status: 200,
@@ -71,7 +86,7 @@ RSpec.describe 'Quiz: Update', type: :request do
           'X-Amz-Meta-Xikolo-State' => 'accepted',
         }
       )
-      store_regex = %r{https://s3.xikolo.de/xikolo-quiz
+      store_regex = %r{#{test_s3_host}/xikolo-quiz
                        /quizzes/#{qid}/[0-9a-zA-Z]+_foo.jpg}x
       stub_request(:head, store_regex).and_return(status: 404)
       stub_request(:put, store_regex).and_return(status: 503)

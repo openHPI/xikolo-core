@@ -35,15 +35,3 @@ $link-color-hover: color.adjust($link-color, $lightness: -8%, $space: hsl);
     @include suppress-dotted-border();
   }
 }
-
-.white-link {
-  font-weight: bold;
-
-  &:hover,
-  &:active,
-  &:focus,
-  &:visited {
-    color: white;
-    text-decoration: underline;
-  }
-}

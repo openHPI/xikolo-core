@@ -8,7 +8,7 @@ class QuestionsController < ApplicationController # rubocop:disable Layout/Inden
 
   respond_to :json
 
-  # rubocop:disable Layout/LineLength
+  # rubocop:disable-next Layout/LineLength
   def index
     begin
       tags = []
@@ -30,7 +30,7 @@ class QuestionsController < ApplicationController # rubocop:disable Layout/Inden
 
     tags = params[:taglist].values if params[:taglist].present?
 
-    if tags.count > 0 && params[:course_id]
+    if tags.any? && params[:course_id]
       questions = Question.by_tags(tags)
     elsif params[:with_tagnames]
       questions = Question.by_tag_names(params[:with_tagnames].values, question_index_params.to_h)
@@ -84,7 +84,6 @@ class QuestionsController < ApplicationController # rubocop:disable Layout/Inden
 
     respond_with questions
   end
-  # rubocop:enable Layout/LineLength
 
   def show
     @question = Question.find(params[:id])
@@ -125,7 +124,7 @@ class QuestionsController < ApplicationController # rubocop:disable Layout/Inden
     respond_with(@question)
   rescue ActiveRecord::RecordNotUnique
     @question.errors.add(:base, 'Question already exists.')
-    render status: :unprocessable_entity, json: {errors: @question.errors}
+    render status: :unprocessable_content, json: {errors: @question.errors.full_messages}
   end
 
   def update

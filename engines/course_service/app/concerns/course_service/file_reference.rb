@@ -77,7 +77,7 @@ module FileReference # rubocop:disable Layout/IndentationWidth
   def delete_old_s3_references
     # schedule deletion of all replaced S3 objects:
     @replaced_objects&.each do |uri|
-      FileDeletionWorker.perform_in 1.hour, uri
+      FileDeletionJob.set(wait: 1.hour).perform_later(uri)
     end
     @replaced_objects = nil
   end

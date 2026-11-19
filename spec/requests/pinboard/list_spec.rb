@@ -4,40 +4,12 @@ require 'spec_helper'
 
 describe 'Course: Pinboard: List', type: :request do
   subject(:list_threads) do
-    get "/courses/#{course.course_code}/pinboard", headers:, params:
+    get "/learn/#{course.id}/pinboard", params:
   end
 
-  let(:headers) { {} }
   let(:params) { {} }
-  let(:course) { create(:course) }
-  let(:course_resource) { build(:'course:course', course_code: course.course_code, id: course.id) }
+  let(:course) { create(:'course_service/course', :active) }
   let(:page) { Capybara::Node::Simple.new(response.body) }
-  let(:sections) { [] }
-  let(:threads) { [] }
-  let(:question_params) { {} }
-
-  before do
-    Stub.request(:course, :get, "/courses/#{course.course_code}")
-      .to_return Stub.json(course_resource)
-    Stub.request(:course, :get, '/next_dates', query: hash_including({}))
-      .to_return Stub.json([])
-    Stub.request(
-      :course, :get, '/sections',
-      query: {course_id: course.id}
-    ).to_return Stub.json([])
-    Stub.request(
-      :course, :get, '/sections',
-      query: {course_id: course.id, include_alternatives: true, published: true, available: true}
-    ).to_return Stub.json(sections)
-    Stub.request(:pinboard, :get, '/course_subscriptions',
-      query: hash_including(course_id: course.id))
-      .to_return Stub.json([])
-    Stub.request(:pinboard, :get, '/explicit_tags',
-      query: hash_including(course_id: course.id))
-      .to_return Stub.json([])
-    Stub.request(:pinboard, :get, '/questions',
-      query: hash_including(question_params)).to_return Stub.json(threads)
-  end
 
   context 'as an anonymous user' do
     it 'redirects to the login page' do
@@ -47,9 +19,9 @@ describe 'Course: Pinboard: List', type: :request do
   end
 
   context 'as a logged-in user' do
-    let(:headers) { {Authorization: "Xikolo-Session session_id=#{stub_session_id}"} }
+    let(:user) { create(:'account_service/user') }
 
-    before { stub_user_request }
+    before { sign_in(user:) }
 
     context 'not enrolled in the course' do
       it 'redirects to the course page' do
@@ -59,11 +31,10 @@ describe 'Course: Pinboard: List', type: :request do
     end
 
     context 'enrolled in the course' do
-      let!(:user) { stub_user_request permissions: %w[course.content.access] }
-      let(:question_params) { {course_id: course.id} }
-
       before do
-        create(:enrollment, course_id: course.id, user_id: user[:id])
+        role = create(:'account_service/role', permissions: %w[course.content.access])
+        create(:'account_service/grant', principal: user, role:)
+        create(:enrollment, course_id: course.id, user_id: user.id)
       end
 
       context 'without questions' do
@@ -75,12 +46,10 @@ describe 'Course: Pinboard: List', type: :request do
       end
 
       context 'with questions' do
-        let(:threads) do
-          [
-            build(:'pinboard:question', title: 'Question 1', course: course.id, updated_at: 2.hours.ago),
-            build(:'pinboard:question', title: 'Question 2', course: course.id, votes: 1, updated_at: 1.day.ago),
-            build(:'pinboard:question', title: 'Question 3', course: course.id, updated_at: 1.day.ago),
-          ]
+        before do
+          create(:'pinboard_service/question', title: 'Question 1', course_id: course.id, updated_at: 2.hours.ago)
+          create(:'pinboard_service/question_with_vote', title: 'Question 2', course_id: course.id, updated_at: 1.day.ago)
+          create(:'pinboard_service/question', title: 'Question 3', course_id: course.id, updated_at: 2.days.ago)
         end
 
         it 'lists all topics' do
@@ -150,9 +119,8 @@ describe 'Course: Pinboard: List', type: :request do
           xi_config <<~YML
             disable_technical_issues_section: false
           YML
+          create(:'course_service/section', course:, title: 'Week 1')
         end
-
-        let(:sections) { [build(:'course:section', title: 'Week 1', course_id: course.id)] }
 
         it 'shows a section select with the course section as option' do
           list_threads

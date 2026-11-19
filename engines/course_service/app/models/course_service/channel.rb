@@ -11,12 +11,11 @@ class Channel < ApplicationRecord # rubocop:disable Layout/IndentationWidth
     dependent: :destroy
 
   has_many :courses, through: :channels_courses
+  has_many :shorts, through: :courses
 
   validates :code, presence: true, uniqueness: true
   validate :validate_title_translations_structure
   validates :position, allow_nil: true, numericality: {only_integer: true}
-
-  default_scope { not_deleted.ordered }
 
   after_commit :destroy_referenced_files!, on: :destroy
 
@@ -63,7 +62,11 @@ class Channel < ApplicationRecord # rubocop:disable Layout/IndentationWidth
     end
 
     def by_identifier(param)
-      where(arel_table[:code].eq(param).or(arel_table[:id].eq(UUID4.try_convert(param))))
+      where(code: param).or where(id: UUID4.try_convert(param))
+    end
+
+    def public
+      where(archived: false, public: true)
     end
   end
 
@@ -91,10 +94,28 @@ class Channel < ApplicationRecord # rubocop:disable Layout/IndentationWidth
       return
     end
 
-    %w[de en].each do |locale|
-      value = title_translations[locale]
+    I18n.available_locales.each do |locale|
+      value = title_translations[locale.to_s]
       errors.add(:title_translations, "#{locale} must be present") if value.blank?
     end
+  end
+
+  ##
+  # Stage courses shown on the channels page.
+  # Excludes deleted, hidden, and group-restricted courses. It ignores
+  # courses in preparation. Consequently, only publicly available courses
+  # for all users are shown.
+  #
+  def stage_courses
+    courses
+      .not_deleted
+      .where.not(placement: [])
+      .where(groups: [])
+      .where(status: %w[active archive])
+  end
+
+  def logo_url
+    Xikolo::S3.object(logo_uri).public_url if logo_uri?
   end
 end
 end

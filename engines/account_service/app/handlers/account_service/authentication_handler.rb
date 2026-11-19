@@ -29,6 +29,7 @@ class AuthenticationHandler # rubocop:disable Layout/IndentationWidth
   def create_session_for(user)
     return errors[:ident] << 'unconfirmed_user' unless user.confirmed?
     return errors[:ident] << 'archived_user' if user.archived?
+    return errors[:ident] << 'banned_user' if user.banned?
 
     @session = Session.create user:, user_agent: params[:user_agent]
   end

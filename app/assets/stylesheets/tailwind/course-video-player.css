@@ -1,0 +1,40 @@
+@utility course-video-player {
+  @apply course-player;
+
+  --video-controls-reserved-height: 6rem;
+  --video-stream-gap: 6px;
+  --video-transcript-max-height: 202px;
+  --video-transcript-height-share: 0.2;
+  --player-ratio: var(--player-side-by-side-ratio);
+  --video-transcript-height: 0px;
+
+  /* Use the available width, shrinking proportionally to leave room for controls and transcript. */
+  width: min(
+    100%,
+    calc(
+      (
+          var(--player-height-budget) - var(--video-controls-reserved-height) -
+            var(--video-transcript-height) - var(--video-stream-gap)
+        ) *
+        var(--player-ratio)
+    )
+  );
+
+  &:has(> [data-transcript]:not([hidden])) {
+    --video-transcript-height: min(
+      var(--video-transcript-max-height),
+      calc(var(--player-height-budget) * var(--video-transcript-height-share))
+    );
+  }
+
+  & [data-transcript-cues] {
+    /* Exclude the transcript's borders and override its legacy SCSS height. */
+    height: calc(var(--video-transcript-height) - 2px) !important;
+  }
+
+  @media (width < 768px) {
+    /* Match the legacy player's stacked streams and allow for wrapped controls. */
+    --player-ratio: var(--player-stacked-ratio);
+    --video-controls-reserved-height: 8rem;
+  }
+}

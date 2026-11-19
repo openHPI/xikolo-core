@@ -3,8 +3,8 @@
  * See app/inputs/markdown_input.rb
  */
 
-import Dropzone from '../../../../vendor/assets/javascripts/dropzone';
-import ready from '../ready';
+import { Dropzone } from 'dropzone';
+import { turboReady } from '../ready';
 import sanitize from '../sanitize';
 
 Dropzone.autoDiscover = false;
@@ -76,7 +76,7 @@ const scanMdUpload = (node) => {
   });
 };
 
-ready(() => scanMdUpload());
+turboReady(() => scanMdUpload());
 
 export default {
   scan: scanMdUpload,

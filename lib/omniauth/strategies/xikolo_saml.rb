@@ -6,13 +6,6 @@ require 'omniauth-saml'
 module OmniAuth
   module Strategies
     class XikoloSAML < OmniAuth::Strategies::SAML
-      # During the request phase, we store the session ID in the `request.params`.
-      # It is passed through via SAML's standard `RelayState` parameter, so it will be preserved and can be used in the
-      # callback phase.
-      option :idp_sso_service_url_runtime_params, {
-        session_id: 'RelayState',
-      }
-
       # The `RelayState` is used by the `omniauth-saml` gem to specify a redirection target after a successful logout.
       # As a default redirection target, we use the application homepage, just like with regular logouts.
       option :slo_default_relay_state, Xikolo.base_url.to_s
@@ -57,12 +50,6 @@ module OmniAuth
         end
 
         session.clear
-
-        # We must set a session ID here because otherwise
-        # `ApplicationController#remember_user`, configured as an after action,
-        # will create a new session for `current_user` and store it's ID in the
-        # session make logout impossible.
-        session[:id] = 'anonymous'
       }
 
       def with_settings
@@ -78,10 +65,6 @@ module OmniAuth
         # options are also validated and thus ignored if they do not apply).
         if session['id'].present? && session['id'] != 'anonymous' && on_path?(request_path)
           options[:force_authn] = true
-
-          # Store the session ID in the SAML RelayState if a user is logged in, so that it can be accessed for
-          # requesting the current user in the callback phase and to add the new identity to the existing account.
-          request.params['session_id'] = OmniAuth::NonceStore.add session['id']
         end
 
         # NOTE: During the activation phase of SLO support, we temporarily need to patch the `omniauth-saml` gem.

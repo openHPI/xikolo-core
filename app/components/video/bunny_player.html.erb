@@ -1,0 +1,14 @@
+<%= tag.div class: 'course-video-player',
+  data: {testid: 'bunny-player'},
+  style: "--player-side-by-side-ratio: #{aspect_ratio}; --player-stacked-ratio: #{aspect_ratio}; aspect-ratio: #{aspect_ratio}" do %>
+  <video-player class="block h-full w-full">
+    <video-skin class="block h-full w-full">
+      <%= tag.hlsjs_video(**video_options) do %>
+        <% @video.subtitles.each do |subtitle| %>
+          <%= tag.track kind: 'subtitles', src: subtitle_path(subtitle.id), srclang: subtitle.lang, label: subtitle_label(subtitle),
+            default: (subtitle.lang == default_track_language) || nil %>
+        <% end %>
+      <% end %>
+    </video-skin>
+  </video-player>
+<% end %>

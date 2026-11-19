@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class Course::LaunchController < ApplicationController
-  before_action :set_no_cache_headers
-
   def launch
     raise Status::NotFound unless course
 

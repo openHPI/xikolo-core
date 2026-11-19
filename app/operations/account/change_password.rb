@@ -33,7 +33,7 @@ module Account
         return error('password_save_failed')
       end
 
-      delete_user_sessions! if delete_sessions?
+      delete_user_sessions!
 
       result Success.new
     end
@@ -48,14 +48,10 @@ module Account
       @params[:new_password] == @params[:password_confirmation]
     end
 
-    def delete_sessions?
-      @current_user.feature?('password_change.remove_sessions')
-    end
-
     def delete_user_sessions!
-      Account::Session
+      AccountService::Session
         .where(user_id: @current_user.id)
-        .where.not(id: @current_user.session_id)
+        .where.not(id: @current_user.session.id)
         .delete_all
     end
 

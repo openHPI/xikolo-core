@@ -1,14 +1,66 @@
 @import 'tailwindcss' source(none);
+@import './course-video-player.css';
+
+/* Plugins and template sources */
 @plugin "daisyui" {
   prefix: 'x-';
-  themes: light --default dark --default;
+  themes: light --default;
 }
+
 @plugin "@tailwindcss/typography";
-@import './theme/typography.css';
 
 @source '../../../../app/views/';
 @source '../../../../app/components/';
+@source '../../../../app/helpers/';
 
+/* daisyUI semantic colors and component settings for the openHPI light theme. */
+@plugin "daisyui/theme" {
+  default: true;
+  name: 'light';
+
+  --color-base-100: hsl(0, 0%, 100%);
+  --color-base-200: hsl(180, 3.03%, 93.53%);
+  --color-base-300: hsl(210, 2.5%, 84.31%);
+
+  --color-base-content: hsl(210, 8%, 14%);
+
+  --color-primary: hsl(28deg, 100%, 50%);
+  --color-primary-content: hsl(210deg, 8.33%, 14.12%);
+
+  --color-secondary: hsl(258deg, 24%, 51%);
+  --color-secondary-content: var(--color-white);
+
+  --color-accent: hsl(194, 100%, 31%);
+  --color-accent-content: hsl(210, 8%, 14%);
+
+  --color-neutral: hsl(210deg, 8%, 14%);
+  --color-neutral-content: hsl(0deg, 0%, 100%);
+
+  --color-info: hsl(258, 23.81%, 75.29%);
+  --color-info-content: hsl(240deg, 10%, 4%);
+
+  --color-error: hsl(342deg, 93%, 36%);
+  --color-error-content: var(--color-white);
+
+  --color-success: hsl(171deg, 33%, 80%);
+  --color-success-content: hsl(169deg, 100%, 25%);
+
+  --color-warning: hsl(41deg, 100%, 48.24%);
+  --color-warning-content: hsl(23.28deg, 92.06%, 24.71%);
+
+  /* border radius */
+  --radius-selector: 0.5rem;
+  --radius-field: 1rem;
+  --radius-box: 1rem;
+
+  /* border size */
+  --border: 1px;
+
+  /* effects */
+  --depth: 0;
+}
+
+/* Platform color palettes: add named shades to Tailwind's color utilities. */
 @theme {
   --color-primary-900: hsl(21deg, 75%, 14%);
   --color-primary-800: hsl(21deg, 75%, 20%);
@@ -18,23 +70,21 @@
   --color-primary-100: hsl(21deg, 74%, 94%);
   --color-primary-50: hsl(22deg, 80%, 98%);
 
-  --color-secondary-900: hsl(342deg, 86%, 17%);
-  --color-secondary-500: hsl(343deg, 86%, 37%);
-  --color-secondary-100: hsl(340deg, 84%, 95%);
-  --color-secondary-50: hsl(345deg, 80%, 98%);
+  --color-secondary-100: hsl(258deg, 24%, 51%);
+  --color-secondary-75: hsl(257deg, 24%, 63%);
+  --color-secondary-50: hsl(258deg, 24%, 75%);
+  --color-secondary-25: hsl(260deg, 25%, 88%);
+  --color-secondary-10: hsl(260deg, 25%, 95%);
 
   --color-tertiary-900: hsl(38deg, 91%, 18%);
   --color-tertiary-500: hsl(37deg, 90%, 56%);
   --color-tertiary-100: hsl(37deg, 92%, 95%);
   --color-tertiary-50: hsl(36deg, 100%, 98%);
 
-  --color-gray-900: hsl(0deg, 0%, 9%);
-  --color-gray-800: hsl(0deg, 0%, 15%);
-  --color-gray-600: hsl(0deg, 0%, 32%);
-  --color-gray-500: hsl(0deg, 0%, 45%);
-  --color-gray-250: hsl(0deg, 0%, 83%);
-  --color-gray-100: hsl(0deg, 0%, 96%);
-  --color-gray-50: hsl(0deg, 0%, 98%);
+  --color-accent-75: hsl(194, 48%, 48%);
+  --color-accent-50: hsl(193, 45%, 65%);
+  --color-accent-25: hsl(194, 45%, 83%);
+  --color-accent-10: hsl(192, 43%, 93%);
 
   --color-error-900: hsl(2deg, 97%, 12%);
   --color-error-800: hsl(3deg, 85%, 21%);
@@ -53,22 +103,42 @@
   --color-success-900: hsl(144deg, 84%, 10%);
   --color-success-700: hsl(145deg, 86%, 23%);
   --color-success-500: hsl(145deg, 53%, 48%);
-  --color-success-100: hsl(145deg, 53%, 90%);
+  --color-success-100: hsl(171deg, 33%, 80%);
   --color-success-50: hsl(148deg, 81%, 96%);
 
   --color-note-900: hsl(208deg, 56%, 13%);
   --color-note-500: hsl(208deg, 56%, 53%);
   --color-note-100: hsl(208deg, 56%, 90%);
 
+  /* Additional gray shade outside Tailwind's built-in scale. */
+  --color-gray-250: hsl(0deg, 0%, 83%);
+}
+
+/* Tailwind gray palette: override selected built-in shades. */
+@theme {
+  --color-gray-900: hsl(0deg, 0%, 9%);
+  --color-gray-800: hsl(0deg, 0%, 15%);
+  --color-gray-600: hsl(0deg, 0%, 32%);
+  --color-gray-500: hsl(0deg, 0%, 45%);
+  --color-gray-100: hsl(0deg, 0%, 96%);
+  --color-gray-50: hsl(0deg, 0%, 98%);
+}
+
+/* Platform layout tokens */
+@theme {
   --z-index-xs: 1;
   --z-index-s: 2;
   --z-index-sm: 1000;
   --z-index-m: 1020;
   --z-index-l: 1030;
   --z-index-xl: 1040;
+
+  --spacing-navbar: 50px;
+  --spacing-bottom-bar: 5rem;
+  --spacing-main-content: 1370px;
 }
 
-/* Prose typography customization to match platform branding */
+/* Tailwind Typography: customize prose colors for platform branding. */
 @utility prose {
   --tw-prose-body: var(--color-gray-900);
   --tw-prose-headings: var(--color-gray-900);
@@ -90,8 +160,100 @@
   --tw-prose-td-borders: var(--color-gray-100);
 }
 
+@source inline("x-badge-{accent,error,info,neutral,success} flex-wrap scale-105 scale-110 transition-none x-skeleton h-75 w-full relative z-xs contents *:x-input-error bg-accent-10");
+
+/* Fit the complete player between the sticky navbar and bottom navigation once
+   the page header has scrolled away. */
+@utility course-player {
+  --player-vertical-gap: 2rem;
+  --player-height-budget: max(
+    8rem,
+    calc(
+      100dvh - var(--spacing-navbar) - var(--spacing-bottom-bar) -
+        env(safe-area-inset-bottom) - var(--player-vertical-gap)
+    )
+  );
+
+  width: min(100%, calc(var(--player-height-budget) * var(--player-ratio)));
+  margin-inline: auto;
+}
+
+/* Platform styling for daisyUI components. */
 @layer components {
-  .xi-date-field {
-    @apply block py-3 px-4 pr-10 w-full text-sm placeholder-gray-400 text-gray-900 bg-white border border-gray-250 appearance-none disabled:text-gray-500 disabled:bg-gray-100 disabled:cursor-not-allowed inset-shadow-xs;
+  .x-card {
+    @apply rounded-2xl shadow-sm;
   }
+}
+
+/* Ensure placeholders (:invalid when the field is required)
+are styled consistently across browsers. */
+.x-input::placeholder,
+.x-select:invalid,
+.x-input[type='date']:invalid::-webkit-datetime-edit-text,
+.x-input[type='date']:invalid::-webkit-datetime-edit-day-field,
+.x-input[type='date']:invalid::-webkit-datetime-edit-month-field,
+.x-input[type='date']:invalid::-webkit-datetime-edit-year-field {
+  @apply text-base-content/50;
+}
+
+/* The dimmed prompt must not carry over to the options in the open dropdown. */
+.x-select:invalid > option {
+  @apply text-base-content;
+}
+
+/* Keep the retained tag picker aligned with native filter controls.
+Scoped selectors override TomSelect's unlayered legacy styles. */
+.filter-bar-multiselect {
+  .ts-wrapper {
+    @apply w-full min-w-0;
+  }
+
+  .ts-wrapper.multi .ts-control {
+    @apply min-h-12 items-center rounded-(--radius-field) border-base-content/20 bg-base-100 px-3 py-2 text-base text-base-content;
+  }
+
+  .ts-control input {
+    @apply text-base text-base-content;
+  }
+
+  .ts-control input::placeholder {
+    @apply text-base-content/50;
+  }
+
+  .ts-wrapper:focus-within .ts-control {
+    @apply outline-2 outline-offset-2 outline-base-content/50;
+  }
+
+  .ts-wrapper.multi .ts-control .item {
+    @apply rounded-(--radius-selector) bg-base-200 text-base-content;
+  }
+
+  .ts-wrapper.multi .ts-control .item.active,
+  .ts-dropdown .highlight {
+    @apply bg-base-300;
+  }
+
+  .ts-wrapper.multi .ts-control .item .remove {
+    @apply border-base-300 hover:bg-base-300;
+  }
+
+  .ts-wrapper .clear-button {
+    @apply top-1/2;
+  }
+
+  .ts-dropdown {
+    @apply overflow-hidden rounded-(--radius-box) border border-base-300 bg-base-100 text-base text-base-content;
+  }
+
+  .ts-dropdown .active {
+    @apply bg-base-200 text-base-content;
+  }
+}
+
+/* Bootstrap sets `margin: 4px 0 0` on checkbox/radio inputs, which shifts the
+quiz-answer controls below the answer text. Reset it so the control, text, and
+badge align within the flex row. */
+.quiz-answer .x-checkbox,
+.quiz-answer .x-radio {
+  margin-top: 0;
 }

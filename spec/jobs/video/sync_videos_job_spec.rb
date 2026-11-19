@@ -13,7 +13,7 @@ RSpec.describe Video::SyncVideosJob, type: :job do
       end
 
       it 'enqueues a new job' do
-        expect { enqueue_job }.to have_enqueued_job(described_class).on_queue('long_running')
+        expect { enqueue_job }.to have_enqueued_job(described_class).on_queue('low')
       end
     end
 
@@ -26,7 +26,7 @@ RSpec.describe Video::SyncVideosJob, type: :job do
       before { create_list(:video_provider, 2, :vimeo) }
 
       it 'enqueues jobs for all providers' do
-        expect { execute_job }.to have_enqueued_job(described_class).on_queue('long_running').twice
+        expect { execute_job }.to have_enqueued_job(described_class).on_queue('low').twice
       end
     end
 

@@ -1,10 +1,10 @@
-import ready from '../../util/ready';
+import { turboReady } from '../../util/ready';
 import swal from '../../util/swal';
 import I18n from '../../i18n/i18n';
 import setScrollMarkers from '../../util/scroll-marker';
 import toggleUuids from '../toggle-uuids';
 
-ready(() => {
+turboReady(() => {
   toggleUuids('#toggle-section-uuids');
 
   const itemButtons = document.querySelectorAll('[data-id="new-item-button"]');

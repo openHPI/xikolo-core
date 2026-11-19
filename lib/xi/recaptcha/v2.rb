@@ -28,7 +28,7 @@ module Xi
         return false unless recaptcha_token
 
         options = {
-          secret_key: Rails.application.secrets.recaptcha_v2,
+          secret_key: ENV.fetch('RECAPTCHA_V2', nil),
           response: recaptcha_token,
         }
 

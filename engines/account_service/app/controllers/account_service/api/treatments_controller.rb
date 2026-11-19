@@ -8,12 +8,12 @@ class API::TreatmentsController < API::RESTController # rubocop:disable Layout/I
     respond_with Treatment.order(required: :desc, created_at: :asc)
   end
 
-  def create
-    respond_with Treatment.create(treatment_params), status: :created
-  end
-
   def show
     respond_with resource
+  end
+
+  def create
+    respond_with Treatment.create(treatment_params), status: :created
   end
 
   def update

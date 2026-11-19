@@ -14,12 +14,25 @@ class SubtitlesController < ApplicationController
     head(:not_found, content_type: 'text/plain')
   end
 
+  def download
+    authorize! 'video.subtitle.manage'
+
+    subtitle = Video::Subtitle.find(params[:id])
+
+    send_data(
+      subtitle.to_vtt,
+      type: 'text/vtt',
+      filename: subtitle.download_filename,
+      disposition: 'attachment'
+    )
+  end
+
   def destroy
     authorize! 'video.subtitle.manage'
 
     Video::Subtitle.find(params[:id]).destroy
 
-    redirect_back fallback_location: root_path
+    redirect_back_or_to(root_path)
   rescue ActiveRecord::RecordNotFound
     head(:not_found, content_type: 'text/plain')
   end

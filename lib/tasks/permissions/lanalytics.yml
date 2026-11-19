@@ -1,7 +1,0 @@
-roles:
-  lanalytics.report.admin:
-    - lanalytics.report.create
-    - lanalytics.report.delete
-  lanalytics.report.inspector:
-    - lanalytics.report.create.anonymous
-    - lanalytics.report.delete

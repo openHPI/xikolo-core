@@ -4,10 +4,6 @@ def stub_url(service, path)
   Addressable::URI.parse("#{Xikolo::Common::API.services[service]}/#{path}".gsub('//', '/'))
 end
 
-def api_stub_user(**)
-  real_stub_user(stub_session_id, **)
-end
-
 ##
 # Stub service calls for authenticated requests in request specs.
 #
@@ -71,7 +67,7 @@ end
 
 def stub_file_upload(upload_id:, filename:, purpose:, bucket:, state: 'accepted')
   # Get the file from the generic upload bucket
-  stub_request(:get, "https://s3.xikolo.de/xikolo-uploads?list-type=2&prefix=uploads/#{upload_id}")
+  stub_request(:get, "#{test_s3_host}/xikolo-uploads?list-type=2&prefix=uploads/#{upload_id}")
     .to_return(
       status: 200,
       headers: {'Content-Type' => 'Content-Type: application/xml'},
@@ -90,7 +86,7 @@ def stub_file_upload(upload_id:, filename:, purpose:, bucket:, state: 'accepted'
       XML
 
   # For checking the validity of the upload (probably only necessary for uploading via SingleFileUpload)
-  stub_request(:head, "https://s3.xikolo.de/xikolo-uploads/uploads/#{upload_id}/#{filename}").to_return(
+  stub_request(:head, "#{test_s3_host}/xikolo-uploads/uploads/#{upload_id}/#{filename}").to_return(
     status: 200,
     headers: {
       'Content-Type' => 'inode/x-empty',
@@ -100,7 +96,7 @@ def stub_file_upload(upload_id:, filename:, purpose:, bucket:, state: 'accepted'
   )
 
   # Move the file to the target bucket
-  stub_request(:put, %r{https://s3.xikolo.de/#{bucket}/[0-9a-zA-Z]+/[0-9a-zA-Z]+/#{filename}})
+  stub_request(:put, %r{#{test_s3_host}/#{bucket}/[0-9a-zA-Z]+/[0-9a-zA-Z]+/#{filename}})
     .to_return(status: 200, body: '<xml></xml>')
 end
 
@@ -113,41 +109,6 @@ module StubAnonymousSession
   end
 end
 
-module SetUserForControllerSpecs
-  def stub_user(**)
-    session[:id] = stub_session_id
-    stub_user_request(**)
-  end
-end
-
-module SetUserForSystemSpecs
-  def stub_user(**)
-    page.visit('/__session__')
-
-    # Wait for page load
-    page.find('html')
-
-    page.fill_in('session_id', with: stub_session_id)
-    page.click_on('Save')
-
-    begin
-      # Ensure session change did work
-      expect(page).to have_content('Session ID changed')
-    rescue Selenium::WebDriver::Error::UnknownError => e
-      # Retry on stale node ids on page changes:
-      #
-      #    Selenium::WebDriver::Error::UnknownError: unknown error: unhandled inspector error: {"code":-32000,"message":"Node with given id does not belong to the document"}
-      #      (Session info: chrome=133.0.6943.141)
-      retry if e.message.include?('Node with given id does not belong to the document')
-    end
-
-    stub_user_request(**)
-  end
-end
-
 RSpec.configure do |config|
   config.include StubAnonymousSession
-
-  config.include SetUserForControllerSpecs, type: :controller
-  config.include SetUserForSystemSpecs, type: :system
 end

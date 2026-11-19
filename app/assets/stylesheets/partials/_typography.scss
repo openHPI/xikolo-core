@@ -50,7 +50,6 @@ $xi-font-form-labels: inherit !default;
 $xi-font-alerts: inherit !default;
 $xi-font-hints: inherit !default;
 $xi-font-downloads: inherit !default;
-$xi-font-sharing: inherit !default;
 $xi-font-data: inherit !default;
 $xi-font-teaser: $corporatefont, sans-serif !default;
 $xi-font-ribbon: $corporatefont, sans-serif !default;
@@ -64,7 +63,6 @@ $xi-font-nav-tabs: $corporatefont, sans-serif !default;
 \*------------------------------------*/
 @import "../../../../vendor/assets/stylesheets/bootstrap/mixins/text-emphasis";
 @import "../../../../vendor/assets/stylesheets/bootstrap/mixins/text-overflow";
-@import "../../../../vendor/assets/stylesheets/bootstrap/mixins/background-variant";
 @import "../../../../vendor/assets/stylesheets/bootstrap/type";
 
 /*------------------------------------*\
@@ -81,6 +79,20 @@ $xi-font-nav-tabs: $corporatefont, sans-serif !default;
   font-family: "IBM Plex Sans";
   font-stretch: normal;
   font-style: normal;
+  font-weight: 500;
+  src: url("/IBM-Plex-Sans-Medium.woff") format("woff");
+}
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-stretch: normal;
+  font-style: normal;
+  font-weight: 600;
+  src: url("/IBM-Plex-Sans-SemiBold.woff") format("woff");
+}
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-stretch: normal;
+  font-style: normal;
   font-weight: bold;
   src: url("/IBM-Plex-Sans-Bold.woff") format("woff");
 }
@@ -90,6 +102,20 @@ $xi-font-nav-tabs: $corporatefont, sans-serif !default;
   font-style: italic;
   font-weight: normal;
   src: url("/IBM-Plex-Sans-RegularItalic.woff") format("woff");
+}
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-stretch: normal;
+  font-style: italic;
+  font-weight: 500;
+  src: url("/IBM-Plex-Sans-MediumItalic.woff") format("woff");
+}
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-stretch: normal;
+  font-style: italic;
+  font-weight: 600;
+  src: url("/IBM-Plex-Sans-SemiBoldItalic.woff") format("woff");
 }
 @font-face {
   font-family: "IBM Plex Sans";
@@ -149,9 +175,7 @@ th,
 }
 
 .btn,
-.course-action-button,
-.pagination,
-.seq-submit-btn {
+.pagination {
   font-family: $xi-font-buttons !important;
 }
 
@@ -174,11 +198,6 @@ th,
 
 *[download] {
   font-family: $xi-font-downloads !important;
-}
-
-.social-sharing,
-.socialmedia-link {
-  font-family: $xi-font-sharing;
 }
 
 nav,

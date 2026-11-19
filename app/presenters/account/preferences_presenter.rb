@@ -22,7 +22,11 @@ class Account::PreferencesPresenter
   end
 
   def notifications_enabled?
-    @preferences.get_bool 'notification.email.global', default: true
+    @preferences.get_bool 'notification.email.global'
+  end
+
+  def global_notification_switch
+    PreferencePresenter.new @preferences, 'notification.email.global', default: true
   end
 
   def hide_notification_preferences?
@@ -57,7 +61,7 @@ class Account::PreferencesPresenter
 
       @preferences = preferences
       @key = key
-      @default = opts.fetch(:default, true)
+      @default = opts.fetch(:default, false)
       @label = t(:"account.preferences.show.#{key}")
       @id = "preferences-#{key.tr('^A-Za-z0-9', '-')}"
     end

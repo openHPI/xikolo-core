@@ -8,12 +8,12 @@ describe 'Admin: VideoProviders: Create', type: :request do
   let(:params) { {} }
 
   context 'for logged-in users' do
-    let(:headers) { {Authorization: "Xikolo-Session session_id=#{stub_session_id}"} }
-
-    before { stub_user_request permissions: }
+    before do
+      sign_in(user:)
+    end
 
     context 'with permissions' do
-      let(:permissions) { ['video.provider.manage'] }
+      let(:user) { create(:'account_service/user', :admin) }
 
       context 'with valid params for Vimeo' do
         let(:params) do
@@ -38,13 +38,10 @@ describe 'Admin: VideoProviders: Create', type: :request do
         end
       end
 
-      context 'with valid params for Kaltura' do
+      context 'with valid params for Bunny' do
         let(:params) do
           {
-            video_provider: {name: 'the_name', provider_type: 'kaltura'},
-            video_provider_credentials_kaltura: {
-              partner_id: 'the-partner', token: 'the-token', token_id: 'the-token-id'
-            },
+            video_provider: {name: 'the_name', provider_type: 'bunny'},
           }
         end
 
@@ -52,18 +49,9 @@ describe 'Admin: VideoProviders: Create', type: :request do
           expect { create_video_provider }.to change(Video::Provider, :count).from(0).to(1)
 
           created_provider = Video::Provider.first
-          expect(created_provider.provider_type).to eq 'kaltura'
+          expect(created_provider.provider_type).to eq 'bunny'
           expect(created_provider.name).to eq 'the_name'
-          expect(created_provider.credentials).to eq({
-            'partner_id' => 'the-partner',
-            'token' => 'the-token',
-            'token_id' => 'the-token-id',
-          })
-        end
-
-        it 'redirects to the index page' do
-          create_video_provider
-          expect(response).to redirect_to admin_video_providers_path
+          expect(created_provider.credentials).to eq({})
         end
       end
 
@@ -83,7 +71,7 @@ describe 'Admin: VideoProviders: Create', type: :request do
     end
 
     context 'without permissions' do
-      let(:permissions) { [] }
+      let(:user) { create(:'account_service/user') }
 
       it 'redirects to the start page' do
         create_video_provider

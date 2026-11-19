@@ -4,28 +4,31 @@ require 'spec_helper'
 
 describe ItemPresenter, type: :presenter do
   subject(:presenter) do
-    described_class.new item: item_resource, course: course_resource, section: section_resource, user: current_user
+    described_class.new item: item_resource, course: course, section: section_resource, user: current_user
   end
 
   let(:item) { create(:item, section_id: section.id) }
   let(:item_resource) { build(:'course:item', id: item.id, content_type: item.content_type, open_mode: item.open_mode, **additional_item_params) }
   let(:additional_item_params) { {} }
-  let(:course) { create(:course, course_code: 'test') }
-  let(:course_resource) { Xikolo::Course::Course.new(id: course.id, course_code: course.course_code, **additional_course_params) }
-  let(:additional_course_params) { {} }
+  let(:course) { create(:course, course_code: 'test', pinboard_enabled:, forum_is_locked:) }
+  let(:pinboard_enabled) { true }
+  let(:forum_is_locked) { false }
   let(:section_resource) { build(:'course:section', id: section.id, course: section.course_id) }
   let(:section) { create(:section, course:) }
-  let(:anonymous) { Xikolo::Common::Auth::CurrentUser.from_session({}) }
+  let(:anonymous) { CurrentUser::AnonymousUser.new(context_id: 'root') }
   let(:permissions) { ['course.content.access.available'] }
   let(:user) do
-    Xikolo::Common::Auth::CurrentUser.from_session(
-      'permissions' => permissions,
-      'features' => {},
-      'user' => {'anonymous' => false},
-      'masqueraded' => false
+    CurrentUser::User.new(
+      session: create(:'account_service/session'),
+      context_id: 'root'
     )
   end
   let(:current_user) { user }
+
+  before do
+    role = create(:'account_service/role', permissions: permissions)
+    create(:'account_service/grant', principal: user.session.user, role:)
+  end
 
   describe '#unlocked?' do
     context 'without start and end dates' do
@@ -64,77 +67,42 @@ describe ItemPresenter, type: :presenter do
   describe '#path' do
     subject { presenter.path }
 
-    it { is_expected.to eq "/courses/test/items/#{short_uuid(item.id)}" }
+    it { is_expected.to eq "/learn/test/items/#{short_uuid(item.id)}" }
   end
 
-  describe '#css_classes' do
-    subject(:css_classes) { presenter.css_classes }
+  describe '#course_info' do
+    subject { presenter.course_info }
 
-    let(:item) { create(:item, :video, section_id: section.id) }
+    it { is_expected.to be_a CourseInfoPresenter }
+  end
 
-    context 'when the item is neither active nor visited' do
-      it 'contains only the content type' do
-        expect(css_classes).to eq 'video'
-      end
-    end
+  describe '#locked?' do
+    let(:item) { create(:item, :video, section_id: section.id, open_mode:) }
+    let(:open_mode) { false }
 
-    context 'when the item was visited' do
-      let(:additional_item_params) { {user_state: 'visited'} }
-
-      it 'contains the content type and the visited status' do
-        expect(css_classes.split).to contain_exactly 'video', 'visited'
-      end
-    end
-
-    context 'with an active visited item' do
-      let(:additional_item_params) { {user_state: 'visited'} }
-
-      before do
-        presenter.active!
-      end
-
-      it 'contains the content type and the locked and visited status' do
-        expect(css_classes.split).to contain_exactly 'video', 'visited', 'active'
-      end
-    end
+    it { is_expected.not_to be_locked }
 
     context 'with an anonymous user' do
       let(:current_user) { anonymous }
 
+      it { is_expected.to be_locked }
+
       context 'when the item is in open mode' do
-        let(:item) { create(:item, :video, section_id: section.id, open_mode: true) }
+        let(:open_mode) { true }
 
-        it 'contains only the content type' do
-          expect(css_classes).to eq 'video'
-        end
-      end
-
-      context 'when the item is not in open mode' do
-        let(:item) { create(:item, :video, section_id: section.id, open_mode: false) }
-
-        it 'contains the content type and the locked status' do
-          expect(css_classes.split).to contain_exactly 'video', 'locked'
-        end
+        it { is_expected.not_to be_locked }
       end
     end
 
     context 'with a non-enrolled user' do
       let(:permissions) { {} }
 
+      it { is_expected.to be_locked }
+
       context 'when the item is in open mode' do
-        let(:item) { create(:item, :video, section_id: section.id, open_mode: true) }
+        let(:open_mode) { true }
 
-        it 'contains only the content type' do
-          expect(css_classes).to eq 'video'
-        end
-      end
-
-      context 'when the item is not in open mode' do
-        let(:item) { create(:item, :video, section_id: section.id, open_mode: false) }
-
-        it 'contains the content type and the locked status' do
-          expect(css_classes.split).to contain_exactly 'video', 'locked'
-        end
+        it { is_expected.not_to be_locked }
       end
     end
   end
@@ -175,18 +143,6 @@ describe ItemPresenter, type: :presenter do
     end
   end
 
-  describe '#active?' do
-    it 'is not active by default' do
-      expect(presenter).not_to be_active
-    end
-
-    context 'when it was activated' do
-      before { presenter.active! }
-
-      it { is_expected.to be_active }
-    end
-  end
-
   describe '#main_exercise?' do
     context 'when the exercise_type is nil' do
       it { is_expected.not_to be_main_exercise }
@@ -223,19 +179,93 @@ describe ItemPresenter, type: :presenter do
     end
   end
 
+  describe '#exam_locked?' do
+    let(:additional_item_params) { {exercise_type: 'exam', minimum_progress_percentage: 75} }
+
+    def course_progress_with(visits_percentage_fpoints)
+      create(:'course_service/course_progress', course:, user_id: current_user.id, visits_percentage_fpoints:)
+    end
+
+    context 'when the item is not an exam' do
+      let(:additional_item_params) { {exercise_type: 'main'} }
+
+      it { is_expected.not_to be_exam_locked }
+    end
+
+    context 'when the item is an exam' do
+      context 'when the user has course.content.access' do
+        let(:permissions) { %w[course.content.access course.content.access.available] }
+
+        it { is_expected.not_to be_exam_locked }
+      end
+
+      context 'with an anonymous user' do
+        let(:current_user) { anonymous }
+
+        it { is_expected.to be_exam_locked }
+      end
+
+      context 'without a user' do
+        let(:current_user) { nil }
+
+        it { is_expected.to be_exam_locked }
+      end
+
+      context 'without a course progress' do
+        it { is_expected.to be_exam_locked }
+      end
+
+      context 'with a course progress' do
+        context 'below the minimum progress' do
+          before { course_progress_with(74_00) }
+
+          it { is_expected.to be_exam_locked }
+        end
+
+        context 'at the minimum progress' do
+          before { course_progress_with(75_00) }
+
+          it { is_expected.not_to be_exam_locked }
+        end
+
+        context 'above the minimum progress' do
+          before { course_progress_with(76_00) }
+
+          it { is_expected.not_to be_exam_locked }
+        end
+      end
+
+      context 'without a minimum progress percentage' do
+        let(:additional_item_params) { {exercise_type: 'exam', minimum_progress_percentage: nil} }
+
+        context 'below the default progress' do
+          before { course_progress_with(74_00) }
+
+          it { is_expected.to be_exam_locked }
+        end
+
+        context 'at the default progress' do
+          before { course_progress_with(75_00) }
+
+          it { is_expected.not_to be_exam_locked }
+        end
+      end
+    end
+  end
+
   describe '#course_pinboard_closed?' do
     it 'has an unlocked course forum by default' do
       expect(presenter).not_to be_course_pinboard_closed
     end
 
     context 'with an unlocked course forum' do
-      let(:additional_course_params) { {forum_is_locked: false} }
+      let(:forum_is_locked) { false }
 
       it { is_expected.not_to be_course_pinboard_closed }
     end
 
     context 'with a locked course forum' do
-      let(:additional_course_params) { {forum_is_locked: true} }
+      let(:forum_is_locked) { true }
 
       it { is_expected.to be_course_pinboard_closed }
     end
@@ -247,7 +277,7 @@ describe ItemPresenter, type: :presenter do
     end
 
     context 'with a disabled pinboard' do
-      let(:additional_course_params) { {pinboard_enabled: false} }
+      let(:pinboard_enabled) { false }
 
       it 'is disabled' do
         expect(presenter).not_to be_course_pinboard

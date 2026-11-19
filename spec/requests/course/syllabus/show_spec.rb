@@ -3,37 +3,33 @@
 require 'spec_helper'
 
 RSpec.describe 'Course: Syllabus: Show', type: :request do
-  subject(:show_syllabus) { get '/courses/my-course/overview', headers: }
+  subject(:show_syllabus) { get '/learn/my-course/overview' }
 
-  let(:user_id) { generate(:user_id) }
-  let(:course) { build(:'course:course', title: 'The Course') }
-  let(:section) { build(:'course:section', course:) }
-  let(:video) { build(:'course:item', :video, section:, title: 'The Video Item', open_mode: true) }
-  let(:quiz) { build(:'course:item', :quiz, section:, title: 'The Quiz Item', open_mode: true) }
-  let(:progresses) do
-    [
-      {
-        resource_id: section['id'],
-        kind: 'section',
-        visits: {
-          total: 1,
-          user: 0,
-          percentage: 0,
-        },
-        available: true,
-        items: [video, quiz],
-      },
-      {
-        resource_id: course['id'],
-        kind: 'course',
-      },
-    ]
+  let(:user) { create(:'account_service/user') }
+  let(:user_id) { user.id }
+  let(:course) { create(:'course_service/course', title: 'The Course', course_code: 'my-course') }
+  let(:section) do
+    create(:'course_service/section', course:, published: true,
+      start_date: 1.day.ago, end_date: 1.day.from_now)
   end
-  let(:headers) { {} }
+  let(:video) do
+    create(:'course_service/item', section:, title: 'The Video Item',
+      content_type: 'video', open_mode: true, published: true)
+  end
+  let(:quiz) do
+    create(:'course_service/item', section:, title: 'The Quiz Item',
+      content_type: 'quiz', exercise_type: 'main', open_mode: true, published: true)
+  end
 
   before do
-    Stub.request(:course, :get, '/courses/my-course')
-      .to_return Stub.json(course)
+    xi_config <<~YML
+      open_mode:
+        enabled: false
+        default_value: false
+    YML
+
+    video
+    quiz
   end
 
   shared_examples 'a syllabus' do
@@ -46,7 +42,7 @@ RSpec.describe 'Course: Syllabus: Show', type: :request do
     end
 
     it 'links to the quiz item' do
-      expect(response.body).to include("href=\"/courses/my-course/items/#{UUID4.new(quiz['id']).to_param}\"")
+      expect(response.body).to include("href=\"/learn/my-course/items/#{UUID4.new(quiz.id).to_param}\"")
     end
   end
 
@@ -60,7 +56,7 @@ RSpec.describe 'Course: Syllabus: Show', type: :request do
     end
 
     it 'does not link to the quiz item' do
-      expect(response.body).not_to include("href=\"/courses/my-course/items/#{UUID4.new(quiz['id']).to_param}\"")
+      expect(response.body).not_to include("href=\"/learn/my-course/items/#{UUID4.new(quiz.id).to_param}\"")
     end
   end
 
@@ -70,17 +66,18 @@ RSpec.describe 'Course: Syllabus: Show', type: :request do
     it 'does not show the syllabus' do
       show_syllabus
 
-      expect(response).to redirect_to '/courses/my-course'
+      expect(response).to redirect_to '/learn/my-course'
     end
   end
 
   context 'as logged in user' do
-    let(:headers) { {Authorization: "Xikolo-Session session_id=#{stub_session_id}"} }
     let(:permissions) { [] }
     let(:enrollments) { [] }
 
     before do
-      stub_user_request(id: user_id, permissions:)
+      sign_in(user:)
+      role = create(:'account_service/role', permissions:)
+      create(:'account_service/grant', principal: user, role:)
 
       Stub.request(
         :course, :get, '/enrollments',
@@ -92,25 +89,13 @@ RSpec.describe 'Course: Syllabus: Show', type: :request do
       it 'does not show a syllabus' do
         show_syllabus
 
-        expect(response).to redirect_to '/courses/my-course'
+        expect(response).to redirect_to '/learn/my-course'
       end
     end
 
     context 'with an enrollment for the current course' do
       let(:permissions) { ['course.content.access.available'] }
       let(:enrollments) { [{course_id: course['id'], user_id:}] }
-
-      before do
-        Stub.request(
-          :course, :get, '/sections',
-          query: {course_id: course['id']}
-        ).to_return Stub.json([section])
-
-        Stub.request(
-          :course, :get, '/progresses',
-          query: {course_id: course['id'], user_id:}
-        ).to_return Stub.json(progresses)
-      end
 
       it_behaves_like 'a syllabus'
     end
@@ -123,16 +108,6 @@ RSpec.describe 'Course: Syllabus: Show', type: :request do
           enabled: true
           default: false
       YML
-
-      Stub.request(
-        :course, :get, '/sections',
-        query: {course_id: course['id']}
-      ).to_return Stub.json([section])
-
-      Stub.request(
-        :course, :get, '/progresses',
-        query: {course_id: course['id'], user_id:}
-      ).to_return Stub.json(progresses)
 
       Stub.request(
         :course, :get, '/items/current?',
@@ -152,15 +127,11 @@ RSpec.describe 'Course: Syllabus: Show', type: :request do
     end
 
     context 'as logged in user' do
-      let(:headers) { {Authorization: "Xikolo-Session session_id=#{stub_session_id}"} }
-      let(:permissions) { [] }
       let(:enrollments) { [] }
-      let(:logged_in_session) do
-        super().merge(features: {'open_mode' => 'true'})
-      end
+      let(:authenticate) { true }
 
       before do
-        stub_user_request(id: user_id, permissions:, features: {'open_mode' => 'true'})
+        sign_in(user:)
 
         Stub.request(
           :course, :get, '/enrollments',
@@ -173,7 +144,11 @@ RSpec.describe 'Course: Syllabus: Show', type: :request do
       end
 
       context 'with an enrollment for the current course' do
-        let(:permissions) { ['course.content.access.available'] }
+        before do
+          role = create(:'account_service/role', permissions: ['course.content.access.available'])
+          create(:'account_service/grant', principal: user, role:)
+        end
+
         let(:enrollments) { [{course_id: course['id'], user_id:}] }
 
         it_behaves_like 'a syllabus'

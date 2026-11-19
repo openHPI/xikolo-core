@@ -6,6 +6,13 @@ class Home::HomeController < Abstract::FrontendController
   def index
     @posts = posts
     @current_and_upcoming_category = Catalog::Category::CurrentAndUpcoming.new(max: 50)
+    @enrollments = if current_user.anonymous?
+                     {}
+                   else
+                     CourseService::Enrollment.active.with_evaluation
+                       .where(user_id: current_user.id, course_id: @current_and_upcoming_category.courses.map(&:id))
+                       .index_by(&:course_id)
+                   end
 
     if Rails.application.config.respond_to?(:homepage_topics_loader)
       @topics = Rails.application.config.homepage_topics_loader.call

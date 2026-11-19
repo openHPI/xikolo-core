@@ -33,7 +33,7 @@ const handleQuizType = (
     '.xikolo_course_item_submission_deadline',
     '.xikolo_course_item_submission_publishing_date',
   ]);
-  setVisibility('hide', ['#featured-switch', '#icon-type-select']);
+  setVisibility('hide', ['#icon-type-select']);
   hideAndUncheckSwitch('#open-mode-switch', '#open-mode-checkbox');
   hidePublicDescription();
   setTimeAndAttemptsSwitches();

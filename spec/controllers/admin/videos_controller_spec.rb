@@ -3,18 +3,13 @@
 require 'spec_helper'
 
 describe Admin::VideosController, type: :controller do
-  let(:user_id) { '00000001-3100-4444-9999-000000000001' }
   let(:permissions) { [] }
-  let(:user) do
-    {id: user_id,
-     display_name: 'John Smith',
-     permissions:}
-  end
+  let(:user) { create(:'account_service/user') }
 
   describe '#index' do
     subject(:action) { get :index }
 
-    before { stub_user(**user) }
+    before { sign_in user: user, permissions: }
 
     context 'with no params' do
       let(:permissions) { super().push('video.video.manage') }

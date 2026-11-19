@@ -3,6 +3,10 @@ set -euo pipefail
 
 echo "Processing SASS…"
 
+if [[ "${RAILS_ENV:-development}" == "production" ]]; then
+  set -- "$@" --style=compressed
+fi
+
 fontawesome_entry=./app/assets/stylesheets/fontawesome.scss
 
 # Detect whether Font Awesome Pro sources are present. If not, use a stub
@@ -13,17 +17,11 @@ if [[ ! -d app/assets/stylesheets/fontawesome-pro ]]; then
 fi
 
 assets=(
-  "$fontawesome_entry app/assets/builds/icons.css"
-  "./app/assets/stylesheets/bootstrap-custom.scss app/assets/builds/bootstrap.css"
-  "./app/assets/stylesheets/main.scss app/assets/builds/styles.css"
-  "./engines/notification_service/app/assets/stylesheets/notification_service/foundation.scss app/assets/builds/notification_service/foundation.css"
-  "./engines/news_service/app/assets/stylesheets/news_service/foundation.scss app/assets/builds/news_service/foundation.css"
+  "$fontawesome_entry:app/assets/builds/icons.css"
+  "./app/assets/stylesheets/bootstrap-custom.scss:app/assets/builds/bootstrap.css"
+  "./app/assets/stylesheets/main.scss:app/assets/builds/styles.css"
+  "./engines/notification_service/app/assets/stylesheets/notification_service/foundation.scss:app/assets/builds/notification_service/foundation.css"
+  "./engines/news_service/app/assets/stylesheets/news_service/foundation.scss:app/assets/builds/news_service/foundation.css"
 )
 
-for pair in "${assets[@]}"; do
-  set -- $pair
-  bun sass "$1:$2" --no-source-map --load-path=node_modules --load-path=vendor &
-done
-wait
-
-echo "SASS build done."
+bun sass "${assets[@]}" --no-source-map --load-path=node_modules --load-path=vendor --no-error-css "$@"

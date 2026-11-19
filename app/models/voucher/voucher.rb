@@ -4,7 +4,7 @@ require 'geo_ip/lookup'
 
 module Voucher
   class Voucher < ::ApplicationRecord
-    belongs_to :course, class_name: 'Course::Course', optional: true
+    belongs_to :course, class_name: 'CourseService::Course', optional: true
 
     validates :country, :product_type, presence: {message: 'required'}
     validate :validate_product_type

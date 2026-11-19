@@ -48,6 +48,14 @@ describe CourseService::Structure::Fork, type: :model do
     it { is_expected.not_to accept_values_for :parent, nil, test_fork.node, test_branch.node, test_item.node }
 
     it { is_expected.to accept_values_for :children, [test_branch.node] }
-    it { is_expected.not_to accept_values_for :children, [test_fork.node], [test_section.node], [test_item.node] }
+
+    it 'does not accept non-branch children' do
+      [test_fork.node, test_section.node, test_item.node].each do |child|
+        test_node = described_class.new(id: SecureRandom.uuid, course:, fork:)
+        test_node.children = [child]
+        expect(test_node).not_to be_valid
+        expect(test_node.errors[:children]).to include('must all be branches')
+      end
+    end
   end
 end

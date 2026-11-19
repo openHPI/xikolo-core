@@ -14,9 +14,11 @@ class SectionGoals # rubocop:disable Layout/IndentationWidth
   end
 
   # How many visits can be achieved by this user for this section?
+  # Exams do not count towards the visit progress.
   def max_visits
     @max_visits ||= relevant_items
       .published.mandatory
+      .not_exams
       .count
   end
 

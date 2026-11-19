@@ -15,20 +15,20 @@ module ContentSecurityPolicy
     # We explicitly need quotes around special keywords here as they are part of
     # the CSP protocol.
     #
-    # rubocop:disable Lint/PercentStringArray
+    # rubocop:disable-next Lint/PercentStringArray
     csp_headers = {
       'default-src': %w['self'],
       'base-uri':    %w['self'],
       'script-src':  %W['self' 'unsafe-inline' 'unsafe-eval' #{asset_host}] + Xikolo.config.csp['script'],
       'style-src':   %W['self' 'unsafe-inline' #{asset_host}] + Xikolo.config.csp['style'],
       'img-src':     %w[* data:],
-      'media-src':   %w['self' *.vimeocdn.com *.vimeo.com *.akamaized.net] + Xikolo.config.csp['media'],
+      'media-src':   %w['self' blob: *.vimeocdn.com *.vimeo.com *.akamaized.net] + Xikolo.config.csp['media'],
+      'worker-src':  %w['self' blob:],
       'frame-src':   %w['self'] + Xikolo.config.csp['frame'],
       'font-src':    %W['self' data: #{asset_host}] + Xikolo.config.csp['font'],
-      'connect-src': %w['self'] + Xikolo.config.csp['connect'],
+      'connect-src': %w['self' *.b-cdn.net] + Xikolo.config.csp['connect'],
       'object-src':  %w['none'],
     }
-    # rubocop:enable Lint/PercentStringArray
 
     if Xikolo.config.csp['report_uri']
       csp_headers[:'report-uri'] = [Xikolo.config.csp['report_uri']]

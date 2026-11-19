@@ -4,14 +4,14 @@ require 'spec_helper'
 
 describe 'Course: Admin: Certificate Templates: Create', type: :request do
   subject(:create_template) do
-    post "/courses/#{course.course_code}/certificate_templates",
-      params: {certificate_template: params},
-      headers:
+    post "/learn/#{course.course_code}/certificate_templates",
+      params: {certificate_template: params}
   end
 
-  let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
   let(:permissions) { %w[certificate.template.manage course.content.access] }
   let(:course) { create(:course) }
+  let(:user) { create(:'account_service/user') }
+  let(:authenticate) { true }
   let(:course_resource) { build(:'course:course', course_code: course.course_code) }
   let(:upload_id) { 'f13d30d3-6369-4816-9695-af5318c8ac15' }
   let(:params) do
@@ -19,7 +19,7 @@ describe 'Course: Admin: Certificate Templates: Create', type: :request do
       .merge(file_upload_id: upload_id)
   end
   let(:file_url) do
-    "https://s3.xikolo.de/xikolo-uploads/uploads/#{upload_id}/template.pdf"
+    "#{test_s3_host}/xikolo-uploads/uploads/#{upload_id}/template.pdf"
   end
   let(:upload_stub) do
     stub_request(:head, file_url).to_return(
@@ -33,18 +33,20 @@ describe 'Course: Admin: Certificate Templates: Create', type: :request do
   end
   let(:store_stub) do
     stub_request(:put, %r{
-      https://s3.xikolo.de/xikolo-certificate/templates/[0-9a-zA-Z]+.pdf
+      #{test_s3_host}/xikolo-certificate/templates/[0-9a-zA-Z]+.pdf
     }x).to_return(status: 200, body: '<xml></xml>')
   end
 
   before do
-    stub_user_request(permissions:)
+    sign_in(user:) if authenticate
+    role = create(:'account_service/role', permissions:)
+    create(:'account_service/grant', principal: user, role:)
 
     Stub.request(:course, :get, "/courses/#{course.course_code}")
       .to_return Stub.json(course_resource)
 
     stub_request(:get,
-      'https://s3.xikolo.de/xikolo-uploads?list-type=2&' \
+      "#{test_s3_host}/xikolo-uploads?list-type=2&" \
       "prefix=uploads/#{upload_id}")
       .to_return(
         status: 200,
@@ -73,7 +75,7 @@ describe 'Course: Admin: Certificate Templates: Create', type: :request do
       certificate_type: 'RecordOfAchievement'
     )
     expect(upload_stub).to have_been_requested
-    expect(response).to redirect_to "/courses/#{course.course_code}/certificate_templates"
+    expect(response).to redirect_to "/learn/#{course.course_code}/certificate_templates"
     expect(flash[:success].first).to eq 'The template has been created.'
   end
 
@@ -121,17 +123,17 @@ describe 'Course: Admin: Certificate Templates: Create', type: :request do
 
     it 'redirects the user' do
       create_template
-      expect(response).to redirect_to "/courses/#{course.course_code}"
+      expect(response).to redirect_to "/learn/#{course.course_code}"
       expect(flash[:error].first).to eq 'You are not enrolled for this course.'
     end
   end
 
   context 'for anonymous users' do
-    let(:headers) { {} }
+    let(:authenticate) { false }
 
     it 'redirects the user' do
       create_template
-      expect(response).to redirect_to "/courses/#{course.course_code}"
+      expect(response).to redirect_to "/learn/#{course.course_code}"
       expect(flash[:error].first).to eq 'Please log in to proceed.'
     end
   end

@@ -17,7 +17,7 @@ describe CourseService::Channel, '#stage_visual', type: :model do
 
       it {
         expect(channel.stage_visual_url).to eq \
-          'https://s3.xikolo.de/xikolo-public/channel/stage_visual.png'
+          "#{test_s3_host}/xikolo-public/channel/stage_visual.png"
       }
     end
   end

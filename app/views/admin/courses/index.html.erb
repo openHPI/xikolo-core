@@ -1,0 +1,57 @@
+<% content_for :page_header do %>
+  <%= render Global::PageHeader.new(t(:'admin.courses.index.headline'), subtitle: t(:'admin.page_header')) %>
+<% end %>
+<section class="mx-auto max-w-342.5 px-4 py-8">
+  <div class="flex flex-col gap-2 md:flex-row md:items-center p-4 mb-4 x-rounded-box border border-base-300 bg-base-100 text-base-content shadow-xs">
+    <div class="order-2 min-w-0 flex-1 md:order-1" data-hide-on-submit="#admin-courses__content" data-show-on-submit="#admin-courses__loading">
+      <%= render Admin::Course::FilterBar.new %>
+    </div>
+    <div class="order-1 md:order-2 md:ml-auto">
+      <% if current_user.allowed? 'course.course.create' %>
+        <%= link_to t(:'admin.courses.index.create'), new_course_path, class: 'x-btn x-btn-primary w-full md:w-auto whitespace-nowrap' %>
+      <% end %>
+    </div>
+  </div>
+  <div id="admin-courses__loading" hidden>
+    <%= render State::Loading.new %>
+  </div>
+  <div class="overflow-x-auto x-rounded-box border border-base-300 bg-white shadow-xs" id="admin-courses__content">
+    <% if @courses.any? %>
+      <table class="x-table x-table-zebra">
+        <thead>
+          <tr class="bg-base-200">
+            <th><%= t(:'admin.courses.index.code') %></th>
+            <th><%= t(:'admin.courses.index.title') %></th>
+            <th><%= t(:'admin.courses.index.status') %></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @courses.each do |course| %>
+            <tr>
+              <td class="font-mono"><%= course.course_code %></td>
+              <td>
+                <%= link_to_if current_user.allowed?('course.course.edit'), course.title, course_path(course.course_code), class: 'bs-a' %>
+              </td>
+              <td>
+                <div class="x-badge <%= course_status_class(course.status) %>"><%= course.status.to_s %></div>
+              </td>
+              <td class="text-right whitespace-nowrap">
+                <% if current_user.allowed? 'course.course.edit' %>
+                  <%= link_to t(:'admin.courses.index.edit'), edit_course_path(course.course_code), class: 'x-btn x-btn-sm x-btn-outline w-24 justify-center' %>
+                <% end %>
+                <button class="x-btn x-btn-sm x-btn-outline w-24 justify-center" data-behavior="copy-to-clipboard" data-text="<%= course.id %>">
+                  <%= t(:'admin.courses.index.copy_id') %>
+                </button>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <%= render State::Empty.new(
+      params[:autocomplete].present? ? t(:'admin.courses.index.no_results') : t(:'admin.courses.index.empty_state')) %>
+    <% end %>
+  </div>
+  <%= render Global::Pagination.new(@courses) %>
+</section>

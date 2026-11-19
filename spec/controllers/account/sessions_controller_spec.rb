@@ -10,12 +10,6 @@ describe Account::SessionsController, type: :controller do
   let(:valid_user_agent) { 'Chrome32/MacOS' }
   let(:connect_auth_id) { SecureRandom.uuid }
 
-  before do
-    Stub.request(
-      :account, :get, '/policies'
-    ).to_return Stub.json([])
-  end
-
   describe '#new' do
     subject(:action) { -> { get :new, params: } }
 
@@ -91,7 +85,7 @@ describe Account::SessionsController, type: :controller do
     end
 
     context 'when logged in' do
-      before { stub_user id: '3c0e0dac-deb5-4b36-a060-ae02f15cfed1' }
+      before { sign_in }
 
       it 'redirects to dashboard' do
         action.call
@@ -432,13 +426,10 @@ describe Account::SessionsController, type: :controller do
 
     shared_examples 'a destroyed session' do |slo = false|
       let(:redirect_url) { slo ? "#{auth_path(session[:saml_provider])}/spslo" : root_url }
-      let(:destroy_session_stub) do
-        Stub.request(:account, :delete, "/sessions/#{session_id}").to_return Stub.json({})
-      end
+      let(:user) { create(:'account_service/user') }
 
       before do
-        stub_user
-        destroy_session_stub
+        sign_in(user:)
         redirect_url
       end
 
@@ -453,8 +444,7 @@ describe Account::SessionsController, type: :controller do
       end
 
       it 'destroys the session' do
-        action.call
-        expect(destroy_session_stub).to have_been_requested
+        expect { action.call }.to change { user.sessions.count }.to(0)
       end
     end
 
@@ -576,7 +566,9 @@ describe Account::SessionsController, type: :controller do
           end
 
           before do
-            stub_user id: valid_user_id, email: valid_email
+            user = create(:'account_service/user', id: valid_user_id)
+            user.primary_email.update!(address: valid_email)
+            sign_in user: user
             Stub.request(:account, :post, '/sessions')
               .to_return Stub.json({authorization_id: 1})
           end
@@ -641,7 +633,9 @@ describe Account::SessionsController, type: :controller do
 
       context 'with being logged in' do
         before do
-          stub_user id: user_id, email: valid_email
+          user = create(:'account_service/user', id: user_id)
+          user.primary_email.update!(address: valid_email)
+          sign_in user: user
         end
 
         it 'redirects to profile' do

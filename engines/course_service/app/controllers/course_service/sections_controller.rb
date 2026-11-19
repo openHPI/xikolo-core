@@ -9,7 +9,7 @@ class SectionsController < ApplicationController # rubocop:disable Layout/Indent
 
   respond_to :json
   def index
-    sections = Section.all
+    sections = Section.order(:position)
     sections.where! course_id: params[:course_id] unless params[:course_id].nil?
     sections.where! published: params[:published] unless params[:published].nil?
     sections = sections.available unless params[:available].nil?

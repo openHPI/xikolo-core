@@ -7,7 +7,6 @@ class Admin::CourseEditPresenter
     :new_record?,
     :persisted?,
     :learning_goals,
-    :target_groups,
     :clusters
 
   def_delegators :@course,
@@ -16,7 +15,8 @@ class Admin::CourseEditPresenter
     :stage_visual_url,
     :roa_enabled?,
     :cop_enabled?,
-    :channel_ids
+    :channel_ids,
+    :course_format
 
   class << self
     def for_creation(user:, form: nil)
@@ -85,9 +85,9 @@ class Admin::CourseEditPresenter
     "#{stream.title} (#{stream.provider.name})"
   end
 
-  def status_collection
-    %w[preparation active archive].map do |status|
-      [I18n.t("admin.courses.classifiers.course_status.#{status}"), status]
+  def course_format_collection
+    CourseService::Course.course_formats.keys.map do |format|
+      [format.capitalize, format]
     end
   end
 
@@ -119,7 +119,7 @@ class Admin::CourseEditPresenter
     value = @form.send :"classifiers_#{cluster}"
     return [] unless value
 
-    ::Course::Classifier.where(title: value).map do |c|
+    ::CourseService::Classifier.where(title: value).map do |c|
       [c.localized_title, c.title]
     end
   end
@@ -132,11 +132,7 @@ class Admin::CourseEditPresenter
     @statistic_dates.value!
   end
 
-  def proctoring_activatable?
-    @user.feature?('proctoring') && Proctoring.enabled?
-  end
-
-  # rubocop:disable Naming/MemoizedInstanceVariableName
+  # rubocop:disable-next Naming/MemoizedInstanceVariableName
   def with_teachers!(ids)
     @teachers ||= ids.map do |teacher_id|
       # Call to_s on UUID4 to get full-length uuid (local patch would generate
@@ -144,15 +140,13 @@ class Admin::CourseEditPresenter
       course_api.rel(:teacher).get({id: teacher_id.to_s})
     end
   end
-  # rubocop:enable Naming/MemoizedInstanceVariableName
 
-  # rubocop:disable Naming/MemoizedInstanceVariableName
+  # rubocop:disable-next Naming/MemoizedInstanceVariableName
   def with_statistic_dates!(course_id)
     @statistic_dates ||= course_api
       .rel(:stats)
       .get({course_id:, key: 'percentile_created_at_days'})
   end
-  # rubocop:enable Naming/MemoizedInstanceVariableName
 
   private
 

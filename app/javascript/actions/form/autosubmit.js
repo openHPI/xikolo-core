@@ -5,9 +5,9 @@
  * when the page is fully loaded. Only the first matching form in DOM
  * node order is submitted.
  */
-import ready from '../../util/ready';
+import { turboReady } from '../../util/ready';
 
-ready(() => {
+turboReady(() => {
   const forms = document.querySelectorAll('form[data-autosubmit]');
 
   if (forms.length > 0) {

@@ -17,10 +17,9 @@ class EnrollmentsController < ApplicationController # rubocop:disable Layout/Ind
     deleted
     current_course
     per_page
-    proctored
   ]
   def index
-    enrollments = Enrollment.all
+    enrollments = Enrollment.order(created_at: :desc, updated_at: :desc)
 
     # eliminate enrollments from deleted courses
     enrollments = enrollments.left_joins(:course).where({courses: {deleted: false}})
@@ -33,15 +32,13 @@ class EnrollmentsController < ApplicationController # rubocop:disable Layout/Ind
 
     enrollments.where! user_id: params[:user_id] if params[:user_id].present?
 
-    if params[:proctored].present?
-      enrollments.where! proctored: params[:proctored]
-    end
-
     if params[:completed].present?
       enrollments.where! completed: params[:completed]
     end
 
-    enrollments = LearningEvaluation.by_params(params).call(enrollments)
+    if params[:learning_evaluation].present?
+      enrollments = enrollments.with_evaluation
+    end
 
     @course_filter = course_filter.current if params[:current_course].present?
 
@@ -62,13 +59,13 @@ class EnrollmentsController < ApplicationController # rubocop:disable Layout/Ind
     respond_with Enrollment::Create.call(
       params.require(:user_id),
       course,
-      params.permit(:created_at, :updated_at, :proctored)
+      params.permit(:created_at, :updated_at)
     )
   end
 
   def update
     respond_with Enrollment::Update.call(params.require(:id),
-      params.permit(:proctored, :completed))
+      params.permit(:completed))
   end
 
   def destroy
@@ -83,7 +80,7 @@ class EnrollmentsController < ApplicationController # rubocop:disable Layout/Ind
   private
 
   def enrollment_params
-    params.permit :course_id, :user_id, :proctored
+    params.permit :course_id, :user_id
   end
 
   def course

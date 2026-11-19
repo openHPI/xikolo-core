@@ -1,0 +1,7 @@
+<%# locals: (url:, confirm_start: false) %>
+<%= link_to url,
+  class: 'x-btn x-btn-primary w-full max-w-full rounded-2xl whitespace-normal',
+  data: {confirm: (t(:'items.quiz.confirm_start_quiz') if confirm_start)} do %>
+  <%= pixelart_icon('play', css_class: 'hidden size-3 shrink-0 sm:inline') %>
+  <%= t('items.quiz.start_quiz_now') %>
+<% end %>

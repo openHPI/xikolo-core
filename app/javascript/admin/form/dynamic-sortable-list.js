@@ -1,6 +1,6 @@
 import TomSelect from 'tom-select';
 import SortableInputs from '../../util/forms/sortable-inputs';
-import ready from '../../util/ready';
+import { turboReady } from '../../util/ready';
 import { tomSelectSettings } from '../../components/global/custom-select';
 
 /*
@@ -40,7 +40,15 @@ const handleInputKeyDown = (event, input, list) => {
   }
 };
 
-ready(() => {
+document.addEventListener('turbo:before-cache', () => {
+  document
+    .querySelectorAll('[data-behavior="sortable-list__select"]')
+    .forEach((select) => {
+      if (select.tomselect) select.tomselect.destroy();
+    });
+});
+
+turboReady(() => {
   const sortableLists = document.querySelectorAll(
     '[data-behavior="sortable-list"]',
   );

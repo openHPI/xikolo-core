@@ -7,15 +7,15 @@ describe Course::Visual::Store, type: :operation do
 
   let!(:visual) { build(:visual, image_uri: nil) }
   let(:params) { {image_upload_id: upload_id} }
-  let(:upload_id) { '83aebd2a-f026-4d58-8a61-5ee4f1a7cbfa' }
-  let(:file_url) { "https://s3.xikolo.de/xikolo-uploads/uploads/#{upload_id}/#{file_name}" }
-  let(:image_url) { %r{https://s3.xikolo.de/xikolo-public/courses/[0-9a-zA-Z]+/[0-9a-zA-Z]+/#{file_name}} }
+  let(:upload_id) { generate(:uuid) }
+  let(:file_url) { "#{test_s3_host}/xikolo-uploads/uploads/#{upload_id}/#{file_name}" }
+  let(:image_url) { %r{#{test_s3_host}/xikolo-public/courses/[0-9a-zA-Z]+/[0-9a-zA-Z]+/#{file_name}} }
   let(:stream) { create(:stream) }
   let(:file_name) { 'image.png' }
 
   # S3-related stubs
   let(:list_stub) do
-    stub_request(:get, "https://s3.xikolo.de/xikolo-uploads?list-type=2&prefix=uploads%2F#{upload_id}")
+    stub_request(:get, "#{test_s3_host}/xikolo-uploads?list-type=2&prefix=uploads%2F#{upload_id}")
       .to_return(
         status: 200,
         headers: {'Content-Type' => 'Content-Type: application/xml'},
@@ -61,6 +61,79 @@ describe Course::Visual::Store, type: :operation do
   end
   let(:forbidden_store_stub) do
     stub_request(:put, image_url).to_return(status: 403)
+  end
+
+  context 'when uploading a teaser video' do
+    let(:video_file) do
+      Rack::Test::UploadedFile.new(Rails.root.join('spec/support/files/video-sd.mp4'), 'video/mp4')
+    end
+    let(:params) { {teaser_video: video_file} }
+
+    it 'attaches a pending Bunny stream using the existing video models' do
+      operation
+
+      stream = visual.reload.video_stream
+      expect(stream.provider.provider_type).to eq 'bunny'
+      expect(stream.title).to eq "#{visual.course.course_code}_teaser"
+      expect(stream.video).to be_attached
+      expect(stream.provider_video_id).to be_nil
+      expect(stream).to be_waiting
+    end
+
+    it 'queues the existing Bunny upload job after saving the teaser' do
+      expect { operation }.to have_enqueued_job(UploadStreamToBunnyJob)
+      expect(enqueued_jobs.find {|job| job[:job] == UploadStreamToBunnyJob }[:args]).to eq [visual.reload.video_stream.id]
+    end
+
+    context 'with an existing teaser' do
+      let!(:old_video) { create(:video, :with_subtitles) }
+
+      before { visual.update!(video: old_video) }
+
+      it 'replaces the stream and removes the previous subtitles' do
+        operation
+
+        expect(visual.reload.video.id).to eq old_video.id
+        expect(visual.video_stream.provider.provider_type).to eq 'bunny'
+        expect(visual.video.subtitles).to be_empty
+      end
+    end
+
+    context 'when keeping the current stream without uploading another file' do
+      let!(:old_video) { create(:video) }
+      let(:params) { {video_stream_id: old_video.pip_stream_id, teaser_video: ''} }
+
+      before { visual.update!(video: old_video) }
+
+      it 'preserves the current teaser without another upload' do
+        expect { operation }.not_to have_enqueued_job(UploadStreamToBunnyJob)
+        expect(visual.reload.video_stream.id).to eq old_video.pip_stream_id
+      end
+    end
+
+    context 'with a directly uploaded blob' do
+      let(:video_file) do
+        ActiveStorage::Blob.create_and_upload!(
+          io: StringIO.new('video data'), filename: 'teaser.mp4', content_type: 'video/mp4'
+        ).signed_id
+      end
+
+      it 'attaches the uploaded file' do
+        operation
+
+        expect(visual.reload.video_stream.video.filename.to_s).to eq 'teaser.mp4'
+      end
+    end
+
+    context 'with an invalid blob reference' do
+      let(:video_file) { 'invalid-signed-id' }
+
+      it 'rolls back the upload without queuing a job' do
+        expect { operation }.not_to change(Video::Stream, :count)
+        expect(enqueued_jobs.none? {|job| job[:job] == UploadStreamToBunnyJob }).to be true
+        expect(visual).not_to be_persisted
+      end
+    end
   end
 
   context 'without existing course visual' do
@@ -187,7 +260,7 @@ describe Course::Visual::Store, type: :operation do
 
         it 'updates the course image' do
           expect { operation }.to change { visual.reload.image_url }
-            .from('https://s3.xikolo.de/xikolo-public/courses/1/42/old_image.png')
+            .from("#{test_s3_host}/xikolo-public/courses/1/42/old_image.png")
             .to(image_url)
           expect(successful_store_stub).to have_been_requested
         end
@@ -246,7 +319,7 @@ describe Course::Visual::Store, type: :operation do
 
       it 'removes the course image' do
         expect { operation }.to change { visual.reload.image_url }
-          .from('https://s3.xikolo.de/xikolo-public/courses/1/42/old_image.png')
+          .from("#{test_s3_host}/xikolo-public/courses/1/42/old_image.png")
           .to(nil)
         expect(visual.reload.image_uri).to be_nil
       end
@@ -323,10 +396,10 @@ describe Course::Visual::Store, type: :operation do
   context '(subtitles upload)' do
     let!(:visual) { create(:visual, :with_video, image_uri: nil) }
     let(:subtitles_upload_id) { generate(:uuid) }
-    let(:subtitles_file_url) { "https://s3.xikolo.de/xikolo-uploads/uploads/#{subtitles_upload_id}/video-subtitles.zip" }
+    let(:subtitles_file_url) { "#{test_s3_host}/xikolo-uploads/uploads/#{subtitles_upload_id}/video-subtitles.zip" }
 
     let(:list_stub) do
-      stub_request(:get, "https://s3.xikolo.de/xikolo-uploads?list-type=2&prefix=uploads%2F#{subtitles_upload_id}")
+      stub_request(:get, "#{test_s3_host}/xikolo-uploads?list-type=2&prefix=uploads%2F#{subtitles_upload_id}")
         .to_return(
           status: 200,
           headers: {'Content-Type' => 'Content-Type: application/xml'},

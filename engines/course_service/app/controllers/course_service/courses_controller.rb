@@ -10,28 +10,14 @@ class CoursesController < ApplicationController # rubocop:disable Layout/Indenta
 
   # List allowed filter parameters for #index here.
   rfc6570_params index: %i[
-    cat_id
-    user_id
-    status
-    id
-    lang
-    course_code
-    upcoming
+    autocomplete
     per_page
-    current
-    finished
     public
-    hidden
-    only_hidden
+    placement
     exclude_external
     latest_first
     alphabetic
-    not_enrolled
-    middle_of_course
-    document_id
-    autocomplete
     active_after
-    sort
   ]
   def index
     if params.key?(:my_courses) ||
@@ -41,83 +27,30 @@ class CoursesController < ApplicationController # rubocop:disable Layout/Indenta
     end
 
     courses = Course.from('embed_courses AS courses')
-      .not_deleted.includes(:channels)
+      .not_deleted.includes(:channels).order(start_date: :desc)
 
-    if params[:user_id].blank? &&
-       params[:groups] != 'any'
-      # For now exclude all courses with group restrictions except
-      #   1) User enrolled courses are requested (user_id filter)
-      #   2) Explicit filter for groups, for now only with the value 'any'
-      #      (no filter for specific groups)
-      courses = courses.where(groups: [])
-    end
+    # For now exclude all courses with group restrictions except
+    #   1) User enrolled courses are requested (user_id filter)
+    #   2) Explicit filter for groups, for now only with the value 'any'
+    #      (no filter for specific groups)
+    courses = courses.where(groups: []) if params[:groups] != 'any'
 
     # Filter the title by a given string
     if params[:autocomplete].present?
       courses = courses.autocomplete(params[:autocomplete])
     end
 
-    # Filter by category
-    courses = courses.by_classifier(params[:cat_id]) if params[:cat_id].present?
-
-    # Filter by channel
-    courses.joins!(:channels).where!(channels: {id: params[:channel_id]}) if params[:channel_id]
-
-    # Filter by document
-    if params[:document_id]
-      courses = courses.joins(:course_documents)
-        .merge(CourseDocument.where(document_id: params[:document_id]))
-    end
-
-    # filter by user_id
-    if params[:user_id].present?
-      user_enrollments = Enrollment.active.where(user_id: params[:user_id])
-        .select(:course_id)
-      courses = if params[:not_enrolled].present?
-                  courses.where.not(id: user_enrollments)
-                else
-                  courses.where(id: user_enrollments)
-                end
-    end
-
-    courses.where! status: params[:status] if params[:status].present?
-    courses.where! id: params[:id] if params[:id].present?
-    courses.where! lang: params[:lang] if params[:lang].present?
-
-    if params[:course_code].present?
-      courses.where! course_code: params[:course_code]
-    end
     if params[:exclude_external] == 'true'
       courses.where!(external_course_url: [nil, ''])
     end
-    if params[:only_hidden] == 'true'
-      courses.where! hidden: true
-    elsif params[:hidden] == 'false'
-      courses.where! hidden: false
-    end
-    if params[:upcoming].present?
-      courses.where! status: 'active'
-      courses.where! '(start_date > ? AND display_start_date IS NULL)
-        OR display_start_date > ?', ::Time.zone.now, ::Time.zone.now
-      courses.reorder! Arel.sql('GREATEST(start_date, display_start_date) ASC')
-    end
 
-    if params[:current].present?
-      courses.where! status: 'active'
-      courses.where! '(start_date <= ? AND display_start_date IS NULL)
-        OR display_start_date <= ? OR start_date IS NULL', ::Time.zone.now, ::Time.zone.now
-      courses.where! 'end_date >= ? OR end_date IS NULL', ::Time.zone.now
-    end
-
-    if params[:finished].present?
-      courses.where! "(status = 'archive' OR
-        (status = 'active' AND end_date IS NOT NULL AND end_date < ? ))",
-        ::Time.zone.now
+    if params[:placement].present?
+      courses.where!('placement::text[] && ARRAY[?]::text[]', params[:placement])
     end
 
     if params[:public] == 'true'
-      allowed_status = %w[archive active]
-      courses.where!(status: allowed_status)
+      courses.where! published: true
+      courses.where! placement: ['Open4All']
     end
 
     if params[:active_after].present?
@@ -128,13 +61,6 @@ class CoursesController < ApplicationController # rubocop:disable Layout/Indenta
     courses.reorder! 'created_at DESC' if params[:latest_first].present?
 
     courses.reorder! 'course_code ASC' if params[:alphabetic].present?
-
-    case params[:sort]
-      when 'started_recently_first'
-        courses.reorder! Arel.sql('COALESCE(display_start_date, start_date) DESC, title ASC')
-      when 'started_earliest_first'
-        courses.reorder! Arel.sql('COALESCE(display_start_date, start_date) ASC, title ASC')
-    end
 
     respond_with courses
   end
@@ -153,14 +79,14 @@ class CoursesController < ApplicationController # rubocop:disable Layout/Indenta
   end
 
   def update
-    course = Course.find(params[:id])
+    course = Course.by_identifier(params[:id]).take!
     cp = course_params
     cp.merge! classifier_params if params[:classifiers]
     respond_with Course::Update.call course, cp
   end
 
   def destroy
-    course = Course.find(params[:id])
+    course = Course.by_identifier(params[:id]).take!
     respond_with Course::Destroy.call course
   end
 
@@ -184,51 +110,37 @@ class CoursesController < ApplicationController # rubocop:disable Layout/Indenta
   def course_params
     params.permit(
       :title,
+      :course_format,
       :start_date,
       :display_start_date,
       :lang,
       :end_date,
       :description,
       :abstract,
-      :status,
-      :hidden,
-      :show_on_list,
-      :proctored,
       :course_code,
       :forum_is_locked,
       :records_released,
       :enrollment_delta,
       :alternative_teacher_text,
-      :show_syllabus,
       :invite_only,
       :external_course_url,
       :welcome_mail,
-      :auto_archive,
       :middle_of_course,
-      :show_on_stage,
-      :stage_visual_upload_id,
-      :stage_visual_uri,
-      :stage_statement,
       :pinboard_enabled,
       :on_demand,
       :roa_threshold_percentage,
       :cop_threshold_percentage,
       :roa_enabled,
       :cop_enabled,
-      :rating_stars,
-      :rating_votes,
       :enable_video_download,
+      :published,
       video_course_codes: [],
       teacher_ids: [],
       channel_ids: [],
       learning_goals: [],
-      target_groups: [],
       groups: [],
-      external_registration_url: Xikolo.config.locales['available']
+      placement: []
     ).tap do |white_listed|
-      if params[:policy_url]
-        white_listed[:policy_url] = params[:policy_url].permit!
-      end
       # see http://guides.rubyonrails.org/security.html#unsafe-query-generation
       if params.key?(:teacher_ids) && params[:teacher_ids].blank?
         white_listed[:teacher_ids] = []
@@ -239,6 +151,7 @@ class CoursesController < ApplicationController # rubocop:disable Layout/Indenta
   def course_create_params
     params.permit(
       :title,
+      :course_format,
       :start_date,
       :display_start_date,
       :lang,
@@ -246,43 +159,28 @@ class CoursesController < ApplicationController # rubocop:disable Layout/Indenta
       :end_date,
       :description,
       :abstract,
-      :status,
-      :hidden,
-      :show_on_list,
-      :proctored,
       :course_code,
       :forum_is_locked,
       :records_released,
       :enrollment_delta,
       :alternative_teacher_text,
-      :show_syllabus,
       :invite_only,
       :external_course_url,
       :welcome_mail,
-      :auto_archive,
       :middle_of_course,
-      :show_on_stage,
-      :stage_visual_upload_id,
-      :stage_statement,
       :pinboard_enabled,
       :on_demand,
       :roa_threshold_percentage,
       :cop_threshold_percentage,
       :roa_enabled,
       :cop_enabled,
-      :rating_stars,
-      :rating_votes,
+      :published,
       video_course_codes: [],
       teacher_ids: [],
       learning_goals: [],
-      target_groups: [],
       groups: [],
-      external_registration_url: Xikolo.config.locales['available']
-    ).tap do |white_listed|
-      if params[:policy_url]
-        white_listed[:policy_url] = params[:policy_url].permit!
-      end
-    end
+      placement: []
+    )
   end
 
   def classifier_params
@@ -290,7 +188,7 @@ class CoursesController < ApplicationController # rubocop:disable Layout/Indenta
 
     {
       classifiers: params[:classifiers].permit!.select do |cluster, values|
-        known_clusters.include?(cluster) \
+        known_clusters.include?(cluster)
           && (values.is_a?(Array) || values.nil?)
       end,
     }

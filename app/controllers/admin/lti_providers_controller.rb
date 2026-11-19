@@ -23,7 +23,7 @@ class Admin::LtiProvidersController < Admin::BaseController
       redirect_to action: :index, status: :see_other
     else
       add_flash_message :error, t(:'flash.error.lti_provider_not_created')
-      render(action: :new, status: :unprocessable_entity)
+      render(action: :new, status: :unprocessable_content)
     end
   end
 
@@ -35,7 +35,7 @@ class Admin::LtiProvidersController < Admin::BaseController
       redirect_to action: :index, status: :see_other
     else
       add_flash_message :error, t(:'flash.error.lti_provider_not_updated')
-      render(action: :edit, status: :unprocessable_entity)
+      render(action: :edit, status: :unprocessable_content)
     end
   end
 

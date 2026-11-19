@@ -54,7 +54,7 @@ describe 'Account: Password Resets: Show', type: :request do
     end
 
     it 'shows a pretty error page' do
-      expect(page).to have_content 'Invalid password reset link'
+      expect(page).to have_text 'Invalid password reset link'
     end
   end
 end

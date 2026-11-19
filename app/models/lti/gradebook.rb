@@ -12,7 +12,7 @@ module Lti
 
     has_one :item,
       -> { where(content_type: 'lti_exercise') },
-      class_name: 'Course::Item',
+      class_name: 'CourseService::Item',
       dependent: :restrict_with_exception,
       foreign_key: :content_id,
       primary_key: :lti_exercise_id,

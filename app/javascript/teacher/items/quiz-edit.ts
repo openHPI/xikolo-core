@@ -3,7 +3,7 @@ import fetch from '../../util/fetch';
 import mdupload from '../../util/forms/mdupload';
 import { hideLoading, showLoading } from '../../util/loading';
 import initMarkdownEditorOnSelector from '../../util/markdown-editor';
-import ready from '../../util/ready';
+import { turboReady } from '../../util/ready';
 import setScrollMarkers from '../../util/scroll-marker';
 
 /**
@@ -73,7 +73,7 @@ const loadAddAnswerForm = async (elem: HTMLElement) => {
   loadForm(wrapper, url);
 };
 
-ready(() => {
+turboReady(() => {
   // Edit question
   document
     .querySelectorAll<HTMLButtonElement>('[data-behavior="edit-quiz-question"]')

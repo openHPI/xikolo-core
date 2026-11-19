@@ -10,7 +10,7 @@ FactoryBot.define do
   end
 
   factory :gamification_badge, class: 'Gamification::Badge' do
-    user_id { create(:'account_service/user').id }
+    association :user, factory: :'account_service/user'
     name { 'communicator' }
     level { 1 }
 
@@ -28,7 +28,7 @@ FactoryBot.define do
   end
 
   factory :gamification_score, class: 'Gamification::Score' do
-    user_id { create(:'account_service/user').id }
+    association :user, factory: :'account_service/user'
     course
     rule { 'test_rule' }
     sequence(:checksum, &:to_s)

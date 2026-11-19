@@ -10,10 +10,6 @@ module Navigation
       render Navigation::ProfileItem.new(user: instrumented_user, gamification_score: nil)
     end
 
-    def with_gamification
-      render Navigation::ProfileItem.new(user: gamified_user, gamification_score: 100)
-    end
-
     private
 
     USER_ID = SecureRandom.uuid
@@ -31,14 +27,6 @@ module Navigation
         'user_id' => USER_ID,
         'user' => {'anonymous' => false},
         'masqueraded' => true,
-      })
-    end
-
-    def gamified_user
-      Xikolo::Common::Auth::CurrentUser.from_session({
-        'features' => {'gamification' => true},
-        'user_id' => USER_ID,
-        'user' => {'anonymous' => false},
       })
     end
   end

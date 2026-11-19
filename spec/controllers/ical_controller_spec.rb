@@ -5,33 +5,17 @@ require 'spec_helper'
 describe IcalController, type: :controller do
   include IcalHelper
 
-  let(:user_id) { '00000001-3100-4444-9999-000000000001' }
-  let(:token) { 'abc' }
-  let(:uuid) { UUID(user_id) }
-  let(:permissions) { [] }
-  let(:next_dates) { [] }
-  let(:user) do
-    {id: user_id,
-     display_name: 'John Smith',
-     language: 'en',
-     permissions:}
-  end
+  let(:uuid) { UUID(user.id) }
+  let(:user) { create(:'account_service/user') }
 
   before do
-    stub_user features: {'ical_feed' => 'true'}
+    create(:'account_service/feature',
+      owner: user,
+      name: 'ical_feed',
+      value: 'true',
+      context: AccountService::Context.root)
 
-    Stub.request(
-      :account, :post, '/tokens',
-      body: hash_including(user_id:)
-    ).to_return Stub.json({token:})
-    Stub.request(
-      :account, :get, "/users/#{user_id}"
-    ).to_return Stub.json(user)
-
-    Stub.request(
-      :course, :get, '/next_dates',
-      query: {user_id:}
-    ).to_return Stub.json(next_dates)
+    sign_in(user:)
   end
 
   describe '#index' do
@@ -52,7 +36,7 @@ describe IcalController, type: :controller do
     end
 
     context 'with correct params' do
-      before { get :index, params: {u: uuid, h: ical_hash(user_id)} }
+      before { get :index, params: {u: uuid, h: ical_hash(user.id)} }
 
       it 'answers success' do
         expect(response).to have_http_status :ok

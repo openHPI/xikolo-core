@@ -8,11 +8,11 @@ describe Course::CourseVisual, type: :component do
   end
 
   context 'when an image is given' do
-    let(:url) { 'https://s3.example.com/courses/css.png' }
+    let(:url) { 'https://s3.example.com/learn/css.png' }
 
     it 'renders the given image' do
       render_inline(component)
-      expect(page).to have_css 'img[src="https://s3.example.com/courses/css.png"]'
+      expect(page).to have_css 'img[src="https://s3.example.com/learn/css.png"]'
     end
 
     it 'sets the alternative text for the image' do
@@ -25,7 +25,7 @@ describe Course::CourseVisual, type: :component do
         allow(Imagecrop).to receive(:enabled?).and_return(true)
         allow(Imagecrop).to receive(:transform) {|source, _| source }
         allow(Imagecrop).to receive(:transform)
-          .with('https://s3.example.com/courses/css.png', {width: 50})
+          .with('https://s3.example.com/learn/css.png', {width: 50})
           .and_return('https://www.example.com/50/css.png')
       end
 
@@ -50,7 +50,7 @@ describe Course::CourseVisual, type: :component do
       described_class.new url, css_classes: 'custom-class'
     end
 
-    let(:url) { 'https://s3.example.com/courses/css.png' }
+    let(:url) { 'https://s3.example.com/learn/css.png' }
 
     it 'applies custom CSS' do
       render_inline(component)

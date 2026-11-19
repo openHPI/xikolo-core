@@ -1,0 +1,92 @@
+<% unless video.nil? %>
+  <%= simple_fields_for(video, wrapper: :larger_labels) do |v| %>
+    <%= v.error_notification %>
+    <%= v.input :description,
+          label: t(:'admin.courses.items.form.description'),
+          required: false,
+          class: 'form-control',
+          as: :markdown %>
+
+    <fieldset>
+      <legend><%= t 'admin.courses.items.form.video_groupings.video_data' %></legend>
+
+      <%= v.input :pip_stream_id, label: t('admin.courses.items.form.video_data.pip_stream'), required: false, placeholder: t(:'admin.courses.items.form.video_data.stream_placeholder'), input_html: {data: {behavior: 'custom-select', 'auto-completion-url': admin_streams_path, preload: 'true', prefix: Xikolo.config.video_prefix.gsub('COURSE_CODE', course.course_code)}}, collection: video.pip_stream_collection %>
+      <%= v.input :lecturer_stream_id, label: t('admin.courses.items.form.video_data.lecturer_stream'), required: false, placeholder: t(:'admin.courses.items.form.video_data.stream_placeholder'), input_html: {data: {behavior: 'custom-select', 'auto-completion-url': admin_streams_path, preload: 'true', prefix: Xikolo.config.video_prefix.gsub('COURSE_CODE', course.course_code)}}, collection: video.lecturer_stream_collection %>
+      <%= v.input :slides_stream_id, label: t('admin.courses.items.form.video_data.slides_stream'), required: false, placeholder: t(:'admin.courses.items.form.video_data.stream_placeholder'), input_html: {data: {behavior: 'custom-select', 'auto-completion-url': admin_streams_path, preload: 'true', prefix: Xikolo.config.video_prefix.gsub('COURSE_CODE', course.course_code)}}, collection: video.slides_stream_collection %>
+      <%= v.input :subtitled_stream_id, label: t('admin.courses.items.form.video_data.subtitled_stream'), required: false, placeholder: t(:'admin.courses.items.form.video_data.stream_placeholder'), input_html: {data: {behavior: 'custom-select', 'auto-completion-url': admin_streams_path, preload: 'true', prefix: Xikolo.config.video_prefix.gsub('COURSE_CODE', course.course_code)}}, collection: video.subtitled_stream_collection %>
+
+
+      <%= v.input :subtitles, label: t(:'admin.courses.items.form.video_data.subtitles'), as: :upload, value: subtitles_upload %>
+      <% if video.subtitles.present? %>
+        <div class="col-lg-9 col-md-9 col-lg-offset-3 col-md-offset-3">
+          <% video.subtitles.each do |subtitle| %>
+            <% if subtitle.persisted? %>
+              <span class="mr10">
+                <% if subtitle.automatic %>
+                  <i><%= subtitle.download_filename %></i>
+                <% else %>
+                  <%= subtitle.download_filename %>
+                <% end %>
+                <%= link_to download_subtitle_path(subtitle[:id]), class: 'bs-a', title: t(:'admin.courses.items.form.video_data.subtitles_download'), download: '' do %>
+                  <%= render Global::FaIcon.new('download', style: :solid, css_classes: 'ml5 em1-5 vbottom') %>
+                <% end %>
+                <%= link_to subtitle_path(subtitle[:id]), class: 'bs-a', method: :delete do %>
+                  <%= render Global::FaIcon.new('xmark', style: :solid, css_classes: 'ml5 em1-5 vbottom') %>
+                <% end %>
+              </span>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+    </fieldset>
+
+    <fieldset>
+      <legend><%= t :'admin.courses.items.form.video_groupings.additional_files' %></legend>
+
+      <% provide :slides_extra do %>
+        <% if video.slides_url %>
+          <%= File.basename video.slides_url %>
+          <item class="span actions">
+            <%= link_to video.slides_url, class: 'bs-a' do %>
+              <%= render Global::FaIcon.new('paperclip', style: :solid, css_classes: 'em1-2 vbottom') %>
+            <% end %>
+          </item>
+          <p>
+            <%= v.input_field :slides_url, as: :toggle_switch, value: false, checked_value: '', unchecked_value: false, toggle_label: t(:'admin.courses.items.form.additional_files.remove') %>
+          </p>
+        <% end %>
+      <% end %>
+      <%= v.input :slides_uri, label: t(:'admin.courses.items.form.additional_files.slides'), as: :upload, value: slides_upload, extra_html: yield(:slides_extra) %>
+
+      <% provide :transcript_extra do %>
+        <% if video.transcript_url %>
+          <%= File.basename video.transcript_url %>
+          <item class="span actions">
+            <%= link_to video.transcript_url, class: 'bs-a' do %>
+              <%= render Global::FaIcon.new('paperclip', style: :solid, css_classes: 'em1-2 vbottom') %>
+            <% end %>
+          </item>
+          <p>
+            <%= v.input_field :transcript_url, as: :toggle_switch, value: false, checked_value: '', unchecked_value: false, toggle_label: t(:'admin.courses.items.form.additional_files.remove'), inline_label: '' %>
+          </p>
+        <% end %>
+      <% end %>
+      <%= v.input :transcript_uri, label: t(:'admin.courses.items.form.additional_files.transcript'), as: :upload, value: transcript_upload, extra_html: yield(:transcript_extra) %>
+
+      <% provide :reading_material_extra do %>
+        <% if video.reading_material_url %>
+          <%= File.basename video.reading_material_url %>
+          <item class="span actions">
+            <%= link_to video.reading_material_url, class: 'bs-a' do %>
+              <%= render Global::FaIcon.new('paperclip', style: :solid, css_classes: 'em1-2 vbottom') %>
+            <% end %>
+          </item>
+          <p>
+            <%= v.input_field :reading_material_url, as: :toggle_switch, value: false, checked_value: '', unchecked_value: false, toggle_label: t(:'admin.courses.items.form.additional_files.remove') %>
+          </p>
+        <% end %>
+      <% end %>
+      <%= v.input :reading_material_uri, label: t(:'admin.courses.items.form.additional_files.reading_material'), as: :upload, value: reading_material_upload, extra_html: yield(:reading_material_extra) %>
+    </fieldset>
+  <% end %>
+<% end %>

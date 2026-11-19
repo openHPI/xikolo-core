@@ -25,19 +25,16 @@ RSpec.describe 'News Email: Create (Send)', type: :request do
   end
 
   it 'triggers an email to be sent' do
-    expect(Msgr).to receive(:publish).with(anything, to: 'xikolo.news.announcement.create')
-    request
+    expect { request }.to have_enqueued_job(NotificationService::AnnouncementJob)
   end
 
   context 'for a global announcement' do
     let(:announcement) { create(:'news_service/news', :global) }
 
     it 'publishes the correct event payload' do
-      expect(Msgr).to receive(:publish) do |*args|
-        expect(args[0]).to include course_id: nil
-        expect(args[1]).to eq(to: 'xikolo.news.announcement.create')
-      end
-      request
+      expect { request }
+        .to have_enqueued_job(NotificationService::AnnouncementJob)
+        .with(hash_including(course_id: nil))
     end
   end
 
@@ -45,11 +42,9 @@ RSpec.describe 'News Email: Create (Send)', type: :request do
     let(:announcement) { create(:'news_service/news', :global, audience: 'xikolo.affiliated') }
 
     it 'includes the group name in the event payload' do
-      expect(Msgr).to receive(:publish) do |*args|
-        expect(args[0]).to include course_id: nil, group: 'xikolo.affiliated'
-        expect(args[1]).to eq(to: 'xikolo.news.announcement.create')
-      end
-      request
+      expect { request }
+        .to have_enqueued_job(NotificationService::AnnouncementJob)
+        .with(hash_including(course_id: nil, group: 'xikolo.affiliated'))
     end
   end
 
@@ -60,11 +55,9 @@ RSpec.describe 'News Email: Create (Send)', type: :request do
     it { is_expected.to respond_with :created }
 
     it 'forwards the receiver ID' do
-      expect(Msgr).to receive(:publish) do |*args|
-        expect(args[0]).to include(receiver_id:)
-        expect(args[1]).to eq(to: 'xikolo.news.announcement.create')
-      end
-      request
+      expect { request }
+        .to have_enqueued_job(NotificationService::AnnouncementJob)
+        .with(hash_including(receiver_id:))
     end
   end
 end

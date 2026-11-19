@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class AddTimestampsAndDefaultValuesToCourseProgresses < ActiveRecord::Migration[5.2]
-  # rubocop:disable Rails/BulkChangeTable
+  # rubocop:disable-next Rails/BulkChangeTable
   def change
     # Add new columns but allow null values
     add_timestamps :course_progresses, null: true
@@ -30,5 +30,4 @@ class AddTimestampsAndDefaultValuesToCourseProgresses < ActiveRecord::Migration[
       t.change_default :selftest_exercises, from: nil, to: 0
     end
   end
-  # rubocop:enable Rails/BulkChangeTable
 end

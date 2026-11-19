@@ -16,10 +16,6 @@ class Course::Admin::ItemStatsController < Abstract::FrontendController
     Acfs.run
   end
 
-  def hide_course_nav?
-    true
-  end
-
   private
 
   def auth_context

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Course
-  class Metadata
+  module Metadata
     class Store < ApplicationOperation
       def initialize(metadata, params)
         super()
@@ -9,9 +9,9 @@ module Course
         @metadata = metadata
         @params = params
         @metadata_types = [
-          Metadata::TYPE::SKILLS,
-          Metadata::TYPE::EDUCATIONAL_ALIGNMENT,
-          Metadata::TYPE::LICENSE,
+          CourseService::Metadata::TYPE::SKILLS,
+          CourseService::Metadata::TYPE::EDUCATIONAL_ALIGNMENT,
+          CourseService::Metadata::TYPE::LICENSE,
         ]
       end
 
@@ -43,11 +43,11 @@ module Course
         upload_object = upload.accepted_file!
 
         ActiveRecord::Base.transaction do
-          Metadata.find_by(course_id: @metadata.course_id, name: metadata_type)&.destroy
-          Metadata.create!(
+          CourseService::Metadata.find_by(course_id: @metadata.course_id, name: metadata_type)&.destroy
+          CourseService::Metadata.create!(
             course_id: @metadata.course_id,
             name: metadata_type,
-            version: Metadata::VERSION,
+            version: CourseService::Metadata::VERSION,
             data: JSON.parse(upload_object.get.body.read)
           )
         end

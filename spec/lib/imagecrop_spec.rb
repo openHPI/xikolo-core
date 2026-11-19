@@ -9,6 +9,10 @@ describe Imagecrop do
         imgproxy_url: 'https://imgproxy.url'
       YML
 
+      allow(ENV).to receive(:fetch).and_call_original
+      allow(ENV).to receive(:fetch).with('IMGPROXY_KEY', nil).and_return('485049')
+      allow(ENV).to receive(:fetch).with('IMGPROXY_SALT', nil).and_return('53414C54')
+
       load 'config/initializers/imgproxy.rb'
     end
   end

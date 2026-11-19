@@ -16,19 +16,23 @@
  *
  * See: https://api.rubyonrails.org/classes/ActionView/Helpers/FormTagHelper.html#method-i-submit_tag
  */
-import ready from '../../util/ready';
+import { turboReady } from '../../util/ready';
 
 type Dataset = {
   disableOnSubmit: string;
 };
 
-ready(() => {
+turboReady(() => {
   const forms: NodeListOf<HTMLFormElement> = document.querySelectorAll(
     '[data-disable-on-submit]',
   );
 
   forms.forEach((form) => {
-    form.addEventListener('submit', () => {
+    form.addEventListener('submit', (event) => {
+      // A cancelled submit (e.g. Active Storage intercepting a direct upload)
+      // never navigates, so nothing would re-enable the element afterwards.
+      if (event.defaultPrevented) return;
+
       const dataSet = form.dataset as Dataset;
       const target = form.querySelector(dataSet.disableOnSubmit);
 

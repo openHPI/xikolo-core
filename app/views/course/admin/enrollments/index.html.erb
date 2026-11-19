@@ -1,0 +1,82 @@
+<%= render 'course/shared/admin_page_header', title: t(:'admin.course_management.enrollments.headline') %>
+
+<div class="col-md-12 x-card bg-accent-25 text-accent-content p-5">
+  <%= form_tag(course_enrollments_path, method: :get, class: 'mb20') do %>
+    <%= label(:user, :id, t(:'admin.course_management.enrollments.search_for_user'), class: 'mr10') %>
+    <%= select_tag :user_id, nil, data: {behavior: 'custom-select', change: 'submit', 'auto-completion-url': admin_find_users_path, placeholder: t(:'global.email_or_name')} %>
+    <% if params[:user_id] %>
+      <%= link_to t(:'admin.course_management.enrollments.reset_filter'), course_enrollments_path, class: 'bs-a' %>
+    <% end %>
+  <% end %>
+
+  <% if @enrollments.present? %>
+    <table class="table table-striped table-condensed table-hover">
+      <thead>
+        <tr>
+          <th><%= t(:'admin.course_management.enrollments.student') %></th>
+          <th><%= t(:'admin.course_management.enrollments.enrolled') %></th>
+          <th><%= t(:'admin.course_management.enrollments.features') %></th>
+          <th colspan="2"></th>
+        </tr>
+      </thead>
+
+      <% @enrollments.each do |enrollment| %>
+        <tr>
+          <td>
+            <div class="user-full-name"><%= enrollment.user.full_name %></div>
+            <div class="user-email"><%= enrollment.user.email %></div>
+          </td>
+          <td><%= render Util::RelativeTimeTag.new(enrollment.created_at, limit: 'P10D') %></td>
+          <td>
+            <% if enrollment.forced_submission_date %>
+              <%= t(:'admin.course_management.enrollments.reactivation_html',
+                    date: I18n.l(enrollment.forced_submission_date, format: :short)) %>
+            <% else %>
+              -
+            <% end %>
+          </td>
+          <td>
+            <div class="action-links">
+              <div class="details">
+                <%= link_to t(:'admin.course_management.enrollments.details'), user_path(enrollment.user.id), class: 'bs-a' %>
+              </div>
+              <div class="submissions">
+                <%= link_to t(:'admin.course_management.enrollments.submissions'), course_submissions_path(user_id: enrollment.user.id, id: params[:course_id]), class: 'bs-a' %>
+              </div>
+              <div>
+                <%= link_to t(:'admin.course_management.enrollments.progress'), course_progress_path(user_id: enrollment.user.id), class: 'bs-a' %>
+              </div>
+            </div>
+          </td>
+          <td>
+            <%= render Global::ActionsDropdown.new(menu_side: 'right') do |c| %>
+              <% c.with_action do %>
+                <button data-behavior="copy-to-clipboard" data-text="<%= enrollment.id %>">
+                  <%= t(:'admin.course_management.enrollments.copy_id') %>
+                </button>
+              <% end %>
+              <% c.with_destructive_action do %>
+                <%= link_to t(:'admin.course_management.enrollments.unenroll_user'), teacher_destroy_enrollment_path(user_id: enrollment.user.id), class: 'bs-a', method: :delete, data: {confirm: t(:'admin.course_management.enrollments.unenroll_confirm')} %>
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+
+    <%= render Global::Pagination.new(@enrollments) %>
+
+  <% elsif @user.present? %>
+    <p>
+      <%= t(:'admin.course_management.enrollments.user_not_enrolled', user_name: @user.full_name, user_email: @user.email) %>
+    </p>
+    <% if @user.confirmed? %>
+      <%= link_to t(:'admin.course_management.enrollments.enroll_user'), teacher_create_enrollment_path(user_id: params[:user_id]), method: :post, class: 'btn btn-primary' %>
+    <% else %>
+      <p class="red"><%= t(:'admin.course_management.enrollments.user_not_confirmed') %></p>
+      <button class="btn btn-primary" disabled type="button">
+        <%= t(:'admin.course_management.enrollments.enroll_user') %>
+      </button>
+    <% end %>
+  <% end %>
+</div>

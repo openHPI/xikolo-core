@@ -1,0 +1,26 @@
+<aside class="x-card bg-base-100">
+  <div class="x-card-body">
+    <h2 class="x-card-title"><%= t('items.edit.quiz_info') %></h2>
+
+    <% if question_pool? %>
+      <p class="<%= valid? ? 'text-success-content' : 'text-error' %> font-medium" role="status">
+        <%= t(valid? ? 'items.quiz_info.valid' : 'items.quiz_info.incomplete') %>
+      </p>
+      <ul class="space-y-2 list-none">
+        <% criteria.each do |criterion| %>
+          <li class="flex items-center gap-2 <%= criterion.fetch(:fulfilled) ? 'text-success-content' : 'text-error' %>">
+            <%= helpers.pixelart_icon(criterion.fetch(:fulfilled) ? 'check' : 'close', css_class: 'size-4') %>
+            <span><%= criterion_text(criterion) %></span>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <dl class="grid grid-cols-[auto_1fr] gap-2">
+        <dt><%= t('items.edit.questions') %></dt>
+        <dd><%= questions.count %></dd>
+        <dt><%= t('items.edit.quiz_total_points') %></dt>
+        <dd><%= @quiz.max_points %></dd>
+      </dl>
+    <% end %>
+  </div>
+</aside>

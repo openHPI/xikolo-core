@@ -10,9 +10,3 @@
 <% if @admin_statistic.helpdesk.present? %>
   <%= render 'helpdesk_stats' %>
 <% end %>
-
-<% unless @enrollments.empty? %>
-  <%= render 'enrollments_chart' %>
-<% end %>
-
-<%= render 'course_stats' %>

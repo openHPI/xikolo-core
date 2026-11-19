@@ -1,4 +1,4 @@
-= simple_form_for announcement, url: {controller: 'course/announcements'} do |f|
+= simple_form_for [course, announcement] do |f|
   = f.error_notification
   = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
 

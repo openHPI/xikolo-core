@@ -14,7 +14,7 @@ describe 'Item User Results: Create', type: :request do
   let!(:item) { create(:'course_service/item') }
 
   let(:data) { {points: 2.3} }
-  let(:user_id) { generate(:user_id) }
+  let(:user_id) { create(:'account_service/user').id }
 
   it { is_expected.to respond_with :created }
 

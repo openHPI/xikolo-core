@@ -1,14 +1,12 @@
 # frozen_string_literal: true
 
 class LtiController < ApplicationController
-  before_action :set_no_cache_headers
   before_action :ensure_logged_in, only: %i[tool_launch tool_return]
 
   skip_before_action :verify_authenticity_token, only: %i[tool_grading tool_return]
-  skip_around_action :auth_middleware, only: :tool_grading
 
   def tool_launch
-    item = Course::Item.find(UUID4(params[:id]))
+    item = CourseService::Item.find(UUID4(params[:id]))
 
     if item.submission_deadline_passed?(current_user.id) && !item.content&.provider&.allow_access_after_deadline
       add_flash_message(:error, I18n.t(:'flash.error.quiz_submissions_submission_deadline_passed'))
@@ -28,12 +26,11 @@ class LtiController < ApplicationController
 
     if tg.response_successful?
       tg.grade! # Create score for LTI submission
-      tg.publish_lti_submission_event # Publish xi-lanalytics LTI submission event
     end
 
     render plain: tg.xml_response, content_type: 'application/xml'
   rescue ToolGrading::ValidationError
-    render plain: 'Tool grading failed', status: :unprocessable_entity
+    render plain: 'Tool grading failed', status: :unprocessable_content
   end
 
   def tool_return
@@ -53,7 +50,7 @@ class LtiController < ApplicationController
   end
 
   def course
-    @course ||= Course::Course.by_identifier(params[:course_id]).take!
+    @course ||= CourseService::Course.by_identifier(params[:course_id]).take!
   end
 
   class ToolGrading
@@ -89,27 +86,6 @@ class LtiController < ApplicationController
       @grade ||= gradebook.submit!(score: score&.to_f, nonce:).tap do |grade|
         raise ValidationError if grade.errors.any?
       end
-    end
-
-    def publish_lti_submission_event
-      context = {
-        course_id: @course_id,
-        score: score&.to_f,
-        provider_name: provider.name,
-        provider_start_url: provider.domain,
-        # browser's user agent is not available, because the request is sent by the backend
-        # user_agent: request.user_agent,
-        user_ip: @request.remote_ip,
-      }
-
-      Msgr.publish({
-        user: {uuid: gradebook.user_id},
-        verb: {type: 'SUBMITTED_LTI_V2'},
-        resource: {uuid: gradebook.lti_exercise_id, type: 'lti'},
-        timestamp: nil,
-        with_result: {},
-        in_context: context,
-      }.as_json, to: 'xikolo.web.exp_event.create')
     end
 
     private

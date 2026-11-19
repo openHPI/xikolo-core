@@ -8,7 +8,7 @@
       <thead>
         <tr>
           <% headers.each do |header| %>
-            <th class="p-2.5 text-left border-b-2 border-gray-300" scope="col"><%= header %></th>
+            <th class="p-2 text-left border-b-2 border-gray-300" scope="col"><%= header %></th>
           <% end %>
         </tr>
       </thead>
@@ -16,13 +16,13 @@
         <% rows.each do |row| %>
           <tr class="odd:bg-gray-50">
             <% row.keys.each do |key| %>
-              <td class="p-2.5 leading-snug border-t border-gray-300"><%= value_for(row, key) %></td>
+              <td class="p-2 leading-snug border-t border-gray-300"><%= value_for(row, key) %></td>
             <% end %>
           </tr>
         <% end %>
       </tbody>
       <% if caption.present? %>
-        <caption class="p-2.5 text-xs text-gray-600 italic caption-bottom">
+        <caption class="p-2 text-sm text-gray-600 italic caption-bottom">
           <%= caption %>
         </caption>
       <% end %>

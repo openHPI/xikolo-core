@@ -1,0 +1,57 @@
+  <div class="x-drawer">
+    <input id="course-nav-drawer" type="checkbox" class="x-drawer-toggle peer">
+
+    <div class="x-drawer-content">
+      <%# The course layout reserves a 64px gutter outside the container from lg, so this sticky toggle can sit beside the content. %>
+      <%# The toggle is pulled up so its bottom lines up with the item header card: its own height (--spacing(14)), plus the page header's bottom padding (sm:py-16 when there is no course navigation, see Global::PageHeader), plus the course area's mt15 spacer (15px), i.e. --spacing(30) + 15px. %>
+      <%# The sticky top adds the same offset back so it still sticks just below the navbar. %>
+      <div class="top-[calc(var(--spacing-navbar)+--spacing(2)+--spacing(30)+15px)] z-xl sticky hidden h-0 lg:block">
+        <label
+          for="course-nav-drawer"
+          class="
+            x-drawer-button x-btn bg-white text-accent-content shadow-none relative -top-[calc(--spacing(30)+15px)] -ml-16
+            size-14 flex-col gap-0 rounded-2xl border-0 p-1 font-normal
+          "
+          aria-label="<%= t('items.show.show_nav') %>"
+        >
+          <%= helpers.pixelart_icon('chevron-right', css_class: 'size-6') %>
+          <%= t('items.show.label') %>
+        </label>
+      </div>
+
+      <%# toggle for mobile view %>
+      <label
+        for="course-nav-drawer"
+        class="
+          x-drawer-button x-btn bg-neutral-content x-btn-outline mb-5 w-full
+          rounded-2xl lg:hidden
+        "
+        aria-label="<%= t('items.show.show_nav') %>"
+      >
+        <%= helpers.pixelart_icon('menu', css_class: 'size-6') %>
+        <%= t('items.show.label') %>
+      </label>
+
+      <%= main_content %>
+    </div>
+
+    <div class="x-drawer-side z-xl top-navbar h-auto <%= content_for?(:bottom_navigation_spacer) ? 'bottom-20' : 'bottom-0' %>">
+      <label
+        for="course-nav-drawer"
+        class="x-drawer-overlay"
+        aria-label="<%= t('items.show.toggle_nav_hint') %>"
+      ></label>
+
+      <div
+        class="
+          bg-base-100 flex h-full w-68 max-w-full flex-col gap-4 overflow-y-auto
+          p-6 shadow-xl [scrollbar-gutter:stable]
+        "
+        aria-label="<%= t('items.show.toggle_nav_hint') %>"
+      >
+        <%= overview_link %>
+        <%= course_progress %>
+        <%= navigation %>
+      </div>
+    </div>
+  </div>

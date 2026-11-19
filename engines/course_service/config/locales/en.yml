@@ -15,18 +15,18 @@ en:
             not_achieved_via_roa: You did not receive the Confirmation of Participation in this course.
           requirements:
             progress: Complete at least %{course_percentage}% of the learning units.
-          download:
-            not_released: Once the certificate is released, you can download it here.
         achievement:
-          name: Record of Achievement
+          name: Certificate
           state:
             unavailable: A certificate is not offered for this course.
             no_longer_achievable: This course has ended. Certificates were only available during the active course period.
+            no_longer_achievable_with_exam: This course has ended. The final exam could only be passed during the active course period.
             reactivatable: This course has ended. If you still would like to achieve a certificate for this course, you can reactivate it now.
             not_achieved: You did not score enough points in graded exams, yet.
+            not_achieved_with_exam: You have not yet passed the final exam of this course.
             not_released: Congratulations on achieving a certificate for this course! Once the certificate is released by the teaching team you can download it here.
             released: Congratulations! You achieved a certificate for this course by scoring high enough in the graded assignments.
+            released_with_exam: Congratulations! You achieved the openHPI certificate for this course.
           requirements:
-            completion: Achieve %{course_percentage}% of the overall score in graded assignments.
-          download:
-            not_released: Once the certificate is released, you can download it here.
+            completion: Achieve an overall score of %{course_percentage}%.
+            completion_with_exam: Achieve at least %{pass_percentage}% in the final exam.

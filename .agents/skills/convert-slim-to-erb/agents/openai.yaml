@@ -1,0 +1,4 @@
+interface:
+  display_name: "Convert Slim to ERB"
+  short_description: "Safely migrate Slim views to equivalent ERB"
+  default_prompt: "Use $convert-slim-to-erb to convert the selected *.html.slim views to behaviorally identical *.html.erb files."

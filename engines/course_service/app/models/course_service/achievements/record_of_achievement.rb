@@ -28,6 +28,7 @@ class Achievements # rubocop:disable Layout/IndentationWidth
 
     def enough_points?
       return false if @evaluation.blank?
+      return @course.exam_passed?(@evaluation) if @course.exam?
 
       @evaluation.points_percentage >= @course.roa_threshold_percentage
     end

@@ -58,19 +58,19 @@ $navigation-system-alert-hover-color: $primary-600 !default;
     position: relative;
     display: block;
     margin-bottom: 5px;
-    font-size: 1.5rem;
+    font-size: legacy-rem(1.5rem);
     font-weight: bold;
-    line-height: 1.6rem;
+    line-height: legacy-rem(1.6rem);
 
     // Display gray dot next to the title
     // when alert has been seen, red when hasn't.
     &::before {
       position: absolute;
-      top: 0.3rem;
+      top: legacy-rem(0.3rem);
       left: -20px;
       display: block;
-      width: 1rem;
-      height: 1rem;
+      width: legacy-rem(1rem);
+      height: legacy-rem(1rem);
       border-radius: 5px;
       background-color: $gray;
       content: "";

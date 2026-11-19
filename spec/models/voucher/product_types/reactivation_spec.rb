@@ -5,7 +5,7 @@ require 'spec_helper'
 describe Voucher::ProductTypes::Reactivation do
   subject(:reactivation) { described_class.new(course, user) }
 
-  let(:course) { create(:course, :archived, :offers_reactivation) }
+  let(:course) { create(:course, :self_paced, :offers_reactivation) }
   let(:user) { create(:'account_service/user') }
 
   describe '#claim!' do

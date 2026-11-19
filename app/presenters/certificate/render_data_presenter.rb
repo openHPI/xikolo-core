@@ -27,7 +27,6 @@ module Certificate
     end
 
     def qrcode_pos
-      return false if @template.certificate_type == ::Certificate::Record::TOR
       return false unless @template.qrcode_x.try(:positive?) &&
                           @template.qrcode_y.try(:positive?)
 
@@ -44,7 +43,7 @@ module Certificate
     end
 
     def score
-      return if @template.certificate_type == ::Certificate::Record::COP
+      return if @template.certificate_type == ::Certificate::Record::COP || @record.enrollment.nil?
 
       {
         points: @record.enrollment['points']['achieved'].to_f.round(1),
@@ -54,7 +53,7 @@ module Certificate
     end
 
     def top_percent
-      return unless @record.enrollment['quantile']
+      return if @record.enrollment.nil? || @record.enrollment['quantile'].nil?
 
       top_percentage = (1 - @record.enrollment['quantile']).round(2)
       if top_percentage <= 0.05
@@ -74,35 +73,13 @@ module Certificate
 
     def issue_date
       return Time.zone.now.to_date if @record.type == 'ConfirmationOfParticipation'
+      return @record.course.end_date&.to_date || Time.zone.today if @record.enrollment.nil?
 
       if @record.enrollment['completed_at'].blank?
         @record.course.end_date&.to_date || Time.zone.today
       else
         Date.parse(@record.enrollment['completed_at'])
       end
-    end
-
-    def transcript_of_records
-      return unless @template.certificate_type == ::Certificate::Record::TOR
-      return if prerequisite_status['prerequisites'].blank?
-
-      # Create Array structure for the transcript to be rendered as table.
-      [
-        # Add header lines
-        [
-          I18n.t(:'certificates.transcript_of_records.course', locale: course_lang),
-          I18n.t(:'certificates.transcript_of_records.score', locale: course_lang),
-        ],
-        # Add courses with corresponding scores
-        *prerequisite_status['prerequisites'].map do |p|
-          [p['course']['title'], format_score(p['score'])]
-        end,
-        # Add overall score
-        [
-          I18n.t(:'certificates.transcript_of_records.overall_score', locale: course_lang),
-          format_score(transcript_overall_score),
-        ],
-      ]
     end
 
     protected
@@ -189,7 +166,7 @@ module Certificate
     def fix_text_direction(dynamic_content)
       return dynamic_content unless dynamic_content.strip.start_with? '<?xml'
 
-      xml_doc = Nokogiri::XML dynamic_content
+      xml_doc = Nokogiri::XML dynamic_content.lstrip
 
       rtl_scripts = /\p{Arabic}|\p{Hebrew}|\p{Nko}|\p{Syriac}/
       xml_doc.search('text').each do |text|
@@ -212,26 +189,10 @@ module Certificate
     private
 
     def verification_url
-      return if @template.certificate_type == ::Certificate::Record::TOR
-
       Rails.application.routes.url_helpers.certificate_verification_url(
         id: @record.verification,
         host: Xikolo.config.base_url.site
       )
-    end
-
-    def prerequisite_status
-      @prerequisite_status ||= Xikolo.api(:course).value!.rel(:prerequisite_status)
-        .get({id: @record.course_id, user_id: @record.user_id})
-        .value!
-    end
-
-    def transcript_overall_score
-      return unless @template.certificate_type == ::Certificate::Record::TOR
-
-      prerequisite_status['prerequisites']
-        .filter_map { it['score'].to_f if it['required_certificate'] == 'roa' }
-        .then {|scores| scores.sum.fdiv(scores.count) }
     end
 
     def format_score(score)
@@ -240,8 +201,6 @@ module Certificate
           "#{score.round(1)}%"
         when String
           "#{score.to_f.round(1)}%"
-        when true
-          I18n.t(:'certificates.transcript_of_records.passed', locale: course_lang)
         else
           raise TypeError
       end

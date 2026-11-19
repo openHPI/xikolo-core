@@ -16,8 +16,8 @@ class SectionProgress::Calculate < ApplicationOperation # rubocop:disable Layout
 
     section_progress.calculate!
     if @update_course_progress
-      LearningEvaluation::UpdateCourseProgressWorker
-        .perform_async(section_progress.section.course_id, @user_id)
+      LearningEvaluation::UpdateCourseProgressJob
+        .perform_later(section_progress.section.course_id, @user_id)
     end
 
     section_progress

@@ -4,62 +4,39 @@ We use the `PageHeader` component across all learner-facing course pages, course
 
 ## Course pages
 
-For learner-facing course pages, the `PageHeader` is used in its `slim` variant.
+- **Title**: the course title.
+- **Breadcrumbs**: Home, Learn, Course Details, and the course page the user is on.
+- **Back link**: leads to the course detail page.
+- **Type**: `:slim`.
 
-- **Title**: Displays the course title.
-- **Subtitle**: Lists the teachers' names, prefixed with "Offered by".
-- **Pill**: Indicates the current course state.
+<%= embed Global::PageHeaderPreview, :course_page %>
 
-<%= embed Global::PageHeaderPreview, :slim_with_params, params: {
-  title: "Trends and Concepts in the Software Industry",
-  subtitle: "Offered by openHPI Teaching team",
-  pill: "Course has not yet started"
-} %>
+### Course item pages
 
-If the user is not enrolled, the course details page will use the larger variant of the `PageHeader` instead.
+Item pages additionally render the `Items::Header` inside the page header, so the item the user is working on sits directly below the course it belongs to.
 
-<%= embed Global::PageHeaderPreview, :with_params, params: {
-  title: "Trends and Concepts in the Software Industry",
-  subtitle: "Offered by openHPI Teaching team",
-  pill: "Course has not yet started"
-} %>
+<%= embed Global::PageHeaderPreview, :course_item_page %>
 
-## Platform administration
+### Course pages with navigation
 
-In platform administration pages, the `PageHeader` is used with "Platform administration" as the `subtitle`.
-The `title` is determined as follows:
+The course details, forum, progress, and announcements pages show the course navigation instead of the title. Pass it as `navigation`: the header switches to the light accent background, and the title stays available to screen readers as the page heading.
 
-- **`Index` pages**: The `title` will include the name of the Model instances being listed.
-  <%= embed Global::PageHeaderPreview, :slim_with_params, params: {
-    title: "LTI Providers",
-    subtitle: "Platform administration",
-    pill: nil
-  } %>
-
-- **`Edit` and `New` pages**: The `title` reflects the page action ("Edit" for edit pages and "New", "Add", or "Create" for new pages) followed by the Model name. Ensure the action verb matches the text of the button or link that directs the user to the page, unless an icon was used.
-  <%= embed Global::PageHeaderPreview, :slim_with_params, params: {
-    title: "Edit LTI Provider",
-    subtitle: "Platform administration",
-    pill: nil
-  } %>
-
-- **`Show` pages and other platform administration pages**: Show pages are usually outside of the platform administration context and they use a different layout. If used within this context, the `title` is generally taken from the button or link text that directs the user to the page.
-  <%= embed Global::PageHeaderPreview, :slim_with_params, params: {
-    title: "Change channel order",
-    subtitle: "Platform administration",
-    pill: nil
-  } %>
+<%= embed Global::PageHeaderPreview, :course_page_with_navigation %>
 
 ## Course administration
 
-For course administration pages, the `PageHeader` is used similarly to platform administration pages -- with a few differences:
+Course administration pages name the page itself as the header title, e.g. "Edit item", and carry the course they belong to as the `subtitle`. They show no breadcrumbs. Render them through the `course/shared/admin_page_header` partial rather than building the header per page.
 
-- **Title**: Follows the same rules as platform administration pages listed above, but appends the course title after a dash.
-- **Subtitle**: Use "Course administration".
-- **Pill**: Indicates the current course state.
+<%= embed Global::PageHeaderPreview, :course_admin_page %>
 
-<%= embed Global::PageHeaderPreview, :slim_with_params, params: {
-  title: "Enrollments - Cloud und Virtualisierung",
-  subtitle: "Course administration",
-  pill: "Self-paced course"
-} %>
+## Platform administration
+
+Platform administration pages show the page title with "Platform administration" as the `subtitle`.
+
+<%= embed Global::PageHeaderPreview, :simple %>
+
+## Additional content
+
+Anything passed as content renders below the title, e.g. the course administration links.
+
+<%= embed Global::PageHeaderPreview, :with_additional_content %>

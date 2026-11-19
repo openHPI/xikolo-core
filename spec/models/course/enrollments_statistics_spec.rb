@@ -29,44 +29,4 @@ describe Course::EnrollmentsStatistics do
       it { is_expected.to eq 506 }
     end
   end
-
-  describe '#at_start' do
-    subject { stats.at_start }
-
-    it { is_expected.to eq 2 }
-
-    context 'with enrollment delta' do
-      let(:delta) { 500 }
-
-      it { is_expected.to eq 502 }
-    end
-
-    context 'with course in future' do
-      let(:course) do
-        create(:course, start_date: 1.week.from_now)
-      end
-
-      it { is_expected.to be_nil }
-    end
-  end
-
-  describe '#at_end' do
-    subject { stats.at_end }
-
-    it { is_expected.to eq 5 }
-
-    context 'with enrollment delta' do
-      let(:delta) { 500 }
-
-      it { is_expected.to eq 505 }
-    end
-
-    context 'with course not past' do
-      let(:course) do
-        create(:course, start_date: 2.weeks.ago, end_date: 1.week.from_now)
-      end
-
-      it { is_expected.to be_nil }
-    end
-  end
 end

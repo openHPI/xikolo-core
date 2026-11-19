@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import ready from '../../util/ready';
+import { turboReady } from '../../util/ready';
 import xuiSwal from '../../util/swal';
 import fetch from '../../util/fetch';
 import I18n from '../../i18n/i18n';
@@ -30,7 +30,7 @@ const import_quizzes = new (function () {
   this.fromSpreadSheet = function () {
     xuiSwal
       .fire({
-        title: I18n.t('items.quiz.import_quizzes_by_service'),
+        title: I18n.t('items.quiz.import_quizzes'),
         html:
           '<form>' +
           '  <div class="form-group">' +
@@ -267,7 +267,7 @@ const import_quizzes = new (function () {
   }
 })();
 
-await ready(function () {
+turboReady(function () {
   $('#import_quizzes_by_service_button').on('click', function () {
     import_quizzes.fromSpreadSheet();
   });

@@ -5,7 +5,6 @@ module Navigation
     # Sections
     # ------------
     # Sections have different states based on the parameters passed to them.
-    # The styles are similar to the `Navigation::Item` component.
     #
     # @display bg_color "#fafafa"
     def sections
@@ -13,29 +12,40 @@ module Navigation
         toc.with_section(text: 'With link', link: {href: '/link'})
         toc.with_section(text: 'Without link but with a very long text that should be truncated')
         toc.with_section(text: 'Active', link: {href: '/active'}, active: true)
-        toc.with_section(text: 'Locked, with access', icon: {code: 'lock'}, link: {href: '/locked'})
-        toc.with_section(text: 'Locked, no access', locked: true, tooltip: 'Will be unlocked on Feb. 30th')
-        toc.with_section(text: 'With tooltip', link: {href: '/tooltip'}, tooltip: 'This is a tooltip')
+        toc.with_section(text: 'Locked, with access', locked: true, link: {href: '/locked'})
+        toc.with_section(text: 'Locked, no access', locked: true)
       end
     end
 
     # Units
     # ------------
-    # Sections can have units.
+    # Sections can have units. Sections with units expand in place when
+    # clicking their title; the active section is expanded by default.
     #
-    # They should appear as a list of links.
-    # When active, they have a bold font style.
+    # They should appear as a list of links with their content type icon.
+    # When active, they have a medium font weight.
+    # Completed units have checkmark, and their number is shown on the section.
+    # De-emphasized units use a gray color, like locked ones, but keep their
+    # content type icon instead of the lock.
     #
     # @display bg_color "#fafafa"
     def units
       render Navigation::TableOfContents.new do |toc|
-        toc.with_section(text: 'First Section', link: {href: '/c1'})
-        toc.with_section(text: 'Second Section with units, is active', link: {href: '/c2'}, active: true) do |section|
-          section.with_segment_unit(text: '2.1. Introduction', link: {href: '/c2/u1'})
-          section.with_segment_unit(text: '2.2. The second machine age', link: {href: '/c2/u2'}, active: true)
-          section.with_segment_unit(text: '2.3. Homework', link: {href: '/c2/homework'})
-          section.with_segment_unit(text: '2.4. It is never too late to reinvent the bicycle',
+        toc.with_section(text: 'First Section with units, collapsed', link: {href: '/c1'},
+          progress: {completed: 0, total: 1}) do |section|
+          section.with_segment_unit(text: '1.1. Welcome', icon: 'video', link: {href: '/c1/u1'})
+        end
+        toc.with_section(text: 'Second Section with units, is active', link: {href: '/c2'}, active: true,
+          progress: {completed: 1, total: 5}) do |section|
+          section.with_segment_unit(text: '2.1. Introduction', icon: 'video', link: {href: '/c2/u1'}, completed: true)
+          section.with_segment_unit(text: '2.2. The second machine age', icon: 'text', link: {href: '/c2/u2'},
+            active: true)
+          section.with_segment_unit(text: '2.3. Homework', icon: 'exam', link: {href: '/c2/homework'})
+          section.with_segment_unit(text: '2.4. It is never too late to reinvent the bicycle', icon: 'comment-text',
             link: {href: '/c2/forum'})
+          section.with_segment_unit(text: '2.5. Locked', icon: 'video', locked: true)
+          section.with_segment_unit(text: '2.6. Bonus material', icon: 'text', link: {href: '/c2/bonus'},
+            deemphasized: true)
         end
         toc.with_section(text: 'Third Section', link: {href: '/c3'}, locked: true)
       end
@@ -58,7 +68,7 @@ module Navigation
             sub.with_segment_unit(text: 'Locked', locked: true)
           end
         end
-        toc.with_section(text: 'Week 3', link: {url: '/c3'}, locked: true)
+        toc.with_section(text: 'Week 3', link: {href: '/c3'}, locked: true)
       end
     end
 

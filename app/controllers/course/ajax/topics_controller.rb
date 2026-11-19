@@ -13,7 +13,7 @@ module Course
         topic = ::Pinboard::TopicForm.from_params(topic_params)
 
         unless topic.valid?
-          return render status: :unprocessable_entity,
+          return render status: :unprocessable_content,
             json: {errors: topic.errors}
         end
 
@@ -35,7 +35,7 @@ module Course
         }
       rescue Restify::NetworkError, Restify::ResponseError
         topic.errors.add(:base, I18n.t(:'errors.messages.topic.base.not_created'))
-        render status: :unprocessable_entity,
+        render status: :unprocessable_content,
           json: {errors: topic.errors}
       end
 
@@ -50,7 +50,12 @@ module Course
       end
 
       def request_course
-        Xikolo::Course::Course.find params[:course_id]
+        course = CourseService::Course.by_identifier(params[:course_id]).take
+        if course.nil?
+          raise Status::NotFound
+        end
+
+        course
       end
     end
   end

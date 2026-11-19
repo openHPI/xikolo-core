@@ -40,8 +40,11 @@ module Global
       @connected_type if %w[default filled dashed disabled].include?(@connected_type)
     end
 
-    def icon
-      Global::FaIcon.new(@icon_name)
+    def pixelart_icon?
+      return false if @icon_name.blank?
+
+      path = Rails.root.join('app/assets/images/pixelarticons', "#{@icon_name}.svg")
+      File.exist?(path)
     end
   end
 end

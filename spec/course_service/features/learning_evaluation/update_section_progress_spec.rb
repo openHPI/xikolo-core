@@ -4,11 +4,7 @@ require 'spec_helper'
 
 describe 'Learning Evaluation: Update section progress', type: :feature do
   let!(:homework) { create(:'course_service/item', :homework, max_dpoints: 20) }
-  let(:user_id) { generate(:user_id) }
-
-  before do
-    Xikolo.config.persisted_learning_evaluation = true
-  end
+  let(:user_id) { create(:'account_service/user').id }
 
   describe 'CourseService::Creating a result' do
     subject(:create_result) { CourseService::Result.create! user_id:, item: homework, dpoints: 10 }
@@ -25,7 +21,7 @@ describe 'Learning Evaluation: Update section progress', type: :feature do
 
     it '(asynchronously) creates a new section progress' do
       expect do
-        Sidekiq::Testing.inline! { create_result }
+        perform_enqueued_jobs { create_result }
       end.to change(CourseService::SectionProgress, :count).by(1)
 
       expect(CourseService::SectionProgress.last).to have_attributes(
@@ -42,7 +38,7 @@ describe 'Learning Evaluation: Update section progress', type: :feature do
       create(:'course_service/section_progress', section: homework.section, user_id:)
 
       expect do
-        Sidekiq::Testing.inline! { create_result }
+        perform_enqueued_jobs { create_result }
       end.not_to change(CourseService::SectionProgress, :count)
 
       expect(CourseService::SectionProgress.last).to have_attributes(
@@ -73,7 +69,7 @@ describe 'Learning Evaluation: Update section progress', type: :feature do
 
     it '(asynchronously) creates a new section progress' do
       expect do
-        Sidekiq::Testing.inline! { update_result }
+        perform_enqueued_jobs { update_result }
       end.to change(CourseService::SectionProgress, :count).by(1)
 
       expect(CourseService::SectionProgress.last).to have_attributes(
@@ -90,7 +86,7 @@ describe 'Learning Evaluation: Update section progress', type: :feature do
       create(:'course_service/section_progress', section: homework.section, user_id:)
 
       expect do
-        Sidekiq::Testing.inline! { update_result }
+        perform_enqueued_jobs { update_result }
       end.not_to change(CourseService::SectionProgress, :count)
 
       expect(CourseService::SectionProgress.last).to have_attributes(
@@ -121,7 +117,7 @@ describe 'Learning Evaluation: Update section progress', type: :feature do
 
     it '(asynchronously) creates a new section progress' do
       expect do
-        Sidekiq::Testing.inline! { create_visit }
+        perform_enqueued_jobs { create_visit }
       end.to change(CourseService::SectionProgress, :count).by(1)
 
       expect(CourseService::SectionProgress.last).to have_attributes(visits: 1)
@@ -131,7 +127,7 @@ describe 'Learning Evaluation: Update section progress', type: :feature do
       create(:'course_service/section_progress', section: video.section, user_id:)
 
       expect do
-        Sidekiq::Testing.inline! { create_visit }
+        perform_enqueued_jobs { create_visit }
       end.not_to change(CourseService::SectionProgress, :count)
 
       expect(CourseService::SectionProgress.last).to have_attributes(visits: 1)

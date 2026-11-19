@@ -26,13 +26,25 @@ export const loadTranslations = (): Promise<void> => {
     i18n.locale = locale;
 
     if (localeUrl) {
-      const response = await fetch(localeUrl);
-      const translations = await response.json();
-      i18n.store(translations);
+      i18n.store(await fetchTranslations(localeUrl));
     }
   })();
 
   return translationsPromise;
+};
+
+const fetchTranslations = async (
+  url: string,
+): Promise<Record<string, unknown>> => {
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error(
+      `Failed to fetch translations (${response.status}): ${response.statusText}`,
+    );
+  }
+
+  return response.json();
 };
 
 export default i18n;

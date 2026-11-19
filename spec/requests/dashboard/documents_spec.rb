@@ -3,17 +3,17 @@
 require 'spec_helper'
 
 describe 'Dashboard: Documents: Index', type: :request do
-  subject(:show_certificates) { get '/dashboard/documents', headers: }
+  subject(:show_certificates) { get '/dashboard/documents' }
 
   let(:page) { Capybara.string(response.body) }
-  let(:headers) { {Authorization: "Xikolo-Session session_id=#{stub_session_id}"} }
-  let(:user_id) { generate(:user_id) }
-  let(:features) { {} }
+  let(:user) { create(:'account_service/user') }
+  let(:user_id) { user.id }
   let(:enrollments) { [] }
   let(:preferences) { {properties: {}} }
+  let(:authenticate) { true }
 
   before do
-    stub_user_request(id: user_id, features:)
+    sign_in(user:) if authenticate
 
     Stub.request(
       :course, :get, '/enrollments',
@@ -81,12 +81,12 @@ describe 'Dashboard: Documents: Index', type: :request do
 
       it 'does not show any certificates' do
         show_certificates
-        expect(page).to have_content('My certificates')
-        expect(page).to have_content('There are no certificates available yet.')
-        expect(page).to have_no_content('My Awesome Course')
-        expect(page).to have_no_button('Record of Achievement')
-        expect(page).to have_no_button('Confirmation of Participation')
+        expect(page).to have_text('My certificates')
+        expect(page).to have_text('There are no certificates available yet.')
+        expect(page).to have_no_text('My Awesome Course')
         expect(page).to have_no_button('Certificate')
+        expect(page).to have_no_button('Confirmation of Participation')
+        expect(page).to have_no_button('Verified Certificate')
       end
     end
 
@@ -100,20 +100,21 @@ describe 'Dashboard: Documents: Index', type: :request do
       end
 
       before do
+        create(:'course_service/course_progress', course:, user_id:, points_percentage_fpoints: 0)
         create(:certificate_template, :cop, course:)
         create(:certificate_template, :roa, course:)
       end
 
       it "shows a 'Confirmation of Participation' download link & a disabled RoA button" do
         show_certificates
-        expect(page).to have_content('My certificates')
-        expect(page).to have_content('My Awesome Course')
-        expect(page).to have_content('(my-course)')
+        expect(page).to have_text('My certificates')
+        expect(page).to have_text('My Awesome Course')
+        expect(page).to have_text('(my-course)')
         expect(page).to have_no_button('Confirmation of Participation')
         expect(page).to have_link('Confirmation of Participation',
           href: "/certificate/render?course_id=#{course.id}&type=ConfirmationOfParticipation")
-        expect(page).to have_button('Record of Achievement', disabled: true)
-        expect(page).to have_no_button('Certificate')
+        expect(page).to have_button('Certificate', disabled: true)
+        expect(page).to have_no_button('Verified Certificate')
       end
     end
 
@@ -135,18 +136,21 @@ describe 'Dashboard: Documents: Index', type: :request do
         }
       end
 
-      before { create(:certificate_template, :cop, course:) }
+      before do
+        create(:'course_service/course_progress', course:, user_id:, points_percentage_fpoints: 0)
+        create(:certificate_template, :cop, course:)
+      end
 
       it "still shows a 'Confirmation of Participation' download link" do
         show_certificates
-        expect(page).to have_content('My certificates')
-        expect(page).to have_content('My Awesome Course')
-        expect(page).to have_content('(my-course)')
+        expect(page).to have_text('My certificates')
+        expect(page).to have_text('My Awesome Course')
+        expect(page).to have_text('(my-course)')
         expect(page).to have_no_button('Confirmation of Participation')
         expect(page).to have_link('Confirmation of Participation',
           href: "/certificate/render?course_id=#{course.id}&type=ConfirmationOfParticipation")
-        expect(page).to have_no_button('Record of Achievement')
         expect(page).to have_no_button('Certificate')
+        expect(page).to have_no_button('Verified Certificate')
       end
     end
 
@@ -160,28 +164,29 @@ describe 'Dashboard: Documents: Index', type: :request do
       end
 
       before do
+        create(:'course_service/course_progress', course:, user_id:)
         create(:certificate_template, :roa, course:)
         create(:certificate_template, :cop, course:)
       end
 
-      it "shows a 'Record of Achievement' download link" do
+      it "shows a 'Certificate' download link" do
         show_certificates
-        expect(page).to have_content('My certificates')
-        expect(page).to have_content('My Awesome Course')
-        expect(page).to have_content('(my-course)')
+        expect(page).to have_text('My certificates')
+        expect(page).to have_text('My Awesome Course')
+        expect(page).to have_text('(my-course)')
         expect(page).to have_no_button('Confirmation of Participation')
         expect(page).to have_link('Confirmation of Participation',
           href: "/certificate/render?course_id=#{course.id}&type=ConfirmationOfParticipation")
-        expect(page).to have_no_button('Record of Achievement')
-        expect(page).to have_link('Record of Achievement',
-          href: "/certificate/render?course_id=#{course.id}&type=RecordOfAchievement")
         expect(page).to have_no_button('Certificate')
+        expect(page).to have_link('Certificate',
+          href: "/certificate/render?course_id=#{course.id}&type=RecordOfAchievement")
+        expect(page).to have_no_button('Verified Certificate')
       end
     end
   end
 
   context 'as anonymous user' do
-    let(:headers) { {} }
+    let(:authenticate) { false }
 
     it 'redirects to the login page' do
       show_certificates

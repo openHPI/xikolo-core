@@ -6,23 +6,15 @@ describe PinboardCommentController, type: :controller do
   let(:default_params) { {format: 'json'} }
 
   let(:course_id) { SecureRandom.uuid }
-  let(:course_context_id) { SecureRandom.uuid }
-  let(:request_context_id) { course_context_id }
+  let(:course_context) { AccountService::Context.root }
+  let(:course) { create(:'course_service/course', :active, id: course_id, course_code: 'the_course', title: 'Test Course') }
 
-  let(:user_id) { SecureRandom.uuid }
+  let(:comment_user_id) { SecureRandom.uuid }
+  let(:user) { create(:'account_service/user', id: comment_user_id) }
   let(:comment_id) { SecureRandom.uuid }
 
   before do
-    Stub.request(
-      :course, :get, "/courses/#{course_id}"
-    ).to_return Stub.json({
-      id: course_id,
-      course_code: 'the_course',
-      status: 'active',
-      start_date: 1.week.ago.iso8601,
-      end_date: 1.week.from_now.iso8601,
-      context_id: course_context_id,
-    })
+    course
 
     Stub.request(
       :pinboard, :get, "/comments/#{comment_id}"
@@ -30,11 +22,11 @@ describe PinboardCommentController, type: :controller do
       id: comment_id,
     })
 
-    stub_user(id: user_id)
+    sign_in(user:)
   end
 
   describe 'POST create' do
-    subject(:create) { post :create, params: }
+    subject(:create_action) { post :create, params: }
 
     let(:params) do
       default_params.merge(
@@ -58,31 +50,31 @@ describe PinboardCommentController, type: :controller do
 
     context 'not logged in' do
       it 'redirects to the course path' do
-        expect(create).to redirect_to course_path('the_course')
+        expect(create_action).to redirect_to course_path('the_course')
       end
 
       it 'does not create the comment' do
-        create
+        create_action
         expect(create_comment).not_to have_been_requested
       end
     end
 
     context 'logged in, with course access' do
-      before { stub_user id: user_id, permissions: ['course.content.access'] }
+      before { sign_in user: user, permissions: ['course.content.access'] }
 
       it 'redirects back to the course_question_path' do
-        expect(create).to redirect_to course_question_path(course_id:, id: question_id)
+        expect(create_action).to redirect_to course_question_path(course_id:, id: question_id)
       end
 
       it 'creates a comment' do
-        create
+        create_action
         expect(create_comment).to have_been_requested
       end
     end
   end
 
   describe 'PUT update' do
-    subject(:update) { put :update, params: }
+    subject(:update_action) { put :update, params: }
 
     let(:params) do
       default_params.merge(
@@ -108,31 +100,31 @@ describe PinboardCommentController, type: :controller do
 
     context 'not logged in' do
       it 'redirects the user back to the course path' do
-        expect(update).to redirect_to course_path('the_course')
+        expect(update_action).to redirect_to course_path('the_course')
       end
 
       it 'does not update the comment' do
-        update
+        update_action
         expect(update_comment).not_to have_been_requested
       end
     end
 
     context 'logged in, with course access' do
-      before { stub_user permissions: ['course.content.access'] }
+      before { sign_in user: user, permissions: ['course.content.access'] }
 
       it 'redirect to the course question path' do
-        expect(update).to redirect_to course_question_path(course_id:, id: question_id)
+        expect(update_action).to redirect_to course_question_path(course_id:, id: question_id)
       end
 
       it 'updates the comment' do
-        update
+        update_action
         expect(update_comment).to have_been_requested
       end
     end
   end
 
   describe 'POST block' do
-    subject(:block) { post :block, params: }
+    subject(:block_action) { post :block, params: }
 
     let(:params) do
       default_params.merge(
@@ -160,44 +152,44 @@ describe PinboardCommentController, type: :controller do
 
     context 'not logged in' do
       it 'redirects to the course path' do
-        expect(block).to redirect_to course_path('the_course')
+        expect(block_action).to redirect_to course_path('the_course')
       end
 
       it 'does not block the comment' do
-        block
+        block_action
         expect(block_comment).not_to have_been_requested
       end
     end
 
     context 'logged in, with course access' do
-      before { stub_user permissions: ['course.content.access'] }
+      before { sign_in user: user, permissions: ['course.content.access'] }
 
       it 'redirects to the course root' do
-        expect(block).to redirect_to root_path
+        expect(block_action).to redirect_to root_path
       end
 
       it 'does not block the comment' do
-        block
+        block_action
         expect(block_comment).not_to have_been_requested
       end
     end
 
     context 'logged in, with course access and permission to block comment' do
-      before { stub_user permissions: ['course.content.access', 'pinboard.entity.block'] }
+      before { sign_in user: user, permissions: ['course.content.access', 'pinboard.entity.block'] }
 
       it 'redirects to the course question show page' do
-        expect(block).to redirect_to(course_question_path(course_id:, id: question_id))
+        expect(block_action).to redirect_to(course_question_path(course_id:, id: question_id))
       end
 
       it 'blocks the comment' do
-        block
+        block_action
         expect(block_comment).to have_been_requested
       end
     end
   end
 
   describe 'POST unblock' do
-    subject(:unblock) { post :unblock, params: }
+    subject(:unblock_action) { post :unblock, params: }
 
     let(:params) do
       default_params.merge(
@@ -224,44 +216,44 @@ describe PinboardCommentController, type: :controller do
 
     context 'not logged in' do
       it 'redirects to the course path' do
-        expect(unblock).to redirect_to course_path('the_course')
+        expect(unblock_action).to redirect_to course_path('the_course')
       end
 
       it 'does not unblock the comment' do
-        unblock
+        unblock_action
         expect(unblock_comment).not_to have_been_requested
       end
     end
 
     context 'logged in, with course access' do
-      before { stub_user permissions: ['course.content.access'] }
+      before { sign_in user: user, permissions: ['course.content.access'] }
 
       it 'redirects to the course root' do
-        expect(unblock).to redirect_to root_path
+        expect(unblock_action).to redirect_to root_path
       end
 
       it 'does not unblock the comment' do
-        unblock
+        unblock_action
         expect(unblock_comment).not_to have_been_requested
       end
     end
 
     context 'logged in, with course access and permission to block comment' do
-      before { stub_user permissions: ['course.content.access', 'pinboard.entity.block'] }
+      before { sign_in user: user, permissions: ['course.content.access', 'pinboard.entity.block'] }
 
       it 'redirects to the course question path' do
-        expect(unblock).to redirect_to course_question_path(course_id:, id: question_id)
+        expect(unblock_action).to redirect_to course_question_path(course_id:, id: question_id)
       end
 
       it 'unblocks the comment' do
-        unblock
+        unblock_action
         expect(unblock_comment).to have_been_requested
       end
     end
   end
 
   describe 'DELETE destroy' do
-    subject(:destroy) { delete :destroy, params: }
+    subject(:destroy_action) { delete :destroy, params: }
 
     let(:params) do
       default_params.merge(
@@ -281,37 +273,37 @@ describe PinboardCommentController, type: :controller do
 
     context 'not logged in' do
       it 'redirects to the course path' do
-        expect(destroy).to redirect_to course_path('the_course')
+        expect(destroy_action).to redirect_to course_path('the_course')
       end
 
       it 'does not delete the comment' do
-        destroy
+        destroy_action
         expect(delete_comment).not_to have_been_requested
       end
     end
 
     context 'logged in, with course access' do
-      before { stub_user permissions: ['course.content.access'] }
+      before { sign_in user: user, permissions: ['course.content.access'] }
 
       it 'redirects to the root path' do
-        expect(destroy).to redirect_to root_path
+        expect(destroy_action).to redirect_to root_path
       end
 
       it 'does not delete the comment' do
-        destroy
+        destroy_action
         expect(delete_comment).not_to have_been_requested
       end
     end
 
     context 'logged in, with course access and permission to delete comment' do
-      before { stub_user permissions: ['course.content.access', 'pinboard.entity.delete'] }
+      before { sign_in user: user, permissions: ['course.content.access', 'pinboard.entity.delete'] }
 
       it 'redirects to the course question path' do
-        expect(destroy).to redirect_to course_question_path(course_id:, id: question_id)
+        expect(destroy_action).to redirect_to course_question_path(course_id:, id: question_id)
       end
 
       it 'deletes the comment' do
-        destroy
+        destroy_action
         expect(delete_comment).to have_been_requested
       end
     end

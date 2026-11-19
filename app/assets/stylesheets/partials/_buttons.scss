@@ -118,11 +118,6 @@
 }
 
 /*------------------------------------*\
-    $Local Variables
-\*------------------------------------*/
-$next-prev-height: 40px;
-
-/*------------------------------------*\
     $Button Variants
 \*------------------------------------*/
 
@@ -354,78 +349,6 @@ a.btn {
 
 .btn-mail {
   @include btn-variant($white, $black, $white);
-}
-
-/* ------------------------------------*\
-    $Quiz action(s)
-\*------------------------------------ */
-.action-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin-top: 40px;
-
-  & > * {
-    flex: 0 0 auto;
-  }
-
-  .filler-area,
-  .multi_action-container {
-    width: 100%;
-  }
-}
-
-// The filler area lies (full-width) between both buttons and may be used
-// for action buttons and the like (i.e. take self-test)
-.filler-area,
-.multi-action-filler-area {
-  height: $next-prev-height;
-  border: 0;
-  background: $primary-color;
-  color: $white;
-  cursor: pointer;
-  line-height: $next-prev-height;
-  outline: none;
-  text-align: center;
-
-  &:active,
-  &:hover,
-  &:focus {
-    color: $white;
-    text-decoration: none;
-  }
-
-  // Disabled is taken by bootstrap, use "inactive" instead
-  &:not(.inactive) {
-    &:hover {
-      background-color: $primary-600;
-      color: $white;
-      text-decoration: none;
-    }
-  }
-
-  & > span {
-    vertical-align: middle;
-  }
-
-  &.inactive {
-    background-color: color.adjust(
-      $primary-color,
-      $lightness: 20%,
-      $space: hsl
-    );
-    cursor: not-allowed;
-  }
-}
-
-.multi-action-filler-area {
-  display: inline-block !important;
-  width: 50%;
-}
-
-.multi_action-container {
-  overflow: hidden;
-  white-space: nowrap;
 }
 
 //------------------------------------

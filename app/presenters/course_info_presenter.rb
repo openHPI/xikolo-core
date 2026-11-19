@@ -15,35 +15,32 @@ class CourseInfoPresenter < PrivatePresenter
     :classifiers,
     :alternative_teacher_text,
     :external_course_url,
-    :hidden,
-    :fullstate,
+    :status,
     :pinboard_enabled,
-    :rating_stars,
-    :rating_votes,
-    :proctored,
     :learning_goals,
-    :target_groups
+    :course_format,
+    :updated_at
 
   def self.build(course, user, enrollments = nil)
     new(course:, user:, enrollments:)
   end
 
   def start_date
-    return if @course['start_date'].blank?
+    return if @course.start_date.blank?
 
-    ::DateTime.iso8601 @course['start_date']
+    @course.start_date
   end
 
   def end_date
-    return if @course['end_date'].blank?
+    return if @course.end_date.blank?
 
-    ::DateTime.iso8601 @course['end_date']
+    @course.end_date
   end
 
   def display_start_date
-    return if @course['display_start_date'].blank?
+    return if @course.display_start_date.blank?
 
-    ::DateTime.iso8601 @course['display_start_date']
+    @course.display_start_date
   end
 
   def effective_start_date
@@ -55,7 +52,7 @@ class CourseInfoPresenter < PrivatePresenter
   end
 
   def visual_url
-    visual&.image_url.presence || Xikolo::V2::URL.asset_url('defaults/course.png')
+    visual&.image_url.presence || ActionController::Base.helpers.asset_url('defaults/course.png')
   end
 
   def abstract_html
@@ -67,7 +64,7 @@ class CourseInfoPresenter < PrivatePresenter
   end
 
   def description_html(external: false)
-    desc = render_markdown description_markup, allow_tables: true, escape_html: false
+    desc = render_markdown(externalize_description, allow_tables: true, escape_html: false)
     if external && desc
       desc.gsub %r{(/files/[a-z0-9-]+)} do |match|
         Xikolo.config.base_url.join(match).to_s
@@ -79,10 +76,6 @@ class CourseInfoPresenter < PrivatePresenter
 
   def learning_goals?
     learning_goals.present?
-  end
-
-  def target_groups?
-    target_groups.present?
   end
 
   def channel_code
@@ -132,7 +125,7 @@ class CourseInfoPresenter < PrivatePresenter
   end
 
   def subtitles_info
-    @subtitles_info ||= ::Course::Course
+    @subtitles_info ||= ::CourseService::Course
       .by_identifier(@course.course_code).take!
       .subtitle_offer
       .map {|lang| I18n.t(:"subtitles.languages.#{lang}") }
@@ -156,33 +149,6 @@ class CourseInfoPresenter < PrivatePresenter
     @course.invite_only
   end
 
-  def enrollment_policy?
-    enrollment_policy_url.present?
-  end
-
-  def enrollment_policy_url
-    return if @course.policy_url.blank?
-
-    @enrollment_policy_url ||= available_locales.each do |locale|
-      if @course.policy_url.key?(locale)
-        break @course.policy_url[locale]
-      end
-    end
-  end
-
-  def external_registration_url?
-    invite_only? && external_registration_url.present?
-  end
-
-  def external_registration_url
-    return if @course.external_registration_url.blank?
-
-    @external_registration_url ||= Translations.new(
-      @course.external_registration_url,
-      locale_preference: available_locales
-    )
-  end
-
   def reactivate?
     @course.offers_reactivation? &&
       !currently_reactivated? &&
@@ -198,38 +164,27 @@ class CourseInfoPresenter < PrivatePresenter
     course_wrapper.certificate_requirements
   end
 
-  def rating_widget_enabled?
-    @user.feature?('course_rating') &&
-      (@course.display_start_date.blank? || @course.display_start_date.past?) &&
-      !invite_only?
-  end
-
-  def rating_stars_icons
-    icons = []
-    rounded_rating = (@course.rating_stars * 2.0).round / 2.0
-    rounded_rating.to_i.times do
-      icons << Global::FaIcon.new('star', style: :solid, css_classes: 'star star--filled')
-    end
-    if rounded_rating % 1 > 0
-      icons << Global::FaIcon.new('star-half-stroke', style: :solid,
-        css_classes: 'star star--filled')
-    end
-    icons << Global::FaIcon.new('star', css_classes: 'star') while icons.count < 5
-    icons
-  end
-
   def public_classifiers
-    @course.classifiers.presence&.slice(*visible_clusters) || {}
+    if @course.classifiers.blank?
+      return {}
+    end
+
+    @course.classifiers
+      .where(cluster_id: visible_clusters)
+      .group_by(&:cluster_id)
   end
 
-  def public_classifiers_string
-    return unless Xikolo.config.course_details['list_classifiers']
+  def category_titles
+    return [] unless Xikolo.config.course_details['list_classifiers']
 
-    classifier_ids = public_classifiers.values.flatten.uniq
-    ::Course::Classifier.where(title: classifier_ids)
+    classifier_ids = public_classifiers.except('level').values.flatten.pluck(:title)
+    ::CourseService::Classifier.where(title: classifier_ids)
       .map(&:localized_title)
       .sort
-      .join(', ')
+  end
+
+  def level
+    public_classifiers['level']&.first&.localized_title
   end
 
   def course_wrapper
@@ -239,21 +194,16 @@ class CourseInfoPresenter < PrivatePresenter
   end
 
   private
+  def externalize_description
+    Xikolo::S3.externalize_file_refs(description_markup, public: true)
+  end
 
   def visible_clusters
     @visible_clusters ||= Rails.cache.fetch(
       'web/course/clusters/visible',
       expires_in: 30.minutes,
       race_condition_ttl: 1.minute
-    ) { Course::Cluster.visible.ids }
-  end
-
-  def available_locales
-    [
-      I18n.locale.to_s,
-      Xikolo.config.locales['default'],
-      *Xikolo.config.locales['available'],
-    ]
+    ) { CourseService::Cluster.visible.ids }
   end
 
   def date_label_with_no_end_date

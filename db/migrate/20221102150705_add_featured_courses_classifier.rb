@@ -19,13 +19,13 @@ class AddFeaturedCoursesClassifier < ActiveRecord::Migration[6.0]
   def change
     reversible do |dir|
       dir.up do
-        cluster = Course::Cluster
+        cluster = CourseService::Cluster
           .create_with(translations: {en: 'Course List', de: 'Kursliste'}, visible: false)
           .find_or_create_by!(id: 'course-list')
-        Course::Classifier.create! cluster:, title: 'Featured'
+        CourseService::Classifier.create! cluster:, title: 'Featured'
       end
       dir.down do
-        Course::Cluster.find('course-list')&.destroy
+        CourseService::Cluster.find('course-list')&.destroy
       end
     end
   end

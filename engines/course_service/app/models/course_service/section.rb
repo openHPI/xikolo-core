@@ -4,7 +4,6 @@ module CourseService
 class Section < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   self.table_name = :sections
 
-  default_scope { order(position: :asc) }
   after_initialize :default_values
 
   scope :available,       -> { was_available.ongoing }
@@ -25,7 +24,8 @@ class Section < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   validates :title, presence: true
   validates :optional_section, exclusion: {in: [nil]}
 
-  has_one :node, class_name: 'CourseService::Structure::Section', foreign_key: :section_id, dependent: :destroy # rubocop:disable Rails/RedundantForeignKey
+  has_one :node, class_name: 'CourseService::Structure::Section', inverse_of: :section,
+    foreign_key: :section_id, dependent: :destroy # rubocop:disable Rails/RedundantForeignKey
 
   has_many :items, -> { order(:position) }, inverse_of: :section
   has_many :forks, inverse_of: :section
@@ -53,10 +53,10 @@ class Section < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   end
 
   after_commit do
-    NextDate::SectionStartSyncWorker.perform_async(id)
+    NextDate::SectionStartSyncJob.perform_later(id)
     items.pluck(:id).each do |item_id|
-      NextDate::ItemSubmissionDeadlineSyncWorker.perform_async(item_id)
-      NextDate::ItemSubmissionPublishingSyncWorker.perform_async(item_id)
+      NextDate::ItemSubmissionDeadlineSyncJob.perform_later(item_id)
+      NextDate::ItemSubmissionPublishingSyncJob.perform_later(item_id)
     end
   end
 
@@ -68,12 +68,37 @@ class Section < ApplicationRecord # rubocop:disable Layout/IndentationWidth
     end_date
   end
 
+  def fulfilled_for?(user)
+    required_items = items.where(optional: false)
+    return true if required_items.empty?
+
+    score = (required_items.count {|item| item.fulfilled_for?(user) } * 100).fdiv(required_items.size).floor
+    score >= Xikolo.config.required_assessment_threshold
+  end
+
+  # Is the content of this section accessible to users at this time?
+  def available?
+    unlocked? && published?
+  end
+
+  # Are the time constraints (start and end date) fulfilled?
+  def unlocked?
+    return false if effective_start_date&.future?
+    return false if end_date&.past?
+
+    true
+  end
+
   def course_archived
-    course.status == 'archive'
+    course.status == 'self-paced'
   end
 
   def parent?
     alternative_state == 'parent'
+  end
+
+  def child?
+    alternative_state == 'child'
   end
 
   def optional?
@@ -86,6 +111,12 @@ class Section < ApplicationRecord # rubocop:disable Layout/IndentationWidth
 
   def goals(user_id)
     SectionGoals.new(self, user_id)
+  end
+
+  def alternatives
+    return unless parent?
+
+    @alternatives ||= CourseService::Section.where(parent_id: id)
   end
 
   # rubocop:disable Style/IfInsideElse

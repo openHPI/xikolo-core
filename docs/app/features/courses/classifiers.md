@@ -11,15 +11,8 @@ This determines whether they will be shown to end-users, e.g. as filter dropdown
 Even hidden clusters can be used for filtering on the course list, however not via the user interface (only via query parameter in the URL).
 
 Classifiers are also used as **tags** on the course details page and on course cards.
-For course cards, clusters must be configured (as array) to be considered.
+Course cards display classifiers from the visible `topic` and `level` clusters.
 
-!!! example
-
-    ``` yaml
-    course_card:
-      classifier_clusters:
-        - topic
-    ```
 For the course details page, tags are only shown if enabled via config.
 
 !!! example
@@ -29,4 +22,4 @@ For the course details page, tags are only shown if enabled via config.
       list_classifiers: true # default
     ```
 
-Classifiers from invisible clusters are not included, even if explicitly configured for the course cards.
+Classifiers from invisible clusters are not included.

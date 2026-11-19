@@ -6,7 +6,7 @@ describe QuizService::AttemptsHandler, type: :handler do
   subject(:handler) { described_class.new(course_id, user_id) }
 
   let!(:quiz) { create(:'quiz_service/quiz') }
-  let(:user_id) { SecureRandom.uuid }
+  let(:user_id) { create(:'account_service/user').id }
   let(:course_id) { SecureRandom.uuid }
   let(:section_id) { SecureRandom.uuid }
 

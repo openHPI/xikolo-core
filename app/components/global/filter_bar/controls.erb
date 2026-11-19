@@ -1,0 +1,32 @@
+<div class="<%= 'sticky shadow-sm top-navbar w-full z-m bg-base-100 text-base-content' if @show_overview %>">
+  <div class="<%= 'flex items-center justify-between mx-auto max-w-main-content py-2.5 px-4' if @show_overview %>">
+    <% if @show_overview %>
+      <div class="flex min-w-0 flex-col sm:flex-row">
+        <p class="mr-2.5 wrap-anywhere">
+          <span class="mr-1 font-bold">
+            <%= t(:'components.filter_bar.filter.results') %>
+          </span>
+          <%= applied_filters %>
+        </p>
+
+        <%= link_to '#adjust-anchor', class: 'x-link', data: {action: 'click->filter-bar#expand'} do %>
+          <%= render Global::FaIcon.new('filter', css_classes: 'mr-1') %>
+          <%= t(:'components.filter_bar.filter.adjust') %>
+        <% end %>
+      </div>
+    <% end %>
+
+    <div class="<%= 'flex flex-col sm:flex-row items-center' if @show_overview %>">
+      <% if @results_count %>
+        <div class="sm:mr-2.5">
+          <span class="x-badge"><%= results_count %></span>
+        </div>
+      <% end %>
+
+      <%= link_to @path, class: class_names('whitespace-nowrap', @show_overview ? 'x-link' : 'x-btn x-btn-ghost x-btn-sm'), data: { 'hide-on-click': @content_id, 'show-on-click': @loading_indicator_id } do %>
+        <%= render Global::FaIcon.new('undo', css_classes: 'mr-1') %>
+        <%= t(:'components.filter_bar.filter.reset') %>
+      <% end %>
+    </div>
+  </div>
+</div>

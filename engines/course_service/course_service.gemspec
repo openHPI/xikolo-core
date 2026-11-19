@@ -20,5 +20,5 @@ Gem::Specification.new do |spec|
     Dir['{app,config,db,lib}/**/*']
   end
 
-  spec.required_ruby_version = '>= 3.4'
+  spec.required_ruby_version = '>= 4.0'
 end

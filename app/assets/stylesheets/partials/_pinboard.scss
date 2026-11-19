@@ -8,7 +8,6 @@
 /**
  * Variables................Variables
  * Filter...................Search filters like tags, sortation, categories, ...
- * Breadcrumbs..............Breadcrumb navigation
  * Question.................Pinboard question component (on the pinboard overview)
  * Tags.....................Pinboard tag styles
  * Question-Answer-Box......Question and answer box styles for questions, answers (and posts in a thread)
@@ -52,8 +51,8 @@ $xi-pinboard-comment-avatar-connector-width: 2px;
     select {
       // Truncate text
       overflow: hidden;
-      min-width: 15rem;
-      max-width: 30rem;
+      min-width: legacy-rem(15rem);
+      max-width: legacy-rem(30rem);
       border: none;
       border-bottom: 1px solid $gray-250;
       margin-left: 5px;
@@ -61,39 +60,6 @@ $xi-pinboard-comment-avatar-connector-width: 2px;
       color: $text-color;
       text-overflow: ellipsis;
       white-space: nowrap;
-    }
-  }
-}
-
-//------------------------------------
-// $Breadcrumbs
-//------------------------------------
-
-.pinboard-breadcrumbs {
-  padding-top: 20px;
-
-  span {
-    color: color.adjust($text-color, $lightness: -20%, $space: hsl);
-  }
-
-  a {
-    display: inline-block;
-    padding-left: 5px;
-
-    &:before {
-      display: inline-block;
-      padding-right: 5px;
-      color: $text-color;
-      content: ">";
-      pointer-events: none;
-    }
-
-    &:first-of-type:before {
-      content: none;
-    }
-
-    &:last-of-type {
-      color: color.adjust($text-color, $lightness: 20%, $space: hsl);
     }
   }
 }

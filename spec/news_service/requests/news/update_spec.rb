@@ -3,27 +3,26 @@
 require 'spec_helper'
 
 RSpec.describe 'Announcements: Update', type: :request do
-  subject(:request) { service.rel(:news).patch(payload, params: {id: announcement.id}).value! }
+  subject(:request) { service.rel(:news).patch(params: update_params).value! }
 
   let(:service) { restify_with_headers(news_service_url).get.value! }
 
+  let(:params) { {id: announcement.id} }
   let!(:announcement) { create(:'news_service/news') }
   let(:announcement_id) { announcement.id }
   let(:new_announcement_title) { 'The updated title' }
   let(:new_announcement_text) { 'The updated text' }
 
   context 'with invalid data' do
-    let(:payload) { {author_id: nil} }
+    let(:update_params) { params.merge!({author_id: nil}) }
 
     it 'returns with errors' do
-      expect { request }.to raise_error(Restify::ClientError) do |e|
-        expect(e.status).to eq :unprocessable_content
-      end
+      expect { request }.to raise_error(Restify::UnprocessableEntity)
     end
   end
 
   context 'with valid announcement data' do
-    let(:payload) { {title: new_announcement_title, text: new_announcement_text} }
+    let(:update_params) { params.merge!({title: new_announcement_title, text: new_announcement_text}) }
 
     it { is_expected.to respond_with :ok }
 
@@ -42,11 +41,12 @@ RSpec.describe 'Announcements: Update', type: :request do
     context 'with a translation' do
       let(:new_german_title) { 'Deutscher Titel' }
       let(:new_german_text) { 'Deutscher Text' }
-      let(:payload) do
-        super().merge(
-          translations: {
-            de: {title: new_german_title, text: new_german_text},
-          }
+      let(:update_params) do
+        params.merge(
+          title: new_announcement_title,
+          text: new_announcement_text,
+          'translations[de][title]' => new_german_title,
+          'translations[de][text]' => new_german_text
         )
       end
 

@@ -6,8 +6,9 @@
     button.helpdesk-closing-button aria-label=t(:'global.close')
       = render Global::FaIcon.new('xmark', style: :solid)
 
+    #helpdesk-panel__loading
+      = render State::Loading.new
+
     .helpdesk-default-box#helpdesk-ajax-container
-      #helpdesk-panel__loading
-        = render State::Loading.new
 
     .helpdesk-result-box

@@ -8,7 +8,6 @@
  * Variables...................Variables and Bootstrap SASS-Var overrides
  * Bootstrap-Import............Required import for BS component
  * Pagination-Base.............Base styling
- * Pinboard-Paginate...........Pinboard-specific styles
  */
 
 /*------------------------------------*\
@@ -58,13 +57,4 @@ $pagination-disabled-color: $white;
       border-radius: 0 !important;
     }
   }
-}
-
-/*------------------------------------*\
-    $Pinboard-Paginate
-\*------------------------------------*/
-.pinboard-paginate {
-  padding-top: 20px;
-  padding-bottom: 20px;
-  text-align: center;
 }

@@ -1,10 +1,8 @@
 common: &common
   adapter: postgresql
   url: <%= ENV['DATABASE_URL'] %>
-  pool: <%= ENV['CONCURRENCY'] || ENV['RAILS_MAX_THREADS'] || 25 %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
-  variables:
-    statement_timeout: "10s"
 
 development:
   primary:
@@ -22,13 +20,10 @@ test:
   <<: *common
   database: xikolo-test
 
-integration:
-  <<: *common
-  database: xikolo-integration
-
-# Production environment is overridden by our deployment tooling. The
-# development configuration is used here to ease testing the production
-# environment locally.
 production:
-  <<: *common
-  database: xikolo
+  primary:
+    <<: *common
+  queue:
+    <<: *common
+    url: <%= ENV['DATABASE_QUEUE_URL'] %>
+    migrations_paths: db/queue_migrate

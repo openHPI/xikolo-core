@@ -1,0 +1,10 @@
+<div class="x-chat x-chat-end p-0">
+  <div class="x-chat-image">
+    <%= image_tag 'mascot.svg', alt: '', width: 121, height: 121, class: 'size-24 lg:size-30' %>
+  </div>
+  <% if @message.present? %>
+    <p class="x-chat-bubble mb-8 max-w-64 bg-secondary-25 text-base-content lg:mb-12 text-base">
+      <%= @message %>
+    </p>
+  <% end %>
+</div>

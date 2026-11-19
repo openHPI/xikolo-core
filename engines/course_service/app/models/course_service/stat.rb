@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module CourseService
-# rubocop:disable Layout/LineLength
+# rubocop:disable-next Layout/LineLength
 class Stat # rubocop:disable Layout/IndentationWidth
   extend ActiveModel::Naming
 
@@ -16,7 +16,7 @@ class Stat # rubocop:disable Layout/IndentationWidth
     :platform_current_enrollments, :platform_last_day_enrollments, :platform_last_day_unique_enrollments,
     :platform_enrollment_delta_sum, :unenrollments, :overall_progress,
     :platform_last_7days_enrollments, :new_users, :total_certificates, :platform_custom_completed, :courses,
-    :proctorings, :reactivations
+    :reactivations
 
   def initialize(attrs)
     @course_id = attrs['course_id']
@@ -87,8 +87,7 @@ class Stat # rubocop:disable Layout/IndentationWidth
   end
 
   def enrollments_by_day_stats
-    # we have to unscope here, because the default scope adds a sorting that conflicts with the grouping
-    @enrollments_by_day = course.enrollments.unscope(:order).group_by_day(:created_at).count
+    @enrollments_by_day = course.enrollments.group_by_day(:created_at).count
   end
 
   def percentile_created_at_days_stats
@@ -107,7 +106,7 @@ class Stat # rubocop:disable Layout/IndentationWidth
     @quantile_count = Enrollment.where.not(quantile: nil).count
     @total_certificates = @quantile_count # deprecated
     @unenrollments = Enrollment.where(deleted: true).count
-    @courses = Course.published.not_deleted.where.not(external_course_url: nil).where(hidden: false).count
+    @courses = Course.published_courses.not_deleted.where.not(external_course_url: nil).where.not(placement: []).count
   end
 
   def extended_stats
@@ -138,8 +137,8 @@ class Stat # rubocop:disable Layout/IndentationWidth
   end
 
   def shows_and_no_shows_at(date, for_course: course)
-    shows = Visit.where(item_id: for_course.items.unscope(:order).select(:id))
-    shows = shows.where(user_id: for_course.enrollments.unscope(:order).select(:user_id))
+    shows = Visit.where(item_id: for_course.items.select(:id))
+    shows = shows.where(user_id: for_course.enrollments.select(:user_id))
     shows = shows.where(created_at: ..date) if date
     shows = shows.distinct.count(:user_id) + for_course.enrollment_delta
 
@@ -151,13 +150,11 @@ class Stat # rubocop:disable Layout/IndentationWidth
   end
 
   def booking_stats
-    @proctorings = course.enrollments.where(proctored: true).count
     @reactivations = course.enrollments.reactivated.count
   end
 
   def course
-    @course ||= Course.find(@course_id)
+    @course ||= Course.by_identifier(@course_id).take!
   end
 end
-  # rubocop:enable Layout/LineLength
 end

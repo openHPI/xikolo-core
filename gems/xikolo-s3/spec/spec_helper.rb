@@ -50,16 +50,26 @@ RSpec.configure do |config|
     end
 
     Xikolo.config.s3 = {
-      'connect_info' => {
-        'endpoint' => 'https://s3.xikolo.de',
-        'region' => 'default',
-        'access_key_id' => 'access_key',
-        'secret_access_key' => 'secret_access_key',
-        'force_path_style' => true,
-      },
       'buckets' => {
         'uploads' => 'xikolo-uploads',
       },
     }
+
+    @original_s3_env = %w[S3_PROVIDER_ENDPOINT S3_ACCESS_ID S3_ACCESS_KEY AWS_REGION]
+      .index_with {|key| ENV.fetch(key, nil) }
+    ENV['S3_PROVIDER_ENDPOINT'] = 'https://s3.xikolo.de'
+    ENV['S3_ACCESS_ID'] = 'access_key'
+    ENV['S3_ACCESS_KEY'] = 'secret_access_key'
+    ENV['AWS_REGION'] = 'default'
+  end
+
+  config.after do
+    @original_s3_env.each do |key, value|
+      if value.nil?
+        ENV.delete(key)
+      else
+        ENV[key] = value
+      end
+    end
   end
 end

@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe 'Home: Courses: Index', type: :request do
   subject(:request) do
-    get '/courses', headers:, params:
+    get '/learn', headers:, params:
   end
 
   let(:headers) { {} }
@@ -14,22 +14,22 @@ describe 'Home: Courses: Index', type: :request do
   let(:classifier) { create(:classifier, cluster:, title: 'Databases') }
 
   let!(:hidden_course) do
-    create(:course, title: 'Course 4', status: 'active', hidden: true,
+    create(:course, title: 'Course 4', placement: [],
       start_date: DateTime.new(2015, 11, 1), end_date: DateTime.new(2015, 12, 1))
   end
   let!(:channel_course) do
-    create(:course, :with_channel, status: 'active', title: 'A course with channel',
+    create(:course, :with_channel, title: 'A course with channel',
       start_date: DateTime.new(2015, 11, 1), end_date: DateTime.new(2015, 12, 1))
   end
 
   before do
-    create(:course, title: 'Course 1', status: 'active', abstract: 'Active course not in a channel',
+    create(:course, title: 'Course 1', abstract: 'Active course not in a channel',
       start_date: DateTime.new(2015, 11, 1), end_date: DateTime.new(2015, 12, 1))
-    create(:course, title: 'Course 2', status: 'archive', lang: 'de',
+    create(:course, title: 'Course 2', published: true, lang: 'de',
       start_date: DateTime.new(2015, 11, 1), end_date: DateTime.new(2015, 12, 1))
     create(:course, title: 'Course 3', deleted: 'true', lang: 'de',
       start_date: DateTime.new(2015, 11, 1), end_date: DateTime.new(2015, 12, 1))
-    create(:course, status: 'active', title: 'A course with classifier',
+    create(:course, title: 'A course with classifier',
       start_date: DateTime.new(2015, 11, 1), end_date: DateTime.new(2015, 12, 1)).tap do |c|
       c.classifiers << classifier
     end
@@ -40,37 +40,35 @@ describe 'Home: Courses: Index', type: :request do
       let(:headers) { super().merge('X-Requested-With': 'XMLHttpRequest') }
       let(:params) { super().merge(page: 2) }
 
-      # rubocop:disable FactoryBot/ExcessiveCreateList
+      # rubocop:disable-next FactoryBot/ExcessiveCreateList
       before do
         # On page 1 are 'Course 1', 'Course 2', 'A course with classifier', 'A course with channel', and:
-        create_list(:course, 8, title: 'Self-paced course on page 1', status: 'archive',
+        create_list(:course, 8, title: 'Self-paced course on page 1', published: true,
           start_date: DateTime.new(2015, 11, 1), end_date: DateTime.new(2015, 12, 1))
 
-        create_list(:course, 12, title: 'Self-paced course on page 2', status: 'archive',
+        create_list(:course, 12, title: 'Self-paced course on page 2', published: true,
           start_date: DateTime.new(2016, 11, 1), end_date: DateTime.new(2016, 12, 1))
-        create_list(:course, 12, title: 'Self-paced course on page 3', status: 'archive',
+        create_list(:course, 12, title: 'Self-paced course on page 3', published: true,
           start_date: DateTime.new(2017, 11, 1), end_date: DateTime.new(2017, 12, 1))
       end
-      # rubocop:enable FactoryBot/ExcessiveCreateList
 
       it 'renders the courses partial for page 2 with 12 self-paced courses' do
         request
-        expect(response.headers['Cache-Control']).to include('no-store')
         expect(response.headers['X-Total-Pages']).to eq '3'
         expect(response.headers['X-Current-Page']).to eq '2'
 
         expect(response).to render_template partial: '_courses'
 
-        expect(page).to have_content 'Self-paced course on page 2', count: 12
+        expect(page).to have_text 'Self-paced course on page 2', count: 12
 
-        expect(page).to have_no_content 'Self-paced course on page 1'
-        expect(page).to have_no_content 'Self-paced course on page 3'
-        expect(page).to have_no_content 'Course 1'
-        expect(page).to have_no_content 'Course 2'
-        expect(page).to have_no_content 'A course with channel'
-        expect(page).to have_no_content 'A course with classifier'
-        expect(page).to have_no_content 'Course 3'
-        expect(page).to have_no_content 'Course 4'
+        expect(page).to have_no_text 'Self-paced course on page 1'
+        expect(page).to have_no_text 'Self-paced course on page 3'
+        expect(page).to have_no_text 'Course 1'
+        expect(page).to have_no_text 'Course 2'
+        expect(page).to have_no_text 'A course with channel'
+        expect(page).to have_no_text 'A course with classifier'
+        expect(page).to have_no_text 'Course 3'
+        expect(page).to have_no_text 'Course 4'
       end
     end
   end
@@ -83,12 +81,12 @@ describe 'Home: Courses: Index', type: :request do
       expect(response).to have_http_status :ok
       expect(response).to render_template :index
 
-      expect(page).to have_content 'Course 1'
-      expect(page).to have_content 'Course 2'
-      expect(page).to have_content 'A course with channel'
-      expect(page).to have_content 'A course with classifier'
-      expect(page).to have_no_content 'Course 3'
-      expect(page).to have_no_content 'Course 4'
+      expect(page).to have_text 'Course 1'
+      expect(page).to have_text 'Course 2'
+      expect(page).to have_text 'A course with channel'
+      expect(page).to have_text 'A course with classifier'
+      expect(page).to have_no_text 'Course 3'
+      expect(page).to have_no_text 'Course 4'
     end
 
     context 'when the params contain an invalid null type' do
@@ -104,21 +102,21 @@ describe 'Home: Courses: Index', type: :request do
 
       it 'returns all public courses' do
         request
-        expect(page).to have_content 'Course 1'
-        expect(page).to have_content 'Course 2'
-        expect(page).to have_content 'A course with channel'
-        expect(page).to have_content 'A course with classifier'
-        expect(page).to have_no_content 'Course 3'
-        expect(page).to have_no_content 'Course 4'
+        expect(page).to have_text 'Course 1'
+        expect(page).to have_text 'Course 2'
+        expect(page).to have_text 'A course with channel'
+        expect(page).to have_text 'A course with classifier'
+        expect(page).to have_no_text 'Course 3'
+        expect(page).to have_no_text 'Course 4'
       end
     end
   end
 
   context 'as logged in user' do
-    let(:headers) { {Authorization: "Xikolo-Session session_id=#{stub_session_id}"} }
-    let(:user) { stub_user_request features: {'course_list' => 'true'} }
+    let(:headers) { {} }
+    let(:user) { create(:'account_service/user') }
 
-    before { user }
+    before { sign_in(user:) }
 
     it_behaves_like 'ajax request'
 
@@ -127,28 +125,28 @@ describe 'Home: Courses: Index', type: :request do
       expect(response).to have_http_status :ok
       expect(response).to render_template :index
 
-      expect(page).to have_content 'Course 1'
-      expect(page).to have_content 'Course 2'
-      expect(page).to have_content 'A course with channel'
-      expect(page).to have_content 'A course with classifier'
-      expect(page).to have_no_content 'Course 3'
-      expect(page).to have_no_content 'Course 4'
+      expect(page).to have_text 'Course 1'
+      expect(page).to have_text 'Course 2'
+      expect(page).to have_text 'A course with channel'
+      expect(page).to have_text 'A course with classifier'
+      expect(page).to have_no_text 'Course 3'
+      expect(page).to have_no_text 'Course 4'
     end
 
     context 'when enrolled in a hidden course' do
       before do
-        create(:enrollment, user_id: user[:id], course_id: hidden_course.id)
+        create(:enrollment, user_id: user.id, course_id: hidden_course.id)
       end
 
-      it 'lists that hidden course as well' do
+      it 'does not list that hidden course' do
         request
 
-        expect(page).to have_content 'Course 1'
-        expect(page).to have_content 'Course 2'
-        expect(page).to have_content 'Course 4'
-        expect(page).to have_content 'A course with channel'
-        expect(page).to have_content 'A course with classifier'
-        expect(page).to have_no_content 'Course 3'
+        expect(page).to have_text 'Course 1'
+        expect(page).to have_text 'Course 2'
+        expect(page).to have_text 'A course with channel'
+        expect(page).to have_text 'A course with classifier'
+        expect(page).to have_no_text 'Course 3'
+        expect(page).to have_no_text 'Course 4'
       end
     end
 
@@ -160,12 +158,12 @@ describe 'Home: Courses: Index', type: :request do
 
         request
 
-        expect(page).to have_content 'Course 1'
-        expect(page).to have_content 'A course with channel'
-        expect(page).to have_no_content 'Course 2'
-        expect(page).to have_no_content 'Course 3'
-        expect(page).to have_no_content 'Course 4'
-        expect(page).to have_no_content 'A course with classifier'
+        expect(page).to have_text 'Course 1'
+        expect(page).to have_text 'A course with channel'
+        expect(page).to have_no_text 'Course 2'
+        expect(page).to have_no_text 'Course 3'
+        expect(page).to have_no_text 'Course 4'
+        expect(page).to have_no_text 'A course with classifier'
       end
     end
 
@@ -175,12 +173,12 @@ describe 'Home: Courses: Index', type: :request do
       it 'lists only courses belonging to that channel' do
         request
 
-        expect(page).to have_content 'A course with channel'
-        expect(page).to have_no_content 'Course 1'
-        expect(page).to have_no_content 'Course 2'
-        expect(page).to have_no_content 'Course 3'
-        expect(page).to have_no_content 'Course 4'
-        expect(page).to have_no_content 'A course with classifier'
+        expect(page).to have_text 'A course with channel'
+        expect(page).to have_no_text 'Course 1'
+        expect(page).to have_no_text 'Course 2'
+        expect(page).to have_no_text 'Course 3'
+        expect(page).to have_no_text 'Course 4'
+        expect(page).to have_no_text 'A course with classifier'
       end
     end
 
@@ -190,12 +188,12 @@ describe 'Home: Courses: Index', type: :request do
       it 'lists only courses with that classifier' do
         request
 
-        expect(page).to have_content 'A course with classifier'
-        expect(page).to have_no_content 'Course 1'
-        expect(page).to have_no_content 'Course 2'
-        expect(page).to have_no_content 'Course 3'
-        expect(page).to have_no_content 'Course 4'
-        expect(page).to have_no_content 'A course with channel'
+        expect(page).to have_text 'A course with classifier'
+        expect(page).to have_no_text 'Course 1'
+        expect(page).to have_no_text 'Course 2'
+        expect(page).to have_no_text 'Course 3'
+        expect(page).to have_no_text 'Course 4'
+        expect(page).to have_no_text 'A course with channel'
       end
 
       context 'when the classifier belongs to an invisible cluster' do
@@ -204,12 +202,12 @@ describe 'Home: Courses: Index', type: :request do
         it 'lists only courses with that classifier' do
           request
 
-          expect(page).to have_content 'A course with classifier'
-          expect(page).to have_no_content 'Course 1'
-          expect(page).to have_no_content 'Course 2'
-          expect(page).to have_no_content 'Course 3'
-          expect(page).to have_no_content 'Course 4'
-          expect(page).to have_no_content 'A course with channel'
+          expect(page).to have_text 'A course with classifier'
+          expect(page).to have_no_text 'Course 1'
+          expect(page).to have_no_text 'Course 2'
+          expect(page).to have_no_text 'Course 3'
+          expect(page).to have_no_text 'Course 4'
+          expect(page).to have_no_text 'A course with channel'
         end
       end
     end
@@ -222,12 +220,12 @@ describe 'Home: Courses: Index', type: :request do
       it 'lists only courses that fulfill both criteria' do
         request
 
-        expect(page).to have_content 'A course with channel'
-        expect(page).to have_no_content 'Course 1'
-        expect(page).to have_no_content 'Course 2'
-        expect(page).to have_no_content 'Course 3'
-        expect(page).to have_no_content 'Course 4'
-        expect(page).to have_no_content 'A course with classifier'
+        expect(page).to have_text 'A course with channel'
+        expect(page).to have_no_text 'Course 1'
+        expect(page).to have_no_text 'Course 2'
+        expect(page).to have_no_text 'Course 3'
+        expect(page).to have_no_text 'Course 4'
+        expect(page).to have_no_text 'A course with classifier'
       end
     end
 
@@ -237,12 +235,59 @@ describe 'Home: Courses: Index', type: :request do
       it 'lists only matching courses' do
         request
 
-        expect(page).to have_no_content 'Course 1'
-        expect(page).to have_content 'Course 2' # MATCH!
-        expect(page).to have_no_content 'Course 3' # Match, but deleted
-        expect(page).to have_no_content 'Course 4'
-        expect(page).to have_no_content 'A course with channel'
-        expect(page).to have_no_content 'A course with classifier'
+        expect(page).to have_no_text 'Course 1'
+        expect(page).to have_text 'Course 2' # MATCH!
+        expect(page).to have_no_text 'Course 3' # Match, but deleted
+        expect(page).to have_no_text 'Course 4'
+        expect(page).to have_no_text 'A course with channel'
+        expect(page).to have_no_text 'A course with classifier'
+      end
+    end
+
+    context 'when filtered by format' do
+      let(:params) { super().merge(course_format: 'workshop') }
+
+      before do
+        create(:course, title: 'A Workshop', course_format: 'workshop')
+      end
+
+      it 'lists only matching courses' do
+        request
+
+        expect(page).to have_text 'A Workshop'
+        expect(page).to have_no_text 'Course 1'
+        expect(page).to have_no_text 'Course 2'
+        expect(page).to have_no_text 'Course 3'
+        expect(page).to have_no_text 'Course 4'
+        expect(page).to have_no_text 'A course with channel'
+        expect(page).to have_no_text 'A course with classifier'
+      end
+
+      it 'only lists formats with at least one learning unit' do
+        request
+
+        # 'course' and 'workshop' learning units exist, but no 'project' unit.
+        expect(page).to have_select 'Format', options: %w[All Course Workshop]
+      end
+    end
+
+    context 'when only one format has learning units' do
+      it 'does not show the format filter' do
+        request
+
+        # All learning units created by default use the 'course' format.
+        expect(page).to have_no_select 'Format'
+      end
+    end
+
+    context 'when filtered by an invalid format' do
+      let(:params) { super().merge(course_format: 'garbage') }
+
+      it 'ignores values not matching the course_format enum' do
+        request
+
+        expect(response).to have_http_status :ok
+        expect(page).to have_text 'Course 1'
       end
     end
   end

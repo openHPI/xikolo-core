@@ -1,6 +1,9 @@
 a.item-status class=css_classes href=@path aria-label=@tooltip data=data_attributes
   .item-status__icon
-    = render icon
+    - if pixelart_icon?
+      = helpers.pixelart_icon(@icon_name)
+    - else
+      = render Global::FaIcon.new(@icon_name)
   .item-status__content
     p.item-status__title
       = @title

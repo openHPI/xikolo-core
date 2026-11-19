@@ -17,7 +17,6 @@ describe CourseService::EnrollmentDecorator, type: :decorator do
       deleted
       created_at
       updated_at
-      proctored
       forced_submission_date
       reactivations_url
     ]
@@ -41,7 +40,6 @@ describe CourseService::EnrollmentDecorator, type: :decorator do
         user_id
         created_at
         updated_at
-        proctored
         deleted
         forced_submission_date
       ]

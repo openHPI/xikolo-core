@@ -1,6 +1,7 @@
 form
-  div class="markdown-editor" data-behavior="markdown-editor-wrapper"
+  div class="markdown-editor" data-behavior="markdown-editor-wrapper" aria-busy="true"
     textarea required="true" id="foo" name="foo" data-behavior="markdown-form-input" aria-describedby="foo-error"
     div data-behavior="markdown-editor-widget" data-image-upload="false"
+      div class="x-skeleton h-75 w-full relative z-xs" data-behavior="markdown-editor-loading" aria-hidden="true"
   p.markdown-editor__error-message id="foo-error" data-behavior="markdown-editor-error"
   button.mt30 = 'Submit'

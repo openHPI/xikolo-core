@@ -21,43 +21,13 @@ describe Certificate::Template, type: :model do
     describe 'allowed types only' do
       subject(:template) { build(:certificate_template, :fixed, certificate_type:) }
 
-      before do
-        xi_config <<~YML
-          certificate:
-            transcript_of_records:
-              table_x: 200
-              table_y: 500
-              course_col_width: 300
-              score_col_width: 70
-              font_size: 10
-        YML
-      end
-
       context 'with existing RoA' do
-        let(:certificate_type) { 'TranscriptOfRecords' }
-
         before { create(:certificate_template, :fixed) }
 
-        it 'does not allow creation of a ToR' do
-          expect(template).not_to be_valid
-        end
+        let(:certificate_type) { 'ConfirmationOfParticipation' }
 
-        context 'other type' do
-          let(:certificate_type) { 'ConfirmationOfParticipation' }
-
-          it 'allows creation of a CoP' do
-            expect(template).to be_valid
-          end
-        end
-      end
-
-      context 'with existing ToR' do
-        let(:certificate_type) { 'RecordOfAchievement' }
-
-        before { create(:certificate_template, :fixed, :tor) }
-
-        it 'does not allow creation of a RoA' do
-          expect(template).not_to be_valid
+        it 'allows creation of a CoP' do
+          expect(template).to be_valid
         end
       end
     end
@@ -85,7 +55,7 @@ describe Certificate::Template, type: :model do
 
         it 'does not allow the template to be saved' do
           expect(template).not_to be_valid
-          expect(template.errors.full_messages.join(',')).to include('Font/s not supported: NeoSansMedium. Supported fonts are OpenSansRegular, OpenSansSemibold')
+          expect(template.errors.full_messages.join(',')).to include('Font/s not supported: NotoSans. Supported fonts are ArialUnicode, Helvetica, NeoSans, NeoSansMedium, IBMPlexSans, IBMPlexSansMedium, OpenSansRegular, OpenSansSemibold')
         end
       end
 
@@ -107,68 +77,14 @@ describe Certificate::Template, type: :model do
     let(:new_template) { Certificate::Template.new(course:) }
     let(:course) { create(:course) }
 
-    before do
-      xi_config <<~YML
-        certificate:
-          transcript_of_records:
-            table_x: 200
-            table_y: 500
-            course_col_width: 300
-            score_col_width: 70
-            font_size: 10
-      YML
-    end
-
     it 'has all types' do
       expect(allowed_types).to eq(
         %i[
           ConfirmationOfParticipation
           RecordOfAchievement
           Certificate
-          TranscriptOfRecords
         ]
       )
-    end
-
-    context 'with existing Transcript of Records template' do
-      before { create(:certificate_template, :tor, course:) }
-
-      it 'only has Transcript of Records' do
-        expect(allowed_types).to eq(%i[TranscriptOfRecords])
-      end
-    end
-
-    context 'with existing RoA template' do
-      before { create(:certificate_template, :roa, course:) }
-
-      it 'has no Transcript of Records' do
-        expect(allowed_types).to eq(
-          %i[
-            ConfirmationOfParticipation
-            RecordOfAchievement
-            Certificate
-          ]
-        )
-      end
-    end
-
-    context 'without Transcript of Records config' do
-      before do
-        xi_config <<~YML
-          certificate:
-            transcript_of_records: ~
-        YML
-      end
-
-      it 'has no Transcript of Records' do
-        expect(allowed_types).to eq(
-          %i[
-            ConfirmationOfParticipation
-            RecordOfAchievement
-            Certificate
-          ]
-        )
-      end
     end
   end
 end

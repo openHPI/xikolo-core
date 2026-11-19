@@ -3,13 +3,13 @@
 require 'spec_helper'
 
 describe 'Video: Subtitles: Destroy', type: :request do
-  subject(:destroy_subtitle) { delete "/subtitles/#{subtitle.id}", headers: }
+  subject(:destroy_subtitle) { delete "/subtitles/#{subtitle.id}" }
 
   let!(:subtitle) { create(:video_subtitle, :with_cues) }
-  let(:headers) { {Authorization: "Xikolo-Session session_id=#{stub_session_id}"} }
-  let(:permissions) { [] }
+  let(:user) { create(:'account_service/user') }
+  let(:authenticate) { true }
 
-  before { stub_user_request(permissions:) }
+  before { sign_in(user:) }
 
   it 'is forbidden without proper permissions' do
     destroy_subtitle
@@ -18,7 +18,7 @@ describe 'Video: Subtitles: Destroy', type: :request do
   end
 
   context 'with permission' do
-    let(:permissions) { %w[video.subtitle.manage] }
+    let(:user) { create(:'account_service/user', :admin) }
 
     it 'removes the subtitle from the database' do
       expect { destroy_subtitle }.to change(Video::Subtitle, :count).from(1).to(0)
@@ -32,9 +32,9 @@ describe 'Video: Subtitles: Destroy', type: :request do
   end
 
   describe '(error handling)' do
-    subject(:destroy_subtitle) { delete "/subtitles/#{generate(:uuid)}", headers: }
+    subject(:destroy_subtitle) { delete "/subtitles/#{generate(:uuid)}" }
 
-    let(:permissions) { %w[video.subtitle.manage] }
+    let(:user) { create(:'account_service/user', :admin) }
 
     it 'returns not found' do
       destroy_subtitle

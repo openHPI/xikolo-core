@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie';
-import ready from '../../util/ready';
+import { turboReady } from '../../util/ready';
 
 // Let teachers pin the teacher navigation on the side of their browser window.
 // This preference is remembered on the device.
@@ -10,7 +10,7 @@ const isPinned = () => Cookies.get(COOKIE_NAME);
 const pin = () => Cookies.set(COOKIE_NAME, '1');
 const unpin = () => Cookies.remove(COOKIE_NAME);
 
-ready(() => {
+turboReady(() => {
   const trigger = document.querySelector('[data-pin-teacher-nav]');
 
   if (!trigger) return;

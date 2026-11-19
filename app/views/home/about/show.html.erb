@@ -1,0 +1,40 @@
+<div
+  class="x-hero -mb-16 min-h-60 sm:-mb-32 sm:min-h-120"
+  style="background-image: url('<%= image_path('about/hero.webp') %>');"
+></div>
+
+<div class="grid grid-cols-4 gap-4 px-4 sm:grid-cols-8 sm:gap-8 sm:gap-y-16 max-w-main-content mx-auto">
+  <section class="col-span-4 col-start-1">
+    <div class="x-card bg-primary-250!">
+      <div class="x-card-body">
+        <h1 class="x-card-title text-xl font-medium sm:text-5xl">
+          <%= t(:'home.about.header.title') %>
+        </h1>
+
+        <p class="text-sm sm:text-xl sm:leading-7 leading-5">
+          <%= t(:'home.about.header.text') %>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- decorative mascot for mobile devices -->
+  <div class="min-h-17 min-w-17 -scale-x-100 sm:hidden">
+    <%= image_tag(image_path('about/duck.svg'), alt: '') %>
+  </div>
+
+  <section class="col-span-4 col-start-1 space-y-4">
+    <p class="sm:text-lg sm:leading-7 leading-5 text-sm">
+      <%= t(:'home.about.text_1') %>
+    </p>
+
+    <p class="sm:text-lg sm:leading-7 leading-5 text-sm">
+      <%= t(:'home.about.text_2') %>
+    </p>
+  </section>
+
+  <!-- decorative mascot for desktop devices -->
+  <div class="col-start-5 col-end-7 hidden sm:block">
+    <%= image_tag(image_path('about/duck.svg'), alt: '') %>
+  </div>
+</div>

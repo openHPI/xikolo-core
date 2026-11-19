@@ -3,12 +3,8 @@
 require 'spec_helper'
 
 RSpec.describe 'Admin: Page: Edit', type: :system do
-  let(:user) { attributes_for(:'account_service/user', id: generate(:user_id)) }
-
   before do
-    stub_user id: user[:id], permissions: %w[helpdesk.page.store]
-    Stub.request(:account, :get, "/users/#{user[:id]}")
-      .and_return Stub.json(user)
+    sign_in(user: create(:'account_service/user', :admin))
   end
 
   it 'creates a new page' do
@@ -23,7 +19,7 @@ RSpec.describe 'Admin: Page: Edit', type: :system do
 
     click_on 'Save'
 
-    expect(page).to have_content 'Referencing unknown files is not allowed'
+    expect(page).to have_text 'Referencing unknown files is not allowed'
 
     expect(page).to have_field 'Title', with: 'A very important imprint!'
     expect(page).to have_markdown_editor 'Contents', with: 's3://invalid'
@@ -34,8 +30,8 @@ RSpec.describe 'Admin: Page: Edit', type: :system do
 
     click_on 'Save'
 
-    expect(page).to have_content 'A very important imprint!'
-    expect(page).to have_content 'We should add an address ...'
+    expect(page).to have_text 'A very important imprint!'
+    expect(page).to have_text 'We should add an address ...'
 
     expect(Page.count).to eq 1
     Page.first.tap do |english_page|
@@ -62,7 +58,7 @@ RSpec.describe 'Admin: Page: Edit', type: :system do
 
     click_on 'Save'
 
-    expect(page).to have_content 'Referencing unknown files is not allowed'
+    expect(page).to have_text 'Referencing unknown files is not allowed'
 
     expect(page).to have_field 'Title', with: 'Ein wichtiges Impressum'
     expect(page).to have_markdown_editor 'Contents', with: 's3://invalid'
@@ -74,7 +70,7 @@ RSpec.describe 'Admin: Page: Edit', type: :system do
     click_on 'Save'
 
     # Ensure translation has been saved
-    expect(page).to have_content 'Edit German translation'
+    expect(page).to have_text 'Edit German translation'
 
     expect(Page.where(name: 'imprint').pluck(:locale)).to match_array %w[en de]
     Page.find_by(name: 'imprint', locale: 'de').tap do |german_page|
@@ -101,7 +97,7 @@ RSpec.describe 'Admin: Page: Edit', type: :system do
 
     click_on 'Save'
 
-    expect(page).to have_content 'Referencing unknown files is not allowed'
+    expect(page).to have_text 'Referencing unknown files is not allowed'
 
     expect(page).to have_field 'Title', with: 'A very important imprint!'
     expect(page).to have_markdown_editor 'Contents', with: 's3://invalid'
@@ -112,8 +108,8 @@ RSpec.describe 'Admin: Page: Edit', type: :system do
 
     click_on 'Save'
 
-    expect(page).to have_content 'A very important imprint!'
-    expect(page).to have_content 'We should add an address ...'
+    expect(page).to have_text 'A very important imprint!'
+    expect(page).to have_text 'We should add an address ...'
 
     english_page.reload
     expect(english_page.title).to eq 'A very important imprint!'

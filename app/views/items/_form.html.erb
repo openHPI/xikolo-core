@@ -1,0 +1,90 @@
+<%= simple_form_for(item,
+    as: :xikolo_course_item,
+    url: {controller: 'items', action: item.new_record? ? :create : :update},
+    html: {multipart: true},
+    wrapper: :larger_labels) do |f| %>
+  <%= f.error_notification %>
+  <%= f.input :title, label: t(:'admin.courses.items.form.label.title'), required: true, placeholder: t(:'admin.courses.items.form.placeholder.title') %>
+
+  <%= advanced_settings(column_offset: 3) do %>
+    <%= f.input :start_date, label: t(:'admin.courses.items.form.label.start_date'), required: false, input_html: {data: {behaviour: 'datepicker'}, autocomplete: 'off'}, as: :string %>
+    <%= f.input :end_date, label: t(:'admin.courses.items.form.label.end_date'), required: false, input_html: {data: {behaviour: 'datepicker'}, autocomplete: 'off'}, as: :string %>
+  <% end %>
+
+  <%= f.input :published, label: t(:'admin.courses.items.form.label.published'), as: :toggle_switch %>
+  <%= f.input :deemphasized_in_nav, label: t(:'admin.courses.items.form.label.deemphasized_in_nav'), hint: t(:'admin.courses.items.form.label.deemphasized_in_nav_hint'), as: :toggle_switch %>
+  <%= f.input :optional, label: t(:'admin.courses.items.form.label.optional'), as: :toggle_switch %>
+
+  <% if current_user.feature? 'course.required_items' %>
+    <%= f.input :required_item_ids, label: t(:'admin.courses.items.form.label.required_items'),
+      input_html: {multiple: true, data: {behavior: 'custom-select', width: '100%'}},
+      collection: course_presenter.item_collection %>
+  <% end %>
+
+  <% if item.supports_open_mode? %>
+    <div id="open-mode-switch">
+      <%= f.input :open_mode, label: t(:'admin.courses.items.form.label.open_mode'), as: :toggle_switch, input_html: {id: 'open-mode-checkbox'} %>
+    </div>
+  <% end %>
+
+  <div id="public-description-markdown">
+    <%= f.input :public_description, label: t(:'admin.courses.items.form.label.public_description'), required: false, class: 'form-control', as: :markdown, placeholder: 'Enter content', hint: t(:'admin.courses.items.form.label.public_description_hint') %>
+  </div>
+
+  <% if item.new_record? %>
+    <%= f.input :content_type, label: t(:'admin.courses.items.form.label.content_type'), required: true, collection: [[t(:'admin.courses.items.form.type_selector.video'), 'video'], [t(:'admin.courses.items.form.type_selector.quiz'), 'quiz'], [t(:'admin.courses.items.form.type_selector.text'), 'rich_text'], [t(:'admin.courses.items.form.type_selector.lti_exercise'), 'lti_exercise'], [t(:'admin.courses.items.form.type_selector.cmi5'), 'cmi5']] %>
+  <% else %>
+    <%= f.hidden_field :content_type %>
+  <% end %>
+  <%= f.input :exercise_type, label: t(:'admin.courses.items.form.label.exercise_type'), required: false,
+    collection: [[t(:'admin.courses.items.form.exercise_type_selector.none'), ''],
+      [t(:'admin.courses.items.form.exercise_type_selector.selftest'), 'selftest'],
+      [t(:'admin.courses.items.form.exercise_type_selector.survey'), 'survey'],
+      [t(:'admin.courses.items.form.exercise_type_selector.main'), 'main'],
+      [t(:'admin.courses.items.form.exercise_type_selector.bonus'), 'bonus']],
+    include_blank: false %>
+
+  <%= f.input :max_points, label: t(:'admin.courses.items.form.label.max_points'), required: false, as: :float, readonly: false, input_html: {min: 0} %>
+
+  <%= f.input :submission_deadline, label: t(:'admin.courses.items.form.label.submission_deadline'), required: false, input_html: {data: {behaviour: 'datepicker'}, autocomplete: 'off'}, as: :string %>
+  <%= f.input :submission_publishing_date, label: t(:'admin.courses.items.form.label.submission_publishing_date'), required: false, input_html: {data: {behaviour: 'datepicker'}, autocomplete: 'off'}, as: :string %>
+
+  <div class="content-form" id="custom-form">
+    <% if item.content_type == 'video' %>
+      <%= render 'items/video/form', video:, item:, course:, subtitles_upload:, slides_upload:, transcript_upload:, reading_material_upload: %>
+    <% end %>
+
+    <% if item.content_type == 'rich_text' %>
+      <%= render 'items/rich_text/form', rich_text:, richtext_reading_material_upload: %>
+    <% end %>
+
+    <% if item.content_type == 'quiz' %>
+      <%= render 'items/quiz/form', quiz:, item:, quiz_question:, multiple_choice_question:, multiple_answer_question:, free_text_question:, essay_question: %>
+    <% end %>
+
+    <% if item.content_type == 'lti_exercise' %>
+      <%= render 'items/lti_exercise/form', lti_exercise: %>
+    <% end %>
+
+    <% if item.content_type == 'cmi5' %>
+      <%= render 'items/cmi5/form', cmi5_item:, item: %>
+    <% end %>
+  </div>
+
+  <div class="col-md-9 pl0">
+    <%= f.button :submit, class: 'btn btn-primary' %>
+
+    <% unless item.new_record? %>
+      <%= f.button :submit, t(:'helpers.submit.xikolo_course_item.preview'), name: 'show', class: 'btn btn-primary ml10' %>
+    <% end %>
+
+    <button
+      class="btn btn-default ml10"
+      type="button"
+      data-controller="navigation"
+      data-action="navigation#back"
+    >
+      <%= t(:'global.cancel') %>
+    </button>
+  </div>
+<% end %>

@@ -32,30 +32,21 @@ class VideoPresenter
     @video.thumbnail
   end
 
-  def video_download_dropdowns
+  def video_downloads
     [
-      {
-        text: I18n.t(:'items.show.video.video_downloads'),
-        buttons: [
-          hd_video_button,
-          sd_video_button,
-        ].compact,
-      },
-      {
-        text: I18n.t(:'items.show.video.additional_downloads'),
-        buttons: [
-          subtitled_stream_button,
-          slides_button,
-          transcript_button,
-          reading_material_button,
-          audio_button,
-        ].compact,
-      },
-    ]
+      hd_video_button,
+      sd_video_button,
+      subtitled_stream_button,
+      slides_button,
+      transcript_button,
+      reading_material_button,
+      audio_button,
+    ].compact.select {|download| download[:enabled] }
   end
 
   def player
-    return unless Video::VideoPlayer.compatible? @video
+    return Video::BunnyPlayer.build(video: @video, course: @course, user: @user) if Video::BunnyPlayer.compatible?(@video)
+    return unless Video::VideoPlayer.compatible?(@video)
 
     @player ||= Video::VideoPlayer.build(
       video: @video,
@@ -75,10 +66,10 @@ class VideoPresenter
     return if pip_stream&.hd_download_url.blank?
 
     {
-      path: download_path('hd'),
-      caption: I18n.t(:'items.show.video.download.hd_video'),
-      verb: 'downloaded_hd_video',
-      enabled: @course.enable_video_download,
+      title: I18n.t(:'items.show.video.download.hd_video'),
+      url: download_path('hd'),
+      file_type: 'mp4',
+      enabled: downloads_enabled?,
     }
   end
 
@@ -86,10 +77,10 @@ class VideoPresenter
     return if pip_stream&.sd_download_url.blank?
 
     {
-      path: download_path('sd'),
-      caption: I18n.t(:'items.show.video.download.sd_video'),
-      verb: 'downloaded_sd_video',
-      enabled: @course.enable_video_download,
+      title: I18n.t(:'items.show.video.download.sd_video'),
+      url: download_path('sd'),
+      file_type: 'mp4',
+      enabled: downloads_enabled?,
     }
   end
 
@@ -97,10 +88,10 @@ class VideoPresenter
     return if subtitled_stream&.sd_download_url.blank?
 
     {
-      path: subtitled_stream.sd_download_url,
-      caption: I18n.t(:'items.show.video.download.subtitled_video'),
-      verb: 'downloaded_subtitled_video',
-      enabled: @course.enable_video_download,
+      title: I18n.t(:'items.show.video.download.subtitled_video'),
+      url: subtitled_stream.sd_download_url,
+      file_type: 'mp4',
+      enabled: downloads_enabled?,
     }
   end
 
@@ -108,9 +99,9 @@ class VideoPresenter
     return if @video.slides_url.blank?
 
     {
-      path: @video.slides_url,
-      caption: I18n.t(:'items.show.video.download.slides'),
-      verb: 'downloaded_slides',
+      title: I18n.t(:'items.show.video.download.slides'),
+      url: @video.slides_url,
+      file_type: file_extension(@video.slides_url),
       enabled: true,
     }
   end
@@ -119,9 +110,9 @@ class VideoPresenter
     return if @video.transcript_url.blank?
 
     {
-      path: @video.transcript_url,
-      caption: I18n.t(:'items.show.video.download.transcript'),
-      verb: 'downloaded_transcript',
+      title: I18n.t(:'items.show.video.download.transcript'),
+      url: @video.transcript_url,
+      file_type: file_extension(@video.transcript_url),
       enabled: true,
     }
   end
@@ -130,9 +121,9 @@ class VideoPresenter
     return if @video.reading_material_url.blank?
 
     {
-      path: @video.reading_material_url,
-      caption: I18n.t(:'items.show.video.download.reading_material'),
-      verb: 'downloaded_reading_material',
+      title: I18n.t(:'items.show.video.download.reading_material'),
+      url: @video.reading_material_url,
+      file_type: file_extension(@video.reading_material_url),
       enabled: true,
     }
   end
@@ -141,10 +132,18 @@ class VideoPresenter
     return if @video.audio_url.blank?
 
     {
-      path: @video.audio_url,
-      caption: I18n.t(:'items.show.video.download.audio'),
-      verb: 'downloaded_audio',
-      enabled: @course.enable_video_download,
+      title: I18n.t(:'items.show.video.download.audio'),
+      url: @video.audio_url,
+      file_type: 'mp3',
+      enabled: downloads_enabled?,
     }
+  end
+
+  def downloads_enabled?
+    @course&.enable_video_download
+  end
+
+  def file_extension(url)
+    File.extname(url).delete_prefix('.').presence
   end
 end

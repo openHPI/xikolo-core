@@ -13,5 +13,13 @@ module Global
     def slim
       render_with_template
     end
+
+    def course_details
+      render_with_template
+    end
+
+    def course_overview
+      render_with_template
+    end
   end
 end

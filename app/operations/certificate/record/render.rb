@@ -10,6 +10,8 @@ module Certificate
       end
 
       def call
+        return @record.pdf.download if @record.respond_to?(:pdf)
+
         RecordRenderer.as_pdf(@record.render_data)
       end
     end

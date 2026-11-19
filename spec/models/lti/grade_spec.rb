@@ -38,5 +38,55 @@ describe Lti::Grade, type: :model do
 
       expect(request).to have_been_requested
     end
+
+    context 'when the submission deadline has passed' do
+      let!(:item) do
+        create(
+          :item,
+          content_type: 'lti_exercise',
+          content_id: grade.gradebook.lti_exercise_id,
+          max_dpoints: 30,
+          submission_deadline: 1.day.ago
+        )
+      end
+
+      it 'marks the item completed without awarding points' do
+        request = Stub.request(
+          :course, :put, "/results/#{grade.id}",
+          body: {user_id: grade.gradebook.user_id, item_id: item.id, points: 0}
+        ).to_return Stub.response(status: 201)
+
+        perform_enqueued_jobs do
+          schedule_publication
+        end
+
+        expect(request).to have_been_requested
+      end
+    end
+
+    context 'when the submission deadline is in the future' do
+      let!(:item) do
+        create(
+          :item,
+          content_type: 'lti_exercise',
+          content_id: grade.gradebook.lti_exercise_id,
+          max_dpoints: 30,
+          submission_deadline: 1.day.from_now
+        )
+      end
+
+      it 'awards points' do
+        request = Stub.request(
+          :course, :put, "/results/#{grade.id}",
+          body: {user_id: grade.gradebook.user_id, item_id: item.id, points: 1.5}
+        ).to_return Stub.response(status: 201)
+
+        perform_enqueued_jobs do
+          schedule_publication
+        end
+
+        expect(request).to have_been_requested
+      end
+    end
   end
 end

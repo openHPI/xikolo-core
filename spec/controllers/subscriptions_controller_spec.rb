@@ -6,15 +6,15 @@ describe SubscriptionsController, type: :controller do
   let!(:question_id) { '00000002-3500-4444-9999-000000000001' }
   let!(:question_id_2) { '00000002-3500-4444-9999-000000000002' }
   let!(:subscription_id) { '00000005-3500-4444-9999-000000000001' }
-  let!(:user_id) { '00000001-3100-4444-9999-000000000001' }
+  let(:user) { create(:'account_service/user', language: 'en') }
 
   let(:subscription_create_stub) do
     Stub.request(
       :pinboard, :post, '/subscriptions',
-      body: hash_including(user_id:, question_id:)
+      body: hash_including(user_id: user.id, question_id:)
     ).to_return Stub.json({
       id: subscription_id,
-      user_id:,
+      user_id: user.id,
       question_id:,
     })
   end
@@ -25,17 +25,13 @@ describe SubscriptionsController, type: :controller do
   end
 
   before do
-    stub_user id: user_id, language: 'en'
+    sign_in user: user
 
     Stub.request(
       :pinboard, :get, '/subscriptions',
-      query: {user_id:, question_id:}
-    ).to_return Stub.json([])
-    Stub.request(
-      :pinboard, :get, '/subscriptions',
-      query: {user_id:, question_id: question_id_2}
+      query: {user_id: user.id, question_id: question_id_2}
     ).to_return Stub.json([
-      {id: subscription_id, user_id:, question_id: question_id_2},
+      {id: subscription_id, user_id: user.id, question_id: question_id_2},
     ])
 
     subscription_create_stub

@@ -3,22 +3,17 @@
 class Admin::CoursesController < Admin::BaseController
   include CourseContextHelper
 
-  before_action :set_no_cache_headers
-
   inside_course only: [:edit]
   before_action :check_course_eligibility, only: [:destroy]
 
   def index
     authorize! 'course.course.index'
 
-    category = params[:status]
-    courses = course_api.rel(:courses).get({
-      alphabetic: 1,
-      groups: 'any',
-      **filter_params,
-    }).value!
+    courses = CourseService::Course.not_deleted.order(:title)
+    courses = apply_filter(courses)
+    courses = courses.autocomplete(params[:autocomplete]) if params[:autocomplete].present?
 
-    @courses = Admin::CourseListPresenter.new(courses, category)
+    @courses = courses.paginate(page: params[:page])
   end
 
   def new
@@ -39,21 +34,28 @@ class Admin::CoursesController < Admin::BaseController
 
     form = Admin::CourseForm.from_params params
 
-    begin
-      if form.valid? && course_api.rel(:courses).post(form.to_resource).value!
-        add_flash_message :success, t(:'flash.success.course_created')
-        return redirect_to course_path(id: form.course_code), status: :see_other
+    if form.valid?
+      begin
+        course = CourseService::Course::Create.call(course_resource(form.to_resource))
+        if course.errors.empty?
+          add_flash_message :success, t(:'flash.success.course_created')
+          redirect_to course_path(id: form.course_code), status: :see_other
+        else
+          form.remote_errors course.errors.to_hash
+          @course = Admin::CourseEditPresenter.for_creation form:, user: current_user
+          render action: :new, status: :unprocessable_content
+        end
+      rescue ActiveRecord::RecordNotUnique
+        add_flash_message :error, t(:'flash.error.course_not_created')
+        @course = Admin::CourseEditPresenter.for_creation form:, user: current_user
+        render action: :new, status: :unprocessable_content
       end
-    rescue Restify::UnprocessableEntity => e
-      form.remote_errors e.errors
+    else
+      # Form-level validation failed
+      add_flash_message :error, t(:'flash.error.course_not_created')
+      @course = Admin::CourseEditPresenter.for_creation form:, user: current_user
+      render action: :new, status: :unprocessable_content
     end
-
-    # inform user:
-    add_flash_message :error, t(:'flash.error.course_not_created')
-
-    # rerender creation form
-    @course = Admin::CourseEditPresenter.for_creation form:, user: current_user
-    render action: :new, status: :unprocessable_entity
   end
 
   def update
@@ -62,20 +64,13 @@ class Admin::CoursesController < Admin::BaseController
     form = Admin::CourseForm.from_params params
     form.persisted!
 
-    course = course_api.rel(:course).get({id: params[:id]})
-    form.id = course.value!['id']
+    course = CourseService::Course.by_identifier(params[:id]).take
+    form.id = course.id
 
-    begin
-      if form.valid? && course_api.rel(:course)
-          .patch(
-            form.to_resource.except('id', 'course_code'),
-            params: {id: form.id.to_s}
-          ).value!
-        add_flash_message :success, t(:'flash.success.course_updated')
-        return redirect_to course_path(id: form.course_code), status: :see_other
-      end
-    rescue Restify::UnprocessableEntity => e
-      form.remote_errors e.errors
+    if form.valid? && CourseService::Course::Update.call(course,
+      course_resource(form.to_resource.except('id', 'course_code')))
+      add_flash_message :success, t(:'flash.success.course_updated')
+      return redirect_to course_path(id: form.course_code), status: :see_other
     end
 
     add_flash_message :error, t(:'flash.error.course_not_updated')
@@ -83,7 +78,7 @@ class Admin::CoursesController < Admin::BaseController
     @course = Admin::CourseEditPresenter.for_course id: params[:id], form:, user: current_user
     Acfs.run
 
-    render action: :edit, status: :unprocessable_entity
+    render action: :edit, status: :unprocessable_content
   end
 
   def clone
@@ -93,40 +88,53 @@ class Admin::CoursesController < Admin::BaseController
       return redirect_to course_sections_path(params[:id]), status: :see_other
     end
 
-    new_course = Xikolo::Course::Course.find_by(course_code: params[:new_course_code]) do |resource|
-      resource.sections unless resource.nil? # rubocop:disable Style/SafeNavigation
-    end
-    Acfs.run
+    new_course = CourseService::Course.includes(:sections)
+      .find_by(course_code: params[:new_course_code])
 
-    if new_course.present? && new_course.sections.count > 0
+    if new_course&.sections&.any?
       add_flash_message :error, t(:'sections.index.clone_course.new_course_not_empty')
       return redirect_to course_sections_path(params[:id]), status: :see_other
     end
 
-    Msgr.publish({old_course_id:   the_course.id,
-                  new_course_code: params[:new_course_code]}, to: 'xikolo.course.clone')
+    CourseService::CloneCourseJob.perform_later(old_course_id: the_course.id, new_course_code: params[:new_course_code])
     add_flash_message :success, t(:'sections.index.clone_course.clone_started')
     redirect_to course_sections_path(params[:id]), status: :see_other
   end
 
   def destroy
     authorize! 'course.course.delete'
-    course_api.rel(:course).get({id: params[:course_code]}).then do |course|
-      course.rel(:self).delete
-    end.value!
+    course = CourseService::Course.by_identifier(params[:course_code]).take
+
+    CourseService::Course::Destroy.call course
     redirect_to admin_courses_path, notice: t(:'flash.notice.course_deleted'), status: :see_other
   rescue Restify::ResponseError
     redirect_to course_path(params[:course_code]), error: t(:'flash.error.course_not_deleted'), status: :see_other
   end
 
-  def hide_course_nav?
-    true
-  end
-
   private
 
-  def filter_params
-    params.permit(:page, :autocomplete, :status).to_h.symbolize_keys
+  # The form resource always includes +id+, but the create/update operations
+  # manage the primary key themselves. On create a nil +id+ would clobber the
+  # freshly generated one, so strip it out before handing the resource over.
+  #
+  # The operations look attributes up with symbol keys (e.g. the description
+  # upload branch), so normalize to indifferent access just like the engine's
+  # REST endpoint does with ActionController::Parameters.
+  def course_resource(attributes)
+    attributes.with_indifferent_access.except('id')
+  end
+
+  def apply_filter(courses)
+    case params[:status]
+      when 'active'      then courses.active.visible
+      when 'preparation' then courses.in_preparation.visible
+      when 'hidden'      then courses.where(placement: [])
+      when 'upcoming'    then courses.upcoming.visible
+      when 'self_paced'  then courses.self_paced.visible
+      when 'archived'    then courses.where(placement: ['Archive'])
+      when 'external'    then courses.where.not(external_course_url: [nil, ''])
+      else courses
+    end
   end
 
   def auth_context
@@ -139,7 +147,12 @@ class Admin::CoursesController < Admin::BaseController
 
   # fix course receiving
   def request_course
-    Xikolo::Course::Course.find(params[:id])
+    course = CourseService::Course.by_identifier(params[:id]).take
+    if course.nil?
+      raise Status::NotFound
+    end
+
+    course
   end
 
   def course_api

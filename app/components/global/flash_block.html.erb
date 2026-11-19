@@ -1,0 +1,9 @@
+<div data-turbo-temporary>
+  <% messages.each do |message| %>
+    <%= render Global::FlashMessage.new(message[:type], message[:text]) %>
+  <% end %>
+
+  <% layers.each do |layer| %>
+    <%= render Global::FlashLayer.new(layer[:type], layer[:text]) %>
+  <% end %>
+</div>

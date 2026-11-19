@@ -3,7 +3,7 @@
 FactoryBot.define do
   factory :'quiz_service/quiz_submission' do
     association :quiz, factory: :'quiz_service/quiz'
-    user_id { '00000000-0000-4444-9999-000000000001' }
+    association :user, factory: :'account_service/user'
     quiz_submission_time { nil }
 
     trait :submitted do

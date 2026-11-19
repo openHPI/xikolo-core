@@ -1,15 +1,15 @@
 hr.divider.slim.alternative
 h5.h5
   = t(:'sections.alternative.decision_heading')
-.row
+div class='grid grid-cols-1 lg:grid-cols-2 gap-10'
   - @section_presenter.alternatives.each do |alternative|
-    .col-md-6.col-lg-6
+    .relative
       .alternative-section-description
         h2.h2 = alternative.title
         .mt10.wmd-output
           p = alternative.description
       .alternative-section-btn
         - if @section_presenter.section_choices? && @section_presenter.section_choice?(alternative.id)
-          = link_to t(:'sections.alternative.continue'), course_section_path(id: alternative.id), class: 'mb20 btn full-width btn-primary'
+          = link_to t(:'sections.alternative.continue'), course_section_path(id: alternative.id), class: 'mb20 x-btn x-btn-primary full-width'
         - else
-          = link_to t(:'sections.alternative.select'), choose_alternative_section_course_section_path(chosen_id: alternative.id), method: :post, class: 'mb20 btn full-width btn-default'
+          = link_to t(:'sections.alternative.select'), choose_alternative_section_course_section_path(chosen_id: alternative.id), method: :post, class: 'mb20 x-btn full-width'

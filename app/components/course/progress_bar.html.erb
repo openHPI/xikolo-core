@@ -1,0 +1,24 @@
+<div class="flex flex-col gap-2">
+  <div class="flex justify-between text-sm">
+    <span id="progress-label" class="font-medium mr-2">
+      <%= t(:'courses.nav.progress') %>
+    </span>
+
+    <% if loading? %>
+      <span class="x-skeleton h-5 w-10" aria-hidden="true"></span>
+    <% else %>
+      <%= helpers.number_to_percentage(@percentage, precision: 0) %>
+    <% end %>
+  </div>
+
+  <% if loading? %>
+    <div class="x-skeleton h-2 w-full" aria-hidden="true"></div>
+  <% else %>
+    <progress
+      class="x-progress x-progress-accent"
+      value="<%= @percentage %>"
+      max="100"
+      aria-labelledby="progress-label"
+    ></progress>
+  <% end %>
+</div>

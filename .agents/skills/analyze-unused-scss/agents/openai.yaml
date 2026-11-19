@@ -1,0 +1,4 @@
+interface:
+  display_name: "Analyze Unused SCSS"
+  short_description: "Find unused Rails SCSS with evidence"
+  default_prompt: "Use $analyze-unused-scss to find unused compiled SCSS selectors and verify their usage across Rails templates and dynamic class sources."

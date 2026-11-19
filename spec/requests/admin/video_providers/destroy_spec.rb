@@ -3,17 +3,14 @@
 require 'spec_helper'
 
 describe 'Admin: VideoProviders: Destroy', type: :request do
-  let(:destroy_video_provider) { delete "/admin/video_providers/#{provider.id}", headers: }
-  let(:headers) { {} }
+  let(:destroy_video_provider) { delete "/admin/video_providers/#{provider.id}" }
   let!(:provider) { create(:video_provider, :vimeo) }
 
   context 'for logged-in users' do
-    let(:headers) { {Authorization: "Xikolo-Session session_id=#{stub_session_id}"} }
-
-    before { stub_user_request permissions: }
+    before { sign_in(user:) }
 
     context 'with permissions' do
-      let(:permissions) { ['video.provider.manage'] }
+      let(:user) { create(:'account_service/user', :admin) }
 
       it 'deletes the video provider' do
         expect { destroy_video_provider }.to change(Video::Provider, :count).from(1).to(0)
@@ -36,7 +33,7 @@ describe 'Admin: VideoProviders: Destroy', type: :request do
     end
 
     context 'without permissions' do
-      let(:permissions) { [] }
+      let(:user) { create(:'account_service/user') }
 
       it 'redirects to the start page' do
         destroy_video_provider

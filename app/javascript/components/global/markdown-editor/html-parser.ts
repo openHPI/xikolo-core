@@ -4,13 +4,8 @@ const md = new MarkdownIt({ linkify: true, breaks: true });
 
 // Helper functions to override renderers
 // See https://github.com/markdown-it/markdown-it/blob/master/docs/examples/renderer_rules.md#reusing-existing-rules
-const proxy: MarkdownIt.Renderer.RenderRule = (
-  tokens,
-  idx,
-  options,
-  env,
-  self,
-) => self.renderToken(tokens, idx, options);
+const proxy = (tokens, idx, options, env, self) =>
+  self.renderToken(tokens, idx, options);
 
 const defaultImageRenderer = md.renderer.rules.image || proxy;
 const defaultLinkRenderer = md.renderer.rules.link_open || proxy;
@@ -23,6 +18,7 @@ const overrideRenderer =
     tag: string,
     uploadUrl: string,
     savedUrlsMapping: { [key: string]: string },
+    // @ts-expect-error - Renderer is not properly typed in markdown-it --- IGNORE ---
   ): MarkdownIt.Renderer.RenderRule =>
   (tokens, idx, options, env, self) => {
     const index = tokens[idx].attrIndex(tag === 'image' ? 'src' : 'href');

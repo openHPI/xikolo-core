@@ -13,8 +13,8 @@ describe CourseService::ProgressesController, type: :controller do
   let(:action) { get :index, params: {course_id: course.id, user_id:} }
 
   let!(:course) { create(:'course_service/course') }
-  let(:user_id) { generate(:user_id) }
-  let(:other_user_id) { generate(:user_id) }
+  let(:user_id) { create(:'account_service/user').id }
+  let(:other_user_id) { create(:'account_service/user').id }
 
   let(:section1_params) { {id: '00000002-3100-4444-9999-000000000001'} }
   let(:section1) { create(:'course_service/section', {course:, position: 1, start_date: 10.days.ago.iso8601}.merge(section1_params)) }
@@ -33,8 +33,8 @@ describe CourseService::ProgressesController, type: :controller do
   let(:section2) { create(:'course_service/section', {course:, position: 2, start_date: 10.days.ago.iso8601}.merge(section2_params)) }
   let(:item21_params) { {} }
   let(:item21) { create(:'course_service/item', {section: section2, position: 1}.merge(item21_params)) }
-  let(:item22_params) { {} }
-  let(:item22) { create(:'course_service/item', :proctored, {section: section2, position: 2}.merge(item22_params)) }
+  let(:item22_params) { {submission_deadline: 5.days.from_now} }
+  let(:item22) { create(:'course_service/item', {section: section2, position: 2}.merge(item22_params)) }
 
   let(:section3_params) { {id: '00000002-3100-4444-9999-000000000003'} }
   let(:section3) { create(:'course_service/section', {course:, position: 3, start_date: 10.days.ago.iso8601}.merge(section3_params)) }
@@ -59,40 +59,12 @@ describe CourseService::ProgressesController, type: :controller do
       expect(subject['kind']).to eq 'section'
       expect(subject['title']).to eq send(section).title
       expect(subject['resource_id']).to eq send(section).id
-      expect(subject['parent']).to eq send(section).parent?
-      expect(subject['parent_id']).to eq send(section).parent_id
+      expect(subject['alternative_state']).to eq send(section).alternative_state.presence_in(%w[parent child])
     end
   end
 
   shared_examples 'the section1 progress' do |section1|
     it_behaves_like 'a section progress', section1
-
-    context 'selftest_exercises' do
-      subject { super()['selftest_exercises'] }
-
-      it { is_expected.to include('submitted_points' => 13.5, 'graded_points' => 13.5, 'max_points' => 18) }
-      it { is_expected.to include('submitted_exercises' => 2, 'total_exercises' => 3) }
-
-      context 'items' do
-        subject { super()['items'] }
-
-        its(:size) { is_expected.to eq 3 }
-
-        context 'item 1' do
-          it_behaves_like 'a item', 0, :item12, user_state: 'graded', user_points: 5.5
-        end
-
-        context 'item 2' do
-          it_behaves_like 'a item', 1, :item13, user_state: 'graded', user_points: 8.0
-        end
-
-        context 'item 3' do
-          it_behaves_like 'a item', 2, :item14, user_state: 'new'
-        end
-      end
-    end
-
-    its(['visits']) { is_expected.to eq('total' => 4, 'user' => 2, 'percentage' => 50) }
 
     context 'items' do
       subject { super()['items'] }
@@ -124,42 +96,6 @@ describe CourseService::ProgressesController, type: :controller do
   shared_examples 'the section2 progress' do |section2|
     it_behaves_like 'a section progress', section2
 
-    its(['visits']) { is_expected.to eq('total' => 2, 'user' => 2, 'percentage' => 100) }
-
-    context 'selftest_exercises' do
-      subject { super()['selftest_exercises'] }
-
-      it { is_expected.to include('submitted_points' => 10, 'graded_points' => 10, 'max_points' => 12) }
-      it { is_expected.to include('submitted_exercises' => 1, 'total_exercises' => 1) }
-
-      context 'items' do
-        subject { super()['items'] }
-
-        its(:size) { is_expected.to eq 1 }
-
-        context 'item 1' do
-          it_behaves_like 'a item', 0, :item22, user_state: 'graded', user_points: 10.0
-        end
-      end
-    end
-
-    context 'main_exercises' do
-      subject { super()['main_exercises'] }
-
-      it { is_expected.to include('submitted_points' => 0, 'graded_points' => 0, 'max_points' => 1) }
-      it { is_expected.to include('submitted_exercises' => 0, 'total_exercises' => 1) }
-
-      context 'items' do
-        subject { super()['items'] }
-
-        its(:size) { is_expected.to eq 1 }
-
-        context 'item 1' do
-          it_behaves_like 'a item', 0, :item21, user_state: 'visited'
-        end
-      end
-    end
-
     context 'items' do
       subject { super()['items'] }
 
@@ -178,25 +114,6 @@ describe CourseService::ProgressesController, type: :controller do
   shared_examples 'the section3 progress' do |section3|
     it_behaves_like 'a section progress', section3
 
-    context 'selftest_exercises' do
-      subject { super()['selftest_exercises'] }
-
-      it { is_expected.to include 'submitted_points' => 2.0, 'graded_points' => 2.0, 'max_points' => 8.0 }
-      it { is_expected.to include 'submitted_exercises' => 1, 'graded_exercises' => 1, 'total_exercises' => 1 }
-
-      context 'items' do
-        subject { super()['items'] }
-
-        its(:size) { is_expected.to eq 1 }
-
-        context 'item 1' do
-          it_behaves_like 'a item', 0, :item31, user_state: 'graded', user_points: 2.0
-        end
-      end
-    end
-
-    its(['visits']) { is_expected.to eq 'total' => 2, 'user' => 1, 'percentage' => 50 }
-
     context 'items' do
       subject { super()['items'] }
 
@@ -214,8 +131,6 @@ describe CourseService::ProgressesController, type: :controller do
 
   shared_examples 'the parent_section progress' do |parent_section|
     it_behaves_like 'a section progress', parent_section
-
-    its(['visits']) { is_expected.to eq 'total' => 0, 'user' => 0, 'percentage' => 0 }
 
     context 'items' do
       subject { super()['items'] }
@@ -263,9 +178,8 @@ describe CourseService::ProgressesController, type: :controller do
         context 'course progress' do
           subject { super()[0] }
 
-          its(:keys) { is_expected.to match_array %w[kind visits resource_id] }
+          its(:keys) { is_expected.to match_array %w[kind resource_id] }
           its(['kind']) { is_expected.to eq 'course' }
-          its(['visits']) { is_expected.to eq('total' => 0, 'user' => 0, 'percentage' => 0) }
         end
       end
     end
@@ -293,8 +207,6 @@ describe CourseService::ProgressesController, type: :controller do
           subject { super()[0] }
 
           it_behaves_like 'a section progress', :section1
-
-          its(['visits']) { is_expected.to eq('total' => 4, 'user' => 1, 'percentage' => 25) }
 
           context 'items' do
             subject { super()['items'] }
@@ -328,8 +240,6 @@ describe CourseService::ProgressesController, type: :controller do
 
           it_behaves_like 'a section progress', :section2
 
-          its(['visits']) { is_expected.to eq('total' => 2, 'user' => 1, 'percentage' => 50) }
-
           context 'items' do
             subject { super()['items'] }
 
@@ -349,7 +259,6 @@ describe CourseService::ProgressesController, type: :controller do
           subject { super()[2] }
 
           it_behaves_like 'a course progress'
-          its(['visits']) { is_expected.to eq('total' => 6, 'user' => 2, 'percentage' => 33) }
         end
       end
     end
@@ -401,20 +310,6 @@ describe CourseService::ProgressesController, type: :controller do
           subject { super()[2] }
 
           it_behaves_like 'a course progress'
-          its(['visits']) { is_expected.to eq('total' => 6, 'user' => 4, 'percentage' => 66) }
-
-          context 'selftest_exercises' do
-            subject { super()['selftest_exercises'] }
-
-            it { is_expected.to include('submitted_points' => 23.5, 'graded_points' => 23.5, 'max_points' => 30) }
-            it { is_expected.to include('submitted_exercises' => 3, 'graded_exercises' => 3, 'total_exercises' => 4) }
-
-            context 'items' do
-              subject { super()['items'] }
-
-              it { is_expected.to be_nil }
-            end
-          end
         end
 
         context 'with alternative sections' do
@@ -455,17 +350,6 @@ describe CourseService::ProgressesController, type: :controller do
               subject { super()[2] }
 
               it_behaves_like 'a course progress'
-              its(['visits']) { is_expected.to eq 'total' => 2, 'user' => 1, 'percentage' => 50 }
-
-              its(['selftest_exercises']) do
-                is_expected.to include \
-                  'submitted_points' => 2.0,
-                  'graded_points' => 2.0,
-                  'max_points' => 8.0,
-                  'submitted_exercises' => 1,
-                  'graded_exercises' => 1,
-                  'total_exercises' => 1
-              end
             end
           end
 
@@ -504,17 +388,6 @@ describe CourseService::ProgressesController, type: :controller do
               subject { super()[3] }
 
               it_behaves_like 'a course progress'
-              its(['visits']) { is_expected.to eq 'total' => 6, 'user' => 3, 'percentage' => 50 }
-
-              its(['selftest_exercises']) do
-                is_expected.to include \
-                  'submitted_points' => 15.5,
-                  'graded_points' => 15.5,
-                  'max_points' => 26,
-                  'submitted_exercises' => 3,
-                  'graded_exercises' => 3,
-                  'total_exercises' => 4
-              end
             end
           end
 
@@ -572,7 +445,6 @@ describe CourseService::ProgressesController, type: :controller do
               end
 
               it_behaves_like 'a course progress'
-              its(['visits']) { is_expected.to eq 'total' => 6, 'user' => 3, 'percentage' => 50 }
 
               it 'learning evaluation should arrive at the same results' do
                 create(:'course_service/enrollment',
@@ -589,16 +461,6 @@ describe CourseService::ProgressesController, type: :controller do
                   visits_percentage: 50
                 )
               end
-
-              its(['selftest_exercises']) do
-                is_expected.to include \
-                  'submitted_points' => 15.5,
-                  'graded_points' => 15.5,
-                  'max_points' => 26,
-                  'submitted_exercises' => 3,
-                  'graded_exercises' => 3,
-                  'total_exercises' => 4
-              end
             end
           end
         end
@@ -606,7 +468,7 @@ describe CourseService::ProgressesController, type: :controller do
     end
 
     ###################################
-    context 'with withhold results' do
+    context 'with results not published yet' do
       ###################################
       let(:passed_datetime) { DateTime.now - 1.day }
       let(:next_datetime) { 1.day.from_now }
@@ -616,7 +478,7 @@ describe CourseService::ProgressesController, type: :controller do
                              max_dpoints: 70, submission_publishing_date: passed_datetime}
       end
       let(:item13_params) do
-        {content_type: 'lti',  exercise_type: 'main',
+        {content_type: 'lti', exercise_type: 'main',
                              max_dpoints: 30, submission_publishing_date: next_datetime}
       end
       let(:item14_params) do
@@ -655,35 +517,6 @@ describe CourseService::ProgressesController, type: :controller do
 
           it_behaves_like 'a section progress', :section1
 
-          context 'main_exercises' do
-            subject { super()['main_exercises'] }
-
-            it { is_expected.to include('submitted_points' => 15.2, 'graded_points' => 5, 'max_points' => 18) }
-            it { is_expected.to include('submitted_exercises' => 3, 'graded_exercises' => 1, 'total_exercises' => 3) }
-            its(['next_publishing_date']) { is_expected.to eq next_datetime.utc.strftime('%Y-%m-%dT%H:%M:%SZ') }
-            its(['last_publishing_date']) { is_expected.to eq last_datetime.utc.strftime('%Y-%m-%dT%H:%M:%SZ') }
-          end
-
-          context 'main_exercises items' do
-            subject { super()['main_exercises']['items'] }
-
-            its(:size) { is_expected.to eq 3 }
-
-            context 'item 1' do
-              it_behaves_like 'a item', 0, :item12, user_state: 'graded', user_points: 5.0
-            end
-
-            context 'item 2' do
-              it_behaves_like 'a item', 1, :item13, user_state: 'submitted', user_points: 8.2
-            end
-
-            context 'item 3' do
-              it_behaves_like 'a item', 2, :item14, user_state: 'submitted', user_points: 2.0
-            end
-          end
-
-          its(['visits']) { is_expected.to eq('total' => 4, 'user' => 3, 'percentage' => 75) }
-
           context 'items' do
             subject { super()['items'] }
 
@@ -712,27 +545,6 @@ describe CourseService::ProgressesController, type: :controller do
 
           it_behaves_like 'a section progress', :section2
 
-          its(['visits']) { is_expected.to eq('total' => 2, 'user' => 2, 'percentage' => 100) }
-
-          context 'main_exercises' do
-            subject { super()['main_exercises'] }
-
-            it { is_expected.to include('submitted_points' => 0, 'graded_points' => 0, 'max_points' => 12) }
-            it { is_expected.to include('submitted_exercises' => 0, 'total_exercises' => 1) }
-            its(['next_publishing_date']) { is_expected.to be_nil }
-            its(['last_publishing_date']) { is_expected.to be_nil }
-          end
-
-          context 'main_exercises items' do
-            subject { super()['main_exercises']['items'] }
-
-            its(:size) { is_expected.to eq 1 }
-
-            context 'item 1' do
-              it_behaves_like 'a item', 0, :item22, user_state: 'visited'
-            end
-          end
-
           context 'items' do
             subject { super()['items'] }
 
@@ -752,20 +564,6 @@ describe CourseService::ProgressesController, type: :controller do
           subject { super()[2] }
 
           it_behaves_like 'a course progress'
-          its(['visits']) { is_expected.to eq('total' => 6, 'user' => 5, 'percentage' => 83) }
-
-          context 'main_exercises' do
-            subject { super()['main_exercises'] }
-
-            it { is_expected.to include('submitted_points' => 15.2, 'graded_points' => 5, 'max_points' => 30) }
-            it { is_expected.to include('submitted_exercises' => 3, 'graded_exercises' => 1, 'total_exercises' => 4) }
-
-            context 'items' do
-              subject { super()['items'] }
-
-              it { is_expected.to be_nil }
-            end
-          end
         end
       end
     end
@@ -780,7 +578,7 @@ describe CourseService::ProgressesController, type: :controller do
                              max_dpoints: 70, submission_publishing_date: passed_datetime}
       end
       let(:item13_params) do
-        {content_type: 'lti',  exercise_type: 'main',
+        {content_type: 'lti', exercise_type: 'main',
                              max_dpoints: 30, submission_publishing_date: next_datetime}
       end
       let(:item14_params) do
@@ -833,35 +631,6 @@ describe CourseService::ProgressesController, type: :controller do
           it_behaves_like 'a section progress', :section1
           its(['available']) { is_expected.to be_truthy }
 
-          context 'main_exercises' do
-            subject { super()['main_exercises'] }
-
-            it { is_expected.to include('submitted_points' => 15.2, 'graded_points' => 5, 'max_points' => 18) }
-            it { is_expected.to include('submitted_exercises' => 3, 'graded_exercises' => 1, 'total_exercises' => 3) }
-            its(['next_publishing_date']) { is_expected.to eq next_datetime.utc.strftime('%Y-%m-%dT%H:%M:%SZ') }
-            its(['last_publishing_date']) { is_expected.to eq last_datetime.utc.strftime('%Y-%m-%dT%H:%M:%SZ') }
-          end
-
-          context 'main_exercises items' do
-            subject { super()['main_exercises']['items'] }
-
-            its(:size) { is_expected.to eq 3 }
-
-            context 'item 1' do
-              it_behaves_like 'a item', 0, :item12, user_state: 'graded', user_points: 5.0
-            end
-
-            context 'item 2' do
-              it_behaves_like 'a item', 1, :item13, user_state: 'submitted', user_points: 8.2
-            end
-
-            context 'item 3' do
-              it_behaves_like 'a item', 2, :item14, user_state: 'submitted', user_points: 2.0
-            end
-          end
-
-          its(['visits']) { is_expected.to eq('total' => 4, 'user' => 3, 'percentage' => 75) }
-
           context 'items' do
             subject { super()['items'] }
 
@@ -891,27 +660,6 @@ describe CourseService::ProgressesController, type: :controller do
           it_behaves_like 'a section progress', :section2
           its(['available']) { is_expected.to be_truthy }
 
-          its(['visits']) { is_expected.to eq('total' => 2, 'user' => 2, 'percentage' => 100) }
-
-          context 'main_exercises' do
-            subject { super()['main_exercises'] }
-
-            it { is_expected.to include('submitted_points' => 0, 'graded_points' => 0, 'max_points' => 12) }
-            it { is_expected.to include('submitted_exercises' => 0, 'graded_exercises' => 0, 'total_exercises' => 1) }
-            its(['next_publishing_date']) { is_expected.to be_nil }
-            its(['last_publishing_date']) { is_expected.to be_nil }
-          end
-
-          context 'main_exercises items' do
-            subject { super()['main_exercises']['items'] }
-
-            its(:size) { is_expected.to eq 1 }
-
-            context 'item 1' do
-              it_behaves_like 'a item', 0, :item22, user_state: 'visited'
-            end
-          end
-
           context 'items' do
             subject { super()['items'] }
 
@@ -932,27 +680,13 @@ describe CourseService::ProgressesController, type: :controller do
 
           it_behaves_like 'a section progress', :section3
           its(['available']) { is_expected.to be_falsey }
-          its(:keys) { is_expected.to match_array %w[kind title available optional resource_id description parent parent_id position alternative_state discarded required_section_ids] }
+          its(:keys) { is_expected.to match_array %w[kind title available resource_id alternative_state discarded] }
         end
 
         context 'course progress' do
           subject { super()[3] }
 
           it_behaves_like 'a course progress'
-          its(['visits']) { is_expected.to eq('total' => 6, 'user' => 5, 'percentage' => 83) }
-
-          context 'main_exercises' do
-            subject { super()['main_exercises'] }
-
-            it { is_expected.to include('submitted_points' => 15.2, 'graded_points' => 5, 'max_points' => 30) }
-            it { is_expected.to include('submitted_exercises' => 3, 'graded_exercises' => 1, 'total_exercises' => 4) }
-
-            context 'items' do
-              subject { super()['items'] }
-
-              it { is_expected.to be_nil }
-            end
-          end
         end
       end
     end
@@ -967,7 +701,7 @@ describe CourseService::ProgressesController, type: :controller do
                              max_dpoints: 70, submission_publishing_date: passed_datetime}
       end
       let(:item13_params) do
-        {content_type: 'lti',  exercise_type: 'main',
+        {content_type: 'lti', exercise_type: 'main',
                              max_dpoints: 30, submission_publishing_date: next_datetime}
       end
       let(:item14_params) do
@@ -1020,35 +754,6 @@ describe CourseService::ProgressesController, type: :controller do
           it_behaves_like 'a section progress', :section1
           its(['available']) { is_expected.to be_truthy }
 
-          context 'main_exercises' do
-            subject { super()['main_exercises'] }
-
-            it { is_expected.to include('submitted_points' => 15.2, 'graded_points' => 5, 'max_points' => 18) }
-            it { is_expected.to include('submitted_exercises' => 3, 'graded_exercises' => 1, 'total_exercises' => 3) }
-            its(['next_publishing_date']) { is_expected.to eq next_datetime.utc.strftime('%Y-%m-%dT%H:%M:%SZ') }
-            its(['last_publishing_date']) { is_expected.to eq last_datetime.utc.strftime('%Y-%m-%dT%H:%M:%SZ') }
-          end
-
-          context 'main_exercises items' do
-            subject { super()['main_exercises']['items'] }
-
-            its(:size) { is_expected.to eq 3 }
-
-            context 'item 1' do
-              it_behaves_like 'a item', 0, :item12, user_state: 'graded', user_points: 5.0
-            end
-
-            context 'item 2' do
-              it_behaves_like 'a item', 1, :item13, user_state: 'submitted', user_points: 8.2
-            end
-
-            context 'item 3' do
-              it_behaves_like 'a item', 2, :item14, user_state: 'submitted', user_points: 2.0
-            end
-          end
-
-          its(['visits']) { is_expected.to eq('total' => 4, 'user' => 3, 'percentage' => 75) }
-
           context 'items' do
             subject { super()['items'] }
 
@@ -1082,27 +787,6 @@ describe CourseService::ProgressesController, type: :controller do
           it_behaves_like 'a section progress', :section2
           its(['available']) { is_expected.to be_truthy }
 
-          its(['visits']) { is_expected.to eq('total' => 2, 'user' => 2, 'percentage' => 100) }
-
-          context 'main_exercises' do
-            subject { super()['main_exercises'] }
-
-            it { is_expected.to include('submitted_points' => 0, 'graded_points' => 0, 'max_points' => 12) }
-            it { is_expected.to include('submitted_exercises' => 0, 'total_exercises' => 1) }
-            its(['next_publishing_date']) { is_expected.to be_nil }
-            its(['last_publishing_date']) { is_expected.to be_nil }
-          end
-
-          context 'main_exercises items' do
-            subject { super()['main_exercises']['items'] }
-
-            its(:size) { is_expected.to eq 1 }
-
-            context 'item 1' do
-              it_behaves_like 'a item', 0, :item22, user_state: 'visited'
-            end
-          end
-
           context 'items' do
             subject { super()['items'] }
 
@@ -1122,20 +806,6 @@ describe CourseService::ProgressesController, type: :controller do
           subject { super()[2] }
 
           it_behaves_like 'a course progress'
-          its(['visits']) { is_expected.to eq('total' => 6, 'user' => 5, 'percentage' => 83) }
-
-          context 'main_exercises' do
-            subject { super()['main_exercises'] }
-
-            it { is_expected.to include('submitted_points' => 15.2, 'graded_points' => 5, 'max_points' => 30) }
-            it { is_expected.to include('submitted_exercises' => 3, 'graded_exercises' => 1, 'total_exercises' => 4) }
-
-            context 'items' do
-              subject { super()['items'] }
-
-              it { is_expected.to be_nil }
-            end
-          end
         end
       end
     end
@@ -1159,7 +829,7 @@ describe CourseService::ProgressesController, type: :controller do
                              max_dpoints: 70, submission_publishing_date: passed_datetime}
       end
       let(:item13_params) do
-        {content_type: 'lti',  exercise_type: 'bonus',
+        {content_type: 'lti', exercise_type: 'bonus',
                              max_dpoints: 30, submission_publishing_date: next_datetime}
       end
       let(:item14_params) do
@@ -1220,61 +890,6 @@ describe CourseService::ProgressesController, type: :controller do
 
           it_behaves_like 'a section progress', :section1
           its(['available']) { is_expected.to be_truthy }
-          its(['optional']) { is_expected.to be_truthy }
-
-          context 'selftest_exercises' do
-            subject { super()['selftest_exercises'] }
-
-            it { is_expected.to include('submitted_points' => 3.3, 'graded_points' => 3.3, 'max_points' => 8.9) }
-            it { is_expected.to include('submitted_exercises' => 1, 'graded_exercises' => 1, 'total_exercises' => 1) }
-            its(['next_publishing_date']) { is_expected.to be_nil }
-            its(['last_publishing_date']) { is_expected.to be_nil }
-          end
-
-          context 'selftest_exercises items' do
-            subject { super()['selftest_exercises']['items'] }
-
-            its(:size) { is_expected.to eq 1 }
-
-            context 'item 1' do
-              it_behaves_like 'a item', 0, :item15, user_state: 'graded', user_points: 3.3
-            end
-          end
-
-          its(['main_exercises']) { is_expected.to be_nil }
-
-          context 'bonus_exercises' do
-            subject { super()['bonus_exercises'] }
-
-            it { is_expected.to include('submitted_points' => 15.2, 'graded_points' => 5.0, 'max_points' => 19) }
-            it { is_expected.to include('submitted_exercises' => 3, 'graded_exercises' => 1, 'total_exercises' => 4) }
-            its(['next_publishing_date']) { is_expected.to eq next_datetime.utc.strftime('%Y-%m-%dT%H:%M:%SZ') }
-            its(['last_publishing_date']) { is_expected.to eq last_datetime.utc.strftime('%Y-%m-%dT%H:%M:%SZ') }
-          end
-
-          context 'bonus_exercises items' do
-            subject { super()['bonus_exercises']['items'] }
-
-            its(:size) { is_expected.to eq 4 }
-
-            context 'item 1' do
-              it_behaves_like 'a item', 0, :item11, user_state: 'new'
-            end
-
-            context 'item 2' do
-              it_behaves_like 'a item', 1, :item12, user_state: 'graded', user_points: 5.0
-            end
-
-            context 'item 3' do
-              it_behaves_like 'a item', 2, :item13, user_state: 'submitted', user_points: 8.2
-            end
-
-            context 'item 4' do
-              it_behaves_like 'a item', 3, :item14, user_state: 'submitted', user_points: 2.0
-            end
-          end
-
-          its(['visits']) { is_expected.to eq('total' => 6, 'user' => 4, 'percentage' => 66) }
 
           context 'items' do
             subject { super()['items'] }
@@ -1312,30 +927,6 @@ describe CourseService::ProgressesController, type: :controller do
 
           it_behaves_like 'a section progress', :section2
           its(['available']) { is_expected.to be_truthy }
-          its(['optional']) { is_expected.to be_falsey }
-
-          its(['visits']) { is_expected.to eq('total' => 2, 'user' => 1, 'percentage' => 50) }
-
-          its(['selftest_exercises']) { is_expected.to be_nil }
-
-          context 'bonus_exercises' do
-            subject { super()['bonus_exercises'] }
-
-            it { is_expected.to include('submitted_points' => 6.4, 'graded_points' => 6.4, 'max_points' => 12.0) }
-            it { is_expected.to include('submitted_exercises' => 1, 'graded_exercises' => 1, 'total_exercises' => 1) }
-            its(['next_publishing_date']) { is_expected.to be_nil }
-            its(['last_publishing_date']) { is_expected.to be_nil }
-          end
-
-          context 'bonus_exercises items' do
-            subject { super()['bonus_exercises']['items'] }
-
-            its(:size) { is_expected.to eq 1 }
-
-            context 'item 1' do
-              it_behaves_like 'a item', 0, :item22, user_state: 'graded', user_points: 6.4
-            end
-          end
 
           context 'items' do
             subject { super()['items'] }
@@ -1357,45 +948,6 @@ describe CourseService::ProgressesController, type: :controller do
 
           it_behaves_like 'a section progress', :section3
           its(['available']) { is_expected.to be_truthy }
-          its(['optional']) { is_expected.to be_falsey }
-
-          context 'selftest_exercises' do
-            subject { super()['selftest_exercises'] }
-
-            it { is_expected.to include('submitted_points' => 2.1, 'graded_points' => 2.1, 'max_points' => 4.5) }
-            it { is_expected.to include('submitted_exercises' => 1, 'graded_exercises' => 1, 'total_exercises' => 1) }
-            its(['next_publishing_date']) { is_expected.to be_nil }
-            its(['last_publishing_date']) { is_expected.to be_nil }
-          end
-
-          context 'selftest_exercises items' do
-            subject { super()['selftest_exercises']['items'] }
-
-            its(:size) { is_expected.to eq 1 }
-
-            context 'item 1' do
-              it_behaves_like 'a item', 0, :item33, user_state: 'graded', user_points: 2.1
-            end
-          end
-
-          context 'main_exercises' do
-            subject { super()['main_exercises'] }
-
-            it { is_expected.to include('submitted_points' => 15.0, 'graded_points' => 15.0, 'max_points' => 20.0) }
-            it { is_expected.to include('submitted_exercises' => 1, 'graded_exercises' => 1, 'total_exercises' => 1) }
-            its(['next_publishing_date']) { is_expected.to be_nil }
-            its(['last_publishing_date']) { is_expected.to be_nil }
-          end
-
-          context 'main_exercises items' do
-            subject { super()['main_exercises']['items'] }
-
-            its(:size) { is_expected.to eq 1 }
-
-            context 'item 1' do
-              it_behaves_like 'a item', 0, :item32, user_state: 'graded', user_points: 15.0
-            end
-          end
 
           context 'items' do
             subject { super()['items'] }
@@ -1420,46 +972,6 @@ describe CourseService::ProgressesController, type: :controller do
           subject { super()[3] }
 
           it_behaves_like 'a course progress'
-          its(['visits']) { is_expected.to eq('total' => 5, 'user' => 4, 'percentage' => 80) }
-
-          context 'selftest_exercises' do
-            subject { super()['selftest_exercises'] }
-
-            it { is_expected.to include('submitted_points' => 2.1, 'graded_points' => 2.1, 'max_points' => 4.5) }
-            it { is_expected.to include('submitted_exercises' => 1, 'graded_exercises' => 1, 'total_exercises' => 1) }
-
-            context 'items' do
-              subject { super()['items'] }
-
-              it { is_expected.to be_nil }
-            end
-          end
-
-          context 'bonus_exercises' do
-            subject { super()['bonus_exercises'] }
-
-            it { is_expected.to include('submitted_points' => 21.6, 'graded_points' => 11.4, 'max_points' => 31.0) }
-            it { is_expected.to include('submitted_exercises' => 4, 'graded_exercises' => 2, 'total_exercises' => 5) }
-
-            context 'items' do
-              subject { super()['items'] }
-
-              it { is_expected.to be_nil }
-            end
-          end
-
-          context 'main_exercises' do
-            subject { super()['main_exercises'] }
-
-            it { is_expected.to include('submitted_points' => 15.0, 'graded_points' => 15.0, 'max_points' => 20.0) }
-            it { is_expected.to include('submitted_exercises' => 1, 'graded_exercises' => 1, 'total_exercises' => 1) }
-
-            context 'items' do
-              subject { super()['items'] }
-
-              it { is_expected.to be_nil }
-            end
-          end
         end
       end
     end

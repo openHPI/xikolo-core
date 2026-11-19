@@ -3,7 +3,7 @@
  * lecturer and slides streams.
  */
 
-import { TomInput } from 'tom-select/dist/types/types';
+import type TomInput from 'tom-select';
 
 const streamMatching = (regex: RegExp) => (stream: { text: string }) =>
   stream.text.match(regex);
@@ -20,16 +20,18 @@ const fetchAndAddData = async (commonBase: string) => {
     );
 
     if (lecturer) {
-      const select = document.querySelector<TomInput>(
-        '#video_lecturer_stream_id',
+      const select = (
+        document.querySelector(
+          '#video_lecturer_stream_id',
+        ) as unknown as TomInput
       )?.tomselect;
       select?.addOption({ id: lecturer.id, text: lecturer.text });
       select?.addItem(lecturer.id);
     }
 
     if (slides) {
-      const select = document.querySelector<TomInput>(
-        '#video_slides_stream_id',
+      const select = (
+        document.querySelector('#video_slides_stream_id') as unknown as TomInput
       )?.tomselect;
       select?.addOption({ id: slides.id, text: slides.text });
       select?.addItem(slides.id);
@@ -47,8 +49,8 @@ const videoStreamsAutocompletion = () => {
     const target = e.target as HTMLSelectElement;
     if (target.selectedIndex === -1) return;
 
-    const pipStream = target.selectedOptions[0].label;
-    if (!pipStream.match(/-pip(\.mp4)?\s\(.+\)$/)) return;
+    const pipStream = target.selectedOptions[0]?.label;
+    if (!pipStream?.match(/-pip(\.mp4)?\s\(.+\)$/)) return;
 
     // Remove (optional) file extension and "-pip" suffix
     const commonBase = pipStream.substring(0, pipStream.lastIndexOf('-pip'));

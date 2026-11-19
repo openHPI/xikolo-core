@@ -128,7 +128,6 @@ module MarkdownHelper
   end
 
   class BlankTargets < Redcarpet::Render::HTML
-    # rubocop:disable Rails/HelperInstanceVariable
     def initialize(params, internal_link_callback = nil, external_link_callback = nil)
       super(params)
 
@@ -198,5 +197,4 @@ module MarkdownHelper
       (uri.scheme.nil? || absolute_web_link?(uri)) && @external_link_callback
     end
   end
-  # rubocop:enable Rails/HelperInstanceVariable
 end

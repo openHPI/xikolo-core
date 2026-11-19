@@ -11,6 +11,6 @@ class CookieConsentController < ApplicationController
       consent_cookie.decline(params[:consent_name])
     end
 
-    redirect_back fallback_location: root_url
+    redirect_back_or_to(root_url)
   end
 end

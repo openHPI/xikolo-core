@@ -5,7 +5,6 @@
 \*-------------------------------------*/
 /**
  * Toggle-Switch..................iOS 8-style slider switch
- * Custom-Radio-Checkbox..........custom form input for radio button and checkbox
  */
 
 /*------------------------------------*\
@@ -96,82 +95,6 @@ input[type="checkbox"] {
       &:hover:after {
         box-shadow: $box-shadow-xs;
       }
-    }
-  }
-}
-
-/*------------------------------------*\
-    Custom-Radio-Checkbox
-    Inspired by https://codepen.io/manabox/pen/raQmpL
-\*------------------------------------*/
-@mixin custom-button-inputs() {
-  [type="radio"],
-  [type="checkbox"] {
-    position: absolute;
-    left: -9999px;
-
-    & + label {
-      position: relative;
-      display: inline-block;
-      padding-left: 28px;
-      color: #666;
-      cursor: pointer;
-      line-height: 20px;
-    }
-
-    & + label:before {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 18px;
-      height: 18px;
-      border: 1px solid $gray-600;
-      background: #fff;
-      content: "";
-    }
-
-    &:focus + label:before {
-      border-color: $primary-color;
-    }
-
-    & + label:after {
-      position: absolute;
-      top: 3px;
-      left: 3px;
-      width: 12px;
-      height: 12px;
-      background: $tertiary-color;
-      content: "";
-      transition: all 0.2s ease;
-    }
-
-    &:checked + label:after {
-      opacity: 1;
-      transform: scale(1);
-    }
-
-    &:not(:checked) + label:after {
-      opacity: 0;
-      transform: scale(0);
-    }
-
-    &:disabled + label {
-      color: $gray;
-      cursor: default;
-
-      &:before {
-        border-color: $gray;
-      }
-    }
-  }
-
-  [type="radio"] {
-    & + label:before {
-      border-radius: 100%;
-    }
-
-    & + label:after {
-      border-radius: 100%;
     }
   }
 }

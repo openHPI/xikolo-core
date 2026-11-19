@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe 'Course: Announcements: Index', type: :request do
   subject(:get_announcements) do
-    get '/courses/my-course/announcements', headers:
+    get '/learn/my-course/announcements'
   end
 
   let(:announcements_stub) do
@@ -13,14 +13,10 @@ describe 'Course: Announcements: Index', type: :request do
       query: hash_including(language: 'en')
     ).to_return Stub.json([])
   end
-  let(:headers) { {} }
-  let(:course) { build(:'course:course') }
+  let(:course) { create(:'course_service/course', :active, course_code: 'my-course') }
 
   before do
-    Stub.request(
-      :course, :get, '/courses/my-course'
-    ).to_return Stub.json(course)
-
+    course
     announcements_stub
   end
 
@@ -40,13 +36,16 @@ describe 'Course: Announcements: Index', type: :request do
     end
 
     context 'enrolled in the course' do
-      let!(:user) { stub_user_request permissions: ['course.content.access'] }
-      let(:headers) { super().merge('Authorization' => "Xikolo-Session session_id=#{stub_session_id}") }
+      let!(:user) { create(:'account_service/user') }
+      let(:permissions) { ['course.content.access'] }
 
       before do
+        sign_in(user:)
+        role = create(:'account_service/role', permissions:)
+        create(:'account_service/grant', principal: user, role:)
         Stub.request(
           :course, :get, '/enrollments',
-          query: {user_id: user[:id], course_id: course['id']}
+          query: {user_id: user.id, course_id: course['id']}
         ).to_return Stub.json([{id: SecureRandom.uuid}])
       end
 
@@ -65,9 +64,7 @@ describe 'Course: Announcements: Index', type: :request do
       end
 
       context 'with permission to see all course announcements' do
-        let(:user) do
-          stub_user_request permissions: ['course.content.access', 'news.announcement.show']
-        end
+        let(:permissions) { ['course.content.access', 'news.announcement.show'] }
 
         it 'shows the course announcements page' do
           get_announcements

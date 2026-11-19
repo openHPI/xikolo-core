@@ -11,15 +11,6 @@ class Answer < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   acts_as_list scope: :question
   has_paper_trail
 
-  after_commit(on: :create) do
-    Msgr.publish(decorate.as_event, to: 'xikolo.quiz.answer.create')
-  end
-  after_commit(on: :update) do
-    Msgr.publish(decorate.as_event, to: 'xikolo.quiz.answer.update')
-  end
-  after_commit(on: :destroy) do
-    Msgr.publish(decorate.as_event, to: 'xikolo.quiz.answer.destroy')
-  end
   after_commit(on: :destroy) do
     Xikolo::S3.extract_file_refs(text).each do |uri|
       Xikolo::S3.object(uri).delete

@@ -2,8 +2,8 @@
 
 module Gamification
   class Score < ::ApplicationRecord
-    belongs_to :user, class_name: 'Account::User'
-    belongs_to :course, class_name: 'Course::Course'
+    belongs_to :user, class_name: 'AccountService::User'
+    belongs_to :course, class_name: 'CourseService::Course'
 
     validates :rule, presence: true
     validates :checksum, uniqueness: {scope: :rule}

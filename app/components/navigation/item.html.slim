@@ -19,7 +19,7 @@ li class=css_classes data-test=item_type aria-label=tooltip data-tooltip=tooltip
   - elsif @link.present?
     = link_to @link[:href], target: @link[:target], rel: rel, class: action_css_classes,
       'aria-current': aria_current, title: aria_label, 'aria-label': aria_label, 'aria-description': aria_description,
-      lang: @lang
+      lang: @lang, data: {turbo: false}
       - if icon?
         .navigation-item__icon
           = render Global::FaIcon.new(icon_code)

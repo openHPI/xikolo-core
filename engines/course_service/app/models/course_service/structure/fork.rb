@@ -13,6 +13,12 @@ module Structure # rubocop:disable Layout/IndentationWidth
     validate :allowed_parents
     validate :allowed_children
 
+    class << self
+      def preload_content!(nodes)
+        ActiveRecord::Associations::Preloader.new(records: nodes, associations: :content_test).call
+      end
+    end
+
     private
 
     def allowed_parents

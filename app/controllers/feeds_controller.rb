@@ -4,8 +4,7 @@ class FeedsController < Abstract::FrontendController
   def index; end
 
   def courses
-    courses = Xikolo::Course::Course.where public: true, hidden: false, per_page: 250
-    Acfs.run
+    courses = CourseService::Course.where(published: true).order(:id).limit(250)
 
     records = CoursePresenter
       .build_collection(courses, current_user)

@@ -33,9 +33,8 @@ describe 'EmailSuspensions: Create', type: :request do
     # `resource` actually isn't a Nil object, but a
     # `Restify::Resource(nil)` that at least compares truthly to `nil`.
     #
-    # rubocop:disable RSpec/BeEq
+    # rubocop:disable-next RSpec/BeEq
     expect(resource).to eq nil
-    # rubocop:enable RSpec/BeEq
   end
 
   it 'returns email resource url in Content-Location header' do

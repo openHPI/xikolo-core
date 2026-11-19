@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 class Home::GoController < Abstract::FrontendController
-  include TracksReferrers
-
-  skip_around_action :auth_middleware, except: :survey
-
   # safe redirect to external URLs from inside the application
   def redirect
     if valid_link?

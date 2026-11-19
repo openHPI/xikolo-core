@@ -12,6 +12,12 @@ class API::EmailsController < API::RESTController # rubocop:disable Layout/Inden
     respond_with resource
   end
 
+  def create
+    email = user.emails.create(params.permit(:address, :confirmed))
+    email.reload if email.persisted?
+    respond_with user, email
+  end
+
   def update
     resource.update params.permit(:confirmed, :primary, :force)
     respond_with resource.user, resource
@@ -22,12 +28,6 @@ class API::EmailsController < API::RESTController # rubocop:disable Layout/Inden
     respond_with emails, location: false
   rescue User::ReplaceEmails::OperationError
     error_invalid
-  end
-
-  def create
-    email = user.emails.create(params.permit(:address, :confirmed))
-    email.reload if email.persisted?
-    respond_with user, email
   end
 
   def destroy

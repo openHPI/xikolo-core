@@ -9,13 +9,20 @@ class Course::CoursesController < Abstract::FrontendController
 
   before_action :ensure_canonical_course_url, only: %i[show]
   before_action :redirect_from_course_page, only: %i[show]
-  before_action :set_no_cache_headers
 
   respond_to :json
 
-  def show
-    @infos = []
+  def teaser_signed_url
+    authorize! 'course.course.show'
+    video = the_course.visual&.video
+    stream = video&.bunny_stream
+    raise Status::NotFound unless video&.display_streams&.one? && stream&.ready?
 
+    response.headers['Cache-Control'] = 'no-store'
+    redirect_to BunnySignedURL.new.call(stream.provider_video_id, expires_in: 600).fetch(:video), allow_other_host: true
+  end
+
+  def show
     # Some courses' visibility is restricted to certain user groups (affiliated or partner courses).
     # Ensure the user is allowed to see this course.
     unless current_user.allowed? 'course.course.show'
@@ -23,25 +30,10 @@ class Course::CoursesController < Abstract::FrontendController
       return redirect_to dashboard_path, status: :see_other
     end
 
-    # 1. Fetch teacher info
     @teacher_list_presenter = Course::TeacherListPresenter.for_course the_course
-
-    # 2. Sections (for content)
-    # Also check if there is a section description, if not we going to hide stuff in the view
-    @sections = the_course.sections do |sections|
-      @show_section_info = sections.any? {|s| s.description.present? }
-    end
-
-    # 3. Items for featured items sidebar widget
-    @featured_items = Course::Course.find(the_course.id)
-      .items
-      .where(content_type: 'video', featured: true).map do |item|
-      FeaturedItemPresenter.build(item, the_course)
-    end
 
     enrollments = Array.wrap(my_enrollment)
 
-    @large_preview = CourseLargePreviewPresenter.build the_course, current_user, enrollments
     @course_presenter = Course::CourseDetailsPresenter.build the_course, enrollments, current_user
 
     if current_user.anonymous? && !cookies.signed[:stored_location]
@@ -60,12 +52,12 @@ class Course::CoursesController < Abstract::FrontendController
     raise Acfs::ResourceNotFound unless the_course.was_available? || current_user.allowed?('course.content.access')
 
     # Ask course service for the item to forward to
-    @current_item = Xikolo::Course::Item.find 'current', params: {
-      course: the_course.id,
-      user: current_user.id,
-      preview: current_user.allowed?('course.content.access'),
-    }
-    Acfs.run
+    @current_item = Item::FindCurrent.call(
+      course: the_course,
+      user_id: current_user.id,
+      preview: current_user.allowed?('course.content.access')
+    )
+    raise Acfs::ResourceNotFound if @current_item.nil?
 
     redirect_to course_item_path(the_course.course_code,
       short_uuid(@current_item.id)), status: :see_other
@@ -74,11 +66,24 @@ class Course::CoursesController < Abstract::FrontendController
     redirect_to course_path(params[:id]), status: :see_other
   end
 
+  def course_nav_tab
+    :details
+  end
+
+  def course_area_variant
+    :full_width
+  end
+
   protected
 
   # Fix course receiving
   def request_course
-    Xikolo::Course::Course.find(params[:id])
+    course = CourseService::Course.by_identifier(params[:id]).take
+    if course.nil?
+      raise Status::NotFound
+    end
+
+    course
   end
 
   def check_course_eligibility
@@ -112,7 +117,7 @@ class Course::CoursesController < Abstract::FrontendController
   def my_enrollment
     return nil if current_user.anonymous?
 
-    Course::Enrollment.find_by(
+    CourseService::Enrollment.find_by(
       user_id: current_user.id, course_id: the_course.id, deleted: false
     )
   end

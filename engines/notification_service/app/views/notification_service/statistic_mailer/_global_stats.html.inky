@@ -55,7 +55,7 @@
         <%= t('notification_service.statistic_mail.global.certificate_roa') %>
         <br />
         <p class="lead">
-          <%= number_with_delimiter(@admin_statistic.platform_certificate_stats['record_of_achievement']) %>
+          <%= number_with_delimiter(@admin_statistic.platform_certificate_stats.fetch('RecordOfAchievement', 0)) %>
         </p>
       </columns>
     </row>

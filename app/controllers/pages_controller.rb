@@ -37,7 +37,7 @@ class PagesController < Abstract::FrontendController
         @page.errors.add :text, code
       end
 
-      render 'edit', status: :unprocessable_entity
+      render 'edit', status: :unprocessable_content
     end
   end
 

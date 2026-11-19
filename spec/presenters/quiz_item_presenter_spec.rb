@@ -4,12 +4,11 @@ require 'spec_helper'
 
 describe QuizItemPresenter, type: :presenter do
   subject(:presenter) do
-    described_class.new item: item_resource, course: course_resource, user:, quiz: quiz_resource,
-      enrollment: Xikolo::Course::Enrollment.new(enrollment.attributes)
+    described_class.new item: item_resource, course: course, user:, quiz: quiz_resource,
+      enrollment: CourseService::Enrollment.new(enrollment.attributes)
   end
 
   let(:course) { create(:course, :active, course_code: 'test') }
-  let(:course_resource) { Xikolo::Course::Course.new(id: course.id, course_code: course.course_code) }
   let(:item) { create(:item, content_type: 'quiz', content_id: quiz_resource.id) }
   let(:item_resource) do
     build(:'course:item', id: item.id, content_type: item.content_type, content_id: item.content_id, **additional_item_params)
@@ -18,18 +17,78 @@ describe QuizItemPresenter, type: :presenter do
   let(:quiz_resource) { Xikolo::Quiz::Quiz.new quiz_params }
   let(:quiz_params) { {id: generate(:quiz_id), current_allowed_attempts: 1} }
 
-  let(:features) { {} }
-  let(:masqueraded) { false }
-  let(:user_id) { generate(:user_id) }
-  let(:user) do
-    Xikolo::Common::Auth::CurrentUser.from_session(
-      'permissions' => %w[course.content.access.available],
-      'features' => features,
-      'masqueraded' => masqueraded,
-      'user' => {'anonymous' => false}
-    )
-  end
+  let(:session) { create(:'account_service/session') }
+  let(:user) { CurrentUser::User.new(session:, context_id: 'root') }
+  let(:user_id) { session.user.id }
   let(:enrollment) { create(:enrollment, course:, user_id:) }
+
+  before do
+    role = create(:'account_service/role', permissions: %w[course.content.access.available])
+    create(:'account_service/grant', principal: session.user, role:)
+  end
+
+  describe '#instruction_action' do
+    subject(:action) { presenter.instruction_action }
+
+    let(:presenter) do
+      described_class.new(item: item_resource, course:, user:, quiz: quiz_resource, submission:, attempts:)
+    end
+    let(:additional_item_params) { {exercise_type: 'main'} }
+    let(:quiz_params) { super().merge(current_allowed_attempts: 2) }
+    let(:submission) { nil }
+    let(:attempts) { Xikolo::Submission::UserQuizAttempts.new(attempts: 1, additional_attempts: 0) }
+
+    it { is_expected.to eq(:start_quiz) }
+
+    context 'with an exam' do
+      let(:additional_item_params) { {exercise_type: 'exam', minimum_progress_percentage: 75} }
+
+      it { is_expected.to eq(:locked) }
+
+      context 'with progress below the threshold' do
+        before do
+          create(:'course_service/course_progress', course:, user_id:, visits_percentage_fpoints: 7499)
+        end
+
+        it { is_expected.to eq(:locked) }
+      end
+
+      context 'with progress at the threshold' do
+        before do
+          create(:'course_service/course_progress', course:, user_id:, visits_percentage_fpoints: 7500)
+        end
+
+        it { is_expected.to eq(:start_exam) }
+
+        context 'when the exam has been passed' do
+          let(:submission) { Xikolo::Submission::QuizSubmission.new(submitted: true, points: 70, max_points: 100) }
+
+          it { is_expected.to be_nil }
+        end
+      end
+    end
+
+    context 'with a previous submission' do
+      let(:submission) { Xikolo::Submission::QuizSubmission.new(submitted: true) }
+
+      it { is_expected.to eq(:retake_with_results) }
+
+      context 'before results are published' do
+        let(:additional_item_params) do
+          super().merge(submission_deadline: 2.days.from_now.iso8601(3),
+            submission_publishing_date: 3.days.from_now.iso8601(3))
+        end
+
+        it { is_expected.to eq(:retake) }
+      end
+
+      context 'without attempts left' do
+        let(:attempts) { Xikolo::Submission::UserQuizAttempts.new(attempts: 2, additional_attempts: 0) }
+
+        it { is_expected.to be_nil }
+      end
+    end
+  end
 
   describe '#survey?' do
     context 'without an exercise_type' do
@@ -77,23 +136,35 @@ describe QuizItemPresenter, type: :presenter do
     context "when the exercise_type is 'selftest'" do
       let(:additional_item_params) { {exercise_type: 'selftest'} }
 
-      it { is_expected.to eq 'lightbulb-on' }
+      it { is_expected.to eq 'learning_material' }
     end
 
     context "when the exercise_type is 'main'" do
       let(:additional_item_params) { {exercise_type: 'main'} }
 
-      it { is_expected.to eq 'money-check-pen' }
+      it { is_expected.to eq 'learning_material' }
     end
 
     context "when the exercise_type is 'bonus'" do
       let(:additional_item_params) { {exercise_type: 'bonus'} }
 
-      it { is_expected.to eq 'lightbulb-on+circle-star' }
+      it { is_expected.to eq 'learning_material' }
+    end
+
+    context "when the exercise_type is 'exam'" do
+      let(:additional_item_params) { {exercise_type: 'exam'} }
+
+      it { is_expected.to eq 'exam' }
+    end
+
+    context "when the exercise_type is 'survey'" do
+      let(:additional_item_params) { {exercise_type: 'survey'} }
+
+      it { is_expected.to eq 'survey' }
     end
 
     context 'without an exercise_type' do
-      it { is_expected.to eq 'clipboard-list-check' }
+      it { is_expected.to eq 'learning_material' }
     end
   end
 
@@ -111,7 +182,9 @@ describe QuizItemPresenter, type: :presenter do
     end
 
     context 'with an instrumented user' do
-      let(:masqueraded) { true }
+      before do
+        session.masquerade!(create(:'account_service/user'))
+      end
 
       it { is_expected.to be true }
     end

@@ -1,0 +1,16 @@
+local:
+  service: Disk
+  root: <%= Rails.root.join("storage") %>
+
+test:
+  service: Disk
+  root: <%= Rails.root.join("tmp/storage") %>
+
+# Use bin/rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
+s3:
+  service: S3
+  <%= "endpoint: #{ENV['S3_PROVIDER_ENDPOINT']}" if ENV['S3_PROVIDER_ENDPOINT'].present? %>
+  access_key_id: <%= ENV['S3_ACCESS_ID'] %>
+  secret_access_key: <%= ENV['S3_ACCESS_KEY'] %>
+  bucket: <%= ENV.fetch('S3_BUCKET_NAME', 'openhpi-active-storage') %>
+  region: <%= ENV.fetch('S3_REGION', 'default') %>

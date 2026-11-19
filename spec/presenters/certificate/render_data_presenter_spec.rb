@@ -5,7 +5,7 @@ require 'spec_helper'
 describe Certificate::RenderDataPresenter, type: :presenter do
   subject(:render_data) { described_class.new record, template }
 
-  let(:course) { create(:course, records_released: true, lang: 'en') }
+  let(:course) { create(:course, records_released: true, lang: 'en', start_date: '1977-06-01', end_date: '1977-06-07') }
   let(:record) { create(:roa, user:, course:, template:) }
   let(:template) do
     create(:certificate_template, :roa,
@@ -18,7 +18,7 @@ describe Certificate::RenderDataPresenter, type: :presenter do
   let(:file_uri) { 's3://certificate/templates/234.pdf' }
   let(:dynamic_content) do
     <<~DYNCONTENT
-      <?xml version 1.0 encoding="utf-8"?>
+      <?xml version="1.0" encoding="utf-8"?>
       <svg xmlns="http://www.w3.org/2000/svg">
         <text id='name'>##NAME##</text>
         <text>##EMAIL##</text>
@@ -44,10 +44,11 @@ describe Certificate::RenderDataPresenter, type: :presenter do
       born_at: '1960-01-02',
       preferences: {'records.show_birthdate' => show_birthdate})
     account_user.primary_email.update!(address: 'jane.doe@example.com')
-    Account::User.find(account_user.id)
+    AccountService::User.find(account_user.id)
   end
   let(:user_fullname) { 'Jane Doe' }
   let(:show_birthdate) { true }
+  let(:quantile) { 0.50 }
   let(:certificates) do
     {
       record_of_achievement: true,
@@ -55,30 +56,21 @@ describe Certificate::RenderDataPresenter, type: :presenter do
       certificate: false,
     }
   end
-  let(:completed_at) { '1977-06-07' }
-  let(:quantile) { nil }
-  let(:enrollment) { create(:enrollment, user_id: user.id, course:) }
-  let(:enrollments) do
-    build_list(
-      :'course:enrollment', 1,
-      course_id: enrollment.course_id,
-      user_id: enrollment.user_id,
-      points: {achieved: 50, maximal: 100, percentage: 18},
-      certificates:,
+  let(:enrollment_with_evaluation) do
+    create(
+      :'course_service/enrollment',
+      :with_evaluation,
+      course_id: course.id,
+      quantiled_user_dpoints: 50,
+      user_id: user.id,
+      completed: true,
       quantile:,
-      completed_at:
+      deleted: false
     )
   end
 
   before do
-    Stub.request(
-      :course, :get, '/enrollments',
-      query: hash_including(
-        course_id: enrollment.course_id,
-        user_id: enrollment.user_id,
-        learning_evaluation: 'true'
-      )
-    ).to_return Stub.json(enrollments)
+    enrollment_with_evaluation
   end
 
   describe '#template_path' do
@@ -86,7 +78,7 @@ describe Certificate::RenderDataPresenter, type: :presenter do
     let(:download_stub) do
       stub_request(
         :get,
-        'https://s3.xikolo.de/certificate/templates/234_v1.pdf'
+        "#{test_s3_host}/certificate/templates/234_v1.pdf"
       ).and_return(status: 200, body: 'example-template')
     end
 
@@ -111,9 +103,9 @@ describe Certificate::RenderDataPresenter, type: :presenter do
         'Jane Doe',
         'jane.doe@example.com',
         'E-mail: jane.doe@example.com',
-        '50.0 out of 100.0 possible points (18.0%)',
-        ' 50.0 points (18.0%) ',
-        '50.0 / 100.0 points (18.0%)',
+        '8.0 out of 10.0 possible points (80.0%)',
+        ' 8.0 points (80.0%) ',
+        '8.0 / 10.0 points (80.0%)',
         'born on: January 2, 1960',
         'Date of birth: January 2, 1960',
         'January 2, 1960',
@@ -239,6 +231,14 @@ describe Certificate::RenderDataPresenter, type: :presenter do
       it 'is the course end date' do
         expect(render_data.issue_date).to eq course.end_date&.to_date
       end
+
+      context 'without an enrollment' do
+        before { allow(record).to receive(:enrollment).and_return(nil) }
+
+        it 'is the course end date' do
+          expect(render_data.issue_date).to eq course.end_date&.to_date
+        end
+      end
     end
 
     context 'fallback to now, if course has no end date' do
@@ -267,115 +267,6 @@ describe Certificate::RenderDataPresenter, type: :presenter do
 
       it 'shows todays date as the issue date' do
         expect(render_data.issue_date).to eq Time.zone.now.to_date
-      end
-    end
-  end
-
-  describe '#transcript_of_records' do
-    subject(:tor) { render_data.transcript_of_records }
-
-    let(:prerequisite_status) { {fulfilled: true, prerequisites: []} }
-
-    before do
-      Stub.request(
-        :course, :get, "/courses/#{course.id}/prerequisite_status",
-        query: {user_id: enrollment.user_id}
-      ).to_return Stub.json(prerequisite_status)
-    end
-
-    it 'is empty for other certificate types' do
-      expect(tor).to be_nil
-    end
-
-    context 'for TranscriptOfRecords' do
-      before do
-        xi_config <<~YML
-          certificate:
-            forbidden_verification_words: ['forbidden']
-            transcript_of_records:
-              table_x: 200
-              table_y: 500
-              course_col_width: 300
-              score_col_width: 70
-              font_size: 10
-        YML
-      end
-
-      let(:template) { create(:certificate_template, :tor) }
-
-      it { expect(tor).to be_nil }
-
-      context 'with prerequisites' do
-        let(:prerequisite_status) do
-          {
-            fulfilled: true,
-            prerequisites: [
-              {
-                course: {title: 'Geovisualisierung'},
-                fulfilled: true,
-                required_certificate: 'cop',
-                score: true,
-              },
-              {
-                course: {title: 'Software Profiling Future'},
-                fulfilled: true,
-                required_certificate: 'roa',
-                score: '90.0',
-              },
-              {
-                course: {title: 'Internet Security'},
-                fulfilled: true,
-                required_certificate: 'roa',
-                score: '60.0',
-              },
-            ],
-          }
-        end
-
-        it 'builds the correct render data for the ToR table' do
-          expect(tor).to eq(
-            [
-              ['Course', 'Score'],
-              ['Geovisualisierung', 'passed'],
-              ['Software Profiling Future', '90.0%'],
-              ['Internet Security', '60.0%'],
-              ['Overall score', '75.0%'],
-            ]
-          )
-        end
-
-        context 'with high-precision scores' do
-          let(:prerequisite_status) do
-            {
-              fulfilled: true,
-              prerequisites: [
-                {
-                  course: {title: 'Software Profiling Future'},
-                  fulfilled: true,
-                  required_certificate: 'roa',
-                  score: '86.66666666',
-                },
-                {
-                  course: {title: 'Internet Security'},
-                  fulfilled: true,
-                  required_certificate: 'roa',
-                  score: '65.1111111',
-                },
-              ],
-            }
-          end
-
-          it 'rounds the score up to one decimal' do
-            expect(tor).to eq(
-              [
-                ['Course', 'Score'],
-                ['Software Profiling Future', '86.7%'],
-                ['Internet Security', '65.1%'],
-                ['Overall score', '75.9%'],
-              ]
-            )
-          end
-        end
       end
     end
   end

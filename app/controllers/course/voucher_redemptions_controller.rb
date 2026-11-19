@@ -8,7 +8,6 @@ module Course
 
     before_action :ensure_logged_in
     before_action :ensure_product_prerequisites
-    before_action :set_no_cache_headers
 
     layout 'simple'
 
@@ -40,7 +39,7 @@ module Course
             ),
             course:,
             product: product_type,
-          }, status: :unprocessable_entity
+          }, status: :unprocessable_content
         end
       end
     end
@@ -68,7 +67,7 @@ module Course
     end
 
     def course
-      @course ||= ::Course::Course.by_identifier(params[:course_id]).take!
+      @course ||= ::CourseService::Course.by_identifier(params[:course_id]).take!
     rescue ActiveRecord::RecordNotFound
       raise Status::NotFound
     end

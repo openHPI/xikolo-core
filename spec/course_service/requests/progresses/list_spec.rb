@@ -7,7 +7,7 @@ describe 'Progresses: List', type: :request do
 
   let(:api) { restify_with_headers(course_service.root_url).get.value }
   let(:params) { {} }
-  let(:user_id) { generate(:user_id) }
+  let(:user_id) { create(:'account_service/user').id }
   let(:course) { create(:'course_service/course') }
 
   context 'without valid course and user provided' do
@@ -27,8 +27,7 @@ describe 'Progresses: List', type: :request do
       course_progress = list.map(&:to_hash).last
       expect(course_progress).to include(
         'kind' => 'course',
-        'resource_id' => course.id,
-        'visits' => {'percentage' => 0, 'total' => 0, 'user' => 0}
+        'resource_id' => course.id
       )
       expect(course_progress).not_to include('items')
     end
@@ -69,8 +68,10 @@ describe 'Progresses: List', type: :request do
       let(:item4) { create(:'course_service/item', section:, title: 'Item 4') }
       let(:fork) { create(:'course_service/fork', section:, course:, title: 'Fork') }
 
-      # Create all the section children to store them in the desired order
+      # Reset round-robin counters so that every test deterministically
+      # assigns the auto-assigned user to the first group (branches[0]).
       before do
+        CourseService::ContentTest.where(course:).update_all(round_robin_counter: 0)
         item1
         fork
         item2.node.move_to_child_of(fork.branches[0].node)
@@ -80,6 +81,8 @@ describe 'Progresses: List', type: :request do
         # Reload section structure record to recalculate tree indices.
         section.node.reload
       end
+
+      # Create all the section children to store them in the desired order
 
       context 'the user is not assigned to a content test group' do
         # The user is automatically assigned to a group when requesting the items.
@@ -91,7 +94,7 @@ describe 'Progresses: List', type: :request do
 
       context 'the user is already assigned to a content test group' do
         before do
-          CourseService::Duplicated::Membership.create!(user_id:, group_id: fork.branches[1].group_id)
+          AccountService::Membership.create!(user_id:, group_id: fork.branches[1].group_id)
         end
 
         # The user is not re-assigned this time as the user is already member

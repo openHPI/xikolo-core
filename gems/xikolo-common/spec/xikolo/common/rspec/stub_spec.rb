@@ -45,7 +45,7 @@ RSpec.describe Xikolo::Common::RSpec::Stub do
     before do
       # Stub the service's root URL
       Stub.service(:the_service,
-        courses_url: 'http://example.de/service/courses',
+        courses_url: 'http://example.de/service/learn',
         reviews_url: 'http://example.de/service/reviews')
     end
 
@@ -57,7 +57,7 @@ RSpec.describe Xikolo::Common::RSpec::Stub do
     it 'returns the hash of URLs as JSON-encoded response body' do
       response = Net::HTTP.get_response('example.de', '/service')
       expect(JSON.parse(response.body)).to eq(
-        'courses_url' => 'http://example.de/service/courses',
+        'courses_url' => 'http://example.de/service/learn',
         'reviews_url' => 'http://example.de/service/reviews'
       )
     end

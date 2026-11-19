@@ -8,7 +8,7 @@
     = text_field "submission[#{question.id}]", answer.id,
       id: "question_#{question.id}_answer_#{answer.id}_text_field",
       disabled: show_solution, maxlength: 255, value: (submitted_answer unless submitted_answer.nil?),
-      class: 'form-control',
+      class: 'x-input w-full',
       lang: lang
     - if show_solution
       - correct_answer = answer.correct && user_submission && user_submission.points == question.points

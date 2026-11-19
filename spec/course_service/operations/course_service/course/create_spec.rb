@@ -210,7 +210,7 @@ describe CourseService::Course::Create, type: :operation do
     end
 
     context 'with active course' do
-      let(:params) { super().merge(status: 'active') }
+      let(:params) { super().merge(start_date: 1.day.ago, end_date: 4.weeks.from_now, published: true) }
 
       context 'on granting course.visitor role' do
         let(:course_visitor_stub) do
@@ -237,7 +237,7 @@ describe CourseService::Course::Create, type: :operation do
   end
 
   context 'with active course' do
-    let(:params) { super().merge(status: 'active') }
+    let(:params) { super().merge(start_date: 1.day.ago, end_date: 4.weeks.from_now, published: true) }
 
     it 'grants all users the permission to visit the course details page' do
       response

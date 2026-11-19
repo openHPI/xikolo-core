@@ -1,0 +1,29 @@
+<%= render Global::Accordion.new(variant: 'slim') do |accordion| %>
+  <% accordion.with_section('Lernziele', 'learning-goals', expanded: true) do %>
+    <ul class="m-0 flex list-none flex-col gap-3 p-0">
+      <% [
+        'Die Lernenden können erklären, was Algorithmic Bias ist und wie Vorurteile in KI-Systeme gelangen, einschließlich der Rolle von Daten, Programmierenden und Systemdesign.',
+        'Die Lernenden können Bias und Diskriminierung in verschiedenen KI-Anwendungen identifizieren und kritisch bewerten.',
+        'Die Lernenden verstehen den Wert ihrer persönlichen Daten für KI-Unternehmen und können bewusste Entscheidungen über Datenschutz und -weitergabe treffen.',
+        'Die Lernenden können Strategien anwenden, um Bias bei der Nutzung generativer KI zu reduzieren, einschließlich effektiver Prompting-Techniken und kritischer Evaluation von KI-generierten Inhalten.',
+        'Die Lernenden können ihre Rechte bezüglich KI-Systemen benennen und entwickeln ein Bewusstsein für ihre Verantwortung als Nutzer*innen und zukünftige Gestaltende digitaler Technologien.',
+      ].each do |goal| %>
+        <li class="flex gap-2">
+          <span aria-hidden="true" class="text-base-content/60 shrink-0">
+            <%= pixelart_icon('check', css_class: 'size-4') %>
+          </span>
+
+          <span><%= goal %></span>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <% accordion.with_section('Umfang', 'scope') do %>
+    <p>Der Kurs umfasst drei Module und eine abschließende Prüfung.</p>
+  <% end %>
+
+  <% accordion.with_section('Anforderungen für Leistungsnachweise', 'requirements') do %>
+    <p>Bearbeiten Sie die Lernmaterialien und schließen Sie die Prüfung ab.</p>
+  <% end %>
+<% end %>

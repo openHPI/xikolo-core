@@ -1,0 +1,13 @@
+<%= fields :cmi5, model: cmi5_item do |f| %>
+  <div class="form-group">
+    <%= f.label :package, t(:'items.cmi5.package'), class: 'col-lg-3 col-md-3' %>
+    <div class="col-lg-9 col-md-9 mt-[5px]">
+      <%= f.file_field :package, accept: '.zip,application/zip', required: cmi5_item.new_record? %>
+      <% if cmi5_item.package.attached? %>
+        <span class="help-block">
+          <%= t(:'items.cmi5.current_package', filename: cmi5_item.package.filename.to_s) %>
+        </span>
+      <% end %>
+    </div>
+  </div>
+<% end %>

@@ -3,15 +3,14 @@
 require 'spec_helper'
 
 describe 'Admin: Page: Edit', type: :request do
-  subject(:action) { put '/pages/imprint', params:, headers: }
+  subject(:action) { put '/pages/imprint', params: }
 
   let(:params) do
     {locale: 'en', page: {name: 'imprint', title: 'New title', locale: 'en', text: 'New text'}}
   end
-  let(:headers) { {Authorization: "Xikolo-Session session_id=#{stub_session_id}"} }
 
   before do
-    stub_user_request permissions: %w[helpdesk.page.store]
+    sign_in(user: create(:'account_service/user', :admin))
   end
 
   context 'without any preexisting pages' do
@@ -47,7 +46,7 @@ describe 'Admin: Page: Edit', type: :request do
     it 'stores the upload and creates a new page' do
       stub_request(
         :head,
-        'https://s3.xikolo.de/xikolo-uploads/' \
+        "#{test_s3_host}/xikolo-uploads/" \
         'uploads/b5f99337-224f-40f5-aa82-44ee8b272579/foo.jpg'
       ).and_return(
         status: 200,
@@ -56,7 +55,7 @@ describe 'Admin: Page: Edit', type: :request do
           'X-Amz-Meta-Xikolo-State' => 'accepted',
         }
       )
-      store_regex = %r{https://s3.xikolo.de/xikolo-public
+      store_regex = %r{#{test_s3_host}/xikolo-public
                        /pages/imprint/[0-9a-zA-Z]+/foo.jpg}x
       stub_request(:head, store_regex).and_return(status: 404)
       move_file_stub = stub_request(:put, store_regex).and_return(status: 200, body: '<xml></xml>')
@@ -70,7 +69,7 @@ describe 'Admin: Page: Edit', type: :request do
     it 'rejects invalid upload and does not create a new page' do
       stub_request(
         :head,
-        'https://s3.xikolo.de/xikolo-uploads/' \
+        "#{test_s3_host}/xikolo-uploads/" \
         'uploads/b5f99337-224f-40f5-aa82-44ee8b272579/foo.jpg'
       ).and_return(
         status: 200,
@@ -89,7 +88,7 @@ describe 'Admin: Page: Edit', type: :request do
     it 'rejects upload on storage errors' do
       stub_request(
         :head,
-        'https://s3.xikolo.de/xikolo-uploads/' \
+        "#{test_s3_host}/xikolo-uploads/" \
         'uploads/b5f99337-224f-40f5-aa82-44ee8b272579/foo.jpg'
       ).and_return(
         status: 200,
@@ -98,7 +97,7 @@ describe 'Admin: Page: Edit', type: :request do
           'X-Amz-Meta-Xikolo-State' => 'accepted',
         }
       )
-      store_regex = %r{https://s3.xikolo.de/xikolo-public
+      store_regex = %r{#{test_s3_host}/xikolo-public
                        /pages/imprint/[0-9a-zA-Z]+/foo.jpg}x
       stub_request(:head, store_regex).and_return(status: 404)
       stub_request(:put, store_regex).and_return(status: 503)

@@ -1,0 +1,11 @@
+<% content_for :page_header do %>
+  <%= render Global::PageHeader.new(t(:'admin.shorts.new.headline'), subtitle: t(:'admin.page_header')) %>
+<% end %>
+
+<div class="bs-container">
+  <div class="row">
+    <div class="col-md-12 mt20">
+      <%= render 'admin/shorts/form', short: @short %>
+    </div>
+  </div>
+</div>

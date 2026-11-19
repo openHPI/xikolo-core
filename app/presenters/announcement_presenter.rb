@@ -30,14 +30,6 @@ class AnnouncementPresenter < Presenter
     news['publish_at'] && DateTime.parse(news['publish_at'])
   end
 
-  def visual_url
-    news['visual_url']
-  end
-
-  def visual_url?
-    visual_url.present?
-  end
-
   private
 
   def truncator

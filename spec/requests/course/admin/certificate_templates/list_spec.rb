@@ -4,17 +4,19 @@ require 'spec_helper'
 
 describe 'Course: Admin: Certificate Templates: List', type: :request do
   subject(:list_templates) do
-    get "/courses/#{course.course_code}/certificate_templates",
-      headers:
+    get "/learn/#{course.course_code}/certificate_templates"
   end
 
-  let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
   let(:permissions) { %w[course.content.access certificate.template.manage] }
   let(:course) { create(:course) }
+  let(:user) { create(:'account_service/user') }
+  let(:authenticate) { true }
   let(:course_resource) { build(:'course:course', course_code: course.course_code) }
 
   before do
-    stub_user_request(permissions:)
+    sign_in(user:) if authenticate
+    role = create(:'account_service/role', permissions:)
+    create(:'account_service/grant', principal: user, role:)
 
     Stub.request(:course, :get, "/courses/#{course.course_code}")
       .to_return Stub.json(course_resource)
@@ -25,7 +27,7 @@ describe 'Course: Admin: Certificate Templates: List', type: :request do
 
   it 'lists all certificate templates for the course' do
     list_templates
-    expect(response.body).to include 'Record of Achievement'
+    expect(response.body).to include 'Certificate'
     expect(response.body).not_to include 'Confirmation of Participation'
     expect(response.body).to include 'Add new template'
   end
@@ -45,17 +47,17 @@ describe 'Course: Admin: Certificate Templates: List', type: :request do
 
     it 'redirects the user' do
       list_templates
-      expect(response).to redirect_to "/courses/#{course.course_code}"
+      expect(response).to redirect_to "/learn/#{course.course_code}"
       expect(flash[:error].first).to eq 'You are not enrolled for this course.'
     end
   end
 
   context 'for anonymous users' do
-    let(:headers) { {} }
+    let(:authenticate) { false }
 
     it 'redirects the user' do
       list_templates
-      expect(response).to redirect_to "/courses/#{course.course_code}"
+      expect(response).to redirect_to "/learn/#{course.course_code}"
       expect(flash[:error].first).to eq 'Please log in to proceed.'
     end
   end

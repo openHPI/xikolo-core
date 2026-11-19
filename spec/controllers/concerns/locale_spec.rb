@@ -25,13 +25,8 @@ RSpec.describe Locale, type: :controller do
   let(:params) { {} }
   let(:session) { {} }
   let(:accept_language) { nil }
-  let(:user_preferred_language) { nil }
 
-  let(:current_user) do
-    Xikolo::Common::Auth::CurrentUser.from_session(
-      'user' => {'anonymous' => true, 'preferred_language' => user_preferred_language}
-    )
-  end
+  let(:current_user) { CurrentUser::AnonymousUser.new(context_id: 'root') }
 
   before do
     # This specs depend on some locales been available
@@ -101,32 +96,43 @@ RSpec.describe Locale, type: :controller do
       end
     end
 
-    context 'with user preferred language' do
-      let(:user_preferred_language) { 'de' }
+    context 'with signed in user' do
+      let(:user) { create(:'account_service/user', language: :de) }
+      let(:current_user) do
+        CurrentUser::User.new(
+          session: create(:'account_service/session', user:),
+          context_id: 'root'
+        )
+      end
 
-      it { is_expected.to eq 'de' }
+      context 'with user preferred language' do
+        it { is_expected.to eq 'de' }
 
-      context 'with unavailable language' do
-        let(:user_preferred_language) { 'fi' }
-        let(:accept_language) { 'de,en' }
+        context 'with unavailable language' do
+          let(:accept_language) { 'de,en' }
 
-        it 'falls back to HTTP accepted language' do
-          expect(locale).to eq 'de'
+          before do
+            # Skip validations for unsupported language
+            user.update_column(:language, :fi)
+          end
+
+          it 'falls back to HTTP accepted language' do
+            expect(locale).to eq 'de'
+          end
         end
       end
-    end
 
-    context 'with session locale' do
-      let(:session) { {locale: 'de'} }
+      context 'with session locale' do
+        let(:session) { {locale: 'de'} }
 
-      it { is_expected.to eq 'de' }
+        it { is_expected.to eq 'de' }
 
-      context 'with unavailable locale' do
-        let(:session) { {locale: 'fi'} }
-        let(:user_preferred_language) { 'de' }
+        context 'with unavailable locale' do
+          let(:session) { {locale: 'fi'} }
 
-        it 'falls back user preference' do
-          expect(locale).to eq 'de'
+          it 'falls back user preference' do
+            expect(locale).to eq 'de'
+          end
         end
       end
     end
@@ -153,25 +159,6 @@ RSpec.describe Locale, type: :controller do
         let(:params) { {locale: 'it', lang: 'de'} }
 
         it { is_expected.to eq 'de' }
-      end
-
-      context 'with signed in user' do
-        let(:current_user) do
-          Xikolo::Common::Auth::CurrentUser.from_session(
-            'user_id' => 'USER_ID',
-            'user' => {'anonymous' => false, 'preferred_language' => user_preferred_language}
-          )
-        end
-
-        let!(:stub) do
-          Stub.request(:account, :patch, '/users/USER_ID')
-            .with(body: {'language' => 'de'})
-        end
-
-        it 'updates user preferred language' do
-          response
-          expect(stub).to have_been_requested
-        end
       end
 
       context 'with unavailable language' do

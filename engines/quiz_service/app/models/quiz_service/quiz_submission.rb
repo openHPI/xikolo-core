@@ -3,10 +3,11 @@
 module QuizService
 class QuizSubmission < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   self.table_name = :quiz_submissions
-
   has_many :quiz_submission_questions, dependent: :destroy
   has_one :quiz_submission_snapshot, dependent: :destroy
   belongs_to :quiz
+  belongs_to :user, class_name: 'AccountService::User'
+  has_one :item, through: :quiz, class_name: 'CourseService::Item'
 
   default_scope -> { order(:created_at) }
 
@@ -45,7 +46,7 @@ class QuizSubmission < ApplicationRecord # rubocop:disable Layout/IndentationWid
   end
 
   def schedule_report!
-    ReportQuizResultsWorker.perform_async id
+    ReportQuizResultsJob.perform_later id
   end
 
   def report_result!
@@ -60,12 +61,30 @@ class QuizSubmission < ApplicationRecord # rubocop:disable Layout/IndentationWid
     quiz_submission_questions.length
   end
 
+  def max_points
+    return quiz.max_points unless quiz.question_pool?
+
+    Question.where(id: quiz_submission_questions.select(:quiz_question_id)).sum(:points)
+  end
+
+  def snapshot_id
+    quiz_submission_snapshot&.id
+  end
+
   def quiz_access_time
     created_at
   end
 
   def submitted
     !quiz_submission_time.nil?
+  end
+
+  # Did the learner reach the exam's passing threshold? Exams grade against the
+  # maximum points of the question set the learner actually got.
+  def passed?
+    return false if quiz.pass_percentage.blank? || max_points.to_f.zero?
+
+    points.to_f * 100 / max_points >= quiz.pass_percentage
   end
 
   # Was this object inserted or updated on last save?
@@ -76,10 +95,15 @@ class QuizSubmission < ApplicationRecord # rubocop:disable Layout/IndentationWid
   def preaggregate_statistics!
     return unless submitted
 
-    quiz.questions.each do |quiz_question|
+    questions = if quiz.question_pool?
+                  Question.where(id: quiz_submission_questions.select(:quiz_question_id))
+                else
+                  quiz.questions
+                end
+    questions.each do |quiz_question|
       # Arguments for `perform` must be simple JSON data types.
-      # The date string is parsed as `DateTime` in the worker.
-      UpdateQuestionStatisticsWorker.perform_in(2.hours, quiz_question.id, Time.zone.now.to_s)
+      # The date string is parsed as `DateTime` in the job.
+      UpdateQuestionStatisticsJob.set(wait: 2.hours).perform_later(quiz_question.id, Time.zone.now.to_s)
     end
   end
 end

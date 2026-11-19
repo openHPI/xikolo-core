@@ -11,22 +11,22 @@ de:
             not_achieved: Sie haben noch nicht genügend Lerneinheiten abgeschlossen, um Ihre Teilnahmebestätigung für diesen Kurs zu erhalten.
             not_released: Herzlichen Glückwunsch zum Erhalt der Teilnahmebestätigung! Sobald die Bestätigung vom Lehrteam freigegeben wird, können Sie diese hier herunterladen.
             released: Herzlichen Glückwunsch! Sie haben eine Teilnahmebestätigung für diesen Kurs erhalten.
-            achieved_via_roa: Herzlichen Glückwunsch! Sie haben die Teilnahmebestätigung für diesen Kurs durch den Erwerb des „Leistungsnachweises“ erhalten.
+            achieved_via_roa: Herzlichen Glückwunsch! Sie haben die Teilnahmebestätigung für diesen Kurs durch den Erwerb des „Zertifikats“ erhalten.
             not_achieved_via_roa: Sie haben keine Teilnahmebestätigung für diesen Kurs erhalten.
           requirements:
             progress: Schließen Sie mindestens %{course_percentage}% der Lerneinheiten ab.
-          download:
-            not_released: Sobald die Teilnahmebestätigung freigegeben ist, können Sie diese hier herunterladen.
         achievement:
-          name: Leistungsnachweis
+          name: Zertifikat
           state:
-            unavailable: Für diesen Kurs wird kein Leistungsnachweis angeboten.
-            no_longer_achievable: Dieser Kurs ist beendet. Leistungsnachweise waren nur während des aktiven Kurszeitraums verfügbar.
+            unavailable: Für diesen Kurs wird kein Zertifikat angeboten.
+            no_longer_achievable: Dieser Kurs ist beendet. Zertifikate waren nur während des aktiven Kurszeitraums verfügbar.
+            no_longer_achievable_with_exam: Dieser Kurs ist beendet. Die Abschlussprüfung konnte nur während des aktiven Kurszeitraums bestanden werden.
             reactivatable: Dieser Kurs ist beendet. Wenn Sie dennoch ein Zertifikat für diesen Kurs erhalten möchten, können Sie ihn jetzt reaktivieren.
             not_achieved: Sie haben noch nicht genügend Punkte in bewerteten Prüfungen erzielt.
-            not_released: Herzlichen Glückwunsch zum Erhalt eines Leistungsnachweis für diesen Kurs! Sobald der Leistungsnachweise von den Kursbetreuern freigegeben wird, können Sie es hier herunterladen.
+            not_achieved_with_exam: Sie haben die Abschlussprüfung dieses Kurses noch nicht bestanden.
+            not_released: Herzlichen Glückwunsch zum Erhalt eines Zertifikats für diesen Kurs! Sobald das Zertifikat von den Kursbetreuern freigegeben wird, können Sie es hier herunterladen.
             released: Herzlichen Glückwunsch! Sie haben ein Zertifikat für diesen Kurs erhalten, indem Sie ausreichend Punkte bei den bewerteten Aufgaben erzielt haben.
+            released_with_exam: Herzlichen Glückwunsch! Du hast das openHPI Zertifikat für diesen Kurs erhalten.
           requirements:
-            completion: Erreichen Sie %{course_percentage}% der Gesamtpunktzahl in bewerteten Prüfungen.
-          download:
-            not_released: Sobald der Leistungsnachweis freigegeben ist, können Sie diesen hier herunterladen.
+            completion: Erreiche eine Gesamtpunktzahl von %{course_percentage}%.
+            completion_with_exam: Erreiche %{pass_percentage}% bei der Abschlussprüfung.

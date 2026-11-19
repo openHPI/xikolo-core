@@ -3,15 +3,16 @@
 require 'spec_helper'
 
 describe 'LTI Providers: Destroy', type: :request do
-  subject(:destroy_lti_provider) { delete "/courses/#{course['course_code']}/lti_providers/#{provider.id}", headers: }
+  subject(:destroy_lti_provider) { delete "/learn/#{course['course_code']}/lti_providers/#{provider.id}" }
 
-  let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
-  let(:course) { build(:'course:course') }
+  let(:course) { create(:'course_service/course') }
   let(:provider) { create(:lti_provider, course_id: course['id']) }
-  let(:permissions) { [] }
+  let(:user) { create(:'account_service/user') }
+  let(:authenticate) { true }
 
   before do
-    stub_user_request(permissions:)
+    sign_in(user:) if authenticate
+
     Stub.request(
       :course, :get, "/courses/#{course['course_code']}"
     ).to_return Stub.json(
@@ -21,15 +22,16 @@ describe 'LTI Providers: Destroy', type: :request do
   end
 
   context 'without permissions' do
-    let(:permissions) { [] }
-
     it 'redirects to the homepage' do
       expect(destroy_lti_provider).to redirect_to course_path(course['course_code'])
     end
   end
 
   context 'with permissions' do
-    let(:permissions) { %w[lti.provider.manage course.content.access] }
+    before do
+      role = create(:'account_service/role', permissions: %w[lti.provider.manage course.content.access])
+      create(:'account_service/grant', principal: user, role:)
+    end
 
     it 'destroys the LTI provider' do
       expect { destroy_lti_provider }.to change(Lti::Provider, :count).from(1).to(0)
@@ -46,7 +48,7 @@ describe 'LTI Providers: Destroy', type: :request do
   end
 
   context 'for anonymous users' do
-    let(:headers) { {} }
+    let(:authenticate) { false }
 
     it 'redirects to the login page' do
       expect(destroy_lti_provider).to redirect_to course_path(course['course_code'])

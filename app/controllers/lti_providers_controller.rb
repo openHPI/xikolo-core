@@ -25,7 +25,7 @@ class LtiProvidersController < Abstract::FrontendController
       add_flash_message :error, t(:'flash.error.lti_provider_not_created')
       # Load all existing providers for the index action.
       @lti_providers = Lti::Provider.where(course_id: the_course.id)
-      render action: :index, status: :unprocessable_entity
+      render action: :index, status: :unprocessable_content
     end
   end
 
@@ -51,10 +51,6 @@ class LtiProvidersController < Abstract::FrontendController
     end
 
     redirect_to action: :index, status: :see_other
-  end
-
-  def hide_course_nav?
-    true
   end
 
   private

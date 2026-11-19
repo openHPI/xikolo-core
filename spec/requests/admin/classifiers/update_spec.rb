@@ -5,28 +5,27 @@ require 'spec_helper'
 describe 'Admin: Classifiers: Update', type: :request do
   subject(:update_classifier) do
     patch "/admin/clusters/#{classifier.cluster_id}/classifiers/#{classifier.id}",
-      params: {classifier: params},
-      headers:
+      params: {course_service_classifier: params}
   end
 
-  let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
-  let(:permissions) { %w[course.cluster.manage] }
   let(:classifier) { create(:classifier, attrs) }
   let(:attrs) { attributes_for(:classifier) }
+  let(:user) { create(:'account_service/user', :admin) }
+  let(:authenticate) { true }
   let(:params) do
     attrs.merge(translations: {
-      'en' => 'Classifier #1',
-      'de' => 'Klassifikation #1',
+      'en' => 'Updated Classifier EN',
+      'de' => 'Aktualisierte Klassifikation DE',
     })
   end
 
-  before { stub_user_request permissions: }
+  before { sign_in(user:) if authenticate }
 
   context 'when updating title translations' do
     it 'updates the classifier and redirects to the cluster show view' do
       expect { update_classifier }.to change { classifier.reload.translations }
         .from(attrs[:translations])
-        .to({'en' => 'Classifier #1', 'de' => 'Klassifikation #1'})
+        .to({'en' => 'Updated Classifier EN', 'de' => 'Aktualisierte Klassifikation DE'})
       expect(response).to redirect_to admin_cluster_path(classifier.cluster)
       expect(flash[:success].first).to eq 'The tag has been updated.'
     end
@@ -65,7 +64,7 @@ describe 'Admin: Classifiers: Update', type: :request do
   end
 
   context 'without permissions' do
-    let(:permissions) { [] }
+    let(:user) { create(:'account_service/user') }
 
     it 'redirects to the homepage' do
       update_classifier
@@ -74,7 +73,7 @@ describe 'Admin: Classifiers: Update', type: :request do
   end
 
   context 'for anonymous users' do
-    let(:headers) { {} }
+    let(:authenticate) { false }
 
     it 'redirects to the login page' do
       update_classifier

@@ -1,17 +1,8 @@
 import I18n from '../../i18n/i18n';
 import handleError from '../../util/error';
 import fetch from '../../util/fetch';
-import ready from '../../util/ready';
-import triggerTrackEvent from '../../util/track-event';
-import { loadForm, appendAnswerFormData } from './util';
-
-const loadAnswerForm = (el: HTMLElement) => {
-  const { answerId, url } = el.dataset;
-
-  loadForm(url!, `#answer-edit-${answerId}`);
-
-  triggerTrackEvent('clicked_edit_answer', 'answer', answerId);
-};
+import { turboReady } from '../../util/ready';
+import { appendAnswerFormData } from './util';
 
 const acceptAnswer = async (el: HTMLElement) => {
   const { questionId, answerId, courseId } = el.dataset;
@@ -36,15 +27,7 @@ const acceptAnswer = async (el: HTMLElement) => {
   return false;
 };
 
-ready(() => {
-  document
-    .querySelectorAll<HTMLElement>('.answer-edit')
-    .forEach((answerEditEl) => {
-      answerEditEl.addEventListener('click', () =>
-        loadAnswerForm(answerEditEl),
-      );
-    });
-
+turboReady(() => {
   document.querySelectorAll<HTMLElement>('.accept').forEach((acceptTrigger) => {
     acceptTrigger.addEventListener('click', () => acceptAnswer(acceptTrigger));
   });

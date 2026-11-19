@@ -27,11 +27,11 @@ describe ErrorsController, type: :controller do
         expect(response).to have_http_status :not_found
         expect(response.headers['Content-Type']).to eq 'text/html; charset=utf-8'
 
-        expect(html).to have_content <<~TEXT.squish
+        expect(html).to have_text <<~TEXT.squish
           We are sorry, but the page you are looking for could not be found
         TEXT
 
-        expect(html).to have_content <<~TEXT.squish
+        expect(html).to have_text <<~TEXT.squish
           Please check the URL. If you really think this is a bug, feel free
           to contact our support team through the helpdesk.
         TEXT
@@ -48,11 +48,11 @@ describe ErrorsController, type: :controller do
         expect(response).to have_http_status :internal_server_error
         expect(response.headers['Content-Type']).to eq 'text/html; charset=utf-8'
 
-        expect(html).to have_content <<~TEXT.squish
+        expect(html).to have_text <<~TEXT.squish
           We are afraid something went wrong
         TEXT
 
-        expect(html).to have_content <<~TEXT.squish
+        expect(html).to have_text <<~TEXT.squish
           You might want to try again later. This error will be reported to our
           tech team automatically. However you might want to help us by submitting
           some details about what went wrong through the helpdesk.

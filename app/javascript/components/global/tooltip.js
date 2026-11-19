@@ -17,7 +17,7 @@
  * in the application.html.slim
  */
 
-import ready from '../../util/ready';
+import { turboReady } from '../../util/ready';
 
 const TOOLTIP_CONTAINER = 'tooltip';
 
@@ -104,7 +104,7 @@ const buildTooltip = (element) => {
 /**
  * Go through all elements with a tooltip data attribute and initialize them.
  */
-ready(() => {
+turboReady(() => {
   const container = document.querySelector(`[data-id="${TOOLTIP_CONTAINER}"]`);
   const elementsWithTooltip = document.querySelectorAll('[data-tooltip]');
 

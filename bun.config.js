@@ -5,28 +5,7 @@ import fs from 'fs';
 
 const config = {
   sourcemap: 'inline',
-  entrypoints: [
-    'app/javascript/main.js',
-    'app/javascript/analytics/piwik.js',
-
-    'app/javascript/admin/admin.js',
-    'app/javascript/course/course.js',
-    'app/javascript/home/home.js',
-    'app/javascript/teacher/teacher.js',
-    'app/javascript/user/user.ts',
-    'app/javascript/video-player/video-player.js',
-    'app/javascript/quiz-recap/quiz-recap.ts',
-
-    // Legacy
-    'app/javascript/legacy/lanalytics/index.js',
-    'app/javascript/legacy/account-profile.js',
-    'app/javascript/legacy/quiz/result-box.js',
-    'app/javascript/legacy/admin.js',
-    'app/javascript/legacy/course.js',
-    'app/javascript/legacy/detail-box.js',
-    'app/javascript/legacy/quiz-submission.js',
-    'app/javascript/legacy/quiz-question-state.ts',
-  ],
+  entrypoints: ['app/javascript/main.js'],
   outdir: path.join(process.cwd(), 'app/assets/builds'),
   splitting: true,
   minify: true,
@@ -38,37 +17,42 @@ const config = {
   },
 };
 
-const build = async (config) => {
+const sourceDir = path.join(process.cwd(), 'app/javascript');
+const logError = (error) => {
+  console.error('❌ Build failed with error(s)', '\n', error);
+};
+
+const build = async () => {
+  console.log('🥟 Baking buns...');
   const result = await Bun.build(config);
 
-  if (!result.success) {
-    if (process.argv.includes('--watch')) {
-      console.error('Build failed');
-      for (const message of result.logs) {
-        console.error(message);
-      }
-      return;
-    } else {
-      throw new AggregateError(result.logs, '🥟❌ Build failed');
-    }
+  if (result.success) {
+    console.log('🥟 Bun build successful');
   }
-  console.log('🥟 Bun build complete');
+};
+
+const startWatch = () => {
+  fs.watch(sourceDir, { recursive: true }, async (_, filename) => {
+    console.log(`🥟 File changed: ${filename}. Rebuilding...`);
+    try {
+      await build();
+    } catch (error) {
+      logError(error);
+    }
+  });
+  console.log('🥟 Watching for changes...');
 };
 
 (async () => {
-  console.log('🥟 Baking buns...');
-  await build(config);
+  try {
+    await build();
 
-  if (process.argv.includes('--watch')) {
-    fs.watch(
-      path.join(process.cwd(), 'app/javascript'),
-      { recursive: true },
-      (eventType, filename) => {
-        console.log(`🥟 File changed: ${filename}. Rebuilding...`);
-        build(config);
-      },
-    );
-  } else {
-    process.exit(0);
+    if (process.argv.includes('--watch')) {
+      startWatch();
+    } else {
+      process.exit(0);
+    }
+  } catch (error) {
+    logError(error);
   }
 })();

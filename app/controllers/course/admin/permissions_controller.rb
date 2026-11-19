@@ -32,10 +32,6 @@ class Course::Admin::PermissionsController < Abstract::FrontendController
     redirect_to course_permissions_path(the_course.course_code), status: :see_other
   end
 
-  def hide_course_nav?
-    true
-  end
-
   private
 
   def auth_context

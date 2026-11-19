@@ -2,6 +2,9 @@
 
 FactoryBot.define do
   factory :'course_service/course' do
+    transient do
+      skip_account_groups { false }
+    end
     sequence :title do |n|
       "In-Memory Data Management-Entwicklung - Iteration #{n}"
     end
@@ -9,16 +12,13 @@ FactoryBot.define do
     sequence :course_code do |n|
       "inmemorydatabases#{n}"
     end
-    status { 'preparation' }
-    context_id { AccountService::Context.root.id }
+    published { true }
     description { 'Some course ...' }
     start_date { 2.weeks.ago }
     end_date { 4.weeks.from_now }
     lang { 'en' }
     middle_of_course { nil }
-    classifiers { {create(:'course_service/cluster').id => %w[pro-track databases]} }
-    hidden { false }
-    auto_archive { true }
+    placement { ['Open4All'] }
     invite_only { false }
     enrollment_delta { 0 }
     on_demand { true }
@@ -55,7 +55,7 @@ FactoryBot.define do
 
         section1 = FactoryBot.create(:'course_service/section', course:, alternative_state: 'child', parent_id: section_parent.id)
         richtext = CourseService::Richtext.create! course_id: course.id, text: 'Useful information!'
-        video = FactoryBot.create(:'course_service/video')
+        video = FactoryBot.create(:video)
         section1.items << FactoryBot.create(:'course_service/item', section: section1, title: 'Wiki', content_type: 'rich_text', content_id: richtext.id)
         section1.items << FactoryBot.create(:'course_service/item', section: section1, title: 'Video', content_type: 'video', content_id: video.id)
 
@@ -67,28 +67,22 @@ FactoryBot.define do
       end
     end
 
-    trait :archived do
-      status { 'archive' }
-      start_date { 4.months.ago }
-      end_date { 3.months.ago }
-    end
-
     trait :active do
-      status { 'active' }
-      start_date { 2.weeks.ago }
+      # Rule 2: no start + future end → active
+      start_date { 1.day.ago }
       end_date { 4.weeks.from_now }
     end
 
     trait :upcoming do
-      status { 'active' }
-      start_date { 2.weeks.from_now }
+      # Rule 5: future start + future end → upcoming
+      start_date { 1.week.from_now }
       end_date { 8.weeks.from_now }
     end
 
     trait :self_paced do
-      status { 'active' }
-      start_date { nil }
-      end_date { nil }
+      # Rule 9: past start + past end → self-paced
+      start_date { 2.weeks.ago }
+      end_date { 1.week.ago }
     end
 
     trait :with_custom_middle_date do
@@ -101,6 +95,40 @@ FactoryBot.define do
 
     trait :invite_only do
       invite_only { true }
+    end
+
+    trait :with_classifiers do
+      after(:create) do |course|
+        cluster = create(:'course_service/cluster', id: 'category')
+        course.classifiers << create(:'course_service/classifier', cluster:, title: 'category', position: 1, translations: {en: 'pro-track'})
+        course.classifiers << create(:'course_service/classifier', cluster:, title: 'topic', position: 2, translations: {en: 'databases'})
+      end
+    end
+
+    # Grant default course permissions. This creates the same resources as
+    # CourseService::Course::Create without internal API calls.
+    after(:create) do |course, evaluator|
+      next if evaluator.skip_account_groups
+
+      context = create(:'account_service/context', reference_uri: "urn:x-xikolo:course:course:#{course.course_code}")
+      course.update_column(:context_id, context.id) # rubocop:disable Rails/SkipsModelValidations
+
+      special_groups = []
+      Xikolo.config.course_groups.each do |name, data|
+        group = create('account_service/group', name: "course.#{course.course_code}.#{name}", description: data.fetch('description') % course.course_code)
+
+        data.fetch('grants').each do |grant|
+          grant_context = grant.fetch('context') == 'root' ? AccountService::Context.root : context
+          role = AccountService::Role.resolve(grant.fetch('role'))
+          create('account_service/grant', context: grant_context, principal: group, role:)
+        end
+
+        special_groups << name unless name == 'students'
+      end
+      course.update_column(:special_groups, special_groups) # rubocop:disable Rails/SkipsModelValidations
+
+      role = AccountService::Role.resolve('course.visitor')
+      create('account_service/grant', context: AccountService::Context.root, principal: AccountService::Group.all_users, role:)
     end
   end
 end

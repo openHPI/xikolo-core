@@ -49,10 +49,6 @@ module Quiz
         @answer.correct
       end
 
-      def css_classes
-        @show_solution ? 'show-solution' : ''
-      end
-
       def disabled?
         @show_solution
       end

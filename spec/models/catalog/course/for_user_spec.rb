@@ -5,11 +5,9 @@ require 'spec_helper'
 describe Catalog::Course, '.for_user', type: :model do
   subject(:scope) { described_class.for_user(user) }
 
-  let(:user) { Xikolo::Common::Auth::CurrentUser.from_session(user_session) }
+  let(:user) { CurrentUser::AnonymousUser.new(context_id: 'root') }
 
   context 'for anonymous users' do
-    let(:user_session) { {'user' => {'anonymous' => true}} }
-
     it 'is empty when there are no courses' do
       expect(scope).to be_empty
     end
@@ -24,12 +22,6 @@ describe Catalog::Course, '.for_user', type: :model do
       create(:course, :active, :deleted)
 
       expect(scope).to be_empty
-    end
-
-    it 'includes courses that should be hidden on the course list' do
-      create(:course, :active, title: 'Course not listed', show_on_list: false)
-
-      expect(scope).to contain_exactly(an_object_having_attributes(title: 'Course not listed'))
     end
 
     it 'does not include hidden courses' do
@@ -52,18 +44,10 @@ describe Catalog::Course, '.for_user', type: :model do
   end
 
   context 'for registered users' do
-    let(:user_id) { generate(:user_id) }
-    let(:user_session) do
-      {
-        'masqueraded' => false,
-        'user_id' => user_id,
-        'user' => {
-          'anonymous' => false,
-          'language' => I18n.locale,
-          'preferred_language' => I18n.locale,
-        },
-      }
-    end
+    let(:account_user) { create(:'account_service/user') }
+    let(:session) { create(:'account_service/session', user: account_user) }
+    let(:user) { CurrentUser::User.new(session:, context_id: 'root') }
+    let(:user_id) { account_user.id }
 
     it 'is empty when there are no courses' do
       expect(scope).to be_empty
@@ -88,10 +72,10 @@ describe Catalog::Course, '.for_user', type: :model do
       expect(scope).to be_empty
     end
 
-    it 'includes courses that should be hidden on the course list' do
-      create(:course, :active, title: 'Course not listed', show_on_list: false)
+    it 'excludes courses that should be hidden on the course list' do
+      create(:course, :active, title: 'Course not listed', placement: [])
 
-      expect(scope).to contain_exactly(an_object_having_attributes(title: 'Course not listed'))
+      expect(scope).to be_empty
     end
 
     it 'does not include hidden courses' do
@@ -133,8 +117,8 @@ describe Catalog::Course, '.for_user', type: :model do
 
       before do
         course
-        group = Account::Group.create!(name: 'xikolo.partners')
-        Account::Membership.create!(group:, user_id: account_user.id)
+        group = AccountService::Group.create!(name: 'xikolo.partners')
+        AccountService::Membership.create!(group:, user_id: account_user.id)
       end
 
       it 'includes group-restricted courses' do

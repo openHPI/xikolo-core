@@ -1,0 +1,42 @@
+<div id="login-form">
+  <% if OMNIAUTH_PROVIDERS.any? && connect_auth_id.nil? %>
+    <div data-controller="tabs" data-tabs-active-class="x-tab-active">
+      <div role="tablist" class="x-tabs x-tabs-border">
+        <button
+          type="button"
+          role="tab"
+          aria-selected="true"
+          data-tabs-target="tab"
+          data-action="tabs#switch"
+          class="x-tab x-tab-active flex-1"
+        >
+          <%= pixelart_icon 'user', css_class: 'w-4 h-4 mr-2' %>
+          <span><%= t(:'header.login.tab_credentials') %></span>
+        </button>
+
+        <button
+          type="button"
+          role="tab"
+          aria-selected="false"
+          data-tabs-target="tab"
+          data-action="tabs#switch"
+          class="x-tab flex-1"
+        >
+          <span><%= t(:'header.login.tab_sso') %></span>
+        </button>
+      </div>
+
+      <div data-tabs-target="panel" class="mt-6">
+        <p class="text-sm sm:text-lg mb-2"><%= t(:'header.login.identity.headline') %></p>
+        <%= render 'account/sessions/login_form', connect_auth_id: nil, redirect_param: redirect_param %>
+      </div>
+
+      <div data-tabs-target="panel" class="pt-6" hidden>
+        <%= render 'account/sessions/omniauth' %>
+      </div>
+    </div>
+  <% else %>
+    <p class="text-sm sm:text-lg mb-2"><%= t(:'header.login.identity.headline') %></p>
+    <%= render 'account/sessions/login_form', connect_auth_id: connect_auth_id, redirect_param: redirect_param %>
+  <% end %>
+</div>

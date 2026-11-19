@@ -2,7 +2,6 @@
 
 module AccountService
 class User < ApplicationRecord # rubocop:disable Layout/IndentationWidth
-  include NotifyOutbox
   self.table_name = :users
 
   delegate :url_helpers, to: 'AccountService::Engine.routes'
@@ -28,12 +27,58 @@ class User < ApplicationRecord # rubocop:disable Layout/IndentationWidth
     self.state = nil if country != 'DE'
   end
 
+  enum :gender, {
+    male: 'male',
+    female: 'female',
+    diverse: 'diverse',
+    undisclosed: 'undisclosed',
+  }, prefix: true
+
+  enum :status, {
+    school_student: 'school_student',
+    university_student: 'university_student',
+    teacher: 'teacher',
+    other: 'other',
+  }, prefix: true
+
+  # Get all ISO alpha-2 country codes from the countries gem
+  COUNTRY_CODES = ISO3166::Country.all.map(&:alpha2)
+
+  # Build a hash like { US: 'US', DE: 'DE', FR: 'FR', ... }
+  enum :country, COUNTRY_CODES.index_by(&:to_sym), prefix: :country
+
+  enum :state, {
+    BW: 'BW',
+    BY: 'BY',
+    BE: 'BE',
+    BB: 'BB',
+    HB: 'HB',
+    HH: 'HH',
+    HE: 'HE',
+    MV: 'MV',
+    NI: 'NI',
+    NW: 'NW',
+    RP: 'RP',
+    SL: 'SL',
+    SN: 'SN',
+    ST: 'ST',
+    SH: 'SH',
+    TH: 'TH',
+  }, prefix: :state
+
   validates :country, length: {maximum: 100}, allow_nil: true
   validates :state, length: {maximum: 100}, allow_nil: true
   validates :city, length: {maximum: 100}, allow_nil: true
 
-  validates :full_name, presence: true, length: {maximum: 200}
-  validates :full_name, :display_name, format: %r{\A[^"/]*\z}i
+  # Exposed so the frontend registration form can apply the same rules and fail
+  # before the service round-trip. Errors relayed from here are rendered in the
+  # service's locale and arrive at the form as literal strings rather than
+  # translatable symbols, so they cannot be localised for the user.
+  NAME_MAX_LENGTH = 200
+  NAME_FORMAT = %r{\A[^"/]*\z}i
+
+  validates :full_name, presence: true, length: {maximum: NAME_MAX_LENGTH}
+  validates :full_name, :display_name, format: NAME_FORMAT
 
   normalizes :full_name, with: ->(email) { email&.strip }
   normalizes :display_name, with: ->(display_name) { display_name&.strip }
@@ -46,25 +91,21 @@ class User < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   has_many :authorizations, dependent: :destroy
   has_many :emails, dependent: :destroy
   has_many :memberships, dependent: :destroy
+  has_many :gamification_scores, class_name: 'Gamification::Score', dependent: :delete_all
+  has_many :gamification_badges, class_name: 'Gamification::Badge', dependent: :delete_all
+  has_many :item_results, class_name: 'CourseService::Result', dependent: :delete_all
+  has_many :item_visits, class_name: 'CourseService::Visit', dependent: :delete_all
+  has_many :certificate_records, class_name: 'Certificate::Record', dependent: :destroy
   has_many :password_resets, dependent: :destroy
   has_many :groups, through: :memberships
   has_many :grants, as: :principal, dependent: :destroy, inverse_of: :principal
   has_many :features, as: :owner, dependent: :destroy, inverse_of: :owner
   has_many :tokens, dependent: :destroy
+  has_many :user_top_talents, class_name: 'UserTopTalent', dependent: :destroy
 
   has_one :primary_email, -> { primary }, class_name: 'Email', inverse_of: false
 
-  after_create { notify(:create) }
-  after_update { notify(:update) }
-  after_destroy { notify(:destroy) }
   after_find :sanitize_language
-
-  after_update do
-    # We do not emit :confirmed if the record was created, and updated
-    # to be confirmed in the same transaction. This mimics the
-    # `after_commit(on: :update)` behavior.
-    notify(:confirmed, skip: [:create]) if previous_changes['confirmed'] == [false, true]
-  end
 
   after_commit(on: %i[create update]) do
     if affiliated?
@@ -97,7 +138,7 @@ class User < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   end
 
   def active?
-    confirmed? && !archived? && !anonymous?
+    confirmed? && !archived? && !banned? && !anonymous?
   end
 
   def access!
@@ -107,6 +148,10 @@ class User < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   end
 
   class << self
+    def with_authorization(uid)
+      joins(:authorizations).where(authorizations: {uid:})
+    end
+
     def identified_by(ident)
       where id: Email.primary.address(ident).select(:user_id)
     end
@@ -124,7 +169,7 @@ class User < ApplicationRecord # rubocop:disable Layout/IndentationWidth
     end
 
     def active
-      where confirmed: true, archived: false, anonymous: false
+      where confirmed: true, archived: false, banned_at: nil, anonymous: false
     end
 
     def archived
@@ -229,6 +274,25 @@ class User < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   end
   alias policy_accepted policy_accepted?
 
+  def underage?
+    AgeOfConsent.underage?(born_at)
+  end
+
+  def guardian_consent?
+    guardian_consent_at.present?
+  end
+
+  def guardian_consent_required?
+    underage? && !guardian_consent?
+  end
+
+  def guardian_consent=(value)
+    self.guardian_consent_at =
+      if ActiveModel::Type::Boolean.new.cast(value)
+        guardian_consent_at || Time.zone.now
+      end
+  end
+
   def unique_anonymous
     return unless User.default_scoped.where(anonymous: true).any?
 
@@ -251,18 +315,44 @@ class User < ApplicationRecord # rubocop:disable Layout/IndentationWidth
     end
   end
 
-  def ban!
+  def ban
     ActiveRecord::Base.transaction do
-      update!(archived: true)
+      update!(banned_at: Time.current, ban_count: ban_count + 1)
       sessions.destroy_all
     end
   end
 
-  def feature?(name)
-    features.where(name:).any?
+  def unban
+    update!(banned_at: nil)
   end
 
-  alias has_feature? feature?
+  def banned?
+    banned_at.present?
+  end
+
+  def top_talent?
+    user_top_talents.active.exists?
+  end
+
+  def grant_top_talent!(source:)
+    with_lock do
+      user_top_talents.find_or_initialize_by(source:).update!(revoked_at: nil)
+      sync_top_talent!
+    end
+  end
+
+  def revoke_top_talent!(source:)
+    with_lock do
+      record = user_top_talents.find_by(source:)
+      record&.update!(revoked_at: Time.current)
+      sync_top_talent!
+    end
+  end
+
+  def sync_top_talent!
+    # rubocop:disable-next Rails/SkipsModelValidations
+    update_columns(top_talent: user_top_talents.active.exists?)
+  end
 
   class << self
     def resolve(param)
@@ -299,10 +389,6 @@ class User < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   end
 
   private
-
-  def publish_notify(action)
-    Msgr.publish(decorate.as_event, to: "xikolo.account.user.#{action}")
-  end
 
   def sanitize_language
     # If the stored language is no longer valid, reset it to trigger auto-detection

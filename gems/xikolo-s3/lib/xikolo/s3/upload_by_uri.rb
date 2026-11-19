@@ -12,7 +12,7 @@ module Xikolo::S3
 
     def valid?
       upload!
-      upload.metadata['xikolo-state'] == 'accepted' \
+      upload.metadata['xikolo-state'] == 'accepted'
         && upload.metadata['xikolo-purpose'] == @purpose.to_s
     rescue Aws::S3::Errors::ServiceError => e
       Sentry.capture_exception(e)

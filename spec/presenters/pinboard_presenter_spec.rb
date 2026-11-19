@@ -8,7 +8,7 @@ describe PinboardPresenter, type: :presenter do
   let(:context) { {course:} }
 
   let(:course_id) { '81e01000-3300-4444-a001-000000000001' }
-  let(:course) { Xikolo::Course::Course.new(id: course_id, course_code: 'the_course') }
+  let(:course) { create(:course, id: course_id, course_code: 'the_course') }
   let(:section_id) { '81e01000-3300-4444-a002-000000000001' }
   let(:short_section_id) { '3X4peCYbbcr6QSYXoifvl7' } # base62 form of above UUID
   let(:section) { build(:'course:section', id: section_id, title: 'Week 3') }
@@ -20,8 +20,8 @@ describe PinboardPresenter, type: :presenter do
       subject(:crumbs) { presenter.breadcrumbs.for_list }
 
       it 'yields all discussions' do
-        expect {|b| crumbs.each_level(&b) }.to yield_successive_args(
-          ['/courses/the_course/pinboard', 'All discussions']
+        expect(crumbs.to_a).to eq(
+          [{url: '/learn/the_course/pinboard', text: 'All discussions'}]
         )
       end
 
@@ -29,9 +29,11 @@ describe PinboardPresenter, type: :presenter do
         let(:context) { super().merge(section:) }
 
         it 'yields all discussions and the section' do
-          expect {|b| crumbs.each_level(&b) }.to yield_successive_args(
-            ['/courses/the_course/pinboard', 'All discussions'],
-            ["/courses/the_course/sections/#{short_section_id}/pinboard", 'Week 3']
+          expect(crumbs.to_a).to eq(
+            [
+              {url: '/learn/the_course/pinboard', text: 'All discussions'},
+              {url: "/learn/the_course/sections/#{short_section_id}/pinboard", text: 'Week 3'},
+            ]
           )
         end
       end
@@ -40,9 +42,11 @@ describe PinboardPresenter, type: :presenter do
         let(:context) { super().merge(section: nil, technical_issues: true) }
 
         it 'yields all discussions and the pseudo-section' do
-          expect {|b| crumbs.each_level(&b) }.to yield_successive_args(
-            ['/courses/the_course/pinboard', 'All discussions'],
-            ['/courses/the_course/sections/technical_issues/pinboard', 'Technical Issues']
+          expect(crumbs.to_a).to eq(
+            [
+              {url: '/learn/the_course/pinboard', text: 'All discussions'},
+              {url: '/learn/the_course/sections/technical_issues/pinboard', text: 'Technical Issues'},
+            ]
           )
         end
       end
@@ -52,9 +56,11 @@ describe PinboardPresenter, type: :presenter do
       subject(:crumbs) { presenter.breadcrumbs.for_thread(thread) }
 
       it 'yields all discussions and the thread' do
-        expect {|b| crumbs.each_level(&b) }.to yield_successive_args(
-          ['/courses/the_course/pinboard', 'All discussions'],
-          ["/courses/the_course/question/#{thread_id}", 'What can I ask?']
+        expect(crumbs.to_a).to eq(
+          [
+            {url: '/learn/the_course/pinboard', text: 'All discussions'},
+            {url: "/learn/the_course/question/#{thread_id}", text: 'What can I ask?'},
+          ]
         )
       end
 
@@ -62,10 +68,12 @@ describe PinboardPresenter, type: :presenter do
         let(:context) { super().merge(section:) }
 
         it 'yields all discussions, the section and the thread' do
-          expect {|b| crumbs.each_level(&b) }.to yield_successive_args(
-            ['/courses/the_course/pinboard', 'All discussions'],
-            ["/courses/the_course/sections/#{short_section_id}/pinboard", 'Week 3'],
-            ["/courses/the_course/sections/#{short_section_id}/question/#{thread_id}", 'What can I ask?']
+          expect(crumbs.to_a).to eq(
+            [
+              {url: '/learn/the_course/pinboard', text: 'All discussions'},
+              {url: "/learn/the_course/sections/#{short_section_id}/pinboard", text: 'Week 3'},
+              {url: "/learn/the_course/sections/#{short_section_id}/question/#{thread_id}", text: 'What can I ask?'},
+            ]
           )
         end
       end
@@ -74,10 +82,12 @@ describe PinboardPresenter, type: :presenter do
         let(:context) { super().merge(section: nil, technical_issues: true) }
 
         it 'yields all discussions, the pseudo-section and the thread' do
-          expect {|b| crumbs.each_level(&b) }.to yield_successive_args(
-            ['/courses/the_course/pinboard', 'All discussions'],
-            ['/courses/the_course/sections/technical_issues/pinboard', 'Technical Issues'],
-            ["/courses/the_course/sections/technical_issues/question/#{thread_id}", 'What can I ask?']
+          expect(crumbs.to_a).to eq(
+            [
+              {url: '/learn/the_course/pinboard', text: 'All discussions'},
+              {url: '/learn/the_course/sections/technical_issues/pinboard', text: 'Technical Issues'},
+              {url: "/learn/the_course/sections/technical_issues/question/#{thread_id}", text: 'What can I ask?'},
+            ]
           )
         end
       end

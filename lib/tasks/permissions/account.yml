@@ -10,7 +10,6 @@ roles:
   account.admin:
     - account.user.index
     - account.user.find
-    - account.user.create
     - account.user.delete
     - account.user.masquerade
     - account.user.change_password

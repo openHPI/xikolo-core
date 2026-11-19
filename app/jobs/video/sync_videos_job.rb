@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module Video
-  class SyncVideosJob < LongRunningApplicationJob
-    queue_with_priority :eventual
+  class SyncVideosJob < ApplicationJob
+    queue_as :low
 
     # When the authentication with the video provider fails, this
     # - often can be considered a configuration error (invalid token or

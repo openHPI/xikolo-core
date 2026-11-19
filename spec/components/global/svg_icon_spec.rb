@@ -5,7 +5,7 @@ require 'spec_helper'
 describe Global::SvgIcon, type: :component do
   subject(:component) do
     described_class.new(
-      Rails.root.join('spec', 'fixtures', 'files', 'images', 'question.svg'),
+      file_fixture('images/question.svg'),
       wrapping_class: 'test-svg'
     )
   end

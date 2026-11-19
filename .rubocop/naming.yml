@@ -9,3 +9,7 @@ Naming/MethodName:
 
 Naming/VariableNumber:
   Enabled: false
+
+Naming/PredicatePrefix:
+  AllowedMethods:
+    - have_markdown_editor

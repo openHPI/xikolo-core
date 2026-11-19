@@ -61,7 +61,7 @@ To set up the test, we use the `before` block to create an `enrollement` for thi
 ```.ruby
   let(:user) { create :user, :with_email }
   before do
-    create :enrollment, :proctored, user_id: user.id, course: course
+    create :enrollment, user_id: user.id, course: course
   end
 ```
 

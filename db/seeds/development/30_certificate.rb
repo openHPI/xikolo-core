@@ -15,12 +15,9 @@ end
 # seeds have been performed before.
 
 roa_template_id = '00000001-3000-4444-9999-6e7f0a6d5f08'
-ob_template_id = '00000001-3000-4444-9999-6e7f0a6d5f09'
 
 roa = upload_file(File.open(File.join(Dir.pwd, 'spec', 'support', 'files', 'certificate', 'template.pdf')), 'templates/example.pdf', 'application/pdf')
-badge = upload_file(File.open(File.join(Dir.pwd, 'spec', 'support', 'files', 'certificate', 'badge_template.png')), 'openbadges/example.png', 'image/png')
 roa_uri = roa.storage_uri
-ob_uri = badge.storage_uri
 
 Certificate::Template.new(
   id: roa_template_id,
@@ -48,18 +45,6 @@ Certificate::RecordOfAchievement.new(
   course_id: '00000001-3300-4444-9999-000000000001',
   template_id: roa_template_id,
   render_state: 'rendered'
-).save(validate: false)
-
-Certificate::OpenBadgeTemplate.new(
-  id: ob_template_id,
-  course_id: '00000001-3300-4444-9999-000000000001',
-  file_uri: ob_uri
-).save(validate: false)
-
-Certificate::V2::OpenBadge.new(
-  id: '00000002-3300-4444-9999-000000000001',
-  record_id: '00000001-3000-4444-9999-000000000099',
-  template_id: ob_template_id
 ).save(validate: false)
 
 60.times do |i|

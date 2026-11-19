@@ -45,7 +45,11 @@ end
 shared_examples 'does not delete the old picture' do
   it 'does not delete the old picture' do
     expect { update_teacher }.to raise_error(Restify::ClientError)
-    expect(FileDeletionWorker.jobs).to be_empty
+
+    file_deletion_jobs = ActiveJob::Base.queue_adapter.enqueued_jobs
+      .select {|job| job['job_class'] == 'CourseService::FileDeletionJob' }
+
+    expect(file_deletion_jobs).to be_empty
   end
 end
 
@@ -56,8 +60,8 @@ RSpec.describe 'Teachers: Update with picture', type: :request do
   let(:teacher) { create(:'course_service/teacher', initial_params) }
   let(:upload_id) { 'f13d30d3-6369-4816-9695-af5318c8ac15' }
   let(:file_name) { 'tux.jpg' }
-  let(:file_url) { "https://s3.xikolo.de/xikolo-uploads/uploads/#{upload_id}/#{file_name}" }
-  let(:store_stub_url) { %r{https://s3.xikolo.de/xikolo-public/teachers/[0-9a-zA-Z]+/[0-9a-zA-Z]+/#{file_name}} }
+  let(:file_url) { "#{test_s3_host}/xikolo-uploads/uploads/#{upload_id}/#{file_name}" }
+  let(:store_stub_url) { %r{#{test_s3_host}/xikolo-public/teachers/[0-9a-zA-Z]+/[0-9a-zA-Z]+/#{file_name}} }
 
   context 'when uploads first picture' do
     let(:old_store_stub_url) { nil }
@@ -67,7 +71,7 @@ RSpec.describe 'Teachers: Update with picture', type: :request do
       let(:data) { {picture_upload_id: upload_id} }
 
       before do
-        stub_request(:get, 'https://s3.xikolo.de/xikolo-uploads?list-type=2&' \
+        stub_request(:get, "#{test_s3_host}/xikolo-uploads?list-type=2&" \
                            "prefix=uploads%2F#{upload_id}")
           .to_return(
             status: 200,
@@ -193,15 +197,15 @@ RSpec.describe 'Teachers: Update with picture', type: :request do
     let(:old_picture_uri) { "s3://xikolo-public/teachers/1/42/#{file_name}" }
     let(:initial_params) { {picture_uri: old_picture_uri} }
     let(:new_file) { 'tux2.jpg' }
-    let(:file_url) { "https://s3.xikolo.de/xikolo-uploads/uploads/#{upload_id}/#{new_file}" }
-    let(:store_stub_url) { %r{https://s3.xikolo.de/xikolo-public/teachers/[0-9a-zA-Z]+/[0-9a-zA-Z]+/#{new_file}} }
-    let(:old_store_stub_url) { %r{https://s3.xikolo.de/xikolo-public/teachers/[0-9a-zA-Z]+/[0-9a-zA-Z]+/#{file_name}} }
+    let(:file_url) { "#{test_s3_host}/xikolo-uploads/uploads/#{upload_id}/#{new_file}" }
+    let(:store_stub_url) { %r{#{test_s3_host}/xikolo-public/teachers/[0-9a-zA-Z]+/[0-9a-zA-Z]+/#{new_file}} }
+    let(:old_store_stub_url) { %r{#{test_s3_host}/xikolo-public/teachers/[0-9a-zA-Z]+/[0-9a-zA-Z]+/#{file_name}} }
 
     context 'with picture_upload_id' do
       let(:data) { {picture_upload_id: upload_id} }
 
       before do
-        stub_request(:get, 'https://s3.xikolo.de/xikolo-uploads?list-type=2&' \
+        stub_request(:get, "#{test_s3_host}/xikolo-uploads?list-type=2&" \
                            "prefix=uploads%2F#{upload_id}").to_return(
                              status: 200,
                              headers: {'Content-Type' => 'Content-Type: application/xml'},
@@ -237,8 +241,8 @@ RSpec.describe 'Teachers: Update with picture', type: :request do
 
         it_behaves_like 'updates with picture'
         it 'schedules the removal of the old picture' do
-          update_teacher
-          expect(CourseService::FileDeletionWorker.jobs.last['args']).to eq [old_picture_uri]
+          expect { update_teacher }.to have_enqueued_job(CourseService::FileDeletionJob)
+            .with(old_picture_uri)
         end
       end
 
@@ -309,8 +313,8 @@ RSpec.describe 'Teachers: Update with picture', type: :request do
 
         it_behaves_like 'updates with picture'
         it 'schedules the removal of the old picture' do
-          update_teacher
-          expect(CourseService::FileDeletionWorker.jobs.last['args']).to eq [old_picture_uri]
+          expect { update_teacher }.to have_enqueued_job(CourseService::FileDeletionJob)
+            .with(old_picture_uri)
         end
       end
 

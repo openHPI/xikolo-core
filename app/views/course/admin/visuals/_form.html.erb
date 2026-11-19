@@ -1,0 +1,142 @@
+<%= form_with model: visual_presenter.visual, scope: :course_visual, url: course_visual_path, method: :patch, class: 'form-horizontal', html: {multipart: true}, data: {turbo: false} do |f| %>
+  <% if visual_presenter.visual.errors.any? %>
+    <%= render Global::Callout.new(visual_presenter.visual.errors.full_messages.to_sentence, type: :error) %>
+  <% end %>
+
+  <div class="form-section--large">
+    <div class="hidden" data-behavior="remove-on-save-hint">
+      <%= render Global::Callout.new(t(:'simple_form.upload_remove_hint')) %>
+    </div>
+
+    <% image_upload = FileUpload.new(purpose: :course_course_image, content_type: 'image/*') %>
+
+    <div class="form-group course_visual_image">
+      <%= f.label :image, t(:'simple_form.labels.course_visual.image'), class: 'col-lg-2 col-md-2' %>
+
+      <div class="col-lg-10 col-md-10">
+        <%= tag.div class: 'xui-imageupload', data: {
+          imageupload: image_upload.url,
+          upload_id: image_upload.id.to_s,
+          s3: image_upload.fields.merge(key: image_upload.prefix, content_type: image_upload.content_type),
+          id: 'course_visual_image',
+          'max-filesize': image_upload.size&.max,
+          'error-size': t(:'flash.error.files.attachment_file_size_exceeded'),
+          'error-type': t(:'flash.error.files.document.invalid_mime_type', allowed: image_upload.extension_filter.join(', ')),
+        } do %>
+          <%= f.hidden_field :image_upload_id, value: image_upload.id, id: 'upload_id', autocomplete: 'off', disabled: true %>
+          <%= f.hidden_field :image_uri, value: nil, id: 'uri', autocomplete: 'off', disabled: true %>
+          <%= f.hidden_field :delete_image, value: true, id: 'deletion', autocomplete: 'off', disabled: true %>
+
+          <div class="imageupload-current dropzone-previews">
+            <%= hidden_field_tag :file_url, visual_presenter.visual.image_url %>
+          </div>
+
+          <div class="dropzone">
+            <div class="xui-imageupload-zone xui-upload-target">
+              <div class="dz-message">
+                <%= t(:'simple_form.upload_image') %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+
+        <p class="help-block">
+          <%= t(:'simple_form.hints.course_visual.image') %>
+        </p>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :teaser_video, t(:'course.admin.visuals.upload_teaser'), class: 'col-lg-2 col-md-2' %>
+
+      <div class="col-lg-10 col-md-10">
+        <%= render Form::FileUpload.new(f, :teaser_video,
+          icon: 'video',
+          title: t(:'course.admin.visuals.upload_teaser'),
+          hint: t(:'course.admin.visuals.upload_hint'),
+          button_label: t(:'admin.videos.form.video.button'),
+          accept: 'video/*',
+          direct_upload: true) %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :video_stream_id, t(:'simple_form.labels.course_visual.video_stream_id'), class: 'col-lg-2 col-md-2' %>
+
+      <div class="col-lg-10 col-md-10">
+        <%= f.select :video_stream_id, visual_presenter.stream_collection, {include_blank: true},
+          class: 'form-control',
+          placeholder: t(:'simple_form.placeholders.course_visual.video_stream_id'),
+          data: {behavior: 'custom-select', 'auto-completion-url': admin_streams_path, preload: true, prefix: visual_presenter.stream_prefix} %>
+
+        <p class="help-block">
+          <%= t(:'simple_form.hints.course_visual.video_stream_id') %>
+        </p>
+
+        <% stream = visual_presenter.visual.video_stream %>
+
+        <% if stream&.tracks_upload? %>
+          <p class="help-block">
+            <%= t(:'course.admin.visuals.upload_status', status: t(:"admin.videos.index.upload_status.#{stream.upload_status}")) %>
+          </p>
+          <% if stream.failed? && current_user.allowed?('video.video.manage') %>
+            <%= link_to t(:'admin.videos.index.retry'), retry_video_path(stream.id), method: :post, class: 'btn btn-default' %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+    <% subtitles_upload = FileUpload.new(purpose: :video_subtitles, content_type: %w[application/zip text/vtt]) %>
+
+    <div class="form-group">
+      <%= f.label :subtitles, t(:'simple_form.labels.course_visual.subtitles'), class: 'col-lg-2 col-md-2' %>
+
+      <div class="col-lg-10 col-md-10">
+        <%= tag.div class: 'xui-upload', data: {
+          upload: subtitles_upload.url,
+          s3: subtitles_upload.fields.merge(key: subtitles_upload.prefix, content_type: subtitles_upload.content_type),
+          id: 'course_visual_subtitles',
+          'max-filesize': subtitles_upload.size&.max,
+          'error-size': t(:'flash.error.files.attachment_file_size_exceeded'),
+          'error-type': t(:'flash.error.files.document.invalid_mime_type', allowed: subtitles_upload.extension_filter.join(', ')),
+        } do %>
+          <%= f.hidden_field :subtitles_upload_id, value: subtitles_upload.id, id: nil %>
+
+          <div class="xui-upload-zone xui-upload-target">
+            <div class="dz-message">
+              <%= t(:'simple_form.placeholders.course_visual.subtitles') %>
+            </div>
+          </div>
+        <% end %>
+
+        <p class="help-block">
+          <%= t(:'simple_form.hints.course_visual.subtitles') %>
+        </p>
+      </div>
+    </div>
+
+    <% if visual_presenter.teaser_subtitles.any? %>
+      <div class="col-md-offset-2 mb15">
+        <% visual_presenter.teaser_subtitles.each do |subtitle| %>
+          <span class="mr10">
+            <%= subtitle.download_filename %>
+
+            <%= link_to download_subtitle_path(subtitle.id), class: 'bs-a', title: t(:'admin.courses.items.form.video_data.subtitles_download'), download: '' do %>
+              <%= render Global::FaIcon.new('download', style: :solid, css_classes: 'ml5 mr5') %>
+            <% end %>
+
+            <%= link_to subtitle_path(subtitle.id), class: 'bs-a', method: :delete do %>
+              <%= render Global::FaIcon.new('xmark', style: :solid, css_classes: 'ml5 mr5') %>
+            <% end %>
+          </span>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="btn-group">
+    <%= f.submit t(:'helpers.submit.course_visual.update'), class: 'btn btn-primary mr10 mb10' %>
+    <%= f.submit t(:'helpers.submit.course_visual.preview'), name: 'show', class: 'btn btn-primary mr10 mb10' %>
+    <%= link_to t(:'course.admin.visuals.back'), edit_course_path(visual_presenter.course_code, anchor: 'formgroup-visuals'), class: 'btn btn-default mb10' %>
+  </div>
+<% end %>

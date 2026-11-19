@@ -20,7 +20,7 @@ class RichtextDecorator < ApplicationDecorator # rubocop:disable Layout/Indentat
   end
 
   def text
-    Xikolo::S3.externalize_file_refs(object.text, public: true)
+    object.text.external
   end
 end
 end

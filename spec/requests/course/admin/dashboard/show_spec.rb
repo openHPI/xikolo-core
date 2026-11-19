@@ -4,21 +4,19 @@ require 'spec_helper'
 
 describe 'Course: Admin: Dashboard: Show', type: :request do
   subject(:show_course_dashboard) do
-    get "/courses/#{course.course_code}/dashboard",
-      headers:
+    get "/learn/#{course.course_code}/dashboard"
   end
 
-  let(:headers) { {} }
-  let(:permissions) { [] }
-  let(:features) { {} }
-  let(:course) { create(:course, end_date: 1.week.ago, records_released: true) }
+  let(:user) { create(:'account_service/user') }
+  let(:authenticate) { true }
+  let(:course) { create(:'course_service/course', end_date: 1.week.ago, records_released: true) }
   let(:course_resource) do
     build(:'course:course', id: course.id, course_code: course.course_code, end_date: 1.week.ago,
       records_released: true)
   end
 
   before do
-    stub_user_request(permissions:, features:)
+    sign_in(user:) if authenticate
 
     Stub.request(:course, :get, "/courses/#{course.course_code}")
       .to_return Stub.json(course_resource)
@@ -66,52 +64,11 @@ describe 'Course: Admin: Dashboard: Show', type: :request do
       shows_at_middle: 4,
       shows_at_end: 3,
     })
-
-    Stub.service(:learnanalytics, build(:'lanalytics:root'))
-    Stub.request(:learnanalytics, :get, '/course_statistics', query: hash_including(
-      course_id: course.id,
-      historic_data: 'true'
-    )).to_return Stub.json([])
-    Stub.request(:learnanalytics, :get, '/metrics')
-      .to_return Stub.json([
-        {'name' => 'client_combination_usage', 'available' => true},
-        {'name' => 'item_visits_count', 'available' => true},
-        {'name' => 'video_play_count', 'available' => true},
-        {'name' => 'forum_activity', 'available' => true},
-        {'name' => 'forum_write_activity', 'available' => true},
-        {'name' => 'certificates', 'available' => true},
-      ])
-    Stub.request(
-      :learnanalytics, :get, '/metrics/client_combination_usage',
-      query: hash_including({})
-    ).to_return Stub.json([])
-    Stub.request(
-      :learnanalytics, :get, '/metrics/item_visits_count',
-      query: hash_including({course_id: course.id})
-    ).to_return Stub.json({})
-    Stub.request(
-      :learnanalytics, :get, '/metrics/video_play_count',
-      query: hash_including({course_id: course.id})
-    ).to_return Stub.json({})
-    Stub.request(
-      :learnanalytics, :get, '/metrics/forum_activity',
-      query: hash_including({course_id: course.id})
-    ).to_return Stub.json({})
-    Stub.request(
-      :learnanalytics, :get, '/metrics/forum_write_activity',
-      query: hash_including({course_id: course.id})
-    ).to_return Stub.json({})
-    Stub.request(
-      :learnanalytics, :get, '/metrics/certificates',
-      query: hash_including({course_id: course.id})
-    ).to_return Stub.json({
-      record_of_achievement: 4,
-      confirmation_of_participation: 6,
-      qualified_certificate: 1,
-    })
   end
 
   context 'as anonymous user' do
+    let(:authenticate) { false }
+
     it 'redirects the user' do
       show_course_dashboard
       expect(response).to redirect_to course_url(course.course_code)
@@ -119,21 +76,21 @@ describe 'Course: Admin: Dashboard: Show', type: :request do
   end
 
   context 'as logged in user' do
-    let(:headers) { {Authorization: "Xikolo-Session session_id=#{stub_session_id}"} }
-
     it 'redirects the user' do
       show_course_dashboard
       expect(response).to redirect_to course_url(course.course_code)
     end
 
     context 'with permissions' do
-      let(:permissions) { %w[course.dashboard.view course.content.access] }
+      before do
+        role = create(:'account_service/role', permissions: %w[course.dashboard.view course.content.access])
+        create(:'account_service/grant', principal: user, role:)
+      end
 
-      it 'renders age distribution and client usage tables' do
+      it 'renders age distribution table' do
         show_course_dashboard
         expect(response).to render_template :show
         expect(response.body).to include 'Age Distribution'
-        expect(response.body).to include 'Client Usage'
       end
 
       it 'renders KPI cards and KPI score cards' do

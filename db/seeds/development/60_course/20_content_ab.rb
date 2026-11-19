@@ -8,7 +8,8 @@ course = CourseService::Course::Create.call(
   DESCRIPTION
   course_code: 'content-ab',
   lang: 'en',
-  status: 'active',
+  published: true,
+  placement: ['Open4All'],
   start_date: 10.days.ago,
   end_date: 4.weeks.from_now
 )

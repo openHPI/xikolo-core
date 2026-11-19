@@ -27,9 +27,7 @@ describe 'Account: Connect: New', type: :request do
     end
 
     context 'as a logged-in user' do
-      let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
-
-      before { stub_user_request }
+      before { sign_in(user:) }
 
       it 'responds with 404 Not Found' do
         expect { result }.to raise_error AbstractController::ActionNotFound

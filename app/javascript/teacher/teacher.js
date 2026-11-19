@@ -4,6 +4,4 @@ import './items/quiz-edit';
 import './lti-providers';
 import './sections/sections';
 
-import '../legacy/lanalytics/visit';
-
 import '../util/forms/advanced-settings';

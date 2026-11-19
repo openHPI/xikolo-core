@@ -8,29 +8,29 @@ describe 'Enrollments: List', type: :request do
   let(:api) { restify_with_headers(course_service.root_url).get.value }
   let(:params) { {user_id:} }
 
-  let(:user_id) { generate(:user_id) }
+  let(:user_id) { create(:'account_service/user').id }
   let!(:enrollment) { create(:'course_service/enrollment', user_id:) }
 
   it { is_expected.to respond_with :ok }
   it { is_expected.to have(1).items }
 
-  context 'with persisted learning evaluation' do
-    let(:params) { super().merge(evaluated: 'true') }
+  context 'with learning evaluation' do
+    around {|example| perform_enqueued_jobs(&example) }
+
+    let(:params) { super().merge(learning_evaluation: 'true') }
 
     before do
-      xi_config <<~YML
-        persisted_learning_evaluation:
-          read: true
-      YML
-
-      create(:'course_service/course_progress', course: enrollment.course, user_id:,
+      CourseService::CourseProgress.find_by!(
+        course: enrollment.course, user_id:
+      ).update!(
         main_dpoints: 19_0,
         bonus_dpoints: 0,
         max_dpoints: 28_0,
         visits: 12,
         max_visits: 134,
         points_percentage_fpoints: 67_85,
-        visits_percentage_fpoints: 8_95)
+        visits_percentage_fpoints: 8_95
+      )
     end
 
     it { is_expected.to respond_with :ok }

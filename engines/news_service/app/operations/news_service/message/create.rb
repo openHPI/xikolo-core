@@ -4,7 +4,7 @@
 # to all recipients.
 #
 # Several properties such as the recipients will be copied to the message
-# record. A background worker will be scheduled to process the message and send
+# record. A background job will be scheduled to process the message and send
 # an email to each recipient.
 #
 module NewsService
@@ -28,7 +28,7 @@ class Message::Create < ApplicationOperation # rubocop:disable Layout/Indentatio
       test: @params.fetch(:is_test, false)
     )
 
-    MessageWorker.call(message)
+    NewsService::MessageJob.perform_later(message.id)
   end
 end
 end

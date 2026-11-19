@@ -2,15 +2,15 @@
 
 class Breadcrumbs
   def initialize
-    @levels = {}
+    @levels = []
   end
 
   def with_level(url, text)
-    @levels[url] = text
+    @levels << {url:, text:}
     self
   end
 
-  def each_level(&)
-    @levels.each(&)
+  def to_a
+    @levels
   end
 end

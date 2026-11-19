@@ -24,6 +24,7 @@ describe CourseService::CourseDecorator do
       expect(json.keys).to match_array %w[
         id
         course_code
+        course_format
         context_id
         special_groups
         title
@@ -34,18 +35,13 @@ describe CourseService::CourseDecorator do
         display_start_date
         end_date
         enrollment_delta
-        status
         alternative_teacher_text
         teacher_ids
         external_course_url
         forum_is_locked
         public
-        hidden
-        show_on_list
         lang
         welcome_mail
-        auto_archive
-        show_syllabus
         invite_only
         classifiers
         channels
@@ -53,27 +49,20 @@ describe CourseService::CourseDecorator do
         middle_of_course_is_auto
         on_demand
         pinboard_enabled
-        proctored
         records_released
         roa_threshold_percentage
         cop_threshold_percentage
         roa_enabled
         cop_enabled
         video_course_codes
-        rating_stars
-        rating_votes
         learning_goals
-        target_groups
         created_at
         updated_at
-        stage_visual_url
-        stage_statement
-        show_on_stage
         enable_video_download
-        policy_url
         students_group_url
-        prerequisite_status_url
-        achievements_url
+        teacher_text
+        published
+        placement
       ]
     end
 
@@ -126,64 +115,6 @@ describe CourseService::CourseDecorator do
       it 'includes channel attributes' do
         expect(json['channels'].first['code']).to eq channel_code
         expect(json['channels'].first.dig('title_translations', 'en')).to eq 'Disney Channel'
-      end
-    end
-  end
-
-  describe '(version 2)' do
-    subject(:json) { decorator.as_json(api_version: 2).stringify_keys }
-
-    let(:course) do
-      CourseService::Course.where(id: super().id).from('embed_courses AS courses').take!
-    end
-
-    it 'exports default fields' do
-      expect(json.keys).to match_array %w[
-        id
-        course_code
-        title
-        abstract
-        learning_goals
-        target_groups
-        teachers
-        language
-        channels
-        classifiers
-        state
-        hidden
-        invite_only
-        proctored
-        start_date
-        end_date
-        roa_threshold_percentage
-        cop_threshold_percentage
-        roa_enabled
-        cop_enabled
-        accessible
-        on_demand
-        show_on_list
-        enrollments_url
-        created_at
-        updated_at
-      ]
-    end
-
-    describe '#classifiers' do
-      # Ensure we pass a non-ordered set of classifiers
-      # that are returned ordered
-      let(:attrs) do
-        {
-          classifiers: {
-            zzz: %w[z a],
-            category: %w[pro-track databases],
-          },
-        }
-      end
-
-      it 'includes ordered set of classifiers' do
-        expect(json['classifiers']).to eq \
-          'category' => %w[databases pro-track],
-          'zzz' => %w[a z]
       end
     end
   end

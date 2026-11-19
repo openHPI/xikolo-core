@@ -112,7 +112,6 @@
             <xs:attribute name="published" type="xs:string" use="optional"/>
             <xs:attribute name="section" type="xs:nonNegativeInteger"/>
             <xs:attribute name="subsection" type="xs:nonNegativeInteger" use="optional"/>
-            <xs:attribute name="show_in_nav" type="xs:string" use="optional"/>
             <xs:attribute name="skip_intro" type="xs:string" use="optional"/>
             <xs:attribute name="survey" type="xs:string" use="optional"/>
             <xs:attribute name="external_ref" type="xs:string" use="optional"/>

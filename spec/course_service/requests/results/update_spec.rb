@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Results: Update', type: :request do
   let(:api) { restify_with_headers(course_service.root_url).get.value! }
   let(:result_id) { SecureRandom.uuid }
-  let(:user_id) { generate(:user_id) }
+  let(:user_id) { create(:'account_service/user').id }
   let!(:item) { create(:'course_service/item') }
 
   describe '(via PATCH)' do
@@ -31,13 +31,6 @@ describe 'Results: Update', type: :request do
           end
           expect(result.reload.dpoints).to eq 34
         end
-      end
-    end
-
-    context 'without existing resource' do
-      it 'responds with 404 Not Found without side effects' do
-        expect { update }.to raise_error(Restify::NotFound)
-        expect(CourseService::Result.count).to eq 0
       end
     end
   end

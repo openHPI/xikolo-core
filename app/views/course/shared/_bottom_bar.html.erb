@@ -1,0 +1,5 @@
+<%= render Course::BottomBar.new do |bar| %>
+  <% bar.with_primary_action do %>
+    <%= render Course::EntryAction.new(course_id:, user: current_user) %>
+  <% end %>
+<% end %>

@@ -5,7 +5,7 @@ module Video
     attribute :description, Xikolo::S3::Markup.new(uploads: {purpose: :video_description})
 
     has_one :visual, class_name: '::Course::Visual', dependent: :nullify
-    has_one :item, class_name: '::Course::Item', as: :content, dependent: :restrict_with_exception
+    has_one :item, class_name: '::CourseService::Item', as: :content, dependent: :restrict_with_exception
     has_many :subtitles, class_name: '::Video::Subtitle', dependent: :destroy
     has_many :thumbnails, class_name: '::Video::Thumbnail', dependent: :destroy
     belongs_to :pip_stream, class_name: '::Video::Stream', optional: true
@@ -51,23 +51,24 @@ module Video
     end
 
     def thumbnail
-      if pip_stream&.poster
-        pip_stream.poster
-      elsif lecturer_stream&.poster
-        lecturer_stream.poster
-      elsif slides_stream&.poster
-        slides_stream.poster
-      end
+      pip_stream&.poster_url || lecturer_stream&.poster_url || slides_stream&.poster_url
+    end
+
+    def display_streams
+      [lecturer_stream, slides_stream, pip_stream].compact
+    end
+
+    # The single stream hosted on Bunny, if any. A Bunny stream is only
+    # playable once the upload job has created it on the provider, which is
+    # marked by the presence of a provider video id.
+    def bunny_stream
+      display_streams.find {|stream| stream.provider&.provider_type == 'bunny' && stream.provider_video_id.present? }
     end
 
     def duration
       return pip_stream.duration if pip_stream
 
       [lecturer_stream&.duration, slides_stream&.duration].compact.max
-    end
-
-    def as_api_v2
-      @api_v2 ||= ::Video::Video::APIV2.new(self).as_json # rubocop:disable Naming/MemoizedInstanceVariableName
     end
 
     def pip_stream_collection
@@ -105,17 +106,6 @@ module Video
         "#{subtitled_stream.title} (#{subtitled_stream.provider_name})",
         subtitled_stream_id,
       ]]
-    end
-
-    ## ROUTE HELPERS
-    ## Ensure that Rails routing helpers can be used directly with Video instances.
-
-    def self.model_name
-      ActiveModel::Name.new(self, nil, 'Video')
-    end
-
-    def to_param
-      id
     end
 
     # Per default, ActiveRecord maps a parent and a child in a polymorphic association based on the parents class

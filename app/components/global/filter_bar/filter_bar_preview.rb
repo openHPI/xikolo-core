@@ -12,7 +12,7 @@ module Global
       # Is usually used together with the State::Loading component
       # to show a loading state while the request with the new filter params is submitted.
       #
-      # See `app/components/global/filter_bar/preview/default.html.slim` for an example.
+      # See `app/components/global/filter_bar/preview/default.html.erb` for an example.
       # Here we use:
       #
       # - `data-hide-on-submit='#example__content'` to hide the content
@@ -46,6 +46,11 @@ module Global
           locals: {path: '', name: 'with_multiple_select', search_param: '', filters: multi_select})
       end
 
+      def multiple_select_prefilled
+        render_with_template(template: 'global/filter_bar/preview/default',
+          locals: {path: '', name: 'with_selection', search_param: '', filters: multi_select(selected: %w[One Two])})
+      end
+
       private
 
       def filters
@@ -67,9 +72,9 @@ module Global
           blank_option: 'All numbers')]
       end
 
-      def multi_select
+      def multi_select(selected: nil)
         [Global::FilterBar::Filter.new(:key, 'Select', %w[One Two Three],
-          multi_select: true)]
+          selected:, multi_select: true)]
       end
     end
   end

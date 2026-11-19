@@ -1,0 +1,25 @@
+<%= content_tag(tag_name, href:, class: container_classes, aria: {current: aria_current}, data: {testid: 'item-card', turbo_prefetch:}) do %>
+  <div class="<%= content_classes %>">
+    <div class="flex shrink-0 items-center gap-2">
+      <span aria-hidden="true"><%= helpers.pixelart_icon(icon_name, css_class: icon_classes) %></span>
+      <span class="x-badge x-badge-outline <%= badge_classes %> font-medium"><%= @label %></span>
+    </div>
+
+    <p class="text-sm <%= title_classes %>"><%= @title %></p>
+  </div>
+
+  <% if action? %>
+    <% if failed? %>
+      <span class="sr-only"><%= mark_label %></span>
+    <% end %>
+    <%# The whole card is the link, so the call to action only looks like a button. %>
+    <span class="<%= indicator_classes %> x-btn x-btn-outline x-btn-xs md:x-btn-sm <%= action_classes %> shrink-0"><%= @action_label %></span>
+  <% elsif completed? || failed? %>
+    <span class="<%= indicator_classes %> <%= mark_classes %> shrink-0 rounded-full border p-0.5">
+      <span aria-hidden="true"><%= helpers.pixelart_icon(mark_icon, css_class: 'size-4') %></span>
+      <span class="sr-only"><%= mark_label %></span>
+    </span>
+  <% elsif locked? %>
+    <span class="sr-only"><%= t('course.item_card.locked') %></span>
+  <% end %>
+<% end %>

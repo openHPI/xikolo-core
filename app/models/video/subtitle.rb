@@ -99,12 +99,24 @@ module Video
       @trigger_subtitle_sync = true
     end
 
-    def as_api_v2
-      @api_v2 ||= ::Video::SubtitleTrack::APIV2.new(self).as_json # rubocop:disable Naming/MemoizedInstanceVariableName
-    end
-
     def to_vtt
       "WEBVTT\n\n#{cues.map(&:to_vtt).join("\n")}"
+    end
+
+    def download_filename
+      item = video.item
+      course_code = (item&.course || video.visual&.course)&.course_code
+      [item ? UUID4(item.id).to_param : nil, course_code, "#{lang}.vtt"].compact.join('_')
+    end
+
+    def clone(attrs = {})
+      self.class.create(
+        attributes.except('id').merge(attrs)
+      ).tap do |subtitle|
+        cues.each do |cue|
+          cue.clone(subtitle_id: subtitle.id)
+        end
+      end
     end
 
     private

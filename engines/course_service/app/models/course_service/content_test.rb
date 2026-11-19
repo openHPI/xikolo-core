@@ -28,7 +28,7 @@ class ContentTest < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   # Yields the internal group identifier as well as the group model.
   #
   def with_groups
-    hash = Duplicated::Group.where(name: group_names).index_by(&:name)
+    hash = AccountService::Group.where(name: group_names).index_by(&:name)
 
     groups.each do |identifier|
       yield identifier, hash[build_group_name(identifier)]
@@ -39,7 +39,7 @@ class ContentTest < ApplicationRecord # rubocop:disable Layout/IndentationWidth
 
   def create_groups
     with_groups do |group_identifier, group|
-      group ||= Duplicated::Group.new(name: build_group_name(group_identifier))
+      group ||= AccountService::Group.new(name: build_group_name(group_identifier))
       group.tags.push('content_test') unless group.tags.include?('content_test')
       group.save!
     end
@@ -54,7 +54,7 @@ class ContentTest < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   end
 
   def assigned_group(user_id)
-    Duplicated::Membership.joins(:group).find_by(user_id:, groups: {name: group_names})&.group_id
+    AccountService::Membership.joins(:group).find_by(user_id:, groups: {name: group_names})&.group_id
   end
 
   # Atomically assign a user to the next group (by round robin).
@@ -68,13 +68,13 @@ class ContentTest < ApplicationRecord # rubocop:disable Layout/IndentationWidth
       next group_id if group_id
 
       round_robin do |next_group_id|
-        Duplicated::Membership.create!(user_id:, group_id: next_group_id)
+        AccountService::Membership.create!(user_id:, group_id: next_group_id)
       end
     end
   end
 
   def round_robin
-    group = Duplicated::Group.find_by!(name: group_names[round_robin_counter])
+    group = AccountService::Group.find_by!(name: group_names[round_robin_counter])
 
     yield group.id
 

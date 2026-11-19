@@ -1,6 +1,6 @@
 import sortable from 'html5sortable/dist/html5sortable.es';
 import fetch from '../../util/fetch';
-import ready from '../../util/ready';
+import { turboReady } from '../../util/ready';
 import handleError from '../../util/error';
 import I18n from '../../i18n/i18n';
 
@@ -15,7 +15,7 @@ const updateOrder = async (url: string, data: FormData) => {
   }
 };
 
-ready(() => {
+turboReady(() => {
   const items = sortable('[data-behavior=sortable-items]', {
     forcePlaceholderSize: true,
     placeholderClass: 'html5sortable-placeholder',

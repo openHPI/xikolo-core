@@ -6,50 +6,36 @@ describe Video::TopicList, type: :component do
   subject(:component) { described_class.new item:, user: }
 
   let(:item) do
-    instance_double(ItemPresenter,
+    instance_double(VideoItemPresenter,
       id: generate(:item_id),
       course_code: 'the_course',
-      course_pinboard_closed?: false)
+      forum_locked?: false)
   end
-  let(:user) { Xikolo::Common::Auth::CurrentUser.from_session(user_session) }
-  let(:user_session) do
-    {
-      'permissions' => [],
-      'features' => {},
-      'user' => {'anonymous' => false},
-      'user_id' => generate(:user_id),
-    }
-  end
+  let(:session) { create(:'account_service/session') }
+  let(:user) { CurrentUser::User.new(session:, context_id: 'root') }
 
   context 'with no topics available' do
-    before do
-      Stub.request(
-        :pinboard, :get, '/topics',
-        query: {item_id: item.id}
-      ).to_return Stub.json([])
-    end
-
     it 'does not show any topic and displays the empty state' do
       render_inline(component)
 
       expect(page).to have_no_selector '[data-slider-target="item"]'
-      expect(page).to have_content 'There are no discussion topics yet'
+      expect(page).to have_text 'There are no discussion topics yet'
     end
 
     context 'with course pinboard closed' do
       let(:item) do
-        instance_double(ItemPresenter,
+        instance_double(VideoItemPresenter,
           id: generate(:item_id),
           course_code: 'the_course',
-          course_pinboard_closed?: true)
+          forum_locked?: true)
       end
 
       it 'only shows a callout' do
         render_inline(component)
 
         expect(page).to have_no_selector '[data-slider-target="item"]'
-        expect(page).to have_no_content 'There are no discussion topics yet'
-        expect(page).to have_content 'The discussions for this course are read-only.'
+        expect(page).to have_no_text 'There are no discussion topics yet'
+        expect(page).to have_text 'The discussions for this course are read-only.'
       end
     end
   end
@@ -79,9 +65,9 @@ describe Video::TopicList, type: :component do
     it 'lists the topics' do
       render_inline(component)
 
-      expect(page).to have_content 'Discussion topics'
-      expect(page).to have_content '4 topics'
-      expect(page).to have_content 'Topic', count: 4
+      expect(page).to have_text 'Discussion topics'
+      expect(page).to have_text '4 topics'
+      expect(page).to have_text 'Topic', count: 4
       expect(page).to have_link 'View or reply'
     end
 
@@ -99,42 +85,36 @@ describe Video::TopicList, type: :component do
     end
 
     context 'for anonymous user' do
-      let(:user_session) do
-        {
-          'permissions' => [],
-          'features' => {},
-          'user' => {'anonymous' => true},
-        }
-      end
+      let(:user) { CurrentUser::AnonymousUser.new(context_id: 'root') }
 
       it 'hides the component' do
         render_inline(component)
 
-        expect(page).to have_content ''
+        expect(page).to have_text ''
       end
     end
 
     context 'with course pinboard closed' do
       let(:item) do
-        instance_double(ItemPresenter,
+        instance_double(VideoItemPresenter,
           id: generate(:item_id),
           course_code: 'the_course',
-          course_pinboard_closed?: true)
+          forum_locked?: true)
       end
 
       it 'lists the topics' do
         render_inline(component)
 
-        expect(page).to have_content 'Discussion topics'
-        expect(page).to have_content '4 topics'
-        expect(page).to have_content 'Topic', count: 4
+        expect(page).to have_text 'Discussion topics'
+        expect(page).to have_text '4 topics'
+        expect(page).to have_text 'Topic', count: 4
         expect(page).to have_link 'Read more'
       end
 
       it 'does not allow to create new topics' do
         render_inline(component)
 
-        expect(page).to have_content 'The discussions for this course are read-only.'
+        expect(page).to have_text 'The discussions for this course are read-only.'
         expect(page).to have_no_button 'Start a new topic'
       end
     end
@@ -151,7 +131,7 @@ describe Video::TopicList, type: :component do
     it 'hides the component' do
       render_inline(component)
 
-      expect(page).to have_content ''
+      expect(page).to have_text ''
     end
   end
 end

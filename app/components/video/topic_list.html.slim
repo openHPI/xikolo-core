@@ -36,7 +36,7 @@
 
     .mt20#topic-form hidden='true'
       h4.h4 = t(:'items.show.video.ask_own_question')
-      = simple_form_for new_topic,
+      = helpers.simple_form_for new_topic,
         url: course_item_topics_path(@item.course_code, @item.id),
         method: :post,
         wrapper: :compact do |f|

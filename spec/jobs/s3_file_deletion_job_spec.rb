@@ -10,12 +10,12 @@ describe S3FileDeletionJob, type: :job do
   it 'enqueues a new job' do
     expect { enqueue_job }.to have_enqueued_job(described_class)
       .with('s3://xikolo-public/courses/34/image.jpg')
-      .on_queue('default')
+      .on_queue('low')
   end
 
   describe '#perform' do
     let!(:s3_delete_stub) do
-      stub_request(:delete, 'https://s3.xikolo.de/xikolo-public/courses/34/image.jpg')
+      stub_request(:delete, "#{test_s3_host}/xikolo-public/courses/34/image.jpg")
     end
 
     around {|example| perform_enqueued_jobs(&example) }

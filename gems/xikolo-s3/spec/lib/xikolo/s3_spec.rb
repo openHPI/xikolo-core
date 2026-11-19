@@ -3,15 +3,6 @@
 require 'spec_helper'
 
 describe Xikolo::S3 do
-  let(:config) do
-    {
-      'endpoint' => 'https://s3.xikolo.de',
-      'region' => 'default',
-      'access_key_id' => 'access_key',
-      'secret_access_key' => 'secret_access_key',
-    }
-  end
-
   context '#object' do
     it 'Aws::S3::Object instance' do
       uri = 's3://xikolo-public/courses/example/visual.png'
@@ -21,40 +12,21 @@ describe Xikolo::S3 do
   end
 
   context '#resource' do
-    it 'raises RuntimeError without configuration' do
-      # clear configuration
-      Xikolo.config.s3 = nil
-      expect { described_class.resource }.to \
-        raise_error(RuntimeError)
+    it 'builds a resource with client configuration from ENV' do
+      expect { described_class.resource }.to_not raise_error
+      expect(described_class.resource).to be_a Aws::S3::Resource
+      expect(described_class.resource.client.config.endpoint.to_s).to eq 'https://s3.xikolo.de'
+      expect(described_class.resource.client.config.region).to eq 'default'
+      expect(described_class.resource.client.config.credentials.access_key_id).to eq 'access_key'
+      expect(described_class.resource.client.config.credentials.secret_access_key).to eq 'secret_access_key'
+      expect(described_class.resource.client.config.force_path_style).to be true
     end
 
-    it 'raises RuntimeError without client configuration' do
-      Xikolo.config.s3 = {'buckets' => {}}
-      expect { described_class.resource }.to \
-        raise_error(RuntimeError)
-    end
-
-    it 'raises RuntimeError without essentials client options' do
-      config.each_key do |key|
-        Xikolo.config.s3 = {
-          'buckets' => {},
-          'client' => config.except(key),
-        }
-        expect { described_class.resource }.to \
-          raise_error(RuntimeError)
+    it 'raises RuntimeError without essential ENV configuration' do
+      %w[S3_ACCESS_ID S3_ACCESS_KEY AWS_REGION].each do |key|
+        ENV[key] = nil
+        expect { described_class.resource }.to raise_error(RuntimeError)
       end
-    end
-
-    it 'does not raise RuntimeError with client configuration' do
-      Xikolo.config.s3 = {'buckets' => {}, 'client' => config}
-      expect { described_class.resource }.to_not raise_error
-      expect(described_class.resource).to be_a Aws::S3::Resource
-    end
-
-    it 'does not raise RuntimeError with legacy connect_info configuration' do
-      Xikolo.config.s3 = {'buckets' => {}, 'connect_info' => config}
-      expect { described_class.resource }.to_not raise_error
-      expect(described_class.resource).to be_a Aws::S3::Resource
     end
   end
 
@@ -67,13 +39,13 @@ describe Xikolo::S3 do
     end
 
     it 'raises RuntimeError without buckets configuration' do
-      Xikolo.config.s3 = {'client' => config}
+      Xikolo.config.s3 = {}
       expect { described_class.bucket_for(:uploads) }.to \
         raise_error(RuntimeError)
     end
 
     it 'raises ArgumentError for unknown bucket name' do
-      Xikolo.config.s3 = {'client' => config, 'buckets' => {}}
+      Xikolo.config.s3 = {'buckets' => {'other' => 'xikolo-other'}}
       expect { described_class.bucket_for(:uploads) }.to \
         raise_error(ArgumentError)
     end

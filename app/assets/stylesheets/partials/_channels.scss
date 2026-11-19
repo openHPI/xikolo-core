@@ -3,16 +3,6 @@
 \*------------------------------------*/
 $xi-channel-background-color: $white !default;
 
-/* General */
-
-@mixin vertical-align {
-  position: relative;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-}
-
 /* Channel Admin Styling */
 
 .channel-admin-logo {
@@ -54,9 +44,6 @@ $xi-channel-background-color: $white !default;
   @include outer-container($main-content-width);
 
   .channel-explanation {
-    position: relative;
-    padding-bottom: 10px;
-
     p {
       text-align: left;
     }

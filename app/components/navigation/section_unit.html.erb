@@ -1,0 +1,17 @@
+<li>
+  <%= content_tag tag_name, **tag_attributes,
+    class: ['flex items-start gap-2 rounded-sm text-xs leading-4', modifier_classes] do %>
+    <% if @locked %>
+      <%= helpers.pixelart_icon('lock', css_class: 'size-4 shrink-0') %>
+    <% elsif @icon.present? %>
+      <%= helpers.pixelart_icon(@icon, css_class: 'size-4 shrink-0') %>
+    <% end %>
+    <span class="flex-1 line-clamp-2 wrap-anywhere"><%= @text %></span>
+    <% if @completed %>
+      <span class="border-base-300 bg-accent shrink-0 rounded-full border p-0.5 text-white">
+        <span aria-hidden="true"><%= helpers.pixelart_icon('check', css_class: 'size-4') %></span>
+        <span class="sr-only"><%= t(:'courses.nav.completed') %></span>
+      </span>
+    <% end %>
+  <% end %>
+</li>

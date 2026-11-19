@@ -1,0 +1,13 @@
+<div
+  class="course-player aspect-(--player-ratio)"
+  style="--player-ratio: <%= item.player_aspect_ratio %>"
+>
+  <iframe
+    src="<%= item.launch_url %>"
+    title="Cmi5 content"
+    class="block h-full w-full border-0"
+    allowfullscreen
+  ></iframe>
+</div>
+
+<%= render course_item_bottom_bar %>

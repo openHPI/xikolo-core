@@ -3,18 +3,21 @@
 require 'spec_helper'
 
 RSpec.describe 'Prevent brute force login attempts', type: :request do
-  # Remove localhost from the safelist and reset cache to make tests work as expected
-  around do |example|
-    removed_safelist = Rack::Attack.safelists.delete('allow from localhost')
+  include ActiveSupport::Testing::TimeHelpers
 
-    example.run
-  ensure
-    Rack::Attack.safelists['allow from localhost'] = removed_safelist
+  let(:remote_ip) { '1.2.3.4' }
+
+  def login_request(email:, password: 'p3k')
+    post '/sessions',
+      params: {login: {email:, password:}},
+      headers: {'REMOTE_ADDR' => remote_ip},
+      env: {'action_dispatch.remote_ip' => remote_ip}
   end
 
   before do
-    Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new
-    Rack::Attack::Allow2Ban.reset('127.0.0.1', findtime: 1.minute)
+    allow(Rack::Attack.cache).to receive(:store).and_return(ActiveSupport::Cache::MemoryStore.new)
+
+    travel_to(Time.zone.at(0))
   end
 
   context 'with failed login attempts' do
@@ -26,22 +29,28 @@ RSpec.describe 'Prevent brute force login attempts', type: :request do
     end
 
     it 'blocks after 15th failed login attempt' do
-      15.times do
-        post '/sessions', params: {
-          login: {email: 'p3k@example.de', password: 'p3k'},
-        }
-
+      # First window
+      10.times do
+        login_request(email: 'p3k@example.de')
         expect(response).to have_http_status(:found)
       end
 
-      post '/sessions', params: {
-        login: {email: 'p3k@example.de', password: 'p3k'},
-      }
+      # Move safely into next Rack::Attack window
+      travel 61.seconds
+
+      # Continue attempts
+      5.times do
+        login_request(email: 'p3k@example.de')
+        expect(response).to have_http_status(:found)
+      end
+
+      # This should now be blocked
+      login_request(email: 'p3k@example.de')
 
       expect(response).to have_http_status(:service_unavailable)
       expect(response.body).to eq 'Blocked due to too many login attempts.'
 
-      # Does not block resources other than '/sessions'
+      # Ensure other routes are not blocked
       get '/'
       expect(response).to have_http_status :ok
     end
@@ -54,7 +63,7 @@ RSpec.describe 'Prevent brute force login attempts', type: :request do
     before do
       Stub.request(
         :account, :post, '/sessions',
-        body: {id: nil, user_id: nil, user_agent: nil, ident: 'p3k@example.de', password: 'p3k'}.to_json
+        body: {id: nil, user_id: nil, user_agent: nil, ident: 'p3k1@example.de', password: 'p3k'}.to_json
       ).to_return Stub.json({
         id: session_id,
         user_id:,
@@ -72,11 +81,15 @@ RSpec.describe 'Prevent brute force login attempts', type: :request do
     end
 
     it 'does not block after 15th successful login' do
-      16.times do
-        post '/sessions', params: {
-          login: {email: 'p3k@example.de', password: 'p3k'},
-        }
+      10.times do
+        login_request(email: 'p3k1@example.de')
+        expect(response).to have_http_status(:see_other)
+      end
 
+      travel 61.seconds
+
+      6.times do
+        login_request(email: 'p3k1@example.de')
         expect(response).to have_http_status(:see_other)
       end
     end

@@ -1,4 +1,4 @@
-import ready from '../../util/ready';
+import { turboReady } from '../../util/ready';
 
 const removeTagFromUrlSearchParams = (url: URL, id: string) =>
   url.searchParams.delete('tags[]', id);
@@ -17,7 +17,7 @@ const handleTagClick = (url: URL, id: string, filteredIds: string[]) => {
   window.location.href = url.href;
 };
 
-ready(() => {
+turboReady(() => {
   const topicsList = document.querySelector('#pinboard__content');
   if (!topicsList) return;
 

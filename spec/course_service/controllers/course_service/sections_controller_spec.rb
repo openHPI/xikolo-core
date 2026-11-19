@@ -50,7 +50,7 @@ describe CourseService::SectionsController, type: :controller do
       before { action.call }
 
       it 'returns the correct section for UUID' do
-        expect(json.map { it['id'] }).to contain_exactly(sections[2].id)
+        expect(json.pluck('id')).to contain_exactly(sections[2].id)
       end
     end
 

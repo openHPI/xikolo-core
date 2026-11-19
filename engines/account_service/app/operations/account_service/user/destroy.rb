@@ -10,16 +10,38 @@ class User::Destroy < ApplicationOperation # rubocop:disable Layout/IndentationW
       user.sessions.destroy_all
       user.tokens.destroy_all
 
+      teacher = CourseService::Teacher.find_by(user_id: user.id)
+
+      if teacher
+        teacher.update!(
+          name: 'Anonymized Teacher',
+          description: {'de' => 'Anonymisierter Lehrer', 'en' => 'Anonymized teacher'},
+          picture_uri: nil
+        )
+
+        remove_avatar_images!(teacher)
+      end
+
       user.update! archived: true,
         full_name: 'Deleted User',
         display_name: 'Deleted User',
+        born_at: nil,
+        country: nil,
+        state: nil,
+        city: nil,
+        gender: nil,
+        status: nil,
         avatar_uri: nil,
         confirmed: false
+
+      if ENV.key?('XIKOLO_WEB_API')
+        CodeOceanUserDeletionJob.perform_later(user.id)
+      end
+
+      remove_avatar_images!(user)
     end
 
-    remove_avatar_images!(user)
-
-    user
+    user.reload
   end
 
   private

@@ -7,7 +7,7 @@ RSpec.describe CourseService::ContentTest, type: :model do
     described_class.new(identifier: 'a-content-test', course:, groups: %w[group-a group-b])
   end
 
-  let(:course) { create(:'course_service/course', course_code: 'the-course') }
+  let(:course) { create(:'course_service/course', course_code: 'the-course', skip_account_groups: true) }
 
   describe 'validations' do
     it { is_expected.to be_valid }
@@ -62,30 +62,30 @@ RSpec.describe CourseService::ContentTest, type: :model do
 
   describe 'group creation' do
     it 'creates groups with proper names and tags' do
-      expect { content_test.save! }.to change(CourseService::Duplicated::Group, :count).by(2)
-      expect(CourseService::Duplicated::Group.pluck(:name)).to include(
+      expect { content_test.save! }.to change(AccountService::Group, :count).by(2)
+      expect(AccountService::Group.pluck(:name)).to include(
         'course.the-course.content_test.a-content-test.group-a',
         'course.the-course.content_test.a-content-test.group-b'
       )
-      expect(CourseService::Duplicated::Group.pluck(:tags)).to include(%w[content_test], %w[content_test])
+      expect(AccountService::Group.pluck(:tags)).to include(%w[content_test], %w[content_test])
     end
 
     context 'with existing group' do
       let!(:group) do
-        CourseService::Duplicated::Group.create!(name: 'course.the-course.content_test.a-content-test.group-a', tags:)
+        AccountService::Group.create!(name: 'course.the-course.content_test.a-content-test.group-a', tags:)
       end
-      let(:tags) { %w[blue] }
+      let(:tags) { %w[access] }
 
       it 'adds the "content_test" tag to the pre-existing list of tags' do
-        expect { content_test.save! }.to change(CourseService::Duplicated::Group, :count).by(1)
-        expect(group.reload.tags).to eq %w[blue content_test]
+        expect { content_test.save! }.to change(AccountService::Group, :count).by(1)
+        expect(group.reload.tags).to eq %w[access content_test]
       end
 
       context 'already tagged as "content_test"' do
         let(:tags) { %w[content_test] }
 
         it 'does not add a second tag to the pre-existing list of tags' do
-          expect { content_test.save! }.to change(CourseService::Duplicated::Group, :count).by(1)
+          expect { content_test.save! }.to change(AccountService::Group, :count).by(1)
           expect(group.reload.tags).to eq %w[content_test]
         end
       end
@@ -95,30 +95,30 @@ RSpec.describe CourseService::ContentTest, type: :model do
   describe 'group assignment' do
     before { content_test.save! }
 
-    let(:group_a) { CourseService::Duplicated::Group.find_by!(name: 'course.the-course.content_test.a-content-test.group-a') }
-    let(:group_b) { CourseService::Duplicated::Group.find_by!(name: 'course.the-course.content_test.a-content-test.group-b') }
+    let(:group_a) { AccountService::Group.find_by!(name: 'course.the-course.content_test.a-content-test.group-a') }
+    let(:group_b) { AccountService::Group.find_by!(name: 'course.the-course.content_test.a-content-test.group-b') }
 
     it 'assigns the first user to the first group' do
-      expect(content_test.group_for_user(generate(:user_id))).to eq group_a.id
+      expect(content_test.group_for_user(create(:'account_service/user').id)).to eq group_a.id
 
-      expect(CourseService::Duplicated::Membership.where(group_id: group_a.id).count).to eq 1
+      expect(AccountService::Membership.where(group_id: group_a.id).count).to eq 1
     end
 
     it 'assigns the second user to the second group' do
-      expect(content_test.group_for_user(generate(:user_id))).to eq group_a.id
-      expect(content_test.group_for_user(generate(:user_id))).to eq group_b.id
+      expect(content_test.group_for_user(create(:'account_service/user').id)).to eq group_a.id
+      expect(content_test.group_for_user(create(:'account_service/user').id)).to eq group_b.id
 
-      expect(CourseService::Duplicated::Membership.where(group_id: group_a.id).count).to eq 1
-      expect(CourseService::Duplicated::Membership.where(group_id: group_b.id).count).to eq 1
+      expect(AccountService::Membership.where(group_id: group_a.id).count).to eq 1
+      expect(AccountService::Membership.where(group_id: group_b.id).count).to eq 1
     end
 
     it 'assigns the third user to the first group again (round robin)' do
-      expect(content_test.group_for_user(generate(:user_id))).to eq group_a.id
-      expect(content_test.group_for_user(generate(:user_id))).to eq group_b.id
-      expect(content_test.group_for_user(generate(:user_id))).to eq group_a.id
+      expect(content_test.group_for_user(create(:'account_service/user').id)).to eq group_a.id
+      expect(content_test.group_for_user(create(:'account_service/user').id)).to eq group_b.id
+      expect(content_test.group_for_user(create(:'account_service/user').id)).to eq group_a.id
 
-      expect(CourseService::Duplicated::Membership.where(group_id: group_a.id).count).to eq 2
-      expect(CourseService::Duplicated::Membership.where(group_id: group_b.id).count).to eq 1
+      expect(AccountService::Membership.where(group_id: group_a.id).count).to eq 2
+      expect(AccountService::Membership.where(group_id: group_b.id).count).to eq 1
     end
 
     context 'when simultaneous assignments occur', transaction: false do
@@ -131,45 +131,45 @@ RSpec.describe CourseService::ContentTest, type: :model do
       let(:concurrency_level) { 6 }
       let(:thread) do
         # CourseService::Load the content test anew to avoid sharing dirty state across threads
-        -> { CourseService::ContentTest.find(content_test.id).group_for_user(generate(:user_id)) }
+        -> { CourseService::ContentTest.find(content_test.id).group_for_user(create(:'account_service/user').id) }
       end
 
       it 'distributes users memberships evenly between groups' do
         expect { concurrent_assignments }.not_to raise_error
 
-        expect(CourseService::Duplicated::Membership.where(group_id: group_a.id).count).to eq 3
-        expect(CourseService::Duplicated::Membership.where(group_id: group_b.id).count).to eq 3
+        expect(AccountService::Membership.where(group_id: group_a.id).count).to eq 3
+        expect(AccountService::Membership.where(group_id: group_b.id).count).to eq 3
       end
 
       context 'for the same user' do
         let(:thread) do
           -> { CourseService::ContentTest.find(content_test.id).group_for_user(user_id) }
         end
-        let(:user_id) { generate(:user_id) }
+        let(:user_id) { create(:'account_service/user').id }
 
         it 'only assigns the user once' do
           expect do
             concurrent_assignments
-          end.to change { CourseService::Duplicated::Membership.where(user_id:).count }.from(0).to(1)
+          end.to change { AccountService::Membership.where(user_id:).count }.from(0).to(1)
 
-          membership = CourseService::Duplicated::Membership.find_by(user_id:)
+          membership = AccountService::Membership.find_by(user_id:)
           expect(membership.group_id).to eq group_a.id
         end
       end
     end
 
     context 'with existing membership' do
-      let(:user_id) { generate(:user_id) }
+      let(:user_id) { create(:'account_service/user').id }
 
       before do
-        group = CourseService::Duplicated::Group.find_by!(name: 'course.the-course.content_test.a-content-test.group-b')
-        CourseService::Duplicated::Membership.create!(group:, user_id:)
+        group = AccountService::Group.find_by!(name: 'course.the-course.content_test.a-content-test.group-b')
+        AccountService::Membership.create!(group:, user_id:)
       end
 
       it 'does not assign the user to any other group' do
         expect(content_test.group_for_user(user_id)).to eq group_b.id
 
-        expect(CourseService::Duplicated::Membership.where(user_id:).count).to eq 1
+        expect(AccountService::Membership.where(user_id:).count).to eq 1
       end
     end
   end

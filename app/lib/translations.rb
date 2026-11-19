@@ -32,6 +32,6 @@ class Translations
       I18n.locale.to_s,
       Xikolo.config.locales['default'],
       'en',
-    ]).detect(-> { @hash.keys.first }) {|lang| @hash.key? lang }
+    ]).detect(-> { @hash.keys.first }) {|lang| @hash.key?(lang) && @hash[lang].present? }
   end
 end

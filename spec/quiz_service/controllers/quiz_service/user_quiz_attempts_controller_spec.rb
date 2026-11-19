@@ -100,10 +100,8 @@ describe QuizService::UserQuizAttemptsController, type: :controller do
       let(:course_id) { generate(:course_id) }
       let(:params) { super().except(:quiz_id).merge(course_id:) }
 
-      before { Sidekiq::Testing.fake! }
-
       it 'schedules a job to unlock the assignments' do
-        expect { request }.to change(QuizService::UnlockCourseAssignmentsWorker.jobs, :size).by(1)
+        expect { request }.to have_enqueued_job(QuizService::UnlockCourseAssignmentsJob).exactly(:once)
       end
 
       it 'responds with 202 Accepted' do

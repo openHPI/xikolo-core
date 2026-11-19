@@ -19,12 +19,12 @@ class API::GroupsController < API::RESTController # rubocop:disable Layout/Inden
     respond_with collection
   end
 
-  def create(attributes = group_params)
-    respond_with Group.create(attributes), status: :created
-  end
-
   def show
     respond_with resource
+  end
+
+  def create(attributes = group_params)
+    respond_with Group.create(attributes), status: :created
   end
 
   def grants

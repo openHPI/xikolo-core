@@ -1,4 +1,4 @@
-import ready from '../../util/ready';
+import { turboReady } from '../../util/ready';
 import fetch from '../../util/fetch';
 import handleError from '../../util/error';
 
@@ -20,7 +20,7 @@ const submitFormChange = async (form: HTMLFormElement) => {
   }
 };
 
-ready(() => {
+turboReady(() => {
   document.querySelectorAll('[data-profile-consent]').forEach((consentForm) => {
     const form = consentForm as HTMLFormElement;
 

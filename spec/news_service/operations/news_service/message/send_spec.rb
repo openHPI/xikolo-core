@@ -9,11 +9,10 @@ RSpec.describe NewsService::Message::Send, type: :operation do
   let(:message) { create(:'news_service/message', recipients:) }
 
   describe '::call' do
-    it 'invokes a recipient worker for each recipient' do
-      expect(NewsService::RecipientWorker).to receive(:call).with(message, recipients[0])
-      expect(NewsService::RecipientWorker).to receive(:call).with(message, recipients[1])
-
-      op.call(message)
+    it 'invokes a recipient job for each recipient' do
+      expect { op.call(message) }
+        .to have_enqueued_job(NewsService::RecipientJob).with(message.id, recipients[0])
+        .and have_enqueued_job(NewsService::RecipientJob).with(message.id, recipients[1])
     end
   end
 end

@@ -5,14 +5,12 @@ require 'spec_helper'
 describe DashboardController, type: :controller do
   subject { request }
 
-  let(:user_id) { '00000001-3100-4444-9999-000000000001' }
+  let(:user) { create(:'account_service/user') }
 
   describe '#dashboard' do
     let(:request) { get :dashboard }
 
     context 'anonymous' do
-      let(:user_id) { nil }
-
       it 'redirects if not logged in' do
         expect(request.status).to eq 302
       end
@@ -39,19 +37,11 @@ describe DashboardController, type: :controller do
 
       before do
         Stub.request(
-          :course, :get, '/enrollments',
-          query: hash_including(user_id:, learning_evaluation: 'true')
-        ).to_return Stub.json(enrollments)
-        Stub.request(
           :course, :get, '/next_dates',
-          query: {user_id:}
+          query: {user_id: user.id}
         ).to_return Stub.json(next_dates)
-        Stub.request(
-          :account, :post, '/tokens',
-          body: hash_including(user_id:)
-        ).to_return Stub.json({token: 'abc'})
 
-        stub_user id: user_id
+        sign_in user: user
       end
 
       its(:status) { is_expected.to eq 200 }
@@ -69,37 +59,15 @@ describe DashboardController, type: :controller do
     let(:course_id) { SecureRandom.uuid }
 
     context 'anonymous' do
-      let(:user_id) { nil }
-
       it 'redirects if not logged in' do
         expect(request.status).to eq 302
       end
     end
 
     context 'with user' do
-      before { stub_user id: user_id }
+      before { sign_in user: user }
 
       context 'without documents' do
-        let(:enrollments) do
-          [
-            {
-              certificates: {confirmation_of_participation: false},
-              course_id:,
-            },
-          ]
-        end
-
-        before do
-          Stub.request(
-            :course, :get, '/enrollments',
-            query: {user_id:, learning_evaluation: 'true', deleted: 'true'}
-          ).to_return Stub.json(enrollments)
-
-          Stub.request(
-            :account, :get, "/users/#{user_id}/preferences"
-          ).to_return Stub.json({properties: {}})
-        end
-
         its(:status) { is_expected.to eq 200 }
 
         context 'assign' do
@@ -110,33 +78,9 @@ describe DashboardController, type: :controller do
       end
 
       context 'with documents' do
-        let(:enrollments) do
-          [
-            {
-              certificates: {confirmation_of_participation: true},
-              course_id:,
-            },
-          ]
-        end
+        let(:course) { create('course_service/course', id: course_id, records_released: true) }
 
-        before do
-          Stub.request(
-            :course, :get, '/enrollments',
-            query: {user_id:, learning_evaluation: 'true', deleted: 'true'}
-          ).to_return Stub.json(enrollments)
-
-          Stub.request(
-            :course, :get, "/courses/#{course_id}"
-          ).to_return Stub.json({
-            id: course_id,
-            title: 'Course',
-            code: 'code',
-          })
-
-          Stub.request(
-            :account, :get, "/users/#{user_id}/preferences"
-          ).to_return Stub.json({properties: {}})
-        end
+        before { create('course_service/enrollment', :with_evaluation, user:, course:) }
 
         its(:status) { is_expected.to eq 200 }
 

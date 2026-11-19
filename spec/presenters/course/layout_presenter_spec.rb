@@ -3,21 +3,20 @@
 require 'spec_helper'
 
 describe Course::LayoutPresenter do
-  subject(:presenter) { described_class.new course, user }
+  subject(:presenter) { described_class.new course, current_user }
 
   let(:course_id) { generate(:course_id) }
   let(:course_params) { {id: course_id} }
-  let(:course) { Xikolo::Course::Course.new course_params }
-  let(:anonymous) { Xikolo::Common::Auth::CurrentUser.from_session({}) }
-  let(:user_id) { generate(:user_id) }
-  let(:user) do
-    Xikolo::Common::Auth::CurrentUser.from_session(
-      'permissions' => permissions,
-      'user_id' => user_id,
-      'user' => {'anonymous' => false}
-    )
-  end
+  let(:course) { create(:course, course_params) }
+  let(:user) { create(:'account_service/user') }
+  let(:session) { create(:'account_service/session', user:) }
+  let(:current_user) { CurrentUser::User.new(session:, context_id: 'root') }
   let(:permissions) { [] }
+
+  before do
+    role = create(:'account_service/role', permissions:)
+    create(:'account_service/grant', principal: user, role:)
+  end
 
   describe '#nav' do
     it 'has a pinboard item by default' do
@@ -33,11 +32,78 @@ describe Course::LayoutPresenter do
     end
   end
 
+  describe '#unread_announcements' do
+    subject(:unread_announcements) { presenter.unread_announcements }
+
+    let!(:unread) { create(:'news_service/news', :published, course_id: course.id) }
+
+    before do
+      create(:'news_service/news', :published, :read, course_id: course.id, read_by_users: [user.id])
+      create(:'news_service/news', course_id: course.id)
+      create(:'news_service/news', :published)
+    end
+
+    it { is_expected.to be_empty }
+
+    context 'with a student' do
+      let(:permissions) { %w[course.content.access.available] }
+
+      it 'returns the published announcements of the course they have not read' do
+        expect(unread_announcements).to contain_exactly(unread)
+      end
+    end
+
+    context 'with staff accessing the content without enrollment' do
+      let(:permissions) { %w[course.content.access] }
+
+      it { is_expected.to be_empty }
+    end
+  end
+
+  describe '#breadcrumbs' do
+    subject(:breadcrumbs) { presenter.breadcrumbs(view_context:) }
+
+    let(:view_context) do
+      request = ActionDispatch::TestRequest.create('PATH_INFO' => path)
+      request.path_parameters = request.path_parameters.merge(controller:) if controller
+      ApplicationController.new.tap {|c| c.request = request }.view_context
+    end
+    let(:controller) { nil }
+    let(:path) { "/learn/#{course.course_code}/progress" }
+
+    it 'starts at the home page and leads to the course' do
+      expect(breadcrumbs.pluck(:text).take(3)).to eq [nil, 'Learn', course.title]
+      expect(breadcrumbs.third[:url]).to eq "/learn/#{course.course_code}"
+      expect(breadcrumbs.first[:aria_label]).to eq 'Home'
+    end
+
+    it 'ends at the course page the user is on' do
+      expect(breadcrumbs.last).to include(text: 'Progress')
+    end
+
+    context 'on the course detail page itself' do
+      let(:path) { "/courses/#{course.course_code}" }
+
+      it 'does not repeat it as the last crumb' do
+        expect(breadcrumbs.pluck(:text)).to eq [nil, 'Learn', course.title]
+      end
+    end
+
+    context 'on the course overview page' do
+      let(:path) { "/learn/#{course.course_code}/overview" }
+      let(:controller) { 'course/syllabus' }
+
+      it 'ends at the learnings' do
+        expect(breadcrumbs.last).to include(text: 'Learnings')
+      end
+    end
+  end
+
   describe '#teacher_nav' do
     subject { super().teacher_nav }
 
     context 'without user' do
-      let(:user) { anonymous }
+      let(:current_user) { CurrentUser::AnonymousUser.new(context_id: 'root') }
 
       it { is_expected.to be_empty }
     end
@@ -47,7 +113,7 @@ describe Course::LayoutPresenter do
     end
 
     context 'with course.dashboard.view' do
-      let(:permissions) { ['course.dashboard.view'] }
+      let(:session) { create(:'account_service/session', user: create(:'account_service/user', :admin)) }
 
       it { is_expected.not_to be_empty }
     end
@@ -90,65 +156,43 @@ describe Course::LayoutPresenter do
     end
   end
 
-  context 'deadlines' do
-    subject(:deadlines) { presenter.deadlines }
-
-    let(:dates) { [{}] }
-
-    before do
-      Stub.request(
-        :course, :get, '/next_dates',
-        query: {
-          all: 'true',
-          course_id:,
-          user_id:,
-          type: 'item_submission_deadline,on_demand_expires',
-        }
-      ).to_return Stub.json(dates)
-    end
-
-    context 'without user' do
-      let(:user) { anonymous }
-
-      it { is_expected.not_to be_show }
-      it { is_expected.not_to be_any }
-    end
-
-    context 'with user' do
-      before { expect(user).not_to be_anonymous }
-
-      it { is_expected.to be_show }
-      it { is_expected.to be_any }
-      it { expect(deadlines.count).to be(1) }
-    end
-  end
-
   describe '#needs_recalculation?' do
     subject(:needs_recalculation) { presenter.send(:needs_recalculation?) }
 
-    context 'by default' do
-      # PLE config option is false by default
+    let(:course_params) { {id: course_id, progress_calculated_at: 1.week.ago} }
+    let(:course) { create(:course, course_params) }
+
+    before do
+      course
+    end
+
+    context 'without sufficient permissions' do
       it { is_expected.to be false }
     end
 
-    context 'with enabled persisted learning evaluation' do
-      let(:the_course) { create(:course, course_params) }
-      let(:course_params) { {id: course_id, progress_calculated_at: 1.week.ago} }
+    context 'with sufficient permissions' do
+      let(:permissions) { %w[course.course.recalculate] }
 
-      before do
-        xi_config <<~YML
-          persisted_learning_evaluation: true
-        YML
+      context 'with the course progress not yet calculated' do
+        let(:course_params) { super().merge(progress_calculated_at: nil) }
 
-        the_course
+        it { is_expected.to be true }
       end
 
-      context 'without sufficient permissions' do
+      context 'for a node not marked for recalculation' do
         it { is_expected.to be false }
       end
 
-      context 'with sufficient permissions' do
-        let(:permissions) { %w[course.course.recalculate] }
+      context 'for a node marked for recalculation' do
+        before do
+          course.node.update! progress_stale_at: 1.hour.ago
+        end
+
+        it { is_expected.to be true }
+      end
+
+      context 'for legacy courses' do
+        let(:course) { create(:course_legacy, course_params) }
 
         context 'with the course progress not yet calculated' do
           let(:course_params) { super().merge(progress_calculated_at: nil) }
@@ -156,36 +200,14 @@ describe Course::LayoutPresenter do
           it { is_expected.to be true }
         end
 
-        context 'for a node not marked for recalculation' do
+        context 'when not marked for recalculation' do
           it { is_expected.to be false }
         end
 
-        context 'for a node marked for recalculation' do
-          before do
-            the_course.node.update! progress_stale_at: 1.hour.ago
-          end
+        context 'when marked for recalculation' do
+          let(:course_params) { super().merge(progress_stale_at: 1.hour.ago) }
 
           it { is_expected.to be true }
-        end
-
-        context 'for legacy courses' do
-          let(:the_course) { create(:course_legacy, course_params) }
-
-          context 'with the course progress not yet calculated' do
-            let(:course_params) { super().merge(progress_calculated_at: nil) }
-
-            it { is_expected.to be true }
-          end
-
-          context 'when not marked for recalculation' do
-            it { is_expected.to be false }
-          end
-
-          context 'when marked for recalculation' do
-            let(:course_params) { super().merge(progress_stale_at: 1.hour.ago) }
-
-            it { is_expected.to be true }
-          end
         end
       end
     end

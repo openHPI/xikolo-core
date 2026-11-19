@@ -16,25 +16,6 @@ Many of our services (i.e. the Rails apps) use background services (e.g. Sidekiq
 
 When working with overmind this is not an issue as these services are started anyway using the Procfile configuration. For RubyMine, this is different, i.e. the background services need to be run explicitly. Of course, this can be done manually via console, but there is also a possibility to run them via RubyMine, which has the advantage to combine them into a Multirun configuration.
 
-### Sidekiq
-
-1. Go to your Run/Debug Configurations (e.g. click on *Edit configurations* in the upper bar).
-2. Create a new *Gem Command*.
-3. Select the correct *Working directory* for your service.
-4. Select the correct *Ruby SDK* (typically the project SDK for the service).
-5. Enter/select the *Gem name*: xikolo-sidekiq (also sidekiq seems to be working).
-6. Enter/select the *Executable name*: sidekiq.
-7. Switch to the bundler tab of your configuration and check the box *Run the script in context of the bundle* (`bundle exec`).
-8. *Save* your configuration.
-
-### Msgr
-
-1. Follow steps 1. - 4. from above.
-2. Enter/select the *Gem name*: msgr.
-3. Enter/select the Executable name: msgr.
-4. Switch to the bundler tab of your configuration and check the box *Run the script in context of the bundle* (`bundle exec`).
-5. *Save* your configuration.
-
 ## "Mark Directory as"
 
 !!! tip

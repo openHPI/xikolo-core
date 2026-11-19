@@ -11,11 +11,11 @@ RSpec.describe 'Essay Questions: Delete', type: :request do
   let(:explanation) { "Headline\ns3://xikolo-quiz/quizzes/1/2/foo.jpg" }
 
   let!(:text_file_delete_stub) do
-    stub_request(:delete, 'https://s3.xikolo.de/xikolo-quiz/quizzes/1/1/test.jpg')
+    stub_request(:delete, "#{test_s3_host}/xikolo-quiz/quizzes/1/1/test.jpg")
   end
 
   let!(:explanation_file_delete_stub) do
-    stub_request(:delete, 'https://s3.xikolo.de/xikolo-quiz/quizzes/1/2/foo.jpg')
+    stub_request(:delete, "#{test_s3_host}/xikolo-quiz/quizzes/1/2/foo.jpg")
   end
 
   before do

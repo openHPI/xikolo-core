@@ -13,7 +13,7 @@ class LtiExercise::Clone < ApplicationOperation # rubocop:disable Layout/Indenta
     attrs = @exercise.attributes.except('id')
     attrs['lti_provider_id'] = new_provider.id
 
-    exercise = Duplicated::LtiExercise.new attrs
+    exercise = Lti::Exercise.new attrs
 
     exercise.instructions = copy_files(exercise.instructions)
     exercise.save!
@@ -24,11 +24,11 @@ class LtiExercise::Clone < ApplicationOperation # rubocop:disable Layout/Indenta
   private
 
   def new_provider
-    old_provider = @exercise.lti_provider
+    old_provider = @exercise.provider
 
     return old_provider if old_provider.global?
 
-    new_provider = Duplicated::LtiProvider.find_by \
+    new_provider = Lti::Provider.find_by \
       name: old_provider.name,
       course_id: @new_course_id
 
@@ -37,12 +37,14 @@ class LtiExercise::Clone < ApplicationOperation # rubocop:disable Layout/Indenta
     provider_attrs = old_provider.attributes.except('id')
     provider_attrs['course_id'] = @new_course_id
 
-    Duplicated::LtiProvider.create! provider_attrs
+    Lti::Provider.create! provider_attrs
   end
 
   def copy_files(markup)
+    return unless markup
+
     file_cache = {}
-    markup&.gsub(Xikolo::S3.url_regex) do |match|
+    markup.to_s.gsub(Xikolo::S3.url_regex) do |match|
       next file_cache[match] if file_cache.key? match
 
       original = Xikolo::S3.object(match)

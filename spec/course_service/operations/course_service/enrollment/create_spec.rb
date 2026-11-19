@@ -5,7 +5,7 @@ require 'spec_helper'
 describe CourseService::Enrollment::Create, type: :operation do
   subject(:operation) { described_class.call user_id, course, params }
 
-  let(:user_id) { generate(:user_id) }
+  let(:user_id) { create(:'account_service/user').id }
   let(:course) { create(:'course_service/course') }
   let(:params) { {} }
 
@@ -33,9 +33,14 @@ describe CourseService::Enrollment::Create, type: :operation do
     expect(membership_stub).to have_been_requested
   end
 
-  it 'publishes an event via CourseService::RabbitMQ' do
-    expect(Msgr).to receive(:publish).with(kind_of(Hash), hash_including(to: 'xikolo.course.enrollment.create'))
-    operation
+  it 'enqueues a welcome email job' do
+    expect do
+      operation
+    end.to have_enqueued_job(
+      NotificationService::SendCourseWelcomeEmailJob
+    ).with(
+        hash_including(user_id: user_id, course_id: course.id)
+      )
   end
 
   context 'with error when creating the membership' do
@@ -56,33 +61,10 @@ describe CourseService::Enrollment::Create, type: :operation do
       expect(operation.errors[:base]).to eq ['membership_creation_failed']
     end
 
-    it 'does not publish an event via CourseService::RabbitMQ' do
-      expect(Msgr).not_to receive(:publish).with(kind_of(Hash), hash_including(to: 'xikolo.course.enrollment.create'))
-      operation
-    end
-  end
-
-  context 'when course prerequisites are not fulfilled' do
-    let(:prerequisites) { instance_double(CourseService::Prerequisites) }
-    let(:user_status) do
-      instance_double(CourseService::Prerequisites::UserStatus, fulfilled?: false)
-    end
-
-    before do
-      allow(prerequisites).to receive(:status_for).with(user_id).and_return(user_status)
-      allow(course).to receive(:prerequisites).and_return(prerequisites)
-    end
-
-    it 'does not create an enrollment' do
-      expect { operation }.not_to change(CourseService::Enrollment, :count).from(0)
-
-      expect(operation.errors.size).to eq 1
-      expect(operation.errors[:base]).to eq %w[prerequisites_unfulfilled]
-    end
-
-    it 'does not create a membership' do
-      operation
-      expect(membership_stub).not_to have_been_requested
+    it 'does not enqueue a welcome email job' do
+      expect do
+        operation
+      end.not_to have_enqueued_job(NotificationService::SendCourseWelcomeEmailJob)
     end
   end
 

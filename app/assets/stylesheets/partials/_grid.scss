@@ -31,14 +31,6 @@ $container-sm: 100%;
     $Grid-Styles
 \*------------------------------------*/
 
-.col-md-0 {
-  width: 0px;
-  height: 0px;
-  margin-left: 0px;
-  overflow-x: hidden;
-  overflow-y: hidden;
-}
-
 .visible-to-xs {
   @media (min-width: $screen-xs-max + 1) {
     display: none !important;
@@ -61,9 +53,4 @@ $container-sm: 100%;
   @media (max-width: $screen-md-min + 1) {
     display: none !important;
   }
-}
-
-.col-centered {
-  margin: 0 auto;
-  float: none;
 }

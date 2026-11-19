@@ -16,15 +16,10 @@ nav.navigation-tabs(
         )
         = render Global::FaIcon.new('bars', css_classes: 'mr10')
 
-  div class=css_classes data-id='navigation-tabs__content' aria-expanded='true'
+  .bg-neutral-content class=css_classes data-id='navigation-tabs__content' aria-expanded='true'
     ul.navigation-tabs__items role='tablist'
       - tabs.each do |tab|
         = tab
-    - if additional_items.present?
-      ul.navigation-tabs__additional-items
-        - additional_items.each do |item|
-          li.navigation-tabs__item
-            = item
 
 - if panels.present?
   div data-id=@content_id

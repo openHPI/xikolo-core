@@ -58,7 +58,7 @@ describe PinboardService::Question, '.search', type: :model do
       .to_return Stub.json({course_code: 'code2019', lang: 'en'})
 
     # Ensure above scheduled workers are run to build the search index
-    PinboardService::UpdateQuestionSearchTextWorker.drain
+    perform_enqueued_jobs(only: PinboardService::UpdateQuestionSearchTextJob)
   end
 
   describe '.search' do

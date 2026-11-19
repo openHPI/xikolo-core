@@ -1,18 +1,12 @@
-- content_for :page_header_slim
-  = render Global::PageHeader.new(t(:'vouchers.headline'), subtitle: t(:'admin.page_header'), type: :slim)
+- content_for :page_header
+  = render Global::PageHeader.new(t(:'vouchers.headline'), subtitle: t(:'admin.page_header'))
 
 .bs-container
   .col-md-12
     = render 'shared/voucher_admin_nav'
   .col-md-12.mb20
     p
-      = form_tag action: :create do
-        - if @errors
-          .error_notification
-            ul.list-disc
-              - @errors.full_messages.each do |message|
-                li
-                  = message
+      = form_tag({action: :create}) do
         .form-group style='width: 400px'
           = label_tag :product_type, t(:'vouchers.create.product'), class: 'control-label'
           = select_tag :product_type, options_for_select(Voucher::ProductTypes::VALID_PRODUCT_TYPES.keys), class: 'full-width form-control'
@@ -29,9 +23,4 @@
           = text_field_tag :expires_at, nil, placeholder: t(:'vouchers.create.expiration_placeholder'), class: 'form-control', data: {behaviour: 'datepicker'}
           .mt10
             = submit_tag t(:'vouchers.create.button'), {class: 'btn btn-primary'}
-    - if @vouchers.present?
-      h3.h3 = t :'vouchers.create.codes'
-      pre
-        - @vouchers.each do |voucher|
-          = voucher.id
-          br
+    = render 'codes', vouchers: @vouchers, errors: @errors

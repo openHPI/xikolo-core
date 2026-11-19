@@ -4,7 +4,8 @@ p.mt15
 = render Global::Callout.new(t(:'helpdesk.notice'), title: t(:'helpdesk.notice_title'))
 
 = form_tag({controller: 'helpdesk', action: 'send_helpdesk'}, method: :post, class: 'autoValidate',
-  id: recaptcha.show_checkbox_recaptcha? ? 'helpdesk-form-with-checkbox-recaptcha' : 'helpdesk-form')
+  id: recaptcha.show_checkbox_recaptcha? ? 'helpdesk-form-with-checkbox-recaptcha' : 'helpdesk-form',
+  data: {turbo: false})
   - if ticket.data
     = hidden_field_tag(:data, ticket.data)
 
@@ -34,5 +35,5 @@ p.mt15
   .mb30.mt20
     = recaptcha.render
     = submit_tag t(:'helpdesk.submit'), id: 'issue-submit-button', class: 'btn btn-primary mr20 helpdesk-brand'
-    button.btn.btn-default.helpdesk-widget-only data-behavior="close-helpdesk"
+    button.btn.btn-default.helpdesk-widget-only type="button" data-behavior="close-helpdesk"
       = t(:'helpdesk.cancel')

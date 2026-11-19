@@ -2,7 +2,7 @@
 
 module Course
   class Statistics
-    # @param course [Course::Course]
+    # @param course [CourseService::Course]
     def initialize(course)
       @course = course
     end
@@ -23,11 +23,11 @@ module Course
     end
 
     def cop_count
-      certificates['confirmation_of_participation']
+      certificates.fetch('ConfirmationOfParticipation', 0)
     end
 
     def roa_count
-      certificates['record_of_achievement']
+      certificates.fetch('RecordOfAchievement', 0)
     end
 
     def enrollments
@@ -37,9 +37,9 @@ module Course
     private
 
     # @param date [ActiveSupport::TimeWithZone]
-    # @param course [Course::Course]
+    # @param course [CourseService::Course]
     def shows_at(date, course:)
-      shows = ::Course::Visit.where(item: course.items.unscope(:order).select(:id))
+      shows = ::CourseService::Visit.where(item: course.items.unscope(:order).select(:id))
       shows = shows.where(created_at: ..date) if date
       shows.distinct.count(:user_id) + course.enrollment_delta
     end
@@ -51,14 +51,7 @@ module Course
     end
 
     def certificates
-      Rails.cache.fetch(
-        "statistics/course/#{@course.id}/certificates/",
-        expires_in: 1.hour,
-        race_condition_ttl: 30.seconds
-      ) do
-        Xikolo.api(:learnanalytics).value!
-          .rel(:metric).get({name: 'certificates', course_id: @course.id}).value!
-      end
+      Certificate::Record.where(course_id: @course.id).group(:type).count
     end
   end
 end

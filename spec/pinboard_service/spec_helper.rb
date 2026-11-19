@@ -14,7 +14,6 @@ SimpleCov.formatters = [
 require File.expand_path('../config/environment', __dir__)
 require 'rspec/rails'
 require 'webmock/rspec'
-require 'sidekiq/testing'
 
 require 'xikolo/common/rspec'
 
@@ -70,19 +69,6 @@ RSpec.configure do |config|
 
     # Explicit clear directly used Rails caches
     Rails.cache.clear
-
-    # Remove all queued background worker
-    # e.g. leftovers from specs that do not ron jobs at all
-    Sidekiq::Worker.clear_all
-
-    # Reset msgr
-    Msgr.client.stop delete: true
-    Msgr::TestPool.reset
-  end
-
-  config.after(:all) do
-    Msgr.client.stop delete: true
-    Msgr::TestPool.reset
   end
 end
 

@@ -35,7 +35,7 @@ describe Lti::Exercise::Store, type: :operation do
     it 'stores the upload and updates the exercise' do
       stub_request(
         :head,
-        'https://s3.xikolo.de/xikolo-uploads/' \
+        "#{test_s3_host}/xikolo-uploads/" \
         'uploads/b5f99337-224f-40f5-aa82-44ee8b272579/foo.jpg'
       ).and_return(
         status: 200,
@@ -44,7 +44,7 @@ describe Lti::Exercise::Store, type: :operation do
           'X-Amz-Meta-Xikolo-State' => 'accepted',
         }
       )
-      store_regex = %r{https://s3.xikolo.de/xikolo-public
+      store_regex = %r{#{test_s3_host}/xikolo-public
                        /ltiexercises/21BHFCPYoUuzziqRhNss7k/foo.jpg}x
       stub_request(:head, store_regex).and_return(status: 404)
       stub_request(:put, store_regex).and_return(status: 200, body: '<xml></xml>')
@@ -55,7 +55,7 @@ describe Lti::Exercise::Store, type: :operation do
     it 'rejects invalid upload and does not update the exercise' do
       stub_request(
         :head,
-        'https://s3.xikolo.de/xikolo-uploads/' \
+        "#{test_s3_host}/xikolo-uploads/" \
         'uploads/b5f99337-224f-40f5-aa82-44ee8b272579/foo.jpg'
       ).and_return(
         status: 200,
@@ -71,7 +71,7 @@ describe Lti::Exercise::Store, type: :operation do
     it 'rejects upload on storage errors' do
       stub_request(
         :head,
-        'https://s3.xikolo.de/xikolo-uploads/' \
+        "#{test_s3_host}/xikolo-uploads/" \
         'uploads/b5f99337-224f-40f5-aa82-44ee8b272579/foo.jpg'
       ).and_return(
         status: 200,
@@ -80,7 +80,7 @@ describe Lti::Exercise::Store, type: :operation do
           'X-Amz-Meta-Xikolo-State' => 'accepted',
         }
       )
-      store_regex = %r{https://s3.xikolo.de/xikolo-public
+      store_regex = %r{#{test_s3_host}/xikolo-public
                        /ltiexercises/21BHFCPYoUuzziqRhNss7k/foo.jpg}x
       stub_request(:head, store_regex).and_return(status: 404)
       stub_request(:put, store_regex).and_return(status: 503)

@@ -3,15 +3,14 @@
 require 'spec_helper'
 
 describe 'Admin: Ajax: Streams: Index', type: :request do
-  subject(:action) { get '/admin/streams', headers:, params: }
+  subject(:action) { get '/admin/streams', params: }
 
-  let(:headers) { {Authorization: "Xikolo-Session session_id=#{stub_session_id}"} }
   let(:params) { {} }
   let(:json) { response.parsed_body }
   let(:provider) { create(:video_provider, :vimeo, name: 'my-provider') }
   let!(:stream) { create(:stream, title: 'some-stream', provider:) }
 
-  before { stub_user_request(permissions: %w[video.video.index]) }
+  before { sign_in(user: create(:'account_service/user', :admin)) }
 
   it 'returns a JSON response with the ID and the text' do
     action

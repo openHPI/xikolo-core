@@ -6,13 +6,10 @@
   alternative_sections.create
   announcements
   course.access-group
-  course_rating
   gamification
   ical_feed
   open_mode
   profile
-  quiz_recap
-  video_slide_thumbnails
 ].each do |feature|
   AccountService::Feature.find_or_create_by!(
     name: feature,

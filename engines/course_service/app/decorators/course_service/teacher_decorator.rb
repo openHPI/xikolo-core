@@ -10,6 +10,7 @@ class TeacherDecorator < ApplicationDecorator # rubocop:disable Layout/Indentati
       name: model.name,
       description: model.description,
       picture_url: model.picture_url,
+      referenced_in_courses: model.referenced_in_courses?,
     }
   end
 end

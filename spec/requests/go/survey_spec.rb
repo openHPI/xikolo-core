@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe 'Go: Survey', type: :request do
   subject(:request) do
-    get "/go/survey/#{id}", params:, headers:
+    get "/go/survey/#{id}", params:
   end
 
   before do
@@ -20,7 +20,6 @@ describe 'Go: Survey', type: :request do
       course: 'howtocode2020',
     }
   end
-  let(:headers) { {} }
 
   it 'redirects to LimeSurvey URL with correct query params' do
     request
@@ -65,13 +64,11 @@ describe 'Go: Survey', type: :request do
   end
 
   context 'with authorized user' do
-    let(:headers) do
-      {Authorization: "Xikolo-Session session_id=#{stub_session_id}"}
-    end
     let(:user_id) { '00000001-3100-4444-9999-000000000142' }
+    let(:user) { create(:'account_service/user', id: user_id) }
 
     before do
-      stub_user_request id: user_id
+      sign_in(user:)
     end
 
     it 'redirects to LimeSurvey URL with correct params and hashed user id' do

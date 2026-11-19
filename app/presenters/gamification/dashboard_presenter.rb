@@ -2,7 +2,7 @@
 
 module Gamification
   class DashboardPresenter
-    # @param user [Account::User]
+    # @param user [AccountService::User]
     def initialize(user)
       @user = user
     end

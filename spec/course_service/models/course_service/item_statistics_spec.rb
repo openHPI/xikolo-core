@@ -6,22 +6,22 @@ describe CourseService::ItemStatistics do
   subject { stats }
 
   before do
-    user_1_id = generate(:user_id)
-    user_2_id = generate(:user_id)
+    user_1 = create(:'account_service/user')
+    user_2 = create(:'account_service/user')
 
     create(:'course_service/result',
       item_id: item.id,
-      user_id: user_1_id,
+      user: user_1,
       dpoints: 40,
       created_at: DateTime.new(2000, 1, 1, 10))
     create(:'course_service/result',
       item_id: item.id,
-      user_id: user_1_id,
+      user: user_1,
       dpoints: 100,
       created_at: DateTime.new(2000, 1, 1, 11))
     create(:'course_service/result',
       item_id: item.id,
-      user_id: user_2_id,
+      user: user_2,
       dpoints: 50,
       created_at: DateTime.new(2000, 1, 2, 12))
 
@@ -29,17 +29,17 @@ describe CourseService::ItemStatistics do
     other_item = create(:'course_service/item', :quiz, max_dpoints: 150)
     create(:'course_service/result',
       item_id: other_item.id,
-      user_id: user_1_id,
+      user: user_1,
       dpoints: 60,
       created_at: DateTime.new(2000, 1, 1, 10))
     create(:'course_service/result',
       item_id: other_item.id,
-      user_id: user_1_id,
+      user: user_1,
       dpoints: 150,
       created_at: DateTime.new(2000, 1, 1, 11))
     create(:'course_service/result',
       item_id: other_item.id,
-      user_id: user_2_id,
+      user: user_2,
       dpoints: 75,
       created_at: DateTime.new(2000, 1, 2, 12))
   end

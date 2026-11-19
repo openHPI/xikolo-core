@@ -41,32 +41,32 @@ describe PinboardRoutesHelper, type: :helper do
 
       it 'routes question_url correctly' do
         route = controller_with_helper.question_url(id: 2)
-        expect(route).to eq 'http://example.org/courses/7/question/2'
+        expect(route).to eq 'http://example.org/learn/7/question/2'
       end
 
       it 'routes question_path correctly' do
         route = controller_with_helper.question_path(id: 2)
-        expect(route).to eq '/courses/7/question/2'
+        expect(route).to eq '/learn/7/question/2'
       end
 
       it 'routes question_index_url correctly' do
         route = controller_with_helper.question_index_url
-        expect(route).to eq 'http://example.org/courses/7/question'
+        expect(route).to eq 'http://example.org/learn/7/question'
       end
 
       it 'routes question_index_path correctly' do
         route = controller_with_helper.question_index_path
-        expect(route).to eq '/courses/7/question'
+        expect(route).to eq '/learn/7/question'
       end
 
       it 'routes pinboard_index_url correctly' do
         route = controller_with_helper.pinboard_index_url
-        expect(route).to eq 'http://example.org/courses/7/pinboard'
+        expect(route).to eq 'http://example.org/learn/7/pinboard'
       end
 
       it 'routes pinboard_index_path correctly' do
         route = controller_with_helper.pinboard_index_path
-        expect(route).to eq '/courses/7/pinboard'
+        expect(route).to eq '/learn/7/pinboard'
       end
     end
   end

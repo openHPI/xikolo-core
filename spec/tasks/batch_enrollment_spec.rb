@@ -13,14 +13,10 @@ describe 'batch enrollment rake task' do
 
     let(:unknown_email_list) { ['admin@example.com', 'tom@example.com', 'conrad@example.com'] }
 
-    around do |example|
-      ENV['CSV'] = 'spec/fixtures/files/batch_test_mails.csv'
-      example.run
-    ensure
-      ENV['CSV'] = ''
-    end
-
     before do
+      allow(ENV).to receive(:fetch).and_call_original
+      allow(ENV).to receive(:fetch).with('CSV', nil).and_return('spec/fixtures/files/batch_test_mails.csv')
+
       unknown_email_list.each do |email|
         Stub.request(:account, :get, "/emails/#{email}").to_return(status: 404)
       end

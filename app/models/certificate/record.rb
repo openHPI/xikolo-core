@@ -8,8 +8,7 @@ module Certificate
     COP = 'ConfirmationOfParticipation'
     ROA = 'RecordOfAchievement'
     CERT = 'Certificate'
-    TOR = 'TranscriptOfRecords'
-    TYPES = [COP, ROA, CERT, TOR].freeze
+    TYPES = [COP, ROA, CERT].freeze
 
     # Map "type" column values to concrete subclasses.
     # NOTE: This can be used to map obsolete values to newer classes, or when
@@ -18,7 +17,6 @@ module Certificate
       'Certificate' => '::Certificate::Certificate',
       'RecordOfAchievement' => '::Certificate::RecordOfAchievement',
       'ConfirmationOfParticipation' => '::Certificate::ConfirmationOfParticipation',
-      'TranscriptOfRecords' => '::Certificate::TranscriptOfRecords',
     }.freeze
 
     # What "type" should be used when storing each subclass?
@@ -26,14 +24,13 @@ module Certificate
       'Certificate::Certificate' => 'Certificate',
       'Certificate::RecordOfAchievement' => 'RecordOfAchievement',
       'Certificate::ConfirmationOfParticipation' => 'ConfirmationOfParticipation',
-      'Certificate::TranscriptOfRecords' => 'TranscriptOfRecords',
     }.freeze
 
     validates :type, inclusion: {in: TYPES, message: '%{value} is not a valid record type'}
     validate :user_entitlement, :record_availability
 
-    belongs_to :user, class_name: 'Account::User'
-    belongs_to :course, class_name: 'Course::Course'
+    belongs_to :user, class_name: 'AccountService::User'
+    belongs_to :course, class_name: 'CourseService::Course'
     belongs_to :template,
       class_name: 'Certificate::Template',
       inverse_of: :records,
@@ -68,7 +65,6 @@ module Certificate
     # For some time, the same verification codes were generated for CoPs and RoAs
     # Record verification should always return the "most valuable" record for
     # those records
-    # Courses with Transcript of Records shall not have other certificate types at all
     scope :by_code, lambda {|code|
       where(verification: code).order(Arel.sql(<<~SQL.squish)).limit(1)
         CASE type
@@ -95,12 +91,12 @@ module Certificate
     end
 
     def enrollment
-      @enrollment ||= Xikolo.api(:course).value!.rel(:enrollments).get({
+      @enrollment ||= CourseService::Enrollment.with_evaluation.find_by(
         course_id:,
         user_id:,
-        deleted: true,
-        learning_evaluation: true,
-      }).value!.first
+        deleted: false
+      )&.decorate_self
+        &.deep_stringify_keys
     end
 
     private

@@ -4,9 +4,8 @@ require 'spec_helper'
 
 describe 'Course: Items: Update', type: :request do
   subject(:action) do
-    put("/courses/#{course.course_code}/sections/#{section['id']}/items/#{item.id}",
-      params:,
-      headers:)
+    put("/learn/#{course.course_code}/sections/#{section['id']}/items/#{item.id}",
+      params:)
     response
   end
 
@@ -16,7 +15,6 @@ describe 'Course: Items: Update', type: :request do
   let(:item) { create(:item) }
   let(:item_resource) { build(:'course:item', id: item.id) }
   let(:params) { {} }
-  let(:headers) { {} }
 
   before do
     Stub.request(:course, :get, "/courses/#{course.course_code}")
@@ -33,13 +31,15 @@ describe 'Course: Items: Update', type: :request do
   end
 
   context 'for a logged in user' do
-    let(:user_id) { generate(:user_id) }
-    let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
+    let(:user) { create(:'account_service/user') }
+    let(:user_id) { user.id }
     let(:permissions) { %w[course.content.access course.content.edit] }
     let(:update_stub) { Stub.request(:course, :put, "/items/#{item.id}").to_return Stub.json(item_resource) }
 
     before do
-      stub_user_request(id: user_id, permissions:)
+      sign_in(user:)
+      role = create(:'account_service/role', permissions:)
+      create(:'account_service/grant', principal: user, role:)
       Stub.request(
         :course, :get, "/items/#{item.id}"
       ).to_return Stub.json(item_resource)
@@ -106,7 +106,7 @@ describe 'Course: Items: Update', type: :request do
       let(:item) { create(:item, content: video) }
       let(:video) { create(:video) }
       let(:video_params) do
-        {video: {
+        {video_video: {
           pip_stream_id: video.pip_stream.id,
         }}
       end
@@ -140,13 +140,13 @@ describe 'Course: Items: Update', type: :request do
       it 'updates the video item' do
         action
         expect(Video::Video.first).to match an_object_having_attributes(
-          lecturer_stream_id: params[:video][:lecturer_stream_id]
+          lecturer_stream_id: params[:video_video][:lecturer_stream_id]
         )
       end
 
       context 'with invalid video params (i.e. no streams)' do
         let(:video_params) do
-          {video: {
+          {video_video: {
             description: 'This is the video description.',
             pip_stream_id: nil,
           }}
@@ -164,9 +164,9 @@ describe 'Course: Items: Update', type: :request do
       end
 
       context 'with an invalid item' do
-        let(:update_stub) do
-          Stub.request(:course, :put, "/items/#{item.id}")
-            .to_return Stub.json({errors: {title: "can't be blank"}}, status: 422)
+        let(:params) do
+          original = super()
+          original.merge(xikolo_course_item: original[:xikolo_course_item].merge(title: ''))
         end
 
         it 'does not update the video item' do
@@ -185,14 +185,14 @@ describe 'Course: Items: Update', type: :request do
         let(:video_id) { SecureRandom.uuid }
         let(:video) { create(:video, id: video_id, description: old_description) }
         let(:old_file_uri) { "s3://xikolo-video/videos/#{video_id}/rtfiles/b5f99337-224f-40f5-aa82-44ee8b272579/foo.jpg" }
-        let(:old_file_url) { "https://s3.xikolo.de/xikolo-video/videos/#{video_id}/rtfiles/b5f99337-224f-40f5-aa82-44ee8b272579/foo.jpg" }
+        let(:old_file_url) { "#{test_s3_host}/xikolo-video/videos/#{video_id}/rtfiles/b5f99337-224f-40f5-aa82-44ee8b272579/foo.jpg" }
         let(:old_description) { "Some Text with a file: #{old_file_uri}" }
         let(:video_params) do
-          {video: {
+          {video_video: {
             description: 'upload://b5f99337-224f-40f5-aa82-44ee8b272579/foo_bar.jpg',
           }}
         end
-        let(:store_regex) { %r{https://s3.xikolo.de/xikolo-video/videos/[0-9a-zA-Z]+/rtfiles/[0-9a-zA-Z]+/foo_bar.jpg}x }
+        let(:store_regex) { %r{#{test_s3_host}/xikolo-video/videos/[0-9a-zA-Z]+/rtfiles/[0-9a-zA-Z]+/foo_bar.jpg}x }
         let!(:store_stub) do
           stub_request(:put, store_regex).and_return(status: 200, body: '<xml></xml>')
         end
@@ -205,7 +205,7 @@ describe 'Course: Items: Update', type: :request do
           before do
             stub_request(
               :head,
-              'https://s3.xikolo.de/xikolo-uploads/' \
+              "#{test_s3_host}/xikolo-uploads/" \
               'uploads/b5f99337-224f-40f5-aa82-44ee8b272579/foo_bar.jpg'
             ).and_return(
               status: 200,
@@ -236,7 +236,7 @@ describe 'Course: Items: Update', type: :request do
           before do
             stub_request(
               :head,
-              'https://s3.xikolo.de/xikolo-uploads/' \
+              "#{test_s3_host}/xikolo-uploads/" \
               'uploads/b5f99337-224f-40f5-aa82-44ee8b272579/foo_bar.jpg'
             ).and_return(
               status: 200,
@@ -269,7 +269,7 @@ describe 'Course: Items: Update', type: :request do
             store_stub
             stub_request(
               :head,
-              'https://s3.xikolo.de/xikolo-uploads/' \
+              "#{test_s3_host}/xikolo-uploads/" \
               'uploads/b5f99337-224f-40f5-aa82-44ee8b272579/foo_bar.jpg'
             ).and_return(
               status: 200,
@@ -299,11 +299,11 @@ describe 'Course: Items: Update', type: :request do
         let(:upload_id) { SecureRandom.uuid }
         let(:file_name) { 'new_reading_material.pdf' }
         let(:reading_material_uri) { "upload://#{upload_id}/#{file_name}" }
-        let(:store_stub_url) { %r{https://s3.xikolo.de/xikolo-video/videos/[0-9a-zA-Z]+/[0-9a-zA-Z]+/new_reading_material.pdf} }
+        let(:store_stub_url) { %r{#{test_s3_host}/xikolo-video/videos/[0-9a-zA-Z]+/[0-9a-zA-Z]+/new_reading_material.pdf} }
         let(:new_reading_material_uri) { %r{s3://xikolo-video/videos/[0-9a-zA-Z]+/[0-9a-zA-Z]+/new_reading_material.pdf} }
 
         let(:video_params) do
-          {video: {
+          {video_video: {
             reading_material_uri:,
           }}
         end
@@ -317,7 +317,7 @@ describe 'Course: Items: Update', type: :request do
         end
         let(:store_stub) do
           stub_request(:put,
-            %r{https://s3.xikolo.de/xikolo-video/videos/[0-9a-zA-Z]+/[0-9a-zA-Z]+/new_reading_material.pdf})
+            %r{#{test_s3_host}/xikolo-video/videos/[0-9a-zA-Z]+/[0-9a-zA-Z]+/new_reading_material.pdf})
             .to_return(
               status: 200,
               headers: {'Content-Type' => 'application/xml'},
@@ -332,7 +332,7 @@ describe 'Course: Items: Update', type: :request do
         before do
           stub_request(
             :head,
-            "https://s3.xikolo.de/xikolo-uploads/uploads/#{upload_id}/new_reading_material.pdf"
+            "#{test_s3_host}/xikolo-uploads/uploads/#{upload_id}/new_reading_material.pdf"
           ).to_return(
             status: 200,
             headers: {
@@ -364,7 +364,7 @@ describe 'Course: Items: Update', type: :request do
             title: item.title,
             content_type: item.content_type,
           },
-          course_richtext: {
+          richtext: {
             text:,
           },
         }
@@ -387,7 +387,7 @@ describe 'Course: Items: Update', type: :request do
           before do
             stub_request(
               :head,
-              'https://s3.xikolo.de/xikolo-uploads/' \
+              "#{test_s3_host}/xikolo-uploads/" \
               'uploads/b5f99337-224f-40f5-aa82-44ee8b272579/foo_bar.jpg'
             ).and_return(
               status: 200,
@@ -399,8 +399,7 @@ describe 'Course: Items: Update', type: :request do
           end
 
           it 're-renders the edit form and displays an error message for the file upload' do
-            expect { action }.not_to change(Course::Richtext, :count)
-            expect(update_stub).to have_been_requested
+            expect { action }.not_to change(CourseService::Richtext, :count)
             expect(response).to render_template(:edit)
             expect(response.body).to have_css('.has-error', text: 'Your file upload has been rejected due to policy violations.')
             expect(flash[:error]).to include('Something went wrong while updating this item.')
@@ -432,7 +431,7 @@ describe 'Course: Items: Update', type: :request do
         end
 
         context 'file reference (but not the text)' do
-          let(:uri_regex) { %r{https://s3.xikolo.de/xikolo-public/courses/[0-9a-zA-Z]+/rtfiles/[0-9a-zA-Z]+/#{file_name}}x }
+          let(:uri_regex) { %r{#{test_s3_host}/xikolo-public/courses/[0-9a-zA-Z]+/rtfiles/[0-9a-zA-Z]+/#{file_name}}x }
           let(:new_upload_id) { '56cd8d3282a0-d464-4574-b518-ecfde9ec' }
           let(:file_name) { 'new_richtext_image.png' }
           let(:text) { "Markup description\r\n\r\n![Insert image description](upload://#{new_upload_id}/#{file_name})" }
@@ -440,7 +439,7 @@ describe 'Course: Items: Update', type: :request do
           let(:upload_stub) { stub_request(:put, uri_regex).and_return(status: 200, body: '<xml></xml>') }
           let(:check_target_stub) { stub_request(:head, uri_regex).and_return(status: 404) }
           let(:read_upload_stub) do
-            stub_request(:head, "https://s3.xikolo.de/xikolo-uploads/uploads/#{new_upload_id}/#{file_name}")
+            stub_request(:head, "#{test_s3_host}/xikolo-uploads/uploads/#{new_upload_id}/#{file_name}")
               .and_return(
                 status: 200,
                 headers: {
@@ -479,13 +478,88 @@ describe 'Course: Items: Update', type: :request do
       end
     end
 
+    context 'for cmi5 items' do
+      let(:item) { create(:item, :cmi5) }
+      let(:item_resource) { build(:'course:item', :cmi5, id: item.id, content_id: item.content_id) }
+      let(:cmi5_item) { Cmi5::Item.find(item.content_id) }
+      let(:params) do
+        {
+          xikolo_course_item: {
+            title: item.title,
+            content_type: 'cmi5',
+            published: 'true',
+          },
+        }
+      end
+
+      # A file input without a selected file is not submitted at all, so the
+      # whole `cmi5` scope is missing from the request.
+      context 'without a newly selected package' do
+        it 'redirects to the edit page' do
+          expect(action).to redirect_to edit_course_section_item_path
+        end
+
+        it 'keeps the previously uploaded package' do
+          previous_blob_id = cmi5_item.package.blob.id
+
+          action
+
+          expect(cmi5_item.reload.package.blob.id).to eq previous_blob_id
+        end
+
+        it 'does not extract the package again' do
+          expect { action }.not_to have_enqueued_job(Cmi5ItemUnzipJob)
+        end
+      end
+
+      context 'with an invalid package' do
+        let(:params) do
+          super().merge(cmi5: {package: Rack::Test::UploadedFile.new(
+            Rails.root.join('spec/fixtures/files/mercedes.png'), 'image/png'
+          )})
+        end
+
+        it 'keeps the previously uploaded package' do
+          previous_blob_id = cmi5_item.package.blob.id
+
+          action
+
+          expect(cmi5_item.reload.package.blob.id).to eq previous_blob_id
+        end
+
+        it 'does not extract the package' do
+          expect { action }.not_to have_enqueued_job(Cmi5ItemUnzipJob)
+        end
+      end
+
+      context 'with a newly selected package' do
+        let(:params) do
+          super().merge(cmi5: {package: Rack::Test::UploadedFile.new(
+            Rails.root.join('spec/fixtures/files/cmi5_test_au.zip'), 'application/zip'
+          )})
+        end
+
+        it 'redirects to the edit page' do
+          expect(action).to redirect_to edit_course_section_item_path
+        end
+
+        it 'stores the new package' do
+          action
+
+          expect(cmi5_item.reload.package.filename.to_s).to eq 'cmi5_test_au.zip'
+        end
+
+        it 'extracts the new package' do
+          expect { action }.to have_enqueued_job(Cmi5ItemUnzipJob)
+        end
+      end
+    end
+
     context 'when removing a required item' do
       let(:required_item) { create(:item) }
-      let(:item) { create(:item, required_item_ids: [required_item.id]) }
-      let(:update_stub) do
-        Stub.request(:course, :put, "/items/#{item.id}",
-          body: hash_including(required_item_ids: [])).to_return Stub.json(item_resource)
-      end
+      # :cmi5 avoids requiring content-specific update params (unlike video,
+      # quiz or lti_exercise), which are irrelevant to this test.
+      let(:item) { create(:item, :cmi5, required_item_ids: [required_item.id]) }
 
       context 'with hidden field' do
         let(:params) do
@@ -494,7 +568,7 @@ describe 'Course: Items: Update', type: :request do
 
         it 'removes the required item' do
           action
-          expect(update_stub).to have_been_requested
+          expect(item.reload.required_item_ids).to eq []
         end
       end
 
@@ -505,7 +579,7 @@ describe 'Course: Items: Update', type: :request do
 
         it 'removes the required item' do
           action
-          expect(update_stub).to have_been_requested
+          expect(item.reload.required_item_ids).to eq []
         end
       end
     end

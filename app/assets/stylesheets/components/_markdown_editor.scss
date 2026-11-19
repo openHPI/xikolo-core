@@ -14,12 +14,12 @@
 
     .dropzone {
       height: 300px;
-      margin: 0.5rem 0 0 0;
+      margin: legacy-rem(0.5rem) 0 0 0;
       overflow-y: auto;
 
       @include small {
         width: 20%;
-        margin: 0 0 0 0.5rem;
+        margin: 0 0 0 legacy-rem(0.5rem);
       }
     }
 

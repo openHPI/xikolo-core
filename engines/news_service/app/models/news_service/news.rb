@@ -4,6 +4,9 @@ module NewsService
 class News < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   self.table_name = :news
 
+  # Read tracking was introduced on this date, older news count as read.
+  MARK_AS_READ_BEFORE = Date.new(2016, 5, 24).freeze
+
   validates :author_id, presence: true
   validate :no_audience, if: :course_id
 
@@ -19,6 +22,15 @@ class News < ApplicationRecord # rubocop:disable Layout/IndentationWidth
     dependent: :delete_all
 
   class << self
+    def published
+      where(publish_at: ...Time.zone.now)
+    end
+
+    def unread_by(user_id)
+      where(publish_at: MARK_AS_READ_BEFORE..)
+        .where.not(id: ReadState.where(user_id:).select(:news_id))
+    end
+
     def with_read_states_for(user_id)
       joins(
         sanitize_sql_array(
@@ -108,77 +120,6 @@ class News < ApplicationRecord # rubocop:disable Layout/IndentationWidth
     translated(&:title)
   end
 
-  def visual_url
-    Xikolo::S3.object(visual_uri).public_url if visual_uri?
-  end
-
-  def upload_via_id(upload_param)
-    # Validate upload
-    upload = Xikolo::S3::SingleFileUpload.new upload_param,
-      purpose: 'news_visual'
-    return if upload.empty?
-
-    upload_object = upload.accepted_file!
-    old_visual = visual_uri
-    original_filename = File.basename upload_object.key
-    extname = File.extname original_filename
-    bucket = Xikolo::S3.bucket_for(:news)
-    nid = UUID4(id).to_str(format: :base62)
-    revision = revision(old_visual)
-    object = bucket.object("news/#{nid}/visual_v#{revision}#{extname}")
-
-    # Save upload to xi-news bucket
-    object.copy_from(
-      upload_object,
-      metadata_directive: 'REPLACE',
-      acl: 'public-read',
-      content_type: upload_object.content_type,
-      cache_control: 'public, max-age=7776000',
-      content_disposition: "inline; filename=\"#{original_filename}\""
-    )
-    self.visual_uri = object.storage_uri
-    Xikolo::S3.object(old_visual).delete if old_visual
-  rescue Aws::S3::Errors::ServiceError => e
-    ::Sentry.capture_exception(e)
-    errors.add :visual_upload_id, 'could not process file upload'
-  rescue RuntimeError
-    errors.add :visual_upload_id, 'invalid upload'
-  end
-
-  # TODO: As soon as backward compatibility is no longer needed,
-  # TODO: this method can be rename to handle_visual or upload_visual
-  def upload_via_uri(upload_param)
-    # Validate upload
-    upload = Xikolo::S3::UploadByUri.new \
-      uri: upload_param,
-      purpose: 'news_visual'
-    unless upload.valid?
-      errors.add :visual_uri, 'Upload not valid - ' \
-                              'either file upload was rejected or access to it is forbidden.'
-      return
-    end
-
-    # Save upload to xi-news bucket
-    nid = UUID4(id).to_str(format: :base62)
-    old_visual = visual_uri
-    revision = revision(old_visual)
-    result = upload.save \
-      bucket: :news,
-      key: "news/#{nid}/visual_v#{revision}#{upload.extname}",
-      metadata_directive: 'REPLACE',
-      acl: 'public-read',
-      cache_control: 'public, max-age=7776000',
-      content_type: upload.content_type,
-      content_disposition: "inline; filename=\"#{upload.sanitized_name}\""
-    if result.is_a?(Symbol)
-      errors.add :visual_uri, 'Could not save file - ' \
-                              'access to destination is forbidden.'
-      return
-    end
-    self.visual_uri = result.storage_uri
-    Xikolo::S3.object(old_visual).delete if old_visual
-  end
-
   def mark_as_read(user_id)
     # rubocop:disable Rails/SkipsModelValidations
     ReadState.find_or_create_by!(
@@ -191,13 +132,6 @@ class News < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   end
 
   private
-
-  def revision(visual_uri)
-    # mixed named captures and numbered captures
-    /.*_[rv](?<revision>[0-9]+)(?:\.[a-z]{2,4})?/ =~ visual_uri
-    revision ||= 0
-    revision.to_i + 1
-  end
 
   def translated
     translations.to_h do |translation|

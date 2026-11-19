@@ -82,13 +82,13 @@ class Video::PlaylistsController < ApplicationController
 
   def transformed_master_playlist
     M3u8Playlist
-      .from(stream, video:, playlist_id: params[:id])
+      .from(stream, video:, playlist_id: params[:id], view_context:)
       .master_playlist
   end
 
   def transformed_stream_playlist
     M3u8Playlist
-      .from(stream, bandwidth:)
+      .from(stream, bandwidth:, view_context:)
       .stream_playlist
   end
 
@@ -98,7 +98,7 @@ class Video::PlaylistsController < ApplicationController
     raise Status::NotFound if subtitle.nil?
 
     M3u8Playlist
-      .for(subtitle_id: subtitle.id, duration: video.duration)
+      .for(subtitle_id: subtitle.id, duration: video.duration, view_context:)
       .subtitle_playlist
   end
 

@@ -125,15 +125,10 @@ Turbo is integrated into the application for progressive enhancement and partial
 
 ### Configuration
 
-Turbo Drive is **disabled globally** in `app/assets/main.js` to maintain compatibility with existing form handling that renders validation errors directly instead of redirecting.
-
-```javascript
-import { Turbo } from '@hotwired/turbo-rails';
-Turbo.session.drive = false;
-```
+Turbo is imported in the application entrypoint (`app/javascript/main.js`) and is enabled by default.
 
 ### Usage
 
 - **Turbo Frames**: Use `turbo_frame_tag` in views for partial page updates without full page refresh
 - **Turbo Streams**: Available for real-time updates via Action Cable
-- **Explicit opt-in**: New code can enable Turbo Drive per-link/form with `data-turbo="true"`
+- **Turbo Drive**: Intercepts standard link clicks and form submissions to provide faster navigation without full page reloads. Disable Turbo navigation for specific links or forms using `data-turbo='false'`

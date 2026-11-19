@@ -24,7 +24,7 @@ module Bridges
           params[:qty], correct_in(params).permit(:product_type, :tag, :country)
         ).on do |result|
           result.success {|success| render json: decorate(success.records) }
-          result.errors {|errors| render json: {errors: correct_out(errors.as_json)}, status: :unprocessable_entity }
+          result.errors {|errors| render json: {errors: correct_out(errors.as_json)}, status: :unprocessable_content }
         end
       end
 

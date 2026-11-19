@@ -37,7 +37,6 @@ describe AccountService::API::RootController, type: :request do
         treatment
         treatments
         user
-        user_ban
         users
       ]
     end

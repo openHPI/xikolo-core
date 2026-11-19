@@ -1,8 +1,8 @@
-import ready from '../../util/ready';
+import { turboReady } from '../../util/ready';
 import swal from '../../util/swal';
 import I18n from '../../i18n/i18n';
 
-ready(() => {
+turboReady(() => {
   const unprotectedRadio = document.querySelector('input[value="unprotected"]');
   const anonymizedRadio = document.querySelector('input[value="anonymized"]');
 

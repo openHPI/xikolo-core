@@ -15,7 +15,7 @@ describe PinboardService::AnswerDecorator, type: :decorator do
       let(:answer) { create(:'pinboard_service/answer', attachment_uri: 's3://xikolo-pinboard/courses/3/thread/2/1/hans.jpg') }
 
       it 'returns a public S3 URL' do
-        expect(json['attachment_url']).to eq 'https://s3.xikolo.de/xikolo-pinboard/courses/3/thread/2/1/hans.jpg'
+        expect(json['attachment_url']).to eq "#{test_s3_host}/xikolo-pinboard/courses/3/thread/2/1/hans.jpg"
       end
     end
   end

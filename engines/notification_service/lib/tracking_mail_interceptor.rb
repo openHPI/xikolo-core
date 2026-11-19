@@ -48,7 +48,7 @@ class TrackingMailInterceptor
     end
 
     def apply!(mail)
-      mail.html_part.body.raw_source.replace @document.to_s
+      mail.html_part.body = @document.to_s
     end
 
     private
@@ -104,7 +104,7 @@ class TrackingMailInterceptor
     end
 
     def apply!(mail)
-      mail.text_part.body.raw_source.replace @text
+      mail.text_part.body = @text
     end
 
     private

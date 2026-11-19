@@ -10,25 +10,26 @@ describe PinboardService::Vote, type: :model do
   end
 
   describe 'create' do
-    it 'publishes an event for newly created vote' do
+    it 'enqueues a VoteCreateJob for newly created vote' do
       # Avoid publication of the question
       question = create(:'pinboard_service/question')
       vote.votable = question
 
-      expect(Msgr).to receive(:publish) do |event, opts|
-        expect(event).to eq \
-          id: vote.id,
+      expect do
+        vote.save
+      end.to have_enqueued_job(VoteCreateJob).with(
+        {
+          id: kind_of(String),
           value: vote.value,
           votable_id: vote.votable_id,
           votable_type: vote.votable_type,
-          created_at: vote.created_at.iso8601,
-          updated_at: vote.updated_at.iso8601,
+          created_at: kind_of(String),
+          updated_at: kind_of(String),
           user_id: vote.user_id,
           votable_user_id: vote.votable.user_id,
-          course_id: vote.votable.course_id
-        expect(opts).to eq to: 'xikolo.pinboard.vote.create'
-      end
-      vote.save
+          course_id: vote.votable.course_id,
+        }
+      )
     end
   end
 

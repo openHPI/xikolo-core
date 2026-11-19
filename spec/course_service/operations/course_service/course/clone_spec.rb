@@ -79,59 +79,12 @@ describe CourseService::Course::Clone do
         course.update!(description: "Test\ns3://xikolo-public/courses/oldId/rtfiles/34/logo.jpg")
 
         copy_file = stub_request(
-          :put, %r{https://s3.xikolo.de/xikolo-public/courses/[a-zA-Z0-9]+/rtfiles/34/logo.jpg}
+          :put, %r{#{test_s3_host}/xikolo-public/courses/[a-zA-Z0-9]+/rtfiles/34/logo.jpg}
         ).and_return(status: 200, body: '<xml></xml>')
 
         expect(new_course.description).not_to eq course.description
         expect(new_course.description).to start_with("Test\ns3://xikolo-public/courses/")
         expect(copy_file).to have_been_requested
-      end
-
-      context 'when the original course is proctored' do
-        let(:course) { create(:'course_service/course', proctored: true) }
-
-        it 'disables proctoring for the new course' do
-          expect(new_course.proctored).to be_falsey
-        end
-      end
-
-      context 'with a valid stage visual image' do
-        let!(:copy_stage_visual) do
-          stub_request(
-            :put, %r{https://s3.xikolo.de/xikolo-public/courses/[a-zA-Z0-9]+/[a-zA-Z0-9-]+/stage_visual.jpg}
-          ).and_return(status: 200, body: '<xml></xml>')
-        end
-
-        before do
-          course.update!(stage_visual_uri: "s3://xikolo-public/courses/#{course_id_encoded}/encodedUUUID/stage_visual.jpg")
-        end
-
-        it 'requests to copy the stage visual image on S3' do
-          new_course
-          expect(copy_stage_visual).to have_been_requested
-        end
-
-        it 'creates a new uri for the copied stage visual image on s3' do
-          expect(new_course.stage_visual_uri).not_to eq course.stage_visual_uri
-          expect(new_course.stage_visual_uri).to match(%r{s3://xikolo-public/courses/#{new_course_id_encoded}/encodedUUUID/stage_visual.jpg})
-        end
-      end
-
-      context 'with an invalid stage visual image' do
-        let!(:copy_stage_visual) do
-          stub_request(
-            :put, %r{https://s3.xikolo.de/xikolo-public/courses/[a-zA-Z0-9]+/[a-zA-Z0-9-]+/stage_visual.jpg}
-          ).and_return(status: 404)
-        end
-
-        before do
-          course.update!(stage_visual_uri: "s3://xikolo-public/courses/#{course_id_encoded}/encodedUUUID/stage_visual.jpg")
-        end
-
-        it 'does not copy the stage visual' do
-          expect(new_course.stage_visual_uri).to be_nil
-          expect(copy_stage_visual).to have_been_requested
-        end
       end
     end
 
@@ -149,17 +102,17 @@ describe CourseService::Course::Clone do
       context 'with a valid course visual' do
         let!(:copy_visual) do
           stub_request(
-            :put, %r{https://s3.xikolo.de/xikolo-public/courses/[a-zA-Z0-9]+/[a-zA-Z0-9]+/course_visual.png}
+            :put, %r{#{test_s3_host}/xikolo-public/courses/[a-zA-Z0-9]+/[a-zA-Z0-9]+/course_visual.png}
           ).and_return(status: 200, body: '<xml></xml>')
         end
 
         context 'with only images' do
           before do
-            create(:'course_service/visual', course:)
+            create(:visual, course_id: course.id)
           end
 
           it 'clones the course visual' do
-            expect { new_course }.to change(CourseService::Duplicated::Visual, :count).from(1).to(2)
+            expect { new_course }.to change(Course::Visual, :count).from(1).to(2)
           end
 
           it 'requests to copy the file of the image on s3' do
@@ -169,18 +122,18 @@ describe CourseService::Course::Clone do
 
           it 'creates a new uri for the copied image on s3' do
             expect(new_course.visual.image_uri).not_to eq course.visual.image_uri
-            expect(new_course.visual.image_uri).to match(%r{s3://xikolo-public/courses/#{new_course_id_encoded}/encodedUUUID/course_visual.png})
+            expect(new_course.visual.image_uri).to match(%r{s3://xikolo-public/courses/#{new_course_id_encoded}/[a-zA-Z0-9]+/course_visual.png})
           end
         end
 
         context 'with a teaser video' do
           before do
-            create(:'course_service/visual', :with_video, course:)
+            create(:visual, :with_video, course_id: course.id)
           end
 
           it 'clones the teaser video' do
             # CourseService::The teaser video and a video item from a section are getting cloned
-            expect { new_course }.to change(CourseService::Duplicated::Video, :count).from(2).to(4)
+            expect { new_course }.to change(Video::Video, :count).from(2).to(4)
             expect(new_course.visual.video).to be_persisted
           end
         end
@@ -189,12 +142,12 @@ describe CourseService::Course::Clone do
       context 'with invalid course visuals' do
         let!(:copy_visual) do
           stub_request(
-            :put, %r{https://s3.xikolo.de/xikolo-public/courses/[a-zA-Z0-9]+/[a-zA-Z0-9]+/course_visual.png}
+            :put, %r{#{test_s3_host}/xikolo-public/courses/[a-zA-Z0-9]+/[a-zA-Z0-9]+/course_visual.png}
           ).and_return(status: 404)
         end
 
         before do
-          create(:'course_service/visual', course:)
+          create(:visual, course_id: course.id)
         end
 
         it 'does not clone the course visual' do
@@ -246,8 +199,8 @@ describe CourseService::Course::Clone do
 
       it 'copies referenced files for text items' do
         course.items.where(content_type: 'rich_text').find_each do |item|
-          CourseService::Richtext.destroy item.content_id
           item.delete
+          CourseService::Richtext.destroy item.content_id
         end
         rts = create_list(:'course_service/richtext', 2, course_id: course.id, text: "Test\ns3://xikolo-public/courses/oldId/rtfiles/34/logo.jpg")
         rts.each do |richtext|
@@ -255,23 +208,43 @@ describe CourseService::Course::Clone do
         end
 
         copy_file = stub_request(
-          :put, %r{https://s3.xikolo.de/xikolo-public/courses/[a-zA-Z0-9]+/rtfiles/34/logo.jpg}
+          :put, %r{#{test_s3_host}/xikolo-public/courses/[a-zA-Z0-9]+/rtfiles/34/logo.jpg}
         ).and_return(status: 200, body: '<xml></xml>')
 
         new_items = new_course.items.where(content_type: 'rich_text')
         expect(new_items.count).to eq 2
         new_rts = new_items.map {|item| CourseService::Richtext.find item.content_id }
-        expect(new_rts.first.text).to eq new_rts.second.text
+        expect(new_rts.first.text.to_s).to eq new_rts.second.text.to_s
         expect(copy_file).to have_been_requested
         rts.zip(new_rts).each do |old_rt, new_rt|
           expect(new_rt.course_id).to eq new_course.id
-          expect(new_rt.text).not_to eq old_rt.text
+          expect(new_rt.text.to_s).not_to eq old_rt.text.to_s
         end
       end
 
+      it 'copies the attached reading material for text items' do
+        original_uri = 's3://xikolo-public/courses/oldId/rtfiles/ab12/reading_material.pdf'
+        richtext = create(:'course_service/richtext', course_id: course.id, reading_material_uri: original_uri)
+        item = create(:'course_service/item', section: course.sections.first, content_id: richtext.id, content_type: 'rich_text')
+
+        copy_stub = stub_request(
+          :put, %r{#{test_s3_host}/xikolo-public/courses/[a-zA-Z0-9]+/rtfiles/[a-zA-Z0-9]+/reading_material.pdf}
+        ).and_return(status: 200, body: '<xml></xml>')
+
+        new_course
+
+        copied_item = new_course.items.find_by!(original_item_id: item.id)
+        copied_rt = CourseService::Richtext.find copied_item.content_id
+
+        expect(copy_stub).to have_been_requested
+        expect(copied_rt.reading_material_uri).to match(
+          %r{\As3://xikolo-public/courses/#{UUID4(new_course.id).to_str(format: :base62)}/rtfiles/[a-zA-Z0-9]+/reading_material\.pdf\z}
+        )
+      end
+
       context 'with an LTI exercise' do
-        let(:lti_exercise) { create(:'course_service/lti_exercise', lti_provider:) }
-        let(:lti_provider) { create(:'course_service/lti_provider') }
+        let(:lti_exercise) { create(:lti_exercise, provider: lti_provider) }
+        let(:lti_provider) { create(:lti_provider) }
 
         before do
           create(:'course_service/item',
@@ -298,16 +271,16 @@ describe CourseService::Course::Clone do
         end
 
         it 'creates a new CourseService::LTI provider' do
-          new_provider = CourseService::Duplicated::LtiProvider.where(course_id: new_course.id)
+          new_provider = Lti::Provider.where(course_id: new_course.id)
           expect(new_provider.count).to eq 1
         end
 
         context 'with a global provider' do
-          let(:lti_provider) { create(:'course_service/lti_provider', :global) }
+          let(:lti_provider) { create(:lti_provider, :global) }
 
           it 'does not copy the provider' do
-            expect { new_course }.not_to change(CourseService::Duplicated::LtiProvider, :count)
-            expect(CourseService::Duplicated::LtiProvider.where(course_id: new_course.id).count).to be_zero
+            expect { new_course }.not_to change(Lti::Provider, :count)
+            expect(Lti::Provider.where(course_id: new_course.id).count).to be_zero
           end
         end
       end
@@ -327,21 +300,6 @@ describe CourseService::Course::Clone do
 
         it 'resets the submission deadline' do
           expect(new_course.items).to all have_attributes(submission_deadline: nil)
-        end
-      end
-
-      context 'with a proctored quiz' do
-        before do
-          item = course.items.where(content_type: 'quiz').first
-          # Proctored items require a submission deadline.
-          item.update!(proctored: true, submission_deadline: 1.week.ago)
-        end
-
-        it 'resets the proctored status and the submission deadline' do
-          expect(new_course.items).to all have_attributes(
-            proctored: false,
-            submission_deadline: nil
-          )
         end
       end
     end
@@ -366,14 +324,6 @@ describe CourseService::Course::Clone do
 
       it 'resets the certificate release status' do
         expect(existing_course.records_released).to be_falsey
-      end
-
-      describe 'when the original course is proctored' do
-        let(:course) { create(:'course_service/course', proctored: true) }
-
-        it 'disables proctoring for the course' do
-          expect(existing_course.proctored).to be_falsey
-        end
       end
     end
 

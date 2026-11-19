@@ -5,13 +5,13 @@ module Voucher
     class Reactivation
       class << self
         # Check platform and course settings: Is reactivation enabled?
-        # @param course [Course::Course]
+        # @param course [CourseService::Course]
         def enabled_in?(course)
           return false unless course.offers_reactivation?
           # Is it too early for reactivation?
           return false if course.start_date&.future? ||
                           course.end_date&.future? ||
-                          course.status == 'preparation'
+                          !course.published?
 
           true
         end
@@ -22,12 +22,11 @@ module Voucher
 
         def text
           I18n.t(:'course.redeem_voucher.course_reactivation.text',
-            weeks: ::CourseReactivation.config('period'),
-            link: ::CourseReactivation.store_url)
+            weeks: ::CourseReactivation.config('period'))
         end
 
         def info_text
-          I18n.t(:'course.redeem_voucher.course_reactivation.info_text', link: ::CourseReactivation.store_url)
+          I18n.t(:'course.redeem_voucher.course_reactivation.info_text')
         end
 
         def unavailable_message
@@ -73,7 +72,7 @@ module Voucher
       def enrollment
         # Intentionally not memoized, as the enrollment may not exist before reactivation.
         # Also, we need to truly reload it anyway to display the new deadline upon success.
-        Course::Enrollment.uncached do
+        CourseService::Enrollment.uncached do
           @course.enrollments.find_by(user_id: @user.id)
         end
       end

@@ -6,7 +6,7 @@ module ApplicationHelper
   end
 
   def hide_browser_warning?
-    @in_app || cookies[:_browser_warning] == 'hide' # rubocop:disable Rails/HelperInstanceVariable
+    cookies[:_browser_warning] == 'hide'
   end
 
   def imagecrop(image_url, query_params = {})

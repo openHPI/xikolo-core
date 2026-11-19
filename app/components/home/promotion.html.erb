@@ -6,8 +6,9 @@
     ></div>
   <% end %>
 
-  <% if link? %>
-    <div class="promotion__content">
+  <div class="promotion__content">
+    <% if link? %>
+
       <%= link_to @link_url, link_options do %>
         <p class="promotion__title"><%= @title %></p>
         <p class="promotion__text"><%= @text %></p>
@@ -16,13 +17,14 @@
       <%= link_to @link_url, link_icon_target_options do %>
         <%= render Global::FaIcon.new('arrow-right') %>
       <% end %>
-    </div>
-  <% else %>
-    <div class="promotion__content">
+
+    <% else %>
+
       <div>
         <p class="promotion__title"><%= @title %></p>
         <p class="promotion__text"><%= @text %></p>
       </div>
-    </div>
-  <% end %>
+
+    <% end %>
+  </div>
 </article>

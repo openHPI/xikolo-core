@@ -7,15 +7,12 @@ class CourseAnnouncementJob < ApplicationJob # rubocop:disable Layout/Indentatio
   def perform(email_id)
     email = Email.find(email_id)
 
-    Msgr.publish(
-      email.announcement.decorate.as_event.tap do |data|
-        if email.test_recipient
-          data[:test] = true
-          data[:receiver_id] = email.test_recipient
-        end
-      end,
-      to: 'xikolo.news.announcement.create'
-    )
+    NotificationService::AnnouncementJob.perform_later(email.announcement.decorate.as_event.tap do |data|
+      if email.test_recipient
+        data[:test] = true
+        data[:receiver_id] = email.test_recipient
+      end
+    end)
   end
 end
 end

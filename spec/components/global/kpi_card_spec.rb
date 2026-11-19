@@ -26,10 +26,10 @@ describe Global::KpiCard, type: :component do
     it 'renders the icon, title and metrics including right-side values when present' do
       render_inline(component)
 
-      expect(page).to have_content('Enrollments')
-      expect(page).to have_content('8')
-      expect(page).to have_content('Total')
-      expect(page).to have_content('Last 24 hours')
+      expect(page).to have_text('Enrollments')
+      expect(page).to have_text('8')
+      expect(page).to have_text('Total')
+      expect(page).to have_text('Last 24 hours')
     end
 
     context 'with quota' do
@@ -42,8 +42,26 @@ describe Global::KpiCard, type: :component do
       it 'renders the quota and quota_text' do
         render_inline(component)
 
-        expect(page).to have_content('5 non-deleted')
-        expect(page).to have_content('100%')
+        expect(page).to have_text('5 non-deleted')
+        expect(page).to have_text('100%')
+      end
+
+      context 'with certificate data' do
+        let(:metrics) do
+          [
+            {counter: '223', title: 'Records of Achievement', quota: '0%', quota_text: 'ratio based on shows at middle'},
+            {counter: '128', title: 'Confirmations of Participation', quota: '0%', quota_text: 'ratio based on all shows'},
+          ]
+        end
+
+        it 'show the correct certificate metrics' do
+          render_inline(component)
+
+          expect(page).to have_text('Records of Achievement')
+          expect(page).to have_text('223')
+          expect(page).to have_text('Confirmations of Participation')
+          expect(page).to have_text('128')
+        end
       end
     end
 
@@ -54,7 +72,7 @@ describe Global::KpiCard, type: :component do
       it 'renders the empty message' do
         render_inline(component)
 
-        expect(page).to have_content('No metrics yet')
+        expect(page).to have_text('No metrics yet')
       end
     end
   end

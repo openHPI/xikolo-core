@@ -9,16 +9,6 @@ provider_vimeo = Video::Provider.create_with(
   token: vimeo_token # @deprecated
 ).find_or_create_by!(name: 'default_vimeo_provider')
 
-provider_kaltura = Video::Provider.create_with(
-  provider_type: 'kaltura',
-  credentials: {
-    partner_id: '2421271',
-    token_id: 'replace with a real token id',
-    token: 'replace with a real token',
-  },
-  token: 'replace with a real token' # @deprecated
-).find_or_create_by!(name: 'kaltura_provider')
-
 streams = Video::Stream.create!(
   [
     {title: 'nanou-webtech2017-w1-1-pip-p1', provider_video_id: '207611533', hd_url: 'https://player.vimeo.com/external/207611533.hd.mp4?s=95a2af75056a8d59ed4792eb6a4e98ada0f6b1ce&profile_id=174&oauth2_token_id=60919992', sd_url: 'https://player.vimeo.com/external/207611533.sd.mp4?s=be2735d9b5d7591004dc0fd25bea3da687bb9995&profile_id=165&oauth2_token_id=60919992', width: 1280, height: 720, poster: 'https://i.vimeocdn.com/video/622733127_1280x720.jpg?r=pad', provider: provider_vimeo, sd_size: 14_409_825, hd_size: 17_204_105, hls_size: 7_578_224, hls_url: 'https://player.vimeo.com/external/207611533.m3u8?s=ec9c517399d7082aa1c6ac446c26f02f84553bf4&oauth2_token_id=60919992', sd_md5: 'e6131c05d0e91a7c6d9483e133ad58e8', hd_md5: 'b194eadbfd620f44cd804a4fcace5405', hls_md5: '2999b2d84de6c97c8041a92cba70dc41', duration: 203},
@@ -47,7 +37,6 @@ streams = Video::Stream.create!(
     {title: 'nanou-webtech2017-w1-3-pip-p6', provider_video_id: '207612004', hd_url: 'https://player.vimeo.com/external/207612004.hd.mp4?s=51356e08e74980cb1b9297121bd9ef562439a8ba&profile_id=174&oauth2_token_id=60919992', sd_url: 'https://player.vimeo.com/external/207612004.sd.mp4?s=2fc2f2deb21831e035d8b52f9ccd218777b25eb0&profile_id=165&oauth2_token_id=60919992', width: 1280, height: 720, poster: 'https://i.vimeocdn.com/video/622733672_1280x720.jpg?r=pad', provider: provider_vimeo, sd_size: 11_292_945, hd_size: 13_401_941, hls_size: 5_995_732, hls_url: 'https://player.vimeo.com/external/207612004.m3u8?s=4445d33bb21cbf2223f98262bf8d79d5151a5e93&oauth2_token_id=60919992', sd_md5: '566aea55e5f0fe13644ce327e82108a7', hd_md5: '0c1d394d13f68c7ddc7041b034526b44', hls_md5: '615cb530b34290c56b023565c83c2528', duration: 172},
     {title: 'nanou-webtech2017-w1-3-pip-p7', provider_video_id: '207612019', hd_url: 'https://player.vimeo.com/external/207612019.hd.mp4?s=06b6771bfad5b28e5214fd0c41fb4ecad1fb0416&profile_id=174&oauth2_token_id=60919992', sd_url: 'https://player.vimeo.com/external/207612019.sd.mp4?s=730b33e0bb817caac01548ebb7c9477450824f7e&profile_id=165&oauth2_token_id=60919992', width: 1280, height: 720, poster: 'https://i.vimeocdn.com/video/622733736_1280x720.jpg?r=pad', provider: provider_vimeo, sd_size: 8_826_995, hd_size: 10_459_882, hls_size: 10_459_882, hls_url: 'https://player.vimeo.com/external/207612019.m3u8?s=be6c44af926f0ff7852d7f7ced31d2cb62320eeb&oauth2_token_id=60919992', sd_md5: '6be66bd8ef640f582204d019c036040f', hd_md5: '56718d26ac56571cca99208f44d2b99e', hls_md5: '56718d26ac56571cca99208f44d2b99e', duration: 134},
     {title: 'webtech2017-peerassessment-pip', provider_video_id: '204205766', hd_url: 'https://player.vimeo.com/external/204205766.hd.mp4?s=a6e9e71807f5dfa07ea2ff5d851ccce7eebfabf3&profile_id=174&oauth2_token_id=60919992', sd_url: 'https://player.vimeo.com/external/204205766.sd.mp4?s=b09bad8a2ab8d5da70d961eff26e561ab0a2cf5c&profile_id=165&oauth2_token_id=60919992', width: 1280, height: 720, poster: 'https://i.vimeocdn.com/video/618663154_1280x720.jpg?r=pad', provider: provider_vimeo, sd_size: 31_113_162, hd_size: 38_911_049, hls_size: 38_911_049, hls_url: 'https://player.vimeo.com/external/204205766.m3u8?s=8f45a4343d8b0dddb0dee4abb92a99ce72149654&oauth2_token_id=60919992', sd_md5: 'f953fb771fe4ed62394f4b03b2430923', hd_md5: '843ee0cda6b5ea9c79b6845df93d65e6', hls_md5: '843ee0cda6b5ea9c79b6845df93d65e6', duration: 513},
-    {title: 'webtech2017-kaltura', provider_video_id: '1_23yaxsca', hd_url: nil, sd_url: 'https://cfvod.kaltura.com/scf/pd/p/2421271/sp/242127100/serveFlavor/entryId/1_23yaxsca/v/1/ev/7/flavorId/1_g4wc5hvi/name/a.mp4?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9jZnZvZC5rYWx0dXJhLmNvbS9zY2YvcGQvcC8yNDIxMjcxL3NwLzI0MjEyNzEwMC9zZXJ2ZUZsYXZvci9lbnRyeUlkLzFfMjN5YXhzY2Evdi8xL2V2LzcqIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNjgxOTk0OTIzfX19XX0_&Signature=FqbD0TWc1KvluKJhEYOV6T3Q1jJ2K7BLpY6hM~oTp9~l~wHBuKdXeHAvAOVvzZail79CzEMTDgkao573dg5FpEWgkEnsmQnmxh6L97qhFPsxFzlOzKTqnMvIFCxuysbfUZLbN97KeeKuVm6TqF9NytvpyXG0TZg3cppueol5UFucFjGxss8yAa~YmAN5z28~kQee1UbyqjfGaBtKY8YWepmHHAfAsXMPhVmXiLmh-LC1pUqpRanRmDwF1h4KKfTOUqeBfk7aOg8W2GMMz5y3aWteULIGWJcdg8AdsRladQ2-ke2P-BmhtRaZWGrmLReZw1IW9bQif3z2i34Y0o-6bg__&Key-Pair-Id=APKAJT6QIWSKVYK3V34A', width: 640, height: 360, provider: provider_kaltura, sd_size: 119_866_310, hd_size: nil, hls_size: nil, hls_url: nil, sd_md5: nil, hd_md5: nil, hls_md5: nil, duration: 125},
     {title: 'webtech2017-w4-t1-03-lecturer', provider_video_id: '200967795', hd_url: nil, sd_url: 'https://player.vimeo.com/external/200967795.sd.mp4?s=977e343960e66a811ac3b5df90fc937c8e31735a&profile_id=164&oauth2_token_id=60919992', width: 640, height: 360, poster: 'https://i.vimeocdn.com/video/620954981_960x540.jpg?r=pad', provider: provider_vimeo, sd_size: 37_766_285, hd_size: nil, hls_size: 47_596_687, hls_url: 'https://player.vimeo.com/external/200967795.m3u8?s=d4ce649070f2303563e1da049a6af2001d609ba5&oauth2_token_id=60919992', sd_md5: 'c5b511caa8382dd36f56434074701718', hd_md5: nil, hls_md5: 'dbd17882de2a040d8141c2918a0a65a1', duration: 561},
     {title: 'webtech2017-w5-0-lecturer', provider_video_id: '201129343', hd_url: nil, sd_url: 'https://player.vimeo.com/external/201129343.sd.mp4?s=1945eca161b1b454e2663dcb90171d8c6aad4ffc&profile_id=165&oauth2_token_id=60919992', width: 640, height: 360, poster: 'https://i.vimeocdn.com/video/620955078_960x540.jpg?r=pad', provider: provider_vimeo, sd_size: 11_561_941, hd_size: nil, hls_size: 9_155_842, hls_url: 'https://player.vimeo.com/external/201129343.m3u8?s=c7fb9884774d8edf397d7e0055194f115369371e&oauth2_token_id=60919992', sd_md5: '555b838ae703b53ea8249efb27666888', hd_md5: nil, hls_md5: 'd4221b7aa15f35b492ae47f7e9c09bad', duration: 126},
     {title: 'webtech2017-w5-1-desktop', provider_video_id: '201129661', hd_url: 'https://player.vimeo.com/external/201129661.hd.mp4?s=bf4c1ab4f6881a79ee29cf6fbd1025cf3c767393&profile_id=174&oauth2_token_id=60919992', sd_url: 'https://player.vimeo.com/external/201129661.sd.mp4?s=9f215db773e47cf7d2cb882a702cdf69cd93f972&profile_id=164&oauth2_token_id=60919992', width: 960, height: 720, poster: 'https://i.vimeocdn.com/video/620955133_1280x960.jpg?r=pad', provider: provider_vimeo, sd_size: 14_783_214, hd_size: 31_073_331, hls_size: 31_073_331, hls_url: 'https://player.vimeo.com/external/201129661.m3u8?s=ac800856a6e706a70018a6b757882fd5ba289deb&oauth2_token_id=60919992', sd_md5: '4768f50d2d7de6c6acce365a2cc4b457', hd_md5: '00e0fa19f7a98518b4954563ef4d831c', hls_md5: '00e0fa19f7a98518b4954563ef4d831c', duration: 1172},
@@ -242,11 +231,11 @@ video_www = Video::Video.create! id: '00000001-3600-4444-9999-000000000001',
   slides_stream: streams[29],
   pip_stream: streams[31]
 
-subtitle_www_de = Video::Subtitle.create!  id: '00000010-3600-4444-9999-000000000001',
+subtitle_www_de = Video::Subtitle.create! id: '00000010-3600-4444-9999-000000000001',
   video_id: video_www.id,
   lang: 'de'
 
-subtitle_www_en = Video::Subtitle.create!  id: '00000011-3600-4444-9999-000000000001',
+subtitle_www_en = Video::Subtitle.create! id: '00000011-3600-4444-9999-000000000001',
   video_id: video_www.id,
   lang: 'en'
 
@@ -301,14 +290,9 @@ Video::Video.create! id: '00000001-3600-4444-9999-000000000005',
   slides_stream: streams[85],
   pip_stream: streams[87]
 
-Video::Video.create! id: '00000001-3600-4444-9999-000000000006',
-  title: 'A Kaltura video',
-  description: 'Lorem Ipsum...',
-  pip_stream: streams[26]
-
 Video::Provider.create!(
   provider_type: 'vimeo',
-  name: 'peer_assessment_provider',
+  name: 'video_provider',
   token: vimeo_token,
   credentials: {token: vimeo_token}
 )

@@ -8,8 +8,6 @@ class IcalController < ApplicationController
   include Xikolo::Account
   include IcalHelper
 
-  before_action :set_no_cache_headers
-
   require_feature 'ical_feed'
 
   def index

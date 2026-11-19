@@ -1,5 +1,5 @@
-- content_for :page_header_slim
-  = render Global::PageHeader.new(t(:'admin.channels.headline'), subtitle: t(:'admin.page_header'), type: :slim)
+- content_for :page_header
+  = render Global::PageHeader.new(t(:'admin.channels.headline'), subtitle: t(:'admin.page_header'))
 
 .bs-container
   - if @channels.any?

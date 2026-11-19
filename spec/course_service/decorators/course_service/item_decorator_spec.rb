@@ -18,7 +18,7 @@ describe CourseService::ItemDecorator do
       course_id
       position
       published
-      show_in_nav
+      deemphasized_in_nav
       effective_start_date
       effective_end_date
       course_archived
@@ -26,17 +26,14 @@ describe CourseService::ItemDecorator do
       max_points
       submission_deadline
       submission_publishing_date
-      proctored
       optional
       section_url
-      user_visit_url
       results_url
       statistics_url
-      icon_type
-      featured
       public_description
       open_mode
       required_item_ids
+      minimum_progress_percentage
     ]
   end
 

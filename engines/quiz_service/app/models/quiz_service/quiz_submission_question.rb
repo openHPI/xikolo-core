@@ -15,8 +15,10 @@ class QuizSubmissionQuestion < ApplicationRecord # rubocop:disable Layout/Indent
     if (original_points = read_attribute(:points))
       original_points
     else
-      question = Question.find quiz_question_id
       user_answers = QuizSubmissionAnswer.where quiz_submission_question_id: id
+      return 0 if user_answers.empty?
+
+      question = Question.find quiz_question_id
 
       question.update_points_from_answer_object(self, user_answers)
 

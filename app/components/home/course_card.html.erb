@@ -1,0 +1,88 @@
+<article class="course-card h-full w-full min-w-0">
+  <%= link_to course_path(@course.course_code),
+    class: 'x-card h-full overflow-hidden bg-base-100 text-base-content no-underline transition-shadow hover:text-base-content hover:no-underline hover:shadow-lg focus:text-base-content focus:no-underline motion-reduce:transition-none',
+    aria: {label: @course.title} do %>
+    <figure class="relative m-0 aspect-video shrink-0">
+      <picture class="block h-full w-full">
+        <% visuals.each do |source| %>
+          <source media="<%= source.media %>" srcset="<%= source.srcset %>">
+        <% end %>
+
+        <%= image_tag Imagecrop.transform(fallback_visual, resizing_type: 'fill', gravity: 'ce', width: 352, height: 198), alt: '', loading: 'lazy', class: 'h-full w-full object-cover' %>
+      </picture>
+
+      <div class="absolute inset-x-3 top-3 flex items-start justify-between gap-2">
+        <div class="flex min-w-0 flex-wrap gap-2">
+          <span class="x-badge x-badge-sm x-badge-neutral"><%= t(:"course.formats.#{@course.course_format}") %></span>
+
+          <% if upcoming? %>
+            <span class="x-badge x-badge-sm x-badge-info"><%= t(:'course.card.upcoming') %></span>
+          <% end %>
+        </div>
+
+        <% if completed? %>
+          <span class="x-badge x-badge-sm x-badge-success">
+            <span class="truncate" title="<%= t(:'course.card.completed') %>"><%= t(:'course.card.completed') %></span>
+          </span>
+        <% end %>
+      </div>
+    </figure>
+
+    <% if @enrollment %>
+      <progress
+        class="x-progress [--radius-box:0]"
+        value="<%= progress_percentage %>"
+        max="100"
+        aria-label="<%= t(:'course.card.progress') %>"
+      ></progress>
+    <% end %>
+
+    <div class="x-card-body gap-3 p-5">
+      <% if topics.present? %>
+        <ul
+          class="mb-0! flex list-none flex-wrap gap-2"
+          aria-label="<%= t(:'course.card.topics') %>"
+        >
+          <% topics.first(3).each do |topic| %>
+            <li class="x-badge x-badge-neutral x-badge-soft x-badge-sm">
+              <span class="truncate" title="<%= topic %>"><%= topic %></span>
+            </li>
+          <% end %>
+          <% if topics.size > 3 %>
+            <li class="x-badge x-badge-neutral x-badge-soft x-badge-sm" title="<%= topics.drop(3).join(', ') %>">
+              +<%= topics.size - 3 %>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+
+      <h3
+        class="x-card-title line-clamp-2 min-h-[2lh] text-base wrap-break-word"
+        lang="<%= @course.lang %>"
+        title="<%= @course.title %>"
+      >
+        <%= @course.title %>
+      </h3>
+
+      <ul class="flex list-none flex-col gap-2">
+        <% if level.present? %>
+          <li
+            class="flex items-center gap-2"
+            aria-label="<%= t(:'course.card.level') %>"
+          >
+            <span class="shrink-0" aria-hidden="true"><%= helpers.pixelart_icon(level_icon, css_class: 'size-6') %></span>
+            <%= level %>
+          </li>
+        <% end %>
+
+        <li
+          class="flex items-center gap-2"
+          aria-label="<%= t(:'course.card.language') %>"
+        >
+          <span class="shrink-0" aria-hidden="true"><%= helpers.pixelart_icon('globe', css_class: 'size-6') %></span>
+          <%= t("languages.title.#{@course.lang}") %>
+        </li>
+      </ul>
+    </div>
+  <% end %>
+</article>

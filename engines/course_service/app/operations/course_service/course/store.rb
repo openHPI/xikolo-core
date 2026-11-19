@@ -40,15 +40,6 @@ class Course::Store < ApplicationOperation # rubocop:disable Layout/IndentationW
   end
 
   def update
-    # Upload course stage visual
-    if @params.key?(:stage_visual_uri)
-      upload_via_uri('stage_visual', @params[:stage_visual_uri],
-        'course_course_stage_visual')
-    elsif @params.key?(:stage_visual_upload_id)
-      upload_via_id('stage_visual', @params[:stage_visual_upload_id],
-        'course_course_stage_visual')
-    end
-
     if @upload_errors.blank?
       remove_replaced_visuals!
 
@@ -81,7 +72,7 @@ class Course::Store < ApplicationOperation # rubocop:disable Layout/IndentationW
   def commit!
     processor.commit!
     processor.obsolete_uris.each do |uri|
-      RichtextFileDeletionWorker.perform_in 1.hour, uri
+      RichtextFileDeletionJob.set(wait: 1.hour).perform_later(uri)
     end
     true
   end
@@ -103,8 +94,8 @@ class Course::Store < ApplicationOperation # rubocop:disable Layout/IndentationW
   end
 
   def grant_visitor!
-    # no need to grant course.visitor if course is in preparation
-    return if @course.status == 'preparation'
+    # no need to grant course.visitor if course is not yet published
+    return unless @course.published?
 
     # grant course.visitor to all users if no group restrictions
     if @course.groups.empty?
@@ -143,7 +134,7 @@ class Course::Store < ApplicationOperation # rubocop:disable Layout/IndentationW
   end
 
   def file_upload_params
-    %i[stage_visual_upload_id stage_visual_uri visual_uri]
+    %i[visual_uri]
   end
 
   def upload_via_id(upload_name, upload_value, purpose)
@@ -223,7 +214,7 @@ class Course::Store < ApplicationOperation # rubocop:disable Layout/IndentationW
   def remove_replaced_visuals!
     return if @replaced_uris.empty?
 
-    @replaced_uris.each {|uri| FileDeletionWorker.perform_in 1.hour, uri }
+    @replaced_uris.each {|uri| FileDeletionJob.set(wait: 1.hour).perform_later(uri) }
     @replaced_uris = []
   end
 

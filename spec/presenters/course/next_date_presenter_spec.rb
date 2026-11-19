@@ -4,10 +4,8 @@ require 'spec_helper'
 
 describe Course::NextDatePresenter, type: :presenter do
   subject(:presenter) do
-    described_class.new(next_date.stringify_keys, with_link:)
+    described_class.new(next_date.stringify_keys)
   end
-
-  let(:with_link) { true }
 
   context 'next date "course_start"' do
     let(:next_date) { {resource_type: 'course', type: 'course_start', course_code: 'text', date: '2020-01-01T22:00:00+00:00'} }
@@ -17,19 +15,11 @@ describe Course::NextDatePresenter, type: :presenter do
     end
 
     it 'has a do_url to the course detail page' do
-      expect(presenter.do_url).to eq '/courses/text'
+      expect(presenter.do_url).to eq '/learn/text'
     end
 
     it 'has a proper date object in timezone' do
       expect(presenter.date_obj).to eq '2020-01-01T22:00:00+00:00'
-    end
-
-    context 'without a link' do
-      let(:with_link) { false }
-
-      it 'does not have a do_url' do
-        expect(presenter.do_url).to be_nil
-      end
     end
   end
 
@@ -58,7 +48,7 @@ describe Course::NextDatePresenter, type: :presenter do
     end
 
     it 'has a do_url to the course detail page' do
-      expect(presenter.do_url).to eq "/courses/text/items/#{short_uuid(item_id)}"
+      expect(presenter.do_url).to eq "/learn/text/items/#{short_uuid(item_id)}"
     end
   end
 

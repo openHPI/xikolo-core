@@ -16,7 +16,7 @@ describe Certificate::RenderPreviewDataPresenter, type: :presenter do
   end
   let(:dynamic_content) do
     <<~DYNCONTENT
-      <?xml version 1.0 encoding="utf-8"?>
+      <?xml version="1.0" encoding="utf-8"?>
       <svg xmlns="http://www.w3.org/2000/svg">
         <text id='name'>##NAME##</text>
         <text>##EMAIL##</text>
@@ -43,12 +43,6 @@ describe Certificate::RenderPreviewDataPresenter, type: :presenter do
     xi_config <<~YML
       certificate:
         forbidden_verification_words: ['forbidden']
-        transcript_of_records:
-          table_x: 200
-          table_y: 500
-          course_col_width: 300
-          score_col_width: 70
-          font_size: 10
     YML
   end
 
@@ -103,29 +97,5 @@ describe Certificate::RenderPreviewDataPresenter, type: :presenter do
     subject(:qrcode_data) { render_preview_data.qrcode_url }
 
     it { is_expected.to eq 'https://xikolo.de/verify/jazzy-fuzzy-juicy-junky-pizza' }
-  end
-
-  describe '#transcript_of_records' do
-    subject(:tor) { render_preview_data.transcript_of_records }
-
-    it 'is empty for other certificate types' do
-      expect(tor).to be_nil
-    end
-
-    context '(for TranscriptOfRecords)' do
-      let(:template) { create(:certificate_template, :tor) }
-
-      it do
-        expect(tor).to eq(
-          [
-            ['Course', 'Score'],
-            ['Geovisualisierung', 'passed'],
-            ['Internet-Technologien', '100.0%'],
-            ['Sicherheit im Internet', '50.0%'],
-            ['Overall score', '75.0%'],
-          ]
-        )
-      end
-    end
   end
 end

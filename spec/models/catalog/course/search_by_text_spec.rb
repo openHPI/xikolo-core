@@ -12,7 +12,6 @@ describe Catalog::Course, '.search_by_text', type: :model do
   let!(:course1) do
     create(:course,
       title: 'Special Course',
-      status: 'active',
       abstract: 'Introduction into the trends in development',
       course_code: 'software-development',
       teachers: ['Hans Otto'])
@@ -21,7 +20,6 @@ describe Catalog::Course, '.search_by_text', type: :model do
   let!(:course2) do
     create(:course,
       title: 'Blockchain',
-      status: 'active',
       abstract: 'another amazing course',
       course_code: 'blockchain-ab',
       teachers: ['Grandmaster Yoda'])

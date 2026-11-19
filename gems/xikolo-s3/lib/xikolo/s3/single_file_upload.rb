@@ -50,7 +50,7 @@ module Xikolo::S3
     def valid?(object)
       # file must be processed:
       return false unless object.metadata['xikolo-state'] == 'accepted'
-      return false if @purpose \
+      return false if @purpose
           && object.metadata['xikolo-purpose'] != @purpose.to_s
 
       true

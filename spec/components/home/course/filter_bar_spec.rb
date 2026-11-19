@@ -7,7 +7,7 @@ describe Home::Course::FilterBar, type: :component do
     render_inline described_class.new(user:)
   end
 
-  let(:user) { nil }
+  let(:user) { CurrentUser::AnonymousUser.new(context_id: 'root') }
 
   before do
     xi_config <<~YML
@@ -33,7 +33,7 @@ describe Home::Course::FilterBar, type: :component do
         end
 
         it 'does not display http accept languages that are not course languages' do
-          expect(rendered).to have_no_content 'Russian (Русский)'
+          expect(rendered).to have_no_text 'Russian (Русский)'
         end
 
         it 'adds a disabled line separator' do
@@ -53,12 +53,9 @@ describe Home::Course::FilterBar, type: :component do
     end
 
     context 'with signed in user' do
-      let(:user) do
-        Xikolo::Common::Auth::CurrentUser.from_session(
-          'user' => {'anonymous' => false,
-          'preferred_language' => 'de'}
-        )
-      end
+      let(:account_user) { create(:'account_service/user', language: :de) }
+      let(:session) { create(:'account_service/session', user: account_user) }
+      let(:user) { CurrentUser::User.new(session:, context_id: 'root') }
 
       context 'with no http accept languages' do
         it 'brings the user preferred language to the first position' do
@@ -76,7 +73,7 @@ describe Home::Course::FilterBar, type: :component do
         end
 
         it 'does not display the user preferred language twice if it is also in the accept header' do
-          expect(rendered).to have_content 'German (Deutsch)', count: 1
+          expect(rendered).to have_text 'German (Deutsch)', count: 1
         end
 
         context 'with all course languages as preferred by the user' do
@@ -92,11 +89,44 @@ describe Home::Course::FilterBar, type: :component do
     end
   end
 
+  describe 'format filter' do
+    context 'with learning units in several formats' do
+      before do
+        create(:course, :active, course_format: 'course')
+        create(:course, :active, course_format: 'workshop')
+        create(:course, :active, course_format: 'project')
+      end
+
+      it 'lists formats that have at least one learning unit' do
+        expect(rendered).to have_select 'Format', text: "All\nCourse\nWorkshop\nProject"
+      end
+    end
+
+    context 'with only some formats available' do
+      before do
+        create(:course, :active, course_format: 'course')
+        create(:course, :active, course_format: 'workshop')
+      end
+
+      it 'lists formats that have at least one learning unit' do
+        expect(rendered).to have_select 'Format', text: "All\nCourse\nWorkshop"
+      end
+    end
+
+    context 'with only one format available' do
+      before { create(:course, :active, course_format: 'course') }
+
+      it 'does not show the format filter' do
+        expect(rendered).to have_no_select 'Format'
+      end
+    end
+  end
+
   describe '(custom) category filter' do
     before do
-      invisible_category = create(:cluster, :invisible, id: 'invisible', translations: {en: 'Invisible'})
+      invisible_category = create(:cluster, :invisible, translations: {en: 'Invisible'})
       create(:classifier, cluster: invisible_category, title: 'not_shown', translations: {en: 'Not shown'})
-      visible_category = create(:cluster, :visible, id: 'topics', translations: {en: 'Topic'})
+      visible_category = create(:cluster, :visible, translations: {en: 'Topic'})
       create(:classifier, cluster: visible_category, title: 'advanced_learner', translations: {en: 'Advanced'})
     end
 

@@ -14,12 +14,17 @@ describe 'Prevent password reset bombing', type: :request do
 
   before do
     Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new
+    Rack::Attack.cache.store.clear
     Rack::Attack.reset!
-
     Stub.request(
       :account, :post, '/password_resets',
       body: {email: 'p3k@example.de'}.to_json
     ).to_return Stub.json({id: 'the_id', user_id: 'the_user_id'})
+  end
+
+  after do
+    Rack::Attack.cache.store.clear
+    Rack::Attack.reset!
   end
 
   it 'blocks after 10th password reset' do
@@ -27,9 +32,9 @@ describe 'Prevent password reset bombing', type: :request do
       post '/account/reset', params: {
         reset: {email: 'p3k@example.de'},
       }
-
-      expect(response).to have_http_status :see_other
     end
+
+    expect(response).to have_http_status :too_many_requests
 
     post '/account/reset', params: {
       reset: {email: 'p3k@example.de'},

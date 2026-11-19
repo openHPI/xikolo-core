@@ -1,14 +1,8 @@
-.col-md-12
-  .course-area-main data-lanalytics-context={course_id: item.course_id}.to_json
-    = render 'items/header', item: item
+.x-card.bg-accent-25.text-accent-content.p-5
+  - if item.instructions? && item.exercise_without_points?
+    / Inlined LTI exercises with points already show the intructions on the intro page.
+    .mb20.prose.prose-sm.max-w-none == item.instructions_html
 
-    - if item.instructions? && item.exercise_without_points?
-      / Inlined LTI exercises with points already show the intructions on the intro page.
-      .mb20.prose.prose-2xl.max-w-none == item.instructions_html
+  iframe.lti-frame.w-full src=item.tool_launch_path allow="fullscreen" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"
 
-    iframe.lti-frame src=item.tool_launch_path allow="fullscreen" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"
-
-    .mt40
-      = render Course::BottomNavigation.new(course_id: position.course.id,
-        prev_item_id: position.prev_item&.id,
-        next_item_id: position.next_item&.id)
+  = render course_item_bottom_bar

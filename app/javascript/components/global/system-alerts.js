@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
-import ready from '../../util/ready';
+import { turboReady } from '../../util/ready';
 
-ready(() => {
+turboReady(() => {
   const systemAlerts = document.querySelectorAll("[data-id='system-alerts']");
 
   systemAlerts.forEach((alerts) => {

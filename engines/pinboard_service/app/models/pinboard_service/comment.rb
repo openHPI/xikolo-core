@@ -69,8 +69,7 @@ class Comment < ApplicationRecord # rubocop:disable Layout/IndentationWidth
 
   validates :user_id, presence: true
 
-  after_create { Msgr.publish(decorate.to_event, to: 'xikolo.pinboard.comment.create') }
-  after_update { Msgr.publish(decorate.as_json, to: 'xikolo.pinboard.comment.update') }
+  after_create { CommentCreateJob.perform_later(decorate.to_event) }
   before_update :reset_reviewed
 
   after_save do |comment|
@@ -82,10 +81,10 @@ class Comment < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   end
 
   def update_question_stats!
-    case commentable_type
-      when 'Question'
+    case commentable
+      when Question
         commentable.update_public_comments_count!
-      when 'Answer'
+      when Answer
         commentable.question.update_public_answer_comments_count!
     end
   end

@@ -1,0 +1,71 @@
+<% content_for :head_assets do %>
+  <meta name="quiz-submission-config" content="<%= {autoSaveUrl: course_item_quiz_submission_snapshot_index_path, graded: @item_presenter.graded?}.to_json %>">
+<% end %>
+
+<!-- Quiz overview card on top of the page -->
+<div class="mb-4">
+  <%= render Quiz::SubmissionCard.new(@quiz, submission: @submission, item_presenter: @item_presenter, my_result: @my_result, counter_end_timediff: @counter_end_timediff) %>
+</div>
+
+<!-- Main content of the quiz -->
+<div class="mt-4">
+  <div class="quiz-content relative min-h-px w-full rounded-2xl">
+    <%= form_tag course_item_quiz_submission_index_path, id: 'quiz_form' do %>
+      <%= hidden_field_tag 'quiz_id', @quiz.id %>
+      <%= hidden_field_tag 'quiz_submission_id', @submission.id %>
+
+      <% if @item_presenter.show_info_ungraded? %>
+        <%= render 'quiz_submission/partials/non_graded_info_box' %>
+      <% end %>
+
+      <%= render Global::Accordion.new do |accordion| %>
+        <% @quiz.questions.each_with_index do |question, index| %>
+          <% question_label = t(:'items.quiz.question_count', count: index + 1) %>
+          <% points = @item_presenter.survey? ? nil : t(:'quiz_submission.question_points', points: question.points.round(2)) %>
+          <% answered = question_answered?(question, snapshot: @submission_snapshot) %>
+          <% accordion.with_section(question_label, "accordion-section-#{question.id}", expanded: index == 0) do |section| %>
+            <% section.with_header do %>
+              <span class="inline-flex shrink-0 items-center gap-2 whitespace-nowrap">
+                <% if points %>
+                  <span class="x-badge x-badge-sm x-badge-accent x-badge-soft"><%= points %></span>
+                <% end %>
+                <span class="x-badge x-badge-sm gap-1 x-badge-accent x-badge-soft" data-quiz-steps-answered-badge="true"<% unless answered %> hidden<% end %>>
+                  <%= pixelart_icon('check', css_class: 'size-3.5') %>
+                  <%= t('question.answered') %>
+                </span>
+              </span>
+            <% end %>
+            <% section.with_footer do %>
+              <div class="flex items-center justify-end gap-2.5 border-t border-gray-250 pt-3.5 my-3.5">
+                <% if index > 0 %>
+                  <button class="x-btn x-btn-neutral x-btn-outline rounded-2xl" type="button" data-quiz-steps-navigation="previous">
+                    <%= pixelart_icon('arrow-left', css_class: 'size-3 shrink-0') %>
+                    <span><%= t('accordion.previous_question') %></span>
+                  </button>
+                <% end %>
+                <% if index < @quiz.questions.size - 1 %>
+                  <button class="x-btn x-btn-neutral rounded-2xl" type="button" data-quiz-steps-navigation="next">
+                    <span><%= t('accordion.next_question') %></span>
+                    <%= pixelart_icon('arrow-right', css_class: 'size-3 shrink-0') %>
+                  </button>
+                <% end %>
+              </div>
+            <% end %>
+            <%= render 'quiz_submission/question/question_base',
+                question: question,
+                show_solution: false,
+                index: index,
+                snapshot: @submission_snapshot,
+                item: @item_presenter %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <% if @item_presenter.graded? %>
+        <%= render 'quiz_submission/partials/confirm_quiz_submission' %>
+      <% end %>
+
+      <%= render course_item_bottom_bar %>
+    <% end %>
+  </div>
+</div>

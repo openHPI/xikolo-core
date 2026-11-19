@@ -3,7 +3,7 @@
  */
 
 import { isScreenSizeSmall } from '../../util/media-query';
-import ready from '../../util/ready';
+import { turboReady } from '../../util/ready';
 
 const setExpanded = (
   expanded: boolean,
@@ -91,7 +91,7 @@ const initTabNavigation = () => {
   });
 };
 
-ready(() => {
+turboReady(() => {
   initTabNavigation();
 });
 

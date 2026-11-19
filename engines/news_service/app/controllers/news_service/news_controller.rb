@@ -47,7 +47,6 @@ class NewsController < ApplicationController # rubocop:disable Layout/Indentatio
     if params['only_homepage']
       news.where! show_on_homepage: params['only_homepage']
     end
-    news.where!('news.visual_uri IS NOT NULL') if params['only_with_visual']
     if params['published'] == 'true'
       news.where!('publish_at < ?', Time.zone.now.to_s)
     end
@@ -63,25 +62,34 @@ class NewsController < ApplicationController # rubocop:disable Layout/Indentatio
 
   def create
     announcement = News.new announcement_params
-    News.transaction do
-      all_translations.each do |locale, translation|
-        announcement.translations << NewsTranslation.new(
-          locale:,
-          title: translation[:title],
-          text: translation[:text]
-        )
-      end
+    richtexts = []
 
-      announcement.save
-      if announcement.valid?
-        if params[:visual_uri].present?
-          announcement.upload_via_uri(params[:visual_uri])
-        else
-          announcement.upload_via_id(params[:visual_upload_id])
+    news_translations = all_translations.map do |locale, translation|
+      richtext = process_news_richtext(translation['text'])
+      richtext.parse! if richtext.valid?
+      richtexts << richtext
+
+      NewsTranslation.new(
+        locale:,
+        title: translation['title'],
+        text: richtext.result
+      )
+    end
+
+    announcement.translations = news_translations
+
+    if richtexts.all?(&:valid?)
+      announcement.save!
+      richtexts.each(&:commit!)
+    else
+      richtexts.each do |richtext|
+        richtext.rollback!
+        richtext.errors.each do |_url, _code, message|
+          announcement.errors.add(:base, message)
         end
-        announcement.save if announcement.errors.empty?
       end
     end
+
     respond_with announcement
   end
 
@@ -90,22 +98,45 @@ class NewsController < ApplicationController # rubocop:disable Layout/Indentatio
 
     announcement.assign_attributes announcement_params
     if translations?
-      announcement.translations = all_translations.map do |locale, translation|
+      richtexts = []
+
+      existing_translations_hash = announcement.translations
+        .index_by(&:locale)
+
+      processed_translations = all_translations.map do |locale, translation|
+        old_translation = existing_translations_hash[locale]
+        richtext = process_news_richtext(
+          translation['text'],
+          current_text: old_translation&.text,
+          valid_refs: old_translation ? Xikolo::S3.extract_file_refs(old_translation.text) : []
+        )
+        richtext.parse! if richtext.valid?
+        richtexts << richtext
+
         NewsTranslation.new(
           locale:,
-          title: translation[:title],
-          text: translation[:text]
+          title: translation['title'],
+          text: richtext.result
         )
       end
-    end
-    if announcement.valid?
-      if params[:visual_uri].present?
-        announcement.upload_via_uri(params[:visual_uri])
+
+      announcement.translations = processed_translations
+
+      if richtexts.all?(&:valid?)
+        announcement.save!
+        richtexts.each(&:commit!)
       else
-        announcement.upload_via_id(params[:visual_upload_id])
+        richtexts.each do |richtext|
+          richtext.rollback!
+          richtext.errors.each do |_url, _code, message|
+            announcement.errors.add(:base, message)
+          end
+        end
       end
+    else
+      announcement.save!
     end
-    announcement.save if announcement.errors.empty?
+
     respond_with announcement
   end
 
@@ -120,6 +151,27 @@ class NewsController < ApplicationController # rubocop:disable Layout/Indentatio
   end
 
   private
+
+  def process_news_richtext(text, current_text: nil, valid_refs: [])
+    richtext = Xikolo::S3::TextWithUploadsProcessor.new(
+      bucket: :news,
+      purpose: 'news_text_image',
+      text:,
+      current: current_text,
+      valid_refs: valid_refs
+    )
+    richtext.on_new do |upload|
+      nid = UUID4.new.to_str(format: :base62)
+      {
+        key: "news/#{nid}_#{File.basename(upload.key)}",
+        acl: 'public-read',
+        cache_control: 'public, max-age=7776000',
+        content_disposition: 'inline',
+        content_type: upload.content_type,
+      }
+    end
+    richtext
+  end
 
   def course_ids_for(user_id)
     Xikolo.api(:course).value!

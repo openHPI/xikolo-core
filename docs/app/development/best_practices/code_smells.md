@@ -161,13 +161,13 @@ This term was first introduced by Robert C. Martin (‘Uncle Bob’) in his mile
 It is a collection of best practices in Object-oriented programming (OOP) / Object-oriented design (OOD) for achieving code that is easy to understand, testable, modifiable, and safe to deploy.
 This book is a must-read for software engineers as it introduces the fundamental principles of OOD and SOLID.
 
-|     |                                     |                                                                         |
-|-----|-------------------------------------|-------------------------------------------------------------------------|
-|**S**RP |The Single Responsibility Principle | A class should have one, and only one, reason to change.                |
-|**O**CP |The Open Closed Principle | You should be able to extend a class's behaviour, without modifying it. |
-|**L**SP |The Liskov Substitution Principle | Derived classes must be substitutable for their base classes.           |
-|**I**SP |The Interface Segregation Principle | Make fine-grained interfaces that are client specific.                  |
-|**D**IP |The Dependency Inversion Principle | Depend on abstractions, not on concretions.                             |
+|         |                                     |                                                                         |
+| ------- | ----------------------------------- | ----------------------------------------------------------------------- |
+| **S**RP | The Single Responsibility Principle | A class should have one, and only one, reason to change.                |
+| **O**CP | The Open Closed Principle           | You should be able to extend a class's behaviour, without modifying it. |
+| **L**SP | The Liskov Substitution Principle   | Derived classes must be substitutable for their base classes.           |
+| **I**SP | The Interface Segregation Principle | Make fine-grained interfaces that are client specific.                  |
+| **D**IP | The Dependency Inversion Principle  | Depend on abstractions, not on concretions.                             |
 
 Source: [Uncle Bob’s blog](http://www.butunclebob.com/ArticleS.UncleBob.PrinciplesOfOod).
 

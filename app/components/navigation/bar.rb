@@ -24,7 +24,7 @@ module Navigation
     COMPONENT_OVERRIDES = {'courses_megamenu' => 'courses'}.freeze
 
     def initialize(user:, allowed: nil)
-      super
+      super()
 
       @user = user
 
@@ -360,7 +360,6 @@ module Navigation
     end
 
     def register
-      return unless @user.feature?('account.registration')
       return if @user.logged_in?
 
       Navigation::Item.new(
@@ -373,9 +372,7 @@ module Navigation
     private
 
     def gamification_score
-      return unless Xikolo.config.gamification['enabled']
       return if @user.anonymous?
-      return unless @user.feature?('gamification')
 
       Gamification::Score.where(user_id: @user.id).total
     end

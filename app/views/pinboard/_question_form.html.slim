@@ -31,9 +31,8 @@
       .mb10
         = t(:'pinboard.rule_hint')
 
-      .row
-        .col-lg-2.col-md-2
-        .col-md-4.col-sm-5
+      div class='lg:grid lg:grid-cols-12'
+        div class='lg:col-start-3 lg:col-span-4'
           = button_tag(type: 'submit', class: 'btn btn-primary mr10', id: 'question_form_submit_button') do
             = render Global::FaIcon.new('comments', css_classes: 'fa-lg mr5')
             = t :'pinboard.submit_question'

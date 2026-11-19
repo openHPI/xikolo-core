@@ -1,0 +1,83 @@
+<div
+  class="w-full"
+  data-controller="file-upload"
+  data-file-upload-uploading-text-value="<%= t(:'components.file_upload.status.uploading') %>"
+  data-file-upload-complete-text-value="<%= t(:'components.file_upload.status.complete') %>"
+  data-file-upload-failed-text-value="<%= t(:'components.file_upload.status.failed') %>"
+  data-action="
+    direct-upload:initialize->file-upload#start
+    direct-upload:progress->file-upload#update
+    direct-upload:error->file-upload#error
+    direct-upload:end->file-upload#handleEnd
+  "
+>
+  <div
+    class="flex flex-col item-start sm:items-center gap-4 sm:flex-row rounded-2xl border border-dashed p-4 sm:p-6 <%= errors.any? ? 'border-error' : 'border-base-content' %>"
+    data-action="
+      dragover->file-upload#dragOver
+      drop->file-upload#drop
+    "
+  >
+    <div class="flex flex-1 gap-2">
+      <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-info text-info-content sm:size-12" aria-hidden="true">
+        <%= helpers.pixelart_icon icon, css_class: 'size-1/2' %>
+      </span>
+      <div>
+        <p class="text-sm sm:text-base font-semibold"><%= title %></p>
+        <p class="text-xs sm:text-sm" id="<%= hint_id %>"><%= hint %></p>
+      </div>
+    </div>
+
+    <!-- The input is hidden but focusable, so it stays keyboard and screen
+    reader accessible -->
+    <%= @form.file_field @attribute, **@options,
+          class: 'peer sr-only',
+          aria: {describedby: described_by, invalid: (true if errors.any?)},
+          data: {'file-upload-target': 'input', action: 'change->file-upload#fileSelected'} %>
+    <%= @form.label @attribute, button_label,
+          class: 'x-btn x-btn-outline rounded-2xl x-btn-sm sm:x-btn-md self-end sm:self-auto peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2' %>
+  </div>
+
+  <% if errors.any? %>
+    <p class="pt-2 text-sm text-error" id="<%= error_id %>"><%= errors.to_sentence %></p>
+  <% end %>
+
+  <!-- Where the uploaded files appear -->
+  <div hidden data-file-upload-target="list">
+    <p class="pt-6 pb-2 text-sm text-base-content" id="<%= list_id %>"><%= t(:'components.file_upload.list_label') %></p>
+    <ul
+      class="flex flex-col gap-4 rounded-2xl border border-base-300 p-3"
+      aria-labelledby="<%= list_id %>"
+      data-file-upload-target="items"
+    ></ul>
+  </div>
+
+  <template data-file-upload-target="itemTemplate">
+    <li class="flex flex-col gap-2">
+      <div class="flex items-center gap-2">
+        <div class="flex flex-1 flex-col gap-1">
+          <p class="truncate text-sm text-base-content" data-file-upload-part="name"></p>
+          <p class="flex items-center gap-1 text-xs" hidden data-file-upload-part="status">
+            <span class="shrink-0" hidden data-file-upload-part="completeIcon">
+              <%= helpers.pixelart_icon 'check', css_class: 'size-3.5' %>
+            </span>
+            <span class="shrink-0" hidden data-file-upload-part="failedIcon">
+              <%= helpers.pixelart_icon 'close', css_class: 'size-3.5' %>
+            </span>
+            <span class="truncate" data-file-upload-part="statusText"></span>
+          </p>
+        </div>
+        <button
+          type="button"
+          class="text-base-content"
+          aria-label="<%= t(:'components.file_upload.remove') %>"
+          data-file-upload-part="remove"
+          data-action="file-upload#remove"
+        >
+          <%= helpers.pixelart_icon 'trash', css_class: 'size-3.5' %>
+        </button>
+      </div>
+      <progress class="x-progress x-progress-accent h-2 w-full" value="0" max="100" hidden data-file-upload-part="bar"></progress>
+    </li>
+  </template>
+</div>

@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/BlockLength
+# rubocop:disable-next Metrics/BlockLength
 AccountService::Engine.routes.draw do
   scope module: 'api', defaults: {format: :json} do
     resources :users, except: %i[new edit] do
-      resource :ban, only: :create
       resource :preferences, only: %i[show update]
       resources :sessions, only: [:index]
       resources :emails, except: %i[new edit] do
@@ -70,4 +69,3 @@ AccountService::Engine.routes.draw do
     root to: 'root#index'
   end
 end
-# rubocop:enable Metrics/BlockLength

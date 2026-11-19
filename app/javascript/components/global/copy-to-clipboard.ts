@@ -12,7 +12,7 @@
  */
 
 import handleError from '../../util/error';
-import ready from '../../util/ready';
+import { turboReady } from '../../util/ready';
 import I18n from '../../i18n/i18n';
 
 const showSuccessMessage = (element: Element) => {
@@ -51,7 +51,7 @@ const showSuccessMessage = (element: Element) => {
   }
 };
 
-ready(() => {
+turboReady(() => {
   document
     .querySelectorAll("[data-behavior='copy-to-clipboard']")
     .forEach((element) => {

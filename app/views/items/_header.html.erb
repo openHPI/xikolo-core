@@ -1,0 +1,25 @@
+<%# Fills the item header slot of +Global::PageHeader+, see shared/_course_item_header. %>
+<% header.with_item_header do %>
+  <%= render Items::Header.new(
+        title: item.title,
+        icon_class: item.icon_class,
+        section_title: promises[:section]&.value!&.fetch('title', nil),
+        lang: item.lang
+      ) do |item_header| %>
+    <% if current_user.allowed? 'course.content.edit' %>
+      <% item_header.with_action do %>
+        <%= link_to t(:'sections.item.edit'),
+              edit_course_section_item_path(section_id: short_uuid(item.section_id), id: short_uuid(item.id)),
+              class: 'x-btn x-btn-xs x-btn-outline' %>
+      <% end %>
+    <% end %>
+
+    <% if current_user.allowed? 'course.item_stats.show' %>
+      <% item_header.with_action do %>
+        <%= link_to t(:'sections.item.statistics'),
+              course_item_statistics_path(item_id: short_uuid(item.id)),
+              class: 'x-btn x-btn-xs x-btn-outline' %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

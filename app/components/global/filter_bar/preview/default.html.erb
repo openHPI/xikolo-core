@@ -1,0 +1,35 @@
+<div
+  data-hide-on-submit="#example__content"
+  data-show-on-submit="#filter-bar__loading"
+>
+  <%= render Global::FilterBar::Form.new(action: path, filters:, search_param: name, search_value: search_param) do |form| %>
+    <% form.with_controls(content_id: '#example__content', loading_indicator_id: '#filter-bar__loading') %>
+  <% end %>
+
+  <div id="filter-bar__loading" hidden>
+    <%= render State::Loading.new %>
+  </div>
+</div>
+
+<div id="example__content">
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Favorite Number</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>John Doe</td>
+        <td>Three</td>
+      </tr>
+
+      <tr>
+        <td>Jane Doe</td>
+        <td>One</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

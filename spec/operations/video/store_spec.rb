@@ -11,7 +11,7 @@ RSpec.describe Video::Store do
   let(:update_params) { {} }
 
   # Stub request setup
-  let(:file_url) { "https://s3.xikolo.de/xikolo-uploads/uploads/#{upload_id}/#{file_name}" }
+  let(:file_url) { "#{test_s3_host}/xikolo-uploads/uploads/#{upload_id}/#{file_name}" }
 
   let(:store_stub) do
     stub_request(:put, store_stub_url).to_return(
@@ -26,7 +26,7 @@ RSpec.describe Video::Store do
   end
   let(:upload_stub) do
     stub_request(:get,
-      'https://s3.xikolo.de/xikolo-uploads?list-type=2&' \
+      "#{test_s3_host}/xikolo-uploads?list-type=2&" \
       "prefix=uploads%2F#{upload_id}")
       .to_return(
         status: 200,
@@ -91,13 +91,13 @@ RSpec.describe Video::Store do
       let(:upload_id) { SecureRandom.uuid }
       let(:update_params) { super().merge reading_material_upload_id: upload_id }
       let(:file_url) do
-        'https://s3.xikolo.de/xikolo-uploads/' \
+        "#{test_s3_host}/xikolo-uploads/" \
           "uploads/#{upload_id}/new_reading_material.pdf"
       end
 
       before do
         stub_request(:get,
-          'https://s3.xikolo.de/xikolo-uploads?list-type=2&' \
+          "#{test_s3_host}/xikolo-uploads?list-type=2&" \
           "prefix=uploads%2F#{upload_id}")
           .to_return(
             status: 200,
@@ -120,7 +120,7 @@ RSpec.describe Video::Store do
       context 'with a valid reading material file upload' do
         let!(:store_stub) do
           stub_request(:put,
-            %r{https://s3.xikolo.de/xikolo-video/videos/[0-9a-zA-Z]+/[0-9a-zA-Z]+/new_reading_material.pdf})
+            %r{#{test_s3_host}/xikolo-video/videos/[0-9a-zA-Z]+/[0-9a-zA-Z]+/new_reading_material.pdf})
             .to_return(
               status: 200,
               headers: {'Content-Type' => 'application/xml'},
@@ -193,7 +193,7 @@ RSpec.describe Video::Store do
                 'X-Amz-Meta-Xikolo-State' => 'accepted',
               }
             )
-            stub_request(:put, %r{https://s3.xikolo.de/xikolo-video/videos/[0-9a-zA-Z]+/[0-9a-zA-Z]+/new_reading_material.pdf})
+            stub_request(:put, %r{#{test_s3_host}/xikolo-video/videos/[0-9a-zA-Z]+/[0-9a-zA-Z]+/new_reading_material.pdf})
               .to_return(status: 403)
           end
 
@@ -205,7 +205,7 @@ RSpec.describe Video::Store do
         let(:reading_material_uri) { "s3://xikolo-video/videos/#{UUID4(video_id).to_s(format: :base62)}/encodedUUUID/reading_material.pdf" }
         let!(:store_stub) do
           stub_request(:put,
-            %r{https://s3.xikolo.de/xikolo-video/videos/[0-9a-zA-Z]+/[0-9a-zA-Z]+/new_reading_material.pdf})
+            %r{#{test_s3_host}/xikolo-video/videos/[0-9a-zA-Z]+/[0-9a-zA-Z]+/new_reading_material.pdf})
             .to_return(
               status: 200,
               headers: {'Content-Type' => 'applhttp:ication/xml', 'Content-Disposition' => 'attachment; filename="new_reading_material.pdf"'},
@@ -263,7 +263,7 @@ RSpec.describe Video::Store do
     context 'with a backward-compatible S3-upload' do
       let(:upload_id) { SecureRandom.uuid }
       let(:file_name) { 'new_reading_material.pdf' }
-      let(:store_stub_url) { %r{https://s3.xikolo.de/xikolo-video/videos/[0-9a-zA-Z]+/[0-9a-zA-Z]+/new_reading_material.pdf} }
+      let(:store_stub_url) { %r{#{test_s3_host}/xikolo-video/videos/[0-9a-zA-Z]+/[0-9a-zA-Z]+/new_reading_material.pdf} }
       let(:purpose) { 'video_material' }
 
       before do
@@ -296,13 +296,13 @@ RSpec.describe Video::Store do
       let(:upload_id) { SecureRandom.uuid }
       let(:update_params) { super().merge slides_upload_id: upload_id }
       let(:file_url) do
-        'https://s3.xikolo.de/xikolo-uploads/' \
+        "#{test_s3_host}/xikolo-uploads/" \
           "uploads/#{upload_id}/new_slides.pdf"
       end
 
       before do
         stub_request(:get,
-          'https://s3.xikolo.de/xikolo-uploads?list-type=2&' \
+          "#{test_s3_host}/xikolo-uploads?list-type=2&" \
           "prefix=uploads%2F#{upload_id}")
           .to_return(
             status: 200,
@@ -325,7 +325,7 @@ RSpec.describe Video::Store do
       context 'with a valid slides file upload' do
         let!(:store_stub) do
           stub_request(:put,
-            %r{https://s3.xikolo.de/xikolo-video/videos/[0-9a-zA-Z]+/[0-9a-zA-Z]+/new_slides.pdf})
+            %r{#{test_s3_host}/xikolo-video/videos/[0-9a-zA-Z]+/[0-9a-zA-Z]+/new_slides.pdf})
             .to_return(
               status: 200,
               headers: {'Content-Type' => 'application/xml'},
@@ -398,7 +398,7 @@ RSpec.describe Video::Store do
                 'X-Amz-Meta-Xikolo-State' => 'accepted',
               }
             )
-            stub_request(:put, %r{https://s3.xikolo.de/xikolo-video/videos/[0-9a-zA-Z]+/[0-9a-zA-Z]+/new_slides.pdf})
+            stub_request(:put, %r{#{test_s3_host}/xikolo-video/videos/[0-9a-zA-Z]+/[0-9a-zA-Z]+/new_slides.pdf})
               .to_return(status: 403)
           end
 
@@ -410,7 +410,7 @@ RSpec.describe Video::Store do
         let(:slides_uri) { "s3://xikolo-video/videos/#{UUID4(video_id).to_s(format: :base62)}/encodedUUUID/slides.pdf" }
         let!(:store_stub) do
           stub_request(:put,
-            %r{https://s3.xikolo.de/xikolo-video/videos/[0-9a-zA-Z]+/[0-9a-zA-Z]+/new_slides.pdf})
+            %r{#{test_s3_host}/xikolo-video/videos/[0-9a-zA-Z]+/[0-9a-zA-Z]+/new_slides.pdf})
             .to_return(
               status: 200,
               headers: {'Content-Type' => 'applhttp:ication/xml', 'Content-Disposition' => 'attachment; filename="new_slides.pdf"'},
@@ -468,8 +468,8 @@ RSpec.describe Video::Store do
     context 'with a backward-compatible S3-upload' do
       let(:upload_id) { SecureRandom.uuid }
       let(:file_name) { 'new_slides.pdf' }
-      let(:file_url) { "https://s3.xikolo.de/xikolo-uploads/uploads/#{upload_id}/#{file_name}" }
-      let(:store_stub_url) { %r{https://s3.xikolo.de/xikolo-video/videos/[0-9a-zA-Z]+/[0-9a-zA-Z]+/new_slides.pdf} }
+      let(:file_url) { "#{test_s3_host}/xikolo-uploads/uploads/#{upload_id}/#{file_name}" }
+      let(:store_stub_url) { %r{#{test_s3_host}/xikolo-video/videos/[0-9a-zA-Z]+/[0-9a-zA-Z]+/new_slides.pdf} }
       let(:purpose) { 'video_slides' }
 
       before do
@@ -502,13 +502,13 @@ RSpec.describe Video::Store do
       let(:upload_id) { SecureRandom.uuid }
       let(:update_params) { super().merge transcript_upload_id: upload_id }
       let(:file_url) do
-        'https://s3.xikolo.de/xikolo-uploads/' \
+        "#{test_s3_host}/xikolo-uploads/" \
           "uploads/#{upload_id}/new_transcript.pdf"
       end
 
       before do
         stub_request(:get,
-          'https://s3.xikolo.de/xikolo-uploads?list-type=2&' \
+          "#{test_s3_host}/xikolo-uploads?list-type=2&" \
           "prefix=uploads%2F#{upload_id}")
           .to_return(
             status: 200,
@@ -531,7 +531,7 @@ RSpec.describe Video::Store do
       context 'with a valid transcript file upload' do
         let(:store_stub) do
           stub_request(:put,
-            %r{https://s3.xikolo.de/xikolo-video/videos/[0-9a-zA-Z]+/[0-9a-zA-Z]+/new_transcript.pdf})
+            %r{#{test_s3_host}/xikolo-video/videos/[0-9a-zA-Z]+/[0-9a-zA-Z]+/new_transcript.pdf})
             .to_return(
               status: 200,
               headers: {'Content-Type' => 'application/xml'},
@@ -602,7 +602,7 @@ RSpec.describe Video::Store do
                 'X-Amz-Meta-Xikolo-State' => 'accepted',
               }
             )
-            stub_request(:put, %r{https://s3.xikolo.de/xikolo-video/videos/[0-9a-zA-Z]+/[0-9a-zA-Z]+/new_transcript.pdf})
+            stub_request(:put, %r{#{test_s3_host}/xikolo-video/videos/[0-9a-zA-Z]+/[0-9a-zA-Z]+/new_transcript.pdf})
               .to_return(status: 403)
           end
 
@@ -614,7 +614,7 @@ RSpec.describe Video::Store do
         let(:transcript_uri) { "s3://xikolo-video/videos/#{UUID4(video_id).to_s(format: :base62)}/encodedUUUID/transcript.pdf" }
         let!(:store_stub) do
           stub_request(:put,
-            %r{https://s3.xikolo.de/xikolo-video/videos/[0-9a-zA-Z]+/[0-9a-zA-Z]+/new_transcript.pdf})
+            %r{#{test_s3_host}/xikolo-video/videos/[0-9a-zA-Z]+/[0-9a-zA-Z]+/new_transcript.pdf})
             .to_return(
               status: 200,
               headers: {'Content-Type' => 'applhttp:ication/xml', 'Content-Disposition' => 'attachment; filename="new_transcript.pdf"'},
@@ -672,7 +672,7 @@ RSpec.describe Video::Store do
     context 'with a backward-compatible S3-upload' do
       let(:upload_id) { SecureRandom.uuid }
       let(:file_name) { 'new_transcript.pdf' }
-      let(:store_stub_url) { %r{https://s3.xikolo.de/xikolo-video/videos/[0-9a-zA-Z]+/[0-9a-zA-Z]+/new_transcript.pdf} }
+      let(:store_stub_url) { %r{#{test_s3_host}/xikolo-video/videos/[0-9a-zA-Z]+/[0-9a-zA-Z]+/new_transcript.pdf} }
       let(:purpose) { 'video_transcript' }
 
       before do
@@ -700,11 +700,11 @@ RSpec.describe Video::Store do
   describe '(updating subtitles)' do
     let(:upload_id) { SecureRandom.uuid }
     let(:update_params) { super().merge subtitles_upload_id: upload_id }
-    let(:file_url) { "https://s3.xikolo.de/xikolo-uploads/uploads/#{upload_id}/#{file_name}" }
+    let(:file_url) { "#{test_s3_host}/xikolo-uploads/uploads/#{upload_id}/#{file_name}" }
 
     before do
       stub_request(:get,
-        'https://s3.xikolo.de/xikolo-uploads?list-type=2&' \
+        "#{test_s3_host}/xikolo-uploads?list-type=2&" \
         "prefix=uploads%2F#{upload_id}")
         .to_return(
           status: 200,

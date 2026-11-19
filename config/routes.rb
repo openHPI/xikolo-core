@@ -1,12 +1,6 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :reports, only: %i[index create destroy], module: 'admin'
-
-  resources :documents, controller: 'admin/documents' do
-    resources :localizations, controller: 'admin/document_localizations', except: %i[show index]
-  end
-
   post 'cookie_consent', to: 'cookie_consent#create'
 
   def pinboard_routes
@@ -63,6 +57,7 @@ Rails.application.routes.draw do
       resources :confirmations, only: %i[show new create update], path: :confirm
       get 'policies', to: 'policies#show'
       put 'policies', to: 'policies#update'
+      resource :guardian_consent, only: %i[show update]
       put 'consents', to: 'consents#update'
       get 'verify', to: 'accounts#verify'
     end
@@ -93,8 +88,16 @@ Rails.application.routes.draw do
     resource :preferences, only: %i[update show]
   end
 
-  resources :videos, only: %i[index destroy], module: 'admin'
-  resources :subtitles, only: %i[show destroy]
+  resources :videos, only: %i[new index create destroy], module: 'admin' do
+    member do
+      post :retry
+    end
+  end
+  resources :subtitles, only: %i[show destroy] do
+    member do
+      get 'download'
+    end
+  end
 
   resources :playlists, only: %i[show], module: 'video'
 
@@ -107,27 +110,15 @@ Rails.application.routes.draw do
   get '/certificate/render', to: 'course/certificates#render_certificate', as: :certificate_render, module: 'course'
   get '/verify/:id', to: 'course/certificates#verify', as: :certificate_verification, module: 'course'
 
-  # Open Badges
-  namespace :openbadges, module: :open_badges do
-    get 'issuer', to: 'open_badges#issuer'
-    get 'public_key', to: 'open_badges#public_key'
-    get 'revocation_list', to: 'open_badges#revocation_list'
-
-    scope path: :v2, module: :v2 do
-      get 'issuer', to: 'open_badges#issuer', as: :issuer_v2
-      get 'public_key', to: 'open_badges#public_key', as: :public_key_v2
-      get 'revocation_list', to: 'open_badges#revocation_list', as: :revocation_list_v2
-    end
-  end
-
-  resources :users, only: %i[index create new], module: 'admin' do
+  resources :users, only: %i[index], module: 'admin' do
     resource :masquerade, only: %i[create destroy]
     resource :manual_confirmations, only: :create
-    resource :bans, only: :create
+    resource :bans, only: %i[create destroy]
+    resource :top_talents, only: %i[create destroy]
   end
   resources :users, only: %i[show destroy]
 
-  resources :teachers, except: :destroy, module: 'admin'
+  resources :teachers, module: 'admin'
   resources :permissions, only: [:index], module: 'admin'
   resources :vouchers, only: %i[index create], module: 'admin'
   get '/vouchers/stats', to: 'admin/vouchers#stats', as: :vouchers_stats
@@ -139,76 +130,53 @@ Rails.application.routes.draw do
   post '/users/:id/change_user_password', to: 'users#change_user_password'
   resources :feeds, only: [:index]
   get '/feeds/courses', to: 'feeds#courses', as: :courses_feed, defaults: {format: 'json'}
-  post '/courses/:id/clone', to: 'admin/courses#clone', as: :course_clone, module: 'admin'
-  post '/courses/:id/generate_ranking', to: 'admin/course_management#generate_ranking', as: :generate_ranking_course
-  get '/admin/courses(/:category)', to: 'admin/courses#index', as: :admin_courses
-  resources :courses, only: %i[create update new edit destroy], module: 'admin'
+  post '/learn/:id/clone', to: 'admin/courses#clone', as: :course_clone, module: 'admin'
+  post '/learn/:id/generate_ranking', to: 'admin/course_management#generate_ranking', as: :generate_ranking_course
+  get '/admin/learn(/:category)', to: 'admin/courses#index', as: :admin_courses
+  resources :courses, only: %i[create update new edit destroy], module: 'admin', path: 'learn'
   namespace :admin do
     scope module: :ajax do
-      get 'detail_statistics/countries', to: 'detail_statistics#countries'
-      get 'detail_statistics/cities', to: 'detail_statistics#cities'
-      get 'detail_statistics/top_item_types', to: 'detail_statistics#top_item_types'
       get 'dashboard_statistics/age_distribution', to: 'dashboard_statistics#age_distribution'
-      get 'dashboard_statistics/client_usage', to: 'dashboard_statistics#client_usage'
 
       resources :streams, only: :index
       get '/find_courses', to: 'courses#index', constraints: ->(r) { r.xhr? }
       get '/find_users', to: 'users#index', constraints: ->(r) { r.xhr? }
       get '/find_classifiers', to: 'classifiers#index'
     end
-    resources :polls, except: %i[show] do
-      resources :options, only: %i[create destroy], controller: 'poll_options'
-    end
   end
-  get 'polls/next', to: 'polls#next', as: :next_poll
-  get 'polls/archive', to: 'polls#archive', as: :polls_archive
-  post 'polls/:id/vote', to: 'polls#vote', as: :vote_poll
 
   scope path: 'admin/statistics', module: 'admin', as: :admin_statistics do
     get 'news', to: 'statistics#news', as: :news
   end
-  scope '/courses/:course_id/statistics', module: 'course/admin', as: :course_statistics do
-    get 'activity', to: 'statistics#activity', as: :activity
-    get 'geo', to: 'statistics#geo', as: :geo
+  scope '/learn/:course_id/statistics', module: 'course/admin', as: :course_statistics do
     get 'news', to: 'statistics#news', as: :news
     get 'pinboard', to: 'statistics#pinboard', as: :pinboard
-    get 'social', to: 'statistics#social', as: :social
-    get 'referrer', to: 'statistics#referrer', as: :referrer
-    get 'item_visits', to: 'statistics#item_visits', as: :item_visits
-    get 'quiz', to: 'statistics#quiz', as: :quiz
-    get 'item_details', to: 'statistics#item_details', as: :item_details
-    get 'videos', to: 'statistics#videos', as: :videos
-    get 'rich_texts', to: 'statistics#rich_texts', as: :rich_texts
   end
 
   resources :channels, only: %i[create update new edit destroy], module: 'admin'
   resources :channels, only: %i[show], module: 'home'
   namespace :admin do
+    resources :shorts, only: %i[index create update new edit destroy]
     resources :channels, only: %i[index]
     get '/channels/order', to: 'channels_order#index'
     post '/channels/order', to: 'channels_order#update'
   end
 
-  resources :courses, only: %i[index], module: 'home'
-  resources :courses, only: %i[create update new edit], module: 'admin'
-  resources :courses, only: %i[show], module: 'course' do
-    resources :free_reactivations, only: [:create]
+  # Fallback for old courses routes, redirect to learn
+  get '/courses/*path', to: redirect('/learn/%{path}')
+  get '/courses', to: redirect('/learn')
+
+  get '/learn/:id/content/:blob_id/*path', to: 'cmi5_contents#show', as: :course_content, format: false
+
+  resources :courses, only: %i[index], module: 'home', path: 'learn'
+  resources :courses, only: %i[create update new edit], module: 'admin', path: 'learn'
+  resources :courses, only: %i[show], module: 'course', path: 'learn' do
+    get :teaser_signed_url, on: :member
   end
-  resources :courses, only: [] do
+
+  resources :courses, only: [], path: 'learn' do
     get 'launch(/:auth)', controller: 'course/launch', to: 'course/launch#launch', as: 'launch'
-    get 'certificates', to: 'course/certificates#index', as: :certificates
     get 'certificate', to: 'course/certificates#show', as: :certificate, module: 'course'
-
-    # Open Badges
-    scope module: :open_badges do
-      get 'assertion/:id', to: 'open_badges#assertion', as: :openbadges_assertion
-      get 'badge', to: 'open_badges#badge_class', as: :openbadges_class
-
-      namespace :openbadges, path: 'openbadges/v2', module: :v2 do
-        get 'assertion/:id', to: 'open_badges#assertion', as: :assertion_v2
-        get 'class', to: 'open_badges#badge_class', as: :class_v2
-      end
-    end
 
     # Make course announcements available as /courses/:course_id/announcements
     resources :announcements, except: %i[show], module: 'course'
@@ -232,13 +200,17 @@ Rails.application.routes.draw do
         get :preview, action: :preview_certificate
       end
     end
-    resources :open_badge_templates, only: %i[index create update new edit destroy], module: 'course/admin'
 
     resource :recalculations, only: %i[create], module: 'course/admin/learning_evaluation'
 
-    resource :progress, only: [:show], module: 'course'
+    resource :progress, only: [:show], module: 'course' do
+      get :bar
+    end
 
     resources :items, only: %i[show edit] do
+      member do
+        get :signed_url
+      end
       resources :quiz_submission, only: %i[new show create]
       resources :quiz_submission_snapshot, only: [:create]
       resources :topics, only: [:create], module: 'course/ajax'
@@ -252,8 +224,12 @@ Rails.application.routes.draw do
         post :choose_alternative_section
       end
       resources :items, except: [:index], as: :items do
+        collection do
+          get :new_exam
+        end
         member do
           post :move
+          get :edit_exam
         end
         resources :quiz_questions, except: %i[index new show], as: :quiz_questions do
           member do
@@ -270,14 +246,31 @@ Rails.application.routes.draw do
     pinboard_routes
   end
 
-  scope '/courses/:course_id/items/:id' do
+  namespace :cmi5 do
+    resources :tokens, only: [:create]
+
+    # TinCan.js sends individual statements via PUT and batches via POST.
+    match 'reportings/statements',
+      to: 'reportings#create',
+      via: %i[post put],
+      as: :reportings_statements
+
+    get 'reportings/activities', to: 'reportings#activity', as: :reportings_activities
+    get 'reportings/agents/profile', to: 'reportings#agent_profile', as: :reportings_agents_profile
+
+    # xAPI state management (AU calls retrieveState during initialization)
+    get 'reportings/activities/state', to: 'state#show'
+    put 'reportings/activities/state', to: 'state#update'
+  end
+
+  scope '/learn/:course_id/items/:id' do
     get '/lti', to: 'items#show', as: :course_item_lti, defaults: {lti: true}
     get '/tool_launch', to: 'lti#tool_launch', as: :tool_launch_course_item
     post '/tool_grading', to: 'lti#tool_grading', as: :tool_grading_course_item, defaults: {format: 'xml'}
     get '/tool_return', to: 'lti#tool_return', as: :tool_return_course_item, defaults: {format: 'xml'}
   end
   # Legacy item routes:
-  scope '/courses/:course_id/sections/:section_id/items/:id' do
+  scope '/learn/:course_id/sections/:section_id/items/:id' do
     get '/tool_launch', to: 'lti#tool_launch', as: nil
     post '/tool_grading', to: 'lti#tool_grading', as: nil, defaults: {format: 'xml'}
     get '/tool_return', to: 'lti#tool_return', as: nil, defaults: {format: 'xml'}
@@ -306,27 +299,22 @@ Rails.application.routes.draw do
   get '/dashboard/achievements', to: 'dashboard#achievements'
   get '/dashboard/documents', to: 'dashboard#documents'
 
-  post 'courses/:course_id/add_attempt', to: 'course/admin/quiz_submissions#add_attempt', as: :add_attempt
-  post 'courses/:course_id/add_fudge_points', to: 'course/admin/quiz_submissions#add_fudge_points', as: :add_fudge_points
-  get '/courses/:id/dashboard', to: 'course/admin/dashboard#show', as: :course_dashboard
-  get '/courses/:id/statistic', to: 'admin/course_management#statistic', as: :course_statistic
-  get '/courses/:id/documents', to: 'course/documents#index', as: :course_documents
-  get '/courses/:id/submission_statistics', to: 'admin/course_management#submission_statistics', as: :course_submission_statistics
-  get '/courses/:course_id/items/:item_id/stats', to: 'course/admin/item_stats#show', as: :course_item_statistics
-  get '/courses/:course_id/enrollments', to: 'course/admin/enrollments#index', as: :course_enrollments
-  post '/courses/:course_id/enrollments', to: 'course/admin/enrollments#create', as: :teacher_create_enrollment
-  delete '/courses/:course_id/enrollments/:user_id', to: 'course/admin/enrollments#destroy', as: :teacher_destroy_enrollment
-  get '/courses/:id/submissions', to: 'admin/course_management#submissions', as: :course_submissions
-  post 'courses/:id/convert_submission', to: 'admin/course_management#convert_submission', as: :convert_submission
-  get '/courses/:id/resume', to: 'course/courses#resume', as: :course_resume
-  post '/courses/:id/preview_quizzes', to: 'admin/course_management#preview_quizzes', as: :preview_quizzes
-  post '/courses/:id/import_quizzes', to: 'admin/course_management#import_quizzes', as: :import_quizzes
-  post '/courses/:id/import_quizzes_by_service', to: 'admin/course_management#import_quizzes_by_service', as: :import_quizzes_by_service
+  post 'learn/:course_id/add_attempt', to: 'course/admin/quiz_submissions#add_attempt', as: :add_attempt
+  post 'learn/:course_id/add_fudge_points', to: 'course/admin/quiz_submissions#add_fudge_points', as: :add_fudge_points
+  get '/learn/:id/dashboard', to: 'course/admin/dashboard#show', as: :course_dashboard
+  get '/learn/:course_id/items/:item_id/stats', to: 'course/admin/item_stats#show', as: :course_item_statistics
+  get '/learn/:course_id/enrollments', to: 'course/admin/enrollments#index', as: :course_enrollments
+  post '/learn/:course_id/enrollments', to: 'course/admin/enrollments#create', as: :teacher_create_enrollment
+  delete '/learn/:course_id/enrollments/:user_id', to: 'course/admin/enrollments#destroy', as: :teacher_destroy_enrollment
+  get '/learn/:id/submissions', to: 'admin/course_management#submissions', as: :course_submissions
+  post 'learn/:id/convert_submission', to: 'admin/course_management#convert_submission', as: :convert_submission
+  get '/learn/:id/resume', to: 'course/courses#resume', as: :course_resume
+  post '/learn/:id/import_quizzes', to: 'admin/course_management#import_quizzes', as: :import_quizzes
   get '/news', to: 'home/announcements#index', as: 'news_index'
   resources :announcements, path: 'news', only: %i[new create edit update destroy]
   get '/news/:id/', to: 'home/announcements#index' # as we dont have a index route yet
   get '/courses/:course_id/announcements/:id', to: 'course/announcements#index'
-  get '/courses/:course_id/overview', to: 'course/syllabus#show', as: :course_overview
+  get '/learn/:course_id/overview', to: 'course/syllabus#show', as: :course_overview
 
   # The web manifest (for home screen installation on mobile devices)
   get '/web_manifest.json', to: 'web_manifest#show'
@@ -340,12 +328,20 @@ Rails.application.routes.draw do
     get ':filename', to: 'files#show', constraints: {filename: %r{[^/]+}}
   end
 
+  get '/about', to: 'home/about#show', as: 'about'
+
   get '/pages/:id', to: 'home/pages#show', as: 'page'
   resources :pages, only: %i[edit edit update]
 
   get '/files/logo', to: 'files#logo'
   get '/favicon.ico', to: 'files#favicon'
   get '/avatar/:id(/size/:size)', to: 'files#avatar', as: :avatar
+
+  resources :shorts, only: [] do
+    member do
+      get :signed_url
+    end
+  end
 
   post '/subscriptions/toggle_subscription/:question_id', to: 'subscriptions#toggle_subscription', as: :toggle_subscription
   post '/subscriptions/unsubscribe/:question_id', to: 'user/subscriptions#destroy', as: :unsubscribe
@@ -354,25 +350,17 @@ Rails.application.routes.draw do
 
   resource :notification_user_disables, path: '/notification_user_settings/disable', only: %i[show create]
 
-  get '/learn', to: 'learning_mode#index'
-  get '/learn/review', to: 'learning_mode#review'
-
   get 'ical', to: 'ical#index'
 
-  # Private API endpoints used by the frontend only. Must shadow the
-  # deprecated public API below.
-  post 'api/tracking-events', to: 'api/tracking_events#create'
-
-  # mount Rack based API app
-  mount Xikolo::API => '/api'
-
+  get '/recap', to: 'quiz_recap#index'
+  get '/recap/review', to: 'quiz_recap#review'
   get 'app/quiz-recap', to: 'quiz_recap#show'
 
   namespace :admin do
     resources :clusters, only: %i[index show edit update] do
       resources :classifiers, only: %i[new create edit update destroy] do
-        get '/courses/order', to: 'classifier/courses_order#index'
-        post '/courses/order', to: 'classifier/courses_order#update'
+        get '/learn/order', to: 'classifier/courses_order#index'
+        post '/learn/order', to: 'classifier/courses_order#update'
       end
       get '/classifiers/order', to: 'cluster/classifiers_order#index'
       post '/classifiers/order', to: 'cluster/classifiers_order#update'
@@ -403,30 +391,6 @@ Rails.application.routes.draw do
   end
 
   scope 'bridges', module: :bridges, as: 'bridges' do
-    # Internal Bridge Transpipe API
-    scope 'transpipe', module: :transpipe, as: 'transpipe' do
-      resources :courses, only: %i[index show]
-      resources :videos, only: :show do
-        member do
-          get 'subtitles/:lang', to: 'subtitles#show'
-          patch 'subtitles/:lang', to: 'subtitles#update'
-        end
-      end
-    end
-
-    scope 'lanalytics', module: :lanalytics, as: 'lanalytics', defaults: {format: 'json'} do
-      get '/', to: 'root#index'
-
-      scope 'courses/:course_id', as: 'course' do
-        resource :ticket_stats, controller: 'course_ticket_stats', only: %i[show]
-        resource :open_badge_stats, controller: 'course_open_badge_stats', only: %i[show]
-      end
-
-      scope 'videos/:video_id' do
-        resource :video_stats, controller: 'video_stats', only: %i[show]
-      end
-    end
-
     scope 'moochub', module: :mooc_hub, as: 'moochub' do
       resources :courses, only: %i[index]
     end
@@ -454,10 +418,6 @@ Rails.application.routes.draw do
     mount Lookbook::Engine, at: '/rails/components'
   end
 
-  if Rails.env.test? || Rails.env.integration?
-    get '/__session__', to: 'account/test#show'
-    post '/__session__', to: 'account/test#update'
-  end
-
-  mount Coverband::Reporters::Web.new, at: '/coverage'
+  mount Coverband::Reporters::Web.new, at: '/coverage' if defined?(Coverband)
+  mount MaintenanceTasks::Engine, at: '/maintenance_tasks'
 end

@@ -9,6 +9,7 @@
 .byebug_history
 .cache
 .DS_Store
+.envrc
 .fuse*
 .generators
 .idea
@@ -41,17 +42,11 @@
 /vendor/ruby
 dump.rdb
 tmp
+/storage
 
 # Auto-generated test coverage data
 coverage/
 examples.txt
-
-# Auto-generate integration initializers & config
-/config/initializers/integration.rb
-/config/initializers/integration
-/config/initializers/integration*
-/config/services.integration.yml
-/config/xikolo.integration.yml
 
 # Auto-generated assets
 /public/assets*
@@ -63,4 +58,3 @@ examples.txt
 
 # License-restricted files (add internal updates with force)
 /app/assets/stylesheets/fontawesome-pro/
-AGENTS.md

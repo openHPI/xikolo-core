@@ -18,10 +18,9 @@ de:
     options:
       certificate_template:
         certificate_type:
-          Certificate: Certificate
+          Certificate: Verified Certificate
           ConfirmationOfParticipation: Confirmation of Participation
-          RecordOfAchievement: Record of Achievement
-          TranscriptOfRecords: Transcript of Records
+          RecordOfAchievement: Certificate
       lti_provider:
         presentation_mode:
           frame: frame - Eingebettet im Kursbereich
@@ -51,7 +50,6 @@ de:
         date_of_birth: "Geburtsdatum"
       announcement:
         title: Titel
-        visual_upload_id: Visual
         show_on_homepage: Auf der Startseite anzeigen
         publish_at: Veröffentlichungsdatum (UTC)
         audience: Empfängergruppe
@@ -64,13 +62,13 @@ de:
         color: Kategorie
         all_day: Ganztägiges Event
       certificate_template:
-        certificate_type: Leistungsnachweis-Typ
+        certificate_type: Zertifikat-Typ
         file: Template-Datei
         dynamic_content: Dynamischer Inhalt
         qrcode_x: QR code x
         qrcode_y: QR code y
       channel:
-        channels: Channels
+        channels: Themenwelten
         code: Code
         name: Name
         title_de: Name (Deutsch)
@@ -94,16 +92,12 @@ de:
         title: "Titel"
         course_code: "Kurscode"
         abstract: Beschreibung (kurz)
-        auto_archive: "Automatisch archivieren (nach Kursende)"
-        show_syllabus: "Übersicht"
         description: "Beschreibung (lang)"
-        rating_stars: Bewertung (durchschnittliche Sterne)
-        rating_votes: Bewertung (Anzahl der Stimmen)
+        learning_goals: Lernziele
         lang: Sprache
         enrollment_delta: "Einschreibungszahlen-Delta"
         groups: Auf Gruppen beschränken
-        hidden: "Kurs ist versteckt"
-        show_on_list: Auf Kursliste zeigen
+        placement: "Kursplatzierung"
         on_demand: "Reaktivierung"
         welcome_mail: Willkommens-Mail
         invite_only: Einladung benötigt
@@ -112,17 +106,15 @@ de:
         end_date: "Enddatum (UTC)"
         middle_of_course_is_auto: "Kursmitte automatisch berechnen"
         middle_of_course: "Kursmitte (UTC)"
-        roa_enabled: "Leistungsnachweis"
+        roa_enabled: "Zertifikat"
         cop_enabled: "Teilnahmebestätigung"
-        roa_threshold_percentage: "Leistungsnachweis-Schwellwert"
+        roa_threshold_percentage: "Zertifikat-Schwellwert"
         cop_threshold_percentage: "Teilnahmebestätigung-Schwellwert"
-        pinboard_enabled: Diskussionsforum
-        records_released: "Leistungsnachweise freischalten"
+        pinboard_enabled: Forum
+        records_released: "Zertifikate freischalten"
         forum_is_locked: "Forum schließen"
         external_course_url: "Externe Kurs-URL"
-        policy_url: Policy-URL
         enable_video_download: Herunterladen der Videos / Audios
-        external_registration_url: Externe Registrierungs-URL
       course_offer:
         category: Kategorie
         price: Preis
@@ -149,10 +141,6 @@ de:
         description: Beschreibung
         completion_type: Abschlusstyp
         final: Materialien vollständig?
-      open_badge_template:
-        file: Bild-Datei
-        name: Name
-        description: Beschreibung
       page:
         name: Name
         locale: Sprache
@@ -164,17 +152,8 @@ de:
       translation:
         title: Titel
         text: Text
-      user:
-        full_name: Ihr Name
-        email: Ihre E-Mail-Adresse
-        password: Passwort
-        password_confirmation: Passwort (Wiederholung)
       video_provider:
         name: Name
-      video_provider_credentials_kaltura:
-        partner_id: Partner-ID
-        token: Token
-        token_id: Token-ID
       video_provider_credentials_vimeo:
         token: Token
       voucher_redemption:
@@ -190,15 +169,15 @@ de:
 
     hints:
       account:
-        date_of_birth: Mit Ihren Angaben ermöglichen Sie uns die Erstellung anonymer Statistiken, durch die wir unser Angebot verbessern und auch künftig kostenlos anbieten können.
+        date_of_birth: Dein Geburtsdatum wird später auf deinen openHPI-Zertifikaten erscheinen.
       announcement_email:
         consents: "Wählen Sie alle Einwilligungen aus, denen die Empfänger zugestimmt haben müssen, um die Ankündigung zu erhalten. Sollten Sie keine Einwilligungen auswählen, wird die Ankündigung an alle Empfänger versendet. Um rechtskonform zu bleiben, sollten Sie im Zweifelsfall Ihren Datenschutzexperten zu Rate ziehen."
       channel:
         stage_visual_upload_id: "Das Visual muss eine Mindestgröße von %{width}x%{height} px haben. Größere Bilder werden verkleinert und zugeschnitten."
         mobile_visual_upload_id: "Das Visual muss eine Mindestgröße von %{width}x%{height} px haben. Größere Bilder werden verkleinert und zugeschnitten."
-        code: "Der Channel-Code sollte nur aus Kleinbuchstaben und dem Minuszeichen ('-') bestehen."
-        logo_upload_id: "Das Channel-Logo wird mit einer maximalen Höhe von 60 px angezeigt und sollte einen transparenten Hintergrund haben. Bitte bereiten Sie Ihr Logo entsprechend vor."
-        public: "Diesen Channel in der Navigationsleiste und anderen Auflistungen von Channels (wie den Filtern der Kursliste) anzeigen. Hinweis: Der Channel selbst bleibt über eine öffentliche URL erreichbar, so dass die Seite an anderer Stelle verlinkt werden kann."
+        code: "Der Themenwelt-Code sollte nur aus Kleinbuchstaben und dem Minuszeichen ('-') bestehen."
+        logo_upload_id: "Das Logo wird mit einer maximalen Höhe von 60 px angezeigt und sollte einen transparenten Hintergrund haben. Bitte bereiten Sie Ihr Logo entsprechend vor."
+        public: "Diese Themenwelt in der Navigationsleiste und anderen Auflistungen von Themenwelten (wie den Filtern der Kursliste) anzeigen. Hinweis: Die Themenweltseite selbst bleibt über eine öffentliche URL erreichbar, so dass die Seite an anderer Stelle verlinkt werden kann."
       classifier:
         title: "Der Tag-ID wird nur bei der Zuweisung von Tags in den Kurs-Einstellungen verwendet. Die ID wird nicht für Lernende angezeigt. Erlaubte Zeichen: a-z, A-Z, 0-9, -, Leerzeichen."
         descriptions: Die Beschreibung wird beim Auflisten der Kurse für diesen Tag angezeigt, zum Beispiel auf der Startseite.
@@ -211,24 +190,21 @@ de:
         teacher_ids: "Hier können Sie nach weiteren Dozenten suchen und sie in der Liste sortieren. Die Angaben hier werden nur für Anzeigezwecke gesetzt; Berechtigungen müssen auf der Kursberechtigungsseite gesetzt werden."
         classifiers_keywords: Die Stichwörter werden über die <a href='https://moochub.org/about/' target='_blank'>MOOChub-API</a> veröffentlicht und für die interne Kurssuche verwendet.
         alternative_teacher_text: "Anzeigetext, falls Sie sehr viele Teachers haben"
-        learning_goals: 'Geben Sie die Kompetenzen, Kenntnisse, Fähigkeiten und Fertigkeiten ein, welche Teilnehmende durch den erfolgreichen Abschluss des Kurses erwerben sollen. Sie werden in den Kursdetails unter "Was Teilnehmende lernen werden" angezeigt.'
-        target_groups: 'Geben Sie die Lerngruppen ein, an die sich der Kurs richten soll. Sie werden in den Kursdetails unter "Für wen dieser Kurs gedacht ist" angezeigt.'
-        show_on_list: Falls deaktiviert, wird der Kurs nicht auf der globalen Kursliste zu sehen sein. Auf der Landing-Page seines Channels wird er nach wie vor auftauchen.
-        roa_threshold_percentage: "Schwellwert zwischen 1 und 100 in Prozent, um einen Leistungsnachweis zu erlangen. Der globale Standard-Wert ist %{global_default}."
-        cop_threshold_percentage: "Schwellwert zwischen 1 und 100 in Prozent, um einen Leistungsnachweis zu erlangen. Der globale Standard-Wert ist %{global_default}."
-        show_on_stage: "Wenn Sie diesen Kurs auf der Channel-Stage anzeigen möchten, <i>müssen Sie Stage Visual und Statement angeben</i>."
-        stage_statement: "Sie können eine h1-Überschrift ('# Titel') für einen Statement-Titel und eine h3-Überschrift ('### Autor') zur Angabe eines Autor des Statements verwenden. Benutzen Sie kein weiteres Markdown."
+        learning_goals: Geben Sie die Kompetenzen, Kenntnisse, Fähigkeiten und Fertigkeiten ein, welche Teilnehmende durch den erfolgreichen Abschluss des Kurses erwerben sollen. Die Lernziele erscheinen unter den Kursinformationen.
+        placement: Wählen Sie, wo der Kurs erscheinen soll. 'Open4All' zeigt ihn auf der öffentlichen Kursliste an. 'Archive' kennzeichnet ihn als Archivkurs.
+        roa_threshold_percentage: "Schwellwert zwischen 1 und 100 in Prozent, um ein Zertifikat zu erlangen. Der globale Standard-Wert ist %{global_default}."
+        cop_threshold_percentage: "Schwellwert zwischen 1 und 100 in Prozent, um ein Zertifikat zu erlangen. Der globale Standard-Wert ist %{global_default}."
         welcome_mail: Diese Nachricht wird per Mail an neu eingeschriebene Teilnehmer gesandt. Wenn das Feld leer bleibt, wird keine Email versandt.
         invite_only: Lernern das selbstständige Einschreiben verbieten. Um an solch einem Kurs teilzunehmen, müssen die Lerner durch die Kursbetreuer eingeschrieben werden.
         cop_enabled: Wird ausgestellt für das Ansehen / Bearbeiten des Kursmaterials.
         roa_enabled: Für erfolgreiche Kursteilnahme. Wird ab einer bestimmten Punktzahl ausgestellt.
-        on_demand: Erlaubt das Erreichen eines Leistungsnachweises nach der regulären Kurslaufzeit (wenn benotete Übungen wieder gesperrt sind). Diese Funktion muss zahlungspflichtig gebucht und durch einen Gutschein freigeschaltet werden.
-        records_released: Aktivieren Sie diese Option, um den Download von Leistungsnachweisen freizuschalten.
-        show_syllabus: Eine Seite im Kursbereich, die das gesamte freigeschaltete Lernmaterial anzeigt.
+        on_demand: Erlaubt das Erreichen eines Zertifikats nach der regulären Kurslaufzeit (wenn benotete Übungen wieder gesperrt sind). Diese Funktion muss zahlungspflichtig gebucht und durch einen Gutschein freigeschaltet werden.
+        records_released: Aktivieren Sie diese Option, um den Download von Zertifikaten freizuschalten.
         enable_video_download: Erlaubt Teilnehmern den Download von Video- und Audio-Versionen der Kursvideos, um offline zu lernen.
-        pinboard_enabled: Deaktiviert vollständig die Diskussionsfunktion für diesen Kurs. Die Benutzer können auf keine Diskussionen zugreifen. Eventuelle Diskussionsforen in Lernräumen sind davon nicht betroffen.
-        forum_is_locked: Diskussionen werden in einen schreibgeschützten Zustand gesetzt. Dies geschieht in der Regel nach dem Ende der Kurslaufzeit.
+        pinboard_enabled: Deaktiviert vollständig das Forum für diesen Kurs. Die Benutzer können auf keine Beiträge zugreifen. Eventuelle Beiträge in Lernräumen sind davon nicht betroffen.
+        forum_is_locked: Forumsbeiträge werden in einen schreibgeschützten Zustand gesetzt. Dies geschieht in der Regel nach dem Ende der Kurslaufzeit.
         visual_creation: Nachdem Sie den Kurs erstellt haben, können Sie Visuals in den Kurseinstellungen hinzufügen.
+        abstract: Gib eine kurze Kurszusammenfassung mit bis zu 150 Zeichen an.
       course_offer:
         price: Geben Sie den Preis in Euro ein (kommasepariert, z.B. zehn Euro und fünfzig Cent als "10,50").
       course_metadata:
@@ -242,17 +218,12 @@ de:
           'Sie können eine Datei mit Lizenz-Metadaten hochladen. Diese muss ein JSON-Array aus Lizenz-Objekten enthalten. Die Attribute der Lizenz-Objekte sind <a href="https://github.com/MOOChub/schema" target="_blank">hier</a> beschrieben.
           Bitte beachten Sie, dass der Upload nur eine einzige Datei zulässt. Ein neuer Upload überschreibt die vorhandenen Lizenz-Metadaten. Eine vollständige Liste von Lizenzen und Ausnahmen finden Sie hier: <a href="https://spdx.org/licenses/" target="_blank">SPDX-Lizenzliste</a>.'
       course_visual:
-        image: This image will be shown on all course lists. If you don't upload a teaser video, it will also appear on the course details page. For accessibility reasons, the image should not show any text.
-        video_stream_id: Wenn Sie ein Teaser-Video auswählen, wird es auf der Seite mit den Kursdetails anstelle des Kursbildes verwendet.
+        image: Dieses Bild wird in den Kurslisten und auf der Kursdetails-Karte angezeigt. Aus Gründen der Barrierefreiheit sollte es keinen Text enthalten.
+        video_stream_id: Das ausgewählte Video wird als Kurs-Teaser unter den Dozent:innen angezeigt. Entfernen Sie die Auswahl, um den Teaser zu entfernen.
         subtitles: "Entweder eine Untertiteldatei im WebVTT-Format oder ein ZIP-Archiv mit mehreren WebVTT-Dateien. Die Dateinamen aller WebVTT-Dateien müssen mit einem Trennzeichen (entweder '_' oder '-') und ihrem zwei oder drei Buchstaben langen Sprachcode (z.B. 'de' für Deutsch) enden. Beispiel: 'subtitles_de.vtt'."
       lti_provider:
         presentation_mode: 'Hinweis: Die Einbettung (frame) funktioniert nicht mit allen Tools in allen Browsern. Bitte stellen Sie sicher, dass es mit dem gewählten Tool funktioniert oder verwenden Sie stattdessen die Option "window".'
         custom_fields: "Spezifische Parameter, die gemäß dem LTI-Standard verwendet werden. Weitere Details zu den verfügbaren Parametern finden Sie in der Dokumentation des Tools."
-      open_badge_template:
-        name: Überschreibt den globalen Namen
-        description: Überschreibt die globale Beschreibung
-      poll:
-        start_at: "Hinweis: Sie können nur Antwortoptionen zu einer Umfrage hinzufügen, wenn diese noch nicht gestartet ist."
       xikolo_course_item:
         end_date: Wenn ein Enddatum angegeben wurde, wird dieses Item für alle Teilnehmenden gesperrt, sobald das Datum erreicht wurde.
         start_date: Wenn ein Startdatum angegeben wurde, wird dieses Item für alle Teilnehmenden gesperrt, bis das Datum erreicht wurde.
@@ -262,7 +233,7 @@ de:
       video:
         subtitles: "Entweder eine Untertiteldatei im WebVTT-Format oder ein ZIP-Archiv mit mehreren WebVTT-Dateien. Die Dateinamen aller WebVTT-Dateien müssen dabei nach einem Trennzeichen (entweder '_' oder '-') mit dem zwei oder drei Buchstaben langen Sprachcode (z.B. 'de' für Deutsch) enden. Beispiel: 'subtitles_de.vtt'"
       user:
-        full_name: Dieser Name wird für die Ausstellung der Leistungsnachweise genutzt.
+        full_name: Dieser Name wird später auf deinen openHPI-Zertifikaten erscheinen.
         display_name: Unter diesem Namen treten Sie auf der Lernplattform auf.
 
     placeholders:
@@ -302,11 +273,11 @@ de:
         create: Ankündigung erstellen
         update: Ankündigung speichern
       certificate_template:
-        create: Leistungsnachweis-Vorlage erstellen
-        update: Leistungsnachweis-Vorlage ändern
-      channel:
-        create: Channel erstellen
-        update: Channel speichern
+        create: Zertifikat-Vorlage erstellen
+        update: Zertifikat-Vorlage ändern
+      short:
+        create: Short erstellen
+        update: Short speichern
       classifier:
         create: Tag erstellen
         update: Tag speichern
@@ -330,14 +301,8 @@ de:
       objective:
         create: Lernziel erstellen
         update: Lernziel speichern
-      open_badge_template:
-        create: Vorlage erstellen
-        update: Vorlage ändern
       page:
         update: Speichern
-      poll:
-        create: Umfrage anlegen
-        update: Umfrage speichern
       teacher:
         create: Informationen speichern
         update: Informationen speichern
@@ -377,8 +342,6 @@ de:
         not_allowed: Eine Zertifikatsvorlage des gewählten Typs kann nicht angelegt werden.
       dynamic_content:
         invalid_xml: The XML for the dynamic content is invalid.
-      email:
-        already_taken: Die eingegebenen E-Mail-Adresse wurde bereits für einen Account auf unserer Platform registriert.
       end_at:
         before_start_date: Das Enddatum muss nach dem Startdatum liegen.
       hd_url:
@@ -388,10 +351,6 @@ de:
         not_unique: Die ID muss eindeutig sein.
       lecturer_stream_id:
         one_required: Es ist mindestens einer der Streams erforderlich.
-      password:
-        below_minimum_length: Das Passwort muss eine Länge von mindestens 8 Zeichen haben.
-        maximum_length_reached: Das Passwort darf eine Länge von 72 Zeichen nicht überschreiten.
-        password_contains_email: Ihre E-Mail-Adresse darf nicht Teil des Passworts sein.
       payment_frequency:
         not_supported: Die eingegebene Zahlungsweise ist nicht gültig.
       pip_stream_id:
@@ -437,10 +396,11 @@ de:
           # EN-fallback could_not_be_created: The item could not be created for some reason. Please try again.
         exercise_type:
           required_when_quiz: Quiz-Items brauchen einen Übungstyp.
+          required_when_scored_cmi5: Bewertete cmi5-Items brauchen den Übungstyp Selbsttest.
         max_points:
           invalid_format: Die Punktzahl muss positiv sein.
         submission_deadline:
         title:
           "can't be blank": Bitte geben Sie einen Titel für die Lerneinheit an.
-      record_availability: Der Leistungsnachweis ist noch nicht verfügbar.
-      user_entitlement: Dieser Leistungsnachweis ist nur für Benutzer verfügbar, die im Kurs eingeschrieben sind und ihn erworben haben.
+      record_availability: Das Zertifikat ist noch nicht verfügbar.
+      user_entitlement: Dieses Zertifikat ist nur für Benutzer verfügbar, die im Kurs eingeschrieben sind und es erworben haben.

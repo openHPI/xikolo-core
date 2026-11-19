@@ -21,11 +21,11 @@ RSpec.describe NewsService::Message::Create, type: :operation do
   end
 
   it 'invokes the message worker' do
-    expect(NewsService::MessageWorker).to receive(:call) do |message|
-      expect(message).to eq NewsService::Message.first
-    end
-
-    op.call(announcement)
+    expect { op.call(announcement) }
+      .to have_enqueued_job(NewsService::MessageJob)
+      .with do |message_id|
+        expect(message_id).to eq NewsService::Message.first.id
+      end
   end
 
   context 'with a minimal announcement' do

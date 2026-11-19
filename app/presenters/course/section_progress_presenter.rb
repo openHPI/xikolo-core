@@ -2,11 +2,11 @@
 
 class Course::SectionProgressPresenter < SectionPresenter
   def available?
-    @section.available
+    @section.available?
   end
 
   def optional?
-    @section.optional
+    @section.optional?
   end
 
   def description
@@ -14,13 +14,22 @@ class Course::SectionProgressPresenter < SectionPresenter
   end
 
   def items
-    # `@section.items` may be `nil` if the section is not available.
-    # Make sure to always return an enumerable object and avoid a tri-state.
-    return [] if @section.items.blank?
-
-    @section.items.map do |i|
-      item = Xikolo::Course::Item.new(i)
-      ItemPresenter.for(item, course: @course, user: @user)
+    @section.items.published.user_state(@user.id).map do |item|
+      ItemPresenter.for(item_attributes(item), course: @course, user: @user)
     end
+  end
+
+  private
+
+  def item_attributes(item)
+    {
+      'id' => item.id,
+      'title' => item.title,
+      'content_type' => item.content_type,
+      'exercise_type' => item.exercise_type,
+      'user_state' => item.user_state,
+      'optional' => item.optional?,
+      'open_mode' => item.open_mode,
+    }
   end
 end

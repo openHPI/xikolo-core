@@ -5,22 +5,19 @@ require 'spec_helper'
 describe 'Dashboard: Profile: Update', type: :request do
   subject(:update_profile) do
     patch '/dashboard/profile',
-      params: {xikolo_account_user: params},
-      headers:
+      params: {xikolo_account_user: params}
   end
 
   before do
-    stub_user_request(id: user_id, features:)
-
-    Stub.request(:account, :get, "/users/#{user_id}")
-      .and_return Stub.json(user_resource)
+    sign_in(user:) if authenticate
   end
 
-  let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
   let(:user_id) { generate(:user_id) }
   let(:user_resource) { attributes_for(:'account_service/user', id: user_id) }
   let(:features) { {} }
   let(:params) { {} }
+  let(:user) { create(:'account_service/user', id: user_id) }
+  let(:authenticate) { true }
 
   context 'with the profile feature flipper' do
     let(:update_profile_stub) do
@@ -88,6 +85,10 @@ describe 'Dashboard: Profile: Update', type: :request do
   end
 
   context 'without the profile feature flipper' do
+    before do
+      AccountService::Feature.where(name: 'profile').delete_all
+    end
+
     it 'cannot be accessed' do
       expect { update_profile }.to raise_error(AbstractController::ActionNotFound)
     end

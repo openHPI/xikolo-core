@@ -3,9 +3,8 @@
 require 'spec_helper'
 
 describe 'Account: Authorizations: Delete', type: :request do
-  subject(:request) { get '/dashboard/profile', headers: }
+  subject(:request) { get '/dashboard/profile' }
 
-  let(:headers) { {Authorization: "Xikolo-Session session_id=#{stub_session_id}"} }
   let(:user_resource) do
     attributes_for(:'account_service/user', id: user.id)
       .merge(consents_url: "http://localhost:3000/account_service/users/#{user[:id]}/consents")
@@ -30,7 +29,7 @@ describe 'Account: Authorizations: Delete', type: :request do
   let(:page) { Capybara.string(response.body) }
 
   before do
-    stub_user_request(id: user_resource[:id], features:)
+    sign_in(user:)
     Stub.request(:account, :get, "/authorizations?user=#{user_resource[:id]}")
       .and_return Stub.json(user_authorizations)
   end

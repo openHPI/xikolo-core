@@ -1,17 +1,26 @@
 # frozen_string_literal: true
 
 class Account::Register < ApplicationOperation
+  NOTIFICATION_PREFERENCES = %w[
+    notification.email.global
+    notification.email.news.announcement
+    notification.email.course.announcement
+    notification.email.pinboard.new_answer
+  ].freeze
+
   ##
   # Parameters:
   # - a filled-out Account::AccountForm object
   # - a hash of treatment names mapped to booleans (whether the user consented or not)
+  # - whether the user agreed to receive email notifications
   # - a block that, given an email ID, can generate a confirmation URL
   #
-  def initialize(form, treatments, confirm:)
+  def initialize(form, treatments, confirm:, notification_emails: false)
     super()
 
     @form = form
     @treatments = treatments
+    @notification_emails = notification_emails
     @confirm = confirm
   end
 
@@ -22,6 +31,11 @@ class Account::Register < ApplicationOperation
   def call
     return result Failure.new(@form.errors) unless @form.valid?
 
+    if missing_required_treatments?
+      @form.errors.add :base, :invalid
+      return result Failure.new(@form.errors)
+    end
+
     user = account_api.rel(:users).post(@form.to_resource)
     policy = account_api.rel(:policies).get.then(&:first)
 
@@ -30,6 +44,7 @@ class Account::Register < ApplicationOperation
         trigger_welcome_mail user.value!, email if email
       end,
       consent!(user.value!),
+      enable_notifications!(user.value!),
       accept_policy!(user.value!, policy.value!),
     ].compact.each(&:value!)
 
@@ -39,6 +54,12 @@ class Account::Register < ApplicationOperation
   end
 
   private
+
+  # Required treatments need explicit consent, so registration is refused
+  # as long as one of them has not been ticked.
+  def missing_required_treatments?
+    AccountService::Treatment.where(required: true).pluck(:name).any? {|name| !@treatments[name] }
+  end
 
   def load_email(user)
     user.rel(:emails).get.then(&:first)
@@ -52,6 +73,14 @@ class Account::Register < ApplicationOperation
     end
 
     user.rel(:consents).patch(consents)
+  end
+
+  def enable_notifications!(user)
+    return unless @notification_emails
+
+    user.rel(:preferences).patch({
+      properties: NOTIFICATION_PREFERENCES.index_with('true'),
+    })
   end
 
   def accept_policy!(user, policy)

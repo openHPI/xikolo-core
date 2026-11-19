@@ -30,7 +30,8 @@ class RepetitionSuggestionsController < ApplicationController # rubocop:disable 
           COALESCE((user_dpoints::float/max_dpoints::float)*100,0) AS percentage,
           user_dpoints'),
       :items
-    ).available.reorder('percentage ASC')
+    ).select(*Item.column_names, :percentage, :user_dpoints)
+      .available.reorder('percentage ASC')
     items.where! 'percentage < 80'
     items.limit! limit if limit.present?
 

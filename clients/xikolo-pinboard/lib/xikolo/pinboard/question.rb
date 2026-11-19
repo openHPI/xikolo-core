@@ -70,10 +70,8 @@ class Xikolo::Pinboard::Question < Acfs::Resource
     section_tags.each do |section_tag|
       next unless (section_id = UUID4.try_convert(section_tag[:name]))
 
-      Xikolo::Course::Section.find section_id.to_s do |section|
-        @section = section
-        block&.call @section
-      end
+      @section = CourseService::Section.find(section_id.to_s)
+      block&.call @section
     end
   end
 
@@ -85,12 +83,11 @@ class Xikolo::Pinboard::Question < Acfs::Resource
     end
     item_tags = implicit_tags if item_tags.nil?
     item_tags.each do |item_tag|
-      Xikolo::Course::Item.find_by id: item_tag[:name] do |item|
-        if item.present?
-          @item = item
-          block&.call @item
-        end
-      end
+      item = CourseService::Item.find_by id: item_tag[:name]
+      next if item.blank?
+
+      @item = item
+      block&.call @item
     end
   end
 

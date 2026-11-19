@@ -1,0 +1,31 @@
+<%= form_with url: @action, method: :get, local: true, class: 'flex min-w-0 flex-col gap-2 text-base-content' do %>
+  <div class="peer flex min-w-0 items-center gap-2">
+    <%= render Global::FilterBar::Search.new(@search_param, @search_value || params[@search_param], label: @search_label) %>
+
+    <% if @filters.any? %>
+      <%= button_tag type: 'button',
+        class: 'x-btn x-btn-ghost x-btn-square x-btn-lg shrink-0 sm:hidden',
+        data: {behaviour: 'toggle-menu', filter_bar_target: 'toggle'},
+        aria: {expanded: false, controls: @filters_id} do %>
+        <%= helpers.pixelart_icon('settings-2', css_class: 'size-6') %>
+        <span class="sr-only"><%= t(:'components.filter_bar.filter.toggle') %></span>
+      <% end %>
+    <% end %>
+  </div>
+
+  <% if @filters.any? %>
+    <div
+      id="<%= @filters_id %>"
+      class="
+        flex flex-wrap items-start gap-3 max-sm:hidden
+        peer-has-[[aria-expanded=true]]:flex
+      "
+    >
+      <% @filters.each do |filter| %>
+        <%= render filter %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= controls %>
+<% end %>

@@ -10,8 +10,13 @@ class QuestionsController < ApplicationController # rubocop:disable Layout/Inden
   include PointsProcessor
 
   def index
-    questions = Question.all
+    questions = Question.includes(:answers)
     questions.where! quiz_id: params[:quiz_id] if params[:quiz_id]
+    if params[:quiz_submission_id]
+      questions = questions.joins(:quiz_submission_questions)
+        .where(quiz_submission_questions: {quiz_submission_id: params[:quiz_submission_id]})
+        .reorder('quiz_submission_questions.position, quiz_submission_questions.created_at')
+    end
     if params[:type]
       type = params[:type].start_with?('QuizService::') ? params[:type] : "QuizService::#{params[:type]}"
       questions.where!(type:)

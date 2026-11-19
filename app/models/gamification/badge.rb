@@ -4,8 +4,8 @@ module Gamification
   class Badge < ::ApplicationRecord
     default_scope { order(level: :desc) }
 
-    belongs_to :course, class_name: 'Course::Course', optional: true
-    belongs_to :user, class_name: 'Account::User'
+    belongs_to :course, class_name: 'CourseService::Course', optional: true
+    belongs_to :user, class_name: 'AccountService::User'
 
     class << self
       def types

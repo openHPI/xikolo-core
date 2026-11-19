@@ -1,0 +1,16 @@
+<div id="voucher-codes">
+  <% if errors %>
+    <div class="error_notification">
+      <ul class="list-disc">
+        <% errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <% if vouchers.present? %>
+    <h3 class="h3"><%= t(:'vouchers.create.codes') %></h3>
+    <pre><% vouchers.each do |voucher| %><%= voucher.id %>
+<% end %></pre>
+  <% end %>
+</div>

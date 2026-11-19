@@ -4,22 +4,22 @@ require 'spec_helper'
 
 describe 'Course: Admin: Visuals: Update', type: :request do
   subject(:update_visual) do
-    patch "/courses/#{course.id}/visual", params:, headers:
+    patch "/learn/#{course.id}/visual", params:
   end
 
   let(:params) { {course_visual: {image_upload_id: upload_id}} }
-  let(:headers) { {} }
 
   let(:course) { create(:course) }
-  let(:upload_id) { '83aebd2a-f026-4d58-8a61-5ee4f1a7cbfa' }
-  let(:file_url) { "https://s3.xikolo.de/xikolo-uploads/uploads/#{upload_id}/#{file_name}" }
-  let(:image_url) { %r{https://s3.xikolo.de/xikolo-public/courses/[0-9a-zA-Z]+/[0-9a-zA-Z]+/#{file_name}} }
+  let(:user) { create(:'account_service/user') }
+  let(:upload_id) { generate(:uuid) }
+  let(:file_url) { "#{test_s3_host}/xikolo-uploads/uploads/#{upload_id}/#{file_name}" }
+  let(:image_url) { %r{#{test_s3_host}/xikolo-public/courses/[0-9a-zA-Z]+/[0-9a-zA-Z]+/#{file_name}} }
   let(:stream) { create(:stream) }
   let(:file_name) { 'image.png' }
 
   # S3 related stubs
   let(:list_stub) do
-    stub_request(:get, "https://s3.xikolo.de/xikolo-uploads?list-type=2&prefix=uploads%2F#{upload_id}")
+    stub_request(:get, "#{test_s3_host}/xikolo-uploads?list-type=2&prefix=uploads%2F#{upload_id}")
       .to_return(
         status: 200,
         headers: {'Content-Type' => 'Content-Type: application/xml'},
@@ -59,9 +59,11 @@ describe 'Course: Admin: Visuals: Update', type: :request do
   end
 
   context 'for logged-in users' do
-    let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
-
-    before { stub_user_request permissions: }
+    before do
+      sign_in(user:)
+      role = create(:'account_service/role', permissions:)
+      create(:'account_service/grant', principal: user, role:)
+    end
 
     context 'with permission' do
       let(:permissions) { %w[course.course.edit course.content.access] }
@@ -72,10 +74,32 @@ describe 'Course: Admin: Visuals: Update', type: :request do
         store_stub
       end
 
+      context 'when uploading a teaser video' do
+        let(:params) do
+          {course_visual: {teaser_video: Rack::Test::UploadedFile.new(
+            Rails.root.join('spec/support/files/video-sd.mp4'), 'video/mp4'
+          )}}
+        end
+
+        it 'creates and attaches a pending Bunny stream' do
+          update_visual
+
+          stream = course.reload.visual.video_stream
+          expect(stream.provider.provider_type).to eq 'bunny'
+          expect(stream).to be_waiting
+          expect(stream.video).to be_attached
+          expect(response).to have_http_status(:see_other)
+        end
+
+        it 'queues the upload with permission to edit this course' do
+          expect { update_visual }.to have_enqueued_job(UploadStreamToBunnyJob)
+        end
+      end
+
       context 'with a not yet existing course visual' do
         it 'creates the course visual' do
           expect { update_visual }.to change(Course::Visual, :count).from(0).to(1)
-          expect(response).to redirect_to "/courses/#{course.course_code}/visual/edit"
+          expect(response).to redirect_to "/learn/#{course.course_code}/visual/edit"
         end
 
         it 'stores the course image' do
@@ -89,7 +113,7 @@ describe 'Course: Admin: Visuals: Update', type: :request do
 
           it 'redirects to the course page' do
             update_visual
-            expect(response).to redirect_to "/courses/#{course.course_code}"
+            expect(response).to redirect_to "/learn/#{course.course_code}"
           end
         end
       end
@@ -103,8 +127,8 @@ describe 'Course: Admin: Visuals: Update', type: :request do
 
         it 'updates the existing course image' do
           expect { update_visual }.to change { course.visual.reload.image_url }
-            .from(%r{https://s3.xikolo.de/xikolo-public/courses/[0-9a-zA-Z]+/[0-9a-zA-Z]+/old_image.png})
-            .to(%r{https://s3.xikolo.de/xikolo-public/courses/[0-9a-zA-Z]+/[0-9a-zA-Z]+/image.png})
+            .from(%r{#{test_s3_host}/xikolo-public/courses/[0-9a-zA-Z]+/[0-9a-zA-Z]+/old_image.png})
+            .to(%r{#{test_s3_host}/xikolo-public/courses/[0-9a-zA-Z]+/[0-9a-zA-Z]+/image.png})
           expect(store_stub).to have_been_requested
         end
 
@@ -148,7 +172,7 @@ describe 'Course: Admin: Visuals: Update', type: :request do
       end
 
       context 'with an existing course teaser video' do
-        let(:video) { create(:video, :kaltura) }
+        let(:video) { create(:video) }
 
         before do
           create(:visual, :with_video, course:, video:)
@@ -172,10 +196,10 @@ describe 'Course: Admin: Visuals: Update', type: :request do
           let(:params) { {course_visual: {subtitles_upload_id:, video_stream_id: stream.id}} }
           let(:subtitles_upload_id) { generate(:uuid) }
           let(:file_name) { 'video-subtitles.zip' }
-          let(:subtitles_file_url) { "https://s3.xikolo.de/xikolo-uploads/uploads/#{subtitles_upload_id}/#{file_name}" }
+          let(:subtitles_file_url) { "#{test_s3_host}/xikolo-uploads/uploads/#{subtitles_upload_id}/#{file_name}" }
 
           let(:list_stub) do
-            stub_request(:get, "https://s3.xikolo.de/xikolo-uploads?list-type=2&prefix=uploads%2F#{subtitles_upload_id}")
+            stub_request(:get, "#{test_s3_host}/xikolo-uploads?list-type=2&prefix=uploads%2F#{subtitles_upload_id}")
               .to_return(
                 status: 200,
                 headers: {'Content-Type' => 'Content-Type: application/xml'},
@@ -250,7 +274,7 @@ describe 'Course: Admin: Visuals: Update', type: :request do
 
         it 'creates the course visual' do
           expect { update_visual }.to change(Course::Visual, :count).from(0).to(1)
-          expect(response).to redirect_to "/courses/#{course.course_code}/visual/edit"
+          expect(response).to redirect_to "/learn/#{course.course_code}/visual/edit"
         end
 
         it 'stores the course image' do
@@ -280,7 +304,7 @@ describe 'Course: Admin: Visuals: Update', type: :request do
   context 'for anonymous users' do
     it 'does not allow creating / updating the visual' do
       expect { update_visual }.not_to change(Course::Visual, :count).from(0)
-      expect(response).to redirect_to "/courses/#{course.course_code}"
+      expect(response).to redirect_to "/learn/#{course.course_code}"
       expect(flash[:error].first).to eq 'Please log in to proceed.'
     end
   end

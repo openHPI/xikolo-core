@@ -4,18 +4,21 @@ require 'spec_helper'
 
 describe 'Course: Admin: Offers: Update', type: :request do
   subject(:update_offer) do
-    patch "/courses/#{course.course_code}/offers/#{offer.id}", params:, headers:
+    patch "/learn/#{course.course_code}/offers/#{offer.id}", params:
   end
 
-  let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
   let(:params) { {course_offer: {price: 12}} }
   let(:permissions) { %w[course.course.edit course.content.access] }
-  let(:course) { create(:course) }
+  let(:course) { create(:course, :active) }
+  let(:user) { create(:'account_service/user') }
+  let(:authenticate) { true }
   let(:course_resource) { build(:'course:course', id: course.id, course_code: course.course_code) }
   let(:offer) { create(:offer, course_id: course.id) }
 
   before do
-    stub_user_request(permissions:)
+    sign_in(user:) if authenticate
+    role = create(:'account_service/role', permissions:)
+    create(:'account_service/grant', principal: user, role:)
 
     Stub.request(:course, :get, "/courses/#{course.course_code}")
       .to_return Stub.json(course_resource)
@@ -24,7 +27,7 @@ describe 'Course: Admin: Offers: Update', type: :request do
   it 'updates the course offer' do
     expect { update_offer }.to change { offer.reload.price }.from(1000).to(1200)
     expect(flash[:success].first).to eq('The offer has been updated.')
-    expect(response).to redirect_to "/courses/#{course.course_code}/offers"
+    expect(response).to redirect_to "/learn/#{course.course_code}/offers"
   end
 
   context 'with an invalid price' do
@@ -51,16 +54,16 @@ describe 'Course: Admin: Offers: Update', type: :request do
 
     it 'redirects the user' do
       update_offer
-      expect(response).to redirect_to "/courses/#{course.course_code}"
+      expect(response).to redirect_to "/learn/#{course.course_code}"
     end
   end
 
   context 'for anonymous users' do
-    let(:headers) { {} }
+    let(:authenticate) { false }
 
     it 'redirects the user' do
       update_offer
-      expect(response).to redirect_to "/courses/#{course.course_code}"
+      expect(response).to redirect_to "/learn/#{course.course_code}"
     end
   end
 end

@@ -1,5 +1,0 @@
-<% unless @enrollments.empty? %>
-  <%= render 'enrollments_chart' %>
-<% end %>
-
-<%= render 'course_stats' %>

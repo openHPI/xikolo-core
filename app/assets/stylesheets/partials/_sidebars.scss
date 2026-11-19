@@ -8,7 +8,6 @@
  * Variables...............Variable declarations
  * Base....................Basic wireframe and general classes
  * Next-Dates..............Styles for the next date component
- * Toggle-Navigation.......Navigation with toggle capabilities, e.g. for course area
  * Quiz-Sidebar............Sidebar used in the quiz section
  */
 
@@ -17,9 +16,6 @@
 \*------------------------------------*/
 $message-line-height: 30px;
 $next-date-line-height: 120%;
-
-$xi-sidebar-toggle-bg: $gray-250 !default;
-$xi-sidebar-toggle-button-bg: $gray !default;
 
 .sidebar {
   display: flex;
@@ -58,37 +54,6 @@ $xi-sidebar-toggle-button-bg: $gray !default;
 
   a {
     flex-grow: 1;
-  }
-}
-
-/*------------------------------------*\
-    $Toggle-Navigation
-\*------------------------------------*/
-.sidebar-toggle {
-  // Toggle Button
-  .toggle {
-    overflow: hidden;
-    height: 40px;
-    margin-bottom: 5px;
-    background-color: $xi-sidebar-toggle-bg;
-    cursor: pointer;
-    line-height: 40px;
-
-    .toggle-button {
-      //font-size: 2em;
-      display: inline-block;
-      width: 40px;
-      height: 40px;
-      background-color: $xi-sidebar-toggle-button-bg;
-      text-align: center;
-    }
-
-    .toggle-text {
-      display: inline-block;
-      height: 100%;
-      padding-left: 10px;
-      vertical-align: top;
-    }
   }
 }
 
@@ -135,17 +100,6 @@ $xi-sidebar-toggle-button-bg: $gray !default;
         color: $white;
         font-size: 130%;
       }
-    }
-    .answer-state-indicator {
-      display: inline-block;
-      width: 22px;
-      height: 22px;
-      margin-right: 2px;
-      margin-bottom: 2px;
-
-      background-color: $gray;
-      cursor: pointer;
-      text-align: middle;
     }
   }
 }

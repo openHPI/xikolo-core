@@ -1,0 +1,28 @@
+<%# locals: (item:, action:) %>
+<%= render course_item_bottom_bar do |bar| %>
+  <% if action && action != :locked %>
+    <% bar.with_primary_action do %>
+      <% case action %>
+      <% when :retake_with_results %>
+        <div class="grid w-full min-w-0 grid-cols-2 items-center gap-2">
+          <%= render 'items/quiz/retake_action', url: new_course_item_quiz_submission_path(item.course_code, item_id: item), disable_after_click: true %>
+
+          <%= render 'items/quiz/results_action', url: course_item_quiz_submission_path(item.course_code, short_uuid(item.id), short_uuid(item.submission.id), highest_score: item.highest_score?) %>
+        </div>
+      <% when :retake %>
+        <%= render 'items/quiz/retake_action', url: new_course_item_quiz_submission_path(item.course_code, item_id: item), confirm_start: item.confirm_quiz_start? %>
+      <% when :start_exam %>
+        <%= render Items::ExamStartModal.new(
+          id: item.id,
+          start_path: new_course_item_quiz_submission_path(item_id: item),
+          pass_percentage: item.pass_percentage,
+          displayed_max_points: item.displayed_max_points,
+          current_allowed_attempts: item.current_allowed_attempts,
+          current_time_limit_seconds: item.current_time_limit_seconds
+        ) %>
+      <% when :start_quiz %>
+        <%= render 'items/quiz/start_action', url: new_course_item_quiz_submission_path(item_id: item), confirm_start: item.confirm_quiz_start? %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

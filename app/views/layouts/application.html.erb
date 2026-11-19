@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html
+  class="motion-safe:scroll-smooth"
+  lang="<%= I18n.locale %>"
+  data-default-locale="<%= I18n.default_locale %>"
+  data-locale-url="<%= asset_path("i18n/#{I18n.locale}.json") %>"
+>
+  <%= tag.head(prefix: ('og: http://ogp.me/ns#' if meta_tags[:og].present?)) do %>
+    <!--
+      Start with meta tags (includes title tag)
+    -->
+
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+    <% if Xikolo.config.google_site_verification.present? %>
+      <meta name="google-site-verification" content="<%= Xikolo.config.google_site_verification %>">
+    <% end %>
+
+    <%= csrf_meta_tags %>
+    <%= display_meta_tags %>
+    <%= sentry_meta_tags %>
+
+    <!-- Custom meta tags -->
+    <% if content_for?(:custom_meta_tags) %>
+      <%= yield :custom_meta_tags %>
+    <% end %>
+
+    <!--
+      Optimizations
+    -->
+
+    <% I18n.available_locales.each do |locale| %>
+      <%= tag.link rel: 'alternate', hreflang: locale, href: url_for(locale: locale, only_path: false) %>
+    <% end %>
+
+    <%= tag.link rel: 'alternate', hreflang: 'x-default', href: url_for(only_path: false) %>
+
+    <!-- preconnect tags allow the browser to open a connection to a domain that will be needed -->
+    <!-- dns-prefetch as fallback for IE, Edge, Safari -->
+    <% if Imagecrop.enabled? %>
+      <link rel="preconnect" href="<%= Imagecrop.origin %>">
+      <link rel="dns-prefetch" href="<%= Imagecrop.origin %>">
+    <% end %>
+
+    <link rel="preconnect" href="https://player.vimeo.com/">
+    <link rel="dns-prefetch" href="https://player.vimeo.com/">
+    <!-- we could add the asset host here if set, however this should only be done if it needs to be called, -->
+
+    <!--
+      Tools, Applications and Icons
+    -->
+
+    <link href="<%= image_path('favicon.ico') %>" rel="shortcut icon" type="image/x-icon">
+
+    <% if WebManifest.configured? %>
+      <link rel="manifest" href="/web_manifest.json">
+      <meta name="apple-mobile-web-app-title" content="<%= Xikolo.config.site_name %>">
+
+      <% WebManifest.opaque_icons.each do |icon| %>
+        <link rel="apple-touch-icon" sizes="<%= icon[:sizes] %>" href="<%= icon[:src] %>">
+      <% end %>
+    <% end %>
+
+    <% if IosApp.configured? %>
+      <%= IosApp.smart_app_banner %>
+    <% end %>
+
+    <!--
+      Primary web assets
+    -->
+
+    <%= stylesheet_link_tag 'bootstrap', media: 'all', crossorigin: 'anonymous', integrity: true, 'data-turbo-track': Rails.env.production? ? 'reload' : '' %>
+    <%= stylesheet_link_tag 'icons', media: 'all', crossorigin: 'anonymous', integrity: true, 'data-turbo-track': Rails.env.production? ? 'reload' : '' %>
+    <%= stylesheet_link_tag 'styles', media: 'all', crossorigin: 'anonymous', integrity: true, 'data-turbo-track': Rails.env.production? ? 'reload' : '' %>
+    <%= stylesheet_link_tag 'tailwind', media: 'all', crossorigin: 'anonymous', integrity: true, 'data-turbo-track': Rails.env.production? ? 'reload' : '' %>
+
+    <%= javascript_include_tag 'main', type: 'module', 'data-turbo-track': Rails.env.production? ? 'reload' : '' %>
+
+    <!-- Analytics -->
+    <%= render 'shared/matomo' %>
+
+    <!--
+      Extras
+    -->
+
+    <% if content_for?(:head_assets) %>
+      <%= yield :head_assets %>
+    <% end %>
+
+    <%= render Global::CustomHeadSnippets.new %>
+  <% end %>
+
+  <body
+    class="<%= "#{params[:controller].tr('/_', '-')}-controller #{params[:action]}-action #{'is-masqueraded' if current_user.instrumented?}" %>"
+    data-offset="150"
+    data-target=".scrollspy-target"
+    data-spy="scroll"
+  >
+
+    <!-- Matomo fallback for browsers without JavaScript -->
+    <%= render 'shared/matomo_noscript' %>
+
+    <!-- Flash messages -->
+    <%= render Global::FlashBlock.new(flash.tap(&:discard)) %>
+
+    <% unless @teacherview %>
+      <%= render Navigation::Bar.new(user: current_user) %>
+    <% end %>
+
+    <!-- Teaser or general page header -->
+    <% if content_for?(:page_header) %>
+      <%= yield :page_header %>
+    <% end %>
+
+    <!-- Either render with a sublayout or render main layout alone -->
+    <div class="wrapper pb-15 <%= yield :main_background_class %>">
+      <% if content_for?(:pre_main) %>
+        <%= yield :pre_main %>
+      <% end %>
+
+      <% if content_for?(:main_background) %>
+        <%= yield :main_background %>
+      <% end %>
+
+      <div class="bs-container">
+        <% if browser_support.unsupported? && !hide_browser_warning? %>
+          <div class="alert alert-danger" data-browser-warning="alert">
+            <h4 class="h4 bold">
+              <%= t(:'browser_warning.headline') %>
+            </h4>
+            <p>
+              <%= t(:'browser_warning.browser_ie') %>
+            </p>
+            <p>
+              <%= t(:'browser_warning.text_ie') %>
+            </p>
+            <p>
+              <button class="btn btn-xs btn-default mt5 mb10" type="button" data-browser-warning="dismiss">
+                <%= t(:'browser_warning.text_hide') %>
+              </button>
+            </p>
+          </div>
+        <% elsif browser_support.old? && !hide_browser_warning? %>
+          <div class="alert alert-danger" data-browser-warning="alert">
+            <h4 class="h4 bold">
+              <%= t(:'browser_warning.headline_soft') %>
+            </h4>
+            <p>
+              <%= t(:'browser_warning.text_other') %>
+            </p>
+            <p>
+              <button class="btn btn-xs btn-default mt5 mb10" type="button" data-browser-warning="dismiss">
+                <%= t(:'browser_warning.text_hide') %>
+              </button>
+            </p>
+          </div>
+        <% end %>
+
+        <noscript>
+          <div class="alert alert-warning-border mt10">
+            <%= render Global::FaIcon.new('warning', style: :solid, css_classes: 'fa-lg mr10') %>
+            <span class="ml5 kill-underline-force">
+              <%= link_to t('global.nojs.label'), t('global.nojs.link'), target: '_blank', rel: 'noopener' %>
+            </span>
+          </div>
+        </noscript>
+      </div>
+
+      <% if content_for?(:main) %>
+        <%= yield :main %>
+      <% else %>
+        <%= yield %>
+      <% end %>
+    </div>
+
+    <% unless @teacherview %>
+      <%= render Footer::Main.new %>
+      <%= render Global::HelpdeskButton.new(user: current_user) %>
+    <% end %>
+
+    <% if content_for?(:bottom_navigation_spacer) %>
+      <%= yield :bottom_navigation_spacer %>
+    <% end %>
+
+    <div id="loading-dimmer" hidden>
+      <div class="loading-wrapper">
+        <%= render State::Loading.new %>
+      </div>
+    </div>
+
+    <%= render Global::CookieConsentBanner.new %>
+
+    <!-- Tooltip container -->
+    <div class="custom-tooltip" hidden data-id="tooltip"></div>
+  </body>
+
+  <% if content_for?(:body_footer) %>
+    <%= yield :body_footer %>
+  <% end %>
+</html>

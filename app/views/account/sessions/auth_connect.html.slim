@@ -15,7 +15,7 @@
         class: 'btn btn-primary mr10 mt10',
         disabled: @authorization.provider == 'mein_bildungsraum'
 
-    = form_tag login_url, method: :post, style: 'display: inline' do
+    = form_tag login_url, method: :post, style: 'display: inline', data: {turbo: false} do
       = hidden_field_tag :connect_auth_id, @authorization.id
       = hidden_field_tag :provider, @authorization.provider
 

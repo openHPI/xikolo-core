@@ -1,0 +1,11 @@
+<% if (download = item.reading_material_download) %>
+  <section class="mt-6 mb-5 flex flex-col gap-4" aria-labelledby="rich-text-downloads-title">
+    <h2 class="m-0 text-xl font-medium text-white" id="rich-text-downloads-title">
+      <%= t(:'items.show.rich_text.downloads') %>
+    </h2>
+
+    <div class="flex flex-wrap gap-6">
+      <%= render Items::DownloadAssetCard.new(**download) %>
+    </div>
+  </section>
+<% end %>

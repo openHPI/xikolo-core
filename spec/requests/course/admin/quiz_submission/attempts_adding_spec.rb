@@ -4,21 +4,21 @@ require 'spec_helper'
 
 describe 'Quiz submissions: Grant additional attempt', type: :request do
   subject(:grant_attempt) do
-    post "/courses/#{course['id']}/add_attempt",
-      headers: {'HTTP_AUTHORIZATION' => "Xikolo-Session session_id=#{stub_session_id}"},
+    post "/learn/#{course['id']}/add_attempt",
       params: {user_id:, quiz_id:}
   end
 
   let(:quiz_id) { '00000001-3800-4444-9999-000000000004' }
   let(:user_id) { '00000001-3100-4444-9999-000000000002' }
-  let(:course) { build(:'course:course') }
+  let(:course) { create(:'course_service/course') }
+  let(:user) { create(:'account_service/user') }
 
   before do
-    Stub.request(
-      :course, :get, "/courses/#{course['id']}"
-    ).to_return Stub.json(course)
+    course
 
-    stub_user_request permissions: ['quiz.submission.grant_attempt']
+    sign_in(user:)
+    role = create(:'account_service/role', permissions: ['quiz.submission.grant_attempt'])
+    create(:'account_service/grant', principal: user, role:)
   end
 
   describe 'response' do

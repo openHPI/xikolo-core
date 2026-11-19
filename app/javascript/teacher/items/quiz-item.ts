@@ -1,9 +1,13 @@
 import { ExerciseType } from './form-types';
 import I18n from '../../i18n/i18n';
 
-const switchChangeHandler = (target: HTMLInputElement, selector: string) => {
+const switchChangeHandler = (
+  target: HTMLInputElement | undefined,
+  selector: string,
+) => {
+  if (!target) return;
   const element = document.querySelector<HTMLInputElement>(selector);
-  element!.hidden = target.checked;
+  if (element) element.hidden = target.checked;
 };
 
 const markdownHasDefaultPlaceholders = (markdown: HTMLElement) =>
@@ -18,6 +22,16 @@ export const handleQuizExerciseTypes = (quizType: ExerciseType) => {
   const quizInstructions = quizInstructionsContainer.querySelector(
     '[contenteditable="true"]',
   ) as HTMLElement;
+  const quizInstructionsInput = quizInstructionsContainer.querySelector(
+    '[data-behavior="markdown-form-input"]',
+  ) as HTMLTextAreaElement;
+  const setInstructionsRequired = (required: boolean) => {
+    // The instructions field is hidden for some exercise types (e.g. self
+    // tests). A `required` control that is hidden cannot be focused, so the
+    // browser blocks submission ("not focusable"). Keep `required` in sync
+    // with visibility to avoid this.
+    if (quizInstructionsInput) quizInstructionsInput.required = required;
+  };
   const unlimitedTimeSwitch = document.querySelector(
     '#unlimited-time-switch',
   ) as HTMLInputElement;
@@ -30,7 +44,6 @@ export const handleQuizExerciseTypes = (quizType: ExerciseType) => {
   const timeLimit = document.querySelector(
     '.xikolo_quiz_quiz_time_limit_seconds',
   ) as HTMLInputElement;
-
   switch (quizType) {
     case 'main':
     case 'bonus':
@@ -39,6 +52,7 @@ export const handleQuizExerciseTypes = (quizType: ExerciseType) => {
       allowedAttempts.hidden = false;
       timeLimit.hidden = false;
       quizInstructionsContainer.hidden = false;
+      setInstructionsRequired(true);
       if (markdownHasDefaultPlaceholders(quizInstructions)) {
         quizInstructions.innerHTML = '[ Enter quiz instructions here ]';
       }
@@ -49,6 +63,7 @@ export const handleQuizExerciseTypes = (quizType: ExerciseType) => {
       allowedAttempts.hidden = false;
       timeLimit.hidden = true;
       quizInstructionsContainer.hidden = false;
+      setInstructionsRequired(true);
       if (markdownHasDefaultPlaceholders(quizInstructions)) {
         quizInstructions.innerHTML = I18n.t('items.quiz.quiz_is_survey');
       }
@@ -59,6 +74,7 @@ export const handleQuizExerciseTypes = (quizType: ExerciseType) => {
       allowedAttempts.hidden = true;
       timeLimit.hidden = true;
       quizInstructionsContainer.hidden = true;
+      setInstructionsRequired(false);
       if (quizInstructions) {
         quizInstructions.innerHTML = '[ Enter quiz instructions here ]';
       }
@@ -66,29 +82,39 @@ export const handleQuizExerciseTypes = (quizType: ExerciseType) => {
 };
 
 export const setTimeAndAttemptsSwitches = () => {
-  const unlimitedAttemptsSwitch = document.querySelector(
+  const unlimitedAttemptsSwitch = document.querySelector<HTMLInputElement>(
     '#unlimited-attempts-switch',
-  ) as HTMLInputElement;
+  );
 
-  const unlimitedTimeSwitch = document.querySelector(
+  const unlimitedTimeSwitch = document.querySelector<HTMLInputElement>(
     '#unlimited-time-switch',
-  ) as HTMLInputElement;
+  );
 
-  unlimitedTimeSwitch.addEventListener('change', (e) => {
-    const switcher = e.target as HTMLInputElement;
-    switchChangeHandler(switcher, '.xikolo_quiz_quiz_time_limit_seconds');
-  });
-  unlimitedAttemptsSwitch.addEventListener('change', (e) => {
-    const switcher = e.target as HTMLInputElement;
-    switchChangeHandler(switcher, '.xikolo_quiz_quiz_allowed_attempts');
-  });
+  // Exams always time-limit the quiz and fix the number of attempts, so the
+  // corresponding switches are absent from the form.
+  if (unlimitedTimeSwitch) {
+    unlimitedTimeSwitch.addEventListener('change', (e) => {
+      switchChangeHandler(
+        e.target as HTMLInputElement,
+        '.xikolo_quiz_quiz_time_limit_seconds',
+      );
+    });
+  }
+  if (unlimitedAttemptsSwitch) {
+    unlimitedAttemptsSwitch.addEventListener('change', (e) => {
+      switchChangeHandler(
+        e.target as HTMLInputElement,
+        '.xikolo_quiz_quiz_allowed_attempts',
+      );
+    });
+  }
 
   switchChangeHandler(
-    unlimitedTimeSwitch,
+    unlimitedTimeSwitch ?? undefined,
     '.xikolo_quiz_quiz_time_limit_seconds',
   );
   switchChangeHandler(
-    unlimitedAttemptsSwitch,
+    unlimitedAttemptsSwitch ?? undefined,
     '.xikolo_quiz_quiz_allowed_attempts',
   );
 };

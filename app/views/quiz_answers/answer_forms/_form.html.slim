@@ -6,5 +6,5 @@
   // TODO: Add further types
 
   = f.submit @quiz_answer.new_record? ? t(:'helpers.submit.xikolo_quiz_answer.create') : t(:'helpers.submit.xikolo_quiz_answer.update'), class: 'btn btn-primary'
-  .btn.btn-default.ml10 onclick="$(this).closest('#{@quiz_answer.new_record? ? '.add_form_quiz_question_wrapper' : '.edit_form_quiz_question_wrapper'}').hide();"
+  button.btn.btn-default.ml10 type="button" data-controller="hide-closest" data-action="hide-closest#hide" data-hide-closest-selector-value="#{@quiz_answer.new_record? ? '.add_form_quiz_question_wrapper' : '.edit_form_quiz_question_wrapper'}"
     = t(:'global.cancel')

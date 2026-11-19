@@ -6,26 +6,33 @@
 import $ from 'jquery';
 import { turboReady } from '../util/ready';
 import { showLoading } from '../util/loading';
+import getRelativeTime from '../util/get-relative-time';
 
 turboReady(function () {
   // Read configuration from meta tag
   const configMeta = document.querySelector(
     'meta[name="quiz-submission-config"]',
   );
-  const config = configMeta ? JSON.parse(configMeta.content) : {};
+  if (!configMeta) return;
+
+  const config = JSON.parse(configMeta.content);
   const graded = config.graded || false;
 
-  // Listen for quiz completion check requests
-  const submitButton = document.querySelector('#quiz_submit_button');
+  // Listen for quiz completion check requests. Both the submit button in the
+  // top card and the one at the bottom of the questions share this behavior.
+  const submitButtons = document.querySelectorAll(
+    'button[type="submit"][form="quiz_form"]',
+  );
 
-  if (submitButton) {
+  submitButtons.forEach(function (submitButton) {
     submitButton.addEventListener('click', function (event) {
       event.preventDefault();
       if (graded) {
-        const indicators = $('#quiz-state-indicators');
+        const indicators = document.querySelector('#quiz-state-indicators');
         if (
-          indicators.find('.answer-state-indicator').size() !=
-          indicators.find('.edited').size()
+          indicators &&
+          indicators.querySelectorAll('.x-step').length !==
+            indicators.querySelectorAll('.x-step[data-answered]').length
         ) {
           // not all questions answered
           $('.confirm-quiz-submission').modal('show');
@@ -34,7 +41,7 @@ turboReady(function () {
       }
       $('#quiz_form').submit();
     });
-  }
+  });
 
   var submitted = false;
 
@@ -52,7 +59,7 @@ turboReady(function () {
   });
 
   $.fn.changeTimestamp = function (isotime) {
-    var relativeTime = window.getRelativeTime(new Date(isotime));
+    var relativeTime = getRelativeTime(new Date(isotime));
     return $(this)
       .attr('title', isotime)
       .data('timeago', null)
@@ -87,19 +94,19 @@ turboReady(function () {
         dataType: 'json',
         success: function (data) {
           if (data.success == true) {
-            $('.warning-autosave').addClass('hide');
+            $('.warning-autosave').prop('hidden', true);
             try {
               $('abbr.last_saved').changeTimestamp(data.timestamp);
             } catch (err) {
               console.log(err);
             }
           } else {
-            $('.warning-autosave').removeClass('hide');
+            $('.warning-autosave').prop('hidden', false);
           }
           quizChanged = false;
         },
         error: function () {
-          $('.warning-autosave').removeClass('hide');
+          $('.warning-autosave').prop('hidden', false);
         },
       });
     }

@@ -3,7 +3,7 @@
 class Course::Admin::MetadataEditPresenter
   class << self
     def for_course(id:)
-      course = Course::Course.by_identifier(id).take!
+      course = CourseService::Course.by_identifier(id).take!
 
       new(course)
     end

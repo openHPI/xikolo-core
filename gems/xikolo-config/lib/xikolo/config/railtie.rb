@@ -11,7 +11,7 @@ module Xikolo::Config
       # Do not load global configuration files in the test environments,
       # as we want to be able to assume the standard config when running
       # tests.
-      if %w[test integration].exclude?(Rails.env) && ENV.key?('HOME')
+      if !Rails.env.test? && ENV.key?('HOME')
         Xikolo::Config.add_config_location ::File.expand_path('~/.xikolo.yml')
       end
 

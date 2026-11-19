@@ -5,7 +5,6 @@ class QuizAnswersController < Abstract::FrontendController
 
   respond_to :json
   before_action :ensure_content_editor
-  before_action :set_no_cache_headers
 
   def new
     @quiz_question = Xikolo::Quiz::Question.find params[:quiz_question_id], &:enqueue_acfs_request_for_answers

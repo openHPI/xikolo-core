@@ -6,9 +6,10 @@ class Teacher < ApplicationRecord # rubocop:disable Layout/IndentationWidth
 
   validates :name, presence: true
   validate :description_not_empty
+  before_destroy :ensure_not_referenced_in_courses
   after_commit :remove_replaced_picture
 
-  after_commit :update_course_search_index, on: %i[update destroy]
+  after_commit :update_course_search_index, on: :update
   after_rollback :delete_already_uploaded_file
 
   scope :for_course, lambda {|course|
@@ -26,12 +27,29 @@ class Teacher < ApplicationRecord # rubocop:disable Layout/IndentationWidth
     where('name ILIKE ?', sanitized_query)
   }
 
+  scope :with_referenced_in_courses, lambda {
+    select(
+      'teachers.*',
+      'EXISTS(SELECT 1 FROM courses WHERE teachers.id = ANY(courses.teacher_ids)) AS referenced_in_courses'
+    )
+  }
+
   def courses
     Course.where('? = ANY(teacher_ids)', id)
   end
 
+  def localized_description
+    Translations.new(description).to_s
+  end
+
   def picture_url
     Xikolo::S3.object(picture_uri).public_url if picture_uri?
+  end
+
+  def referenced_in_courses?
+    return self[:referenced_in_courses] if has_attribute?(:referenced_in_courses)
+
+    courses.exists?
   end
 
   def upload_via_id(upload_param)
@@ -106,10 +124,17 @@ class Teacher < ApplicationRecord # rubocop:disable Layout/IndentationWidth
 
   private
 
+  def ensure_not_referenced_in_courses
+    return unless referenced_in_courses?
+
+    errors.add(:base, :still_referenced)
+    throw(:abort)
+  end
+
   def remove_replaced_picture
     return unless @replaced_uri
 
-    FileDeletionWorker.perform_in 1.hour, @replaced_uri
+    FileDeletionJob.set(wait: 1.hour).perform_later(@replaced_uri)
     @replaced_uri = nil
   end
 
@@ -129,7 +154,7 @@ class Teacher < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   def update_course_search_index
     return unless saved_change_to_name?
 
-    courses.pluck(:id).each {|course_id| UpdateCourseSearchIndexWorker.perform_async(course_id) }
+    courses.pluck(:id).each {|course_id| UpdateCourseSearchIndexJob.perform_later(course_id) }
   end
 end
 end

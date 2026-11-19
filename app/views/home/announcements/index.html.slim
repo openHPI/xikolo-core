@@ -16,5 +16,5 @@
     .col-md-4.sticky-container__element
       - if current_user.allowed? 'news.announcement.create'
         = link_to t(:'announcements.operations.new'), new_announcement_path, class: 'btn btn-primary full-width mb10'
-      - if @posts.any? && !@in_app
+      - if @posts.any?
         == render 'toc', posts: @posts

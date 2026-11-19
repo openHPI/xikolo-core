@@ -2,11 +2,11 @@
 
 class ConsentPresenter
   # @param treatment [Restify::Resource]
-  def self.from_treatment(treatment)
+  def self.from_treatment(treatment, consented: nil)
     consent = {
       name: treatment['name'],
       required: treatment['required'],
-      consented: treatment['required'] || nil,
+      consented:,
       external_consent_url: treatment.dig('consent_manager', 'consent_url').presence,
     }
     new(consent.stringify_keys)

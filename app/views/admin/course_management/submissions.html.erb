@@ -1,0 +1,161 @@
+<%= render 'course/shared/admin_page_header', title: t(:'admin.course_management.submissions.submissions') %>
+
+<div class="col-md-12 x-card bg-accent-25 text-accent-content p-5" data-controller="submissions">
+  <div class="flex justify-between">
+    <form action="<%= course_submissions_path %>" method="GET" data-submissions-target="filterForm">
+      <label class="mr10" for="user_id">
+        <%= t :'.search_user' %>
+      </label>
+      <%= select_tag :user_id, nil, style: 'width: 200px',
+        data: {behavior: 'custom-select', 'auto-completion-url': admin_find_users_path, placeholder: t(:'global.email_or_name'), action: 'submissions#submitFilter'} %>
+
+      <% if params[:user_id] %>
+        <%= link_to t(:'.search_reset'), course_submissions_path, class: 'bs-a' %>
+      <% end %>
+    </form>
+    <div class="ml-auto">
+      <%= link_to 'Download as JSON',
+        url_for(format: :json),
+        class: 'btn btn-primary',
+        target: '_blank',
+        rel: 'noopener' %>
+    </div>
+  </div>
+
+  <% if @homework_submissions %>
+    <h2 class="h2">
+      <%= t :'.user_submissions' %>
+      <span class="black"><%= @user.name %></span>
+      <%= link_to t(:'admin.course_management.submissions.profile'), user_path(@user.id), class: 'btn btn-default btn-sm' %>
+    </h2>
+
+    <hr class="divider light">
+    <table id="submissions_table" class="table table-striped mb30 full-width">
+      <thead>
+        <tr style="border-top:2px solid grey">
+          <th><%= t :'.quiz' %></th>
+          <th><%= t :'.attempts.allowed' %></th>
+          <th><%= t :'.submissions' %></th>
+          <th><%= t :'.attempts.additional' %></th>
+        </tr>
+      </thead>
+
+      <% @homework_submissions.each do |submission| %>
+        <tr>
+          <td>
+            <%= submission[:title] %>
+            <button class="btn btn-xs" data-behavior="copy-to-clipboard" data-text="<%= submission[:quiz_id] %>">
+              <%= t(:'.copy_id') %>
+            </button>
+          </td>
+          <td>
+            <% if submission[:unlimited_attempts] %>
+              <%= t(:'.attempts.unlimited') %>
+            <% else %>
+              <%= submission[:allowed_attempts] %>
+            <% end %>
+          </td>
+          <td>
+            <% if submission[:unlimited_attempts] %>
+              <%= submission[:attempts] %>
+            <% else %>
+              <%= "#{submission[:attempts]} / #{submission[:allowed_attempts] + submission[:additional_attempts]}" %>
+            <% end %>
+          </td>
+          <td>
+            <% if submission[:unlimited_attempts] %>
+              -
+            <% else %>
+              <%= submission[:additional_attempts] %>
+              <% if current_user.allowed? 'quiz.submission.grant_attempt' %>
+                <%= link_to t(:'admin.course_management.submissions.add_attempt'), add_attempt_path(course_id: @course.id, quiz_id: submission[:quiz_id], user_id: params[:user_id]), method: :post, class: 'btn btn-default btn-xs' %>
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+  <% end %>
+
+  <h2 class="h2"><%= t :'.submissions' %></h2>
+
+  <% if @submissions.any? %>
+    <table class="submissions-table table table-striped mb30 full-width">
+      <thead>
+        <tr style="border-top:2px solid grey">
+          <th><%= t :'.quiz' %></th>
+          <th><%= t :'.user' %></th>
+          <th><%= t :'.timestamps.label' %></th>
+          <th><%= t :'.grading' %></th>
+          <th></th>
+        </tr>
+      </thead>
+      <% @submissions.each do |submission| %>
+        <tr>
+          <td>
+            <%= submission.item.title %>
+
+            <%= render Global::LabeledCopyButton.new \
+                label: 'Quiz',
+                value: submission.quiz_id,
+                button: t(:'.copy_id') %>
+
+            <%= render Global::LabeledCopyButton.new \
+                label: 'Submission',
+                value: submission.id,
+                button: t(:'.copy_id') %>
+
+            <% if submission.snapshot_id %>
+              <%= render Global::LabeledCopyButton.new \
+                  label: 'Snapshot',
+                  value: submission.snapshot_id,
+                  button: t(:'.copy_id') %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to submission.user&.name, course_submissions_path(user_id: submission.user_id), class: 'bs-a' %>
+            <br>
+            <%= link_to t(:'admin.course_management.submissions.profile'), user_path(submission.user_id), class: 'btn btn-default btn-xs' %>
+          </td>
+          <td>
+            <p><%= t(:'.timestamps.access', time: l(submission.quiz_access_time, format: :quiz_submission)) %></p>
+            <p>
+              <% if submission.quiz_submission_time %>
+                <%= t(:'.timestamps.submit', time: l(submission.quiz_submission_time, format: :quiz_submission)) %>
+              <% else %>
+                <%= t(:'.timestamps.not_submitted') %>
+              <% end %>
+            </p>
+          </td>
+          <td id="points-<%= submission.id %>">
+            <div class="points">
+              <span><%= submission.points %></span>
+              <% if current_user.allowed? 'course.course.teaching' %>
+                <%= render partial: 'fudge_points', locals: {submission:, course: @course} %>
+              <% end %>
+            </div>
+          </td>
+          <td>
+            <%= render Global::ActionsDropdown.new(menu_side: 'right') do |c| %>
+              <% if current_user.allowed?('course.course.teaching') %>
+                <% c.with_action do %>
+                  <%= button_tag t(:'quiz_submission.add_fudge_points'), type: 'button', class: 'btn btn-link', data: {submission: submission.id, action: 'submissions#showFudge'} %>
+                <% end %>
+              <% end %>
+              <% if current_user.allowed?('quiz.submission.manage') && submission.snapshot_id && submission.question_count == 0 %>
+                <% c.with_action do %>
+                  <%= link_to t(:'admin.course_management.submissions.convert_manually'), convert_submission_path(submission_id: submission.id, snapshot_id: submission.snapshot_id), method: :post, class: 'bs-a' %>
+                <% end %>
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+
+    <%= render Global::Pagination.new(@submissions) %>
+
+  <% else %>
+    <%= render State::Empty.new(params[:user_id] ? t(:'.empty.filtered') : t(:'.empty.course')) %>
+  <% end %>
+</div>

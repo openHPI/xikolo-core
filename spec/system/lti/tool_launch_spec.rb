@@ -29,75 +29,31 @@ describe 'LTI: Tool Launch', type: :system do
     lti_server.shutdown
   end
 
-  let(:user_id) { generate(:user_id) }
-  let(:course) { create(:course, course_code: 'the_course') }
-  let(:section) { create(:section, course:) }
-  let(:item) { create(:item, section:, content: exercise) }
+  let(:user) { create(:'account_service/user') }
+  let(:course) { create(:'course_service/course', :active, :with_content_tree) }
+  let(:section) { create(:'course_service/section', course:) }
   let(:exercise) { create(:lti_exercise, provider:) }
-  let(:provider) { create(:lti_provider) }
+  let(:provider) { create(:lti_provider, course_id: course.id) }
+  let(:item) { create(:'course_service/item', section:, content_type: 'lti_exercise', content_id: exercise.id, exercise_type:) }
   let(:exercise_type) { 'main' }
 
-  # These resources are needed for the Acfs/Restify-based items page
-  let(:course_resource) { build(:'course:course', id: course.id, course_code: course.course_code, context_id: course.context_id) }
-  let(:section_resource) { build(:'course:section', id: section.id, course_id: course.id) }
-  let(:item_resource) do
-    build(:'course:item', :lti_exercise,
-      id: item.id,
-      course_id: course.id,
-      section_id: section.id,
-      content_id: exercise.id,
-      title: item.title,
-      exercise_type:)
-  end
-
   before do
-    # We need two session stubs here, one for the actual course context the request is executed ...
-    stub_user permissions: %w[course.content.access.available], id: user_id, context_id: course.context_id
-    # ... and a second one in root context for a JS-triggered APIv2 call
-    stub_user permissions: %w[course.content.access.available], id: user_id
-
-    Stub.request(:account, :get, "/users/#{user_id}")
-      .and_return Stub.json({id: user_id, email: 'kit@kat.com'})
-    Stub.request(:account, :get, "/users/#{user_id}/preferences")
-      .and_return Stub.json({properties: {}})
-
-    # Relevant stubs for the items page
-    Stub.request(:course, :get, '/courses/the_course')
-      .and_return Stub.json(course_resource)
-    Stub.request(:course, :get, "/courses/#{course.id}")
-      .and_return Stub.json(course)
-    Stub.request(:course, :get, '/api/v2/course/courses/the_course', query: hash_including({}))
-      .and_return Stub.json(course_resource)
-    Stub.request(:course, :get, '/enrollments', query: {user_id:, course_id: course.id})
-      .and_return Stub.json([
-        {course_id: course.id, user_id:},
-      ])
-    Stub.request(:course, :get, '/next_dates', query: hash_including({}))
-      .and_return Stub.json([])
-    Stub.request(:course, :get, '/sections', query: hash_including(course_id: course.id))
-      .and_return Stub.json([])
-    Stub.request(:course, :get, "/sections/#{section.id}")
-      .and_return Stub.json(section_resource)
-    Stub.request(:course, :get, '/items', query: hash_including(state_for: user_id))
-      .and_return Stub.json([])
-    Stub.request(:course, :get, "/items/#{item.id}", query: hash_including({}))
-      .and_return Stub.json(item_resource)
-    Stub.request(:course, :post, "/items/#{item.id}/users/#{user_id}/visit")
-      .and_return Stub.json({})
+    sign_in(user:)
+    enroll_in(course)
   end
 
   context 'when opening in an iframe' do
-    let(:provider) { create(:lti_provider, :iframe, domain: 'http://localhost:11000') }
+    let(:provider) { create(:lti_provider, :iframe, domain: 'http://localhost:11000', course_id: course.id) }
 
     it 'renders the iframe with the LTI tool inside the course layout' do
-      visit "/courses/the_course/items/#{item.id}"
+      visit "/learn/#{course.course_code}/items/#{item.id}"
 
-      click_on 'Launch exercise tool'
+      within('nav[aria-label="Course actions"]') { click_on 'Launch exercise tool' }
 
-      expect(page).to have_content item.title
+      expect(page).to have_text item.title
 
-      # If we see the item navigation again, we can assume to still see the course layout
-      expect(page).to have_css "nav[data-controller~='course-item-nav']"
+      # If we see the course navigation menu, we can assume to still see the course layout
+      expect(page).to have_css '#course-nav-drawer', visible: :all
 
       iframe = find('iframe')
 
@@ -105,7 +61,7 @@ describe 'LTI: Tool Launch', type: :system do
       expect(iframe[:allow]).to include 'fullscreen'
 
       within_frame iframe do
-        expect(page).to have_content 'Welcome to LTI!'
+        expect(page).to have_text 'Welcome to LTI!'
       end
     end
 
@@ -113,30 +69,34 @@ describe 'LTI: Tool Launch', type: :system do
       let(:exercise_type) { '' }
 
       it 'skips the intro page and renders the iframe' do
-        visit "/courses/the_course/items/#{item.id}"
+        visit "/learn/#{course.course_code}/items/#{item.id}"
 
-        expect(page).to have_css "nav[data-controller~='course-item-nav']"
+        expect(page).to have_css '#course-nav-drawer', visible: :all
         expect(page).to have_no_button 'Launch exercise tool'
       end
     end
   end
 
   context 'when opening in the full window' do
-    let(:provider) { create(:lti_provider, :window, domain: 'http://localhost:11000') }
+    let(:provider) { create(:lti_provider, :window, domain: 'http://localhost:11000', course_id: course.id) }
 
     it 'opens to the LTI tool in a new window' do
-      visit "/courses/the_course/items/#{item.id}"
+      visit "/learn/#{course.course_code}/items/#{item.id}"
+
+      within('nav[aria-label="Course actions"]') do
+        expect(page).to have_css('a[target="_blank"][rel="noopener noreferrer"]', text: 'Launch exercise tool')
+      end
 
       lti_window = window_opened_by do
-        click_on 'Launch exercise tool'
+        within('nav[aria-label="Course actions"]') { click_on 'Launch exercise tool' }
       end
 
       within_window(lti_window) do
-        expect(page).to have_content 'Welcome to LTI!'
+        expect(page).to have_text 'Welcome to LTI!'
 
         # No course layout, no custom header
-        expect(page).to have_no_content item.title
-        expect(page).to have_no_selector "nav[data-controller~='course-item-nav']"
+        expect(page).to have_no_text item.title
+        expect(page).to have_no_css '#course-nav-drawer', visible: :all
       end
     end
   end
@@ -146,26 +106,26 @@ describe 'LTI: Tool Launch', type: :system do
     before { exercise.update_column(:lti_provider_id, nil) }
 
     it 'shows a proper error message' do
-      visit "/courses/the_course/items/#{item.id}"
+      visit "/learn/#{course.course_code}/items/#{item.id}"
 
-      expect(page).to have_content 'This exercise is not available anymore.'
+      expect(page).to have_text 'This exercise is not available anymore.'
     end
   end
 
   context 'with instructions' do
-    let(:provider) { create(:lti_provider, :iframe, domain: 'http://localhost:11000') }
+    let(:provider) { create(:lti_provider, :iframe, domain: 'http://localhost:11000', course_id: course.id) }
     let(:exercise) { create(:lti_exercise, :with_instructions, provider:) }
 
     context 'has an intro page' do
       it 'renders the instructions only once' do
-        visit "/courses/the_course/items/#{item.id}"
+        visit "/learn/#{course.course_code}/items/#{item.id}"
 
-        expect(page).to have_content 'Instructions'
-        expect(page).to have_content 'Launch the tool and submit your results'
+        expect(page).to have_text 'Instructions'
+        expect(page).to have_text 'Launch the tool and submit your results'
 
-        click_on 'Launch exercise tool'
+        within('nav[aria-label="Course actions"]') { click_on 'Launch exercise tool' }
 
-        expect(page).to have_no_content 'Launch the tool and submit your results'
+        expect(page).to have_no_text 'Launch the tool and submit your results'
       end
     end
 
@@ -173,10 +133,10 @@ describe 'LTI: Tool Launch', type: :system do
       let(:exercise_type) { '' }
 
       it 'renders the instructions without a heading' do
-        visit "/courses/the_course/items/#{item.id}"
+        visit "/learn/#{course.course_code}/items/#{item.id}"
 
-        expect(page).to have_content 'Launch the tool and submit your results'
-        expect(page).to have_no_content 'Instructions'
+        expect(page).to have_text 'Launch the tool and submit your results'
+        expect(page).to have_no_text 'Instructions'
       end
     end
   end

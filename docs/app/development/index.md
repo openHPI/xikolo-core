@@ -46,4 +46,4 @@ bin/setup --reset
 
 !!! danger "This is a complete reset!"
 
-    All local state (PostgreSQL, Redis, RabbitMQ, S3) will be deleted. On the bright side, the system will be re-seeded, so that you can play around with useful example data for many features.
+    All local state (PostgreSQL, S3) will be deleted. On the bright side, the system will be re-seeded, so that you can play around with useful example data for many features.

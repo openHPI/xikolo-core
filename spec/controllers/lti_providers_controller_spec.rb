@@ -3,29 +3,26 @@
 require 'spec_helper'
 
 describe LtiProvidersController, type: :controller do
-  let(:course) { create(:course) }
+  let(:course) { create(:course, course_code: "course-#{SecureRandom.uuid}") }
   let(:user_id) { SecureRandom.uuid }
-  let(:request_context_id) { course_context_id }
+  let(:user) { create(:'account_service/user', id: user_id) }
   let(:permissions) { ['lti.provider.manage', 'course.content.access'] }
   let(:provider_params) { {course_id: course.id, name: 'Provider'} }
+  let(:course_context) { AccountService::Context.root }
 
   before do
     Stub.request(
       :course, :get, "/courses/#{course.id}"
     ).to_return Stub.json({
       id: course.id,
-      context_id: course_context_id,
+      context_id: course_context.id,
     })
-    Stub.request(
-      :course, :get, '/next_dates',
-      query: hash_including({})
-    ).to_return Stub.json([])
     Stub.request(
       :course, :get, '/enrollments',
       query: {course_id: course.id, user_id:}
     ).to_return Stub.json([])
 
-    stub_user id: user_id, permissions:
+    sign_in(user: user, permissions:)
   end
 
   describe 'GET #index' do

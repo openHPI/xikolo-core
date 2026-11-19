@@ -3,11 +3,11 @@
 require 'spec_helper'
 
 describe 'LTI Providers: Create', type: :request do
-  subject(:create_lti_provider) { post "/courses/#{course['course_code']}/lti_providers", params: {lti_provider: params}, headers: }
+  subject(:create_lti_provider) { post "/learn/#{course['course_code']}/lti_providers", params: {lti_provider: params} }
 
-  let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
-  let(:course) { build(:'course:course') }
-  let(:permissions) { [] }
+  let(:course) { create(:'course_service/course') }
+  let(:user) { create(:'account_service/user') }
+  let(:authenticate) { true }
   let(:params) do
     {
       consumer_key: 'consumer',
@@ -21,12 +21,8 @@ describe 'LTI Providers: Create', type: :request do
   end
 
   before do
-    stub_user_request(permissions:)
-    Stub.request(
-      :course, :get, "/courses/#{course['course_code']}"
-    ).to_return Stub.json(
-      course
-    )
+    sign_in(user:) if authenticate
+    course
   end
 
   context 'without permissions' do
@@ -36,7 +32,10 @@ describe 'LTI Providers: Create', type: :request do
   end
 
   context 'with permissions' do
-    let(:permissions) { %w[lti.provider.manage course.content.access] }
+    before do
+      role = create(:'account_service/role', permissions: %w[lti.provider.manage course.content.access])
+      create(:'account_service/grant', principal: user, role:)
+    end
 
     it 'creates a new LTI provider' do
       expect { create_lti_provider }.to change(Lti::Provider, :count).from(0).to(1)
@@ -92,7 +91,7 @@ describe 'LTI Providers: Create', type: :request do
   end
 
   context 'for anonymous users' do
-    let(:headers) { {} }
+    let(:authenticate) { false }
 
     it 'redirects to the login page' do
       expect(create_lti_provider).to redirect_to course_path(course['course_code'])

@@ -27,6 +27,10 @@ RSpec.configure do |config|
 
     # Reset the config after every test case so that modifying the config for one scenario
     # does not affect following scenarios (which can lead to nasty order dependencies).
+    # `Xikolo::Config.reload` alone only re-merges values from config files and would leave
+    # options added via `xi_config` (e.g. `disable_technical_issues_section`) behind, so we
+    # rebuild the configuration from the registered files first.
+    Xikolo.instance_variable_set(:@config, Xikolo::GlobalConfiguration.new)
     Xikolo::Config.reload
 
     # IMPORTANT: The brand is set via environment variable - we need to restore that value

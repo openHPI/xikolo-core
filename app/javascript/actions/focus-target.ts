@@ -5,9 +5,9 @@
  * Optionally, a different element can be focused.
  */
 
-import ready from '../util/ready';
+import { turboReady } from '../util/ready';
 
-ready(() => {
+turboReady(() => {
   const scrollTrigger = document.querySelector("[data-id='scroll-trigger']");
   const scrollTarget = document.querySelector("[data-id='scroll-target']");
   const focusTarget =

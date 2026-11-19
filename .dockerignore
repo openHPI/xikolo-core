@@ -67,13 +67,3 @@
 # Ignore links to gems and engines
 /services/*/gems
 /services/*/engines
-
-# Auto-generate integration initializers & config
-/services/*/config/initializers/integration.rb
-/services/*/config/initializers/integration
-/services/*/config/initializers/integration*
-/config/initializers/integration.rb
-/config/initializers/integration
-/config/initializers/integration*
-/config/services.integration.yml
-/config/xikolo.integration.yml

@@ -63,8 +63,8 @@ RSpec.describe 'Helpdesk: Create', type: :request do
     it 'does not create a ticket and returns unprocessable_entity' do
       expect { send_helpdesk }.not_to change(Helpdesk::Ticket, :count)
       expect(response).not_to be_successful
-      expect(response).to have_http_status :unprocessable_entity
-      expect(page).to have_content 'Oops something went wrong.'
+      expect(response).to have_http_status :unprocessable_content
+      expect(page).to have_text 'Oops something went wrong.'
     end
   end
 
@@ -82,8 +82,8 @@ RSpec.describe 'Helpdesk: Create', type: :request do
     it 'does not create a ticket and returns unprocessable_entity' do
       expect { send_helpdesk }.not_to change(Helpdesk::Ticket, :count)
       expect(response).not_to be_successful
-      expect(response).to have_http_status :unprocessable_entity
-      expect(page).to have_content 'Oops something went wrong.'
+      expect(response).to have_http_status :unprocessable_content
+      expect(page).to have_text 'Oops something went wrong.'
     end
   end
 
@@ -120,7 +120,7 @@ RSpec.describe 'Helpdesk: Create', type: :request do
       it 'allows creating a ticket' do
         expect { send_helpdesk }.to change(Helpdesk::Ticket, :count).by(1)
         expect(response).to have_http_status :ok
-        expect(page).to have_content 'Your request has been sent to our support team, and will be answered as soon as possible.'
+        expect(page).to have_text 'Your request has been sent to our support team, and will be answered as soon as possible.'
       end
     end
 
@@ -131,8 +131,8 @@ RSpec.describe 'Helpdesk: Create', type: :request do
 
       it 'prevents creating a ticket and re-renders the page with a checkbox reCAPTCHA (v2)' do
         expect { send_helpdesk }.not_to change(Helpdesk::Ticket, :count)
-        expect(response).to have_http_status :unprocessable_entity
-        expect(page).to have_content "Confirm you're human by checking the box below."
+        expect(response).to have_http_status :unprocessable_content
+        expect(page).to have_text "Confirm you're human by checking the box below."
       end
 
       context 'with checkbox reCAPTCHA verification success (v2)' do
@@ -144,7 +144,7 @@ RSpec.describe 'Helpdesk: Create', type: :request do
         it 'creates a ticket' do
           expect { send_helpdesk }.to change(Helpdesk::Ticket, :count).by(1)
           expect(response).to have_http_status :ok
-          expect(page).to have_content 'Your request has been sent to our support team, and will be answered as soon as possible.'
+          expect(page).to have_text 'Your request has been sent to our support team, and will be answered as soon as possible.'
         end
       end
     end

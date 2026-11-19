@@ -3,13 +3,12 @@
 module QuizService
 module Regrading # rubocop:disable Layout/IndentationWidth
   class Jackpot < Base
-    # rubocop:disable Lint/MissingSuper
+    # rubocop:disable-next Lint/MissingSuper
     def initialize(question, dry: false)
       @question = question
 
       @dry = dry
     end
-    # rubocop:enable Lint/MissingSuper
 
     # rubocop:disable Rails/SkipsModelValidations
     def run!
@@ -26,8 +25,8 @@ module Regrading # rubocop:disable Layout/IndentationWidth
 
         log "Average points after: #{all.average(:points)}", :info
 
-        # trigger background worker to recalculate statistics
-        UpdateQuestionStatisticsWorker.perform_async(@question.id)
+        # trigger background job to recalculate statistics
+        UpdateQuestionStatisticsJob.perform_later(@question.id)
       end
     end
     # rubocop:enable all

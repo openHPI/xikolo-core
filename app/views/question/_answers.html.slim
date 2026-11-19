@@ -7,7 +7,7 @@
   - answers.unshift accepted_answer if accepted_answer
 
   - answers.each do |answer|
-    .qa-box.answer data-lanalytics-resource={type: 'answer', uuid: answer.id}.to_json data-lanalytics-context={course_id:}.to_json
+    .qa-box.answer
       table.qa-content
         tbody
           tr class="qa-answer #{'unread' unless answer.read} #{'accepted' if question.accepted_answer_id == answer.id}"
@@ -25,11 +25,11 @@
 
             td.qa-details
               - if !accepted_answer && question.accepted_answer_id != answer.id && can_edit?(question) && !answer.blocked?
-                a.accept-hint.accept data-answer-id="#{answer.id}" data-question-id="#{question.id}" data-course-id="#{params[:course_id]}" href="#"
+                a.accept-hint.accept data-answer-id="#{answer.id}" data-question-id="#{question.id}" data-course-id="#{params[:course_id]}" href="#" data-turbo="false"
                   = render Global::FaIcon.new('check', style: :solid, css_classes: 'em1-2 vmiddle mr5')
                   = t :'pinboard.question.accept_hint'
 
-              .qa-text.prose.prose-2xl.max-w-none
+              .qa-text.prose.prose-sm.max-w-none
                 - if answer.blocked?
                   - if current_user.allowed? 'pinboard.entity.block'
                     b
@@ -57,7 +57,7 @@
 
                 .actions
                   - if can_edit? answer
-                    span.answer-edit.action data-answer-id="#{answer.id}" data-url="#{edit_answer_path(id: answer.id)}"
+                    = link_to edit_answer_path(id: answer.id), class: 'answer-edit action', data: {turbo_frame: dom_id(answer, :edit_form)} do
                       = render Global::FaIcon.new('pencil', style: :solid)
                       = t(:'.edit')
 
@@ -86,7 +86,7 @@
                   - elsif !answer.blocked?
                     = render Pinboard::ReportButton.new(path: abuse_report_answer_path(id: answer.id), test_id: 'answer-report')
 
-              .edit-post.hidden id="answer-edit-#{answer.id}"
+              = turbo_frame_tag dom_id(answer, :edit_form), class: 'edit-post', data: {pinboard_edit_form: true}
 
               .answer-comments
                 - if !question.blocked? || current_user.allowed?('pinboard.entity.block')

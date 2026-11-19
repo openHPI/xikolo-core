@@ -8,18 +8,16 @@ describe CourseService::SectionProgress::Calculate, type: :operation do
   let(:params) { {} }
   let(:section) { create(:'course_service/section') }
   let(:item) { create(:'course_service/item', :homework, :with_max_points, section:) }
-  let(:user_id) { generate(:user_id) }
+  let(:user_id) { create(:'account_service/user').id }
 
   before do
-    xi_config <<~YML
-      persisted_learning_evaluation: true
-    YML
-
     create(:'course_service/visit', item:, user_id:)
     create(:'course_service/result', item:, user_id:, dpoints: 10)
   end
 
-  around {|example| Sidekiq::Testing.inline!(&example) }
+  around do |example|
+    perform_enqueued_jobs { example.run }
+  end
 
   it 'creates / updates the section progress and triggers a recalculation' do
     # Creating a visit / result already creates a section progress, reset it.

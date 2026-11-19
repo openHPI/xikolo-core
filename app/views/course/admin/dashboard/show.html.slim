@@ -1,18 +1,6 @@
-- content_for :head_assets
-  = javascript_include_tag 'app/javascript/legacy/course', type: 'module', 'data-turbo-track': Rails.env.production? ? 'reload' : ''
-  = javascript_include_tag 'app/javascript/teacher/teacher', type: 'module', 'data-turbo-track': Rails.env.production? ? 'reload' : ''
+= render 'course/shared/admin_page_header', title: t(:'admin.course_management.dashboard.title')
 
-- content_for :course_area_header
-  = render Global::PageHeader.new("#{t(:'admin.course_management.dashboard.title')} - #{course_layout.title}",
-    subtitle: t(:'course.admin.page_header'),
-    type: :slim) do |c|
-      - c.with_pill(t(:"items.show.coursestate.#{course_layout.fullstate}"), size: :small, color: :note)
-      = render(partial: 'course/shared/course_admin_action', locals: {course: course_layout, in_teacher_context: true})
-
-.bs-container.white-bg.course-dashboard[
-  data-lanalytics-visit='course_dashboard'
-  data-lanalytics-resource={type: 'course', uuid: @course['id']}.to_json
-]
+.bs-container.white-bg.course-dashboard
   .row
     .col-md-12.mb15.mt15
       .grid.grid-cols-1.gap-4.sm:grid-cols-1.md:grid-cols-2.lg:grid-cols-3
@@ -30,31 +18,9 @@
       h3.h3
         = t(:'admin.course_management.dashboard.kpis.items.title')
       .grid.grid-cols-1.gap-4.sm:grid-cols-2.md:grid-cols-2.lg:grid-cols-4
-        = render Global::KpiScoreCard.new(title: t('admin.course_management.dashboard.kpis.misc.item_visits'), value: @course_item_visits['count'], icon_class: 'eye', more_details_url: course_statistics_item_visits_path(course_id: params[:id]))
-        = render Global::KpiScoreCard.new(title: t('admin.course_management.dashboard.kpis.misc.video_plays'), value: @course_video_plays['count'], icon_class: 'video', more_details_url: course_statistics_videos_path(course_id: params[:id]))
         = render Global::KpiScoreCard.new(title: t('admin.course_management.dashboard.kpis.items.graded_quiz'), value: @course_quiz_performance[:graded], format: :percentage, icon_class: 'user-edit')
         = render Global::KpiScoreCard.new(title: t('admin.course_management.dashboard.kpis.items.ungraded_quiz'), value: @course_quiz_performance[:selftest], format: :percentage, icon_class: 'lightbulb')
-
-      - if @course.pinboard_enabled
-        h3.h3
-          = t(:'admin.course_management.dashboard.kpis.forum.title')
-        - forum_statistics = @course_forum_statistics[:forum_statistics] || {}
-        - forum_write_activity = @course_forum_statistics[:forum_write_activity] || {}
-        .grid.grid-cols-1.gap-4.sm:grid-cols-2.md:grid-cols-2.lg:grid-cols-4
-          = render Global::KpiScoreCard.new(title: t('admin.course_management.dashboard.kpis.forum.posts'), value: forum_statistics['posts'], icon_class: 'comments')
-          = render Global::KpiScoreCard.new(title: t('admin.course_management.dashboard.kpis.forum.threads'), value: forum_statistics['threads'], icon_class: 'comment-dots')
-          = render Global::KpiScoreCard.new(title: t('admin.course_management.dashboard.kpis.forum.forum_write_activity'), value: forum_write_activity['user'], icon_class: 'pencil-alt')
-
-  .row
-    .col-md-12.mb15
-      = turbo_frame_tag :historic_data do
-        = render Global::Table.new(rows: @historic_data_table_rows, headers: @historic_data_table_headers, title: t(:'admin.course_management.dashboard.historic_data.title'))
-        - if @historic_data_pagination && @historic_data_pagination.total_pages > 1
-          = will_paginate @historic_data_pagination, renderer: PaginationRenderer, param_name: :historic_page, class: 'pagination'
 
   .row
     .col-md-6.mb15
       = render Global::Table.new(rows: @age_distribution_table_rows, headers: @age_distribution_table_headers, title: t(:'admin.course_management.dashboard.age.title'))
-
-    .col-md-6.mb15
-      = render Global::Table.new(rows: @client_usage_table_rows, headers: @client_usage_table_headers, title: t(:'admin.course_management.dashboard.client_usage.title'), caption: t(:'admin.course_management.dashboard.client_usage.caption'))

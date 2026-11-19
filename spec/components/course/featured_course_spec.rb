@@ -18,11 +18,11 @@ describe Course::FeaturedCourse, type: :component do
     expect(page).to have_link 'Details'
     expect(page).to have_link 'Enroll'
     expect(page).to have_link 'MOOC on topic'
-    expect(page).to have_content 'Abstract text'
+    expect(page).to have_text 'Abstract text'
   end
 
   context 'with the user enrolled in the course' do
-    let(:enrollment) { Course::Enrollment.new(course:, user_id:) }
+    let(:enrollment) { CourseService::Enrollment.new(course:, user_id:) }
 
     it 'allows to resume the course' do
       render_inline(component)
@@ -38,8 +38,8 @@ describe Course::FeaturedCourse, type: :component do
     it 'renders sanitized content' do
       render_inline(component)
 
-      expect(page).to have_content 'Abstract text'
-      expect(page).to have_no_content '**Abstract text**'
+      expect(page).to have_text 'Abstract text'
+      expect(page).to have_no_text '**Abstract text**'
     end
   end
 end

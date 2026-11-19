@@ -7,24 +7,24 @@ describe CourseService::Video::Clone do
     described_class.call(video)
   end
 
-  let!(:video) { create(:'course_service/video') }
+  let!(:video) { create(:video) }
 
   it 'clones the video' do
     new_vid = nil
-    expect { new_vid = new_video }.to change(CourseService::Duplicated::Video, :count).from(1).to(2)
+    expect { new_vid = new_video }.to change(Video::Video, :count).from(1).to(2)
     expect(new_vid.pip_stream_id).to eq video.pip_stream_id
   end
 
   context 'with subtitles' do
     it 'copies the subtitles' do
-      create(:'course_service/subtitle', video:)
-      expect { new_video }.to change(CourseService::Duplicated::Subtitle, :count).from(1).to(2)
+      create(:video_subtitle, video:)
+      expect { new_video }.to change(Video::Subtitle, :count).from(1).to(2)
     end
 
     context 'with subtitle cues' do
       it 'copies the related cues' do
-        create(:'course_service/subtitle', :with_cues, video:)
-        expect { new_video }.to change(CourseService::Duplicated::SubtitleCue, :count).from(1).to(2)
+        create(:video_subtitle, :with_cues, video:)
+        expect { new_video }.to change(Video::SubtitleCue, :count).from(1).to(2)
       end
     end
   end
@@ -35,10 +35,10 @@ describe CourseService::Video::Clone do
       let(:video_id) { SecureRandom.uuid }
 
       context 'with slides attached' do
-        let(:video) { create(:'course_service/video', :with_slides, id: video_id, slides_uri: "s3://xikolo-video/videos/#{video_id}/slides_v1.pdf") }
+        let(:video) { create(:video, id: video_id, slides_uri: "s3://xikolo-video/videos/#{video_id}/slides_v1.pdf") }
         let!(:copy_slides_stub) do
           stub_request(
-            :put, %r{https://s3.xikolo.de/xikolo-video/videos/[a-zA-Z0-9]+/slides_v1.pdf}
+            :put, %r{#{test_s3_host}/xikolo-video/videos/[a-zA-Z0-9]+/slides_v1.pdf}
           ).and_return(
             status: 200,
             headers: {'Content-Disposition' => 'attachment; filename="slides.pdf"'},
@@ -47,7 +47,7 @@ describe CourseService::Video::Clone do
         end
 
         before do
-          stub_request(:head, "https://s3.xikolo.de/xikolo-video/videos/#{video_id}/slides_v1.pdf")
+          stub_request(:head, "#{test_s3_host}/xikolo-video/videos/#{video_id}/slides_v1.pdf")
             .to_return(status: 200, headers: {'Content-Disposition' => 'attachment; filename="slides.pdf"'})
         end
 
@@ -65,10 +65,10 @@ describe CourseService::Video::Clone do
       end
 
       context 'with a transcript attached' do
-        let(:video) { create(:'course_service/video', :with_transcript, id: video_id, transcript_uri: "s3://xikolo-video/videos/#{video_id}/transcript_v1.pdf") }
+        let(:video) { create(:video, id: video_id, transcript_uri: "s3://xikolo-video/videos/#{video_id}/transcript_v1.pdf") }
         let!(:copy_transcript_stub) do
           stub_request(
-            :put, %r{https://s3.xikolo.de/xikolo-video/videos/[a-zA-Z0-9]+/transcript_v1.pdf}
+            :put, %r{#{test_s3_host}/xikolo-video/videos/[a-zA-Z0-9]+/transcript_v1.pdf}
           ).and_return(
             status: 200,
             headers: {'Content-Disposition' => 'attachment; filename="transcript.pdf"'},
@@ -77,7 +77,7 @@ describe CourseService::Video::Clone do
         end
 
         before do
-          stub_request(:head, "https://s3.xikolo.de/xikolo-video/videos/#{video_id}/transcript_v1.pdf")
+          stub_request(:head, "#{test_s3_host}/xikolo-video/videos/#{video_id}/transcript_v1.pdf")
             .to_return(status: 200, headers: {'Content-Disposition' => 'attachment; filename="transcript.pdf"'})
         end
 
@@ -94,10 +94,10 @@ describe CourseService::Video::Clone do
       end
 
       context 'with reading material attached' do
-        let(:video) { create(:'course_service/video', :with_reading_material, id: video_id, reading_material_uri: "s3://xikolo-video/videos/#{video_id}/reading_material_v1.pdf") }
+        let(:video) { create(:video, id: video_id, reading_material_uri: "s3://xikolo-video/videos/#{video_id}/reading_material_v1.pdf") }
         let!(:copy_reading_material_stub) do
           stub_request(
-            :put, %r{https://s3.xikolo.de/xikolo-video/videos/[a-zA-Z0-9]+/reading_material_v1.pdf}
+            :put, %r{#{test_s3_host}/xikolo-video/videos/[a-zA-Z0-9]+/reading_material_v1.pdf}
           ).and_return(
             status: 200,
             headers: {'Content-Disposition' => 'attachment; filename="reading_material.pdf"'},
@@ -106,7 +106,7 @@ describe CourseService::Video::Clone do
         end
 
         before do
-          stub_request(:head, "https://s3.xikolo.de/xikolo-video/videos/#{video.id}/reading_material_v1.pdf")
+          stub_request(:head, "#{test_s3_host}/xikolo-video/videos/#{video.id}/reading_material_v1.pdf")
             .to_return(status: 200, headers: {'Content-Disposition' => 'attachment; filename="reading_material.pdf"'})
         end
 
@@ -126,17 +126,17 @@ describe CourseService::Video::Clone do
     # unique_sanitized_name(filename).pdf --> uuid/filename.pdf
     context 'with new file versioning schema' do
       context 'with slides attached' do
-        let!(:video) { create(:'course_service/video', :with_slides) }
+        let!(:video) { create(:video, slides_uri: 's3://xikolo-video/videos/1234/encodedUUUID/slides.pdf') }
         let!(:copy_slides_stub) do
           stub_request(
-            :put, %r{https://s3.xikolo.de/xikolo-video/videos/[a-zA-z0-9]+/encodedUUUID/slides.pdf}
+            :put, %r{#{test_s3_host}/xikolo-video/videos/[a-zA-Z0-9]+/encodedUUUID/slides.pdf}
           ).and_return(status: 200,
             headers: {'Content-Disposition' => 'attachment; filename="slides.pdf"'},
             body: '<xml></xml>')
         end
 
         before do
-          stub_request(:head, "https://s3.xikolo.de/xikolo-video/videos/#{video.id}/encodedUUUID/slides.pdf")
+          stub_request(:head, "#{test_s3_host}/xikolo-video/videos/1234/encodedUUUID/slides.pdf")
             .to_return(status: 200, headers: {'Content-Disposition' => 'attachment; filename="slides.pdf"'})
         end
 
@@ -153,17 +153,17 @@ describe CourseService::Video::Clone do
       end
 
       context 'with a transcript attached' do
-        let(:video) { create(:'course_service/video', :with_transcript) }
+        let(:video) { create(:video, transcript_uri: 's3://xikolo-video/videos/1234/encodedUUUID/transcript.pdf') }
         let!(:copy_transcript_stub) do
           stub_request(
-            :put, %r{https://s3.xikolo.de/xikolo-video/videos/[a-zA-Z0-9]+/encodedUUUID/transcript.pdf}
+            :put, %r{#{test_s3_host}/xikolo-video/videos/[a-zA-Z0-9]+/encodedUUUID/transcript.pdf}
           ).and_return(status: 200,
             headers: {'Content-Disposition' => 'attachment; filename="transcript.pdf"'},
             body: '<xml></xml>')
         end
 
         before do
-          stub_request(:head, "https://s3.xikolo.de/xikolo-video/videos/#{video.id}/encodedUUUID/transcript.pdf")
+          stub_request(:head, "#{test_s3_host}/xikolo-video/videos/1234/encodedUUUID/transcript.pdf")
             .to_return(status: 200, headers: {'Content-Disposition' => 'attachment; filename="transcript.pdf"'})
         end
 
@@ -180,17 +180,17 @@ describe CourseService::Video::Clone do
       end
 
       context 'with reading material attached' do
-        let(:video) { create(:'course_service/video', :with_reading_material) }
+        let(:video) { create(:video, reading_material_uri: 's3://xikolo-video/videos/1234/encodedUUUID/reading_material.pdf') }
         let!(:copy_reading_material_stub) do
           stub_request(
-            :put, %r{https://s3.xikolo.de/xikolo-video/videos/[a-zA-Z0-9]+/encodedUUUID/reading_material.pdf}
+            :put, %r{#{test_s3_host}/xikolo-video/videos/[a-zA-Z0-9]+/encodedUUUID/reading_material.pdf}
           ).and_return(status: 200,
             headers: {'Content-Disposition' => 'attachment; filename="reading_material.pdf"'},
             body: '<xml></xml>')
         end
 
         before do
-          stub_request(:head, "https://s3.xikolo.de/xikolo-video/videos/#{video.id}/encodedUUUID/reading_material.pdf")
+          stub_request(:head, "#{test_s3_host}/xikolo-video/videos/1234/encodedUUUID/reading_material.pdf")
             .to_return(status: 200, headers: {'Content-Disposition' => 'attachment; filename="reading_material.pdf"'})
         end
 

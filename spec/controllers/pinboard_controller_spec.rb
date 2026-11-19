@@ -4,36 +4,13 @@ require 'spec_helper'
 
 describe PinboardController, type: :controller do
   let(:course_id) { SecureRandom.uuid }
-  let(:user_id) { SecureRandom.uuid }
+  let(:user) { create(:'account_service/user') }
   let(:permissions) { ['course.content.access.available'] }
-  let(:request_context_id) { course_context_id }
-  let(:course_params) do
-    {
-      id: course_id,
-      title: 'Test Course',
-      description: 'A Test Course.',
-      status: 'active',
-      course_code: 'test',
-      start_date: DateTime.new(2013, 7, 12).iso8601,
-      end_date: DateTime.new(2013, 8, 19).iso8601,
-      abstract: 'Test Course abstract.',
-      lang: 'en',
-      context_id: course_context_id,
-    }
-  end
+  let(:course_context) { AccountService::Context.root }
+  let(:course) { create(:'course_service/course', id: course_id, context_id: course_context.id, pinboard_enabled: true) }
 
   before do
-    Stub.request(
-      :account, :get, "/users/#{user_id}"
-    ).to_return Stub.json({id: user_id})
-
-    Stub.request(
-      :course, :get, "/courses/#{course_id}"
-    ).to_return Stub.json(course_params)
-    Stub.request(
-      :course, :get, '/sections',
-      query: {course_id:}
-    ).to_return Stub.json([])
+    course
   end
 
   describe 'index' do
@@ -45,15 +22,26 @@ describe PinboardController, type: :controller do
     end
 
     context 'logged in' do
-      before { stub_user(id: user_id, permissions:) }
+      before { sign_in user: user, permissions: }
 
       context 'with disabled pinboard' do
-        let(:course_params) { super().merge(pinboard_enabled: false) }
+        let(:course) { create(:'course_service/course', id: course_id, context_id: course_context.id, pinboard_enabled: false) }
 
         it 'raises an error' do
           expect do
             get :index, params: {course_id:}
           end.to raise_error(AbstractController::ActionNotFound)
+        end
+      end
+
+      context 'with a published, available section' do
+        let!(:section) { create(:'course_service/section', course:, published: true) }
+
+        it 'lists the section as a discussion filter option' do
+          get :index, params: {course_id:}
+
+          expect(response).to have_http_status :ok
+          expect(assigns(:pinboard).section_filter.map(&:first)).to include(section.title)
         end
       end
     end

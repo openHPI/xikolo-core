@@ -4,9 +4,9 @@
  * It's used in the `application_helper.rb` file in `advanced_settings`.
  */
 
-import ready from '../ready';
+import { turboReady } from '../ready';
 
-ready(() => {
+turboReady(() => {
   const advancedSettingsButtons: NodeListOf<HTMLButtonElement> =
     document.querySelectorAll('[data-behavior=toggle-visibility]');
 

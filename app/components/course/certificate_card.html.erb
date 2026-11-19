@@ -1,0 +1,46 @@
+<article class="x-card border-base-200 bg-base-100 text-base-content border p-6">
+  <%# The badge sits next to the icon on small screens and next to the text from `sm`. %>
+  <div class="grid grid-cols-[1fr_auto] items-start gap-x-2 gap-y-4 sm:grid-cols-[auto_1fr_auto]">
+    <span class="bg-success flex size-15 items-center justify-center rounded-full" aria-hidden="true">
+      <%= helpers.pixelart_icon('star', css_class: 'size-9') %>
+    </span>
+
+    <span class="<%= badge_classes %> font-medium sm:col-start-3 sm:row-start-1">
+      <span aria-hidden="true"><%= helpers.pixelart_icon(badge_icon, css_class: 'size-3.5') %></span>
+      <%= badge_text %>
+    </span>
+
+    <div class="col-span-2 flex min-w-0 flex-col gap-1 sm:col-span-1 sm:col-start-2 sm:row-start-1">
+      <h3 class="text-lg font-medium"><%= @title %></h3>
+      <p class="text-sm"><%= @description %></p>
+    </div>
+  </div>
+
+  <dl class="grid gap-x-2 gap-y-2 py-4 text-sm sm:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
+    <dt class="flex items-center gap-2 px-2 font-bold">
+      <span aria-hidden="true"><%= helpers.pixelart_icon('fire', css_class: 'size-4') %></span>
+      <%= t('course.certificate_card.requirement') %>
+    </dt>
+    <dd class="mb-2 sm:mb-0"><%= @requirement %></dd>
+
+    <dt class="flex items-center gap-2 px-2 font-bold">
+      <span aria-hidden="true"><%= helpers.pixelart_icon('calendar', css_class: 'size-4') %></span>
+      <%= t('course.certificate_card.issued_on') %>
+    </dt>
+    <dd><%= @issued_on %></dd>
+  </dl>
+
+  <div>
+    <% if @download_path %>
+      <%= link_to @download_path, class: 'x-btn x-btn-primary', download: true do %>
+        <%= t('global.download') %>
+        <span aria-hidden="true"><%= helpers.pixelart_icon('download', css_class: 'size-3.5') %></span>
+      <% end %>
+    <% else %>
+      <button type="button" class="x-btn" disabled>
+        <%= t('global.download') %>
+        <span aria-hidden="true"><%= helpers.pixelart_icon('download', css_class: 'size-3.5') %></span>
+      </button>
+    <% end %>
+  </div>
+</article>

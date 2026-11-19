@@ -11,12 +11,16 @@ class TeachersController < ApplicationController # rubocop:disable Layout/Indent
   # List allowed filter parameters for #index here.
   rfc6570_params index: %i[course query]
   def index
-    teachers = Teacher.all
+    teachers = Teacher.with_referenced_in_courses
     teachers = teachers.for_course(params[:course]) if params[:course]
     teachers = teachers.where(user_id: params[:user_id]) if params[:user_id]
     teachers = teachers.filter_by_query(params[:query]) if params[:query]
     teachers = teachers.order('lower(name) asc') if params[:sort] == 'name'
     respond_with teachers
+  end
+
+  def show
+    respond_with Teacher.find params[:id]
   end
 
   def create
@@ -30,10 +34,6 @@ class TeachersController < ApplicationController # rubocop:disable Layout/Indent
       teacher.save if teacher.errors.empty?
     end
     respond_with teacher
-  end
-
-  def show
-    respond_with Teacher.find params[:id]
   end
 
   def update

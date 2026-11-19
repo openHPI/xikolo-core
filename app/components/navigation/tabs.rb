@@ -18,8 +18,6 @@ class Navigation::Tabs < ViewComponent::Base
     end
   end
 
-  renders_many :additional_items
-
   renders_many :panels, ->(id: nil, active: false, &block) do
     tag.div(
       role: 'tabpanel',

@@ -24,8 +24,13 @@ module Global
         !@visible && @selected
       end
 
-      def include_blank
-        @blank_option.presence || t(:'components.filter_bar.filter.all')
+      def options_with_blank
+        blank_text = @blank_option.presence || t(:'components.filter_bar.filter.all')
+        if @options.is_a?(Hash)
+          {blank_text => ''}.merge(@options)
+        else
+          [[blank_text, '']] + @options
+        end
       end
 
       def disabled_select_text

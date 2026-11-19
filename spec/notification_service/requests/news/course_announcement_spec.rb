@@ -25,11 +25,15 @@ describe 'Course Announcement Mail', type: :request do
       timestamp: Time.zone.now,
     }
   end
-  let(:publish) { -> { Msgr.publish(message, to: 'xikolo.news.announcement.create') } }
+  let(:publish) do
+    lambda do
+      perform_enqueued_jobs do
+        NotificationService::AnnouncementJob.perform_later(message)
+      end
+    end
+  end
 
   before do
-    Msgr.client.start
-
     Stub.request(
       :news, :get, "/news/#{announcement_id}",
       query: {embed: 'translations'}
@@ -152,8 +156,6 @@ describe 'Course Announcement Mail', type: :request do
   it 'sends a mail to each enrolled user' do
     publish.call
 
-    Msgr::TestPool.run count: 5
-
     expect(mails.size).to eq 3
     expect(mails.map {|m| m.to.first }).to match_array \
       %w[kevin.cool@example.com tom@example.com john.smith1@example.com]
@@ -172,9 +174,8 @@ describe 'Course Announcement Mail', type: :request do
 
   it 'sends email only once even on multiple send' do
     publish.call
-    Msgr::TestPool.run count: 5
     publish.call
-    expect { Msgr::TestPool.run(count: 5) }.to raise_error(Timeout::Error)
+
     expect(mails.size).to eq 3
   end
 
@@ -214,7 +215,7 @@ describe 'Course Announcement Mail', type: :request do
 
     it 'sends email normally but ignores the deleted user' do
       publish.call
-      Msgr::TestPool.run count: 6
+
       expect(mails.size).to eq 3
 
       api = restify_with_headers(notification_service_url).get.value!
@@ -229,6 +230,8 @@ describe 'Course Announcement Mail', type: :request do
 
   context 'when a mail for Kevin has already been sent' do
     before do
+      NotificationService::MailLog.where(news_id: announcement_id).delete_all
+
       NotificationService::MailLog.create(
         user_id: '00000001-3100-4444-9999-000000000001',
         news_id: announcement_id,
@@ -240,8 +243,6 @@ describe 'Course Announcement Mail', type: :request do
 
     it 'does not send another mail to Kevin' do
       publish.call
-
-      expect { Msgr::TestPool.run count: 5 }.to raise_error(Timeout::Error)
 
       expect(mails.size).to eq 2
       expect(mails.flat_map(&:to)).to match_array \
@@ -261,8 +262,6 @@ describe 'Course Announcement Mail', type: :request do
     it 'does not send another mail to Kevin' do
       publish.call
 
-      expect { Msgr::TestPool.run count: 5 }.to raise_error(Timeout::Error)
-
       expect(mails.size).to eq 2
       expect(mails.flat_map(&:to)).to match_array \
         %w[tom@example.com john.smith1@example.com]
@@ -275,8 +274,6 @@ describe 'Course Announcement Mail', type: :request do
     it 'excludes users who unsubscribed to course announcements in their settings' do
       publish.call
 
-      Msgr::TestPool.run count: 5
-
       expect(mails.size).to eq 2
       expect(mails.flat_map(&:to)).to match_array \
         %w[tom@example.com john.smith1@example.com]
@@ -287,15 +284,12 @@ describe 'Course Announcement Mail', type: :request do
 
   it 'includes the course title' do
     publish.call
-    Msgr::TestPool.run count: 5
     expect(conv_str(mail.html_part)).to include 'A Course'
   end
 
   context 'with translations' do
     it 'translates email\'s subject' do
       publish.call
-
-      Msgr::TestPool.run count: 5
 
       english_mail = mails.find {|m| m.to[0].eql? 'kevin.cool@example.com' }
       german_mail = mails.find {|m| m.to[0].eql? 'tom@example.com' }
@@ -311,7 +305,6 @@ describe 'Course Announcement Mail', type: :request do
 
   it 'includes disable links' do
     publish.call
-    Msgr::TestPool.run count: 5
 
     expect(mails.size).to eq 3
 
@@ -321,7 +314,6 @@ describe 'Course Announcement Mail', type: :request do
 
   it 'translates disable links' do
     publish.call
-    Msgr::TestPool.run count: 5
 
     english_mail = mails.find {|m| m.to[0].eql? 'kevin.cool@example.com' }
     expect(conv_str(english_mail.html_part)).to include 'you are signed up at Xikolo with your address kevin.cool@example.com'
@@ -336,7 +328,6 @@ describe 'Course Announcement Mail', type: :request do
 
   it 'sets text direction properly' do
     publish.call
-    Msgr::TestPool.run count: 5
 
     # content body
     expect(mail.body.encoded).to include('<div dir=3D"auto">')
@@ -350,30 +341,6 @@ describe 'Course Announcement Mail', type: :request do
     publish.call
 
     api = restify_with_headers(notification_service_url).get.value!
-
-    stats = api.rel(:mail_log_stats).get({news_id: announcement_id}).value!
-    expect(stats['count']).to eq 0
-
-    # Trigger notification events (page 1)
-    Msgr::TestPool.run count: 1
-
-    stats = api.rel(:mail_log_stats).get({news_id: announcement_id}).value!
-    expect(stats['count']).to eq 2
-    expect(stats['success_count']).to eq 0
-    expect(stats['disabled_count']).to eq 0
-    expect(stats['error_count']).to eq 0
-
-    # Send the queued notification mails from page 1 and load page 2
-    Msgr::TestPool.run count: 3
-
-    stats = api.rel(:mail_log_stats).get({news_id: announcement_id}).value!
-    expect(stats['count']).to eq 3
-    expect(stats['success_count']).to eq 2
-    expect(stats['disabled_count']).to eq 0
-    expect(stats['error_count']).to eq 0
-
-    # Send the remaining queued notification mail from page 2
-    Msgr::TestPool.run count: 1
 
     stats = api.rel(:mail_log_stats).get({news_id: announcement_id}).value!
     expect(stats['count']).to eq 3
@@ -413,8 +380,6 @@ describe 'Course Announcement Mail', type: :request do
     it 'sends mail only to author' do
       publish.call
 
-      Msgr::TestPool.run count: 2
-
       expect(mails.size).to eq 1
       expect(mails.map(&:to).join).to eq 'adam@example.org'
       expect(conv_str(mail.html_part)).to include 'This is a test message, only you received this!'
@@ -428,7 +393,6 @@ describe 'Course Announcement Mail', type: :request do
         mailsender: 'foo@bar.com'
       YML
       publish.call
-      Msgr::TestPool.run count: 5
     end
 
     it 'includes the platform name in the disable link' do

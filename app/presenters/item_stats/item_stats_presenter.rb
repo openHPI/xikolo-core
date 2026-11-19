@@ -4,12 +4,8 @@ module ItemStats
   class ItemStatsPresenter
     def self.for(item)
       case item['content_type']
-        when 'video'
-          VideoItemStats.new item
         when 'quiz'
           QuizItemStats.new item
-        when 'rich_text'
-          RichTextItemStats.new item
         when 'lti_exercise'
           ResultItemStats.new item
         else

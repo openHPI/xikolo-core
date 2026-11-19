@@ -13,7 +13,7 @@ describe Video::ExtractAudioJob, type: :job do
       audio_uri:)
   end
   let(:audio_uri) { nil }
-  let(:upload_id) { '83aebd2a-f026-4d58-8a61-5ee4f1a7cbfa' }
+  let(:upload_id) { generate(:uuid) }
   let(:file_name) { 'audio.mp3' }
 
   before do
@@ -31,13 +31,13 @@ describe Video::ExtractAudioJob, type: :job do
 
   describe '#perform' do
     let(:upload_stub) do
-      stub_request(:put, %r{https://s3.xikolo.de/xikolo-video/streams/#{stream_uuid}/audio/[0-9a-zA-Z]+/audio.mp3}x)
+      stub_request(:put, %r{#{test_s3_host}/xikolo-video/streams/#{stream_uuid}/audio/[0-9a-zA-Z]+/audio.mp3}x)
         .to_return(status: 200, body: '<xml></xml>')
     end
     let(:stream_uuid) { UUID4(stream.id).to_str(format: :base62) }
 
     before do
-      stub_request(:head, "https://s3.xikolo.de/xikolo-uploads/uploads/#{upload_id}/audio.mp3")
+      stub_request(:head, "#{test_s3_host}/xikolo-uploads/uploads/#{upload_id}/audio.mp3")
         .and_return(
           status: 200,
           headers: {
@@ -45,7 +45,7 @@ describe Video::ExtractAudioJob, type: :job do
             'X-Amz-Meta-Xikolo-State' => 'accepted',
           }
         )
-      stub_request(:get, "https://s3.xikolo.de/xikolo-uploads?list-type=2&prefix=uploads/#{stream.id}")
+      stub_request(:get, "#{test_s3_host}/xikolo-uploads?list-type=2&prefix=uploads/#{stream.id}")
         .to_return(
           status: 200,
           headers: {'Content-Type' => 'Content-Type: application/xml'},
@@ -80,7 +80,7 @@ describe Video::ExtractAudioJob, type: :job do
       let(:audio_uri) { 's3://xikolo-video/streams/3uAdfU6wveIxOGrQ7qa7mp/audio/1rHXup8qfTbeSupffOYEk5/audio.mp3' }
       let(:delete_stub) do
         stub_request(
-          :delete, 'https://s3.xikolo.de/xikolo-video/streams/3uAdfU6wveIxOGrQ7qa7mp/audio/1rHXup8qfTbeSupffOYEk5/audio.mp3'
+          :delete, "#{test_s3_host}/xikolo-video/streams/3uAdfU6wveIxOGrQ7qa7mp/audio/1rHXup8qfTbeSupffOYEk5/audio.mp3"
         ).to_return(status: 200, body: '<xml></xml>')
       end
 

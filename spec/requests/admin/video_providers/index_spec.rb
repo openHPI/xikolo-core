@@ -3,17 +3,13 @@
 require 'spec_helper'
 
 describe 'Admin: VideoProviders: Index', type: :request do
-  subject(:get_video_providers) { get '/admin/video_providers', headers: }
-
-  let(:headers) { {} }
+  subject(:get_video_providers) { get '/admin/video_providers' }
 
   context 'for logged-in users' do
-    let(:headers) { {Authorization: "Xikolo-Session session_id=#{stub_session_id}"} }
-
-    before { stub_user_request permissions: }
+    before { sign_in(user:) }
 
     context 'with permissions' do
-      let(:permissions) { ['video.provider.manage'] }
+      let(:user) { create(:'account_service/user', :admin) }
 
       it 'renders the index page' do
         get_video_providers
@@ -22,7 +18,7 @@ describe 'Admin: VideoProviders: Index', type: :request do
     end
 
     context 'without permissions' do
-      let(:permissions) { [] }
+      let(:user) { create(:'account_service/user') }
 
       it 'redirects to the start page' do
         get_video_providers

@@ -19,10 +19,9 @@ en:
     options:
       certificate_template:
         certificate_type:
-          Certificate: Certificate
+          Certificate: Verified Certificate
           ConfirmationOfParticipation: Confirmation of Participation
-          RecordOfAchievement: Record of Achievement
-          TranscriptOfRecords: Transcript of Records
+          RecordOfAchievement: Certificate
       course_offer:
         payment_frequency:
           one_time: One-time
@@ -57,7 +56,6 @@ en:
         test: Send as test email
       announcement:
         title: Title
-        visual_upload_id: Visual
         show_on_homepage: Show on homepage
         publish_at: Publish at (UTC)
         audience: Target group
@@ -105,11 +103,7 @@ en:
         title: "Title"
         course_code: "Course code"
         abstract: "Abstract"
-        auto_archive: "Auto archive after course end"
-        show_syllabus: "Overview"
         description: "Description"
-        rating_stars: Rating (average stars)
-        rating_votes: Rating (number of votes)
         teacher_ids: "Teachers"
         alternative_teacher_text: "Alternative teacher text"
         lang: "Content language"
@@ -119,9 +113,9 @@ en:
         end_date: "End date (UTC)"
         middle_of_course_is_auto: "Auto-calculate course middle"
         middle_of_course: "Course middle for stats (UTC)"
-        roa_enabled: "Record of Achievement"
+        roa_enabled: "Certificate"
         cop_enabled: "Confirmation of Participation"
-        roa_threshold_percentage: "Record of achievement threshold"
+        roa_threshold_percentage: "Certificate threshold"
         cop_threshold_percentage: "Confirmation of Participation threshold"
         pinboard_enabled: Discussion forum
         records_released: "Release records"
@@ -129,16 +123,11 @@ en:
         external_course_url: "External course URL"
         video_course_codes: "Video Course Codes"
         groups: Restricted to groups
-        hidden: "Course is hidden"
-        show_on_list: Show on course list
+        placement: "Course placement"
         on_demand: "Reactivation"
         welcome_mail: Welcome mail
         invite_only: Require invitation
-        stage_visual_upload_id: Stage visual
-        stage_statement: Stage statement
-        policy_url: Policy URL
         enable_video_download: Video / audio download
-        external_registration_url: External registration URL
       course_offer:
         category: Category
         price: Price
@@ -165,10 +154,6 @@ en:
         description: Description
         completion_type: Completion type
         final: Material complete?
-      open_badge_template:
-        file: Image file
-        name: Name
-        description: Description
       page:
         name: Name
         locale: Language
@@ -183,17 +168,8 @@ en:
       translation:
         title: Title
         text: Text
-      user:
-        full_name: Name
-        email: E-mail address
-        password: Password
-        password_confirmation: Repeat password
       video_provider:
         name: Name
-      video_provider_credentials_kaltura:
-        partner_id: Partner ID
-        token: Secret token
-        token_id: Token ID
       video_provider_credentials_vimeo:
         token: Token
       voucher_redemption:
@@ -209,7 +185,7 @@ en:
 
     hints:
       account:
-        date_of_birth: By providing your details, you enable us to compile anonymous statistics, which we can use to improve our services and continue to offer them free of charge in the future.
+        date_of_birth: Your date of birth will appear on your openHPI certificates.
       announcement_email:
         consents: "Only recipients who have given the selected consents will receive the announcement. If none are selected, all recipients will receive the announcement. To stay legally compliant, consult your data protection expert in case of doubt."
       channel:
@@ -230,26 +206,22 @@ en:
         teacher_ids: "Search for teachers to add here, and sort them in the list above. This is only for promotional/display purposes; permissions must be set on the course permissions page."
         classifiers_keywords: Keywords are exposed via the <a href='https://moochub.org/about/' target='_blank'>MOOChub API</a> and used for the internal course search.
         alternative_teacher_text: "Alternative text if you have a lot of teachers."
-        learning_goals: Enter the intended competencies, knowledge, skills, and abilities the learners will gain by successfully attending the course. They will be displayed on the course info page under 'What you'll learn'.
-        target_groups: Enter the learner groups whom the course is targeted at. They will be displayed on the course info page under 'Who this course is for'.
-        show_on_list: When disabled, the course will not show up on the global course list. It will, however, still be listed on its channel's landing page.
+        learning_goals: Enter the intended competencies, knowledge, skills, and abilities the learners will gain by successfully attending the course. The learning goals appear below the course information.
+        placement: Select where the course should appear. 'Open4All' shows it on the public course list. 'Archive' marks it as an archived course.
         roa_threshold_percentage: "Threshold as percentage for gaining a certificate, between 1 and 100. The global default is %{global_default}."
         cop_threshold_percentage: "Threshold as percentage for gaining a certificate, between 1 and 100. The global default is %{global_default}."
         video: "Add course codes here to be considered for the smart video mode filtering."
-        show_on_stage: "If you choose to highlight this course on the channel stage, you <i>must provide stage visual and statement</i>."
-        stage_statement: "You can use a h1 headline ('# headline') to apply a statement title and a h3 headline ('### author') to indicate the statement's author. Do not use other markdown."
-        stage_visual_upload_id: "The visual must meet a minimum size of %{width}x%{height} px. Larger images will be resized and cropped to center."
         welcome_mail: This message will be sent to newly enrolled participants via email. Leave empty if no mail should be sent.
         invite_only: This disables enrollment self-service. To participate in such a course, learners have to be explicitly enrolled by course staff.
         cop_enabled: Participants can earn a CoP by viewing / participating in course material.
         roa_enabled: Signals successful course participation. Given to those who achieve a certain number of points.
         on_demand: Allows achieving a RoA after regular course runtime (when graded assignments are locked). Learners have to book this feature by redeeming a voucher.
         records_released: Enable this when the course has ended, to let participants download their certificates.
-        show_syllabus: Show an overview of all published course content in the learning area.
         enable_video_download: Let participants download video or audio versions of video items for offline consumption.
         pinboard_enabled: Completely disables the discussions feature for this course. Users won't be able to access any discussions.
         forum_is_locked: Set the discussions to read-only. This is usually done after the course has ended.
         visual_creation: After creating the course, you may add visuals in the course properties.
+        abstract: Provide a brief course summary using up to 150 characters.
       course_offer:
         price: Enter the price in euros (comma-separated, i.e. ten euros and fifty cents as '10,50').
       course_metadata:
@@ -264,18 +236,13 @@ en:
           Please note that the upload only allows a single file. A new upload will overwrite the existing license metadata.
           A full list of licenses and exceptions you can find here: <a href="https://spdx.org/licenses/" target="_blank">SPDX License List</a>'
       course_visual:
-        image: This image will be shown on all course lists. If you don't upload a teaser video, it will also appear on the course details page. For accessibility reasons, the image should not show any text.
-        video_stream_id: If you select a teaser video, it will be used on the course details page instead of the course image.
+        image: This image appears in course lists and the course details card. For accessibility reasons, it should not contain text.
+        video_stream_id: The selected video is displayed as the course teaser below the teachers. Clear the selection to remove it.
         subtitles: "Either a WebVTT file containing subtitles or a ZIP archive with multiple WebVTT files. All WebVTT file names must end with a delimiter (either '_' or '-') followed by their two or three-letter language code (e.g., 'en' for English). Example: 'subtitles_en.vtt'."
       lti_provider:
         presentation_mode: "Note: Embedding (frame) will not work with all tools in all browsers. Please make sure that it works with the tool you've selected or use the 'window' option instead."
         custom_fields: "Specific parameters used in accordance with the LTI standard. Refer to the tool's documentation for more details about the parameters available for use."
         privacy_course_specific: Privacy cannot be changed at this level. Please contact your platform admin.
-      open_badge_template:
-        name: Overwrites global name
-        description: Overwrites global description
-      poll:
-        start_at: "Hint: You can only add answer options to a poll if it has not yet started."
       xikolo_course_item:
         end_date: Defining an end date will lock this item for all course participants when the date is reached.
         start_date: Defining a start date will lock this item for all course participants until the date is reached.
@@ -285,7 +252,7 @@ en:
       video:
         subtitles: "Either a WebVTT file containing subtitles or a ZIP archive with multiple WebVTT files. All WebVTT file names must end with a delimiter (either '_' or '-') followed by their two or three-letter language code (e.g., 'en' for English). Example: 'subtitles_en.vtt'."
       user:
-        full_name: This is how your name will be shown on the Record of Achievement.
+        full_name: This is how your name will be shown on the Certificate.
         display_name: This is how your name will be shown on the platform.
 
     placeholders:
@@ -332,9 +299,9 @@ en:
       certificate_template:
         create: Create template
         update: Update template
-      channel:
-        create: Add channel
-        update: Update channel
+      short:
+        create: Add short
+        update: Update short
       classifier:
         create: Create tag
         update: Update tag
@@ -358,12 +325,6 @@ en:
       objective:
         create: Create Objective
         update: Update Objective
-      open_badge_template:
-        create: Create template
-        update: Update template
-      poll:
-        create: Create new poll
-        update: Update poll
       teacher:
         create: Save information
         update: Save information
@@ -409,8 +370,6 @@ en:
         rtfile_error: Your file upload could not be stored.
       dynamic_content:
         invalid_xml: The XML for the dynamic content is invalid.
-      email:
-        already_taken: The e-mail address you entered has already been registered.
       end_at:
         before_start_date: The end date must be after the start date.
       hd_url:
@@ -420,10 +379,6 @@ en:
         not_unique: The ID must be unique.
       lecturer_stream_id:
         one_required: At least one of these streams is required. Please add a pip, a lecturer or a slides stream.
-      password:
-        below_minimum_length: The password must have a minimum length of 8 characters.
-        maximum_length_reached: The password length must not exceed 72 characters.
-        password_contains_email: Your e-mail address must not be part of the password.
       payment_frequency:
         not_supported: This is not a valid payment frequency.
       pip_stream_id:
@@ -489,6 +444,7 @@ en:
           could_not_be_created: The item could not be created for some reason. Please try again.
         exercise_type:
           required_when_quiz: You must choose an exercise type for quiz items.
+          required_when_scored_cmi5: You must choose self test for scored cmi5 items.
         max_points:
           invalid_format: Points must be positive.
         submission_deadline:

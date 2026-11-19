@@ -1,0 +1,21 @@
+<%= tag.div class: class_names(
+  'w-full min-w-0',
+  'x-select h-12 sm:w-auto sm:max-w-80' => !@multi_select,
+  'filter-bar-multiselect sm:w-80' => @multi_select,
+  'cursor-not-allowed opacity-50' => !@visible
+) do %>
+  <%= label_tag @key, class: (@multi_select ? 'sr-only' : 'x-label border-0 text-base-content') do %>
+    <%= @title %><%= ':' unless @multi_select %>
+  <% end %>
+
+  <% if @visible %>
+    <%= select_tag @key,
+      options_for_select(options_with_blank, selected: @selected, disabled: t(:'components.filter_bar.filter.divider')),
+      class: 'min-w-0',
+      data: {change: 'submit', behavior: ('custom-select' if @multi_select)},
+      multiple: @multi_select %>
+  <% else %>
+    <span class="truncate"><%= disabled_select_text %></span>
+    <%= hidden_field_tag @key, @selected %>
+  <% end %>
+<% end %>

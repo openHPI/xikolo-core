@@ -18,9 +18,7 @@ class M3u8Playlist
 
   def initialize(stream, opts)
     @playlist = if stream.present?
-                  M3u8::Playlist.read(
-                    Restify.new(stream.hls_url).get.value!
-                  )
+                  parse(Restify.new(stream.hls_url).get.value!.response.body)
                 end
     @opts = opts
   end
@@ -50,7 +48,7 @@ class M3u8Playlist
         if item.is_a?(M3u8::MediaItem) && item.type == 'SUBTITLES'
           subtitle_playlist_items << item
         elsif item.is_a?(M3u8::PlaylistItem)
-          item.uri = Xikolo::V2::URL.playlist_url(
+          item.uri = view_context.playlist_url(
             id: @opts.fetch(:playlist_id),
             format: 'm3u8',
             bandwidth: item.bandwidth
@@ -87,7 +85,7 @@ class M3u8Playlist
                '' # Return an empty playlist source
              end
 
-    M3u8::Playlist.read(source).tap do |playlist|
+    parse(source).tap do |playlist|
       playlist.items.each do |item|
         if item.is_a?(M3u8::SegmentItem)
           item.segment = absolute_uri(item.segment)
@@ -110,12 +108,19 @@ class M3u8Playlist
     ).tap do |playlist|
       playlist.items = [M3u8::SegmentItem.new(
         duration: @opts.fetch(:duration),
-        segment: Xikolo::V2::URL.subtitle_url(@opts.fetch(:subtitle_id))
+        segment: view_context.subtitle_url(@opts.fetch(:subtitle_id))
       )]
     end
   end
 
   private
+
+  # M3u8::Playlist.read freezes the playlist and its items, but the
+  # transformations above edit items in place. Tweak: Convert the playlist
+  # to a Hash and back to get an identical playlist that is still writable.
+  def parse(source)
+    M3u8::Playlist.from_h(M3u8::Playlist.read(source).to_h)
+  end
 
   def video_subtitles
     @opts.fetch(:video).subtitles
@@ -127,7 +132,7 @@ class M3u8Playlist
 
   def subtitle_media_items
     @subtitle_media_items ||= video_subtitles.map do |subtitle|
-      uri = Xikolo::V2::URL.playlist_url(
+      uri = view_context.playlist_url(
         id: @opts.fetch(:playlist_id),
         format: 'm3u8',
         subtitles: subtitle.lang,
@@ -153,9 +158,7 @@ class M3u8Playlist
   def matching_stream_playlist
     return @stream_playlist if @stream_playlist
 
-    stream_playlists = @playlist.items.select do |item|
-      item.is_a?(M3u8::PlaylistItem)
-    end
+    stream_playlists = @playlist.items.grep(M3u8::PlaylistItem)
 
     # Sort the sub-playlists by their bandwidth
     by_bandwidth = stream_playlists.sort_by(&:bandwidth)
@@ -174,5 +177,9 @@ class M3u8Playlist
 
     # Otherwise, resolve the relative URI against the base URI.
     URI.join(matching_stream_playlist.uri, segment_uri)
+  end
+
+  def view_context
+    @opts.fetch(:view_context)
   end
 end

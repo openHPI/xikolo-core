@@ -1,4 +1,5 @@
-web: env RUBY_DEBUG_OPEN=true WORKERS=5 bin/rails server
+web: env RUBY_DEBUG_OPEN=true XIKOLO_SERVICE_HOST=http://localhost:3333 bin/rails server
+services: env RUBY_DEBUG_OPEN=true DISABLE_LIVE_RELOAD=true WORKERS=5 PORT=3333 PIDFILE=tmp/pids/services.pid XIKOLO_SERVICE_HOST=http://localhost:3333 bin/rails server
 js: bun run build --watch
 css: bun run watch:sass
 tw: bun run build:tailwind --watch

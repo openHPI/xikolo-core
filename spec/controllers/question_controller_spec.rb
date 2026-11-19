@@ -5,11 +5,12 @@ require 'spec_helper'
 describe QuestionController, type: :controller do
   let(:question_id) { '00000002-3500-4444-9999-000000000001' }
   let(:course_id) { '00000001-3300-4444-9999-000000000001' }
-  let(:course_code) { 'test' }
+  let(:course) { create(:'course_service/course', id: course_id, course_code: 'test') }
   let(:user_id) { '00000000-0000-4444-9999-000000000001' }
   let(:permissions) { ['course.content.access.available'] }
   let(:author_id) { '00000000-0000-4444-9999-000000000001' }
   let(:closed) { nil }
+  let(:request_context) { AccountService::Context.root }
 
   let(:update_params) do
     {
@@ -44,22 +45,7 @@ describe QuestionController, type: :controller do
     {title: question_title,
                                  text: question_text,
                                  user_id: author_id,
-                                 course_id:}
-  end
-  let(:request_context_id) { course_context_id }
-  let(:course_params) do
-    {
-      id: course_id,
-      title: 'Test Course',
-      description: 'A Test Course.',
-      status: 'active',
-      course_code:,
-      start_date: DateTime.new(2013, 7, 12),
-      end_date: DateTime.new(2013, 8, 19),
-      abstract: 'Test Course abstract.',
-      lang: 'en',
-      context_id: course_context_id,
-    }
+                                 course_id: course_id}
   end
 
   let(:update_question_stub) do
@@ -72,13 +58,10 @@ describe QuestionController, type: :controller do
   end
 
   before do
+    course
     Stub.request(
       :account, :get, "/users/#{user_id}"
     ).to_return Stub.json({id: user_id})
-
-    Stub.request(
-      :course, :get, "/courses/#{course_id}"
-    ).to_return Stub.json(course_params)
 
     Stub.request(
       :pinboard, :post, '/questions',
@@ -86,9 +69,9 @@ describe QuestionController, type: :controller do
         title: 'SQL',
         text: 'Ich verstehe wirklich nicht, was dieses SQL sein soll?',
         user_id: '00000000-0000-4444-9999-000000000001',
-        course_id: '00000001-3300-4444-9999-000000000001',
+        course_id:,
         tag_names: [],
-        question_url: "http://test.host/courses/#{course_id}/question/{id}"
+        question_url: "http://test.host/learn/#{course_id}/question/{id}"
       )
     ).to_return Stub.json({
       id: question_id,
@@ -183,9 +166,9 @@ describe QuestionController, type: :controller do
   end
 
   context 'while logged in' do
-    let(:user) { stub_user id: user_id, language: 'en', permissions: }
+    let(:user) { create(:'account_service/user', id: user_id, language: 'en') }
 
-    before { user }
+    before { sign_in user: user, permissions: }
 
     describe 'create' do
       it 'responds' do
@@ -207,7 +190,7 @@ describe QuestionController, type: :controller do
       end
 
       context 'with disabled pinboard' do
-        let(:course_params) { super().merge(pinboard_enabled: false) }
+        let(:course) { create(:'course_service/course', id: course_id, pinboard_enabled: false) }
 
         it 'raises an error' do
           expect do
@@ -221,16 +204,8 @@ describe QuestionController, type: :controller do
           get :show, params: {id: question_id, course_id: other_course_id}
         end
 
-        let(:other_course_id) { '00000001-3300-4444-9999-000000000022' }
-
-        before do
-          Stub.request(:course, :get, "/courses/#{other_course_id}")
-            .to_return Stub.json(course_params.merge(id: other_course_id))
-          Stub.request(
-            :course, :get, '/sections',
-            query: {course_id: other_course_id}
-          ).to_return Stub.json([])
-        end
+        let(:other_course_id) { '00000001-3300-4444-9999-000000000002' }
+        let(:course) { create(:'course_service/course', id: other_course_id, pinboard_enabled: true) }
 
         it 'does not find the question' do
           expect { action }.to raise_error Status::NotFound
@@ -239,7 +214,12 @@ describe QuestionController, type: :controller do
     end
 
     context 'with pinboard.moderator permission' do
-      let(:user) { stub_user id: user_id, language: 'en', permissions: ['course.content.access', 'pinboard.question.delete', 'pinboard.question.close'] }
+      let(:user) { create(:'account_service/user', id: user_id, language: 'en') }
+
+      before do
+        sign_in user: user,
+          permissions: ['course.content.access', 'pinboard.question.delete', 'pinboard.question.close']
+      end
 
       describe 'close' do
         let(:closed) { true }
@@ -296,7 +276,7 @@ describe QuestionController, type: :controller do
             reportable_id: question_id,
             reportable_type: 'PinboardService::Question',
             user_id:,
-            url: "http://test.host/courses/#{course_id}/question/#{question_id}"
+            url: "http://test.host/learn/#{course_id}/question/#{question_id}"
           )
         ).to_return Stub.json({})
       end

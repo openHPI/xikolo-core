@@ -1,0 +1,70 @@
+<div class="account-notifications">
+  <h1 class="h1"><%= t :'account.preferences.show.notification.headline' %></h1>
+  <% if current_user.feature?('primary_email_suspended') %>
+    <%= render Global::Callout.new(t(:'account.preferences.show.notification.primary_email_suspended'), type: :warning) %>
+  <% else %>
+    <%= render Global::Callout.new(t(:'account.preferences.show.notification.mail_info', email: current_user.email)) %>
+  <% end %>
+
+  <table class="account-notifications__table">
+    <tr>
+      <td>
+        <b><%= @preferences.get('notification.email.global').render_label %></b>
+      </td>
+      <td><%= @preferences.global_notification_switch.render_switch(data: {behavior: 'preferences-switch', 'toggle-notification-preferences' => true}) %></td>
+    </tr>
+  </table>
+
+  <%= content_tag :div, class: "account-notifications__preferences", id: "notification-preferences", hidden: @preferences.hide_notification_preferences? do %>
+    <table class="account-notifications__table">
+      <thead>
+        <tr>
+          <th><%= t :'account.preferences.show.notification.event_notifications' %></th>
+          <th><%= t :'account.preferences.show.notification.headline_email' %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @preferences.notifications.each do |preference| %>
+          <tr>
+            <td><%= preference.render_label %></td>
+            <td><%= preference.render_switch(:email, data: {behavior: 'preferences-switch'}) %></td>
+          </tr>
+        <% end %>
+
+        <% if @is_teacher %>
+          <% @preferences.teacher_notifications.each do |preference| %>
+            <tr>
+              <td><%= preference.render_label %></td>
+              <td><%= preference.render_switch(:email, data: {behavior: 'preferences-switch'}) %></td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+
+  <div class="account-notifications__subscriptions">
+    <h2 class="h2"><%= t :'account.preferences.show.subscription.headline' %></h2>
+    <% if @pinboard_subscriptions.any? %>
+      <table class="account-notifications__table">
+        <thead>
+          <th><%= t :'account.preferences.show.subscription.thread' %></th>
+          <th><%= t :'account.preferences.show.subscription.last_activity' %></th>
+          <th></th>
+        </thead>
+        <tbody>
+          <% @pinboard_subscriptions.each do |sub| %>
+            <tr>
+              <td><%= link_to sub.question.question_title, question_path(course_id: sub.question.course_id, id: sub.question_id), class: 'bs-a' %></td>
+              <td><%= t :'account.preferences.show.subscription.ago', timeago: time_ago_in_words(sub.question.updated_at) %></td>
+              <td><%= link_to t(:'account.preferences.show.subscription.unsubscribe'), unsubscribe_path(question_id: sub.question_id), method: 'post', class: 'btn btn-primary btn-xs' %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <%= render Global::Pagination.new(@pinboard_subscriptions) %>
+    <% else %>
+      <%= render State::Empty.new(t(:'account.preferences.show.subscription.empty_state'), size: :small) %>
+    <% end %>
+  </div>
+</div>

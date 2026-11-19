@@ -1,0 +1,15 @@
+<% video_downloads = item.video.video_downloads %>
+
+<% if video_downloads.any? %>
+  <div class="mb-5 flex flex-col gap-4">
+    <div class="text-xl font-medium text-white">
+      <%= t(:'items.show.video.downloads') %>
+    </div>
+
+    <div class="flex flex-wrap gap-x-6 gap-y-6">
+      <% video_downloads.each do |download| %>
+        <%= render Items::DownloadAssetCard.new(title: download[:title], url: download[:url], file_type: download[:file_type]) %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

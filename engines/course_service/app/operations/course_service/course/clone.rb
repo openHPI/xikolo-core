@@ -18,7 +18,7 @@ class Course::Clone < ApplicationOperation # rubocop:disable Layout/IndentationW
 
       # Clone course sections and items, starting with the parent sections
       # (parent_id NULL comes first with DESC).
-      @old_course.sections.unscope(:order)
+      @old_course.sections
         .order(parent_id: :desc, position: :asc)
         .each do |old_section|
         new_section = clone_section(old_section, course:)
@@ -36,20 +36,17 @@ class Course::Clone < ApplicationOperation # rubocop:disable Layout/IndentationW
       Course::Create.call(
         @old_course.attributes.except(
           'id', 'created_at', 'updated_at',
-          'start_date', 'end_date', 'display_start_date', 'middle_of_course',
-          'rating_votes', 'rating_stars'
+          'start_date', 'end_date', 'display_start_date', 'middle_of_course'
         ).tap do |attrs|
           attrs['course_code'] = @new_course_code
-          attrs['status'] = 'preparation'
+          attrs['published'] = 'false'
           attrs['special_groups'] = []
           attrs['records_released'] = false
           attrs['description'] = 'Placeholder (will be updated later)'
-          attrs['proctored'] = false
         end
       ).tap do |course|
         course.update \
-          description: clone_file_references(@old_course.description, course_id: course.id),
-          stage_visual_uri: copy_file(@old_course.stage_visual_uri, course_id: course.id)
+          description: clone_file_references(@old_course.description, course_id: course.id)
       end
   end
 
@@ -71,12 +68,7 @@ class Course::Clone < ApplicationOperation # rubocop:disable Layout/IndentationW
 
   def clone_item(old_item, new_section)
     Item.new(
-      old_item.attributes
-        .except('id', 'start_date', 'end_date', 'submission_deadline')
-        .then do |attrs|
-          attrs['proctored'] = false
-          attrs
-        end
+      old_item.attributes.except('id', 'start_date', 'end_date', 'submission_deadline')
     ).tap do |i|
       i.section_id = new_section.id
       i.original_item_id = old_item.id
@@ -98,16 +90,24 @@ class Course::Clone < ApplicationOperation # rubocop:disable Layout/IndentationW
   def clone_content(old_item, course_id:)
     rel = case old_item.content_type
             when 'rich_text'
-              return Richtext.create! \
+              original = Richtext.find(old_item.content_id)
+              richtext = Richtext.create! \
                 course_id:,
-                text: clone_file_references(Richtext.find(old_item.content_id).text, course_id:)
+                text: clone_file_references(original.text.to_s, course_id:)
+              if original.reading_material_uri
+                copied_uri = copy_file(original.reading_material_uri, course_id:)
+                if copied_uri
+                  richtext.update! reading_material_uri: copied_uri
+                end
+              end
+              return richtext
             when 'video'
-              return Video::Clone.call(Duplicated::Video.find(old_item.content_id))
+              return Video::Clone.call(::Video::Video.find(old_item.content_id))
             when 'quiz'
               @quiz_api.rel(:quiz)
             when 'lti_exercise'
               return LtiExercise::Clone.call(
-                Duplicated::LtiExercise.find(old_item.content_id),
+                Lti::Exercise.find(old_item.content_id),
                 course_id
               )
           end

@@ -7,7 +7,6 @@ class Course::SyllabusController < Abstract::FrontendController
 
   inside_course
 
-  before_action :set_no_cache_headers
   before_action :load_section_nav
 
   def show
@@ -37,7 +36,7 @@ class Course::SyllabusController < Abstract::FrontendController
 
   def open_mode?
     return false unless current_user.feature?('open_mode')
-    return false if the_course.invite_only || the_course.hidden
+    return false if the_course.invite_only || the_course.hidden?
 
     previewable_items.any?
   end

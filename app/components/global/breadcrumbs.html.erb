@@ -1,0 +1,21 @@
+<nav class="x-breadcrumbs inline-flex gap-2 text-sm">
+  <ul>
+    <% items.each_with_index do |item, index| %>
+      <li class="<%= class_names('font-semibold': last_item?(index), 'max-sm:hidden': collapsed?(index) && index != 0) %>">
+        <% if truncated? && index == 0 %>
+          <span class="sm:hidden" aria-hidden="true">&hellip;</span>
+        <% end %>
+
+        <%= link_to item[:url], class: class_names('inline-flex gap-1.5', 'max-sm:hidden': collapsed?(index) && index == 0), aria: {label: item[:aria_label]} do %>
+          <% if item[:icon].present? %>
+            <span aria-hidden="true"><%= item[:icon] %></span>
+          <% end %>
+
+          <% if item[:text].present? %>
+            <span><%= item[:text] %></span>
+          <% end %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</nav>

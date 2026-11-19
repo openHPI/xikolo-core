@@ -7,7 +7,7 @@ describe 'Item User Grade: Show', type: :request do
 
   let(:api) { restify_with_headers(course_service.root_url).get.value! }
   let(:item_api) { api.rel(:item).get({id: item.id}).value! }
-  let(:user_id) { generate(:user_id) }
+  let(:user_id) { create(:'account_service/user').id }
 
   context 'a homework' do
     let!(:item) { create(:'course_service/item', :homework) }

@@ -5,9 +5,8 @@ class Visit < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   self.table_name = :visits
   self.primary_key = %i[item_id user_id]
 
-  validates :user_id, presence: true
-  validates :item_id, uniqueness: {scope: :user_id}
   belongs_to :item
+  belongs_to :user, class_name: '::AccountService::User'
 
   class << self
     def latest
@@ -26,23 +25,14 @@ class Visit < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   # We want to create a visit event on every visit,
   # in opposite to on entity that we update in the service
   after_touch do
-    Msgr.publish(decorate.to_event, to: 'xikolo.course.visit.create')
+    VisitCreateJob.perform_later(decorate.to_event)
   end
   after_create do
-    Msgr.publish(decorate.to_event, to: 'xikolo.course.visit.create')
-
-    course = Course
-      .joins(sections: :items)
-      .where(sections: {items: {id: item_id}})
-      .take!
-
-    if course.records_released?
-      EnrollmentCompletionWorker.perform_async(course.id, user_id)
-    end
+    VisitCreateJob.perform_later(decorate.to_event)
   end
   after_commit(on: :create) do
-    LearningEvaluation::UpdateSectionProgressWorker
-      .perform_async(item.section_id, user_id)
+    LearningEvaluation::UpdateSectionProgressJob
+      .perform_later(item.section_id, user_id)
   end
 end
 end

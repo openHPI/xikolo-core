@@ -1,0 +1,52 @@
+<%# Renders the form for a selectable-answer question (multiple choice /
+  multiple answer). Pass in_exam: true when rendered inside an exam, since
+  exams always use a question pool and therefore expose the difficulty
+  (points) picker. Outside exams the difficulty field is not relevant and
+  points is edited directly. %>
+<% in_exam = local_assigns.fetch(:in_exam, false) %>
+<%= simple_fields_for(question, namespace: question.id) do |f| %>
+  <div data-controller="question-difficulty">
+    <%= f.input :points,
+      required: true,
+      as: :integer,
+      label: t(:'items.quiz.points'),
+      input_html: { data: { 'question-difficulty-target': 'points' } } %>
+
+    <% if in_exam %>
+      <div class="form-group">
+        <label
+          class="col-lg-2 col-md-2"
+          for="<%= dom_id(question, :difficulty) %>"
+        >
+          <%= t(:'items.quiz.difficulty') %>
+        </label>
+
+        <div class="col-lg-10 col-md-10">
+          <select
+            class="form-control mb10"
+            id="<%= dom_id(question, :difficulty) %>"
+            data-action="change->question-difficulty#updatePoints"
+            data-question-difficulty-target="difficulty"
+          >
+            <option value="not_defined">
+              <%= t(:'items.quiz.difficulties.not_defined') %>
+            </option>
+
+            <option value="easy">
+              <%= t(:'items.quiz.difficulties.easy') %>
+            </option>
+
+            <option value="mid"><%= t(:'items.quiz.difficulties.mid') %></option>
+
+            <option value="hard">
+              <%= t(:'items.quiz.difficulties.hard') %>
+            </option>
+          </select>
+        </div>
+      </div>
+    <% end %>
+
+    <%= f.input :shuffle_answers, label: t(:'items.quiz.shuffle_answers'), as: :toggle_switch %>
+    <%= f.input :exclude_from_recap, label: t(:'items.quiz.exclude_from_recap'), as: :toggle_switch %>
+  </div>
+<% end %>

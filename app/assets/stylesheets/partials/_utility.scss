@@ -53,33 +53,13 @@
 .noborder {
   border: none !important;
 }
-.error-border {
-  border: 2px solid $error-500;
-}
-.killradius {
-  border-radius: 0;
-}
-
 .badge-large {
   padding: 3px 15px;
   border-radius: 20px;
   margin-top: -3px;
 }
-
-.glyphicon-inverse {
-  color: $white;
-}
-.kill-outline {
-  @include suppress-dotted-border();
-}
-.kill-bg {
-  background-color: none !important;
-}
 .cpointer {
   cursor: pointer;
-}
-.not-allowed {
-  cursor: not-allowed;
 }
 .inline-block {
   display: inline-block;
@@ -182,42 +162,6 @@
   height: 100px;
 }
 
-// Width
-.w10 {
-  width: 10px;
-}
-.w20 {
-  width: 20px;
-}
-.w30 {
-  width: 30px;
-}
-.w40 {
-  width: 40px;
-}
-.w50 {
-  width: 50px;
-}
-.w100 {
-  width: 100px;
-}
-
-.w20p {
-  width: 20%;
-}
-.w25p {
-  width: 25%;
-}
-.w50p {
-  width: 50%;
-}
-.w80p {
-  width: 80%;
-}
-.w100p {
-  width: 100%;
-}
-
 // Paddings
 .p0 {
   padding: 0px;
@@ -225,13 +169,7 @@
 .p10 {
   padding: 10px;
 }
-.p20 {
-  padding: 20px;
-}
 
-.pt0 {
-  padding-top: 0px;
-}
 .pt5 {
   padding-top: 5px;
 }
@@ -251,17 +189,6 @@
 .pb20 {
   padding-bottom: 20px;
 }
-
-.pr0 {
-  padding-right: 0px;
-}
-.pr15 {
-  padding-right: 15px;
-}
-.pr20 {
-  padding-right: 20px;
-}
-
 .pl0 {
   padding-left: 0px;
 }
@@ -276,13 +203,7 @@
 }
 
 // Margins
-.m0 {
-  margin: 0px;
-}
 
-.mt0 {
-  margin-top: 0px;
-}
 .mt5 {
   margin-top: 5px;
 }
@@ -307,38 +228,9 @@
 .mt60 {
   margin-top: 60px;
 }
-.mt80 {
-  margin-top: 80px;
-}
-
-.mt-5 {
-  margin-top: -5px;
-}
 .mt-10 {
   margin-top: -10px;
 }
-.mt-15 {
-  margin-top: -15px;
-}
-.mt-20 {
-  margin-top: -20px;
-}
-.mt-30 {
-  margin-top: -30px;
-}
-.mt-40 {
-  margin-top: -40px;
-}
-.mt-50 {
-  margin-top: -50px;
-}
-.mt-60 {
-  margin-top: -60px;
-}
-.mt-80 {
-  margin-top: -80px;
-}
-
 .mr5 {
   margin-right: 5px;
 }
@@ -351,13 +243,6 @@
 .mr20 {
   margin-right: 20px;
 }
-.mr45 {
-  margin-right: 45px;
-}
-.mr80 {
-  margin-right: 80px;
-}
-
 .mb0 {
   margin-bottom: 0px;
 }
@@ -382,9 +267,6 @@
 .mb50 {
   margin-bottom: 50px;
 }
-.mb60 {
-  margin-bottom: 60px;
-}
 
 .ml5 {
   margin-left: 5px;
@@ -398,36 +280,14 @@
 .ml20 {
   margin-left: 20px;
 }
-.ml-25 {
-  margin-left: -25px;
-}
 
 // vertically centered table cells
 .table tbody > tr > td.vert-align {
   vertical-align: middle;
 }
 
-.no-bottom-border {
-  border-bottom: none !important;
-}
-
 .table-nonfluid {
   width: auto !important;
-}
-
-/*------------------------------------*\
-    Responsive stuff
-\*------------------------------------*/
-@media (max-width: $screen-md) {
-  .full-width-sm {
-    width: 100%;
-  }
-}
-
-.wordbreak {
-  hyphens: auto;
-  overflow-wrap: break-word;
-  word-break: break-all;
 }
 
 /*------------------------------------*\
@@ -439,48 +299,9 @@
 .secondary-color {
   color: $secondary-color;
 }
-.tertiary-color {
-  color: $tertiary-color;
-}
-
-.black {
-  color: $black;
-}
-.white {
-  color: $white;
-}
-.gray {
-  color: $gray;
-}
-.yellow {
-  color: $information-500;
-}
-.orange {
-  color: $orange;
-}
-.red {
-  color: $error-600;
-}
-.blue {
-  color: $blue;
-}
-.green {
-  color: $success-500;
-}
-
 .gray-dark {
   color: $gray-600;
 }
-.gray-darker {
-  color: $gray-800;
-}
-.gray-light {
-  color: $gray-100;
-}
-.gray-lighter {
-  color: $gray-50;
-}
-
 .text-color {
   color: $text-color;
 }
@@ -498,24 +319,6 @@
 /*------------------------------------*\
     $Background-Colors
 \*------------------------------------*/
-
-.video-wrapper {
-  position: relative;
-  height: 0;
-  padding-top: 2.2%;
-  padding-bottom: 54.1%;
-}
-.video-wrapper iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.nobg {
-  background-color: rgba($white, 0) !important;
-}
 .white-bg {
   background-color: $white !important;
 }
@@ -523,10 +326,6 @@
 /*------------------------------------*\
     $Font
 \*------------------------------------*/
-.fp9 {
-  font-size: 9pt;
-}
-
 .em1 {
   font-size: 1em;
 }
@@ -535,25 +334,6 @@
 }
 .em1-5 {
   font-size: 1.5em;
-}
-.em2 {
-  font-size: 2em;
-}
-
-div[data-click-target],
-span[data-click-target],
-td[data-click-target] {
-  cursor: pointer;
-}
-
-/*------------------------------------*\
-    $Fixed-bar JS util
-\*------------------------------------*/
-
-.js-fixed {
-  position: fixed;
-  z-index: 100;
-  top: $navbar-height;
 }
 
 /*------------------------------------*\

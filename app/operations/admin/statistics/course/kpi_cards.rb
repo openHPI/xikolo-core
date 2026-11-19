@@ -15,28 +15,13 @@ module Admin
         def call
           return {} if course_id.blank?
 
-          course = course_api.rel(:course).get({id: course_id}).value!
-
           Restify::Promise.new(
             course_api.rel(:stats).get({course_id:, key: 'enrollments'}),
-            course_api.rel(:stats).get({course_id:, key: 'shows_and_no_shows'}),
-            fetch_metric(name: 'certificates', course_id:),
-            fetch_metric(
-              name: 'certificates',
-              course_id:,
-              start_date: course['start_date'],
-              end_date: course['end_date']
-            ),
-            fetch_metric(
-              name: 'certificates',
-              course_id:,
-              start_date: course['end_date']
-            )
-          ) do |enrollments, shows, certificates|
+            course_api.rel(:stats).get({course_id:, key: 'shows_and_no_shows'})
+          ) do |enrollments, shows|
             build_result(
               enrollments || {},
-              shows || {},
-              certificates
+              shows || {}
             )
           end.value! || {}
         end
@@ -45,7 +30,7 @@ module Admin
 
         attr_reader :course_id
 
-        def build_result(enrollments, shows, certificates)
+        def build_result(enrollments, shows)
           {
             enrollments: {
               total: enrollments['enrollments'],
@@ -60,7 +45,7 @@ module Admin
             },
             activity: build_activity(enrollments, shows),
             certificates: build_certificates(
-              certificates,
+              Certificate::Record.where(course_id: @course_id).group(:type).count,
               shows
             ),
           }
@@ -87,15 +72,14 @@ module Admin
           certificates ||= {}
 
           {
-            roa_count: certificates['record_of_achievement'],
-            cop_count: certificates['confirmation_of_participation'],
-            qc_count: certificates['qualified_certificate'],
+            roa_count: certificates.fetch('RecordOfAchievement', 0),
+            cop_count: certificates.fetch('ConfirmationOfParticipation', 0),
             completion_rate: percent(
-              certificates['record_of_achievement'],
+              certificates['RecordOfAchievement'],
               shows['shows_at_middle']
             ),
             consumption_rate_current: percent(
-              certificates['confirmation_of_participation'],
+              certificates['ConfirmationOfParticipation'],
               shows['shows']
             ),
           }

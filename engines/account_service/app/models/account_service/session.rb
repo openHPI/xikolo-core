@@ -9,9 +9,6 @@ class Session < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   belongs_to :user, class_name: 'AccountService::User'
   belongs_to :masquerade, class_name: 'AccountService::User', optional: true, inverse_of: false
 
-  after_commit(on: :create) { notify(:create) }
-  after_commit(on: :destroy) { notify(:destroy) }
-
   class << self
     def resolve(param)
       return param if param.is_a?(self)
@@ -35,10 +32,6 @@ class Session < ApplicationRecord # rubocop:disable Layout/IndentationWidth
     def active
       where deleted: false
     end
-  end
-
-  def notify(action)
-    Msgr.publish(decorate.as_event, to: "xikolo.account.session.#{action}")
   end
 
   def masquerade!(user)

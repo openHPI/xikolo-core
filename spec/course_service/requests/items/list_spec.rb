@@ -61,7 +61,7 @@ describe 'Items: List', type: :request do
 
       context 'the user is already assigned to a content test group' do
         before do
-          CourseService::Duplicated::Membership.create!(user_id:, group_id: fork.branches[1].group_id)
+          AccountService::Membership.create!(user_id:, group_id: fork.branches[1].group_id)
         end
 
         # The user is not re-assigned this time as the user is already member
@@ -107,7 +107,7 @@ describe 'Items: List', type: :request do
     end
 
     context 'with a valid user ID' do
-      let(:user_id) { generate(:user_id) }
+      let(:user_id) { create(:'account_service/user').id }
       let(:params) { super().merge(user_id:) }
 
       it { is_expected.to respond_with :ok }
@@ -143,7 +143,7 @@ describe 'Items: List', type: :request do
       end
 
       context 'with visits by another user' do # regression test
-        let(:other_user_id) { generate(:user_id) }
+        let(:other_user_id) { create(:'account_service/user').id }
 
         before do
           create(:'course_service/visit', item: items.first, user_id: other_user_id)
@@ -157,7 +157,7 @@ describe 'Items: List', type: :request do
       end
 
       it_behaves_like 'an item list with forks and branches' do
-        let(:other_user_id) { generate(:user_id) }
+        let(:other_user_id) { create(:'account_service/user').id }
 
         let(:branch1_assertions) do
           # has five items with "user_visit" set to nil
@@ -212,7 +212,7 @@ describe 'Items: List', type: :request do
 
   describe 'state_for' do
     let(:params) { super().merge(state_for: user_id) }
-    let(:user_id) { generate(:user_id) }
+    let(:user_id) { create(:'account_service/user').id }
 
     it { is_expected.to have(4).items }
     it { expect(list.map(&:to_hash)).to all(include('user_state' => 'new')) }
@@ -241,7 +241,7 @@ describe 'Items: List', type: :request do
 
   describe 'user_id' do
     let(:params) { super().merge(user_id:) }
-    let(:user_id) { generate(:user_id) }
+    let(:user_id) { create(:'account_service/user').id }
 
     it { is_expected.to have(4).items }
 

@@ -3,252 +3,239 @@
 require 'spec_helper'
 
 describe 'Item: Section Navigation', type: :system do
-  let(:user_id) { generate(:user_id) }
-  let(:user) { attributes_for(:'account_service/user', id: user_id, permissions:) }
-  let(:permissions) { %w[course.content.access.available course.content.access] }
-  let(:course) { create(:course, course_params) }
-  let(:course_resource) { build(:'course:course', **course_params, id: course.id, course_code: course.course_code) }
-  let(:course_params) { {} }
-  let(:section) { create(:section, course:, title: 'Week 1') }
-  let(:section_resource) { build(:'course:section', id: section.id, course_id: course.id, title: section.title) }
-  let(:richtext) { create(:richtext, id: item['content_id'], course:) }
-  let(:item) do
-    build(:'course:item',
+  let(:course) { create(:'course_service/course', :active) }
+  let(:section) { create(:'course_service/section', course:) }
+  let(:video) { create(:video) }
+  let(:richtext) { create(:'course_service/richtext', course:) }
+  let!(:item) do
+    create(
+      :'course_service/item',
+      section:,
       title: 'Regular course item',
       content_type: 'rich_text',
-      course_id: course.id,
-      section_id: section.id,
-      content_id: generate(:uuid),
-      show_in_nav: true)
+      content_id: richtext.id,
+      open_mode: false
+    )
   end
-  let(:open_mode_item) do
-    build(:'course:item', :video,
+  let!(:open_mode_item) do
+    create(
+      :'course_service/item',
+      section:,
       title: 'Open mode item',
-      course_id: course.id,
-      section_id: section.id,
+      content_type: 'video',
       content_id: video.id,
-      show_in_nav: true,
-      open_mode: true)
-  end
-  let(:video) { create(:video) }
-
-  def switch_to_mobile_view
-    page.current_window.resize_to('768', '1024')
+      open_mode: true
+    )
   end
 
   def visit_item_page(item_id)
-    visit "/courses/#{course.course_code}/sections/#{section.id}/items/#{item_id}"
+    visit "/learn/#{course.course_code}/items/#{item_id}"
   end
 
-  before do
-    richtext
-    Stub.request(:account, :get, "/users/#{user_id}")
-      .and_return Stub.json({id: user_id})
-    Stub.request(:account, :get, "/users/#{user_id}/preferences")
-      .and_return Stub.json({properties: {}})
-
-    Stub.request(:course, :get, "/courses/#{course.course_code}")
-      .to_return Stub.json(course_resource)
-
-    Stub.request(
-      :course, :get, '/enrollments',
-      query: {course_id: course.id, user_id:}
-    ).to_return Stub.json([{}])
-
-    Stub.request(
-      :course, :get, '/items',
-      query: hash_including(section_id: section.id)
-    ).to_return Stub.json([item, open_mode_item])
-    Stub.request(
-      :course, :get, "/items/#{item['id']}"
-    ).to_return Stub.json(item)
-    Stub.request(
-      :course, :get, "/items/#{open_mode_item['id']}",
-      query: hash_including({})
-    ).to_return Stub.json(open_mode_item)
-    Stub.request(:course, :get, "/sections/#{section.id}")
-      .to_return Stub.json(section_resource)
-    Stub.request(
-      :course, :get, '/sections',
-      query: {course_id: course.id}
-    ).to_return Stub.json([section_resource])
-    Stub.request(
-      :course, :get, '/next_dates',
-      query: hash_including({})
-    ).to_return Stub.json([])
-    Stub.request(
-      :course, :post, "/items/#{item['id']}/users/#{user_id}/visit",
-      body: hash_including({})
-    ).to_return Stub.response(status: 201)
-    Stub.request(
-      :course, :post, "/items/#{open_mode_item['id']}/users/#{user_id}/visit",
-      body: hash_including({})
-    ).to_return Stub.response(status: 201)
-
-    Stub.request(:pinboard, :get, '/topics', query: {item_id: open_mode_item['id']})
-      .to_return Stub.json([])
-
-    @original_window_size = page.current_window.size
+  def open_section_nav_drawer
+    find('.x-drawer-button').click
+    expect(section_navigation(visible: true)).to have_text 'Week 1'
   end
 
-  after do
-    page.current_window.resize_to(*@original_window_size) # rubocop:disable RSpec/InstanceVariable
+  def section_navigation(visible: true, wait: Capybara.default_max_wait_time)
+    page.find(
+      ".x-drawer-side > div[aria-label='Toggle navigation']",
+      visible:,
+      wait:
+    )
   end
 
   context 'as an anonymous user' do
     describe 'visiting a course item in open mode' do
-      let(:user_id) { 'anonymous' }
-
       it 'shows only open mode items' do
         visit_item_page(open_mode_item['id'])
 
-        expect(page.find_by_id('sectionnav')).to have_no_link('Regular course item')
-        expect(page.find_by_id('sectionnav')).to have_link('Open mode item')
+        open_section_nav_drawer
+
+        expect(section_navigation).to have_no_link('Regular course item')
+        expect(section_navigation).to have_link('Open mode item')
+      end
+
+      it 'shows no course progress' do
+        visit_item_page(open_mode_item['id'])
+
+        open_section_nav_drawer
+
+        expect(section_navigation).to have_no_css('progress')
       end
     end
   end
 
   context 'as a logged in user' do
-    before do
-      stub_user(id: user_id, permissions:)
+    let!(:user) { sign_in }
+
+    describe 'bottom item navigation' do
+      before { enroll_in(course) }
+
+      it 'follows the next and previous links within the section' do
+        visit_item_page(item.id)
+
+        within('nav[aria-label="Course actions"]') do
+          expect(page).to have_link('Next', href: "/learn/#{course.id}/items/#{open_mode_item.id}#course-item-header")
+          click_on 'Next'
+        end
+
+        expect(page).to have_current_path "/learn/#{course.id}/items/#{open_mode_item.id}"
+
+        within('nav[aria-label="Course actions"]') do
+          expect(page).to have_link('Previous', href: "/learn/#{course.id}/items/#{item.id}#course-item-header")
+          click_on 'Previous'
+        end
+
+        expect(page).to have_current_path "/learn/#{course.id}/items/#{item.id}"
+        expect(page).to have_text 'Regular course item'
+      end
+    end
+
+    describe 'bottom navigation with preview permission' do
+      let(:course) { create(:'course_service/course', :active, :with_content_tree) }
+      let!(:user) do
+        admin = create(:'account_service/user')
+        role = create(:'account_service/role', permissions: ['course.content.access'])
+        create(:'account_service/grant', principal: admin, role:)
+        sign_in(user: admin)
+      end
+
+      before do
+        enroll_in(course)
+        fork = create(:'course_service/fork', section:, course:)
+        item.node.move_to_child_of(fork.branches[0].node)
+        open_mode_item.node.move_to_child_of(fork.branches[1].node)
+        section.node.reload
+        fork.content_test.group_for_user(user.id)
+      end
+
+      it 'follows positional neighbors across content-test branches' do
+        visit_item_page(item.id)
+        within('nav[aria-label="Course actions"]') { click_on 'Next' }
+        expect(page).to have_current_path "/learn/#{course.id}/items/#{open_mode_item.id}"
+
+        within('nav[aria-label="Course actions"]') { click_on 'Previous' }
+        expect(page).to have_current_path "/learn/#{course.id}/items/#{item.id}"
+      end
+    end
+
+    describe '(course progress)' do
+      before do
+        create(:'course_service/item', section:, title: 'Unvisited item')
+        enroll_in(course)
+        [item, open_mode_item].each { create(:'course_service/visit', item: it, user_id: user.id) }
+      end
+
+      it 'shows the overall course progress' do
+        visit_item_page(item['id'])
+
+        expect(page).to have_css('turbo-frame#course-progress:not([complete])', visible: :all)
+
+        open_section_nav_drawer
+
+        within(section_navigation) do
+          expect(page).to have_text 'Progress'
+          expect(page).to have_text '66%'
+          expect(page).to have_css('progress[value="66"]')
+        end
+      end
+
+      it 'marks the completed items' do
+        visit_item_page(item['id'])
+
+        open_section_nav_drawer
+
+        within(section_navigation) do
+          expect(page).to have_link('Regular course item') {|link| link.has_css?('.sr-only', exact_text: 'Completed', visible: :all) }
+          expect(page).to have_link('Open mode item') {|link| link.has_css?('.sr-only', exact_text: 'Completed', visible: :all) }
+          expect(page).to have_link('Unvisited item') {|link| link.has_no_css?('.sr-only', exact_text: 'Completed', visible: :all) }
+        end
+      end
+    end
+
+    describe 'navigation between sections' do
+      let!(:next_section) { create(:'course_service/section', course:, title: 'Week 2') }
+      let!(:next_item) do
+        create(:'course_service/item', section: next_section, title: 'Week 2 introduction',
+          content_type: 'rich_text', content_id: richtext.id)
+      end
+
+      before { enroll_in(course) }
+
+      it 'follows the next and previous section links' do
+        visit_item_page(open_mode_item.id)
+        click_link 'Next module'
+        expect(page).to have_current_path("/learn/#{course.id}/items/#{next_item.id}")
+
+        click_link 'Previous module'
+        expect(page).to have_current_path("/learn/#{course.id}/items/#{open_mode_item.id}")
+      end
     end
 
     describe 'visiting a course item in open mode' do
       context 'with course content permission' do
+        before { enroll_in(course) }
+
         it 'shows all items as visitable' do
           visit_item_page(open_mode_item['id'])
 
-          expect(page.find_by_id('sectionnav')).to have_link('Regular course item')
-          expect(page.find_by_id('sectionnav')).to have_link('Open mode item')
+          open_section_nav_drawer
+
+          within(section_navigation(wait: 10)) do
+            expect(page).to have_link('Regular course item')
+            expect(page).to have_link('Open mode item')
+          end
         end
       end
 
       context 'without course content permission' do
-        let(:permissions) { [] }
-
         it 'shows items that are not visitable in open mode as locked' do
           visit_item_page(open_mode_item['id'])
 
-          expect(page.find_by_id('sectionnav')).to have_no_link('Regular course item')
-          expect(page.find_by_id('sectionnav')).to have_text('Open mode item')
+          open_section_nav_drawer
+
+          expect(section_navigation).to have_no_link('Regular course item')
+          expect(section_navigation).to have_text('Open mode item')
         end
       end
     end
 
-    describe 'toggle via button' do
-      it 'expands and collapses the section navigation on the side' do
+    describe 'overview link' do
+      before { enroll_in(course) }
+
+      it 'links to the course overview above the sections' do
         visit_item_page(item['id'])
-        # Check for section navigation on the side and a navigation item
-        expect(page.find_by_id('togglenav_horizontal')).to have_content 'Hide navigation'
-        expect(page).to have_content 'Week 1'
 
-        # Click to collapse the section navigation on the side
-        find_by_id('togglenav_horizontal').click
+        open_section_nav_drawer
 
-        # Collapsed section navigation on the side
-        expect(page.find('.course-navbar-toggle')).to be_truthy
-        expect(page).to have_no_content 'Week 1'
-
-        # Click to expand the section navigation on the side
-        find('.course-navbar-toggle').click
-
-        # Check for section navigation on the side and a navigation item
-        expect(page.find_by_id('togglenav_horizontal')).to have_content 'Hide navigation'
-        expect(page).to have_content 'Week 1'
-      end
-
-      context 'in mobile view' do
-        before do
-          switch_to_mobile_view
-        end
-
-        it 'expands and collapses the section navigation on the bottom' do
-          visit_item_page(item['id'])
-          # Check for section navigation and a navigation item
-          expect(page.find_by_id('togglenav_vertical')).to have_content 'Hide navigation'
-          expect(page).to have_content 'Week 1'
-
-          # Click to collapse the section navigation
-          find_by_id('togglenav_vertical').click
-
-          # Check for collapsed section navigation
-          expect(page.find_by_id('togglenav_vertical')).to have_content 'Show navigation'
-          expect(page).to have_no_content 'Week 1'
-
-          # Click to expand the section navigation
-          find_by_id('togglenav_vertical').click
-
-          # Check for section navigation and a navigation item
-          expect(page.find_by_id('togglenav_vertical')).to have_content 'Hide navigation'
-          expect(page).to have_content 'Week 1'
-        end
+        expect(section_navigation).to have_link('Go to overview', href: "/learn/#{course.course_code}/overview")
       end
     end
 
-    describe 'default behavior based on user setting' do
-      describe 'to show the navigation' do
-        before do
-          page.execute_script "window.localStorage.setItem('section_navigation_expanded','true');"
-        end
+    describe 'expanding a section' do
+      let(:other_section) { create(:'course_service/section', course:, title: 'Week 2', position: 2) }
 
-        it 'displays the section navigation on the side' do
-          visit_item_page(item['id'])
-          expect(page.find_by_id('togglenav_horizontal')).to have_content 'Hide navigation'
-          expect(page).to have_content 'Week 1'
-        end
-
-        context 'in mobile view' do
-          before do
-            switch_to_mobile_view
-          end
-
-          it 'displays a section navigation on the bottom' do
-            visit_item_page(item['id'])
-            expect(page.find_by_id('togglenav_vertical')).to have_content 'Hide navigation'
-            expect(page).to have_content 'Week 1'
-          end
-        end
+      before do
+        enroll_in(course)
+        create(:'course_service/item', :quiz, section: other_section, title: 'Other section item')
       end
 
-      describe 'to hide the navigation' do
-        before do
-          page.execute_script "window.localStorage.setItem('section_navigation_expanded','false');"
-        end
-
-        it 'displays a collapsed section navigation on the side' do
-          visit_item_page(item['id'])
-          expect(page.find('.course-navbar-toggle')).to be_truthy
-          expect(page).to have_no_content 'Week 1'
-        end
-
-        context 'in mobile view' do
-          before do
-            switch_to_mobile_view
-          end
-
-          it 'displays a collapsed section navigation on the bottom' do
-            visit_item_page(item['id'])
-            expect(page.find_by_id('togglenav_vertical')).to have_content 'Show navigation'
-            expect(page).to have_no_content 'Week 1'
-          end
-        end
-      end
-    end
-
-    describe '(pinboard link)' do
-      it 'has a discussions link by default' do
+      it 'shows the items of the section without leaving the current page' do
         visit_item_page(item['id'])
-        expect(page.find_by_id('leftnav')).to have_content 'Discussions'
-      end
 
-      context 'with disabled pinboard' do
-        let(:course_params) { super().merge(pinboard_enabled: false) }
+        open_section_nav_drawer
 
-        it 'has no discussions link' do
-          visit_item_page(item['id'])
-          expect(page.find_by_id('leftnav')).to have_content 'Week 1'
-          expect(page.find_by_id('leftnav')).to have_no_content 'Discussions'
+        within(section_navigation) do
+          expect(page).to have_link('Regular course item')
+          expect(page).to have_no_link('Other section item')
+
+          find('summary', text: 'Week 2').click
+
+          expect(page).to have_link('Other section item')
         end
+
+        expect(page).to have_current_path "/learn/#{course.course_code}/items/#{item['id']}"
       end
     end
   end

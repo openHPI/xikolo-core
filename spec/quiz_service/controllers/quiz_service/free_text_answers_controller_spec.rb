@@ -77,7 +77,7 @@ describe QuizService::FreeTextAnswersController, type: :controller do
 
     let!(:answer) { create(:'quiz_service/free_text_answer', text: 's3://xikolo-quiz/quizzes/1/1/test.jpg') }
     let!(:file_deletion) do
-      stub_request(:delete, 'https://s3.xikolo.de/xikolo-quiz/quizzes/1/1/test.jpg')
+      stub_request(:delete, "#{test_s3_host}/xikolo-quiz/quizzes/1/1/test.jpg")
     end
 
     it { is_expected.to be_successful }

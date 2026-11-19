@@ -6,20 +6,20 @@ require 'spec_helper'
 # symbolic names for the subtypes of Record. These names can be more easily
 # mapped / changed to different classes. This functionality is tested here.
 describe 'Certificate::Record: Single Table Inheritance', type: :model do
-  let(:user) { Account::User.find(create(:'account_service/user').id) }
+  let(:user) { create(:'account_service/user') }
   let(:course) { create(:course, records_released: true) }
   let(:template) { create(:certificate_template) }
 
   before do
-    Stub.request(
-      :course, :get, '/enrollments',
-      query: hash_including({user_id: user.id, course_id: course.id})
-    ).to_return Stub.json(
-      build_list(
-        :'course:enrollment', 1, :with_learning_evaluation,
-        user_id: user.id,
-        course_id: course.id
-      )
+    create(
+      :'course_service/enrollment',
+      :with_evaluation,
+      course_id: course.id,
+      quantiled_user_dpoints: 90,
+      user_id: user.id,
+      completed: false,
+      quantile: 0.9,
+      deleted: false
     )
   end
 

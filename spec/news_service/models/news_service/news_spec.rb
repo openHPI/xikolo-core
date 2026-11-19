@@ -23,6 +23,38 @@ describe NewsService::News, type: :model do
   end
 
   describe 'scopes' do
+    describe '#published' do
+      subject(:relation) { described_class.published }
+
+      let!(:published) { create(:'news_service/news', :published) }
+
+      before { create(:'news_service/news') }
+
+      it { is_expected.to contain_exactly(published) }
+    end
+
+    describe '#unread_by' do
+      subject(:relation) { described_class.unread_by(user_id) }
+
+      let(:user_id) { generate(:user_id) }
+      let!(:unread) { create(:'news_service/news', :published) }
+
+      before do
+        create(:'news_service/news', :published, :read, read_by_users: [user_id])
+        create(:'news_service/news', publish_at: described_class::MARK_AS_READ_BEFORE - 1.day)
+      end
+
+      it 'excludes the news read by the user and those from before read tracking' do
+        expect(relation).to contain_exactly(unread)
+      end
+
+      it 'includes the news read by other users only' do
+        create(:'news_service/news', :published, :read)
+
+        expect(relation.count).to eq 2
+      end
+    end
+
     describe '#for_groups' do
       subject(:relation) { described_class.for_groups(user: user_id) }
 
@@ -116,25 +148,6 @@ describe NewsService::News, type: :model do
 
       it { is_expected.to have_key 'en' }
       it { is_expected.to have_key 'de' }
-    end
-  end
-
-  describe '#visual_url' do
-    subject(:visual_url) { news.visual_url }
-
-    context 'without visual URI' do
-      let(:attributes) { {visual_uri: nil} }
-
-      it { is_expected.to be_nil }
-    end
-
-    context 'with visual URI' do
-      let(:attributes) { {visual_uri: 's3://xikolo-public/news/image.png'} }
-
-      it {
-        expect(visual_url).to eq \
-          'https://s3.xikolo.de/xikolo-public/news/image.png'
-      }
     end
   end
 end

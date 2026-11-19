@@ -16,7 +16,7 @@ describe 'Course: Learning Evaluation: Trigger Recalculation', type: :request do
     it { is_expected.to respond_with :created }
 
     it 'does not trigger the recalculation' do
-      expect { creation }.not_to change(CourseService::LearningEvaluation::PersistForCourseWorker.jobs, :size)
+      expect { creation }.not_to have_enqueued_job(CourseService::LearningEvaluation::PersistForCourseJob)
     end
   end
 
@@ -26,12 +26,12 @@ describe 'Course: Learning Evaluation: Trigger Recalculation', type: :request do
     it { is_expected.to respond_with :created }
 
     it 'triggers the recalculation' do
-      expect { creation }.to change(CourseService::LearningEvaluation::PersistForCourseWorker.jobs, :size).from(0).to(1)
+      expect { creation }.to have_enqueued_job(CourseService::LearningEvaluation::PersistForCourseJob).exactly(:once)
     end
 
     it 'marks the course progress as recalculated' do
       expect do
-        Sidekiq::Testing.inline! { creation }
+        perform_enqueued_jobs { creation }
       end.to change { course.reload.needs_recalculation? }.from(true).to(false)
     end
   end
@@ -42,12 +42,12 @@ describe 'Course: Learning Evaluation: Trigger Recalculation', type: :request do
     it { is_expected.to respond_with :created }
 
     it 'triggers the recalculation' do
-      expect { creation }.to change(CourseService::LearningEvaluation::PersistForCourseWorker.jobs, :size).from(0).to(1)
+      expect { creation }.to have_enqueued_job(CourseService::LearningEvaluation::PersistForCourseJob).exactly(:once)
     end
 
     it 'marks the course progress as recalculated' do
       expect do
-        Sidekiq::Testing.inline! { creation }
+        perform_enqueued_jobs { creation }
       end.to change { course.reload.needs_recalculation? }.from(true).to(false)
     end
   end
@@ -62,11 +62,11 @@ describe 'Course: Learning Evaluation: Trigger Recalculation', type: :request do
     it { is_expected.to respond_with :created }
 
     it 'triggers the recalculation' do
-      expect { creation }.to change(CourseService::LearningEvaluation::PersistForCourseWorker.jobs, :size).from(0).to(1)
+      expect { creation }.to have_enqueued_job(CourseService::LearningEvaluation::PersistForCourseJob).exactly(:once)
     end
 
     it 'marks the section and course progresses as recalculated' do
-      Sidekiq::Testing.inline! { creation }
+      perform_enqueued_jobs { creation }
 
       expect(course.sections.first.reload.node.needs_recalculation?).to be false
       expect(course.reload.needs_recalculation?).to be false
@@ -77,7 +77,7 @@ describe 'Course: Learning Evaluation: Trigger Recalculation', type: :request do
     let(:course) { create(:'course_service/course', :with_content_tree, progress_calculated_at: 50.minutes.ago) }
 
     it 'does not trigger the recalculation' do
-      expect { creation }.not_to change(CourseService::LearningEvaluation::PersistForCourseWorker.jobs, :size)
+      expect { creation }.not_to have_enqueued_job(CourseService::LearningEvaluation::PersistForCourseJob)
     end
   end
 
@@ -85,7 +85,7 @@ describe 'Course: Learning Evaluation: Trigger Recalculation', type: :request do
     let(:course) { create(:'course_service/course', progress_calculated_at: 50.minutes.ago) }
 
     it 'does not trigger the recalculation' do
-      expect { creation }.not_to change(CourseService::LearningEvaluation::PersistForCourseWorker.jobs, :size)
+      expect { creation }.not_to have_enqueued_job(CourseService::LearningEvaluation::PersistForCourseJob)
     end
   end
 end

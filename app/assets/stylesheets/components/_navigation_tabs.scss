@@ -1,5 +1,5 @@
 .navigation-tabs {
-  margin: 0 10px 20px 0;
+  margin-bottom: 10px;
   box-shadow: 0 1px 0 $gray-250;
 
   ul {
@@ -40,13 +40,6 @@
     display: flex;
     flex-grow: 1;
     flex-wrap: wrap;
-  }
-
-  & &__additional-items {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    justify-content: flex-end;
   }
 
   & &__content {

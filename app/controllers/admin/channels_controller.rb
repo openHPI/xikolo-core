@@ -6,7 +6,7 @@ class Admin::ChannelsController < Abstract::FrontendController
   def index
     authorize! 'course.channel.index'
 
-    @channels = Course::Channel.not_deleted.where(affiliated: false).ordered
+    @channels = CourseService::Channel.not_deleted.where(affiliated: false).ordered
   end
 
   def new
@@ -36,7 +36,7 @@ class Admin::ChannelsController < Abstract::FrontendController
     end
     @channel = Admin::ChannelEditPresenter.new(form:)
     add_flash_message :error, t(:'flash.error.channel_not_created')
-    render action: :new, status: :unprocessable_entity
+    render action: :new, status: :unprocessable_content
   end
 
   def update
@@ -59,13 +59,13 @@ class Admin::ChannelsController < Abstract::FrontendController
     end
     @channel = Admin::ChannelEditPresenter.new(form:, channel:)
     add_flash_message :error, t(:'flash.error.channel_not_updated')
-    render action: :edit, status: :unprocessable_entity
+    render action: :edit, status: :unprocessable_content
   end
 
   def destroy
     authorize! 'course.channel.delete'
 
-    if Course::Channel.find(params[:id]).destroy
+    if CourseService::Channel.find(params[:id]).destroy
       redirect_to admin_channels_path, notice: t(:'flash.notice.channel_deleted'), status: :see_other
     else
       redirect_to admin_channels_path, error: t(:'flash.error.channel_not_deleted'), status: :see_other

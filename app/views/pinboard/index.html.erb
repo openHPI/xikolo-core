@@ -1,0 +1,84 @@
+<div class="x-card bg-accent-25 text-accent-content p-5">
+  <div>
+    <div class="mb20 grid grid-cols-1 gap-5 md:grid-cols-3">
+      <div class="md:col-span-2">
+        <%= render Global::Breadcrumbs.new(items: @pinboard.breadcrumbs.for_list.to_a) %>
+      </div>
+
+      <%# Thread buttons %>
+      <% if @pinboard.open? %>
+        <div class="pt10" id="pinboard-actions">
+          <button
+            class="btn btn-primary full-width"
+            id="new-topic-button"
+            type="button"
+            data-show-on-click="#question_form"
+            data-hide-on-click="#pinboard-actions"
+          >
+            <%= render Global::FaIcon.new('comments', css_classes: 'fa-lg mr5') %>
+            <%= t(:'pinboard.ask_question') %>
+          </button>
+
+          <div class="mt10 text-right">
+            <%= turbo_frame_tag dom_id(@course, :subscription) do %>
+              <% if @course_subscription.present? %>
+                <%= button_to course_subscription_path(@course_subscription['id'], course_id: @course.id),
+                  method: :delete,
+                  class: 'bs-a' do %>
+                  <%= render Global::FaIcon.new('star', style: :solid, css_classes: 'xi-icon') %>
+                  <%= t(:'pinboard.unsubscribe') %>
+                <% end %>
+              <% else %>
+                <%= button_to course_subscriptions_path(course_id: @course.id),
+                  method: :post,
+                  class: 'bs-a' do %>
+                  <%= render Global::FaIcon.new('star', css_classes: 'xi-icon') %>
+                  <%= t(:'pinboard.subscribe') %>
+                <% end %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      <% else %>
+        <div class="md:col-span-3">
+          <%= render Global::Callout.new(@pinboard.lock_reason, type: :warning, icon: Global::FaIcon.new('lock')) %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <%# Question and discussion form %>
+  <div>
+    <%= render partial: 'question_form' %>
+  </div>
+
+  <div class="mb20">
+    <% if @pinboard.section_filter %>
+      <label class="pinboard__section-select">
+        <%= t(:'pinboard.filters.discussions_in') %>
+
+        <%= select_tag 'pinboard_section',
+          options_for_select(@pinboard.section_filter, selected: @pinboard.current_section),
+          data: {change: 'redirect'} %>
+      </label>
+    <% end %>
+
+    <div
+      class="my-6"
+      data-hide-on-submit="#pinboard__content"
+      data-show-on-submit="#pinboard__loading"
+    >
+      <%= render Course::Pinboard::FilterBar.new(tags: @pinboard.tags_filter) %>
+    </div>
+
+    <div id="pinboard__loading" hidden>
+      <%= render State::Loading.new(t(:'pinboard.index.loading')) %>
+    </div>
+
+    <div id="pinboard__content">
+      <%= render partial: 'topics', locals: {topics: @topics, course_code: @course_code} %>
+    </div>
+  </div>
+</div>
+
+<%= render 'course/shared/bottom_bar', course_id: course_layout.id %>

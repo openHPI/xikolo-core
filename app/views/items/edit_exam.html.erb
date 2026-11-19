@@ -1,0 +1,14 @@
+<%= render 'course/shared/admin_page_header', title: t(:'sections.item.edit_headline', item: @item.title) %>
+
+<div class="bs-container x-card bg-accent-25 text-accent-content p-5">
+  <div class="row">
+    <div class="col-md-9">
+      <%= render 'exam_form_wrapper', quiz: @quiz, item: @item, quiz_question: @quiz_question, multiple_choice_question: @multiple_choice_question, multiple_answer_question: @multiple_answer_question, free_text_question: @free_text_question, essay_question: @essay_question %>
+    </div>
+    <div class="col-md-3">
+      <% if @quiz_info %>
+        <%= render Items::QuizInfo.new(@quiz_info) %>
+      <% end %>
+    </div>
+  </div>
+</div>

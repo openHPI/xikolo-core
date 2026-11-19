@@ -5,7 +5,7 @@ class CourseNav < MenuWithPermissions
   item 'courses.nav.sections', 'lamp-desk',
     active: lambda {|request|
       controller_name = request.filtered_parameters['controller']
-      %w[items quiz_submission].include?(controller_name)
+      %w[items quiz_submission course/syllabus].include?(controller_name)
     },
     route: :course_resume
 
@@ -24,18 +24,9 @@ class CourseNav < MenuWithPermissions
   item 'courses.nav.progress', 'chart-mixed',
     route: :course_progress
 
-  # Certificates
-  item 'courses.nav.certificates', 'medal',
-    route: :course_certificates
-
   # Course Details
   item 'courses.nav.info', 'circle-info',
     route: :course
-
-  # Documents
-  item 'courses.nav.knowledge_documents', 'file-lines',
-    if: ->(_user, _course) { Xikolo.config.beta_features['documents'] },
-    route: :course_documents
 
   # Announcements
   item 'courses.nav.announcements', 'satellite-dish',
@@ -47,6 +38,6 @@ class CourseNav < MenuWithPermissions
 
   # Quiz Recap
   item 'learn.title', 'lightbulb-on',
-    if: ->(user, course) { user.feature?('quiz_recap') && course.was_available? }, # FIXME: do not use this method
-    route: ->(course) { learn_path(course_id: course.id) }
+    if: ->(_user, course) { course.was_available? }, # FIXME: do not use this method
+    route: ->(course) { recap_path(course_id: course.id) }
 end

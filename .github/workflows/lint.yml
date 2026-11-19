@@ -21,6 +21,13 @@ jobs:
       - uses: ./.github/actions/setup-bun
       - run: bun run lint:js --color
 
+  ts:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-bun
+      - run: bun run tsc:check
+
   css:
     runs-on: ubuntu-24.04
     steps:
@@ -83,6 +90,7 @@ jobs:
       - format
       - herb
       - js
+      - ts
       - markdown
       - rubocop
       - slim

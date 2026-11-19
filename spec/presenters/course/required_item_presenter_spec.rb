@@ -7,18 +7,10 @@ describe Course::RequiredItemPresenter do
 
   let(:item) { create(:item, item_params) }
   let(:item_params) { {content_type: 'rich_text'} }
-  let(:user) { Account::User.find(create(:'account_service/user').id) }
+  let(:user) { create(:'account_service/user') }
   let(:visit) { create(:visit, item:, user:) }
-  let(:current_user) do
-    Xikolo::Common::Auth::CurrentUser.from_session(
-      {
-        'user_id' => user.id,
-        'user' => {
-          'anonymous' => false,
-        },
-      }
-    )
-  end
+  let(:session) { create(:'account_service/session', user:) }
+  let(:current_user) { CurrentUser::User.new(session:, context_id: 'root') }
 
   describe '.requirements_for' do
     subject(:required_items) { described_class.requirements_for(item_with_requirements, current_user) }

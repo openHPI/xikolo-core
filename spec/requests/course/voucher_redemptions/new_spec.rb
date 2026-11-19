@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe 'Voucher Redemptions: New', type: :request do
   subject(:get_book) do
-    get "/courses/#{course.course_code}/book/#{product_type}", headers:
+    get "/learn/#{course.course_code}/book/#{product_type}"
   end
 
   before do
@@ -14,44 +14,41 @@ describe 'Voucher Redemptions: New', type: :request do
     YML
   end
 
-  let(:headers) { {} }
   let(:request_context_id) { course.context_id }
   let(:course_context) { create(:'account_service/context') }
   let(:page) { Capybara.string(response.body) }
 
   describe 'reactivation' do
     let(:product_type) { 'course_reactivation' }
-    let(:course) { create(:course, :archived, context_id: course_context.id) }
+    let(:course) { create(:course, :self_paced, context_id: course_context.id) }
 
     it 'redirects to the login path when the user is not logged in' do
       expect(get_book).to redirect_to 'http://www.example.com/sessions/new'
     end
 
     context 'with user logged in' do
-      let(:session) { create(:'account_service/session', user:) }
       let(:user) { create(:'account_service/user') }
       let(:user_id) { user.id }
       let(:permissions) { %w[course.content.access] }
-      let(:headers) { super().merge('Authorization' => "Xikolo-Session session_id=#{session.id}") }
 
       before do
+        sign_in(user:)
         role = create(:'account_service/role', permissions:)
         create(:'account_service/grant', principal: user, role:, context: course_context)
         user.features.create(name: 'course_reactivation', value: 'true', context: AccountService::Context.root)
-        set_session(id: session.id)
       end
 
       context 'when the course offers reactivation' do
-        let(:course) { create(:course, :archived, :offers_reactivation, context_id: course_context.id) }
+        let(:course) { create(:course, :self_paced, :offers_reactivation, context_id: course_context.id) }
 
         it 'renders the booking page when the course has finished' do
           get_book
           expect(response).to have_http_status :ok
 
-          expect(page).to have_content 'Reactivate this course'
-          expect(page).to have_content 'purchase a voucher code for the course reactivation'
-          expect(page).to have_content 'You are going to redeem a voucher for'
-          expect(page).to have_content 'MOOC on topic'
+          expect(page).to have_text 'Reactivate this course'
+          expect(page).to have_text 'received a reactivation-code for the course reactivation'
+          expect(page).to have_text 'You are going to redeem a voucher for'
+          expect(page).to have_text 'MOOC on topic'
           expect(page).to have_button 'Redeem'
         end
 

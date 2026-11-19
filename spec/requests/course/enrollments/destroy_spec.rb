@@ -4,12 +4,12 @@ require 'spec_helper'
 
 describe 'Course: Enrollments: Destroy', type: :request do
   subject(:action) do
-    delete "/enrollments/#{enrollment['id']}", headers:
+    delete "/enrollments/#{enrollment['id']}"
   end
 
-  let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
-  let(:user_id) { enrollment['user_id'] }
-  let(:enrollment) { build(:'course:enrollment') }
+  let(:user) { create(:'account_service/user') }
+  let(:user_id) { user.id }
+  let(:enrollment) { build(:'course:enrollment', user_id:) }
   let(:delete_stub) do
     Stub.request(
       :course, :delete, "/enrollments/#{enrollment['id']}"
@@ -17,7 +17,7 @@ describe 'Course: Enrollments: Destroy', type: :request do
   end
 
   before do
-    stub_user_request id: user_id
+    sign_in(user:)
     Stub.request(
       :course, :get, "/enrollments/#{enrollment['id']}"
     ).to_return Stub.json(

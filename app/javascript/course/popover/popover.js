@@ -1,14 +1,12 @@
-/* eslint-disable no-undef */
-
 // We cannot import $ because the popover plugin
 // expects it to be globally available.
-import 'jquery';
+import $ from 'jquery';
 import Cookies from 'js-cookie';
-import ready from '../../util/ready';
+import { turboReady } from '../../util/ready';
 import I18n from '../../i18n/i18n';
 import { isScreenSizeSM } from '../../util/media-query';
 
-ready(() => {
+turboReady(() => {
   const popovers = document.querySelectorAll(
     '[data-behavior="popover-template"]',
   );

@@ -14,14 +14,12 @@ describe QuizService::SubmissionStatistics, type: :model do
       submission1 = create(
         :'quiz_service/quiz_submission',
         :submitted,
-        quiz:,
-        user_id: generate(:user_id)
+        quiz:
       )
       submission2 = create(
         :'quiz_service/quiz_submission',
         :submitted,
-        quiz:,
-        user_id: generate(:user_id)
+        quiz:
       )
 
       create(

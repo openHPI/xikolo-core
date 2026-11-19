@@ -11,7 +11,7 @@ module XUI
         dynamic_attributes[name]&.fetch(:type) || self.class.attribute_types[name]
       end
 
-      def has_attribute?(name) # rubocop:disable Naming/PredicateName
+      def has_attribute?(name)
         dynamic_attributes.key?(name) || self.class.attribute_types[name].present?
       end
     end

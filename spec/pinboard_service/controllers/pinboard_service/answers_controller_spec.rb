@@ -241,7 +241,7 @@ describe PinboardService::AnswersController, type: :controller do
 
       context 'when meant for rendering' do
         it 'exposes markup with public URLs' do
-          expect(json['text']).to eq "Headline\nhttps://s3.xikolo.de/xikolo-pinboard/courses/1/thread/1/1/hans.jpg"
+          expect(json['text']).to eq "Headline\n#{test_s3_host}/xikolo-pinboard/courses/1/thread/1/1/hans.jpg"
         end
       end
 
@@ -252,7 +252,7 @@ describe PinboardService::AnswersController, type: :controller do
             'markup' => markup,
             'url_mapping' => {
               's3://xikolo-pinboard/courses/1/thread/1/1/hans.jpg' =>
-                'https://s3.xikolo.de/xikolo-pinboard/courses/1/thread/1/1/hans.jpg',
+                "#{test_s3_host}/xikolo-pinboard/courses/1/thread/1/1/hans.jpg",
             },
             'other_files' => {
               's3://xikolo-pinboard/courses/1/thread/1/1/hans.jpg' =>
@@ -354,6 +354,33 @@ describe PinboardService::AnswersController, type: :controller do
       expect(json['text']).to eq(attributes_for(:'pinboard_service/answer')[:text])
     end
 
+    context 'when forum is closed' do
+      before do
+        Stub.request(
+          :course, :get, "/courses/#{question.course_id}"
+        ).to_return Stub.json({
+          id: question.course_id,
+          title: 'My course',
+          course_code: 'my_course',
+          forum_is_locked: true,
+        })
+      end
+
+      it 'responds with 422 Unprocessable Entity' do
+        creation
+        expect(response).to have_http_status :unprocessable_content
+      end
+
+      it 'returns validation error' do
+        creation
+        expect(json['errors']).to eq ['forum_closed']
+      end
+
+      it 'does not create an Answer' do
+        expect { creation }.not_to change(PinboardService::Answer, :count)
+      end
+    end
+
     context 'with image references' do
       let(:text) { 'upload://b5f99337-224f-40f5-aa82-44ee8b272579/foo.jpg' }
       let(:answer) { super().merge text: }
@@ -362,7 +389,7 @@ describe PinboardService::AnswersController, type: :controller do
       it 'stores valid upload and creates a new richtext' do
         stub_request(
           :head,
-          'https://s3.xikolo.de/xikolo-uploads/' \
+          "#{test_s3_host}/xikolo-uploads/" \
           'uploads/b5f99337-224f-40f5-aa82-44ee8b272579/foo.jpg'
         ).and_return(
           status: 200,
@@ -371,7 +398,7 @@ describe PinboardService::AnswersController, type: :controller do
             'X-Amz-Meta-Xikolo-State' => 'accepted',
           }
         )
-        store_regex = %r{https://s3.xikolo.de/xikolo-pinboard
+        store_regex = %r{#{test_s3_host}/xikolo-pinboard
                          /courses/#{cid}/topics/[0-9a-zA-Z]+/
                          [0-9a-zA-Z]+/foo.jpg}x
         stub_request(:head, store_regex).and_return(status: 404)
@@ -383,7 +410,7 @@ describe PinboardService::AnswersController, type: :controller do
       it 'rejects invalid upload and does not creates a new page' do
         stub_request(
           :head,
-          'https://s3.xikolo.de/xikolo-uploads/' \
+          "#{test_s3_host}/xikolo-uploads/" \
           'uploads/b5f99337-224f-40f5-aa82-44ee8b272579/foo.jpg'
         ).and_return(
           status: 200,
@@ -395,14 +422,14 @@ describe PinboardService::AnswersController, type: :controller do
 
         creation
 
-        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_http_status :unprocessable_content
         expect(json['errors']).to eq 'text' => ['rtfile_rejected']
       end
 
       it 'rejects upload on storage errors' do
         stub_request(
           :head,
-          'https://s3.xikolo.de/xikolo-uploads/' \
+          "#{test_s3_host}/xikolo-uploads/" \
           'uploads/b5f99337-224f-40f5-aa82-44ee8b272579/foo.jpg'
         ).and_return(
           status: 200,
@@ -411,7 +438,7 @@ describe PinboardService::AnswersController, type: :controller do
             'X-Amz-Meta-Xikolo-State' => 'accepted',
           }
         )
-        store_regex = %r{https://s3.xikolo.de/xikolo-pinboard
+        store_regex = %r{#{test_s3_host}/xikolo-pinboard
                          /courses/#{cid}/topics/[0-9a-zA-Z]+/
                          [0-9a-zA-Z]+/foo.jpg}x
         stub_request(:head, store_regex).and_return(status: 404)
@@ -419,7 +446,7 @@ describe PinboardService::AnswersController, type: :controller do
 
         creation
 
-        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_http_status :unprocessable_content
         expect(json['errors']).to eq 'text' => ['rtfile_error']
       end
     end
@@ -429,13 +456,13 @@ describe PinboardService::AnswersController, type: :controller do
       let(:answer) { super().merge attachment_upload_id: upload_id }
       let(:cid) { UUID4(question.course_id).to_s(format: :base62) }
       let(:file_url) do
-        'https://s3.xikolo.de/xikolo-uploads/' \
+        "#{test_s3_host}/xikolo-uploads/" \
           'uploads/83aebd2a-f026-4d58-8a61-5ee4f1a7cbfa/image.jpg'
       end
 
       before do
         stub_request(:get,
-          'https://s3.xikolo.de/xikolo-uploads?list-type=2&' \
+          "#{test_s3_host}/xikolo-uploads?list-type=2&" \
           'prefix=uploads%2F83aebd2a-f026-4d58-8a61-5ee4f1a7cbfa').to_return(
             status: 200,
             headers: {'Content-Type' => 'Content-Type: application/xml'},
@@ -464,7 +491,7 @@ describe PinboardService::AnswersController, type: :controller do
               'X-Amz-Meta-Xikolo-State' => 'accepted',
             }
           )
-        store_regex = %r{https://s3.xikolo.de/xikolo-pinboard
+        store_regex = %r{#{test_s3_host}/xikolo-pinboard
                            /courses/#{cid}/topics/[0-9a-zA-Z]+/
                            [0-9a-zA-Z]+/image.jpg}x
         store_stub = stub_request(:put, store_regex).to_return(status: 200, body: '<xml></xml>')
@@ -487,7 +514,7 @@ describe PinboardService::AnswersController, type: :controller do
 
         creation
 
-        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_http_status :unprocessable_content
         expect(json['errors']).to eq 'attachment_upload_id' => ['invalid upload']
       end
 
@@ -497,7 +524,7 @@ describe PinboardService::AnswersController, type: :controller do
         )
         creation
 
-        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_http_status :unprocessable_content
         expect(json['errors']).to eq 'attachment_upload_id' => ['could not process file upload']
       end
 
@@ -511,14 +538,14 @@ describe PinboardService::AnswersController, type: :controller do
           }
         )
 
-        store_regex = %r{https://s3.xikolo.de/xikolo-pinboard
+        store_regex = %r{#{test_s3_host}/xikolo-pinboard
                            /courses/#{cid}/topics/[0-9a-zA-Z]+/
                            [0-9a-zA-Z]+/image.jpg}x
         stub_request(:put, store_regex).to_return(status: 403)
 
         creation
 
-        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_http_status :unprocessable_content
         expect(json['errors']).to eq 'attachment_upload_id' => ['could not process file upload']
       end
     end
@@ -557,7 +584,7 @@ describe PinboardService::AnswersController, type: :controller do
       it 'stores valid upload and creates a new richtext' do
         stub_request(
           :head,
-          'https://s3.xikolo.de/xikolo-uploads/' \
+          "#{test_s3_host}/xikolo-uploads/" \
           'uploads/b5f99337-224f-40f5-aa82-44ee8b272579/foo.jpg'
         ).and_return(
           status: 200,
@@ -566,7 +593,7 @@ describe PinboardService::AnswersController, type: :controller do
             'X-Amz-Meta-Xikolo-State' => 'accepted',
           }
         )
-        store_regex = %r{https://s3.xikolo.de/xikolo-pinboard
+        store_regex = %r{#{test_s3_host}/xikolo-pinboard
                          /courses/#{cid}/topics/[0-9a-zA-Z]+/
                          [0-9a-zA-Z]+/foo.jpg}x
         stub_request(:head, store_regex).and_return(status: 404)
@@ -579,7 +606,7 @@ describe PinboardService::AnswersController, type: :controller do
       it 'rejects invalid upload and does not creates a new page' do
         stub_request(
           :head,
-          'https://s3.xikolo.de/xikolo-uploads/' \
+          "#{test_s3_host}/xikolo-uploads/" \
           'uploads/b5f99337-224f-40f5-aa82-44ee8b272579/foo.jpg'
         ).and_return(
           status: 200,
@@ -591,14 +618,14 @@ describe PinboardService::AnswersController, type: :controller do
 
         modification
 
-        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_http_status :unprocessable_content
         expect(json['errors']).to eq 'text' => ['rtfile_rejected']
       end
 
       it 'rejects upload on storage errors' do
         stub_request(
           :head,
-          'https://s3.xikolo.de/xikolo-uploads/' \
+          "#{test_s3_host}/xikolo-uploads/" \
           'uploads/b5f99337-224f-40f5-aa82-44ee8b272579/foo.jpg'
         ).and_return(
           status: 200,
@@ -607,7 +634,7 @@ describe PinboardService::AnswersController, type: :controller do
             'X-Amz-Meta-Xikolo-State' => 'accepted',
           }
         )
-        store_regex = %r{https://s3.xikolo.de/xikolo-pinboard
+        store_regex = %r{#{test_s3_host}/xikolo-pinboard
                          /courses/#{cid}/topics/[0-9a-zA-Z]+/
                          [0-9a-zA-Z]+/foo.jpg}x
         stub_request(:head, store_regex).and_return(status: 404)
@@ -615,7 +642,7 @@ describe PinboardService::AnswersController, type: :controller do
 
         modification
 
-        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_http_status :unprocessable_content
         expect(json['errors']).to eq 'text' => ['rtfile_error']
       end
     end
@@ -625,13 +652,13 @@ describe PinboardService::AnswersController, type: :controller do
       let(:additional_params) { {attachment_upload_id: upload_id} }
       let(:cid) { UUID4(answer.question.course_id).to_s(format: :base62) }
       let(:file_url) do
-        'https://s3.xikolo.de/xikolo-uploads/' \
+        "#{test_s3_host}/xikolo-uploads/" \
           'uploads/83aebd2a-f026-4d58-8a61-5ee4f1a7cbfa/image.jpg'
       end
 
       before do
         stub_request(:get,
-          'https://s3.xikolo.de/xikolo-uploads?list-type=2&' \
+          "#{test_s3_host}/xikolo-uploads?list-type=2&" \
           'prefix=uploads%2F83aebd2a-f026-4d58-8a61-5ee4f1a7cbfa').to_return(
             status: 200,
             headers: {'Content-Type' => 'Content-Type: application/xml'},
@@ -660,7 +687,7 @@ describe PinboardService::AnswersController, type: :controller do
               'X-Amz-Meta-Xikolo-State' => 'accepted',
             }
           )
-        store_regex = %r{https://s3.xikolo.de/xikolo-pinboard
+        store_regex = %r{#{test_s3_host}/xikolo-pinboard
                            /courses/#{cid}/topics/[0-9a-zA-Z]+/
                            [0-9a-zA-Z]+/image.jpg}x
         store_stub = stub_request(:put, store_regex).to_return(status: 200, body: '<xml></xml>')
@@ -680,11 +707,11 @@ describe PinboardService::AnswersController, type: :controller do
               'X-Amz-Meta-Xikolo-State' => 'accepted',
             }
           )
-        store_regex = %r{https://s3.xikolo.de/xikolo-pinboard
+        store_regex = %r{#{test_s3_host}/xikolo-pinboard
                            /courses/#{cid}/topics/[0-9a-zA-Z]+/
                            [0-9a-zA-Z]+/image.jpg}x
         store_stub = stub_request(:put, store_regex).to_return(status: 200, body: '<xml></xml>')
-        cleanup_stub = stub_request(:delete, 'https://s3.xikolo.de/xikolo-pinboard/courses/1/threads/1/1/otto.jpg')
+        cleanup_stub = stub_request(:delete, "#{test_s3_host}/xikolo-pinboard/courses/1/threads/1/1/otto.jpg")
           .to_return(status: 200)
 
         expect { request; answer.reload }.to change(answer, :attachment_uri)
@@ -705,7 +732,7 @@ describe PinboardService::AnswersController, type: :controller do
 
         request
 
-        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_http_status :unprocessable_content
         expect(json['errors']).to eq 'attachment_upload_id' => ['invalid upload']
       end
 
@@ -716,7 +743,7 @@ describe PinboardService::AnswersController, type: :controller do
 
         request
 
-        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_http_status :unprocessable_content
         expect(json['errors']).to eq 'attachment_upload_id' => ['could not process file upload']
       end
 
@@ -730,14 +757,14 @@ describe PinboardService::AnswersController, type: :controller do
           }
         )
 
-        store_regex = %r{https://s3.xikolo.de/xikolo-pinboard
+        store_regex = %r{#{test_s3_host}/xikolo-pinboard
                            /courses/#{cid}/topics/[0-9a-zA-Z]+/
                            [0-9a-zA-Z]+/image.jpg}x
         stub_request(:put, store_regex).to_return(status: 403)
 
         request
 
-        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_http_status :unprocessable_content
         expect(json['errors']).to eq 'attachment_upload_id' => ['could not process file upload']
       end
     end

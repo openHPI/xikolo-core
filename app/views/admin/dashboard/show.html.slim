@@ -1,5 +1,5 @@
-- content_for :page_header_slim
-  = render Global::PageHeader.new(t(:'admin.dashboard.show.title'), subtitle: t(:'admin.page_header'), type: :slim) do
+- content_for :page_header
+  = render Global::PageHeader.new(t(:'admin.dashboard.show.title'), subtitle: t(:'admin.page_header')) do
     = render partial: 'platform_dashboard_nav', locals: {nav: @nav}
   end
 
@@ -21,19 +21,10 @@
         = render Global::KpiScoreCard.new(title: t('.kpis.learners.total_deleted_learners'), value: @platform_learners_and_enrollments['deleted_users'], icon_class: 'user-times')
 
       h3.h3
-        = t(:'.kpis.activity.title')
-      .grid.grid-cols-1.gap-4.sm:grid-cols-2.md:grid-cols-2.lg:grid-cols-4
-        = render Global::KpiScoreCard.new(title: t('.kpis.activity.active_learners_last_24h'), value: @platform_activity['count_24h'], icon_class: 'clock')
-        = render Global::KpiScoreCard.new(title: t('.kpis.activity.active_learners_last_7days'), value: @platform_activity['count_7days'], icon_class: 'calendar-alt')
-
-      h3.h3
         = t(:'admin.course_management.dashboard.kpis.certificates.title')
       .grid.grid-cols-1.gap-4.sm:grid-cols-2.md:grid-cols-2.lg:grid-cols-4
-        = render Global::KpiScoreCard.new(title: t('admin.course_management.dashboard.kpis.certificates.roa'), value: @platform_certificates['roa_count'], icon_class: 'file-contract')
-        = render Global::KpiScoreCard.new(title: t('admin.course_management.dashboard.kpis.certificates.cop'), value: @platform_certificates['cop_count'], icon_class: 'file')
+        = render Global::KpiScoreCard.new(title: t('admin.course_management.dashboard.kpis.certificates.roa'), value: @platform_certificates_counts.fetch('RecordOfAchievement', 0), icon_class: 'file-contract')
+        = render Global::KpiScoreCard.new(title: t('admin.course_management.dashboard.kpis.certificates.cop'), value: @platform_certificates_counts.fetch('ConfirmationOfParticipation', 0), icon_class: 'file')
   .row
     .col-md-6.mb15
       = render Global::Table.new(rows: @age_distribution_table_rows, headers: @age_distribution_table_headers, title: t(:'admin.dashboard.show.age.title'))
-
-    .col-md-6.mb15
-      = render Global::Table.new(rows: @client_usage_table_rows, headers: @client_usage_table_headers, title: t(:'admin.dashboard.show.client_usage.title'), caption: t(:'admin.dashboard.show.client_usage.caption'))

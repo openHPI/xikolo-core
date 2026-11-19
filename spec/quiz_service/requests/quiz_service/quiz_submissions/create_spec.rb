@@ -15,7 +15,7 @@ RSpec.describe 'Quiz Submissions: Create', type: :request do
       course_id: generate(:course_id),
     }
   end
-  let(:user_id) { generate(:user_id) }
+  let(:user_id) { create(:'account_service/user').id }
 
   it { is_expected.to respond_with :created }
 
@@ -48,18 +48,6 @@ RSpec.describe 'Quiz Submissions: Create', type: :request do
       # This lets the frontend differentiate between existing submissions and
       # the limit of attempts being reached
       it { is_expected.to respond_with :ok }
-    end
-  end
-
-  describe 'vendor data' do
-    context 'nil' do
-      let(:payload) { super().merge(vendor_data: nil) }
-
-      it 'creates a new quiz submission' do
-        expect { creation }.to change { QuizService::QuizSubmission.where(quiz_id: quiz.id).count }.from(0).to(1)
-
-        expect(QuizService::QuizSubmission.find_by(quiz_id: quiz.id).vendor_data).to eq({})
-      end
     end
   end
 end

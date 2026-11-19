@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 class S3FileDeletionJob < ApplicationJob
-  queue_as :default
-  queue_with_priority :eventual
+  queue_as :low
 
   def perform(uri)
     Xikolo::S3.object(uri).delete if uri.present?

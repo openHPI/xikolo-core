@@ -56,8 +56,8 @@ describe 'Teachers: Create with picture', type: :request do
   let(:api) { restify_with_headers(course_service.root_url).get.value }
   let(:upload_id) { 'f13d30d3-6369-4816-9695-af5318c8ac15' }
   let(:file_name) { 'tux.jpg' }
-  let(:file_url) { "https://s3.xikolo.de/xikolo-uploads/uploads/#{upload_id}/#{file_name}" }
-  let(:store_stub_url) { %r{https://s3.xikolo.de/xikolo-public/teachers/[0-9a-zA-Z]+/[0-9a-zA-Z]+/#{file_name}} }
+  let(:file_url) { "#{test_s3_host}/xikolo-uploads/uploads/#{upload_id}/#{file_name}" }
+  let(:store_stub_url) { %r{#{test_s3_host}/xikolo-public/teachers/[0-9a-zA-Z]+/[0-9a-zA-Z]+/#{file_name}} }
 
   context 'with picture_upload_id' do
     let(:data) do
@@ -70,7 +70,7 @@ describe 'Teachers: Create with picture', type: :request do
     end
 
     before do
-      stub_request(:get, 'https://s3.xikolo.de/xikolo-uploads?list-type=2&' \
+      stub_request(:get, "#{test_s3_host}/xikolo-uploads?list-type=2&" \
                          "prefix=uploads%2F#{upload_id}")
         .to_return(
           status: 200,

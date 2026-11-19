@@ -44,6 +44,7 @@ class Answer < ApplicationRecord # rubocop:disable Layout/IndentationWidth
 
     after_transition do
       question.update_public_answers_count!
+      question.update_public_answer_comments_count!
     end
 
     on_transition do |_from, to|
@@ -78,16 +79,17 @@ class Answer < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   scope :unblocked, -> { where.not(workflow_state: %i[blocked auto_blocked]) }
   scope :undeleted, -> { where.not(deleted: true) }
   scope :for_user, ->(user_id) { user_id ? where(user_id:) : all }
-  after_create { Msgr.publish(decorate.to_event, to: 'xikolo.pinboard.answer.create') }
-  after_update { Msgr.publish(decorate.as_json, to: 'xikolo.pinboard.answer.update') }
+  after_create { AnswerCreateJob.perform_later(decorate.to_event) }
   before_update :reset_reviewed
 
   after_save do |answer|
     answer.question.update_public_answers_count!
+    answer.question.update_public_answer_comments_count!
   end
 
   after_destroy do |answer|
     answer.question.update_public_answers_count!
+    answer.question.update_public_answer_comments_count!
   end
 
   def question_title

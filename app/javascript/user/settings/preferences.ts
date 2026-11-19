@@ -1,4 +1,4 @@
-import ready from '../../util/ready';
+import { turboReady } from '../../util/ready';
 import fetch from '../../util/fetch';
 
 const emailNotificationEnabled = () => {
@@ -9,7 +9,7 @@ const emailNotificationEnabled = () => {
   return globalEmailPreferenceToggle.checked;
 };
 
-ready(() => {
+turboReady(() => {
   document
     .querySelectorAll('[data-behavior="preferences-switch"]')
     .forEach((preferencesSwitch) => {

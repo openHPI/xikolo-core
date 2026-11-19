@@ -1,5 +1,4 @@
-- content_for :page_header_slim do
-  = render Global::PageHeader.new(t(:'admin.video_providers.index.new_provider'), subtitle: t(:'admin.page_header'), type: :slim) do |c|
-    - c.with_pill t(:"admin.videos.provider_type.#{@provider.provider_type}"), color: :note, size: :small
+- content_for :page_header do
+  = render Global::PageHeader.new(t(:'admin.video_providers.index.new_provider'), subtitle: t(:'admin.page_header'))
 
 = render 'form', provider: @provider

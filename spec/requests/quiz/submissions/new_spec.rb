@@ -4,12 +4,9 @@ require 'spec_helper'
 
 describe 'Quiz: Submissions: New', type: :request do
   subject(:new_submission) do
-    get "/courses/the_course/items/#{item.id}/quiz_submission/new",
-      headers:
+    get "/learn/the_course/items/#{item.id}/quiz_submission/new"
   end
 
-  let(:session) { create(:'account_service/session', user:) }
-  let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{session.id}"} }
   let(:permissions) { ['course.content.access.available'] }
   let(:user) { create(:'account_service/user') }
   let(:user_id) { user.id }
@@ -28,12 +25,11 @@ describe 'Quiz: Submissions: New', type: :request do
   end
   let(:my_enrollment) { create(:enrollment, course:, user_id:) }
 
-  let(:quiz_id) { generate(:quiz_id) }
-  let(:quiz_question) { build(:'quiz:question', :free_text, quiz_id:) }
+  let(:quiz) { create(:'quiz_service/quiz') }
+  let(:quiz_id) { quiz.id }
+  let(:quiz_question) { create(:'quiz_service/free_text_question', quiz:, text: 'What is the answer?') }
+  let(:quiz_payload) { QuizService::QuizDecorator.new(quiz).as_json(api_version: 1) }
   let(:submission_deadline) { 1.hour.from_now.iso8601(3) }
-  let(:visit_stub) do
-    Stub.request(:course, :post, "/items/#{item.id}/users/#{user_id}/visit")
-  end
   let(:create_submission_stub) do
     Stub.request(
       :quiz, :post, '/quiz_submissions'
@@ -53,19 +49,14 @@ describe 'Quiz: Submissions: New', type: :request do
   before do
     role = create(:'account_service/role', permissions:)
     create(:'account_service/grant', principal: user, role:, context: course_context)
-    user.features.create(name: 'proctoring', value: 'true', context: AccountService::Context.root)
-    set_session(id: session.id)
+    sign_in(user:)
 
     Stub.request(:course, :get, '/courses/the_course')
-      .to_return Stub.json(course.as_json)
+      .to_return Stub.json(CourseService::CourseDecorator.new(course).as_json(api_version: 1))
     Stub.request(
       :course, :get, '/enrollments',
       query: {course_id: course.id, user_id:}
-    ).to_return Stub.json([my_enrollment.as_json])
-    Stub.request(
-      :course, :get, '/next_dates',
-      query: hash_including(course_id: course.id)
-    ).to_return Stub.json([])
+    ).to_return Stub.json([CourseService::EnrollmentDecorator.new(my_enrollment).as_json(api_version: 1)])
     Stub.request(
       :course, :get, "/sections/#{section.id}"
     ).to_return Stub.json(section_resource)
@@ -84,17 +75,9 @@ describe 'Quiz: Submissions: New', type: :request do
 
     Stub.request(
       :quiz, :get, "/quizzes/#{quiz_id}"
-    ).to_return Stub.json(build(:'quiz:quiz', :exam, id: quiz_id))
-    Stub.request(
-      :quiz, :get, '/questions',
-      query: {quiz_id:, per_page: '250'}
-    ).to_return Stub.json([])
+    ).to_return Stub.json(quiz_payload)
     Stub.request(:quiz, :get, '/questions', query: hash_including(quiz_id:))
-      .to_return Stub.json([quiz_question])
-    Stub.request(:quiz, :get, '/answers', query: hash_including(question_id: quiz_question['id']))
-      .to_return Stub.json([
-        build(:'quiz:answer', :free_text, question_id: quiz_question['id']),
-      ])
+      .to_return Stub.json([QuizService::QuestionDecorator.new(quiz_question).as_json(api_version: 1)])
 
     Stub.request(
       :quiz, :get, '/quiz_submissions',
@@ -112,7 +95,6 @@ describe 'Quiz: Submissions: New', type: :request do
       attempts: 0,
     })
     create_submission_stub
-    visit_stub
   end
 
   it 'displays all questions' do
@@ -121,16 +103,16 @@ describe 'Quiz: Submissions: New', type: :request do
     expect(response).to be_successful
 
     # First and only question
-    expect(page).to have_content 'What is the answer?'
-    expect(page).to have_link 'Send my final answers'
+    expect(page).to have_text 'What is the answer?'
+    expect(page).to have_button 'Send my final answers'
 
     # The service returned a new quiz submission
-    expect(page).to have_no_content 'There is still an active quiz running.'
+    expect(page).to have_no_text 'There is still an active quiz running.'
   end
 
   it 'creates a visit' do
     new_submission
-    expect(visit_stub).to have_been_requested
+    expect(CourseService::Visit.exists?(user_id:, item_id: item.id)).to be true
   end
 
   it 'creates a new quiz submission' do
@@ -141,7 +123,6 @@ describe 'Quiz: Submissions: New', type: :request do
         course_id: course.id,
         quiz_id:,
         user_id:,
-        vendor_data: nil,
       })
     ).to have_been_requested
   end
@@ -154,15 +135,15 @@ describe 'Quiz: Submissions: New', type: :request do
 
       expect(response).to be_successful
 
-      expect(page).to have_content 'What is the answer?'
-      expect(page).to have_link 'Send my final answers'
+      expect(page).to have_text 'What is the answer?'
+      expect(page).to have_button 'Send my final answers'
 
-      expect(page).to have_content 'There is still an active quiz running.'
+      expect(page).to have_text 'There is still an active quiz running.'
     end
 
     it 'creates a visit' do
       new_submission
-      expect(visit_stub).to have_been_requested
+      expect(CourseService::Visit.exists?(user_id:, item_id: item.id)).to be true
     end
   end
 
@@ -170,12 +151,12 @@ describe 'Quiz: Submissions: New', type: :request do
     let(:submission_deadline) { 1.hour.ago.iso8601(3) }
 
     it 'redirects to course item page' do
-      expect(new_submission).to redirect_to "/courses/the_course/items/#{short_uuid(item.id)}"
+      expect(new_submission).to redirect_to "/learn/the_course/items/#{short_uuid(item.id)}"
     end
 
     it 'does not create a visit' do
       new_submission
-      expect(visit_stub).not_to have_been_requested
+      expect(CourseService::Visit.exists?(user_id:, item_id: item.id)).to be false
     end
   end
 
@@ -188,12 +169,12 @@ describe 'Quiz: Submissions: New', type: :request do
     end
 
     it 'redirects to course item page' do
-      expect(new_submission).to redirect_to "/courses/the_course/items/#{short_uuid(item.id)}"
+      expect(new_submission).to redirect_to "/learn/the_course/items/#{short_uuid(item.id)}"
     end
 
     it 'does not create a visit' do
       new_submission
-      expect(visit_stub).not_to have_been_requested
+      expect(CourseService::Visit.exists?(user_id:, item_id: item.id)).to be false
     end
   end
 end

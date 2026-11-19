@@ -50,11 +50,9 @@ describe QuizService::Regrading::RemoveAnswer, type: :model do
   end
 
   it 'triggers recalculation of question statistics' do
-    Sidekiq::Testing.fake!
-
     expect do
       described_class.new(misleading_answer).run!
-    end.to change(QuizService::UpdateQuestionStatisticsWorker.jobs, :size).by(1)
+    end.to have_enqueued_job(QuizService::UpdateQuestionStatisticsJob).exactly(:once)
   end
 
   describe 'loss of points is possible' do

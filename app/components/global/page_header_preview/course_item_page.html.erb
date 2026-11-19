@@ -1,0 +1,5 @@
+<%= render Global::PageHeader.new(title, breadcrumbs:, back_url: '#', type: :slim) do |header| %>
+  <% header.with_item_header do %>
+    <%= render Items::Header.new(title: 'Titel Video', icon_class:, section_title: 'Modul 1') %>
+  <% end %>
+<% end %>

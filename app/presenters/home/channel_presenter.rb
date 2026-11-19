@@ -36,12 +36,12 @@ module Home
     def meta_tags
       meta = {
         title: @channel.title,
-        description:,
+        description: description&.truncate(150),
         og: {
           title: @channel.title,
           type: 'website',
           url: Xikolo.base_url.join(channel_path(@channel.code)),
-          description:,
+          description: description&.truncate(150),
         },
       }
 
@@ -49,21 +49,23 @@ module Home
       meta
     end
 
-    def stage_items
-      @stage_items ||= begin
-        # Channel stage item must be first, if existing
-        stage_items = [channel_stage_item].compact
-
-        @channel.stage_courses.each do |course|
-          stage_items << StageItemPresenter.build(
-            course.stage_visual_url,
-            course.stage_statement,
-            course_path: course_path(course.course_code)
-          )
+    def shorts
+      signer = BunnySignedURL.new
+      @shorts ||= @channel.shorts
+        .active
+        .with_video
+        .merge(CourseService::Course.not_deleted)
+        .map do |short|
+          {
+            id: short.id,
+            thumbnail: signer.call(short.bunny_video_id)[:thumbnail],
+          }
         end
+    end
 
-        stage_items
-      end
+    def stage_item
+      # Channel stage item must be first, if existing
+      @stage_item ||= channel_stage_item
     end
 
     def info_link?
@@ -76,6 +78,14 @@ module Home
 
     def info_link_label
       @info_link_label ||= Translations.new(@channel.info_link&.dig('label')).to_s
+    end
+
+    def other_channels
+      @other_channels ||= ::CourseService::Channel
+        .where(public: true, affiliated: false, archived: false)
+        .where.not(id: @channel.id)
+        .order(Arel.sql('RANDOM()'))
+        .limit(4)
     end
 
     private

@@ -1,0 +1,7 @@
+<row>
+  <columns>
+    <p><%= t('notification_service.notifications.account_mailer.account_reactivation.text') %></p>
+
+    <button class="primary" href="<%= @url %>"><%= t('notification_service.notifications.account_mailer.account_reactivation.link') %></button>
+  </columns>
+</row>

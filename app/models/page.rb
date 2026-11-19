@@ -8,7 +8,6 @@ class Page < ApplicationRecord
     }
   )
 
-  # rubocop:disable Rails/HasManyOrHasOneDependent
   has_many :translations, class_name: 'Page', foreign_key: 'name', inverse_of: false, primary_key: :name
   has_many :other_translations, ->(page) { where.not(locale: page.locale) },
     class_name: 'Page', foreign_key: 'name', inverse_of: false, primary_key: :name

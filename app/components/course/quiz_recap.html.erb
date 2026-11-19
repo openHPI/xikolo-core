@@ -1,0 +1,21 @@
+<div
+  data-controller="quiz-recap"
+  data-quiz-recap-url-value="<%= @url %>"
+>
+  <div
+    id="quiz-recap__loading-indicator"
+    data-quiz-recap-target="loadingIndicator"
+  >
+    <%= render State::Loading.new %>
+  </div>
+
+  <div
+    id="quiz-recap__empty-state"
+    data-quiz-recap-target="emptyState"
+    hidden
+  >
+    <%= render State::Empty.new(t(:'learn.empty_state')) %>
+  </div>
+
+  <div id="quiz-recap" data-quiz-recap-target="root"></div>
+</div>

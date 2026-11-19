@@ -1,0 +1,57 @@
+# syntax=docker/dockerfile:1
+# check=error=true
+
+ARG RUBY_VERSION=4.0.10
+FROM docker.io/library/ruby:$RUBY_VERSION-slim
+
+COPY packages.txt ./
+
+# Install system packages
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y sudo libjemalloc2 $(cat packages.txt) && \
+    ln -s /usr/lib/$(uname -m)-linux-gnu/libjemalloc.so.2 /usr/local/lib/libjemalloc.so && \
+    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
+# This brakes the E2E tests ...
+# ENV LD_PRELOAD="/usr/local/lib/libjemalloc.so"
+
+# Install Bun
+ENV BUN_INSTALL=/usr/local/bun
+ENV PATH=/usr/local/bun/bin:$PATH
+ARG BUN_VERSION=1.3.6
+RUN curl -fsSL https://bun.sh/install | bash -s -- "bun-v${BUN_VERSION}"
+
+# Chrome 158 rejects the wildcard storage origin used by Capybara 3.40's session reset.
+ARG CHROME_VERSION=157.0.8103.78
+RUN apt-get update -qq && \
+  apt-get install --no-install-recommends -y \
+    fonts-liberation libasound2t64 libatk-bridge2.0-0t64 libatk1.0-0t64 libatspi2.0-0t64 \
+    libcairo2 libcups2t64 libdbus-1-3 libdrm2 libgbm1 libglib2.0-0t64 libgtk-3-0t64 \
+    libnspr4 libnss3 libpango-1.0-0 libvulkan1 libx11-6 libxcb1 libxcomposite1 \
+    libxdamage1 libxext6 libxfixes3 libxkbcommon0 libxrandr2 xdg-utils && \
+  chrome_download_url="https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64" && \
+  curl -fsSL "$chrome_download_url/chrome-linux64.zip" -o /tmp/chrome.zip && \
+  curl -fsSL "$chrome_download_url/chromedriver-linux64.zip" -o /tmp/chromedriver.zip && \
+  unzip -q /tmp/chrome.zip -d /opt/chrome && \
+  unzip -q /tmp/chromedriver.zip -d /opt/chrome && \
+  mv /opt/chrome/chrome-linux64/chrome_sandbox /opt/chrome/chrome-linux64/chrome-sandbox && \
+  chmod 4755 /opt/chrome/chrome-linux64/chrome-sandbox && \
+  ln -s /opt/chrome/chrome-linux64/chrome /usr/bin/google-chrome && \
+  ln -s /opt/chrome/chromedriver-linux64/chromedriver /usr/local/bin/chromedriver && \
+  rm -rf /tmp/chrome.zip /tmp/chromedriver.zip /var/lib/apt/lists /var/cache/apt/archives
+
+ENV SE_CHROMEDRIVER=/usr/local/bin/chromedriver
+
+# Add non-root user for chrome test execution
+RUN groupadd --gid 1000 app \
+  && useradd --uid 1000 --gid app --create-home --shell /bin/bash app \
+  && mkdir -p /home/app/.cache /home/app/.config \
+  && chown -R app:app /home/app
+
+# Configure sudo for app user (needed for GitLab CI workspace permissions)
+RUN echo "app ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/app \
+  && chmod 0440 /etc/sudoers.d/app
+
+ENV HOME=/home/app
+
+USER app

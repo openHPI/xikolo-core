@@ -39,6 +39,13 @@ end
 
     Keep controllers RESTful. If a route does not naturally fit a REST action, reconsider whether it belongs in the current controller.
 
+## Forms
+
+**simple_form is deprecated.** Use the built-in [Action View Form Helpers](https://guides.rubyonrails.org/form_helpers.html) instead.
+
+- Use `form_with` for forms, `text_field`, `check_box`, `select`, etc. for inputs
+- Migrate existing simple_form usage when touching those views
+
 ## Foreign keys
 
 Historically, Xikolo used a microservice architecture where each service had its own database, which made it impossible to use foreign keys. Since the databases have been consolidated, this limitation no longer applies, and using foreign keys is now recommended.
@@ -47,10 +54,6 @@ Historically, Xikolo used a microservice architecture where each service had its
 
 [Rails guides](https://guides.rubyonrails.org/active_record_migrations.html#foreign-keys)
 
-## Restify over Acfs
+## Restify and Acfs
 
-The goal is to replace [Acfs](https://github.com/jgraichen/acfs) resources with [Restify](https://github.com/jgraichen/restify). When adding a feature to a service that still uses Acfs, use Restify to avoid increasing the migration workload.
-
-!!! note
-
-    The long-term goal is to fold in the remaining services. Eventually, neither Acfs nor Restify will be required.
+Restify and Acfs are deprecated. Don’t introduce new calls. Use the corresponding namespaced ActiveRecord models, associations, scopes, and operations. For AI guided restify refactorings, use the `restify-to-ar-migration` skill.

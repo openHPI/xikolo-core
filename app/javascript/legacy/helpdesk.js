@@ -1,14 +1,36 @@
 import $ from 'jquery';
 import fetch from '../util/fetch';
-import ready from '../util/ready';
+import { turboReady } from '../util/ready';
 import handleError from '../util/error';
 
-await ready(() => {
-  let newSession = true;
-  // Generate a new "session" identifier so that we can relate tracking events to each other
-  const helpdeskSession = Math.random().toString(36).substr(2, 12);
+// Module-level state so turbo:before-cache can reset all session vars
+let newSession = true;
+let helpdeskStatus = 'default';
+let helpDeskTabOpen = false;
 
+// Register the cache-clearing listener at module scope (runs once on first
+// import). A turbo:before-cache handler lets us clean the helpdesk DOM and
+// reset session state before Turbo caches the page, so no stale reCAPTCHA
+// widget or half-finished form is ever reused after navigation.
+document.addEventListener('turbo:before-cache', () => {
+  $('#helpdesk-panel').hide();
+  $('#helpdesk-ajax-container').empty();
+  $('.grecaptcha-badge').remove();
+  newSession = true;
+  helpdeskStatus = 'default';
+  helpDeskTabOpen = false;
+});
+
+turboReady(() => {
   const load = function (helpdeskType = '') {
+    $('#helpdesk-panel__loading').show();
+
+    try {
+      window.grecaptcha?.reset();
+    } catch (error) {
+      // grecaptcha may not be loaded yet — will be created on next render
+      handleError('grecaptcha not loaded yet', error);
+    }
     $('#helpdesk-ajax-container').load(helpdeskURL(helpdeskType), function () {
       if ($('#course_id_container').text()) {
         $('select#category').val($('#course_id_container').text()).change();
@@ -84,12 +106,6 @@ await ready(() => {
             helpdeskStatus = `success-${helpdeskStatus}`;
 
             helpdeskForm.reset();
-
-            track('helpdesk_ticket_created', {
-              report: report,
-              topic: category,
-              question: title,
-            });
           }
         } catch (error) {
           fadeInResult();
@@ -135,24 +151,6 @@ await ready(() => {
     });
   };
 
-  const track = function (verb, context) {
-    // We currently cannot track events for guest users
-    if (!window.gon.user_id) return;
-
-    context['helpdesk_session_id'] = helpdeskSession;
-    context['language'] = I18n.locale;
-
-    $(document).trigger('track-event', {
-      verb: verb,
-      resource: window.location.pathname,
-      resourceType: 'page',
-      inContext: context,
-    });
-  };
-
-  let helpdeskStatus = 'default';
-  let helpDeskTabOpen = false;
-
   // Global method to allow opening the helpdesk from static links, e.g. in the footer
   window.openHelpdeskLayer = function () {
     // load helpdesk initially
@@ -162,16 +160,12 @@ await ready(() => {
     }
     helpDeskTabOpen = true;
 
-    track('helpdesk_opened', {});
     $('#helpdesk-panel').show();
-    $('#helpdesk-panel__loading').show();
     $('#helpdesk-panel .helpdesk-default-box').show();
     $('#helpdesk-panel .helpdesk-result-box').hide();
   };
 
   function closeHelpdeskLayer() {
-    track('helpdesk_closed', {});
-
     $('#helpdesk-panel').hide();
 
     if (helpdeskStatus === 'default') {

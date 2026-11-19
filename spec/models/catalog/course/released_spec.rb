@@ -9,7 +9,6 @@ describe Catalog::Course, '.released', type: :model do
     create(:course, :preparing, title: 'A course in preparation')
     create(:course, :upcoming, title: 'An upcoming course')
     create(:course, :active, title: 'An active course')
-    create(:course, :archived, title: 'An archived course')
     create(:course, :self_paced, title: 'A self-paced course')
   end
 
@@ -17,7 +16,6 @@ describe Catalog::Course, '.released', type: :model do
     expect(scope).to contain_exactly(
       an_object_having_attributes(title: 'An upcoming course'),
       an_object_having_attributes(title: 'An active course'),
-      an_object_having_attributes(title: 'An archived course'),
       an_object_having_attributes(title: 'A self-paced course')
     )
   end

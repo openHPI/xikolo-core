@@ -20,7 +20,7 @@ class Admin::VideoProvidersController < Abstract::FrontendController
     if @provider.save
       redirect_to admin_video_providers_path, status: :see_other
     else
-      render 'new', status: :unprocessable_entity
+      render 'new', status: :unprocessable_content
     end
   end
 
@@ -57,6 +57,6 @@ class Admin::VideoProvidersController < Abstract::FrontendController
     type = params[:video_provider][:provider_type]
     handler = Video::Provider.new(provider_type: type).type
 
-    params["video_provider_credentials_#{type}"].permit(handler.credential_attributes)
+    params["video_provider_credentials_#{type}"]&.permit(handler.credential_attributes) || {}
   end
 end

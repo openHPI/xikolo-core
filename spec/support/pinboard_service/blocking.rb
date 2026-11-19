@@ -24,6 +24,14 @@ shared_examples 'a reportable' do |reportable_class|
     it { is_expected.to be_falsy }
 
     context 'when reported enough times' do
+      subject do
+        3.times do
+          create(:'pinboard_service/abuse_report', reportable:)
+        end
+
+        reportable.auto_blocked?
+      end
+
       before do
         Stub.request(
           :account, :get, '/groups/course.the_course.admins'
@@ -41,22 +49,13 @@ shared_examples 'a reportable' do |reportable_class|
           id: reportable.course_id,
           course_code: 'the_course',
         })
-
-        allow(Msgr).to receive(:publish)
-
-        3.times do
-          create(:'pinboard_service/abuse_report', reportable:)
-        end
       end
 
       it { is_expected.to be_truthy }
 
       it 'notifies other services about the auto block' do
-        expect(Msgr).to have_received(:publish).twice.with(
-          hash_including(key: 'pinboard.blocked_item'),
-          to: 'xikolo.notification.notify'
-        )
-        subject
+        expect { subject }.to have_enqueued_job(NotificationService::SendNotificationJob)
+          .with(a_hash_including(key: 'pinboard.blocked_item')).at_least(:once)
       end
     end
   end

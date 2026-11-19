@@ -9,6 +9,9 @@ class Xikolo::Quiz::Quiz < Acfs::Resource
   attribute :unlimited_time, :boolean, default: false
   attribute :allowed_attempts, :integer
   attribute :unlimited_attempts, :boolean, default: false
+  attribute :question_pool, :boolean, default: false
+  attribute :displayed_question_count, :integer
+  attribute :pass_percentage, :integer
   attribute :max_points, :float
   attribute :current_allowed_attempts, :integer
   attribute :current_unlimited_attempts, :boolean

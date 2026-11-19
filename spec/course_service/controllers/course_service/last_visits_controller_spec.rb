@@ -10,7 +10,7 @@ describe CourseService::LastVisitsController, type: :controller do
   let(:json) { JSON.parse response.body }
 
   let!(:course) { create(:'course_service/course') }
-  let(:user_id) { generate(:user_id) }
+  let(:user_id) { create(:'account_service/user').id }
 
   let(:section1) { create(:'course_service/section', course:, position: 1, start_date: 10.days.ago.iso8601) }
   let(:item11) { create(:'course_service/item', section: section1, position: 1) }

@@ -14,7 +14,7 @@ describe CourseService::Structure::UserItemsSelector, type: :model do
 
   let(:node) { course.node }
   let(:course) { create(:'course_service/course', :with_content_tree) }
-  let(:user_id) { generate(:user_id) }
+  let(:user_id) { create(:'account_service/user').id }
 
   context 'with simple course content tree' do
     let(:s1) { create(:'course_service/section', course:) }
@@ -86,9 +86,9 @@ describe CourseService::Structure::UserItemsSelector, type: :model do
     end
 
     it 'assigns the user to a content test group' do
-      expect { selector.items }.to change(CourseService::Duplicated::Membership, :count).from(0).to(1)
+      expect { selector.items }.to change(AccountService::Membership, :count).from(0).to(1)
 
-      CourseService::Duplicated::Membership.take.tap do |membership|
+      AccountService::Membership.take.tap do |membership|
         expect(membership.user_id).to eq user_id
         expect(membership.group_id).to eq f1.branches[0].group_id
       end
@@ -100,14 +100,14 @@ describe CourseService::Structure::UserItemsSelector, type: :model do
 
     context 'with existing membership' do
       before do
-        CourseService::Duplicated::Membership.create!(
+        AccountService::Membership.create!(
           group_id: f1.branches[1].group_id,
           user_id:
         )
       end
 
       it 'does not assign the user to any other group' do
-        expect { selector.items }.not_to change(CourseService::Duplicated::Membership, :count)
+        expect { selector.items }.not_to change(AccountService::Membership, :count)
       end
 
       it 'returns items from all sections and assigned branches' do
@@ -127,7 +127,7 @@ describe CourseService::Structure::UserItemsSelector, type: :model do
       let(:user_id) { 'anonymous' }
 
       it 'does not assign the user to a content test group' do
-        expect { selector.items }.not_to change(CourseService::Duplicated::Membership, :count).from(0)
+        expect { selector.items }.not_to change(AccountService::Membership, :count).from(0)
       end
 
       it 'returns items from all sections but no branch items' do

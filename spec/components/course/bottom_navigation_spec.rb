@@ -3,111 +3,66 @@
 require 'spec_helper'
 
 describe Course::BottomNavigation, type: :component do
-  subject(:component) { described_class.new(course_id: course.id, prev_item_id:, next_item_id:) }
+  subject(:component) { described_class.new(**links) }
 
-  let(:course) { create(:course) }
-  let(:section) { create(:section, course_id: course.id) }
+  let(:previous_link) { {url: '/learn/example/items/previous', title: 'Introduction', icon: 'video'} }
+  let(:next_link) { {url: '/learn/example/items/next', title: 'Practice', icon: 'text'} }
 
-  context 'when a section has multiple items' do
-    let(:item_1) { create(:item, title: 'Item 1', section_id: section.id) }
-    let(:item_2) { create(:item, title: 'Item 2', section_id: section.id) }
-    let(:item_3) { create(:item, title: 'Item 3', section_id: section.id) }
+  context 'with a next link only' do
+    let(:links) { {next_link:} }
 
-    before do
-      item_1
-      item_2
-      item_3
-    end
-
-    context 'with a next item only' do
-      let(:prev_item_id) { nil }
-      let(:next_item_id) { item_2.id }
-
-      it 'links to the next item only' do
-        render_inline(component)
-        expect(page).to have_text 'Item 2'
-        expect(page).to have_text 'Next'
-        expect(page).to have_no_text 'Previous'
-      end
-    end
-
-    context 'with previous & next items' do
-      let(:prev_item_id) { item_1.id }
-      let(:next_item_id) { item_3.id }
-
-      it 'links to both the previous & the next item' do
-        render_inline(component)
-        expect(page).to have_text 'Item 1'
-        expect(page).to have_text 'Item 3'
-        expect(page).to have_text 'Next'
-        expect(page).to have_text 'Previous'
-      end
-    end
-
-    context 'with a previous item only' do
-      let(:prev_item_id) { item_2.id }
-      let(:next_item_id) { nil }
-
-      it 'links to the previous item only' do
-        render_inline(component)
-        expect(page).to have_text 'Item 2'
-        expect(page).to have_no_text 'Next'
-        expect(page).to have_text 'Previous'
-      end
-    end
-  end
-
-  context 'when a section has multiple items with varying item content types' do
-    let(:item_1) { create(:item, section_id: section.id, content_type: 'quiz', exercise_type: 'bonus') } # 'lightbulb-on+circle-star'
-    let(:item_2) { create(:item, section_id: section.id, content_type: 'video') } # 'video'
-    let(:item_3) { create(:item, section_id: section.id, content_type: 'rich_text') } # 'file-lines'
-
-    before do
-      item_1
-      item_2
-      item_3
-    end
-
-    context 'with item 2 as the current item' do
-      let(:prev_item_id) { item_1.id }
-      let(:next_item_id) { item_3.id }
-
-      it 'renders the correct icon for the previous item (item 1)' do
-        render_inline(component)
-        expect(page).to have_css '.fa-lightbulb-on'
-        expect(page).to have_css '.fa-circle-star'
-      end
-
-      it 'renders the correct icon for the next item (item 3)' do
-        render_inline(component)
-        expect(page).to have_css '.fa-file-lines'
-      end
-    end
-
-    context 'with item 3 as the current item' do
-      let(:prev_item_id) { item_2.id }
-      let(:next_item_id) { nil }
-
-      it 'renders the correct icon for the previous item (item 2)' do
-        render_inline(component)
-        expect(page).to have_css '.fa-video'
-      end
-    end
-  end
-
-  context 'when a section has only one item' do
-    let(:item_1) { create(:item, title: 'Item 1', section_id: section.id) }
-    let(:prev_item_id) { nil }
-    let(:next_item_id) { nil }
-
-    before do
-      item_1
-    end
-
-    it 'does not display any navigation' do
+    it 'renders the supplied destination, title, and icon' do
       render_inline(component)
-      expect(page).to have_no_text 'Previous'
-      expect(page).to have_no_text 'Next'
+
+      expect(page).to have_link('Next', href: next_link[:url])
+      expect(page).to have_css('a[aria-label="Next: Practice"]')
+      expect(page).to have_css('svg', count: 2)
+      expect(page).to have_no_link('Previous')
+    end
+  end
+
+  context 'with both links' do
+    let(:links) { {previous_link:, next_link:} }
+
+    it 'renders both destinations with direction-specific labels' do
+      render_inline(component)
+
+      expect(page).to have_link('Previous', href: previous_link[:url])
+      expect(page).to have_link('Next', href: next_link[:url])
+      expect(page).to have_css('a[aria-label="Previous: Introduction"]')
+    end
+  end
+
+  context 'with a previous link only' do
+    let(:links) { {previous_link:} }
+
+    it 'renders the previous destination only' do
+      render_inline(component)
+
+      expect(page).to have_link('Previous', href: previous_link[:url])
+      expect(page).to have_no_link('Next')
+    end
+  end
+
+  context 'without links' do
+    let(:links) { {} }
+
+    it 'does not render' do
+      render_inline(component)
+
+      expect(page).to have_no_css('a')
+      expect(component.render?).to be false
+    end
+  end
+
+  context 'with section links' do
+    let(:links) { {previous_link: previous_link.merge(section: true), next_link: next_link.merge(section: true)} }
+
+    it 'uses the module labels for both directions' do
+      render_inline(component)
+
+      expect(page).to have_link(I18n.t('items.show.prev_section_item'), href: previous_link[:url])
+      expect(page).to have_link(I18n.t('items.show.next_section_item'), href: next_link[:url])
     end
   end
 end

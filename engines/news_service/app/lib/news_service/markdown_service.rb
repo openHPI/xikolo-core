@@ -4,7 +4,8 @@ module NewsService
 module MarkdownService # rubocop:disable Layout/IndentationWidth
   class << self
     def render_html(text)
-      renderer.render text
+      externalized = Xikolo::S3.externalize_file_refs(text, public: true)
+      renderer.render externalized
     end
 
     private
@@ -12,7 +13,7 @@ module MarkdownService # rubocop:disable Layout/IndentationWidth
     def renderer
       @renderer ||= Redcarpet::Markdown.new(
         Redcarpet::Render::HTML.new(
-          no_images: true,
+          no_images: false,
           no_links: false,
           filter_html: true
         ),

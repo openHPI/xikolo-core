@@ -12,8 +12,7 @@ describe Certificate::RecordRenderer do
       template_path:,
       dynamic_content:,
       qrcode_pos: {x: 100, y: 100},
-      qrcode_url: 'http://qrcode_url',
-      transcript_of_records:)
+      qrcode_url: 'http://qrcode_url')
   end
   let(:template_path) { Rails.root.join('spec', 'support', 'files', 'certificate', 'template.pdf') }
   let(:dynamic_content) do
@@ -27,7 +26,6 @@ describe Certificate::RecordRenderer do
       </svg>
     DYN_CONTENT
   end
-  let(:transcript_of_records) { nil }
 
   describe '.as_pdf' do
     it 'renders the dynamic content' do
@@ -36,32 +34,6 @@ describe Certificate::RecordRenderer do
 
     it 'uses the template file' do
       expect(pdf_content).to include 'Weske'
-    end
-
-    context 'for Transcript of Records' do
-      let(:transcript_of_records) do
-        [
-          ['Course', 'Score'],
-          ['Internet Security', '60.0%'],
-          ['Overall score', '60.0%'],
-        ]
-      end
-
-      before do
-        xi_config <<~YML
-          certificate:
-            transcript_of_records:
-              table_x: 200
-              table_y: 500
-              course_col_width: 300
-              score_col_width: 70
-              font_size: 10
-        YML
-      end
-
-      it 'renders the transcript table' do
-        expect(pdf_content).to include('Course Score Internet Security 60.0% Overall score 60.0%')
-      end
     end
   end
 
@@ -91,7 +63,6 @@ describe Certificate::RecordRenderer do
     context 'with custom font configuration' do
       before do
         xi_config <<~YML
-          brand: the-brand
           certificate:
             fonts:
               ComicSans: comic_sans.ttf
@@ -99,17 +70,11 @@ describe Certificate::RecordRenderer do
         YML
       end
 
-      after do
-        xi_config <<~YML
-          brand: xikolo
-        YML
-      end
-
       it 'uses the configured fonts from the brand directory' do
         expect(fonts).to eq(
           {
-            'ComicSans' => "#{Rails.root}/brand/the-brand/assets/fonts/comic_sans.ttf",
-            'ComicSansBold' => "#{Rails.root}/brand/the-brand/assets/fonts/comic_sans_bold.ttf",
+            'ComicSans' => "#{Rails.root}/app/assets/fonts/comic_sans.ttf",
+            'ComicSansBold' => "#{Rails.root}/app/assets/fonts/comic_sans_bold.ttf",
           }
         )
       end

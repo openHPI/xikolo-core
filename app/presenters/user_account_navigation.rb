@@ -21,7 +21,6 @@ class UserAccountNavigation < MenuWithPermissions
     route: :dashboard_documents
 
   item 'header.navigation.achievements', 'trophy',
-    if: ->(user, _course) { user.feature?('gamification') },
     route: :dashboard_achievements
 
   item 'header.navigation.settings', 'gear',

@@ -1,0 +1,131 @@
+<div data-testid="course-details-card" class="x-card bg-base-100 border-base-200 border shadow-sm">
+  <div class="flex flex-col gap-2 p-4 lg:flex-row lg:gap-8 lg:p-6">
+    <div class="relative h-52.5 shrink-0 overflow-hidden rounded-2xl lg:h-auto lg:w-89">
+      <%= render Course::CourseVisual.new(
+        @course.visual_url,
+        width: VISUAL_WIDTH,
+        css_classes: 'size-full object-cover',
+      ) %>
+
+      <% if course_format %>
+        <span class="x-badge x-badge-neutral x-badge-xs pointer-events-none absolute top-4 left-4">
+          <%= course_format %>
+        </span>
+      <% end %>
+    </div>
+
+    <div class="flex min-w-0 flex-1 flex-col gap-2 lg:gap-4 lg:py-4">
+      <div class="flex flex-col gap-2">
+        <% if classifier_titles.any? %>
+          <ul class="mb-0! flex flex-wrap gap-2 py-2 lg:pt-0.5 lg:pb-0" aria-label="<%= t('course.details_card.categories') %>">
+            <% classifier_titles.each do |title| %>
+              <li class="x-badge x-badge-soft x-badge-xs"><%= title %></li>
+            <% end %>
+          </ul>
+        <% end %>
+
+        <h2 class="text-3xl font-medium max-lg:hidden" <%= tag.attributes(lang: @course.lang) %>>
+          <%= @course.title %>
+        </h2>
+      </div>
+
+      <div class="flex flex-col gap-2 pb-2 lg:pb-0">
+        <div
+          data-controller="read-more"
+          data-read-more-clamped-class="line-clamp-3"
+          class="flex items-start gap-4"
+        >
+          <div
+            id="<%= abstract_id %>"
+            data-read-more-target="content"
+            class="prose prose-sm prose-p:my-0 line-clamp-3 max-w-none min-w-0 flex-1 leading-5"
+            <%= tag.attributes(lang: @course.lang) %>
+          >
+            <%== @course.abstract_html %>
+          </div>
+
+          <button
+            type="button"
+            data-read-more-target="button"
+            data-action="read-more#toggle"
+            aria-controls="<%= abstract_id %>"
+            aria-expanded="false"
+            class="shrink-0 cursor-pointer"
+            hidden
+          >
+            <span data-read-more-target="moreLabel">
+              <%= helpers.pixelart_icon('chevron-down', css_class: 'size-6') %>
+              <span class="sr-only"><%= t('global.read_more') %></span>
+            </span>
+
+            <span data-read-more-target="lessLabel" hidden>
+              <%= helpers.pixelart_icon('chevron-up', css_class: 'size-6') %>
+              <span class="sr-only"><%= t('global.read_less') %></span>
+            </span>
+          </button>
+        </div>
+
+        <% if meta_info.any? %>
+          <p class="text-base-content/50 text-xs"><%= meta_info.join(' | ') %></p>
+        <% end %>
+      </div>
+
+      <div class="flex flex-col gap-2 lg:mt-auto lg:flex-row lg:flex-wrap lg:items-end lg:pt-4">
+        <% if show_teaser_button? %>
+          <a href="#course-teaser" class="x-btn x-btn-outline"><%= t('course.details_card.view_teaser') %></a>
+        <% end %>
+
+        <% if @course.external? %>
+          <%= link_to t(:'courses.preview.button_goto_external'),
+            @course.external_course_url,
+            class: 'x-btn x-btn-primary btn-external-course',
+            target: '_blank',
+            rel: 'noopener' %>
+        <% elsif @course.enrolled? %>
+          <%= link_to t('course.details_card.unenroll'),
+            enrollment_path(@course.enrollment_id),
+            method: 'delete',
+            class: 'x-btn x-btn-outline' %>
+
+          <% if @course.mark_completed? %>
+            <%= link_to t(:'dashboard.mark_completed'),
+              complete_enrollment_path(@course.enrollment),
+              method: :post,
+              class: 'x-btn x-btn-outline',
+              data: {confirm: t(:'dashboard.mark_completed_confirmation')} %>
+          <% end %>
+
+          <% if @course.access_allowed? %>
+            <%= link_to t('course.details_card.resume'), course_resume_path(@course), class: 'x-btn x-btn-primary' %>
+          <% end %>
+        <% elsif !@course.invite_only? %>
+          <%= link_to t('course.details_card.enroll'),
+            enrollments_path(course_id: @course.course_code),
+            method: :get,
+            data: {behavior: 'disable-after-click'},
+            class: 'x-btn x-btn-primary' %>
+        <% end %>
+
+        <% if @course.reactivate? %>
+          <%= link_to t(:'courses.preview.button_reactivate_course'),
+            course_redeem_voucher_path(course_id: @course.course_code, product: 'course_reactivation'),
+            class: 'x-btn x-btn-outline' %>
+        <% end %>
+
+        <% if start_countdown_secs %>
+          <div
+            data-controller="hide-closest"
+            data-action="countdown:done->hide-closest#hide"
+            class="order-first flex flex-col items-end gap-1 pb-2 lg:order-none lg:ml-auto lg:items-stretch lg:pb-0"
+          >
+            <p class="text-base-content/50 text-xs" aria-hidden="true"><%= t('course.details_card.starts_in') %></p>
+            <%= render Course::Countdown.new(start_countdown_secs, variant: :labeled) %>
+            <p class="sr-only">
+              <%= t('course.details_card.starts_on', date: l(@course.effective_start_date, format: :short_datetime)) %>
+            </p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

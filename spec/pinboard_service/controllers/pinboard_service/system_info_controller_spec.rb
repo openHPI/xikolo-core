@@ -7,7 +7,7 @@ describe PinboardService::SystemInfoController, type: :controller do
   subject(:system_info) { JSON.parse(response.body) }
 
   let(:default_params) { {format: 'json'} }
-  let(:params)  { {} }
+  let(:params) { {} }
 
   describe 'GET show' do
     before do

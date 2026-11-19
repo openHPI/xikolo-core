@@ -1,25 +1,20 @@
 # frozen_string_literal: true
 
 class Admin::CourseForm < XUI::Form
-  extend ChannelHelper
-
   self.form_name = 'course'
 
   attribute :id, :uuid
   attribute :title, :single_line_string
   attribute :course_code, :single_line_string
+  attribute :course_format, :single_line_string, default: 'course'
   attribute :abstract, :markup
   attribute :description, :markup,
     uploads: {purpose: 'course_course_description'}
-  attribute :target_groups, :list, subtype: :single_line_string, default: []
   attribute :learning_goals, :list, subtype: :single_line_string, default: []
   attribute :alternative_teacher_text, :single_line_string
-  attribute :status, :single_line_string, default: 'preparation'
   attribute :lang, :single_line_string
   attribute :enrollment_delta, :integer, default: 0
   attribute :channel_ids, :list, subtype: :uuid, default: []
-  attribute :show_on_stage, :boolean, default: false
-  attribute :stage_statement, :markup
   attribute :teacher_ids, :list, subtype: :uuid, default: []
 
   attribute :start_date, :datetime
@@ -40,28 +35,11 @@ class Admin::CourseForm < XUI::Form
   attribute :forum_is_locked, :boolean
   attribute :groups, :list, subtype: :single_line_string, default: []
   attribute :enable_video_download, :boolean
-  attribute :hidden, :boolean
-  attribute :show_on_list, :boolean, default: true
   attribute :invite_only, :boolean
-  localized_attribute :external_registration_url, :uri
-  attribute :show_syllabus, :boolean, default: true
-  attribute :auto_archive, :boolean, default: true
   attribute :on_demand, :boolean, default: false
-  attribute :proctored, :boolean, default: false
-  localized_attribute :policy_url, :uri
-
-  attribute :rating_stars, :float
-  attribute :rating_votes, :integer
-
-  attribute :stage_visual_upload_id, :upload,
-    purpose: :course_course_stage_visual,
-    image_width: stage_min_width,
-    image_height: stage_min_height
-
-  STATES = %w[preparation active archive].freeze
-
-  validates :status, presence: true, inclusion: {in: STATES, message: I18n.t(:'.errors.messages.course.status.invalid')}
-  validates :course_code, presence: true, format: /\A[\w\-]+\z/
+  attribute :published, :boolean, default: false
+  attribute :placement, :list, subtype: :single_line_string, default: []
+  validates :course_code, presence: true, format: /\A[\w-]+\z/
   validates :title, presence: true
   validates :lang, presence: true
   validates :description, presence: true
@@ -94,7 +72,7 @@ class Admin::CourseForm < XUI::Form
   end
 
   def clusters
-    @clusters ||= Course::Cluster.all
+    @clusters ||= CourseService::Cluster.all
   end
 
   def cluster_keys

@@ -17,12 +17,6 @@ See below for explanations on [managing feature flippers](#manage-feature-flippe
 
 ## List of features
 
-`account.registration`
-
-:   Enable (native) platform registration: This will show the registration form and the respective button for the login form.
-
-    *Scope:* `Group.all_users`, `Context.root`
-
 `admin_announcements` :material-test-tube:
 
 :   Enable the new admin-only announcement overview (accessible via platform admin menu).
@@ -57,18 +51,6 @@ See below for explanations on [managing feature flippers](#manage-feature-flippe
 
     *Scope:* `Group.administrators`, `Context.root`
 
-`course_rating`
-
-:   Enable the course rating widget on the course details pages.
-
-    *Scope:* `Group.all_users`, `Context.root`
-
-`gamification`
-
-:   Enable gamification for the platform (e.g., XP in navigation and user badges in the discussion forum).
-
-    *Scope:* `Group.all_users`, `Context.root`
-
 `ical_feed`
 
 :   Enable the iCal feed for the user's next (course) dates (button on the dashboard).
@@ -84,12 +66,6 @@ See below for explanations on [managing feature flippers](#manage-feature-flippe
     !!! warning
 
         Do not enable this feature for staging / testing systems.
-
-`password_change.remove_sessions`
-
-:   Log out users on other browsers when they change their password in the profile.
-
-    *Scope:* `Group.all_users`, `Context.root`
 
 `primary_email_suspended` :material-code-tags-check:
 
@@ -111,21 +87,9 @@ See below for explanations on [managing feature flippers](#manage-feature-flippe
 
         :material-layers-outline: Should be disabled on "headless" platforms that sit behind a custom portal.
 
-`quiz_recap`
-
-:   Enable the quiz recap feature in the course area.
-
-    *Scope:* `Group.all_users`, `Context.root`
-
 `records.exclude_birthdate` :material-test-tube:
 
 :   Hide notes / hints about the preference to display a user's birthdate on records.
-
-    *Scope:* `Group.all_users`, `Context.root`
-
-`video_slide_thumbnails` :material-test-tube:
-
-:   Enable slide thumbnails in the video player.
 
     *Scope:* `Group.all_users`, `Context.root`
 

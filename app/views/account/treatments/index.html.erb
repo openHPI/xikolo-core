@@ -1,0 +1,43 @@
+<div class="col-md-6 col-md-offset-3">
+  <%= form_for :treatments, url: consent_treatments_path, method: :post do |f| %>
+    <% if @required_consents.any? %>
+      <h2 class="h2"><%= t(:'account.treatments.index.mandatory.headline') %></h2>
+      <div class="login-box mb30">
+        <div class="row">
+          <div class="col-sm-2 large-icon">
+            <%= render Global::FaIcon.new('file-lines') %>
+          </div>
+          <div class="col-sm-10">
+            <p>
+              <%= t(:'account.treatments.index.mandatory.instructions') %>
+              <div class="mt-4 space-y-4">
+                <%= render 'account/shared/consent', consents: @required_consents %>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    <% if @consents.any? %>
+      <h2 class="h2"><%= t(:'account.treatments.index.optional.headline') %></h2>
+      <div class="login-box mb30">
+        <div class="row">
+          <div class="col-sm-2 large-icon">
+            <%= render Global::FaIcon.new('file-contract') %>
+          </div>
+          <div class="col-sm-10">
+            <p>
+              <%= t(:'account.treatments.index.optional.instructions') %>
+              <div class="mt-4 space-y-4">
+                <%= render 'account/shared/consent', consents: @consents %>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    <div>
+      <%= f.submit t(:'account.treatments.index.label.submit'), id: 'submit', class: 'btn btn-primary' %>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,6 @@
+<%# locals: (url:) %>
+<%= link_to url,
+  class: 'x-btn x-btn-neutral x-btn-outline w-full max-w-full rounded-2xl whitespace-normal' do %>
+  <%= render Global::FaIcon.new('money-check-pen', style: :solid, css_classes: 'hidden sm:inline') %>
+  <%= t(:'quiz_submission.quiz_results') %>
+<% end %>

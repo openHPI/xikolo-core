@@ -7,11 +7,11 @@ class Stream::DownloadsController < ApplicationController
     redirect_external download_link
   rescue Video::Vimeo::API::RequestTimeout
     add_flash_message :error, t(:'flash.error.download_not_refreshed')
-    redirect_back fallback_location: dashboard_url
+    redirect_back_or_to(dashboard_url)
   rescue Video::Download::QualityNotSupportedError, Video::Download::NoQualityAvailableError,
          Video::Download::VideoNotAvailableError
     add_flash_message :error, t(:'flash.error.download_not_available')
-    redirect_back fallback_location: dashboard_url
+    redirect_back_or_to(dashboard_url)
   end
 
   private

@@ -47,7 +47,7 @@ RSpec.describe 'GET /questions{?search}', type: :request do
       .to_return Stub.json({course_code: 'code2019', lang: 'en'})
 
     # Ensure above scheduled workers are run to build the search index
-    PinboardService::UpdateQuestionSearchTextWorker.drain
+    perform_enqueued_jobs(only: PinboardService::UpdateQuestionSearchTextJob)
   end
 
   it { is_expected.to respond_with :ok }

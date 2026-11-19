@@ -1,0 +1,127 @@
+<% unless quiz.nil? %>
+  <%= fields_for(quiz) do |q| %>
+    <div class="form-group markdown required xikolo_quiz_quiz_instructions" id="quiz_instructions_container">
+      <label class="col-lg-3 col-md-3 markdown required" for="markdown-input-instructions"><abbr title="<%= t('simple_form.required.text') %>"><%= t('simple_form.required.mark') %></abbr> <%= t(:'items.quiz.instruction') %></label>
+      <div class="col-lg-9 col-md-9">
+        <div>
+          <div class="markdown-editor markdown-editor--with-uploads" data-behavior="markdown-editor-wrapper" aria-busy="true">
+            <div class="upload_fields_wrapper">
+              <div class="upload_fields">
+                <%= q.hidden_field :instructions_urlmapping, value: '{}', id: 'markdown-input-instructions-urlmapping' %>
+                <%= q.hidden_field :instructions_otherfiles, value: '{}', id: 'markdown-input-instructions-otherfiles' %>
+                <%= q.text_area :instructions,
+                      class: 'markdown required',
+                      required: true,
+                      value: quiz['instructions'],
+                      dir: 'auto',
+                      id: 'markdown-input-instructions',
+                      data: {
+                        behavior: 'markdown-form-input',
+                        'upload-dropzone': '#xui-mdupload-instructions',
+                        'url-mapping': '#markdown-input-instructions-urlmapping',
+                        'other-files': '#markdown-input-instructions-otherfiles',
+                      } %>
+              </div>
+              <div data-behavior="markdown-editor-widget" data-image-upload="true">
+                <div class="x-skeleton h-75 w-full relative z-xs" data-behavior="markdown-editor-loading" aria-hidden="true"></div>
+              </div>
+              <button type="button" id="markdown-input-instructions-resize" class="markdown-editor__resize-btn" title="<%= t('components.markdown_editor.expand') %>" aria-label="<%= t('components.markdown_editor.expand') %>"></button>
+            </div>
+            <% upload = FileUpload.new(purpose: :quiz_quiz_instructions, content_type: 'image/*') %>
+            <div class="dropzone" id="xui-mdupload-instructions"
+              data-textarea-id="#markdown-input-instructions"
+              data-mdupload="<%= upload.url %>"
+              data-upload-id="<%= upload.id.to_s %>"
+              data-s3="<%= upload.fields.merge(key: upload.prefix, content_type: upload.content_type).to_json %>">
+              <div class="xui-mdupload-zone xui-upload-target">
+                <div class="dz-message"><%= t('simple_form.upload_file') %></div>
+              </div>
+            </div>
+          </div>
+          <p class="markdown-editor__error-message" data-behavior="markdown-editor-error" id="markdown-input-instructions-error"></p>
+        </div>
+      </div>
+    </div>
+    <%# We need the uncasted instructions value: Acfs calls `to_s` on the Hash
+      and returns a wrong value. quiz['instructions'] returns the value as it
+      was retrieved from the service.
+      This value option can probably be removed once quiz is no long an Acfs
+      resource. %>
+
+    <div class="form-group toggle_switch optional xikolo_quiz_quiz_unlimited_time">
+      <label class="col-lg-3 col-md-3 toggle_switch optional" for="unlimited-time-switch"><%= t(:'items.quiz.unlimited_time') %></label>
+      <div class="col-lg-9 col-md-9">
+        <div>
+          <%= q.check_box :unlimited_time, id: 'unlimited-time-switch', class: 'toggle_switch optional toggle-switch' %>
+          <label for="unlimited-time-switch" class="xikolo_quiz_quiz_unlimited_time"></label>
+        </div>
+      </div>
+    </div>
+
+    <div id="time_limit"<% if quiz.unlimited_time %> style="display: none;"<% end %>>
+      <div class="form-group integer required xikolo_quiz_quiz_time_limit_seconds">
+        <label class="col-lg-3 col-md-3 integer required" for="xikolo_quiz_quiz_time_limit_seconds"><abbr title="<%= t('simple_form.required.text') %>"><%= t('simple_form.required.mark') %></abbr> <%= t(:'items.quiz.time_limit') %></label>
+        <div class="col-lg-9 col-md-9">
+          <div>
+            <%= q.number_field :time_limit_seconds,
+                  type: 'number', min: '1', step: '1',
+                  value: quiz.time_limit_seconds || '3600',
+                  required: true,
+                  id: 'xikolo_quiz_quiz_time_limit_seconds',
+                  class: 'numeric integer required form-control' %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group toggle_switch optional xikolo_quiz_quiz_unlimited_attempts">
+      <label class="col-lg-3 col-md-3 toggle_switch optional" for="unlimited-attempts-switch"><%= t(:'items.quiz.unlimited_attempts') %></label>
+      <div class="col-lg-9 col-md-9">
+        <div>
+          <%= q.check_box :unlimited_attempts, id: 'unlimited-attempts-switch', class: 'toggle_switch optional toggle-switch' %>
+          <label for="unlimited-attempts-switch" class="xikolo_quiz_quiz_unlimited_attempts"></label>
+        </div>
+      </div>
+    </div>
+
+    <div id="attempts"<% if quiz.unlimited_attempts %> style="display: none;"<% end %>>
+      <div class="form-group integer required xikolo_quiz_quiz_allowed_attempts">
+        <label class="col-lg-3 col-md-3 integer required" for="allowed-attempts-input"><abbr title="<%= t('simple_form.required.text') %>"><%= t('simple_form.required.mark') %></abbr> <%= t(:'items.quiz.allowed_attempts') %></label>
+        <div class="col-lg-9 col-md-9">
+          <div>
+            <%= q.number_field :allowed_attempts,
+                  type: 'number', min: '1', step: '1',
+                  value: quiz.allowed_attempts || '1',
+                  required: true,
+                  id: 'allowed-attempts-input',
+                  class: 'numeric integer required form-control' %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
+<% unless item.new_record? %>
+  <template id="quiz_questions_wrapper" class="bs-container">
+    <% unless quiz.questions.nil? %>
+      <button id="toggle_quiz_uuids" class="btn btn-default btn-sm mb10" type="button">
+        <span id="show"><%= t(:'sections.show_uuids') %></span>
+        <span id="hide" hidden><%= t(:'sections.hide_uuids') %></span>
+      </button>
+      <ul class="sections">
+        <% quiz.questions.each_with_index do |quiz_question, index| %>
+          <%= render partial: 'items/quiz/quiz_question_editor_item', locals: { item:, index:, quiz_question: } %>
+        <% end %>
+      </ul>
+    <% end %>
+    <%= render 'quiz_questions/form',
+      item:,
+      quiz:,
+      quiz_question:,
+      multiple_choice_question:,
+      multiple_answer_question:,
+      free_text_question:,
+      essay_question: %>
+  </template>
+<% end %>

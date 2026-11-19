@@ -127,7 +127,7 @@ class Video::Store < ApplicationOperation
     # As a workaround and to not change the API contract by changing
     # fields, an unused dump attribute called :invalid_subtitle exists
     # to the Video model. TODO: Remove unused attribute :invalid_subtitle from the Video model
-    @video.subtitles.first.delete # We don't want to pass the current invalid subtitles to the next call of new
+    @video.subtitles.first.destroy # We don't want to pass the current invalid subtitles to the next call of new
     @errors << [:subtitles, I18n.t(
       'items.video.errors.invalid_subtitle',
       count: e.identifiers.length,

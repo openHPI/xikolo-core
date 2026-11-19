@@ -11,8 +11,10 @@ describe QuizService::EssayQuestionStats, type: :model do
 
     question = create(:'quiz_service/essay_question', id: question_id, quiz:)
 
-    submission1 = create(:'quiz_service/quiz_submission', :submitted, quiz:)
-    submission2 = create(:'quiz_service/quiz_submission', :submitted, quiz:)
+    user = create(:'account_service/user')
+
+    submission1 = create(:'quiz_service/quiz_submission', :submitted, quiz:, user:)
+    submission2 = create(:'quiz_service/quiz_submission', :submitted, quiz:, user:)
 
     qsq1 = create(
       :'quiz_service/quiz_submission_question',

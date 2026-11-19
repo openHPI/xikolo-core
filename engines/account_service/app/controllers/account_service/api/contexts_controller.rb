@@ -17,13 +17,13 @@ class API::ContextsController < API::RESTController # rubocop:disable Layout/Ind
     end
   end
 
+  def show
+    respond_with resource
+  end
+
   def create
     context = Context.create create_params.merge(parent: parent_context)
     respond_with context
-  end
-
-  def show
-    respond_with resource
   end
 
   def decorate(resources)

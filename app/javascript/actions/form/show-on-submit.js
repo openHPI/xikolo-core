@@ -8,9 +8,16 @@
  * The primary use case is showing a loading indicator when submitting forms,
  * e.g. with filter criteria.
  */
-import ready from '../../util/ready';
+import { turboReady } from '../../util/ready';
 
-ready(() => {
+document.addEventListener('turbo:before-cache', () => {
+  document.querySelectorAll('[data-show-on-submit]').forEach((el) => {
+    const target = document.querySelector(el.dataset.showOnSubmit);
+    if (target) target.hidden = true;
+  });
+});
+
+turboReady(() => {
   const forms = document.querySelectorAll('[data-show-on-submit]');
 
   forms.forEach((form) => {

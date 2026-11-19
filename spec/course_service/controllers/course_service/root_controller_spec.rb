@@ -21,7 +21,6 @@ describe CourseService::RootController, type: :controller do
     it { is_expected.to have_key 'enrollments_url' }
     it { is_expected.to have_key 'enrollment_url' }
     it { is_expected.to have_key 'repetition_suggestions_url' }
-    it { is_expected.to have_key 'prerequisite_status_url' }
   end
 
   describe 'response' do

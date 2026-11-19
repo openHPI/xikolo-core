@@ -2,7 +2,9 @@
 
 require 'spec_helper'
 
-context 'OpenHPI: Global Announcement Mail' do
+context 'OpenHPI: Global Announcement Mail', type: :job do
+  include ActiveJob::TestHelper
+
   let(:author_id) { '00000001-3100-4444-9999-000000000002' }
   let(:richtext_id) { '00000001-3700-4444-9999-000000000025' }
   let(:user_kevin_language) { 'en' }
@@ -24,10 +26,10 @@ context 'OpenHPI: Global Announcement Mail' do
       timestamp: Time.zone.now,
     }
   end
-  let(:publish) { -> { Msgr.publish(message, to: 'xikolo.news.announcement.create') } }
 
   before do
-    Msgr.client.start
+    clear_enqueued_jobs
+    clear_performed_jobs
 
     # prepare mail for display
     # find author name
@@ -121,11 +123,40 @@ context 'OpenHPI: Global Announcement Mail' do
       {id: '00000009-9999-4444-9999-000000000004'},
     ])
 
-    publish.call
-    Msgr::TestPool.run count: 3
+    allow(I18n).to receive(:t).and_return('Subject')
   end
 
-  it 'includes the openHPI footer' do
-    expect(conv_str(mail.html_part)).to include('Geschäftsführung: Prof. Dr. Tobias Friedrich, Dr. Henrik Haenecke')
+  context 'SendAnnouncementJob enqueuing' do
+    before do
+      NotificationService::AnnouncementJob.perform_later(message)
+
+      perform_enqueued_jobs
+    end
+
+    it 'enqueues the correct number of SendAnnouncementJobs' do
+      send_jobs = enqueued_jobs.select {|j| j[:job] == NotificationService::SendAnnouncementJob }
+      expect(send_jobs.size).to eq(users.size)
+    end
+  end
+
+  context 'checking the mail content' do
+    before do
+      perform_enqueued_jobs(
+        only: [
+          NotificationService::AnnouncementJob,
+          NotificationService::SendAnnouncementJob,
+        ]
+      ) do
+        NotificationService::AnnouncementJob.perform_later(message)
+      end
+    end
+
+    it 'includes the openHPI footer' do
+      mail = ActionMailer::Base.deliveries.last
+      expect(mail).not_to be_nil
+      expect(conv_str(mail.html_part)).to include('Prof. Dr. Tobias Friedrich')
+        .and(include('Dr. Daniela Gerd tom Markotten'))
+        .and(include('Dr. Henrik Haenecke'))
+    end
   end
 end

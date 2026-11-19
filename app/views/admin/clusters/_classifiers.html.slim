@@ -19,7 +19,7 @@
           td.text-align-right.nowrap
             - if current_user.allowed? 'course.cluster.manage'
               = link_to t(:'admin.classifiers.actions.edit'), edit_admin_cluster_classifier_path(cluster, classifier), class: 'btn btn-default btn-xs mr5'
-              = link_to t(:'admin.classifiers.actions.manage_courses'), admin_cluster_classifier_courses_order_path(cluster, classifier), class: 'btn btn-default btn-xs mr5'
+              = link_to t(:'admin.classifiers.actions.manage_courses'), admin_cluster_classifier_learn_order_path(cluster, classifier), class: 'btn btn-default btn-xs mr5'
               = link_to t(:'admin.classifiers.actions.destroy'), admin_cluster_classifier_path(cluster, classifier), method: :delete, class: 'btn btn-danger btn-xs mr5'
 - else
     = render Global::Callout.new(t(:'admin.classifiers.empty_msg'), type: :warning)

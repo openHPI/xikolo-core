@@ -81,23 +81,17 @@ class QuizSubmissionsController < ApplicationController # rubocop:disable Layout
       ActiveRecord::Base.transaction do
         params[:submission].to_unsafe_h.each do |question_id, answer_param| # iterate
           quiz_question = Question.find question_id
-          submission_question = QuizSubmissionQuestion.create!(
-            quiz_submission_id: submission.id,
-            quiz_question_id: question_id
-          )
+          submission_question = submission.quiz_submission_questions.find_by(quiz_question_id: question_id)
+          if submission_question.nil?
+            raise ActiveRecord::RecordInvalid.new(submission) if submission.quiz.question_pool?
+
+            submission_question = submission.quiz_submission_questions.create!(quiz_question_id: question_id)
+          end
 
           quiz_question.create_answer! submission_question, answer_param
           quiz_question.update_points_from_submission submission_question, answer_param
         end
       end
-    end
-
-    # Update proctoring results as soon as they are available.
-    #
-    # TODO: If at some point vendor data will contain something else than
-    # proctoring results, make sure that no data is lost here.
-    if params[:vendor_data].present?
-      submission.update! vendor_data: params[:vendor_data]
     end
 
     schedule_report = false
@@ -143,7 +137,7 @@ class QuizSubmissionsController < ApplicationController # rubocop:disable Layout
   end
 
   def submission_params
-    params.permit(:course_id, vendor_data: {})
+    params.permit(:course_id)
   end
 end
 end

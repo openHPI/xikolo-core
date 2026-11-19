@@ -59,7 +59,7 @@ describe NotificationService::MailLog, type: :model do
       end
 
       context 'when the provided block errors' do
-        let(:block) { proc { raise 'RabbitMQ has gone away' } }
+        let(:block) { proc { raise 'delivery backend has gone away' } }
 
         it 'rolls back changes' do
           expect do
@@ -100,7 +100,7 @@ describe NotificationService::MailLog, type: :model do
         end
 
         context 'when the provided block errors' do
-          let(:block) { proc { raise 'RabbitMQ has gone away' } }
+          let(:block) { proc { raise 'delivery backend has gone away' } }
 
           it "does not change the entry's state" do
             begin

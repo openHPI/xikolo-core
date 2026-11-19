@@ -8,14 +8,9 @@ describe Voucher::Claim, type: :operation do
   let(:voucher_code) { voucher.id }
   let(:voucher) { create(:voucher, :reactivation) }
   let(:product_type) { Voucher::ProductTypes.resolve 'course_reactivation' }
-  let(:course) { create(:course, :archived, :offers_reactivation) }
-  let(:user_id) { generate(:user_id) }
+  let(:course) { create(:course, :self_paced, :offers_reactivation) }
   let(:current_user) do
-    Xikolo::Common::Auth::CurrentUser.from_session(
-      'user_id' => user_id,
-      'user' => {'anonymous' => false},
-      'masqueraded' => false
-    )
+    CurrentUser::User.new(session: create('account_service/session'), context_id: 'root')
   end
   let(:opts) do
     {
@@ -24,17 +19,15 @@ describe Voucher::Claim, type: :operation do
   end
 
   before do
-    # This spec tests voucher redemption based on course reactivation.
-    # As the overall process and product type interfaces are the same,
-    # proctoring is not considered here. See `ProductTypes::PRODUCT#claim!`
-    # `ProductTypes::PRODUCT#enabled_in?`, and `ProductTypes::PRODUCT#valid?`
+    # This spec tests voucher redemption based on course reactivation, which is
+    # currently the only supported product type.
+    # See `ProductTypes::VALID_PRODUCT_TYPES`,
+    # `ProductTypes::Reactivation#claim!`, `ProductTypes::Reactivation#enabled_in?`,
+    # and `ProductTypes::Reactivation#valid?`
     # for product-specific errors.
     xi_config <<~YML
       course_reactivation:
         period: 8
-        store_url:
-          en: https://www.shop.com
-          fr: https://www.shop.fr
       voucher:
         enabled: true
     YML
@@ -58,11 +51,7 @@ describe Voucher::Claim, type: :operation do
   describe '(early failures)' do
     context 'as anonymous user' do
       let(:current_user) do
-        Xikolo::Common::Auth::CurrentUser.from_session(
-          'user_id' => 'anonymous',
-          'user' => {'anonymous' => true},
-          'masqueraded' => false
-        )
+        CurrentUser::AnonymousUser.new(context_id: 'root')
       end
 
       it 'responds with error' do
@@ -122,7 +111,7 @@ describe Voucher::Claim, type: :operation do
   context '(product-specific errors)' do
     context 'with the reactivation product' do
       context 'when the product is not available in the course' do
-        let(:course) { create(:course, :archived) }
+        let(:course) { create(:course, :self_paced) }
 
         it 'responds with error' do
           expect(
@@ -221,12 +210,10 @@ describe Voucher::Claim, type: :operation do
   end
 
   context 'with failure when claiming, i.e. activating, the product' do
-    let(:user_id) { generate(:user_id) }
-
     before do
       Stub.request(
         :course, :post, '/enrollments',
-        body: {course_id: course.id, user_id:}
+        body: {course_id: course.id, user_id: current_user.id}
       ).to_return Stub.json({reactivations_url: '/course_service/enrollment/1/reactivations'})
       Stub.request(
         :course, :post, '/enrollment/1/reactivations',

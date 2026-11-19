@@ -7,26 +7,26 @@ describe CourseService::NextDatesController, type: :controller do
 
   include_context 'course_service API controller'
 
-  let(:user_id) { generate(:user_id) }
-  let(:other_user_id) { generate(:user_id) }
+  let(:user_id) { create(:'account_service/user').id }
+  let(:other_user_id) { create(:'account_service/user').id }
   let(:json) { JSON.parse response.body }
   let(:params) { {user_id:} }
   let(:action) { get :index, params: }
   let(:default_params) { {format: 'json'} }
 
-  let(:course_params) { {start_date: nil, status: course_status, end_date: nil} }
-  let(:course_status) { 'active' }
+  let(:course_params) { {start_date: nil, end_date: nil} }
   let(:section) { create(:'course_service/section', {course:}.merge(section_params)) }
   let(:section_params) { {start_date: nil, end_date: nil} }
   let(:item) { create(:'course_service/item', {section:}.merge(item_params)) }
   let(:item_params) { {} }
 
   around do |example|
-    Sidekiq::Testing.inline!(&example)
+    perform_enqueued_jobs { example.run }
   end
 
   shared_examples 'a date of' do |course|
     let(:required_course) { send course }
+
     its(:keys) { is_expected.to eq %w[course_id course_code course_title resource_type resource_id type title date] }
     its(['course_id']) { is_expected.to eq required_course.id }
     its(['course_code']) { is_expected.to eq required_course.course_code }
@@ -38,7 +38,7 @@ describe CourseService::NextDatesController, type: :controller do
     let(:enrollment) { create(:'course_service/enrollment', course:, user_id:) }
 
     context 'type "on demand expires"' do
-      let(:course_params) { {start_date: 1.day.ago, status: 'archive'} }
+      let(:course_params) { {start_date: 1.day.ago, published: true} }
       let(:forced_submission_date) { 8.weeks.from_now }
 
       before { enrollment.update!(forced_submission_date:) }
@@ -60,7 +60,7 @@ describe CourseService::NextDatesController, type: :controller do
     context 'event type "course start"' do
       before { course; enrollment }
 
-      let(:course_params) { {start_date:, display_start_date:, status: course_status} }
+      let(:course_params) { {start_date:, display_start_date:} }
       let(:display_start_date) { nil }
 
       context 'without start_date' do
@@ -137,28 +137,6 @@ describe CourseService::NextDatesController, type: :controller do
           its(['date']) { is_expected.to eq start_date.iso8601(3) }
         end
 
-        context 'and different course states' do
-          let(:course_status) { 'active' }
-
-          describe '#active' do
-            let(:course_status) { 'active' }
-
-            its(:size) { is_expected.to eq 1 }
-          end
-
-          describe '#archive' do
-            let(:course_status) { 'archive' }
-
-            its(:size) { is_expected.to eq 1 }
-          end
-
-          describe '#preparation' do
-            let(:course_status) { 'preparation' }
-
-            its(:size) { is_expected.to eq 0 }
-          end
-        end
-
         context 'and group restriction' do
           let(:course_params) { super().merge groups: ['partners'] }
 
@@ -172,7 +150,7 @@ describe CourseService::NextDatesController, type: :controller do
         end
 
         context 'with hidden course' do
-          let(:course_params) { super().merge hidden: true }
+          let(:course_params) { super().merge placement: [] }
 
           context 'without user_id' do
             let(:params) { {} }
@@ -188,7 +166,7 @@ describe CourseService::NextDatesController, type: :controller do
         end
 
         context 'with additional course without enrollment' do
-          before { create(:'course_service/course', status: 'active', start_date: 3.days.from_now) }
+          before { create(:'course_service/course', start_date: 3.days.from_now) }
 
           its(:size) { is_expected.to eq 1 }
         end
@@ -418,7 +396,7 @@ describe CourseService::NextDatesController, type: :controller do
     context 'filters' do
       context 'course_id' do
         let(:params) { super().merge course_id: course.id }
-        let!(:course) { create(:'course_service/course', start_date: DateTime.now + 1.day, status: 'active') }
+        let!(:course) { create(:'course_service/course', start_date: DateTime.now + 1.day) }
 
         before do
           enrollment
@@ -448,12 +426,12 @@ describe CourseService::NextDatesController, type: :controller do
         end
 
         let(:dates) { (1..5).map {|i| Time.zone.now + i.days } }
-        let(:other_course) { create(:'course_service/course', start_date: dates[4], status: 'active') }
+        let(:other_course) { create(:'course_service/course', start_date: dates[4]) }
 
         let(:other_enrollment) { create(:'course_service/enrollment', user_id:, course: other_course) }
         let(:third_enrollment) { create(:'course_service/enrollment', user_id:, course: third_course) }
 
-        let(:third_course) { create(:'course_service/course', status: 'active') }
+        let(:third_course) { create(:'course_service/course') }
         let(:third_section) { create(:'course_service/section', course: third_course, start_date: dates[2]) }
         let(:third_other_section) { create(:'course_service/section', course: third_course, start_date: nil) }
         let(:third_item) { create(:'course_service/item', section: third_other_section, submission_publishing_date: dates[3]) }
@@ -493,12 +471,12 @@ describe CourseService::NextDatesController, type: :controller do
     context 'order' do
       context 'by date within courses; and courses by their first date' do
         let(:dates) { (1..5).map {|i| Time.zone.now + i.days } }
-        let(:other_course) { create(:'course_service/course', start_date: dates[4], status: 'active') }
+        let(:other_course) { create(:'course_service/course', start_date: dates[4]) }
 
         let(:other_enrollment) { create(:'course_service/enrollment', user_id:, course: other_course) }
         let(:third_enrollment) { create(:'course_service/enrollment', user_id:, course: third_course) }
 
-        let(:third_course) { create(:'course_service/course', status: 'active', start_date: 2.months.ago, end_date: 1.month.ago) }
+        let(:third_course) { create(:'course_service/course', start_date: 2.months.ago, end_date: 1.month.ago) }
         let(:third_section) { create(:'course_service/section', course: third_course, start_date: dates[2]) }
         let(:third_other_section) { create(:'course_service/section', course: third_course, start_date: nil) }
         let(:third_item) { create(:'course_service/item', section: third_other_section, submission_publishing_date: dates[3]) }

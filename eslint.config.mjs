@@ -7,12 +7,7 @@ export default [
   { files: ['app/javascript/**/*.{js,mjs,cjs,ts}'] },
   {
     languageOptions: {
-      globals: {
-        ...globals.browser,
-        I18n: 'readonly',
-        $: 'readonly', // app/javascript/legacy/initializers.js
-        jQuery: 'readonly', // app/javascript/legacy/initializers.js
-      },
+      globals: globals.browser,
     },
   },
   pluginJs.configs.recommended,

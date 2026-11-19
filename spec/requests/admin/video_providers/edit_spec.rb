@@ -3,17 +3,14 @@
 require 'spec_helper'
 
 describe 'Admin: VideoProviders: Edit', type: :request do
-  let(:edit_video_provider) { get "/admin/video_providers/#{provider.id}/edit", headers: }
-  let(:headers) { {} }
+  let(:edit_video_provider) { get "/admin/video_providers/#{provider.id}/edit" }
   let(:provider) { create(:video_provider, :vimeo) }
 
   context 'for logged-in users' do
-    let(:headers) { {Authorization: "Xikolo-Session session_id=#{stub_session_id}"} }
-
-    before { stub_user_request permissions: }
+    before { sign_in(user:) }
 
     context 'with permissions' do
-      let(:permissions) { ['video.provider.manage'] }
+      let(:user) { create(:'account_service/user', :admin) }
 
       it 'renders the edit page' do
         edit_video_provider
@@ -22,7 +19,7 @@ describe 'Admin: VideoProviders: Edit', type: :request do
     end
 
     context 'without permissions' do
-      let(:permissions) { [] }
+      let(:user) { create(:'account_service/user') }
 
       it 'redirects to the start page' do
         edit_video_provider

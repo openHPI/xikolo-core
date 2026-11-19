@@ -126,11 +126,6 @@ module Certificate
       I18n.t(:'verify.additional_records.info', records: record_translations)
     end
 
-    def eligible_for_badge?
-      # Open Badges can only be issued for RoA and Certificate
-      %w[Certificate RecordOfAchievement].include? certificate_type
-    end
-
     private
 
     def additional_record_types

@@ -1,21 +1,14 @@
 import '../actions/disable-after-click';
 import '../actions/focus-target';
-import '../components/course/countdown';
-import '../components/course/item-navigation';
-import './certificate';
-import './items/quiz';
+
 import './items/sort';
-import './items/toggle-navigation';
 import './items/video';
 import './pinboard/answer';
 import './pinboard/comment';
+import './pinboard/edit-form';
 import './pinboard/filter';
-import './pinboard/question';
 import './pinboard/questionForm';
-import './pinboard/subscription';
 import './pinboard/vote';
 import './popover/popover';
-import './prerequisites';
 import './sections/sort';
-import './social-sharing';
 import './teacher/pin-teacher-nav';

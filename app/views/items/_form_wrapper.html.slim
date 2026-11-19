@@ -1,5 +1,5 @@
 - if @quiz.nil? || @quiz.new?
-  = render 'form'
+  = render 'form', item:, course: @course, video: @video, rich_text: @rich_text, richtext_reading_material_upload: @richtext_reading_material_upload, quiz: @quiz, quiz_question: @quiz_question, multiple_choice_question: @multiple_choice_question, multiple_answer_question: @multiple_answer_question, free_text_question: @free_text_question, essay_question: @essay_question, lti_exercise: @lti_exercise, cmi5_item: @cmi5_item, course_presenter: @course_presenter, subtitles_upload: @subtitles_upload, slides_upload: @slides_upload, transcript_upload: @transcript_upload, reading_material_upload: @reading_material_upload
 - else
   = render Navigation::Tabs.new do |c|
     - c.with_tab(controls: 'quiz_properties', active: @quiz.questions.blank?)
@@ -9,17 +9,19 @@
       = render Global::FaIcon.new('lightbulb', css_classes: 'mr5')
       = t(:'items.quiz.nav.questions')
     - c.with_panel(id: 'quiz_properties', active: @quiz.questions.blank?)
-      = render 'form'
+      = render 'form', item:, course: @course, video: @video, rich_text: @rich_text, richtext_reading_material_upload: @richtext_reading_material_upload, quiz: @quiz, quiz_question: @quiz_question, multiple_choice_question: @multiple_choice_question, multiple_answer_question: @multiple_answer_question, free_text_question: @free_text_question, essay_question: @essay_question, lti_exercise: @lti_exercise, cmi5_item: @cmi5_item, course_presenter: @course_presenter, subtitles_upload: @subtitles_upload, slides_upload: @slides_upload, transcript_upload: @transcript_upload, reading_material_upload: @reading_material_upload
     - c.with_panel(id: 'quiz_questions', active: @quiz.questions.present?)
       #quiz_questions
 
 #form-extensions
   - if item.new_record?
     template#video-form
-      = render 'items/video/form', video: @video, item:, course: @course
+      = render 'items/video/form', video: @video, item:, course: @course, subtitles_upload: @subtitles_upload, slides_upload: @slides_upload, transcript_upload: @transcript_upload, reading_material_upload: @reading_material_upload
     template#rich_text-form
-      = render 'items/rich_text/form', rich_text: @rich_text
+      = render 'items/rich_text/form', rich_text: @rich_text, richtext_reading_material_upload: @richtext_reading_material_upload
     template#quiz-form
-      = render 'items/quiz/form', quiz: @quiz, item:
+      = render 'items/quiz/form', quiz: @quiz, item:, quiz_question: @quiz_question, multiple_choice_question: @multiple_choice_question, multiple_answer_question: @multiple_answer_question, free_text_question: @free_text_question, essay_question: @essay_question
     template#lti_exercise-form
       = render 'items/lti_exercise/form', lti_exercise: @lti_exercise
+    template#cmi5-form
+      = render 'items/cmi5/form', cmi5_item: @cmi5_item, item:

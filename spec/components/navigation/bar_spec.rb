@@ -5,21 +5,7 @@ require 'spec_helper'
 describe Navigation::Bar, type: :component do
   subject(:component) { described_class.new user: current_user }
 
-  let(:current_user) { Xikolo::Common::Auth::CurrentUser.from_session(anonymous_session) }
-  let(:anonymous_session) do
-    {
-      'id' => nil,
-      'masqueraded' => false,
-      'user_id' => '51f544b6-a9c7-4bfe-b76b-43a4441d36c3',
-      'features' => {},
-      'permissions' => [],
-      'user' => {
-        'anonymous' => true,
-        'language' => I18n.locale,
-        'preferred_language' => I18n.locale,
-      },
-    }
-  end
+  let(:current_user) { CurrentUser::AnonymousUser.new(context_id: 'root') }
 
   describe 'custom components' do
     context 'with custom icon-only component' do
@@ -164,7 +150,7 @@ describe Navigation::Bar, type: :component do
                 href: '/pages/catalogues'
                 text: {en: 'Course catalogues'}
               courses:
-                href: '/courses'
+                href: '/learn'
                 text: {en: 'All courses', de: 'Alle Kurse'}
           header:
             visible: true
@@ -234,7 +220,7 @@ describe Navigation::Bar, type: :component do
                   href: '/pages/catalogues'
                   text: {en: 'Course catalogues', de: 'Kurskataloge'}
                 courses:
-                  href: '/courses'
+                  href: '/learn'
                   text: {en: 'All courses', de: 'Alle Kurse'}
             header:
               visible: true
@@ -325,21 +311,11 @@ describe Navigation::Bar, type: :component do
       YML
     end
 
-    it 'ignores the component when native registration is disabled' do
-      render_inline(component)
-
-      expect(page).to have_no_selector 'a'
-    end
-
     context 'with native registration enabled' do
-      let(:anonymous_session) do
-        super().merge('features' => {'account.registration' => true})
-      end
-
       it 'contains the sign up link' do
         render_inline(component)
 
-        expect(page).to have_content 'Sign up'
+        expect(page).to have_text 'Sign up'
         expect(page).to have_link(href: '/account/new')
       end
     end
@@ -351,7 +327,7 @@ describe Navigation::Bar, type: :component do
         layout:
           ref:
             courses:
-              href: 'https://example.org/courses'
+              href: 'https://example.org/learn'
               text:
                 en: 'Courses'
               type: 'hide-last'
@@ -405,7 +381,7 @@ describe Navigation::Bar, type: :component do
           layout:
             ref:
               courses:
-                href: 'https://example.org/courses'
+                href: 'https://example.org/learn'
                 text:
                   en: 'Courses'
                 type: 'hide-last'
@@ -420,7 +396,7 @@ describe Navigation::Bar, type: :component do
         render_inline(component)
 
         expect(page).to have_no_selector '[data-test="menu-hide-last"]', text: 'Menu'
-        expect(page).to have_link(href: 'https://example.org/courses', text: 'Courses')
+        expect(page).to have_link(href: 'https://example.org/learn', text: 'Courses')
       end
     end
   end

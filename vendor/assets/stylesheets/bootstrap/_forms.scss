@@ -8,7 +8,7 @@
 //
 // Restyle and baseline non-control form elements.
 
-fieldset {
+fieldset:where(:not(.x-fieldset)) {
   // Chrome and Firefox set a `min-width: min-content;` on fieldsets,
   // so we reset that to ensure it behaves more like a standard block element.
   // See https://github.com/twbs/bootstrap/issues/12359.
@@ -18,7 +18,7 @@ fieldset {
   border: 0;
 }
 
-legend {
+legend:where(:not(.x-fieldset-legend)) {
   display: block;
   width: 100%;
   padding: 0;
@@ -30,13 +30,12 @@ legend {
   border-bottom: 1px solid $legend-border-color;
 }
 
-label {
+label:where(:not(.x-label, .x-btn, .x-drawer-overlay)) {
   display: inline-block;
   max-width: 100%; // Force IE8 to wrap long content (see https://github.com/twbs/bootstrap/issues/13141)
   margin-bottom: 5px;
   font-weight: 700;
 }
-
 
 // Normalize form controls
 //
@@ -93,9 +92,9 @@ select[size] {
 }
 
 // Focus for file, radio, and checkbox
-input[type="file"]:focus,
-input[type="radio"]:focus,
-input[type="checkbox"]:focus {
+input[type="file"]:where(:not(.x-file-input)):focus,
+input[type="radio"]:where(:not(.x-radio)):focus,
+input[type="checkbox"]:where(:not(.x-checkbox)):focus {
   @include tab-focus;
 }
 
@@ -182,38 +181,6 @@ output {
 textarea.form-control {
   height: auto;
 }
-
-
-// Special styles for iOS temporal inputs
-//
-// In Mobile Safari, setting `display: block` on temporal inputs causes the
-// text within the input to become vertically misaligned. As a workaround, we
-// set a pixel line-height that matches the given height of the input, but only
-// for Safari. See https://bugs.webkit.org/show_bug.cgi?id=139848
-//
-// Note that as of 9.3, iOS doesn't support `week`.
-
-@media screen and (-webkit-min-device-pixel-ratio: 0) {
-  input[type="date"],
-  input[type="time"],
-  input[type="datetime-local"],
-  input[type="month"] {
-    &.form-control {
-      line-height: $input-height-base;
-    }
-
-    &.input-sm,
-    .input-group-sm & {
-      line-height: $input-height-small;
-    }
-
-    &.input-lg,
-    .input-group-lg & {
-      line-height: $input-height-large;
-    }
-  }
-}
-
 
 // Form groups
 //

@@ -3,18 +3,38 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV['RAILS_ENV'] ||= 'test'
 
-require 'simplecov'
-require 'simplecov-cobertura'
+# Only enable SimpleCov in CI to keep local test execution fast
+if ENV['CI']
+  require 'simplecov'
+  require 'simplecov-cobertura'
 
-SimpleCov.formatters = [
-  SimpleCov::Formatter::HTMLFormatter,
-  SimpleCov::Formatter::CoberturaFormatter,
-]
+  SimpleCov.start 'rails' do
+    enable_coverage :branch
+
+    # Configure SimpleCov for parallel test runs in CI
+    if ENV['CI_NODE_INDEX']
+      command_name "Job #{ENV['CI_NODE_INDEX']}"
+    end
+
+    # Merge results from parallel test runs
+    # Use a consistent result directory that can collect results from all parallel nodes
+    coverage_dir 'coverage'
+
+    # Collate results from all parallel nodes (if they exist)
+    SimpleCov.merging true
+    SimpleCov.merge_timeout 3600
+
+    # Configure output formatters
+    formatter SimpleCov::Formatter::MultiFormatter.new([
+      SimpleCov::Formatter::HTMLFormatter,
+      SimpleCov::Formatter::CoberturaFormatter,
+    ])
+  end
+end
 
 require File.expand_path('../config/environment', __dir__)
 require 'acfs/rspec'
 require 'rspec/rails'
-require 'sidekiq/testing'
 require 'webmock/rspec'
 
 require 'xikolo/common/rspec'
@@ -38,6 +58,7 @@ WebMock.disable_net_connect!(allow_localhost: true, allow: [
   'chromedriver.storage.googleapis.com',
   'http://selenium:4444',
   "http://rails-app:#{ENV.fetch('CAPYBARA_SERVER_PORT', nil)}",
+  ENV.fetch('S3_PROVIDER_ENDPOINT'),
 ])
 
 RSpec.configure do |config|
@@ -68,9 +89,8 @@ RSpec.configure do |config|
     email: 'peter@pan.de')
 
   config.include JsonSpec::Helpers
-  config.include ActiveJob::TestHelper, type: :job
-  config.include ActiveJob::TestHelper, type: :model
-
+  config.include ActiveJob::TestHelper
+  config.include ActiveSupport::Testing::TimeHelpers
   config.include RestifyHelper
 
   # rspec-expectations config goes here. You can use an alternate
@@ -102,8 +122,6 @@ RSpec.configure do |config|
 
   config.before do
     OmniAuth.config.test_mode = true
-
-    Sidekiq::Worker.clear_all
   end
 
   config.around do |example|
@@ -112,14 +130,13 @@ RSpec.configure do |config|
     #
     #     around {|example| perform_enqueued_jobs(&example) }
     #
+    Timecop.return
     ActiveJob::Base.queue_adapter = :test
 
     example.run
   end
 
   config.after do
-    Msgr.client.stop delete: true
-    Msgr::TestPool.reset
     Timecop.return
   end
 end

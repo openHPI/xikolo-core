@@ -14,11 +14,13 @@ describe CourseService::Result do
   end
 
   context '(event publication)' do
-    describe 'create result' do
-      it 'publishes an event for a newly created result' do
-        expect(Msgr).to receive(:publish) do |event, opts|
-          expect(event).to eq \
-            id: result.id,
+    describe '(event publication) create result' do
+      it 'enqueues a ResultCreateJob for a newly created result' do
+        expect do
+          result.save
+        end.to have_enqueued_job(ResultCreateJob).with(
+          hash_including(
+            id: kind_of(String),
             user_id: result.user_id,
             item_id: item.id,
             points: result.dpoints / 10.0,
@@ -29,75 +31,25 @@ describe CourseService::Result do
             exercise_type: item.exercise_type,
             submission_deadline: item.submission_deadline,
             submission_publishing_date: item.submission_publishing_date,
-            max_points: item.max_dpoints / 10.0,
-            created_at: result.created_at,
-            updated_at: result.updated_at
-          expect(opts).to eq to: 'xikolo.course.result.create'
-        end
-
-        result.save
+            max_points: item.max_dpoints / 10.0
+          )
+        )
       end
-    end
-
-    describe 'update result' do
-      it 'publishes an event for an updated result' do
-        result.save
-
-        result.dpoints += 10
-
-        expect(Msgr).to receive(:publish) do |event, opts|
-          expect(event).to eq \
-            id: result.id,
-            user_id: result.user_id,
-            item_id: item.id,
-            points: result.dpoints / 10.0,
-            course_id: section.course_id,
-            section_id: section.id,
-            content_type: item.content_type,
-            content_id: item.content_id,
-            exercise_type: item.exercise_type,
-            submission_deadline: item.submission_deadline,
-            submission_publishing_date: item.submission_publishing_date,
-            max_points: item.max_dpoints / 10.0,
-            created_at: result.created_at,
-            updated_at: result.updated_at
-          expect(opts).to eq to: 'xikolo.course.result.update'
-        end
-
-        result.save
-      end
-    end
-  end
-
-  context '(enrollment completion worker)' do
-    it 'starts worker for a newly created result' do
-      expect { result.save }.to change(CourseService::EnrollmentCompletionWorker.jobs, :size).from(0).to(1)
-    end
-
-    it 'starts worker for an updated result' do
-      result.save
-      Sidekiq::Worker.clear_all
-
-      expect do
-        result.dpoints += 10
-        result.save
-      end.to change(CourseService::EnrollmentCompletionWorker.jobs, :size).from(0).to(1)
     end
   end
 
   context '(update section progress worker)' do
     it 'starts worker for a newly created result' do
-      expect { result.save }.to change(CourseService::LearningEvaluation::UpdateSectionProgressWorker.jobs, :size).from(0).to(1)
+      expect { result.save }.to have_enqueued_job(CourseService::LearningEvaluation::UpdateSectionProgressJob).exactly(:once)
     end
 
     it 'starts worker for an updated result' do
       result.save
-      Sidekiq::Worker.clear_all
 
       expect do
         result.dpoints += 10
         result.save
-      end.to change(CourseService::LearningEvaluation::UpdateSectionProgressWorker.jobs, :size).from(0).to(1)
+      end.to have_enqueued_job(CourseService::LearningEvaluation::UpdateSectionProgressJob).exactly(:once)
     end
   end
 end

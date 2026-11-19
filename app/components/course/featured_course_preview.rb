@@ -64,7 +64,7 @@ module Course
     end
 
     def enrollment
-      ::Course::Enrollment.new({
+      ::CourseService::Enrollment.new({
         id: ENROLLMENT_ID,
         course_id: COURSE_ID,
         user_id: USER_ID,

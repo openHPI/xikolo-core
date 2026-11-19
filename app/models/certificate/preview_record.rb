@@ -3,7 +3,7 @@
 module Certificate
   class PreviewRecord
     # @param template [Certificate::Template]
-    # @param user [Account::User]
+    # @param user [AccountService::User]
     def initialize(template, user)
       @template = template
       @user = user
@@ -16,7 +16,7 @@ module Certificate
     end
 
     def course
-      @course ||= Course::Course.find(@template.course_id)
+      @course ||= CourseService::Course.find(@template.course_id)
     end
 
     def verification

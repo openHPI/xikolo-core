@@ -7,21 +7,9 @@ describe Video::VideoPlayer, type: :component do
 
   let(:component) { described_class.new(video, user:, opts:) }
   let(:video) { create(:video, pip_stream:) }
-  let(:features) { {} }
   let(:opts) { {} }
-  let(:user) { Xikolo::Common::Auth::CurrentUser.from_session(user_session) }
-  let(:user_session) do
-    {
-      'masqueraded' => false,
-      'features' => features,
-      'user_id' => '51f544b6-a9c7-4bfe-b76b-43a4441d36c3',
-      'user' => {
-        'anonymous' => false,
-        'language' => I18n.locale,
-        'preferred_language' => I18n.locale,
-      },
-    }
-  end
+  let(:session) { create(:'account_service/session') }
+  let(:user) { CurrentUser::User.new(session:, context_id: 'root') }
   let(:preferences) { {} }
   let(:pip_stream) do
     create(:stream, :vimeo,
@@ -45,38 +33,41 @@ describe Video::VideoPlayer, type: :component do
       height: 900,
       duration: 180)
   end
-  let(:lecturer_stream) do
-    create(:stream, :kaltura,
-      id: '00000002-3600-4444-9999-000000000003',
-      title: 'Lecturer',
-      provider_video_id: '1_klqqno3b',
-      hd_url: 'http://xikolo.de/lecturer.hd.mp4',
-      sd_url: 'http://xikolo.de/lecturer.sd.mp4',
-      width: 1600,
-      height: 900,
-      duration: 180)
-  end
 
-  before do
-    allow(user).to receive(:preferences).and_return(
-      Restify::Promise.fulfilled(preferences)
-    )
-  end
+  describe 'player aspect ratio' do
+    it 'uses the dimensions of a single stream' do
+      pip_stream.update!(height: 1200)
 
-  context 'when a video has all streams' do
-    let(:video) { create(:video, lecturer_stream:, slides_stream:, pip_stream:) }
-
-    it 'renders the player with two video components' do
-      expect(rendered).to have_css "xm-kaltura[name=primary][partner-id='1234567'][entry-id='1_klqqno3b'][duration=180][ratio='0.5625']"
-      expect(rendered).to have_css "xm-vimeo[name=secondary][src='7654321']"
+      expect(rendered.find('[data-testid="video-player"]')[:style]).to include "--player-side-by-side-ratio: #{4.0 / 3};"
     end
 
-    it 'renders a presentation component with two references' do
-      expect(rendered).to have_css "xm-presentation[reference='primary,secondary']"
+    context 'with missing dimensions' do
+      it 'falls back to widescreen proportions' do
+        pip_stream.update!(width: nil, height: nil)
+
+        expect(rendered.find('[data-testid="video-player"]')[:style]).to include "--player-side-by-side-ratio: #{16.0 / 9};"
+      end
+    end
+
+    context 'with two streams of different proportions' do
+      let(:video) { create(:video, lecturer_stream: pip_stream, slides_stream:) }
+
+      it 'uses the combined proportions of side-by-side and stacked streams' do
+        slides_stream.update!(height: 1200)
+
+        style = rendered.find('[data-testid="video-player"]')[:style]
+        expect(style.match(/--player-side-by-side-ratio: ([\d.]+)/)[1].to_f).to be_within(0.001).of(28.0 / 9)
+        expect(style.match(/--player-stacked-ratio: ([\d.]+)/)[1].to_f).to be_within(0.001).of(16.0 / 21)
+      end
     end
   end
 
   context 'when a video only has a PiP stream' do
+    it 'does not initialize a transcript without subtitles' do
+      expect(rendered).to have_no_selector '[data-videoplayer-with-transcript]'
+      expect(rendered).to have_no_selector '[data-transcript]'
+    end
+
     it 'renders the player with only one xm-vimeo tag' do
       expect(rendered).to have_css "xm-vimeo[name=primary][src='1234567']"
       expect(rendered).to have_no_selector '[name=secondary]'
@@ -95,6 +86,10 @@ describe Video::VideoPlayer, type: :component do
     let!(:subtitle_de) { create(:video_subtitle, video:, lang: 'de') }
     let!(:subtitle_en) { create(:video_subtitle, video:, lang: 'en') }
     let!(:subtitle_id) { create(:video_subtitle, video:, lang: 'id') }
+
+    it 'marks the player for transcript initialization' do
+      expect(rendered).to have_css '[data-videoplayer-with-transcript] [data-transcript]', visible: :all
+    end
 
     it 'renders a DOM element for each subtitle language' do
       expect(rendered).to have_css "xm-text-track[language=de][src='/subtitles/#{subtitle_de.id}'][label=Deutsch][position=1]"
@@ -159,13 +154,10 @@ describe Video::VideoPlayer, type: :component do
     end
 
     context 'with user preferences set to show transcript' do
-      let(:preferences) do
-        {
-          'ui.video.video_player_show_transcript' => 'true',
-        }
+      before do
+        session.user.update!(preferences: {'ui.video.video_player_show_transcript' => 'true'})
+        create(:video_subtitle, video:, lang: 'en')
       end
-
-      before { create(:video_subtitle, video:, lang: 'en') }
 
       it 'has an active toggle control button' do
         player = rendered.find 'xm-player'
@@ -179,10 +171,8 @@ describe Video::VideoPlayer, type: :component do
     end
 
     context 'with user preferences set to show transcript without subtitles' do
-      let(:preferences) do
-        {
-          'ui.video.video_player_show_transcript' => 'true',
-        }
+      before do
+        session.user.update!(preferences: {'ui.video.video_player_show_transcript' => 'true'})
       end
 
       it 'has no toggle control button' do
@@ -228,6 +218,8 @@ describe Video::VideoPlayer, type: :component do
       }
     end
 
+    before { session.user.update!(preferences:) }
+
     it 'renders the player with the user preferences properties' do
       expect(rendered).to have_css("xm-player[playbackrate='1.25']")
         .and have_css('xm-player[showsubtitle]')
@@ -261,30 +253,20 @@ describe Video::VideoPlayer, type: :component do
       end
     end
 
-    context 'with thumbnails enabled' do
-      let(:features) { {'video_slide_thumbnails' => true} }
+    context 'with loaded thumbnails' do
+      let(:opts) { {load_thumbnails: true} }
 
-      context 'without loaded thumbnails' do
-        it 'does not pass the thumbnails to the player component' do
-          expect(rendered).to have_no_selector('xm-player[slides-src]')
+      context 'with slides extracted' do
+        before { create(:thumbnail, video:) }
+
+        it 'passes the thumbnails information' do
+          expect(rendered).to have_css("xm-player[slides-src='[{\"thumbnail\":\"#{test_s3_host}/xikolo-video/videos/1/1.png\",\"startPosition\":5}]']")
         end
       end
 
-      context 'with loaded thumbnails' do
-        let(:opts) { {load_thumbnails: true} }
-
-        context 'with slides extracted' do
-          before { create(:thumbnail, video:) }
-
-          it 'passes the thumbnails information' do
-            expect(rendered).to have_css("xm-player[slides-src='[{\"thumbnail\":\"https://s3.xikolo.de/xikolo-video/videos/1/1.png\",\"startPosition\":5}]']")
-          end
-        end
-
-        context 'with no slides extracted' do
-          it 'does not pass the thumbnails to the player component' do
-            expect(rendered).to have_no_selector('xm-player[slides-src]')
-          end
+      context 'with no slides extracted' do
+        it 'does not pass the thumbnails to the player component' do
+          expect(rendered).to have_no_selector('xm-player[slides-src]')
         end
       end
     end

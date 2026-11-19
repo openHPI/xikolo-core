@@ -25,4 +25,22 @@ describe PinboardService::ApplicationController, type: :controller do
     it { is_expected.to have_key 'explicit_tags_url' }
     it { is_expected.to have_key 'implicit_tags_url' }
   end
+
+  describe '#error_record_invalid' do
+    it 'responds with 422 Unprocessable Entity and full error messages' do
+      record = PinboardService::Question.new
+      record.errors.add(:base, 'forum_closed')
+      exception = ActiveRecord::RecordInvalid.new(record)
+
+      controller = PinboardService::ApplicationController.new
+      allow(controller).to receive(:render).and_return(nil) # suppress actual render
+
+      controller.send(:error_record_invalid, exception)
+
+      expect(controller).to have_received(:render).with(
+        status: :unprocessable_content,
+        json: {errors: ['forum_closed']}
+      )
+    end
+  end
 end

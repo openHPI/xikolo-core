@@ -19,7 +19,7 @@ RSpec.describe 'Questions: Show', type: :request do
     let(:question) { create(:'quiz_service/multiple_choice_question', text: 'headline\n==\ns3://xikolo-quiz/quizzes/324/235_foo.jpg') }
 
     it 'returns markup with external URLs' do
-      expect(show['text']).to eq 'headline\n==\nhttps://s3.xikolo.de/xikolo-quiz/quizzes/324/235_foo.jpg'
+      expect(show['text']).to eq "headline\\n==\\n#{test_s3_host}/xikolo-quiz/quizzes/324/235_foo.jpg"
     end
 
     context 'in raw access' do
@@ -30,7 +30,7 @@ RSpec.describe 'Questions: Show', type: :request do
           'markup' => 'headline\n==\ns3://xikolo-quiz/quizzes/324/235_foo.jpg',
           'url_mapping' => {
             's3://xikolo-quiz/quizzes/324/235_foo.jpg' =>
-              'https://s3.xikolo.de/xikolo-quiz/quizzes/324/235_foo.jpg',
+              "#{test_s3_host}/xikolo-quiz/quizzes/324/235_foo.jpg",
           },
           'other_files' => {
             's3://xikolo-quiz/quizzes/324/235_foo.jpg' => '235_foo.jpg',
@@ -44,7 +44,7 @@ RSpec.describe 'Questions: Show', type: :request do
     let(:question) { create(:'quiz_service/multiple_choice_question', explanation: 'headline\n==\ns3://xikolo-quiz/quizzes/324/235_foo.jpg') }
 
     it 'returns markup with external URLs' do
-      expect(show['explanation']).to eq 'headline\n==\nhttps://s3.xikolo.de/xikolo-quiz/quizzes/324/235_foo.jpg'
+      expect(show['explanation']).to eq "headline\\n==\\n#{test_s3_host}/xikolo-quiz/quizzes/324/235_foo.jpg"
     end
 
     context 'in raw access' do
@@ -55,7 +55,7 @@ RSpec.describe 'Questions: Show', type: :request do
           'markup' => 'headline\n==\ns3://xikolo-quiz/quizzes/324/235_foo.jpg',
           'url_mapping' => {
             's3://xikolo-quiz/quizzes/324/235_foo.jpg' =>
-              'https://s3.xikolo.de/xikolo-quiz/quizzes/324/235_foo.jpg',
+              "#{test_s3_host}/xikolo-quiz/quizzes/324/235_foo.jpg",
           },
           'other_files' => {
             's3://xikolo-quiz/quizzes/324/235_foo.jpg' => '235_foo.jpg',

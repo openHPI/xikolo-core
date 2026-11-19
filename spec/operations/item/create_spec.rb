@@ -25,9 +25,11 @@ RSpec.describe Item::Create do
 
   context 'with a video as the content' do
     let(:video) { create(:video) }
+    let(:item) { build(:item) }
 
     context 'with valid item and a valid video' do
       before do
+        item.content_id = nil
         tags_create_stub
       end
 
@@ -51,6 +53,7 @@ RSpec.describe Item::Create do
 
     context 'with an invalid item' do
       before do
+        item.content_id = nil
         allow(item).to receive(:save!).and_raise(Acfs::InvalidResource)
       end
 

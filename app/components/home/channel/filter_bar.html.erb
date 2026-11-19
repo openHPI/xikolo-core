@@ -1,0 +1,10 @@
+<div class="contents" data-controller="filter-bar">
+  <div
+    id="adjust-anchor"
+    class="mx-auto max-w-main-content scroll-mt-navbar px-4 py-6"
+  >
+    <%= render Global::FilterBar::Form.new(action: channel_path(params[:id], anchor: 'channel-courses'), filters:) %>
+  </div>
+
+  <%= render Global::FilterBar::Controls.new(channel_path(params[:id], anchor: 'channel-courses'), '#course-list__content', '#course-list__loading', filters, results_count: @results_count, show_overview: true) %>
+</div>

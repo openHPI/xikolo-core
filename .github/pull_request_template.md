@@ -17,12 +17,6 @@ For more context, you should also link to related merge requests as well as corr
 
 Finally, feel free to @tag other developers to ask them to review your work. Always start with reviewing your own MR first. You can do so by scrolling down and checking the "Changes" tab.
 
-## Release Notes
-
-```text
-- Add a bullet point for customer-facing release notes as described in https://gitlab.hpi.de/openhpi/xikolo/release-notes or "N/A"
-```
-
 ## Checklist
 
 - [ ] Your branch has no merge conflicts with master (otherwise, please rebase)

@@ -8,7 +8,7 @@ class Course::Enrollments::CompletionController < Abstract::FrontendController
   end
 
   def create
-    enrollment = Course::Enrollment.find(params[:id])
+    enrollment = CourseService::Enrollment.find(params[:id])
     raise Status::Unauthorized.new unless current_user.id == enrollment.user_id
 
     enrollment.update!(completed: true)

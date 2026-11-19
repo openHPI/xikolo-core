@@ -1,0 +1,15 @@
+<section class="flex justify-center gap-2.5 px-4 py-8 md:py-16">
+  <div class="x-card bg-base-100 w-full max-w-170">
+    <div class="x-card-body">
+      <h1 class="x-card-title text-xl sm:text-3xl font-medium">
+        <%= t(:'account.confirmations.confirmation_failed.headline') %>
+      </h1>
+
+      <p class="text-base leading-7"><%= t(:'account.confirmations.confirmation_failed.message') %></p>
+
+      <div class="x-divider text-sm sm:text-base">
+        <%= link_to t(:'account.confirmations.confirmation_failed.button'), new_account_path, class: 'x-link font-semibold' %>
+      </div>
+    </div>
+  </div>
+</section>

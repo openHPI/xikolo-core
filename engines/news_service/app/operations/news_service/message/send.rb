@@ -15,7 +15,7 @@ class Message::Send < ApplicationOperation # rubocop:disable Layout/IndentationW
 
     # Concurrently send message to the specified audience (users or groups)
     message.recipients.each do |recipient|
-      RecipientWorker.call(message, recipient)
+      RecipientJob.perform_later(message.id, recipient)
     end
   end
 end

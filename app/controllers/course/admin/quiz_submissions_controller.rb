@@ -3,8 +3,6 @@
 class Course::Admin::QuizSubmissionsController < Abstract::FrontendController
   include CourseContextHelper
 
-  before_action :set_no_cache_headers
-
   def add_attempt
     authorize! 'quiz.submission.grant_attempt'
 
@@ -19,7 +17,7 @@ class Course::Admin::QuizSubmissionsController < Abstract::FrontendController
   rescue Restify::ServerError, Restify::ClientError
     add_flash_message :error, t(:'flash.error.quiz_attempt_failed')
   ensure
-    redirect_back fallback_location: root_path
+    redirect_back_or_to(root_path)
   end
 
   def add_fudge_points
@@ -34,7 +32,7 @@ class Course::Admin::QuizSubmissionsController < Abstract::FrontendController
   rescue Restify::ServerError, Restify::ClientError, ActionController::ParameterMissing
     add_flash_message :error, t(:'flash.error.fudge_points_failed')
   ensure
-    redirect_back fallback_location: root_path
+    redirect_back_or_to(root_path)
   end
 
   private

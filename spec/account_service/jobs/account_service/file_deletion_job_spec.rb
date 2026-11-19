@@ -7,7 +7,7 @@ RSpec.describe AccountService::FileDeletionJob, type: :job do
     it do
       deletion = stub_request(
         :delete,
-        'https://s3.xikolo.de/xikolo-public/avatars/34/avatar_v1.jpg'
+        "#{test_s3_host}/xikolo-public/avatars/34/avatar_v1.jpg"
       )
 
       perform_enqueued_jobs do

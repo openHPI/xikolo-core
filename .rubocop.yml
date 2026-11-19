@@ -22,18 +22,15 @@ inherit_from:
 
 AllCops:
   TargetRailsVersion: 7.2
-  TargetRubyVersion: 3.4
+  TargetRubyVersion: 4.0
   NewCops: enable
   Exclude:
     - ".cache/**/*"
     - "bin/*"
-    - "config/initializers/integration*"
     - "db/schema.rb"
     - "db/queue_schema.rb"
-    - "integration/gems/**/*"
     - "node_modules/**/*"
     - "services/*/bin/**"
-    - "services/*/config/initializers/integration*"
     - "services/*/db/schema.rb"
     - "services/*/gems/**/*"
     - "services/*/vendor/**/*"

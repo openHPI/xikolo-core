@@ -2,43 +2,32 @@
 
 module Course
   class BottomNavigationPreview < ViewComponent::Preview
-    include ActionView::Helpers::UrlHelper
-
     def default
-      render ::Course::BottomNavigation.new(course_id: course.id,
-        prev_item_id: item(course.items.first.id).id,
-        next_item_id: item(course.items.third.id).id)
+      render_navigation(previous_link:, next_link:)
     end
 
     def next_only
-      render ::Course::BottomNavigation.new(course_id: course.id,
-        prev_item_id: nil,
-        next_item_id: item(course.items.second.id).id)
+      render_navigation(next_link:)
     end
 
     def prev_only
-      render ::Course::BottomNavigation.new(course_id: course.id,
-        prev_item_id: item(course.items.second_to_last.id).id,
-        next_item_id: nil)
+      render_navigation(previous_link:)
     end
 
     private
 
-    def course
-      return @course if defined?(@course)
-
-      @course = Course.find_by(course_code: 'content-ab')
+    def render_navigation(**links)
+      render ::Course::BottomBar.new do |bar|
+        bar.with_navigation(component: ::Course::BottomNavigation.new(**links))
+      end
     end
 
-    MockQuizItemPresenter = Struct.new(:id, :course_id, :section_id)
-    private_constant :MockQuizItemPresenter
+    def previous_link
+      {url: '/learn/example/items/previous', title: 'Introduction', icon: 'video'}
+    end
 
-    def item(id)
-      MockQuizItemPresenter.new(
-        id:,
-        course_id: course.id,
-        section_id: course.sections.first.id
-      )
+    def next_link
+      {url: '/learn/example/items/next', title: 'Check your knowledge', icon: 'learning_material'}
     end
   end
 end

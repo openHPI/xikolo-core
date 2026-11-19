@@ -7,6 +7,8 @@ class Course::AnnouncementsController < Abstract::FrontendController
 
   inside_course
 
+  before_action :set_course
+
   def index
     Acfs.run # because of `inside_course`
 
@@ -18,6 +20,7 @@ class Course::AnnouncementsController < Abstract::FrontendController
       AnnouncementPresenter.create post
     end
     @course_presenter = CoursePresenter.create(@course = the_course, current_user)
+    mark_announcements_as_read!
 
     set_page_title(the_course.title, t(:'courses.nav.announcements'))
   end
@@ -35,7 +38,7 @@ class Course::AnnouncementsController < Abstract::FrontendController
 
     @announcement = news_service
       .rel(:news)
-      .get({id: params[:id]})
+      .get({id: params[:id], raw: true})
       .then do |announcement|
       check_access! announcement
 
@@ -50,7 +53,7 @@ class Course::AnnouncementsController < Abstract::FrontendController
     @announcement = Course::Admin::AnnouncementForm.from_params(params)
 
     # re-render creation form if announcement is invalid
-    return render(action: :new, status: :unprocessable_entity) unless @announcement.valid?
+    return render(action: :new, status: :unprocessable_content) unless @announcement.valid?
 
     announcement = news_service
       .rel(:news_index)
@@ -66,7 +69,7 @@ class Course::AnnouncementsController < Abstract::FrontendController
     @announcement.remote_errors e.errors
 
     # re-render creation form
-    render(action: :new, status: :unprocessable_entity)
+    render(action: :new, status: :unprocessable_content)
   end
 
   def update
@@ -80,7 +83,7 @@ class Course::AnnouncementsController < Abstract::FrontendController
     check_access! announcement
 
     # re-render edit form if announcement is invalid
-    return render(action: :edit, status: :unprocessable_entity) unless @announcement.valid?
+    return render(action: :edit, status: :unprocessable_content) unless @announcement.valid?
 
     announcement.rel(:self).patch(@announcement.to_resource).value!
     announcement.rel(:email).post(email_params).value! if send_emails?
@@ -91,7 +94,7 @@ class Course::AnnouncementsController < Abstract::FrontendController
     @announcement.remote_errors e.errors
 
     # re-render edit form
-    render(action: :edit, status: :unprocessable_entity)
+    render(action: :edit, status: :unprocessable_content)
   end
 
   def destroy
@@ -106,12 +109,19 @@ class Course::AnnouncementsController < Abstract::FrontendController
     redirect_to course_announcements_path, status: :see_other
   end
 
-  def hide_course_nav?
-    # Only show the course nav in the learner-facing page (the index page)
-    @_action_name != 'index'
+  def course_nav_tab
+    :announcements if action_name == 'index'
+  end
+
+  def course_area_variant
+    :light
   end
 
   private
+
+  def set_course
+    @course = the_course
+  end
 
   def auth_context
     the_course.context_id
@@ -137,6 +147,12 @@ class Course::AnnouncementsController < Abstract::FrontendController
       {test_receiver: current_user.id}
     else
       {}
+    end
+  end
+
+  def mark_announcements_as_read!
+    course_layout.unread_announcements.each do |announcement|
+      announcement.mark_as_read(current_user.id)
     end
   end
 

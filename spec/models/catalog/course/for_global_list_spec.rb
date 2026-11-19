@@ -8,12 +8,12 @@ describe Catalog::Course, '.for_global_list', type: :model do
   before do
     create(:course, :preparing, title: 'An upcoming course in preparation')
     create(:course, :active, title: 'An active and current course')
-    create(:course, :active, title: 'An active and current but not listed course', show_on_list: false)
+    create(:course, :active, title: 'An active and current but not listed course', placement: [])
     create(:course, :active, :hidden, title: 'A hidden course')
     create(:course, :active, :deleted, title: 'A deleted course')
     create(:course, :active, title: 'A group-restricted course', groups: %w[group.1])
-    create(:course, :archived, title: 'An archived course')
-    create(:course, :archived, title: 'An archived but not listed courses', show_on_list: false)
+    create(:course, :self_paced, title: 'An self-paced course')
+    create(:course, :self_paced, title: 'An self-paced but not listed courses', placement: [])
     create(:course, :upcoming, title: 'A published future course')
   end
 
@@ -24,9 +24,8 @@ describe Catalog::Course, '.for_global_list', type: :model do
       # need to be filtered by state.
       an_object_having_attributes(title: 'An upcoming course in preparation'),
       an_object_having_attributes(title: 'An active and current course'),
-      an_object_having_attributes(title: 'A hidden course'),
       an_object_having_attributes(title: 'A group-restricted course'),
-      an_object_having_attributes(title: 'An archived course'),
+      an_object_having_attributes(title: 'An self-paced course'),
       an_object_having_attributes(title: 'A published future course')
     )
   end

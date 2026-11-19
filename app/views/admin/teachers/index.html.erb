@@ -1,0 +1,100 @@
+<% content_for :page_header do %>
+  <%= render Global::PageHeader.new(t(:'admin.teachers.index.title'), subtitle: t(:'admin.page_header')) %>
+<% end %>
+
+<section class="mx-auto w-full max-w-7xl px-4 pt-4 pb-8 sm:px-6 lg:px-8">
+  <div class="x-card bg-base-100">
+    <div class="x-card-body">
+      <div class="x-rounded-box border-base-300 bg-base-200 border p-4 md:p-5">
+        <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <%= render Global::FilterBar::Form.new(
+            action: teachers_path,
+            filters: []
+          ) do |form| %>
+            <% form.with_controls %>
+          <% end %>
+
+          <% if current_user.allowed? 'course.teacher.manage' %>
+            <%= link_to t(:'admin.teachers.index.new'), new_teacher_path, class: 'x-btn x-btn-primary w-full sm:w-auto' %>
+          <% end %>
+        </div>
+      </div>
+
+      <% if @teachers.any? %>
+        <div
+          class="
+            x-rounded-box border-base-300 bg-base-100 overflow-x-auto border
+            shadow-xs mt-5
+          "
+        >
+          <table class="x-table x-table-zebra">
+            <thead>
+              <tr class="bg-base-200">
+                <th>
+                  <%= t(:'admin.teachers.index.picture') %>
+                </th>
+
+                <th>
+                  <%= t(:'admin.teachers.index.name') %>
+                </th>
+
+                <th class="hidden lg:table-cell">
+                  <%= t(:'admin.teachers.index.description') %>
+                </th>
+
+                <th></th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% @teachers.each do |teacher| %>
+                <tr class="hover:bg-primary-50">
+                  <td class="w-28 text-center align-middle">
+                    <% if teacher.picture_url.present? %>
+                      <div class="x-avatar">
+                        <div
+                          class="ring-base-300 w-14 rounded ring ring-offset-1"
+                          ring-offset-base-100
+                        >
+                          <%= image_tag teacher.picture_url, alt: teacher.name %>
+                        </div>
+                      </div>
+                    <% else %>
+                      <div class="x-avatar x-avatar-placeholder">
+                        <div class="bg-base-300 text-neutral-content w-14 rounded-xl">
+                          <span class="text-xs font-semibold">N/A</span>
+                        </div>
+                      </div>
+                    <% end %>
+                  </td>
+
+                  <td class="align-middle font-semibold">
+                    <%= teacher.name %>
+                  </td>
+
+                  <td class="text-base-content hidden align-middle text-sm lg:table-cell">
+                    <div class="prose prose-sm line-clamp-1 truncate">
+                      <%== render_markdown(teacher.localized_description) %>
+                    </div>
+                  </td>
+
+                  <td class="pr-4 text-right align-middle whitespace-nowrap">
+                    <%= link_to t(:'.details'), teacher_path(teacher.id), class: 'x-btn x-btn-sm x-btn-outline w-24 justify-center', 'aria-label': teacher.name %>
+                    <% if teacher.referenced_in_courses? %>
+                      <%= link_to t(:'admin.teachers.index.delete'), teacher_path(teacher.id), data: { confirm: t(:'admin.teachers.index.referenced_in_courses_prompt') }, class: 'x-btn x-btn-sm x-btn-error w-24 justify-center' %>
+                    <% else %>
+                      <%= link_to t(:'admin.teachers.index.delete'), teacher_path(teacher.id), method: :delete, data: { confirm: t(:'admin.teachers.index.confirm_delete') }, class: 'x-btn x-btn-sm x-btn-error w-24 justify-center' %>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+        <%= render Global::Pagination.new(@teachers) %>
+      <% else %>
+        <%= render State::Empty.new( params[:q].present? ? t(:'admin.teachers.index.no_results') : t(:'admin.teachers.index.empty_state')) %>
+      <% end %>
+    </div>
+  </div>
+</section>

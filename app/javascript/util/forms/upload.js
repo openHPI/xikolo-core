@@ -3,8 +3,8 @@
  * See app/inputs/upload_input.rb
  */
 
-import Dropzone from '../../../../vendor/assets/javascripts/dropzone';
-import ready from '../ready';
+import { Dropzone } from 'dropzone';
+import { turboReady } from '../ready';
 import sanitize from '../sanitize';
 
 Dropzone.autoDiscover = false;
@@ -56,10 +56,17 @@ const getDropzoneOpts = (dataset, s3) => {
 
   const resizingImage = targetWidth || targetHeight;
 
+  opts.resizingImage = resizingImage;
+  opts.targetWidth = targetWidth;
+  opts.targetHeight = targetHeight;
+
   if (resizingImage) {
     opts.resizeWidth = targetWidth;
     opts.resizeHeight = targetHeight;
     opts.resizeMethod = 'crop';
+    // Defer the accept decision until the thumbnail is generated, when
+    // file.width / file.height are known and the dimension check can run.
+    opts.accept = (file, done) => (file.done = done);
   }
 
   if (dataset.errorSize) {
@@ -121,6 +128,7 @@ const init = (el) => {
       (opts.targetHeight && file.height < opts.targetHeight)
     ) {
       file.done('Invalid dimensions');
+      return;
     }
     file.done();
   });
@@ -213,7 +221,7 @@ const scan = (node) => {
   });
 };
 
-ready(() => scan());
+turboReady(() => scan());
 
 export default {
   scan,

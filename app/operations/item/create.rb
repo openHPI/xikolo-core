@@ -69,7 +69,13 @@ class Item::Create < ApplicationOperation
 
   def create_item_resource!
     @item.save!
-  rescue Acfs::InvalidResource
+  rescue Acfs::InvalidResource, ActiveRecord::RecordInvalid
+    # `max_dpoints` is an internal implementation detail (decipoints); errors
+    # are surfaced to users under the `max_points` attribute they entered.
+    if @item.errors.include?(:max_dpoints)
+      @item.errors.delete(:max_dpoints).each {|msg| @item.errors.add(:max_points, msg) }
+    end
+
     # Roll back the item content resource if the item cannot be created
     # due to Acfs::InvalidResource (will add the errors to the item resource)
     raise ItemCreationError.new('failed')

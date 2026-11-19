@@ -5,7 +5,9 @@ require 'spec_helper'
 describe Quiz::Dropdown, type: :component do
   subject(:component) { described_class.new question }
 
-  let(:question) { Xikolo::Quiz::MultipleChoiceQuestion.new build(:'quiz:question') }
+  let(:quiz) { create(:'quiz_service/quiz') }
+  let(:question_record) { create(:'quiz_service/multiple_choice_question', quiz:) }
+  let(:question) { Xikolo::Quiz::MultipleChoiceQuestion.new question_record.decorate.as_json }
 
   before do
     # Puke, sorry - no better way to set this up until we use actual database models

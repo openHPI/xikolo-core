@@ -1,0 +1,140 @@
+<li
+  class="section <%= ' available' if section.available? %>"
+  data-id="<%= section.id %>"
+  data-url="<%= move_course_section_path(id: section.id) %>"
+>
+  <span class="handle" data-behavior="section-handle"></span>
+
+  <div class="title">
+    <h3 class="h3">
+      <%= section.title %>
+
+      <% if section.optional_section %>
+        <%= t(:'sections.optional_section') %>
+      <% end %>
+    </h3>
+
+    <div class="btn-group pull-right">
+      <button
+        class="btn btn-primary btn-sm dropdown-toggle"
+        type="button"
+        data-toggle="dropdown"
+      >
+        <%== t(:'sections.admin.action') %><span class="caret"></span>
+      </button>
+
+      <ul class="dropdown-menu">
+        <li class="scroll_marker">
+          <button
+            type="button"
+            class="block w-full text-left border-0 bg-transparent font-normal leading-normal text-black whitespace-nowrap py-[3px] pl-[10px] pr-5 hover:bg-gray-800 hover:text-white"
+            data-show-on-click="#edit_section_form_<%= section.id %>"
+            data-turbo="false"
+          >
+            <%= t(:'sections.admin.edit') %>
+          </button>
+        </li>
+
+        <li>
+          <%= link_to t(:'sections.admin.move_up'), move_course_section_path(position: :up, id: section.id), class: 'bs-a', method: :post %>
+        </li>
+
+        <li>
+          <%= link_to t(:'sections.admin.move_down'), move_course_section_path(position: :down, id: section.id), class: 'bs-a', method: :post %>
+        </li>
+
+        <li>
+          <%= link_to t(:'sections.admin.move_to_top'), move_course_section_path(position: :top, id: section.id), class: 'bs-a', method: :post %>
+        </li>
+
+        <li>
+          <%= link_to t(:'sections.admin.move_to_bottom'), move_course_section_path(position: :bottom, id: section.id), class: 'bs-a', method: :post %>
+        </li>
+
+        <li>
+          <% if section.items.none? %>
+            <%= link_to t(:'sections.admin.delete'), course_section_path(id: section.id), class: 'bs-a', method: :delete, data: {confirm: section.parent? ? t(:'sections.admin.delete_with_alternatives_confirm') : t(:'sections.admin.delete_confirm')} %>
+          <% else %>
+            <button class="bs-a" type="button" data-behavior="section-delete-forbidden-link" data-turbo="false"><%= t(:'sections.admin.delete') %></button>
+          <% end %>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="labels">
+    <% if section.unlocked? %>
+      <span class="label label-success">
+        <% if section.start_date&.past? %>
+          <%= t(:'sections.unlocked_since', date: section.start_date.to_fs(:short)) %>
+        <% else %>
+          <%= t(:'sections.unlocked') %>
+        <% end %>
+      </span>
+    <% else %>
+      <span class="label label-warning">
+        <% if section.start_date&.future? %>
+          <%= t(:'sections.locked_until', date: section.start_date.to_fs(:short)) %>
+        <% end %>
+
+        <% if section.end_date&.past? %>
+          <%= t(:'sections.locked_since', date: section.end_date.to_fs(:short)) %>
+        <% end %>
+      </span>
+    <% end %>
+
+    <% if section.published? %>
+      <span class="label label-success"><%= t(:'sections.published') %></span>
+    <% else %>
+      <span class="label label-warning"><%= t(:'sections.unpublished') %></span>
+    <% end %>
+
+    <span class="label label-info uuid mr10" hidden>
+      <%= section.id %><%= render Global::CopyToClipboard.new(section.id, tooltip: t(:'sections.section_uuid')) %>
+    </span>
+
+    <% if section.end_date&.future? %>
+      <span class="label label-warning">
+        <%= t(:'sections.locked_on', date: section.end_date.to_fs(:short)) %>
+      </span>
+    <% end %>
+  </div>
+
+  <div class="form_wrapper mb10" id="edit_section_form_<%= section.id %>" hidden>
+    <%= render partial: 'admin/courses/form_section', locals: {section:, parent_section: nil} %>
+  </div>
+
+  <p class="description"><%= section.description %></p>
+
+  <ul class="items" data-behavior="sortable-items">
+    <% section.items.each do |item| %>
+      <%= render partial: 'item', object: item, locals: {section:} %>
+    <% end %>
+  </ul>
+
+  <% unless section.parent? %>
+    <%= link_to t(:'sections.item.create'), new_course_section_item_path(section_id: section.id), class: 'btn btn-primary btn-sm mt10 mr10 new_item_button', data: {id: 'new-item-button'} %>
+    <% if course_presenter.exam_in_this_section?(section.id) %>
+      <%= link_to t(:'sections.item.edit_exam'), edit_exam_course_section_item_path(id: course_presenter.exam_id, section_id: section.id), class: 'btn btn-primary btn-sm mt10 mr10 new_exam_button', data: {id: 'new-exam-button'} %>
+    <% elsif !course_presenter.exam? %>
+      <%= link_to t(:'sections.item.create_exam'), new_exam_course_section_items_path(section_id: section.id), class: 'btn btn-primary btn-sm mt10 mr10 new_exam_button', data: {id: 'new-exam-button'} %>
+    <% end %>
+  <% end %>
+
+  <% if !section.child? && section.items.none? && current_user.feature?('alternative_sections.create') %>
+    <button
+      class="btn btn-primary btn-sm mt10 btn_section_new"
+      type="button"
+      data-show-on-click="#add_alternative_section_form_<%= section.id %>"
+    >
+      <%= t(:'sections.alternative.create') %>
+    </button>
+    <div
+      class="mt10 form_wrapper"
+      id="add_alternative_section_form_<%= section.id %>"
+      hidden
+    >
+      <%= render partial: 'admin/courses/form_section', locals: {section: new_section, parent_section: section} %>
+    </div>
+  <% end %>
+</li>

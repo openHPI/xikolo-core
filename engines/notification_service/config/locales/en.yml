@@ -123,6 +123,10 @@ en:
           subject: "Password reset for your %{site_name} account"
           text: A password reset was requested for your account. Click the button below to reset it. The link will be valid for 24 hours.
           link: Reset password
+        account_reactivation:
+          subject: "Your %{site_name} account has been reactivated"
+          text: Your account has been reactivated. You can now log in and access the platform again.
+          link: Log in
         confirm_email:
           subject: Please confirm your e-mail address
           mailheader_type: Confirm your e-mail

@@ -1,6 +1,5 @@
-import ready from '../../util/ready';
+import { turboReady } from '../../util/ready';
 import fetch from '../../util/fetch';
-import triggerTrackEvent from '../../util/track-event';
 import handleError from '../../util/error';
 import { appendVoteFormData } from './util';
 import I18n from '../../i18n/i18n';
@@ -53,8 +52,6 @@ const upvote = async (el: HTMLElement) => {
   } catch (error) {
     handleError(I18n.t('errors.server.generic_message'), error);
   }
-
-  triggerTrackEvent('clicked_upvote', votableId, votableType);
 };
 
 const downvote = async (el: HTMLElement) => {
@@ -77,11 +74,9 @@ const downvote = async (el: HTMLElement) => {
   } catch (error) {
     handleError(I18n.t('errors.server.generic_message'), error);
   }
-
-  triggerTrackEvent('clicked_downvote', votableId, votableType);
 };
 
-ready(() => {
+turboReady(() => {
   document
     .querySelectorAll<HTMLElement>('.vote-box > .upvote')
     .forEach((upVoteTrigger) => {

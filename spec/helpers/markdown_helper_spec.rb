@@ -13,7 +13,7 @@ describe MarkdownHelper, type: :helper do
     end
 
     it 'renders relative link' do
-      expect(render_markdown("[courses][1]\r\n\r\n  [1]: /courses")).to include('<a class="bs-a" href="/courses">courses</a>')
+      expect(render_markdown("[courses][1]\r\n\r\n  [1]: /learn")).to include('<a class="bs-a" href="/learn">courses</a>')
     end
 
     it 'renders anchor link' do

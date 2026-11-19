@@ -1,0 +1,191 @@
+<div class="bs-container">
+  <div class="row mt10">
+    <div class="col-md-8">
+      <% if current_user.allowed?('account.user.index') %>
+        <div class="pull-right">
+          <%= link_to users_path, class: 'bs-a' do %>
+            <%= render Global::FaIcon.new('arrow-left', style: :solid, css_classes: 'mr5') %>
+            <%= t('.back_to_list') %>
+          <% end %>
+        </div>
+        <div class="clearfix"></div>
+      <% end %>
+
+      <%= render Global::UserAvatar.new(@user.id, type: 'rounded', size: 'x-large') %>
+      <h2 class="h2">
+        <%= @user.name %>
+        <% if @user.top_talent? && current_user.allowed?('account.user.delete') %>
+          <span class="x-badge x-badge-soft x-badge-warning x-badge-sm gap-1 align-middle">
+            <span class="xi-icon fa-solid fa-star"></span>
+            <%= t('users.show.top_talent') %>
+          </span>
+        <% end %>
+        <% if @teacher.present? && current_user.allowed?('course.teacher.view') %>
+          <br>
+          <%= link_to t('teachers.show'), teacher_path(@teacher.id), class: 'btn btn-default btn-xs' %>
+        <% elsif current_user.allowed?('course.teacher.manage') %>
+          <br>
+          <%= link_to t('teachers.promote'), new_teacher_path(user_id: @user.id), class: 'btn btn-default btn-xs' %>
+        <% end %>
+      </h2>
+
+      <div class="clearfix"></div>
+
+      <% if current_user.allowed?('course.course.teaching_anywhere') %>
+        <h3 class="h3 mt15"><%= t('.user_information') %></h3>
+        <table class="table table-striped table-condensed table-hover">
+          <tbody>
+            <tr>
+              <td><%= t('global.email') %></td>
+              <td>
+                <ul class="list-unstyled">
+                  <% @profile.all_emails.each do |email| %>
+                    <li>
+                      <%= mail_to(email.address) %>
+                      <% if email.primary? && (@profile.all_emails.size > 1) %>
+                        <%= " #{t('users.show.primary_email')}" %>
+                      <% end %>
+                    </li>
+                  <% end %>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <td><%= t('.confirmed') %></td>
+              <td><%= @user.confirmed? %></td>
+            </tr>
+          </tbody>
+        </table>
+      <% end %>
+
+      <% if current_user.allowed_any?('account.user.change_password', 'account.user.delete', 'account.user.masquerade') %>
+        <h2 class="h2 text-color"><%= t('.admin_options') %></h2>
+
+        <% if current_user.allowed?('account.user.change_password') %>
+          <h3 class="h3"><%= t('users.show.change_password') %></h3>
+          <hr class="divider slim">
+          <%= simple_form_for(@user, url: {controller: 'users', action: 'change_user_password'}, method: :post) do |f| %>
+            <fieldset class="form-section--small">
+              <%= f.error_notification %>
+              <%= f.input :password, label: t('.password'), required: true, placeholder: t('dashboard.profile.new_password') %>
+              <button class="btn btn-default btn-sm" type="submit">
+                <%= t('users.show.change_password') %>
+              </button>
+              <%= f.hidden_field :user_id, value: @user.id %>
+            </fieldset>
+          <% end %>
+        <% end %>
+
+        <% if @profile.manually_confirmable? %>
+          <h3 class="h3"><%= t('users.show.manual_confirm') %></h3>
+          <hr class="divider slim">
+          <p><%= t('users.show.manual_confirm_hint') %></p>
+          <%= link_to user_manual_confirmations_path(@user.id), method: :post, data: {confirm: t('.confirm_manual_confirm')}, class: 'btn btn-default btn-sm' do %>
+            <%= render Global::FaIcon.new('circle-check', css_classes: 'mr5') %>
+            <%= t('.manual_confirm') %>
+          <% end %>
+        <% end %>
+
+        <% if current_user.allowed?('account.user.masquerade') %>
+          <h3 class="h3"><%= t('users.show.masquerade') %></h3>
+          <hr class="divider slim">
+          <p class="mb5"><%= t('users.show.masquerade_hint') %></p>
+          <%= link_to user_masquerade_path(@user.id), method: :post, class: 'btn btn-default btn-sm' do %>
+            <%= render Global::FaIcon.new('masks-theater', css_classes: 'mr5') %>
+            <%= t('users.show.masquerade') %>
+          <% end %>
+        <% end %>
+
+        <% if current_user.allowed?('account.user.delete') %>
+          <h3 class="h3"><%= t('users.show.ban') %></h3>
+          <hr class="divider slim">
+          <p class="mb5">
+            <% if @user.banned? %>
+              <%= t('users.show.unban_info', ban_count: @user.ban_count, last_ban_date: l(@user.banned_at, format: :long_datetime_zone)) %>
+            <% else %>
+              <%= t('users.show.ban_hint', ban_count: @user.ban_count) %>
+            <% end %>
+          </p>
+          <% if @user.banned? %>
+            <%= link_to user_bans_path(@user.id), method: :delete, data: {confirm: t('users.show.unban_confirm')}, class: 'btn btn-danger btn-sm' do %>
+              <%= render Global::FaIcon.new('user-xmark', css_classes: 'mr5') %>
+              <%= t('users.show.unban') %>
+            <% end %>
+          <% else %>
+            <%= link_to user_bans_path(@user.id), method: :post, data: {confirm: t('users.show.ban_confirm')}, class: 'btn btn-danger btn-sm' do %>
+              <%= render Global::FaIcon.new('user-xmark', css_classes: 'mr5') %>
+              <%= t('users.show.ban') %>
+            <% end %>
+          <% end %>
+
+          <h3 class="h3"><%= t('users.show.top_talent') %></h3>
+          <hr class="divider slim">
+          <p class="mb5"><%= t('users.show.top_talent_hint') %></p>
+          <% if @user.top_talent? %>
+            <%= link_to user_top_talents_path(@user.id), method: :delete, data: {confirm: t('users.show.remove_top_talent_confirm')}, class: 'btn btn-default btn-sm' do %>
+              <%= render Global::FaIcon.new('star', css_classes: 'mr5') %>
+              <%= t('users.show.remove_top_talent') %>
+            <% end %>
+          <% else %>
+            <%= link_to user_top_talents_path(@user.id), method: :post, data: {confirm: t('users.show.top_talent_confirm')}, class: 'btn btn-default btn-sm' do %>
+              <%= render Global::FaIcon.new('star', css_classes: 'mr5') %>
+              <%= t('users.show.top_talent') %>
+            <% end %>
+          <% end %>
+
+          <h3 class="h3"><%= t('users.show.delete') %></h3>
+          <hr class="divider slim">
+          <p class="mb5"><%= t('users.show.delete_hint') %></p>
+          <%= link_to user_path(id: @user.id), method: :delete, data: {confirm: t('.confirm_delete')}, class: 'btn btn-danger btn-sm' do %>
+            <%= render Global::FaIcon.new('trash-can', css_classes: 'mr5') %>
+            <%= t('users.show.delete') %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <% if current_user.allowed?('course.enrollment.index') %>
+    <div class="row mt10">
+      <div class="col-md-8">
+        <% enrolled_courses = @profile.enrolled_courses %>
+        <% if enrolled_courses.present? %>
+          <h2 class="h2 text-color"><%= t('.enrollments') %></h2>
+          <hr class="divider alternative">
+          <table class="table table-striped table-condensed table-hover">
+            <thead>
+              <tr>
+                <th class="nowrap"><%= t('.course_code') %></th>
+                <th><%= t('.course_title') %></th>
+                <% if current_user.allowed_any?('course.course.teaching_anywhere', 'quiz.submission.index') %>
+                  <th><%= t('.completed') %></th>
+                  <th><%= t('.points') %></th>
+                  <th><%= t('.quantile') %></th>
+                  <th><%= t('.certificates') %></th>
+                  <th><%= t('.actions') %></th>
+                <% end %>
+              </tr>
+            </thead>
+            <tbody>
+              <% enrolled_courses.each do |item| %>
+                <% evaluation = item.enrollment.decorate_self %>
+                <tr>
+                  <td><%= item.course.course_code %></td>
+                  <td><%= link_to item.course.title, course_path(id: item.course.course_code), class: 'bs-a' %></td>
+                  <% if current_user.allowed_any?('course.course.teaching_anywhere', 'quiz.submission.index') %>
+                    <%# todo: check whether the current user is teacher specifically in this course and only show the link if this is the case. %>
+                    <td><%= t(".completed_#{item.enrollment.completed}") %></td>
+                    <td class="nowrap"><%= "#{evaluation[:points][:achieved]} / #{evaluation[:points][:maximal]} (#{evaluation[:points][:percentage]}%)" %></td>
+                    <td><%= item.enrollment.quantile %></td>
+                    <td><%= evaluation[:certificates].select { |_k, v| !v.nil? && v }.keys.map { |k| t(".#{k}") }.join(', ') %></td>
+                    <td><%= link_to t('.action_submissions'), course_submissions_path(id: item.course.course_code, user_id: @user.id), class: 'btn btn-default btn-outline btn-xs' %></td>
+                  <% end %>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

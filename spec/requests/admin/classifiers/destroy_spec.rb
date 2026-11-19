@@ -4,30 +4,23 @@ require 'spec_helper'
 
 describe 'Admin: Classifiers: Destroy', type: :request do
   subject(:destroy_classifier) do
-    delete "/admin/clusters/#{cluster.id}/classifiers/#{classifier.id}",
-      headers:
+    delete "/admin/clusters/#{cluster.id}/classifiers/#{classifier.id}"
   end
 
-  let(:headers) { {} }
   let(:cluster) { create(:cluster, :visible, id: 'level') }
   let!(:classifier) { create(:classifier, cluster:) }
+  let(:user) { create(:'account_service/user', :admin) }
 
   context 'for logged-in users' do
-    let(:headers) { {Authorization: "Xikolo-Session session_id=#{stub_session_id}"} }
+    before { sign_in(user:) }
 
-    before { stub_user_request permissions: }
-
-    context 'with permissions' do
-      let(:permissions) { %w[course.cluster.manage] }
-
-      it 'deletes the classifier' do
-        expect { destroy_classifier }.to change(Course::Classifier, :count).from(1).to(0)
-        expect(response).to redirect_to admin_cluster_url(classifier.cluster)
-      end
+    it 'deletes the classifier' do
+      expect { destroy_classifier }.to change(CourseService::Classifier, :count).from(1).to(0)
+      expect(response).to redirect_to admin_cluster_url(classifier.cluster)
     end
 
     context 'without permissions' do
-      let(:permissions) { [] }
+      let(:user) { create(:'account_service/user') }
 
       it 'redirects the user' do
         destroy_classifier

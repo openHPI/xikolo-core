@@ -1,0 +1,7 @@
+<%= form_with model: short, url: '#', scope: :short, class: 'w-full max-w-xl' do |f| %>
+  <%= render Form::FileUpload.new(f, :video,
+        icon: 'video',
+        title: 'Upload video',
+        hint: 'Drop a video file here or pick one from your device.',
+        accept: 'video/*') %>
+<% end %>

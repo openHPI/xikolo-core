@@ -45,8 +45,8 @@ describe 'Video: Playlists: Show', type: :request do
       playlist = M3u8::Playlist.read(resp.body)
       expect(playlist.items.count).to eq(2)
       # Sorted by bandwidth in descending order
-      expect(playlist.items.first.uri).to eq("https://xikolo.de/playlists/#{stream.id}.m3u8?bandwidth=#{bandwidth_2}")
-      expect(playlist.items.second.uri).to eq("https://xikolo.de/playlists/#{stream.id}.m3u8?bandwidth=#{bandwidth_1}")
+      expect(playlist.items.first.uri).to eq("http://www.example.com/playlists/#{stream.id}.m3u8?bandwidth=#{bandwidth_2}")
+      expect(playlist.items.second.uri).to eq("http://www.example.com/playlists/#{stream.id}.m3u8?bandwidth=#{bandwidth_1}")
       # With no subtitle references
       expect(playlist.items.first.subtitles).to be_nil
       expect(playlist.items.second.subtitles).to be_nil
@@ -64,11 +64,11 @@ describe 'Video: Playlists: Show', type: :request do
       it 'returns transformed m3u8 master playlist with replaced subtitles' do
         playlist = M3u8::Playlist.read(resp.body)
         expect(playlist.items.count).to eq(4)
-        expect(playlist.items.first.uri).to eq("https://xikolo.de/playlists/#{stream.id}.m3u8?embed_subtitles_for_video=#{video.id}&subtitles=#{subtitle_1.lang}")
-        expect(playlist.items.second.uri).to eq("https://xikolo.de/playlists/#{stream.id}.m3u8?embed_subtitles_for_video=#{video.id}&subtitles=#{subtitle_2.lang}")
+        expect(playlist.items.first.uri).to eq("http://www.example.com/playlists/#{stream.id}.m3u8?embed_subtitles_for_video=#{video.id}&subtitles=#{subtitle_1.lang}")
+        expect(playlist.items.second.uri).to eq("http://www.example.com/playlists/#{stream.id}.m3u8?embed_subtitles_for_video=#{video.id}&subtitles=#{subtitle_2.lang}")
         # Sorted by bandwidth in descending order
-        expect(playlist.items.third.uri).to eq("https://xikolo.de/playlists/#{stream.id}.m3u8?bandwidth=#{bandwidth_2}")
-        expect(playlist.items.fourth.uri).to eq("https://xikolo.de/playlists/#{stream.id}.m3u8?bandwidth=#{bandwidth_1}")
+        expect(playlist.items.third.uri).to eq("http://www.example.com/playlists/#{stream.id}.m3u8?bandwidth=#{bandwidth_2}")
+        expect(playlist.items.fourth.uri).to eq("http://www.example.com/playlists/#{stream.id}.m3u8?bandwidth=#{bandwidth_1}")
         # With correct subtitle group
         expect(playlist.items.first.group_id).to eq('subs')
         expect(playlist.items.second.group_id).to eq('subs')
@@ -88,8 +88,8 @@ describe 'Video: Playlists: Show', type: :request do
         playlist = M3u8::Playlist.read(resp.body)
         expect(playlist.items.count).to eq(2)
         # Sorted by bandwidth in descending order
-        expect(playlist.items.first.uri).to eq("https://xikolo.de/playlists/#{stream.id}.m3u8?bandwidth=#{bandwidth_2}")
-        expect(playlist.items.second.uri).to eq("https://xikolo.de/playlists/#{stream.id}.m3u8?bandwidth=#{bandwidth_1}")
+        expect(playlist.items.first.uri).to eq("http://www.example.com/playlists/#{stream.id}.m3u8?bandwidth=#{bandwidth_2}")
+        expect(playlist.items.second.uri).to eq("http://www.example.com/playlists/#{stream.id}.m3u8?bandwidth=#{bandwidth_1}")
         # With no subtitle references
         expect(playlist.items.first.subtitles).to be_nil
         expect(playlist.items.second.subtitles).to be_nil
@@ -103,8 +103,8 @@ describe 'Video: Playlists: Show', type: :request do
         playlist = M3u8::Playlist.read(resp.body)
         expect(playlist.items.count).to eq(2)
         # Sorted by bandwidth in descending order
-        expect(playlist.items.first.uri).to eq("https://xikolo.de/playlists/#{stream.id}.m3u8?bandwidth=#{bandwidth_2}")
-        expect(playlist.items.second.uri).to eq("https://xikolo.de/playlists/#{stream.id}.m3u8?bandwidth=#{bandwidth_1}")
+        expect(playlist.items.first.uri).to eq("http://www.example.com/playlists/#{stream.id}.m3u8?bandwidth=#{bandwidth_2}")
+        expect(playlist.items.second.uri).to eq("http://www.example.com/playlists/#{stream.id}.m3u8?bandwidth=#{bandwidth_1}")
         # With no subtitles references
         expect(playlist.items.first.subtitles).to be_nil
         expect(playlist.items.second.subtitles).to be_nil
@@ -295,7 +295,7 @@ describe 'Video: Playlists: Show', type: :request do
           #EXT-X-ALLOW-CACHE:NO
           #EXT-X-TARGETDURATION:#{stream.duration}
           #EXTINF:#{stream.duration},
-          #{Xikolo::V2::URL.subtitle_url(subtitle_1.id)}
+          #{Rails.application.routes.url_helpers.subtitle_url(subtitle_1.id, host: 'www.example.com', protocol: 'http')}
           #EXT-X-ENDLIST
         PLAYLIST
       end

@@ -18,7 +18,11 @@ class Admin::VouchersController < Abstract::FrontendController
       result.errors {|errors| @errors = errors }
     end
 
-    render 'index'
+    render turbo_stream: turbo_stream.replace(
+      'voucher-codes',
+      partial: 'admin/vouchers/codes',
+      locals: {vouchers: @vouchers, errors: @errors}
+    )
   end
 
   def query
@@ -42,6 +46,6 @@ class Admin::VouchersController < Abstract::FrontendController
   end
 
   def load_courses
-    @courses = Course::Course.not_deleted.order(:course_code)
+    @courses = CourseService::Course.not_deleted.order(:course_code)
   end
 end

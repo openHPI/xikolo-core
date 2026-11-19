@@ -25,16 +25,13 @@ describe 'Account: Confirmations: Create', type: :request do
   end
 
   it 'enqueues confirm email job' do
-    expect(NotificationService::SendConfirmEmailJob)
-      .to receive(:perform_later) do |event|
-        expect(event).to match(
-          id: '45709320-66c3-4732-b786-1f562a882b77',
-          user_id: '8fc575b8-d881-4024-b787-ae010dd2f81b',
-          url: match(%r{/account/confirm/[^/]+$})
-        )
-      end
-
-    resp
+    expect { resp }
+      .to have_enqueued_job(NotificationService::SendConfirmEmailJob)
+      .with(match(
+        id: '45709320-66c3-4732-b786-1f562a882b77',
+        user_id: '8fc575b8-d881-4024-b787-ae010dd2f81b',
+        url: match(%r{/account/confirm/[^/]+$})
+      ))
   end
 
   context 'with invalid signature' do

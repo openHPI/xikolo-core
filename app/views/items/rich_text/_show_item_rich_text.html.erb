@@ -1,0 +1,7 @@
+<div class="w-full">
+  <%= render Items::ContentCard.new(rendered_content: item.text_html, lang: item.lang) %>
+
+  <%= render 'items/rich_text/rich_text_downloads', item: %>
+
+  <%= render course_item_bottom_bar %>
+</div>

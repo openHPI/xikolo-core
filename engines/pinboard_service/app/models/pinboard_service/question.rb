@@ -74,12 +74,12 @@ class Question < ApplicationRecord # rubocop:disable Layout/IndentationWidth
 
   validates :user_id, :course_id, :text, presence: true
 
-  after_commit(on: :create) { notify :create }
-  after_commit(on: :update) { notify :update }
+  after_commit(on: :create) { QuestionCreateJob.perform_later(decorate.to_event) }
+  before_update :reset_reviewed
+  after_commit :enqueue_answer_accepted_job, on: :update
   before_save do |question|
     question.text_hash = Digest::SHA256.hexdigest question.text
   end
-  before_update :reset_reviewed
 
   # These methods update some cached aggregations - no need to run validations.
   # rubocop:disable Rails/SkipsModelValidations
@@ -94,10 +94,13 @@ class Question < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   def update_public_answer_comments_count!
     update_columns public_answer_comments_count: public_answer_comments.count
   end
-  # rubocop:enable all
 
-  def notify(action_sym)
-    Msgr.publish(decorate.to_event, to: "xikolo.pinboard.question.#{action_sym.to_s.downcase}")
+  # rubocop:enable all
+  def enqueue_answer_accepted_job
+    return unless saved_change_to_accepted_answer_id?
+    return if accepted_answer_id.nil?
+
+    AnswerAcceptedJob.perform_later(decorate.to_event)
   end
 
   # Following line does not include questions without any votes
@@ -160,7 +163,7 @@ class Question < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   end
 
   def num_replies
-    public_answers.count + public_comments.count + public_answer_comments.count
+    public_answers_count.to_i + public_comments_count.to_i + public_answer_comments_count.to_i
   end
 
   def context
@@ -225,16 +228,13 @@ class Question < ApplicationRecord # rubocop:disable Layout/IndentationWidth
 
   def notify_admins_of_auto_block!
     course.admins.each do |admin|
-      Msgr.publish(
-        {
-          key: 'pinboard.blocked_item',
-          receiver_id: admin['id'],
-          payload: {
-            item_url: Xikolo.base_url.join("courses/#{course.code}/question/#{id}"),
-          },
+      NotificationService::SendNotificationJob.perform_later({
+        key: 'pinboard.blocked_item',
+        receiver_id: admin['id'],
+        payload: {
+          item_url: Xikolo.base_url.join("courses/#{course.code}/question/#{id}").to_s,
         },
-        to: 'xikolo.notification.notify'
-      )
+      })
     end
   end
 

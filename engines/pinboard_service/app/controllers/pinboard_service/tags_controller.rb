@@ -56,6 +56,7 @@ class TagsController < ApplicationController # rubocop:disable Layout/Indentatio
 
   def tag_params
     params.permit(:name, :course_id, :type, :referenced_resource)
+      .tap { it[:type] = "PinboardService::#{it[:type]}" if it.key?(:type) }
   end
 
   def tags_belonging_to_pinboard_resource

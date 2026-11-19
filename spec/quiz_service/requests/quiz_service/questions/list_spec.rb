@@ -27,4 +27,19 @@ RSpec.describe 'Questions: List', type: :request do
       expect(resource).to have(4).items
     end
   end
+
+  context 'for an exam submission' do
+    let(:quiz) { create(:'quiz_service/quiz') }
+    let!(:selected_question) { create(:'quiz_service/multiple_choice_question', quiz:) }
+    let!(:submission) { create(:'quiz_service/quiz_submission', quiz:) }
+    let(:params) { {quiz_submission_id: submission.id} }
+
+    before do
+      create(:'quiz_service/quiz_submission_question', quiz_submission: submission, quiz_question_id: selected_question.id)
+    end
+
+    it 'returns only the persisted question set in its persisted order' do
+      expect(resource.pluck('id')).to eq([selected_question.id])
+    end
+  end
 end

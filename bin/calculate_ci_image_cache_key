@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+
+set -eu
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+DOCKERFILE="${PROJECT_ROOT}/Dockerfile.ci"
+PACKAGES="${PROJECT_ROOT}/packages.txt"
+
+# Include the year+week so the hash rotates every week.
+WEEK=$(date +%Y-W%W)
+
+# Calculate combined hash
+HASH=$( { cat "$DOCKERFILE" "$PACKAGES"; printf '%s' "$WEEK"; } | sha256sum | cut -d' ' -f1 | cut -c1-16)
+
+echo "$HASH"

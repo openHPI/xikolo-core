@@ -1,9 +1,6 @@
 / Buttons on top of the page
 .pinboard-content-container
-  .pinboard-breadcrumbs
-    span = t(:'pinboard.breadcrumbs.label')
-    - @pinboard.breadcrumbs.for_thread(@question).each_level do |url, text|
-      = link_to text, url, class: 'bs-a'
+  = render Global::Breadcrumbs.new(items: @pinboard.breadcrumbs.for_thread(@question).to_a)
 
   - if @pinboard.open?
     .mt10
@@ -23,22 +20,22 @@
         = render Global::Callout.new(t(:'question.show.closed_msg'), type: :warning, icon: Global::FaIcon.new('lock'))
       - elsif !@question.blocked? || current_user.allowed?('pinboard.entity.block')
         / Answer question form
-        .row.mt30
-          .col-md-12#answer_form_box data-id='scroll-target' class='answer-container'
+        .mt30
+          #answer_form_box data-id='scroll-target' class='answer-container'
             = render 'answer_form', answer: @new_answer, question: @question
       - else
         = render Global::Callout.new(t(:'pinboard.reporting.reply_blocked'), icon: Global::FaIcon.new('lock'))
 
 - if can_delete?
-  .row.mt20.moderator
-    .col-md-1
+  .mt20.moderator.flex.flex-row.flex-wrap.gap-5.x-card.bg-accent-25.text-accent-content.p-5
+    div
       = link_to question_path,
                 method: :delete,
                 class: 'btn btn-default',
                 data: {confirm: t(:'.confirm_delete')}
         = t :'.destroy'
     - if @pinboard.open?
-      .col-md-1
+      div
         - if @show_close_button
           = link_to in_section_context? ? close_course_section_question_path : close_course_question_path,
                     method: :post,

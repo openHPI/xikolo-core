@@ -2,26 +2,11 @@
 
 class Course::ProgressPresenter < CourseInfoPresenter
   def self.build(user, course)
-    new(
-      course:,
-      user:,
-      progresses: Xikolo::Course::Progress.where(
-        user_id: user.id,
-        course_id: course.id
-      )
-    )
-  end
-
-  def initialize(*args)
-    super
-    Acfs.on @progresses do |progresses|
-      @course_progress = progresses.pop
-      @section_progresses = progresses
-    end
+    new(course:, user:)
   end
 
   def available?
-    @section_progresses.any?
+    sections.any?
   end
 
   def open_mode?
@@ -35,7 +20,7 @@ class Course::ProgressPresenter < CourseInfoPresenter
   end
 
   def sections
-    @section_progresses.map do |section|
+    @sections ||= @course.sections.published.not_alternative.map do |section|
       Course::SectionProgressPresenter.new section:, course: @course, user: @user
     end
   end

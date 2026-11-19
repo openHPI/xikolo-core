@@ -196,12 +196,12 @@ module Bridges
         end
 
         def skills_for(course)
-          Course::Metadata.resolve(course['id'], Course::Metadata::TYPE::SKILLS, Course::Metadata::VERSION)
+          CourseService::Metadata.resolve(course['id'], CourseService::Metadata::TYPE::SKILLS, CourseService::Metadata::VERSION)
         end
 
         def educational_alignment_for(course)
-          Course::Metadata.resolve(course['id'], Course::Metadata::TYPE::EDUCATIONAL_ALIGNMENT,
-            Course::Metadata::VERSION)
+          CourseService::Metadata.resolve(course['id'], CourseService::Metadata::TYPE::EDUCATIONAL_ALIGNMENT,
+            CourseService::Metadata::VERSION)
         end
 
         ##
@@ -211,8 +211,8 @@ module Bridges
         #
         # @param course [Restify::Resource]
         def licenses_for(course)
-          if Course::Course.find(course['id']).license.present?
-            Course::Course.find(course['id']).license.data
+          if CourseService::Course.find(course['id']).license.present?
+            CourseService::Course.find(course['id']).license.data
           elsif (license = @config.dig('course_license', 'default'))
             [
               {
@@ -239,7 +239,7 @@ module Bridges
         end
 
         def offers_for(course)
-          Course::Course.find(course['id']).offers.map do |offer|
+          CourseService::Course.find(course['id']).offers.map do |offer|
             {
               price: offer.price,
               price_currency: offer.price_currency,
@@ -252,7 +252,7 @@ module Bridges
         end
 
         def paid?(course)
-          if Course::Course.find(course['id']).offers.any?
+          if CourseService::Course.find(course['id']).offers.any?
             offers_for(course).pluck(:price).sum.positive?
           else
             false

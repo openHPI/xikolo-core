@@ -134,23 +134,6 @@ a.detail-link {
 .platform-dashboard {
   padding-right: 30px;
   padding-left: 30px;
-
-  .chart-container {
-    padding-bottom: 20px;
-    @include outer-container();
-
-    &.geo .chart {
-      height: 500px;
-      margin-bottom: 10px;
-    }
-
-    &.daytime-activity,
-    &.referrers {
-      .chart {
-        margin-top: 20px;
-      }
-    }
-  }
 }
 
 .course-dashboard {
@@ -164,23 +147,6 @@ a.detail-link {
   .title {
     margin-left: 20px;
     font-size: 40px;
-  }
-
-  .chart-container {
-    padding-bottom: 20px;
-    @include outer-container();
-
-    &.geo .chart {
-      height: 500px;
-      margin-bottom: 10px;
-    }
-
-    &.daytime-activity,
-    &.referrers {
-      .chart {
-        margin-top: 20px;
-      }
-    }
   }
 }
 

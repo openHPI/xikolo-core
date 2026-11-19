@@ -5,13 +5,12 @@ require 'spec_helper'
 describe Pinboard::Topic, type: :component do
   subject(:component) { described_class.new(topic, course_code) }
 
-  let(:topic) { build(:'pinboard:question', title: 'Coding Example', updated_at: 1.day.ago) }
+  let(:topic) { create(:'pinboard_service/question', title: 'Coding Example', updated_at: 1.day.ago) }
   let(:course_code) { 'course-123' }
-  let!(:section) { build(:'course:section', title: 'Week 1') }
 
   describe '#css_classes' do
     context 'when the topic is pinned' do
-      let(:topic) { super().merge('sticky' => true) }
+      let(:topic) { create(:'pinboard_service/question', title: 'Coding Example', sticky: true, updated_at: 1.day.ago) }
 
       it 'adds specific sticky class' do
         render_inline component
@@ -23,7 +22,7 @@ describe Pinboard::Topic, type: :component do
 
   describe '#title' do
     context 'when the topic is blocked' do
-      let(:topic) { super().merge('abuse_report_state' => 'blocked') }
+      let(:topic) { create(:'pinboard_service/question', title: 'Coding Example', workflow_state: 'blocked', updated_at: 1.day.ago) }
 
       it 'adds a blocked prefix to the title' do
         render_inline(component)
@@ -37,45 +36,37 @@ describe Pinboard::Topic, type: :component do
     it 'returns the URL of the topic' do
       render_inline(component)
 
-      expect(component.url).to eq "/courses/course-123/question/#{topic['id']}"
-    end
-
-    context 'when it belongs to the pinboard of a section' do
-      let(:topic) { super().merge('section_id' => section['id']) }
-
-      it 'returns the URL of the topic in the context of the section' do
-        render_inline(component)
-
-        expect(component.url).to eq "/courses/course-123/question/#{topic['id']}?section_id=#{section['id']}"
-      end
+      expect(component.url).to eq "/learn/course-123/question/#{topic.id}"
     end
   end
 
   describe '#tags' do
-    let(:topic) { super().merge('implicit_tags' => implicit_tags, 'user_tags' => user_tags) }
-
-    let(:implicit_tags) do
-      [
-        {'name' => section['id'], 'referenced_resource' => 'Xikolo::Course::Section', 'id' => '81e01000-0000-4444-a000-000000000004'},
-      ]
+    let(:section) { create(:'course_service/section', title: 'Week 1') }
+    let(:implicit_tag) do
+      PinboardService::ImplicitTag.create!(
+        name: section.id,
+        referenced_resource: 'Xikolo::Course::Section',
+        course_id: topic.course_id
+      )
     end
-    let(:user_tags) do
-      [
-        {'name' => 'Coding', 'id' => '81e01000-0000-4444-a000-000000000003'},
-      ]
+    let(:explicit_tag) do
+      PinboardService::ExplicitTag.create!(
+        name: 'Coding',
+        course_id: topic.course_id
+      )
     end
 
     before do
-      Stub.request(:course, :get,
-        "/sections/#{section['id']}").to_return Stub.json(section)
+      topic.tags << implicit_tag << explicit_tag
+      topic.reload
     end
 
     it 'returns both user and implicit tags' do
       render_inline(component)
 
       expect(component.tags).to contain_exactly(
-        {name: 'Coding', id: '81e01000-0000-4444-a000-000000000003'},
-        {name: 'Week 1', id: '81e01000-0000-4444-a000-000000000004'}
+        {name: 'Coding', id: explicit_tag.id},
+        {name: 'Week 1', id: implicit_tag.id}
       )
     end
   end

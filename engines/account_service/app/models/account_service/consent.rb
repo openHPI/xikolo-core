@@ -7,6 +7,8 @@ class Consent < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   belongs_to :user
   belongs_to :treatment
 
+  validates :value, inclusion: [true, false]
+
   after_save_commit do
     if consented?
       begin
@@ -51,7 +53,7 @@ class Consent < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   alias consented consented?
 
   def consented_at
-    updated_at
+    created_at
   end
 
   def refused?

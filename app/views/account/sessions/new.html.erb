@@ -1,0 +1,22 @@
+<% content_for :main_background do %>
+  <%= render 'account/shared/background' %>
+<% end %>
+
+<div class="flex justify-center px-4 py-8 md:py-16">
+  <div class="x-card bg-base-100 w-full max-w-[480px]">
+    <div class="x-card-body">
+      <h1 class="x-card-title text-xl sm:text-3xl font-medium"><%= t(:'header.login.headline') %></h1>
+
+      <%= render 'account/sessions/login',
+                  connect_auth_id: @connect_auth_id,
+                  redirect_param: @redirect_param %>
+      <% if @connect_auth_id.present? || current_user.feature?('account.registration') %>
+        <div class="x-divider">
+          <p class="text-sm sm:text-base"><%= t(:'header.login.register.headline') %>
+            <%= link_to t(:'header.login.register.link'), new_account_path, class: 'x-link font-medium' %>
+          </p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

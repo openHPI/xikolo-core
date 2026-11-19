@@ -1,0 +1,96 @@
+<div class="bg-accent-25 px-3.75 pt-5 pb-14 lg:px-16">
+  <div class="container mx-auto">
+    <%= render Course::DetailsCard.new(@course_presenter, enrollment_count: @course_presenter.enrollment_count) %>
+  </div>
+</div>
+
+<%# The accent background ends halfway down the key facts. %>
+<div
+  class="
+    from-accent-25 bg-linear-to-b from-50% to-transparent to-50% px-3.75
+    lg:px-16
+  "
+>
+  <div class="container mx-auto">
+    <%= render Course::KeyFacts.new(@course_presenter) %>
+  </div>
+</div>
+
+<div class="px-3.75 lg:px-16">
+  <div class="container mx-auto">
+    <div class="pt-14">
+      <%= render Global::Accordion.new(variant: 'slim') do |accordion| %>
+        <% accordion.with_section(t(:'.about_content'), 'course-information', expanded: true) do %>
+          <div class="responsive-images" <%= tag.attributes(lang: @course_presenter.lang) %>>
+            <div class="prose prose-sm max-w-none">
+              <%== @course_presenter.description_html %>
+            </div>
+          </div>
+        <% end %>
+        <% if @course_presenter.learning_goals? %>
+          <% accordion.with_section(t(:'.learning_goals'), 'learning-goals') do %>
+            <ul class="x-list" <%= tag.attributes(lang: @course_presenter.lang) %>>
+              <% @course_presenter.learning_goals.each do |goal| %>
+                <li class="x-list-row gap-2 px-0 after:border-0">
+                  <span aria-hidden="true" class="text-base-content">
+                    <%= pixelart_icon('check', css_class: 'size-4') %>
+                  </span>
+
+                  <span><%= goal %></span>
+                </li>
+              <% end %>
+            </ul>
+          <% end %>
+        <% end %>
+        <% if @course_presenter.show_certificate_requirements? %>
+          <% accordion.with_section(t(:'course.courses.show.certificates'), 'certificate-requirements') do %>
+            <ul class="certificate-requirements list-disc">
+              <% @course_presenter.certificate_requirements.each do |text| %>
+                <li><%== text %></li>
+              <% end %>
+            </ul>
+            <p><%= t(:'course.courses.show.guidelines_link') %></p>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+
+    <% if @teacher_list_presenter.display? %>
+      <section class="text-base-content flex flex-col gap-8 py-5 lg:py-16">
+        <h2 class="text-xl font-medium lg:text-2xl">
+          <%= t(:'course.courses.show.teacher_title') %>
+        </h2>
+
+        <%= render Global::Carousel.new(label: t(:'course.courses.show.teacher_title')) do |carousel| %>
+          <% @teacher_list_presenter.each do |teacher| %>
+            <% carousel.with_item do %>
+              <%= render Course::TeacherCard.new(
+                name: teacher.name,
+                description: teacher.description,
+                picture_url: teacher.picture_url,
+              ) %>
+            <% end %>
+          <% end %>
+        <% end %>
+      </section>
+    <% end %>
+  </div>
+</div>
+
+<% if @course_presenter.teaser_player %>
+  <section id="course-teaser" class="bg-secondary-25 scroll-mt-navbar px-3.75 py-8 lg:px-16 lg:py-12 mt-1.5" aria-labelledby="course-teaser-title">
+    <div class="container mx-auto flex flex-col gap-6">
+      <h2 id="course-teaser-title" class="text-xl font-medium lg:text-2xl"><%= t(:'course.courses.show.teaser_title') %></h2>
+      <div class="overflow-hidden rounded-2xl">
+        <%= render @course_presenter.teaser_player %>
+      </div>
+    </div>
+  </section>
+<% end %>
+
+<% if @course_presenter.open_mode? %>
+  <%= render Course::Popover.new(t(:'course.courses.show.open_mode.text'), 'popover-openmode', cookie_name: 'hide_openmode_hint') %>
+  <%= render Course::Popover.new(t(:'course.courses.show.open_mode.text'), 'popover-openmode--mobile', cookie_name: 'hide_openmode_hint') %>
+<% end %>
+
+<%= render 'course/shared/bottom_bar', course_id: course_layout.id %>

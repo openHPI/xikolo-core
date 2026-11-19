@@ -1,0 +1,15 @@
+<div class="pinboard-topics">
+  <% if topics.any? %>
+    <table class="topics-table">
+      <% topics.each do |topic| %>
+        <%= render Pinboard::Topic.new(topic, course_code) %>
+      <% end %>
+    </table>
+
+    <div class="pinboard-pagination">
+      <%= render Global::Pagination.new(topics) %>
+    </div>
+  <% else %>
+    <%= render State::Empty.new(t(:'pinboard.no_results')) %>
+  <% end %>
+</div>

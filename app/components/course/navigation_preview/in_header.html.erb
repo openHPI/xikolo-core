@@ -1,0 +1,5 @@
+<%= render Global::PageHeader.new('Digitale Gerechtigkeit', type: :slim) do |header| %>
+  <% header.with_navigation do %>
+    <%= render Course::Navigation.new(course_code: 'digital-justice', **navigation) %>
+  <% end %>
+<% end %>

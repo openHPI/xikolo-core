@@ -18,6 +18,18 @@ class AccountMailer < ApplicationMailer # rubocop:disable Layout/IndentationWidt
     end
   end
 
+  def account_reactivation(user, url)
+    @url = url
+
+    return unless user.email # deleted user
+
+    I18n.with_locale(get_language(user.language)) do
+      subject = I18n.t 'notification_service.notifications.account_mailer.account_reactivation.subject',
+        site_name: Xikolo.config.site_name
+      mail to: user.email, subject:
+    end
+  end
+
   def confirm_email(user, address, url)
     @url = url
 

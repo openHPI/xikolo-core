@@ -7,7 +7,7 @@ describe 'Channel: Show', type: :request do
 
   let(:channel) do
     create(
-      :channel,
+      :'course_service/channel',
       code: 'the-channel',
       stage_visual_uri: 's3://xikolo-public/channels/1/stage_visual_v1.jpg',
       stage_statement: 'Channel Stage'
@@ -21,59 +21,62 @@ describe 'Channel: Show', type: :request do
     expect(response).to be_successful
   end
 
-  context 'with stage items' do
-    before do
-      channel.courses << create(:course, :active, show_on_stage: true, stage_statement: 'Stage 1')
-      channel.courses << create(:course, :active, show_on_stage: true, stage_statement: 'Stage 2')
-      channel.courses << create(:course, :active, show_on_stage: false, stage_statement: 'Stage 3')
-    end
-
-    it 'shows three stage items' do
-      show_channel
-
-      expect(page).to have_content 'Channel Stage'
-      expect(page).to have_css('img[src*="https://s3.xikolo.de/xikolo-public/channels/1/stage_visual_v1.jpg"]')
-
-      expect(page).to have_content 'Stage 1'
-      expect(page).to have_content 'Stage 2'
-
-      expect(page).to have_no_content 'Stage 3'
-    end
-  end
-
   context 'with courses hidden from the public course list' do
     before do
       channel.courses << create(:course, :preparing, title: 'An upcoming course in preparation')
       channel.courses << create(:course, :active, title: 'An active and current course')
-      channel.courses << create(:course, :active, title: 'An active and current but not listed course', show_on_list: false)
+      channel.courses << create(:course, :active, title: 'An active and current but not listed course', placement: [])
       channel.courses << create(:course, :active, :hidden, title: 'A hidden course')
       channel.courses << create(:course, :active, :deleted, title: 'A deleted course')
       channel.courses << create(:course, :active, title: 'A group-restricted course', groups: %w[group.1])
-      channel.courses << create(:course, :archived, title: 'An archived course')
-      channel.courses << create(:course, :archived, title: 'An archived but not listed courses', show_on_list: false)
+      channel.courses << create(:course, :self_paced, title: 'An self_paced course')
+      channel.courses << create(:course, :self_paced, title: 'An self_paced but not listed courses', placement: [])
       channel.courses << create(:course, :upcoming, title: 'A published future course')
     end
 
-    it 'includes courses that should be hidden on the course list' do
+    it 'excludes courses that should be hidden on the course list' do
       show_channel
 
-      expect(page).to have_content 'An active and current course'
-      expect(page).to have_content 'An active and current but not listed course'
-      expect(page).to have_content 'An archived course'
-      expect(page).to have_content 'An archived but not listed courses'
-      expect(page).to have_content 'A published future course'
+      expect(page).to have_text 'An active and current course'
+      expect(page).to have_text 'An self_paced course'
+      expect(page).to have_text 'A published future course'
 
-      expect(page).to have_no_content 'An upcoming course in preparation'
-      expect(page).to have_no_content 'A hidden course'
-      expect(page).to have_no_content 'A deleted course'
-      expect(page).to have_no_content 'A group-restricted course'
+      expect(page).to have_no_text 'An active and current but not listed course'
+      expect(page).to have_no_text 'An self_paced but not listed courses'
+      expect(page).to have_no_text 'An upcoming course in preparation'
+      expect(page).to have_no_text 'A hidden course'
+      expect(page).to have_no_text 'A deleted course'
+      expect(page).to have_no_text 'A group-restricted course'
+    end
+  end
+
+  context 'when filtering by format' do
+    subject(:show_channel) { get "/channels/#{channel.code}?course_format=workshop" }
+
+    before do
+      channel.courses << create(:course, :active, title: 'A course', course_format: 'course')
+      channel.courses << create(:course, :active, title: 'A workshop', course_format: 'workshop')
+    end
+
+    it 'lists only matching learning units' do
+      show_channel
+
+      expect(page).to have_text 'A workshop'
+      expect(page).to have_no_text 'A course'
+    end
+
+    it 'only lists formats that have at least one learning unit' do
+      show_channel
+
+      # 'course' and 'workshop' learning units exist, but none for 'project'.
+      expect(page).to have_select 'Format', options: %w[All Course Workshop]
     end
   end
 
   context 'with an info link configured' do
     let(:channel) do
       create(
-        :channel,
+        :'course_service/channel',
         code: 'the-channel',
         stage_statement: 'Channel Stage',
         info_link: {
@@ -90,11 +93,9 @@ describe 'Channel: Show', type: :request do
     end
 
     context 'for logged-in user' do
-      subject(:show_channel) { get "/channels/#{channel.code}", headers: }
+      subject(:show_channel) { get "/channels/#{channel.code}" }
 
-      let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
-
-      before { stub_user_request preferred_language: 'de' }
+      before { sign_in(user: create(:'account_service/user', language: 'de')) }
 
       it "shows the info link in the user's language" do
         show_channel

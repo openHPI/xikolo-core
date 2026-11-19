@@ -65,16 +65,7 @@ module Provider # rubocop:disable Layout/IndentationWidth
       User::Create.new(data).call.tap do |user|
         authorization.update!(user:)
 
-        # user.features only holds features that are directly
-        # associated with the user, but not those derived from
-        # group memberships. Thus we can't use user.feature?
-        # in the account service, as we use it in xi-web.
-        if Feature.find_by(name: 'account.registration', owner: Group.all_users, context: Context.root)
-          Msgr.publish(
-            {user_id: user.id},
-            to: 'xikolo.web.account.sign_up'
-          )
-        end
+        NotificationService::SendWelcomeEmailJob.perform_later(user.id, nil)
       end
     end
 

@@ -9,47 +9,18 @@ module Abstract
   # In addition, it loads a bunch of data necessary to render e.g. the channel
   # menu or site-wide alert messages.
   class FrontendController < ::ApplicationController
-    helper LanalyticsHelper
-
     include LoadsCourseChannels
 
     before_action :check_primary_email
-    before_action :check_app_request
     before_action :set_default_title
-    before_action :set_js_data
     before_action :sanitize_params
 
-    include TracksReferrers
     include ContentSecurityPolicy
 
     private
 
-    def check_app_request
-      @in_app = false
-
-      if request.params['in_app'].present? && request.params['in_app'] == 'true'
-        @in_app = true
-        cookies[:in_app] = '1'
-        # redirect to given url but without param, used for sso on mobile
-        if %w[/auth/who].include? request.params['redirect_to']
-          redirect_to(request.params['redirect_to'], status: :see_other)
-        end
-      end
-
-      # This is similar to `Xikolo::Middleware::RunContext#app_request?`
-      if (request.headers['Accept'] == 'application/vnd.xikolo.v1, application/json') ||
-         request.headers['User-Platform'].present? ||
-         request.headers['X-User-Platform'].present? ||
-         (cookies[:in_app] == '1')
-        cookies[:in_app] = '1' unless cookies[:in_app] == '1'
-        @in_app = true
-      end
-
-      gon.in_app = @in_app
-    end
-
     def set_default_title
-      set_page_title I18n.t(:default_title)
+      set_meta_tags title: I18n.t(:default_title)
     end
 
     # Configure the <title> tag of the current HTML page
@@ -62,11 +33,9 @@ module Abstract
     # user, as the most special part of the title will come first.
     #
     # EXAMPLES:
-    # set_page_title('foo') will result in "foo | Xikolo"
-    # set_page_title('foo', 'bar') will result in "bar | foo | Xikolo"
+    # set_page_title('foo') will result in "foo"
+    # set_page_title('foo', 'bar') will result in "bar | foo"
     def set_page_title(*parts)
-      parts.unshift Xikolo.config.site_name
-
       set_meta_tags title: parts.reverse.join(' | ')
     end
 
@@ -79,31 +48,6 @@ module Abstract
       )
     end
 
-    # Set javascript data for lanalytics and other JS functionality.
-    def set_js_data
-      if promises.key?(:course)
-        gon.course_id = the_course.id
-      end
-
-      return if current_user.anonymous?
-
-      gon.env = Rails.env
-      gon.user_id = current_user.id
-
-      if ENV['RELEASE_NUMBER'].present?
-        gon.build_version = ENV['RELEASE_NUMBER']
-      end
-
-      if promises.key?(:course) && defined? the_item
-        the_item.then do |item|
-          if item.present?
-            gon.item_id = item['id']
-            gon.section_id = item['section_id']
-          end
-        end&.value
-      end
-    end
-
     # Filter out *string* params that include a null-byte,
     # to prevent null-byte injections.
     #
@@ -112,12 +56,12 @@ module Abstract
     # - percent-encoded (%00),
     # - double-encoded (%2500)
     # Based on https://zenn.dev/yamap_dev/articles/640d91cae4c8dd.
-    NULL_BYTE_CHARS = %W[\u0000 \x00 %00 %2500].freeze
-    private_constant :NULL_BYTE_CHARS
+    NULL_BYTE_PATTERN = Regexp.union("\u0000", "\x00", '%00', '%2500').freeze
+    private_constant :NULL_BYTE_PATTERN
 
     def sanitize_params
       params.reject! do |_k, value|
-        value.is_a?(String) && NULL_BYTE_CHARS.any? { value.include? it }
+        value.is_a?(String) && value.match?(NULL_BYTE_PATTERN)
       end
     end
   end

@@ -148,6 +148,10 @@ de:
           subject: "Passwort zurücksetzen für Ihr %{site_name} Benutzerkonto"
           text: Für Ihr Benutzerkonto wurde ein Zurücksetzen des Passwortes beantragt. Klicken Sie den untenstehenden Button, um das Passwort nun zurückzusetzen. Der Link ist nur für 24 Stunden gültig.
           link: Passwort zurücksetzen
+        account_reactivation:
+          subject: "Ihr %{site_name} Benutzerkonto wurde reaktiviert"
+          text: Ihr Benutzerkonto wurde reaktiviert. Sie können sich nun wieder anmelden und auf die Plattform zugreifen.
+          link: Anmelden
         confirm_email:
           subject: Bitte Bestätigen Sie Ihre E-Mail
           mailheader_type: Bestätigen Sie Ihre E-Mail
@@ -162,7 +166,7 @@ de:
           step_1: Befolgen Sie die Anweisungen auf dem Bildschirm, um Ihr Profil zu vervollständigen. Für die Nutzung der Plattform sind einige Informationen erforderlich.
           step_2: Melden Sie sich für einen Kurs an, der Sie interessiert.
           step_3: Betreten Sie den Kurs und beginnen Sie zu lernen. Die meisten unserer Kurse finden im eigenen Tempo statt und Sie können sofort beginnen.
-          step_4: Wenn Sie während der Arbeit an dem Kurs Fragen haben, schauen Sie sich bitte die Forumsdiskussionen an.
+          step_4: Wenn Sie während der Arbeit an dem Kurs Fragen haben, schauen Sie sich bitte die Forumsbeiträge an.
           confirmation: Um zu beginnen, bestätigen Sie bitte Ihre E-Mail-Adresse, indem Sie auf die folgende Button klicken.
           link: E-Mail bestätigen
           copy_instructions: Sollte der oben stehende Link nicht anklickbar sein oder nicht funktionieren, versuchen Sie ihn komplett zu kopieren und in die Adresszeile Ihres Webbrowsers einzufügen.
@@ -176,7 +180,7 @@ de:
         text: "%{text}"
     shared:
       questions:
-        no_questions: In den letzten Tagen hat sich im Forum nichts getan. Starten Sie heute eine neue Diskussion!
+        no_questions: In den letzten Tagen hat sich im Forum nichts getan. Starten Sie heute einen neuen Beitrag!
         no_unanswered: Es gibt keine unbeantworteten Fragen.
 
     course_welcome_mailer:
@@ -191,7 +195,7 @@ de:
       ago: her
       last_activity: letzte Aktivität
       answered: Beantwortet
-      discussion: Diskussion
+      discussion: Forum
       unanswered: Unbeantwortet
       closed: Geschlossen
       tags: Tags

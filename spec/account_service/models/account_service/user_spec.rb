@@ -42,6 +42,11 @@ describe AccountService::User, type: :model do
   it { is_expected.to respond_to(:email) }
   it { is_expected.to be_valid }
 
+  it 'exposes profile enums' do
+    expect(described_class.genders.keys).to include('male', 'female', 'diverse', 'undisclosed')
+    expect(described_class.statuses.keys).to include('school_student', 'university_student', 'teacher', 'other')
+  end
+
   describe '#anonymous' do
     before { described_class.anonymous }
 
@@ -218,54 +223,13 @@ describe AccountService::User, type: :model do
     end
   end
 
-  describe '#create' do
-    describe 'event notify' do
-      subject(:user) do
-        ActiveRecord::Base.transaction do
-          create(:'account_service/user').tap do |user|
-            create(:'account_service/email', user:)
-          end
-        end
-      end
-
-      let(:record) { described_class.first }
-      let(:email) { AccountService::Email.first }
-
-      it 'publishes an event' do
-        expect(Msgr).to receive :publish do |payload, opts|
-          expect(opts).to eq to: 'xikolo.account.user.create'
-
-          expect(payload).to include \
-            'id' => record.id,
-            'email' => email.address
-        end
-
-        user
-      end
-    end
-  end
-
-  describe '#update' do
-    before { user }
-
-    it 'publishes an event' do
-      expect(Msgr).to receive(:publish) do |payload, opts|
-        expect(opts).to eq to: 'xikolo.account.user.update'
-        expect(payload).to eq user.decorate.as_event
-        expect(payload).to include 'full_name' => 'Luke Skywalker'
-      end
-
-      user.update! full_name: 'Luke Skywalker'
-    end
-  end
-
   describe '#email' do
     before { user }
 
     context 'when primary email changes' do
       subject(:update_email) do
         new_email.update! primary: true
-        user.primary_email.reload
+        user.reload
       end
 
       let!(:new_email) { create(:'account_service/email', :confirmed, user:) }
@@ -276,33 +240,6 @@ describe AccountService::User, type: :model do
         expect { update_email }.to \
           change(user, :email).from(user.email).to(new_email.address)
       end
-
-      it 'publishes an event' do
-        allow(Msgr).to receive(:publish)
-
-        expect(Msgr).to receive(:publish).with(
-          anything,
-          hash_including(to: 'xikolo.account.user.update')
-        ) do |payload, _|
-          expect(payload).to eq user.decorate.as_event
-          expect(payload).to include 'email' => new_email.address
-        end
-
-        update_email
-      end
-    end
-  end
-
-  describe '#destroy' do
-    before { user }
-
-    it 'publishes an event' do
-      expect(Msgr).to receive(:publish) do |payload, opts|
-        expect(opts).to eq to: 'xikolo.account.user.destroy'
-        expect(payload).to eq user.decorate.as_event
-      end
-
-      user.destroy!
     end
   end
 
@@ -322,6 +259,86 @@ describe AccountService::User, type: :model do
         before { user.update! accepted_policy_version: policy.version }
 
         it { is_expected.to be_truthy }
+      end
+    end
+  end
+
+  describe '#underage?' do
+    subject { user.underage? }
+
+    context 'without a birthdate' do
+      it { is_expected.to be false }
+    end
+
+    context 'when the user turns 16 today' do
+      let(:attributes) { {born_at: 16.years.ago.to_date} }
+
+      it { is_expected.to be false }
+    end
+
+    context 'when the user turned 16 yesterday' do
+      let(:attributes) { {born_at: (16.years.ago - 1.day).to_date} }
+
+      it { is_expected.to be false }
+    end
+
+    context 'when the user turns 16 tomorrow' do
+      let(:attributes) { {born_at: (16.years.ago + 1.day).to_date} }
+
+      it { is_expected.to be true }
+    end
+  end
+
+  describe '#guardian_consent_required?' do
+    subject { user.guardian_consent_required? }
+
+    context 'when the user is of age' do
+      let(:attributes) { {born_at: 20.years.ago} }
+
+      it { is_expected.to be false }
+    end
+
+    context 'when the user is underage' do
+      let(:attributes) { {born_at: 12.years.ago} }
+
+      it { is_expected.to be true }
+
+      context 'and a guardian consented' do
+        let(:attributes) { super().merge(guardian_consent_at: 1.day.ago) }
+
+        it { is_expected.to be false }
+      end
+    end
+
+    context 'when the birthdate is corrected to an underage one' do
+      let(:attributes) { {born_at: 20.years.ago} }
+
+      before { user.update!(born_at: 12.years.ago) }
+
+      it { is_expected.to be true }
+    end
+  end
+
+  describe '#guardian_consent=' do
+    it 'records when the consent was given' do
+      user.update!(guardian_consent: true)
+
+      expect(user.guardian_consent_at).to be_within(1.minute).of(Time.zone.now)
+    end
+
+    it 'keeps the timestamp of the first consent' do
+      user.update!(guardian_consent_at: 2.days.ago)
+
+      expect { user.update!(guardian_consent: true) }.not_to change(user, :guardian_consent_at)
+    end
+
+    # Submitted as a string by the registration form, where a checkbox that
+    # was not ticked must not count as consent.
+    it 'records nothing when the consent was not given' do
+      ['false', '0', '', nil].each do |value|
+        user.update!(guardian_consent: value)
+
+        expect(user.guardian_consent_at).to be_nil
       end
     end
   end
@@ -379,6 +396,98 @@ describe AccountService::User, type: :model do
 
     it 'creates a membership in the affiliated group' do
       expect(AccountService::Membership.where(group: AccountService::Group.affiliated_users).count).to eq 1
+    end
+  end
+
+  describe '#ban' do
+    let(:session) { create(:'account_service/session', user:) }
+
+    before do
+      session
+    end
+
+    it 'marks user as banned and destroys all sessions' do
+      expect { user.ban }
+        .to change { user.reload.banned? }.from(false).to(true)
+        .and change { user.reload.ban_count }.from(0).to(1)
+        .and change(AccountService::Session, :count).from(1).to(0)
+    end
+  end
+
+  describe '#unban' do
+    let(:user) { create(:'account_service/user', :banned) }
+
+    it 'marks user as not banned and keeps ban count' do
+      expect { user.unban }
+        .to change { user.reload.banned? }.from(true).to(false)
+
+      expect(user.reload.ban_count).to eq 1
+    end
+  end
+
+  describe '#grant_top_talent!' do
+    subject(:grant) { user.grant_top_talent!(source: 'admin') }
+
+    it 'marks the user as top talent and creates an active record' do
+      expect { grant }
+        .to change { user.reload.top_talent? }.from(false).to(true)
+        .and change { UserTopTalent.where(user:).count }.from(0).to(1)
+
+      record = UserTopTalent.where(user:).first
+      expect(record.revoked_at).to be_nil
+      expect(record.source).to eq 'admin'
+    end
+
+    it 'is idempotent' do
+      user.grant_top_talent!(source: 'admin')
+
+      expect { user.grant_top_talent!(source: 'admin') }.not_to change { UserTopTalent.where(user:).count }
+    end
+  end
+
+  describe '#revoke_top_talent!' do
+    subject(:revoke) { user.revoke_top_talent!(source: 'admin') }
+
+    before { user.grant_top_talent!(source: 'admin') }
+
+    it 'unmarks the user but keeps the (revoked) record' do
+      expect { revoke }.to change { user.reload.top_talent? }.from(true).to(false)
+
+      expect(UserTopTalent.where(user:).count).to eq 1
+      record = UserTopTalent.where(user:).first
+      expect(record.revoked_at).to be_present
+      expect(UserTopTalent.where(user:).active.exists?).to be false
+    end
+
+    it 'can be granted again, reusing the same record' do
+      revoke
+
+      expect { user.grant_top_talent!(source: 'admin') }
+        .to change { user.reload.top_talent? }.from(false).to(true)
+
+      expect(UserTopTalent.where(user:).count).to eq 1
+      expect(UserTopTalent.where(user:).first.revoked_at).to be_nil
+    end
+  end
+
+  describe '#top_talent?' do
+    context 'with no records' do
+      it { expect(user.top_talent?).to be false }
+    end
+
+    context 'with an active record' do
+      before { user.grant_top_talent!(source: 'admin') }
+
+      it { expect(user.top_talent?).to be true }
+    end
+
+    context 'with only a revoked record' do
+      before do
+        user.grant_top_talent!(source: 'admin')
+        user.revoke_top_talent!(source: 'admin')
+      end
+
+      it { expect(user.top_talent?).to be false }
     end
   end
 
@@ -454,6 +563,34 @@ describe AccountService::User, type: :model do
 
       it 'does not include active users group' do
         expect(groups).not_to include AccountService::Group.active_users
+      end
+
+      it 'does not include unconfirmed users group' do
+        expect(groups).not_to include AccountService::Group.unconfirmed_users
+      end
+    end
+
+    context 'banned user' do
+      subject(:user) { create(:'account_service/user', :banned) }
+
+      before do
+        expect(user).to be_banned
+      end
+
+      it 'includes all users group' do
+        expect(groups).to include AccountService::Group.all_users
+      end
+
+      it 'includes confirmed users group' do
+        expect(groups).to include AccountService::Group.confirmed_users
+      end
+
+      it 'does not include active users group' do
+        expect(groups).not_to include AccountService::Group.active_users
+      end
+
+      it 'does not include archived users group' do
+        expect(groups).not_to include AccountService::Group.archived_users
       end
 
       it 'does not include unconfirmed users group' do

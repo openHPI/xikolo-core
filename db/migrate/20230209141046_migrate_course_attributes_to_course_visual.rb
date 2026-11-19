@@ -20,7 +20,7 @@ class MigrateCourseAttributesToCourseVisual < ActiveRecord::Migration[6.0]
   def change
     reversible do |dir|
       dir.up do
-        courses = Course::Course.where.not(visual_uri: nil).or(Course::Course.where.not(vimeo_id: nil))
+        courses = CourseService::Course.where.not(visual_uri: nil).or(CourseService::Course.where.not(vimeo_id: nil))
         begin
           courses.find_each(batch_size: 50) do |course|
             course_visual = course.build_visual

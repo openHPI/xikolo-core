@@ -3,71 +3,56 @@
 require 'spec_helper'
 
 describe 'Course: Certificates: Show', type: :request do
-  subject(:show_certificate) { get "/courses/#{course.id}/certificate", headers: }
+  subject(:show_certificate) { get "/learn/#{course.id}/certificate" }
 
-  let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
   let(:course) { create(:course, course_code: 'my-course', records_released: true) }
   let(:course_resource) { build(:'course:course', id: course.id, course_code: course.course_code) }
   let(:user) { create(:'account_service/user') }
   let!(:certificate_template) { create(:certificate_template, :roa, course:) }
-  let!(:badge_template) { create(:open_badge_template, course:) }
-  let(:enrollments) do
-    build_list(
-      :'course:enrollment', 1,
+  let(:enrollment) do
+    create(
+      :'course_service/enrollment',
+      :with_evaluation,
       course_id: course.id,
+      quantiled_user_dpoints: 90,
       user_id: user.id,
-      points: {achieved: 90, maximal: 100, percentage: 90},
-      certificates: {record_of_achievement: true, certificate: true},
-      quantile: 0.99
+      completed: false,
+      quantile: 0.9,
+      deleted: false
     )
   end
 
   before do
     xi_config file_fixture('badge_config.yml').read
 
-    stub_user_request id: user.id
+    sign_in(user:)
 
-    Stub.request(:course, :get, "/courses/#{course.id}")
-      .to_return Stub.json(course_resource)
-    Stub.request(
-      :course, :get, '/enrollments',
-      query: {user_id: user.id, course_id: course.id, deleted: true, learning_evaluation: true}
-    ).to_return Stub.json(enrollments)
+    enrollment
   end
 
-  context 'with achieved Record of Achievement' do
+  context 'with achieved certificate (RoA)' do
     let(:record) { create(:roa, course:, user_id: user.id, template: certificate_template) }
-    let(:open_badge) { create(:open_badge, record:, open_badge_template: badge_template) }
-    let(:file_url) { "https://s3.xikolo.de/xikolo-certificate/openbadges/#{UUID4(user.id).to_s(format: :base62)}/#{UUID4(record.id).to_s(format: :base62)}.png" }
 
-    before do
-      stub_request(:get, open_badge.open_badge_template.file_uri.gsub('s3://', 'https://s3.xikolo.de/'))
-        .with(query: hash_including({}))
-        .to_return(body: File.new('spec/support/files/certificate/badge_template.png'), status: 200)
-      stub_request(:put, file_url)
-    end
+    before { record }
 
-    it 'shows the Record of Achievement' do
+    it 'shows the certificate (RoA)' do
       show_certificate
       expect(response).to have_http_status :ok
-      expect(response.body).to include 'Record of Achievement'
+      expect(response.body).to include 'Certificate'
       expect(response.body).to include course.title
-    end
-
-    it 'shows the Open Badge' do
-      show_certificate
-      expect(response.body).to include 'open-badge-download'
     end
   end
 
-  context 'with no Record of Achievement achieved for the course' do
-    let(:enrollments) do
-      build_list(
-        :'course:enrollment', 1,
+  context 'with no certificate (RoA) achieved for the course' do
+    let(:enrollment) do
+      create(
+        :'course_service/enrollment',
+        :with_low_evaluation,
         course_id: course.id,
+        quantiled_user_dpoints: 90,
         user_id: user.id,
-        points: {achieved: 0, maximal: 100, percentage: 0},
-        certificates: {}
+        completed: false,
+        quantile: 0.9
       )
     end
 

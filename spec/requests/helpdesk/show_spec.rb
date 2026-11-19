@@ -5,18 +5,18 @@ require 'spec_helper'
 describe 'Helpdesk: Show', type: :request do
   subject(:resp) { get('/helpdesk', headers:); response }
 
-  let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
-  let(:features) { {} }
+  let(:headers) { {} }
   let(:course) { build(:'course:course', id: generate(:course_id), title: 'First course') }
   let(:page) { Capybara.string(resp.body) }
+  let(:user) { create(:'account_service/user') }
 
   before do
     Stub.request(
       :course, :get, '/courses',
-      query: hash_including(public: 'true', hidden: 'false')
+      query: hash_including(public: 'true')
     ).to_return Stub.json([course])
 
-    stub_user_request features:
+    sign_in(user:)
   end
 
   it 'lists the category groups' do

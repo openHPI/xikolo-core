@@ -5,38 +5,14 @@ require 'spec_helper'
 describe 'Enrollment: Update', type: :request do
   let(:api) { restify_with_headers(course_service.root_url).get.value! }
 
-  let(:user_id) { generate(:user_id) }
+  let(:user_id) { create(:'account_service/user').id }
+
+  around do |example|
+    perform_enqueued_jobs { example.run }
+  end
 
   def patch(data)
     api.rel(:enrollment).patch(data, params: {id: enrollment.id}).value!
-  end
-
-  context 'updating proctored' do
-    let(:enrollment) { create(:'course_service/enrollment', user_id:, proctored:) }
-
-    context 'without paid proctored' do
-      let(:proctored) { false }
-
-      it 'changes the value' do
-        expect { patch(proctored: true) }.to change { enrollment.reload.proctored }.from(false).to(true)
-      end
-
-      it 'does not change without the value' do
-        expect { patch({}) }.not_to change { enrollment.reload.proctored }.from(false)
-      end
-    end
-
-    context 'with paid proctored' do
-      let(:proctored) { true }
-
-      it 'does not change the value on nil' do
-        expect { patch(proctored: nil) }.not_to change { enrollment.reload.proctored }.from(true)
-      end
-
-      it 'does not change without the value' do
-        expect { patch({}) }.not_to change { enrollment.reload.proctored }.from(true)
-      end
-    end
   end
 
   context 'updating completed' do
@@ -60,9 +36,8 @@ describe 'Enrollment: Update', type: :request do
       before do
         create(:'course_service/result', item:, user_id:, dpoints: 49)
 
-        e = fetch_learning_evaluation
-        e.completed = nil
-        expect(e.completed?).to be true
+        CourseService::LearningEvaluation::UpdateCourseProgressJob
+          .perform_now(course.id, user_id)
       end
 
       context 'with previously nil' do

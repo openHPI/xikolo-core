@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe 'Voucher Redemptions: Create', type: :request do
   subject(:redeem_voucher) do
-    post "/courses/#{course.course_code}/book/#{product_type}", headers:, params:
+    post "/learn/#{course.course_code}/book/#{product_type}", params:
   end
 
   before do
@@ -13,17 +13,15 @@ describe 'Voucher Redemptions: Create', type: :request do
         enabled: true
     YML
 
+    sign_in(user:)
     role = create(:'account_service/role', permissions:)
     create(:'account_service/grant', principal: user, role:, context: course_context)
     user.features.create(name: 'course_reactivation', value: 'true', context: AccountService::Context.root)
-    set_session(id: session.id)
   end
 
   let(:params) { {voucher_redemption: {code: voucher.id}} }
-  let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{session.id}"} }
   let(:request_context_id) { course.context_id }
   let(:course_context) { create(:'account_service/context') }
-  let(:session) { create(:'account_service/session', user:) }
   let(:user) { create(:'account_service/user') }
   let(:user_id) { user.id }
   let(:permissions) { %w[course.content.access] }
@@ -42,7 +40,7 @@ describe 'Voucher Redemptions: Create', type: :request do
 
   describe 'reactivation' do
     let(:product_type) { 'course_reactivation' }
-    let(:course) { create(:course, :archived, :offers_reactivation, context_id: course_context.id) }
+    let(:course) { create(:course, :self_paced, :offers_reactivation, context_id: course_context.id) }
     let(:voucher) { create(:voucher, :reactivation) }
 
     let!(:claim_stub) do
@@ -89,7 +87,7 @@ describe 'Voucher Redemptions: Create', type: :request do
         redeem_voucher
 
         expect(response).to render_template(:new)
-        expect(page).to have_content 'Reactivate this course'
+        expect(page).to have_text 'Reactivate this course'
         expect(page).to have_css "input[value='#{voucher.id}']"
         expect(page).to have_button 'Redeem'
         expect(flash[:error].first).to eq 'The voucher code you have supplied is not valid for your user account.'

@@ -4,7 +4,6 @@ nav:
   - "Organizing courses":
     - classifiers.md
     - featured_courses.md
-    - relations.md
   - deadlines.md
   - quiz_regrading.md
   - lti_regrading.md

@@ -4,7 +4,8 @@
     Xikolo reset stylesheet
 \*--------------------------------------------*/
 /**
- * Reset.............General CSS reset styles
+ * Guardrail for the mixed stack (legacy Bootstrap + Tailwind),
+ * Prevents accidental root-size drift.
  */
 
 /*--------------------------------------------*\
@@ -18,17 +19,10 @@ body {
 }
 
 html {
-  font-size: 10px;
+  font-size: 100%;
 }
 
 body {
   font-size: $font-size-base;
   line-height: $line-height-base;
-}
-
-/*------------------------------------*\
-    App Mode
-\*------------------------------------*/
-body.in_app {
-  margin-top: 0 !important;
 }

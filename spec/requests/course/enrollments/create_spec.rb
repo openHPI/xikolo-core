@@ -3,124 +3,62 @@
 require 'spec_helper'
 
 describe 'Course: Enrollments: Create', type: :request do
-  let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
-  let(:user_id) { generate(:user_id) }
-  let(:permissions) { [] }
-  let(:params) { {course_id: course['id']} }
-  let(:course) { build(:'course:course') }
-  let(:create_stub) do
-    Stub.request(
-      :course, :post, '/enrollments',
-      body: hash_including(user_id:, course_id: course['id'])
-    ).to_return Stub.json(
-      build(:'course:enrollment', user_id:, course_id: course['id'])
-    )
-  end
+  let(:user) { create('account_service/user') }
+  let(:params) { {course_id: course.id} }
+  let(:course) { create(:'course_service/course') }
 
-  before do
-    stub_user_request(id: user_id, permissions:)
-    Stub.request(
-      :course, :get, "/courses/#{course['id']}"
-    ).to_return Stub.json(course)
-    create_stub
-  end
+  before { sign_in(user:) }
 
   describe 'via POST' do
     subject(:action) do
-      post '/enrollments', params:, headers:
+      post '/enrollments', params:
     end
 
-    context 'when the user is not yet enrolled' do
-      before do
-        Stub.request(
-          :course, :get, '/enrollments',
-          query: {user_id:, course_id: course['id']}
-        ).to_return Stub.json([])
-      end
+    let(:course_group) { AccountService::Group.find_by!(name: course.students_group_name) }
 
+    context 'when the user is not yet enrolled' do
       it 'redirects to the course details page' do
         action
-        expect(response).to redirect_to course_path course['course_code']
+        expect(response).to redirect_to course_path course.course_code
       end
 
       it 'creates an enrollment' do
-        action
-        expect(create_stub).to have_been_requested
+        expect { action }.to change(CourseService::Enrollment, :count).by(1)
       end
     end
 
     context 'when the user is already enrolled' do
       before do
-        Stub.request(
-          :course, :get, '/enrollments',
-          query: {user_id:, course_id: course['id']}
-        ).to_return Stub.json(
-          build(:'course:enrollment', user_id:, course_id: course['id'])
-        )
+        create(:'course_service/enrollment', user_id: user.id, course:)
       end
 
       it 'redirects to the course content' do
         action
-        expect(response).to redirect_to course_resume_path course['course_code']
+        expect(response).to redirect_to course_resume_path course.course_code
       end
 
       it 'does not create another enrollment' do
-        action
-        expect(create_stub).not_to have_been_requested
+        expect { action }.not_to change(CourseService::Enrollment, :count)
       end
     end
 
     context 'when the server does not accept the enrollment' do
-      before do
-        Stub.request(
-          :course, :get, '/enrollments',
-          query: {user_id:, course_id: course['id']}
-        ).to_return Stub.json(error_response, status: 422)
-      end
-
-      context 'because an enrollment already exists' do
-        let(:error_response) { {errors: {user_id: ['already enrolled']}} }
-
-        it 'redirects to the course content' do
-          action
-          expect(response).to redirect_to course_resume_path course['course_code']
-        end
-      end
-
       context 'because the course is restricted to other user groups' do
-        let(:error_response) { {errors: {base: %w[access_restricted]}} }
+        before { course.update(groups: ['foo']) }
 
         it 'redirects to the course details page' do
           action
-          expect(response).to redirect_to "/courses/#{course['course_code']}"
-        end
-      end
-
-      context 'because the course prerequisites are not fulfilled' do
-        let(:error_response) { {errors: {base: %w[prerequisites_unfulfilled]}} }
-
-        it 'informs the user about not fulfilled prerequisites' do
-          action
-          expect(flash[:error].first).to eq 'You have not yet fulfilled the prerequisites for participation in this course.'
-          expect(flash[:error].length).to eq 1
+          expect(response).to redirect_to "/learn/#{course['course_code']}"
         end
 
-        it 'redirects to the course details page' do
-          action
-          expect(response).to redirect_to "/courses/#{course['course_code']}"
+        it 'does not create another enrollment' do
+          expect { action }.not_to change(CourseService::Enrollment, :count)
         end
       end
     end
 
     context 'for an invite-only course' do
-      let(:course) { build(:'course:course', invite_only: true) }
-
-      before do
-        Stub.request(
-          :course, :get, '/enrollments',
-          query: {user_id:, course_id: course['id']}
-        ).to_return Stub.json([])
-      end
+      let(:course) { create(:'course_service/course', :invite_only) }
 
       context 'as a regular user' do
         it 'redirects to the course details page' do
@@ -129,22 +67,24 @@ describe 'Course: Enrollments: Create', type: :request do
         end
 
         it 'does not create an enrollment' do
-          action
-          expect(create_stub).not_to have_been_requested
+          expect { action }.not_to change(CourseService::Enrollment, :count)
         end
       end
 
       context 'with teaching rights' do
-        let(:permissions) { ['course.content.access'] }
+        before do
+          role = create(:'account_service/role', permissions: %w[course.content.access])
+          create(:'account_service/grant', principal: user, role:)
+          create(:'account_service/membership', user:, group: course_group)
+        end
 
         it 'redirects to the course details page' do
           action
-          expect(response).to redirect_to "/courses/#{course['course_code']}"
+          expect(response).to redirect_to "/learn/#{course.course_code}"
         end
 
         it 'creates an enrollment' do
-          action
-          expect(create_stub).to have_been_requested
+          expect { action }.to change(CourseService::Enrollment, :count).by(1)
         end
       end
     end
@@ -161,25 +101,17 @@ describe 'Course: Enrollments: Create', type: :request do
   # HACK: Enrollment via GET is allowed as well
   describe 'via GET' do
     subject(:action) do
-      get '/enrollments', params:, headers:
+      get '/enrollments', params:
     end
 
     context 'when the user is not yet enrolled' do
-      before do
-        Stub.request(
-          :course, :get, '/enrollments',
-          query: {user_id:, course_id: course['id']}
-        ).to_return Stub.json([])
-      end
-
       it 'redirects to the course details page' do
         action
-        expect(response).to redirect_to "/courses/#{course['course_code']}"
+        expect(response).to redirect_to "/learn/#{course.course_code}"
       end
 
       it 'creates an enrollment' do
-        action
-        expect(create_stub).to have_been_requested
+        expect { action }.to change(CourseService::Enrollment, :count).by(1)
       end
     end
 

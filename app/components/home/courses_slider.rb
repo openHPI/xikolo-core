@@ -4,9 +4,10 @@ module Home
   class CoursesSlider < ApplicationComponent
     attr_reader :slider_variant
 
-    def initialize(current_and_upcoming_category:, slider_variant: :dark)
+    def initialize(current_and_upcoming_category:, slider_variant: :dark, enrollments: {})
       @current_and_upcoming_category = current_and_upcoming_category
       @slider_variant = slider_variant
+      @enrollments = enrollments
     end
 
     def courses

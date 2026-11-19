@@ -8,27 +8,20 @@ FactoryBot.define do
     end
     course_code { 'my-course' }
 
-    status { 'active' }
     teacher_ids { [] }
     lang { 'en' }
+    placement { ['Open4All'] }
+    published { true }
 
     classifiers { {} }
 
-    show_on_stage { false }
-    stage_visual_uri { '' }
-    stage_statement { '' }
     roa_enabled { true }
     cop_enabled { true }
     roa_threshold_percentage { 50 }
     cop_threshold_percentage { 50 }
-    achievements_url { "/course_service/courses/#{id}/achievements{?user_id}" }
 
     trait :german do
       lang { 'de' }
-    end
-
-    trait :proctored do
-      proctored { true }
     end
 
     trait :current do
@@ -56,10 +49,6 @@ FactoryBot.define do
 
     factory 'course:enrollment:evaluated' do
       completed { true }
-    end
-
-    trait :proctored do
-      proctored { true }
     end
 
     trait :deleted do
@@ -130,10 +119,6 @@ FactoryBot.define do
       content_id { generate(:quiz_id) }
     end
 
-    trait :proctored do
-      proctored { true }
-    end
-
     trait :video do
       content_type { 'video' }
       content_id { generate(:uuid) }
@@ -142,6 +127,11 @@ FactoryBot.define do
     trait :lti_exercise do
       content_type { 'lti_exercise' }
       content_id { generate(:uuid) }
+    end
+
+    trait :cmi5 do
+      content_type { 'cmi5' }
+      content_id { create(:cmi5_item).id }
     end
 
     initialize_with { attributes.as_json }
@@ -164,7 +154,7 @@ FactoryBot.define do
 
     trait :roa do
       type { 'record_of_achievement' }
-      name { 'Record of Achievement' }
+      name { 'Certificate' }
       points { {'achieved' => 2.0, 'total' => 2.0, 'percentage' => 100} }
     end
 
@@ -243,7 +233,6 @@ FactoryBot.define do
           'exercise_type' => 'main',
           'user_state' => 'submitted',
           'optional' => false,
-          'icon_type' => nil,
           'max_points' => 10.0,
           'user_points' => nil,
           'open_mode' => false,
@@ -255,7 +244,6 @@ FactoryBot.define do
           'exercise_type' => 'main',
           'user_state' => 'visited',
           'optional' => false,
-          'icon_type' => nil,
           'max_points' => 7.0,
           'user_points' => nil,
           'open_mode' => false,
@@ -267,7 +255,6 @@ FactoryBot.define do
           'exercise_type' => 'main',
           'user_state' => 'visited',
           'optional' => false,
-          'icon_type' => nil,
           'max_points' => 9.0,
           'user_points' => nil,
           'open_mode' => false,
@@ -337,25 +324,19 @@ FactoryBot.define do
     initialize_with { attributes.as_json }
   end
 
-  factory :course_legacy, class: 'Course::Course' do
+  factory :course_legacy, class: 'CourseService::Course' do
     sequence(:course_code) {|n| "course_legacy_#{n}" }
+    sequence(:title) {|n| "Legacy Course #{n}" }
+    published { true }
+    description { 'Legacy course description' }
   end
 
-  factory :section_legacy, class: 'Course::Section' do
+  factory :section_legacy, class: 'CourseService::Section' do
     association(:course, factory: :course_legacy)
+    sequence(:title) {|n| "Legacy Section #{n}" }
   end
 
-  factory :channel, class: 'Course::Channel' do
-    sequence(:code) {|n| "channel-#{n}" }
-    title_translations { {'en' => 'English Channel', 'de' => 'Deutscher Channel'} }
-    sequence(:position)
-
-    public { true }
-
-    archived { false }
-  end
-
-  factory :cluster, class: 'Course::Cluster' do
+  factory :cluster, class: 'CourseService::Cluster' do
     sequence(:id) {|n| "category-#{n}" } # rubocop:disable FactoryBot/IdSequence
     sequence(:translations) {|n| {'en' => "Category #{n}", 'de' => "Kategorie #{n}"} }
     sort_mode { 'automatic' }
@@ -378,7 +359,7 @@ FactoryBot.define do
     end
   end
 
-  factory :classifier, class: 'Course::Classifier' do
+  factory :classifier, class: 'CourseService::Classifier' do
     association :cluster
     sequence(:title) {|n| "Classifier #{n}" }
     sequence(:translations) {|n| {'en' => "Classifier ##{n}", 'de' => "Klassifikation ##{n}"} }
@@ -386,16 +367,17 @@ FactoryBot.define do
     sequence(:position) {|i| i }
   end
 
-  factory :course, class: 'Course::Course' do
-    sequence(:course_code) {|n| "course_#{n}" }
+  factory :course, class: 'CourseService::Course' do
+    sequence(:course_code) {|n| "course_#{n}_#{SecureRandom.hex(3)}" }
     sequence(:title) {|n| "MOOC on topic #{n}" }
     context_id { AccountService::Context.root.id }
+    description { 'Course description' }
     start_date { 2.weeks.ago }
     end_date { 4.weeks.from_now }
     lang { 'en' }
     abstract { 'Abstract text' }
-    show_on_list { true }
-    proctored { false }
+    placement { ['Open4All'] }
+    published { true }
     on_demand { false }
 
     transient do
@@ -444,45 +426,32 @@ FactoryBot.define do
     end
 
     trait :preparing do
-      status { 'preparation' }
+      published { false }
       start_date { 6.months.from_now }
       end_date { 7.months.from_now }
     end
 
     trait :upcoming do
-      status { 'active' }
-      start_date { 2.weeks.from_now }
+      start_date { 1.week.from_now }
       end_date { 8.weeks.from_now }
     end
 
-    trait :archived do
-      status { 'archive' }
-      start_date { 4.months.ago }
-      end_date { 3.months.ago }
-    end
-
     trait :active do
-      status { 'active' }
-      start_date { 2.weeks.ago }
+      start_date { 1.day.ago }
       end_date { 4.weeks.from_now }
     end
 
     trait :self_paced do
-      status { 'active' }
-      start_date { nil }
-      end_date { nil }
+      start_date { 2.weeks.ago }
+      end_date { 1.week.ago }
     end
 
     trait :hidden do
-      hidden { true }
+      placement { [] }
     end
 
     trait :external do
-      external_course_url { 'https://test.mock/courses/idk' }
-    end
-
-    trait :offers_proctoring do
-      proctored { true }
+      external_course_url { 'https://test.mock/learn/idk' }
     end
 
     trait :offers_reactivation do
@@ -495,7 +464,7 @@ FactoryBot.define do
 
     trait :with_channel do
       after(:create) do |course|
-        course.channels << create(:channel)
+        course.channels << create(:'course_service/channel')
         course.save
       end
     end
@@ -513,25 +482,31 @@ FactoryBot.define do
     end
   end
 
-  factory :course_node, class: 'Course::Structure::Root' do
+  factory :course_node, class: 'CourseService::Structure::Root' do
     association(:course)
   end
 
-  factory :section, class: 'Course::Section' do
+  factory :section, class: 'CourseService::Section' do
     association(:course)
+    sequence(:title) {|n| "Section #{n}" }
+    optional_section { false }
+    description { 'Section description' }
     after(:create) do |section|
-      create(:section_node, section:, course: section.course, parent_id: section.course.node.id)
+      unless section.node
+        create(:section_node, section:, course: section.course, parent_id: section.course.node.id)
+      end
     end
   end
 
-  factory :section_node, class: 'Course::Structure::Section' do
+  factory :section_node, class: 'CourseService::Structure::Section' do
     association(:section)
     association(:course)
   end
 
-  factory :content_test, class: 'Course::ContentTest' do
+  factory :content_test, class: 'CourseService::ContentTest' do
     association(:course)
     identifier { 'Gamification' }
+    groups { %w[plain game] }
 
     trait :with_forks do
       after(:create) do |content_test|
@@ -540,19 +515,21 @@ FactoryBot.define do
     end
   end
 
-  factory :fork, class: 'Course::Fork' do
+  factory :fork, class: 'CourseService::Fork' do
     association(:section)
     association(:content_test)
     after(:create) do |fork|
-      create(:fork_node, fork:, parent_id: fork.section.node.id, course_id: fork.section.course.id)
+      unless fork.node
+        create(:fork_node, fork:, parent_id: fork.section.node.id, course_id: fork.section.course.id)
+      end
     end
   end
 
-  factory :fork_node, class: 'Course::Structure::Fork' do
+  factory :fork_node, class: 'CourseService::Structure::Fork' do
     association(:fork)
   end
 
-  factory :branch, class: 'Course::Branch' do
+  factory :branch, class: 'CourseService::Branch' do
     association(:fork)
     association(:group)
     after(:create) do |branch|
@@ -560,15 +537,21 @@ FactoryBot.define do
     end
   end
 
-  factory :branch_node, class: 'Course::Structure::Branch' do
+  factory :branch_node, class: 'CourseService::Structure::Branch' do
     association(:branch)
   end
 
-  factory :item, class: 'Course::Item' do
+  factory :item, class: 'CourseService::Item' do
     association(:section)
     sequence(:title) {|i| "Item #{i}" }
+    content_type { 'video' }
+    content_id { create(:video).id }
+    exercise_type { 'main' if content_type == 'quiz' }
+
     after(:create) do |item|
-      create(:item_node, item:, course: item.section.course, parent_id: item.section.node.id)
+      unless item.node
+        create(:item_node, item:, course: item.section.course, parent_id: item.section.node.id)
+      end
     end
 
     trait :lti_exercise do
@@ -582,39 +565,42 @@ FactoryBot.define do
     trait :video do
       association :content, factory: :video
     end
+
+    # `Cmi5::Item#polymorphic_name` does not match the `content_type` stored for
+    # cmi5 items, so the content cannot be assigned via the association.
+    trait :cmi5 do
+      content_type { 'cmi5' }
+      content_id { create(:cmi5_item).id }
+    end
   end
 
-  factory :richtext, class: 'Course::Richtext' do
+  factory :richtext, class: 'CourseService::Richtext' do
     association(:course)
     text { 'Text' }
   end
 
-  factory :item_node, class: 'Course::Structure::Item' do
+  factory :item_node, class: 'CourseService::Structure::Item' do
     association(:item)
     association(:course)
   end
 
-  factory :result, class: 'Course::Result' do
+  factory :result, class: 'CourseService::Result' do
     association(:item)
     association(:user)
     dpoints { 10 }
   end
 
-  factory :visit, class: 'Course::Visit' do
+  factory :visit, class: 'CourseService::Visit' do
     association(:item)
     association(:user)
   end
 
-  factory :enrollment, class: 'Course::Enrollment' do
+  factory :enrollment, class: 'CourseService::Enrollment' do
     course
-    user_id
+    association(:user, factory: :'account_service/user', strategy: :create)
 
     trait :reactivated do
       forced_submission_date { 3.weeks.from_now }
-    end
-
-    trait :proctored do
-      proctored { true }
     end
 
     trait :deleted do
@@ -622,7 +608,7 @@ FactoryBot.define do
     end
   end
 
-  factory :teacher, class: 'Course::Teacher' do
+  factory :teacher, class: 'CourseService::Teacher' do
     sequence(:name) {|n| "Teacher ##{n}" }
     description { {de: 'Deutsche Biographie', en: 'English bio'} }
     user_id { nil }
@@ -638,39 +624,39 @@ FactoryBot.define do
     end
   end
 
-  factory :classifier_assignment, class: 'Course::ClassifierAssignment' do
+  factory :classifier_assignment, class: 'CourseService::ClassifierAssignment' do
     association :classifier
     association :course
     sequence(:position) {|n| n }
   end
 
-  factory :metadata, class: 'Course::Metadata' do
+  factory :metadata, class: 'CourseService::Metadata' do
     association(:course)
-    version { Course::Metadata::VERSION }
+    version { CourseService::Metadata::VERSION }
 
     trait :skills do
-      name { Course::Metadata::TYPE::SKILLS }
+      name { CourseService::Metadata::TYPE::SKILLS }
       data do
         JSON.parse(File.read('spec/support/files/course/metadata/skills_valid.json'))
       end
     end
 
     trait :educational_alignment do
-      name { Course::Metadata::TYPE::EDUCATIONAL_ALIGNMENT }
+      name { CourseService::Metadata::TYPE::EDUCATIONAL_ALIGNMENT }
       data do
         JSON.parse(File.read('spec/support/files/course/metadata/educational_alignment_valid.json'))
       end
     end
 
     trait :license do
-      name { Course::Metadata::TYPE::LICENSE }
+      name { CourseService::Metadata::TYPE::LICENSE }
       data do
         JSON.parse(File.read('spec/support/files/course/metadata/license_valid.json'))
       end
     end
 
     trait :proprietary_license do
-      name { Course::Metadata::TYPE::LICENSE }
+      name { CourseService::Metadata::TYPE::LICENSE }
       data do
         JSON.parse(File.read('spec/support/files/course/metadata/license_proprietary.json'))
       end

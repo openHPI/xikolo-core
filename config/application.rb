@@ -7,7 +7,7 @@ require 'rails'
 require 'active_model/railtie'
 require 'active_job/railtie'
 require 'active_record/railtie'
-# require 'active_storage/engine'
+require 'active_storage/engine'
 require 'action_controller/railtie'
 require 'action_mailer/railtie'
 # require 'action_mailbox/engine'
@@ -18,7 +18,7 @@ require 'rails/test_unit/railtie'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
-Bundler.require(*Rails.groups(assets: %w[development test integration]))
+Bundler.require(*Rails.groups)
 
 # Load other things
 require 'ims/lti'
@@ -32,11 +32,10 @@ require 'telegraf/rails'
 module Xikolo
   module Web
     class Application < Rails::Application
-      include Xikolo::Common::Secrets
       include Xikolo::Common::Nomad
 
       # Initialize configuration defaults for originally generated Rails version.
-      config.load_defaults 7.2
+      config.load_defaults 8.0
 
       # Please, add to the `ignore` list any other `lib` subdirectories that do
       # not contain `.rb` files, or that should not be reloaded or eager loaded.
@@ -54,12 +53,10 @@ module Xikolo
       # Auto and eager load API and its subdirectories.
       # Auto and eager load library code and brand-specific code.
       config.autoload_paths += %W[
-        #{config.root}/api
         #{config.root}/lib
         #{config.root}/constraints
       ]
       config.eager_load_paths += %W[
-        #{config.root}/api
         #{config.root}/lib
         #{config.root}/constraints
       ]
@@ -71,14 +68,12 @@ module Xikolo
       require 'geo_ip/lookup'
       config.eager_load_namespaces << GeoIP
 
-      # Queuing and mails
-      config.active_job.queue_adapter = :solid_queue
-      config.action_mailer.deliver_later_queue_name = 'mails'
-      config.action_mailer.default_url_options = {
-        host: Xikolo.base_url.host,
-        port: Xikolo.base_url.port,
-        protocol: Xikolo.base_url.scheme,
-      }
+      # Fields with error validation will get the contents and x-input-error classes. The
+      # first ensures the x-input-error class is applied to the input field itself, not
+      # the wrapping div this helper adds.
+      config.action_view.field_error_proc = proc do |html_tag, _instance|
+        tag.div html_tag, class: 'contents *:x-input-error'
+      end
 
       config.i18n.available_locales = %i[de en]
       config.i18n.default_locale = :en
@@ -158,13 +153,10 @@ module Xikolo
 
       # Enable ActiveSupport notifications for all ViewComponents
       config.view_component.instrumentation_enabled = true
-      config.view_component.use_deprecated_instrumentation_name = false
 
       # Configure lookup path for previews and add code sample to preview page.
-      config.view_component.show_previews = false
-      config.view_component.default_preview_layout = 'lookbook/default_preview'
-      config.view_component.preview_paths << "#{Rails.root}/app/components/"
-      config.lookbook.listen_paths = ["#{Rails.root}/app/components/"]
+      config.view_component.previews.default_layout = 'lookbook/default_preview'
+      config.view_component.previews.paths += [Rails.root.join('app/components').to_s]
       config.lookbook.page_paths = ["#{Rails.root}/app/components/docs/"]
       config.lookbook.preview_embeds.panels = %w[notes source output]
       config.lookbook.page_options = {header: false}
@@ -176,6 +168,8 @@ module Xikolo
       config.after_initialize do
         ActionController::Base.asset_host = Xikolo.config.asset_host.presence || ENV.fetch('ASSET_HOST', nil)
       end
+
+      config.generators {|g| g.orm :active_record, primary_key_type: :uuid }
     end
   end
 end

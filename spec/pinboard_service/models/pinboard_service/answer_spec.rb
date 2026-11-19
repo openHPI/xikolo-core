@@ -18,39 +18,25 @@ describe PinboardService::Answer, type: :model do
   context '(event publication)' do
     subject(:answer) { build(:'pinboard_service/answer', attachment_uri: 's3://xikolo-pinboard/courses/34/thread/12/3/file.pdf') }
 
-    it 'publishes an event for newly created answer' do
-      allow(Msgr).to receive(:publish)
-      expect(Msgr).to receive(:publish).with(anything, hash_including(to: 'xikolo.pinboard.answer.create')) do |event, _opts|
-        expect(event).to eq \
-          id: answer.id,
-          text: answer.text,
-          question_id: answer.question_id,
-          created_at: answer.created_at.iso8601,
-          updated_at: answer.updated_at.iso8601,
-          user_id: answer.user_id,
-          votes: answer.votes_sum,
-          attachment_url: 'https://s3.xikolo.de/xikolo-pinboard/courses/34/thread/12/3/file.pdf',
-          unhelpful_answer_score: answer.unhelpful_answer_score,
-          ranking: answer.ranking,
-          course_id: answer.question.course_id,
-          technical: false,
-          abuse_report_state: 'new',
-          abuse_report_count: 0
-      end
-      answer.save
-    end
-
-    it 'pubishes an event for updated answer' do
-      answer.save
-
-      allow(Msgr).to receive(:publish) # question update
-      expect(Msgr).to receive(:publish).with(anything, hash_including(to: 'xikolo.pinboard.answer.update')) do |updated_answer_as_hash, _msgr_params|
-        expect(updated_answer_as_hash).to be_a(Hash)
-        expect(updated_answer_as_hash).to include('text' => 'Foo is the correct answer')
-      end
-
-      answer.text = 'Foo is the correct answer'
-      answer.save
+    it 'enqueues an AnswerCreateJob for newly created answer' do
+      expect do
+        answer.save
+      end.to have_enqueued_job(AnswerCreateJob).with(
+        id: kind_of(String),
+        text: answer.text,
+        question_id: kind_of(String),
+        created_at: kind_of(String),
+        updated_at: kind_of(String),
+        user_id: answer.user_id,
+        votes: answer.votes_sum,
+        attachment_url: "#{test_s3_host}/xikolo-pinboard/courses/34/thread/12/3/file.pdf",
+        unhelpful_answer_score: answer.unhelpful_answer_score,
+        ranking: answer.ranking,
+        course_id: answer.question.course_id,
+        technical: false,
+        abuse_report_state: 'new',
+        abuse_report_count: 0
+      )
     end
   end
 

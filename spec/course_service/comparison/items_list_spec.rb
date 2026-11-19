@@ -49,7 +49,7 @@ describe 'Items: List', type: :request do
 
   with_all do
     describe 'state_for' do
-      let(:user_id) { generate(:user_id) }
+      let(:user_id) { create(:'account_service/user').id }
       let(:params) { super().merge(state_for: user_id) }
 
       it { is_expected.to have(3).items }

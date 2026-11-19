@@ -13,7 +13,8 @@ class MarkdownInput < SimpleForm::Inputs::TextInput
   def markdown_editor
     template.tag.div(
       class: "markdown-editor #{'markdown-editor--with-uploads' if uploads?}",
-      data: {behavior: 'markdown-editor-wrapper'}
+      data: {behavior: 'markdown-editor-wrapper'},
+      aria: {busy: true}
     ) do
       if uploads?
         input_with_uploads
@@ -35,7 +36,7 @@ class MarkdownInput < SimpleForm::Inputs::TextInput
 
   def input_without_uploads
     template.concat form_textarea
-    template.concat template.tag.div(data: {behavior: 'markdown-editor-widget', image_upload: 'false'})
+    template.concat editor_widget(image_upload: false)
     template.concat resize_btn
   end
 
@@ -47,8 +48,20 @@ class MarkdownInput < SimpleForm::Inputs::TextInput
   def upload_fields_wrapper
     template.tag.div(class: 'upload_fields_wrapper') do
       template.concat editor_with_uploads
-      template.concat template.tag.div(data: {behavior: 'markdown-editor-widget', image_upload: 'true'})
+      template.concat editor_widget(image_upload: true)
       template.concat resize_btn
+    end
+  end
+
+  def editor_widget(image_upload:)
+    template.tag.div(
+      data: {behavior: 'markdown-editor-widget', image_upload:}
+    ) do
+      template.tag.div(
+        class: 'x-skeleton h-75 w-full relative z-xs',
+        data: {behavior: 'markdown-editor-loading'},
+        aria: {hidden: true}
+      )
     end
   end
 

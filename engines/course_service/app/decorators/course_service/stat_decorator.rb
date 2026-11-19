@@ -61,7 +61,6 @@ class StatDecorator < ApplicationDecorator # rubocop:disable Layout/IndentationW
       quantile_count:,
 
       # bookings
-      proctorings:,
       reactivations:,
     }.compact
   end

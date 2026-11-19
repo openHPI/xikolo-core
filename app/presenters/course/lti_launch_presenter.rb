@@ -7,7 +7,7 @@ class Course::LtiLaunchPresenter
   end
 
   def page_title
-    "#{@item.title} | #{Xikolo.config.site_name}"
+    @item.title
   end
 
   def headline

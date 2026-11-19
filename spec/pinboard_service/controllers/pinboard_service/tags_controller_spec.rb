@@ -101,18 +101,18 @@ describe PinboardService::TagsController, type: :controller do
 
   describe "POST 'create'" do
     it 'returns http success' do
-      post :create, params: attributes_for(:'pinboard_service/definition_tag')
+      post :create, params: attributes_for(:'pinboard_service/definition_tag').merge(type: 'ExplicitTag')
       expect(response).to have_http_status :created
     end
 
     it 'creates a tag on create' do
       expect do
-        post :create, params: attributes_for(:'pinboard_service/definition_tag')
+        post :create, params: attributes_for(:'pinboard_service/definition_tag').merge(type: 'ExplicitTag')
       end.to change(PinboardService::Tag, :count).by(1)
     end
 
     it 'answers with a tag' do
-      post :create, params: attributes_for(:'pinboard_service/definition_tag')
+      post :create, params: attributes_for(:'pinboard_service/definition_tag').merge(type: 'ExplicitTag')
 
       expect(json['name']).not_to be_nil
       expect(json['name']).to eq attributes_for(:'pinboard_service/definition_tag')[:name]

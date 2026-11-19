@@ -6,13 +6,12 @@ module Regrading # rubocop:disable Layout/IndentationWidth
   # Remove answer from question and recalculate points from remaining answers
   #
   class RemoveAnswer < Base
-    # rubocop:disable Lint/MissingSuper
+    # rubocop:disable-next Lint/MissingSuper
     def initialize(answer, dry: false)
       @answer = answer
 
       @dry = dry
     end
-    # rubocop:enable Lint/MissingSuper
 
     # rubocop:disable Rails/SkipsModelValidations
     def run!
@@ -39,8 +38,8 @@ module Regrading # rubocop:disable Layout/IndentationWidth
 
         log "..regrading finished: #{affected_submissions.count} submissions regraded \n", :info
 
-        # trigger background worker to recalculate statistics
-        UpdateQuestionStatisticsWorker.perform_async(question.id)
+        # trigger background job to recalculate statistics
+        UpdateQuestionStatisticsJob.perform_later(question.id)
       end
     end
     # rubocop:enable all

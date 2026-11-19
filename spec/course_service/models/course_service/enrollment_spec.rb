@@ -3,16 +3,16 @@
 require 'spec_helper'
 
 describe CourseService::Enrollment do
-  subject(:enrollment) { create(:'course_service/enrollment') }
+  subject(:enrollment) { create(:'course_service/enrollment', course: create(:'course_service/course', :self_paced)) }
 
   context 'validation' do
-    let(:user_id) { SecureRandom.uuid }
+    let(:user) { create(:'account_service/user') }
     let(:course) { create(:'course_service/course') }
 
     it 'does not allow duplicate user and course combinations' do
-      create(:'course_service/enrollment', user_id:, course:)
+      create(:'course_service/enrollment', user:, course:)
       expect do
-        create(:'course_service/enrollment', user_id:, course:)
+        create(:'course_service/enrollment', user:, course:)
       end.to raise_error ActiveRecord::RecordInvalid
     end
 
@@ -21,23 +21,9 @@ describe CourseService::Enrollment do
 
       it 'does not create an enrollment' do
         expect do
-          create(:'course_service/enrollment', user_id:, course:)
+          create(:'course_service/enrollment', user:, course:)
         end.to raise_error ActiveRecord::RecordInvalid
       end
-    end
-  end
-
-  context '(event publication)' do
-    subject(:enrollment) { build(:'course_service/enrollment') }
-
-    it 'publishes an event when updating an enrollment' do
-      enrollment.save
-
-      expect(Msgr).to receive(:publish) do |updated_enrollment_as_hash, msgr_params|
-        expect(updated_enrollment_as_hash).to be_a(Hash)
-        expect(msgr_params).to include(to: 'xikolo.course.enrollment.update')
-      end
-      enrollment.save
     end
   end
 
@@ -45,7 +31,7 @@ describe CourseService::Enrollment do
     subject(:enrollment) { build(:'course_service/enrollment') }
 
     it 'starts worker for a newly created enrollment to determine the user\'s course goals (max visits and points)' do
-      expect { enrollment.save }.to change(CourseService::LearningEvaluation::UpdateCourseProgressWorker.jobs, :size).from(0).to(1)
+      expect { enrollment.save }.to have_enqueued_job(CourseService::LearningEvaluation::UpdateCourseProgressJob).exactly(:once)
     end
   end
 
@@ -57,8 +43,8 @@ describe CourseService::Enrollment do
         enrollment
 
         # Two other enrollments in courses that have ended
-        create(:'course_service/enrollment', course: create(:'course_service/course', :archived))
-        create(:'course_service/enrollment', course: create(:'course_service/course', :archived, status: 'active'))
+        create(:'course_service/enrollment', course: create(:'course_service/course', :self_paced))
+        create(:'course_service/enrollment', course: create(:'course_service/course', :self_paced))
       end
 
       let!(:enrollment_course_active) do

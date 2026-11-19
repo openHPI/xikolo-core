@@ -25,13 +25,6 @@ piwik: ~
 ### Platform-wide features
 #######################
 
-# Turn some experimental features on/off.
-beta_features:
-  # File management with versions and tags
-  documents: false
-  # Statistics about teaching team pinboard usage in the course dashboard
-  teaching_team_pinboard_activity: true
-
 # Configurable Cookie Consents.
 # The application will display a banner requesting for user permission to setup a cookie for each of the
 # consents present on this list. It expects the consent name as the key and the respective localized
@@ -42,10 +35,6 @@ beta_features:
 cookie_consents: {}
 
 # Settings for gamification and score calculations
-gamification:
-  # Enable/disable collection of experience points
-  enabled: false
-
 gamification_rules:
   xp:
     selftest_master:
@@ -82,11 +71,10 @@ gamification_rules:
 
 voucher:
   # Enable/disable voucher generation / redemption for paid features
-  enabled: false
+  enabled: true
 
 api:
   # List of course ids that can not be accessed from the mobile apps
-  blocked_course_ids: []
   mobile_app_sunset_date: ~
 
 #######################
@@ -103,12 +91,6 @@ access_groups: {}
 
 # Required percentage of visits to gain Confirmation of Participation in a course
 cop_threshold_percentage: 50
-
-course_card:
-  # The list of classifier clusters in order of appearance in the course card.
-  # If empty or not provided the course card will not display the datapoint.
-  classifier_clusters:
-    - topic
 
 course_details:
   # Show classifiers (tags) in the large course preview on the course details page
@@ -134,21 +116,18 @@ multiple_choice_answers_as_dropdown_threshold: 8
 # Open Mode lets un-registered / un-enrolled users access course videos that are marked as such.
 # Can be activated for the entire platform, and the default behavior for new videos can be configured.
 open_mode:
-  enabled: false
-  default_value: false
+  enabled: true
+  default_value: true
 
 # The maximum number of submissions to show the quiz item statistics on-demand.
 quiz_item_statistics_submission_limit: 50_000
-
-# List of additional icons available for richtext items (edit course item)
-richtext_icon_types: {}
 
 # Fulfillment threshold for required assessment items (quizzes, LTI)
 # Can have values from 0 to 100, the default value of 50 means that users need 50%
 # of the maximum points for the requirement to be met
 required_assessment_threshold: 50
 
-# Required percentage of points to gain Record of Achievement in a course
+# Required percentage of points to gain RoA Certificate in a course
 roa_threshold_percentage: 50
 
 # Pre-selected prefix for searching videos in a course.
@@ -172,18 +151,24 @@ certificate:
   # fonts:
   #   ComicSans: ComicSans-regular.ttf
   #   ComicSansBold: ComicSans-bold.ttf
-  fonts: ~
+  fonts:
+    ArialUnicode: Arial-Unicode.ttf
+    Helvetica: Helvetica.ttf
+    NeoSans: NeoSansforHPI-Regular.ttf
+    NeoSansMedium: NeoSansforHPI-Medium.ttf
+    IBMPlexSans: IBM-Plex-Sans-Regular.ttf
+    IBMPlexSansMedium: IBM-Plex-Sans-Medium.ttf
+    OpenSansRegular: OpenSans-Regular.ttf
+    OpenSansSemibold: OpenSans-Semibold.ttf
+
   forbidden_verification_words:
-    [penis, cunts, pussy, spast, nazis, arsch, fotze]
-  # For a Transcript of Records certificate type, values for positioning and sizing must be provided.
-  # The sum of table_x, course_col_width, and score_col_width must not exceed 595 (width of A4 PDF).
-  transcript_of_records:
-    ~
-    # table_x: 200
-    # table_y: 500
-    # course_col_width: 300
-    # score_col_width: 70
-    # font_size: 10
+    - penis
+    - cunts
+    - pussy
+    - spast
+    - nazis
+    - arsch
+    - fotze
 
 #######################
 ### Helpdesk options
@@ -204,7 +189,6 @@ helpdesk_email: ~
 #    microlearning:
 #      en: Microlearning
 #      de: Mikrolernen
-#    podcasts: 'helpdesk.podcasts'
 helpdesk:
   options: ~
 
@@ -214,7 +198,7 @@ helpdesk:
 
 # Toggle automatic mp3 extraction from videos
 video:
-  audio_extraction: false
+  audio_extraction: true
 
 #######################
 ### Auth
@@ -229,9 +213,6 @@ global_permission_groups: ["gdpr_admins", "admins", "helpdesk"]
 
 course_reactivation:
   period: 8
-  store_url:
-    de: "https://shop.example.org/gutscheine/kurs-reaktivierung"
-    en: "https://shop.example.org/voucher/course-reactivation"
 
 #######################
 ### Statistics
@@ -259,28 +240,31 @@ asset_host: ~
 # Additional values for Content-Security-Policy header options
 csp:
   # Whether any CSP headers should be sent at all
-  enabled: true
+  enabled: false
   # Clients only report CSP violations, but do not block the requested resources
   report_only: true
   # Endpoint URI for reporting CSP violations
-  report_uri: "/csp-violation-report"
+  report_uri: /csp-violation-report
   # Additional values for connect-src
   connect: []
   # Additional values for font-src
   font: []
   # Additional values for frame-src
-  frame: []
+  frame:
+    - https://www.recaptcha.net
   # Additional values for media-src
   media: []
   # Additional values for script-src
-  script: []
+  script:
+    - https://www.recaptcha.net
+    - https://www.gstatic.com
   # Additional values for style-src
   style: []
 
 # Configure the URL for the Imgproxy image processor (https://imgproxy.net/) to be used on the imagecrop service.
 # The application will send a signed request to this service (https://docs.imgproxy.net/#/signing_the_url),
-# and it expects that the `imgproxy_key` and `imgproxy_salt` values are configured in the Rails secrets file
-# locally (`config/secrets.yml`), so they can be used to sign the url. It creates a url following the basic
+# and it expects that the `IMGPROXY_KEY` and `IMGPROXY_SALT` environment variables are configured, so they
+# can be used to sign the url. It creates a url following the basic
 # imgproxy simple approach (https://docs.imgproxy.net/#/generating_the_url_basic)
 imgproxy_url: ~
 
@@ -426,35 +410,9 @@ ios_app: ~
 # icons_dir should be a directory relative to the `app/assets/images` directory of the webapp.
 # For images to be listed as icons, they need to be PNG files named with their dimensions as a prefix,
 # e.g. "logo-128x128.png".
-webapp: ~
-
-#######################
-### Social Media & Achievements
-#######################
-
-# E-mail address for general contact to the platform provider
-# (Used for Open Badges)
-contact_email: ""
-
-# The Facebook App ID
-# Will be rendered as a meta tag on course details pages.
-# Allows using Facebook Insights on connected Facebook properties.
-facebook_app_id: ~
-
-# Open Badges - Digitally signed, sharable learning achievements
-open_badges:
-  # Activate generation of Open Badges
-  enabled: false
-  # Public key for badge verification in PEM format
-  public_key: ~
-  # Image of the badge issuer (i.e. logo) as Data URI
-  issuer_image: ~
-
-# Linkedin organization ID
-# This is a string of numbers unique to every company in LinkedIn
-# We use this number to prefill the certificate/badge form from LinkedIn
-# The linkedin_add sharing button redirects the user to this form
-linkedin_organization_id: ~
+webapp:
+  icons_dir: icons
+  bg_color: "#ffffff"
 
 #######################
 ### Integrations
@@ -462,24 +420,6 @@ linkedin_organization_id: ~
 
 # Configuration for bridge APIs that help us integrate with other portals / tools
 bridges: {}
-
-# Kaltura settings
-kaltura:
-  # The endpoint URL of a Kaltura API can be different, depending on if the Kaltura instance is
-  # self-hosted or using the Kaltura cloud. For the latter, the URL is different for the region
-  # the cloud tenant is bound to.
-  # The same applies for the asset URL, that serves the actual videos, poster images or captions
-  api_url: ~
-  asset_url: ~
-  # Asset flavors in Kaltura are variants of a video resource that differ in dimensions, bitrate
-  # size, encoding. These flavors have different identifiers per cloud tenant, possibly also per
-  # customer account and thus need to be configured.
-  # The quality can be a single flavor option id, or an array of ids. For arrays, the Kaltura
-  # integration will pick the first matching option per video.
-  flavors:
-    source: 0
-    sd: ~
-    hd: ~
 
 # The public URL for our LimeSurvey instance.
 limesurvey_url: "https://survey.openhpi.de/survey/index.php"
@@ -540,18 +480,6 @@ public_course_page:
   # logic implemented in `app/lib/public_course_page.rb`.
   # url_template: 'https://example.com/courses{/course_code}'
 
-# Enable the TransPipe tool for the platform.
-# When enabled, the URL templates must be provided.
-transpipe:
-  enabled: false
-  # Configuration of realm for bearer token authentication.
-  realm: default-realm
-  # This URL is used for linking to TransPipe in the course administration menu.
-  # course_url_template: 'https://transpipe.example.com/link/my_site/courses/{course_id}'
-  # This URL is used for linking from a specific (video) item to the respective
-  # resource in the TransPipe system.
-  # course_video_url_template: 'https://transpipe.example.com/link/my_site/courses/{course_id}/videos/{video_id}'
-
 # Enable the reCAPTCHA tool for the helpdesk.
 recaptcha:
   enabled: false
@@ -563,23 +491,6 @@ recaptcha:
 #######################
 ### Experiments
 #######################
-
-# Persisted learning evaluation (PLE)
-# This is currently an experimental feature, meant to replace calculations for
-# progress, achievements and "learning evaluations". Disabled by default.
-#
-# - "write": a boolean that determines whether PLE will be calculated
-# - "read": A boolean or integer.
-#           When boolean, it determines whether PLE is actually *used* by the application.
-#           When integer, this determines the percentage of requests that will be used for
-#           comparing the old (dynamic) implementation to the new one, without actually
-#           using the new one yet.
-# - "legacy_courses": A list of course IDs where "fixed learning evaluations" remain
-#                     (imported from an older course platform).
-#
-# For the use case in xi-web, a boolean value is sufficient.
-# This is valid due to backwards compatibility.
-persisted_learning_evaluation: false
 
 # If a JWT is supposed to get appended to the external_course_url the field
 # to pass on in the organization_name attribute needs to be specified.

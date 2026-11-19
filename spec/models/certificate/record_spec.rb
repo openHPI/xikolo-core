@@ -13,28 +13,24 @@ describe Certificate::Record, type: :model do
   end
 
   let(:template) { create(:certificate_template, course:) }
-  let(:user) { Account::User.find(create(:'account_service/user').id) }
+  let(:user) { create(:'account_service/user') }
   let(:course) { create(:course, records_released:) }
   let(:records_released) { true }
-
-  let(:enrollment_stub) do
-    Stub.request(
-      :course, :get, '/enrollments',
-      query: {user_id: user.id, course_id: course.id, deleted: true, learning_evaluation: true}
-    ).to_return enrollments
-  end
-  let(:enrollments) do
-    Stub.json(
-      build_list(
-        :'course:enrollment', 1, :with_learning_evaluation,
-        course_id: course.id,
-        user_id: user.id
-      )
+  let(:enrollment) do
+    create(
+      :'course_service/enrollment',
+      :with_evaluation,
+      course_id: course.id,
+      quantiled_user_dpoints: 90,
+      user_id: user.id,
+      completed: false,
+      quantile: 0.9,
+      deleted: false
     )
   end
 
   before do
-    enrollment_stub
+    enrollment
   end
 
   describe '(validations)' do
@@ -43,7 +39,7 @@ describe Certificate::Record, type: :model do
     it { is_expected.not_to accept_values_for(:type, nil, 'InvalidType') }
 
     context 'without enrollment' do
-      let(:enrollments) { Stub.json([]) }
+      let(:enrollment) { nil }
 
       it { is_expected.not_to be_valid }
     end
@@ -98,7 +94,7 @@ describe Certificate::Record, type: :model do
     end
 
     context 'with a deleted user' do
-      let(:user) { Account::User.find(create(:'account_service/user', :archived).id) }
+      let(:user) { AccountService::User.find(create(:'account_service/user', :archived).id) }
 
       before do
         create(:roa, user:, course:, verification:)

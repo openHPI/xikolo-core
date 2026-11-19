@@ -91,7 +91,7 @@ module Global
       ) do
         tag.div(
           render_markdown(md_content, allow_tables: true, escape_html: false),
-          class: 'prose prose-2xl max-w-none', escape: false
+          class: 'prose prose-sm max-w-none', escape: false
         )
       end
     end

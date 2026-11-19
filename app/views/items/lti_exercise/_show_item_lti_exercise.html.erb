@@ -1,0 +1,50 @@
+<div class="x-card bg-accent-25 text-accent-content p-5 gap-2 lg:flex lg:flex-row">
+  <div class="relative min-h-px w-full lg:w-3/4">
+    <% if item.instructions? %>
+      <h3 class="h3"><%= t(:'items.lti.instruction') %>:</h3>
+      <hr class="divider slim alternative">
+      <div class="prose prose-sm max-w-none">
+        <%== item.instructions_html %>
+      </div>
+      <hr class="divider slim alternative">
+    <% end %>
+
+    <%= render 'items/lti_exercise/lti_exercise_properties', item: item %>
+
+    <%= render course_item_bottom_bar do |bar| %>
+      <% bar.with_primary_action do %>
+        <%= link_to item.open_path,
+          class: 'x-btn x-btn-neutral w-full max-w-full rounded-2xl whitespace-normal',
+          target: (item.presentation_as_window? ? '_blank' : nil),
+          rel: (item.presentation_as_window? ? 'noopener noreferrer' : nil) do %>
+          <%= render Global::FaIcon.new('play', style: :solid, css_classes: 'hidden sm:inline') %>
+          <%= t('items.lti.launch_lti_exercise') %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <% if item.grades? %>
+    <div class="relative min-h-px w-full lg:w-1/4">
+      <div id="quiz-sidebar-wrapper">
+        <div class="quiz-sidebar">
+          <div class="quiz-sidebar-content">
+            <div class="bar-title">
+              <h3 class="h3"><%= t(:'items.lti.results') %></h3>
+            </div>
+
+            <div class="bar-content">
+              <em class="mr5"><%= t(:'quiz_submission.total') %>:</em>
+
+              <strong class="primary-color">
+                <%= t(:'quiz_submission.total_points', max_points: item.max_points, total_points: item.score) %>
+              </strong>
+
+              <%= render Global::Meter.new(value: item.percentage, label: "#{item.percentage}%") %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

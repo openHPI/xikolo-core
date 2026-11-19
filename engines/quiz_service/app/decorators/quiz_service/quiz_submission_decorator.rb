@@ -18,7 +18,7 @@ class QuizSubmissionDecorator < ApplicationDecorator # rubocop:disable Layout/In
       snapshot_id: quiz_submission_snapshot.nil? ? nil : quiz_submission_snapshot.id,
       fudge_points:,
       question_count:,
-      vendor_data:,
+      max_points:,
       url: h.quiz_submission_path(id),
       snapshots_url: h.quiz_submission_snapshots_path(quiz_submission_id: id),
     }.tap do |submission|

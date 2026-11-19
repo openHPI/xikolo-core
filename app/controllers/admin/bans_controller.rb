@@ -11,18 +11,25 @@ class Admin::BansController < ApplicationController
       return
     end
 
-    account_api.rel(:user_ban).post({}, params: {user_id: params[:user_id]}).value!
+    if AccountService::User.find(params[:user_id]).ban
+      add_flash_message :success, I18n.t(:'flash.success.user_banned')
+    else
+      add_flash_message :error, I18n.t(:'flash.error.user_not_banned')
+    end
 
-    add_flash_message :success, I18n.t(:'flash.success.user_banned')
-    redirect_to user_path(params[:user_id]), status: :see_other
-  rescue Restify::ClientError
-    add_flash_message :error, I18n.t(:'flash.error.user_not_banned')
     redirect_to user_path(params[:user_id]), status: :see_other
   end
 
-  private
-
-  def account_api
-    @account_api ||= Xikolo.api(:account).value!
+  def destroy
+    AccountService::User.find(params[:user_id]).unban
+    NotificationService::SendAccountReactivationEmailJob.perform_later(
+      user_id: params[:user_id],
+      url: new_session_url
+    )
+    add_flash_message :success, I18n.t(:'flash.success.user_unbanned')
+  rescue ActiveRecord::RecordInvalid
+    add_flash_message :error, I18n.t(:'flash.error.user_not_unbanned')
+  ensure
+    redirect_to user_path(params[:user_id]), status: :see_other
   end
 end

@@ -10,6 +10,10 @@ class ResultsController < ApplicationController # rubocop:disable Layout/Indenta
 
   respond_to :json
 
+  def show
+    respond_with Result.find params[:id]
+  end
+
   def create
     result = Result.new result_params
     result.dpoints = parse_points(:points)
@@ -18,20 +22,14 @@ class ResultsController < ApplicationController # rubocop:disable Layout/Indenta
     respond_with result
   end
 
-  def show
-    respond_with Result.find params[:id]
-  end
-
   def update
-    result = Result.find params[:id]
+    result = Result.find_or_initialize_by(id: params.fetch(:id)) do
+      it.assign_attributes(result_params)
+    end
     result.dpoints = parse_points(:points)
     result.save
     fix_errors result, :dpoints, :points
     respond_with result
-  rescue ActiveRecord::RecordNotFound
-    raise unless request.method == 'PUT'
-
-    create
   end
 
   private

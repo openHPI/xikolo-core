@@ -1,0 +1,30 @@
+<div id="course-item-header" class="x-card bg-base-100 text-base-content scroll-mt-[calc(var(--spacing-navbar)+(--spacing(3)))]">
+  <div class="x-card-body flex-row items-start gap-2 p-4 sm:gap-6 sm:p-6">
+    <span
+      class="
+        bg-accent-75 text-accent-content flex size-10 shrink-0 items-center
+        justify-center rounded-full sm:size-15
+      "
+      aria-hidden="true"
+    >
+      <%= helpers.pixelart_icon(@icon_class, css_class: 'size-6 sm:size-10') %>
+    </span>
+
+    <div class="my-auto flex min-w-0 flex-col sm:gap-2">
+      <% if section_title? %>
+        <p class="truncate text-xs"><%= @section_title %></p>
+      <% end %>
+
+      <%= tag.h1 @title, lang: @lang,
+            class: 'line-clamp-2 wrap-anywhere text-xl font-medium sm:text-2xl' %>
+
+      <% if actions? %>
+        <div class="mt-2 flex flex-wrap gap-2 sm:mt-0">
+          <% actions.each do |action| %>
+            <%= action %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

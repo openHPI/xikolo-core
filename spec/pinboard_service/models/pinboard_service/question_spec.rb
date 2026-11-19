@@ -53,13 +53,19 @@ describe PinboardService::Question, type: :model do
   end
 
   context '(event publication)' do
+    let(:question) do
+      build(:'pinboard_service/question', user_id: '00000001-3100-4444-9999-000000000001')
+    end
+
     describe 'create question' do
-      it 'publishes an event for newly created question' do
-        expect(Msgr).to receive(:publish) do |event, opts|
-          attrs = {
-            id: question.id,
-            created_at: question.created_at.iso8601,
-            updated_at: question.updated_at.iso8601,
+      it 'enqueues a QuestionCreateJob for newly created question' do
+        expect do
+          question.save
+        end.to have_enqueued_job(QuestionCreateJob).with(
+          {
+            id: kind_of(String),
+            created_at: kind_of(String),
+            updated_at: kind_of(String),
             title: question.title,
             text: question.text,
             video_timestamp: question.video_timestamp,
@@ -75,38 +81,38 @@ describe PinboardService::Question, type: :model do
             deleted: question.deleted,
             closed: question.closed,
             implicit_tags: question.implicit_tags.to_a.map do |tag|
-                             {name: tag.name, referenced_resource: tag.referenced_resource}
-                           end,
+              {
+                name: tag.name,
+                referenced_resource: tag.referenced_resource,
+              }
+            end,
             user_tags: question.explicit_tags.to_a.map(&:name),
             technical: question.technical?,
             abuse_report_state: 'new',
             abuse_report_count: 0,
           }
-          expect(event).to eq attrs
-          expect(opts).to eq to: 'xikolo.pinboard.question.create'
-        end
-        question.save
+        )
       end
     end
 
     describe 'update question' do
-      let(:accepted_answer) { build(:'pinboard_service/answer', question:) }
+      it 'does not enqueue a job for a regular update' do
+        question.save
 
-      it 'publishes an event for updated question' do
-        question.save
-        expect(Msgr).to receive(:publish)
-          .with(hash_including(title: 'A really good Foo question?'),
-            to: 'xikolo.pinboard.question.update')
-        question.title = 'A really good Foo question?'
-        question.save
+        expect do
+          question.update!(title: 'A really good Foo question?')
+        end.not_to have_enqueued_job(AnswerAcceptedJob)
       end
 
       it 'publishes an event for an accepted answer' do
-        question.accepted_answer = accepted_answer
-        question.save
+        question.save!
 
-        expect(Msgr).to receive(:publish) do |event, opts|
-          expect(event).to eq \
+        accepted_answer = create(:'pinboard_service/answer', question:)
+
+        expect do
+          question.update!(accepted_answer: accepted_answer)
+        end.to have_enqueued_job(AnswerAcceptedJob).with(
+          hash_including(
             id: question.id,
             title: question.title,
             text: question.text,
@@ -130,9 +136,8 @@ describe PinboardService::Question, type: :model do
             technical: question.technical?,
             abuse_report_state: 'new',
             abuse_report_count: 0
-          expect(opts).to eq to: 'xikolo.pinboard.question.update'
-        end
-        question.save
+          )
+        )
       end
     end
   end

@@ -18,8 +18,8 @@ if Xikolo.config.imgproxy_url
     # Full URL to where imgproxy lives
     config.endpoint = Xikolo.config.imgproxy_url
     # Hex-encoded signature key and salt
-    config.key = Rails.application.secrets.imgproxy_key
-    config.salt = Rails.application.secrets.imgproxy_salt
+    config.key = ENV.fetch('IMGPROXY_KEY', nil)
+    config.salt = ENV.fetch('IMGPROXY_SALT', nil)
     # Add URL adapter for Addressable
     config.url_adapters.add(AddressableAdapter.new)
   end

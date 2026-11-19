@@ -1,13 +1,17 @@
-.col-md-9.news
-  - if @posts.any?
-    - @posts.each do |post|
-      - if post.publish_at < DateTime.now || (current_user.allowed? 'news.announcement.show')
-        == render 'announcements/post', post: post, course: @course
-  - else
-    p.mt30 = t(:'course.courses.announcements.empty_state')
+.x-card.bg-accent-25.text-accent-content.p-5
+  .grid.grid-cols-1.gap-5.lg:grid-cols-12
+    div class='news lg:col-span-9'
+      - if @posts.any?
+        - @posts.each do |post|
+          - if post.publish_at < DateTime.now || (current_user.allowed? 'news.announcement.show')
+            == render 'announcements/post', post: post, course: @course
+      - else
+        p.mt30 = t(:'course.courses.announcements.empty_state')
 
-.col-md-3
-  - if current_user.allowed? 'news.announcement.create'
-    = link_to t(:'course.courses.announcements.new'), new_course_announcement_path, class: 'btn btn-primary full-width mb10'
-  - if @posts.any? && !@in_app
-    == render 'home/announcements/toc', posts: @posts
+    div class='lg:col-span-3'
+      - if current_user.allowed? 'news.announcement.create'
+        = link_to t(:'course.courses.announcements.new'), new_course_announcement_path, class: 'btn btn-primary full-width mb10'
+      - if @posts.any?
+        == render 'home/announcements/toc', posts: @posts
+
+= render 'course/shared/bottom_bar', course_id: course_layout.id

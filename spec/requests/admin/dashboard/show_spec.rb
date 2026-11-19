@@ -3,40 +3,36 @@
 require 'spec_helper'
 
 describe 'Admin: Dashboard: Show', type: :request do
-  subject(:action) { get('/admin/dashboard', headers:) }
-
-  let(:headers) { {} }
-  let(:permissions) { [] }
+  subject(:action) { get('/admin/dashboard') }
 
   context 'for logged-in users' do
-    let(:headers) { {Authorization: "Xikolo-Session session_id=#{stub_session_id}"} }
-
-    before { stub_user_request permissions: }
+    before { sign_in(user:) }
 
     context 'with permissions' do
-      let(:permissions) { ['global.dashboard.show'] }
+      let(:user) { create(:'account_service/user') }
 
       before do
-        allow(Admin::Statistics::AgeDistribution).to receive(:call).and_return([])
+        role = create(:'account_service/role', permissions: ['global.dashboard.show'])
+        create(:'account_service/grant', principal: user, role:)
       end
 
-      it 'renders age distribution and client usage tables' do
+      it 'renders age distribution table' do
         action
         expect(response).to render_template :show
         expect(response.body).to include 'Age Distribution'
-        expect(response.body).to include 'Client Usage'
       end
 
       it 'renders KPI score cards' do
         action
         expect(response.body).to include 'Enrollments'
         expect(response.body).to include 'Learners'
-        expect(response.body).to include 'Activity'
         expect(response.body).to include 'Certificates'
       end
     end
 
     context 'without permissions' do
+      let(:user) { create(:'account_service/user') }
+
       it 'redirects to the homepage' do
         action
         expect(response).to redirect_to root_path

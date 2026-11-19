@@ -4,21 +4,13 @@ require 'spec_helper'
 
 describe 'Course: Items: Create', type: :request do
   subject(:create_item) do
-    post "/courses/#{course['course_code']}/sections/#{section['id']}/items",
-      params:,
-      headers:
+    post "/learn/#{course['course_code']}/sections/#{section['id']}/items",
+      params:
   end
 
-  let(:course_resource) { build(:'course:course', id: course.id, course_code: course.course_code) }
   let(:course) { create(:course, course_code: 'example') }
   let(:section) { build(:'course:section', course_id: course['id']) }
   let(:params) { {} }
-  let(:headers) { {} }
-
-  before do
-    Stub.request(:course, :get, "/courses/#{course['course_code']}")
-      .to_return Stub.json(course_resource)
-  end
 
   context 'for anonymous user' do
     it 'redirects to login page' do
@@ -28,32 +20,37 @@ describe 'Course: Items: Create', type: :request do
   end
 
   context 'for logged-in user' do
-    let(:user_id) { generate(:user_id) }
-    let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
+    let(:user) { create(:'account_service/user') }
+    let(:user_id) { user.id }
     let(:permissions) { %w[course.content.access course.content.edit] }
     let(:content_id) { SecureRandom.uuid }
     # The tags_create_stub is needed for successful item creation and actually
-    # loaded in before actions for scenarios requiring it
+    # loaded in before actions for scenarios requiring it.
+    # The tagged item's id is no longer known ahead of time: item creation
+    # persists a `CourseService::Item` locally and lets the database
+    # generate its id, rather than echoing back an id chosen by the test.
     let(:tags_create_stub) do
       Stub.request(
         :pinboard, :post, '/implicit_tags',
-        body: hash_including(name: item['id'], course_id: course['id'])
+        body: hash_including(course_id: course['id'])
       ).to_return Stub.response(status: 201)
     end
 
     before do
-      stub_user_request(id: user_id, permissions:)
+      sign_in(user:)
+      role = create(:'account_service/role', permissions:)
+      create(:'account_service/grant', principal: user, role:)
 
-      Stub.request(:course, :get, "/sections/#{section['id']}")
-        .to_return Stub.json(section)
+      # Item creation persists a `CourseService::Item` locally, which requires
+      # a real `CourseService::Section` to exist for the `belongs_to :section`
+      # association, in addition to the HTTP-stubbed section resource used
+      # throughout this spec for the (still remote) section/course context.
+      create('course_service/section', id: section['id'], course_id: course['id'])
+
       Stub.request(
         :course, :get, '/enrollments',
         query: {course_id: course['id'], user_id:}
       ).to_return Stub.json([])
-      Stub.request(
-        :course, :get, '/sections',
-        query: {course_id: course['id']}
-      ).to_return Stub.json([section])
       Stub.request(
         :course, :get, '/items',
         query: hash_including(section_id: section['id'])
@@ -81,7 +78,7 @@ describe 'Course: Items: Create', type: :request do
 
         expect(tags_create_stub).to have_been_requested.once
 
-        expect(response).to redirect_to "/courses/#{course['course_code']}/sections"
+        expect(response).to redirect_to "/learn/#{course['course_code']}/sections"
       end
     end
 
@@ -98,30 +95,20 @@ describe 'Course: Items: Create', type: :request do
 
     shared_examples 'failing item resource creation' do
       context 'with error while persisting the item resource' do
-        let(:item_create_stub) do
-          Stub.request(
-            :course, :post, '/items',
-            body: hash_including(
-              params[:xikolo_course_item].merge(
-                content_id:,
-                section_id: section['id']
-              )
-            )
-          ).to_return Stub.json(
-            {errors: {title: "can't be blank"}},
-            status: 422
-          )
+        let(:params) do
+          original = super()
+          original.merge(xikolo_course_item: original[:xikolo_course_item].merge(title: ''))
         end
 
         it 'rolls back' do
-          create_item
+          expect { create_item }.not_to change(CourseService::Item, :count)
 
           expect(content_create_stub).to have_been_requested.once
-          expect(item_create_stub).to have_been_requested.once
-
           expect(content_delete_stub).to have_been_requested.once
 
-          expect(response).to redirect_to "/courses/#{course['course_code']}/sections/#{section['id']}/items/new"
+          expect(response).to have_http_status(:unprocessable_content)
+          expect(response).to render_template :new
+          expect(flash[:error]).to be_present
         end
       end
     end
@@ -137,7 +124,7 @@ describe 'Course: Items: Create', type: :request do
             title: item['title'],
             content_type: item['content_type'],
           },
-          course_richtext: richtext_params,
+          richtext: richtext_params,
         }
       end
       let(:item_create_stub) do
@@ -162,10 +149,11 @@ describe 'Course: Items: Create', type: :request do
 
       context 'with valid params' do
         it 'creates the item and its content resource' do
-          expect { create_item }.to change(Course::Richtext, :count).from(0).to(1)
-          expect(item_create_stub).to have_been_requested.once
+          expect { create_item }
+            .to change(CourseService::Richtext, :count).from(0).to(1)
+            .and change(CourseService::Item, :count).from(0).to(1)
           expect(tags_create_stub).to have_been_requested.once
-          expect(response).to redirect_to "/courses/#{course['course_code']}/sections"
+          expect(response).to redirect_to "/learn/#{course['course_code']}/sections"
         end
       end
 
@@ -174,7 +162,7 @@ describe 'Course: Items: Create', type: :request do
           before do
             stub_request(
               :head,
-              'https://s3.xikolo.de/xikolo-uploads/' \
+              "#{test_s3_host}/xikolo-uploads/" \
               'uploads/b5f99337-224f-40f5-aa82-44ee8b272579/foo_bar.jpg'
             ).and_return(
               status: 200,
@@ -193,7 +181,7 @@ describe 'Course: Items: Create', type: :request do
           end
 
           it 're-renders the creation form and displays an error message for the file upload' do
-            expect { create_item }.not_to change(Course::Richtext, :count)
+            expect { create_item }.not_to change(CourseService::Richtext, :count)
             expect(item_create_stub).not_to have_been_requested
             expect(response).to render_template(:new)
             expect(response.body).to have_css('.has-error', text: 'Your file upload has been rejected due to policy violations.')
@@ -206,7 +194,7 @@ describe 'Course: Items: Create', type: :request do
           let(:richtext_params) { {course_id: course['id']} }
 
           it 're-renders the creation form' do
-            expect { create_item }.not_to change(Course::Richtext, :count)
+            expect { create_item }.not_to change(CourseService::Richtext, :count)
             expect(item_create_stub).not_to have_been_requested
             expect(response).to render_template(:new)
             expect(response.body).to have_css('.has-error', text: "The text can't be blank.")
@@ -221,7 +209,7 @@ describe 'Course: Items: Create', type: :request do
       let!(:stream) { create(:stream) }
       let(:description) { 'This is the video description.' }
       let(:video_params) do
-        {video: {
+        {video_video: {
           description:,
           lecturer_stream_id: stream.id,
         }}
@@ -251,8 +239,9 @@ describe 'Course: Items: Create', type: :request do
       end
 
       it 'creates the video item' do
-        expect { create_item }.to change(Video::Video, :count).from(0).to(1)
-        expect(item_create_stub).to have_been_requested.once
+        expect { create_item }
+          .to change(Video::Video, :count).from(0).to(1)
+          .and change(CourseService::Item, :count).from(0).to(1)
       end
 
       it "sets the video's title to the item's title" do
@@ -262,7 +251,7 @@ describe 'Course: Items: Create', type: :request do
 
       context 'with invalid video params' do
         let(:video_params) do
-          {video: {
+          {video_video: {
             description: 'This is the description', # None of the streams are provided
           }}
         end
@@ -282,7 +271,7 @@ describe 'Course: Items: Create', type: :request do
           before do
             stub_request(
               :head,
-              'https://s3.xikolo.de/xikolo-uploads/' \
+              "#{test_s3_host}/xikolo-uploads/" \
               'uploads/b5f99337-224f-40f5-aa82-44ee8b272579/foo_bar.jpg'
             ).and_return(
               status: 200,
@@ -294,7 +283,7 @@ describe 'Course: Items: Create', type: :request do
           end
 
           let(:video_params) do
-            {video: {
+            {video_video: {
               description: 'upload://b5f99337-224f-40f5-aa82-44ee8b272579/foo_bar.jpg',
             }}
           end
@@ -312,7 +301,7 @@ describe 'Course: Items: Create', type: :request do
         context 'with a rejected file among the additional files' do
           let(:upload_id) { 'b5f99337-224f-40f5-aa82-44ee8b272579' }
           let(:video_params) do
-            {video: {
+            {video_video: {
               lecturer_stream_id: stream.id,
               reading_material_upload_id: upload_id,
               description: 'This is a description',
@@ -322,7 +311,7 @@ describe 'Course: Items: Create', type: :request do
           before do
             stub_request(
               :head,
-              'https://s3.xikolo.de/xikolo-uploads/' \
+              "#{test_s3_host}/xikolo-uploads/" \
               'uploads/b5f99337-224f-40f5-aa82-44ee8b272579/reading_material.pdf'
             ).and_return(
               status: 200,
@@ -332,7 +321,7 @@ describe 'Course: Items: Create', type: :request do
               }
             )
             stub_request(:get,
-              'https://s3.xikolo.de/xikolo-uploads?list-type=2&' \
+              "#{test_s3_host}/xikolo-uploads?list-type=2&" \
               "prefix=uploads/#{upload_id}")
               .to_return(
                 status: 200,
@@ -366,25 +355,17 @@ describe 'Course: Items: Create', type: :request do
       end
 
       context 'with an error while persisting the item resource' do
-        let(:item_create_stub) do
-          Stub.request(
-            :course, :post, '/items',
-            body: hash_including(
-              params[:xikolo_course_item].merge(
-                section_id: section['id']
-              )
-            )
-          ).to_return Stub.json(
-            # This is not actually required for video items, but just a dummy error to test the correct behaviour
-            {errors: {title: "can't be blank"}},
-            status: 422
-          )
+        let(:params) do
+          # NOTE: the item's title is reused for the video content resource,
+          # so it can't be used to force an item-only validation failure here.
+          original = super()
+          original.merge(xikolo_course_item: original[:xikolo_course_item].merge(max_points: -1))
         end
 
         it 'redirects to the item new view' do
           create_item
-          expect(item_create_stub).to have_been_requested
-          expect(response).to redirect_to "/courses/#{course['course_code']}/sections/#{section['id']}/items/new"
+          expect(response).to have_http_status(:unprocessable_content)
+          expect(response).to render_template :new
           expect(flash[:error]).to be_present
         end
       end
@@ -393,10 +374,10 @@ describe 'Course: Items: Create', type: :request do
         let(:upload_id) { SecureRandom.uuid }
         let(:file_name) { 'new_reading_material.pdf' }
         let(:reading_material_uri) { "upload://#{upload_id}/#{file_name}" }
-        let(:store_stub_url) { %r{https://s3.xikolo.de/xikolo-video/videos/[0-9a-zA-Z]+/[0-9a-zA-Z]+/new_reading_material.pdf} }
+        let(:store_stub_url) { %r{#{test_s3_host}/xikolo-video/videos/[0-9a-zA-Z]+/[0-9a-zA-Z]+/new_reading_material.pdf} }
 
         let(:video_params) do
-          {video: {
+          {video_video: {
             lecturer_stream_id: stream.id,
             reading_material_uri:,
             description:,
@@ -412,7 +393,7 @@ describe 'Course: Items: Create', type: :request do
         end
         let(:store_stub) do
           stub_request(:put,
-            %r{https://s3.xikolo.de/xikolo-video/videos/[0-9a-zA-Z]+/[0-9a-zA-Z]+/new_reading_material.pdf})
+            %r{#{test_s3_host}/xikolo-video/videos/[0-9a-zA-Z]+/[0-9a-zA-Z]+/new_reading_material.pdf})
             .to_return(
               status: 200,
               headers: {'Content-Type' => 'application/xml'},
@@ -427,7 +408,7 @@ describe 'Course: Items: Create', type: :request do
         before do
           stub_request(
             :head,
-            "https://s3.xikolo.de/xikolo-uploads/uploads/#{upload_id}/new_reading_material.pdf"
+            "#{test_s3_host}/xikolo-uploads/uploads/#{upload_id}/new_reading_material.pdf"
           ).to_return(
             status: 200,
             headers: {
@@ -441,8 +422,9 @@ describe 'Course: Items: Create', type: :request do
         end
 
         it 'creates the video item' do
-          expect { create_item }.to change(Video::Video, :count).from(0).to(1)
-          expect(item_create_stub).to have_been_requested.once
+          expect { create_item }
+            .to change(Video::Video, :count).from(0).to(1)
+            .and change(CourseService::Item, :count).from(0).to(1)
           expect(store_stub).to have_been_requested.once
         end
       end
@@ -457,6 +439,7 @@ describe 'Course: Items: Create', type: :request do
           xikolo_course_item: {
             title: item['title'],
             content_type: item['content_type'],
+            exercise_type: 'selftest',
           },
           xikolo_quiz_quiz: {
             instructions: 'These are the quiz instructions.',
@@ -495,16 +478,17 @@ describe 'Course: Items: Create', type: :request do
         before { tags_create_stub }
 
         it 'creates the item and its content resource and properly adjusts the redirect' do
-          create_item
+          expect { create_item }.to change(CourseService::Item, :count).from(0).to(1)
 
           expect(content_create_stub).to have_been_requested.once
-          expect(item_create_stub).to have_been_requested.once
           expect(content_delete_stub).not_to have_been_requested
 
           expect(tags_create_stub).to have_been_requested.once
 
           # The redirect path is modified for quiz items
-          expect(response).to redirect_to "/courses/#{course['course_code']}/sections/#{section['id']}/items/#{item['id']}/edit"
+          expect(response).to redirect_to(
+            "/learn/#{course['course_code']}/sections/#{section['id']}/items/#{CourseService::Item.last.id}/edit"
+          )
         end
       end
 
@@ -551,23 +535,23 @@ describe 'Course: Items: Create', type: :request do
       end
 
       it 'creates the item and its content resource' do
-        expect { create_item }.to change(Lti::Exercise, :count).from(0).to(1)
+        expect { create_item }
+          .to change(Lti::Exercise, :count).from(0).to(1)
+          .and change(CourseService::Item, :count).from(0).to(1)
         expect(Lti::Exercise.first).to match an_object_having_attributes(
           lti_provider_id: params[:lti_exercise][:lti_provider_id]
         )
         expect(Lti::Exercise.first.instructions.to_s).to eq params[:lti_exercise][:instructions]
 
-        expect(item_create_stub.with(
-          body: hash_including(
-            params[:xikolo_course_item].merge(
-              content_id: Lti::Exercise.first.id,
-              section_id: section['id']
-            )
-          )
-        )).to have_been_requested.once
+        expect(CourseService::Item.last).to have_attributes(
+          title: params[:xikolo_course_item][:title],
+          content_type: params[:xikolo_course_item][:content_type],
+          content_id: Lti::Exercise.first.id,
+          section_id: section['id']
+        )
         expect(tags_create_stub).to have_been_requested.once
 
-        expect(response).to redirect_to "/courses/#{course['course_code']}/sections"
+        expect(response).to redirect_to "/learn/#{course['course_code']}/sections"
       end
 
       context 'with invalid attributes for the content resource' do
@@ -594,24 +578,17 @@ describe 'Course: Items: Create', type: :request do
       end
 
       context 'with error while persisting the item resource' do
-        let(:item_create_stub) do
-          Stub.request(
-            :course, :post, '/items',
-            body: hash_including(
-              params[:xikolo_course_item].merge(section_id: section['id'])
-            )
-          ).to_return Stub.json(
-            {errors: {title: "can't be blank"}},
-            status: 422
-          )
+        let(:params) do
+          original = super()
+          original.merge(xikolo_course_item: original[:xikolo_course_item].merge(title: ''))
         end
 
         it 'rolls back the content creation' do
           expect { create_item }.not_to change(Lti::Exercise, :count).from(0)
 
-          expect(item_create_stub).to have_been_requested.once
-
-          expect(response).to redirect_to "/courses/#{course['course_code']}/sections/#{section['id']}/items/new"
+          expect(response).to have_http_status(:unprocessable_content)
+          expect(response).to render_template :new
+          expect(flash[:error]).to be_present
         end
       end
     end

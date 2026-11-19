@@ -11,6 +11,8 @@ describe AccountService::User::ReplaceEmails, type: :operation do
   let!(:confirmed_email) { create(:'account_service/email', user:, address: 'old.confirmed@email.com', confirmed: true) }
   let!(:unconfirmed_email) { create(:'account_service/email', user:, address: 'old.unconfirmed@email.com') }
 
+  before { user.reload }
+
   describe 'with a valid email address' do
     let(:emails) { [{address: 'new@email.com', primary: true, confirmed: true}] }
 

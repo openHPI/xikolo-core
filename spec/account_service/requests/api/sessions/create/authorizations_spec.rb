@@ -35,31 +35,9 @@ describe 'Sessions: Create with User ID', type: :request do
 
       context '(welcome mail)' do
         it 'triggers a welcome mail' do
-          # first message published triggers welcome mail
-          expect(Msgr).to receive(:publish).with(
-            anything,
-            to: 'xikolo.web.account.sign_up'
-          )
-
-          # "drain" the other msgr messages published
-          expect(Msgr).to receive(:publish).at_least(1).time
-
           resource
-        end
-
-        context 'with user registration disabled' do
-          before do
-            AccountService::Feature.find_by!(name: 'account.registration').destroy!
-          end
-
-          it 'does not trigger a welcome mail' do
-            expect(Msgr).not_to receive(:publish).with(
-              anything,
-              to: 'xikolo.web.account.sign_up'
-            )
-
-            resource
-          end
+          new_user = AccountService::User.last
+          expect(NotificationService::SendWelcomeEmailJob).to have_been_enqueued.with(new_user.id, nil)
         end
       end
     end

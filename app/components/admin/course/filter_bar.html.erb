@@ -1,0 +1,3 @@
+<%= render Global::FilterBar::Form.new(action: admin_courses_path, filters:, search_param: @search_param) do |form| %>
+  <% form.with_controls(content_id: '#admin-courses__content', loading_indicator_id: '#admin-courses__loading') %>
+<% end %>

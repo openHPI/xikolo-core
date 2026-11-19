@@ -14,7 +14,7 @@ module Catalog
       # Get a list of categories, one for each publicly visible channel.
       #
       def self.all_public
-        ::Course::Channel.public.ordered.map do |channel|
+        ::CourseService::Channel.public.ordered.map do |channel|
           new(channel)
         end
       end

@@ -18,55 +18,33 @@ class DocumentsPresenter < Presenter
 
   def templates!
     @templates ||= {}.tap do |templates|
-      if enrollment.certificates[:confirmation_of_participation]
+      if certificates[:confirmation_of_participation]
         templates[:confirmation_of_participation] = template_for(type: Certificate::Record::COP)
       end
 
-      if enrollment.certificates[:record_of_achievement]
+      if certificates[:record_of_achievement]
         templates[:record_of_achievement] = template_for(type: Certificate::Record::ROA)
-        templates[:open_badge] = Certificate::OpenBadgeTemplate.find_by(course_id: enrollment.course_id)
       end
 
-      if enrollment.certificates[:transcript_of_records]
-        templates[:transcript_of_records] = template_for(type: Certificate::Record::TOR)
-      end
-
-      if enrollment.certificates[:certificate]
+      if certificates[:certificate]
         templates[:certificate] = template_for(type: Certificate::Record::CERT)
       end
     end
   end
 
-  def open_badge?
-    open_badge_enabled? && roa?
-  end
-
-  def open_badge_enabled?
-    template?(:open_badge)
-  end
-
   def cop?
-    enrollment.certificates[:confirmation_of_participation] &&
+    certificates[:confirmation_of_participation] &&
       template?(:confirmation_of_participation)
   end
 
   def roa?
-    enrollment.certificates[:record_of_achievement] &&
+    certificates[:record_of_achievement] &&
       template?(:record_of_achievement)
   end
 
   def cert?
-    enrollment.certificates[:certificate] &&
+    certificates[:certificate] &&
       template?(:certificate)
-  end
-
-  def tor?
-    enrollment.certificates[:transcript_of_records] &&
-      template?(:transcript_of_records)
-  end
-
-  def tor_available?
-    template?(:transcript_of_records)
   end
 
   def cert_enabled?
@@ -94,6 +72,10 @@ class DocumentsPresenter < Presenter
 
   def course_api
     RequestStore.store[:course_root] ||= Xikolo.api(:course).value!
+  end
+
+  def certificates
+    @certificates ||= enrollment.decorate_self[:certificates] || {}
   end
 
   def template_for(type:)

@@ -3,18 +3,18 @@
 require 'spec_helper'
 
 describe 'Admin: LTI Providers: Update', type: :request do
-  subject(:update_lti_provider) { patch "/admin/lti_providers/#{provider.id}", params: {lti_provider: params}, headers: }
+  subject(:update_lti_provider) { patch "/admin/lti_providers/#{provider.id}", params: {lti_provider: params} }
 
-  let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
   let(:provider) { create(:lti_provider, :global) }
-  let(:permissions) { %w[lti.provider.manage] }
+  let(:user) { create(:'account_service/user', :admin) }
+  let(:authenticate) { true }
   let(:params) do
     {
       name: 'An Updated Provider',
     }
   end
 
-  before { stub_user_request permissions: }
+  before { sign_in(user:) if authenticate }
 
   it 'updates the LTI provider' do
     expect { update_lti_provider }.to change { provider.reload.name }.from('Provider').to('An Updated Provider')
@@ -33,7 +33,7 @@ describe 'Admin: LTI Providers: Update', type: :request do
   end
 
   context 'without permissions' do
-    let(:permissions) { [] }
+    let(:user) { create(:'account_service/user') }
 
     it 'redirects to the homepage' do
       update_lti_provider
@@ -43,7 +43,7 @@ describe 'Admin: LTI Providers: Update', type: :request do
   end
 
   context 'for anonymous users' do
-    let(:headers) { {} }
+    let(:authenticate) { false }
 
     it 'redirects to the login page' do
       update_lti_provider

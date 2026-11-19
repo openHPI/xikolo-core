@@ -35,7 +35,6 @@ const handleVideoType = () => {
     '.xikolo_course_item_submission_publishing_date',
     '#icon-type-select',
   ]);
-  setVisibility('show', ['#featured-switch']);
   handleOpenMode();
   videoStreamsAutocompletion();
 };

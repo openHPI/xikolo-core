@@ -10,8 +10,6 @@ describe 'Pinboard: Subscription: Destroy', type: :request do
   let(:user) { create(:'account_service/user') }
 
   before do
-    stub_user_request(id: user.id)
-
     Stub.request(
       :pinboard, :get, '/subscriptions',
       query: {
@@ -31,9 +29,9 @@ describe 'Pinboard: Subscription: Destroy', type: :request do
   end
 
   context 'as logged in user' do
-    let(:headers) { {Authorization: "Xikolo-Session session_id=#{stub_session_id}"} }
-
     it 'deletes the subscription' do
+      sign_in(user:)
+
       expect(destroy_subscription).to redirect_to 'http://www.example.com/preferences'
       expect(request.flash[:success].first).to eq 'Succesfully unfollowed the topic.'
     end

@@ -1,5 +1,3 @@
-@use "sass:color";
-
 .login-box {
   @include light-bar();
   @include heavy-bar();
@@ -10,91 +8,11 @@
   background-color: $gray-100;
 
   .large-icon {
-    margin-bottom: 2rem;
+    margin-bottom: legacy-rem(2rem);
     color: $gray-250;
     font-size: 90px;
     line-height: 1;
     text-align: center;
-  }
-}
-
-.login-dropdown {
-  width: 40em;
-  padding: 0 0.5em;
-
-  .buttons input {
-    @extend .full-width;
-  }
-}
-
-.omniauth {
-  padding: 0;
-  margin-top: 2em;
-  list-style: none;
-
-  %btn {
-    @extend .btn;
-    @extend .full-width;
-    height: 45px;
-    margin-bottom: 4px;
-
-    & > span {
-      display: block;
-      font-family: $corporatefont, sans-serif !important;
-      font-size: 18px !important;
-      font-weight: bold;
-    }
-
-    &:before {
-      float: left;
-      font-size: 18px !important;
-    }
-  }
-
-  [data-provider="saml_test_id"] {
-    @extend %btn;
-
-    padding-left: 50px;
-    margin-bottom: 0 !important;
-    background-image: url("/omniauth/saml_test_id.png");
-    background-position: 17px;
-    background-repeat: no-repeat;
-    background-size: auto 29px;
-    vertical-align: middle;
-    @include btn-variant(#04518b, #fbfbfb, $gray-250);
-  }
-
-  [data-provider="hpi"],
-  [data-provider="hpi_saml"] {
-    @extend %btn;
-    @include btn-variant(
-      $white,
-      $orange,
-      color.adjust($white, $lightness: -15%, $space: hsl)
-    );
-
-    padding-left: 50px;
-    margin-bottom: 0 !important;
-    background-image: url("/omniauth/hpi.png");
-    background-position: 17px;
-    background-repeat: no-repeat;
-    vertical-align: middle;
-  }
-
-  [data-provider="mein_bildungsraum"] {
-    @extend %btn;
-    @include btn-variant(
-      $white,
-      #4dafff,
-      color.adjust($white, $lightness: -15%, $space: hsl)
-    );
-
-    padding-left: 50px;
-    margin-bottom: 0 !important;
-    background-image: url("/omniauth/mein_bildungsraum.png");
-    background-position: 17px;
-    background-repeat: no-repeat;
-    vertical-align: middle;
   }
 }
 
@@ -144,7 +62,7 @@
 
     .xi-icon {
       margin-left: 5px;
-      font-size: 1.5rem;
+      font-size: legacy-rem(1.5rem);
     }
   }
 

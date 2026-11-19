@@ -58,7 +58,6 @@ Rails/I18nLocaleTexts:
 Rails/RakeEnvironment:
   Exclude:
     - "gems/*/Rakefile"
-    - "integration/Rakefile"
 
 #
 # False positives:
@@ -90,10 +89,3 @@ Rails/SkipsModelValidations:
 Rails/ThreeStateBooleanColumn:
   Exclude:
     - db/migrate/20210616103115_init.rb
-
-Rails/UnknownEnv:
-  Environments:
-    - development
-    - integration
-    - production
-    - test

@@ -49,6 +49,10 @@ development:
     certificate: ~ # TODO: Add later
     private_key: ~ # TODO: Add later
 test:
+  saml:
+    provider: saml
+    idp_sso_service_url: https://example.com/saml/service
+    visible: true
   test_saml:
     provider: saml
     idp_sso_service_url: https://example.com/saml/service
@@ -57,12 +61,4 @@ test:
     provider: saml
     idp_sso_service_url: https://example.com/saml/service
     idp_slo_service_url: https://example.com/saml/service
-    visible: true
-
-integration:
-  saml:
-    provider: saml
-    idp_sso_service_url: https://example.com/saml/service
-    issuer: omniauth-saml
-    idp_cert_fingerprint: 7e3cc6a7ebcd9e5b528e89eb527927b0eb0ee8a6
     visible: true

@@ -1,0 +1,22 @@
+<%- answers.each do |answer| %>
+  <% if answer.edited? %>
+    <% content_for :head_assets do %>
+      <meta name="question-edited" content="<%= @question.id %>">
+    <% end %>
+  <% end %>
+  <%= render 'quiz_submission/question/choice_answer',
+    input_type: 'checkbox',
+    question_id: @question.id,
+    answer_id: answer.id,
+    name: "submission[#{@question.id}][]",
+    value: answer.id,
+    answer_text: answer.text,
+    checked: answer.selected?,
+    disabled: answer.disabled?,
+    wrong: @show_solution && answer.selected? && !answer.correct?,
+    correct: @show_solution && answer.correct?,
+    lang: @lang %>
+  <div class="ml-5">
+    <%= render 'quiz_submission/question/answer_comment', answer: answer, show_solution: @show_solution, lang: @lang %>
+  </div>
+<% end %>

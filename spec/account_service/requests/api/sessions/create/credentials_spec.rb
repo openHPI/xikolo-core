@@ -142,5 +142,23 @@ describe 'Sessions: Create with Credentials', type: :request do
         it { is_expected.to include 'ident' => ['archived_user'] }
       end
     end
+
+    context 'with banned user' do
+      before { user.ban }
+
+      it 'responds with 422 Unprocessable Entity' do
+        expect(response).to respond_with :unprocessable_content
+      end
+
+      it 'does not create session record' do
+        expect { response }.not_to change(AccountService::Session, :count)
+      end
+
+      describe 'response error body' do
+        subject(:errors) { response.decoded_body['errors'] }
+
+        it { is_expected.to include 'ident' => ['banned_user'] }
+      end
+    end
   end
 end

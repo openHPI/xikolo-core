@@ -3,21 +3,22 @@
 require 'spec_helper'
 
 describe 'Course: Admin: Certificate Templates: Preview', type: :request do
-  subject(:request) { get "/courses/#{course.id}/certificate_templates/#{certificate_template.id}/preview", headers: }
+  subject(:request) { get "/learn/#{course.id}/certificate_templates/#{certificate_template.id}/preview" }
 
-  let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
   let(:user) { create(:'account_service/user') }
   let(:permissions) { %w[course.content.access certificate.template.manage] }
   let(:course) { create(:course, course_code: 'my-course') }
   let(:certificate_template) { create(:certificate_template, :roa, course:) }
 
   before do
-    stub_user_request(id: user.id, permissions:)
+    sign_in(user:)
+    role = create(:'account_service/role', permissions:)
+    create(:'account_service/grant', principal: user, role:)
 
     Stub.request(:course, :get, "/courses/#{course.id}")
       .to_return Stub.json(build(:'course:course', id: course.id))
 
-    stub_request(:get, 'https://s3.xikolo.de/xikolo-certificate/templates/1YLgUE6KPhaxfpGSZ.pdf')
+    stub_request(:get, "#{test_s3_host}/xikolo-certificate/templates/1YLgUE6KPhaxfpGSZ.pdf")
       .to_return(body: File.new('spec/support/files/certificate/template.pdf'), status: 200)
   end
 

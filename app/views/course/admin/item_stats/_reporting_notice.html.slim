@@ -1,6 +1,3 @@
 .bs-callout.bs-callout-default.mt5.mb5
   = render Global::FaIcon.new('file-zipper', css_classes: 'fa-lg mr10')
-  - if current_user.allowed? 'lanalytics.report.create'
-    = t(:'course.admin.item_stats.quiz.request_submission_report_link', id: quiz_id, link: reports_path(report_type: 'submission_report', report_scope: quiz_id))
-  - else
-    = t(:'course.admin.item_stats.quiz.request_submission_report', id: quiz_id)
+  = t(:'course.admin.item_stats.quiz.request_submission_report', id: quiz_id)

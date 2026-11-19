@@ -15,12 +15,6 @@
       "title": "Shop API",
       "slug": "shop",
       "uri": "/shop/reference/shop-api.v1.yaml"
-    },
-    {
-      "type": "item",
-      "title": "TransPipe API",
-      "slug": "transpipe",
-      "uri": "/transpipe/reference/transpipe-api.v1.yaml"
     }
   ]
 }

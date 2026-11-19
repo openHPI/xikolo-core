@@ -1,0 +1,4 @@
+interface:
+  display_name: "Restify to ActiveRecord"
+  short_description: "Migrate one controller from Restify to AR"
+  default_prompt: "Use $restify-to-ar-migration to migrate this controller and its related code from Restify to ActiveRecord."

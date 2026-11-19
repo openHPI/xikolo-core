@@ -2,11 +2,10 @@
 
 module Course::Admin::LearningEvaluation
   class RecalculationsController < ApplicationController
-    before_action :recalculation_enabled?
     require_permission 'course.course.recalculate'
 
     def create
-      course = Course::Course.by_identifier(params[:course_id]).take!
+      course = CourseService::Course.by_identifier(params[:course_id]).take!
 
       return unless course.needs_recalculation?
 
@@ -33,11 +32,12 @@ module Course::Admin::LearningEvaluation
     end
 
     def request_course
-      Xikolo::Course::Course.find params[:course_id]
-    end
+      course = CourseService::Course.by_identifier(params[:course_id]).take
+      if course.nil?
+        raise Status::NotFound
+      end
 
-    def recalculation_enabled?
-      raise AbstractController::ActionNotFound if Xikolo.config.persisted_learning_evaluation.blank?
+      course
     end
   end
 end

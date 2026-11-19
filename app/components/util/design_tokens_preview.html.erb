@@ -1,0 +1,83 @@
+<div class="mx-auto max-w-main-content space-y-8 bg-base-100 p-6 text-base-content">
+  <header>
+    <h1 class="text-2xl font-bold">Design tokens</h1>
+    <p>Defined in <span>app/assets/stylesheets/tailwind/input.css</span>.</p>
+  </header>
+
+  <section aria-labelledby="semantic-colors">
+    <h2 id="semantic-colors" class="mb-4 text-xl font-bold">Semantic colors</h2>
+    <div class="grid grid-cols-2 gap-3 md:grid-cols-4">
+      <% semantic_colors.each do |background, foreground| %>
+        <div class="rounded-box border border-base-300 p-4 <%= background %> <%= foreground %>">
+          <span class="block"><%= background.delete_prefix('bg-') %></span>
+          <span class="text-sm"><%= foreground.delete_prefix('text-') %></span>
+        </div>
+      <% end %>
+    </div>
+  </section>
+
+  <section aria-labelledby="color-palettes" class="space-y-4">
+    <h2 id="color-palettes" class="text-xl font-bold">Color palettes</h2>
+    <% palettes.each do |name, colors| %>
+      <div>
+        <h3 class="mb-2 text-base font-semibold"><%= name.to_s.humanize %></h3>
+        <div class="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">
+          <% colors.each do |color| %>
+            <div>
+              <div class="h-16 rounded-box border border-base-300 <%= color %>"></div>
+              <span class="text-xs"><%= color.delete_prefix('bg-') %></span>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </section>
+
+  <section aria-labelledby="shape-tokens">
+    <h2 id="shape-tokens" class="mb-4 text-xl font-bold">Shape and effects</h2>
+    <div class="flex flex-wrap gap-4">
+      <% %w[selector field box].each do |shape| %>
+        <div class="border border-base-300 bg-base-200 p-6" style="border-radius: var(--radius-<%= shape %>); border-width: var(--border)">
+          <span>--radius-<%= shape %></span>
+        </div>
+      <% end %>
+      <div class="x-card border border-base-300 bg-base-200 p-6">
+        <span>--border / --depth</span>
+        <button type="button" class="x-btn x-btn-primary mt-2">Button effects</button>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="layout-tokens" class="space-y-3">
+    <h2 id="layout-tokens" class="text-xl font-bold">Layout</h2>
+    <p><span>--spacing-main-content</span> sets this page's maximum width.</p>
+    <div class="flex h-navbar items-center rounded-box bg-base-200 px-4"><span>--spacing-navbar</span></div>
+    <div class="flex h-bottom-bar items-center rounded-box bg-base-200 px-4"><span>--spacing-bottom-bar</span></div>
+    <h3 class="text-base font-semibold">Stacking order</h3>
+    <div class="isolate flex flex-wrap pl-3">
+      <% %w[z-xs z-s z-sm z-m z-l z-xl].each do |level| %>
+        <div class="relative -ml-3 rounded-box border border-base-300 bg-base-200 p-4 <%= level %>">
+          <span>--z-index-<%= level.delete_prefix('z-') %></span>
+        </div>
+      <% end %>
+    </div>
+  </section>
+
+  <section aria-labelledby="typography-tokens">
+    <h2 id="typography-tokens" class="mb-4 text-xl font-bold">Prose colors</h2>
+    <div class="prose">
+      <h3>Example heading</h3>
+      <p class="lead">Lead text uses the platform gray palette.</p>
+      <p>Body text with <strong>bold emphasis</strong>, <a href="#typography-tokens">a link</a>, <code>inline code</code>, and <kbd>Enter</kbd>.</p>
+      <ul><li>List markers use a muted gray.</li></ul>
+      <blockquote>Quotes use a primary-colored border.</blockquote>
+      <pre><code>Preformatted code</code></pre>
+      <hr>
+      <table>
+        <caption>Table caption</caption>
+        <thead><tr><th>Token family</th><th>Example</th></tr></thead>
+        <tbody><tr><td>Typography</td><td>Table borders and text</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+</div>

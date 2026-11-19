@@ -34,34 +34,35 @@ describe CourseService::Visit do
 
   context '(event publication)' do
     describe 'create visit' do
-      it 'publishes an event for a newly created visit' do
-        expect(Msgr).to receive(:publish) do |event, opts|
-          expect(event).to eq \
-            id: visit.id,
-            item_id: item.id,
-            user_id: visit.user_id,
-            created_at: visit.created_at.iso8601,
-            updated_at: visit.updated_at.iso8601,
-            course_id: item.section.course_id,
-            section_id: item.section.id,
-            content_type: item.content_type,
-            content_id: item.content_id,
-            exercise_type: item.exercise_type,
-            submission_deadline: item.submission_deadline,
-            submission_publishing_date: item.submission_publishing_date,
-            max_points: (item.max_dpoints / 10.0 if item.max_dpoints)
-          expect(opts).to eq to: 'xikolo.course.visit.create'
-        end
-        visit.save
+      it 'enqueues a VisitCreateJob for a newly created visit' do
+        expect do
+          visit.save
+        end.to have_enqueued_job(VisitCreateJob).with(
+          id: visit.id,
+          item_id: item.id,
+          user_id: visit.user_id,
+          created_at: kind_of(String),
+          updated_at: kind_of(String),
+          course_id: item.section.course_id,
+          section_id: item.section.id,
+          content_type: item.content_type,
+          content_id: item.content_id,
+          exercise_type: item.exercise_type,
+          submission_deadline: item.submission_deadline,
+          submission_publishing_date: item.submission_publishing_date,
+          max_points: (item.max_dpoints / 10.0 if item.max_dpoints)
+        )
       end
     end
 
     describe 'touch visit' do
       let!(:visit) { create(:'course_service/visit', item:) }
 
-      it 'publishes an event for the updated visit' do
-        expect(Msgr).to receive(:publish) do |event, opts|
-          expect(event).to include \
+      it 'enqueues a VisitCreateJob for the updated visit' do
+        expect do
+          visit.touch
+        end.to have_enqueued_job(VisitCreateJob).with(
+          hash_including(
             id: visit.id,
             item_id: item.id,
             user_id: visit.user_id,
@@ -74,22 +75,15 @@ describe CourseService::Visit do
             submission_deadline: item.submission_deadline,
             submission_publishing_date: item.submission_publishing_date,
             max_points: (item.max_dpoints / 10.0 if item.max_dpoints)
-          expect(opts).to eq to: 'xikolo.course.visit.create'
-        end
-        visit.touch
+          )
+        )
       end
-    end
-  end
-
-  context '(enrollment completion worker)' do
-    it 'starts worker for a newly created visit' do
-      expect { visit.save }.to change(CourseService::EnrollmentCompletionWorker.jobs, :size).from(0).to(1)
     end
   end
 
   context '(update section progress worker)' do
     it 'starts worker for a newly created visit' do
-      expect { visit.save }.to change(CourseService::LearningEvaluation::UpdateSectionProgressWorker.jobs, :size).from(0).to(1)
+      expect { visit.save }.to have_enqueued_job(CourseService::LearningEvaluation::UpdateSectionProgressJob).exactly(:once)
     end
   end
 end

@@ -3,22 +3,16 @@
 require 'spec_helper'
 
 describe 'Admin: Ajax: Classifiers: Index', type: :request do
-  subject(:request) { get '/admin/find_classifiers', params:, headers: }
+  subject(:request) { get '/admin/find_classifiers', params: }
 
-  let(:headers) { {} }
   let(:params) { {} }
   let(:user) { create(:'account_service/user') }
-  let(:permissions) { [] }
+  let(:authenticate) { false }
 
   let!(:classifier1) { create(:classifier, title: 'Alpha', cluster_id: 1, translations: {'en' => 'Alpha'}, cluster: create(:cluster, id: 1)) }
   let!(:classifier2) { create(:classifier, title: 'Beta', cluster_id: 2, translations: {'en' => 'Beta'}, cluster: create(:cluster, id: 2)) }
 
   let(:json) { response.parsed_body }
-
-  before do
-    stub_user_request id: user.id
-    stub_user_request(permissions:)
-  end
 
   context 'when not logged in' do
     it 'responds with Forbidden' do
@@ -28,7 +22,7 @@ describe 'Admin: Ajax: Classifiers: Index', type: :request do
   end
 
   context 'when logged in' do
-    let(:headers) { {Authorization: "Xikolo-Session session_id=#{stub_session_id}"} }
+    before { sign_in(user:) }
 
     context 'without permissions' do
       it 'responds with Forbidden' do
@@ -38,7 +32,10 @@ describe 'Admin: Ajax: Classifiers: Index', type: :request do
     end
 
     context 'with permissions' do
-      let(:permissions) { ['course.course.edit'] }
+      before do
+        role = create(:'account_service/role', permissions: ['course.course.edit'])
+        create(:'account_service/grant', principal: user, role:)
+      end
 
       it 'returns all classifiers' do
         request

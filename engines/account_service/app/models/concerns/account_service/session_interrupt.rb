@@ -8,12 +8,17 @@ module SessionInterrupt # rubocop:disable Layout/IndentationWidth
 
   def interrupts
     @interrupts ||= [
+      guardian_consent,
       new_consents,
       new_policy,
     ].compact
   end
 
   private
+
+  def guardian_consent
+    'guardian_consent' if user.guardian_consent_required?
+  end
 
   def new_consents
     'new_consents' if Treatment.count > user.consents.count

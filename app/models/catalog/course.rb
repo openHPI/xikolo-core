@@ -29,7 +29,7 @@ module Catalog
     has_many :channels, through: :channels_courses
 
     has_many :enrollments,
-      class_name: 'Course::Enrollment',
+      class_name: 'CourseService::Enrollment',
       dependent: :restrict_with_exception
     has_one :visual,
       class_name: 'Course::Visual',
@@ -41,8 +41,6 @@ module Catalog
     scope :for_channel_list, lambda {|channel|
       joins(:channels_courses).where(channels_courses: {channel_id: channel.id})
     }
-
-    PUBLISHED_STATES = %w[active archive].freeze
 
     class << self
       def started_by(time)
@@ -71,10 +69,6 @@ module Catalog
         reorder(Arel.sql('COALESCE(display_start_date, start_date) ASC NULLS LAST, title ASC'))
       end
 
-      def order_recently_finished
-        reorder(Arel.sql('COALESCE(end_date, display_start_date, start_date) DESC NULLS LAST, title ASC'))
-      end
-
       ##
       # Order courses by relevance for the user, i.e. show the current or
       # soon starting courses first as they need to be worked on first.
@@ -89,29 +83,32 @@ module Catalog
       # Only list courses marked for publication by teachers
       # (i.e., moved out of "preparation" state).
       #
+
       def released
-        where(status: PUBLISHED_STATES)
+        where(published: true, deleted: false)
       end
 
       def current
-        now = ::Time.zone.now
-
-        where(status: 'active').started_by(now).ending_after(now).order_chronologically
+        where(published: true, deleted: false)
+          .started_by(Time.zone.now)
+          .ending_after(Time.zone.now)
+          .order_chronologically
       end
 
       def upcoming
-        where(status: 'active').starting_after(::Time.zone.now).order_chronologically
+        where(published: true, deleted: false)
+          .starting_after(::Time.zone.now)
+          .order_chronologically
       end
 
       def self_paced
-        now = ::Time.zone.now
-
+        now = Time.zone.now
+        base = where(published: true, deleted: false)
         [
-          where(status: 'archive'), # Explicitly marked as self-paced
-          where(start_date: nil, end_date: nil), # No timebox at all
-          started_by(now).where(end_date: nil), # Self-paced since specific date
-          ended_by(now), # Timebox has passed
-        ].reduce(:or).order_recently_finished
+          base.ended_by(now), # timebox has passed
+          base.where(start_date: ...now).where(end_date: nil), # started, never ends
+        ].reduce(:or)
+          .reorder(Arel.sql('COALESCE(end_date, display_start_date, start_date) DESC NULLS LAST, title ASC'))
       end
 
       ##
@@ -119,7 +116,7 @@ module Catalog
       # i.e. the course list and some homepage course categories.
       #
       def for_global_list
-        where(show_on_list: true)
+        where('? = ANY(placement)', 'Open4All')
       end
 
       ##
@@ -137,7 +134,7 @@ module Catalog
         return for_guests if user.anonymous?
 
         [
-          where(hidden: false).for_groups(user:),
+          where.not(placement: []).for_groups(user:),
           enrolled_for(user),
         ].reduce(:or)
       end
@@ -146,7 +143,7 @@ module Catalog
       # Courses that anonymous users / search engines may see anywhere.
       #
       def for_guests
-        where(hidden: false, groups: [])
+        where.not(placement: []).where(groups: [])
       end
 
       ##
@@ -156,7 +153,7 @@ module Catalog
       # restricted to groups they're a member of.
       #
       def for_groups(user:)
-        group_names = Account::Group.where_member(user).pluck(:name)
+        group_names = AccountService::Group.with_member(user).pluck(:name)
 
         return where(groups: []) if group_names.blank?
 
@@ -181,7 +178,7 @@ module Catalog
       def enrolled_for(user)
         return none if user.anonymous?
 
-        enrolled = ::Course::Enrollment.active
+        enrolled = ::CourseService::Enrollment.active
           .where(user_id: user.id)
           .select(:course_id)
 
@@ -272,7 +269,31 @@ module Catalog
     end
 
     def published?
-      PUBLISHED_STATES.include? status
+      published
+    end
+
+    def status
+      return 'preparation' unless published?
+
+      now = Time.zone.now
+      if start_date.nil?
+        # No start date → self-paced once the end date has passed,
+        # otherwise active (also when there is no end date).
+        # Note: start date later than end date is prevented by
+        # validations, so no "invalid" state is needed.
+        return 'self-paced' if end_date && now > end_date
+
+        'active'
+      elsif now < start_date
+        # Start date in the future → upcoming
+        'upcoming'
+      elsif end_date.nil? || now > end_date
+        # Start in the past + no end, or end already passed → self-paced
+        'self-paced'
+      else
+        # Start in the past + end in the future → active
+        'active'
+      end
     end
 
     ##
@@ -280,6 +301,10 @@ module Catalog
     #
     def was_available?
       published? && started?
+    end
+
+    def hidden?
+      placement.blank?
     end
 
     def external?

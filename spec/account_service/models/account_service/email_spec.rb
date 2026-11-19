@@ -34,6 +34,34 @@ describe AccountService::Email, type: :model do
     end.to raise_error(/Address has already been taken/)
   end
 
+  describe '.primary' do
+    subject(:emails) { described_class.primary }
+
+    let(:user) { create(:'account_service/user', :unconfirmed) }
+
+    before do
+      user.emails.destroy_all
+      create(:'account_service/email', :confirmed, user:)
+    end
+
+    context 'with primary emails' do
+      let!(:primary_email) { create(:'account_service/email', user:, primary: true) }
+
+      it 'returns a list of primary emails' do
+        expect(emails).to contain_exactly(an_object_having_attributes(
+          id: primary_email.id,
+          primary: true
+        ))
+      end
+    end
+
+    context 'without primary emails' do
+      it 'returns an empty array' do
+        expect(emails).to be_empty
+      end
+    end
+  end
+
   describe '#address' do
     subject(:taken) { described_class.address("o'connor@AssassinsCreed.US").take }
 
@@ -75,27 +103,6 @@ describe AccountService::Email, type: :model do
         expect { update }.to change {
           email.user.reload.confirmed?
         }.from(false).to(true)
-      end
-
-      it 'published confirmed event' do
-        allow(Msgr).to receive(:publish)
-
-        expect(Msgr).to receive(:publish).with(anything,
-          hash_including(to: 'xikolo.account.user.confirmed'))
-
-        update
-      end
-
-      it 'publishes on creation' do
-        allow(Msgr).to receive(:publish)
-
-        expect(Msgr).to receive(:publish).with anything,
-          hash_including(to: 'xikolo.account.user.create')
-
-        expect(Msgr).to receive(:publish).with anything,
-          hash_including(to: 'xikolo.account.user.confirmed')
-
-        create(:'account_service/user')
       end
     end
   end

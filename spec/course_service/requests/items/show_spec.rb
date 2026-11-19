@@ -28,8 +28,8 @@ describe 'Items: Show', type: :request do
     context 'with an item in open mode' do
       let(:item) { create(:'course_service/item', open_mode: true) }
 
-      it 'respects course visibility (the course is in preparation)' do
-        expect(resource['open_mode']).to be false
+      it 'respects course visibility' do
+        expect(resource['open_mode']).to be true
       end
 
       describe '(requesting raw mode)' do
@@ -51,7 +51,7 @@ describe 'Items: Show', type: :request do
     end
 
     context 'with a valid user ID' do
-      let(:user_id) { generate(:user_id) }
+      let(:user_id) { create(:'account_service/user').id }
       let(:params) { super().merge(user_id:) }
 
       it { is_expected.to respond_with :ok }
@@ -111,7 +111,7 @@ describe 'Items: Show', type: :request do
     end
 
     context 'with a provided user ID' do
-      let(:user_id) { generate(:user_id) }
+      let(:user_id) { create(:'account_service/user').id }
       let(:params) { {id: item_id, user_id:} }
 
       context 'the user is not assigned to a content test group' do
@@ -141,7 +141,7 @@ describe 'Items: Show', type: :request do
 
       context 'the user is already assigned to a content test group (branch 2)' do
         before do
-          CourseService::Duplicated::Membership.create!(user_id:, group_id: fork.branches[1].group_id)
+          AccountService::Membership.create!(user_id:, group_id: fork.branches[1].group_id)
         end
 
         context 'regular item' do
@@ -169,7 +169,7 @@ describe 'Items: Show', type: :request do
     end
 
     describe '(previous / next items)' do
-      let(:user_id) { generate(:user_id) }
+      let(:user_id) { create(:'account_service/user').id }
       let(:regular_item2) { create(:'course_service/item', section:, title: 'Regular Item 2') }
       let(:regular_item3) { create(:'course_service/item', section:, title: 'Regular Item 3') }
       let(:item_branch21) { create(:'course_service/item', section:, title: 'Item in Branch 2-1') }

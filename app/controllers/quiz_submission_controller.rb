@@ -5,7 +5,6 @@ class QuizSubmissionController < Abstract::FrontendController
   include ItemContextHelper
 
   before_action :ensure_logged_in
-  before_action :set_no_cache_headers
 
   inside_course
   inside_item
@@ -47,9 +46,7 @@ class QuizSubmissionController < Abstract::FrontendController
           submission_questions.each(&:enqueue_acfs_request_for_quiz_submissions_answers)
         end
         @quiz = Xikolo::Quiz::Quiz.find item['content_id'] do |quiz|
-          quiz.enqueue_acfs_request_for_questions do |questions|
-            questions.each(&:enqueue_acfs_request_for_answers)
-          end
+          enqueue_quiz_questions_with_answers(quiz, submission:)
           @attempts = Xikolo::Submission::UserQuizAttempts.find user_id: current_user.id, quiz_id: quiz.id
         end
       end
@@ -67,7 +64,7 @@ class QuizSubmissionController < Abstract::FrontendController
 
     @my_result = QuizResultPresenter.new(@quiz, @submission, @submissions)
 
-    shuffle_answers @quiz, @submission.id.to_i
+    shuffle_answers @quiz, @submission.id
 
     set_page_title the_course.title, item['title']
   end
@@ -93,7 +90,6 @@ class QuizSubmissionController < Abstract::FrontendController
         course_id: the_course.id,
         quiz_id: @quiz.id,
         user_id: current_user.id,
-        vendor_data: nil,
       }).value!
 
       # To prevent breakage in other parts, let's wrap the Restify response in
@@ -129,7 +125,7 @@ class QuizSubmissionController < Abstract::FrontendController
 
     create_visit!
 
-    if submission.response.status != :created && @item_presenter.graded? && !@in_app
+    if submission.response.status != :created && @item_presenter.graded?
       add_flash_message :notice, t(:'flash.notice.quiz_submission_still_active')
     end
 
@@ -150,7 +146,9 @@ class QuizSubmissionController < Abstract::FrontendController
       quiz_end_time,
     ].compact.min - nowts
     @counter_init_timestamp = nowts
-    shuffle_answers @quiz, @submission.id.to_i
+    enqueue_quiz_questions_with_answers(@quiz, submission: @submission)
+    Acfs.run
+    shuffle_answers @quiz, @submission.id
 
     set_page_title the_course.title, item['title']
   end
@@ -199,32 +197,6 @@ class QuizSubmissionController < Abstract::FrontendController
       submit! submission
     end
 
-    # Throwing the event here as the `item_id` needs to be provided, which
-    # is not available in the quiz service.
-    submissions = Xikolo::Submission::QuizSubmission.where(
-      quiz_id: submission.quiz_id, user_id: submission.user_id, per_page: 1
-    )
-    created_submission = Xikolo::Submission::QuizSubmission.find(submission.id)
-
-    Acfs.run
-
-    Msgr.publish({
-      id: created_submission.id,
-      course_id: created_submission.course_id,
-      item_id: @item_presenter.id,
-      quiz_id: created_submission.quiz_id,
-      quiz_access_time: created_submission.quiz_access_time,
-      quiz_submission_time: created_submission.quiz_submission_time,
-      quiz_version_at: created_submission.quiz_version_at,
-      quiz_submission_deadline: @item_presenter.submission_deadline,
-      quiz_type: @item_presenter.exercise_type,
-      user_id: created_submission.user_id,
-      submitted: created_submission.submitted,
-      points: created_submission.points,
-      attempt: submissions.total_pages,
-      max_points: quiz.present? ? quiz.max_points : nil,
-    }, to: 'xikolo.submission.submission.create')
-
     add_flash_message :success, t(:'flash.success.quiz_submitted')
     redirect_depending_on_quiz_type quiz, submission
   rescue Acfs::ErroneousResponse
@@ -251,9 +223,9 @@ class QuizSubmissionController < Abstract::FrontendController
   end
 
   def create_item_presenter!
-    Acfs.on the_course, the_quiz do |course, quiz|
+    Acfs.on the_quiz do |quiz|
       presenter_class = ItemPresenter.lookup(item)
-      @item_presenter = presenter_class.build item, course, current_user, quiz
+      @item_presenter = presenter_class.build item, the_course, current_user, quiz
     end
   end
 
@@ -268,7 +240,7 @@ class QuizSubmissionController < Abstract::FrontendController
   def shuffle_answers(quiz, randomkey)
     quiz.questions.select(&:shuffle_answers).each do |question|
       # Random key must be unique per question, so we add the question id
-      question.answers.shuffle! random: Random.new(randomkey + question.id.to_i)
+      question.answers.shuffle! random: Random.new(UUID4(randomkey).to_i + UUID4(question.id).to_i)
     end
   end
 
@@ -301,7 +273,7 @@ class QuizSubmissionController < Abstract::FrontendController
   def enrollment
     return @enrollment if defined? @enrollment
 
-    @enrollment = Course::Enrollment.active.find_by!(course_id: the_course.id, user_id: current_user.id)
+    @enrollment = CourseService::Enrollment.active.find_by!(course_id: the_course.id, user_id: current_user.id)
   end
 
   def quiz_api
@@ -316,9 +288,7 @@ class QuizSubmissionController < Abstract::FrontendController
     promises[:quiz] ||= begin
       promise, fulfiller = create_promise(Xikolo::Quiz::Quiz.new)
       Xikolo::Quiz::Quiz.find UUID(item['content_id']) do |quiz|
-        quiz.enqueue_acfs_request_for_questions do |questions|
-          questions.each(&:enqueue_acfs_request_for_answers)
-        end
+        enqueue_quiz_questions_with_answers(quiz)
         fulfiller.fulfill quiz
       end
 
@@ -328,6 +298,13 @@ class QuizSubmissionController < Abstract::FrontendController
 
   def submit!(submission, submission_data = nil)
     submission.update_attributes({submission: submission_data, submitted: true})
+  end
+
+  def enqueue_quiz_questions_with_answers(quiz, submission: nil)
+    question_params = quiz.question_pool && submission ? {quiz_submission_id: submission.id} : {}
+    quiz.enqueue_acfs_request_for_questions(question_params) do |questions|
+      questions.each(&:enqueue_acfs_request_for_answers)
+    end
   end
 
   def skip_quiz_instructions?

@@ -40,7 +40,7 @@ class AuthenticationHandler
   end
 
   def ident
-    login[:email]
+    login[:email] if login
   end
 
   private

@@ -1,0 +1,43 @@
+<div class="contents">
+  <% items.each do |item| %>
+    <div class="row-start-1 flex max-w-full min-w-0 items-center gap-3 <%= item[:type] == 'next' ? 'col-start-3 justify-self-end group-data-[has-primary-action=false]/bottom-bar:ml-auto' : 'col-start-1 justify-self-start' %>">
+      <% if item[:type] == 'next' %>
+        <span
+          class="
+            max-w-56 min-w-0 truncate text-right
+            group-data-[has-primary-action=true]/bottom-bar:hidden
+            lg:group-data-[has-primary-action=true]/bottom-bar:inline
+          "
+        >
+          <%= item[:title] %>
+        </span>
+        <%= helpers.pixelart_icon(item[:icon], css_class: 'size-6 shrink-0 group-data-[has-primary-action=true]/bottom-bar:hidden sm:group-data-[has-primary-action=true]/bottom-bar:block') %>
+      <% end %>
+
+      <%= link_to item[:url], class: "x-btn x-btn-neutral rounded-2xl #{'x-btn-outline' if item[:type] == 'prev'}", aria: {label: "#{item[:text]}: #{item[:title]}"} do %>
+        <% if item[:type] == 'prev' %>
+          <%= helpers.pixelart_icon(item[:arrow_icon], css_class: 'size-3 shrink-0') %>
+        <% end %>
+
+        <span class="hidden sm:inline"><%= item[:text] %></span>
+
+        <% if item[:type] == 'next' %>
+          <%= helpers.pixelart_icon(item[:arrow_icon], css_class: 'size-3 shrink-0') %>
+        <% end %>
+      <% end %>
+
+      <% if item[:type] == 'prev' %>
+        <%= helpers.pixelart_icon(item[:icon], css_class: 'size-6 shrink-0 group-data-[has-primary-action=true]/bottom-bar:hidden sm:group-data-[has-primary-action=true]/bottom-bar:block') %>
+        <span
+          class="
+            max-w-56 min-w-0 truncate
+            group-data-[has-primary-action=true]/bottom-bar:hidden
+            lg:group-data-[has-primary-action=true]/bottom-bar:inline
+          "
+        >
+          <%= item[:title] %>
+        </span>
+      <% end %>
+    </div>
+  <% end %>
+</div>

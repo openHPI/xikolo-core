@@ -12,11 +12,17 @@ class SubscriptionsController < Abstract::AjaxController
         user_id: current_user.id,
         question_id: params[:question_id]
       )
+      subscribed = true
     else
       subscription.delete!
+      subscribed = false
     end
 
-    head :ok
+    render turbo_stream: turbo_stream.replace(
+      'question-subscription',
+      partial: 'question/subscription_toggle',
+      locals: {question_id: params[:question_id], subscribed:}
+    )
   end
 
   def subscription_count_text

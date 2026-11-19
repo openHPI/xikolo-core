@@ -1,7 +1,7 @@
 <row>
   <columns>
     <p class="meta">
-      <small><%= t(:'.meta', date: l(DateTime.parse @payload.timestamp), user: @payload.user_name) %></small>
+      <small><%= t(:'.meta', date: l(DateTime.parse @payload.timestamp.to_s), user: @payload.user_name) %></small>
     </p>
     <callout class="secondary">
       <% if @payload.link %>

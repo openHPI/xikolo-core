@@ -1,0 +1,3 @@
+<%= turbo_frame_tag 'course-progress' do %>
+  <%= render Course::ProgressBar.new(percentage: @percentage) %>
+<% end %>

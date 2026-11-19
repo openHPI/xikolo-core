@@ -4,11 +4,9 @@ require 'spec_helper'
 
 describe 'Quiz: Submissions: Show', type: :request do
   subject(:show) do
-    get "/courses/the_course/items/#{item_resource['id']}/quiz_submission/#{submission_id}",
-      headers:
+    get "/learn/the_course/items/#{item_resource['id']}/quiz_submission/#{submission_id}"
   end
 
-  let(:session) { create(:'account_service/session', user:) }
   let(:user) { create(:'account_service/user') }
   let(:user_id) { user.id }
   let(:request_context_id) { course.context_id }
@@ -19,103 +17,49 @@ describe 'Quiz: Submissions: Show', type: :request do
   let(:item) { create(:item, section:) }
   let(:item_resource) do
     build(:'course:item', :quiz, :exam,
-      id: item.id, section_id: section.id, course_id: course.id, content_id: quiz['id'])
+      id: item.id, section_id: section.id, course_id: course.id, content_id: quiz.id)
   end
   let(:my_enrollment) { create(:enrollment, course:, user_id:) }
 
-  let(:quiz) { build(:'quiz:quiz', :exam) }
-  let(:quiz_question) { build(:'quiz:question', quiz_id: quiz['id']) }
-  let(:quiz_answer) do
-    build(:'quiz:answer', question_id: quiz_question['id'], quiz_id: quiz['id'])
-  end
+  let(:quiz) { create(:'quiz_service/quiz') }
 
-  let(:submission_id) { short_uuid(requested_submission['id']) }
-  let(:requested_submission) { build(:'quiz:submission', **submission_attrs, user_id: user.id) }
-  let(:submission_attrs) do
-    {
-      course_id: course.id,
-      quiz_id: quiz['id'],
+  let(:submission_id) { short_uuid(requested_submission.id) }
+  let(:requested_submission) do
+    create(:'quiz_service/quiz_submission',
+      quiz:,
       user_id: user.id,
-      submitted: true,
-      quiz_submission_time: 1.hour.ago.iso8601,
-    }
+      course_id: course.id,
+      quiz_submission_time: 1.hour.ago)
   end
-  let(:submissions_for_dropdown) { [requested_submission] }
-  let(:submission_question) do
-    build(:'quiz:submission_question',
-      quiz_submission_id: requested_submission['id'],
-      quiz_question_id: quiz_question['id'])
+  let(:submissions_for_dropdown) { [requested_submission_payload] }
+  let(:requested_submission_payload) { submission_payload_for.call(requested_submission) }
+  let(:submission_payload_for) do
+    lambda do |submission|
+      QuizService::QuizSubmissionDecorator
+        .new(submission)
+        .as_json(api_version: 1)
+        .merge(points: submission.points, max_points: submission.quiz.max_points)
+    end
   end
-  let(:submission_answer) do
-    build(:'quiz:submission_answer',
-      quiz_submission_question_id: submission_question['id'],
-      quiz_answer_id: quiz_answer['id'])
-  end
-  let(:visit_stub) do
-    Stub.request(:course, :post, "/items/#{item.id}/users/#{user_id}/visit")
-  end
-
-  let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{session.id}"} }
   let(:permissions) { %w[course.content.access.available] }
 
   before do
+    quiz_question = create(:'quiz_service/multiple_choice_question', quiz:, points: 10.0)
+    create(:'quiz_service/quiz_submission_question',
+      quiz_submission: requested_submission,
+      quiz_question_id: quiz_question.id,
+      points: 5.0)
     role = create(:'account_service/role', permissions:)
     create(:'account_service/grant', principal: user, role:, context: course_context)
-    user.features.create(name: 'proctoring', value: 'true', context: AccountService::Context.root)
-    set_session(id: session.id)
+    sign_in(user:)
 
     # Stubs for the course the user is enrolled in and its structural content
-    Stub.request(:course, :get, '/courses/the_course')
-      .to_return Stub.json(course.as_json)
     Stub.request(:course, :get, '/enrollments', query: {course_id: course.id, user_id:})
-      .to_return Stub.json([my_enrollment.as_json])
-    Stub.request(:course, :get, '/sections', query: hash_including(course_id: course.id))
-      .to_return Stub.json([section_resource])
+      .to_return Stub.json([CourseService::EnrollmentDecorator.new(my_enrollment).as_json(api_version: 1)])
     Stub.request(:course, :get, "/sections/#{section.id}")
       .to_return Stub.json(section_resource)
-    Stub.request(:course, :get, '/items', query: hash_including(section_id: section.id))
-      .to_return Stub.json([item_resource])
     Stub.request(:course, :get, "/items/#{item.id}", query: hash_including({}))
       .to_return Stub.json(item_resource)
-    Stub.request(:course, :get, '/next_dates', query: hash_including({}))
-      .to_return Stub.json([])
-
-    # Stubs for the quiz taken by the user
-    Stub.request(:quiz, :get, "/quizzes/#{quiz['id']}")
-      .to_return Stub.json(quiz)
-    Stub.request(
-      :quiz, :get, '/user_quiz_attempts',
-      query: hash_including(quiz_id: quiz['id'], user_id:)
-    ).to_return Stub.json({attempts: 3, additional_attempts: 0})
-    Stub.request(
-      :quiz, :get, '/questions',
-      query: hash_including(quiz_id: quiz['id'])
-    ).to_return Stub.json([quiz_question])
-    Stub.request(
-      :quiz, :get, '/answers',
-      query: hash_including(question_id: quiz_question['id'])
-    ).to_return Stub.json([quiz_answer])
-    Stub.request(
-      :quiz, :get, '/quiz_submissions',
-      query: hash_including(highest_score: 'false', newest_first: 'false', quiz_id: quiz['id'], user_id:)
-    ).to_return Stub.json(submissions_for_dropdown)
-    Stub.request(
-      :quiz, :get, '/quiz_submissions',
-      query: hash_including(newest_first: 'true', quiz_id: quiz['id'], user_id:)
-    ).to_return Stub.json(submissions_for_dropdown)
-
-    # Explicitly stub the requested submission
-    Stub.request(:quiz, :get, "/quiz_submissions/#{requested_submission['id']}")
-      .to_return Stub.json(requested_submission)
-    Stub.request(
-      :quiz, :get, '/quiz_submission_questions',
-      query: hash_including(quiz_submission_id: requested_submission['id'])
-    ).to_return Stub.json([submission_question])
-    Stub.request(
-      :quiz, :get, '/quiz_submission_answers',
-      query: hash_including(quiz_submission_question_id: submission_question['id'])
-    ).to_return Stub.json([submission_answer])
-    visit_stub
   end
 
   context 'with more than one submission' do
@@ -123,32 +67,47 @@ describe 'Quiz: Submissions: Show', type: :request do
     # Not all of them can be listed in the dropdown of submissions.
     let(:submissions_for_dropdown) do
       3.downto(1).map do |index|
-        build(:'quiz:submission',
-          **submission_attrs,
-          points: index.to_f,
-          quiz_submission_time: index.days.ago.iso8601)
+        create(:'quiz_service/quiz_submission',
+          quiz:,
+          user_id: user.id,
+          course_id: course.id,
+          quiz_submission_time: index.days.ago,
+          fudge_points: 0.0)
+      end.map do |submission|
+        submission_payload_for.call(submission)
       end
     end
 
     # The requested submission also belongs to our user, but does not appear in the dropdown.
-    let(:requested_submission) { build(:'quiz:submission', **submission_attrs, user_id: user.id, points: 5.0) }
+    let(:requested_submission) do
+      create(:'quiz_service/quiz_submission',
+        quiz:,
+        user_id: user.id,
+        course_id: course.id,
+        quiz_submission_time: 1.hour.ago,
+        fudge_points: 0.0)
+    end
 
     context 'when the submission belongs to the current user' do
       it 'the requested submission is displayed' do
         show
         expect(response).to be_successful
-        expect(Capybara.string(response.body)).to have_content '5.0 of 10.0 points achieved'
+        expect(Capybara.string(response.body)).to have_text '5.0 of 10.0 points achieved'
       end
 
       it 'creates a visit' do
         show
-        expect(visit_stub).to have_been_requested
+        expect(CourseService::Visit.exists?(user_id:, item_id: item.id)).to be true
       end
     end
 
     context 'when the requested submission does not belong to the current user' do
       let(:requested_submission) do
-        build(:'quiz:submission', **submission_attrs, user_id: generate(:user_id), points: 5.0)
+        create(:'quiz_service/quiz_submission',
+          quiz:,
+          course_id: course.id,
+          quiz_submission_time: 1.hour.ago,
+          fudge_points: 0.0)
       end
 
       it 'shows an error about lack of permissions and redirects to the home page' do
@@ -159,7 +118,7 @@ describe 'Quiz: Submissions: Show', type: :request do
 
       it 'does not create a visit' do
         show
-        expect(visit_stub).not_to have_been_requested
+        expect(CourseService::Visit.exists?(user_id:, item_id: item.id)).to be false
       end
     end
   end
@@ -169,7 +128,7 @@ describe 'Quiz: Submissions: Show', type: :request do
 
     it 'responds with 404 Not Found' do
       expect { show }.to raise_error Status::NotFound
-      expect(visit_stub).not_to have_been_requested
+      expect(CourseService::Visit.exists?(user_id:, item_id: item.id)).to be false
     end
   end
 end

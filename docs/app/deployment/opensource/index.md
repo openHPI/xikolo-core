@@ -4,7 +4,6 @@ This documentation outlines the fundamental requirements and steps to operate th
 The Xikolo platform is modular and based on the following open-source repositories:
 
 - [xikolo-core](https://github.com/openHPI/xikolo-core): core application with (micro)service-based domain applications.
-- [xikolo-learnanalytics](https://github.com/openHPI/xikolo-learnanalytics): reporting and learning analytics capabilities.
 
 The following information provides an overview to help evaluate whether the platform is suitable for your operational needs.
 
@@ -22,9 +21,6 @@ These are divided into necessary and optional services:
 | **course-api**                     | Lists all courses and allows managing them.                                        |
 | **course-msgr**                    | Asynchronous messaging service for the course service.                             |
 | **course-sidekiq**                 | Background job processing with Sidekiq for the course service.                     |
-| **lanalytics-api**                 | Provides detailed platform reports and statistics.                                 |
-| **lanalytics-msgr**                | Asynchronous messaging service for the lanalytics service.                         |
-| **lanalytics-sidekiq**             | Background job processing with Sidekiq for the lanalytics service.                 |
 | **news-api**                       | Provides course and platform announcements.                                        |
 | **news-msgr**                      | Asynchronous messaging service for the news service.                               |
 | **news-sidekiq**                   | Background job processing with Sidekiq for the news service.                       |
@@ -34,10 +30,7 @@ These are divided into necessary and optional services:
 | **web-api**                        | User interface and main domain application.                                        |
 | **web-msgr**                       | Asynchronous messaging service for the web service.                                |
 | **web-sidekiq**                    | Background job processing with Sidekiq for the web service.                        |
-| **web-delayed**                    | Background job processing with Delayed for the web service.                        |
-| ... (more application services)    | Service functionality provided for pinboard and quiz |
-| **elasticsearch-master**           | Search engine and event store for lanalytics.                                      |
-| **postgres-lanalytics**            | Database for the lanalytics service.                                               |
+| ... (more application services)    | Service functionality provided for pinboard and quiz                               |
 | **postgres-web**                   | Database for the core services.                                                    |
 | **rabbitmq**                       | Asynchronous messaging.                                                            |
 | **redis-cache**                    | Application caching.                                                               |
@@ -82,7 +75,6 @@ An example setup for a platform, which is currently in production, uses the foll
 | **RabbitMQ**            | 3     | 2 vCPUs, 2 GB RAM       |
 | **Redis**               | 1     | 4 vCPUs, 8 GB RAM, Disk |
 | **Postgres**            | 3     | 4 vCPUs, 8 GB RAM, Disk |
-| **Lanalytics Postgres** | 1     | 4 vCPUs, 8 GB RAM, Disk |
 | **Elasticsearch**       | 1     | 4 vCPUs, 8 GB RAM, Disk |
 
 ### Sample setup
@@ -160,4 +152,3 @@ To successfully operate the platform, the following points should be considered:
 Detailed installation and configuration instructions can be also found in the `README` files of the repositories:
 
 - [xikolo-core](https://github.com/openHPI/xikolo-core)
-- [xikolo-learnanalytics](https://github.com/openHPI/xikolo-learnanalytics)

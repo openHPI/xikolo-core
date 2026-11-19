@@ -5,7 +5,7 @@ require 'spec_helper'
 describe Gamification::DashboardPresenter, type: :presenter do
   subject(:presenter) { described_class.new(user) }
 
-  let(:user) { Account::User.find(create(:'account_service/user').id) }
+  let(:user) { create(:'account_service/user') }
 
   describe '#badges' do
     subject(:badges) { presenter.badges }
@@ -62,8 +62,8 @@ describe Gamification::DashboardPresenter, type: :presenter do
   describe '#scores' do
     subject(:scores) { presenter.scores }
 
-    let(:course1) { create(:course, :archived, title: 'Course 1') }
-    let(:course2) { create(:course, :archived, title: 'Course 2') }
+    let(:course1) { create(:course, :self_paced, title: 'Course 1') }
+    let(:course2) { create(:course, :self_paced, title: 'Course 2') }
 
     it 'determines what columns to display' do
       expect(scores.columns).to eq %i[selftests communication total]
@@ -92,7 +92,7 @@ describe Gamification::DashboardPresenter, type: :presenter do
       end
 
       context 'with scores in missing course' do
-        let(:course2) { create(:course, :archived, :deleted) }
+        let(:course2) { create(:course, :self_paced, :deleted) }
 
         it 'ignores the scores for the missing course' do
           expect(scores.any?).to be true
@@ -108,7 +108,7 @@ describe Gamification::DashboardPresenter, type: :presenter do
         before do
           create(:gamification_score, :continuous_attendance, points: 1, user:, course: course1)
           create(:gamification_score, :continuous_attendance, points: 1, user:,
-            course: create(:course, :archived, title: 'Course 3'))
+            course: create(:course, :self_paced, title: 'Course 3'))
         end
 
         it 'ignores scores from those categories' do
@@ -123,7 +123,7 @@ describe Gamification::DashboardPresenter, type: :presenter do
 
       context 'with a course without scores' do
         before do
-          create(:course, :archived, title: 'Course 3')
+          create(:course, :self_paced, title: 'Course 3')
         end
 
         it 'does not list such a course' do
@@ -142,7 +142,7 @@ describe Gamification::DashboardPresenter, type: :presenter do
           # completion of a larger goal (in this case: selftest master).
           # The learner will only get points once the larger goal is achieved.
           create(:gamification_score, :take_selftest, points: 0, user:,
-            course: create(:course, :archived, title: 'Course 3'))
+            course: create(:course, :self_paced, title: 'Course 3'))
         end
 
         it 'does not list such a course' do

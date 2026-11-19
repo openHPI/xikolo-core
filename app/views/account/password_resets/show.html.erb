@@ -1,0 +1,50 @@
+<% content_for :main_background do %>
+  <%= render 'account/shared/background' %>
+<% end %>
+
+<div class="flex justify-center px-4 py-8 md:py-16">
+  <div class="x-card bg-base-100 w-full max-w-[480px]">
+    <div class="x-card-body">
+      <h1 class="x-card-title text-xl sm:text-3xl font-medium"><%= t(:'.headline') %></h1>
+      <p class="text-sm sm:text-base leading-7"><%= t(:'.instructions') %></p>
+
+      <%= form_with scope: :reset,
+                    url: account_reset_path(@reset.id),
+                    method: :patch,
+                    class: 'space-y-3' do |f| %>
+        <fieldset class="x-fieldset w-full">
+          <%= f.label :password, t(:'.label.password'), class: "x-label text-base-content" %>
+          <%= render Form::PasswordField.new(f, :password,
+                                             required: true,
+                                             autocomplete: 'new-password',
+                                             placeholder: t(:'.placeholder.password')) %>
+          <% if @reset.errors[:password].any? %>
+            <p class="text-error"><%= @reset.errors[:password].to_sentence %></p>
+          <% end %>
+        </fieldset>
+
+        <fieldset class="x-fieldset w-full">
+          <%= f.label :password_confirmation, t(:'.label.password_confirmation'), class: "x-label text-base-content" %>
+          <%= render Form::PasswordField.new(f, :password_confirmation,
+                                             required: true,
+                                             autocomplete: 'new-password',
+                                             placeholder: t(:'.placeholder.password_confirmation')) %>
+          <% if @reset.errors[:password_confirmation].any? %>
+            <p class="text-error"><%= @reset.errors[:password_confirmation].to_sentence %></p>
+          <% end %>
+        </fieldset>
+
+        <div class="mt-6">
+          <%= f.submit t(:'.label.submit'),
+                       class: 'x-btn x-btn-primary font-semibold rounded-2xl w-full shadow-none' %>
+        </div>
+      <% end %>
+
+      <div class="x-divider">
+        <p class="text-sm sm:text-base">
+          <%= link_to t(:'.back_to_login'), new_session_path, class: 'x-link font-medium' %>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

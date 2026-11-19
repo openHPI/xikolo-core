@@ -1,0 +1,7 @@
+<%= form_with url: '#', class: 'w-full max-w-xl' do |f| %>
+  <%= render Form::FileUpload.new(f, :screenshots,
+        title: 'Attach screenshots',
+        hint: 'For example error messages or a screen recording.',
+        accept: 'image/*',
+        multiple: true) %>
+<% end %>

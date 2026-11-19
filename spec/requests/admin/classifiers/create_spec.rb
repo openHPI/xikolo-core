@@ -5,13 +5,12 @@ require 'spec_helper'
 describe 'Admin: Classifiers: Create', type: :request do
   subject(:create_classifier) do
     post "/admin/clusters/#{cluster.id}/classifiers",
-      params: {classifier: params},
-      headers:
+      params: {course_service_classifier: params}
   end
 
-  let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
-  let(:permissions) { %w[course.cluster.manage] }
   let(:cluster) { create(:cluster, :visible, id: 'level') }
+  let(:user) { create(:'account_service/user', :admin) }
+  let(:authenticate) { true }
   let(:params) do
     {
       title: 'New Tag',
@@ -19,11 +18,11 @@ describe 'Admin: Classifiers: Create', type: :request do
     }
   end
 
-  before { stub_user_request permissions: }
+  before { sign_in(user:) if authenticate }
 
   it 'creates a new classifier' do
-    expect { create_classifier }.to change(Course::Classifier, :count).from(0).to(1)
-    expect(Course::Classifier.first).to match an_object_having_attributes(
+    expect { create_classifier }.to change(CourseService::Classifier, :count).from(0).to(1)
+    expect(CourseService::Classifier.first).to match an_object_having_attributes(
       cluster_id: cluster.id,
       **params
     )
@@ -35,14 +34,14 @@ describe 'Admin: Classifiers: Create', type: :request do
     let(:params) { super().merge title: ' ' }
 
     it 'displays an error message' do
-      expect { create_classifier }.not_to change(Course::Classifier, :count).from(0)
+      expect { create_classifier }.not_to change(CourseService::Classifier, :count).from(0)
       expect(response.body).to render_template :new
       expect(flash[:error].first).to eq 'The tag was not created.'
     end
   end
 
   context 'without permission to manage classifiers' do
-    let(:permissions) { [] }
+    let(:user) { create(:'account_service/user') }
 
     it 'redirects to the homepage' do
       create_classifier
@@ -51,7 +50,7 @@ describe 'Admin: Classifiers: Create', type: :request do
   end
 
   context 'for anonymous users' do
-    let(:headers) { {} }
+    let(:authenticate) { false }
 
     it 'redirects to the login page' do
       create_classifier

@@ -11,6 +11,9 @@ RSpec.describe Xi::Recaptcha::V3 do
   let(:recaptcha_score) { 0.5 }
 
   before do
+    allow(ENV).to receive(:fetch).and_call_original
+    allow(ENV).to receive(:fetch).with('RECAPTCHA_V3', nil).and_return('6Lfz8GIqAAAAAI7luM866NJN5rdPx70hJDO2tsO3')
+
     xi_config <<~YML
       recaptcha:
         enabled: true

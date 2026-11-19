@@ -1,0 +1,112 @@
+<%= render Global::Accordion.new do |accordion| %>
+  <% (1..3).each do |number| %>
+    <% accordion.with_section("Modul #{number}", "module-#{number}", expanded: number == 1) do |section| %>
+      <% section.with_header_detail do %>
+        <span class="hidden items-center gap-2 sm:flex">
+          <span><%= number == 1 ? 2 : 0 %> / 5 Abgeschlossen</span>
+
+          <progress
+            class="x-progress x-progress-accent w-24 lg:w-40"
+            value="<%= number == 1 ? 2 : 0 %>"
+            max="5"
+          ></progress>
+        </span>
+
+        <span class="flex w-24 shrink-0 items-center gap-1 md:ml-8">
+          <%= render Global::FaIcon.new('clock') %>45 Min.
+        </span>
+      <% end %>
+
+      <% section.with_indicator do %>
+        <span
+          aria-hidden="true"
+          class="
+            border-base-300 block size-7 rounded-full border
+            group-open/accordion:invisible
+          "
+        ></span>
+      <% end %>
+
+      <ul class="m-0 flex list-none flex-col gap-2 p-0">
+        <% ['Text', 'Text', 'Video', 'Quiz', 'Text'].each_with_index do |type, index| %>
+          <% completed = number == 1 && index < 2 %>
+          <% current = number == 1 && index == 2 %>
+
+          <% row_colors = if completed
+               'border-transparent bg-success/25'
+             elsif current
+               'border-transparent bg-accent-25'
+             else
+               'border-base-300 bg-base-100'
+             end %>
+
+          <li class="rounded-box flex flex-wrap items-center gap-3 border px-5 py-3 <%= row_colors %>">
+            <span aria-hidden="true">
+              <%= pixelart_icon(type == 'Video' ? 'video' : 'text', css_class: 'size-6') %>
+            </span>
+
+            <span class="x-badge x-badge-outline"><%= type %></span>
+
+            <span class="min-w-0 flex-1 sm:ml-8">
+              <%= number %>.<%= index + 1 %>. Hier steht ein Text
+            </span>
+
+            <span class="flex items-center gap-1 text-xs">
+              <%= render Global::FaIcon.new('clock') %>5 Min.
+            </span>
+
+            <span class="flex w-16 justify-center">
+              <% if completed %>
+                <span class="bg-success text-success-content rounded-full p-1">
+                  <%= pixelart_icon('check', css_class: 'size-4') %><span class="sr-only">Abgeschlossen</span>
+                </span>
+              <% elsif current %>
+                <a
+                  href="#module-<%= number %>"
+                  class="x-btn x-btn-outline x-btn-sm rounded-full"
+                  aria-current="step"
+                >
+                  Starten
+                </a>
+              <% else %>
+                <span class="border-base-300 size-5 rounded-full border">
+                  <span class="sr-only">Nicht abgeschlossen</span>
+                </span>
+              <% end %>
+            </span>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+  <% end %>
+
+  <% accordion.with_section('Exam', 'exam') do |section| %>
+    <% section.with_header_detail do %>
+      <span class="flex w-[38rem] max-w-full items-center gap-3 md:gap-8">
+        <span class="flex min-w-0 flex-1 items-center gap-2 text-xs">
+          <span aria-hidden="true" class="shrink-0">
+            <%= pixelart_icon('lock', css_class: 'size-4') %>
+          </span>
+
+          <span>
+            Die Exam wird freigeschaltet, sobald du 70 % des Angebots
+            abgeschlossen hast.
+          </span>
+        </span>
+
+        <span class="flex w-24 shrink-0 items-center gap-1">
+          <%= render Global::FaIcon.new('clock') %>45 Min.
+        </span>
+      </span>
+    <% end %>
+
+    <% section.with_indicator do %>
+      <span
+        aria-hidden="true"
+        class="border-base-300 block size-7 rounded-full border"
+      ></span>
+    <% end %>
+
+    <p>Schließe zuerst die Module ab, um an der Prüfung teilzunehmen.</p>
+  <% end %>
+<% end %>

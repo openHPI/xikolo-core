@@ -18,10 +18,9 @@ describe 'Admin: Cluster: ClassifiersOrder: Update', type: :request do
   end
 
   context 'with permission' do
-    let(:headers) { {Authorization: "Xikolo-Session session_id=#{stub_session_id}"} }
-    let(:permissions) { %w[course.cluster.manage] }
-
-    before { stub_user_request permissions: }
+    before do
+      sign_in(user: create(:'account_service/user', :admin))
+    end
 
     context 'with valid params' do
       let(:params) do

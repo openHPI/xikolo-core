@@ -16,7 +16,7 @@ module Catalog
       end
 
       def url
-        '/courses'
+        '/learn'
       end
 
       def courses

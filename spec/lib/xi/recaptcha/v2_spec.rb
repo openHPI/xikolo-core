@@ -9,6 +9,9 @@ RSpec.describe Xi::Recaptcha::V2 do
   let(:params) { {'recaptcha_token_v2' => 'valid_v2_token'} }
 
   before do
+    allow(ENV).to receive(:fetch).and_call_original
+    allow(ENV).to receive(:fetch).with('RECAPTCHA_V2', nil).and_return('6Ld08WIqAAAAAMmBrtQ1_InW6wu0WOlquOcR2GR6')
+
     xi_config <<~YML
       recaptcha:
         enabled: true

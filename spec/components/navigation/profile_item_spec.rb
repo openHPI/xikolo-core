@@ -13,13 +13,7 @@ describe Navigation::ProfileItem, type: :component do
   let(:features) { {} }
 
   describe 'with a logged out user' do
-    let(:user) do
-      Xikolo::Common::Auth::CurrentUser.from_session(
-        'user' => {
-          'anonymous' => true,
-        }
-      )
-    end
+    let(:user) { CurrentUser::AnonymousUser.new(context_id: 'root') }
 
     it 'does not render' do
       render_inline(component)
@@ -29,40 +23,36 @@ describe Navigation::ProfileItem, type: :component do
   end
 
   describe 'with a regular logged in user' do
+    let(:session) { create(:'account_service/session') }
     let(:user) do
-      Xikolo::Common::Auth::CurrentUser.from_session(
-        'features' => features,
-        'user_id' => user_id,
-        'masqueraded' => masquerated,
-        'user' => {
-          'anonymous' => false,
-          'name' => 'John',
-        }
+      CurrentUser::User.new(
+        session:,
+        context_id: 'root'
       )
     end
 
     it 'only displays the avatar component' do
       render_inline(component)
 
-      expect(page).to have_css '[title=John]'
+      expect(page).to have_css "[title=\"#{user.name}\"]"
       expect(page).to have_no_link 'DEMASQ'
-      expect(page).to have_no_content 'XP'
+      expect(page).to have_no_text 'XP'
     end
 
     it 'displays a dropdown with the default menu items' do
+      AccountService::Feature.find_by!(name: 'profile').destroy!
+
       render_inline(component)
 
       expect(page).to have_css '[data-behaviour=dropdown]'
       expect(page).to have_link 'Dashboard'
       expect(page).to have_link 'Certificates'
       expect(page).to have_link 'Log out'
+      expect(page).to have_link 'Achievements'
       expect(page).to have_no_link 'Profile'
-      expect(page).to have_no_link 'Achievements'
     end
 
     describe 'with the profile feature flipper enabled' do
-      let(:features) { {'profile' => true} }
-
       it 'displays the profile menu item' do
         render_inline(component)
 
@@ -70,14 +60,12 @@ describe Navigation::ProfileItem, type: :component do
       end
     end
 
-    context 'with the gamification feature flipper enabled' do
-      let(:features) { {'gamification' => true} }
-
+    context 'with the gamification feature' do
       it 'displays the achievements menu item' do
         render_inline(component)
 
         expect(page).to have_link 'Achievements'
-        expect(page).to have_no_content 'XP'
+        expect(page).to have_no_text 'XP'
       end
 
       describe 'the user has gamification points' do
@@ -86,15 +74,15 @@ describe Navigation::ProfileItem, type: :component do
         it 'displays the gamification points' do
           render_inline(component)
 
-          expect(page).to have_content '50 XP'
+          expect(page).to have_text '50 XP'
         end
       end
     end
 
     describe 'with a masquerated user' do
-      let(:masquerated) { true }
-
       it 'displays the demasq button' do
+        session.masquerade!(create(:'account_service/user'))
+
         render_inline(component)
 
         expect(page).to have_link 'DEMASQ'

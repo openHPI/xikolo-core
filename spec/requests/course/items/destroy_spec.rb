@@ -4,23 +4,14 @@ require 'spec_helper'
 
 describe 'Course: Items: Destroy', type: :request do
   subject(:action) do
-    delete("/courses/#{course.course_code}/sections/#{section['id']}/items/#{item.id}",
-      headers:)
+    delete("/learn/#{course.course_code}/sections/#{section.id}/items/#{item.id}")
   end
 
-  let(:course) { create(:course, course_code: 'example') }
-  let(:course_resource) { build(:'course:course', course_code: course.course_code, id: course.id) }
-  let(:section) { build(:'course:section', course_id: course.id) }
-  let(:item) { create(:item) }
-  let(:item_resource) { build(:'course:item', id: item.id) }
+  let(:course) { create(:'course_service/course', course_code: 'example') }
+  let(:section) { create(:'course_service/section', course_id: course.id) }
+  let(:item) { create(:'course_service/item') }
+  let(:item_resource) { item.decorate.as_json }
   let(:params) { {} }
-  let(:headers) { {} }
-  let(:permissions) { {} }
-
-  before do
-    Stub.request(:course, :get, "/courses/#{course.course_code}")
-      .to_return Stub.json(course_resource)
-  end
 
   context 'for anonymous user' do
     it 'redirects to login page' do
@@ -30,16 +21,11 @@ describe 'Course: Items: Destroy', type: :request do
   end
 
   context 'for a logged in user' do
-    let(:user_id) { generate(:user_id) }
-    let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
+    let(:user) { create(:'account_service/user') }
     let(:delete_item_stub) { Stub.request(:course, :delete, "/items/#{item.id}").to_return(status: 200) }
 
     before do
-      stub_user_request(id: user_id, permissions:)
-      Stub.request(:course, :get, "/items/#{item.id}")
-        .to_return Stub.json([])
-      Stub.request(:course, :get, "/items/#{item.id}", query: {user_id:})
-        .to_return Stub.json([])
+      sign_in(user:)
     end
 
     it 'is forbidden without proper permissions' do
@@ -49,27 +35,13 @@ describe 'Course: Items: Destroy', type: :request do
     end
 
     context 'with permissions' do
-      let(:permissions) { %w[course.content.access course.content.edit] }
-
       before do
+        role = create(:'account_service/role', permissions: %w[course.content.access course.content.edit])
+        create(:'account_service/grant', principal: user, role:)
+
         Stub.request(
           :course, :get, "/items/#{item.id}"
         ).to_return Stub.json(item_resource)
-        Stub.request(
-          :course, :get, '/enrollments',
-          query: {course_id: course.id, user_id:}
-        ).to_return Stub.json([])
-        Stub.request(
-          :course, :get, '/items',
-          query: hash_including(section_id: section['id'])
-        ).to_return Stub.json([])
-        Stub.request(
-          :course, :get, '/sections',
-          query: {course_id: course.id}
-        ).to_return Stub.json([section])
-        Stub.request(
-          :course, :get, "/sections/#{section['id']}"
-        ).to_return Stub.json(section)
         delete_item_stub
       end
 
@@ -80,9 +52,9 @@ describe 'Course: Items: Destroy', type: :request do
           # destruction is impossible without. As the node is created by
           # the item factory and is dependent on the item, it have to be
           # deleted as well. Once, `xi-quiz` is part of the monolith, we
-          # can destroy the `Course::Item` record in `xi-web`, which
+          # can destroy the `CourseService::Item` record in `xi-web`, which
           # also triggers the destruction of the content.
-          item.node.destroy
+          CourseService::Structure::Item.where(item_id: item.id).delete_all
           item.delete
         end
 
@@ -115,32 +87,30 @@ describe 'Course: Items: Destroy', type: :request do
         it_behaves_like 'a monolithized content item', Video::Video
       end
 
-      context 'with a Course::Richtext as item content' do
+      context 'with a CourseService::Richtext as item content' do
         let(:richtext) { create(:richtext, course_id: course.id) }
         let(:item_resource) { build(:'course:item', id: item.id, content_id: richtext.id, section_id: section['id'], content_type: 'rich_text') }
         let(:item) { create(:item, content_id: richtext.id, content_type: 'rich_text') }
 
-        it_behaves_like 'a monolithized content item', Course::Richtext
+        it_behaves_like 'a monolithized content item', CourseService::Richtext
       end
 
       context 'with a quiz as item content' do
-        let(:quiz_resource) { build(:'quiz:quiz') }
-        let(:item) { create(:item, content_id: quiz_resource['id'], content_type: 'quiz') }
+        let(:quiz) { create(:'quiz_service/quiz') }
+        let(:item) { create(:item, content_id: quiz.id, content_type: 'quiz') }
         let(:item_resource) do
           build(:'course:item',
             id: item.id,
-            content_id: quiz_resource['id'],
+            content_id: quiz.id,
             section_id: section['id'],
             content_type: 'quiz')
         end
         let(:content_delete_stub) do
-          Stub.request(:quiz, :delete, "/quizzes/#{quiz_resource['id']}")
+          Stub.request(:quiz, :delete, "/quizzes/#{quiz.id}")
             .to_return Stub.response(status: 200)
         end
 
         before do
-          Stub.request(:quiz, :get, "/quizzes/#{quiz_resource['id']}")
-            .to_return Stub.json(quiz_resource)
           content_delete_stub
         end
 

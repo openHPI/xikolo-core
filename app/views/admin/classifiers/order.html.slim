@@ -1,6 +1,5 @@
-- content_for :page_header_slim
-  = render Global::PageHeader.new(t(:'admin.classifiers.sort.title'), subtitle: t(:'admin.page_header'), type: :slim) do |c|
-    - c.with_pill @cluster.title, color: :note, size: :small
+- content_for :page_header
+  = render Global::PageHeader.new(t(:'admin.classifiers.sort.title'), subtitle: t(:'admin.page_header'))
 
 .bs-container
   - if @cluster.classifiers.any?

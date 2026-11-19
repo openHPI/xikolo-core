@@ -1,0 +1,15 @@
+<section class="x-card bg-accent text-white shadow-sm" aria-label="<%= t('course.key_facts.label') %>">
+  <ul class="mb-0! flex flex-wrap items-center justify-center gap-x-8 gap-y-2 p-6">
+    <% facts.each do |fact| %>
+      <li class="flex items-center gap-2 text-lg font-medium">
+        <span aria-hidden="true"><%= helpers.pixelart_icon(fact.icon, css_class: 'size-5') %></span>
+
+        <% if fact.title %>
+          <abbr title="<%= fact.title %>" class="no-underline"><%= fact.label %></abbr>
+        <% else %>
+          <%= fact.label %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</section>

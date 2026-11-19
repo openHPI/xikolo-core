@@ -18,7 +18,7 @@
 
         .comment-actions
           - if can_edit?(comment)
-            a.edit.comment-edit href="#" data-comment-id=comment.id data-url="#{edit_comment_path(comment, commentable)}"
+            = link_to edit_comment_path(comment, commentable), class: 'edit comment-edit', data: {turbo_frame: dom_id(comment, :edit_form)} do
               = render Global::FaIcon.new('pencil', style: :solid)
               = t(:'.edit')
 
@@ -43,7 +43,7 @@
           - elsif !comment.blocked?
             = render Pinboard::ReportButton.new(path: abuse_report_comment_path(comment, commentable), test_id: 'comment-report')
 
-      .comment-text.prose.prose-2xl.max-w-none
+      .comment-text.prose.prose-sm.max-w-none
         - if comment.blocked?
           - if current_user.allowed? 'pinboard.entity.block'
             b
@@ -54,7 +54,7 @@
         - else
           == render_markdown comment.text, allow_tables: true
 
-    .edit-post.hidden id="comment-edit-#{comment.id}"
+    = turbo_frame_tag dom_id(comment, :edit_form), class: 'edit-post', data: {pinboard_edit_form: true}
 
 - if current_user.logged_in? && @pinboard.open? && !@question.closed && commentable_type == 'answer'
   = render 'question/comment_form', comment: new_comment, commentable_type: commentable_type, commentable: commentable

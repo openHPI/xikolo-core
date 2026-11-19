@@ -1,0 +1,50 @@
+<div class="flex flex-col items-start gap-4 sm:flex-row">
+  <div class="x-avatar shrink-0 self-start <%= 'x-avatar-placeholder' unless picture? %>">
+    <div class="w-15 rounded-full <%= 'bg-neutral text-neutral-content' unless picture? %>">
+      <% if picture? %>
+        <%= image_tag picture_src, alt: '', loading: 'lazy' %>
+      <% else %>
+        <span class="text-xl" aria-hidden="true"><%= initials %></span>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="flex w-full min-w-0 flex-1 flex-col gap-2">
+    <p class="text-base leading-7 font-medium"><%= @name %></p>
+
+    <% if description? %>
+      <div
+        data-controller="read-more"
+        data-read-more-clamped-class="line-clamp-4"
+        data-read-more-collapse-when-hidden-value="true"
+        class="flex flex-col items-start gap-2"
+      >
+        <div
+          id="<%= description_id %>"
+          data-read-more-target="content"
+          class="prose prose-sm line-clamp-4 max-w-none"
+        >
+          <%== description_html %>
+        </div>
+
+        <button
+          type="button"
+          data-read-more-target="button"
+          data-action="read-more#toggle"
+          aria-controls="<%= description_id %>"
+          aria-expanded="false"
+          class="cursor-pointer text-xs font-semibold underline"
+          hidden
+        >
+          <span data-read-more-target="moreLabel">
+            <%= t('global.read_more') %>
+          </span>
+
+          <span data-read-more-target="lessLabel" hidden>
+            <%= t('global.read_less') %>
+          </span>
+        </button>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -28,12 +28,12 @@ class QuizItemPresenter < ItemPresenter
   end
 
   def enrollment!
-    @enrollment = Xikolo::Course::Enrollment.find_by(course_id: @course.id, user_id: @user.id)
+    @enrollment = CourseService::Enrollment.find_by(course_id: @course.id, user_id: @user.id)
   end
 
   def submission!
-    Acfs.on @quiz, @enrollment do |quiz, enrollment|
-      if enrollment.nil?
+    Acfs.on @quiz do |quiz|
+      if @enrollment.nil?
         @error = I18n.t(:'items.show.quiz.error_not_enrolled')
         next
       end
@@ -54,7 +54,8 @@ class QuizItemPresenter < ItemPresenter
           # exists
           if !submission_deadline_passed? || @submission.present?
             if skip_quiz_instructions? && required_item_ids.empty?
-              if !quiz_taken? && (attempts.attempts_for_quiz_remaining?(quiz) || quiz.current_unlimited_attempts)
+              if !quiz_taken?
+                && (attempts.attempts_for_quiz_remaining?(quiz) || quiz.current_unlimited_attempts) && !exam_locked?
                 @redirect = new_course_item_quiz_submission_path @course.course_code, short_uuid(id)
               else
                 @redirect = course_item_quiz_submission_path(
@@ -84,10 +85,31 @@ class QuizItemPresenter < ItemPresenter
   end
 
   def question_count
-    if @quiz.questions.nil?
+    if @quiz.question_pool
+      @quiz.displayed_question_count
+    elsif @quiz.questions.nil?
       '-' # Unknown amount of questions... necessary only in dev env?
     else
       @quiz.questions.count
+    end
+  end
+
+  # Whether the quiz has a finite time limit and thus a remaining-time
+  # indicator to show.
+  def time_limited?
+    !current_unlimited_time && current_time_limit_seconds.present?
+  end
+
+  # Number of attempts the learner may still make, or `nil` when unlimited.
+  # Falls back to the configured allowed attempts when no attempts record
+  # exists yet (e.g. first time taking the quiz).
+  def attempts_left
+    return nil if current_unlimited_attempts
+
+    if @attempts
+      @attempts.remaining_attempts_for_quiz(@quiz)
+    else
+      current_allowed_attempts
     end
   end
 
@@ -114,7 +136,7 @@ class QuizItemPresenter < ItemPresenter
   end
 
   def graded?
-    exam? || bonus?
+    main_exercise? || bonus? || exam?
   end
 
   def basic_quiz_properties
@@ -126,6 +148,8 @@ class QuizItemPresenter < ItemPresenter
       props << {name: 'bonus', icon_class: 'lightbulb-on+circle-star'}
     elsif selftest?
       props << {name: 'selftest', icon_class: 'lightbulb-on'}
+    elsif exam?
+      props << {name: 'exam', icon_class: 'certificate'}
     end
 
     if current_unlimited_time
@@ -160,7 +184,58 @@ class QuizItemPresenter < ItemPresenter
   end
 
   def attempts_left?
+    return false if exam_passed?
+
     @attempts.attempts_for_quiz_remaining?(@quiz) || @quiz.current_unlimited_attempts
+  end
+
+  def pass_percentage
+    @quiz['pass_percentage'] || 70
+  end
+
+  # The maximum points a learner can earn in a single attempt. For question-pool
+  # exams this is the total of the displayed question set, not the whole pool.
+  def displayed_max_points
+    return max_points unless @quiz.question_pool
+
+    batches = (@quiz.displayed_question_count.to_i / QuizService::Quiz::EXAM_QUESTIONS_PER_BATCH).to_i
+    batches * QuizService::Quiz::EXAM_QUESTION_DIFFICULTIES
+      .sum {|_difficulty, cfg| cfg[:points] * cfg[:count] }
+  end
+
+  # Did the learner pass the exam with their latest submitted attempt?
+  def exam_passed?
+    return false unless exam?
+    return false if @submission.nil? || !@submission['submitted']
+
+    points = @submission['points'].to_f
+    max = @submission['max_points'].to_f
+    return false if max.zero?
+
+    points * 100 / max >= pass_percentage
+  end
+
+  def exam_locked_for?(user_id)
+    return false unless exam?
+    return false if user_id.blank?
+
+    progress = CourseService::CourseProgress.find_by(course_id:, user_id:)
+    return true if progress.nil?
+
+    progress.visits_percentage < (minimum_progress_percentage || 75)
+  end
+
+  def instruction_action
+    return :locked if exam_locked_for?(@user.id)
+
+    unless quiz_taken?
+      return exam? && confirm_quiz_start? ? :start_exam : :start_quiz
+    end
+
+    return :retake_with_results if allow_retake_or_view_results?
+    return :retake if attempts_left? && !submission_deadline.nil?
+
+    nil
   end
 
   def quiz_taken?
@@ -198,10 +273,6 @@ class QuizItemPresenter < ItemPresenter
   end
 
   private
-
-  def exam?
-    exercise_type == 'main'
-  end
 
   def bonus?
     exercise_type == 'bonus'

@@ -3,6 +3,8 @@
 require 'spec_helper'
 
 describe 'OpenHPI: Course Announcement' do
+  include ActiveJob::TestHelper
+
   let(:user_id) { '00000001-3100-4444-9999-000000000002' }
   let(:course_id) { '00000001-3300-4444-9999-000000000002' }
   let(:kevins_properties) { {} }
@@ -26,13 +28,17 @@ describe 'OpenHPI: Course Announcement' do
     }
   end
 
-  let(:publish) { -> { Msgr.publish(message, to: 'xikolo.news.announcement.create') } }
+  let(:publish) do
+    lambda do
+      perform_enqueued_jobs do
+        NotificationService::AnnouncementJob.perform_later(message.deep_symbolize_keys)
+      end
+    end
+  end
 
   let(:notification_disable_link_base) { 'https://xikolo.de/notification_user_settings/disable' }
 
   before do
-    Msgr.client.start
-
     Stub.request(
       :news, :get, "/news/#{announcement_id}",
       query: {embed: 'translations'}
@@ -176,11 +182,12 @@ describe 'OpenHPI: Course Announcement' do
     ])
 
     publish.call
-    Msgr::TestPool.run count: 5
   end
 
   it 'includes the openHPI footer' do
     # check only for content that is available in all languages
     expect(conv_str(mail.html_part)).to include('Prof. Dr. Tobias Friedrich')
+      .and(include('Dr. Daniela Gerd tom Markotten'))
+      .and(include('Dr. Henrik Haenecke'))
   end
 end

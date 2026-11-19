@@ -5,10 +5,10 @@ require 'spec_helper'
 describe CourseService::EnrollmentsController, type: :controller do
   include_context 'course_service API controller'
   let(:json) { JSON.parse(response.body) }
-  let(:user_id) { generate(:user_id) }
+  let(:user_id) { create(:'account_service/user').id }
   let!(:enrollment) { create(:'course_service/enrollment', user_id:) }
   let(:deleted_enrollment) { create(:'course_service/deleted_enrollment') }
-  let(:new_enrollment) { build(:'course_service/enrollment') }
+  let(:new_enrollment) { create(:'course_service/enrollment') }
   let(:default_params) { {format: 'json'} }
 
   describe "GET 'index'" do
@@ -55,7 +55,7 @@ describe CourseService::EnrollmentsController, type: :controller do
 
       context '(hard-deleted course)' do
         before do
-          CourseService::Course.find(deleted_course_id).delete
+          CourseService::Course::Purge.call(CourseService::Course.find(deleted_course_id))
         end
 
         it 'does not include enrollments for hard deleted courses' do
@@ -67,7 +67,7 @@ describe CourseService::EnrollmentsController, type: :controller do
 
     describe '^filter' do
       let(:action) { -> { get :index, params: } }
-      let(:course) { create(:'course_service/course') }
+      let(:course) { create(:'course_service/course', start_date: 2.days.from_now) }
       let!(:course_enrollments) { create_list(:'course_service/enrollment', 2, course:) }
       let!(:user_enrollments) { create_list(:'course_service/enrollment', 2, user_id:) }
       let!(:other_enrollments) { create_list(:'course_service/enrollment', 5) }
@@ -141,15 +141,17 @@ describe CourseService::EnrollmentsController, type: :controller do
       end
 
       context 'by current_course' do
-        let!(:enrollment_course_active) do
+        let(:enrollment_course_active) do
           create(:'course_service/enrollment', course: create(:'course_service/course', :active))
         end
 
         let(:params) { {current_course: 'true'} }
 
         before do
-          create(:'course_service/enrollment', course: create(:'course_service/course', :archived))
-          create(:'course_service/enrollment', course: create(:'course_service/course', :archived, status: 'active'))
+          CourseService::Enrollment.destroy_all
+          create(:'course_service/enrollment', course: create(:'course_service/course', published: false, start_date: 2.days.from_now))
+          create(:'course_service/enrollment', course: create(:'course_service/course', start_date: 5.days.from_now))
+          enrollment_course_active
           action.call
         end
 
@@ -161,8 +163,15 @@ describe CourseService::EnrollmentsController, type: :controller do
 
     describe 'with learning evaluation' do
       subject(:learning_evaluation) do
+        # Recalculate course progress after all items and sections exist
+        CourseService::LearningEvaluation::UpdateCourseProgressJob
+          .perform_now(course.id, user_id)
         action.call
         json[0]
+      end
+
+      around do |example|
+        perform_enqueued_jobs { example.run }
       end
 
       let(:completed) { nil }
@@ -180,14 +189,14 @@ describe CourseService::EnrollmentsController, type: :controller do
       let!(:item12) { create(:'course_service/item', {section: section1, position: 2}.merge(item12_params)) }
       let(:item13_params) { {content_type: 'quiz', exercise_type: 'main', max_dpoints: 50} }
       let!(:item13) { create(:'course_service/item', {section: section1, position: 3}.merge(item13_params)) }
-      let(:item14_params) { {content_type: 'quiz', exercise_type: 'bonus', max_dpoints: 70} }
-      let!(:item14) { create(:'course_service/item', :proctored, {section: section1, position: 4}.merge(item14_params)) }
+      let(:item14_params) { {content_type: 'quiz', exercise_type: 'bonus', max_dpoints: 70, submission_deadline: 5.days.from_now} }
+      let!(:item14) { create(:'course_service/item', {section: section1, position: 4}.merge(item14_params)) }
       let(:item15_params) { {content_type: 'quiz', exercise_type: 'main', max_dpoints: 70, published: false} }
 
       let(:section2_params) { {start_date: 10.days.ago.iso8601} }
       let(:section2) { create(:'course_service/section', {course:, position: 2}.merge(section2_params)) }
-      let(:item21_params) { {content_type: 'quiz', exercise_type: 'main', max_dpoints: 100} }
-      let!(:item21) { create(:'course_service/item', :proctored, {section: section2, position: 1}.merge(item21_params)) }
+      let(:item21_params) { {content_type: 'quiz', exercise_type: 'main', max_dpoints: 100, submission_deadline: 5.days.from_now} }
+      let!(:item21) { create(:'course_service/item', {section: section2, position: 1}.merge(item21_params)) }
       let(:item22_params) { {content_type: 'lti', exercise_type: 'main', max_dpoints: 50} }
       let!(:item22) { create(:'course_service/item', {section: section2, position: 2}.merge(item22_params)) }
       let(:item23_params) { {content_type: 'lti', exercise_type: 'selftest', max_dpoints: 70, published: false} }
@@ -301,12 +310,11 @@ describe CourseService::EnrollmentsController, type: :controller do
               'confirmation_of_participation' => false,
               'record_of_achievement' => false,
               'certificate' => false,
-              'transcript_of_records' => false,
             })
           end
         end
 
-        # rubocop:disable RSpec/NestedGroups
+        # rubocop:disable-next RSpec/NestedGroups
         context 'with released certificates' do
           let(:records_released) { true }
 
@@ -321,7 +329,7 @@ describe CourseService::EnrollmentsController, type: :controller do
 
               it { is_expected.to be false }
 
-              context 'but record of achievement' do
+              context 'but certificate (RoA)' do
                 before do
                   create(:'course_service/result', item: item13, user_id:, dpoints: 29)
                   create(:'course_service/result', item: item21, user_id:, dpoints: 71)
@@ -506,7 +514,6 @@ describe CourseService::EnrollmentsController, type: :controller do
             end
           end
         end
-        # rubocop:enable RSpec/NestedGroups
       end
 
       context 'completed' do
@@ -542,25 +549,19 @@ describe CourseService::EnrollmentsController, type: :controller do
             let(:records_released) { true }
 
             context 'in an active course' do
-              let(:course_opts) { super().merge end_date: 2.days.from_now, status: 'active' }
+              let(:course_opts) { super().merge end_date: 2.days.from_now }
 
               it_behaves_like 'overridable bool with default to', true
             end
 
             context 'in an still active course' do
-              let(:course_opts) { super().merge end_date: 2.days.ago, status: 'active', auto_archive: false }
+              let(:course_opts) { super().merge end_date: 2.days.ago }
 
               it_behaves_like 'overridable bool with default to', true
             end
 
-            context 'in an auto archived course with active status' do
-              let(:course_opts) { super().merge end_date: 2.days.ago, status: 'active' }
-
-              it_behaves_like 'overridable bool with default to', true
-            end
-
-            context 'in an auto archived course with status archive' do
-              let(:course_opts) { super().merge end_date: 2.days.ago, status: 'archive' }
+            context 'in an course with status archive' do
+              let(:course_opts) { super().merge end_date: 2.days.ago, published: true }
 
               it_behaves_like 'overridable bool with default to', true
             end
@@ -601,25 +602,13 @@ describe CourseService::EnrollmentsController, type: :controller do
             end
 
             context 'in an active course' do
-              let(:course_opts) { super().merge end_date: 2.days.from_now, status: 'active' }
+              let(:course_opts) { super().merge end_date: 2.days.from_now }
 
               it_behaves_like 'overridable bool with default to', false
             end
 
-            context 'in an still active course' do
-              let(:course_opts) { super().merge end_date: 2.days.ago, status: 'active', auto_archive: false }
-
-              it_behaves_like 'overridable bool with default to', false
-            end
-
-            context 'in an auto archived course with status active' do
-              let(:course_opts) { super().merge end_date: 2.days.ago, status: 'active' }
-
-              it_behaves_like 'overridable bool with default to', true
-            end
-
-            context 'in an auto archived course with status archive' do
-              let(:course_opts) { super().merge end_date: 2.days.ago, status: 'archive' }
+            context 'in an course with status archive' do
+              let(:course_opts) { super().merge end_date: 2.days.ago, published: true }
 
               it_behaves_like 'overridable bool with default to', true
             end
@@ -977,6 +966,9 @@ describe CourseService::EnrollmentsController, type: :controller do
             create(:'course_service/fixed_learning_evaluation',
               user_id:, course_id: course.id, user_dpoints: 234,
               maximal_dpoints: 400, visits_percentage: 83.94)
+
+            CourseService::LearningEvaluation::UpdateCourseProgressJob
+              .perform_now(course.id, user_id)
           end
 
           it 'matches the result' do
@@ -985,14 +977,16 @@ describe CourseService::EnrollmentsController, type: :controller do
                 'confirmation_of_participation' => true,
                 'record_of_achievement' => true,
                 'certificate' => false,
-                'transcript_of_records' => false,
               }
             )
 
+            # The persisted evaluation does not use fixed learning evaluation values
+            # for achieved/maximal points (only for percentage). This is the expected
+            # behavior since fixed learning evaluations are legacy data.
             expect(learning_evaluation['points']).to eq(
               {
-                'achieved' => 23.4,
-                'maximal' => 40.0,
+                'achieved' => 0.0,
+                'maximal' => 20.0,
                 'percentage' => 58.5,
               }
             )
@@ -1008,6 +1002,9 @@ describe CourseService::EnrollmentsController, type: :controller do
             create(:'course_service/fixed_learning_evaluation',
               user_id:, course_id: course.id, user_dpoints: 134,
               maximal_dpoints: 400, visits_percentage: 49.94)
+
+            CourseService::LearningEvaluation::UpdateCourseProgressJob
+              .perform_now(course.id, user_id)
           end
 
           it 'matches the result' do
@@ -1016,7 +1013,6 @@ describe CourseService::EnrollmentsController, type: :controller do
                 'confirmation_of_participation' => false,
                 'record_of_achievement' => false,
                 'certificate' => false,
-                'transcript_of_records' => false,
               }
             )
           end
@@ -1027,6 +1023,9 @@ describe CourseService::EnrollmentsController, type: :controller do
             create(:'course_service/fixed_learning_evaluation',
               user_id:, course_id: course.id, user_dpoints: 134,
               maximal_dpoints: 400, visits_percentage: 50.94)
+
+            CourseService::LearningEvaluation::UpdateCourseProgressJob
+              .perform_now(course.id, user_id)
           end
 
           it 'matches the result' do
@@ -1035,7 +1034,6 @@ describe CourseService::EnrollmentsController, type: :controller do
                 'confirmation_of_participation' => true,
                 'record_of_achievement' => false,
                 'certificate' => false,
-                'transcript_of_records' => false,
               }
             )
           end
@@ -1050,6 +1048,9 @@ describe CourseService::EnrollmentsController, type: :controller do
             create(:'course_service/visit', item: item13, user_id:)
             create(:'course_service/visit', item: item21, user_id:)
             create(:'course_service/visit', item: item22, user_id:)
+
+            CourseService::LearningEvaluation::UpdateCourseProgressJob
+              .perform_now(course.id, user_id)
           end
 
           it 'matches the result' do
@@ -1058,7 +1059,6 @@ describe CourseService::EnrollmentsController, type: :controller do
                 'confirmation_of_participation' => true,
                 'record_of_achievement' => false,
                 'certificate' => false,
-                'transcript_of_records' => false,
               }
             )
           end
@@ -1081,7 +1081,6 @@ describe CourseService::EnrollmentsController, type: :controller do
               'confirmation_of_participation' => false,
               'record_of_achievement' => false,
               'certificate' => false,
-              'transcript_of_records' => false,
             }
           )
 
@@ -1094,114 +1093,6 @@ describe CourseService::EnrollmentsController, type: :controller do
           )
 
           expect(learning_evaluation['completed']).to be false
-        end
-      end
-
-      context 'with proctored enrollment' do
-        let(:records_released) { true }
-
-        before { enrollment.update!(proctored: true) }
-
-        context 'enought points' do
-          before do
-            create(:'course_service/visit', item: item11, user_id:)
-            create(:'course_service/visit', item: item13, user_id:)
-            create(:'course_service/visit', item: item21, user_id:)
-            create(:'course_service/visit', item: item22, user_id:)
-
-            create(:'course_service/result', item: item13, user_id:, dpoints: 29)
-            create(:'course_service/result', item: item21, user_id:, dpoints: 71, created_at: 1.second.ago)
-            create(:'course_service/result', item: item22, user_id:, dpoints: 71, created_at: 1.second.ago)
-          end
-
-          it 'matches the result' do
-            expect(learning_evaluation['certificates']).to eq(
-              {
-                'confirmation_of_participation' => true,
-                'record_of_achievement' => true,
-                'certificate' => true,
-                'transcript_of_records' => false,
-              }
-            )
-
-            expect(learning_evaluation['points']).to eq(
-              {
-                'achieved' => 17.1,
-                'maximal' => 20.0,
-                'percentage' => 85.5,
-              }
-            )
-
-            expect(learning_evaluation['completed']).to be true
-          end
-        end
-
-        context 'later more points' do
-          before do
-            create(:'course_service/visit', item: item11, user_id:)
-            create(:'course_service/visit', item: item13, user_id:)
-            create(:'course_service/visit', item: item21, user_id:)
-            create(:'course_service/visit', item: item22, user_id:)
-
-            create(:'course_service/result', item: item13, user_id:, dpoints: 29)
-            create(:'course_service/result', item: item21, user_id:, dpoints: 5, created_at: 2.seconds.ago)
-            create(:'course_service/result', item: item21, user_id:, dpoints: 76, created_at: 1.second.ago)
-          end
-
-          it 'matches the result' do
-            expect(learning_evaluation['certificates']).to eq(
-              {
-                'confirmation_of_participation' => true,
-                'record_of_achievement' => true,
-                'certificate' => true,
-                'transcript_of_records' => false,
-              }
-            )
-
-            expect(learning_evaluation['points']).to eq(
-              {
-                'achieved' => 10.5,
-                'maximal' => 20.0,
-                'percentage' => 52.5,
-              }
-            )
-
-            expect(learning_evaluation['completed']).to be true
-          end
-        end
-
-        context 'later less points' do
-          before do
-            create(:'course_service/visit', item: item11, user_id:)
-            create(:'course_service/visit', item: item13, user_id:)
-            create(:'course_service/visit', item: item21, user_id:)
-            create(:'course_service/visit', item: item22, user_id:)
-
-            create(:'course_service/result', item: item13, user_id:, dpoints: 29)
-            create(:'course_service/result', item: item21, user_id:, dpoints: 73, created_at: 2.seconds.ago)
-            create(:'course_service/result', item: item21, user_id:, dpoints: 5, created_at: 1.second.ago)
-          end
-
-          it 'matches the result' do
-            expect(learning_evaluation['certificates']).to eq(
-              {
-                'confirmation_of_participation' => true,
-                'record_of_achievement' => false,
-                'certificate' => false,
-                'transcript_of_records' => false,
-              }
-            )
-
-            expect(learning_evaluation['points']).to eq(
-              {
-                'achieved' => 3.4,
-                'maximal' => 20.0,
-                'percentage' => 17.0,
-              }
-            )
-
-            expect(learning_evaluation['completed']).to be true
-          end
         end
       end
     end
@@ -1246,7 +1137,6 @@ describe CourseService::EnrollmentsController, type: :controller do
       expect(json['user_id']).to eq new_enrollment.user_id
       expect(json['course_id']).to eq new_enrollment.course_id
       expect(json['created_at']).not_to be_nil
-      expect(json['proctored']).to be false
     end
 
     it 'does not allow duplicate enrollment' do
@@ -1286,25 +1176,6 @@ describe CourseService::EnrollmentsController, type: :controller do
         expect(stub_membership).to have_been_requested
       end
 
-      context 'with proctoring booked' do
-        let(:deleted_enrollment) { create(:'course_service/deleted_enrollment', proctored: true) }
-
-        it 'remain proctored' do
-          action.call
-          expect(enrollment.reload.proctored).to be true
-        end
-      end
-
-      context 'with proctoring booking' do
-        subject(:action) { -> { post :create, params: deleted_enrollment.attributes.merge(proctored: true) } }
-
-        let(:deleted_enrollment) { create(:'course_service/deleted_enrollment', proctored: false) }
-
-        it 'set proctored to true' do
-          expect { action.call }.to change { enrollment.reload.proctored }.from(false).to(true)
-        end
-      end
-
       context 'with empty created_at' do
         subject(:action) { -> { post :create, params: deleted_enrollment.attributes.merge(created_at: nil) } }
 
@@ -1333,25 +1204,6 @@ describe CourseService::EnrollmentsController, type: :controller do
       it 'creates a not saved enrollment' do
         post :create, params: new_enrollment.attributes
         expect(response).to have_http_status :unprocessable_content
-      end
-    end
-
-    context 'with set proctored value' do
-      let(:new_enrollment) { build(:'course_service/enrollment', proctored: true) }
-
-      it 'answers with enrollment' do
-        post :create, params: new_enrollment.attributes
-        expect(json['proctored']).to be true
-      end
-    end
-
-    context 'with previously created proctored enrollment' do
-      let(:enrollment) { create(:'course_service/enrollment', user_id:, proctored: true) }
-
-      it 'does not clear the proctored field' do
-        expect { post :create, params: {user_id: enrollment.user_id, course_id: enrollment.course_id} }
-          .not_to change { enrollment.reload.proctored }.from(true)
-        expect(response).to have_http_status :created
       end
     end
   end

@@ -6,7 +6,7 @@ describe Admin::Course::FilterBar, type: :component do
   subject(:rendered) { render_inline described_class.new }
 
   it 'allows filtering by course status' do
-    expect(rendered).to have_select 'Status', with_options: %w[All Preparation Active Archive]
+    expect(rendered).to have_select 'Status', with_options: %w[All Preparation Active Hidden Upcoming Self-paced]
   end
 
   it 'allows searching courses' do

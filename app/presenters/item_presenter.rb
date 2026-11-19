@@ -4,8 +4,9 @@ class ItemPresenter < PrivatePresenter
   def_restify_delegators :@item, :id, :content_id, :title,
     :max_points,
     :optional, :position,
-    :section_id, :featured, :public_description,
+    :section_id, :public_description,
     :open_mode,
+    :minimum_progress_percentage,
     :required_item_ids, :published,
     :content_type, :exercise_type
   def_delegator :@course, :id, :course_id
@@ -59,8 +60,8 @@ class ItemPresenter < PrivatePresenter
     'course_area_two_cols'
   end
 
-  def show_in_side_nav?
-    @item['show_in_nav'] && published
+  def course_info
+    @course_info ||= ::CourseInfoPresenter.build(@course, @user)
   end
 
   def to_param
@@ -78,36 +79,23 @@ class ItemPresenter < PrivatePresenter
     case content_type
       when 'quiz'
         type_label_quiz
-      when 'lti_exercise'
-        type_label_lti
+      when 'video'
+        'video'
       when 'rich_text'
-        'rich_text' if @item['icon_type'].blank?
+        'rich_text'
       else
-        content_type
+        'learning_material'
     end
   end
 
   def type_label_quiz
     case exercise_type
-      when 'selftest'
-        'self_test'
-      when 'bonus'
-        'bonus_test'
       when 'survey'
         'survey'
+      when 'exam'
+        'exam'
       else
-        'graded_test'
-    end
-  end
-
-  def type_label_lti
-    case exercise_type
-      when 'selftest'
-        'exercise'
-      when 'bonus'
-        'bonus_exercise'
-      else
-        'graded_exercise'
+        'learning_material'
     end
   end
 
@@ -115,37 +103,8 @@ class ItemPresenter < PrivatePresenter
     type_label.present? ? I18n.t("items.type_label.#{type_label}") : ''
   end
 
-  def aria_label
-    [
-      title,
-      type_label.present? ? I18n.t("items.type_label.#{type_label}").prepend('(').concat(')') : nil,
-    ].compact.join(' ')
-  end
-
-  def item_tooltip
-    item_info = [].tap do |a|
-      a << I18n.t("items.type_label.#{type_label}") if type_label.present?
-    end.join(', ').tap do |s|
-      s.presence&.prepend('(')&.concat(')')
-    end
-
-    {
-      'item-title': title,
-      'item-info': item_info,
-    }.compact.to_json
-  end
-
   def icon_class
     Course::Item::Icon.from_resource(@item).icon_class
-  end
-
-  def css_classes
-    clses = [content_type]
-    clses << 'visited' if visited?
-    clses << 'active' if active?
-    clses << 'locked' if locked?
-    clses << 'optional' if optional
-    clses.join ' '
   end
 
   def status_type
@@ -160,11 +119,9 @@ class ItemPresenter < PrivatePresenter
     end
   end
 
-  def featured_image
-    # implement in subclasses
-  end
-
   def locked_hint
+    return I18n.t(:'items.exam.locked_hint', percentage: minimum_progress_percentage || 75) if exam? && exam_locked?
+
     I18n.t(:'course.progress.overview.open_mode.item') if locked?
   end
 
@@ -205,16 +162,29 @@ class ItemPresenter < PrivatePresenter
     (@item['user_state'] || 'new') != 'new'
   end
 
-  def active?
-    @active
-  end
-
-  def active!
-    @active = true
-  end
-
   def main_exercise?
     exercise_type == 'main'
+  end
+
+  def exam?
+    exercise_type == 'exam'
+  end
+
+  # Exams stay locked until the learner reached the required course
+  # progress. Course admins (preview) and non-exam items are never locked.
+  def exam_locked?
+    return false unless exam?
+    return false if @user.respond_to?(:allowed?) && @user.allowed?('course.content.access')
+    return true if @user.respond_to?(:anonymous?) && @user.anonymous?
+
+    course_id = @course&.id
+    user_id = @user&.id
+    return true if course_id.blank? || user_id.blank?
+
+    progress = ::CourseService::CourseProgress.find_by(course_id:, user_id:)
+    return true if progress.nil?
+
+    progress.visits_percentage < (minimum_progress_percentage || 75)
   end
 
   def bonus_exercise?
@@ -227,17 +197,6 @@ class ItemPresenter < PrivatePresenter
 
   def selftest?
     exercise_type == 'selftest'
-  end
-
-  def transpipe?
-    Transpipe.enabled? &&
-      @user.allowed?('video.subtitle.manage') &&
-      transpipe_url.present? &&
-      content_type == 'video'
-  end
-
-  def transpipe_url
-    @transpipe_url ||= Transpipe::URL.for_video @item
   end
 
   def submission_publishing_date

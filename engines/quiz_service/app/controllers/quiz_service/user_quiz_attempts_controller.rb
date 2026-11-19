@@ -31,7 +31,7 @@ class UserQuizAttemptsController < ApplicationController # rubocop:disable Layou
     user_id = UUID(params[:user_id])
 
     if params[:course_id].present?
-      UnlockCourseAssignmentsWorker.perform_async(UUID(params[:course_id]).to_s, user_id.to_s)
+      UnlockCourseAssignmentsJob.perform_later(UUID(params[:course_id]).to_s, user_id.to_s)
       render status: :accepted, json: {msg: 'All assignments will be unlocked'}
     elsif grant_additional_attempt(user_id, UUID(params[:quiz_id]), params[:additional_attempts])
       head :no_content

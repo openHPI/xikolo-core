@@ -1,0 +1,16 @@
+<div id="quiz-state-indicators" class="x-steps grid w-full">
+  <% @questions.each_with_index do |question, i| %>
+    <a
+      class="
+      x-step <%= status_class(question) %> before:[--x-step-bg:var(--color-base-300)]
+      data-answered:[--x-step-bg:var(--color-accent-10)]
+      data-answered:[--x-step-fg:var(--color-accent)]
+      data-answered:before:[--x-step-bg:var(--color-accent-10)]
+      "
+      id="<%= question.id %>_indicator"
+      href="#<%= question.id %>"
+      data-turbo="false"
+      aria-label="<%= t('items.quiz.question') %> <%= i + 1 %>"
+    ><%= status_icon(question) %></a>
+  <% end %>
+</div>

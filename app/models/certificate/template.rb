@@ -12,7 +12,7 @@ module Certificate
     validate :valid_s3_reference_or_upload
     validate :valid_xml
 
-    belongs_to :course, class_name: 'Course::Course'
+    belongs_to :course, class_name: 'CourseService::Course'
     has_many :records,
       class_name: '::Certificate::Record',
       inverse_of: :template,
@@ -25,29 +25,12 @@ module Certificate
     ## ROUTE HELPERS
     ## Ensure that Rails routing helpers can be used directly with OpenBadgeTemplate instances.
 
-    def self.model_name
-      ActiveModel::Name.new(self, nil, 'CertificateTemplate')
-    end
-
-    def to_param
-      id
-    end
-
-    # If there is already a Transcript of Records template, there can't be any other
-    # certificate for that course and vice versa.
     def allowed_types
-      return CERTIFICATE_TYPES.excluding(:TranscriptOfRecords) unless Xikolo.config.certificate['transcript_of_records']
-
-      existing_template_types = course.certificate_templates.pluck(:certificate_type)
-
-      return CERTIFICATE_TYPES if existing_template_types.blank?
-      return %i[TranscriptOfRecords] if existing_template_types.include?('TranscriptOfRecords')
-
-      CERTIFICATE_TYPES.excluding(:TranscriptOfRecords)
+      CERTIFICATE_TYPES
     end
 
     def preview_for(user_id)
-      PreviewRecord.new(self, Account::User.find(user_id))
+      PreviewRecord.new(self, AccountService::User.find(user_id))
     end
 
     def record_for!(user_id)

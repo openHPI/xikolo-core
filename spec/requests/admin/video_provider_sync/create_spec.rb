@@ -4,19 +4,18 @@ require 'spec_helper'
 
 describe 'Admin: VideoProviderSync: Create', type: :request do
   let(:create_provider_sync) do
-    post "/admin/video_providers/#{provider.id}/sync", params:, headers:
+    post "/admin/video_providers/#{provider.id}/sync", params:
   end
-  let(:headers) { {} }
   let(:params) { {id: provider.id} }
   let(:provider) { create(:video_provider, :vimeo) }
 
   context 'for logged-in users' do
-    let(:headers) { {Authorization: "Xikolo-Session session_id=#{stub_session_id}"} }
+    before { sign_in(user:) }
 
-    before { stub_user_request(permissions:) }
+    let(:user) { create(:'account_service/user') }
 
     context 'with permissions' do
-      let(:permissions) { ['video.video.manage'] }
+      let(:user) { create(:'account_service/user', :admin) }
 
       context 'when triggering a partial sync' do
         let(:params) { super().merge(full: false) }
@@ -29,7 +28,7 @@ describe 'Admin: VideoProviderSync: Create', type: :request do
 
         context 'with a provider sync already running' do
           let(:provider) do
-            create(:video_provider, :kaltura, run_at: 2.minutes.ago, synchronized_at: 1.hour.ago)
+            create(:video_provider, :vimeo, run_at: 2.minutes.ago, synchronized_at: 1.hour.ago)
           end
 
           it 'does not trigger the synchronisation' do
@@ -42,7 +41,7 @@ describe 'Admin: VideoProviderSync: Create', type: :request do
         context 'with a recently triggered sync' do
           let(:provider) do
             sync_time = 50.minutes.ago
-            create(:video_provider, :kaltura, run_at: sync_time, synchronized_at: sync_time)
+            create(:video_provider, :vimeo, run_at: sync_time, synchronized_at: sync_time)
           end
 
           it 'triggers the synchronisation' do
@@ -64,7 +63,7 @@ describe 'Admin: VideoProviderSync: Create', type: :request do
 
         context 'with a provider sync running' do
           let(:provider) do
-            create(:video_provider, :kaltura, run_at: 2.minutes.ago, synchronized_at: 1.hour.ago)
+            create(:video_provider, :vimeo, run_at: 2.minutes.ago, synchronized_at: 1.hour.ago)
           end
 
           it 'does not trigger the synchronisation' do
@@ -77,7 +76,7 @@ describe 'Admin: VideoProviderSync: Create', type: :request do
         context 'with a recently triggered sync' do
           let(:provider) do
             sync_time = 50.minutes.ago
-            create(:video_provider, :kaltura, run_at: sync_time, synchronized_at: sync_time)
+            create(:video_provider, :vimeo, run_at: sync_time, synchronized_at: sync_time)
           end
 
           it 'does not trigger the synchronisation' do

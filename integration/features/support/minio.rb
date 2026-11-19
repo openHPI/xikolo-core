@@ -57,7 +57,7 @@ module Minio
             - 's3:GetObject'
           Effect: Allow
           Resource:
-            - 'arn:aws:s3:::#{pinboard.name}/courses/*'
+            - 'arn:aws:s3:::#{pinboard.name}/learn/*'
           Principal: {'AWS': '*'}
     POLICY
 

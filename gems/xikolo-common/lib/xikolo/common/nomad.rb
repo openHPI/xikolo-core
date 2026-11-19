@@ -16,7 +16,6 @@ module Xikolo
         unless Rails.env.local?
           config.paths['config'].unshift '/local/config'
           config.paths['config/database'].unshift '/local/config/database.yml'
-          config.paths['config/secrets'] << '/local/config'
         end
       end
 

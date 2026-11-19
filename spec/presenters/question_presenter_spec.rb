@@ -14,7 +14,7 @@ describe QuestionPresenter, type: :presenter do
     }
   end
   let(:title) { 'test' }
-  let(:course) { Xikolo::Course::Course.new id: SecureRandom.uuid, course_code: 'test' }
+  let(:course) { create(:course, course_code: 'test') }
   let(:section_id) { SecureRandom.uuid }
   let(:answer_id) { SecureRandom.uuid }
 

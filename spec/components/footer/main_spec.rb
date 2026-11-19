@@ -57,10 +57,10 @@ describe Footer::Main, type: :component do
         it 'displays the configured columns and links' do
           render_inline(component)
 
-          expect(page).to have_content 'More information'
+          expect(page).to have_text 'More information'
           expect(page).to have_link('About Us', href: '/pages/about')
 
-          expect(page).to have_content 'Help'
+          expect(page).to have_text 'Help'
           expect(page).to have_link('FAQ', href: '/pages/faq')
         end
       end
@@ -82,7 +82,7 @@ describe Footer::Main, type: :component do
         it 'displays the configured social media links' do
           render_inline(component)
 
-          expect(page).to have_content 'Follow us'
+          expect(page).to have_text 'Follow us'
           expect(page).to have_link('', href: 'https://twitter.com/')
           expect(page).to have_css('[title=Twitter]')
         end
@@ -102,8 +102,8 @@ describe Footer::Main, type: :component do
         it 'displays the configured "About us" section' do
           render_inline(component)
 
-          expect(page).to have_content 'About us'
-          expect(page).to have_content 'Xikolo is a great platform'
+          expect(page).to have_text 'About us'
+          expect(page).to have_text 'Xikolo is a great platform'
         end
       end
 
@@ -124,7 +124,7 @@ describe Footer::Main, type: :component do
         it 'displays the configured Newsletter section' do
           render_inline(component)
 
-          expect(page).to have_content 'Newsletter'
+          expect(page).to have_text 'Newsletter'
           expect(page).to have_link('Register', href: 'http://example')
         end
       end
@@ -156,7 +156,7 @@ describe Footer::Main, type: :component do
         it 'displays the start year, owner, legal and powered_by infos' do
           render_inline(component)
 
-          expect(page).to have_content '2012'
+          expect(page).to have_text '2012'
           expect(page).to have_link('Owner', href: 'https://xikolo.de/en')
           expect(page).to have_link('Imprint', href: '/pages/imprint')
           expect(page).to have_link('Xikolo', href: 'https://xikolo.de/en')

@@ -10,8 +10,8 @@ describe CourseService::Course, type: :model do
   it { is_expected.not_to accept_values_for(:title, '') }
   it { is_expected.to accept_values_for(:title, 'In-Memory Database Management', 'Internetworking mit TCP/IP', 'Semantic Web Technologies') }
 
-  it { is_expected.to accept_values_for(:status, 'preparation', 'active', 'archive') }
-  it { is_expected.not_to accept_values_for(:status, 'preparing', 'Vorschau', 'Preview', 'preview', 'Archive') }
+  it { is_expected.to accept_values_for(:placement, [], ['Archive'], ['Open4All'], %w[Archive Open4All]) }
+  it { is_expected.not_to accept_values_for(:placement, nil, ['Active'], %w[Archive Active], %w[Open4All Open4All]) }
 
   it { is_expected.not_to accept_values_for(:course_code, '', 'ab cd', 'a%$/a', 'a/b', 'a`b', 'a\'b') }
   it { is_expected.to accept_values_for(:course_code, 'course', '1234', 'my-course') }
@@ -56,8 +56,6 @@ describe CourseService::Course, type: :model do
 
   it { is_expected.to accept_values_for(:learning_goals, %w[an array of strings]) }
 
-  it { is_expected.to accept_values_for(:target_groups, %w[an array of strings]) }
-
   it 'has sections' do
     expect(course.sections.size).to eq 3
   end
@@ -66,91 +64,31 @@ describe CourseService::Course, type: :model do
     expect(course.enrollment_delta).to eq 0
   end
 
-  context '(event publication)' do
+  context '(date and search update jobs)' do
     subject(:course) { build(:'course_service/course') }
 
-    it 'publishes an event for newly created course' do
-      expect(Msgr).to receive(:publish).with(kind_of(Hash), hash_including(to: 'xikolo.course.course.create'))
-      course.save
+    it 'enqueues sync jobs for newly created course' do
+      expect { course.save }
+        .to have_enqueued_job(CourseService::NextDate::CourseStartSyncJob)
+        .and have_enqueued_job(CourseService::UpdateCourseSearchIndexJob)
     end
 
     it 'publishes an event for updated course' do
       course.save
-
-      expect(Msgr).to receive(:publish) do |updated_course_as_hash, msgr_params|
-        expect(updated_course_as_hash).to be_a(Hash)
-        expect(updated_course_as_hash).to include('title' => 'New awesome Company1 Course')
-        expect(msgr_params).to include(to: 'xikolo.course.course.update')
-      end
-
       course.title = 'New awesome Company1 Course'
-      course.save
+
+      expect { course.save }
+        .to have_enqueued_job(PinboardService::SearchCourseUpdateJob)
+        .with(hash_including('title' => 'New awesome Company1 Course'))
     end
 
-    it 'publishes events for deleted course' do
+    it 'updates pinboard search index for deleted course' do
       course.save
-
-      expect(Msgr).to receive(:publish).with(kind_of(Hash), hash_including(to: 'xikolo.course.course.update'))
-      expect(Msgr).to receive(:publish).with(kind_of(Hash), hash_including(to: 'xikolo.course.course.destroy'))
-
       course.deleted = true
-      course.save
-    end
-  end
 
-  context '(enrollment completion worker)' do
-    subject(:course) { create(:'course_service/course', records_released:) }
-
-    let(:records_released) { false }
-
-    it 'starts one worker when records_released enabled' do
-      expect do
-        course.records_released = true
-        course.save
-      end.to change(CourseService::EnrollmentCompletionWorker.jobs, :size).from(0).to(1)
-    end
-
-    it 'starts only one worker when records_released enabled and thresholds change' do
-      expect do
-        course.records_released = true
-        course.roa_threshold_percentage = 50
-        course.cop_threshold_percentage = 50
-        course.save
-      end.to change(CourseService::EnrollmentCompletionWorker.jobs, :size).from(0).to(1)
-    end
-
-    it 'does not start worker when records_released disabled and thresholds change' do
-      expect do
-        course.roa_threshold_percentage = 50
-        course.cop_threshold_percentage = 50
-        course.save
-      end.not_to change(CourseService::EnrollmentCompletionWorker.jobs, :size)
-    end
-
-    context 'records_released already enabled and thresholds change' do
-      let(:records_released) { true }
-
-      it 'starts one worker when roa threshold change' do
-        expect do
-          course.roa_threshold_percentage = 50
-          course.save
-        end.to change(CourseService::EnrollmentCompletionWorker.jobs, :size).from(0).to(1)
-      end
-
-      it 'starts one worker when cop threshold change' do
-        expect do
-          course.cop_threshold_percentage = 50
-          course.save
-        end.to change(CourseService::EnrollmentCompletionWorker.jobs, :size).from(0).to(1)
-      end
-
-      it 'starts only one worker when both thresholds change' do
-        expect do
-          course.roa_threshold_percentage = 50
-          course.cop_threshold_percentage = 50
-          course.save
-        end.to change(CourseService::EnrollmentCompletionWorker.jobs, :size).from(0).to(1)
-      end
+      expect { course.save }
+        .to have_enqueued_job(PinboardService::SearchCourseUpdateJob)
+        .with(kind_of(Hash))
     end
   end
 
@@ -188,24 +126,16 @@ describe CourseService::Course, type: :model do
     end
   end
 
-  context 'change state of course' do
-    subject(:course) { create(:'course_service/course', auto_archive: true, status: 'active', start_date: 2.days.ago, end_date: 1.day.ago) }
+  context 'published?' do
+    subject(:course) { create(:'course_service/course', published: true, start_date: 2.days.ago, end_date: 1.day.ago) }
 
-    it 'auto-archives' do
-      expect(course.auto_archive).to be true
-    end
+    it 'returns the persisted published value regardless of course end date' do
+      expect(course.published).to be true
 
-    it 'changes the course state based on the auto archive' do
-      expect(course.status).to eq 'archive'
-      course.auto_archive = false
-      course.save
-      expect(course.status).to eq 'active'
-    end
-
-    it 'does not change the course state of a running course' do
       course.end_date = 1.day.from_now
       course.save
-      expect(course.status).to eq 'active'
+
+      expect(course.published).to be true
     end
   end
 
@@ -233,11 +163,9 @@ describe CourseService::Course, type: :model do
       subject { CourseService::Course.current.pluck :id }
 
       before do
-        course
-
-        # And two already ended courses (one of which is still marked active)
-        create(:'course_service/course', :archived)
-        create(:'course_service/course', :archived, status: 'active')
+        # And two courses that are not current (one ended, one not started yet)
+        create(:'course_service/course', :active, start_date: 1.week.from_now)
+        create(:'course_service/course', :self_paced)
       end
 
       let!(:course_active) { create(:'course_service/course', :active) }
@@ -245,101 +173,83 @@ describe CourseService::Course, type: :model do
       it { is_expected.to eq [course_active.id] }
     end
 
-    describe 'for_user' do
-      subject(:courses) { CourseService::Course.for_user(current_user) }
-
-      let(:active_course) { create(:'course_service/course', :active, attributes: {title: 'Active'}) }
-      let(:preparation_course) { create(:'course_service/course', attributes: {title: 'Preparation', status: 'preparation'}) }
-      let(:hidden_course) { create(:'course_service/course', attributes: {title: 'Hidden', status: 'active', hidden: true}) }
-      let(:partner_course) { create(:'course_service/course', attributes: {title: 'Partner', status: 'active', groups: ['partners']}) }
-
-      let(:current_user) do
-        Xikolo::Common::Auth::CurrentUser.from_session(
-          'permissions' => permissions,
-          'features' => {},
-          'user' => {
-            'anonymous' => false,
-          },
-          'user_id' => user_id
-        )
-      end
-
-      let(:user_id) { SecureRandom.uuid }
-      let(:permissions) { {} }
-      let(:user_groups) { [] }
+    describe 'self_paced' do
+      subject { CourseService::Course.self_paced.pluck :id }
 
       before do
-        Stub.request(
-          :account,
-          :get,
-          '/groups',
-          query: {user: user_id, per_page: 1000}
-        ).to_return Stub.json(user_groups)
-
-        Stub.request(
-          :account,
-          :get,
-          '/groups',
-          query: {user: 'anonymous', per_page: 1000}
-        ).to_return Stub.json([])
+        create(:'course_service/course')
+        create(:'course_service/course', :active)
       end
 
-      context 'as admin user' do
-        let(:permissions) { ['course.course.index'] }
+      let!(:self_paced) { create(:'course_service/course', :self_paced) }
 
-        it 'contains all courses' do
-          expect(courses).to contain_exactly(active_course, preparation_course, hidden_course, partner_course)
-        end
+      it { is_expected.to eq [self_paced.id] }
+    end
+
+    describe 'in_preparation' do
+      subject { CourseService::Course.in_preparation.pluck :id }
+
+      before do
+        create(:'course_service/course', :active)
+        create(:'course_service/course', :self_paced)
       end
 
-      context 'as anonymous user' do
-        let(:current_user) { Xikolo::Common::Auth::CurrentUser.from_session({}) }
+      let!(:in_prep) { create(:'course_service/course', published: false) }
 
-        it 'contains the active course' do
-          expect(courses).to contain_exactly(active_course)
-        end
+      it { is_expected.to eq [in_prep.id] }
+    end
+
+    describe 'visible' do
+      subject { CourseService::Course.visible.pluck :id }
+
+      before { create(:'course_service/course', placement: []) }
+
+      let!(:visible) { create(:'course_service/course') }
+
+      it { is_expected.to eq [visible.id] }
+    end
+
+    describe 'deleted_for_purge' do
+      subject { CourseService::Course.deleted_for_purge.pluck :id }
+
+      let(:deleted_for_purge) { create(:'course_service/course', skip_account_groups: true, deleted: true, deleted_at: 7.months.ago) }
+
+      before do
+        deleted_for_purge
+        create(:'course_service/course', skip_account_groups: true, deleted: true, deleted_at: 5.months.ago)
+        create(:'course_service/course', skip_account_groups: true)
       end
 
-      context 'as student user' do
-        it 'contains the active course' do
-          expect(courses).to contain_exactly(active_course)
-        end
+      it { is_expected.to eq [deleted_for_purge.id] }
+    end
 
-        context 'with partner group membership' do
-          let(:user_groups) do
-            [
-              {name: 'partners'},
-            ]
-          end
+    describe 'not_started' do
+      subject { CourseService::Course.not_started.pluck :id }
 
-          it 'contains active and partner course' do
-            expect(courses).to contain_exactly(active_course, partner_course)
-          end
-        end
+      before { create(:'course_service/course', :active) }
 
-        context 'with enrollment' do
-          context 'in hidden course' do
-            before { create(:'course_service/enrollment', course: hidden_course, user_id:) }
+      let!(:no_start_date) { create(:'course_service/course', start_date: nil) }
+      let!(:future_start)  { create(:'course_service/course', :upcoming) }
 
-            it 'contains active and partner course' do
-              expect(courses).to contain_exactly(active_course, hidden_course)
-            end
-          end
+      it { is_expected.to contain_exactly(no_start_date.id, future_start.id) }
+    end
 
-          context 'in group restricted course' do
-            before { create(:'course_service/enrollment', course: partner_course, user_id:) }
+    describe 'ended' do
+      subject { CourseService::Course.ended.pluck :id }
 
-            it 'contains active and partner course' do
-              expect(courses).to contain_exactly(active_course, partner_course)
-            end
-          end
-        end
+      before do
+        create(:'course_service/course', :active)
+        create(:'course_service/course', end_date: nil)
       end
+
+      let!(:ended) { create(:'course_service/course', start_date: 4.weeks.ago, end_date: 1.week.ago) }
+
+      it { is_expected.to eq [ended.id] }
     end
   end
 
-  describe '#accessible?' do
-    subject { course.accessible? }
+  describe '#started?' do
+    subject { course.started? }
 
     context 'for an active course' do
       let(:course) { create(:'course_service/course', :active) }
@@ -347,8 +257,8 @@ describe CourseService::Course, type: :model do
       it { is_expected.to be true }
     end
 
-    context 'for an archived course' do
-      let(:course) { create(:'course_service/course', :archived) }
+    context 'for an self-paced course' do
+      let(:course) { create(:'course_service/course', :self_paced) }
 
       it { is_expected.to be true }
     end
@@ -404,6 +314,43 @@ describe CourseService::Course, type: :model do
     end
   end
 
+  context 'status' do
+    subject { course.status }
+
+    context 'for a course in preparation' do
+      let(:course) { create(:'course_service/course', published: false) }
+
+      it { is_expected.to eq 'preparation' }
+    end
+
+    context 'for an active course' do
+      # published: true and start_date in the past and end_date in the future
+      let(:course) { create(:'course_service/course', :active) }
+
+      it { is_expected.to eq 'active' }
+    end
+
+    context 'for a self-paced course' do
+      # published: true and (start_date in the past and end_date in the past) or (start_date in the past and end_date is nil)
+      let(:course) { create(:'course_service/course', :self_paced) }
+
+      it { is_expected.to eq 'self-paced' }
+    end
+
+    context 'for an upcoming course' do
+      # published: true and start_date in the future
+      let(:course) { create(:'course_service/course', :upcoming) }
+
+      it { is_expected.to eq 'upcoming' }
+    end
+
+    context 'for a course with an external URL' do
+      let(:course) { create(:'course_service/course', external_course_url: 'https://example.com') }
+
+      it { is_expected.to eq 'external' }
+    end
+  end
+
   describe 'alternative teacher text' do
     subject { course.alternative_teacher_text }
 
@@ -445,19 +392,19 @@ describe CourseService::Course, type: :model do
   describe '#public?' do
     subject { course.public? }
 
-    let(:attributes) { {status: 'active'} }
+    let(:attributes) { {published: true} }
     let(:course) { create(:'course_service/course', attributes) }
 
     it { is_expected.to be true }
 
     context 'with course in preparation' do
-      let(:attributes) { {status: 'preparation'} }
+      let(:attributes) { {published: false} }
 
       it { is_expected.to be false }
     end
 
     context 'with hidden course' do
-      let(:attributes) { super().merge(hidden: true) }
+      let(:attributes) { super().merge(placement: []) }
 
       it { is_expected.to be false }
     end
@@ -478,10 +425,10 @@ describe CourseService::Course, type: :model do
         roa_threshold_percentage:,
         cop_threshold_percentage:)
     end
-    let(:user_id) { SecureRandom.uuid }
-    let!(:enrollment) { create(:'course_service/enrollment', course:, user_id:, proctored: enrollment_proctored) }
+    let(:user) { create(:'account_service/user') }
+    let(:user_id) { user.id }
+    let!(:enrollment) { create(:'course_service/enrollment', :with_evaluation, course:, user_id:) }
     let(:records_released) { false }
-    let(:enrollment_proctored) { false }
     let(:roa_enabled) { false }
     let(:cop_enabled) { false }
     let(:roa_threshold_percentage) { nil }
@@ -549,6 +496,60 @@ describe CourseService::Course, type: :model do
           let(:points_percentage) { 50 }
 
           it { is_expected.to be true }
+        end
+      end
+
+      context 'when the course has an exam' do
+        let(:records_released) { true }
+        let(:roa_enabled) { true }
+        let(:section) { create(:'course_service/section', course:) }
+        let(:exam_quiz) { create(:'quiz_service/quiz', :with_valid_question_pool) }
+        let(:exam) do
+          create(:'course_service/item', :quiz, exercise_type: 'exam',
+            section:, content_id: exam_quiz.id)
+        end
+
+        def create_exam_submission(learner_id:, question_points:, submission_points:)
+          question = create(:'quiz_service/multiple_choice_question', quiz: exam_quiz, points: question_points)
+          create(:'quiz_service/quiz_submission', quiz: exam_quiz, user_id: learner_id,
+            quiz_submission_time: 1.hour.ago).tap do |submission|
+            create(:'quiz_service/quiz_submission_question',
+              quiz_submission: submission, quiz_question_id: question.id, points: submission_points)
+          end
+        end
+
+        before { exam }
+
+        context 'without a submitted exam attempt' do
+          it { is_expected.to be false }
+        end
+
+        context 'with an unsubmitted exam attempt' do
+          before do
+            create(:'quiz_service/quiz_submission', quiz: exam_quiz, user_id:)
+          end
+
+          it { is_expected.to be false }
+        end
+
+        context 'with a submitted exam attempt below the passing threshold' do
+          before { create_exam_submission(learner_id: user_id, question_points: 10, submission_points: 4) }
+
+          it { is_expected.to be false }
+        end
+
+        context 'with a submitted exam attempt reaching the passing threshold' do
+          before { create_exam_submission(learner_id: user_id, question_points: 10, submission_points: 7) }
+
+          it { is_expected.to be true }
+        end
+
+        context 'with a passing exam attempt by another user' do
+          let(:other_user_id) { create(:'account_service/user').id }
+
+          before { create_exam_submission(learner_id: other_user_id, question_points: 10, submission_points: 7) }
+
+          it { is_expected.to be false }
         end
       end
     end
@@ -682,80 +683,16 @@ describe CourseService::Course, type: :model do
 
       context 'with released records' do
         let(:records_released) { true }
+        let(:roa_enabled) { true }
 
-        context 'with not proctored enrollment' do
+        context 'without an issued certificate' do
           it { is_expected.to be false }
         end
 
-        context 'with proctored enrollment' do
-          let(:enrollment_proctored) { true }
+        context 'with an issued certificate' do
+          before { create(:certificate, user:, course:) }
 
-          context 'not enabled roa' do
-            it { is_expected.to be false }
-          end
-
-          context 'enabled roa' do
-            let(:roa_enabled) { true }
-            let(:points_percentage) { 42 }
-
-            before do
-              allow(enrollment).to receive(:points_percentage).and_return points_percentage
-            end
-
-            context 'with roa not granted' do
-              it { is_expected.to be false }
-            end
-
-            context 'with roa not granted and 6 dpoints' do
-              let(:points_percentage) { 50 }
-
-              it { is_expected.to be true }
-            end
-          end
-        end
-      end
-    end
-
-    describe '#transcript_of_records?' do
-      subject(:transcript_of_records) { course.transcript_of_records? enrollment }
-
-      it { is_expected.to be false }
-
-      context 'with released records' do
-        let(:records_released) { true }
-
-        context 'without relations' do
-          it { is_expected.to be false }
-        end
-
-        context 'with relation' do
-          let(:required_course) { create(:'course_service/course', :active, records_released: true, roa_enabled: true) }
-
-          before do
-            source = create(:'course_service/course_set', courses: [course])
-            target = create(:'course_service/course_set', courses: [required_course])
-            create(:'course_service/course_set_relation', source_set: source, target_set: target, kind: 'requires_roa')
-          end
-
-          it { is_expected.to be false }
-
-          context 'with enrollment in required course' do
-            let(:homework_id) { SecureRandom.uuid }
-
-            before do
-              section = create(:'course_service/section', course: required_course)
-              create(:'course_service/item', :homework, :with_max_points, id: homework_id, section:)
-              create(:'course_service/enrollment', course: required_course, user_id:)
-            end
-
-            it { is_expected.to be false }
-
-            context '(fulfilled)' do
-              before { create(:'course_service/result', user_id:, item_id: homework_id, dpoints: 10) }
-
-              it { is_expected.to be true }
-            end
-          end
+          it { is_expected.to be true }
         end
       end
     end

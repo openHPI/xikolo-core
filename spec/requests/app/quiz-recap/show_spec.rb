@@ -3,46 +3,42 @@
 require 'spec_helper'
 
 describe 'Quiz Recap: Show', type: :request do
-  subject(:request) { get '/app/quiz-recap', params:, headers: }
+  subject(:request) { get '/app/quiz-recap', params:, as: :json }
 
-  let(:headers) { {} }
   let(:params) { {} }
 
   let(:user) { create(:'account_service/user') }
   let(:course) { create(:course) }
-  let(:course_resource) { build(:'course:course', id: course.id, course_code: course.course_code) }
-  let(:section) { create(:section, course: course) }
+  let(:section) { create(:'course_service/section', course:) }
   let(:items) do
-    create_list(:item, 2, content_type: 'quiz', section:) {|quiz, i| quiz.content_id = quizzes[i]['id'] }
-  end
-  let(:item_resources) do
-    build_list(:'course:item', 2, content_type: 'quiz') do |resource, i|
-      resource['id'] = items[i].id
-      resource['section_id'] = items[i].section_id
-      resource['content_id'] = items[i].content_id
+    quizzes.map do |quiz|
+      create(:'course_service/item', :quiz, section:, content_id: quiz.id)
     end
   end
-  let(:quizzes) { build_list(:'quiz:quiz', 2) }
+  let(:quizzes) { create_list(:'quiz_service/quiz', 2) }
   let(:questions) do
-    build_list(:'quiz:question', 2, :multi_select) {|question, i| question['quiz_id'] = quizzes[i]['id'] }
+    quizzes.map do |quiz|
+      create(:'quiz_service/multiple_answer_question', quiz:, text: 'Question')
+    end
   end
   let(:answers) do
-    build_list(:'quiz:answer', 4) {|answer, i| answer['question_id'] = questions[i % 2]['id'] }
-  end
-
-  before do
-    stub_user_request id: user.id
+    questions.map do |question|
+      [
+        create(:'quiz_service/answer', question:, text: 'Answer A', correct: true),
+        create(:'quiz_service/answer', question:, text: 'Answer B', correct: false),
+      ]
+    end.flatten
   end
 
   context 'with an anonymous user' do
-    it 'returns unauthorized' do
+    it 'redirects to sessions new path' do
       request
       expect(response).to have_http_status :unauthorized
     end
   end
 
   context 'with a logged-in user' do
-    let(:headers) { {Authorization: "Xikolo-Session session_id=#{stub_session_id}"} }
+    before { sign_in(user:) }
 
     context 'without a course ID' do
       it 'returns a bad request status' do
@@ -55,12 +51,6 @@ describe 'Quiz Recap: Show', type: :request do
     context 'without questions' do
       let(:params) { {course_id: 'empty-course'} }
 
-      before do
-        Stub.request(:quiz, :get, '/questions',
-          query: {course_id: 'empty-course', selftests: true, exclude_from_recap: false, eligible_for_recap: true})
-          .to_return Stub.json([])
-      end
-
       it 'returns an empty question list' do
         request
         expect(response).to have_http_status :ok
@@ -72,38 +62,8 @@ describe 'Quiz Recap: Show', type: :request do
       let(:params) { {course_id: course.id} }
 
       before do
-        Stub.request(:course, :get, '/courses', query: hash_including(user_id: user.id))
-          .and_return Stub.json([course_resource])
-        Stub.request(:course, :get, '/items',
-          query: hash_including(content_id: items.first.content_id)).to_return Stub.json([item_resources.first])
-        Stub.request(:course, :get, '/items',
-          query: hash_including(content_id: items.second.content_id)).to_return Stub.json([item_resources.second])
-        Stub.request(:quiz, :get, '/questions',
-          query: {course_id: course.id, selftests: true, exclude_from_recap: false, eligible_for_recap: true})
-          .to_return Stub.json([
-            {
-              id: questions.first['id'],
-              quiz_id: questions.first['quiz_id'],
-              text: questions.first['text'],
-              points: questions.first['points'],
-              type: questions.first['type'],
-              answers: [
-                answers[0],
-                answers[2],
-              ],
-            },
-            {
-              id: questions.second['id'],
-              quiz_id: questions.second['quiz_id'],
-              text: questions.second['text'],
-              points: questions.second['points'],
-              type: questions.second['type'],
-              answers: [
-                answers[1],
-                answers[3],
-              ],
-            },
-          ])
+        items
+        answers
       end
 
       it 'returns quiz data successfully' do

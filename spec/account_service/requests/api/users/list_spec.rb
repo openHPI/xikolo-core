@@ -49,19 +49,19 @@ describe 'List users', type: :request do
       res = resource
 
       expect(res.size).to eq 10
-      expect(res.as_json.map { it['id'] }).to eq users[0, 10].map(&:id)
+      expect(res.as_json.pluck('id')).to eq users[0, 10].map(&:id)
       expect(res.response.headers['X_TOTAL_COUNT']).to eq '28'
 
       res = res.rel(:next).get.value!
 
       expect(res.size).to eq 10
-      expect(res.as_json.map { it['id'] }).to eq users[10, 10].map(&:id)
+      expect(res.as_json.pluck('id')).to eq users[10, 10].map(&:id)
       expect(res.response.headers['X_TOTAL_COUNT']).to eq '28'
 
       res = res.rel(:next).get.value!
 
       expect(res.size).to eq 8
-      expect(res.as_json.map { it['id'] }).to eq users[20, 8].map(&:id)
+      expect(res.as_json.pluck('id')).to eq users[20, 8].map(&:id)
       expect(res.response.headers['X_TOTAL_COUNT']).to eq '28'
     end
 
@@ -72,13 +72,13 @@ describe 'List users', type: :request do
         res = resource
 
         expect(res.size).to eq 10
-        expect(res.as_json.map { it['id'] }).to eq users[10, 10].map(&:id)
+        expect(res.as_json.pluck('id')).to eq users[10, 10].map(&:id)
         expect(res.response.headers['X_TOTAL_COUNT']).to eq '28'
 
         res = res.rel(:next).get.value!
 
         expect(res.size).to eq 8
-        expect(res.as_json.map { it['id'] }).to eq users[20, 8].map(&:id)
+        expect(res.as_json.pluck('id')).to eq users[20, 8].map(&:id)
         expect(res.response.headers['X_TOTAL_COUNT']).to eq '28'
       end
     end
@@ -90,19 +90,19 @@ describe 'List users', type: :request do
         res = resource
 
         expect(res.size).to eq 10
-        expect(res.as_json.map { it['id'] }).to eq users[0, 10].map(&:id)
+        expect(res.as_json.pluck('id')).to eq users[0, 10].map(&:id)
         expect(res.response.headers['X_TOTAL_COUNT']).to eq '28'
 
         res = api.rel(:users).get({**params, page: 2}).value!
 
         expect(res.size).to eq 10
-        expect(res.as_json.map { it['id'] }).to eq users[10, 10].map(&:id)
+        expect(res.as_json.pluck('id')).to eq users[10, 10].map(&:id)
         expect(res.response.headers['X_TOTAL_COUNT']).to eq '28'
 
         res = api.rel(:users).get({**params, page: 3}).value!
 
         expect(res.size).to eq 8
-        expect(res.as_json.map { it['id'] }).to eq users[20, 8].map(&:id)
+        expect(res.as_json.pluck('id')).to eq users[20, 8].map(&:id)
         expect(res.response.headers['X_TOTAL_COUNT']).to eq '28'
       end
     end

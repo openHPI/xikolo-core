@@ -3,25 +3,22 @@
 require 'spec_helper'
 
 RSpec.describe 'Stream: Sync: Create', type: :request do
-  subject(:sync) { post "/streams/#{stream_id}/sync", headers: }
+  subject(:sync) { post "/streams/#{stream_id}/sync" }
 
-  let(:headers) { {Authorization: "Xikolo-Session session_id=#{stub_session_id}"} }
   let(:stream) { create(:stream, provider:, provider_video_id: '207611533') }
   let(:stream_id) { stream.id }
   let(:provider) { create(:video_provider, :vimeo) }
-  let(:permissions) { [] }
-
-  before { stub_user_request(permissions:) }
 
   describe '(response)' do
     it 'is forbidden without proper permissions' do
+      sign_in
       sync
       expect(response).to redirect_to root_url
       expect(request.flash['error'].first).to eq 'You do not have sufficient permissions for this action.'
     end
 
     context 'with permission' do
-      let(:permissions) { %w[video.video.index] }
+      before { sign_in(user: create(:'account_service/user', :admin)) }
 
       let(:provider_url) do
         "https://api.vimeo.com/videos/#{stream.provider_video_id}?fields=uri,name,duration,width,height,status,modified_time,pictures.sizes.link,pictures.sizes.width,files.quality,files.size,files.md5,files.link,download"
@@ -68,8 +65,6 @@ RSpec.describe 'Stream: Sync: Create', type: :request do
     end
 
     context 'for anonymous user' do
-      let(:headers) { {} }
-
       it 'redirects to login page' do
         sync
         expect(response).to redirect_to 'http://www.example.com/sessions/new'

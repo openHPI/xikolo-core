@@ -6,7 +6,7 @@ describe CourseService::SectionProgress, type: :model do
   subject(:progress) { described_class.create!(section:, user_id:) }
 
   let(:section) { create(:'course_service/section') }
-  let(:user_id) { generate(:user_id) }
+  let(:user_id) { create(:'account_service/user').id }
 
   let!(:videos) do
     Array.new(2) {|i| create(:'course_service/item', title: "Video #{i + 1}", section:) }
@@ -140,63 +140,6 @@ describe CourseService::SectionProgress, type: :model do
             selftest_exercises: 0
           )
         end
-
-        context 'as a proctored user' do
-          before do
-            create(:'course_service/enrollment', course: section.course, user_id:, proctored: true)
-          end
-
-          # WATCH OUT: The last result should only be used for items that are
-          # themselves proctored.
-          it 'still returns the best result for the user' do
-            expect(calculated).to have_attributes(
-              visits: 0,
-              main_dpoints: 50,
-              main_exercises: 1,
-              bonus_dpoints: 20,
-              bonus_exercises: 1,
-              selftest_dpoints: 0,
-              selftest_exercises: 0
-            )
-          end
-        end
-      end
-
-      context 'for a proctored homework' do
-        before do
-          homework.update!(proctored: true, submission_deadline: 5.days.from_now)
-          bonus.update!(proctored: true, submission_deadline: 5.days.from_now)
-        end
-
-        it 'returns the best result for the user' do
-          expect(calculated).to have_attributes(
-            visits: 0,
-            main_dpoints: 50,
-            main_exercises: 1,
-            bonus_dpoints: 20,
-            bonus_exercises: 1,
-            selftest_dpoints: 0,
-            selftest_exercises: 0
-          )
-        end
-
-        context 'as a proctored user' do
-          before do
-            create(:'course_service/enrollment', course: section.course, user_id:, proctored: true)
-          end
-
-          it 'returns the latest result for the user' do
-            expect(calculated).to have_attributes(
-              visits: 0,
-              main_dpoints: 20,
-              main_exercises: 1,
-              bonus_dpoints: 10,
-              bonus_exercises: 1,
-              selftest_dpoints: 0,
-              selftest_exercises: 0
-            )
-          end
-        end
       end
     end
 
@@ -218,6 +161,28 @@ describe CourseService::SectionProgress, type: :model do
           selftest_dpoints: 0,
           selftest_exercises: 0
         )
+      end
+    end
+
+    context 'with visits for an exam and a regular item' do
+      let(:exam_quiz) { create(:'quiz_service/quiz', :with_valid_question_pool) }
+      let(:exam) do
+        create(:'course_service/item',
+          title: 'Final Exam',
+          section:,
+          content_type: 'quiz',
+          content_id: exam_quiz.id,
+          exercise_type: 'exam')
+      end
+      let(:video) { create(:'course_service/item', title: 'Lecture', section:) }
+
+      before do
+        create(:'course_service/visit', user_id:, item: exam)
+        create(:'course_service/visit', user_id:, item: video)
+      end
+
+      it 'counts the visit of the regular item but excludes the exam' do
+        expect(calculated).to have_attributes(visits: 1)
       end
     end
 
@@ -322,7 +287,7 @@ describe CourseService::SectionProgress, type: :model do
       let!(:b2_selftest) { create(:'course_service/item', :quiz, title: 'Selftest B2', section:, max_dpoints: 10) }
       let!(:b2_homework) { create(:'course_service/item', :homework, title: 'Homework B2', section:, max_dpoints: 50) }
       let!(:b2_bonus) { create(:'course_service/item', :quiz, :bonus, title: 'Bonus B2', section:, max_dpoints: 30) }
-      let!(:another_user_id) { generate(:user_id) }
+      let!(:another_user_id) { create(:'account_service/user').id }
 
       before do
         fork = create(:'course_service/fork', section:, course:)
@@ -338,8 +303,8 @@ describe CourseService::SectionProgress, type: :model do
         # Reload section structure record to recalculate tree indices.
         section.node.reload
 
-        CourseService::Duplicated::Membership.create!(user_id:, group_id: fork.branches[0].group_id)
-        CourseService::Duplicated::Membership.create!(user_id: another_user_id, group_id: fork.branches[1].group_id)
+        AccountService::Membership.create!(user_id:, group_id: fork.branches[0].group_id)
+        AccountService::Membership.create!(user_id: another_user_id, group_id: fork.branches[1].group_id)
       end
 
       context "without results nor visits for items in the user's branch" do
@@ -561,10 +526,10 @@ describe CourseService::SectionProgress, type: :model do
     end
 
     it 'triggers the update of the corresponding course progress' do
-      expect(CourseService::LearningEvaluation::UpdateCourseProgressWorker).to receive(:perform_async)
+      expect { destroy_progress }
+        .to have_enqueued_job(CourseService::LearningEvaluation::UpdateCourseProgressJob)
         .with(section.course_id, user_id)
-        .and_call_original
-      expect { destroy_progress }.to change(CourseService::LearningEvaluation::UpdateCourseProgressWorker.jobs, :size).from(0).to(1)
+        .exactly(:once)
     end
   end
 end

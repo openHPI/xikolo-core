@@ -1,9 +1,11 @@
-<div class="accordion <%= variant.present? ? " accordion--#{variant}" : "" %>" data-controller="accordion">
+<div class="text-base-content w-full">
   <% if @headline %>
-    <p class="accordion__headline"><%= @headline %></p>
+    <p class="m-0 px-5 py-5 text-base font-semibold"><%= @headline %></p>
   <% end %>
-  <div class="accordion__sections">
-    <% sections.each do |section| %>
+
+  <div class="isolate flex flex-col -space-y-6 shadow-sm rounded-box">
+    <% sections.each_with_index do |section, index| %>
+      <% section.z_index = sections.size - index %>
       <%= section %>
     <% end %>
   </div>

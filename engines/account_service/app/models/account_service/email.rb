@@ -57,10 +57,6 @@ class Email < ApplicationRecord # rubocop:disable Layout/IndentationWidth
     # rubocop:enable all
   end
 
-  after_update(if: :primary_changed?) do
-    user.notify(:update)
-  end
-
   def primary_changed?
     previous_changes.key?('primary')
   end

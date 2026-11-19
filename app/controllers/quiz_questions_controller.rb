@@ -5,14 +5,12 @@ class QuizQuestionsController < Abstract::FrontendController
 
   respond_to :json
   before_action :ensure_content_editor
-  before_action :set_no_cache_headers
 
   def edit
-    @item = Xikolo::Course::Item.find params[:item_id] do |i|
-      raise NoMethodError unless i.content_type == 'quiz'
+    @item = CourseService::Item.find(params[:item_id])
+    raise NoMethodError unless @item.content_type == 'quiz'
 
-      @quiz = Xikolo::Quiz::Quiz.find i.content_id
-    end
+    @quiz = Xikolo::Quiz::Quiz.find @item.content_id
 
     @quiz_question = Xikolo::Quiz::Question.find params[:id], params: {raw: 1}
     Acfs.run
@@ -33,11 +31,10 @@ class QuizQuestionsController < Abstract::FrontendController
   end
 
   def create
-    Xikolo::Course::Item.find params[:item_id] do |i|
-      raise NoMethodError unless i.content_type == 'quiz'
+    item = CourseService::Item.find(params[:item_id])
+    raise NoMethodError unless item.content_type == 'quiz'
 
-      @quiz = Xikolo::Quiz::Quiz.find i.content_id
-    end
+    @quiz = Xikolo::Quiz::Quiz.find item.content_id
     Acfs.run
 
     klass =
@@ -51,6 +48,10 @@ class QuizQuestionsController < Abstract::FrontendController
         when :essay
           Xikolo::Quiz::EssayQuestion
       end
+
+    if @quiz.question_pool && %i[multiple_choice multiple_answer].exclude?(question_type)
+      raise ArgumentError.new('Exam question pools only support single- and multi-select questions')
+    end
 
     question = klass.new question_params.merge(params.require(:xikolo_quiz_question).permit(:text, :explanation))
     question.explanation = nil if question.explanation.blank?
@@ -89,7 +90,7 @@ class QuizQuestionsController < Abstract::FrontendController
     question = Xikolo::Quiz::Question.find params[:id]
     Acfs.run
     question.delete!
-    redirect_back fallback_location: root_url, status: :see_other
+    redirect_back_or_to(root_url, status: :see_other)
   end
 
   def move

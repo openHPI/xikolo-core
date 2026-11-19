@@ -1,0 +1,41 @@
+<div class="w-full">
+  <% if item.previewing? %>
+    <%= render Global::Callout.new(t(:'items.show.video.preview.info', platform: Xikolo.config.site_name, course_title: item.course_title)) do %>
+      <%= link_to t(:'items.show.video.preview.enroll'),
+        course_path(id: item.course_code),
+        class: 'x-btn x-btn-outline x-btn-xs' %>
+    <% end %>
+  <% end %>
+
+  <% if item.video.player.present? %>
+    <div class="relative mb-5">
+      <%= render item.video.player %>
+    </div>
+    <div>
+      <!-- TODO refactor to permission -->
+      <% if current_user.authenticated? %>
+        <div class="w-full">
+          <%= render 'items/video/video_downloads', item: %>
+        </div>
+      <% end %>
+
+      <% if item.video.description.present? %>
+        <div class="mb15 w-full">
+          <%= render Items::ContentCard.new(
+            rendered_content: render_markdown(item.video.description, allow_tables: true),
+            lang: item.lang,
+            title: t(:'items.show.video.about')
+          ) %>
+        </div>
+      <% end %>
+
+      <!-- TODO refactor to permission -->
+      <% if current_user.authenticated? && item.course_pinboard? %>
+        <div class="mb15 w-full">
+          <%= render Video::TopicList.new(item:, user: current_user) %>
+        </div>
+      <% end %>
+    </div>
+    <%= render course_item_bottom_bar %>
+  <% end %>
+</div>

@@ -5,7 +5,7 @@ require 'spec_helper'
 describe Catalog::Category::Channel, type: :model do
   subject(:category) { described_class.new channel }
 
-  let(:channel) { create(:channel) }
+  let(:channel) { create(:'course_service/channel') }
 
   it 'includes active courses' do
     course = create(:course, :active, channels: [channel])
@@ -25,9 +25,9 @@ describe Catalog::Category::Channel, type: :model do
   end
 
   it 'includes courses that should be hidden on the course list' do
-    create(:course, :active, title: 'Course not listed', show_on_list: false, channels: [channel])
+    create(:course, :active, title: 'Course not listed', placement: [], channels: [channel])
 
-    expect(category.courses).to contain_exactly(an_object_having_attributes(title: 'Course not listed'))
+    expect(category.courses).to be_empty
   end
 
   it 'does not include hidden courses' do
@@ -42,8 +42,8 @@ describe Catalog::Category::Channel, type: :model do
     expect(category.courses).to be_empty
   end
 
-  it 'includes archived courses' do
-    course = create(:course, :archived, channels: [channel])
+  it 'includes self-paced courses' do
+    course = create(:course, :self_paced, channels: [channel])
     expect(category.courses).to contain_exactly(an_object_having_attributes(id: course.id))
   end
 
@@ -57,10 +57,10 @@ describe Catalog::Category::Channel, type: :model do
     before do
       create_list(:course, 3, :upcoming, channels: [channel])
       create_list(:course, 2, :active, channels: [channel])
-      create_list(:course, 1, :archived, channels: [channel])
+      create_list(:course, 1, :self_paced, channels: [channel])
     end
 
-    it 'shows at most 4 courses, archived ones first' do
+    it 'shows at most 4 courses, self-paced ones first' do
       expect(category.courses.length).to eq 4
 
       expect(category.courses).to match [

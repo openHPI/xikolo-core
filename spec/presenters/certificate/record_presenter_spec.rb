@@ -21,38 +21,21 @@ describe Certificate::RecordPresenter, type: :presenter do
     account_user = create(:'account_service/user',
       born_at: birthday,
       preferences: {'records.show_birthdate' => true})
-    Account::User.find(account_user.id)
+    AccountService::User.find(account_user.id)
   end
   let(:birthday) { '1960-01-02' }
-  let(:certificates) do
-    {
-      record_of_achievement: true,
-      confirmation_of_participation: true,
-      certificate: true,
-    }
-  end
-  let(:enrollment) { create(:enrollment, user_id: user.id, course:) }
-  let(:enrollments) do
-    build_list(
-      :'course:enrollment', 1,
-      course_id: enrollment.course_id,
-      user_id: enrollment.user_id,
-      points: {achieved: 50, maximal: 100, percentage: 18},
-      certificates:,
-      quantile: 0.9,
-      completed_at: Time.new(1977, 6, 7, 9, 0, 0).utc
-    )
-  end
 
   before do
-    Stub.request(
-      :course, :get, '/enrollments',
-      query: hash_including(
-        course_id: enrollment.course_id,
-        user_id: enrollment.user_id,
-        learning_evaluation: 'true'
-      )
-    ).to_return Stub.json(enrollments)
+    create(
+      :'course_service/enrollment',
+      :with_evaluation,
+      course_id: course.id,
+      quantiled_user_dpoints: 90,
+      user_id: user.id,
+      completed: false,
+      quantile: 0.9,
+      deleted: false
+    )
   end
 
   describe '(values for purpose)' do
@@ -114,7 +97,7 @@ describe Certificate::RecordPresenter, type: :presenter do
   describe '#certificate_type_i18n' do
     context 'with a RecordOfAchievement' do
       it 'returns the readable type' do
-        expect(presented_record.certificate_type_i18n).to eq 'Record of Achievement'
+        expect(presented_record.certificate_type_i18n).to eq 'Certificate'
       end
     end
 
@@ -130,16 +113,16 @@ describe Certificate::RecordPresenter, type: :presenter do
       let(:record) { create(:certificate, user:, course:) }
 
       it 'returns the readable type' do
-        expect(presented_record.certificate_type_i18n).to eq 'Certificate'
+        expect(presented_record.certificate_type_i18n).to eq 'Verified Certificate'
       end
     end
   end
 
   describe '#certificate_requirements' do
-    context 'with a RecordOfAchievement' do
+    context 'with a certificate (RoA)' do
       it 'returns the requirements' do
         expect(presented_record.certificate_requirements).to eq \
-          'Gain a <b>Record of Achievement</b> by earning at least <b>65%</b> of the maximum number of points from all graded assignments.'
+          '<b>Certificate:</b> You will receive your official openHPI Certificate by earning at least <b>65%</b> of the maximum number of points from all graded assignments.'
       end
     end
 
@@ -163,7 +146,7 @@ describe Certificate::RecordPresenter, type: :presenter do
   describe '#score' do
     context 'with a score' do
       it 'displays the score' do
-        expect(presented_record.score).to eq '50.0 of 100.0 points (18.0%)'
+        expect(presented_record.score).to eq '8.0 of 10.0 points (80.0%)'
       end
     end
 
@@ -176,46 +159,52 @@ describe Certificate::RecordPresenter, type: :presenter do
     end
   end
 
-  describe '#issued_at' do
-    it 'returns the formatted date' do
-      expect(presented_record.issued_at).to eq '1977-06-07'
+  context 'if the enrollment has no completed_at date' do
+    let(:course_params) do
+      super().merge(end_date: Time.new(1977, 0o6, 0o7, 1, 0, 0).utc)
     end
-  end
 
-  describe '#issued_month' do
-    it 'returns the month' do
-      expect(presented_record.issued_month).to eq 6
-    end
-  end
-
-  describe '#issued_year' do
-    it 'returns year' do
-      expect(presented_record.issued_year).to eq 1977
-    end
-  end
-
-  describe '#top' do
-    it 'returns the top percentage' do
-      expect(presented_record.top).to eq 'The result belongs to the <b>top 10%</b> of this course.'
-    end
-  end
-
-  describe '#additional_records' do
-    context 'without additional records' do
-      it 'returns nothing' do
-        expect(presented_record.additional_records).to be_nil
+    describe '#issued_at' do
+      it 'returns the formatted date' do
+        expect(presented_record.issued_at).to eq '1977-06-07'
       end
     end
 
-    context 'with an additional record' do
-      let(:code) { 'xinif-mehon-nuhuh-lirom-bapal' }
-      let(:record) { create(:roa, verification: code, user:, course:, template:) }
+    describe '#issued_month' do
+      it 'returns the month' do
+        expect(presented_record.issued_month).to eq 6
+      end
+    end
 
-      before { create(:cop, verification: code, user:, course:) }
+    describe '#issued_year' do
+      it 'returns year' do
+        expect(presented_record.issued_year).to eq 1977
+      end
+    end
 
-      it 'returns information about other records' do
-        expect(presented_record.additional_records).to eq \
-          'The user has also achieved the following record type(s) in this course: <b>Confirmation of Participation</b>. In this case, we always show the verification result for the most valuable record.'
+    describe '#top' do
+      it 'returns the top percentage' do
+        expect(presented_record.top).to eq 'The result belongs to the <b>top 10%</b> of this course.'
+      end
+    end
+
+    describe '#additional_records' do
+      context 'without additional records' do
+        it 'returns nothing' do
+          expect(presented_record.additional_records).to be_nil
+        end
+      end
+
+      context 'with an additional record' do
+        let(:code) { 'xinif-mehon-nuhuh-lirom-bapal' }
+        let(:record) { create(:roa, verification: code, user:, course:, template:) }
+
+        before { create(:cop, verification: code, user:, course:) }
+
+        it 'returns information about other records' do
+          expect(presented_record.additional_records).to eq \
+            'The user has also achieved the following record type(s) in this course: <b>Confirmation of Participation</b>. In this case, we always show the verification result for the most valuable record.'
+        end
       end
     end
   end

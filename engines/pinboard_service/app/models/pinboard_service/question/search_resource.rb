@@ -9,7 +9,7 @@ module Question::SearchResource # rubocop:disable Layout/IndentationWidth
   end
 
   def schedule_search_text_update
-    UpdateQuestionSearchTextWorker.perform_async(question_id)
+    UpdateQuestionSearchTextJob.perform_later(question_id)
   end
 end
 end

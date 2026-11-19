@@ -4,8 +4,6 @@ module CourseService
 class Item < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   self.table_name = :items
 
-  default_scope { order('items.position ASC') }
-
   scope :published,     -> { where(published: true) }
   scope :available,     -> { published.started.ongoing }
   scope :was_available, -> { published.started }
@@ -58,7 +56,13 @@ class Item < ApplicationRecord # rubocop:disable Layout/IndentationWidth
     where.not(id: Visit.select(:item_id).where(user_id: user))
   }
   scope :homeworks, -> { was_available.where exercise_type: 'main' }
-  scope :graded, -> { was_available.where exercise_type: %w[main bonus] }
+  scope :graded, -> { was_available.where exercise_type: %w[main bonus exam] }
+  scope :exams, -> { where exercise_type: 'exam' }
+  # `where.not(exercise_type: 'exam')` would also drop items with a NULL
+  # exercise_type, so use a NULL-safe comparison instead.
+  scope :not_exams, -> { where('items.exercise_type IS NULL OR items.exercise_type <> ?', 'exam') }
+
+  CMI5_EXERCISE_TYPES = %w[selftest].freeze
 
   validates :title, :content_type, :content_id, presence: true
   validates :max_dpoints, numericality: {
@@ -69,13 +73,28 @@ class Item < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   }
   validates :exercise_type,
     presence: {if: -> { content_type == 'quiz' }, message: 'required_when_quiz'}
+  validates :exercise_type,
+    inclusion: {
+      in: CMI5_EXERCISE_TYPES,
+      message: 'required_when_scored_cmi5',
+    },
+    if: :scored_cmi5?
   validate :required_items_exist
+  validate :published_exam_is_valid
+  validate :exam_requires_quiz_with_pool
+  validate :single_exam_per_course
+
+  before_validation :force_exam_open_mode_off
 
   attribute :open_mode, :boolean,
     default: -> { Xikolo.config.open_mode['default_value'] }
 
   has_paper_trail
 
+  belongs_to :content,
+    polymorphic: true,
+    optional: true,
+    dependent: :destroy
   belongs_to :section
   acts_as_list scope: :section
 
@@ -83,36 +102,71 @@ class Item < ApplicationRecord # rubocop:disable Layout/IndentationWidth
     class_name: 'CourseService::Structure::Item',
     dependent: :destroy
 
-  has_many :user_results,
-    class_name: 'CourseService::Result',
+  has_many :results,
     dependent: :delete_all
-  has_many :user_visits,
-    class_name: 'CourseService::Visit',
+  has_many :visits,
     dependent: :delete_all
-
-  has_many :documents_items, dependent: :delete_all
-  has_many :documents, through: :documents_items
 
   after_create :attach_node
 
   after_commit(on: :create) do
     mark_for_recalculation! if published?
-    Msgr.publish(decorate.as_event, to: 'xikolo.course.item.create')
   end
 
   after_commit(on: :update) do
     mark_for_recalculation! if progress_relevant_change?
-    Msgr.publish(decorate.as_event, to: 'xikolo.course.item.update')
+  end
+
+  delegate :course, to: :section
+
+  STI_CLASS_TO_TYPE = {
+    'lti_exercise' => ::Lti::Exercise,
+    'cmi5' => ::Cmi5::Item,
+    'quiz' => ::QuizService::Quiz,
+    'video' => ::Video::Video,
+    'richtext' => CourseService::Richtext,
+    'rich_text' => CourseService::Richtext,
+  }.freeze
+
+  # Returns the model's class name of the corresponding content resource
+  # based on the value stored in the polymorphic type column `content_type`.
+  def self.polymorphic_class_for(name)
+    if STI_CLASS_TO_TYPE.key?(name)
+      STI_CLASS_TO_TYPE[name]
+    else
+      super
+    end
+  end
+
+  GRADABLE_CONTENT_TYPES = %w[lti_exercise peer_assessment quiz].freeze
+
+  # Whether an item counts as completed for the learner's progress, given
+  # the user's state for it: gradable items once graded or submitted, all
+  # other items once visited. A CMI5 item is gradable when it has max points
+  # (max_points > 0); otherwise it counts once visited. Exams are excluded
+  # from the completed count (their total is tracked separately).
+  def self.completed?(content_type:, user_state:, max_points: nil, exercise_type: nil)
+    return false if exercise_type == 'exam'
+
+    if gradable_content_type?(content_type, max_points)
+      %w[graded submitted].include?(user_state)
+    else
+      user_state == 'visited'
+    end
+  end
+
+  def self.gradable_content_type?(content_type, max_points = nil)
+    GRADABLE_CONTENT_TYPES.include?(content_type) ||
+      (content_type == 'cmi5' && max_points.to_f.positive?)
   end
 
   after_commit(on: :destroy) do
     mark_for_recalculation! if published?
-    Msgr.publish(decorate.as_event, to: 'xikolo.course.item.destroy')
   end
 
   after_commit do
-    NextDate::ItemSubmissionDeadlineSyncWorker.perform_async(id)
-    NextDate::ItemSubmissionPublishingSyncWorker.perform_async(id)
+    NextDate::ItemSubmissionDeadlineSyncJob.perform_later(id)
+    NextDate::ItemSubmissionPublishingSyncJob.perform_later(id)
   end
 
   def course_id
@@ -121,6 +175,64 @@ class Item < ApplicationRecord # rubocop:disable Layout/IndentationWidth
 
   def mandatory?
     !optional
+  end
+
+  def supports_open_mode?
+    new_record? || (content_type == 'video')
+  end
+
+  # `max_dpoints` is stored internally in decipoints; `max_points` is the
+  # unit exposed to users (e.g. in forms and the public API).
+  def max_points
+    max_dpoints.try(:/, 10.0)
+  end
+
+  def max_points=(value)
+    self.max_dpoints = value.blank? ? nil : (value.to_f * 10).round
+  end
+
+  # Is the content of this item accessible to users at this time?
+  def available?
+    unlocked? && published?
+  end
+
+  # Are the time constraints (start and end date) fulfilled?
+  def unlocked?
+    return false if effective_start_date&.future?
+
+    if course_archived
+      end_date.nil? || end_date.future?
+    else
+      effective_end_date.nil? || effective_end_date.future?
+    end
+  end
+
+  def label
+    if content_type == 'quiz' && exercise_type == 'exam'
+      I18n.t(:'sections.index.label.exam')
+    else
+      I18n.t(:"sections.index.label.#{content_type}")
+    end
+  end
+
+  # Is this exam still locked for the user, because they have not reached the
+  # required amount of course progression (completed mandatory items)?
+  # Exams are always locked for users without a computed course progress yet.
+  # A `nil` user id (e.g. course admins / preview) never locks the exam.
+  def exam_locked_for?(user_id)
+    return false unless exam?
+    return false if user_id.blank?
+
+    progress = CourseProgress.find_by(course_id:, user_id:)
+    return true if progress.nil?
+
+    progress.visits_percentage < exam_unlock_percentage
+  end
+
+  # The course progress (in percent) a learner needs to unlock this exam.
+  # Exams without a configured threshold fall back to 75%.
+  def exam_unlock_percentage
+    minimum_progress_percentage || 75
   end
 
   def lower_item_id(user_id: nil)
@@ -143,6 +255,28 @@ class Item < ApplicationRecord # rubocop:disable Layout/IndentationWidth
     end
   end
 
+  def previous_item(user_id:, preview: false)
+    navigation_items_for(user_id, preview:).find_by(id: lower_item_id(user_id: preview ? nil : user_id))
+  end
+
+  def next_item(user_id:, preview: false)
+    navigation_items_for(user_id, preview:).find_by(id: higher_item_id(user_id: preview ? nil : user_id))
+  end
+
+  def previous_section_item(user_id:, preview: false)
+    return if lower_item_id(user_id: preview ? nil : user_id).present?
+
+    target_section = adjacent_navigation_section(-1)
+    navigation_items_for(user_id, target_section:, preview:).last if target_section
+  end
+
+  def next_section_item(user_id:, preview: false)
+    return if higher_item_id(user_id: preview ? nil : user_id).present?
+
+    target_section = adjacent_navigation_section(1)
+    navigation_items_for(user_id, target_section:, preview:).first if target_section
+  end
+
   def effective_start_date
     [start_date, section.effective_start_date].compact.max
   end
@@ -155,8 +289,51 @@ class Item < ApplicationRecord # rubocop:disable Layout/IndentationWidth
     published && section.published
   end
 
+  # If this item is required for another item, is the fulfillment criterion met?
+  def fulfilled_for?(user)
+    if %w[rich_text video].include? content_type
+      return visits.where(user_id: user.id).any?
+    end
+
+    return false if results.where(user_id: user.id).empty?
+    return true if max_dpoints.zero?
+
+    score = (Result.best_for(id, user.id).dpoints * 100).fdiv(max_dpoints).floor
+    score >= Xikolo.config.required_assessment_threshold
+  end
+
+  def submission_deadline_for(user_id)
+    enrollment = Enrollment.find_by(user_id:, course:)
+    return self[:submission_deadline] unless enrollment&.reactivated?
+
+    [self[:submission_deadline], enrollment.forced_submission_date].compact.max
+  end
+
+  # Is the quiz closed for submissions because its deadline passed? The
+  # learner's reactivated enrollment postpones it to the forced submission date.
+  # Takes the enrollment, so that lists check many items with a single query.
+  def quiz_deadline_passed?(enrollment)
+    return false unless content_type == 'quiz' && submission_deadline?
+
+    [submission_deadline, enrollment&.forced_submission_date].compact.max.past?
+  end
+
+  def submission_deadline_passed?(user_id = nil)
+    deadline = user_id ? submission_deadline_for(user_id) : self[:submission_deadline]
+    deadline.present? && deadline.past?
+  end
+
   def course_archived
-    section.course.status == 'archive'
+    section.course.status == 'self-paced'
+  end
+
+  # An LTI exercise keeps accepting submissions after its deadline when its
+  # provider allows it. Such an item counts as fully completed in progress
+  # views once it has a result.
+  def lti_submission_deadline_passed?
+    content_type == 'lti_exercise' &&
+      submission_deadline_passed? &&
+      content.provider&.allow_access_after_deadline
   end
 
   def user_state?
@@ -178,7 +355,19 @@ class Item < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   end
 
   def graded?
-    %w[main bonus].include? exercise_type
+    %w[main bonus exam].include? exercise_type
+  end
+
+  def exam?
+    exercise_type == 'exam'
+  end
+
+  # The exam's pass threshold (a percentage on the quiz content). Only exams
+  # have one; other items return nil.
+  def pass_percentage
+    return nil unless exam?
+
+    content&.pass_percentage
   end
 
   def user_grade(user_id)
@@ -186,29 +375,10 @@ class Item < ApplicationRecord # rubocop:disable Layout/IndentationWidth
       raise NotGradedError.new 'User Grades are only supported for graded items'
     end
 
-    order = if proctored && enrollment_for(user_id)&.proctored
-              {created_at: :desc}
-            else
-              {dpoints: :desc}
-            end
-
-    user_results.where(user_id:).order(order).take
+    results.where(user_id:).order(dpoints: :desc).take
   end
 
   class NotGradedError < RuntimeError; end
-
-  # Is this item currently available in "open mode"?
-  #
-  # This checks the item-specific open mode setting as well as a few visibility
-  # settings for the item's section and course.
-  def open_mode_accessible?
-    open_mode &&
-      content_type == 'video' &&
-      section.course.status != 'preparation' &&
-      !section.course.hidden &&
-      !section.course.invite_only &&
-      section.course.groups.blank?
-  end
 
   def accessible_for(user_id:)
     raise ArgumentError.new('user_id must be present') if user_id.blank?
@@ -254,12 +424,45 @@ class Item < ApplicationRecord # rubocop:disable Layout/IndentationWidth
 
   private
 
+  def scored_cmi5?
+    content_type == 'cmi5' && max_dpoints&.positive?
+  end
+
   def required_items_exist
     missing_items = required_item_ids - Item.where(id: required_item_ids).ids
     unless missing_items.empty?
       errors.add(:required_item_ids,
         "must identify an item (failed for: #{missing_items.any? ? missing_items.join(', ') : 'empty item'})")
     end
+  end
+
+  def published_exam_is_valid
+    return unless published? && content_type == 'quiz' && content_id.present? && exercise_type == 'exam'
+
+    quiz = QuizService::Quiz.find_by(id: content_id)
+    return unless quiz&.question_pool?
+    return if quiz.valid_question_pool?
+
+    errors.add(:base, :invalid_exam)
+  end
+
+  # Exams are never available in open mode.
+  def force_exam_open_mode_off
+    self.open_mode = false if exam?
+  end
+
+  def exam_requires_quiz_with_pool
+    return unless exam?
+
+    quiz = QuizService::Quiz.find_by(id: content_id) if content_type == 'quiz' && content_id.present?
+    errors.add(:exercise_type, :requires_question_pool) unless quiz&.question_pool?
+  end
+
+  def single_exam_per_course
+    return unless exam?
+
+    already_present = section.course.items.exams.where.not(id:)
+    errors.add(:exercise_type, :exam_already_exists) if already_present.exists?
   end
 
   def mark_for_recalculation!
@@ -302,6 +505,22 @@ class Item < ApplicationRecord # rubocop:disable Layout/IndentationWidth
 
       [i > 0 ? item_ids[i - 1] : nil, item_ids[i + 1]]
     end
+  end
+
+  def adjacent_navigation_section(offset)
+    sections = section.course.sections.published.not_alternative.to_a
+    current_section_id = section.child? ? section.parent_id : section.id
+    index = sections.index { it.id == current_section_id }
+    return if index.nil? || (index + offset).negative?
+
+    sections[index + offset]
+  end
+
+  def navigation_items_for(user_id, target_section: section, preview: false)
+    items = target_section.items.published
+    return items if preview || target_section.course.node.blank?
+
+    Structure::UserItemsSelector.new(target_section.node, user_id).items(scope: items)
   end
 end
 end

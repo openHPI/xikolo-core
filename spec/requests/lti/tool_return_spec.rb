@@ -4,34 +4,16 @@ require 'spec_helper'
 
 RSpec.describe 'LTI: ToolReturn', type: :request do
   subject(:show_item) do
-    get "/courses/#{course.course_code}/items/#{item['id']}/tool_return", headers:, params: query
+    get "/learn/#{course.course_code}/items/#{item.id}/tool_return", params: query
   end
 
-  let(:user_id) { generate(:user_id) }
-  let(:course) { create(:course, context_id: SecureRandom.uuid) }
-  let(:course_resource) do
-    build(:'course:course', id: course.id, course_code: course.course_code, context_id: course.context_id)
-  end
-  let(:section) { build(:'course:section', course_id: course.id) }
-  let(:item) do
-    build(:'course:item', section_id: section['id'], content_type: 'lti', title: 'The LTI Item', open_mode: false, published: true)
-  end
-  let(:headers) { {Authorization: "Xikolo-Session session_id=#{stub_session_id}"} }
+  let(:course) { create(:'course_service/course', :active, :with_content_tree) }
+  let(:section) { create(:'course_service/section', course:) }
+  let(:item) { create(:'course_service/item', :lti_exercise, section:, title: 'The LTI Item', open_mode: false, published: true) }
   let(:query) { {} }
 
   before do
-    Stub.request(:course, :get, "/courses/#{course.course_code}")
-      .to_return Stub.json(course_resource)
-    Stub.request(
-      :course, :get, "/items/#{item['id']}",
-      query: {user_id:}
-    ).to_return Stub.json(item)
-    Stub.request(
-      :course, :get, '/enrollments',
-      query: {user_id:, course_id: course.id}
-    ).to_return Stub.json([{course_id: course.id, user_id:}])
-
-    stub_user_request id: user_id, context_id: course.context_id
+    sign_in
   end
 
   context 'with LTI tool message' do

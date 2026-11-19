@@ -38,7 +38,7 @@ class EventsController < ApplicationController # rubocop:disable Layout/Indentat
     event = Event.create! event_params
 
     # TODO: Move this to the event's create callback (once subscribers are no longer passed in)
-    CreateNotificationsWorker.perform_async event.id, Array.wrap(params[:subscribers])
+    CreateNotificationsJob.perform_later(event.id, Array.wrap(params[:subscribers]))
 
     render json: event
   rescue ActiveRecord::RecordInvalid => e

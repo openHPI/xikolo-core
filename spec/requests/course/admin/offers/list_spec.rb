@@ -4,16 +4,19 @@ require 'spec_helper'
 
 describe 'Course: Admin: Offers: List', type: :request do
   subject(:list_offers) do
-    get "/courses/#{course.course_code}/offers", headers:
+    get "/learn/#{course.course_code}/offers"
   end
 
-  let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
   let(:permissions) { %w[course.course.edit course.content.access] }
   let(:course) { create(:course) }
+  let(:user) { create(:'account_service/user') }
+  let(:authenticate) { true }
   let(:course_resource) { build(:'course:course', course_code: course.course_code, id: course.id) }
 
   before do
-    stub_user_request(permissions:)
+    sign_in(user:) if authenticate
+    role = create(:'account_service/role', permissions:)
+    create(:'account_service/grant', principal: user, role:)
 
     create(:offer, course_id: course.id, price: 10_050)
     create(:offer, course_id: course.id, price: 10_099, payment_frequency: 'quarterly')
@@ -49,16 +52,16 @@ describe 'Course: Admin: Offers: List', type: :request do
 
     it 'redirects the user' do
       list_offers
-      expect(response).to redirect_to "/courses/#{course.course_code}"
+      expect(response).to redirect_to "/learn/#{course.course_code}"
     end
   end
 
   context 'for anonymous users' do
-    let(:headers) { {} }
+    let(:authenticate) { false }
 
     it 'redirects the user' do
       list_offers
-      expect(response).to redirect_to "/courses/#{course.course_code}"
+      expect(response).to redirect_to "/learn/#{course.course_code}"
     end
   end
 end

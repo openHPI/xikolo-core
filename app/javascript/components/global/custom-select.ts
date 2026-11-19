@@ -13,7 +13,7 @@
 
 import TomSelect from 'tom-select/dist/esm/tom-select.complete.js';
 import { TomInput } from 'tom-select/dist/esm/types/index.js';
-import ready from '../../util/ready';
+import { turboReady } from '../../util/ready';
 import * as settings from './custom-select/settings';
 import getClassifiersSettings from './custom-select/classifiers-select';
 import getItemStatsSettings from './custom-select/item-stats-select';
@@ -49,6 +49,14 @@ export function initializeTomSelect(scope: Document | HTMLElement = document) {
   });
 }
 
-ready(() => {
+turboReady(() => {
   initializeTomSelect();
+});
+
+document.addEventListener('turbo:before-cache', () => {
+  document
+    .querySelectorAll<TomInput>('[data-behavior="custom-select"]')
+    .forEach((select) => {
+      select.tomselect?.destroy();
+    });
 });

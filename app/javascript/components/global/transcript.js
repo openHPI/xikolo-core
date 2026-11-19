@@ -61,6 +61,9 @@ export default class Transcript {
     this.infoMessage = this.transcript.querySelector(
       '[data-transcript-message]',
     );
+    this.loadingState = this.transcript.querySelector(
+      '[data-transcript-loading]',
+    );
     this.scrollIndicator = this.transcript.querySelector(
       '[data-transcript-indicator]',
     );
@@ -101,6 +104,7 @@ export default class Transcript {
     this.lastAutomaticScrollPosition = this.cueList.scrollTop;
     this.cues = [];
     this.activeCues = [];
+    this.loadingState.hidden = true;
   }
 
   /*

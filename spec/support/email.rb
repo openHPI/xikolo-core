@@ -26,6 +26,10 @@ def mail
   mails.last
 end
 
+def find_mail_to(email)
+  ActionMailer::Base.deliveries.rfind {|mail| mail.to.include?(email) }
+end
+
 def conv_str(part)
   part.try(:body).try(:raw_source).try(:to_s)
 end

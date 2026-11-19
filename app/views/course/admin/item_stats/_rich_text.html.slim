@@ -1,6 +1,0 @@
-- content_for :head_assets
-  = javascript_include_tag 'app/javascript/legacy/course', type: 'module', 'data-turbo-track': Rails.env.production? ? 'reload' : ''
-
-h3.h3 = t(:'course.admin.item_stats.rich_text.link_clicks')
-
-= render partial: 'shared/statistics_table', locals: {id: 'rich-text-links-table', attr: {'data-item-id': item_stats.item_id}}

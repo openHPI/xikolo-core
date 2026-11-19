@@ -1,9 +1,2 @@
-/ Item navigation above the main content
-.row
-  = render 'shared/course_item_nav', position: @inner_course_position
-
-.row
-  .col-md-12
-    .course-area-main
-      = render 'items/header', item: @item_presenter
-      = render Global::Callout.new(@item_presenter.error, type: :error)
+/ Main content
+= render Global::Callout.new(@item_presenter.error, type: :error)

@@ -2,7 +2,7 @@
 
 module Voucher
   class Claim < ApplicationOperation
-    # @param course [Course::Course]
+    # @param course [CourseService::Course]
     def initialize(voucher, product_type, course, user, **opts)
       super()
 

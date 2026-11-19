@@ -21,16 +21,14 @@ module MarkdownEditorHelper
     end
   end
 
-  # rubocop:disable Naming/PredicateName
   def have_markdown_editor(from, use_selector: false, with: '')
     locator = use_selector ? find(from.to_s, visible: false) : find(:label, text: from)
     container = locator.ancestor('.form-group')
 
     within(container) do
-      have_content(with)
+      have_text(with)
     end
   end
-  # rubocop:enable Naming/PredicateName
 end
 
 RSpec.configure do |config|

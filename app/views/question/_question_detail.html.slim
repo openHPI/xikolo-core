@@ -1,4 +1,4 @@
-.qa-box data-lanalytics-resource={type: 'question', uuid: question.id}.to_json data-lanalytics-context={course_id: question.course_id}.to_json
+.qa-box
   .question-title
     h1.h1
       - if question.blocked?
@@ -20,16 +20,7 @@
               span.pinboard-tag-static.pull-left = question.item.title
 
           td.actions
-            - if subscription.present?
-              span.action
-                = render Global::FaIcon.new('star', style: :solid, css_classes: 'mr5 subscription_icon')
-                = link_to t(:'.unsubscribe'), toggle_subscription_path(question.id), method: :post,
-                  remote: true, id: 'toggle_subscription', data: {toggleText: t(:'.subscribe')}
-            - else
-              span.action
-                = render Global::FaIcon.new('star', css_classes: 'mr5 subscription_icon')
-                = link_to t(:'.subscribe'), toggle_subscription_path(question.id), method: :post,
-                  remote: true, id: 'toggle_subscription', data: {toggleText: t(:'.unsubscribe')}
+            = render 'question/subscription_toggle', question_id: question.id, subscribed: subscription.present?
   hr.divider
   table.qa-content
     tr
@@ -41,7 +32,7 @@
             = question.votes
 
       td.qa-details
-        .qa-text.prose.prose-2xl.max-w-none
+        .qa-text.prose.prose-sm.max-w-none
           - if question.blocked?
             - if current_user.allowed? 'pinboard.entity.block'
               b
@@ -69,9 +60,9 @@
 
           .actions
             - if can_edit? question
-              span.question-edit.action data-question-id="#{question.id}" data-url="#{edit_question_path}"
+              = link_to edit_question_path, class: 'question-edit action', data: {turbo_frame: dom_id(question, :edit_form)} do
                 = render Global::FaIcon.new('pencil', style: :solid)
-                a = t :'.edit'
+                = t :'.edit'
 
             - if current_user.allowed? 'pinboard.entity.block'
               - unless question.blocked?
@@ -93,7 +84,7 @@
             - elsif !question.blocked?
               = render Pinboard::ReportButton.new(path: abuse_report_question_path(id: question.id), test_id: 'question-report')
 
-        .edit-post.hidden id="question-edit-#{question.id}"
+        = turbo_frame_tag dom_id(question, :edit_form), class: 'edit-post', data: {pinboard_edit_form: true}
         .question-comments
           = render 'question/comments', commentable: question, new_comment:, user_state:
 

@@ -27,14 +27,14 @@ class Course::Update < Course::Store # rubocop:disable Layout/IndentationWidth
   end
 
   def revoke_visitor_grant?(grant)
-    # revoke all grants if course is in preparation
-    return true if @course.status == 'preparation'
+    # revoke all grants if course is not yet published
+    return true unless @course.published?
 
     # We only revoke the course.visitor role from groups.
     # The default groups having the course.course.show permission,
     # e.g. xikolo.admins through course.admin, are not
     # affected as the permission is directly added to these roles
-    return (grant['group'] != 'all') if @course.groups.empty?
+    return grant['group'] != 'all' if @course.groups.empty?
 
     @course.groups.exclude? grant['group']
   end

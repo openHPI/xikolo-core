@@ -13,12 +13,16 @@ class Home::ChannelsController < Abstract::FrontendController
       .for_channel_list(channel_resource)
       .for_user(current_user)
 
-    Course::Cluster.ids.each do |cluster|
+    CourseService::Cluster.ids.each do |cluster|
       courses = courses.by_classifier(cluster, params[cluster]) if params[cluster].present?
     end
 
     if params[:lang].present?
       courses = courses.where(lang: params[:lang])
+    end
+
+    if CourseService::Course.course_formats.key?(params[:course_format])
+      courses = courses.where(course_format: params[:course_format])
     end
 
     if params[:q].present?
@@ -31,7 +35,6 @@ class Home::ChannelsController < Abstract::FrontendController
     if request.xhr? && params[:page].present?
       courses = courses.self_paced.paginate(page: params[:page], per_page: COURSES_PER_PAGE)
 
-      response.set_header('Cache-Control', 'no-store')
       response.set_header('X-Current-Page', courses.current_page.to_s)
       response.set_header('X-Total-Pages', courses.total_pages.to_s)
 
@@ -47,7 +50,7 @@ class Home::ChannelsController < Abstract::FrontendController
 
   def channel_resource
     @channel_resource ||= begin
-      Course::Channel.by_identifier(params[:id]).take!
+      CourseService::Channel.by_identifier(params[:id]).take!
     rescue ActiveRecord::RecordNotFound
       raise Status::NotFound
     end
@@ -89,19 +92,14 @@ class Home::ChannelsController < Abstract::FrontendController
     Category.new(
       t(:'course.courses.index.archive'),
       scope.self_paced.paginate(page: 1, per_page: COURSES_PER_PAGE)
-    ).tap do |category|
-      category.callout = t(:'course.courses.index.reactivation_upsell_html')
-    end
+    )
   end
 
-  # Load all of the user's enrollments into a hash (keyed by course ID) so that
-  # they can be looked up and passed into each course's card component.
-  # This is needed for action buttons on the cards being rendered depending on
-  # whether an enrollment exists, whether it's reactivated etc.
+  # Load evaluated enrollments once for completion badges.
   def enrollments_hash(courses)
     return {} if current_user.anonymous?
 
-    Course::Enrollment.active
+    CourseService::Enrollment.active.with_evaluation
       .where(user_id: current_user.id)
       .where(course_id: courses.select(:id))
       .index_by(&:course_id)

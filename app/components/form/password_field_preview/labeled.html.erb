@@ -1,0 +1,7 @@
+<%= form_with url: '#', class: 'x-fieldset w-full max-w-100' do |f| %>
+  <%= f.label :password, 'Password', class: 'x-label text-base-content' %>
+  <%= render Form::PasswordField.new(f, :password,
+        required: true,
+        autocomplete: 'new-password',
+        placeholder: 'Your password') %>
+<% end %>

@@ -1,15 +1,42 @@
-<button
-  class="accordion__btn"
-  type="button"
-  data-accordion-target="toggle-button"
-  aria-expanded="<%= expanded %>"
-  aria-controls="<%= @id %>"
->
-  <span class="accordion__btn-content">
-    <%= @label %>
-    <span class="accordion__collapsed"><%= render Global::FaIcon.new('plus') %></span>
-    <span class="accordion__expanded"><%= render Global::FaIcon.new('minus') %></span>
-  </span>
-</button>
+<%= content_tag (locked? ? :div : :details), name: (@name unless locked?), open: (@expanded && !locked?), data: {testid: 'accordion-section'}, style: ("--accordion-z: #{@z_index};" if @z_index), class: [
+  'x-collapse relative z-[var(--accordion-z,auto)] group/accordion scroll-mt-navbar -mt-px rounded-box border open:border-s-3 first:mt-0 not-first:pt-4',
+  color_classes,
+] do %>
+  <%= content_tag (locked? ? :div : :summary),
+    class: "x-collapse-title flex flex-wrap items-center gap-4 px-5 py-4 text-start sm:flex-nowrap md:px-7 #{title_classes}",
+    aria: {controls: (@id unless locked?)} do %>
+    <span class="min-w-0 flex-1 wrap-anywhere"><%= @label %></span>
+    <%= header %>
 
-<div class="accordion__item" id="<%= @id %>"><%= content %></div>
+    <% if header_detail? %>
+      <span
+        class="
+          order-last flex w-full min-w-0 flex-wrap items-center justify-end
+          gap-3 text-sm font-normal sm:order-none sm:w-auto sm:max-w-3/4
+        "
+      >
+        <%= header_detail %>
+      </span>
+    <% end %>
+
+    <% if indicator? %>
+      <span class="shrink-0"><%= indicator %></span>
+    <% end %>
+
+    <span aria-hidden="true" class="shrink-0">
+      <% if locked? %>
+        <%= helpers.pixelart_icon('lock', css_class: 'size-6') %>
+      <% else %>
+        <%= helpers.pixelart_icon('chevron-down', css_class: 'size-5 group-open/accordion:hidden') %>
+        <%= helpers.pixelart_icon('chevron-up', css_class: 'hidden size-5 group-open/accordion:block') %>
+      <% end %>
+    </span>
+  <% end %>
+
+  <% unless locked? %>
+    <div class="x-collapse-content px-5 text-sm md:px-7" id="<%= @id %>">
+      <%= content %>
+      <%= footer %>
+    </div>
+  <% end %>
+<% end %>

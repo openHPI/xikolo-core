@@ -1,0 +1,22 @@
+<% alert = course.admin_action_link(view_context: self) %>
+<% back = course.back_to_course_link(view_context: self, in_teacher_context:) %>
+
+<% if alert&.display? || back&.display? %>
+  <div class="flex flex-wrap gap-2">
+    <div class="x-badge <%= course_status_class(course.status) %>"><%= course.status.to_s %></div>
+
+    <% if alert&.display? %>
+      <%= link_to alert.url, class: 'x-btn x-btn-xs x-btn-outline border-(--page-header-text) text-(--page-header-text) hover:border-(--page-header-text) hover:bg-(--page-header-text) hover:text-(--page-header-bg)' do %>
+        <%= pixelart_icon('info', css_class: 'size-4') %>
+        <%= alert.text %>
+      <% end %>
+    <% end %>
+
+    <% if back&.display? %>
+      <%= link_to back.url, class: 'x-btn x-btn-xs x-btn-outline border-(--page-header-text) text-(--page-header-text) hover:border-(--page-header-text) hover:bg-(--page-header-text) hover:text-(--page-header-bg)' do %>
+        <span aria-hidden="true"><%= back.icon %></span>
+        <%= back.text %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

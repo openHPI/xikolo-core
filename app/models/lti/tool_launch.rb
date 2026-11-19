@@ -129,6 +129,7 @@ module Lti
     def item_open?
       # Important to use actual item with submission deadline set properly
       return true unless item.submission_deadline
+      return true if provider.allow_access_after_deadline
 
       item.submission_deadline_for(@user.id).future?
     end

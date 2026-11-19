@@ -43,7 +43,6 @@ class API::RootController < API::BaseController # rubocop:disable Layout/Indenta
         treatment_url: treatment_rfc6570,
         treatments_url: treatments_rfc6570,
         user_url: user_rfc6570,
-        user_ban_url: user_ban_rfc6570,
         users_url: users_rfc6570,
       }
     end

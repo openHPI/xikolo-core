@@ -3,7 +3,7 @@
 module Bridges
   module Shop
     def self.shared_secret
-      Rails.application.secrets.bridge_shop
+      ENV.fetch('BRIDGE_SHOP', nil)
     end
 
     def self.configured?

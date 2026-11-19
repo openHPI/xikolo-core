@@ -13,3 +13,17 @@ production:
   clear_solid_queue_finished_jobs:
     command: "SolidQueue::Job.clear_finished_in_batches(sleep_between_batches: 0.3)"
     schedule: every hour at minute 12
+  purge_deleted_courses:
+    class: CourseService::PurgeDeletedCoursesJob
+    schedule: "every month at 4:30am"
+  delete_unconfirmed_accounts:
+    class: AccountService::UnconfirmedAccountsDeletionJob
+    schedule: "0 3 * * *"
+  # Delete voucher claimant IPs at 4:15 a.m.
+  delete_voucher_claimant_ip:
+    class: Voucher::DeleteClaimantIPJob
+    schedule: "15 4 * * *"
+  # Synchronize newly added videos every 2 hours.
+  sync_videos:
+    class: Video::SyncVideosJob
+    schedule: "0 */2 * * *"

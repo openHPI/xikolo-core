@@ -13,6 +13,20 @@ It co-exists with legacy SCSS and Bootstrap during migration.
 - Do not mass-convert stable SCSS without benefit.
 - Prefer removing obsolete SCSS rules when equivalent utilities cover them.
 
+## DaisyUI
+
+Alongside Tailwind, we use the [DaisyUI component library](https://daisyui.com).
+If you use a coding agent to write new UI, you can setup [the official skill](https://daisyui.com/docs/skill/) on your system.
+
+## Icons
+
+[Pixelart Icons](https://pixelarticons.com/) are used in new designs and located in `app/assets/images/pixelarticons/`. (existing views keep Font Awesome). Render them via the `pixelart_icon` helper in ERB templates:
+
+```erb
+<%= pixelart_icon 't-rex' %>
+<%= pixelart_icon 't-rex', css_class: 'w-8 h-8 text-indigo-500' %>
+```
+
 ## Linter
 
 A CSS Linter is a tool that does basic syntax checking and applies a set of rules to help you write more efficient code. The rules we use in Xikolo are defined in the [stylelint standard config](https://github.com/stylelint/stylelint-config-standard) and extended by [these rules in the stylelint config](https://gitlab.hpi.de/openhpi/xikolo/web/blob/master/.stylelintrc.js).

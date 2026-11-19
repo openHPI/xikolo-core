@@ -5,7 +5,7 @@ class Group < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   self.table_name = :groups
 
   NAME_REGEXP = /\A\w+(\.(\w|-)+)+\z/
-  ALLOWED_TAGS = %w[access custom_recipients].freeze
+  ALLOWED_TAGS = %w[access custom_recipients content_test].freeze
 
   module NAME
     ACTIVE              = 'active'

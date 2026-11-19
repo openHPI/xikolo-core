@@ -8,7 +8,7 @@ module Gamification
     end
 
     def any?
-      by_course.count > 1
+      by_course.many?
     end
 
     def columns
@@ -53,7 +53,7 @@ module Gamification
     end
 
     def load_courses(result)
-      courses = Course::Course.where(id: result.keys, deleted: false).index_by(&:id)
+      courses = CourseService::Course.where(id: result.keys, deleted: false).index_by(&:id)
 
       result.transform_keys do |course_id|
         next I18n.t(:'gamification.scores.total') if course_id == :total

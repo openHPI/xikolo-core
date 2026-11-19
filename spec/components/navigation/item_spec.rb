@@ -175,7 +175,7 @@ describe Navigation::Item, type: :component do
           c.with_item text: 'Sub-Item 1', link: {href: '/'}
           c.with_item text: 'Sub-Item 2', link: {href: '/'}
         end
-        expect(page).to have_content 'Sub-Item 1'
+        expect(page).to have_text 'Sub-Item 1'
         expect(page).to have_no_link 'Item', href: '/', exact: true
         expect(page).to have_link 'Sub-Item 1'
         expect(page).to have_link 'Sub-Item 2'
@@ -189,7 +189,7 @@ describe Navigation::Item, type: :component do
             c.with_item described_class.new(text: 'Sub-Item 1', link: {href: '/'})
             c.with_item described_class.new(text: 'Sub-Item 2', link: {href: '/'})
           end
-          expect(page).to have_content 'Sub-Item 1'
+          expect(page).to have_text 'Sub-Item 1'
           expect(page).to have_no_link 'Item', href: '/', exact: true
           expect(page).to have_link 'Sub-Item 1'
           expect(page).to have_link 'Sub-Item 2'

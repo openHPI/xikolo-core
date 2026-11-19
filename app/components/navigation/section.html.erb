@@ -1,0 +1,43 @@
+<li>
+  <% if expandable? %>
+    <%= tag.details open: @active, class: '
+      x-collapse overflow-hidden rounded-lg border border-base-300 open:border-0 open:bg-accent-10
+    ' do %>
+      <%= tag.summary lang: @lang, class: '
+        x-collapse-title flex min-h-11 items-center gap-2 px-2 py-1 text-xs leading-4 font-medium
+        text-base-content hover:bg-base-200 [details[open]>&]:min-h-0 [details[open]>&]:bg-accent-50
+      ' do %>
+        <%= helpers.pixelart_icon('chevron-down', css_class: 'size-5 shrink-0 [details[open]>summary>&]:hidden') %>
+        <%= helpers.pixelart_icon('chevron-up', css_class: 'hidden size-5 shrink-0 [details[open]>summary>&]:block') %>
+        <span class="flex-1 wrap-anywhere"><%= @text %></span>
+        <% if @progress %>
+          <span class="font-normal whitespace-nowrap">
+            <span aria-hidden="true"><%= @progress[:completed] %> / <%= @progress[:total] %></span>
+            <span class="sr-only"><%= t(:'courses.nav.completed_units', **@progress) %></span>
+          </span>
+        <% end %>
+        <% if @locked %>
+          <%= helpers.pixelart_icon('lock', css_class: 'size-4 shrink-0') %>
+        <% end %>
+      <% end %>
+
+      <ul class="x-collapse-content flex flex-col gap-2 p-2">
+        <% segments.each do |segment| %>
+          <%= segment %>
+        <% end %>
+      </ul>
+    <% end %>
+  <% else %>
+    <div class="overflow-hidden rounded-lg <%= card_modifier_classes %>">
+      <%= content_tag header_tag, **header_attributes, class: [
+        'flex min-h-11 items-center gap-2 px-2 py-1 text-xs leading-4 font-medium',
+        header_modifier_classes,
+      ] do %>
+        <span class="flex-1 wrap-anywhere"><%= @text %></span>
+        <% if @locked %>
+          <%= helpers.pixelart_icon('lock', css_class: 'size-4 shrink-0') %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+</li>

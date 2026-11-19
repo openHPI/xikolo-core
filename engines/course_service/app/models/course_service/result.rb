@@ -4,28 +4,23 @@ module CourseService
 class Result < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   self.table_name = :results
 
-  validates :user_id, presence: true
   validates :dpoints,
     numericality: {only_integer: true, message: 'invalid_format'}
   belongs_to :item
+  belongs_to :user, class_name: 'AccountService::User'
 
   after_create do
-    Msgr.publish(decorate.to_event, to: 'xikolo.course.result.create')
-    update_enrollment_completion
-  end
-  after_update do
-    Msgr.publish(decorate.to_event, to: 'xikolo.course.result.update')
-    update_enrollment_completion
+    ResultCreateJob.perform_later(decorate.to_event)
   end
   after_commit(on: :create) do
-    NextDate::ItemSubmissionPublishingCreateWorker
-      .perform_async(item_id, user_id)
-    LearningEvaluation::UpdateSectionProgressWorker
-      .perform_async(item.section_id, user_id)
+    NextDate::ItemSubmissionPublishingCreateJob
+      .perform_later(item_id, user_id)
+    LearningEvaluation::UpdateSectionProgressJob
+      .perform_later(item.section_id, user_id)
   end
   after_commit(on: :update) do
-    LearningEvaluation::UpdateSectionProgressWorker
-      .perform_async(item.section_id, user_id)
+    LearningEvaluation::UpdateSectionProgressJob
+      .perform_later(item.section_id, user_id)
   end
 
   # Group by user ID, selecting only the best result for an item per user
@@ -42,17 +37,8 @@ class Result < ApplicationRecord # rubocop:disable Layout/IndentationWidth
     ).where(row_num: 1)
   end
 
-  private
-
-  def update_enrollment_completion
-    course = Course
-      .joins(sections: :items)
-      .where(sections: {items: {id: item_id}})
-      .take!
-
-    return unless course.records_released?
-
-    EnrollmentCompletionWorker.perform_async(course.id, user_id)
+  def self.best_for(item_id, user_id)
+    where(item_id:, user_id:).order(dpoints: :desc).first
   end
 end
 end

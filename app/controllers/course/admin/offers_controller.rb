@@ -7,22 +7,22 @@ class Course::Admin::OffersController < Abstract::FrontendController
   require_permission 'course.course.edit'
 
   def index
-    @course = Course::Course.by_identifier(params[:course_id]).take
+    @course = CourseService::Course.by_identifier(params[:course_id]).take
     @offers = @course.offers
   end
 
   def new
-    @course = Course::Course.by_identifier(params[:course_id]).take
+    @course = CourseService::Course.by_identifier(params[:course_id]).take
     @offer = @course.offers.new
   end
 
   def edit
-    @course = Course::Course.by_identifier(params[:course_id]).take
+    @course = CourseService::Course.by_identifier(params[:course_id]).take
     @offer = Course::Offer.find(params[:id])
   end
 
   def create
-    @course = Course::Course.by_identifier(params[:course_id]).take
+    @course = CourseService::Course.by_identifier(params[:course_id]).take
     @offer = Course::Offer.new(
       offer_params.merge(course_id: @course.id, price:)
     )
@@ -32,12 +32,12 @@ class Course::Admin::OffersController < Abstract::FrontendController
       redirect_to course_offers_path, status: :see_other
     else
       add_flash_message :error, t(:'flash.error.offer_not_created')
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
   def update
-    @course = Course::Course.by_identifier(params[:course_id]).take
+    @course = CourseService::Course.by_identifier(params[:course_id]).take
     @offer = Course::Offer.find(params[:id]).tap do |offer|
       offer.assign_attributes(
         offer_params.merge(course_id: @course.id, price:)
@@ -49,7 +49,7 @@ class Course::Admin::OffersController < Abstract::FrontendController
       redirect_to course_offers_path, status: :see_other
     else
       add_flash_message :error, t(:'flash.error.offer_not_updated')
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 
@@ -82,9 +82,5 @@ class Course::Admin::OffersController < Abstract::FrontendController
     raise ArgumentError.new('Invalid price') if price.blank?
 
     (price.to_d * BigDecimal(100)).to_i
-  end
-
-  def hide_course_nav?
-    true
   end
 end

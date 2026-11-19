@@ -1,0 +1,17 @@
+<%# locals: (show_solution:, question:, answer:, answer_selected_by_user:, snapshot:, lang:) %>
+<% checked = show_solution || !snapshot.nil? ? answer_selected_by_user : false %>
+<%= render 'quiz_submission/question/choice_answer',
+  input_type: 'radio',
+  question_id: question.id,
+  answer_id: answer.id,
+  name: "submission[#{question.id}]",
+  value: answer.id,
+  answer_text: answer.text,
+  checked: checked,
+  disabled: show_solution,
+  wrong: show_solution && answer_selected_by_user && !answer.correct,
+  correct: show_solution && answer.correct,
+  lang: lang %>
+<div class="ml-4">
+  <%= render 'quiz_submission/question/answer_comment', answer: answer, show_solution: show_solution, lang: lang %>
+</div>

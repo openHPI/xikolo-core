@@ -4,17 +4,20 @@ require 'spec_helper'
 
 describe 'Course: Admin: Offers: Create', type: :request do
   subject(:create_offer) do
-    post "/courses/#{course.course_code}/offers", params:, headers:
+    post "/learn/#{course.course_code}/offers", params:
   end
 
-  let(:headers) { {'Authorization' => "Xikolo-Session session_id=#{stub_session_id}"} }
   let(:params) { {course_offer: {price: 12}} }
   let(:permissions) { %w[course.course.edit course.content.access] }
   let(:course) { create(:course) }
+  let(:user) { create(:'account_service/user') }
+  let(:authenticate) { true }
   let(:course_resource) { build(:'course:course', course_code: course.course_code, id: course.id) }
 
   before do
-    stub_user_request(permissions:)
+    sign_in(user:) if authenticate
+    role = create(:'account_service/role', permissions:)
+    create(:'account_service/grant', principal: user, role:)
 
     Stub.request(:course, :get, "/courses/#{course.course_code}")
       .to_return Stub.json(course_resource)
@@ -54,16 +57,16 @@ describe 'Course: Admin: Offers: Create', type: :request do
 
     it 'redirects the user' do
       create_offer
-      expect(response).to redirect_to "/courses/#{course.course_code}"
+      expect(response).to redirect_to "/learn/#{course.course_code}"
     end
   end
 
   context 'for anonymous users' do
-    let(:headers) { {} }
+    let(:authenticate) { false }
 
     it 'redirects the user' do
       create_offer
-      expect(response).to redirect_to "/courses/#{course.course_code}"
+      expect(response).to redirect_to "/learn/#{course.course_code}"
     end
   end
 end

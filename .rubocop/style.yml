@@ -1,17 +1,6 @@
 # style cop settings
 
 #
-# False positive:
-#     def foo(*, &)
-#       bar(*).baz(&)
-#     end
-# https://github.com/rubocop/rubocop/issues/12070
-#
-Style/ArgumentsForwarding:
-  Exclude:
-    - "integration/features/support/lib/server.rb"
-
-#
 # Nein. Period. Try to keep it English, but there *will* references using
 # unicode characters.
 #

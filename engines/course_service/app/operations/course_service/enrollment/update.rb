@@ -8,15 +8,11 @@ class Enrollment::Update < ApplicationOperation # rubocop:disable Layout/Indenta
     super()
     @enrollment_id = enrollment_id
     @params = params
-    # ignore empty value for proctored
-    @params.delete :proctored if params[:proctored].nil?
   end
 
   def call
     Enrollment.transaction do
-      @enrollment = LearningEvaluation.by_params({learning_evaluation: 'true'}).call(
-        Enrollment.where(id: @enrollment_id)
-      ).take!
+      @enrollment = Enrollment.with_evaluation.find(@enrollment_id)
       process_completed! if params.key? :completed
       enrollment.assign_attributes params
       enrollment.save!

@@ -4,7 +4,7 @@ module CourseService
 class Branch < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   self.table_name = :branches
 
-  belongs_to :group, class_name: 'CourseService::Duplicated::Group'
+  belongs_to :group, class_name: 'AccountService::Group'
   belongs_to :fork
 
   has_one :node, class_name: 'CourseService::Structure::Branch', dependent: :destroy

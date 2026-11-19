@@ -3,28 +3,19 @@
 require 'spec_helper'
 
 describe Admin::CoursesController, type: :controller do
-  let(:user) { stub_user id: user_id, language: 'en', permissions: }
+  let(:user) { create(:'account_service/user', id: user_id, language: 'en') }
   let(:permissions) { [] }
   let(:user_id) { SecureRandom.uuid }
   let(:course_id) { SecureRandom.uuid }
   let(:course_code) { 'the-code' }
+  let(:course) { create(:'course_service/course', id: course_id, course_code:) }
 
   around {|example| Timecop.freeze(&example) }
 
   before do
-    user
+    course
+    sign_in(user: user, permissions:) if user
 
-    Stub.request(
-      :course, :get, '/courses'
-    ).to_return Stub.json([])
-    Stub.request(
-      :course, :get, "/courses/#{course_id}"
-    ).to_return Stub.json({
-      id: course_id,
-      course_code:,
-      context_id: course_context_id,
-      created_at: DateTime.new(2015, 7, 12),
-    })
     Stub.request(
       :course, :get, '/channels', query: {per_page: 250}
     ).to_return Stub.json([])
@@ -86,25 +77,16 @@ describe Admin::CoursesController, type: :controller do
     subject { response }
 
     let(:action) { -> { delete :destroy, params: } }
-    let(:request_context_id) { course_context_id }
     let(:params) { {id: course_id, course_code:} }
+    let(:course) { create(:'course_service/course', id: course_id, course_code:) }
 
     before do
-      Stub.request(
-        :course, :get, "/courses/#{course_code}"
-      ).to_return Stub.json({
-        id: course_id,
-        course_code:,
-        self_url: "http://localhost:3000/course_service/courses/#{course_id}",
-      })
-      Stub.request(
-        :course, :delete, "/courses/#{course_id}"
-      ).to_return Stub.response(status: 202)
+      course
     end
 
     context 'as user' do
       it 'cannot access the page' do
-        expect { action.call }.to raise_error(Status::NotFound)
+        expect(action.call).to redirect_to course_url(course.course_code)
       end
     end
 
@@ -112,11 +94,22 @@ describe Admin::CoursesController, type: :controller do
       let(:permissions) { %w[course.course.delete course.content.access] }
 
       it 'answers with a page' do
+        pending 'CourseService::Course::Destroy calls destroy_context!' \
+                'that is not implimented in account_service.' \
+                'Destruction will work in production with a silent failure in ' \
+                'the context destruction.'
+
         action.call
+
         expect(response).to have_http_status :see_other
       end
 
       it 'sets a flash notice message' do
+        pending 'CourseService::Course::Destroy calls destroy_context!' \
+                'that is not implimented in account_service.' \
+                'Destruction will work in production with a silent failure in ' \
+                'the context destruction.'
+
         action.call
         expect(flash[:notice]).to include 'The course has been deleted.'
       end

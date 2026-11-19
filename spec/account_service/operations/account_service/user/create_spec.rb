@@ -22,6 +22,11 @@ describe AccountService::User::Create, type: :operation do
     expect { operation.call }.to change(AccountService::Email, :count).from(0).to(1)
   end
 
+  it 'sets the notification.email.global preference to false' do
+    operation.call
+    expect(AccountService::User.last.preferences).to eq({'notification.email.global' => 'false'})
+  end
+
   describe 'new user record' do
     subject(:user) { AccountService::User.first }
 
@@ -52,15 +57,6 @@ describe AccountService::User::Create, type: :operation do
         expect(err.record).to be_a AccountService::User
         expect(err.record.id).to be_nil
         expect(err.record.errors[:email]).to eq ['has already been taken']
-      end
-    end
-
-    it 'does not publish event' do
-      expect(Msgr).not_to receive :publish
-      begin
-        operation.call
-      rescue StandardError
-        ActiveRecord::RecordInvalid
       end
     end
   end

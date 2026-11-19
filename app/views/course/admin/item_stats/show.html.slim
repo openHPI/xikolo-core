@@ -1,19 +1,6 @@
-- content_for :head_assets
-  = javascript_include_tag 'app/javascript/legacy/course', type: 'module', 'data-turbo-track': Rails.env.production? ? 'reload' : ''
-  = javascript_include_tag 'app/javascript/teacher/teacher', type: 'module', 'data-turbo-track': Rails.env.production? ? 'reload' : ''
+= render 'course/shared/admin_page_header', title: t(:'course.admin.item_stats.show.title')
 
-- content_for :course_area_header
-  = render Global::PageHeader.new("#{t(:'course.admin.item_stats.show.title')} - #{course_layout.title}",
-    subtitle: t(:'course.admin.page_header'),
-    type: :slim) do |c|
-      - c.with_pill(t(:"items.show.coursestate.#{course_layout.fullstate}"), size: :small, color: :note)
-      = render(partial: 'course/shared/course_admin_action', locals: {course: course_layout, in_teacher_context: true})
-
-.bs-container.white-bg.statistics-page[
-  data-lanalytics-visit='item_statistics'
-  data-lanalytics-resource={type: 'item', uuid: @item_stats.item_id}.to_json
-  data-lanalytics-context={course_id: @item_stats.course_id, content_type: @item_stats.content_type}.to_json
-]
+.bs-container.white-bg.statistics-page
   .row
     .col-md-12
       = render partial: 'course/admin/item_stats/nav', locals: {nav: @item_stats.nav}
@@ -22,11 +9,6 @@
       hr.dashboard-hr-top
 
     .col-md-12
-      .item-stats__facts.bs-callout.bs-callout-default
-        = render Global::FaIcon.new('eye', style: :solid, css_classes: 'facts-icon fa-fw')
-        - @item_stats.base_facts.each do |fact|
-          p = fact
-
       - if @item_stats.facts.present?
         .item-stats__facts.bs-callout.bs-callout-default
           = render Global::FaIcon.new(@item_stats.facts_icon, style: :solid, css_classes: 'facts-icon fa-fw')

@@ -6,28 +6,11 @@ class CourseTeacherNav < MenuWithPermissions
     if: ->(user, _course) { user.allowed? 'course.dashboard.view' },
     route: :course_dashboard
   ) do
-    item 'courses.nav.teacher.item_visits', '',
-      if: ->(user, _course) { user.allowed? 'course.dashboard.view' },
-      route: :course_statistics_item_visits
-
-    item 'courses.nav.teacher.videos', '',
-      if: ->(user, _course) { user.allowed? 'course.dashboard.view' },
-      route: :course_statistics_videos
-
-    item 'courses.nav.teacher.item_details', '',
-      if: ->(user, _course) { user.allowed? 'course.item_stats.show' },
-      route: :course_statistics_item_details
-
     item 'courses.nav.teacher.forum_stats', '',
       if: lambda {|user, _course|
-        user.allowed?('course.dashboard.view') &&
-          Xikolo.config.beta_features['teaching_team_pinboard_activity']
+        user.allowed?('course.dashboard.view')
       },
       route: :course_statistics_pinboard
-
-    item 'courses.nav.teacher.geo', '',
-      if: ->(user, _course) { user.allowed? 'course.dashboard.view' },
-      route: :course_statistics_geo
 
     item 'courses.nav.teacher.announcements', '',
       if: ->(user, _course) { user.allowed? 'course.dashboard.view' },
@@ -42,10 +25,6 @@ class CourseTeacherNav < MenuWithPermissions
     item 'courses.nav.teacher.lti', '',
       if: ->(user, _course) { user.allowed? 'course.content.edit' },
       route: :course_lti_providers
-
-    item 'courses.nav.teacher.transpipe', '',
-      if: ->(user, _course) { user.allowed?('video.subtitle.manage') && Transpipe.enabled? },
-      route: ->(course) { Transpipe::URL.for_course course }
   end
 
   item(

@@ -16,8 +16,8 @@ describe Home::Promotion, type: :component do
   it 'renders the title and text' do
     render_inline(component)
 
-    expect(page).to have_content 'Component title'
-    expect(page).to have_content 'Component text which is somewhat longer'
+    expect(page).to have_text 'Component title'
+    expect(page).to have_text 'Component text which is somewhat longer'
     expect(page).to have_no_link
   end
 
@@ -49,8 +49,8 @@ describe Home::Promotion, type: :component do
     it 'renders a link to the specified URL and opens it in a new tab' do
       render_inline(component)
 
-      expect(page).to have_content 'Component title'
-      expect(page).to have_content 'Component text which is somewhat longer'
+      expect(page).to have_text 'Component title'
+      expect(page).to have_text 'Component text which is somewhat longer'
       expect(page).to have_css("a[href='/about'][target='_blank'][rel='noopener']")
       expect(page).to have_no_css('.promotion--with-image')
     end

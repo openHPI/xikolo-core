@@ -3,12 +3,9 @@
 require 'spec_helper'
 
 describe 'Admin: Clusters: Show', type: :request do
-  subject(:show_cluster) do
-    get "/admin/clusters/#{cluster.id}", headers:
-  end
+  subject(:show_cluster) { get "/admin/clusters/#{cluster.id}" }
 
   let!(:cluster) { create(:cluster, :visible, id: 'level') }
-  let(:headers) { {} }
 
   before do
     create(:classifier, title: 'Beginner', cluster:)
@@ -17,26 +14,22 @@ describe 'Admin: Clusters: Show', type: :request do
   end
 
   context 'for logged-in users' do
-    let(:headers) { {Authorization: "Xikolo-Session session_id=#{stub_session_id}"} }
+    let(:user) { create(:'account_service/user', :admin) }
 
-    before { stub_user_request permissions: }
+    before { sign_in(user:) }
 
-    context 'with permissions' do
-      let(:permissions) { %w[course.cluster.index] }
+    it 'lists the cluster and its classifiers' do
+      show_cluster
+      expect(response).to have_http_status :ok
 
-      it 'lists the cluster and its classifiers' do
-        show_cluster
-        expect(response).to have_http_status :ok
-
-        expect(response.body).to include('level')
-        expect(response.body).to include('Beginner')
-        expect(response.body).to include('Intermediate')
-        expect(response.body).to include('Expert')
-      end
+      expect(response.body).to include('level')
+      expect(response.body).to include('Beginner')
+      expect(response.body).to include('Intermediate')
+      expect(response.body).to include('Expert')
     end
 
     context 'without permissions' do
-      let(:permissions) { [] }
+      let(:user) { create(:'account_service/user') }
 
       it 'redirects the user' do
         show_cluster

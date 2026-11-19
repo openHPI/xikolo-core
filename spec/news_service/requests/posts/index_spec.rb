@@ -30,7 +30,6 @@ RSpec.describe 'Posts: Index', type: :request do
         .and have_key('title')
         .and have_key('text')
         .and have_key('publish_at')
-        .and have_key('visual_url')
         .and have_key('audience')
     end
   end

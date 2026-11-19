@@ -11,7 +11,7 @@ class ItemsController < ApplicationController # rubocop:disable Layout/Indentati
   respond_to :json
 
   def index
-    items = Item.all
+    items = Item.order(:position)
     items.where! content_type: params[:content_type] if params[:content_type]
     if params[:exercise_type]
       case params[:exercise_type]
@@ -42,12 +42,11 @@ class ItemsController < ApplicationController # rubocop:disable Layout/Indentati
       items = items.where(section_id: sections)
       items = items.course_order
     end
-    items = items.where featured: true if params[:featured]
     if params[:open_mode]
       return respond_with items.none unless params[:course_id]
 
-      course = Course.find(params[:course_id])
-      items = if course.accessible?
+      course = Course.by_identifier(params[:course_id]).take!
+      items = if course.started?
                 items.all_available.open_mode
               else
                 items.none
@@ -61,10 +60,6 @@ class ItemsController < ApplicationController # rubocop:disable Layout/Indentati
     end
 
     items = items.user_state params[:state_for] if params[:state_for].present?
-
-    if params[:proctored].present?
-      items = items.where proctored: params[:proctored]
-    end
 
     items.includes! section: :course
 
@@ -192,25 +187,20 @@ class ItemsController < ApplicationController # rubocop:disable Layout/Indentati
       :content_id,
       :section_id,
       :published,
-      :show_in_nav,
+      :deemphasized_in_nav,
       :format,
       :exercise_type,
       :submission_deadline,
       :submission_publishing_date,
-      :proctored,
       :optional,
-      :icon_type,
-      :featured,
       :public_description,
       :open_mode,
+      :minimum_progress_percentage,
       required_item_ids: []
     )
     permitted_params = permitted_params.except :format
     if params.key?(:max_points)
       permitted_params[:max_dpoints] = parse_points(:max_points)
-    end
-    if permitted_params[:proctored].nil?
-      permitted_params = permitted_params.except :proctored
     end
     permitted_params
   end
