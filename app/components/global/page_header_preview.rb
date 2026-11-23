@@ -23,6 +23,10 @@ module Global
       render_with_template(locals: {title: COURSE_TITLE, breadcrumbs:})
     end
 
+    def with_visual
+      render_with_template(locals: {title: COURSE_TITLE, breadcrumbs:})
+    end
+
     def course_admin_page
       render Global::PageHeader.new('Item bearbeiten', subtitle: COURSE_TITLE)
     end

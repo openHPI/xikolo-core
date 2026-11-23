@@ -1,0 +1,7 @@
+<%= render Global::PageHeader.new(title, breadcrumbs:, color: :secondary) do |header| %>
+  <% header.with_visual do %>
+    <%= image_tag 'defaults/course.png', alt: '' %>
+  <% end %>
+
+  <p class="mt-2 font-semibold">Discover our courses and explore new perspectives on artificial intelligence.</p>
+<% end %>

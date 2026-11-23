@@ -2,8 +2,5 @@
 
 nav:
   - index.md
-  - development
   - features
-  - deployment
-  - Kubernetes
   - ...

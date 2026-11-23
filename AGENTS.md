@@ -10,8 +10,7 @@ Ruby 4.0 / Rails 8.1. JavaScript is managed with **bun** (not yarn/npm), version
 ## Setup & running
 
 - `bin/setup` — install deps (bundle + bun), configure local S3, create/prepare dev and test DBs. `bin/setup --reset` wipes and recreates everything (requires a running Minio/S3).
-- `bin/dev` — start the full stack via `foreman` + `Procfile.dev`. This launches **two Rails servers plus asset watchers** (see Architecture below).
-- `bin/jobs` — run background job processors (optional, separate terminal).
+- `bin/dev` — start two Rails servers, the Solid Queue job processor, and asset watchers.
 
 ## Architecture
 
@@ -27,10 +26,10 @@ This started as separate microservices and is now a **single Rails app that play
 
 - **Internal services** live as Rails engines in `engines/` (`account_service`, `course_service`, `news_service`, `notification_service`, `pinboard_service`, `quiz_service`). Each is mounted under `/<name>_service` in `config/routes.rb` and exposes a JSON API (controllers under an `api` namespace, e.g. `engines/account_service/app/controllers/account_service/api/`). Engines hold the persisted models and the operations that mutate them.
 - **The frontend app** (`app/`) renders the UI and talks to those services **over HTTP**, using the client gems in `clients/` (`xikolo-account`, `xikolo-course`, `xikolo-pinboard`, `xikolo-quiz`, `xikolo-submission`).
-- In development `Procfile.dev` runs the app twice: `web` on port 3000 (frontend) and `services` on port 3333 (the mounted engines). The frontend is pointed at the services via `XIKOLO_SERVICE_*` env vars. Internal service calls are authenticated with a Bearer token (`XIKOLO_WEB_API`); see `constraints/service_authorization_constraint.rb`.
+- In development, `bin/dev` runs the frontend on port 3000 and the mounted services on port 3333. The frontend connects to the services using `XIKOLO_SERVICE_*` environment variables. Internal service calls use the `XIKOLO_WEB_API` bearer token for authentication. See `constraints/service_authorization_constraint.rb`.
 - Service databases have since been consolidated into one, so **foreign keys are now allowed and encouraged** (historically they weren't).
 
-HTTP clients use two libraries: **Restify** and **Acfs** (legacy). The long-term goal is to remove both. See `docs/app/development/best_practices/project_guidelines.md`.
+HTTP clients use two libraries: **Restify** and **Acfs** (legacy). The long-term goal is to remove both.
 
 Local path gems live in `gems/` (`xikolo-common`, `xikolo-config`, `xikolo-s3`, `xui-form`).
 
@@ -40,7 +39,7 @@ Existing code often follows `controllers/` → `operations/` (business actions, 
 
 ## Testing
 
-RSpec is the test runner. Specs mirror the layers: `spec/components`, `spec/presenters`, `spec/lib` (unit), `spec/models` and `spec/requests` (integration/request), and `spec/system` (browser). Engine specs live alongside app specs: `spec/account_service/`, `spec/course_service/`, etc. See `docs/app/development/testing/`.
+RSpec is the test runner. Specs mirror the layers: `spec/components`, `spec/presenters`, `spec/lib` (unit), `spec/models` and `spec/requests` (integration/request), and `spec/system` (browser). Engine specs live alongside app specs: `spec/account_service/`, `spec/course_service/`, etc.
 
 Prefer request, component, and unit specs. Add or extend a system test only when it covers a meaningful risk that requires a real browser, such as behavior that depends on JavaScript or browser navigation. Explain that risk when reporting the change.
 
@@ -85,13 +84,3 @@ bun run build:css       # tailwind + sass
 - UI uses **daisyUI** components — reference them with the `x-` prefix in views.
 - Forms: **simple_form is deprecated.** Use the built-in [Action View Form Helpers](https://guides.rubyonrails.org/form_helpers.html) instead (`form_with`, `text_field`, `check_box`, etc.). Migrate existing simple_form usage when touching those views.
 - Internationalization: app supports `de` and `en`. `bundle exec rake i18n:missing_keys` lists translation keys absent from some locale; JS translations are exported via `rake assets:i18n:export`.
-
-## Docs (MkDocs)
-
-Full documentation at `docs/` (MkDocs site). Key sections:
-
-- `docs/app/development/local_setup/` — IDE config, Docker, troubleshooting
-- `docs/app/development/testing/` — test strategies
-- `docs/app/development/best_practices/` — project guidelines, code smells, database migrations
-- `docs/app/development/monitoring/` — observability
-- `docs/bridges/` — integration patterns

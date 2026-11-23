@@ -8,6 +8,35 @@ describe Home::ChannelPresenter, type: :presenter do
   let(:channel_description) { {en: 'Test description', de: 'Testbeschreibung'} }
   let(:channel) { build(:'course_service/channel', description: channel_description) }
 
+  describe '#subtitle' do
+    let(:channel) { build(:'course_service/channel', subtitle:) }
+    let(:subtitle) { {'en' => 'Start coding', 'de' => 'Starte mit Programmieren'} }
+
+    it 'uses the current locale' do
+      I18n.with_locale(:de) do
+        expect(channel_presenter.subtitle).to eq 'Starte mit Programmieren'
+      end
+    end
+
+    context 'when the requested translation is missing' do
+      let(:subtitle) { {'en' => 'Start coding'} }
+
+      it 'falls back to an available translation' do
+        I18n.with_locale(:de) do
+          expect(channel_presenter.subtitle).to eq 'Start coding'
+        end
+      end
+    end
+
+    context 'without a subtitle' do
+      let(:subtitle) { nil }
+
+      it 'is empty' do
+        expect(channel_presenter.subtitle).to be_empty
+      end
+    end
+  end
+
   describe '#shorts' do
     let(:channel) { create(:'course_service/channel') }
     let(:course) { create(:'course_service/course', skip_account_groups: true) }

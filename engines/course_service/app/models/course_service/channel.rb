@@ -15,6 +15,7 @@ class Channel < ApplicationRecord # rubocop:disable Layout/IndentationWidth
 
   validates :code, presence: true, uniqueness: true
   validate :validate_title_translations_structure
+  validate :validate_subtitle
   validates :position, allow_nil: true, numericality: {only_integer: true}
 
   after_commit :destroy_referenced_files!, on: :destroy
@@ -98,6 +99,13 @@ class Channel < ApplicationRecord # rubocop:disable Layout/IndentationWidth
       value = title_translations[locale.to_s]
       errors.add(:title_translations, "#{locale} must be present") if value.blank?
     end
+  end
+
+  def validate_subtitle
+    return if subtitle.nil?
+    return if subtitle.is_a?(Hash) && subtitle.values.all? {|value| value.is_a?(String) && !value.match?(/[\r\n]/) }
+
+    errors.add(:subtitle, :invalid)
   end
 
   ##

@@ -29,6 +29,10 @@ module Home
       Translations.new(@channel.description).to_s
     end
 
+    def subtitle
+      Translations.new(@channel.subtitle).to_s
+    end
+
     def title
       Translations.new(@channel.title_translations).to_s
     end

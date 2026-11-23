@@ -12,55 +12,103 @@
 
 channel1 = CourseService::Channel.create!(
   id: '00000001-3300-5555-9999-000000000001',
-  code: 'social',
-  title_translations: {'en' => 'Get Social!', 'de' => 'Get Social!'},
+  code: 'discover-computer-science',
+  title_translations: {'en' => 'Explore computer science', 'de' => 'Entdecke die Informatik'},
   public: true,
   archived: false,
-  position: 1,
-  info_link: {
-    'href' => {'en' => 'https://www.example.com/faq'},
-    'label' => {'en' => 'Our FAQ'},
-  },
-  description: {
-    'en' => <<~TEXT.strip,
-      Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
-      eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-      voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
-      clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit
-      amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-      nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-      sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-      rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum
-      dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-      sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-      erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et
-      ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-      ipsum dolor sit amet.
-
-      Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse
-      molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero
-      eros et accumsan et iusto odio dignissim qui blandit praesent luptatum
-      zzril delenit augue duis dolore te feugait nulla facilisi.
-    TEXT
-  }
+  position: 1
 )
 
 channel2 = CourseService::Channel.create!(
   id: '00000001-3300-5555-9999-000000000002',
-  code: 'outbreak',
-  title_translations: {'en' => 'Disease Outbreaks of the day', 'de' => 'Krankheitsausbrüche des Tages'},
+  code: 'start-coding',
+  title_translations: {'en' => 'Turn your ideas into code', 'de' => 'Von der Idee zum Code'},
   public: true,
   archived: false,
-  position: 2
+  position: 2,
+  subtitle: {
+    'en' => 'Take your first steps in programming and discover how ideas become working code.',
+    'de' => 'Mach deine ersten Schritte im Programmieren und entdecke, wie aus Ideen funktionierender Code wird.',
+  },
+  description: {
+    'en' => <<~TEXT,
+      Every app starts with an idea. But how do you explain that idea to a computer? Explore how programs use
+      instructions, decisions and repetition to turn a task into something you can run and try out yourself.
+
+      You do not need to have your next big project planned out. Start with a topic that makes you curious,
+      experiment with small examples and see what happens when you change the code. Mistakes are part of the
+      process: finding out why something does not work can teach you just as much as getting it right.
+
+      Use this channel to find your starting point and build confidence one step at a time. As you explore,
+      think about something you would like to create: a game, a useful tool or a solution to an everyday problem.
+    TEXT
+    'de' => <<~TEXT,
+      Jede App beginnt mit einer Idee. Aber wie erklärst du diese Idee einem Computer? Entdecke, wie Programme
+      mit Anweisungen, Entscheidungen und Wiederholungen aus einer Aufgabe etwas machen, das du selbst
+      ausführen und ausprobieren kannst.
+
+      Du brauchst noch keinen Plan für dein nächstes großes Projekt. Starte mit einem Thema, das dich neugierig
+      macht, experimentiere mit kleinen Beispielen und schau, was passiert, wenn du den Code veränderst.
+      Fehler gehören dazu: Herauszufinden, warum etwas nicht funktioniert, kann dir genauso viel zeigen wie
+      ein Versuch, bei dem alles klappt.
+
+      Finde in dieser Themenwelt deinen Einstieg und werde Schritt für Schritt sicherer. Überlege beim
+      Ausprobieren, was du selbst entwickeln möchtest: ein Spiel, ein nützliches Werkzeug oder eine Lösung
+      für ein Problem aus deinem Alltag.
+    TEXT
+  }
 )
+
+channel_visual = Rails.root.join('app/assets/images/defaults/course.png').open('rb') do |file|
+  Xikolo::S3.bucket_for(:course).put_object(
+    key: 'channels/study-at-hpi/stage_visual.png',
+    body: file,
+    acl: 'public-read',
+    content_type: 'image/png'
+  )
+end
 
 channel3 = CourseService::Channel.create!(
   id: '00000001-3300-5555-9999-000000000003',
-  code: 'goarn',
-  title_translations: {'en' => 'GOARN', 'de' => 'GOARN'},
+  code: 'study-at-hpi',
+  title_translations: {'en' => 'Study computer science at HPI', 'de' => 'Informatik studieren am HPI'},
   public: true,
   archived: false,
-  position: 3
+  position: 3,
+  subtitle: {
+    'en' => 'Explore computer science and consider whether studying at HPI could be your next step.',
+    'de' => 'Entdecke die Informatik um herauszufinden, ob ein Studium am HPI dein nächster Schritt sein könnte.',
+  },
+  description: {
+    'en' => <<~TEXT,
+      Computer science is about more than writing code. It is also about understanding problems, developing
+      ideas and exploring how technology can help people. If you enjoy asking how things work or imagining
+      how they could work better, there is plenty to discover.
+
+      The courses in this channel give you a place to start exploring. Choose a topic that interests you,
+      try the exercises and take time to work through questions that challenge you. You do not need to know
+      which area you want to focus on yet: exploring different topics can help you find out what excites you.
+
+      Use these first experiences to think about your next step. Which questions would you like to explore
+      further? What would you like to build or change? Bring that curiosity with you as you find out more
+      about studying computer science at HPI.
+    TEXT
+    'de' => <<~TEXT,
+      Informatik ist mehr als Code zu schreiben. Es geht auch darum, Probleme zu verstehen, Ideen zu entwickeln
+      und zu erkunden, wie Technik Menschen helfen kann. Wenn du gerne fragst, wie etwas funktioniert oder
+      wie es besser gehen könnte, gibt es hier viel zu entdecken.
+
+      Die Kurse in dieser Themenwelt geben dir einen Ausgangspunkt zum Erkunden. Wähle ein Thema, das dich
+      interessiert, probiere die Aufgaben aus und nimm dir Zeit für Fragen, die dich herausfordern. Du musst
+      noch nicht wissen, worauf du dich spezialisieren möchtest: Verschiedene Themen auszuprobieren kann dir
+      helfen herauszufinden, was dich begeistert.
+
+      Nutze diese ersten Erfahrungen, um über deinen nächsten Schritt nachzudenken. Welche Fragen möchtest du
+      weiterverfolgen? Was würdest du gerne entwickeln oder verändern? Nimm diese Neugier mit, wenn du dich
+      näher mit einem Informatikstudium am HPI beschäftigst.
+    TEXT
+  },
+  stage_visual_uri: channel_visual.storage_uri
 )
 
 ##### Categories #####

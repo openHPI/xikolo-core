@@ -108,6 +108,17 @@ describe CourseService::ChannelsController, type: :controller do
       expect(response).to have_http_status :created
     end
 
+    context 'with a subtitle' do
+      let(:params) { super().merge(subtitle: {'en' => 'Start coding', 'de' => 'Starte mit Programmieren'}) }
+
+      it 'persists and returns the translations' do
+        action.call
+
+        expect(CourseService::Channel.last.subtitle).to eq params[:subtitle]
+        expect(json['subtitle']).to eq params[:subtitle]
+      end
+    end
+
     context 'full record' do
       let!(:params) { attributes_for(:'course_service/channel', :full_blown) }
 
@@ -152,8 +163,42 @@ describe CourseService::ChannelsController, type: :controller do
     before { channel }
 
     let(:stage_statement) { 'Welcome to the channel' }
-    let(:action) { -> { put :update, params: } }
+    let(:action) { -> { put :update, params:, as: :json } }
     let(:params) { {id: channel.id, stage_statement:} }
+
+    context 'with a subtitle' do
+      let(:params) { {id: channel.id, subtitle: {'en' => 'Start coding', 'de' => 'Starte mit Programmieren'}} }
+
+      it 'updates the translations' do
+        action.call
+
+        expect(channel.reload.subtitle).to eq params[:subtitle]
+      end
+
+      context 'when clearing a translation' do
+        let(:params) { {id: channel.id, subtitle: {'en' => '', 'de' => 'Starte mit Programmieren'}} }
+
+        before { channel.update!(subtitle: {'en' => 'Start coding', 'de' => 'Starte mit Programmieren'}) }
+
+        it 'clears the submitted translation' do
+          action.call
+
+          expect(channel.reload.subtitle).to eq params[:subtitle]
+        end
+      end
+
+      context 'when clearing all translations' do
+        let(:params) { {id: channel.id, subtitle: {}} }
+
+        before { channel.update!(subtitle: {'en' => 'Start coding'}) }
+
+        it 'removes the subtitle' do
+          action.call
+
+          expect(channel.reload.subtitle).to eq({})
+        end
+      end
+    end
 
     describe 'response' do
       subject { response }

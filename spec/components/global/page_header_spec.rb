@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe Global::PageHeader, type: :component do
-  subject(:component) { described_class.new(title, lang:, subtitle:, breadcrumbs:, back_url:, type:) }
+  subject(:component) { described_class.new(title, lang:, subtitle:, breadcrumbs:, back_url:, type:, color:) }
 
   let(:title) { 'Quantencomputing Summer School' }
   let(:breadcrumbs) { [] }
@@ -11,6 +11,40 @@ describe Global::PageHeader, type: :component do
   let(:back_url) { nil }
   let(:lang) { nil }
   let(:type) { nil }
+  let(:color) { nil }
+
+  it 'uses the accent background by default' do
+    render_inline(component)
+
+    expect(page).to have_css("header[class*='--page-header-bg:var(--color-accent)']")
+  end
+
+  context 'with the secondary color' do
+    let(:color) { :secondary }
+
+    it 'uses the secondary background and its matching text color' do
+      render_inline(component)
+
+      expect(page).to have_css("header[class*='--page-header-bg:var(--color-secondary)'][class*='--page-header-text:var(--color-secondary-content)']")
+    end
+
+    it 'also applies when a visual is supplied' do
+      render_inline(component) do |header|
+        header.with_visual { '<img src="/channel.jpg" alt="">'.html_safe }
+      end
+
+      expect(page).to have_css('header img')
+    end
+
+    it 'takes precedence over automatic navigation colors' do
+      render_inline(component) do |header|
+        header.with_navigation { '<nav>Course navigation</nav>'.html_safe }
+      end
+
+      expect(page).to have_css("header[class*='--page-header-bg:var(--color-secondary)']")
+      expect(page).to have_no_css("header[class*='--page-header-bg:var(--color-accent-25)']")
+    end
+  end
 
   it 'renders the title as the page heading' do
     render_inline(component)
@@ -133,6 +167,19 @@ describe Global::PageHeader, type: :component do
       rendered
 
       expect(page).to have_css("header[class*='--page-header-bg:var(--color-accent-25)']")
+    end
+  end
+
+  context 'with a visual' do
+    it 'renders the visual beside the title, breadcrumbs, and introduction' do
+      render_inline(component) do |header|
+        header.with_visual { '<img src="/channel.jpg" alt="">'.html_safe }
+        'A short introduction'
+      end
+
+      expect(page).to have_css('header h1', text: title)
+      expect(page).to have_css('header img[src="/channel.jpg"]')
+      expect(page).to have_text 'A short introduction'
     end
   end
 

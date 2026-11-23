@@ -19,9 +19,6 @@ tmp/
 # strings to ease reading:
 config/assets/entries.js
 
-# Bridge API Docs are auto-generated using Stoplight Studio.
-/docs/bridges/**/*
-
 # Frontend files in our custom gems are likely only needed for tests.
 gems/
 

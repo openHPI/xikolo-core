@@ -12,6 +12,12 @@ module Certificate
       }
     end
 
+    def exam_attempts
+      return if @template.certificate_type == ::Certificate::Record::COP
+
+      1
+    end
+
     def top_percent
       5
     end

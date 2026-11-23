@@ -5,20 +5,78 @@ require 'spec_helper'
 describe 'Channel: Show', type: :request do
   subject(:show_channel) { get "/channels/#{channel.code}" }
 
-  let(:channel) do
-    create(
-      :'course_service/channel',
-      code: 'the-channel',
-      stage_visual_uri: 's3://xikolo-public/channels/1/stage_visual_v1.jpg',
-      stage_statement: 'Channel Stage'
-    )
-  end
-
+  let(:channel) { create(:'course_service/channel', code: 'the-channel', **attributes) }
+  let(:attributes) { {} }
   let(:page) { Capybara.string(response.body) }
 
-  it 'shows the channel page' do
+  it 'shows the title and breadcrumbs even without images, description, or courses' do
     show_channel
+
     expect(response).to be_successful
+    expect(page).to have_css('h1', exact_text: 'Channel EN', count: 1)
+    expect(page).to have_css('header nav.x-breadcrumbs')
+    expect(page).to have_css("header[class*='--page-header-bg:var(--color-secondary)']")
+    expect(page).to have_link('Channel EN', href: channel_path(channel.code))
+  end
+
+  context 'with a subtitle, description and both visuals' do
+    let(:attributes) do
+      {
+        subtitle: {en: 'Discover computer science'},
+        description: {en: 'An **introduction** to the channel.'},
+        stage_visual_uri: 's3://xikolo-public/channels/stage.jpg',
+        mobile_visual_uri: 's3://xikolo-public/channels/mobile.jpg',
+      }
+    end
+
+    it 'renders the subtitle and responsive visual in the header' do
+      show_channel
+
+      expect(page).to have_css('h1', exact_text: 'Channel EN', count: 1)
+      expect(page).to have_css('header p', exact_text: 'Discover computer science')
+      expect(page).to have_css('header picture img[src*="stage.jpg"]')
+      expect(page).to have_css('header picture source[srcset*="mobile.jpg"]', visible: :all)
+    end
+
+    it 'shows the description below the course cards and before other channels' do
+      channel.courses << create(:course, :active, title: 'An ongoing course')
+      create(:'course_service/channel')
+
+      show_channel
+
+      description = page.find_by_id('channel-description')
+      expect(description).to have_xpath('preceding-sibling::h2', text: 'More information about this channel')
+      expect(description).to have_xpath('preceding::a', text: 'An ongoing course')
+      expect(description).to have_xpath('following::h2[@id="other-channels"]')
+    end
+  end
+
+  context 'with a description but no subtitle' do
+    let(:attributes) { {description: {en: 'Learn more about this channel.'}} }
+
+    it 'shows the description below the empty course list without using it as the subtitle' do
+      show_channel
+
+      expect(page).to have_css('#channel-description', text: 'Learn more about this channel.')
+      expect(page).to have_no_css('header', text: 'Learn more about this channel.')
+    end
+
+    it 'keeps the description outside the loading container when filters have no matches' do
+      get channel_path(channel.code), params: {q: 'nonexistent'}
+
+      expect(page).to have_css('#channel-description', text: 'Learn more about this channel.')
+      expect(page).to have_no_css('[data-hide-on-submit] #channel-description')
+    end
+  end
+
+  context 'with only a mobile visual' do
+    let(:attributes) { {mobile_visual_uri: 's3://xikolo-public/channels/mobile.jpg'} }
+
+    it 'uses it as the fallback image' do
+      show_channel
+
+      expect(page).to have_css('header picture img[src*="mobile.jpg"]')
+    end
   end
 
   context 'with courses hidden from the public course list' do

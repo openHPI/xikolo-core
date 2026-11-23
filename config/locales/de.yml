@@ -1551,6 +1551,7 @@ de:
       previous: Weiter
       next: Zurück
       about: "Über die <b>%{title}</b> Kursreihe"
+      more_information: Mehr Informationen zu dieser Themenwelt
       filter:
         search: Suche
       empty_state: Es sind noch keine Kurse in dieser Themenwelt verfügbar.
@@ -1817,7 +1818,7 @@ de:
       score_v1: "%{points} von %{max_points} möglichen Punkten (%{percent}%)"
 
       top_v2: "Dieses Ergebnis gehört zu den besten %{top}% in diesem Kurs."
-      born_v2: "geboren am: %{birthday}"
+      born_v2: "Geburtsdatum: %{birthday}"
       score_v2: "%{points} von %{max_points} möglichen Punkten (%{percent}%)"
       email_v2: "E-Mail: %{email}"
 

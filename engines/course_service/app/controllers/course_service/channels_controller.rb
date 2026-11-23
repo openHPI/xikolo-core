@@ -64,7 +64,8 @@ class ChannelsController < ApplicationController # rubocop:disable Layout/Indent
       :highlight,
       :archived,
       :position,
-      title_translations: {}
+      title_translations: {},
+      subtitle: Xikolo.config.locales['available']
     ).tap do |white_listed|
       if params[:description]
         white_listed[:description] = params[:description].permit!

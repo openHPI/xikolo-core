@@ -1,149 +1,137 @@
-<div class="channel-container">
-  <div class="hidden-xs">
-    <% if @channel.logo_url %>
-      <div class="channel-logo">
-        <%= image_tag Imagecrop.transform(@channel.logo_url, height: 120), alt: '' %>
-      </div>
+<% content_for :page_header do %>
+  <%= render Global::PageHeader.new(@channel.title, subtitle: @channel.subtitle, color: :secondary, breadcrumbs: [
+    {url: root_path, icon: pixelart_icon('home', css_class: 'w-4 h-4'), aria_label: t('header.navigation.home')},
+    {url: channel_path(@channel.code), text: @channel.title},
+  ]) do |header| %>
+    <% if @channel.stage_visual_url.present? || @channel.mobile_visual_url.present? %>
+      <% header.with_visual do %>
+        <picture>
+          <% if @channel.mobile_visual_url.present? %>
+            <source media="(max-width: 767px)" srcset="<%= @channel.mobile_visual_url %>">
+          <% end %>
+          <%= image_tag @channel.stage_visual_url || @channel.mobile_visual_url, alt: '' %>
+        </picture>
+      <% end %>
     <% end %>
-  </div>
+  <% end %>
+<% end %>
 
-  <% if @channel.mobile_visual_url %>
-    <div class="visible-xs channel-xs">
-      <%= image_tag @channel.mobile_visual_url, alt: '' %>
+<div id="channel-courses" class="scroll-mt-navbar">
+  <% if @channel.info_link? %>
+    <div class="show-more-link">
+      <%= link_to @channel.info_link_url, class: 'bs-a' do %>
+        <%= @channel.info_link_label %>
+        <%= render Global::FaIcon.new('circle-info') %>
+      <% end %>
     </div>
   <% end %>
 
-  <% if @channel.stage_item %>
-    <div class="channel-carousel hidden-xs">
-      <div class="carousel-inner">
-        <div class="item active">
-          <%= render partial: 'stage_item', locals: {stage_item: @channel.stage_item} %>
-        </div>
-      </div>
+  <% if @channel.shorts.any? %>
+    <div class="mx-auto max-w-main-content">
+      <%= render Shorts::Carousel.new(items: @channel.shorts) %>
     </div>
   <% end %>
 
-  <div id="channel-courses" class="channel-courses">
-    <h1 class="h1 channel-title">
-    <% if @channel.description.blank? %>
-      <%= @channel.title %>
-    <% else %>
-      <span class="hidden-xs"><%= t(:'channels.show.about', title: @channel.title) %></span>
-      <span class="visible-xs-block"><%= @channel.title %></span>
-    <% end %>
-    </h1>
-    <% unless @channel.description.blank? %>
-      <div
-        class="channel-info"
-        data-controller="read-more"
-        data-read-more-clamped-class="line-clamp-12"
-      >
-        <div
-          id="channel-description"
-          class="
-            channel-explanation prose prose-sm mb-2.5 line-clamp-12
-            max-w-none
-          "
-          data-read-more-target="content"
-        >
-          <%== render_markdown(@channel.description, allow_tables: true) %>
-        </div>
+  <div data-hide-on-submit="#course-list__content" data-show-on-submit="#course-list__loading">
+    <%= render Home::Channel::FilterBar.new(user: current_user, results_count: @course_list.courses_count) %>
 
-        <button
-          type="button"
-          class="cursor-pointer pt-2.5"
-          data-read-more-target="button"
-          data-action="read-more#toggle"
-          aria-controls="channel-description"
-          aria-expanded="false"
-          hidden
-        >
-          <span data-read-more-target="moreLabel">
-            <%= t(:'global.read_more') %>
-            <%= render Global::FaIcon.new('angles-down', css_classes: 'ml5') %>
-          </span>
+    <div id="course-list__loading" hidden>
+      <%= render State::Loading.new(t(:'course.courses.index.loading')) %>
+    </div>
 
-          <span data-read-more-target="lessLabel" hidden>
-            <%= t(:'global.read_less') %>
-            <%= render Global::FaIcon.new('angles-up', css_classes: 'ml5') %>
-          </span>
-        </button>
-      </div>
-    <% end %>
-
-    <% if @channel.info_link? %>
-      <div class="show-more-link">
-        <%= link_to @channel.info_link_url, class: 'bs-a' do %>
-          <%= @channel.info_link_label %>
-          <%= render Global::FaIcon.new('circle-info') %>
-        <% end %>
-      </div>
-    <% end %>
-
-    <% if @channel.shorts.any? %>
-      <div class="mx-auto max-w-main-content">
-        <%= render Shorts::Carousel.new(items: @channel.shorts) %>
-      </div>
-    <% end %>
-
-    <div class="course-list" data-hide-on-submit="#course-list__content" data-show-on-submit="#course-list__loading">
-      <%= render Home::Channel::FilterBar.new(user: current_user, results_count: @course_list.courses_count) %>
-
-      <div id="course-list__loading" hidden>
-        <%= render State::Loading.new(t(:'course.courses.index.loading')) %>
-      </div>
-
-      <div id="course-list__content" class="course-list__content">
-        <% if @categories.any? %>
-          <% @categories.each_with_index do |category, index| %>
-            <div class="course-group">
-              <h2 class="h2 category-title">
-                <%= category.title %>
-              </h2>
-              <div class="grid grid-cols-1 gap-8 mt-1 mb-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" data-id="category-<%= index %>">
-                <%= render partial: 'home/courses/courses', locals: {courses: category.courses, enrollments: @enrollments} %>
-              </div>
-
-              <%# Only self-paced courses are paginated so far, so there is a `next_page` for them. %>
-              <% if category.courses.respond_to?(:next_page) && category.courses.next_page.present? %>
-                <div class="load-more">
-                  <%= button_tag(type: 'button', class: 'btn btn-default btn-outline mb20 mt20',
-                    data: {behavior: 'load-more', current_page: category.courses.current_page, target: "category-#{index}"}) do %>
-                    <%= t(:'course.courses.index.load_more') %>
-                  <% end %>
-                  <div data-id="load-more__indicator" hidden>
-                    <%= render State::Loading.new %>
-                  </div>
-                  <p data-id="load-more__error-message" hidden>
-                    <%= t(:'course.courses.index.error') %>
-                  </p>
-                </div>
-              <% end %>
+    <div id="course-list__content" class="course-list__content">
+      <% if @categories.any? %>
+        <% @categories.each_with_index do |category, index| %>
+          <div class="course-group">
+            <h2 class="h2 category-title">
+              <%= category.title %>
+            </h2>
+            <div class="grid grid-cols-1 gap-8 mt-1 mb-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" data-id="category-<%= index %>">
+              <%= render partial: 'home/courses/courses', locals: {courses: category.courses, enrollments: @enrollments} %>
             </div>
-          <% end %>
-        <% elsif request.GET.empty? %>
-          <%# Check if the course list has been filtered and only then show a call to action button to reset all filters. %>
-          <%= render State::Empty.new(t(:'channels.show.empty_state')) %>
-        <% else %>
-          <%= render State::Empty.new(t(:'channels.show.empty')) do %>
-            <%= link_to t(:'course.courses.index.action'), channel_path(@channel.code),
-              data: {'hide-on-click': '#course-list__content', 'show-on-click': '#course-list__loading'},
-              class: 'btn btn-primary mt10' %>
-          <% end %>
+
+            <%# Only self-paced courses are paginated so far, so there is a `next_page` for them. %>
+            <% if category.courses.respond_to?(:next_page) && category.courses.next_page.present? %>
+              <div class="load-more">
+                <%= button_tag(type: 'button', class: 'btn btn-default btn-outline mb20 mt20',
+                  data: {behavior: 'load-more', current_page: category.courses.current_page, target: "category-#{index}"}) do %>
+                  <%= t(:'course.courses.index.load_more') %>
+                <% end %>
+                <div data-id="load-more__indicator" hidden>
+                  <%= render State::Loading.new %>
+                </div>
+                <p data-id="load-more__error-message" hidden>
+                  <%= t(:'course.courses.index.error') %>
+                </p>
+              </div>
+            <% end %>
+          </div>
         <% end %>
-      </div>
+      <% elsif request.GET.empty? %>
+        <%# Check if the course list has been filtered and only then show a call to action button to reset all filters. %>
+        <%= render State::Empty.new(t(:'channels.show.empty_state')) %>
+      <% else %>
+        <%= render State::Empty.new(t(:'channels.show.empty')) do %>
+          <%= link_to t(:'course.courses.index.action'), channel_path(@channel.code),
+            data: {'hide-on-click': '#course-list__content', 'show-on-click': '#course-list__loading'},
+            class: 'btn btn-primary mt10' %>
+        <% end %>
+      <% end %>
     </div>
-
-     <% if @channel.other_channels.any? %>
-      <div class="mt-4 mx-auto max-w-main-content p-6">
-        <header class="w-full justify-center text-2xl font-medium text-base-content">
-          <h2 id="other-channels" class="font-medium mr-2">
-            <%= t(:'channels.other_channels') %>
-          </h2>
-        </header>
-        <%= render Home::Channel::List.new(items: @channel.other_channels) %>
-      </div>
-    <% end %>
-
   </div>
+
+  <% unless @channel.description.blank? %>
+    <div
+      class="channel-info"
+      data-controller="read-more"
+      data-read-more-clamped-class="line-clamp-12"
+    >
+      <h2 class="mb-4 text-xl font-medium">
+        <%= t('channels.show.more_information') %>
+      </h2>
+
+      <div
+        id="channel-description"
+        class="
+          channel-explanation prose prose-sm mb-2.5 line-clamp-12
+          max-w-none
+        "
+        data-read-more-target="content"
+      >
+        <%== render_markdown(@channel.description, allow_tables: true) %>
+      </div>
+
+      <button
+        type="button"
+        class="cursor-pointer pt-2.5"
+        data-read-more-target="button"
+        data-action="read-more#toggle"
+        aria-controls="channel-description"
+        aria-expanded="false"
+        hidden
+      >
+        <span data-read-more-target="moreLabel">
+          <%= t(:'global.read_more') %>
+          <%= render Global::FaIcon.new('angles-down', css_classes: 'ml5') %>
+        </span>
+
+        <span data-read-more-target="lessLabel" hidden>
+          <%= t(:'global.read_less') %>
+          <%= render Global::FaIcon.new('angles-up', css_classes: 'ml5') %>
+        </span>
+      </button>
+    </div>
+  <% end %>
+
+   <% if @channel.other_channels.any? %>
+    <div class="mt-4 mx-auto max-w-main-content p-6">
+      <header class="w-full justify-center text-2xl font-medium text-base-content">
+        <h2 id="other-channels" class="font-medium mr-2">
+          <%= t(:'channels.other_channels') %>
+        </h2>
+      </header>
+      <%= render Home::Channel::List.new(items: @channel.other_channels) %>
+    </div>
+  <% end %>
+
 </div>

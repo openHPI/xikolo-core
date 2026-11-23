@@ -73,6 +73,7 @@ de:
         name: Name
         title_de: Name (Deutsch)
         title_en: Name (Englisch)
+        subtitle: Untertitel
         logo_upload_id: Logo
         description: Beschreibung
         video_stream: Stage video
@@ -174,6 +175,7 @@ de:
         consents: "Wählen Sie alle Einwilligungen aus, denen die Empfänger zugestimmt haben müssen, um die Ankündigung zu erhalten. Sollten Sie keine Einwilligungen auswählen, wird die Ankündigung an alle Empfänger versendet. Um rechtskonform zu bleiben, sollten Sie im Zweifelsfall Ihren Datenschutzexperten zu Rate ziehen."
       channel:
         stage_visual_upload_id: "Das Visual muss eine Mindestgröße von %{width}x%{height} px haben. Größere Bilder werden verkleinert und zugeschnitten."
+        subtitle: Optionaler kurzer Text für den Kopfbereich der Themenwelt.
         mobile_visual_upload_id: "Das Visual muss eine Mindestgröße von %{width}x%{height} px haben. Größere Bilder werden verkleinert und zugeschnitten."
         code: "Der Themenwelt-Code sollte nur aus Kleinbuchstaben und dem Minuszeichen ('-') bestehen."
         logo_upload_id: "Das Logo wird mit einer maximalen Höhe von 60 px angezeigt und sollte einen transparenten Hintergrund haben. Bitte bereiten Sie Ihr Logo entsprechend vor."

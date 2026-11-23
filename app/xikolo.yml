@@ -424,8 +424,7 @@ bridges: {}
 # The public URL for our LimeSurvey instance.
 limesurvey_url: "https://survey.openhpi.de/survey/index.php"
 
-# The MOOChub API exposes course information according to
-# the specification in `docs/bridges/moochub`.
+# The MOOChub API exposes course information for MOOC aggregators.
 moochub_api:
   enabled: false
   # The default URL for the course license will be used for all but paid courses.

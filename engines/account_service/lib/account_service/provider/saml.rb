@@ -13,6 +13,8 @@ module Provider # rubocop:disable Layout/IndentationWidth
     end
 
     def update(user)
+      return if data[:email].blank?
+
       ActiveRecord::Base.transaction do
         confirm_email(user)
       end

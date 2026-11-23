@@ -4,6 +4,10 @@ module AccountService
 class Authorization < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   self.table_name = :authorizations
 
+  # Added to the `:provider` attribute when the authorization cannot be
+  # connected because its e-mail address already belongs to another account.
+  EMAIL_ALREADY_USED = 'email_already_used_for_another_account'
+
   belongs_to :user, optional: true
   serialize :info, coder: YAML
 
@@ -15,9 +19,7 @@ class Authorization < ApplicationRecord # rubocop:disable Layout/IndentationWidt
   end
 
   after_commit(on: %i[create update]) do
-    # Allow explicitly skipping the provider update to avoid
-    # infinite callback loops via the Provider model
-    Provider.update self if !skip_provider_update && user_id.present?
+    Provider.update self if user_id.present?
   end
 
   class << self
@@ -32,9 +34,34 @@ class Authorization < ApplicationRecord # rubocop:disable Layout/IndentationWidt
     def uid(uid)
       where uid:
     end
-  end
 
-  attr_accessor :skip_provider_update
+    ##
+    # Finds or initializes an authorization from an OmniAuth payload and
+    # updates it with the given credentials and profile information.
+    #
+    def from_omniauth(payload)
+      credentials = payload[:credentials] || {}
+
+      authorization = find_or_initialize_by(
+        provider: payload[:provider].to_s,
+        uid: payload[:uid].to_s
+      )
+      info = payload[:info].presence || authorization.info
+      attributes = {
+        token: credentials[:token],
+        secret: credentials[:secret],
+        expires_at: (Time.zone.at(credentials[:expires_at]) if credentials[:expires_at]),
+        info:,
+      }
+      # Blank credentials must not erase the ones stored for a previous login.
+      authorization.assign_attributes(attributes.compact)
+      authorization.save!
+      authorization
+    rescue ActiveRecord::RecordNotUnique
+      # A concurrent login created the authorization first. Retrying picks it up.
+      retry
+    end
+  end
 
   def info
     @info ||= ActiveSupport::HashWithIndifferentAccess.new self[:info]
@@ -53,7 +80,7 @@ class Authorization < ApplicationRecord # rubocop:disable Layout/IndentationWidt
     return unless email
 
     if email.user_id != user_id
-      errors.add :provider, 'email_already_used_for_another_account'
+      errors.add :provider, EMAIL_ALREADY_USED
     end
   end
 end

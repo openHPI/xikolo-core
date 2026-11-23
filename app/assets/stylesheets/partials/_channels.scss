@@ -1,41 +1,9 @@
-/*------------------------------------*\
-    $Variables
-\*------------------------------------*/
-$xi-channel-background-color: $white !default;
-
 /* Channel Admin Styling */
 
 .channel-admin-logo {
   img {
     max-width: 200px;
   }
-}
-
-/* Channel Styling */
-
-.channel-container {
-  background-color: $xi-channel-background-color;
-}
-
-.channel-logo {
-  position: absolute;
-  z-index: 11;
-  top: 25px;
-  left: 15px;
-  overflow: visible;
-  height: 0;
-
-  img {
-    width: auto;
-    max-height: 60px;
-  }
-}
-
-.channel-title {
-  padding: 15px $page-padding;
-  font-size: 36px;
-  font-weight: normal;
-  text-align: center;
 }
 
 .channel-info {
@@ -47,20 +15,6 @@ $xi-channel-background-color: $white !default;
     p {
       text-align: left;
     }
-  }
-}
-
-.channel-courses {
-  padding-top: $navbar-height;
-  margin-top: -$navbar-height;
-  background-color: $xi-channel-background-color;
-}
-
-// Mobile visual styles
-.channel-xs {
-  img {
-    width: 100%;
-    height: auto;
   }
 }
 

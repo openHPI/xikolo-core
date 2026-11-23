@@ -5,7 +5,7 @@ require 'spec_helper'
 describe CourseService::ChannelDecorator do
   subject(:json) { decorator.as_json(api_version: 1).stringify_keys }
 
-  let(:channel) { create(:'course_service/channel', :full_blown) }
+  let(:channel) { create(:'course_service/channel', :full_blown, subtitle: {'en' => 'Start coding'}) }
   let(:decorator) { described_class.new(channel) }
 
   it 'exports default fields' do
@@ -14,6 +14,7 @@ describe CourseService::ChannelDecorator do
       code
       title
       title_translations
+      subtitle
       logo_url
       description
       stage_visual_url
@@ -32,6 +33,7 @@ describe CourseService::ChannelDecorator do
   it { is_expected.to include 'code' => channel.code }
   it { is_expected.to include 'title' => channel.title }
   it { is_expected.to include 'title_translations' => channel.title_translations }
+  it { is_expected.to include 'subtitle' => channel.subtitle }
   it { is_expected.to include 'logo_url' => channel.logo_url }
   it { is_expected.to include 'description' => channel.description }
   it { is_expected.to include 'stage_visual_url' => channel.stage_visual_url }

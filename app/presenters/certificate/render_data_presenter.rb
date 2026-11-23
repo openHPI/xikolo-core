@@ -65,6 +65,21 @@ module Certificate
       end
     end
 
+    # The number of submitted attempts the user needed for the course's exam.
+    # Exams cannot be retaken once passed, so all submitted attempts count.
+    def exam_attempts
+      return if @template.certificate_type == ::Certificate::Record::COP
+
+      exam = @record.course.exam
+      return if exam.nil?
+
+      QuizService::QuizSubmission
+        .where(quiz_id: exam.content_id, user_id: @record.user_id)
+        .where_submitted(true)
+        .count
+        .nonzero?
+    end
+
     def date_of_birth
       return if @record.user.born_at.blank?
 
@@ -102,6 +117,8 @@ module Certificate
           lookup_birthday(var) if date_of_birth
         when /^TOP($|_)/
           lookup_top(var) if top_percent
+        when 'EXAM_ATTEMPTS'
+          exam_attempts
         when 'VERIFY'
           I18n.t(:'certificate.template.verify', verification_url:)
         when 'ISSUED_AT'

@@ -33,6 +33,7 @@ describe Certificate::RenderPreviewDataPresenter, type: :presenter do
         <text>##VERIFY##</text>
         <text>##ISSUED_AT##</text>
         <text>##ISSUED_AT_INTL##</text>
+        <text>##EXAM_ATTEMPTS##</text>
       </svg>
     DYNCONTENT
   end
@@ -74,6 +75,12 @@ describe Certificate::RenderPreviewDataPresenter, type: :presenter do
           'The candidate belongs to the top 5% of the course participants.',
         ]
       end
+    end
+
+    context 'exam attempts' do
+      subject(:attempts_data) { dynamic_content_data[15] }
+
+      it { is_expected.to eq '1' }
     end
 
     context 'issued_at' do

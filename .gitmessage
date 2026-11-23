@@ -1,0 +1,19 @@
+# <type>(<optional scope>): <imperative subject>
+#
+# Types: feat, fix, docs, refactor, perf, test, build, ci, chore, style.
+# Keep the subject short and leave off the trailing period.
+# For a breaking change, add ! before the colon.
+#
+# Add a blank line before the optional body. Explain what changed and why.
+# Wrap the body at 72 characters.
+#
+# After a blank line, reference each Jira ticket on its own line.
+# Use `Closes SODEV-1234` if the commit completes the ticket.
+# Use `Related to SODEV-1234` if the commit contributes to the ticket.
+#
+# Example
+# fix(courses): Preserve the teacher filter
+#
+# Keep the selected filter when navigating back to the course list.
+#
+# Closes SODEV-1234

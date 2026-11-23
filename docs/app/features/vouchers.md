@@ -12,7 +12,7 @@ We currently offer the following product to be activated by redeeming vouchers:
 
 ## Creating vouchers
 
-Vouchers can be created using the self-service UI ("Vouchers" from the platform administration dropdown) or the API endpoints provided by `shop` bridge API, so voucher codes can be created programatically by the used shop software.
+Choose **Vouchers** from the platform administration dropdown to create voucher codes.
 
 ## Redeeming vouchers
 
@@ -34,13 +34,3 @@ voucher:
 
 Depending on the products that shall be available, the corresponding feature must be properly configured as well.
 Please have a look at the documentation for these features.
-
-## Integration
-
-For integration with external shops (which can take over the money / payment handling), we provide a "Bridge API" that enables automated workflows for the following:
-
-- creating new vouchers in order to sell them
-- verifying whether, when and where vouchers have been redeemed
-
-This bridge API is publicly documented at <https://openhpi.stoplight.io/docs/bridges/shop>.
-The source files for this documentation can be found in `docs/app/bridges/shop` and should be edited using [Stoplight Studio](https://stoplight.io/studio).

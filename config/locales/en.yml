@@ -2158,6 +2158,7 @@ en:
       previous: Previous
       next: Next
       about: "About the <b>%{title}</b> Course Series"
+      more_information: More information about this channel
       filter:
         search: Search
       empty_state: There are no courses available in this channel yet.

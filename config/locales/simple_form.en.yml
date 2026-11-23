@@ -82,6 +82,7 @@ en:
         name: Name
         title_de: Name (German)
         title_en: Name (English)
+        subtitle: Subtitle
         logo_upload_id: Logo
         description: Description
         video_stream: Stage video
@@ -190,6 +191,7 @@ en:
         consents: "Only recipients who have given the selected consents will receive the announcement. If none are selected, all recipients will receive the announcement. To stay legally compliant, consult your data protection expert in case of doubt."
       channel:
         code: "The channel code should only contain lowercase letters and the minus sign ('-')."
+        subtitle: Optional short text for the channel header.
         logo_upload_id: "The channel logo will be displayed with a maximum height of 60 px and should have a transparent background. Please style and resize your logo accordingly."
         stage_visual_upload_id: "The visual must meet a minimum size of %{width}x%{height} px. Larger images will be resized and cropped to center."
         mobile_visual_upload_id: "The visual must meet a minimum size of %{width}x%{height} px. Larger images will be resized and cropped to center."

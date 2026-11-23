@@ -24,6 +24,7 @@ class ChannelDecorator < ApplicationDecorator # rubocop:disable Layout/Indentati
       code:,
       title:,
       title_translations:,
+      subtitle:,
       logo_url:,
       description:,
       stage_visual_url:,

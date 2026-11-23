@@ -34,6 +34,7 @@ class Admin::ChannelForm < XUI::Form
     image_width: stage_min_width,
     image_height: stage_min_height
 
+  localized_attribute :subtitle, :single_line_string
   localized_attribute :description, :markup
 
   localized_attribute :info_link_url, :uri

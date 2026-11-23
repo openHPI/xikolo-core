@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_12_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_18_120313) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "pg_catalog.plpgsql"
@@ -145,6 +145,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_12_120000) do
     t.text "token"
     t.text "uid", null: false
     t.uuid "user_id"
+    t.index ["provider", "uid"], name: "index_authorizations_on_provider_and_uid", unique: true
     t.index ["provider"], name: "index_authorizations_on_provider"
     t.index ["user_id"], name: "index_authorizations_on_user_id"
   end
@@ -198,6 +199,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_12_120000) do
     t.string "stage_visual_uri"
     t.jsonb "title_translations", default: {}
     t.datetime "updated_at", precision: nil
+    t.jsonb "subtitle"
     t.index ["code"], name: "index_channels_on_code", unique: true
   end
 
@@ -1238,6 +1240,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_12_120000) do
     t.string "token"
     t.uuid "user_id"
     t.index ["token"], name: "index_tokens_on_token"
+    t.index ["user_id"], name: "index_tokens_on_user_id", unique: true
   end
 
   create_table "treatments", id: :uuid, default: -> { "uuid_generate_v7ms()" }, force: :cascade do |t|

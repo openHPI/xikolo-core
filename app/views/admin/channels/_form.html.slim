@@ -4,6 +4,7 @@
   = f.input :title_en, required: true
   = f.input :title_de, required: true
   - Xikolo.config.locales['available'].each do |locale|
+    = f.input :"subtitle_#{locale}", hint: t('simple_form.hints.channel.subtitle')
     = f.input :"description_#{locale}"
 
   = advanced_settings do

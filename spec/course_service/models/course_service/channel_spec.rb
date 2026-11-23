@@ -21,6 +21,27 @@ describe CourseService::Channel, type: :model do
   it { is_expected.not_to accept_values_for(:title_translations, {'de' => '', 'en' => 'Channel EN'}) }
   it { is_expected.not_to accept_values_for(:title_translations, {'fr' => 'Channel FR', 'en' => 'Channel EN'}) }
 
+  describe 'subtitle validation' do
+    it 'accepts absent, empty and partially translated subtitles' do
+      expect(channel).to accept_values_for(:subtitle,
+        nil, {}, {'en' => ''}, {'en' => 'Start coding'},
+        {'en' => 'Start coding', 'de' => 'Starte mit Programmieren'})
+    end
+
+    it 'rejects values that are not a hash of strings' do
+      expect(channel).not_to accept_values_for(:subtitle,
+        '', 'Start coding', [], false, 42,
+        {'en' => nil}, {'en' => 42}, {'en' => false}, {'en' => []}, {'en' => {}})
+    end
+
+    it 'rejects line breaks in any translation' do
+      expect(channel).not_to accept_values_for(:subtitle,
+        {'en' => "First line\nSecond line"},
+        {'en' => "First line\rSecond line"},
+        {'en' => 'Start coding', 'de' => "Erste Zeile\r\nZweite Zeile"})
+    end
+  end
+
   it 'allows assigning multiple courses to a channel' do
     course1 = create(:'course_service/course', channels: [channel])
     course2 = create(:'course_service/course', channels: [channel])

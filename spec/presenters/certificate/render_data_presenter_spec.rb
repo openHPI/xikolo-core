@@ -35,6 +35,7 @@ describe Certificate::RenderDataPresenter, type: :presenter do
         <text>##VERIFY##</text>
         <text>##ISSUED_AT##</text>
         <text>##ISSUED_AT_INTL##</text>
+        <text>##EXAM_ATTEMPTS##</text>
       </svg>
     DYNCONTENT
   end
@@ -115,6 +116,7 @@ describe Certificate::RenderDataPresenter, type: :presenter do
         "Verify online: https://xikolo.de/verify/#{record.verification}",
         'June 7, 1977',
         '7. Juni 1977',
+        '',
       ]
     end
 
@@ -196,6 +198,41 @@ describe Certificate::RenderDataPresenter, type: :presenter do
         it 'wraps the name in CDATA' do
           expect(name_element.children.first).to be_cdata
         end
+      end
+    end
+
+    context 'with exam attempts' do
+      subject(:attempts_data) { dynamic_content_data[15] }
+
+      let(:quiz) { create(:'quiz_service/quiz', :with_valid_question_pool) }
+      let(:section) { create(:'course_service/section', course:) }
+
+      before do
+        # Issue the record first: with an exam, issuing it requires a passed
+        # (scored) submission, which is irrelevant for counting attempts.
+        record
+        create(:'course_service/item',
+          section:,
+          content_type: 'quiz',
+          content_id: quiz.id,
+          exercise_type: 'exam')
+        create_list(:'quiz_service/quiz_submission', 2, :submitted, quiz:, user_id: user.id)
+        # Neither an unsubmitted attempt nor other users' attempts count
+        create(:'quiz_service/quiz_submission', quiz:, user_id: user.id)
+        create(:'quiz_service/quiz_submission', :submitted, quiz:)
+      end
+
+      it 'renders the number of submitted attempts' do
+        expect(attempts_data).to eq '2'
+      end
+
+      context 'with a Confirmation of Participation' do
+        let(:record) { create(:cop, user:, course:, template:) }
+        let(:template) do
+          create(:certificate_template, :cop, course:, file_uri:, dynamic_content:)
+        end
+
+        it { is_expected.to eq '' }
       end
     end
 

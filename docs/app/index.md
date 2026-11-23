@@ -9,11 +9,7 @@ This documentation provides everything you need to get started with Xikolo, whet
 
 ## Overview
 
-This documentation comprises the following areas:
-
-- :material-keyboard-outline: [Development](development/index.md) for everything you need to get started and contribute to the codebase - setup tutorials, tips for troubleshooting and coding guidelines.
-- :material-star-box-outline: [Features](features/index.md) for an introduction into product domain terminology and concepts.
-- :material-package-variant: [Deployment](deployment/index.md) for all configuration and deployment details to use Xikolo in a production environment.
+See :material-star-box-outline: [Features](features/index.md) for an introduction to platform features and terminology.
 
 ### Teaching team guidelines
 
@@ -27,11 +23,7 @@ For guidance on operational topics, such as course administration, please refer 
 
 Explore the following APIs and access their documentation through the provided links.
 
-[Portal and Bridge APIs](https://openhpi.stoplight.io/), documented via Stoplight:
-
-- :material-layers-outline: The *Portal API* facilitates integration with external platform portals.
-- :material-format-list-text: The *MOOChub API* provides course information for MOOC aggregators.
-- :material-cart-outline: The *Shop API* connects shop systems for selling vouchers.
+:material-layers-outline: The [Portal API](https://openhpi.stoplight.io/) facilitates integration with external platform portals.
 
 :material-devices: [Xikolo API](https://apidocs.dev.xikolo.de/): Supports integration with mobile apps and is implemented based on `JSON:API`.
   *(Legacy: Limited support for this API may be provided.)*

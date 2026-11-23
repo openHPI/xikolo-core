@@ -8,23 +8,27 @@ module Global
     }.freeze
     private_constant :TITLE_SIZES
 
-    def initialize(title, lang: nil, subtitle: nil, breadcrumbs: [], back_url: nil, type: nil)
+    def initialize(title, lang: nil, subtitle: nil, breadcrumbs: [], back_url: nil, type: nil, color: nil)
       @title = title
       @lang = lang
       @subtitle = subtitle
       @breadcrumbs = breadcrumbs
       @back_url = back_url
       @type = type
+      @color = color
     end
 
     renders_one :item_header
     renders_one :navigation
+    renders_one :visual
 
     private
 
     # Content inside the header can adapt to it via --page-header-bg and --page-header-text.
     def header_classes
-      if navigation?
+      if @color == :secondary
+        '[--page-header-bg:var(--color-secondary)] [--page-header-text:var(--color-secondary-content)]'
+      elsif navigation?
         '[--page-header-bg:var(--color-accent-25)] [--page-header-text:var(--color-accent-content)]'
       else
         '[--page-header-bg:var(--color-accent)] [--page-header-text:var(--color-white)]'
