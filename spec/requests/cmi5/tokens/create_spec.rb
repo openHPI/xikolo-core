@@ -20,8 +20,7 @@ describe 'CMI5: Tokens: Create', type: :request do
       create(
         :'course_service/item',
         section:,
-        content_type: 'cmi5',
-        content_id: item.id
+        content: item
       )
     end
     let(:enrollment) do

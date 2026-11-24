@@ -8,7 +8,7 @@ describe 'Course: Items: Signed URL', type: :request do
   let(:course) { create(:course, course_code: 'example') }
   let(:section) { create(:section, course:) }
   let(:video) { create(:video, pip_stream: create(:stream, :bunny, provider_video_id: 'bunny-guid')) }
-  let(:item) { create(:item, section:, content_type: 'video', content_id: video.id) }
+  let(:item) { create(:item, section:, content: video) }
   let(:user) { create(:'account_service/user') }
   let(:user_id) { user.id }
   let(:course_resource) { build(:'course:course', id: course.id, course_code: course.course_code) }
@@ -60,7 +60,7 @@ describe 'Course: Items: Signed URL', type: :request do
   context 'when the item belongs to a different course' do
     let(:other_course) { create(:course, course_code: 'other') }
     let(:other_section) { create(:section, course: other_course) }
-    let(:item) { create(:item, section: other_section, content_type: 'video', content_id: video.id) }
+    let(:item) { create(:item, section: other_section, content: video) }
 
     it 'is not found' do
       expect { get_signed_url }.to raise_error(Status::NotFound)

@@ -170,8 +170,7 @@ describe CourseService::SectionProgress, type: :model do
         create(:'course_service/item',
           title: 'Final Exam',
           section:,
-          content_type: 'quiz',
-          content_id: exam_quiz.id,
+          content: exam_quiz,
           exercise_type: 'exam')
       end
       let(:video) { create(:'course_service/item', title: 'Lecture', section:) }

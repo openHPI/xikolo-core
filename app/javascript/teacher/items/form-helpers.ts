@@ -1,7 +1,7 @@
 import { ContentType } from './form-types';
 
-const isVideo = (el: ContentType) => el === 'video';
-const isRichText = (el: ContentType) => el === 'rich_text';
+const isVideo = (el: ContentType) => el === 'Video::Video';
+const isRichText = (el: ContentType) => el === 'CourseService::Richtext';
 
 export const setVisibility = (display: string, selectors: string[]) =>
   selectors.forEach((selector) => {

@@ -8,7 +8,7 @@ describe 'Content: Show the latest quiz submission', type: :system do
   let(:quiz) { create(:'quiz_service/quiz', allowed_attempts: 2) }
   let(:item) do
     create(:'course_service/item', :quiz,
-      section:, content_id: quiz.id, title: 'An Example Item',
+      section:, content: quiz, title: 'An Example Item',
       max_dpoints: 30)
   end
   let(:question) do

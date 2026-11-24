@@ -11,8 +11,7 @@ describe 'CMI5: Reportings: Create', type: :request do
     create(
       :'course_service/item',
       section:,
-      content_type: 'cmi5',
-      content_id: item.id,
+      content: item,
       exercise_type: 'selftest',
       max_dpoints: 100
     )
@@ -254,8 +253,7 @@ describe 'CMI5: Reportings: Create', type: :request do
           create(
             :'course_service/item',
             section:,
-            content_type: 'cmi5',
-            content_id: item.id,
+            content: item,
             exercise_type: nil,
             max_dpoints: nil
           )
@@ -279,8 +277,7 @@ describe 'CMI5: Reportings: Create', type: :request do
           create(
             :'course_service/item',
             section:,
-            content_type: 'cmi5',
-            content_id: item.id,
+            content: item,
             exercise_type: 'main',
             max_dpoints: nil
           ).tap do |course_item|

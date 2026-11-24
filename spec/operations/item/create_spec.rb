@@ -29,7 +29,7 @@ RSpec.describe Item::Create do
 
     context 'with valid item and a valid video' do
       before do
-        item.content_id = nil
+        item.content = nil
         tags_create_stub
       end
 
@@ -42,7 +42,7 @@ RSpec.describe Item::Create do
       end
 
       it "sets the item's content_id and section_id" do
-        expect { create_item }.to change(item, :content_id).from(nil).to(video.id).and change(item, :section_id).from(nil).to(section.id)
+        expect { create_item }.to change(item, :content).from(nil).to(video).and change(item, :section_id).from(nil).to(section.id)
       end
 
       it 'creates the pinboard tags' do
@@ -53,7 +53,7 @@ RSpec.describe Item::Create do
 
     context 'with an invalid item' do
       before do
-        item.content_id = nil
+        item.content = nil
         allow(item).to receive(:save!).and_raise(Acfs::InvalidResource)
       end
 
@@ -62,7 +62,7 @@ RSpec.describe Item::Create do
       end
 
       it "sets the item's content_id and section_id" do
-        expect { create_item }.to change(item, :content_id).from(nil).to(video.id).and change(item, :section_id).from(nil).to(section.id)
+        expect { create_item }.to change(item, :content).from(nil).to(video).and change(item, :section_id).from(nil).to(section.id)
       end
 
       it 'does not save the item' do

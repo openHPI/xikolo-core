@@ -60,7 +60,7 @@ describe QuizRecapController, type: :controller do
 
     context 'with params' do
       let(:params) { {quiz_id:, course_id:} }
-      let!(:item) { create(:'course_service/item', :quiz, section:, content_id: quiz_id) }
+      let!(:item) { create(:'course_service/item', :quiz, section:, content: create(:'quiz_service/quiz', id: quiz_id)) }
 
       it { is_expected.to redirect_to course_item_path(id: item.id, course_id:) }
 

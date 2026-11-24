@@ -22,7 +22,7 @@ describe LtiExerciseItemPresenter, type: :presenter do
   describe '#icon_class' do
     subject { presenter.icon_class }
 
-    let(:item_params) { super().merge content_type: 'lti_exercise' }
+    let(:item_params) { super().merge content_type: 'Lti::Exercise' }
 
     context 'as self-test' do
       let(:item_params) { super().merge exercise_type: 'selftest' }
@@ -72,7 +72,7 @@ describe LtiExerciseItemPresenter, type: :presenter do
   describe '#partial_name' do
     subject { presenter.partial_name }
 
-    let(:item_params) { super().merge content_type: 'lti_exercise' }
+    let(:item_params) { super().merge content_type: 'Lti::Exercise' }
 
     context 'when deadline has not passed' do
       it { is_expected.to eq 'items/lti_exercise/show_item_lti_exercise' }

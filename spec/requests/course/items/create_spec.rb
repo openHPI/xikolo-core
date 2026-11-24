@@ -116,7 +116,7 @@ describe 'Course: Items: Create', type: :request do
     context 'for richtext item' do
       let(:richtext_params) { {text: 'Richtext text', course_id: course['id']} }
       let(:item) do
-        build(:'course:item', content_type: 'rich_text', open_mode: false)
+        build(:'course:item', content_type: 'CourseService::Richtext', open_mode: false)
       end
       let(:params) do
         {
@@ -432,7 +432,7 @@ describe 'Course: Items: Create', type: :request do
 
     context 'for quiz items' do
       let(:item) do
-        build(:'course:item', content_type: 'quiz', open_mode: false)
+        build(:'course:item', content_type: 'QuizService::Quiz', open_mode: false)
       end
       let(:params) do
         {
@@ -508,7 +508,7 @@ describe 'Course: Items: Create', type: :request do
 
     context 'for LTI exercise items' do
       let(:item) do
-        build(:'course:item', content_type: 'lti_exercise', open_mode: false)
+        build(:'course:item', content_type: 'Lti::Exercise', open_mode: false)
       end
       let(:params) do
         {

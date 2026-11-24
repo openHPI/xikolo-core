@@ -12,8 +12,7 @@ describe 'Item: Section Navigation', type: :system do
       :'course_service/item',
       section:,
       title: 'Regular course item',
-      content_type: 'rich_text',
-      content_id: richtext.id,
+      content: richtext,
       open_mode: false
     )
   end
@@ -22,8 +21,7 @@ describe 'Item: Section Navigation', type: :system do
       :'course_service/item',
       section:,
       title: 'Open mode item',
-      content_type: 'video',
-      content_id: video.id,
+      content: video,
       open_mode: true
     )
   end
@@ -158,7 +156,7 @@ describe 'Item: Section Navigation', type: :system do
       let!(:next_section) { create(:'course_service/section', course:, title: 'Week 2') }
       let!(:next_item) do
         create(:'course_service/item', section: next_section, title: 'Week 2 introduction',
-          content_type: 'rich_text', content_id: richtext.id)
+          content: richtext)
       end
 
       before { enroll_in(course) }

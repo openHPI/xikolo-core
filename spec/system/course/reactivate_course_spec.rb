@@ -19,8 +19,7 @@ describe 'Reactivate a course', type: :system do
       section: section,
       submission_deadline: 2.days.ago,
       max_dpoints: 10,
-      content_type: 'quiz',
-      content_id: quiz.id)
+      content: quiz)
   end
   let!(:voucher) { create(:voucher, :reactivation) }
 

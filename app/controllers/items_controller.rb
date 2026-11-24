@@ -45,7 +45,7 @@ class ItemsController < Abstract::FrontendController
     return @item_presenter.redirect(self) if @item_presenter.redirect?
 
     # The QuizSubmissionController takes care of creating visits for quizzes
-    create_visit! unless @item_presenter.content_type == 'quiz'
+    create_visit! unless @item_presenter.quiz?
 
     meta = @item_presenter.meta_tags
     set_page_title(*meta.delete(:title))
@@ -67,9 +67,7 @@ class ItemsController < Abstract::FrontendController
     # belongs to the course in the URL to avoid cross-course access.
     raise Status::NotFound unless record.section.course_id == course.id
 
-    stream = if record.content_type == 'video'
-               Video::Video.find(record.content_id).bunny_stream
-             end
+    stream = record.content.bunny_stream if record.video?
     raise Status::NotFound if stream.nil?
 
     redirect_to BunnySignedURL.new.call(stream.provider_video_id).fetch(:video), allow_other_host: true
@@ -113,31 +111,19 @@ class ItemsController < Abstract::FrontendController
 
   def edit(status: nil)
     @item = CourseService::Item.find(UUID(params[:id]).to_s)
-    case @item.content_type
-      when 'video'
-        @video = Video::Video.find(@item.content_id)
-      when 'rich_text'
-        @rich_text = CourseService::Richtext.find(@item.content_id)
-      when 'quiz'
-        # Dummy resources to be used for the initial blank form (dynamically
-        # rendered based on the selected quiz type).
-        @quiz_question = Xikolo::Quiz::Question.new
-        @multiple_choice_question = Xikolo::Quiz::MultipleChoiceQuestion.new
-        @multiple_answer_question = Xikolo::Quiz::MultipleAnswerQuestion.new
-        @free_text_question = Xikolo::Quiz::FreeTextQuestion.new
-        @essay_question = Xikolo::Quiz::EssayQuestion.new(exclude_from_recap: true)
-        @quiz = Xikolo::Quiz::Quiz.find(@item.content_id, params: {raw: true}) do |quiz|
-          quiz.enqueue_acfs_request_for_questions do |questions|
-            questions.each(&:enqueue_acfs_request_for_answers)
-          end
-        end
-        @quiz_info = QuizService::Quiz.find(@item.content_id)
-      when 'lti_exercise'
-        @lti_exercise = Lti::Exercise.find(@item.content_id)
+    case @item.content
+      when Video::Video
+        @video = @item.content
+      when CourseService::Richtext
+        @rich_text = @item.content
+      when QuizService::Quiz
+        load_quiz_content!(@item)
+      when Lti::Exercise
+        @lti_exercise = @item.content
         @lti_providers_global ||= Lti::Provider.global
         @lti_providers_course ||= Lti::Provider.where(course_id: the_course.id)
-      when 'cmi5'
-        @cmi5_item = Cmi5::Item.find(@item.content_id)
+      when Cmi5::Item
+        @cmi5_item = @item.content
     end
     Acfs.run
 
@@ -166,7 +152,7 @@ class ItemsController < Abstract::FrontendController
   def new_exam(status: nil)
     @exam = true
     @item ||= CourseService::Item.new(
-      content_type: 'quiz', exercise_type: 'exam', published: false, minimum_progress_percentage: 75
+      content: QuizService::Quiz.new, exercise_type: 'exam', published: false, minimum_progress_percentage: 75
     )
     @quiz ||= Xikolo::Quiz::Quiz.new(question_pool: true, time_limit_seconds: 3600, allowed_attempts: 2,
       pass_percentage: 70)
@@ -204,14 +190,14 @@ class ItemsController < Abstract::FrontendController
     end
 
     case item_params[:content_type]
-      when 'video'
+      when 'Video::Video'
         @content = @video = Video::Store.call(Video::Video.new, content_video_params)
         if @video.errors.any?
           add_flash_message :error, I18n.t('items.errors.create')
           new(status: :unprocessable_entity)
           return
         end
-      when 'rich_text'
+      when 'CourseService::Richtext'
         course = the_course
         @content = @rich_text = Course::Richtext::Store.call(CourseService::Richtext.new,
           content_richtext_params.merge(course_id: course.id))
@@ -220,11 +206,11 @@ class ItemsController < Abstract::FrontendController
           new(status: :unprocessable_entity)
           return
         end
-      when 'quiz'
+      when 'QuizService::Quiz'
         @content = @quiz = Xikolo::Quiz::Quiz.new content_quiz_params
-      when 'lti_exercise'
+      when 'Lti::Exercise'
         @content = @lti_exercise = Lti::Exercise::Store.call(Lti::Exercise.new, content_lti_params)
-      when 'cmi5'
+      when 'Cmi5::Item'
         @content = @cmi5_item = Cmi5::Item.create(content_cmi5_params)
         if @cmi5_item.errors.any?
           add_flash_message :error, I18n.t('items.errors.create')
@@ -280,7 +266,7 @@ class ItemsController < Abstract::FrontendController
     end
 
     # Apply the proper redirect depending on the content type
-    if item_params[:content_type] == 'quiz'
+    if item_params[:content_type] == 'QuizService::Quiz'
       if @exam
         return redirect_to(edit_exam_course_section_item_path(
           course_id: the_course.id,
@@ -297,21 +283,17 @@ class ItemsController < Abstract::FrontendController
 
   def update
     @item = CourseService::Item.find(UUID(params[:id]).to_s)
-    case @item.content_type
-      when 'video'
-        @video = Video::Video.find @item.content_id
-      when 'rich_text'
-        @rich_text = CourseService::Richtext.find @item.content_id
-      when 'quiz'
-        # Load quiz content the same way as `edit_exam`/`edit` do. This also
-        # loads the dummy question resources and enqueues the questions and
-        # answers, which are required to re-render the form when validation
-        # fails below.
+    case @item.content
+      when Video::Video
+        @video = @item.content
+      when CourseService::Richtext
+        @rich_text = @item.content
+      when QuizService::Quiz
         load_quiz_content!(@item)
-      when 'lti_exercise'
-        @lti_exercise = Lti::Exercise.find @item.content_id
-      when 'cmi5'
-        @cmi5_item = Cmi5::Item.find(@item.content_id)
+      when Lti::Exercise
+        @lti_exercise = @item.content
+      when Cmi5::Item
+        @cmi5_item = @item.content
     end
 
     Acfs.run
@@ -336,7 +318,7 @@ class ItemsController < Abstract::FrontendController
     end
 
     @item.attributes = item_params
-    if @item.content_type == 'quiz'
+    if @item.quiz?
       @quiz.attributes = content_quiz_params
       # Exams (question-pool quizzes) have a fixed number of points per attempt,
       # derived from the displayed question set. Keep it in sync on every save.
@@ -365,8 +347,8 @@ class ItemsController < Abstract::FrontendController
       return redirect_to edit_item_path, status: :see_other
     end
 
-    case @item.content_type
-      when 'video'
+    case @item.content
+      when Video::Video
         @video = Video::Store.call(@video, content_video_params)
         if @video.errors.any?
           # Specific errors were attached by the operation to the video resource to be displayed inline in the form
@@ -375,7 +357,7 @@ class ItemsController < Abstract::FrontendController
           render 'edit', layout: 'course_area', status: :unprocessable_content
           return
         end
-      when 'rich_text'
+      when CourseService::Richtext
         @rich_text = Course::Richtext::Store.call(@rich_text, content_richtext_params)
         if @rich_text.errors.any?
           add_flash_message :error, I18n.t('items.errors.update')
@@ -383,15 +365,15 @@ class ItemsController < Abstract::FrontendController
           render 'edit', layout: 'course_area', status: :unprocessable_content
           return
         end
-      when 'quiz'
+      when QuizService::Quiz
         @quiz.save!
-      when 'lti_exercise'
+      when Lti::Exercise
         @lti_exercise = Lti::Exercise::Store.call(@lti_exercise, content_lti_params)
         if @lti_exercise.errors.any?
           render 'edit', layout: 'course_area', status: :unprocessable_content
           return
         end
-      when 'cmi5'
+      when Cmi5::Item
         @cmi5_item.update(content_cmi5_params)
         if @cmi5_item.errors.any?
           render 'edit', layout: 'course_area', status: :unprocessable_content
@@ -463,16 +445,16 @@ class ItemsController < Abstract::FrontendController
   def destroy
     item = course_api.rel(:item).get({id: UUID4(params[:id]).to_s}).then do |resource|
       case resource['content_type']
-        when 'quiz'
+        when 'QuizService::Quiz'
           Xikolo.api(:quiz).value!.rel(:quiz).delete({id: resource['content_id']})
           @notice = I18n.t('items.deleted_quiz')
-        when 'rich_text'
+        when 'CourseService::Richtext'
           @content = CourseService::Richtext.find(resource['content_id'])
-        when 'lti_exercise'
+        when 'Lti::Exercise'
           @content = Lti::Exercise.find(resource['content_id'])
-        when 'video'
+        when 'Video::Video'
           @content = Video::Video.find(resource['content_id'])
-        when 'cmi5'
+        when 'Cmi5::Item'
           @content = Cmi5::Item.find(resource['content_id'])
         else
           @notice = I18n.t('items.deleted_item')
@@ -488,7 +470,7 @@ class ItemsController < Abstract::FrontendController
     course_api.rel(:item).delete({id: item['id']}).value!
 
     # Quizzes are destroyed by `xi-quiz`.
-    unless %w[quiz].include?(item['content_type'])
+    unless %w[QuizService::Quiz].include?(item['content_type'])
       @content.destroy!
       @notice = I18n.t('items.deleted_item')
     end
@@ -531,12 +513,12 @@ class ItemsController < Abstract::FrontendController
 
   def load_quiz_content!(item)
     load_quiz_dummy_resources
-    @quiz = Xikolo::Quiz::Quiz.find(item.content_id, params: {raw: true}) do |quiz|
+    @quiz = Xikolo::Quiz::Quiz.find(item.content.id, params: {raw: true}) do |quiz|
       quiz.enqueue_acfs_request_for_questions do |questions|
         questions.each(&:enqueue_acfs_request_for_answers)
       end
     end
-    @quiz_info = QuizService::Quiz.find(item.content_id)
+    @quiz_info = item.content
   end
 
   # Dummy resources used to render the blank question forms.
@@ -751,7 +733,7 @@ class ItemsController < Abstract::FrontendController
 
   def valid_content_type_attributes?
     # Videos can be available in open mode
-    return true if item_params[:content_type] == 'video'
+    return true if item_params[:content_type] == 'Video::Video'
 
     # The other content types are not supported
     !ActiveModel::Type::Boolean.new.cast(item_params[:open_mode])

@@ -4,6 +4,11 @@ module CourseService
 class Item < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   self.table_name = :items
 
+  scope :video,         -> { where(content_type: 'Video::Video') }
+  scope :quiz,          -> { where(content_type: 'QuizService::Quiz') }
+  scope :rich_text,     -> { where(content_type: 'CourseService::Richtext') }
+  scope :lti_exercise,  -> { where(content_type: 'Lti::Exercise') }
+  scope :cmi5,          -> { where(content_type: 'Cmi5::Item') }
   scope :published,     -> { where(published: true) }
   scope :available,     -> { published.started.ongoing }
   scope :was_available, -> { published.started }
@@ -21,7 +26,7 @@ class Item < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   scope :all_available, lambda {
     joins(:section).available.merge(Section.available)
   }
-  scope :open_mode, -> { where(open_mode: true, content_type: 'video') }
+  scope :open_mode, -> { where(open_mode: true).video }
   scope :user_state, lambda {|user|
     select(
       'items.*',
@@ -72,7 +77,7 @@ class Item < ApplicationRecord # rubocop:disable Layout/IndentationWidth
     greater_than_or_equal_to: 0,
   }
   validates :exercise_type,
-    presence: {if: -> { content_type == 'quiz' }, message: 'required_when_quiz'}
+    presence: {if: -> { quiz? }, message: 'required_when_quiz'}
   validates :exercise_type,
     inclusion: {
       in: CMI5_EXERCISE_TYPES,
@@ -119,26 +124,7 @@ class Item < ApplicationRecord # rubocop:disable Layout/IndentationWidth
 
   delegate :course, to: :section
 
-  STI_CLASS_TO_TYPE = {
-    'lti_exercise' => ::Lti::Exercise,
-    'cmi5' => ::Cmi5::Item,
-    'quiz' => ::QuizService::Quiz,
-    'video' => ::Video::Video,
-    'richtext' => CourseService::Richtext,
-    'rich_text' => CourseService::Richtext,
-  }.freeze
-
-  # Returns the model's class name of the corresponding content resource
-  # based on the value stored in the polymorphic type column `content_type`.
-  def self.polymorphic_class_for(name)
-    if STI_CLASS_TO_TYPE.key?(name)
-      STI_CLASS_TO_TYPE[name]
-    else
-      super
-    end
-  end
-
-  GRADABLE_CONTENT_TYPES = %w[lti_exercise peer_assessment quiz].freeze
+  GRADABLE_CONTENT_TYPES = %w[Lti::Exercise QuizService::Quiz].freeze
 
   # Whether an item counts as completed for the learner's progress, given
   # the user's state for it: gradable items once graded or submitted, all
@@ -157,7 +143,7 @@ class Item < ApplicationRecord # rubocop:disable Layout/IndentationWidth
 
   def self.gradable_content_type?(content_type, max_points = nil)
     GRADABLE_CONTENT_TYPES.include?(content_type) ||
-      (content_type == 'cmi5' && max_points.to_f.positive?)
+      (content_type == 'Cmi5::Item' && max_points.to_f.positive?)
   end
 
   after_commit(on: :destroy) do
@@ -177,8 +163,32 @@ class Item < ApplicationRecord # rubocop:disable Layout/IndentationWidth
     !optional
   end
 
+  def video?
+    content_type == 'Video::Video'
+  end
+
+  def quiz?
+    content_type == 'QuizService::Quiz'
+  end
+
+  def rich_text?
+    content_type == 'CourseService::Richtext'
+  end
+
+  def lti_exercise?
+    content_type == 'Lti::Exercise'
+  end
+
+  def cmi5?
+    content_type == 'Cmi5::Item'
+  end
+
+  def content_type_name
+    content_type
+  end
+
   def supports_open_mode?
-    new_record? || (content_type == 'video')
+    new_record? || video?
   end
 
   # `max_dpoints` is stored internally in decipoints; `max_points` is the
@@ -208,10 +218,10 @@ class Item < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   end
 
   def label
-    if content_type == 'quiz' && exercise_type == 'exam'
+    if quiz? && exercise_type == 'exam'
       I18n.t(:'sections.index.label.exam')
     else
-      I18n.t(:"sections.index.label.#{content_type}")
+      I18n.t(:"sections.index.label.#{content_type_name}")
     end
   end
 
@@ -291,7 +301,7 @@ class Item < ApplicationRecord # rubocop:disable Layout/IndentationWidth
 
   # If this item is required for another item, is the fulfillment criterion met?
   def fulfilled_for?(user)
-    if %w[rich_text video].include? content_type
+    if rich_text? || video?
       return visits.where(user_id: user.id).any?
     end
 
@@ -313,7 +323,7 @@ class Item < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   # learner's reactivated enrollment postpones it to the forced submission date.
   # Takes the enrollment, so that lists check many items with a single query.
   def quiz_deadline_passed?(enrollment)
-    return false unless content_type == 'quiz' && submission_deadline?
+    return false unless quiz? && submission_deadline?
 
     [submission_deadline, enrollment&.forced_submission_date].compact.max.past?
   end
@@ -331,7 +341,7 @@ class Item < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   # provider allows it. Such an item counts as fully completed in progress
   # views once it has a result.
   def lti_submission_deadline_passed?
-    content_type == 'lti_exercise' &&
+    lti_exercise? &&
       submission_deadline_passed? &&
       content.provider&.allow_access_after_deadline
   end
@@ -425,7 +435,7 @@ class Item < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   private
 
   def scored_cmi5?
-    content_type == 'cmi5' && max_dpoints&.positive?
+    cmi5? && max_dpoints&.positive?
   end
 
   def required_items_exist
@@ -437,9 +447,9 @@ class Item < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   end
 
   def published_exam_is_valid
-    return unless published? && content_type == 'quiz' && content_id.present? && exercise_type == 'exam'
+    return unless published? && quiz? && exercise_type == 'exam'
 
-    quiz = QuizService::Quiz.find_by(id: content_id)
+    quiz = quiz_content
     return unless quiz&.question_pool?
     return if quiz.valid_question_pool?
 
@@ -454,8 +464,11 @@ class Item < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   def exam_requires_quiz_with_pool
     return unless exam?
 
-    quiz = QuizService::Quiz.find_by(id: content_id) if content_type == 'quiz' && content_id.present?
-    errors.add(:exercise_type, :requires_question_pool) unless quiz&.question_pool?
+    errors.add(:exercise_type, :requires_question_pool) unless quiz_content&.question_pool?
+  end
+
+  def quiz_content
+    content if quiz?
   end
 
   def single_exam_per_course

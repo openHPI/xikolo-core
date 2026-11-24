@@ -120,7 +120,7 @@ class Course::LearnerProgress::SectionPresenter
     end
 
     def exam?
-      @item['content_type'] == 'quiz' && @item['exercise_type'] == 'exam'
+      @item['content_type'] == 'QuizService::Quiz' && @item['exercise_type'] == 'exam'
     end
 
     def completed?

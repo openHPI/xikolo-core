@@ -22,7 +22,7 @@ describe Course::LearnerProgress::SectionPresenter do
     {
       'id' => '00000003-3100-4444-9999-000000000001',
       'title' => 'Welcome video',
-      'content_type' => 'video',
+      'content_type' => 'Video::Video',
       'exercise_type' => nil,
       'user_state' => 'new',
     }
@@ -40,7 +40,7 @@ describe Course::LearnerProgress::SectionPresenter do
 
     let(:progress) { super().merge('items' => [item, exam]) }
     let(:exam) do
-      {'id' => '00000003-3100-4444-9999-000000000002', 'title' => 'Final exam', 'content_type' => 'quiz',
+      {'id' => '00000003-3100-4444-9999-000000000002', 'title' => 'Final exam', 'content_type' => 'QuizService::Quiz',
        'exercise_type' => 'exam', 'user_state' => 'new'}
     end
 
@@ -51,7 +51,7 @@ describe Course::LearnerProgress::SectionPresenter do
   end
 
   context 'with only exams' do
-    let(:item) { super().merge('content_type' => 'quiz', 'exercise_type' => 'exam') }
+    let(:item) { super().merge('content_type' => 'QuizService::Quiz', 'exercise_type' => 'exam') }
 
     it { is_expected.to be_exam }
     it { is_expected.to have_attributes(total_items_count: 0) }
@@ -117,7 +117,7 @@ describe Course::LearnerProgress::SectionPresenter do
       let(:progress) do
         super().merge('items' => [
           item.merge('user_state' => 'visited'),
-          item.merge('id' => '00000003-3100-4444-9999-000000000002', 'content_type' => 'quiz',
+          item.merge('id' => '00000003-3100-4444-9999-000000000002', 'content_type' => 'QuizService::Quiz',
             'exercise_type' => 'exam', 'user_state' => 'graded', 'max_points' => 20.0, 'user_points' => 20.0,
             'pass_percentage' => 50),
         ])
@@ -180,7 +180,7 @@ describe Course::LearnerProgress::SectionPresenter do
 
     context 'for a quiz with a sufficient score' do
       let(:item) do
-        super().merge('content_type' => 'quiz', 'exercise_type' => 'main', 'user_state' => 'graded',
+        super().merge('content_type' => 'QuizService::Quiz', 'exercise_type' => 'main', 'user_state' => 'graded',
           'max_points' => 10.0, 'user_points' => 6.0)
       end
 
@@ -189,7 +189,7 @@ describe Course::LearnerProgress::SectionPresenter do
 
     context 'for an exam' do
       let(:item) do
-        super().merge('content_type' => 'quiz', 'exercise_type' => 'exam', 'user_state' => 'graded',
+        super().merge('content_type' => 'QuizService::Quiz', 'exercise_type' => 'exam', 'user_state' => 'graded',
           'max_points' => 10.0, 'pass_percentage' => 70)
       end
 
@@ -247,7 +247,7 @@ describe Course::LearnerProgress::SectionPresenter do
 
     context 'for a quiz with a low score' do
       let(:item) do
-        super().merge('content_type' => 'quiz', 'exercise_type' => 'main', 'user_state' => 'graded',
+        super().merge('content_type' => 'QuizService::Quiz', 'exercise_type' => 'main', 'user_state' => 'graded',
           'max_points' => 10.0, 'user_points' => 2.0)
       end
 
@@ -255,7 +255,7 @@ describe Course::LearnerProgress::SectionPresenter do
     end
 
     context 'for a cmi5 item without points' do
-      let(:item) { super().merge('content_type' => 'cmi5', 'max_points' => nil, 'user_state' => 'visited') }
+      let(:item) { super().merge('content_type' => 'Cmi5::Item', 'max_points' => nil, 'user_state' => 'visited') }
 
       it 'is completed once visited' do
         expect(presented.state).to eq :completed
@@ -263,7 +263,7 @@ describe Course::LearnerProgress::SectionPresenter do
     end
 
     context 'for a cmi5 item with points' do
-      let(:item) { super().merge('content_type' => 'cmi5', 'max_points' => 10.0, 'user_state' => 'visited') }
+      let(:item) { super().merge('content_type' => 'Cmi5::Item', 'max_points' => 10.0, 'user_state' => 'visited') }
 
       it 'is not completed before being submitted' do
         expect(presented.state).to eq :default

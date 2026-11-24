@@ -369,8 +369,8 @@ describe CourseService::ItemsController, type: :controller do
 
       context 'with content type filter set' do
         let(:quiz_items)  { create_list(:'course_service/item', 3, :quiz) }
-        let(:video_items) { create_list(:'course_service/item', 4, content_type: 'video') }
-        let(:params) { {content_type: 'quiz', format: 'json'} }
+        let(:video_items) { create_list(:'course_service/item', 4, content_type: 'Video::Video') }
+        let(:params) { {content_type: 'QuizService::Quiz', format: 'json'} }
 
         before { quiz_items; video_items; action }
 
@@ -387,13 +387,13 @@ describe CourseService::ItemsController, type: :controller do
       end
 
       context 'with exercise type filter set' do
-        let!(:main_items) { create_list(:'course_service/item', 2, content_type: 'quiz', exercise_type: 'main') }
+        let!(:main_items) { create_list(:'course_service/item', 2, content_type: 'QuizService::Quiz', exercise_type: 'main') }
         let(:params) { {exercise_type: 'main', format: 'json'} }
 
         # Plus a few bonus and video items that won't be included
         before do
-          create_list(:'course_service/item', 3, content_type: 'quiz', exercise_type: 'bonus')
-          create(:'course_service/item', content_type: 'video', exercise_type: nil)
+          create_list(:'course_service/item', 3, content_type: 'QuizService::Quiz', exercise_type: 'bonus')
+          create(:'course_service/item', content_type: 'Video::Video', exercise_type: nil)
         end
 
         it 'has only main items' do
@@ -408,12 +408,12 @@ describe CourseService::ItemsController, type: :controller do
       end
 
       context 'with multiple exercise type filter set as array' do
-        let!(:main_items)  { create_list(:'course_service/item', 2, content_type: 'quiz', exercise_type: 'main') }
-        let!(:bonus_items) { create_list(:'course_service/item', 3, content_type: 'quiz', exercise_type: 'bonus') }
+        let!(:main_items)  { create_list(:'course_service/item', 2, content_type: 'QuizService::Quiz', exercise_type: 'main') }
+        let!(:bonus_items) { create_list(:'course_service/item', 3, content_type: 'QuizService::Quiz', exercise_type: 'bonus') }
         let(:params) { {exercise_type: %w[main bonus], format: 'json'} }
 
         # And another video item that won't be included
-        before { create(:'course_service/item', content_type: 'video', exercise_type: nil) }
+        before { create(:'course_service/item', content_type: 'Video::Video', exercise_type: nil) }
 
         it 'has only main items' do
           action
@@ -427,12 +427,12 @@ describe CourseService::ItemsController, type: :controller do
       end
 
       context 'with multiple exercise type filter set as comma-separated list' do
-        let!(:main_items)  { create_list(:'course_service/item', 2, content_type: 'quiz', exercise_type: 'main') }
-        let!(:bonus_items) { create_list(:'course_service/item', 3, content_type: 'quiz', exercise_type: 'bonus') }
+        let!(:main_items)  { create_list(:'course_service/item', 2, content_type: 'QuizService::Quiz', exercise_type: 'main') }
+        let!(:bonus_items) { create_list(:'course_service/item', 3, content_type: 'QuizService::Quiz', exercise_type: 'bonus') }
         let(:params) { {exercise_type: 'main,bonus', format: 'json'} }
 
         # And another video item that won't be included
-        before { create(:'course_service/item', content_type: 'video', exercise_type: nil) }
+        before { create(:'course_service/item', content_type: 'Video::Video', exercise_type: nil) }
 
         it 'has only main items' do
           action
@@ -446,12 +446,12 @@ describe CourseService::ItemsController, type: :controller do
       end
 
       context 'with multiple exercise type filter set' do
-        let!(:main_items)  { create_list(:'course_service/item', 2, content_type: 'quiz', exercise_type: 'main') }
-        let!(:bonus_items) { create_list(:'course_service/item', 3, content_type: 'quiz', exercise_type: 'bonus') }
+        let!(:main_items)  { create_list(:'course_service/item', 2, content_type: 'QuizService::Quiz', exercise_type: 'main') }
+        let!(:bonus_items) { create_list(:'course_service/item', 3, content_type: 'QuizService::Quiz', exercise_type: 'bonus') }
         let(:params) { {exercise_type: {'0' => 'main', '1' => 'bonus'}, format: 'json'} }
 
         # And another video item that won't be included
-        before { create(:'course_service/item', content_type: 'video', exercise_type: nil) }
+        before { create(:'course_service/item', content_type: 'Video::Video', exercise_type: nil) }
 
         it 'has only main items' do
           action
@@ -468,7 +468,7 @@ describe CourseService::ItemsController, type: :controller do
     context 'with UUID' do
       before { action.call }
 
-      let(:video_items) { create_list(:'course_service/item', 4, content_type: 'video') }
+      let(:video_items) { create_list(:'course_service/item', 4, content_type: 'Video::Video') }
       let(:params) { {id: video_items[2].id, format: 'json'} }
       let(:action) { -> { get :index, params: } }
 
@@ -548,7 +548,12 @@ describe CourseService::ItemsController, type: :controller do
 
   describe '#create' do
     let(:section) { create(:'course_service/section') }
-    let(:params) { attributes_for(:'course_service/item').merge(section_id: section.id, format: 'json') }
+    let(:video) { create(:video) }
+    let(:params) do
+      attributes_for(:'course_service/item').merge(
+        section_id: section.id, content_type: 'Video::Video', content_id: video.id, format: 'json'
+      )
+    end
     let(:action) { -> { post :create, params: } }
 
     it 'responses with a 200' do

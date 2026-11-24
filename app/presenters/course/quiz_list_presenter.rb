@@ -53,56 +53,21 @@ class Course::QuizListPresenter
   end
 
   def quiz_items
-    items = CourseService::Item.published.where(content_type: 'quiz')
-      .joins(:section).merge(CourseService::Section.published)
-      .where(sections: {course_id: @course.id})
-
-    items = if @course.legacy?
-              items.where(section_id: taken_section_ids).course_order
-            else
-              CourseService::Structure::UserItemsSelector.new(@course.node, @user_id).items(scope: items)
-            end
-    items.user_state(@user_id).preload(section: :course)
+    Course::LearnerItems.new(@course, @user_id, @progresses)
+      .items(scope: CourseService::Item.quiz)
+      .preload(section: :course)
   end
 
-  # In legacy courses, the progresses list the sections the learner takes,
-  # i.e. without the alternatives they did not choose or that were discarded.
-  def taken_section_ids
-    Array.wrap(@progresses)
-      .select {|progress| progress['kind'] == 'section' && !progress['discarded'] }
-      .pluck('resource_id')
-  end
-
-  class QuizPresenter
-    include UUIDHelper
-
+  class QuizPresenter < Course::LearnerItemPresenter
     # @param item [CourseService::Item] with the learner's state (`.user_state` scope)
     # @param course [CourseService::Course]
     # @param user_id [String]
     # @param enrollment [CourseService::Enrollment, nil] the learner's enrollment
     # @param current [Boolean] whether the learner resumes the course at this quiz
     def initialize(item, course, user_id, enrollment, current: false)
-      @item = item
-      @course = course
+      super(item, course, current:)
       @user_id = user_id
       @enrollment = enrollment
-      @current = current
-    end
-
-    def id
-      @item.id
-    end
-
-    def title
-      @item.title
-    end
-
-    def label
-      Course::Item::TypeLabel.from_resource(@item).text
-    end
-
-    def icon
-      Course::Item::Icon.from_resource(@item).icon_class
     end
 
     # The current quiz is highlighted even when completed, but a submitted
@@ -119,14 +84,6 @@ class Course::QuizListPresenter
       else
         :default
       end
-    end
-
-    # Quizzes outside their dates have no page for the learner. Quizzes past their
-    # deadline and locked exams stay linked, as their page explains the lock.
-    def path
-      return unless @item.unlocked?
-
-      Rails.application.routes.url_helpers.course_item_path(@course.course_code, short_uuid(@item.id))
     end
 
     def failed?
@@ -164,18 +121,7 @@ class Course::QuizListPresenter
     end
 
     def attempts_left?
-      QuizService::Quiz.find_by(id: @item.content_id)&.attempts_left?(@user_id) || false
-    end
-
-    def progress_state
-      @progress_state ||= Course::Item::ProgressState.new(
-        content_type: @item.content_type,
-        exercise_type: @item.exercise_type,
-        user_state: @item.user_state,
-        user_points: @item.result&./(10.0),
-        max_points: @item.max_points,
-        pass_percentage: @item.pass_percentage
-      )
+      @item.content&.attempts_left?(@user_id) || false
     end
   end
 end

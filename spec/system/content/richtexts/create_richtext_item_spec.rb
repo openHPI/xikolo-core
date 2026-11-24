@@ -40,7 +40,7 @@ describe 'Content: Manage richtext items', type: :system do
     end
     let(:item) do
       create(:'course_service/item', section:,
-        content_type: 'rich_text', content_id: richtext.id)
+        content: richtext)
     end
 
     before do

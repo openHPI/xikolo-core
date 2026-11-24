@@ -20,7 +20,7 @@ module Global
 
     renders_one :item_header
     renders_one :navigation
-    renders_one :visual
+    renders_one :media
 
     private
 

@@ -2346,6 +2346,7 @@ en:
       show:
         empty_msg: "There are no items yet, so we cannot show you any progress now. Come back later."
         quizzes_title: Quizzes
+        optional_items_title: Bonus material
         certificates_title: Certificates
         certificates_subtitle: Download your certificates
       overview:
@@ -2523,11 +2524,11 @@ en:
     index:
       headline: Structure & Content
       label:
-        rich_text: Text
-        video: Video
-        quiz: Quiz
-        lti_exercise: Exercise
-        cmi5: Cmi5 Quiz
+        "CourseService::Richtext": Text
+        "Video::Video": Video
+        "QuizService::Quiz": Quiz
+        "Lti::Exercise": Exercise
+        "Cmi5::Item": Cmi5 Quiz
         exam: Exam
       clone_course:
         button: Clone course

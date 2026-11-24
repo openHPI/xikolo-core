@@ -28,11 +28,11 @@ module Course
 
       def marked?
         case @content_type
-          when 'quiz'
+          when 'QuizService::Quiz'
             quiz_marked?
-          when 'lti_exercise'
+          when 'Lti::Exercise'
             gradable_marked?
-          when 'cmi5'
+          when 'Cmi5::Item'
             scored_cmi5? ? gradable_marked? : @user_state == 'visited'
           else
             @user_state == 'visited'
@@ -41,7 +41,7 @@ module Course
 
       # Whether the learner failed an exam: submitted below its pass percentage.
       def failed?
-        @content_type == 'quiz' && exam? && submitted? && !exam_passed?
+        @content_type == 'QuizService::Quiz' && exam? && submitted? && !exam_passed?
       end
 
       private

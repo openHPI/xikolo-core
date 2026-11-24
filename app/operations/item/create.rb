@@ -23,7 +23,11 @@ class Item::Create < ApplicationOperation
     # and create the item resource; will raise an ItemCreationError
     # if it cannot be created. In case of an Acfs::InvalidResource
     # the content resource will be deleted right away.
-    @item.content_id = @content.id
+    if @content.is_a?(ActiveRecord::Base)
+      @item.content = @content
+    else
+      @item.content_id = @content.id
+    end
     @item.section_id = @section['id']
     create_item_resource!
 

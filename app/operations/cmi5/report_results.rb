@@ -49,7 +49,7 @@ module Cmi5
 
     def course_item
       CourseService::Item.find_by!(
-        content_type: 'cmi5',
+        content_type: 'Cmi5::Item',
         content_id: @cmi5_item_id
       )
     end

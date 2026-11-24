@@ -12,7 +12,7 @@ describe Cmi5ItemPresenter, type: :presenter do
   let(:item_params) do
     {
       content_id: cmi5_item.id,
-      content_type: 'cmi5',
+      content_type: 'Cmi5::Item',
     }
   end
   let(:item) { build(:'course:item', **item_params) }

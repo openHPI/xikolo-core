@@ -82,7 +82,7 @@ class QuizzesController < ApplicationController # rubocop:disable Layout/Indenta
   def quiz_ids_for_course(course_id)
     course_api
       .rel(:items)
-      .get({course_id:, content_type: 'quiz'})
+      .get({course_id:, content_type: 'QuizService::Quiz'})
       .value!
       .pluck('content_id')
   end

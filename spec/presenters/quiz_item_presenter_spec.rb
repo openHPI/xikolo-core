@@ -9,7 +9,8 @@ describe QuizItemPresenter, type: :presenter do
   end
 
   let(:course) { create(:course, :active, course_code: 'test') }
-  let(:item) { create(:item, content_type: 'quiz', content_id: quiz_resource.id) }
+  let(:quiz) { create(:'quiz_service/quiz', id: quiz_params[:id]) }
+  let(:item) { create(:item, content: quiz, exercise_type: 'selftest') }
   let(:item_resource) do
     build(:'course:item', id: item.id, content_type: item.content_type, content_id: item.content_id, **additional_item_params)
   end

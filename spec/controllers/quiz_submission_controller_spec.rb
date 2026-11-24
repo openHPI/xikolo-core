@@ -26,7 +26,7 @@ describe QuizSubmissionController, type: :controller do
       submission_deadline: item_submission_deadline,
       effective_start_date: 2.days.ago.iso8601,
       effective_end_date: 4.days.from_now.iso8601,
-      content_type: 'quiz',
+      content_type: 'QuizService::Quiz',
       exercise_type: 'main',
       course_id:,
       published: true,
@@ -91,7 +91,7 @@ describe QuizSubmissionController, type: :controller do
     allow(controller).to receive_messages(submission_in_time?: true, item: {
       'id' => item_id,
       'section_id' => section_id,
-      'content_type' => 'quiz',
+      'content_type' => 'QuizService::Quiz',
       'content_id' => quiz_id,
       'title' => 'Quiz',
       'submission_deadline' => item_submission_deadline,

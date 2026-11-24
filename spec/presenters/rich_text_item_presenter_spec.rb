@@ -16,7 +16,7 @@ describe RichTextItemPresenter, type: :presenter do
   describe '#icon_class' do
     subject { presenter.icon_class }
 
-    let(:item_params) { super().merge content_type: 'rich_text' }
+    let(:item_params) { super().merge content_type: 'CourseService::Richtext' }
 
     it { is_expected.to eq 'text' }
   end

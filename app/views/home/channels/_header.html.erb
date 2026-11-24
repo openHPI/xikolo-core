@@ -1,0 +1,29 @@
+<%= render Global::PageHeader.new(channel.title, subtitle: channel.subtitle, color: :secondary, breadcrumbs: [
+  {url: root_path, icon: pixelart_icon('home', css_class: 'w-4 h-4'), aria_label: t('header.navigation.home')},
+  {url: channel_path(channel.code), text: channel.title},
+]) do |header| %>
+  <% if channel.shorts.any? %>
+    <% header.with_media do %>
+      <%# Equal outer columns center the deck and give the title its own space on wide screens. %>
+      <div class="
+        flex min-w-0 items-center justify-center md:pt-16
+        [header:has(>div>&)]:overflow-clip
+        xl:[div:has(>&)]:grid-cols-[minmax(0,1fr)_var(--container-lg)_minmax(0,1fr)]
+        xl:[div:has(>&)]:gap-x-8
+        md:[div:has(>&)_.x-breadcrumbs>ul]:wrap-anywhere
+        md:[div:has(>&)_.x-breadcrumbs>ul]:whitespace-normal
+      ">
+        <%= render Shorts::Deck.new(items: channel.shorts) %>
+      </div>
+    <% end %>
+  <% elsif channel.stage_visual_url.present? || channel.mobile_visual_url.present? %>
+    <% header.with_media do %>
+      <picture class="relative block aspect-video min-w-0 overflow-hidden md:aspect-auto">
+        <% if channel.mobile_visual_url.present? %>
+          <source media="(max-width: 767px)" srcset="<%= channel.mobile_visual_url %>">
+        <% end %>
+        <%= image_tag channel.stage_visual_url || channel.mobile_visual_url, alt: '', class: 'absolute inset-0 h-full w-full object-cover' %>
+      </picture>
+    <% end %>
+  <% end %>
+<% end %>

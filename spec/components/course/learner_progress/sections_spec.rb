@@ -17,9 +17,9 @@ describe Course::LearnerProgress::Sections, type: :component do
         'kind' => 'section', 'resource_id' => '00000002-3100-4444-9999-000000000001', 'title' => 'Week 1',
         'items' => [
           {'id' => '00000003-3100-4444-9999-000000000001', 'title' => 'Welcome video',
-           'content_type' => 'video', 'user_state' => 'visited'},
+           'content_type' => 'Video::Video', 'user_state' => 'visited'},
           {'id' => '00000003-3100-4444-9999-000000000002', 'title' => 'Self-test 1',
-           'content_type' => 'quiz', 'exercise_type' => 'selftest', 'user_state' => 'new', 'max_points' => 3.0},
+           'content_type' => 'QuizService::Quiz', 'exercise_type' => 'selftest', 'user_state' => 'new', 'max_points' => 3.0},
         ]
       },
       {'kind' => 'section', 'resource_id' => '00000002-3100-4444-9999-000000000002', 'title' => 'Week 2',
@@ -90,7 +90,7 @@ describe Course::LearnerProgress::Sections, type: :component do
     let(:progresses) do
       super().tap do |progresses|
         progresses[1]['items'] = [{'id' => '00000003-3100-4444-9999-000000000003', 'title' => 'Final exam',
-                                   'content_type' => 'quiz', 'exercise_type' => 'exam', 'user_state' => 'new',
+                                   'content_type' => 'QuizService::Quiz', 'exercise_type' => 'exam', 'user_state' => 'new',
                                    'max_points' => 20.0}]
       end
     end

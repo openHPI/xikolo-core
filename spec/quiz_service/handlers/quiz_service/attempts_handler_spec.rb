@@ -20,7 +20,7 @@ describe QuizService::AttemptsHandler, type: :handler do
 
     Stub.request(
       :course, :get, '/items',
-      query: {section_id:, content_type: 'quiz', exercise_type: 'main'}
+      query: {section_id:, content_type: 'QuizService::Quiz', exercise_type: 'main'}
     ).to_return Stub.json([
       {content_id: quiz.id},
     ])

@@ -47,7 +47,7 @@ describe 'Admin: Course management: Submissions', type: :request do
         if submission
           section = create(:'course_service/section',
             course: create(:'course_service/course', skip_account_groups: true))
-          create(:'course_service/item', :quiz, content_id: submission.quiz_id, section:)
+          create(:'course_service/item', :quiz, content: submission.quiz, section:)
         end
         sign_in(user:)
       end

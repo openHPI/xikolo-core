@@ -7,8 +7,7 @@ describe 'Items: Update', type: :request do
   let(:quiz) { create(:'quiz_service/quiz', question_pool: true, displayed_question_count: 10) }
   let(:item) do
     create(:'course_service/item',
-      content_type: 'quiz',
-      content_id: quiz.id,
+      content: quiz,
       exercise_type: 'exam',
       published: false)
   end

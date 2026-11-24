@@ -1,0 +1,79 @@
+<div
+  class="
+    @container isolate inline-flex w-full min-w-0 flex-col gap-3 py-3 md:max-w-md md:px-3 lg:max-w-lg
+    [--short-card-width:min(18.5rem,70cqw)]
+  "
+  data-controller="shorts-player shorts-deck"
+  data-action="shorts-player:select->shorts-deck#select shorts-player:close->shorts-deck#restoreFocus"
+  role="region"
+  aria-roledescription="<%= t(:'components.shorts_carousel.role_description') %>"
+  aria-label="<%= t(:'components.shorts_carousel.label') %>"
+>
+  <div class="@container grid w-full max-w-md self-center px-3 md:max-w-none md:px-0">
+    <% @items.each_with_index do |item, index| %>
+      <button
+        type="button"
+        class="
+          group/card x-rounded-box relative col-start-1 row-start-1 w-(--short-card-width) only:justify-self-center
+          origin-bottom-left overflow-hidden
+          transition-[translate,rotate,scale,opacity] duration-350 ease-out data-[depth=0]:z-40
+          data-[depth=1]:z-30 data-[depth=1]:translate-x-[12%]
+          data-[depth=1]:translate-y-[-7%] data-[depth=1]:scale-88
+          data-[depth=1]:rotate-8 data-[depth=1]:opacity-75
+          md:data-[depth=1]:translate-x-[33%] md:data-[depth=1]:translate-y-[-17%]
+          xl:data-[depth=1]:translate-x-[55%]
+          data-[depth=2]:z-20 data-[depth=2]:translate-x-[24%]
+          data-[depth=2]:translate-y-[-14%] data-[depth=2]:scale-76
+          data-[depth=2]:rotate-16 data-[depth=2]:opacity-75
+          md:data-[depth=2]:translate-x-[69%] md:data-[depth=2]:translate-y-[-38%]
+          xl:data-[depth=2]:translate-x-[112%]
+          data-[depth=3]:z-10 data-[depth=3]:translate-x-[36%]
+          data-[depth=3]:translate-y-[-22%] data-[depth=3]:scale-64
+          data-[depth=3]:rotate-24 data-[depth=3]:opacity-75
+          md:data-[depth=3]:translate-x-[95%] md:data-[depth=3]:translate-y-[-64%]
+          lg:data-[depth=3]:translate-x-[108%]
+          xl:data-[depth=3]:translate-x-[174%]
+          motion-reduce:transition-none
+        "
+        data-action="click->shorts-deck#selectClickedItem click->shorts-player#open"
+        data-shorts-player-target="item"
+        data-shorts-deck-target="item"
+        data-depth="<%= index %>"
+        data-shorts-player-index-param="<%= index %>"
+        data-video-src="<%= signed_url_short_path(item[:id]) %>"
+        aria-label="<%= t(:'components.shorts_carousel.play_video') %>"
+        <% if index >= 4 %>
+          hidden
+        <% end %>
+      >
+        <%= image_tag item[:thumbnail], alt: '', loading: 'lazy', class: 'aspect-9/16 w-full object-cover' %>
+
+        <span class="absolute inset-0 flex items-center justify-center">
+          <%= helpers.pixelart_icon('play', css_class: 'size-9 text-white drop-shadow transition-transform duration-200 ease-out motion-safe:group-hover/card:scale-110 motion-safe:group-focus-visible/card:scale-110 motion-reduce:transition-none') %>
+        </span>
+      </button>
+    <% end %>
+  </div>
+
+  <div class="flex w-full justify-between md:w-(--short-card-width)" <% if @items.one? %> hidden <% end %>>
+    <button
+      type="button"
+      class="x-btn x-btn-outline border-white text-white hover:border-white hover:bg-white/10 hover:text-white focus-visible:outline-white"
+      data-action="click->shorts-deck#previous"
+      aria-label="<%= t(:'components.carousel.previous') %>"
+    >
+      <%= helpers.pixelart_icon('chevron-left', css_class: 'size-6') %>
+    </button>
+
+    <button
+      type="button"
+      class="x-btn x-btn-outline border-white text-white hover:border-white hover:bg-white/10 hover:text-white focus-visible:outline-white"
+      data-action="click->shorts-deck#next"
+      aria-label="<%= t(:'components.carousel.next') %>"
+    >
+      <%= helpers.pixelart_icon('chevron-right', css_class: 'size-6') %>
+    </button>
+  </div>
+
+  <%= render Shorts::Player.new %>
+</div>

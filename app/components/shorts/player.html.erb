@@ -1,0 +1,56 @@
+<dialog
+  class="x-modal"
+  data-shorts-player-target="dialog"
+  data-action="close->shorts-player#close"
+>
+  <div
+    class="
+      x-modal-box relative aspect-9/16 overflow-visible
+      h-[min(48rem,calc(100dvh-5rem),calc((100vw-2rem)*16/9))] w-auto p-0
+      sm:h-[min(48rem,calc(100dvh-5rem),calc((100vw-9rem)*16/9))]
+    "
+  >
+    <button
+      class="x-btn x-btn-circle absolute top-1/2 right-full mr-4 -translate-y-1/2 max-sm:hidden"
+      data-action="click->shorts-player#previousVideo"
+      aria-label="<%= t(:'components.shorts_carousel.play_previous') %>"
+    >
+      <%= render Global::FaIcon.new('chevron-left', style: :solid) %>
+    </button>
+
+    <video-player
+      class="block h-full w-full"
+    >
+      <video-skin class="h-full w-full [--media-border-radius:var(--radius-box)]">
+        <hlsjs-video
+          class="block h-full w-full"
+          loop
+          playsinline
+          disablepictureinpicture
+          data-shorts-player-target="video"
+        ></hlsjs-video>
+      </video-skin>
+    </video-player>
+
+    <form method="dialog" class="absolute top-0 left-full ml-4 max-sm:hidden">
+      <button
+        class="x-btn x-btn-circle"
+        aria-label="<%= t(:'global.close') %>"
+      >
+        <%= render Global::FaIcon.new('xmark', style: :solid) %>
+      </button>
+    </form>
+
+    <button
+      class="x-btn x-btn-circle absolute top-1/2 left-full ml-4 -translate-y-1/2 max-sm:hidden"
+      data-action="click->shorts-player#nextVideo"
+      aria-label="<%= t(:'components.shorts_carousel.play_next') %>"
+    >
+      <%= render Global::FaIcon.new('chevron-right', style: :solid) %>
+    </button>
+  </div>
+
+  <form method="dialog" class="x-modal-backdrop">
+    <button><%= t(:'global.close') %></button>
+  </form>
+</dialog>

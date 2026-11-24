@@ -48,19 +48,11 @@ module CourseService
 
     def destroy_sections!
       course.sections.find_each do |section|
-        normalize_peer_assessments!(section)
         section.items.find_each do |item|
           destroy_item!(item)
         end
         section.destroy!
       end
-    end
-
-    def normalize_peer_assessments!(section)
-      # rubocop:disable-next Rails/SkipsModelValidations
-      section.items.where(content_type: 'peer_assessment').update_all(
-        content_type: 'video'
-      )
     end
 
     def destroy_item!(item)

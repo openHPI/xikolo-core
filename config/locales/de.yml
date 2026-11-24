@@ -1740,6 +1740,7 @@ de:
       show:
         empty_msg: Es gibt noch keine Inhalte in diesem Kurs, daher auch noch keine Fortschrittsanzeige.
         quizzes_title: Quiz
+        optional_items_title: Bonusmaterial
         certificates_title: Nachweise
         certificates_subtitle: Lade deine Nachweise herunter
       overview:
@@ -1873,11 +1874,11 @@ de:
     index:
       headline: Struktur & Inhalt
       label:
-        rich_text: Text
-        video: Video
-        quiz: Quiz
-        lti_exercise: Übung
-        cmi5: Cmi5 Quiz
+        "CourseService::Richtext": Text
+        "Video::Video": Video
+        "QuizService::Quiz": Quiz
+        "Lti::Exercise": Übung
+        "Cmi5::Item": Cmi5 Quiz
         exam: Prüfung
       clone_course:
         button: Kurs klonen

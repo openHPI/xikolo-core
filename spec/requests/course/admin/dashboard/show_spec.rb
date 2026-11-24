@@ -28,13 +28,13 @@ describe 'Course: Admin: Dashboard: Show', type: :request do
     Stub.request(:course, :get, '/items', query: hash_including({
       course_id: course.id,
       was_available: 'true',
-      content_type: 'quiz',
+      content_type: 'QuizService::Quiz',
       exercise_type: 'main,bonus',
     })).to_return Stub.json([])
     Stub.request(:course, :get, '/items', query: hash_including({
       course_id: course.id,
       was_available: 'true',
-      content_type: 'quiz',
+      content_type: 'QuizService::Quiz',
       exercise_type: 'selftest',
     })).to_return Stub.json([])
     Stub.request(:quiz, :get, '/submission_statistic', query: hash_including({}))

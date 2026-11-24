@@ -12,8 +12,7 @@ describe 'Course Syllabus', type: :system do
       create(:'course_service/item',
         section: section,
         title: "Restricted Video #{i}",
-        content_type: 'video',
-        content_id: video.id,
+        content: video,
         open_mode: false)
     end
   end
@@ -23,8 +22,7 @@ describe 'Course Syllabus', type: :system do
     create(:'course_service/item',
       section: section,
       title: 'Previewable Video',
-      content_type: 'video',
-      content_id: video.id,
+      content: video,
       open_mode: true)
   end
 

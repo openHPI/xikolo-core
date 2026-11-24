@@ -28,9 +28,9 @@ describe Global::PageHeader, type: :component do
       expect(page).to have_css("header[class*='--page-header-bg:var(--color-secondary)'][class*='--page-header-text:var(--color-secondary-content)']")
     end
 
-    it 'also applies when a visual is supplied' do
+    it 'also applies when media is supplied' do
       render_inline(component) do |header|
-        header.with_visual { '<img src="/channel.jpg" alt="">'.html_safe }
+        header.with_media { '<img src="/channel.jpg" alt="">'.html_safe }
       end
 
       expect(page).to have_css('header img')
@@ -170,15 +170,28 @@ describe Global::PageHeader, type: :component do
     end
   end
 
-  context 'with a visual' do
-    it 'renders the visual beside the title, breadcrumbs, and introduction' do
+  context 'with image media' do
+    it 'renders the media beside the title, breadcrumbs, and introduction' do
       render_inline(component) do |header|
-        header.with_visual { '<img src="/channel.jpg" alt="">'.html_safe }
+        header.with_media { '<img src="/channel.jpg" alt="">'.html_safe }
         'A short introduction'
       end
 
       expect(page).to have_css('header h1', text: title)
       expect(page).to have_css('header img[src="/channel.jpg"]')
+      expect(page).to have_text 'A short introduction'
+    end
+  end
+
+  context 'with interactive media' do
+    it 'renders interactive content beside the heading and introduction' do
+      render_inline(component) do |header|
+        header.with_media { '<button>Play a Short</button>'.html_safe }
+        'A short introduction'
+      end
+
+      expect(page).to have_css('header h1', text: title)
+      expect(page).to have_css('header button', text: 'Play a Short')
       expect(page).to have_text 'A short introduction'
     end
   end

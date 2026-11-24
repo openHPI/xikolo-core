@@ -43,7 +43,7 @@ describe 'Video: Subtitles: Download', type: :request do
       end
 
       context 'when the video belongs to an item' do
-        let!(:item) { create(:item, content_id: subtitle.video.id) }
+        let!(:item) { create(:item, content: subtitle.video) }
 
         it 'uses item id, course code and language as file name' do
           download_subtitle

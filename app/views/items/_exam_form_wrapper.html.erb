@@ -22,7 +22,7 @@
 
 <div id="form-extensions">
   <% if item.new_record? %>
-    <template id="quiz-form">
+    <template data-content-type="QuizService::Quiz">
       <%= render 'items/quiz/exam/form', quiz:, item:, quiz_question:, multiple_choice_question:, multiple_answer_question:, free_text_question:, essay_question: %>
     </template>
   <% end %>

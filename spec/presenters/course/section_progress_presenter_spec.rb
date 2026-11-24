@@ -36,8 +36,8 @@ describe Course::SectionProgressPresenter do
 
     context 'with items' do
       before do
-        create(:item, section:, title: 'test', content_type: 'video')
-        create(:item, section:, title: 'test2', content_type: 'video')
+        create(:item, section:, title: 'test', content_type: 'Video::Video')
+        create(:item, section:, title: 'test2', content_type: 'Video::Video')
       end
 
       its([0]) { is_expected.to be_a ItemPresenter }

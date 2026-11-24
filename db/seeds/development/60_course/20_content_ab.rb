@@ -30,7 +30,7 @@ section2 = course.sections.create!(
 
 section1.items.create!(
   title: 'Week 1: Question 1',
-  content_type: 'quiz',
+  content_type: 'QuizService::Quiz',
   content_id: '00000001-3800-4444-9999-000000000001',
   exercise_type: 'main',
   max_dpoints: 100
@@ -38,7 +38,7 @@ section1.items.create!(
 
 item1_2a1 = section1.items.create!(
   title: 'Week 1: Question 2.1 (Branch A)',
-  content_type: 'quiz',
+  content_type: 'QuizService::Quiz',
   content_id: '00000001-3800-4444-9999-000000000001',
   exercise_type: 'main',
   max_dpoints: 70
@@ -46,7 +46,7 @@ item1_2a1 = section1.items.create!(
 
 item1_2a2 = section1.items.create!(
   title: 'Week 1: Question 2.2 (Branch A)',
-  content_type: 'quiz',
+  content_type: 'QuizService::Quiz',
   content_id: '00000001-3800-4444-9999-000000000001',
   exercise_type: 'main',
   max_dpoints: 90
@@ -54,7 +54,7 @@ item1_2a2 = section1.items.create!(
 
 item1_2b1 = section1.items.create!(
   title: 'Week 1: Question 2 (Branch B)',
-  content_type: 'quiz',
+  content_type: 'QuizService::Quiz',
   content_id: '00000001-3800-4444-9999-000000000001',
   exercise_type: 'main',
   max_dpoints: 50
@@ -62,7 +62,7 @@ item1_2b1 = section1.items.create!(
 
 section2.items.create!(
   title: 'Week 2: Question 1',
-  content_type: 'quiz',
+  content_type: 'QuizService::Quiz',
   content_id: '00000001-3800-4444-9999-000000000001',
   exercise_type: 'main',
   max_dpoints: 60

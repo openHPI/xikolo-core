@@ -16,7 +16,7 @@ describe 'Content: Take a Quiz Recap session', type: :system do
   let(:user) { create(:'account_service/user') }
 
   before do
-    create(:'course_service/item', :quiz, section:, content_id: quiz.id, title: 'quiz 1')
+    create(:'course_service/item', :quiz, section:, content: quiz, title: 'quiz 1')
     create(:'quiz_service/text_answer',
       question:,
       correct: true,

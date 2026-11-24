@@ -92,7 +92,7 @@ RSpec.describe VisitCreateJob, type: :job do
         :course, :get, '/items',
         query: {section_id: score_1.data[:section_id]}
       ).to_return Stub.json([
-        {id: score_1.data[:item_id], content_type: 'video'},
+        {id: score_1.data[:item_id], content_type: 'Video::Video'},
       ])
 
       Stub.request(
@@ -182,7 +182,7 @@ RSpec.describe VisitCreateJob, type: :job do
         :course, :get, '/items',
         query: {section_id: section_id}
       ).to_return Stub.json([
-        {id: item_id, content_type: 'video'},
+        {id: item_id, content_type: 'Video::Video'},
       ])
 
       Stub.request(

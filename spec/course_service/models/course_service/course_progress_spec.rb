@@ -47,8 +47,7 @@ describe CourseService::CourseProgress, type: :model do
         create(:'course_service/item',
           title: 'Final Exam',
           section:,
-          content_type: 'quiz',
-          content_id: quiz.id,
+          content: quiz,
           exercise_type: 'exam')
       end
 

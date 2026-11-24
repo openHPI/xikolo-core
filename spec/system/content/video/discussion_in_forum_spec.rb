@@ -6,7 +6,7 @@ describe 'Content: Post a topic under a video', type: :system do
   let(:course) { create(:'course_service/course', :active) }
   let(:section) { create(:'course_service/section', course:) }
   let(:video) { create(:video) }
-  let(:item) { create(:'course_service/item', section:, content_type: 'video', content_id: video.id) }
+  let(:item) { create(:'course_service/item', section:, content: video) }
   let(:user) { create(:'account_service/user') }
 
   before do

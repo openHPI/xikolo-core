@@ -44,7 +44,7 @@ describe 'Repetition Suggestions: Index', type: :request do
       super().merge(
         course_id:,
         user_id:,
-        content_type: 'quiz',
+        content_type: 'QuizService::Quiz',
         exercise_type: 'selftest',
         limit: 3
       )

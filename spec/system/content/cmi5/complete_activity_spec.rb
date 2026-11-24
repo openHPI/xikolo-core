@@ -18,8 +18,7 @@ describe 'Content: Complete a CMI5 activity', type: :system do
     create(
       :'course_service/item',
       section:,
-      content_type: 'cmi5',
-      content_id: cmi5_item.id,
+      content: cmi5_item,
       title: 'CMI5 exercise',
       published: true,
       exercise_type: 'selftest',

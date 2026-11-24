@@ -19,9 +19,10 @@ class Shorts::Carousel < ApplicationComponent
   end
 
   def carousel_items
-    return @items unless infinite_scroll?
+    items = @items.each_with_index.map {|item, index| item.merge(index:) }
+    return items unless infinite_scroll?
 
-    clones = @items.map {|item| item.merge(clone: true) }
-    clones + @items + clones
+    clones = items.map {|item| item.merge(clone: true) }
+    clones + items + clones
   end
 end

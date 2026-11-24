@@ -213,8 +213,7 @@ describe Certificate::RenderDataPresenter, type: :presenter do
         record
         create(:'course_service/item',
           section:,
-          content_type: 'quiz',
-          content_id: quiz.id,
+          content: quiz,
           exercise_type: 'exam')
         create_list(:'quiz_service/quiz_submission', 2, :submitted, quiz:, user_id: user.id)
         # Neither an unsubmitted attempt nor other users' attempts count

@@ -149,7 +149,7 @@ describe Admin::CourseManagementController, type: :controller do
 
       before do
         create(:'account_service/user', id: enroll_user_id)
-        create(:'course_service/item', :homework, section:, content_id: quiz.id, title: 'Homework 1')
+        create(:'course_service/item', :homework, section:, content: quiz, title: 'Homework 1')
 
         Stub.request(:quiz, :get, "/quizzes/#{quiz.id}")
           .to_return Stub.json(quiz.decorate.as_json(api_version: 1))

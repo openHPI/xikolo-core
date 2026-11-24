@@ -31,6 +31,6 @@ describe CourseService::VisitDecorator do
     it { is_expected.to include('course_id') }
     it { is_expected.to include('section_id') }
 
-    its(['content_type']) { is_expected.to eq 'video' }
+    its(['content_type']) { is_expected.to eq 'Video::Video' }
   end
 end

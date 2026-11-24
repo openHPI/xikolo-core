@@ -8,7 +8,7 @@ RSpec.describe 'Teacher: Item: LTI Exercise: Modify Item', type: :system do
   let(:course) { create(:'course_service/course') }
   let(:section) { create(:'course_service/section', course:) }
   let(:exercise) { create(:lti_exercise, provider: create(:lti_provider, :global, course_id: course.id)) }
-  let(:item) { create(:'course_service/item', section:, content_type: 'lti_exercise', content_id: exercise.id) }
+  let(:item) { create(:'course_service/item', section:, content: exercise) }
 
   before do
     sign_in(user:)

@@ -29,6 +29,8 @@ class Course::ProgressController < Abstract::FrontendController
     @current_item = Item::FindCurrent.call(course: the_course, user_id: user.id)
     @quiz_list = Course::QuizListPresenter.new(the_course, user.id, @course_progress,
       current_item_id: @current_item&.id)
+    @optional_items = Course::OptionalItemListPresenter.new(the_course, user.id, @course_progress,
+      current_item_id: @current_item&.id)
     @completed_items_progress = Course::CompletedItemsProgress.new(the_course, user.id)
 
     @certificates = Course::CertificatesPresenter.new(

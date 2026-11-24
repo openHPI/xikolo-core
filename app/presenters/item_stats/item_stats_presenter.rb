@@ -4,9 +4,9 @@ module ItemStats
   class ItemStatsPresenter
     def self.for(item)
       case item['content_type']
-        when 'quiz'
+        when 'QuizService::Quiz'
           QuizItemStats.new item
-        when 'lti_exercise'
+        when 'Lti::Exercise'
           ResultItemStats.new item
         else
           UnknownItemStats.new item

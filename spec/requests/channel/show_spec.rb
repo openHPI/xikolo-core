@@ -79,6 +79,56 @@ describe 'Channel: Show', type: :request do
     end
   end
 
+  context 'with Shorts for a channel course' do
+    let(:attributes) do
+      {
+        stage_visual_uri: 's3://xikolo-public/channels/stage.jpg',
+        mobile_visual_uri: 's3://xikolo-public/channels/mobile.jpg',
+      }
+    end
+    let(:course) { create(:course, :active) }
+    let(:short_status) { 'active' }
+    let!(:short) { create(:'course_service/short', course:, status: short_status, bunny_video_id: 'video-guid') }
+
+    before do
+      course.channels << channel
+      allow(BunnySignedURL).to receive(:new).and_return(instance_double(BunnySignedURL,
+        call: {thumbnail: 'https://video.example.com/thumbnail.jpg'}))
+    end
+
+    it 'replaces the header visual with a deck of shorts' do
+      show_channel
+
+      expect(response).to be_successful
+      expect(page).to have_css('header [data-controller~="shorts-deck"]', count: 1)
+      expect(page).to have_css("header [data-video-src='#{signed_url_short_path(short.id)}']")
+      expect(page).to have_no_css('header picture')
+      expect(page).to have_css('h1', exact_text: 'Channel EN', count: 1)
+    end
+
+    context 'without an uploaded visual' do
+      let(:attributes) { {} }
+
+      it 'still renders the deck in the header' do
+        show_channel
+
+        expect(page).to have_css('header [data-controller~="shorts-deck"]')
+      end
+    end
+
+    context 'when the Short is inactive' do
+      let(:short_status) { 'preparation' }
+
+      it 'keeps the responsive visual instead of rendering a deck' do
+        show_channel
+
+        expect(page).to have_no_css('[data-controller~="shorts-deck"]')
+        expect(page).to have_css('header picture img[src*="stage.jpg"]')
+        expect(page).to have_css('header picture source[srcset*="mobile.jpg"]', visible: :all)
+      end
+    end
+  end
+
   context 'with courses hidden from the public course list' do
     before do
       channel.courses << create(:course, :preparing, title: 'An upcoming course in preparation')

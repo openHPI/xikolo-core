@@ -115,22 +115,22 @@ FactoryBot.define do
     end
 
     trait :quiz do
-      content_type { 'quiz' }
+      content_type { 'QuizService::Quiz' }
       content_id { generate(:quiz_id) }
     end
 
     trait :video do
-      content_type { 'video' }
+      content_type { 'Video::Video' }
       content_id { generate(:uuid) }
     end
 
     trait :lti_exercise do
-      content_type { 'lti_exercise' }
+      content_type { 'Lti::Exercise' }
       content_id { generate(:uuid) }
     end
 
     trait :cmi5 do
-      content_type { 'cmi5' }
+      content_type { 'Cmi5::Item' }
       content_id { create(:cmi5_item).id }
     end
 
@@ -229,7 +229,7 @@ FactoryBot.define do
         {
           'id' => '19b3bc6b-f2f7-4a52-aab5-e0ce75d78b3f',
           'title' => 'Week 1: Quiz 1',
-          'content_type' => 'quiz',
+          'content_type' => 'QuizService::Quiz',
           'exercise_type' => 'main',
           'user_state' => 'submitted',
           'optional' => false,
@@ -240,7 +240,7 @@ FactoryBot.define do
         {
           'id' => '5c5ace91-1b24-46ea-a8a4-9e1340270437',
           'title' => 'Week 1: Quiz 2',
-          'content_type' => 'quiz',
+          'content_type' => 'QuizService::Quiz',
           'exercise_type' => 'main',
           'user_state' => 'visited',
           'optional' => false,
@@ -251,7 +251,7 @@ FactoryBot.define do
         {
           'id' => '1916244a-2579-4246-8085-79bede781ec4',
           'title' => 'Week 1: Quiz 2.2 (Branch A)',
-          'content_type' => 'quiz',
+          'content_type' => 'QuizService::Quiz',
           'exercise_type' => 'main',
           'user_state' => 'visited',
           'optional' => false,
@@ -544,9 +544,7 @@ FactoryBot.define do
   factory :item, class: 'CourseService::Item' do
     association(:section)
     sequence(:title) {|i| "Item #{i}" }
-    content_type { 'video' }
-    content_id { create(:video).id }
-    exercise_type { 'main' if content_type == 'quiz' }
+    association :content, factory: :video
 
     after(:create) do |item|
       unless item.node
@@ -566,11 +564,8 @@ FactoryBot.define do
       association :content, factory: :video
     end
 
-    # `Cmi5::Item#polymorphic_name` does not match the `content_type` stored for
-    # cmi5 items, so the content cannot be assigned via the association.
     trait :cmi5 do
-      content_type { 'cmi5' }
-      content_id { create(:cmi5_item).id }
+      association :content, factory: :cmi5_item
     end
   end
 

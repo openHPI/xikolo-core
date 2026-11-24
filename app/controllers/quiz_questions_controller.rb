@@ -8,9 +8,9 @@ class QuizQuestionsController < Abstract::FrontendController
 
   def edit
     @item = CourseService::Item.find(params[:item_id])
-    raise NoMethodError unless @item.content_type == 'quiz'
+    raise NoMethodError unless @item.quiz?
 
-    @quiz = Xikolo::Quiz::Quiz.find @item.content_id
+    @quiz = Xikolo::Quiz::Quiz.find @item.content.id
 
     @quiz_question = Xikolo::Quiz::Question.find params[:id], params: {raw: 1}
     Acfs.run
@@ -32,9 +32,9 @@ class QuizQuestionsController < Abstract::FrontendController
 
   def create
     item = CourseService::Item.find(params[:item_id])
-    raise NoMethodError unless item.content_type == 'quiz'
+    raise NoMethodError unless item.quiz?
 
-    @quiz = Xikolo::Quiz::Quiz.find item.content_id
+    @quiz = Xikolo::Quiz::Quiz.find item.content.id
     Acfs.run
 
     klass =

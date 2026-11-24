@@ -187,26 +187,26 @@ describe CourseService::EnrollmentsController, type: :controller do
       let!(:item11) { create(:'course_service/item', {section: section1, position: 1}.merge(item11_params)) }
       let(:item12_params) { {} }
       let!(:item12) { create(:'course_service/item', {section: section1, position: 2}.merge(item12_params)) }
-      let(:item13_params) { {content_type: 'quiz', exercise_type: 'main', max_dpoints: 50} }
+      let(:item13_params) { {content: create(:'quiz_service/quiz'), exercise_type: 'main', max_dpoints: 50} }
       let!(:item13) { create(:'course_service/item', {section: section1, position: 3}.merge(item13_params)) }
-      let(:item14_params) { {content_type: 'quiz', exercise_type: 'bonus', max_dpoints: 70, submission_deadline: 5.days.from_now} }
+      let(:item14_params) { {content: create(:'quiz_service/quiz'), exercise_type: 'bonus', max_dpoints: 70, submission_deadline: 5.days.from_now} }
       let!(:item14) { create(:'course_service/item', {section: section1, position: 4}.merge(item14_params)) }
-      let(:item15_params) { {content_type: 'quiz', exercise_type: 'main', max_dpoints: 70, published: false} }
+      let(:item15_params) { {content: create(:'quiz_service/quiz'), exercise_type: 'main', max_dpoints: 70, published: false} }
 
       let(:section2_params) { {start_date: 10.days.ago.iso8601} }
       let(:section2) { create(:'course_service/section', {course:, position: 2}.merge(section2_params)) }
-      let(:item21_params) { {content_type: 'quiz', exercise_type: 'main', max_dpoints: 100, submission_deadline: 5.days.from_now} }
+      let(:item21_params) { {content: create(:'quiz_service/quiz'), exercise_type: 'main', max_dpoints: 100, submission_deadline: 5.days.from_now} }
       let!(:item21) { create(:'course_service/item', {section: section2, position: 1}.merge(item21_params)) }
-      let(:item22_params) { {content_type: 'lti', exercise_type: 'main', max_dpoints: 50} }
+      let(:item22_params) { {content: create(:lti_exercise), exercise_type: 'main', max_dpoints: 50} }
       let!(:item22) { create(:'course_service/item', {section: section2, position: 2}.merge(item22_params)) }
-      let(:item23_params) { {content_type: 'lti', exercise_type: 'selftest', max_dpoints: 70, published: false} }
-      let(:item24_params) { {content_type: 'video', published: false} }
+      let(:item23_params) { {content: create(:lti_exercise), exercise_type: 'selftest', max_dpoints: 70, published: false} }
+      let(:item24_params) { {content_type: 'Video::Video', published: false} }
 
       let(:section3_params) { {start_date: 10.days.ago.iso8601} }
       let(:section3) { create(:'course_service/section', {course:, position: 3, published: false}.merge(section3_params)) }
-      let(:item32_params) { {content_type: 'quiz', exercise_type: 'bonus', max_dpoints: 30} }
+      let(:item32_params) { {content: create(:'quiz_service/quiz'), exercise_type: 'bonus', max_dpoints: 30} }
       let!(:item32) { create(:'course_service/item', {section: section3, position: 2}.merge(item32_params)) }
-      let(:item33_params) { {content_type: 'video'} }
+      let(:item33_params) { {content_type: 'Video::Video'} }
       let!(:item33) { create(:'course_service/item', {section: section3, position: 3}.merge(item33_params)) }
 
       let(:action) { -> { get :index, params: {learning_evaluation: 'true', user_id:} } }
@@ -221,7 +221,7 @@ describe CourseService::EnrollmentsController, type: :controller do
       end
 
       context 'with section with 0 maximal points' do
-        let(:item21_params) { {content_type: 'quiz', exercise_type: 'main', max_dpoints: 0} }
+        let(:item21_params) { {content: create(:'quiz_service/quiz'), exercise_type: 'main', max_dpoints: 0} }
         let(:item22) { {} }
 
         it 'does not fail' do
@@ -272,7 +272,7 @@ describe CourseService::EnrollmentsController, type: :controller do
         end
 
         context 'last graded item is selftest' do
-          let(:item11_params) { {content_type: 'quiz', exercise_type: 'selftest', max_dpoints: 10} }
+          let(:item11_params) { {content: create(:'quiz_service/quiz'), exercise_type: 'selftest', max_dpoints: 10} }
 
           before do
             create(:'course_service/result', item: item13, user_id:, dpoints: 50, created_at: (last_graded_item_date - 1.day))
@@ -286,7 +286,7 @@ describe CourseService::EnrollmentsController, type: :controller do
         end
 
         context 'last graded item is main lti' do
-          let(:item11_params) { {content_type: 'quiz', exercise_type: 'selftest', max_dpoints: 10} }
+          let(:item11_params) { {content: create(:'quiz_service/quiz'), exercise_type: 'selftest', max_dpoints: 10} }
 
           before do
             create(:'course_service/result', item: item13, user_id:, dpoints: 50, created_at: (last_graded_item_date - 1.day))
@@ -654,17 +654,17 @@ describe CourseService::EnrollmentsController, type: :controller do
             create(:'course_service/section',
               course:, alternative_state: 'child', parent_id: parent_section.id)
           end
-          let(:item_a11_params) { {content_type: 'quiz', exercise_type: 'main', max_dpoints: 50} }
+          let(:item_a11_params) { {content: create(:'quiz_service/quiz'), exercise_type: 'main', max_dpoints: 50} }
           let!(:item_a11) { create(:'course_service/item', {section: alternative_section1}.merge(item_a11_params)) }
-          let(:item_a12_params) { {content_type: 'quiz', exercise_type: 'bonus', max_dpoints: 30} }
+          let(:item_a12_params) { {content: create(:'quiz_service/quiz'), exercise_type: 'bonus', max_dpoints: 30} }
           let!(:item_a12) { create(:'course_service/item', {section: alternative_section1}.merge(item_a12_params)) }
           let!(:alternative_section2) do
             create(:'course_service/section',
               course:, alternative_state: 'child', parent_id: parent_section.id)
           end
-          let(:item_a21_params) { {content_type: 'quiz', exercise_type: 'main', max_dpoints: 60} }
+          let(:item_a21_params) { {content: create(:'quiz_service/quiz'), exercise_type: 'main', max_dpoints: 60} }
           let!(:item_a21) { create(:'course_service/item', {section: alternative_section2}.merge(item_a21_params)) }
-          let(:item_a22_params) { {content_type: 'quiz', exercise_type: 'bonus', max_dpoints: 40} }
+          let(:item_a22_params) { {content: create(:'quiz_service/quiz'), exercise_type: 'bonus', max_dpoints: 40} }
           let!(:item_a22) { create(:'course_service/item', {section: alternative_section2}.merge(item_a22_params)) }
 
           before do

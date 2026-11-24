@@ -5,15 +5,14 @@ FactoryBot.define do
     title { 'Introduction Speech' }
     start_date { 10.days.ago }
     end_date { 17.days.from_now }
-    content_type { 'video' }
-    content_id { 'b2157ab3-454b-4777-bb31-976b99cb016f' }
+    association :content, factory: :video
     published { true }
 
     association(:section, factory: :'course_service/section', strategy: :create)
 
     trait :quiz do
       title { 'A Quiz' }
-      content_type { 'quiz' }
+      association :content, factory: :'quiz_service/quiz'
       exercise_type { 'selftest' }
     end
 
@@ -36,7 +35,7 @@ FactoryBot.define do
 
     trait :text do
       title { 'A Text' }
-      content_type { 'richtext' }
+      association :content, factory: :richtext
     end
   end
 end

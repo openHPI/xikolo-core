@@ -21,8 +21,8 @@ describe Shorts::Carousel, type: :component do
     expect(page).to have_css('.x-carousel-item', count: 9)
     expect(page).to have_css('img', count: 9)
 
-    expect(page).to have_css('button[data-action="click->shorts-carousel#openDialog"]')
-    expect(page).to have_css('video-player hlsjs-video[data-shorts-carousel-target="video"][loop][playsinline][disablepictureinpicture]')
+    expect(page).to have_css('button[data-action~="click->shorts-player#open"]')
+    expect(page).to have_css('video-player hlsjs-video[data-shorts-player-target="video"][loop][playsinline][disablepictureinpicture]')
 
     expect(page).to have_css('button[aria-label="Play video"]', count: 9)
     expect(page).to have_css('button[data-video-src="/shorts/short-1/signed_url"]', count: 3)
@@ -38,6 +38,15 @@ describe Shorts::Carousel, type: :component do
     carousel_items = page.all('.x-carousel-item')
     clone_pattern = carousel_items.map {|item| item[:'aria-hidden'] == 'true' }
     expect(clone_pattern).to eq([true, true, true, false, false, false, true, true, true])
+  end
+
+  it 'maps clones to the same logical items without duplicating the player playlist' do
+    render_inline(component)
+
+    expect(page).to have_css('[data-shorts-player-target="item"]', count: 3)
+    indices = page.all('[data-shorts-player-index-param]').pluck(:'data-shorts-player-index-param')
+    expect(indices).to eq(%w[0 1 2] * 3)
+    expect(page).to have_css('dialog[data-shorts-player-target="dialog"]', count: 1, visible: :all)
   end
 
   it 'renders navigation buttons, hidden until scrolling is possible' do

@@ -13,8 +13,7 @@ describe 'Global/Progress: Visit progress page', type: :system do
       create(:'course_service/item',
         section:,
         title: "Video title #{i + 1}",
-        content_type: 'video',
-        content_id: video.id)
+        content: video)
     end
     sign_in(user:)
     enroll_in(course)
@@ -45,7 +44,7 @@ describe 'Global/Progress: Visit progress page', type: :system do
   it 'locks the exam section until the learner reached the required course progress' do
     exam_section = create(:'course_service/section', course:, title: 'Final exam week')
     create(:'course_service/item', :quiz, section: exam_section, title: 'Final exam', exercise_type: 'exam',
-      minimum_progress_percentage: 60, content_id: create(:'quiz_service/quiz', :with_valid_question_pool).id)
+      minimum_progress_percentage: 60, content: create(:'quiz_service/quiz', :with_valid_question_pool))
 
     click_on('Progress')
 
@@ -78,9 +77,8 @@ describe 'Global/Progress: Visit progress page', type: :system do
     create(:'course_service/item',
       section:,
       title: 'Unpublished video',
-      content_type: 'video',
       published: false,
-      content_id: '00000003-3600-4444-9999-000000000010')
+      content: create(:video))
 
     click_on('Progress')
 
@@ -124,7 +122,7 @@ describe 'Global/Progress: Visit progress page', type: :system do
     it 'shows a just failed exam to retake in its section, and as failed in the quiz list' do
       quiz = create(:'quiz_service/quiz', :with_valid_question_pool, allowed_attempts: 2)
       exam = create(:'course_service/item', :quiz, section:, title: 'Final exam', exercise_type: 'exam',
-        max_dpoints: 100, content_id: quiz.id)
+        max_dpoints: 100, content: quiz)
       create(:'course_service/visit', user:, item: exam)
       create(:'course_service/result', item: exam, user_id: user.id, dpoints: 50)
       create(:'quiz_service/quiz_submission', :submitted, quiz:, user_id: user.id)
@@ -157,8 +155,7 @@ describe 'Global/Progress: Visit progress page', type: :system do
 
     before do
       video = create(:video)
-      create(:'course_service/item', section: next_section, title: 'Week 2 video', content_type: 'video',
-        content_id: video.id)
+      create(:'course_service/item', section: next_section, title: 'Week 2 video', content: video)
     end
 
     it 'continues at the last visited item' do

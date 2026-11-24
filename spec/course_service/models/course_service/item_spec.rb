@@ -21,7 +21,7 @@ describe CourseService::Item, type: :model do
       subject(:item) do
         create(
           :'course_service/item',
-          content_type: 'cmi5',
+          content: create(:cmi5_item),
           exercise_type: 'selftest',
           max_dpoints: 100
         )
@@ -35,7 +35,7 @@ describe CourseService::Item, type: :model do
       subject(:item) do
         create(
           :'course_service/item',
-          content_type: 'cmi5',
+          content: create(:cmi5_item),
           exercise_type: nil,
           max_dpoints: nil
         )
@@ -46,7 +46,7 @@ describe CourseService::Item, type: :model do
   end
 
   describe 'creation' do
-    let(:default_attrs) { attributes_for(:'course_service/item') }
+    let(:default_attrs) { attributes_for(:'course_service/item').merge(content: create(:video)) }
 
     describe 'course content tree' do
       let(:section) { create(:'course_service/section', course:) }
@@ -830,7 +830,7 @@ describe CourseService::Item, type: :model do
   end
 
   describe '.completed?' do
-    %w[lti_exercise peer_assessment quiz].each do |content_type|
+    %w[Lti::Exercise QuizService::Quiz].each do |content_type|
       it "counts #{content_type} items once graded or submitted" do
         expect(described_class.completed?(content_type:, user_state: 'graded')).to be true
         expect(described_class.completed?(content_type:, user_state: 'submitted')).to be true
@@ -840,23 +840,23 @@ describe CourseService::Item, type: :model do
     end
 
     it 'counts scored CMI5 items once graded or submitted' do
-      expect(described_class.completed?(content_type: 'cmi5', user_state: 'graded', max_points: 100)).to be true
-      expect(described_class.completed?(content_type: 'cmi5', user_state: 'submitted', max_points: 100)).to be true
-      expect(described_class.completed?(content_type: 'cmi5', user_state: 'visited', max_points: 100)).to be false
-      expect(described_class.completed?(content_type: 'cmi5', user_state: 'new', max_points: 100)).to be false
+      expect(described_class.completed?(content_type: 'Cmi5::Item', user_state: 'graded', max_points: 100)).to be true
+      expect(described_class.completed?(content_type: 'Cmi5::Item', user_state: 'submitted', max_points: 100)).to be true
+      expect(described_class.completed?(content_type: 'Cmi5::Item', user_state: 'visited', max_points: 100)).to be false
+      expect(described_class.completed?(content_type: 'Cmi5::Item', user_state: 'new', max_points: 100)).to be false
     end
 
     it 'counts non-scored CMI5 items once visited' do
-      expect(described_class.completed?(content_type: 'cmi5', user_state: 'visited', max_points: 0)).to be true
-      expect(described_class.completed?(content_type: 'cmi5', user_state: 'visited')).to be true
-      expect(described_class.completed?(content_type: 'cmi5', user_state: 'graded', max_points: 0)).to be false
-      expect(described_class.completed?(content_type: 'cmi5', user_state: 'new', max_points: 0)).to be false
+      expect(described_class.completed?(content_type: 'Cmi5::Item', user_state: 'visited', max_points: 0)).to be true
+      expect(described_class.completed?(content_type: 'Cmi5::Item', user_state: 'visited')).to be true
+      expect(described_class.completed?(content_type: 'Cmi5::Item', user_state: 'graded', max_points: 0)).to be false
+      expect(described_class.completed?(content_type: 'Cmi5::Item', user_state: 'new', max_points: 0)).to be false
     end
 
     it 'counts other items once visited' do
-      expect(described_class.completed?(content_type: 'video', user_state: 'visited')).to be true
-      expect(described_class.completed?(content_type: 'video', user_state: 'graded')).to be false
-      expect(described_class.completed?(content_type: 'video', user_state: 'new')).to be false
+      expect(described_class.completed?(content_type: 'Video::Video', user_state: 'visited')).to be true
+      expect(described_class.completed?(content_type: 'Video::Video', user_state: 'graded')).to be false
+      expect(described_class.completed?(content_type: 'Video::Video', user_state: 'new')).to be false
     end
   end
 
@@ -865,7 +865,7 @@ describe CourseService::Item, type: :model do
 
     let(:item) do
       create(:'course_service/item', :quiz, exercise_type: 'exam', minimum_progress_percentage:,
-        content_id: create(:'quiz_service/quiz', :with_valid_question_pool).id)
+        content: create(:'quiz_service/quiz', :with_valid_question_pool))
     end
     let(:minimum_progress_percentage) { 50 }
     let(:user_id) { generate(:user_id) }

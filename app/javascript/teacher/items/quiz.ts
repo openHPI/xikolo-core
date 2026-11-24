@@ -17,7 +17,7 @@ const listenToExerciseTypeChange = (
 ) => {
   exerciseTypeElem.addEventListener('change', () => {
     const contentType = contentTypeElem.value as ContentType;
-    if (contentType !== 'quiz') return;
+    if (contentType !== 'QuizService::Quiz') return;
     const exerciseType = exerciseTypeElem.value as ExerciseType;
     handleQuizExerciseTypes(exerciseType);
   });

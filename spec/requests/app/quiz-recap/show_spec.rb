@@ -12,7 +12,7 @@ describe 'Quiz Recap: Show', type: :request do
   let(:section) { create(:'course_service/section', course:) }
   let(:items) do
     quizzes.map do |quiz|
-      create(:'course_service/item', :quiz, section:, content_id: quiz.id)
+      create(:'course_service/item', :quiz, section:, content: quiz)
     end
   end
   let(:quizzes) { create_list(:'quiz_service/quiz', 2) }

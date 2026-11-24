@@ -12,8 +12,10 @@ import handleQuizType from './quiz';
 import handleRichTextType from './rich-text';
 import handleVideoType from './video';
 
-const appendTemplate = (id: string, parent: HTMLElement) => {
-  const template = document.querySelector<HTMLTemplateElement>(id);
+const appendTemplate = (contentType: string, parent: HTMLElement) => {
+  const template = document.querySelector<HTMLTemplateElement>(
+    `template[data-content-type="${contentType}"]`,
+  );
   const clonedTemplate = document.importNode(template!.content, true);
   parent.appendChild(clonedTemplate);
 };
@@ -21,7 +23,7 @@ const appendTemplate = (id: string, parent: HTMLElement) => {
 const toggleContentForm = (contentTypeElem: HTMLInputElement) => {
   const customForm = document.querySelector('#custom-form') as HTMLElement;
   customForm.innerHTML = '';
-  appendTemplate(`#${contentTypeElem.value}-form`, customForm);
+  appendTemplate(contentTypeElem.value, customForm);
 
   initializeTomSelect(customForm);
 
@@ -35,19 +37,19 @@ const handleFormInputs = (
   exerciseTypeElem: HTMLInputElement,
 ) => {
   switch (contentTypeElem.value as ContentType) {
-    case 'video':
+    case 'Video::Video':
       handleVideoType();
       break;
-    case 'rich_text':
+    case 'CourseService::Richtext':
       handleRichTextType();
       break;
-    case 'quiz':
+    case 'QuizService::Quiz':
       handleQuizType(contentTypeElem, exerciseTypeElem);
       break;
-    case 'lti_exercise':
+    case 'Lti::Exercise':
       handleLtiExerciseType(contentTypeElem, exerciseTypeElem);
       break;
-    case 'cmi5':
+    case 'Cmi5::Item':
       handleCmi5Type(exerciseTypeElem);
       break;
     default:

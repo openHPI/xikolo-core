@@ -108,14 +108,6 @@ module Video
       ]]
     end
 
-    # Per default, ActiveRecord maps a parent and a child in a polymorphic association based on the parents class
-    # name, e.g. `Video::Video`, and stores it in a polymorphic type column, here `content_type`.
-    # As we stored custom values in the `content_type` column before utilising polymorphic assocations, we need to
-    # override the default polymorphic_name.
-    def self.polymorphic_name
-      'video'
-    end
-
     private
 
     def stream?

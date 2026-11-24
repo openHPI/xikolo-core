@@ -77,43 +77,40 @@ class Course::Clone < ApplicationOperation # rubocop:disable Layout/IndentationW
       # Do not save the item when the content cannot be cloned.
       next unless new_content
 
-      # TODO: have #clone_content return only the ID
-      #
-      # `new_content` can be a Restify::Resource OR any ActiveRecord
-      # model, which is catastrophical for safely accessing the ID (and
-      # failing when empty/nil/unsupported).
-      i.content_id = new_content['id']
+      if new_content.is_a?(ActiveRecord::Base)
+        i.content = new_content
+      else
+        i.content_id = new_content['id']
+      end
       i.save!
     end
   end
 
   def clone_content(old_item, course_id:)
-    rel = case old_item.content_type
-            when 'rich_text'
-              original = Richtext.find(old_item.content_id)
-              richtext = Richtext.create! \
-                course_id:,
-                text: clone_file_references(original.text.to_s, course_id:)
-              if original.reading_material_uri
-                copied_uri = copy_file(original.reading_material_uri, course_id:)
-                if copied_uri
-                  richtext.update! reading_material_uri: copied_uri
-                end
-              end
-              return richtext
-            when 'video'
-              return Video::Clone.call(::Video::Video.find(old_item.content_id))
-            when 'quiz'
-              @quiz_api.rel(:quiz)
-            when 'lti_exercise'
-              return LtiExercise::Clone.call(
-                Lti::Exercise.find(old_item.content_id),
-                course_id
-              )
+    case old_item.content
+      when ::CourseService::Richtext
+        original = old_item.content
+        richtext = Richtext.create! \
+          course_id:,
+          text: clone_file_references(original.text.to_s, course_id:)
+        if original.reading_material_uri
+          copied_uri = copy_file(original.reading_material_uri, course_id:)
+          if copied_uri
+            richtext.update! reading_material_uri: copied_uri
           end
-    return unless rel
+        end
+        return richtext
+      when ::Video::Video
+        return Video::Clone.call(old_item.content)
+      when ::Lti::Exercise
+        return LtiExercise::Clone.call(old_item.content, course_id)
+      when ::QuizService::Quiz
+        rel = @quiz_api.rel(:quiz)
+      else
+        return
+    end
 
-    content = rel.get({id: old_item.content_id}).value!
+    content = rel.get({id: old_item.content.id}).value!
     return unless content&.rel? :clone
 
     content.rel(:clone).post({course_id:}).value!

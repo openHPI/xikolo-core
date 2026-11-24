@@ -63,7 +63,7 @@ class QuizRecapController < Abstract::FrontendController
   end
 
   def fetch_questions(course_id)
-    items_by_content_id = recap_items(course_id).index_by(&:content_id)
+    items_by_content_id = recap_items(course_id).index_by {|item| item.content.id }
 
     QuizService::Question
       .includes(:answers)
@@ -88,7 +88,7 @@ class QuizRecapController < Abstract::FrontendController
     CourseService::Item
       .all_available
       .where(
-        content_type: 'quiz',
+        content_type: 'QuizService::Quiz',
         exercise_type: 'selftest',
         required_item_ids: [],
         section_id: CourseService::Section.where(course_id:).select(:id)

@@ -11,7 +11,7 @@ describe LtiController, type: :controller do
 
   let!(:course) { create(:course, id: provider.course_id, course_code: 'the-course') }
   let!(:section) { create(:section, course:) }
-  let!(:item) { create(:item, section:, content_id: exercise.id, content_type: 'lti_exercise') }
+  let!(:item) { create(:item, section:, content: exercise) }
 
   before { sign_in(user:) }
 
@@ -23,7 +23,7 @@ describe LtiController, type: :controller do
     render_views
 
     context 'when submission deadline has passed' do
-      let!(:item) { create(:item, section:, content_id: exercise.id, content_type: 'lti_exercise', submission_deadline: 1.day.ago) }
+      let!(:item) { create(:item, section:, content: exercise, submission_deadline: 1.day.ago) }
 
       it 'redirects with error message' do
         tool_launch

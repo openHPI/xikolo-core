@@ -6,7 +6,7 @@ describe 'Video Download', type: :system do
   let(:user) { create('account_service/user') }
   let(:course) { create(:'course_service/course', :active, course_code: 'the_course') }
   let(:video) { create(:video, :with_attachments) }
-  let(:item) { create(:'course_service/item', section:, content_type: 'video', content_id: video.id) }
+  let(:item) { create(:'course_service/item', section:, content: video) }
   let(:section) { create(:'course_service/section', course:) }
 
   before do

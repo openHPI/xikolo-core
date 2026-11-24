@@ -356,8 +356,8 @@ describe 'Course: Items: Update', type: :request do
 
     context 'for richtext items' do
       let(:richtext) { create(:richtext, course_id: course.id) }
-      let(:item_resource) { build(:'course:item', id: item.id, content_id: richtext.id, section_id: section['id'], content_type: 'rich_text') }
-      let(:item) { create(:item, content_id: richtext.id, content_type: 'rich_text') }
+      let(:item_resource) { build(:'course:item', id: item.id, content_id: richtext.id, section_id: section['id'], content_type: 'CourseService::Richtext') }
+      let(:item) { create(:item, content: richtext) }
       let(:params) do
         {
           xikolo_course_item: {
@@ -486,7 +486,7 @@ describe 'Course: Items: Update', type: :request do
         {
           xikolo_course_item: {
             title: item.title,
-            content_type: 'cmi5',
+            content_type: 'Cmi5::Item',
             published: 'true',
           },
         }

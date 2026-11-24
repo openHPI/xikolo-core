@@ -26,7 +26,7 @@ describe VideoItemPresenter, type: :presenter do
   describe '#icon_class' do
     subject { presenter.icon_class }
 
-    let(:item_params) { super().merge content_type: 'video' }
+    let(:item_params) { super().merge content_type: 'Video::Video' }
 
     context 'with nothing else set' do
       it { is_expected.to eq 'video' }

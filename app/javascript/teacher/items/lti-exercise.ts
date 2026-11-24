@@ -33,7 +33,7 @@ const listenToExerciseTypeChange = (
 ) => {
   exerciseTypeElem.addEventListener('change', () => {
     const contentType = contentTypeElem.value as ContentType;
-    if (contentType !== 'lti_exercise') return;
+    if (contentType !== 'Lti::Exercise') return;
     const exerciseType = exerciseTypeElem.value as ExerciseType;
     handleMaxPoints(exerciseType);
   });

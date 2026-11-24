@@ -31,8 +31,7 @@ describe 'Content: Edit a quiz', type: :system do
     create(:'course_service/item',
       section:,
       title: 'An Example Item',
-      content_type: 'quiz',
-      content_id: quiz.id,
+      content: quiz,
       exercise_type:,
       max_dpoints: 30,
       published:)

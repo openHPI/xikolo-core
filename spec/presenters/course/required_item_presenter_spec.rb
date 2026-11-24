@@ -6,7 +6,7 @@ describe Course::RequiredItemPresenter do
   subject(:presenter) { described_class.new(item, current_user) }
 
   let(:item) { create(:item, item_params) }
-  let(:item_params) { {content_type: 'rich_text'} }
+  let(:item_params) { {content: create(:richtext)} }
   let(:user) { create(:'account_service/user') }
   let(:visit) { create(:visit, item:, user:) }
   let(:session) { create(:'account_service/session', user:) }
@@ -74,7 +74,7 @@ describe Course::RequiredItemPresenter do
     it { is_expected.to eq 'Visit this learning unit and work through the content.' }
 
     context 'with result-based item' do
-      let(:item_params) { {content_type: 'quiz'} }
+      let(:item_params) { {content: create(:'quiz_service/quiz'), exercise_type: 'selftest'} }
 
       it { is_expected.to eq 'Complete this learning unit with a score of at least 50% of the maximum points.' }
     end

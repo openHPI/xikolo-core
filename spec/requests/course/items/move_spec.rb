@@ -37,8 +37,7 @@ describe 'Course: Items: Move', type: :request do
     # sections/courses do not have, so the item is created directly instead.
     let(:item_resource) do
       CourseService::Item.create!(
-        section:, title: 'Legacy Item', content_type: 'rich_text',
-        content_id: create(:richtext).id, open_mode: false
+        section:, title: 'Legacy Item', content: create(:richtext), open_mode: false
       )
     end
 

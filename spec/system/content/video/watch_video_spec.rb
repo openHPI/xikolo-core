@@ -12,8 +12,7 @@ describe 'Content: Student watches video', type: :system do
   let(:item) do
     create(:'course_service/item',
       section:,
-      content_type: 'video',
-      content_id: video.id,
+      content: video,
       title: 'WWW Introduction')
   end
   let(:user) { create(:'account_service/user') }

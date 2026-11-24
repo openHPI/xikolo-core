@@ -18,10 +18,6 @@ class Richtext < ApplicationRecord # rubocop:disable Layout/IndentationWidth
 
   validates :text, presence: true
 
-  def self.polymorphic_name
-    'rich_text'
-  end
-
   def self.referenced?(uri)
     exists?(reading_material_uri: uri) ||
       Course.exists?(['description LIKE ?', "%#{uri}%"]) ||

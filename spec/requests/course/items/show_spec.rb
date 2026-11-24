@@ -68,7 +68,7 @@ shared_examples 'an accessible item' do |enrolled: true, quiz: false|
 end
 
 shared_examples 'an item with prerequisites' do |quiz: false|
-  let(:required_item) { create(:item, content_type: 'rich_text') }
+  let(:required_item) { create(:item, content_type: 'CourseService::Richtext') }
   let(:item_params) { super().merge(required_item_ids: [required_item.id]) }
 
   context 'with unfulfilled prerequisites' do
@@ -111,9 +111,6 @@ shared_context 'for quizzes' do
   before do
     Stub.request(:quiz, :get, "/quizzes/#{item.content_id}")
       .to_return Stub.json(quiz.decorate.as_json(api_version: 1))
-    item.update!(content: quiz)
-    item_resource['content_id'] = quiz.id
-    item_resource['content_type'] = 'quiz'
   end
 end
 
@@ -202,7 +199,7 @@ describe 'Course: Items: Show', type: :request do
       end
 
       context 'with a quiz item' do
-        let(:item) { create(:item, section:, title: 'The Quiz', content_type: 'quiz', content_id: generate(:quiz_id)) }
+        let(:item) { create(:item, section:, content: quiz, title: 'The Quiz', exercise_type: 'selftest') }
 
         include_context 'for quizzes'
 
@@ -211,7 +208,7 @@ describe 'Course: Items: Show', type: :request do
         end
 
         context 'when it is unpublished' do
-          let(:item) { create(:item, section:, title: 'The Quiz', content_type: 'quiz', content_id: generate(:quiz_id), published: false) }
+          let(:item) { create(:item, section:, content: quiz, title: 'The Quiz', exercise_type: 'selftest', published: false) }
           let(:item_params) { super().merge(published: false) }
 
           it_behaves_like 'an accessible item', quiz: true, enrolled: false do
@@ -278,7 +275,7 @@ describe 'Course: Items: Show', type: :request do
       end
 
       context 'with a quiz item' do
-        let(:item) { create(:item, section:, title: 'The Quiz', content_type: 'quiz', content_id: generate(:quiz_id)) }
+        let(:item) { create(:item, section:, content: quiz, title: 'The Quiz', exercise_type: 'selftest') }
         let(:item_params) { super().merge(exercise_type: 'selftest', required_item_ids: []) }
 
         include_context 'for quizzes' do

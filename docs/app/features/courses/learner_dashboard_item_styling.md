@@ -14,7 +14,7 @@ Items that are not graded, such as videos or texts, are marked as completed as s
 ## Quizzes and exercises
 
 Quizzes and interactive exercises, including those from external tools, are evaluated based on performance.
-These items with the `content_type` of `quiz` or `lti_exercise` are marked with three different states.
+These items with the `content_type` of `QuizService::Quiz` or `Lti::Exercise` are marked with three different states.
 
 The item is marked as **completed** when:
 

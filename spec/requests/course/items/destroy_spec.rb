@@ -89,21 +89,21 @@ describe 'Course: Items: Destroy', type: :request do
 
       context 'with a CourseService::Richtext as item content' do
         let(:richtext) { create(:richtext, course_id: course.id) }
-        let(:item_resource) { build(:'course:item', id: item.id, content_id: richtext.id, section_id: section['id'], content_type: 'rich_text') }
-        let(:item) { create(:item, content_id: richtext.id, content_type: 'rich_text') }
+        let(:item_resource) { build(:'course:item', id: item.id, content_id: richtext.id, section_id: section['id'], content_type: 'CourseService::Richtext') }
+        let(:item) { create(:item, content: richtext) }
 
         it_behaves_like 'a monolithized content item', CourseService::Richtext
       end
 
       context 'with a quiz as item content' do
         let(:quiz) { create(:'quiz_service/quiz') }
-        let(:item) { create(:item, content_id: quiz.id, content_type: 'quiz') }
+        let(:item) { create(:item, content: quiz, exercise_type: 'selftest') }
         let(:item_resource) do
           build(:'course:item',
             id: item.id,
             content_id: quiz.id,
             section_id: section['id'],
-            content_type: 'quiz')
+            content_type: 'QuizService::Quiz')
         end
         let(:content_delete_stub) do
           Stub.request(:quiz, :delete, "/quizzes/#{quiz.id}")

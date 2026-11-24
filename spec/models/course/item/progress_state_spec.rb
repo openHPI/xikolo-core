@@ -10,7 +10,7 @@ describe Course::Item::ProgressState do
     )
   end
 
-  let(:content_type) { 'quiz' }
+  let(:content_type) { 'QuizService::Quiz' }
   let(:exercise_type) { 'main' }
   let(:user_state) { 'graded' }
   let(:user_points) { nil }
@@ -26,7 +26,7 @@ describe Course::Item::ProgressState do
     it { expect(progress_state).not_to be_marked }
   end
 
-  %w[quiz lti_exercise].each do |type|
+  %w[QuizService::Quiz Lti::Exercise].each do |type|
     context "for a gradable #{type}" do
       let(:content_type) { type }
 
@@ -64,7 +64,7 @@ describe Course::Item::ProgressState do
   end
 
   context 'for a gradable CMI5 item' do
-    let(:content_type) { 'cmi5' }
+    let(:content_type) { 'Cmi5::Item' }
     let(:exercise_type) { 'selftest' }
 
     context 'that has not been submitted' do
@@ -93,7 +93,7 @@ describe Course::Item::ProgressState do
   end
 
   context 'for an LTI exercise whose submission deadline has passed' do
-    let(:content_type) { 'lti_exercise' }
+    let(:content_type) { 'Lti::Exercise' }
     let(:deadline_passed) { true }
 
     context 'that has not been submitted' do
@@ -194,7 +194,7 @@ describe Course::Item::ProgressState do
   end
 
   context 'for a non-gradable CMI5 item' do
-    let(:content_type) { 'cmi5' }
+    let(:content_type) { 'Cmi5::Item' }
     let(:exercise_type) { nil }
     let(:max_points) { nil }
 
@@ -212,7 +212,7 @@ describe Course::Item::ProgressState do
   end
 
   context 'for any other item' do
-    let(:content_type) { 'video' }
+    let(:content_type) { 'Video::Video' }
     let(:exercise_type) { nil }
     let(:max_points) { nil }
 

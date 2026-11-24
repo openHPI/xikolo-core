@@ -16,7 +16,7 @@ module Global
     end
 
     def course_item_page
-      render_with_template(locals: {title: COURSE_TITLE, breadcrumbs:, icon_class: icon_for('video')})
+      render_with_template(locals: {title: COURSE_TITLE, breadcrumbs:, icon_class: icon_for('Video::Video')})
     end
 
     def course_page_with_navigation

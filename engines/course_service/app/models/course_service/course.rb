@@ -382,8 +382,7 @@ class Course < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   end
 
   def graded_assignments_forever?
-    items.where(
-      content_type: 'quiz',
+    items.quiz.where(
       exercise_type: 'main',
       submission_deadline: nil
     ).any?
@@ -403,7 +402,7 @@ class Course < ApplicationRecord # rubocop:disable Layout/IndentationWidth
   end
 
   def subtitle_offer
-    items.where(content_type: 'video').then do |items|
+    items.video.then do |items|
       ::Video::Video.includes(:subtitles)
         .where(id: items.pluck(:content_id))
         .pluck(:lang)

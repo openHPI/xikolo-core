@@ -8,6 +8,19 @@ describe CourseService::Item, type: :model do
   let(:user) { create(:'account_service/user') }
   let(:other_user) { create(:'account_service/user') }
 
+  describe '(exam content)' do
+    %i[video richtext lti_exercise cmi5].each do |type|
+      context "with #{type} content" do
+        let(:item) { create(:item, type) }
+
+        it 'rejects changing the exercise type to exam' do
+          expect(item.update(exercise_type: 'exam')).to be false
+          expect(item.errors.details[:exercise_type]).to include(error: :requires_question_pool)
+        end
+      end
+    end
+  end
+
   describe '(single exam per course)' do
     let(:course) { create(:'course_service/course') }
     let(:section) { create(:'course_service/section', course:) }
@@ -15,8 +28,7 @@ describe CourseService::Item, type: :model do
     let(:exam_item) do
       create(:'course_service/item',
         section:,
-        content_type: 'quiz',
-        content_id: quiz.id,
+        content: quiz,
         exercise_type: 'exam',
         published: false)
     end
@@ -31,8 +43,7 @@ describe CourseService::Item, type: :model do
       it 'is invalid and the exam_already_exists message resolves' do
         item = CourseService::Item.new(
           section:,
-          content_type: 'quiz',
-          content_id: quiz.id,
+          content: quiz,
           exercise_type: 'exam',
           published: false
         )
@@ -49,7 +60,7 @@ describe CourseService::Item, type: :model do
     subject(:item_fulfillment) { item.fulfilled_for?(user) }
 
     context '(items with visit-based fulfillment)' do
-      let(:item_params) { {content_type: 'rich_text'} }
+      let(:item_params) { {content: create(:richtext)} }
 
       it { is_expected.to be_falsey }
 
@@ -67,7 +78,7 @@ describe CourseService::Item, type: :model do
     end
 
     context '(items with result-based fulfillment)' do
-      let(:item_params) { {content_type: 'quiz', max_dpoints: 100} }
+      let(:item_params) { {content: create(:'quiz_service/quiz'), exercise_type: 'selftest', max_dpoints: 100} }
 
       it { is_expected.to be_falsey }
 
@@ -106,8 +117,17 @@ describe CourseService::Item, type: :model do
       end
 
       it 'knows the `content_type`' do
-        expect(item.content.class.polymorphic_name).to be_in %w[video lti_exercise rich_text]
-        expect(item.content_type).to be_in %w[video lti_exercise rich_text]
+        expect(item.content_type).to eq item.content.class.polymorphic_name
+      end
+
+      it 'identifies the content type without loading the content' do
+        item.reload.strict_loading!
+
+        expect(item.content_type_name).to eq item.content_type
+        expect([item.video?, item.quiz?, item.rich_text?, item.lti_exercise?, item.cmi5?]).to eq(
+          %w[Video::Video QuizService::Quiz CourseService::Richtext Lti::Exercise Cmi5::Item]
+            .map {|type| type == item.content_type }
+        )
       end
     end
 
@@ -125,6 +145,18 @@ describe CourseService::Item, type: :model do
 
     context 'with text content' do
       subject(:item) { create(:item, :richtext) }
+
+      it_behaves_like 'an item with polymorphic content'
+    end
+
+    context 'with quiz content' do
+      subject(:item) { create(:item, content: create(:'quiz_service/quiz'), exercise_type: 'selftest') }
+
+      it_behaves_like 'an item with polymorphic content'
+    end
+
+    context 'with CMI5 content' do
+      subject(:item) { create(:item, :cmi5) }
 
       it_behaves_like 'an item with polymorphic content'
     end

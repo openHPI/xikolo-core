@@ -12,7 +12,7 @@ describe CourseService::PersistRankingTasksController, type: :controller do
   let(:course) { create(:'course_service/course', end_date: 1.day.ago) }
   let(:section) { create(:'course_service/section', course:) }
   let(:item) do
-    create(:'course_service/item', section:, content_type: :quiz,
+    create(:'course_service/item', section:, content_type: 'QuizService::Quiz',
       exercise_type: 'main', max_dpoints: 100)
   end
   let(:start_quantile) { nil }
@@ -126,7 +126,7 @@ describe CourseService::PersistRankingTasksController, type: :controller do
 
       context 'a course without points' do
         let(:item) do
-          create(:'course_service/item', section:, content_type: :quiz,
+          create(:'course_service/item', section:, content_type: 'QuizService::Quiz',
             exercise_type: 'main', max_dpoints: 0)
         end
 

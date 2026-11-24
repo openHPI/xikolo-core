@@ -15,8 +15,7 @@ describe CourseService::Item, '#lti_submission_deadline_passed?' do
     create(
       :item,
       section:,
-      content_type: 'lti_exercise',
-      content_id: exercise.id,
+      content: exercise,
       submission_deadline:
     )
   end

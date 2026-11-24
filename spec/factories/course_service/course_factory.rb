@@ -56,13 +56,13 @@ FactoryBot.define do
         section1 = FactoryBot.create(:'course_service/section', course:, alternative_state: 'child', parent_id: section_parent.id)
         richtext = CourseService::Richtext.create! course_id: course.id, text: 'Useful information!'
         video = FactoryBot.create(:video)
-        section1.items << FactoryBot.create(:'course_service/item', section: section1, title: 'Wiki', content_type: 'rich_text', content_id: richtext.id)
-        section1.items << FactoryBot.create(:'course_service/item', section: section1, title: 'Video', content_type: 'video', content_id: video.id)
+        section1.items << FactoryBot.create(:'course_service/item', section: section1, title: 'Wiki', content: richtext)
+        section1.items << FactoryBot.create(:'course_service/item', section: section1, title: 'Video', content: video)
 
         course.sections << section1
 
         section2 = FactoryBot.create(:'course_service/section', course:, alternative_state: 'child', parent_id: section_parent.id)
-        section2.items << FactoryBot.create(:'course_service/item', section: section2, title: 'Quiz', content_type: 'quiz', exercise_type: 'selftest', content_id: '00000000-3333-4444-9999-000000000001')
+        section2.items << FactoryBot.create(:'course_service/item', :quiz, section: section2, title: 'Quiz')
         course.sections << section2
       end
     end

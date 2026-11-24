@@ -36,7 +36,7 @@ describe Maintenance::AttachVimeoVideosTask do
     end
 
     it 'excludes streams that already have a video attached' do
-      stream.video.attach(io: StringIO.new('video'), filename: 'video.mp4', content_type: 'video/mp4')
+      stream.video.attach(io: StringIO.new('Video::Video'), filename: 'video.mp4', content_type: 'video/mp4')
 
       expect(task.collection.pluck(:id)).not_to include(stream.id)
     end

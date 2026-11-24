@@ -9,7 +9,7 @@ module Cmi5
     def create
       Cmi5::Item.find(params[:id])
       item = CourseService::Item.find_by!(
-        content_type: 'cmi5',
+        content_type: 'Cmi5::Item',
         content_id: params[:id]
       )
       return unauthorized! unless active_enrollment?(item)

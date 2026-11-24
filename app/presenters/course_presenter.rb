@@ -31,7 +31,8 @@ class CoursePresenter < CourseInfoPresenter
 
   def item_collection
     @item_collection ||= ::CourseService::Course.find(course.id).sections.flat_map(&:items).map do |item|
-      ["#{item.section.title}: #{item.title} (#{I18n.t(:"sections.index.label.#{item.content_type}")})", item.id]
+      label = I18n.t(:"sections.index.label.#{item.content_type_name}")
+      ["#{item.section.title}: #{item.title} (#{label})", item.id]
     end
   end
 

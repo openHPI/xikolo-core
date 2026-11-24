@@ -14,7 +14,7 @@ describe VideoPresenter, type: :presenter do
       let(:video) { create(:video, pip_stream: create(:stream, :bunny)) }
 
       before do
-        create(:item, section: create(:section, course:), content_type: 'video', content_id: video.id)
+        create(:item, section: create(:section, course:), content: video)
       end
 
       it 'builds the bunny player' do

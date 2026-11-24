@@ -11,8 +11,7 @@ describe 'Unenroll from a course', type: :system do
     create(:'course_service/item',
       section: section,
       title: 'A video item',
-      content_type: 'video',
-      content_id: video.id)
+      content: video)
   end
 
   before do

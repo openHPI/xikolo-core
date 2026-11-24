@@ -31,9 +31,5 @@ module Cmi5
 
       "#{root_url}cmi5/activities/#{cmi5_item_id}"
     end
-
-    def self.polymorphic_name
-      'Cmi5::Item'
-    end
   end
 end

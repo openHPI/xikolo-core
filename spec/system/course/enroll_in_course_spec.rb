@@ -45,7 +45,7 @@ describe 'Enroll in Course', type: :system do
   context 'from the course details' do
     let(:section) { create(:'course_service/section', course:) }
     let(:richtext) { create(:'course_service/richtext', course:) }
-    let(:item) { create(:'course_service/item', section:, content_type: 'rich_text', content_id: richtext.id) }
+    let(:item) { create(:'course_service/item', section:, content: richtext) }
 
     before do
       item

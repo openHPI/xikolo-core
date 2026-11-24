@@ -17,10 +17,22 @@ class ItemPresenter < PrivatePresenter
   def_delegator :@course, :lang, :lang
 
   class << self
+    # `items.content_type` stores the class name of the content resource. Each
+    # supported content class has a dedicated presenter. Resolved lazily,
+    # because the presenters subclass `ItemPresenter` and referencing them
+    # while this class body runs would deadlock autoloading.
+    def presenters
+      @presenters ||= {
+        'Video::Video' => VideoItemPresenter,
+        'QuizService::Quiz' => QuizItemPresenter,
+        'CourseService::Richtext' => RichTextItemPresenter,
+        'Lti::Exercise' => LtiExerciseItemPresenter,
+        'Cmi5::Item' => Cmi5ItemPresenter,
+      }
+    end
+
     def lookup(item)
-      "#{item['content_type']}_item_presenter".camelize.constantize
-    rescue NameError
-      UnsupportedItemPresenter
+      presenters.fetch(item['content_type'], UnsupportedItemPresenter)
     end
 
     def for(item, course: nil, user: nil)
@@ -29,7 +41,20 @@ class ItemPresenter < PrivatePresenter
   end
 
   def partial_name
-    "items/#{content_type}/show_item_#{content_type}"
+    view_slug = self.class.name.delete_suffix('ItemPresenter').underscore
+    "items/#{view_slug}/show_item_#{view_slug}"
+  end
+
+  def video?
+    content_type == 'Video::Video'
+  end
+
+  def quiz?
+    content_type == 'QuizService::Quiz'
+  end
+
+  def rich_text?
+    content_type == 'CourseService::Richtext'
   end
 
   def redirect?
@@ -76,15 +101,14 @@ class ItemPresenter < PrivatePresenter
 
   # Used to create human-readable labels for each course item type
   def type_label
-    case content_type
-      when 'quiz'
-        type_label_quiz
-      when 'video'
-        'video'
-      when 'rich_text'
-        'rich_text'
-      else
-        'learning_material'
+    if quiz?
+      type_label_quiz
+    elsif video?
+      'video'
+    elsif rich_text?
+      'rich_text'
+    else
+      'learning_material'
     end
   end
 
@@ -135,7 +159,7 @@ class ItemPresenter < PrivatePresenter
   end
 
   def previewable?
-    item_previewable = open_mode && content_type == 'video'
+    item_previewable = open_mode && video?
 
     # We check this, because @user can be an instance of either
     # Xikolo::Common::Auth::CurrentUser or Xikolo::Account::User

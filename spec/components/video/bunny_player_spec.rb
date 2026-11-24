@@ -12,7 +12,7 @@ describe Video::BunnyPlayer, type: :component do
     create(:stream, :bunny, title: 'Bunny', provider_video_id: 'bunny-guid', width: 1600, height: 900)
   end
 
-  let(:item) { create(:item, section: create(:section, course:), content_type: 'video', content_id: video.id) }
+  let(:item) { create(:item, section: create(:section, course:), content: video) }
 
   before { item }
 

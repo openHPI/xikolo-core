@@ -506,7 +506,7 @@ describe CourseService::Course, type: :model do
         let(:exam_quiz) { create(:'quiz_service/quiz', :with_valid_question_pool) }
         let(:exam) do
           create(:'course_service/item', :quiz, exercise_type: 'exam',
-            section:, content_id: exam_quiz.id)
+            section:, content: exam_quiz)
         end
 
         def create_exam_submission(learner_id:, question_points:, submission_points:)

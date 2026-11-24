@@ -1,4 +1,8 @@
 export type ContentType =
-  'video' | 'rich_text' | 'quiz' | 'lti_exercise' | 'cmi5';
+  | 'Video::Video'
+  | 'CourseService::Richtext'
+  | 'QuizService::Quiz'
+  | 'Lti::Exercise'
+  | 'Cmi5::Item';
 
 export type ExerciseType = 'main' | 'bonus' | 'selftest' | 'survey' | '';

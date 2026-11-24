@@ -57,7 +57,7 @@ RSpec.describe 'Quiz question pools', type: :model do
 
   describe 'authoring validation' do
     it 'is only available for exams' do
-      create(:'course_service/item', :quiz, content_id: quiz.id, exercise_type: 'selftest', published: false)
+      create(:'course_service/item', :quiz, content: quiz, exercise_type: 'selftest', published: false)
       quiz.reload
 
       expect(quiz).not_to be_valid

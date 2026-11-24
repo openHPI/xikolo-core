@@ -61,7 +61,7 @@ section = CourseService::Section.find('00000002-3100-4444-9999-000000000007')
 item = CourseService::Item.find_or_initialize_by(id: '00000003-3100-4444-9999-000000000043')
 item.assign_attributes(
   title: 'Question Pool Exam',
-  content_type: 'quiz',
+  content_type: 'QuizService::Quiz',
   content_id: quiz.id,
   exercise_type: 'exam',
   max_dpoints: 210,

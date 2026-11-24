@@ -11,10 +11,10 @@ describe 'Choose alternative section within a course', type: :system do
   let!(:child_section2) { create(:'course_service/section', :child, parent: parent_section, course: course, position: 2, title: 'Alternative Section 2', description: 'This is the second alternative you can choose') }
 
   let(:quiz1) { create(:'quiz_service/quiz', instructions: 'This is the unique text of alternative item 1', allowed_attempts: 2) }
-  let!(:item1) { create(:'course_service/item', section: child_section1, content_id: quiz1.id, content_type: 'quiz', exercise_type: 'selftest', max_dpoints: 30, title: 'Alternative Item 1') }
+  let!(:item1) { create(:'course_service/item', section: child_section1, content: quiz1, exercise_type: 'selftest', max_dpoints: 30, title: 'Alternative Item 1') }
 
   let(:quiz2) { create(:'quiz_service/quiz', instructions: 'This is the unique text of alternative item 2', allowed_attempts: 2) }
-  let!(:item2) { create(:'course_service/item', section: child_section2, content_id: quiz2.id, content_type: 'quiz', exercise_type: 'selftest', max_dpoints: 30, title: 'Alternative Item 2') }
+  let!(:item2) { create(:'course_service/item', section: child_section2, content: quiz2, exercise_type: 'selftest', max_dpoints: 30, title: 'Alternative Item 2') }
 
   let(:user) { create(:'account_service/user') }
 

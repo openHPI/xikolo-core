@@ -10,7 +10,7 @@ RSpec.describe 'Recap: Load questions for recap', type: :request do
   let(:item_params) do
     {
       all_available: true,
-      content_type: 'quiz',
+      content_type: 'QuizService::Quiz',
       exercise_type: 'selftest',
       course_id: nil,
       required_items: 'none',

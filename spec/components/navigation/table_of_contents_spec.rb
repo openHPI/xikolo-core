@@ -119,14 +119,14 @@ describe Navigation::TableOfContents, type: :component do
     let(:user) { instance_double(CurrentUser::User, allowed?: false, logged_in?: true, id: SecureRandom.uuid) }
 
     before do
-      create(:'course_service/item', section:, title: 'Video', content_type: 'video', open_mode: true,
+      create(:'course_service/item', section:, title: 'Video', content_type: 'Video::Video', open_mode: true,
         published: true)
-      create(:'course_service/item', section:, title: 'Upcoming', content_type: 'rich_text',
+      create(:'course_service/item', section:, title: 'Upcoming', content_type: 'CourseService::Richtext',
         start_date: 1.day.from_now, published: true)
-      create(:'course_service/item', section:, title: 'Bonus', content_type: 'rich_text',
+      create(:'course_service/item', section:, title: 'Bonus', content_type: 'CourseService::Richtext',
         deemphasized_in_nav: true, published: true)
       create(:'course_service/item', section:, title: 'Unpublished', published: false)
-      create(:'course_service/item', section: other_section, title: 'Quiz', content_type: 'quiz',
+      create(:'course_service/item', section: other_section, title: 'Quiz', content_type: 'QuizService::Quiz',
         exercise_type: 'main', published: true)
     end
 
@@ -161,7 +161,7 @@ describe Navigation::TableOfContents, type: :component do
 
       context 'with a quiz whose submission deadline has passed' do
         before do
-          create(:'course_service/item', section: other_section, title: 'Expired quiz', content_type: 'quiz',
+          create(:'course_service/item', section: other_section, title: 'Expired quiz', content_type: 'QuizService::Quiz',
             exercise_type: 'main', submission_deadline: 1.day.ago, published: true)
         end
 
@@ -191,9 +191,9 @@ describe Navigation::TableOfContents, type: :component do
       context 'with an exam' do
         let(:account) { create(:'account_service/user') }
         let(:exam) do
-          create(:'course_service/item', section: other_section, title: 'Exam', content_type: 'quiz',
+          create(:'course_service/item', section: other_section, title: 'Exam',
             exercise_type: 'exam', published: true,
-            content_id: create(:'quiz_service/quiz', :with_valid_question_pool).id)
+            content: create(:'quiz_service/quiz', :with_valid_question_pool))
         end
 
         before do
@@ -336,11 +336,11 @@ describe Navigation::TableOfContents, type: :component do
         allow(user).to receive(:allowed?).with('course.content.access.available').and_return(true)
 
         create(:'course_service/visit', user: account_user, item: CourseService::Item.find_by!(title: 'Video'))
-        create(:'course_service/item', section: other_section, title: 'Low score quiz', content_type: 'quiz',
+        create(:'course_service/item', section: other_section, title: 'Low score quiz', content_type: 'QuizService::Quiz',
           exercise_type: 'main', max_dpoints: 100, published: true).tap do |quiz|
           create(:'course_service/result', user: account_user, item: quiz, dpoints: 30)
         end
-        create(:'course_service/item', section: other_section, title: 'Sufficient score quiz', content_type: 'quiz',
+        create(:'course_service/item', section: other_section, title: 'Sufficient score quiz', content_type: 'QuizService::Quiz',
           exercise_type: 'main', max_dpoints: 100, published: true).tap do |quiz|
           create(:'course_service/result', user: account_user, item: quiz, dpoints: 60)
         end

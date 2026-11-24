@@ -12,8 +12,7 @@ describe 'Course Resume function', type: :system do
       create(:'course_service/item',
         section: section,
         title: "Video title #{i}",
-        content_type: 'video',
-        content_id: video.id)
+        content: video)
     end
   end
 

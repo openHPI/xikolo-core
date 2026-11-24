@@ -80,7 +80,7 @@ class QuestionsController < ApplicationController # rubocop:disable Layout/Inden
     Xikolo.paginate(
       course_api.rel(:items).get({
         course_id:,
-        content_type: 'quiz',
+        content_type: 'QuizService::Quiz',
         exercise_type: 'selftest',
         all_available: true,
         required_items: 'none',

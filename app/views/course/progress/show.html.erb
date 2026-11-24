@@ -47,6 +47,28 @@
         <% end %>
       </section>
     <% end %>
+
+    <% if @optional_items.any? %>
+      <section class="text-base-content flex flex-col gap-4 py-8" aria-labelledby="progress-optional-items-title">
+        <h2 id="progress-optional-items-title" class="text-xl font-medium lg:text-2xl">
+          <%= t(:'course.progress.show.optional_items_title') %>
+        </h2>
+
+        <%= render Global::Carousel.new(label: t(:'course.progress.show.optional_items_title'), size: :sm) do |carousel| %>
+          <% @optional_items.each do |item| %>
+            <% carousel.with_item do %>
+              <%= render Course::ItemCard.new(
+                title: item.title,
+                label: item.label,
+                icon: item.icon,
+                path: item.path,
+                state: item.state,
+              ) %>
+            <% end %>
+          <% end %>
+        <% end %>
+      </section>
+    <% end %>
   </div>
 </div>
 

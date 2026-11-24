@@ -11,7 +11,7 @@ module Lti
       inverse_of: :gradebooks
 
     has_one :item,
-      -> { where(content_type: 'lti_exercise') },
+      -> { CourseService::Item.lti_exercise },
       class_name: 'CourseService::Item',
       dependent: :restrict_with_exception,
       foreign_key: :content_id,

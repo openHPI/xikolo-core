@@ -1,20 +1,12 @@
 import { Controller } from '@hotwired/stimulus';
-import type { HlsJsVideoElement } from '@videojs/html/media/hlsjs-video';
-import handleError from '../../util/error';
+import type { SelectionEvent } from './player_controller';
 
 // Number of item sets rendered
 // (real set + one clone set on each side)
 const SET_COUNT = 3;
 
 export default class extends Controller<HTMLElement> {
-  static targets = [
-    'carousel',
-    'dialog',
-    'video',
-    'navButton',
-    'item',
-    'zoomItem',
-  ];
+  static targets = ['carousel', 'navButton', 'item', 'zoomItem'];
 
   static values = {
     infinite: Boolean,
@@ -22,8 +14,6 @@ export default class extends Controller<HTMLElement> {
 
   declare readonly infiniteValue: boolean;
   declare readonly carouselTarget: HTMLElement;
-  declare readonly dialogTarget: HTMLDialogElement;
-  declare readonly videoTarget: HlsJsVideoElement;
   declare readonly navButtonTargets: HTMLElement[];
   declare readonly itemTargets: HTMLElement[];
   declare readonly zoomItemTargets: HTMLElement[];
@@ -32,9 +22,6 @@ export default class extends Controller<HTMLElement> {
   // Which item the carousel is centered on: an index into itemTargets
   // (clones included), driven by the intersection observer and teleport.
   private centeredItemIndex = 0;
-  // Which item the dialog is playing: an index into itemTargets that always
-  // lands in the real set (never a clone), driven by prev/next.
-  private playingItemIndex = 0;
   private centerObserver?: IntersectionObserver;
 
   connect() {
@@ -75,27 +62,16 @@ export default class extends Controller<HTMLElement> {
     this.scrollByOneItem(1);
   }
 
-  openDialog(event: Event) {
+  centerClickedItem(event: Event) {
     const button = event.currentTarget as HTMLButtonElement;
     const index = this.itemTargets.indexOf(button);
 
     this.centeredItemIndex = index;
-    this.playingItemIndex = this.realItemIndexOf(index);
     this.centerItem(index);
-    this.playItem(index);
-    this.dialogTarget.showModal();
   }
 
-  playPrevious() {
-    this.playAdjacentItem(-1);
-  }
-
-  playNext() {
-    this.playAdjacentItem(1);
-  }
-
-  onDialogClose() {
-    this.videoTarget.pause();
+  centerPlayingItem(event: SelectionEvent) {
+    this.centerItem(this.firstRealIndex + event.detail.index, 'instant');
   }
 
   private handleCenterIntersections(entries: IntersectionObserverEntry[]) {
@@ -210,32 +186,6 @@ export default class extends Controller<HTMLElement> {
     ).matches;
 
     return prefersReducedMotion ? 'instant' : 'smooth';
-  }
-
-  // Steps the current video by one item and keeps the carousel behind
-  // the dialog scrolled to the same item.
-  private playAdjacentItem(direction: -1 | 1) {
-    this.playingItemIndex = this.realItemIndexOf(
-      this.playingItemIndex + direction,
-    );
-    this.playItem(this.playingItemIndex);
-    this.centerItem(this.playingItemIndex, 'instant');
-  }
-
-  private async playItem(index: number) {
-    const videoSrc = this.itemTargets[index]?.dataset.videoSrc;
-    if (!videoSrc) return;
-
-    try {
-      this.videoTarget.src = new URL(videoSrc, window.location.href).href;
-
-      // Without this, play() can run before the source update is complete,
-      // and the browser will reject the autoplay
-      await Promise.resolve();
-      await this.videoTarget.play();
-    } catch (error) {
-      handleError(undefined, error, false);
-    }
   }
 
   // Scrolls the carousel so the item at the given index is centered;

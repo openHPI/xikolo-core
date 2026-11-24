@@ -25,11 +25,11 @@ module Course
 
       def icon_class
         case @item['content_type']
-          when 'quiz'
+          when 'QuizService::Quiz'
             QUIZ_ICONS.fetch(@item['exercise_type']&.to_sym, 'learning_material')
-          when 'rich_text'
+          when 'CourseService::Richtext'
             'text'
-          when 'video'
+          when 'Video::Video'
             'video'
           else
             'learning_material'

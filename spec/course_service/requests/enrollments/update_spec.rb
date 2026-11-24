@@ -31,7 +31,7 @@ describe 'Enrollment: Update', type: :request do
     context 'with auto-state true' do
       let(:course) { create(:'course_service/course', records_released: true) }
       let(:section) { create(:'course_service/section', course:) }
-      let(:item) { create(:'course_service/item', section:, exercise_type: 'main', content_type: 'quiz', max_dpoints: 50) }
+      let(:item) { create(:'course_service/item', section:, exercise_type: 'main', content_type: 'QuizService::Quiz', max_dpoints: 50) }
 
       before do
         create(:'course_service/result', item:, user_id:, dpoints: 49)

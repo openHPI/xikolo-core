@@ -25,7 +25,7 @@ describe Course::QuizListPresenter, type: :presenter do
     create(:'course_service/item', :quiz, section: week1, title: 'Unpublished quiz', published: false)
     create(:'course_service/item', :quiz, section: week1, title: 'Upcoming quiz', start_date: 1.day.from_now)
     create(:'course_service/item', :quiz, section: week2, title: 'Final exam', exercise_type: 'exam',
-      content_id: create(:'quiz_service/quiz', :with_valid_question_pool).id)
+      content: create(:'quiz_service/quiz', :with_valid_question_pool))
     create(:'course_service/item', :quiz, section: week2, title: 'Survey', exercise_type: 'survey')
     create(:'course_service/item', :quiz, section: week3, title: 'Next week quiz')
     create(:'course_service/item', :quiz, section: draft, title: 'Draft section quiz')
@@ -35,10 +35,6 @@ describe Course::QuizListPresenter, type: :presenter do
     expect(quizzes.map(&:title)).to eq ['Self-test 1', 'Closed quiz', 'Upcoming quiz', 'Final exam', 'Survey', 'Next week quiz']
   end
 
-  it 'labels quizzes by their exercise type' do
-    expect(quizzes.map(&:label)).to eq %w[Self-test Self-test Self-test Exam Survey Self-test]
-  end
-
   it 'marks completed quizzes and locks closed and upcoming quizzes and exams' do
     expect(quizzes.map(&:state)).to eq %i[completed locked locked locked default locked]
   end
@@ -46,12 +42,6 @@ describe Course::QuizListPresenter, type: :presenter do
   it 'lists the ids of the locked quizzes' do
     expect(presenter.locked_item_ids).to match_array CourseService::Item
       .where(title: ['Closed quiz', 'Upcoming quiz', 'Final exam', 'Next week quiz']).ids
-  end
-
-  it 'locks an unfinished quiz whose end date has passed' do
-    closed_quiz = quizzes.find {|quiz| quiz.title == 'Closed quiz' }
-
-    expect(closed_quiz.state).to eq :locked
   end
 
   context 'when a section has ended' do
@@ -101,15 +91,6 @@ describe Course::QuizListPresenter, type: :presenter do
     it 'highlights it, even though completed' do
       expect(quizzes.map(&:state)).to eq %i[current locked locked locked default locked]
     end
-  end
-
-  it 'links to the quiz item' do
-    expect(quizzes.first.path).to start_with '/learn/digital-justice/items/'
-  end
-
-  it 'does not link quizzes outside their dates, as they have no page for the learner' do
-    expect(quizzes.find {|quiz| quiz.title == 'Closed quiz' }.path).to be_nil
-    expect(quizzes.find {|quiz| quiz.title == 'Upcoming quiz' }.path).to be_nil
   end
 
   it 'links locked exams, as their page explains the required course progress' do
@@ -192,25 +173,6 @@ describe Course::QuizListPresenter, type: :presenter do
       it 'can be retaken' do
         expect(presenter.retakable_item_ids).to eq [exam_item.id]
       end
-    end
-  end
-
-  context 'with a content tree' do
-    let(:course) { create(:'course_service/course', :with_content_tree, course_code: 'digital-justice') }
-
-    # Reload the course structure record to recalculate the tree indices.
-    before { course.node.reload }
-
-    it 'lists the quizzes in course order' do
-      expect(quizzes.map(&:title)).to eq ['Self-test 1', 'Closed quiz', 'Upcoming quiz', 'Final exam', 'Survey', 'Next week quiz']
-    end
-  end
-
-  context 'with a section the learner does not take' do
-    let(:progresses) { [{'kind' => 'section', 'resource_id' => week1.id}, {'kind' => 'course'}] }
-
-    it 'skips its quizzes' do
-      expect(quizzes.map(&:title)).to eq ['Self-test 1', 'Closed quiz', 'Upcoming quiz']
     end
   end
 

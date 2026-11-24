@@ -177,41 +177,41 @@ describe CourseService::Course::Clone do
       end
 
       it 'stores the original item ID' do
-        item = new_course.items.find {|i| i.content_type == 'rich_text' }
-        orig_item = course.items.find {|i| i.content_type == 'rich_text' }
+        item = new_course.items.find {|i| i.content_type == 'CourseService::Richtext' }
+        orig_item = course.items.find {|i| i.content_type == 'CourseService::Richtext' }
         expect(item.original_item_id).to eq orig_item.id
       end
 
       it 'has a cloned video item' do
         items = new_course.items
-        expect(items.count {|i| i.content_type == 'video' }).to eq 1
+        expect(items.count {|i| i.content_type == 'Video::Video' }).to eq 1
         orig_items = course.items
-        expect(items.find {|i| i.content_type == 'video' }.id).not_to eq orig_items.find {|i| i.content_type == 'video' }.id
+        expect(items.find {|i| i.content_type == 'Video::Video' }.id).not_to eq orig_items.find {|i| i.content_type == 'Video::Video' }.id
       end
 
       it 'has a cloned text item' do
-        items = new_course.items.select {|i| i.content_type == 'rich_text' }
+        items = new_course.items.select {|i| i.content_type == 'CourseService::Richtext' }
         expect(items.count).to eq 1
         orig_items = course.items
-        expect(items.first.id).not_to eq orig_items.find {|i| i.content_type == 'rich_text' }.id
+        expect(items.first.id).not_to eq orig_items.find {|i| i.content_type == 'CourseService::Richtext' }.id
         expect(CourseService::Richtext.find(items.first.content_id)).to be_persisted
       end
 
       it 'copies referenced files for text items' do
-        course.items.where(content_type: 'rich_text').find_each do |item|
+        course.items.where(content_type: 'CourseService::Richtext').find_each do |item|
           item.delete
           CourseService::Richtext.destroy item.content_id
         end
         rts = create_list(:'course_service/richtext', 2, course_id: course.id, text: "Test\ns3://xikolo-public/courses/oldId/rtfiles/34/logo.jpg")
         rts.each do |richtext|
-          create(:'course_service/item', section: course.sections.first, content_id: richtext.id, content_type: 'rich_text')
+          create(:'course_service/item', section: course.sections.first, content: richtext)
         end
 
         copy_file = stub_request(
           :put, %r{#{test_s3_host}/xikolo-public/courses/[a-zA-Z0-9]+/rtfiles/34/logo.jpg}
         ).and_return(status: 200, body: '<xml></xml>')
 
-        new_items = new_course.items.where(content_type: 'rich_text')
+        new_items = new_course.items.where(content_type: 'CourseService::Richtext')
         expect(new_items.count).to eq 2
         new_rts = new_items.map {|item| CourseService::Richtext.find item.content_id }
         expect(new_rts.first.text.to_s).to eq new_rts.second.text.to_s
@@ -225,7 +225,7 @@ describe CourseService::Course::Clone do
       it 'copies the attached reading material for text items' do
         original_uri = 's3://xikolo-public/courses/oldId/rtfiles/ab12/reading_material.pdf'
         richtext = create(:'course_service/richtext', course_id: course.id, reading_material_uri: original_uri)
-        item = create(:'course_service/item', section: course.sections.first, content_id: richtext.id, content_type: 'rich_text')
+        item = create(:'course_service/item', section: course.sections.first, content: richtext)
 
         copy_stub = stub_request(
           :put, %r{#{test_s3_host}/xikolo-public/courses/[a-zA-Z0-9]+/rtfiles/[a-zA-Z0-9]+/reading_material.pdf}
@@ -250,9 +250,8 @@ describe CourseService::Course::Clone do
           create(:'course_service/item',
             section: course.sections.first,
             title: 'LTI Exercise',
-            content_type: 'lti_exercise',
             exercise_type: 'selftest',
-            content_id: lti_exercise.id)
+            content: lti_exercise)
         end
 
         it 'calls the CourseService::LTI exercise clone operation' do
@@ -264,10 +263,10 @@ describe CourseService::Course::Clone do
           original_items = course.items
           new_items = new_course.items
 
-          expect(original_items.count {|i| i.content_type == 'lti_exercise' }).to eq 1
-          expect(new_items.count {|i| i.content_type == 'lti_exercise' }).to eq 1
-          expect(new_items.find {|i| i.content_type == 'lti_exercise' }.id)
-            .not_to eq original_items.find {|i| i.content_type == 'lti_exercise' }.id
+          expect(original_items.count {|i| i.content_type == 'Lti::Exercise' }).to eq 1
+          expect(new_items.count {|i| i.content_type == 'Lti::Exercise' }).to eq 1
+          expect(new_items.find {|i| i.content_type == 'Lti::Exercise' }.id)
+            .not_to eq original_items.find {|i| i.content_type == 'Lti::Exercise' }.id
         end
 
         it 'creates a new CourseService::LTI provider' do
@@ -288,13 +287,13 @@ describe CourseService::Course::Clone do
       it 'has a cloned quiz item' do
         items = new_course.items
         orig_items = course.items
-        expect(items.count {|i| i.content_type == 'quiz' }).to eq 1
-        expect(items.find {|i| i.content_type == 'quiz' }.id).not_to eq orig_items.find {|i| i.content_type == 'quiz' }.id
+        expect(items.count {|i| i.content_type == 'QuizService::Quiz' }).to eq 1
+        expect(items.find {|i| i.content_type == 'QuizService::Quiz' }.id).not_to eq orig_items.find {|i| i.content_type == 'QuizService::Quiz' }.id
       end
 
       context 'with a quiz with a submission deadline' do
         before do
-          item = course.items.where(content_type: 'quiz').first
+          item = course.items.where(content_type: 'QuizService::Quiz').first
           item.update!(submission_deadline: 1.week.ago)
         end
 

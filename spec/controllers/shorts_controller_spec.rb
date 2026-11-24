@@ -57,5 +57,28 @@ describe ShortsController, type: :controller do
         expect { action }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
+
+    context 'with a demo short in development' do
+      subject(:action) { get :signed_url, params: {id: Shorts::DemoMedia.ids.first} }
+
+      before do
+        allow(Rails.env).to receive(:development?).and_return(true)
+      end
+
+      it 'redirects to the unsigned demo stream without signing or a database record' do
+        action
+
+        expect(response).to redirect_to('https://vz-690a2860-9e9.b-cdn.net/8da99b7c-f9b8-4464-846f-6635924b5e5b/playlist.m3u8')
+        expect(BunnySignedURL).not_to have_received(:new)
+      end
+    end
+
+    context 'with a demo short outside development' do
+      subject(:action) { get :signed_url, params: {id: Shorts::DemoMedia.ids.first} }
+
+      it 'uses the normal record lookup instead of the demo bypass' do
+        expect { action }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
   end
 end

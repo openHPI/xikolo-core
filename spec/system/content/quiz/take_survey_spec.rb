@@ -6,7 +6,7 @@ describe 'Content: Take a survey', type: :system do
   let(:course) { create(:'course_service/course', :active) }
   let(:section) { create(:'course_service/section', course:) }
   let(:quiz) { create(:'quiz_service/quiz', unlimited_attempts: true) }
-  let(:item) { create(:'course_service/item', :quiz, section:, content_id: quiz.id, exercise_type: 'survey') }
+  let(:item) { create(:'course_service/item', :quiz, section:, content: quiz, exercise_type: 'survey') }
   let(:question) { create(:'quiz_service/multiple_choice_question', quiz:) }
   let(:user) { create(:'account_service/user') }
 
@@ -29,7 +29,7 @@ describe 'Content: Take a survey', type: :system do
 
   context 'when the submission deadline has passed' do
     let(:item) do
-      create(:'course_service/item', :quiz, section:, content_id: quiz.id,
+      create(:'course_service/item', :quiz, section:, content: quiz,
         exercise_type: 'survey', submission_deadline: 2.days.ago)
     end
 

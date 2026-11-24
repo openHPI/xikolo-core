@@ -30,12 +30,12 @@ class Admin::CourseManagementController < Admin::BaseController
       @homework_submissions = []
       CourseService::Item.where(
         section_id: CourseService::Section.where(course_id: @course.id).select(:id),
-        content_type: 'quiz',
+        content_type: 'QuizService::Quiz',
         exercise_type: %w[main bonus]
       ).course_order.each do |item|
         @homework_submissions << result = {title: item.title}
 
-        Xikolo::Quiz::Quiz.find item.content_id do |quiz|
+        Xikolo::Quiz::Quiz.find item.content.id do |quiz|
           result.merge!(
             quiz_id: quiz.id,
             allowed_attempts: quiz.current_allowed_attempts,

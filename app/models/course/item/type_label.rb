@@ -15,8 +15,8 @@ module Course
 
       # Keys of `items.type_label` by content type, for non-quiz items
       CONTENT_LABELS = {
-        'video' => 'video',
-        'rich_text' => 'rich_text',
+        'Video::Video' => 'video',
+        'CourseService::Richtext' => 'rich_text',
       }.freeze
 
       class << self
@@ -43,7 +43,7 @@ module Course
       private
 
       def key
-        if @content_type == 'quiz'
+        if @content_type == 'QuizService::Quiz'
           QUIZ_LABELS.fetch(@exercise_type, 'self_test')
         else
           CONTENT_LABELS.fetch(@content_type, 'learning_material')

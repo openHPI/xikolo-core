@@ -19,7 +19,7 @@ module Course
         progress.items.count do |item|
           !item.optional? &&
             CourseService::Item.completed?(
-              content_type: item.content_type,
+              content_type: item.content_type_name,
               user_state: item.user_state,
               max_points: item.max_dpoints,
               exercise_type: item.exercise_type

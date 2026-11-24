@@ -9,7 +9,7 @@ describe Admin::Statistics::Course::TotalQuizPerformance do
 
     Stub.request(:course, :get, '/items', query: hash_including(
       course_id: 'test-course',
-      content_type: 'quiz',
+      content_type: 'QuizService::Quiz',
       exercise_type: 'main,bonus',
       was_available: 'true'
     )).to_return Stub.json([quiz1, quiz2])

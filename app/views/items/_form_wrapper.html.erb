@@ -1,0 +1,43 @@
+<% if quiz.nil? || quiz.new? %>
+  <%= render 'form', item:, course:, video:, rich_text:, quiz:, quiz_question:, multiple_choice_question:, multiple_answer_question:, free_text_question:, essay_question:, lti_exercise:, cmi5_item:, course_presenter:, subtitles_upload:, slides_upload:, transcript_upload:, reading_material_upload:, richtext_reading_material_upload: %>
+<% else %>
+  <%= render Navigation::Tabs.new do |c| %>
+    <% c.with_tab(controls: 'quiz_properties', active: quiz.questions.blank?) do %>
+      <%= render Global::FaIcon.new('gear', css_classes: 'mr5') %>
+      <%= t(:'items.quiz.nav.properties') %>
+    <% end %>
+
+    <% c.with_tab(controls: 'quiz_questions', active: quiz.questions.present?) do %>
+      <%= render Global::FaIcon.new('lightbulb', css_classes: 'mr5') %>
+      <%= t(:'items.quiz.nav.questions') %>
+    <% end %>
+
+    <% c.with_panel(id: 'quiz_properties', active: quiz.questions.blank?) do %>
+      <%= render 'form', item:, course:, video:, rich_text:, quiz:, quiz_question:, multiple_choice_question:, multiple_answer_question:, free_text_question:, essay_question:, lti_exercise:, cmi5_item:, course_presenter:, subtitles_upload:, slides_upload:, transcript_upload:, reading_material_upload:, richtext_reading_material_upload: %>
+    <% end %>
+
+    <% c.with_panel(id: 'quiz_questions', active: quiz.questions.present?) do %>
+      <div id="quiz_questions"></div>
+    <% end %>
+  <% end %>
+<% end %>
+
+<div id="form-extensions">
+  <% if item.new_record? %>
+    <template data-content-type="Video::Video">
+      <%= render 'items/video/form', video:, item:, course:, subtitles_upload:, slides_upload:, transcript_upload:, reading_material_upload: %>
+    </template>
+    <template data-content-type="CourseService::Richtext">
+      <%= render 'items/rich_text/form', rich_text:, richtext_reading_material_upload: %>
+    </template>
+    <template data-content-type="QuizService::Quiz">
+      <%= render 'items/quiz/form', quiz:, item:, quiz_question:, multiple_choice_question:, multiple_answer_question:, free_text_question:, essay_question: %>
+    </template>
+    <template data-content-type="Lti::Exercise">
+      <%= render 'items/lti_exercise/form', lti_exercise: %>
+    </template>
+    <template data-content-type="Cmi5::Item">
+      <%= render 'items/cmi5/form', cmi5_item:, item: %>
+    </template>
+  <% end %>
+</div>

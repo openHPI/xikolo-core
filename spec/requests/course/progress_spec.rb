@@ -54,6 +54,30 @@ describe 'Course: Progress', type: :request do
         show_progress
         expect(response.body).to include 'My learning progress'
       end
+
+      context 'with items' do
+        let(:section) { create(:'course_service/section', course:) }
+
+        before { create(:'course_service/item', section:, title: 'Lecture video') }
+
+        it 'does not show the optional items without any' do
+          show_progress
+
+          expect(page).to have_no_css 'section[aria-labelledby="progress-optional-items-title"]'
+        end
+
+        context 'with an optional item' do
+          before { create(:'course_service/item', section:, title: 'Further reading', optional: true) }
+
+          it 'lists it in the optional items' do
+            show_progress
+
+            optional_items = page.find('section[aria-labelledby="progress-optional-items-title"]')
+            expect(optional_items).to have_css 'h2', text: 'Bonus material'
+            expect(optional_items).to have_css '[data-testid="item-card"]', count: 1, text: 'Further reading'
+          end
+        end
+      end
     end
   end
 end

@@ -14,11 +14,11 @@ RSpec.describe 'Course: Syllabus: Show', type: :request do
   end
   let(:video) do
     create(:'course_service/item', section:, title: 'The Video Item',
-      content_type: 'video', open_mode: true, published: true)
+      content_type: 'Video::Video', open_mode: true, published: true)
   end
   let(:quiz) do
     create(:'course_service/item', section:, title: 'The Quiz Item',
-      content_type: 'quiz', exercise_type: 'main', open_mode: true, published: true)
+      content_type: 'QuizService::Quiz', exercise_type: 'main', open_mode: true, published: true)
   end
 
   before do

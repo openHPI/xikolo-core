@@ -81,9 +81,9 @@ describe QuizService::QuizzesController, type: :controller do
           before do
             Stub.request(
               :course, :get, '/items',
-              query: {content_type: 'quiz', course_id:}
+              query: {content_type: 'QuizService::Quiz', course_id:}
             ).to_return Stub.json(course_item_ids.each_with_index.map do |item_id, i|
-              {id: item_id, content_type: 'quiz', content_id: quiz_ids[i]}
+              {id: item_id, content_type: 'QuizService::Quiz', content_id: quiz_ids[i]}
             end)
           end
 

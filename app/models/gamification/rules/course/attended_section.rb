@@ -68,7 +68,7 @@ module Gamification
 
         def video_item_ids
           @video_item_ids ||= section_items.select do |item|
-            item['content_type'] == 'video'
+            item['content_type'] == 'Video::Video'
           end.pluck('id')
         end
 

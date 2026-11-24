@@ -13,7 +13,7 @@
   </div>
 
   <% if item.exercise_type == 'exam' %>
-    <%= f.hidden_field :content_type, value: 'quiz' %>
+    <%= f.hidden_field :content_type, value: 'QuizService::Quiz' %>
     <%= f.hidden_field :exercise_type, value: 'exam' %>
     <%= f.input :minimum_progress_percentage,
       label: t(:'items.exam.minimum_progress_percentage', percentage: item.minimum_progress_percentage),
@@ -23,7 +23,7 @@
       input_html: {type: 'number', min: 0, max: 100, step: 1, value: item.minimum_progress_percentage} %>
   <% else %>
     <% if item.new_record? %>
-      <%= f.input :content_type, label: t(:'admin.courses.items.form.label.content_type'), required: true, collection: [[t(:'admin.courses.items.form.type_selector.video'), 'video'], [t(:'admin.courses.items.form.type_selector.quiz'), 'quiz'], [t(:'admin.courses.items.form.type_selector.text'), 'rich_text'], [t(:'admin.courses.items.form.type_selector.lti_exercise'), 'lti_exercise'], [t(:'admin.courses.items.form.type_selector.cmi5'), 'cmi5']] %>
+      <%= f.input :content_type, label: t(:'admin.courses.items.form.label.content_type'), required: true, collection: [[t(:'admin.courses.items.form.type_selector.video'), 'Video::Video'], [t(:'admin.courses.items.form.type_selector.quiz'), 'QuizService::Quiz'], [t(:'admin.courses.items.form.type_selector.text'), 'CourseService::Richtext'], [t(:'admin.courses.items.form.type_selector.lti_exercise'), 'Lti::Exercise'], [t(:'admin.courses.items.form.type_selector.cmi5'), 'Cmi5::Item']] %>
     <% else %>
       <%= f.hidden_field :content_type %>
     <% end %>

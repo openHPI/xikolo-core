@@ -39,7 +39,8 @@ module Course
     def hint
       return if fulfilled?
 
-      return I18n.t(:'items.requirements.visit_requirement') if %w[rich_text video].include? @item['content_type']
+      return I18n.t(:'items.requirements.visit_requirement') if %w[CourseService::Richtext
+                                                                   Video::Video].include? @item['content_type']
 
       I18n.t(
         :'items.requirements.result_requirement',

@@ -17,7 +17,7 @@ describe 'Course: Items: Show', type: :request do
   let(:item_params) do
     {
       section_id: section.id,
-      content_type: 'rich_text',
+      content_type: 'CourseService::Richtext',
       content_id:,
       title: 'The Richtext Item',
       open_mode: false,
@@ -64,7 +64,7 @@ describe 'Course: Items: Show', type: :request do
     end
 
     context 'with an item prerequisite' do
-      let(:required_item) { create(:item, content_type: 'rich_text') }
+      let(:required_item) { create(:item, content_type: 'CourseService::Richtext') }
       let(:item_params) { super().merge required_item_ids: [required_item.id] }
 
       before do
@@ -105,7 +105,7 @@ describe 'Course: Items: Show', type: :request do
       context 'for graded quizzes' do
         let(:item_params) do
           super().merge(
-            content_type: 'quiz',
+            content_type: 'QuizService::Quiz',
             exercise_type: 'main',
             title: 'The exam',
             required_item_ids: [required_item.id]

@@ -17,9 +17,7 @@ describe CourseService::Course::Purge, type: :operation do
     create(:'course_service/course_progress', course:, user_id: user.id)
     create(:'course_service/course_subscription', course_id: course.id, user_id: user.id)
     create(:'course_service/next_date', course:, user_id: user.id)
-    create(:'course_service/item', section: section, title: 'Peer assessment',
-      content_type: 'peer_assessment', content_id: SecureRandom.uuid)
-    create(:'course_service/item', section:, title: 'Video', content_type: 'video')
+    create(:'course_service/item', section:, title: 'Video', content_type: 'Video::Video')
   end
 
   it 'removes the course and its dependent records' do
@@ -28,13 +26,9 @@ describe CourseService::Course::Purge, type: :operation do
       .and change(CourseService::CourseProgress, :count).by(-1)
       .and change(PinboardService::CourseSubscription, :count).by(-1)
       .and change(CourseService::NextDate, :count).by(-1)
-      .and change(CourseService::Item, :count).by(-2)
+      .and change(CourseService::Item, :count).by(-1)
       .and change(CourseService::Section, :count).by(-3)
       .and change(CourseService::Course, :count).by(-1)
-  end
-
-  it 'can handle peer assessment items' do
-    expect { action }.not_to raise_error
   end
 
   it 'destroys the course' do

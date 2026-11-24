@@ -22,7 +22,7 @@ RSpec.describe 'Quiz: Update', type: :request do
   end
 
   it 'rejects question pools for non-main quizzes' do
-    create(:'course_service/item', :quiz, content_id: quiz.id, exercise_type: 'selftest')
+    create(:'course_service/item', :quiz, content: quiz, exercise_type: 'selftest')
 
     expect { api.rel(:quiz).patch({question_pool: true}, params: {id: quiz.id}).value! }
       .to raise_error(Restify::ClientError) do |error|

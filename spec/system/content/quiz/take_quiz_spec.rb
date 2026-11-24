@@ -56,7 +56,7 @@ describe 'Content: Take a quiz', type: :system do
 
     it 'takes a selftest' do
       item = create(:'course_service/item', :quiz,
-        section:, content_id: quiz.id, title: 'An Example Item',
+        section:, content: quiz, title: 'An Example Item',
         max_dpoints: 30)
 
       within('[data-testid="course-details-card"]') do
@@ -102,7 +102,7 @@ describe 'Content: Take a quiz', type: :system do
       other_question = create(:'quiz_service/multiple_answer_question', quiz:, text: 'Second question')
       create(:'quiz_service/text_answer', question: other_question, text: 'Second answer')
       create(:'course_service/item', :quiz,
-        section:, content_id: quiz.id, title: 'An Example Item', max_dpoints: 30)
+        section:, content: quiz, title: 'An Example Item', max_dpoints: 30)
 
       within('[data-testid="course-details-card"]') { click_on 'Continue course' }
 
@@ -132,7 +132,7 @@ describe 'Content: Take a quiz', type: :system do
 
     it 'does not allow access when deadline has passed' do
       item = create(:'course_service/item', :quiz,
-        section:, content_id: quiz.id, title: 'An Example Item',
+        section:, content: quiz, title: 'An Example Item',
         max_dpoints: 30,
         submission_deadline: 2.days.ago)
 
@@ -144,7 +144,7 @@ describe 'Content: Take a quiz', type: :system do
 
     it 'shows results when deadline has passed and results are published' do
       item = create(:'course_service/item', :quiz,
-        section:, content_id: quiz.id, title: 'An Example Item',
+        section:, content: quiz, title: 'An Example Item',
         max_dpoints: 30)
 
       within('[data-testid="course-details-card"]') do
@@ -193,7 +193,7 @@ describe 'Content: Take a quiz', type: :system do
       quiz.update!(unlimited_attempts: true)
 
       item = create(:'course_service/item', :homework,
-        section:, content_id: quiz.id, title: 'An Example Item',
+        section:, content: quiz, title: 'An Example Item',
         max_dpoints: 30)
 
       within('[data-testid="course-details-card"]') do
@@ -257,7 +257,7 @@ describe 'Content: Take a quiz', type: :system do
 
     it 'takes a main quiz without deadline' do
       item = create(:'course_service/item', :homework,
-        section:, content_id: quiz.id, title: 'An Example Item',
+        section:, content: quiz, title: 'An Example Item',
         max_dpoints: 30)
 
       within('[data-testid="course-details-card"]') do
@@ -307,7 +307,7 @@ describe 'Content: Take a quiz', type: :system do
 
     it 'allows users to make empty submissions' do
       create(:'course_service/item', :homework,
-        section:, content_id: quiz.id, title: 'An Example Item',
+        section:, content: quiz, title: 'An Example Item',
         max_dpoints: 30)
 
       within('[data-testid="course-details-card"]') do
@@ -333,7 +333,7 @@ describe 'Content: Take a quiz', type: :system do
 
     it 'confirms a retake from the bottom bar before results are published' do
       item = create(:'course_service/item', :homework,
-        section:, content_id: quiz.id, title: 'An Example Item',
+        section:, content: quiz, title: 'An Example Item',
         submission_deadline: 2.days.from_now, submission_publishing_date: 3.days.from_now)
 
       visit course_item_path(course.course_code, item.id)
@@ -353,7 +353,7 @@ describe 'Content: Take a quiz', type: :system do
 
     it 'takes a main quiz with deadline not passed' do
       item = create(:'course_service/item', :homework,
-        section:, content_id: quiz.id, title: 'An Example Item',
+        section:, content: quiz, title: 'An Example Item',
         max_dpoints: 30,
         submission_deadline: 2.days.from_now)
 
@@ -411,7 +411,7 @@ describe 'Content: Take a quiz', type: :system do
 
     it 'does not allow access when deadline has passed' do
       create(:'course_service/item', :homework,
-        section:, content_id: quiz.id, title: 'An Example Item',
+        section:, content: quiz, title: 'An Example Item',
         max_dpoints: 30,
         submission_deadline: 2.days.ago)
 
@@ -425,7 +425,7 @@ describe 'Content: Take a quiz', type: :system do
 
     it 'shows results when deadline has passed and results are published' do
       item = create(:'course_service/item', :homework,
-        section:, content_id: quiz.id, title: 'An Example Item',
+        section:, content: quiz, title: 'An Example Item',
         max_dpoints: 30)
 
       within('[data-testid="course-details-card"]') do
@@ -463,7 +463,7 @@ describe 'Content: Take a quiz', type: :system do
       before do
         quiz = create(:'quiz_service/quiz', :with_question_pool, allowed_attempts: 2)
         create(:'course_service/item', :homework,
-          section:, content_id: quiz.id, exercise_type: 'exam', title: 'Question pool exam')
+          section:, content: quiz, exercise_type: 'exam', title: 'Question pool exam')
         create(:'course_service/course_progress', course:, user_id: user.id, visits: 10, main_dpoints: 100)
       end
 
@@ -506,7 +506,7 @@ describe 'Content: Take a quiz', type: :system do
       before do
         quiz = create(:'quiz_service/quiz', :with_question_pool, allowed_attempts: 2)
         create(:'course_service/item', :homework,
-          section:, content_id: quiz.id, exercise_type: 'exam', title: 'Question pool exam')
+          section:, content: quiz, exercise_type: 'exam', title: 'Question pool exam')
         create(:'course_service/course_progress', course:, user_id: user.id, visits_percentage_fpoints: 74)
       end
 

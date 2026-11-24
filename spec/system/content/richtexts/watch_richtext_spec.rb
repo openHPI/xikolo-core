@@ -9,8 +9,7 @@ describe 'Content: Student reads rich text', type: :system do
   let(:item) do
     create(:'course_service/item',
       section:,
-      content_type: 'rich_text',
-      content_id: richtext.id,
+      content: richtext,
       title: 'Reading material')
   end
   let(:user) { create(:'account_service/user') }

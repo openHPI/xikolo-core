@@ -55,7 +55,7 @@ module Admin
             course_api.rel(:items).get({
               course_id:,
               was_available: true,
-              content_type: 'quiz',
+              content_type: 'QuizService::Quiz',
               exercise_type: quiz_types.join(','),
             })
           ) do |quiz|

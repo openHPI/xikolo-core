@@ -54,13 +54,5 @@ module Lti
     def launch_for(user)
       Lti::ToolLaunch.new(self, user)
     end
-
-    # Per default, ActiveRecord maps a parent and a child in a polymorphic association based on the parents class
-    # name, e.g. `Lti::Exercise`, and stores it in a polymorphic type column, here `content_type`.
-    # As we stored custom values in the `content_type` column before utilising polymorphic assocations, we need to
-    # override the default polymorphic_name.
-    def self.polymorphic_name
-      'lti_exercise'
-    end
   end
 end

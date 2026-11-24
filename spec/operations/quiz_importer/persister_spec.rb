@@ -65,7 +65,7 @@ RSpec.describe QuizImporter::Persister do
 
     context 'when the item fails a validation (e.g. an exam already exists)' do
       let(:record) do
-        item = CourseService::Item.new(exercise_type: 'exam', content_type: 'quiz')
+        item = CourseService::Item.new(exercise_type: 'exam', content: build(:'quiz_service/quiz'))
         item.errors.add(:exercise_type, :exam_already_exists)
         item
       end

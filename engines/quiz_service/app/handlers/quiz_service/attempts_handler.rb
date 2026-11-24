@@ -18,7 +18,7 @@ class AttemptsHandler # rubocop:disable Layout/IndentationWidth
     quiz_items = sections.map do |section|
       course_service
         .rel(:items)
-        .get({section_id: section['id'], content_type: 'quiz', exercise_type: 'main'})
+        .get({section_id: section['id'], content_type: 'QuizService::Quiz', exercise_type: 'main'})
     end.flat_map(&:value!)
 
     quiz_items.each do |quiz_item|

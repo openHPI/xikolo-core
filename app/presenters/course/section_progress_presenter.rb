@@ -25,7 +25,7 @@ class Course::SectionProgressPresenter < SectionPresenter
     {
       'id' => item.id,
       'title' => item.title,
-      'content_type' => item.content_type,
+      'content_type' => item.content_type_name,
       'exercise_type' => item.exercise_type,
       'user_state' => item.user_state,
       'optional' => item.optional?,

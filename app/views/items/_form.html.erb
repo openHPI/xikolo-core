@@ -32,7 +32,7 @@
   </div>
 
   <% if item.new_record? %>
-    <%= f.input :content_type, label: t(:'admin.courses.items.form.label.content_type'), required: true, collection: [[t(:'admin.courses.items.form.type_selector.video'), 'video'], [t(:'admin.courses.items.form.type_selector.quiz'), 'quiz'], [t(:'admin.courses.items.form.type_selector.text'), 'rich_text'], [t(:'admin.courses.items.form.type_selector.lti_exercise'), 'lti_exercise'], [t(:'admin.courses.items.form.type_selector.cmi5'), 'cmi5']] %>
+    <%= f.input :content_type, label: t(:'admin.courses.items.form.label.content_type'), required: true, collection: [[t(:'admin.courses.items.form.type_selector.video'), 'Video::Video'], [t(:'admin.courses.items.form.type_selector.quiz'), 'QuizService::Quiz'], [t(:'admin.courses.items.form.type_selector.text'), 'CourseService::Richtext'], [t(:'admin.courses.items.form.type_selector.lti_exercise'), 'Lti::Exercise'], [t(:'admin.courses.items.form.type_selector.cmi5'), 'Cmi5::Item']] %>
   <% else %>
     <%= f.hidden_field :content_type %>
   <% end %>
@@ -50,23 +50,23 @@
   <%= f.input :submission_publishing_date, label: t(:'admin.courses.items.form.label.submission_publishing_date'), required: false, input_html: {data: {behaviour: 'datepicker'}, autocomplete: 'off'}, as: :string %>
 
   <div class="content-form" id="custom-form">
-    <% if item.content_type == 'video' %>
+    <% if item.video? %>
       <%= render 'items/video/form', video:, item:, course:, subtitles_upload:, slides_upload:, transcript_upload:, reading_material_upload: %>
     <% end %>
 
-    <% if item.content_type == 'rich_text' %>
+    <% if item.rich_text? %>
       <%= render 'items/rich_text/form', rich_text:, richtext_reading_material_upload: %>
     <% end %>
 
-    <% if item.content_type == 'quiz' %>
+    <% if item.quiz? %>
       <%= render 'items/quiz/form', quiz:, item:, quiz_question:, multiple_choice_question:, multiple_answer_question:, free_text_question:, essay_question: %>
     <% end %>
 
-    <% if item.content_type == 'lti_exercise' %>
+    <% if item.lti_exercise? %>
       <%= render 'items/lti_exercise/form', lti_exercise: %>
     <% end %>
 
-    <% if item.content_type == 'cmi5' %>
+    <% if item.cmi5? %>
       <%= render 'items/cmi5/form', cmi5_item:, item: %>
     <% end %>
   </div>

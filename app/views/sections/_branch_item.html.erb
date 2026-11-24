@@ -1,6 +1,6 @@
 <li data-exercise-type="<%= item.exercise_type %>">
   <span class="label label-info mr10">
-    <%= t(:"sections.index.label.#{item.content_type}") %>
+    <%= t(:"sections.index.label.#{item.content_type_name}") %>
   </span>
 
   <%= item.title %>
@@ -24,7 +24,7 @@
       <%= render Global::FaIcon.new('trash-can', style: :solid) %>
     <% end %>
 
-    <% if current_user.allowed?('course.item_stats.show') && item.content_type.in?(%w[quiz lti_exercise]) %>
+    <% if current_user.allowed?('course.item_stats.show') && (item.quiz? || item.lti_exercise?) %>
       <%= link_to course_item_statistics_path(item_id: item.id), class: 'bs-a' do %>
         <%= render Global::FaIcon.new('chart-bar', style: :solid) %>
       <% end %>
@@ -58,8 +58,8 @@
     </span>
 
     <span class="label label-info uuid mr10" hidden>
-      Content ID:<%= item.content_id %>
-      <%= render Global::CopyToClipboard.new(item.content_id, tooltip: t(:'sections.item.copy_content_id')) %>
+      Content ID:<%= item.content.id %>
+      <%= render Global::CopyToClipboard.new(item.content.id, tooltip: t(:'sections.item.copy_content_id')) %>
     </span>
   </span>
 </li>

@@ -40,7 +40,7 @@ module QuizImporter
 
         raise ProcessWorksheetError.new "Section #{quiz_obj.section} not found for quiz #{quiz_obj.name}" unless section
 
-        create_item!(quiz_obj, quiz.id, section)
+        create_item!(quiz_obj, quiz, section)
 
         yield quiz.id if block_given?
       end
@@ -49,13 +49,12 @@ module QuizImporter
     # The item creation can fail model validations (e.g. the course already
     # has an exam). Convert the RecordInvalid into a ProcessWorksheetError so
     # the controller can surface it as a flash message instead of a 500.
-    def create_item!(quiz_obj, quiz_id, section)
+    def create_item!(quiz_obj, quiz, section)
       CourseService::Item.create!({
-        content_type: 'quiz',
+        content: quiz,
         exercise_type: exercise_type(quiz_obj),
         title: quiz_obj.name,
         published: false,
-        content_id: quiz_id,
         section_id: section.id,
       })
     rescue ActiveRecord::RecordInvalid => e

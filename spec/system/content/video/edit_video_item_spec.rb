@@ -9,8 +9,7 @@ describe 'Content: Teacher edits a video item', type: :system do
   let(:item) do
     create(:'course_service/item',
       section:,
-      content_type: 'video',
-      content_id: video.id,
+      content: video,
       title: 'WWW Introduction')
   end
   let(:user) { create(:'account_service/user') }
@@ -51,7 +50,7 @@ describe 'Content: Teacher edits a video item', type: :system do
     it 'uploads subtitles and shows success message' do
       attach_file 'Subtitles',
         Rails.root.join('spec/fixtures/files/valid_en.vtt'),
-        visible: false
+        visible: :all
       click_on 'Save item'
 
       expect(page).to have_current_path(%r{sections/.*/items/.*/edit})
@@ -63,7 +62,7 @@ describe 'Content: Teacher edits a video item', type: :system do
     it 'uploads an image and shows it in the preview' do
       page.find('[contenteditable="true"]').click
       attach_file Rails.root.join('spec/fixtures/files/mercedes.png'),
-        visible: false, multiple: 'multiple'
+        visible: :all, multiple: 'multiple'
       click_on 'Save item'
 
       expect(page).to have_current_path(%r{sections/.*/items/.*/edit})

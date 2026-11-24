@@ -177,7 +177,7 @@ module Navigation
           return false unless @item.user_state?
 
           ::Course::Item::ProgressState.new(
-            content_type: @item.content_type,
+            content_type: @item.content_type_name,
             exercise_type: @item.exercise_type,
             user_state: @item.user_state,
             user_points: @item.result,
@@ -212,7 +212,7 @@ module Navigation
         end
 
         def previewable?
-          (@item.open_mode && @item.content_type == 'video') || @context.course_accessible?
+          (@item.open_mode && @item.video?) || @context.course_accessible?
         end
       end
     end

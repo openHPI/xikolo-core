@@ -51,9 +51,8 @@ RSpec.describe QuizImporter do
     expect(quiz.instructions).to eq('Please finish this quiz')
     expect(quiz.allowed_attempts).to eq(1)
 
-    expect(item.content_id).to eq(quiz.id)
+    expect(item.content).to eq(quiz)
     expect(item.title).to eq('test_name')
-    expect(item.content_type).to eq('quiz')
     expect(item.exercise_type).to eq('survey')
   end
 

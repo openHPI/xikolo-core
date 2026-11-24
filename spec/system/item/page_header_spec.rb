@@ -11,8 +11,7 @@ describe 'Item: Page Header', type: :system do
       :'course_service/item',
       section:,
       title: 'Was ist digitale Gerechtigkeit?',
-      content_type: 'rich_text',
-      content_id: richtext.id,
+      content: richtext,
       open_mode: true
     )
   end

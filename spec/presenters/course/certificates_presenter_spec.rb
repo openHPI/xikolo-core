@@ -183,7 +183,7 @@ describe Course::CertificatesPresenter do
       let(:exam_quiz) { create(:'quiz_service/quiz', :with_valid_question_pool) }
       let(:exam) do
         create(:'course_service/item', :quiz, exercise_type: 'exam',
-          section: exam_section, content_id: exam_quiz.id)
+          section: exam_section, content: exam_quiz)
       end
 
       before { exam }

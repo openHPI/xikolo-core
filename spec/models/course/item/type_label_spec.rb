@@ -9,9 +9,9 @@ describe Course::Item::TypeLabel do
   let(:exercise_type) { nil }
 
   {
-    'video' => 'Video',
-    'rich_text' => 'Text',
-    'lti_exercise' => 'Learning materials',
+    'Video::Video' => 'Video',
+    'CourseService::Richtext' => 'Text',
+    'Lti::Exercise' => 'Learning materials',
     'peer_assessment' => 'Learning materials',
   }.each do |type, text|
     context "for a #{type} item" do
@@ -22,7 +22,7 @@ describe Course::Item::TypeLabel do
   end
 
   context 'for a quiz' do
-    let(:content_type) { 'quiz' }
+    let(:content_type) { 'QuizService::Quiz' }
 
     {
       'selftest' => 'Self-test',

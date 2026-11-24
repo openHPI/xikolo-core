@@ -34,7 +34,7 @@ describe 'LTI: Tool Launch', type: :system do
   let(:section) { create(:'course_service/section', course:) }
   let(:exercise) { create(:lti_exercise, provider:) }
   let(:provider) { create(:lti_provider, course_id: course.id) }
-  let(:item) { create(:'course_service/item', section:, content_type: 'lti_exercise', content_id: exercise.id, exercise_type:) }
+  let(:item) { create(:'course_service/item', section:, content: exercise, exercise_type:) }
   let(:exercise_type) { 'main' }
 
   before do

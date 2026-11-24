@@ -19,7 +19,7 @@ class QuizSubmissionController < Abstract::FrontendController
     the_quiz
     Acfs.run # Load shared promises
 
-    raise TypeError unless item['content_type'] == 'quiz'
+    raise TypeError unless item['content_type'] == 'QuizService::Quiz'
     raise Status::NotFound if (uuid = UUID4.try_convert(params[:id])).nil?
 
     # Retrieve the submission from the url
@@ -75,7 +75,7 @@ class QuizSubmissionController < Abstract::FrontendController
     # Load course, quiz and other main resources
     Acfs.run
 
-    raise TypeError unless item['content_type'] == 'quiz'
+    raise TypeError unless item['content_type'] == 'QuizService::Quiz'
     raise TypeError unless the_quiz && (item['content_id'] == the_quiz.id)
 
     if item['submission_deadline'].present? && item['submission_deadline'] < ::Time.zone.now
